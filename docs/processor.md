@@ -80,3 +80,97 @@
 - 辅助状态：
   - `self.done`：可用于最终 SUMMARY 打印所有“源->目标”映射
   - 日志包含：`[DONE] <src> -> <dst> | materials processed: <preview>/<total>, noMDL=<bool>`
+
+---
+
+## 附：USD 中的 Root Layer 速成
+
+这部分帮助你从零理解 Root Layer 是什么、为什么重要、包含哪些信息，以及它与 Stage 的关系。
+
+1) 概念层面
+- Stage：你打开的一个 USD 场景实例（`Usd.Stage`）。可以理解为“运行中的组合结果视图”。
+- Layer：USD 文件的载体（`Sdf.Layer`）。一个 Stage 通常由多层 Layer 叠加（LayerStack）合成，支持强弱覆写。
+- Root Layer：该 Stage 的“根层”（`stage.GetRootLayer()`）。它通常对应你打开的那个顶层 USD 文件，是 LayerStack 的入口与根节点。
+
+2) Root Layer 为什么重要
+- 文件身份：Root Layer 的 `identifier/realPath` 就是当前场景的顶层文件路径。我们用它来确定“输出文件应和谁并列”。
+- 目录锚点：很多相对路径（textures、references、payloads、sublayers）都需要一个基准目录来解析，Root Layer 的所在目录是最稳定的锚点。
+- 组合入口：LayerStack 的叠加从 Root Layer 开始；改变 Root Layer 的 `subLayerPaths` 会直接影响场景的组合。
+- 保存导出：当我们对当前场景做“骨架复制”时，其实就是把 Root Layer 的内容导出到一个新文件（本项目中的 `_noMDL`）。
+
+3) Root Layer 里都有什么
+- Prim 定义：在该层直接定义的 Prim（例如 `/World`、材质、几何等）。
+- 分层信息：`subLayerPaths`，指向其它 Layer（usd/usda/usdc/usdz）。这构成了 LayerStack。
+- 元数据：例如默认 Prim 设置、编辑目标信息、时间码范围、以及自定义元数据。
+- 对于引用（references/payloads/variants/clips）：这些通常挂在 Prim 上，但它们的“生效语境”依赖当前编辑的 Layer；Root Layer 是一个常用的编辑语境。
+
+4) Root Layer 与 Stage 的关系
+- Stage 是“运行时组合视图”，Root Layer 是“Layer 树的根”。
+- 你可以把 Stage 当作“结果”，把 Root Layer 当作“入口与主配置文件”。
+- `stage.GetRootLayer()` 能拿到根层；`layer.subLayerPaths` 决定了其它层如何被叠加进来。
+
+5) 在本项目中的具体用法
+- 我们始终以 Root Layer 为锚点：
+  - 解析路径：`ldir = dirname(rootLayer.realPath or rootLayer.identifier)`，把相对路径转为绝对路径。
+  - 导出骨架：`rootLayer.Export(dst_usd_abs)`，得到一个与源并列、仅包含 root 层内容的新文件。
+  - 改写指向：在新 Stage 上，更新 references/payloads/sublayers/variants/clips 指向对应的 `_noMDL`。
+- 由于“不 flatten”的目标，我们不把子 Layer 的内容写入当前文件；每个文件各自复制其 Root Layer，保持原有的组合图。
+
+6) 常见易混点
+- “默认 Prim”不等于 Root Layer：默认 Prim 是“打开文件想显示的起始 Prim”，设置在 Layer 元数据上；Root Layer 是 LayerStack 的根，两者不同但都重要。
+- “匿名层”与 `realPath`：有时 Layer 没有真实磁盘路径（例如从内存创建），这时 `realPath` 可能为 None，我们回退用 `identifier`。
+- Layer 与文件扩展名：`.usd/.usda/.usdc` 是不同编码方式的 Layer；`.usdz` 是打包容器，Root Layer 可以指向其中的入口文件。
+
+---
+
+## 附图：Processor 时序图（Mermaid）
+
+下面的时序图概括了从 CLI 调用到每个文件的 `_noMDL` 生成、组合关系改写、材质转换与校验的全过程。
+
+```mermaid
+sequenceDiagram
+  autonumber
+  actor User as 用户
+  participant CLI as CLI（main.py）
+  participant Proc as Processor
+  participant Src as 源 Stage
+  participant Root as Root Layer
+  participant Dst as 目标 Stage
+  participant Rew as 引用改写器
+  participant Conv as 材质转换器
+  participant FS as 文件系统
+
+  User->>CLI: 运行 no-mdl 命令（传入路径）
+  CLI->>Proc: process(srcPath)
+  Proc->>FS: 解析/规范化路径（POSIX、绝对化）
+  Proc->>Src: Usd.Stage.Open(srcPath)
+  Src-->>Proc: Stage 句柄
+  Proc->>Root: 获取 Root Layer（stage.GetRootLayer）
+  note over Proc,Root: Root Layer 提供目录锚点与文件身份
+  Proc->>FS: 计算目标路径 dstPath（同目录 _noMDL 同名）
+  Proc->>Root: Export(dstPath)（骨架复制）
+  Proc->>Dst: Usd.Stage.Open(dstPath)
+
+  Proc->>Rew: _rewrite_assets_in_stage(dstStage, deps)
+  Rew->>Dst: 改写 sublayers / references / payloads / variants / clips
+  Dst-->>Rew: 写入成功（或回退元数据写）
+  Rew-->>Proc: 返回依赖集合 deps（绝对路径集合）
+
+  loop 对每个新依赖（去重、排除当前文件）
+    Proc->>Proc: 递归调用 process(dep)
+    Proc-->>Proc: 获取 dep 的 noMDL 路径映射
+    Proc->>Rew: 应用映射以重定向 Dst 的组合弧
+  end
+
+  Proc->>Conv: convert_and_strip_mdl_in_this_file_only(dstStage)
+  Conv->>Dst: 构建 PreviewSurface 网络、复制/连接纹理
+  Conv->>Dst: 移除 MDL 着色器与 MDL 输出
+  Conv-->>Proc: 返回统计信息（预览/总数）
+
+  Proc->>Dst: 若无 defaultPrim 则落盘前设置一个合适的 defaultPrim
+  Proc->>Conv: verify_no_mdl(dstStage)
+  Conv-->>Proc: noMDL 校验通过（无 MDL 残留）
+  Proc->>FS: 保存目标文件（layer.Save 或 stage.GetRootLayer().Save）
+  Proc-->>CLI: 返回 src->dst 映射、统计信息
+  CLI-->>User: 打印 SUMMARY 与结果路径
+```
