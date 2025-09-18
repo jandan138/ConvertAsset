@@ -127,6 +127,9 @@ def ensure_preview(stage: Usd.Stage, mat: UsdShade.Material):
         mk_tex(tag)
 
     out_def = mat.GetSurfaceOutput()
+    # 关键切换点（1/2）：将材质的通用表面输出 outputs:surface 指向 UsdPreviewSurface
+    # - 若原来 outputs:surface 未连接，我们在此连接到 PreviewSurface.outputs:surface
+    # - 这是让最终渲染从“MDL 管线”切换到“UsdPreviewSurface 管线”的核心操作之一
     if not (out_def and out_def.HasConnectedSource()):
         mat.CreateSurfaceOutput().ConnectToSource(prev.CreateOutput("surface", Sdf.ValueTypeNames.Token))
     return prev
@@ -393,24 +396,57 @@ def is_mdl_shader(prim: Usd.Prim) -> bool:
 
 
 def remove_material_mdl_outputs(stage: Usd.Stage):
-    """移除所有 Material 上的 MDL 输出与连接（outputs:surface:mdl 等）。"""
+    """移除所有 Material 上的 MDL 输出与连接（outputs:surface:mdl 等）。
+
+    关键切换点（2/2）：
+    - 清理掉 MDL 专用的输出与连接（包括 `outputs:surface:mdl` 属性及其连接），
+      避免渲染器继续从 MDL 分支取值，确保仅走 UsdPreviewSurface 分支。
+    - 与 `ensure_preview` 中“把 `outputs:surface` 接到 `PreviewSurface`”配合，
+      构成从“MDL → Preview”的完整切换闭环。
+    """
+    # 遍历整个 Stage（从伪根开始）中的所有 Prim，逐一检查是否为 Material。
+    # 这里使用 Usd.PrimRange 可以覆盖子层、引用等带来的层级结构，
+    # 但我们只对类型名为 "Material" 的 prim 进行处理。
     for prim in Usd.PrimRange(stage.GetPseudoRoot()):
+        # 若当前 prim 不是 Material（例如 Xform、Scope、Shader 等），直接跳过。
         if prim.GetTypeName() != "Material":
             continue
+        # 将 Usd.Prim 封装为 UsdShade.Material，以便使用材质相关的 API（如 GetSurfaceOutput）。
         mat = UsdShade.Material(prim)
+        # 尝试获取该 Material 的 MDL 专用表面输出（outputs:surface:mdl）。
+        # 注意：UsdShade 的 GetSurfaceOutput 接受一个 role 参数（如 "mdl" 或省略表示通用）。
         out_mdl = mat.GetSurfaceOutput("mdl")
+        # 如果确实存在 MDL 输出（某些文件可能没有该分支），执行断开与删除操作。
         if out_mdl:
+            # 先断开 outputs:surface:mdl 上的所有已著述（authored）的连接，
+            # 这是为了确保之后即使属性仍存在，渲染器也不会顺着连接找到 MDL shader。
             try:
+                # GetAttr() 返回底层 Usd.Attribute，可直接操作连接关系。
                 attr = out_mdl.GetAttr()
+                # 双重判断：attr 存在且确实有著述过的连接再清空，避免不必要的写脏（dirty）
+                # 或在只读层上触发异常。
                 if attr and attr.HasAuthoredConnections():
+                    # 将连接列表置空，相当于断开一切已连接的源。
                     attr.SetConnections([])
             except Exception:
+                # 出于健壮性考虑，某些旧版本/奇异文件可能抛出异常；忽略并继续后续清理。
                 pass
+            # 然后尝试删除 MDL 专用的 surface 输出属性本身，
+            # 常见写法有两种命名：
+            # - "outputs:surface:mdl": 通用 surface 输出下挂一个 mdL 角色；
+            # - "outputs:mdl:surface": 亦有项目采用 mdl 命名空间在前的写法。
+            # 两者若存在，均应删除，避免将来任何渲染器或工具误判仍可使用 MDL 分支。
             for prop in ("outputs:surface:mdl", "outputs:mdl:surface"):
+                # 先检查属性是否存在（HasProperty 比直接 Remove 安全）。
                 if prim.HasProperty(prop):
                     try:
+                        # 从 prim 上移除该属性定义。若该属性来自弱层，
+                        # 此调用会在当前可写层著述一个删除操作（ListOp 删除或强覆盖），
+                        # 以确保最终组合结果不再暴露该属性。
                         prim.RemoveProperty(prop)
                     except Exception:
+                        # 在只读层或权限受限时，RemoveProperty 可能失败；
+                        # 这里静默忽略，后续验证 verify_no_mdl 会再次把关。
                         pass
 
 
