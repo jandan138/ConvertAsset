@@ -1,3 +1,34 @@
+"""
+materials.py — 材质转换与 MDL 移除的实现细节
+
+本模块聚焦“在不打平（no-flatten）的前提下，将当前文件内由 MDL 驱动的材质转换为 UsdPreviewSurface 网络”，并保证：
+- 仅处理“本文件 root layer 里拥有/定义”的材质（外部引用的材质不在此处硬改）。
+- 建立最小可用的 PreviewSurface 网络（BaseColor/Roughness/Metallic/Normal 四个通道）。
+- 在可能的情况下复制与连接贴图；当信息缺失时用默认常量兜底。
+- 移除 MDL 着色器（Shader）与 Material 输出中的 MDL 接口，最终验证场景中不再残留 MDL。
+
+设计要点：
+- Preview 网络布局固定在每个 Material 下的一个 `Scope`（名为 `GROUP`，配置项）中，便于与原有节点隔离。
+- UV 使用 `UsdPrimvarReader_float2` 读取配置指定的 UV 集（`UVSET`）。
+- BaseColor 的“常量色 + 贴图”策略：
+    - 如果配置 `ALWAYS_BAKE_TINT=True`，则直接写入常量色（即使贴图存在）。
+    - 否则优先连接贴图；当 `BAKE_TINT_WHEN_WHITE=True` 且贴图被判定为“白图”时，用常量色覆盖以避免多余开销。
+- Roughness 支持从 Gloss 反转（scale=-1, bias=1）这一常见美术约定。
+- 路径解析遵循“以声明该路径的 Layer 目录为锚点”的规则，`_anchor_dir_for_attr` 提供定位。
+
+主要函数：
+- `ensure_preview(stage, mat)`：为 Material 搭建 Preview 网络骨架。
+- `find_mdl_shader(mat)`：定位当前 Material 上的 MDL Shader。
+- `read_mdl_basecolor_const(mdl_shader)`：读取 MDL 中的 BaseColor 常量。
+- `copy_textures(stage, mdl_shader, mat)`：解析 MDL pin 与 .mdl 源码，复制/连接贴图。
+- `connect_preview(stage, mat, filled, has_c, c_rgb, bc_tex)`：将贴图/常量正式连接到 PreviewSurface。
+- `remove_material_mdl_outputs(stage)`：清理 Material 输出中的 MDL 接口与连接。
+- `remove_all_mdl_shaders(stage)`：删除场景中所有 MDL Shader prim。
+- `verify_no_mdl(stage)`：验证场景已不含 MDL 残留。
+
+注意：本模块不负责“材质是否属于当前 root layer”的判断，调用方（如 convert.py）应在进入前过滤好目标。
+"""
+
 # -*- coding: utf-8 -*-
 from pxr import Usd, UsdShade, Sdf, Gf
 import os
@@ -11,6 +42,15 @@ from .mdl_parse import parse_mdl_text
 # The definitions below are identical.
 
 def _to_vec3(v, default=(1.0, 1.0, 1.0)):
+    """将多种输入形式（Vec3/Vec4/标量/序列）稳健地转为 3 元 tuple。
+
+    输入：
+    - `v`: 可能是 Gf.Vec3f/Vec3d/Vec4f/Vec4d/tuple/list/float/int/None。
+    - `default`: 当无法解析或为 None 时的兜底颜色。
+
+    返回：
+    - `(r,g,b)` 的 3 元 tuple（float）。
+    """
     if v is None:
         return default
     if isinstance(v, (Gf.Vec3f, Gf.Vec3d)):
@@ -27,6 +67,11 @@ def _to_vec3(v, default=(1.0, 1.0, 1.0)):
 
 
 def _is_white_tex(path: str) -> bool:
+    """基于文件名的启发式判断“是否为白图”。
+
+    目的：当 BaseColor 贴图几乎恒定白色时，可直接烘焙常量色避免多余纹理开销。
+    限制：仅根据文件名关键字与常见白图命名，非严格像素分析。
+    """
     if not path:
         return False
     name = os.path.basename(path).lower()
@@ -34,6 +79,20 @@ def _is_white_tex(path: str) -> bool:
 
 
 def ensure_preview(stage: Usd.Stage, mat: UsdShade.Material):
+    """为给定 Material 创建（或获取）可用的 UsdPreviewSurface 网络骨架。
+
+    行为：
+    - 在 `mat` 下方建立 `/{GROUP}` 的 `Scope`；
+    - 创建 `PreviewSurface`（UsdPreviewSurface）着色器；
+    - 创建 `PrimvarReader_float2` 并设置 `varname=UVSET`；
+    - 为 BaseColor/Roughness/Metallic/Normal 预建对应的 `UsdUVTexture` 节点；
+    - 默认将 Material 的 `outputs:surface` 连接到 Preview 的 `surface`；
+    - 纹理节点的 `st` 输入连接到 primvar 的 `result` 输出；
+    - `wrapS/T` 默认设为 `repeat`（如未显式存在）。
+
+    返回：
+    - `UsdShade.Shader`：PreviewSurface 节点（便于后续连接 inputs）。
+    """
     mpath = mat.GetPath().pathString
     scope_path = f"{mpath}/{GROUP}"
     if not stage.GetPrimAtPath(scope_path).IsValid():
@@ -47,6 +106,12 @@ def ensure_preview(stage: Usd.Stage, mat: UsdShade.Material):
     uv_out = uvr.CreateOutput("result", Sdf.ValueTypeNames.Float2)
 
     def mk_tex(tag):
+        """在 Scope 下创建/获取一个 UsdUVTexture 节点，并保证 st 与 wrap 设置。
+
+        - `tag` 用于命名：`Tex_{tag}`，如 `Tex_BaseColor`。
+        - 确保 `wrapS/T` 存在且为 `repeat`；
+        - 将 `st` 连接到 primvar 输出（若尚未连接）。
+        """
         t = UsdShade.Shader.Define(stage, f"{scope_path}/Tex_{tag}")
         t.CreateIdAttr("UsdUVTexture")
         for wrap in ("wrapS", "wrapT"):
@@ -68,6 +133,13 @@ def ensure_preview(stage: Usd.Stage, mat: UsdShade.Material):
 
 
 def find_mdl_shader(mat: UsdShade.Material):
+    """查找挂在 Material 上的 MDL Shader。
+
+    策略依次为：
+    1) 检查 `outputs:surface:mdl` 是否有连接，若有，取其源 Shader；
+    2) 遍历子 prim，寻找 `Shader` 类型且拥有 `info:mdl:sourceAsset` 属性的节点；
+    若均未命中，返回 None。
+    """
     out_mdl = mat.GetSurfaceOutput("mdl")
     if out_mdl and out_mdl.HasConnectedSource():
         s, _, _ = out_mdl.GetConnectedSource()
@@ -79,6 +151,11 @@ def find_mdl_shader(mat: UsdShade.Material):
 
 
 def read_mdl_basecolor_const(mdl_shader):
+    """从 MDL Shader 输入中解析 BaseColor 常量值。
+
+    - 读取配置 `MDL_BASECOLOR_CONST_KEYS` 指定的若干输入名（如 `base_color`、`tint` 等）。
+    - 一旦读取到非空值即返回（True, rgb_tuple）；否则返回（False, default_white）。
+    """
     if not mdl_shader:
         return False, (1.0, 1.0, 1.0)
     for key in MDL_BASECOLOR_CONST_KEYS:
@@ -91,6 +168,15 @@ def read_mdl_basecolor_const(mdl_shader):
 
 
 def _anchor_dir_for_attr(attr):
+    """基于属性的 PropertyStack 推断“相对路径的锚点目录”。
+
+    原理：
+    - `attr.GetPropertyStack()` 能返回该属性在各 Layer 中的定义栈；
+    - 从上往下寻找第一个“非匿名层（非 anon:）”，取其 `realPath` 或 `identifier`；
+    - 返回其所在目录，用作解析 `Sdf.AssetPath` 的相对路径锚点。
+
+    失败回退：若栈不可用或均为匿名层，返回 None，调用方可再用其它锚点（如 RootLayer 目录）。
+    """
     try:
         stack = attr.GetPropertyStack(Usd.TimeCode.Default())
     except Exception:
@@ -104,11 +190,36 @@ def _anchor_dir_for_attr(attr):
 
 
 def copy_textures(stage: Usd.Stage, mdl_shader, mat: UsdShade.Material):
+    """解析并填充四类纹理输入，再返回连接与常量的上下文信息。
+
+    输入：
+    - `stage`: 目标 Stage（已指向 _noMDL 文件）。
+    - `mdl_shader`: Material 上定位到的 MDL Shader；可为 None（进入兜底流程）。
+    - `mat`: 目标 Material。
+
+    步骤：
+    1) 直接读取 MDL shader 的四个 pin（BaseColor/Roughness/Metallic/Normal）上的 `Sdf.AssetPath`；
+    2) 若尚有缺失，解析 `.mdl` 源文件文本（通过 `info:mdl:sourceAsset` 上溯定锚点目录），补齐路径；
+    3) 提取 BaseColor 常量（先读 pin，再读 `.mdl` 文本中的 `diffuse_const`）。
+
+    返回：
+    - `filled`: dict，记录每个通道是否成功设置贴图；
+    - `has_c`: bool，是否得到 BaseColor 常量；
+    - `c_rgb`: tuple，BaseColor 常量值；
+    - `bc_tex`: str|None，BaseColor 贴图绝对路径（用于“白图”判断）。
+    """
     mpath = mat.GetPath().pathString
     filled = {}
     bc_tex = None
 
     def _set_tex(tag, path, colorspace="raw", invert_r_to_rough=False, anchor_dir=None):
+        """在 `Tex_{tag}` 上设置 `file` 与 `sourceColorSpace`，必要时添加 R→Roughness 的反转参数。
+
+        - `path` 可为相对/绝对路径；若提供 `anchor_dir`，会先 `_resolve_abs_path(anchor_dir, path)`；
+        - BaseColor 强制 `sourceColorSpace=sRGB`，其它通道为 `raw`；
+        - 当 `invert_r_to_rough=True` 且 `tag=='Roughness'` 时，写入 `scale=-1, bias=1`，对应 Gloss→Roughness。
+        返回：是否成功设置。
+        """
         nonlocal bc_tex
         if not path:
             return False
@@ -135,7 +246,7 @@ def copy_textures(stage: Usd.Stage, mdl_shader, mat: UsdShade.Material):
         filled[tag] = True
         return True
 
-    # 1) 直接读 MDL pin
+    # 1) 直接读 MDL pin（如果 MDL shader 存在且 pin 有值）
     slots = {"BaseColor": "BaseColor_Tex", "Roughness": "Roughness_Tex", "Metallic": "Metallic_Tex", "Normal": "Normal_Tex"}
     for tag, mdl_in in slots.items():
         inp = mdl_shader.GetInput(mdl_in) if mdl_shader else None
@@ -145,7 +256,7 @@ def copy_textures(stage: Usd.Stage, mdl_shader, mat: UsdShade.Material):
             continue
         _set_tex(tag, path, colorspace=("sRGB" if tag == "BaseColor" else "raw"))
 
-    # 2) 兜底：解析 .mdl 文本
+    # 2) 兜底：解析 .mdl 文本（在 MDL pin 缺失时，尽量由源码推断纹理路径）
     need_tags = [t for t in ("BaseColor", "Roughness", "Metallic", "Normal") if not filled.get(t)]
     if need_tags:
         sa_attr = mdl_shader.GetPrim().GetAttribute("info:mdl:sourceAsset") if mdl_shader else None
@@ -167,7 +278,7 @@ def copy_textures(stage: Usd.Stage, mdl_shader, mat: UsdShade.Material):
         if (not filled.get("Normal")) and "Normal" in tex:
             _set_tex("Normal", tex["Normal"], colorspace="raw", anchor_dir=anchor_dir)
 
-    # 3) 常量色
+    # 3) 常量色：优先从 MDL pin 取；否则尝试从 .mdl 文本的 `diffuse_const` 中提取
     has_c, c_rgb = read_mdl_basecolor_const(mdl_shader)
     if not has_c:
         try:
@@ -187,6 +298,19 @@ def copy_textures(stage: Usd.Stage, mdl_shader, mat: UsdShade.Material):
 
 
 def connect_preview(stage: Usd.Stage, mat: UsdShade.Material, filled, has_c, c_rgb, bc_tex):
+    """将 `copy_textures` 阶段得到的信息，接线到 PreviewSurface。
+
+    规则：
+    - BaseColor：
+      - 若 `ALWAYS_BAKE_TINT` 且有常量色 → 直接写值；
+      - 否则：
+        - 若有 BaseColor 贴图：
+          - 且 `BAKE_TINT_WHEN_WHITE` 且该贴图被判定为白图 → 写常量色；
+          - 否则 → 连接纹理 `rgb`；
+        - 若无贴图 → 常量/默认白色。
+    - Roughness/Metallic：有纹理则连接对应通道（r），否则用合理默认（0.5/0.0）。
+    - Normal：有纹理则连接 `rgb`；否则不写（UsdPreviewSurface 正常容错）。
+    """
     mpath = mat.GetPath().pathString
     prev = UsdShade.Shader.Get(stage, f"{mpath}/{GROUP}/PreviewSurface")
     if not prev:
@@ -240,6 +364,13 @@ def connect_preview(stage: Usd.Stage, mat: UsdShade.Material, filled, has_c, c_r
 
 
 def is_mdl_shader(prim: Usd.Prim) -> bool:
+    """判断一个 Prim 是否为 MDL Shader。
+
+    兼容多种写法：
+    - 显式存在 `info:mdl:*` 属性；
+    - 或使用 `info:implementationSource=sourceAsset` 且 `info:sourceAsset` 指向 `.mdl`；
+    注意：容错处理若干异常，避免因旧版本 API 差异导致崩溃。
+    """
     if prim.GetTypeName() != "Shader":
         return False
     if prim.HasAttribute("info:mdl:sourceAsset") or prim.HasAttribute("info:mdl:sourceAsset:subIdentifier"):
@@ -262,6 +393,7 @@ def is_mdl_shader(prim: Usd.Prim) -> bool:
 
 
 def remove_material_mdl_outputs(stage: Usd.Stage):
+    """移除所有 Material 上的 MDL 输出与连接（outputs:surface:mdl 等）。"""
     for prim in Usd.PrimRange(stage.GetPseudoRoot()):
         if prim.GetTypeName() != "Material":
             continue
@@ -283,6 +415,11 @@ def remove_material_mdl_outputs(stage: Usd.Stage):
 
 
 def remove_all_mdl_shaders(stage: Usd.Stage):
+    """删除场景中所有的 MDL Shader prim。
+
+    - 先收集路径并按深度从深到浅排序，避免父节点先删导致子节点找不到；
+    - 删除失败时仅打印警告，不中断流程（以最大化成品率）。
+    """
     to_remove = []
     for prim in Usd.PrimRange(stage.GetPseudoRoot()):
         try:
@@ -299,6 +436,12 @@ def remove_all_mdl_shaders(stage: Usd.Stage):
 
 
 def verify_no_mdl(stage: Usd.Stage) -> bool:
+    """验证当前 Stage 是否彻底不含 MDL。
+
+    - 检查是否存在 MDL Shader；
+    - 检查 Material 是否仍有 `outputs:surface:mdl` 或连接到 MDL 输出；
+    - 全部通过则返回 True。
+    """
     for prim in Usd.PrimRange(stage.GetPseudoRoot()):
         if is_mdl_shader(prim):
             return False
