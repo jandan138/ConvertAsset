@@ -12,10 +12,26 @@
 - 最终验证场景中不再包含 MDL。
 
 ## 关键约定
-- 预览网络被创建在 `/{GROUP}` 的 `Scope` 下：
-  - `PreviewSurface`（UsdPreviewSurface）
-  - `Primvar_{UVSET}`（UsdPrimvarReader_float2, varname=UVSET）
-  - `Tex_BaseColor / Tex_Roughness / Tex_Metallic / Tex_Normal`（UsdUVTexture）
+- 预览网络被创建在 `/{GROUP}` 的 `Scope` 下（每个 `Material` 自己的私有空间，避免和原有节点冲突）：
+  - `PreviewSurface`（UsdPreviewSurface）：PBR 着色器，提供 `diffuseColor/roughness/metallic/normal` 等输入。
+  - `Primvar_{UVSET}`（UsdPrimvarReader_float2）：读取几何体上的 UV 坐标集，`varname=UVSET` 指定 UV 集名字（比如 `st`）。
+  - `Tex_BaseColor / Tex_Roughness / Tex_Metallic / Tex_Normal`（UsdUVTexture）：纹理采样器，负责把 2D 贴图根据 UV 坐标投射到模型表面。
+
+更直观地理解：
+- “UV 是坐标系”：3D 网格的每个顶点除了空间坐标（XYZ），还会存一组或多组二维坐标（UV）。这组坐标把 3D 表面“展平”到 2D 图片上。
+- “纹理就是图片”：BaseColor/粗糙度/金属度/法线等信息都可以存在图片里；`UsdUVTexture` 用 UV 坐标在图片上采样对应的像素值。
+- “PrimvarReader 是桥梁”：`UsdPrimvarReader_float2` 读取几何上的某个 UV 集（如 `st`），把它作为 `UsdUVTexture.st` 的输入。
+- “PreviewSurface 是总线”：把各个 `UsdUVTexture` 的输出连到 `PreviewSurface` 对应参数，完成 PBR 着色。
+
+数据流（简化）：
+```
+几何体(携带UV) --(varname=UVSET)--> PrimvarReader.result --(st)--> UsdUVTexture.file+st --(rgb/r)--> PreviewSurface.inputs
+```
+
+为什么要放在 `/{GROUP}` 的 `Scope` 下？
+- 统一命名、集中管理：转换产物（Preview、PrimvarReader、Tex_*）全部收纳在一个子路径里，便于后续识别和清理；
+- 避免冲突：不覆盖原有节点命名，也不影响外部引用的材质结构；
+- 可控扩展：需要更多贴图（如 `AmbientOcclusion`、`Emissive`）时，可以在同一 Scope 下扩展。
 - BaseColor 的“常量 vs 贴图”：
   - `ALWAYS_BAKE_TINT=True` → 总是写常量色；
   - 否则若 `BAKE_TINT_WHEN_WHITE=True` 且 BaseColor 贴图被判定为“白图”，写常量色；
@@ -81,3 +97,36 @@ flowchart TD
 ## 参考
 - USD Preview Surface 文档
 - MDL 到 PBR 金属/粗糙度工作流的常见转换习惯
+
+---
+
+## 补充知识（入门到进阶）
+
+1) UVSet（多 UV 集）
+- 一个模型可以有多套 UV（例如 `st`、`uv2`）。不同用途可能使用不同的 UV 集，比如光照贴图用 `uv2`。
+- 本项目通过配置 `UVSET` 指定使用哪一套；`Primvar_{UVSET}` 的 `varname` 就是这个名字。
+
+2) 颜色空间（Color Space）
+- `BaseColor` 属于“颜色贴图”，应设置 `sourceColorSpace=sRGB`，这样采样时会进行正确的伽马处理。
+- `Roughness/Metallic/Normal` 属于“数据贴图”，使用线性空间（`raw`），避免数字被错误伽马校正。
+
+3) 法线贴图（Normal Map）
+- 法线贴图通常存储在 RGB 三通道中，描述“表面法线的偏移”，用于营造细节起伏。
+- 在 PreviewSurface 中，我们把 `Tex_Normal.rgb` 连接到 `normal` 输入；若没有法线贴图，这个输入可以留空。
+
+4) wrap 与重复（wrapS / wrapT）
+- `UsdUVTexture` 的 `wrapS/T` 决定“当 UV 超出 0~1 范围时如何采样”。常见模式：`repeat`、`clamp`、`mirror`。
+- 我们默认 `repeat`，因为大多数 PBR 贴图都以平铺为常态；如有特殊需求可后续按材质自定义。
+
+5) Gloss → Roughness 的反转
+- 有些资产只提供“光泽度(Gloss)”贴图（与粗糙度相反）。
+- 当检测到 `Roughness_fromGloss` 时，我们在 `Roughness` 纹理节点上写入 `scale=-1, bias=1`，实现 r 通道取反并平移到 [0,1]。
+
+6) UDIM（若你的贴图是 1001、1002…）
+- `UsdUVTexture` 支持 UDIM：在文件路径中使用 `<UDIM>` 占位符，如 `Tex/BaseColor.<UDIM>.png`，系统会根据 UV 自动选择切片。
+- 本模块不强制处理 UDIM 细节，但不会阻碍你在资产里使用它。
+
+7) 性能与内存建议
+- 若 BaseColor 被判断为“白图”，且配置开启“白图时烘焙常量”，可以避免多余的纹理读取。
+- 合理使用 sRGB/raw，避免错误的色彩处理导致重复导入或离线修正。
+- 只为需要的通道建立纹理连接，缺失则写常量，减少不必要的节点与连接。
