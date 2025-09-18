@@ -70,16 +70,39 @@ class Processor:
             return src_usd_abs
 
         # 5) 收集依赖条目，并筛选出子 USD 的绝对路径集合
+        #    deps 是对当前 stage 中所有组合关系的扫描结果，包含：
+        #    - sublayers：root layer 的分层文件
+        #    - references / payloads：Prim 上的组合引用
+        #    - variants：进入每个变体编辑上下文后，变体内的 references/payloads
+        #    - clips：时间片段（valueClips）中的资产路径
+        #    每个条目统一为一个六元组（kind, holder, layer_dir, assetPath, prim_path, extra）。
+        #    字段含义：
+        #      kind：条目类型（如 "sublayer"、"reference"、"payload"、"variant_ref"、"variant_payload"、"clip_asset" 等）。
+        #      holder：持有者定位信息（例如 ("rootLayer", None) 或 ("prim", "/World/Geom") 或 ("/PrimPath", variantSet, variantName)）。
+        #      layer_dir：发现该条目时所处 layer 的目录，用于相对路径解析的参考。
+        #      assetPath：条目中出现的资产路径字符串（可能是相对路径）。
+        #      prim_path：条目关联的 Prim 路径（如果有）。
+        #      extra：ListOp 项或者辅助字段，供改写阶段参考。
         deps = _collect_asset_paths(stage)
+        # 使用 set 去重：同一路径可能经由多条组合关系出现多次，避免重复处理与递归
         child_abs_paths = set()
+        # ldir：当前 root layer 的目录。realPath 可能为 None（例如匿名层），则回退到 identifier。
+        # 注意：虽然 deps 中给出了每条目的 layer_dir，但由于我们要为“当前 root 文件”导出兄弟 *_noMDL，
+        # 这里统一以 root layer 的目录为锚点解析相对路径，随后真正写回时会按各自语境再转回相对路径。
         ldir = os.path.dirname(stage.GetRootLayer().realPath or stage.GetRootLayer().identifier)
         for kind, holder, layer_dir, assetPath, prim_path, extra in deps:
-            # 解析 assetPath 为绝对路径；不关心非 USD 扩展的条目
+            # 将资产路径解析为绝对路径（基于当前 root layer 目录）。
+            # 有些资产路径本身可能已是绝对路径，_resolve 会原样规范化返回。
             abs_child = _resolve(ldir, assetPath)
             if not abs_child:
+                # 解析失败（例如空路径或不规范字符串）直接跳过。
                 continue
+            # 仅关心 USD 文件：
+            #  - .usd／.usda／.usdc：不同编码形式的 USD 文件
+            #  - .usdz：打包（zip）形式的 USD 资产
             ext = os.path.splitext(abs_child)[1].lower()
             if ext in (".usd", ".usda", ".usdc", ".usdz"):
+                # 收集为子节点候选，稍后按路径排序后依次递归处理。
                 child_abs_paths.add(abs_child)
 
         # 6) 先处理所有子文件，建立“源->目标”的映射供当前文件改写之用
