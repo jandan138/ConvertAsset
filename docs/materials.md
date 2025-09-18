@@ -32,6 +32,14 @@
 - 统一命名、集中管理：转换产物（Preview、PrimvarReader、Tex_*）全部收纳在一个子路径里，便于后续识别和清理；
 - 避免冲突：不覆盖原有节点命名，也不影响外部引用的材质结构；
 - 可控扩展：需要更多贴图（如 `AmbientOcclusion`、`Emissive`）时，可以在同一 Scope 下扩展。
+
+用更直白的话说：
+- `Scope` 就像一个“文件夹/分组节点”，它本身不参与渲染，只是用来装东西。
+- 我们在每个 `Material` 下面都新建一个名为 `/{GROUP}` 的“文件夹”，把新搭的 Preview 节点都放进去。
+- 这样做的好处：
+  - 不会把新的节点塞到材质根部“搞乱”，一眼就能看出哪些是转换生成的；
+  - 不会和你原来已有的同名节点冲突（例如你原来就有个 `PreviewSurface`）；
+  - 将来想一键删除转换产物，只需要删除这个 `Scope` 整个子树即可。
 - BaseColor 的“常量 vs 贴图”：
   - `ALWAYS_BAKE_TINT=True` → 总是写常量色；
   - 否则若 `BAKE_TINT_WHEN_WHITE=True` 且 BaseColor 贴图被判定为“白图”，写常量色；
