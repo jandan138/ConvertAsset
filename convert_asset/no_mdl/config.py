@@ -24,3 +24,52 @@ MDL_BASECOLOR_CONST_KEYS = [
 ]
 
 _TEX_EXTS = (".png",".jpg",".jpeg",".tga",".bmp",".exr",".tif",".tiff",".ktx",".dds",".hdr",".psd",".gif",".webp")
+
+# ================= Diagnostics / Verification Enhancements =================
+# When adding richer reporting we keep old behaviour by default (strict).
+
+# 是否打印详细诊断（缺失引用、残留 MDL 分布等）。
+PRINT_DIAGNOSTICS = True
+
+# 严格验证：True = 任何残留 MDL（无论来自外部引用还是本层）都令 noMDL=False。
+# 设为 False 时，如果“本 root layer 自己”已经没有 MDL，而残留全部来自无法递归处理的外部文件，
+# 则整体返回 True，并打印 WARNING（便于在资源不完整场景先产出预览版本）。
+STRICT_VERIFY = True
+
+# 如果有缺失的子 USD（打不开的引用）并且 STRICT_VERIFY=True，本来会直接失败。
+# 将此项设为 True 可以在存在缺失引用的情况下忽略这些缺失文件里的潜在 MDL，
+# 行为等价于：缺失引用导致的外部残留不阻止成功；仍然严格检查当前 root layer。
+IGNORE_EXTERNAL_MDL_IF_MISSING_CHILDREN = False
+
+# （预留）尝试对外部引用的 Material 做本层 override 来移除 MDL 输出。
+# 高风险：可能污染共享资产的期望表现，仅在确有需求并理解 USD 组合覆盖机制时开启。
+TRY_OVERRIDE_EXTERNAL_MATERIALS = False
+
+# 若设为 True，则忽略 MATERIAL_ROOT_HINTS，扫描整个 Stage 下所有 Material。
+ALWAYS_SCAN_ALL_MATERIALS = True
+
+# 若某些 Material 处在实例化（instancing）层次里，属性来自 instance master，直接 Block 可能失败。
+# 开启后：在 MDL 输出无法删除/Block 时，对该 Material prim 调用 SetInstanceable(False) 解除实例，再重试删除/Block。
+# 代价：打破实例复用（内存略增）。建议仅在大量 MDL 输出无法 Block 时使用。
+BREAK_INSTANCE_FOR_MDL = True
+
+# 对变体（VariantSets）内部的 MDL（包括 outputs:mdl:surface 与 Shader prim）是否也尝试清理。
+# False 时仅处理当前激活的 variant。
+CLEAN_VARIANT_MDL = False
+
+# 放宽验证：允许外部引用里残留 MDL Shader（未被本层 override）而仍视为成功。
+# 仅在 STRICT_VERIFY=False 时才有意义；若 STRICT_VERIFY=True 则仍然严格失败。
+ALLOW_EXTERNAL_MDL_SHADERS = False
+
+# 放宽验证：允许外部引用里残留 MDL outputs（已断开或无法 Block）而仍视为成功。
+# 同样仅在 STRICT_VERIFY=False 生效。
+ALLOW_EXTERNAL_MDL_OUTPUTS = False
+
+# ================= Run Summary Output =================
+# 将顶层（用户直接执行的那个）USD 的处理结果写入一个简明 txt。
+# 位置：与顶层 USD 同目录；文件名：<root_stem>_noMDL_summary.txt。
+# 每次运行会覆盖（便于快速查看最新结果）。
+WRITE_SUMMARY_TXT = True
+# 限制在 summary 中列出的缺失子文件数量，避免过长。
+SUMMARY_MISSING_CHILD_LIMIT = 20
+

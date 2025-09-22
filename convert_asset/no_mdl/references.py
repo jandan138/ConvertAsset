@@ -114,6 +114,54 @@ def _collect_asset_paths(stage: Usd.Stage):
             if RESTORE_VARIANT_SELECTION and orig_sel:
                 vs.SetVariantSelection(orig_sel)
 
+    # Fallback: 在某些环境/版本里，通过 composed Prim 的 metadata 读取 references/payloads 可能返回空，
+    # 而真实的引用仍然存在于 root layer 的 Sdf PrimSpec 中（例如只在 root layer 上静态声明，
+    # 但是由于某些解析失败或延迟加载条件，Prim metadata 未暴露）。
+    # 如果以上扫描结果为空，我们做一次“raw layer spec”遍历，以尽量不遗漏引用。
+    if not items:
+        try:
+            layer_dir_fallback = ldir
+            layer = stage.GetRootLayer()
+
+            def _scan_prim_spec(pspec):
+                # references listOp
+                ref_list = getattr(pspec, 'referenceList', None)
+                if ref_list:
+                    for attr in ("explicitItems", "addedItems", "prependedItems", "appendedItems"):
+                        vals = getattr(ref_list, attr, []) or []
+                        for r in vals:
+                            # r 可能是 Sdf.Reference；做最小属性访问容错
+                            ap = getattr(r, 'assetPath', None)
+                            if ap:
+                                items.append((
+                                    "reference_raw", ("primSpec", pspec.path.pathString), layer_dir_fallback,
+                                    ap, pspec.path.pathString, r
+                                ))
+                # payloads listOp （USD 中是 payloadList）
+                pay_list = getattr(pspec, 'payloadList', None)
+                if pay_list:
+                    for attr in ("explicitItems", "addedItems", "prependedItems", "appendedItems"):
+                        vals = getattr(pay_list, attr, []) or []
+                        for p in vals:
+                            ap = getattr(p, 'assetPath', None)
+                            if ap:
+                                items.append((
+                                    "payload_raw", ("primSpec", pspec.path.pathString), layer_dir_fallback,
+                                    ap, pspec.path.pathString, p
+                                ))
+                # 递归子 PrimSpec
+                for child in pspec.nameChildren:
+                    _scan_prim_spec(child)
+
+            # 根 PrimSpec 列表
+            for root_spec in layer.rootPrims:
+                _scan_prim_spec(root_spec)
+            if items:  # 仅在 fallback 有收获时打印一次（由上层 diagnostics 控制是否显示数量）
+                print(f"[DIAG][deps][fallback-layer-scan] added {len(items)} raw spec entries")
+        except Exception as e:
+            # 容错：任何异常直接忽略，保持兼容
+            print("[DIAG][deps][fallback-layer-scan] exception:", e)
+
     return items
 
 
