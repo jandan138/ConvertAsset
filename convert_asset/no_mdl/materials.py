@@ -619,9 +619,25 @@ def ensure_surface_output(stage: Usd.Stage, mat: UsdShade.Material, base_color=(
     # 创建骨架并设置一个简易 baseColor
     prev = ensure_preview(stage, mat)
     bc_in = prev.GetInput("diffuseColor") or prev.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f)
-    if not bc_in.HasAuthoredValue():
+    # UsdShade Input 没有 HasAuthoredValue()；通过底层 attr 判定是否已有值/连接
+    attr = bc_in.GetAttr() if bc_in else None
+    need_set = True
+    if attr:
+        try:
+            if attr.HasAuthoredValueOpinion():
+                need_set = False
+        except Exception:
+            pass
+        # 若已有连接，也不强制覆盖
+        try:
+            if attr.HasAuthoredConnections():
+                need_set = False
+        except Exception:
+            pass
+    if need_set:
         from pxr import Gf as _Gf
-        bc_in.Set(_Gf.Vec3f(*base_color))
+        if attr:
+            attr.Set(_Gf.Vec3f(*base_color))
     return True
 
 
