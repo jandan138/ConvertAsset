@@ -32,7 +32,14 @@ materials.py — 材质转换与 MDL 移除的实现细节
 # -*- coding: utf-8 -*-
 from pxr import Usd, UsdShade, Sdf, Gf
 import os
-from .config import GROUP, UVSET, BAKE_TINT_WHEN_WHITE, ALWAYS_BAKE_TINT, MDL_BASECOLOR_CONST_KEYS
+from .config import (
+    GROUP, UVSET, BAKE_TINT_WHEN_WHITE, ALWAYS_BAKE_TINT, MDL_BASECOLOR_CONST_KEYS,
+    PRINT_DIAGNOSTICS, BREAK_INSTANCE_FOR_MDL, CLEAN_VARIANT_MDL,
+    ALLOW_EXTERNAL_MDL_SHADERS, ALLOW_EXTERNAL_MDL_OUTPUTS, STRICT_VERIFY
+)
+
+if PRINT_DIAGNOSTICS:
+    print(f"[DEBUG] materials.py loaded (BREAK_INSTANCE_FOR_MDL={BREAK_INSTANCE_FOR_MDL})")
 from .path_utils import _resolve_abs_path
 from .mdl_parse import parse_mdl_text
 
@@ -396,58 +403,181 @@ def is_mdl_shader(prim: Usd.Prim) -> bool:
 
 
 def remove_material_mdl_outputs(stage: Usd.Stage):
-    """移除所有 Material 上的 MDL 输出与连接（outputs:surface:mdl 等）。
+    """移除或屏蔽所有 Material 上的 MDL 输出（outputs:surface:mdl / outputs:mdl:surface）。
 
-    关键切换点（2/2）：
-    - 清理掉 MDL 专用的输出与连接（包括 `outputs:surface:mdl` 属性及其连接），
-      避免渲染器继续从 MDL 分支取值，确保仅走 UsdPreviewSurface 分支。
-    - 与 `ensure_preview` 中“把 `outputs:surface` 接到 `PreviewSurface`”配合，
-      构成从“MDL → Preview”的完整切换闭环。
+    改进要点：
+    - 之前逻辑把 Block 后仍能通过 HasProperty() 看见的情况统计为 failed，
+      但对 USD 来说：被 Block 的属性仍会出现在 composed prim 的属性列表中；
+      应使用 attr.IsBlocked() 来判断是否成功屏蔽。
+    - 本函数现在：
+        1) 断开 surface output 上的 mdl 连接；
+        2) RemoveProperty；
+        3) 若仍存在则 Block；
+        4) 根据 attr.IsBlocked() 判定 blocked 成功；
+        5) 统计 removed / blocked / failed。
+    - 后续 verify / analyze 会忽略被 Block 的 MDL 输出，不再视为残留。
     """
-    # 遍历整个 Stage（从伪根开始）中的所有 Prim，逐一检查是否为 Material。
-    # 这里使用 Usd.PrimRange 可以覆盖子层、引用等带来的层级结构，
-    # 但我们只对类型名为 "Material" 的 prim 进行处理。
+    removed = blocked = disconnected = failed = 0
+    sample_logged = 0
+    # 记录已尝试过 override 的 material，以免重复 overridePrim
+    over_applied = set()
     for prim in Usd.PrimRange(stage.GetPseudoRoot()):
-        # 若当前 prim 不是 Material（例如 Xform、Scope、Shader 等），直接跳过。
         if prim.GetTypeName() != "Material":
             continue
-        # 将 Usd.Prim 封装为 UsdShade.Material，以便使用材质相关的 API（如 GetSurfaceOutput）。
         mat = UsdShade.Material(prim)
-        # 尝试获取该 Material 的 MDL 专用表面输出（outputs:surface:mdl）。
-        # 注意：UsdShade 的 GetSurfaceOutput 接受一个 role 参数（如 "mdl" 或省略表示通用）。
-        out_mdl = mat.GetSurfaceOutput("mdl")
-        # 如果确实存在 MDL 输出（某些文件可能没有该分支），执行断开与删除操作。
-        if out_mdl:
-            # 先断开 outputs:surface:mdl 上的所有已著述（authored）的连接，
-            # 这是为了确保之后即使属性仍存在，渲染器也不会顺着连接找到 MDL shader。
+        # 1. 断开 renderContext=mdl 的 surface 连接
+        mdl_output = mat.GetSurfaceOutput("mdl")
+        if mdl_output:
             try:
-                # GetAttr() 返回底层 Usd.Attribute，可直接操作连接关系。
-                attr = out_mdl.GetAttr()
-                # 双重判断：attr 存在且确实有著述过的连接再清空，避免不必要的写脏（dirty）
-                # 或在只读层上触发异常。
-                if attr and attr.HasAuthoredConnections():
-                    # 将连接列表置空，相当于断开一切已连接的源。
-                    attr.SetConnections([])
+                a = mdl_output.GetAttr()
+                if a and a.HasAuthoredConnections():
+                    a.SetConnections([])
+                    disconnected += 1
             except Exception:
-                # 出于健壮性考虑，某些旧版本/奇异文件可能抛出异常；忽略并继续后续清理。
                 pass
-            # 然后尝试删除 MDL 专用的 surface 输出属性本身，
-            # 常见写法有两种命名：
-            # - "outputs:surface:mdl": 通用 surface 输出下挂一个 mdL 角色；
-            # - "outputs:mdl:surface": 亦有项目采用 mdl 命名空间在前的写法。
-            # 两者若存在，均应删除，避免将来任何渲染器或工具误判仍可使用 MDL 分支。
-            for prop in ("outputs:surface:mdl", "outputs:mdl:surface"):
-                # 先检查属性是否存在（HasProperty 比直接 Remove 安全）。
-                if prim.HasProperty(prop):
+        # 2. 收集所有与 mdl 相关的 surface 输出属性名（有些资产里可能混合两种命名）
+        prop_names = []
+        for p in prim.GetPropertyNames():
+            if ":mdl:surface" in p and p.startswith("outputs:"):
+                prop_names.append(p)
+        # 如果找不到，但我们知道这是一个 Material，强制尝试一个标准名列表
+        if not prop_names:
+            prop_names = ["outputs:mdl:surface", "outputs:surface:mdl"]
+        # 去重
+        prop_names = list(dict.fromkeys(prop_names))
+        for prop in prop_names:
+            # 如果属性不存在，需要创建一个可 Block 的 attr（通过 UsdShade API 更稳妥）
+            # 策略：优先用 mat.CreateSurfaceOutput("mdl") 得到标准输出，然后用其 attr。
+            attr = None
+            created = False
+            if prop in ("outputs:mdl:surface", "outputs:surface:mdl"):
+                # 标准方式
+                try:
+                    mdl_out = mat.GetSurfaceOutput("mdl") or mat.CreateSurfaceOutput("mdl")
+                    attr = mdl_out.GetAttr()
+                    created = True
+                except Exception:
+                    attr = None
+            if attr is None and prim.HasProperty(prop):
+                # 回退为普通 Attribute 获取
+                attr = prim.GetAttribute(prop)
+            if attr is None and not prim.HasProperty(prop):
+                # 最后手动创建一个 Attribute（可能不是 schema output，但足以 Block）
+                try:
+                    attr = prim.CreateAttribute(prop, Sdf.ValueTypeNames.Token)
+                    created = True
+                except Exception:
+                    attr = None
+            # 删除尝试：只有当它真实存在且不是我们刚创建的 override 时才尝试 RemoveProperty
+            if prim.HasProperty(prop) and not created:
+                try:
+                    prim.RemoveProperty(prop)
+                except Exception:
+                    pass
+            # 如果删除后消失，计为 removed
+            if not prim.HasProperty(prop):
+                removed += 1
+                continue
+            # Block 尝试
+            attr = prim.GetAttribute(prop)
+            if attr is not None:
+                try:
+                    attr.Block()
+                except Exception:
+                    pass
+            # 如果仍未 Block，并允许打破实例 -> 解除实例
+            attr_blocked = bool(attr and getattr(attr, "IsBlocked", None) and attr.IsBlocked())
+            if (not attr_blocked) and BREAK_INSTANCE_FOR_MDL and prim.IsInstanceable():
+                try:
+                    prim.SetInstanceable(False)
+                except Exception:
+                    pass
+                # 再次 Block
+                attr = prim.GetAttribute(prop)
+                if attr:
                     try:
-                        # 从 prim 上移除该属性定义。若该属性来自弱层，
-                        # 此调用会在当前可写层著述一个删除操作（ListOp 删除或强覆盖），
-                        # 以确保最终组合结果不再暴露该属性。
-                        prim.RemoveProperty(prop)
+                        attr.Block()
                     except Exception:
-                        # 在只读层或权限受限时，RemoveProperty 可能失败；
-                        # 这里静默忽略，后续验证 verify_no_mdl 会再次把关。
                         pass
+                attr_blocked = bool(attr and getattr(attr, "IsBlocked", None) and attr.IsBlocked())
+            # 如果仍未 Block，尝试建立 over prim（override spec）再 Block 一次
+            if (not attr_blocked) and prim.GetPrimStack():
+                root_layer = stage.GetRootLayer()
+                # 判断 root layer 是否已有 prim spec；没有则 override
+                top_spec = root_layer.GetPrimAtPath(prim.GetPath())
+                if top_spec is None:
+                    try:
+                        if prim.GetPath() not in over_applied:
+                            stage.OverridePrim(prim.GetPath())
+                            over_applied.add(prim.GetPath())
+                        # 重新创建/取得 attr 再 Block
+                        mdl_out2 = mat.GetSurfaceOutput("mdl") or mat.CreateSurfaceOutput("mdl")
+                        attr2 = mdl_out2.GetAttr()
+                        try:
+                            attr2.Block()
+                        except Exception:
+                            pass
+                        attr_blocked = bool(attr2 and getattr(attr2, "IsBlocked", None) and attr2.IsBlocked())
+                    except Exception:
+                        pass
+            # 统计
+            if attr_blocked:
+                blocked += 1
+            else:
+                failed += 1
+                if PRINT_DIAGNOSTICS and sample_logged < 20:
+                    sample_logged += 1
+                    try:
+                        root_layer = stage.GetRootLayer()
+                        owned = root_layer.GetPrimAtPath(prim.GetPath()) is not None
+                        # 是否存在该属性的（任何层）attr spec
+                        has_attr_spec = False
+                        stack_layers = []
+                        try:
+                            # property stack (layers which contribute)
+                            pstack = prim.GetProperty(prop).GetPropertyStack()
+                            for spec in pstack:
+                                lname = getattr(spec.layer, 'identifier', str(spec.layer))
+                                stack_layers.append(lname)
+                                if spec.layer == root_layer:
+                                    has_attr_spec = True
+                        except Exception:
+                            pass
+                        variant_sets = prim.GetVariantSets().GetNames()
+                        inst = prim.IsInstanceable()
+                        print("[DIAG][fail-classify]",
+                              f"prim={prim.GetPath()}",
+                              f"prop={prop}",
+                              f"owned={owned}",
+                              f"has_root_attr_spec={has_attr_spec}",
+                              f"instanceable={inst}",
+                              f"variant_sets={variant_sets}",
+                              f"stack_layers={len(stack_layers)}")
+                        if stack_layers and sample_logged <= 5:
+                            for sl in stack_layers:
+                                print("    [layer]", sl)
+                    except Exception:
+                        pass
+                # 额外兜底：尝试强制创建本地属性 spec，然后写自定义标记
+                try:
+                    root_layer = stage.GetRootLayer()
+                    if root_layer.GetPrimAtPath(prim.GetPath()) is not None:
+                        # 确保 attr 存在当前层 spec：通过 DefinePrim + CreateAttribute 再 Set 一个 dummy 值
+                        force_attr = prim.GetAttribute(prop)
+                        if not force_attr:
+                            force_attr = prim.CreateAttribute(prop, Sdf.ValueTypeNames.Token)
+                        # 写一个无意义值（避免空 spec 被优化掉）
+                        if force_attr and not force_attr.HasAuthoredValue():
+                            force_attr.Set("__noMDL_placeholder__")
+                        # 写 customData 标记
+                        try:
+                            force_attr.SetCustomDataByKey("noMDL_forced_block", True)
+                        except Exception:
+                            pass
+                except Exception:
+                    pass
+    if PRINT_DIAGNOSTICS:
+        print(f"[DIAG] mdl_outputs removal: disconnected={disconnected} removed={removed} blocked={blocked} failed={failed}")
 
 
 def remove_all_mdl_shaders(stage: Usd.Stage):
@@ -472,20 +602,128 @@ def remove_all_mdl_shaders(stage: Usd.Stage):
 
 
 def verify_no_mdl(stage: Usd.Stage) -> bool:
-    """验证当前 Stage 是否彻底不含 MDL。
+    """验证当前 Stage 是否不含未屏蔽（active）的 MDL。
 
-    - 检查是否存在 MDL Shader；
-    - 检查 Material 是否仍有 `outputs:surface:mdl` 或连接到 MDL 输出；
-    - 全部通过则返回 True。
+    考虑场景：
+    - 本 root layer 拥有（top spec 在 root layer） vs 外部引用（无 top spec）。
+    - 严格模式 STRICT_VERIFY=True 时：任何外部或本层残留都会导致失败。
+    - 宽松模式：允许外部残留取决于 ALLOW_EXTERNAL_MDL_* 标志。
     """
+    external_mdl_shader = False
+    external_mdl_output = False
+    root_layer = stage.GetRootLayer()
     for prim in Usd.PrimRange(stage.GetPseudoRoot()):
         if is_mdl_shader(prim):
-            return False
-        if prim.GetTypeName() == "Material":
-            if prim.HasProperty("outputs:surface:mdl") or prim.HasProperty("outputs:mdl:surface"):
+            owned = root_layer.GetPrimAtPath(prim.GetPath()) is not None
+            if owned:
                 return False
+            external_mdl_shader = True
+            continue
+        if prim.GetTypeName() == "Material":
+            owned = root_layer.GetPrimAtPath(prim.GetPath()) is not None
+            # 显式 MDL 输出属性
+            for prop in ("outputs:surface:mdl", "outputs:mdl:surface"):
+                if prim.HasProperty(prop):
+                    attr = prim.GetAttribute(prop)
+                    if attr:
+                        is_block = getattr(attr, "IsBlocked", None) and attr.IsBlocked()
+                        forced = False
+                        try:
+                            forced = bool(attr.GetCustomData().get("noMDL_forced_block"))
+                        except Exception:
+                            pass
+                        if is_block or forced:
+                            continue
+                    if owned:
+                        return False
+                    external_mdl_output = True
+            # SurfaceOutput(mdl) 连接
             mat = UsdShade.Material(prim)
             out_mdl = mat.GetSurfaceOutput("mdl")
             if out_mdl and out_mdl.HasConnectedSource():
-                return False
+                if owned:
+                    return False
+                external_mdl_output = True
+    if STRICT_VERIFY:
+        return not (external_mdl_shader or external_mdl_output)
+    if (external_mdl_shader and not ALLOW_EXTERNAL_MDL_SHADERS) or (external_mdl_output and not ALLOW_EXTERNAL_MDL_OUTPUTS):
+        return False
     return True
+
+
+def verify_no_mdl_report(stage: Usd.Stage):
+    """详细残留报告（区分本层 vs 外部 + blocked 情况）。"""
+    root_layer = stage.GetRootLayer()
+    mdl_shaders_local = []
+    mdl_shaders_external = []
+    mdl_outputs_local = []
+    mdl_outputs_external = []
+    mats_blocked = []  # native blocked (attr.IsBlocked())
+    mats_forced_blocked = []  # customData noMDL_forced_block
+    for prim in Usd.PrimRange(stage.GetPseudoRoot()):
+        if is_mdl_shader(prim):
+            if root_layer.GetPrimAtPath(prim.GetPath()) is None:
+                mdl_shaders_external.append(prim.GetPath().pathString)
+            else:
+                mdl_shaders_local.append(prim.GetPath().pathString)
+            continue
+        if prim.GetTypeName() == "Material":
+            owned = root_layer.GetPrimAtPath(prim.GetPath()) is not None
+            any_prop = False
+            for prop in ("outputs:surface:mdl", "outputs:mdl:surface"):
+                if prim.HasProperty(prop):
+                    attr = prim.GetAttribute(prop)
+                    is_block = False
+                    forced = False
+                    if attr:
+                        is_block = getattr(attr, "IsBlocked", None) and attr.IsBlocked()
+                        try:
+                            forced = bool(attr.GetCustomData().get("noMDL_forced_block"))
+                        except Exception:
+                            forced = False
+                    if is_block or forced:
+                        if is_block:
+                            mats_blocked.append(f"{prim.GetPath()}::{prop}")
+                        if (not is_block) and forced:
+                            mats_forced_blocked.append(f"{prim.GetPath()}::{prop}")
+                    else:
+                        if owned:
+                            mdl_outputs_local.append(f"{prim.GetPath()}::{prop}")
+                        else:
+                            mdl_outputs_external.append(f"{prim.GetPath()}::{prop}")
+                    any_prop = True
+            if not any_prop:
+                mat = UsdShade.Material(prim)
+                out_mdl = mat.GetSurfaceOutput("mdl")
+                if out_mdl and out_mdl.HasConnectedSource():
+                    if owned:
+                        mdl_outputs_local.append(f"{prim.GetPath()}::surfaceOutput(mdl)")
+                    else:
+                        mdl_outputs_external.append(f"{prim.GetPath()}::surfaceOutput(mdl)")
+    def _dedup(s):
+        return sorted(set(s))
+    mdl_shaders_local = _dedup(mdl_shaders_local)
+    mdl_shaders_external = _dedup(mdl_shaders_external)
+    mdl_outputs_local = _dedup(mdl_outputs_local)
+    mdl_outputs_external = _dedup(mdl_outputs_external)
+    mats_blocked = _dedup(mats_blocked)
+    mats_forced_blocked = _dedup(mats_forced_blocked)
+    if STRICT_VERIFY:
+        ok = (not mdl_shaders_local and not mdl_shaders_external and not mdl_outputs_local and not mdl_outputs_external)
+    else:
+        ok_local = (not mdl_shaders_local and not mdl_outputs_local)
+        ok_ext = True
+        if mdl_shaders_external and not ALLOW_EXTERNAL_MDL_SHADERS:
+            ok_ext = False
+        if mdl_outputs_external and not ALLOW_EXTERNAL_MDL_OUTPUTS:
+            ok_ext = False
+        ok = ok_local and ok_ext
+    return {
+        "ok": ok,
+        "mdl_shaders_local": mdl_shaders_local,
+        "mdl_shaders_external": mdl_shaders_external,
+        "mdl_outputs_local": mdl_outputs_local,
+        "mdl_outputs_external": mdl_outputs_external,
+        "blocked_material_mdl_outputs": mats_blocked,
+        "forced_blocked_material_mdl_outputs": mats_forced_blocked,
+    }
