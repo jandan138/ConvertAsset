@@ -73,3 +73,11 @@ WRITE_SUMMARY_TXT = True
 # 限制在 summary 中列出的缺失子文件数量，避免过长。
 SUMMARY_MISSING_CHILD_LIMIT = 20
 
+# ================= Auto Preview Creation =================
+# 若某个 Material 只有 MDL 输出/Shader，被移除后不再有任何通用 surface 输出，是否自动补一个简易 PreviewSurface。
+# 目的：避免顶层查看 *_noMDL.usd 时出现大量空材质（完全黑/默认灰）。
+CREATE_PREVIEW_FOR_EXTERNAL_MDL = True
+# 自动补的 preview 若无原 baseColor 纹理或常量，可使用此灰度 (linear) 作为 baseColor。
+AUTO_PREVIEW_BASECOLOR = (0.18, 0.18, 0.18)
+
+

@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from pxr import Usd, UsdShade
 from .config import MATERIAL_ROOT_HINTS, ALWAYS_SCAN_ALL_MATERIALS, CLEAN_VARIANT_MDL, RESTORE_VARIANT_SELECTION
-from .materials import find_mdl_shader, ensure_preview, copy_textures, connect_preview, remove_material_mdl_outputs, remove_all_mdl_shaders
+from .materials import (
+    find_mdl_shader, ensure_preview, copy_textures, connect_preview,
+    remove_material_mdl_outputs, remove_all_mdl_shaders, post_process_material_surfaces
+)
 
 
 def _material_belongs_to_root_layer(stage: Usd.Stage, mat_prim: Usd.Prim) -> bool:
@@ -73,14 +76,17 @@ def convert_and_strip_mdl_in_this_file_only(stage: Usd.Stage):
 
     if not CLEAN_VARIANT_MDL:
         _convert_active_materials(stage, stats, processed)
-        remove_material_mdl_outputs(stage)
+        mdl_out_stats = remove_material_mdl_outputs(stage)
         remove_all_mdl_shaders(stage)
+        surf_stats = post_process_material_surfaces(stage)
+        stats["mdl_outputs"] = mdl_out_stats
+        stats["surface_post"] = surf_stats
         return stats
 
     # Variant 模式
     # 先处理当前激活（保持与旧行为一致）
     _convert_active_materials(stage, stats, processed)
-    remove_material_mdl_outputs(stage)
+    mdl_out_stats = remove_material_mdl_outputs(stage)
     remove_all_mdl_shaders(stage)
 
     # 遍历所有带 VariantSet 的 prim
@@ -101,7 +107,7 @@ def convert_and_strip_mdl_in_this_file_only(stage: Usd.Stage):
                 except Exception:
                     continue
                 _convert_active_materials(stage, stats, processed)
-                remove_material_mdl_outputs(stage)
+                _ = remove_material_mdl_outputs(stage)
                 remove_all_mdl_shaders(stage)
             # 恢复原选择
             if RESTORE_VARIANT_SELECTION and original:
@@ -109,4 +115,8 @@ def convert_and_strip_mdl_in_this_file_only(stage: Usd.Stage):
                     vs.SetVariantSelection(original)
                 except Exception:
                     pass
+    # 最后一次 Variant 完成后做 surface 补齐统计
+    surf_stats = post_process_material_surfaces(stage)
+    stats["mdl_outputs"] = mdl_out_stats
+    stats["surface_post"] = surf_stats
     return stats

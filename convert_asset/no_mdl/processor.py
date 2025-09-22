@@ -249,6 +249,9 @@ class Processor:
                     f.write(f"Output USD: {dst_usd_abs}\n")
                     f.write(f"Result: {'SUCCESS' if final_ok else 'FAIL'} ({reason})\n")
                     f.write(f"Materials converted (preview/total): {stats['preview']}/{stats['total']}\n")
+                    if stats.get('surface_post'):
+                        sp = stats['surface_post']
+                        f.write(f"Materials without surface (after): {sp['materials_without_surface']} (auto_created={sp['auto_created_preview']})\n")
                     if 'mdl_shaders_external' in report:
                         f.write(f"External MDL shaders: {len(report.get('mdl_shaders_external', []))}\n")
                         f.write(f"Root-owned MDL shaders: {len(diag.get('root_owned_mdl_shaders', [])) if diag else 0}\n")

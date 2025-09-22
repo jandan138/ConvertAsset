@@ -35,7 +35,8 @@ import os
 from .config import (
     GROUP, UVSET, BAKE_TINT_WHEN_WHITE, ALWAYS_BAKE_TINT, MDL_BASECOLOR_CONST_KEYS,
     PRINT_DIAGNOSTICS, BREAK_INSTANCE_FOR_MDL, CLEAN_VARIANT_MDL,
-    ALLOW_EXTERNAL_MDL_SHADERS, ALLOW_EXTERNAL_MDL_OUTPUTS, STRICT_VERIFY
+    ALLOW_EXTERNAL_MDL_SHADERS, ALLOW_EXTERNAL_MDL_OUTPUTS, STRICT_VERIFY,
+    CREATE_PREVIEW_FOR_EXTERNAL_MDL, AUTO_PREVIEW_BASECOLOR
 )
 
 if PRINT_DIAGNOSTICS:
@@ -576,8 +577,13 @@ def remove_material_mdl_outputs(stage: Usd.Stage):
                             pass
                 except Exception:
                     pass
-    if PRINT_DIAGNOSTICS:
-        print(f"[DIAG] mdl_outputs removal: disconnected={disconnected} removed={removed} blocked={blocked} failed={failed}")
+    # 记录哪些 Material 在本阶段后仍缺失通用 surface 输出，用于后续自动补齐
+    return {
+        "disconnected": disconnected,
+        "removed": removed,
+        "blocked": blocked,
+        "failed": failed,
+    }
 
 
 def remove_all_mdl_shaders(stage: Usd.Stage):
@@ -599,6 +605,24 @@ def remove_all_mdl_shaders(stage: Usd.Stage):
             stage.RemovePrim(p)
         except Exception as e:
             print("[WARN] fail to remove:", p, e)
+
+
+def ensure_surface_output(stage: Usd.Stage, mat: UsdShade.Material, base_color=(0.18,0.18,0.18)):
+    """若 Material 没有通用 outputs:surface，则创建并指向一个最小 PreviewSurface。
+
+    - 用于 MDL 输出移除后没有任何可渲染通道（灰材质丢失）的问题。
+    - 若已有 outputs:surface 则不做修改。
+    """
+    out_def = mat.GetSurfaceOutput()
+    if out_def and out_def.HasConnectedSource():
+        return False
+    # 创建骨架并设置一个简易 baseColor
+    prev = ensure_preview(stage, mat)
+    bc_in = prev.GetInput("diffuseColor") or prev.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f)
+    if not bc_in.HasAuthoredValue():
+        from pxr import Gf as _Gf
+        bc_in.Set(_Gf.Vec3f(*base_color))
+    return True
 
 
 def verify_no_mdl(stage: Usd.Stage) -> bool:
@@ -726,4 +750,44 @@ def verify_no_mdl_report(stage: Usd.Stage):
         "mdl_outputs_external": mdl_outputs_external,
         "blocked_material_mdl_outputs": mats_blocked,
         "forced_blocked_material_mdl_outputs": mats_forced_blocked,
+    }
+
+
+def post_process_material_surfaces(stage: Usd.Stage):
+    """在 MDL 移除后执行：统计缺失 surface 的材质并可选补齐 Preview。
+
+    返回统计：
+    {
+        'materials_total': int,
+        'materials_without_surface': int,
+        'auto_created_preview': int,
+        'sample_missing': [... up to 20]
+    }
+    """
+    total = 0
+    no_surface = []
+    created = 0
+    root_layer = stage.GetRootLayer()
+    for prim in Usd.PrimRange(stage.GetPseudoRoot()):
+        if prim.GetTypeName() != "Material":
+            continue
+        total += 1
+        mat = UsdShade.Material(prim)
+        out = mat.GetSurfaceOutput()
+        has_any = bool(out and (out.HasConnectedSource() or out.GetAttr().HasAuthoredConnections()))
+        if not has_any:
+            no_surface.append(prim.GetPath().pathString)
+            if CREATE_PREVIEW_FOR_EXTERNAL_MDL:
+                if ensure_surface_output(stage, mat, AUTO_PREVIEW_BASECOLOR):
+                    created += 1
+    if PRINT_DIAGNOSTICS:
+        print(f"[DIAG] surface_post: total={total} missing={len(no_surface)} auto_created={created}")
+        if no_surface:
+            for p in no_surface[:10]:
+                print("    [missing-surface]", p)
+    return {
+        "materials_total": total,
+        "materials_without_surface": len(no_surface),
+        "auto_created_preview": created,
+        "sample_missing": no_surface[:20]
     }
