@@ -23,7 +23,7 @@ from .references import _collect_asset_paths, _rewrite_assets_in_stage
 from .convert import convert_and_strip_mdl_in_this_file_only
 from .materials import verify_no_mdl, verify_no_mdl_report
 from .diagnostics import collect_missing, analyze_mdl, sample_mdl_output_property_stacks
-from .config import PRINT_DIAGNOSTICS, STRICT_VERIFY, IGNORE_EXTERNAL_MDL_IF_MISSING_CHILDREN, TRY_OVERRIDE_EXTERNAL_MATERIALS, WRITE_SUMMARY_TXT, SUMMARY_MISSING_CHILD_LIMIT
+from .config import PRINT_DIAGNOSTICS, STRICT_VERIFY, IGNORE_EXTERNAL_MDL_IF_MISSING_CHILDREN, TRY_OVERRIDE_EXTERNAL_MATERIALS, WRITE_SUMMARY_TXT, SUMMARY_MISSING_CHILD_LIMIT, ALLOW_EXTERNAL_ONLY_PASS, REQUIRE_NO_MISSING_FOR_EXTERNAL_PASS
 
 
 class Processor:
@@ -185,6 +185,16 @@ class Processor:
                     final_ok = True
                     reason = "strict-ignore-missing-external"
 
+        # 外部-only 放宽：root-owned 全部清理，且 (missing_children 为空 或者 不要求为空)，则判 external-only-pass
+        if (not final_ok) and ALLOW_EXTERNAL_ONLY_PASS:
+            root_has_any = False
+            if diag:
+                root_has_any = bool(diag.get("root_owned_mdl_shaders") or diag.get("root_owned_material_mdl_outputs") or diag.get("root_owned_blocked_material_mdl_outputs"))
+            no_missing_req = (not REQUIRE_NO_MISSING_FOR_EXTERNAL_PASS) or (REQUIRE_NO_MISSING_FOR_EXTERNAL_PASS and not missing_children)
+            if (not root_has_any) and no_missing_req:
+                final_ok = True
+                reason = "external-only-pass"
+
         if (not final_ok) and TRY_OVERRIDE_EXTERNAL_MATERIALS:
             print("[WARN] TRY_OVERRIDE_EXTERNAL_MATERIALS enabled but not yet implemented; no action taken.")
 
@@ -238,7 +248,7 @@ class Processor:
 
         print(f"[DONE] {os.path.basename(src_usd_abs)} -> {os.path.basename(dst_usd_abs)} | materials processed: {stats['preview']}/{stats['total']}, noMDL={final_ok} (reason={reason})")
 
-        # 12) 如果是顶层调用并开启 summary，则写出简明 txt。
+    # 12) 如果是顶层调用并开启 summary，则写出简明 txt。
         if _is_root_call and WRITE_SUMMARY_TXT:
             try:
                 root_dir, root_base = os.path.split(src_usd_abs)
