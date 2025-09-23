@@ -653,6 +653,8 @@ def verify_no_mdl(stage: Usd.Stage) -> bool:
     external_mdl_output = False
     root_layer = stage.GetRootLayer()
     for prim in Usd.PrimRange(stage.GetPseudoRoot()):
+        if not prim.IsActive():  # 忽略失活 prim
+            continue
         if is_mdl_shader(prim):
             owned = root_layer.GetPrimAtPath(prim.GetPath()) is not None
             if owned:
@@ -701,6 +703,8 @@ def verify_no_mdl_report(stage: Usd.Stage):
     mats_blocked = []  # native blocked (attr.IsBlocked())
     mats_forced_blocked = []  # customData noMDL_forced_block
     for prim in Usd.PrimRange(stage.GetPseudoRoot()):
+        if not prim.IsActive():  # 报告也跳过失活 prim
+            continue
         if is_mdl_shader(prim):
             if root_layer.GetPrimAtPath(prim.GetPath()) is None:
                 mdl_shaders_external.append(prim.GetPath().pathString)

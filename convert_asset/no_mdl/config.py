@@ -103,4 +103,8 @@ REQUIRE_NO_MISSING_FOR_EXTERNAL_PASS = False
 # 风险：会改变后续在该 *_noMDL.usd 上游组合看到的活跃 prim 集。
 DEACTIVATE_EXTERNAL_MDL_SHADERS = True
 
+# 清洁删除模式：在主转换与失活之后，再额外扫描所有仍然 active 的外部 MDL Shader 并 RemovePrim。
+# 让 strict 验证彻底归零；对 *_noMDL.usd* 内部不可逆（需重新生成才能恢复）。
+CLEAN_DELETE_EXTERNAL_MDL_SHADERS = True
+
 

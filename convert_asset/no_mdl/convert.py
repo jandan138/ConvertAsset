@@ -3,7 +3,7 @@ from pxr import Usd, UsdShade
 from .config import (
     MATERIAL_ROOT_HINTS, ALWAYS_SCAN_ALL_MATERIALS, CLEAN_VARIANT_MDL,
     RESTORE_VARIANT_SELECTION, OVERRIDE_EXTERNAL_MDL_PREVIEW,
-    DEACTIVATE_EXTERNAL_MDL_SHADERS,
+    DEACTIVATE_EXTERNAL_MDL_SHADERS, CLEAN_DELETE_EXTERNAL_MDL_SHADERS,
 )
 from .materials import (
     find_mdl_shader, ensure_preview, copy_textures, connect_preview,
@@ -122,6 +122,29 @@ def convert_and_strip_mdl_in_this_file_only(stage: Usd.Stage):
         _convert_active_materials(stage, stats, processed)
         mdl_out_stats = remove_material_mdl_outputs(stage)
         remove_all_mdl_shaders(stage)
+        # 二次清理：删除仍然残留的外部 MDL Shader（未被覆盖到的孤立/附属节点）
+        if CLEAN_DELETE_EXTERNAL_MDL_SHADERS:
+            root_layer = stage.GetRootLayer()
+            removed_external_extra = 0
+            to_remove = []
+            from .materials import is_mdl_shader  # 局部导入避免循环
+            for prim in Usd.PrimRange(stage.GetPseudoRoot()):
+                try:
+                    if not prim.IsActive():
+                        continue
+                    if is_mdl_shader(prim) and root_layer.GetPrimAtPath(prim.GetPath()) is None:
+                        to_remove.append(prim.GetPath())
+                except Exception:
+                    pass
+            to_remove.sort(key=lambda p: len(str(p)), reverse=True)
+            for p in to_remove:
+                try:
+                    stage.RemovePrim(p)
+                    removed_external_extra += 1
+                except Exception:
+                    pass
+            if removed_external_extra:
+                stats["external_mdl_shaders_clean_deleted"] = removed_external_extra
         surf_stats = post_process_material_surfaces(stage)
         stats["mdl_outputs"] = mdl_out_stats
         stats["surface_post"] = surf_stats
