@@ -91,4 +91,16 @@ AUTO_PREVIEW_BASECOLOR = (0.18, 0.18, 0.18)
 # 风险：为大量外部材质写入本层 override，增加当前 layer 体积；但可显著改善顶层查看视觉。
 OVERRIDE_EXTERNAL_MDL_PREVIEW = True
 
+# ================= Result Pass Relaxation =================
+# 当本层(root-owned)已经没有任何 MDL，只剩外部引用中的 MDL 时，是否直接判定为通过。
+# 目的：在资源不完整或只需快速可视化的场景，避免一直 strict-fail。
+ALLOW_EXTERNAL_ONLY_PASS = True
+# 若为 True，则 external-only-pass 还要求没有 missing child USD；False 则忽略缺失子文件也判通过。
+REQUIRE_NO_MISSING_FOR_EXTERNAL_PASS = False
+
+# 当仅需要通过验证而不再关心外部 MDL Shader 的原貌时，可选择直接在本层对外部 MDL Shader 进行 SetActive(False)。
+# 作用：使验证统计时 external MDL shader 数量归零（因为被标记 inactive 通常不会再被遍历/统计）。
+# 风险：会改变后续在该 *_noMDL.usd 上游组合看到的活跃 prim 集。
+DEACTIVATE_EXTERNAL_MDL_SHADERS = True
+
 

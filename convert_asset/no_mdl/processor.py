@@ -263,6 +263,8 @@ class Processor:
                     f.write(f"Materials converted (preview/total): {stats['preview']}/{stats['total']}\n")
                     if 'external_overridden_preview' in stats:
                         f.write(f"External materials overridden with preview: {stats['external_overridden_preview']}\n")
+                    if 'external_deactivated_mdl_shaders' in stats:
+                        f.write(f"External MDL shaders deactivated: {stats['external_deactivated_mdl_shaders']}\n")
                     if stats.get('surface_post'):
                         sp = stats['surface_post']
                         f.write(f"Materials without surface (after): {sp['materials_without_surface']} (auto_created={sp['auto_created_preview']})\n")
