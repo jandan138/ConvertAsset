@@ -194,6 +194,8 @@ class Processor:
             if (not root_has_any) and no_missing_req:
                 final_ok = True
                 reason = "external-only-pass"
+                if PRINT_DIAGNOSTICS:
+                    print("[DIAG] apply external-only-pass: root clean, external MDL ignored (missing_children=", len(missing_children), ")")
 
         if (not final_ok) and TRY_OVERRIDE_EXTERNAL_MATERIALS:
             print("[WARN] TRY_OVERRIDE_EXTERNAL_MATERIALS enabled but not yet implemented; no action taken.")
