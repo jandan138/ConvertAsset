@@ -128,15 +128,22 @@ def convert_and_strip_mdl_in_this_file_only(stage: Usd.Stage):
             removed_external_extra = 0
             to_remove = []
             from .materials import is_mdl_shader  # 局部导入避免循环
+            debug_before = []
             for prim in Usd.PrimRange(stage.GetPseudoRoot()):
                 try:
                     if not prim.IsActive():
                         continue
                     if is_mdl_shader(prim) and root_layer.GetPrimAtPath(prim.GetPath()) is None:
+                        if len(debug_before) < 20:
+                            debug_before.append(prim.GetPath().pathString)
                         to_remove.append(prim.GetPath())
                 except Exception:
                     pass
             to_remove.sort(key=lambda p: len(str(p)), reverse=True)
+            if debug_before:
+                print(f"[DIAG][clean-delete] external MDL shaders before delete: total={len(to_remove)} show_first={len(debug_before)}")
+                for p in debug_before:
+                    print("    ", p)
             for p in to_remove:
                 try:
                     stage.RemovePrim(p)
@@ -145,6 +152,26 @@ def convert_and_strip_mdl_in_this_file_only(stage: Usd.Stage):
                     pass
             if removed_external_extra:
                 stats["external_mdl_shaders_clean_deleted"] = removed_external_extra
+                print(f"[DIAG][clean-delete] removed external MDL shaders: {removed_external_extra}")
+            # 再统计剩余 active 外部 MDL Shader（若仍有说明它们在 root layer 有 top spec 或删除失败）
+            remain_ext = 0
+            remain_samples = []
+            for prim in Usd.PrimRange(stage.GetPseudoRoot()):
+                try:
+                    if not prim.IsActive():
+                        continue
+                    if is_mdl_shader(prim) and root_layer.GetPrimAtPath(prim.GetPath()) is None:
+                        remain_ext += 1
+                        if len(remain_samples) < 10:
+                            remain_samples.append(prim.GetPath().pathString)
+                except Exception:
+                    pass
+            if remain_ext:
+                print(f"[DIAG][clean-delete][WARN] still external active MDL shaders after delete: {remain_ext} (show_first={len(remain_samples)})")
+                for p in remain_samples:
+                    print("    ", p)
+            else:
+                print("[DIAG][clean-delete] no external active MDL shaders remain after delete.")
         surf_stats = post_process_material_surfaces(stage)
         stats["mdl_outputs"] = mdl_out_stats
         stats["surface_post"] = surf_stats
