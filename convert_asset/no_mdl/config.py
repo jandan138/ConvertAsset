@@ -80,4 +80,15 @@ CREATE_PREVIEW_FOR_EXTERNAL_MDL = True
 # 自动补的 preview 若无原 baseColor 纹理或常量，可使用此灰度 (linear) 作为 baseColor。
 AUTO_PREVIEW_BASECOLOR = (0.18, 0.18, 0.18)
 
+# ================= External MDL Override (Visual Fidelity) =================
+# 顶层仍然“全灰”常见原因：大量材质来自外部引用层；本策略在当前 *_noMDL.usd 层对这些外部材质创建
+# override 规格并生成 PreviewSurface，尽量复用其 MDL Shader 上的贴图/常量（在还未删除 MDL 前抽取）。
+# 开启后：
+#   1) 在删除 MDL Shader 之前扫描所有非 root-owned Material；
+#   2) 若其存在 MDL Shader，则：overridePrim -> ensure_preview -> copy_textures -> connect_preview；
+#   3) 将其 primPath 记入 processed，避免后续 root-owned 转换重复统计；
+#   4) 最终统一执行 remove_material_mdl_outputs / remove_all_mdl_shaders，清理残留。
+# 风险：为大量外部材质写入本层 override，增加当前 layer 体积；但可显著改善顶层查看视觉。
+OVERRIDE_EXTERNAL_MDL_PREVIEW = True
+
 

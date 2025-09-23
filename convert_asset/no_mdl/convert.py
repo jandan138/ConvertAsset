@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from pxr import Usd, UsdShade
-from .config import MATERIAL_ROOT_HINTS, ALWAYS_SCAN_ALL_MATERIALS, CLEAN_VARIANT_MDL, RESTORE_VARIANT_SELECTION
+from .config import MATERIAL_ROOT_HINTS, ALWAYS_SCAN_ALL_MATERIALS, CLEAN_VARIANT_MDL, RESTORE_VARIANT_SELECTION, OVERRIDE_EXTERNAL_MDL_PREVIEW
 from .materials import (
     find_mdl_shader, ensure_preview, copy_textures, connect_preview,
     remove_material_mdl_outputs, remove_all_mdl_shaders, post_process_material_surfaces
@@ -75,6 +75,35 @@ def convert_and_strip_mdl_in_this_file_only(stage: Usd.Stage):
     processed = set()
 
     if not CLEAN_VARIANT_MDL:
+        # 可选步骤：对“外部（非 root-owned）且含 MDL Shader”的材质进行 override + 预览重建
+        if OVERRIDE_EXTERNAL_MDL_PREVIEW:
+            root_layer = stage.GetRootLayer()
+            external_overridden = 0
+            for prim in Usd.PrimRange(stage.GetPseudoRoot()):
+                if prim.GetTypeName() != "Material":
+                    continue
+                # 跳过 root-owned（由后续常规流程处理）
+                if root_layer.GetPrimAtPath(prim.GetPath()) is not None:
+                    continue
+                mat = UsdShade.Material(prim)
+                mdl = find_mdl_shader(mat)
+                if not mdl:
+                    continue
+                # 在当前 layer 建立 override spec
+                try:
+                    stage.OverridePrim(prim.GetPath())
+                except Exception:
+                    # 如果 Override 失败（匿名层等情况），继续尝试仍可能写属性
+                    pass
+                # 构建 preview 网络并复制贴图
+                ensure_preview(stage, mat)
+                try:
+                    filled, has_c, c_rgb, bc_tex = copy_textures(stage, mdl, mat)
+                    connect_preview(stage, mat, filled, has_c, c_rgb, bc_tex)
+                except Exception:
+                    pass
+                external_overridden += 1
+            stats["external_overridden_preview"] = external_overridden
         _convert_active_materials(stage, stats, processed)
         mdl_out_stats = remove_material_mdl_outputs(stage)
         remove_all_mdl_shaders(stage)
