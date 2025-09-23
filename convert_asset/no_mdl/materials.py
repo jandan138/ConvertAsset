@@ -30,13 +30,14 @@ materials.py — 材质转换与 MDL 移除的实现细节
 """
 
 # -*- coding: utf-8 -*-
-from pxr import Usd, UsdShade, Sdf, Gf
+from pxr import Usd, UsdShade, Sdf, Gf  # type: ignore
 import os
 from .config import (
     GROUP, UVSET, BAKE_TINT_WHEN_WHITE, ALWAYS_BAKE_TINT, MDL_BASECOLOR_CONST_KEYS,
     PRINT_DIAGNOSTICS, BREAK_INSTANCE_FOR_MDL, CLEAN_VARIANT_MDL,
     ALLOW_EXTERNAL_MDL_SHADERS, ALLOW_EXTERNAL_MDL_OUTPUTS, STRICT_VERIFY,
-    CREATE_PREVIEW_FOR_EXTERNAL_MDL, AUTO_PREVIEW_BASECOLOR
+    CREATE_PREVIEW_FOR_EXTERNAL_MDL, AUTO_PREVIEW_BASECOLOR,
+    PRINT_DIAGNOSTICS_LEVEL, DIAG_SAMPLE_LIMIT
 )
 
 if PRINT_DIAGNOSTICS:
@@ -419,6 +420,7 @@ def remove_material_mdl_outputs(stage: Usd.Stage):
     - 后续 verify / analyze 会忽略被 Block 的 MDL 输出，不再视为残留。
     """
     removed = blocked = disconnected = failed = 0
+    forced_samples = []  # for audit (paths of attributes we forced placeholder/customData)
     sample_logged = 0
     # 记录已尝试过 override 的 material，以免重复 overridePrim
     over_applied = set()
@@ -526,7 +528,7 @@ def remove_material_mdl_outputs(stage: Usd.Stage):
                 blocked += 1
             else:
                 failed += 1
-                if PRINT_DIAGNOSTICS and sample_logged < 20:
+                if PRINT_DIAGNOSTICS and sample_logged < DIAG_SAMPLE_LIMIT:
                     sample_logged += 1
                     try:
                         root_layer = stage.GetRootLayer()
@@ -571,10 +573,14 @@ def remove_material_mdl_outputs(stage: Usd.Stage):
                         if force_attr and not force_attr.HasAuthoredValue():
                             force_attr.Set("__noMDL_placeholder__")
                         # 写 customData 标记
+                        was_forced = False
                         try:
                             force_attr.SetCustomDataByKey("noMDL_forced_block", True)
+                            was_forced = True
                         except Exception:
                             pass
+                        if was_forced and len(forced_samples) < DIAG_SAMPLE_LIMIT:
+                            forced_samples.append(f"{prim.GetPath()}::{prop}")
                 except Exception:
                     pass
     # 记录哪些 Material 在本阶段后仍缺失通用 surface 输出，用于后续自动补齐
@@ -583,6 +589,7 @@ def remove_material_mdl_outputs(stage: Usd.Stage):
         "removed": removed,
         "blocked": blocked,
         "failed": failed,
+        "forced_samples": forced_samples,
     }
 
 
@@ -635,7 +642,7 @@ def ensure_surface_output(stage: Usd.Stage, mat: UsdShade.Material, base_color=(
         except Exception:
             pass
     if need_set:
-        from pxr import Gf as _Gf
+        from pxr import Gf as _Gf  # type: ignore
         if attr:
             attr.Set(_Gf.Vec3f(*base_color))
     return True
@@ -800,7 +807,7 @@ def post_process_material_surfaces(stage: Usd.Stage):
             if CREATE_PREVIEW_FOR_EXTERNAL_MDL:
                 if ensure_surface_output(stage, mat, AUTO_PREVIEW_BASECOLOR):
                     created += 1
-    if PRINT_DIAGNOSTICS:
+    if PRINT_DIAGNOSTICS_LEVEL >= 2:
         print(f"[DIAG] surface_post: total={total} missing={len(no_surface)} auto_created={created}")
         if no_surface:
             for p in no_surface[:10]:

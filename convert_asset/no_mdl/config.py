@@ -4,6 +4,24 @@ User-tunable settings and constants extracted from the monolithic script.
 """
 import time
 
+# ================= Noise Reduction & Audit (New) =================
+# 诊断等级：0=极简(只DONE与FAIL/SUCCESS)，1=简要(关键信息+警告)，2=详细(当前全部 DIAG 行为)
+PRINT_DIAGNOSTICS_LEVEL = 2
+
+# 兼容旧开关：保持原逻辑中使用 PRINT_DIAGNOSTICS 的地方在 level>=2 时才输出全部细节
+PRINT_DIAGNOSTICS = (PRINT_DIAGNOSTICS_LEVEL >= 2)
+
+# 审计 JSON 写出（结构化数据，便于后处理与趋势分析）
+WRITE_AUDIT_JSON = True
+# 审计文件是否带时间戳（False = 固定覆盖最新；True = 每次独立文件）
+AUDIT_WITH_TIMESTAMP = False
+
+# 采样限制：在审计或简要日志中最多保留的示例条目数
+DIAG_SAMPLE_LIMIT = 20
+
+# 如果 forced blocked 数量超过该阈值且等级>=1，则打印一条警告
+FORCED_BLOCKED_WARN_THRESHOLD = 100
+
 SUFFIX = "_noMDL"          # 兄弟文件后缀：bed.usd -> bed_noMDL.usd
 ALLOW_OVERWRITE = False    # 若已存在 *_noMDL.usd，是否直接覆盖（否则自动加时间戳）
 MATERIAL_ROOT_HINTS = ("/Root/Looks", "/World/Looks")  # 常见 Looks 根，找不到就全局扫描

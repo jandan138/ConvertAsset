@@ -17,13 +17,20 @@ Processor: 递归生成 *_noMDL.usd 的调度器
 - 去重与防环：self.done 与 self.in_stack 确保同一文件只处理一次，并防止循环引用导致的无限递归。
 """
 from pxr import Usd  # type: ignore  # pxr provided at runtime
+import json, time, hashlib
 import os
 from .path_utils import _to_posix, _sibling_noMDL_path, _resolve
 from .references import _collect_asset_paths, _rewrite_assets_in_stage
 from .convert import convert_and_strip_mdl_in_this_file_only
 from .materials import verify_no_mdl, verify_no_mdl_report
 from .diagnostics import collect_missing, analyze_mdl, sample_mdl_output_property_stacks
-from .config import PRINT_DIAGNOSTICS, STRICT_VERIFY, IGNORE_EXTERNAL_MDL_IF_MISSING_CHILDREN, TRY_OVERRIDE_EXTERNAL_MATERIALS, WRITE_SUMMARY_TXT, SUMMARY_MISSING_CHILD_LIMIT, ALLOW_EXTERNAL_ONLY_PASS, REQUIRE_NO_MISSING_FOR_EXTERNAL_PASS
+from .config import (
+    PRINT_DIAGNOSTICS, PRINT_DIAGNOSTICS_LEVEL, STRICT_VERIFY,
+    IGNORE_EXTERNAL_MDL_IF_MISSING_CHILDREN, TRY_OVERRIDE_EXTERNAL_MATERIALS,
+    WRITE_SUMMARY_TXT, SUMMARY_MISSING_CHILD_LIMIT, ALLOW_EXTERNAL_ONLY_PASS,
+    REQUIRE_NO_MISSING_FOR_EXTERNAL_PASS, WRITE_AUDIT_JSON, AUDIT_WITH_TIMESTAMP,
+    DIAG_SAMPLE_LIMIT, FORCED_BLOCKED_WARN_THRESHOLD
+)
 
 
 class Processor:
@@ -65,11 +72,13 @@ class Processor:
         self.in_stack.add(src_usd_abs)
 
         # 4) 打开源 Stage，失败则记录错误并退出当前分支
+        t0 = time.perf_counter()
         stage = Usd.Stage.Open(src_usd_abs)
         if not stage:
             print("[ERROR] cannot open:", src_usd_abs)
             self.in_stack.remove(src_usd_abs)
             return src_usd_abs
+        t_open = time.perf_counter()
 
         # 5) 收集依赖条目，并筛选出子 USD 的绝对路径集合
         #    deps 是对当前 stage 中所有组合关系的扫描结果，包含：
@@ -138,6 +147,7 @@ class Processor:
                 continue
             dst_c = self.process(c, _is_root_call=False)
             mapping[c] = dst_c
+        t_children = time.perf_counter()
         if PRINT_DIAGNOSTICS:
             print(f"[DIAG][deps] processed child count={len(mapping)} missing={len(missing_children)}")
 
@@ -145,11 +155,13 @@ class Processor:
         dst_usd_abs = _sibling_noMDL_path(src_usd_abs)
         root_layer = stage.GetRootLayer()
         root_layer.Export(dst_usd_abs)
+        t_export_root = time.perf_counter()
 
         # 8) 打开新 stage，在当前文件上改写指向关系，并进行材质转换
         dst_stage = Usd.Stage.Open(dst_usd_abs)
         _rewrite_assets_in_stage(dst_stage, mapping)
         stats = convert_and_strip_mdl_in_this_file_only(dst_stage)
+        t_convert = time.perf_counter()
 
         # 9) 兜底 defaultPrim：没有时优先 /World，否则取任意根 Prim
         if not dst_stage.GetDefaultPrim():
@@ -163,6 +175,7 @@ class Processor:
 
         # 10) 保存导出当前文件
         dst_stage.GetRootLayer().Export(dst_usd_abs)
+        t_final_export = time.perf_counter()
 
         # 11) 校验当前输出不含 MDL，并输出日志
         reopen_stage = Usd.Stage.Open(dst_usd_abs)
@@ -200,7 +213,7 @@ class Processor:
         if (not final_ok) and TRY_OVERRIDE_EXTERNAL_MATERIALS:
             print("[WARN] TRY_OVERRIDE_EXTERNAL_MATERIALS enabled but not yet implemented; no action taken.")
 
-        if PRINT_DIAGNOSTICS:
+        if PRINT_DIAGNOSTICS_LEVEL >= 2:
             print("[DIAG] missing_children=", len(missing_children))
             if missing_children:
                 for mc in missing_children:
@@ -248,9 +261,21 @@ class Processor:
                             for lid in s["layers"]:
                                 print("        -", lid)
 
-        print(f"[DONE] {os.path.basename(src_usd_abs)} -> {os.path.basename(dst_usd_abs)} | materials processed: {stats['preview']}/{stats['total']}, noMDL={final_ok} (reason={reason})")
+        # 终端输出根据等级控制
+        if PRINT_DIAGNOSTICS_LEVEL >= 1:
+            print(f"[DONE] {os.path.basename(src_usd_abs)} -> {os.path.basename(dst_usd_abs)} | mats {stats['preview']}/{stats['total']} noMDL={final_ok} ({reason})")
+        else:
+            print(f"[DONE] {os.path.basename(src_usd_abs)} noMDL={final_ok}")
 
     # 12) 如果是顶层调用并开启 summary，则写出简明 txt。
+        timings = {
+            "open": t_open - t0,
+            "collect_deps_and_children": t_children - t_open,
+            "export_root_layer": t_export_root - t_children,
+            "convert_strip": t_convert - t_export_root,
+            "final_export": t_final_export - t_convert,
+            "verify": time.perf_counter() - t_final_export,
+        }
         if _is_root_call and WRITE_SUMMARY_TXT:
             try:
                 root_dir, root_base = os.path.split(src_usd_abs)
@@ -303,6 +328,52 @@ class Processor:
                     print("[SUMMARY] written:", summary_path)
             except Exception as e:
                 print("[SUMMARY][ERROR] failed to write summary txt:", e)
+
+        # 写审计 JSON
+        if _is_root_call and WRITE_AUDIT_JSON:
+            try:
+                root_dir, root_base = os.path.split(src_usd_abs)
+                stem, _ext = os.path.splitext(root_base)
+                ts_tag = time.strftime("_%Y%m%d_%H%M%S") if AUDIT_WITH_TIMESTAMP else ""
+                audit_path = os.path.join(root_dir, f"{stem}_noMDL_audit{ts_tag}.json")
+                audit = {
+                    "sourceUsd": src_usd_abs,
+                    "outputUsd": dst_usd_abs,
+                    "resultStrict": final_ok,
+                    "reason": reason,
+                    "stats": {
+                        "materialsTotal": stats.get('total'),
+                        "materialsConverted": stats.get('preview'),
+                        "externalOverridden": stats.get('external_overridden_preview'),
+                        "externalDeactivated": stats.get('external_deactivated_mdl_shaders'),
+                        "externalSuppressedExtra": stats.get('external_mdl_shaders_clean_deleted'),
+                        "externalFinalActive": stats.get('external_mdl_shaders_final_active'),
+                        "forcedBlockedOutputs": len(report.get('forced_blocked_material_mdl_outputs', [])) if report else 0,
+                        "forcedBlockedSamples": stats.get('mdl_outputs', {}).get('forced_samples') if stats.get('mdl_outputs') else [],
+                        "materialsWithoutSurface": stats.get('surface_post', {}).get('materials_without_surface') if stats.get('surface_post') else None,
+                        "autoCreatedSurface": stats.get('surface_post', {}).get('auto_created_preview') if stats.get('surface_post') else None,
+                    },
+                    "timings": timings,
+                    "missingChildren": missing_children[:DIAG_SAMPLE_LIMIT],
+                    "missingChildrenTruncated": len(missing_children) > DIAG_SAMPLE_LIMIT,
+                    "report": {
+                        "mdlShadersLocal": report.get('mdl_shaders_local', []),
+                        "mdlShadersExternal": report.get('mdl_shaders_external', []),
+                        "mdlOutputsLocal": report.get('mdl_outputs_local', []),
+                        "mdlOutputsExternal": report.get('mdl_outputs_external', []),
+                        "blockedForcedCount": len(report.get('forced_blocked_material_mdl_outputs', [])),
+                    },
+                }
+                # 内容指纹（方便快速比较不同 run 是否一致）
+                h = hashlib.sha256()
+                h.update(json.dumps(audit["stats"], sort_keys=True).encode('utf-8'))
+                audit["statsHash"] = h.hexdigest()[:16]
+                with open(audit_path, 'w', encoding='utf-8') as af:
+                    json.dump(audit, af, ensure_ascii=False, indent=2)
+                if PRINT_DIAGNOSTICS_LEVEL >= 1:
+                    print("[AUDIT] written:", audit_path)
+            except Exception as e:
+                print("[AUDIT][ERROR]", e)
 
     # 13) 记录结果并出栈
         self.done[src_usd_abs] = dst_usd_abs
