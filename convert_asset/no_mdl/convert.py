@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from pxr import Usd, UsdShade
+from pxr import Usd, UsdShade  # type: ignore  # pxr provided in runtime environment
 from .config import (
     MATERIAL_ROOT_HINTS, ALWAYS_SCAN_ALL_MATERIALS, CLEAN_VARIANT_MDL,
     RESTORE_VARIANT_SELECTION, OVERRIDE_EXTERNAL_MDL_PREVIEW,
@@ -129,31 +129,39 @@ def convert_and_strip_mdl_in_this_file_only(stage: Usd.Stage):
             to_remove = []
             from .materials import is_mdl_shader  # 局部导入避免循环
             debug_before = []
+            target_external = []
             for prim in Usd.PrimRange(stage.GetPseudoRoot()):
                 try:
                     if not prim.IsActive():
                         continue
                     if is_mdl_shader(prim) and root_layer.GetPrimAtPath(prim.GetPath()) is None:
+                        target_external.append(prim)
                         if len(debug_before) < 20:
                             debug_before.append(prim.GetPath().pathString)
-                        to_remove.append(prim.GetPath())
                 except Exception:
                     pass
-            to_remove.sort(key=lambda p: len(str(p)), reverse=True)
             if debug_before:
-                print(f"[DIAG][clean-delete] external MDL shaders before delete: total={len(to_remove)} show_first={len(debug_before)}")
+                print(f"[DIAG][clean-delete] external MDL shaders before suppression: total={len(target_external)} show_first={len(debug_before)}")
                 for p in debug_before:
                     print("    ", p)
-            for p in to_remove:
+            # 旧策略 RemovePrim 对纯外部（无本层 spec）无效；改为：override + SetActive(False)
+            suppressed = 0
+            for prim in target_external:
                 try:
-                    stage.RemovePrim(p)
-                    removed_external_extra += 1
+                    # 若没有顶层 spec，则先 override 以便写 active opinion
+                    if root_layer.GetPrimAtPath(prim.GetPath()) is None:
+                        stage.OverridePrim(prim.GetPath())
+                    # 重新获取 prim（override 可能返回新的对象）
+                    p2 = stage.GetPrimAtPath(prim.GetPath())
+                    if p2 and p2.IsValid() and p2.IsActive():
+                        p2.SetActive(False)
+                        suppressed += 1
                 except Exception:
                     pass
-            if removed_external_extra:
-                stats["external_mdl_shaders_clean_deleted"] = removed_external_extra
-                print(f"[DIAG][clean-delete] removed external MDL shaders: {removed_external_extra}")
-            # 再统计剩余 active 外部 MDL Shader（若仍有说明它们在 root layer 有 top spec 或删除失败）
+            if suppressed:
+                stats["external_mdl_shaders_clean_deleted"] = suppressed  # reuse existing field name for continuity
+                print(f"[DIAG][clean-delete] suppressed external MDL shaders via active=False: {suppressed}")
+            # 再统计剩余 active 外部 MDL Shader
             remain_ext = 0
             remain_samples = []
             for prim in Usd.PrimRange(stage.GetPseudoRoot()):
@@ -162,16 +170,18 @@ def convert_and_strip_mdl_in_this_file_only(stage: Usd.Stage):
                         continue
                     if is_mdl_shader(prim) and root_layer.GetPrimAtPath(prim.GetPath()) is None:
                         remain_ext += 1
-                        if len(remain_samples) < 10:
+                        if len(remain_samples) < 15:
                             remain_samples.append(prim.GetPath().pathString)
                 except Exception:
                     pass
+            stats["external_mdl_shaders_final_active"] = remain_ext
             if remain_ext:
-                print(f"[DIAG][clean-delete][WARN] still external active MDL shaders after delete: {remain_ext} (show_first={len(remain_samples)})")
+                stats["external_mdl_shaders_final_active_samples"] = remain_samples
+                print(f"[DIAG][clean-delete][WARN] still external active MDL shaders after suppression: {remain_ext} (show_first={len(remain_samples)})")
                 for p in remain_samples:
                     print("    ", p)
             else:
-                print("[DIAG][clean-delete] no external active MDL shaders remain after delete.")
+                print("[DIAG][clean-delete] no external active MDL shaders remain after suppression.")
         surf_stats = post_process_material_surfaces(stage)
         stats["mdl_outputs"] = mdl_out_stats
         stats["surface_post"] = surf_stats

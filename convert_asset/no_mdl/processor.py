@@ -16,7 +16,7 @@ Processor: 递归生成 *_noMDL.usd 的调度器
 - 结构保持：references/payloads/subLayers/variants/clips 的组合关系保持不变，只改路径。
 - 去重与防环：self.done 与 self.in_stack 确保同一文件只处理一次，并防止循环引用导致的无限递归。
 """
-from pxr import Usd
+from pxr import Usd  # type: ignore  # pxr provided at runtime
 import os
 from .path_utils import _to_posix, _sibling_noMDL_path, _resolve
 from .references import _collect_asset_paths, _rewrite_assets_in_stage
@@ -267,6 +267,12 @@ class Processor:
                         f.write(f"External MDL shaders deactivated: {stats['external_deactivated_mdl_shaders']}\n")
                     if 'external_mdl_shaders_clean_deleted' in stats:
                         f.write(f"External MDL shaders clean-deleted (extra): {stats['external_mdl_shaders_clean_deleted']}\n")
+                    if 'external_mdl_shaders_final_active' in stats:
+                        f.write(f"External MDL shaders final active: {stats['external_mdl_shaders_final_active']}\n")
+                        if stats.get('external_mdl_shaders_final_active_samples'):
+                            f.write("External MDL shaders final active sample paths (first {}):\n".format(len(stats['external_mdl_shaders_final_active_samples'])))
+                            for sp in stats['external_mdl_shaders_final_active_samples']:
+                                f.write(f"  - {sp}\n")
                     if stats.get('surface_post'):
                         sp = stats['surface_post']
                         f.write(f"Materials without surface (after): {sp['materials_without_surface']} (auto_created={sp['auto_created_preview']})\n")
@@ -274,6 +280,8 @@ class Processor:
                         f.write(f"External MDL shaders: {len(report.get('mdl_shaders_external', []))}\n")
                         f.write(f"Root-owned MDL shaders: {len(diag.get('root_owned_mdl_shaders', [])) if diag else 0}\n")
                         f.write(f"Forced blocked outputs: {len(report.get('forced_blocked_material_mdl_outputs', []))}\n")
+                        if (not final_ok) and reason.startswith('strict') and stats.get('external_mdl_shaders_final_active', 0) > 0:
+                            f.write("Reason detail: strict mode counts remaining external active MDL shaders despite suppression attempts.\n")
                     else:  # 兼容旧结构
                         f.write(f"MDL shaders: {len(report.get('mdl_shaders', []))}\n")
                         f.write(f"Blocked outputs: {len(report.get('blocked_material_mdl_outputs', []))}\n")
