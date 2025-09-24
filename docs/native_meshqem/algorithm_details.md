@@ -1,27 +1,3 @@
-# QEM Algorithm Details (Native C++)
-
-This document walks through the math and code path of the QEM implementation in `src/qem.cpp`.
-
-## Plane Quadrics Recap
-
-Given a triangle with vertices p, q, r in 3D, its plane normal is:
-
-- `n = normalize((q - p) × (r - p))`
-
-The plane equation is `a x + b y + c z + d = 0`, where `[a,b,c] = n` and `d = -dot(n, p)`.
-
-The quadric for this plane is a 4×4 matrix `K = p p^T` with `p=[a,b,c,d]`.
-
-For any homogeneous point `v' = [x, y, z, 1]`, the squared distance proxy is:
-
-- `E(v') = v'^T K v'`
-
-Summing quadrics across faces meeting at a vertex yields a quadric `Q[v]` that measures how far a point deviates from all incident planes.
-
-## Edge Collapse Cost
-
-To collapse an edge `(u, v)`, we merge quadrics:
-
 # QEM 算法细节（native/meshqem）
 
 本文详细阐述原生 `meshqem` 实现背后的数学与工程机制。
