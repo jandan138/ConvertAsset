@@ -103,3 +103,8 @@ cmake --build . -j
 
 ——
 最后更新：2025-09-24
+
+## 相关文档
+
+- 新手教程：从 Python 调用 C++ 后端（原理 + 三步上手 + 最小代码）
+  - `docs/native_meshqem/python_calls_cpp_tutorial.md`
