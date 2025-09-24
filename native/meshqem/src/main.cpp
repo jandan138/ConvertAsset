@@ -1,3 +1,10 @@
+// main.cpp — Command-line wrapper around the QEM kernel.
+//
+// Responsibilities:
+// - Parse minimal flags (in/out, ratio/target-faces, max-collapses, time-limit, progress-interval).
+// - Load input OBJ (triangles only), run qem_simplify, and save output OBJ.
+// - Print a short summary to stdout so the Python adapter can parse it.
+
 #include "io_obj.hpp"
 #include "qem.hpp"
 #include <cstdio>
@@ -32,6 +39,7 @@ int main(int argc, char** argv){
 
     if(!save_obj_tri(out_path, mesh, err)){ fprintf(stderr, "Save error: %s\n", err.c_str()); return 5; }
 
+    // The two-line summary is parsed by the Python adapter; avoid extra stdout noise here.
     fprintf(stdout, "faces: %zu -> %zu\nverts: %zu -> %zu\n", rep.faces_before, rep.faces_after, rep.verts_before, rep.verts_after);
     return 0;
 }
