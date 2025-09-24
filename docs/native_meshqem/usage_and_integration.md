@@ -1,53 +1,53 @@
-# Usage and Integration (meshqem + Python adapter)
+# 使用与集成（meshqem + Python 适配器）
 
-This page focuses on how the native executable is used from Python and how to run it directly.
+本页面重点介绍如何从 Python 使用原生可执行文件以及如何直接运行它。
 
-## Direct CLI
+## 直接命令行接口
 
-Build (once):
+构建（仅需一次）：
 ```
 mkdir -p native/meshqem/build
 cd native/meshqem/build
 cmake -DCMAKE_BUILD_TYPE=Release ..
 cmake --build . -j
 ```
-Run:
+运行：
 ```
 ./meshqem --in in.obj --out out.obj --ratio 0.5 \
   --max-collapses 200000 --time-limit 120 --progress-interval 20000
 ```
-Outputs two summary lines to stdout:
+输出两行摘要到 stdout：
 ```
 faces: <before> -> <after>
 verts: <before> -> <after>
 ```
-Progress goes to stderr every N collapses.
+进度信息每 N 次坍塌输出到 stderr。
 
-## Python Adapter
+## Python 适配器
 
-File: `convert_asset/mesh/backend_cpp.py`
+文件：`convert_asset/mesh/backend_cpp.py`
 
-Workflow per `UsdGeom.Mesh` prim:
-1) Extract points and topology, assert triangle-only.
-2) Write a temporary `in.obj` (positions + triangle indices).
-3) Execute the native `meshqem` with desired flags (`--ratio` or `--target-faces`, time-limit, etc.).
-4) Parse stdout for before/after counts; read `out.obj` and write back to USD when `apply=True`.
+每个 `UsdGeom.Mesh` prim 的工作流程：
+1) 提取点和拓扑，确保仅为三角形。
+2) 写入临时 `in.obj`（位置 + 三角形索引）。
+3) 使用所需标志（`--ratio` 或 `--target-faces`、时间限制等）执行原生 `meshqem`。
+4) 解析 stdout 以获取前后计数；读取 `out.obj` 并在 `apply=True` 时写回 USD。
 
-CLI integration (from `convert_asset/cli.py`):
+命令行集成（来自 `convert_asset/cli.py`）：
 ```
 python -m convert_asset.cli mesh-simplify <stage.usd> \
   --backend cpp --cpp-exe native/meshqem/build/meshqem \
   --ratio 0.9 --apply --out <out.usd> --progress --time-limit 60
 ```
 
-## Planning Mode (Dry-run)
+## 规划模式（干运行）
 
-For the C++ backend, planning (`--target-faces` without `--apply`) returns early with a suggested ratio and skips invoking the native binary. This avoids unnecessary native runs when you only need a global ratio estimate.
+对于 C++ 后端，规划（`--target-faces` 不带 `--apply`）会提前返回建议比率，并跳过调用原生二进制。这避免了在只需要全局比率估算时不必要的原生运行。
 
-## Tips
+## 使用提示
 
-- Ensure meshes are triangles; non-triangle meshes are skipped by the adapter.
-- Use `--progress` in Python CLI to see per-mesh progress and timeouts.
-- Start with a gentle ratio to validate pipeline quality, then iterate.
+- 确保网格为三角形；非三角形网格会被适配器跳过。
+- 在 Python CLI 中使用 `--progress` 查看每个网格的进度和超时。
+- 从温和的比率开始，以验证管道质量，然后进行迭代。
 
 ---

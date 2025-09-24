@@ -22,54 +22,92 @@ Summing quadrics across faces meeting at a vertex yields a quadric `Q[v]` that m
 
 To collapse an edge `(u, v)`, we merge quadrics:
 
-- `Quv = Q[u] + Q[v]`
+# QEM 算法细节（native/meshqem）
 
-We seek the point `x = [x, y, z]` minimizing `E([x,1])`. This is obtained by solving the 3×3 system:
+本文详细阐述原生 `meshqem` 实现背后的数学与工程机制。
 
+## 1）基础原理
+
+- 过三角形 (i,j,k) 的平面可写为 `ax+by+cz+d=0`，其中法线 `n` 归一化（`|n|=1`）。
+- 二次型 `Q` 是对称的 4×4 矩阵，定义为 `Q = p p^T`，`p=[a,b,c,d]`。
+- 对齐次点 `v'=[x,y,z,1]`，平方距离度量为 `v'^T Q v'`。
+- 顶点的二次型 `Qv` 为其相邻三角形二次型之和：`Qv = Σ Kf`。
+
+### 构建面二次型（face quadric）
+对三角形 `t=(i,j,k)`，顶点位置 `pi,pj,pk`：
+1) 计算法线 `n = normalize((pj - pi) × (pk - pi))`。
+2) 计算平面常数项 `d = -dot(n, pi)`。
+3) 令 `p=[n.x, n.y, n.z, d]`，构造 `K = p p^T`。
+4) 将 `K` 分别累加到 `Qi,Qj,Qk`。
+
+零面积三角形（法线长度 ~0）将被跳过，以避免数值不稳。
+
+## 2）边代价与最优位置
+
+对边 (u,v)，合并端点二次型：`Quv = Qu + Qv`。
+希望找到位置 `x=[x,y,z]` 以最小化 `x'^T Quv x'`，其中 `x'=[x,y,z,1]`。
+
+将 `Quv` 分块：
 ```
-A x = b
-A = Quv[0:3,0:3]
-b = -Quv[0:3,3]
+[ A  b ]
+[ b^T c ]
 ```
+其中 `A` 为 3×3，`b` 为 3×1，`c` 为标量。
+则最优解 `x*` 满足 `A x = -b`。
 
-If `A` is singular or ill-conditioned, we fallback to the midpoint `(pu + pv)/2`.
+- 若 `A` 可逆（条件良好），使用小规模高斯消元（带部分选主元）求解；
+- 若退化/病态，回退为边中点 `m = 0.5*(pu+pv)`。
 
-The collapse cost is then `E([x,1])` evaluated by `quadric_eval`.
+坍塌代价定义为在所选位置 `x` 处评估的 `cost = x'^T Quv x'`。
 
-## Main Loop Mechanics
+## 3）坍塌主循环
 
-1) Build `Q[v]` per vertex by iterating faces; positions with zero-area faces are culled early (`face_alive=false`).
-2) Build adjacency `adj[v]` as an unordered set of neighbor vertex indices.
-3) Initialize a min-heap of candidate edges by pushing `(u, v)` for `u < v` with their initial costs.
-4) While `faces_current > target && !heap.empty() && collapsed < max_collapses`:
-   - Respect `time_limit` (seconds) and break if exceeded.
-   - Pop the lowest-cost edge `(u, v)`; skip if either vertex is dead or no longer neighbors.
-   - Move `u` to the new position (midpoint in v1); merge `Q[u] += Q[v]`; mark `v` dead.
-   - Rewire adjacency: neighbors of `v` now connect to `u`.
-   - Update faces: replace `v` with `u` and drop degenerate ones (duplicate indices).
-   - Push updated candidate edges around `u` back into the heap.
+数据结构：
+- 最小堆（使用优先队列反转比较器）存储候选边 `(u,v,cost)`；
+- 面-边邻接；每次更新后，局部重建 u 周围的候选边。
 
-5) After the loop, compact vertices and faces:
-   - Build a `remap[]` from old vertex IDs to new compacted IDs.
-   - Copy surviving vertices and faces into fresh arrays.
+流程：
+1) 弹出当前代价最低的边；
+2) 校验 `u,v` 仍然有效且该边仍存在（未被此前坍塌影响移除）；
+3) 计算或复用该边的 `x` 与 `cost`。v1 不启用额外质量拒绝（保持简单稳健）；
+4) 执行 `v -> u` 坍塌：
+   - 将 `pu` 设为 `x`（实现中默认使用中点以增强稳健性），
+   - `Qu = Qu + Qv`，
+   - 将与 `v` 相连的面改指向 `u`，删除退化面，更新邻接，
+   - 标记 `v` 为移除；
+5) 以 `u` 为中心，重新计算并压入新的候选边；
+6) 达到目标面数，或超过限制（坍塌次数/时间）即停止。
 
-## Numerical Guardrails
+最终对顶点与面数组做压缩（compaction）并重编号。
 
-- Degenerate faces (area < 1e-12) are ignored when building quadrics; this keeps `Q` bounded.
-- Partial pivoting in `solve3` handles common near-singular cases.
-- Midpoint fallback avoids noisy solutions; the cost still reflects merged `Q`.
+## 4）复杂度分析
 
-## Complexity Notes
+- 构建二次型：O(F)。
+- 堆操作：每次坍塌更新 O(deg) 条边；整体近似 O(E log E)。
+- 实际中，因更新局部化、平均度数有限，常呈近线性表现。
 
-- Each collapse updates adjacency and potentially pushes O(deg(u)) edges back into the heap.
-- With a binary heap, push/pop is `O(log E)` where `E` is the number of edges in the current graph.
-- Overall, practical performance is good for small-to-medium meshes; for very large ones, prefer the C++ backend (this native code) via the Python adapter.
+## 5）护栏与稳健性
 
-## Quality Tweaks (Future Work)
+- 构建阶段跳过零面积面，避免 NaN/Inf；
+- 位置求解遇到奇异 `A` 回退中点，保证稳定；
+- 启用时间限制：在有效状态下提前返回“部分简化”的网格；
+- 坍塌后检测并移除退化面，维持连通性正确。
 
-- Use the solved optimal position `x` (instead of midpoint) for better fidelity.
-- Add boundary preservation by detecting boundary edges and restricting collapses.
-- Integrate normal/UV attribute reprojection post-collapse.
-- Add triangle flip checks by monitoring orientation.
+## 6）与 Python 后端的关系
 
----
+- 数学与循环语义保持一致；
+- 原生后端默认以中点作为回写位置（更稳），Python 版可灵活切换中点/最优 `x*`；
+- 原生后端 stdout 输出最小化、可解析；进度在 stderr 输出。
+
+## 7）v1 已知限制
+
+- 仅三角（OBJ）I/O，不保留属性（法线/UV 等）；
+- 暂无边界/特征加权、翻面检测、自交检查；
+- 单线程实现。
+
+## 8）路线图摘要
+
+- 属性传递与重投影（尤其 UV 接缝）；
+- 边界敏感与特征感知的代价；
+- 翻面检测与基础形状质量控制；
+- 多网格并行与批处理工具链。
