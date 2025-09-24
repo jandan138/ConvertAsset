@@ -25,5 +25,15 @@
 ## 6) 参考与外链（References）
 - 文档：`references.md`
 
+## 7) 网格简化（Mesh Simplification）
+- 分类索引：`mesh/README.md`
+- 内容：
+	- 概览：`mesh/overview.md`
+	- 算法（Python QEM）：`mesh/algorithm_qem.md`
+	- CLI 用法：`mesh/cli_usage.md`
+	- 性能与限制：`mesh/performance_and_limits.md`
+	- 路线图：`mesh/roadmap.md`
+	- 面数统计：`mesh/face_counting.md`
+
 ——
 维护约定：新增文档请归入上述分类，并在对应分类索引中登记；如出现新主题，可新增分类目录与索引。
