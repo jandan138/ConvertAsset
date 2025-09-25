@@ -43,6 +43,100 @@
    - 方案 B：保持 `STRICT_VERIFY=True` 但设 `IGNORE_EXTERNAL_MDL_IF_MISSING_CHILDREN=True` 仅对缺失引用外部放宽。
 5. 最终期望：所有缺失引用消失；`root_owned_*` 与 `external_*` 统计都为 0；`reason=strict-pass`。
 
+## 5+. 代码前后对比：几种常见失败的直接修复示例
+
+以下片段可单独在 Python 环境中运行，帮助快速验证/修复。
+
+### A) 启用详细诊断（捕获 missing 与残留分布）
+
+```python
+from pxr import Usd
+from convert_asset.no_mdl import config
+from convert_asset.no_mdl.materials import verify_no_mdl_report
+
+config.PRINT_DIAGNOSTICS = True  # 或在运行前写入配置文件
+stage = Usd.Stage.Open(USD_PATH)
+rep = verify_no_mdl_report(stage)
+print(rep)
+# 观察: rep['mdl_shaders_local'], rep['mdl_outputs_external'] 等，用于定位根因
+```
+
+### B) 切换到“根层干净即可通过”的宽松验证
+
+```python
+from convert_asset.no_mdl import config
+
+config.STRICT_VERIFY = False
+config.ALLOW_EXTERNAL_MDL_SHADERS = True
+config.ALLOW_EXTERNAL_MDL_OUTPUTS = True
+# 重新运行 no-mdl 生成流程后，若 root 层已干净，整体将判定为通过
+```
+
+若仍需严格但当前存在缺失引用，可选择：
+
+```python
+from convert_asset.no_mdl import config
+
+config.STRICT_VERIFY = True
+config.IGNORE_EXTERNAL_MDL_IF_MISSING_CHILDREN = True
+# 在 missing children 非零且 root 层干净时，放宽外部残留导致的失败
+```
+
+### C) 只在当前层“失活”外部 MDL Shader，使统计归零（可逆）
+
+适用：你只需通过严格校验，且不打算保留外部 MDL Shader 作为活跃节点。
+
+```python
+from pxr import Usd
+
+stage = Usd.Stage.Open(USD_PATH)
+
+EXTERNAL_MDL_SHADER_PATHS = [
+   # 按需粘贴问题日志中的外部 MDL Shader prim 路径（如 /Looks/MatX/MDLShader_0）
+]
+
+for p in EXTERNAL_MDL_SHADER_PATHS:
+   stage.OverridePrim(p).SetActive(False)
+
+stage.GetRootLayer().Save()
+# 说明：这不会修改外部原文件，只在当前层打一个 inactive 覆盖；统计时将被跳过
+```
+
+等价于启用项目配置：
+
+```python
+from convert_asset.no_mdl import config
+config.DEACTIVATE_EXTERNAL_MDL_SHADERS = True
+```
+
+若还需彻底删除（不可逆，需重新生成恢复）：
+
+```python
+from convert_asset.no_mdl import config
+config.CLEAN_DELETE_EXTERNAL_MDL_SHADERS = True
+```
+
+### D) 只读层导致的属性删除失败：在本层建立 override 再移除连接
+
+```python
+from pxr import Usd, UsdShade
+
+stage = Usd.Stage.Open(USD_PATH)
+mat_path = '/Root/Looks/SomeMat'  # 根据日志定位
+
+# 1) 建立本层 override，绕过只读源层
+stage.OverridePrim(mat_path)
+mat = UsdShade.Material(stage.GetPrimAtPath(mat_path))
+
+# 2) 清理 MDL 输出连接
+out_mdl = mat.GetSurfaceOutput('mdl')
+if out_mdl:
+   out_mdl.GetAttr().SetConnections([])
+
+# 3) 如仍需 Block 属性名（outputs:mdl:surface 等），可由 API 创建后 Block（参见 materials.remove_material_mdl_outputs 内逻辑）
+stage.GetRootLayer().Save()
+```
+
 ## 6. 何时谨慎使用 override 外部材质
 暂未实装自动 override；若未来启用：
 - 仅在外部共享资源不计划回写、且渲染链路要求强行消除 MDL 时考虑。

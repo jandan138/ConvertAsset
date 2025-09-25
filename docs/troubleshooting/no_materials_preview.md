@@ -44,6 +44,131 @@
 
 > 这样：即便外部文件没被修改，顶层组合时也“看见”一个有 `outputs:surface` 的 Preview 版本——材质不再灰。
 
+## 5. 代码前后对比（可直接复制运行）
+
+以下示例演示三类“从灰到可见”的最小化修复步骤，均基于项目内现成 API（`convert_asset.no_mdl.materials`）。
+
+提示：将示例中的 `USD_PATH`/`MAT_PATH` 替换为你场景中的实际路径后运行即可。
+
+### 5.1 给只有 MDL 的本地材质补建 PreviewSurface 并接管 outputs:surface
+
+- Before（典型症状）
+  - 该 Material 只有 `outputs:surface:mdl` 连接，缺少通用 `outputs:surface` 或未连接。
+
+```python
+from pxr import Usd, UsdShade
+
+stage = Usd.Stage.Open(USD_PATH)
+mat   = UsdShade.Material(stage.GetPrimAtPath(MAT_PATH))
+
+print('has mdl out?', bool(mat.GetSurfaceOutput('mdl')))
+out_def = mat.GetSurfaceOutput()
+print('def surface connected?', bool(out_def and out_def.HasConnectedSource()))
+# 输出通常为: True / False  —— 即只有 MDL，没有通用 surface
+```
+
+- After（修复：创建 Preview 网络 + 改接线）
+
+```python
+from pxr import Usd, UsdShade, Sdf
+from convert_asset.no_mdl.materials import ensure_preview
+
+stage = Usd.Stage.Open(USD_PATH)
+mat   = UsdShade.Material(stage.GetPrimAtPath(MAT_PATH))
+
+prev = ensure_preview(stage, mat)  # 创建 PreviewSurface/UV/纹理骨架
+# 将通用 outputs:surface 指向 PreviewSurface
+mat.CreateSurfaceOutput().ConnectToSource(prev.CreateOutput('surface', Sdf.ValueTypeNames.Token))
+
+stage.GetRootLayer().Save()
+```
+
+运行后再次检查 `mat.GetSurfaceOutput().HasConnectedSource()` 应为 True，渲染不再灰。
+
+### 5.2 对“外部引用材质”在当前层 override 并构建可见 Preview（不改外部文件）
+
+- Before（典型症状）
+  - 材质来自 referenced/payload/sublayer/variant 的外部文件；顶层看不到它的 Preview，呈灰色。
+
+```python
+from pxr import Usd, UsdShade
+
+stage = Usd.Stage.Open(USD_PATH)
+mat   = UsdShade.Material(stage.GetPrimAtPath(MAT_PATH))
+
+print('owned by root layer?', stage.GetEditTarget().GetLayer().GetPrimAtPath(mat.GetPath()) is not None)
+# 通常为 False，说明该 prim 的定义不在当前 root layer
+```
+
+- After（修复：override + 复制贴图 + 接线）
+
+```python
+from pxr import Usd, UsdShade
+from convert_asset.no_mdl.materials import ensure_preview, find_mdl_shader, copy_textures, connect_preview
+
+stage = Usd.Stage.Open(USD_PATH)
+
+# 1) 在当前输出层对该材质建立 override（不会修改外部原文件）
+stage.OverridePrim(MAT_PATH)
+mat = UsdShade.Material(stage.GetPrimAtPath(MAT_PATH))
+
+# 2) 定位外部材质上挂的 MDL Shader（若有）
+mdl = find_mdl_shader(mat)
+
+# 3) 构建 Preview 网络骨架
+prev = ensure_preview(stage, mat)
+
+# 4) 从 MDL pin 或 .mdl 文本复制/解析贴图与常量
+filled, has_c, c_rgb, bc_tex = copy_textures(stage, mdl, mat)
+
+# 5) 将已抽取的信息接线到 PreviewSurface
+connect_preview(stage, mat, filled, has_c, c_rgb, bc_tex)
+
+stage.GetRootLayer().Save()
+```
+
+完成后，即使外部文件未改，当前 *_noMDL.usd 层也提供了一个可渲染的 `outputs:surface`，顶层不再是灰色。
+
+### 5.3 移除/屏蔽 MDL 输出并兜底创建最小 PreviewSurface
+
+- Before（典型症状）
+  - 我们已经断开/删除了 MDL，但该材质仍没有任何通用 `outputs:surface`，渲染器回退到灰色。
+
+```python
+from pxr import Usd, UsdShade
+
+stage = Usd.Stage.Open(USD_PATH)
+mat   = UsdShade.Material(stage.GetPrimAtPath(MAT_PATH))
+
+print('has mdl out?', bool(mat.GetSurfaceOutput('mdl')))
+out_def = mat.GetSurfaceOutput()
+print('def surface connected?', bool(out_def and out_def.HasConnectedSource()))
+# 通常: has mdl out? False 但 def surface connected? 也 False
+```
+
+- After（修复：清理 MDL 输出 + 确保最小可渲染 surface）
+
+```python
+from pxr import Usd, UsdShade
+from convert_asset.no_mdl.materials import remove_material_mdl_outputs, ensure_surface_output
+
+stage = Usd.Stage.Open(USD_PATH)
+
+# 1) 尽可能移除/Block 所有 MDL 输出属性与连接（包含实例/变体下的处理与 override 兜底）
+remove_material_mdl_outputs(stage)
+
+# 2) 若该材质缺少通用 surface，则自动补一个最小 PreviewSurface（可配置基础色）
+mat = UsdShade.Material(stage.GetPrimAtPath(MAT_PATH))
+ensure_surface_output(stage, mat, base_color=(0.18, 0.18, 0.18))
+
+stage.GetRootLayer().Save()
+```
+
+若你的场景存在“只读层/实例化”导致的 Block 失败，本项目已内置多层次重试策略：
+- Break instance（`prim.SetInstanceable(False)`）再 Block；
+- 建立 override spec 后在本层 Block；
+- 最后兜底强制写入一个可 Block 的 attr 并打上 `customData.noMDL_forced_block=True` 标记。
+
 ## 6. 指标演进示例
 | 指标 | 灰问题前 | 解决后 | 说明 |
 |------|----------|--------|------|
