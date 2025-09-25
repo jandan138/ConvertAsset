@@ -20,6 +20,23 @@
 
 > 可执行文件路径通常为：`/opt/my_dev/ConvertAsset/native/meshqem/build/meshqem`
 
+上述四条命令详解：
+- `mkdir -p native/meshqem/build`：创建构建目录（-p 确保多级目录存在即不报错）。
+- `cd native/meshqem/build`：进入构建目录，避免把中间产物写到源码目录。
+- `cmake -DCMAKE_BUILD_TYPE=Release ..`：生成构建系统
+  - `..` 表示以上一级（`native/meshqem`）为源码根；
+  - `-DCMAKE_BUILD_TYPE=Release` 启用优化（等价于 `-O3`），适合跑减面；如需调试可改为 `Debug`；
+  - 可选：指定生成器（如已装 Ninja），使用 `-G Ninja` 提升构建速度。
+- `cmake --build . -j`：实际编译
+  - `.` 指当前构建目录；
+  - `-j` 开启并行编译，CPU 核数越多越快；
+  - 成功后会在本目录生成可执行文件 `meshqem`（有时需 `chmod +x meshqem` 才能运行）。
+
+常见构建问题：
+- “找不到 C++17 编译器”：请安装 gcc/g++ 9+ 或 clang 10+；
+- “生成器不可用”：若未安装 Ninja，请去掉 `-G Ninja`；
+- “权限不足”：在容器或共享目录中，确保对 `build` 目录有写权限。
+
 ## 快速上手：三步走
 1) 运行简化（从 Python CLI 调 C++）：
    ```bash
@@ -32,12 +49,22 @@
      --time-limit 30 --progress
    ```
 2) 观察输出：
-   - `stdout` 两行摘要（Python 会解析这两行）：
+   - `stdout` 两行摘要（Python 会解析这两行，格式固定用于机器读取）：
      ```
      faces: <before> -> <after>
      verts: <before> -> <after>
      ```
-   - `stderr` 周期性进度（每 N 次坍塌一条）。
+     说明：
+     - `<before>` 和 `<after>` 分别是本次网格简化前后的“面数/点数”；
+     - 只有这两行会出现在 stdout，便于稳定解析；若缺失，通常表示执行失败或未走到简化阶段；
+     - Python 侧会按空格分割，取第 2、4 个字段（示例代码见下文）。
+   - `stderr` 周期性进度（每 N 次坍塌一条）
+     - 用于人工观察，例如“已坍塌多少条边、当前剩余面数、耗时”等；
+     - 进度行不保证稳定格式，不建议依赖脚本解析；
+     - 若你看不到进度，可能是 `--progress-interval` 太大或网格很小。
+   - 退出码：
+     - 成功返回 0；非 0 表示 I/O 或参数错误、或内部异常；
+     - 失败时 stderr 通常包含出错原因，stdout 可能为空或不完整。
 3) 查看结果：输出路径 `--out /tmp/scene_simplified.usd`。
 
 如果你只想“算个建议比率”（不真正跑 C++），可以用规划模式（不传 `--apply`）：
@@ -86,7 +113,15 @@ args = [
     "--time-limit", "30",
     "--progress-interval", "20000",
 ]
-res = subprocess.run(args, capture_output=True, text=True, check=False)
+res = subprocess.run(
+  args,
+  capture_output=True,  # 捕获 stdout/stderr 到内存，便于后续解析与打印
+  text=True,            # 将字节流解码为字符串（使用系统默认编码，通常是 UTF-8）
+  check=False           # 不自动抛异常；我们用 returncode 自己判断并处理错误
+  # timeout=60,         # 可选：对子进程加一个“外层超时”（秒），与 C++ 的 --time-limit 互补
+  # cwd="/tmp",          # 可选：子进程的工作目录（默认继承父进程）
+  # env=os.environ,     # 可选：自定义环境变量（例如 PATH、LD_LIBRARY_PATH）
+)
 
 # 解析 stdout 两行摘要
 before_faces = after_faces = before_verts = after_verts = None
@@ -107,6 +142,13 @@ print("faces:", before_faces, "->", after_faces)
 print("verts:", before_verts, "->", after_verts)
 
 # 若需要应用结果：读取 /tmp/out.obj，写回到 USD（项目里已有现成实现）
+
+# 额外说明：
+# - args 以“列表”形式传给 subprocess.run 时，无需额外转义/拼接字符串，空格与特殊字符会被正确处理；
+# - 若改用字符串命令，建议配合 shlex.split 做安全分词；
+# - capture_output=True 适合少量输出；若输出非常大可改用 stdout/stderr=PIPE 或直接继承父进程；
+# - check=True 会在返回码非 0 时抛出 CalledProcessError，适合你想走异常分支的场景；
+# - timeout 触发时会抛 TimeoutExpired，可结合 --time-limit 做双重保护（外杀进程、内控制算法）。
 ```
 
 要点：
