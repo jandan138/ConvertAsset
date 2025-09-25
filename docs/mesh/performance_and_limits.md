@@ -1,13 +1,18 @@
-# Performance and Limits
+# 性能与限制（Python 后端）
 
-Python backend is intentionally simple and dependency-free. It is suitable for:
-- Prototyping and visual checks
-- Small to medium meshes
-- Bounded-time runs using `--time-limit`
+Python 实现刻意保持“简单、零依赖”，适用场景：
+- 原型验证、质量目测；
+- 小到中等规模网格的离线处理；
+- 通过 `--time-limit` 做有上限的受控运行。
 
-Tips:
-- Start with a conservative `--ratio` (e.g., 0.9 or 0.7) to validate pipeline and evaluate quality.
-- Use `--time-limit` to ensure large meshes do not stall sessions; the run will continue with other meshes.
-- Combine dry-run planning and per-mesh progress output to reduce surprises.
+使用建议：
+- 从保守的 `--ratio` 开始（如 0.9 或 0.7），逐步下探；
+- 为大场景设置 `--time-limit`，保证不会卡住整场；
+- 结合 dry-run 规划与进度输出，减少预期外的结果波动。
 
-For large scenes or aggressive decimation, prefer the C++ backend.
+与代码行为的对应：
+- 命中 `time_limit_seconds` 时，会提前结束当前网格的简化，但返回“部分简化”的合法结果（见 `qem_simplify()` 的循环判断）；
+- 失败或被跳过的网格不会阻断整场流程（遍历继续进行）；
+- dry-run 下对顶点数的估算是保守的（保持不变），实际 apply 后顶点数通常也会减少。
+
+大场景或激进减面：请优先考虑 C++ 后端（详见 `../native_meshqem/`）。

@@ -1,20 +1,22 @@
-# Mesh Simplification (Python QEM Backend)
+# Mesh 减面（Python QEM 后端）
 
-This section documents the pure-Python QEM (Quadric Error Metrics) mesh simplifier implemented in `convert_asset/mesh/simplify.py`.
+这里是 Python 版 QEM（Quadric Error Metrics）三角网格减面的完整文档，代码实现位于 `convert_asset/mesh/simplify.py`，配套的人脸数统计在 `convert_asset/mesh/faces.py`。
 
-- Overview: high-level goals and constraints
-- Algorithm: how QEM is computed and applied
-- CLI usage: commands and options
-- Performance tips and limits
-- Roadmap: potential enhancements
-- Face counting: how face totals are computed from USD meshes
+你能在这里找到：
+- 概览：目标、范围与数据流
+- 算法：QEM 的数学与代码要点
+- 命令行：如何运行与参数详解
+- 性能与限制：如何调优、边界与对比
+- 规划与路线：下一步准备做什么
+- 面数统计：如何从 USD Mesh 统计总面数
 
-Links:
-- [Overview](./overview.md)
-- [QEM Algorithm (Python)](./algorithm_qem.md)
-- [CLI Usage (Python backend)](./cli_usage.md)
-- [Performance and Limits](./performance_and_limits.md)
-- [Roadmap](./roadmap.md)
-- [Face Counting](./face_counting.md)
+文档索引：
+- [概览（Overview）](./overview.md)
+- [QEM 算法（Python 参考实现）](./algorithm_qem.md)
+- [命令行用法（Python 后端）](./cli_usage.md)
+- [性能与限制](./performance_and_limits.md)
+- [路线图](./roadmap.md)
+- [面数统计](./face_counting.md)
 
-See also: `../architecture/README.md` for the overall tool architecture and `../changes/` for change logs.
+相关：
+- 原生 C++ 后端与适配文档见 `../native_meshqem/`。
