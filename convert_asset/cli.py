@@ -3,7 +3,11 @@
 import os
 import sys
 import argparse
-from .no_mdl.path_utils import _to_posix
+try:
+    from .no_mdl.path_utils import _to_posix  # noqa: F401
+except Exception:  # noqa
+    def _to_posix(p: str) -> str:
+        return p.replace('\\', '/')
 from .mesh.faces import count_mesh_faces
 
 
@@ -32,6 +36,12 @@ def main(argv: list[str] | None = None) -> int:
     p_simpl.add_argument("--time-limit", type=float, default=None, help="Per-mesh time limit in seconds (abort mesh when exceeded)")
     p_simpl.add_argument("--backend", choices=["py","cpp"], default="py", help="Simplifier backend: pure Python ('py') or native C++ ('cpp')")
     p_simpl.add_argument("--cpp-exe", default="native/meshqem/build/meshqem", help="Path to C++ meshqem executable when --backend=cpp")
+
+    p_inspect = sub.add_parser("inspect", help="Inspect a Material's MDL or UsdPreviewSurface network")
+    p_inspect.add_argument("src", help="Path to USD file")
+    p_inspect.add_argument("mode", choices=["mdl", "usdpreview"], help="Inspection mode: mdl or usdpreview")
+    p_inspect.add_argument("prim", help="Material prim path (e.g. /Root/Looks/Mat001)")
+    p_inspect.add_argument("--json", action="store_true", help="Output JSON (future placeholder)")
 
     # If no subcommand provided, default to no-mdl for convenience
     args_ns, extras = parser.parse_known_args(argv)
@@ -177,6 +187,26 @@ def main(argv: list[str] | None = None) -> int:
         if apply and out:
             print("Exported:", out)
         return 0
+
+    if args_ns.cmd == "inspect":
+        src = _to_posix(args_ns.src)
+        if not os.path.exists(src):
+            print("Not found:", src)
+            return 2
+        try:
+            from pxr import Usd  # type: ignore
+            from .inspect_material import inspect_material, format_inspect_result
+            stage = Usd.Stage.Open(src)
+            if stage is None:
+                print("Failed to open stage:", src)
+                return 3
+            data = inspect_material(stage, args_ns.prim, args_ns.mode)
+            # (Optional future) JSON output path or stdout
+            print(format_inspect_result(data))
+            return 0 if data.get("ok") else 4
+        except RuntimeError as e:
+            print("ERROR:", e)
+            return 3
 
     parser.print_help()
     return 1
