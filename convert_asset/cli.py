@@ -43,6 +43,33 @@ def main(argv: list[str] | None = None) -> int:
     p_inspect.add_argument("prim", help="Material prim path (e.g. /Root/Looks/Mat001)")
     p_inspect.add_argument("--json", action="store_true", help="Output JSON (future placeholder)")
 
+    p_camfit = sub.add_parser("camera-fit", help="Create a fitted camera into a USD and export")
+    p_camfit.add_argument("src", help="Path to USD file (input)")
+    p_camfit.add_argument("out", help="Path to USD file (output with new camera)")
+    p_camfit.add_argument("prim", help="Target prim path to frame")
+    p_camfit.add_argument("--source-camera", dest="source_camera", default=None, help="Existing camera prim to inherit rotation; if omitted, first camera in stage or world basis")
+    p_camfit.add_argument("--fov-h", dest="fov_h", type=float, default=55.0, help="Horizontal FOV degrees (default 55)")
+    p_camfit.add_argument("--aspect", type=float, default=16.0/9.0, help="Aspect ratio (default 16/9)")
+    p_camfit.add_argument("--padding", type=float, default=1.08, help="Frame padding multiplier (default 1.08)")
+    p_camfit.add_argument("--backoff", type=float, default=0.3, help="Backoff multiplier after fit (default 0.3)")
+    p_camfit.add_argument("--focal-mm", dest="focal_mm", type=float, default=35.0, help="Focal length (mm) used with FOV to compute film aperture")
+    p_camfit.add_argument("--near", dest="near_clip", type=float, default=0.01, help="Near clip")
+    p_camfit.add_argument("--far", dest="far_clip", type=float, default=10000.0, help="Far clip")
+    p_camfit.add_argument("--basename", dest="basename", default="/World/AutoCamInherit", help="Camera prim basename")
+    p_camfit.add_argument("--pitch-deg", dest="pitch_deg", type=float, default=0.0, help="Pitch down degrees (positive pitches down, rotate around camera right axis)")
+    p_camfit.add_argument("--height-mode", dest="height_mode", choices=["bbox_z","bbox_max","bbox_diag","abs"], default="bbox_z", help="Height offset mode")
+    p_camfit.add_argument("--height", dest="height_value", type=float, default=0.5, help="Height offset value (ratio for relative modes, absolute units for 'abs')")
+
+    p_camorbit = sub.add_parser("camera-orbit", help="Author a per-frame orbit camera and export a USD")
+    p_camorbit.add_argument("src", help="Path to USD file (input)")
+    p_camorbit.add_argument("out", help="Path to USD file (output with animated camera)")
+    p_camorbit.add_argument("prim", help="Target prim path to orbit around")
+    p_camorbit.add_argument("--source-camera", dest="source_camera", default=None, help="Existing camera prim to copy intrinsics from")
+    p_camorbit.add_argument("--shots", dest="shots", type=int, default=10, help="Number of shots (frames)")
+    p_camorbit.add_argument("--start-deg", dest="start_deg", type=float, default=0.0, help="Start angle degrees")
+    p_camorbit.add_argument("--cw", dest="cw", action="store_true", help="Rotate clockwise (default CCW)")
+    p_camorbit.add_argument("--radius-scale", dest="radius_scale", type=float, default=1.0, help="Radius scale multiplier")
+
     # If no subcommand provided, default to no-mdl for convenience
     args_ns, extras = parser.parse_known_args(argv)
     if args_ns.cmd is None:
@@ -204,6 +231,71 @@ def main(argv: list[str] | None = None) -> int:
             # (Optional future) JSON output path or stdout
             print(format_inspect_result(data))
             return 0 if data.get("ok") else 4
+        except RuntimeError as e:
+            print("ERROR:", e)
+            return 3
+
+    if args_ns.cmd == "camera-fit":
+        src = _to_posix(args_ns.src)
+        out = _to_posix(args_ns.out)
+        if not os.path.exists(src):
+            print("Not found:", src)
+            return 2
+        try:
+            from .camera.fit import FitParams, fit_camera_and_export
+            params = FitParams(
+                target_prim_path=str(args_ns.prim),
+                source_camera_path=str(args_ns.source_camera) if args_ns.source_camera else None,
+                fov_h_deg=float(args_ns.fov_h),
+                aspect=float(args_ns.aspect),
+                padding=float(args_ns.padding),
+                backoff=float(args_ns.backoff),
+                focal_mm=float(args_ns.focal_mm),
+                near_clip=float(args_ns.near_clip),
+                far_clip=float(args_ns.far_clip),
+                camera_basename=str(args_ns.basename),
+                pitch_down_deg=float(args_ns.pitch_deg),
+                height_offset_mode=str(args_ns.height_mode),
+                height_offset_value=float(args_ns.height_value),
+            )
+            res = fit_camera_and_export(src, out, params)
+            print("=== camera-fit ===")
+            print("Out stage   :", out)
+            print("Camera prim :", res.camera_prim_path)
+            print("Target prim :", args_ns.prim)
+            print("Center      :", res.center)
+            print("Size xyz    :", res.size_xyz)
+            print("Aspect/FOV  :", res.aspect, res.fov_h_deg, res.fov_v_deg)
+            print("Distance    :", res.distance)
+            print("Eye         :", res.eye)
+            return 0
+        except RuntimeError as e:
+            print("ERROR:", e)
+            return 3
+
+    if args_ns.cmd == "camera-orbit":
+        src = _to_posix(args_ns.src)
+        out = _to_posix(args_ns.out)
+        if not os.path.exists(src):
+            print("Not found:", src)
+            return 2
+        try:
+            from .camera.orbit import OrbitParams, create_orbit_camera_animation_and_export
+            params = OrbitParams(
+                target_prim_path=str(args_ns.prim),
+                source_camera_path=str(args_ns.source_camera) if args_ns.source_camera else None,
+                num_shots=int(args_ns.shots),
+                start_deg=float(args_ns.start_deg),
+                cw_rotate=bool(args_ns.cw),
+                radius_scale=float(args_ns.radius_scale),
+            )
+            cam_path = create_orbit_camera_animation_and_export(src, out, params)
+            print("=== camera-orbit ===")
+            print("Out stage   :", out)
+            print("Camera prim :", cam_path)
+            print("Target prim :", args_ns.prim)
+            print("Frames      :", int(args_ns.shots))
+            return 0
         except RuntimeError as e:
             print("ERROR:", e)
             return 3
