@@ -40,6 +40,32 @@ cd /opt/my_dev/ConvertAsset
 
 更多细节见：`docs/inspect_material.md`
 
+### 新增：导出本文件内的 MDL 材质为独立材质球 USD（含贴图连接）
+
+该命令将遍历 MDL 材质并为每个材质创建一个独立的 UsdPreviewSurface 材质 USD 文件。
+
+```
+/isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/main.py export-mdl-materials \
+	/abs/path/to/scene.usd \
+	--out-dir-name mdl_materials \
+	--placement authoring \  # 将材质球写到“材质定义所在的最小子文件”的同目录（默认）
+	# --placement root      # 将材质球统一写到“场景顶层文件”的同目录
+	# --no-external         # 仅导出根层作者的材质，忽略外部引用
+	# --binary              # 可选，写 .usd（默认 .usda）
+```
+
+导出结果示例：
+- 输入：`/data/scene.usd`
+- 输出：`/data/mdl_materials/<MaterialName>.usda`
+
+更多细节见：`docs/export_mdl_materials.md`
+
+注意：
+- 默认 `--placement authoring` 会把每个材质球写到该材质“作者层”（通常是最小子 USD）的同级目录下的 `--out-dir-name` 子目录中，因此不会和场景顶层 USD 放在同一个目录；这正是避免混放的推荐方式。
+- 若你希望统一输出在顶层 USD 目录，可切换 `--placement root`。
+- `--no-external` 可用于只导出根层拥有/定义的材质。
+- 导出过程会自动搭建预览网络并尽可能复用/解析 MDL 贴图路径（BaseColor / Roughness / Metallic / Normal）。
+
 ## 配置
 
 修改 `convert_asset/no_mdl/config.py` 中的参数，例如：

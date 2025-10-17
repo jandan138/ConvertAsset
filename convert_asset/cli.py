@@ -43,6 +43,16 @@ def main(argv: list[str] | None = None) -> int:
     p_inspect.add_argument("prim", help="Material prim path (e.g. /Root/Looks/Mat001)")
     p_inspect.add_argument("--json", action="store_true", help="Output JSON (future placeholder)")
 
+    p_export = sub.add_parser("export-mdl-materials", help="Export MDL materials in this file into standalone material USDs")
+    p_export.add_argument("src", help="Path to USD file")
+    p_export.add_argument("--out-dir-name", default="mdl_materials", help="Folder name under the file's directory to place exported materials")
+    p_export.add_argument("--binary", action="store_true", help="Write .usd binary instead of .usda ascii")
+    p_export.add_argument("--placement", choices=["authoring", "root"], default="authoring", help="Where to place exports: alongside the authoring (weakest) layer of each material, or under root file directory")
+    p_export.add_argument("--no-external", action="store_true", help="Only export materials authored in root layer (skip externally referenced ones)")
+    p_export.add_argument("--mode", choices=["mdl", "preview"], default="mdl", help="Export mode: 'mdl' preserves MDL shader and outputs, 'preview' builds UsdPreviewSurface network")
+    p_export.add_argument("--emit-ball", action="store_true", help="Also write a small preview scene with a bound sphere next to each exported material")
+    p_export.add_argument("--assets-path-mode", choices=["relative", "absolute"], default="relative", help="Rewrite asset paths as relative (default) or absolute in exported materials")
+
     p_camfit = sub.add_parser("camera-fit", help="Create a fitted camera into a USD and export")
     p_camfit.add_argument("src", help="Path to USD file (input)")
     p_camfit.add_argument("out", help="Path to USD file (output with new camera)")
@@ -231,6 +241,39 @@ def main(argv: list[str] | None = None) -> int:
             # (Optional future) JSON output path or stdout
             print(format_inspect_result(data))
             return 0 if data.get("ok") else 4
+        except RuntimeError as e:
+            print("ERROR:", e)
+            return 3
+
+    if args_ns.cmd == "export-mdl-materials":
+        src = _to_posix(args_ns.src)
+        if not os.path.exists(src):
+            print("Not found:", src)
+            return 2
+        try:
+            from pxr import Usd  # type: ignore
+            from .export_mdl_materials import export_from_stage
+            stage = Usd.Stage.Open(src)
+            if stage is None:
+                print("Failed to open stage:", src)
+                return 3
+            results = export_from_stage(
+                stage,
+                out_dir_name=args_ns.out_dir_name,
+                ascii_usd=(not args_ns.binary),
+                placement=args_ns.placement,
+                include_external=(not args_ns.no_external),
+                export_mode=args_ns.mode,
+                emit_ball=args_ns.emit_ball,
+                assets_path_mode=args_ns.assets_path_mode,
+            )
+            if not results:
+                print("No MDL materials in root layer were found. Nothing exported.")
+                return 4
+            print("Exported materials:")
+            for mpath, fpath in results:
+                print(" ", mpath, "->", fpath)
+            return 0
         except RuntimeError as e:
             print("ERROR:", e)
             return 3
