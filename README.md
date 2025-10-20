@@ -58,7 +58,7 @@ cd /opt/my_dev/ConvertAsset
 - 输入：`/data/scene.usd`
 - 输出：`/data/mdl_materials/<MaterialName>.usda`
 
-更多细节见：`docs/export_mdl_materials.md`
+更多细节见：`docs/export_mdl_materials/`（入口：README.md；索引：INDEX.md）
 
 注意：
 - 默认 `--placement authoring` 会把每个材质球写到该材质“作者层”（通常是最小子 USD）的同级目录下的 `--out-dir-name` 子目录中，因此不会和场景顶层 USD 放在同一个目录；这正是避免混放的推荐方式。
