@@ -99,12 +99,12 @@ def main(argv: list[str] | None = None) -> int:
 
     if args_ns.cmd == "no-mdl":
         # Lazy import to avoid requiring pxr unless actually running no-mdl conversion
-        # Optionally suppress sidecar outputs (summary/audit) to only write the new USD
-        if bool(getattr(args_ns, "only_new_usd", False)):
+        # Load processor module first to set runtime switches, then import class
+        only_new = bool(getattr(args_ns, "only_new_usd", False))
+        if only_new:
             try:
-                from .no_mdl import config as _cfg
-                _cfg.WRITE_SUMMARY_TXT = False
-                _cfg.WRITE_AUDIT_JSON = False
+                from .no_mdl import processor as _proc_mod  # type: ignore
+                _proc_mod.RUNTIME_ONLY_NEW_USD = True
             except Exception:
                 pass
         from .no_mdl.processor import Processor  # pylint: disable=import-error

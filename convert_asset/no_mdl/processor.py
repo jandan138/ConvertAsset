@@ -32,6 +32,9 @@ from .config import (
     DIAG_SAMPLE_LIMIT, FORCED_BLOCKED_WARN_THRESHOLD
 )
 
+# Runtime toggle: when True, suppress sidecar summary/audit outputs and only write the new *_noMDL.usd
+RUNTIME_ONLY_NEW_USD = False
+
 
 class Processor:
     """递归处理 USD，生成对应的 *_noMDL.usd。
@@ -276,7 +279,7 @@ class Processor:
             "final_export": t_final_export - t_convert,
             "verify": time.perf_counter() - t_final_export,
         }
-        if _is_root_call and WRITE_SUMMARY_TXT:
+        if _is_root_call and WRITE_SUMMARY_TXT and (not RUNTIME_ONLY_NEW_USD):
             try:
                 root_dir, root_base = os.path.split(src_usd_abs)
                 stem, _ext = os.path.splitext(root_base)
@@ -330,7 +333,7 @@ class Processor:
                 print("[SUMMARY][ERROR] failed to write summary txt:", e)
 
         # 写审计 JSON
-        if _is_root_call and WRITE_AUDIT_JSON:
+        if _is_root_call and WRITE_AUDIT_JSON and (not RUNTIME_ONLY_NEW_USD):
             try:
                 root_dir, root_base = os.path.split(src_usd_abs)
                 stem, _ext = os.path.splitext(root_base)
