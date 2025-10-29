@@ -75,6 +75,15 @@ convert_one() {
     shopt -u nullglob
     if [[ ${#matches[@]} -gt 0 ]]; then
       echo "[skip] ${usd} (found existing: ${matches[0]##*/})"
+      # log skip row
+      local start_epoch end_epoch dur status out_found out_name
+      start_epoch=$(date +%s)
+      end_epoch=$start_epoch
+      dur=0
+      status="skip"
+      out_found="yes"
+      out_name="${matches[0]}"
+      printf '%s,%s,%s,%s,%s,%s,%s,%s\n' "$RUN_ID" "$usd" "$start_epoch" "$end_epoch" "$dur" "$status" "$out_found" "$out_name" >> "$LOG_CSV" || true
       return 0
     fi
   fi
@@ -129,7 +138,7 @@ convert_one() {
 }
 
 export -f convert_one
-export SKIP_EXISTING ISAAC MAIN DRY_RUN
+export SKIP_EXISTING ISAAC MAIN DRY_RUN LIMIT TIMEOUT_SEC LOG_DIR LOG_CSV RUN_ID
 
 # Find all instance.usd
 mapfile -d '' files < <(find "$ROOT" -type f -name 'instance.usd' -print0)
