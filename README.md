@@ -14,6 +14,8 @@
 
 ```bash
 /isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/main.py no-mdl "/abs/path/to/top.usd"
+# 仅输出 *_noMDL.usd（不写旁路的 summary/audit 文件）
+/isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/main.py no-mdl "/abs/path/to/top.usd" --only-new-usd
 ```
 
 仍可使用旧脚本：

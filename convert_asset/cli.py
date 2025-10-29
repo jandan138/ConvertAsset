@@ -3,6 +3,7 @@
 import os
 import sys
 import argparse
+import math
 try:
     from .no_mdl.path_utils import _to_posix  # noqa: F401
 except Exception:  # noqa
@@ -20,6 +21,7 @@ def main(argv: list[str] | None = None) -> int:
 
     p_nomdl = sub.add_parser("no-mdl", help="Generate *_noMDL.usd siblings recursively")
     p_nomdl.add_argument("src", help="Path to top or single USD file")
+    p_nomdl.add_argument("--only-new-usd", action="store_true", help="Only write the new *_noMDL.usd; do not emit sidecar summary/audit files")
 
     p_faces = sub.add_parser("mesh-faces", help="Count total render mesh faces in a USD stage")
     p_faces.add_argument("src", help="Path to USD file")
@@ -79,6 +81,15 @@ def main(argv: list[str] | None = None) -> int:
     p_camorbit.add_argument("--start-deg", dest="start_deg", type=float, default=0.0, help="Start angle degrees")
     p_camorbit.add_argument("--cw", dest="cw", action="store_true", help="Rotate clockwise (default CCW)")
     p_camorbit.add_argument("--radius-scale", dest="radius_scale", type=float, default=1.0, help="Radius scale multiplier")
+    p_camorbit.add_argument("--vertical-steps", dest="vertical_steps", type=int, default=1, help="Number of vertical sweep steps (>=1, default keeps level)")
+    p_camorbit.add_argument("--vertical-sweep", dest="vertical_sweep", type=float, default=0.0, help="Total vertical sweep in degrees distributed across steps (0 keeps level)")
+    p_camorbit.add_argument("--vertical-center", dest="vertical_center", type=float, default=0.0, help="Center pitch in degrees for the sweep (0 looks at target center)")
+    p_camorbit.add_argument("--fallback-fov", dest="fallback_fov", type=float, default=55.0, help="Fallback horizontal FOV in degrees when no source camera is found")
+    p_camorbit.add_argument("--fallback-aspect", dest="fallback_aspect", type=float, default=16.0/9.0, help="Fallback aspect ratio when no source camera is found")
+    p_camorbit.add_argument("--fallback-padding", dest="fallback_padding", type=float, default=1.08, help="Safety padding multiplier applied to fitted orbit distance when no source camera is found")
+    p_camorbit.add_argument("--fallback-focal", dest="fallback_focal", type=float, default=35.0, help="Fallback focal length (mm) applied to new camera when no source camera is found")
+    p_camorbit.add_argument("--fallback-near", dest="fallback_near", type=float, default=0.01, help="Fallback near clip when no source camera is found")
+    p_camorbit.add_argument("--fallback-far", dest="fallback_far", type=float, default=10000.0, help="Fallback far clip when no source camera is found")
 
     # If no subcommand provided, default to no-mdl for convenience
     args_ns, extras = parser.parse_known_args(argv)
@@ -88,6 +99,14 @@ def main(argv: list[str] | None = None) -> int:
 
     if args_ns.cmd == "no-mdl":
         # Lazy import to avoid requiring pxr unless actually running no-mdl conversion
+        # Optionally suppress sidecar outputs (summary/audit) to only write the new USD
+        if bool(getattr(args_ns, "only_new_usd", False)):
+            try:
+                from .no_mdl import config as _cfg
+                _cfg.WRITE_SUMMARY_TXT = False
+                _cfg.WRITE_AUDIT_JSON = False
+            except Exception:
+                pass
         from .no_mdl.processor import Processor  # pylint: disable=import-error
         src = _to_posix(args_ns.src)
         if not os.path.exists(src):
@@ -331,13 +350,28 @@ def main(argv: list[str] | None = None) -> int:
                 start_deg=float(args_ns.start_deg),
                 cw_rotate=bool(args_ns.cw),
                 radius_scale=float(args_ns.radius_scale),
+                vertical_steps=int(args_ns.vertical_steps),
+                vertical_sweep_deg=float(args_ns.vertical_sweep),
+                vertical_center_deg=float(args_ns.vertical_center),
+                fallback_fov_deg=float(args_ns.fallback_fov),
+                fallback_aspect=float(args_ns.fallback_aspect),
+                fallback_padding=float(args_ns.fallback_padding),
+                fallback_focal_mm=float(args_ns.fallback_focal),
+                fallback_near_clip=float(args_ns.fallback_near),
+                fallback_far_clip=float(args_ns.fallback_far),
             )
             cam_path = create_orbit_camera_animation_and_export(src, out, params)
+            v_steps = max(1, int(args_ns.vertical_steps))
+            sweep_rad = math.radians(float(args_ns.vertical_sweep))
+            if v_steps <= 1 or abs(sweep_rad) < 1.0e-6:
+                total_frames = max(0, int(args_ns.shots))
+            else:
+                total_frames = max(0, int(args_ns.shots)) * v_steps
             print("=== camera-orbit ===")
             print("Out stage   :", out)
             print("Camera prim :", cam_path)
             print("Target prim :", args_ns.prim)
-            print("Frames      :", int(args_ns.shots))
+            print("Frames      :", total_frames)
             return 0
         except RuntimeError as e:
             print("ERROR:", e)
