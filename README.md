@@ -16,6 +16,8 @@
 /isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/main.py no-mdl "/abs/path/to/top.usd"
 # 仅输出 *_noMDL.usd（不写旁路的 summary/audit 文件）
 /isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/main.py no-mdl "/abs/path/to/top.usd" --only-new-usd
+
+提示：`--only-new-usd` 只是在本次运行中抑制生成旁路文件；如果目标目录里已存在旧的 `*_noMDL_summary.txt` / `*_noMDL_audit.json`，它们不会被删除。
 ```
 
 仍可使用旧脚本：
