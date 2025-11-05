@@ -55,41 +55,20 @@ def main(argv: list[str] | None = None) -> int:
     p_export.add_argument("--emit-ball", action="store_true", help="Also write a small preview scene with a bound sphere next to each exported material")
     p_export.add_argument("--assets-path-mode", choices=["relative", "absolute"], default="relative", help="Rewrite asset paths as relative (default) or absolute in exported materials")
 
-    p_camfit = sub.add_parser("camera-fit", help="Create a fitted camera into a USD and export")
-    p_camfit.add_argument("src", help="Path to USD file (input)")
-    p_camfit.add_argument("out", help="Path to USD file (output with new camera)")
-    p_camfit.add_argument("prim", help="Target prim path to frame")
-    p_camfit.add_argument("--source-camera", dest="source_camera", default=None, help="Existing camera prim to inherit rotation; if omitted, first camera in stage or world basis")
-    p_camfit.add_argument("--fov-h", dest="fov_h", type=float, default=55.0, help="Horizontal FOV degrees (default 55)")
-    p_camfit.add_argument("--aspect", type=float, default=16.0/9.0, help="Aspect ratio (default 16/9)")
-    p_camfit.add_argument("--padding", type=float, default=1.08, help="Frame padding multiplier (default 1.08)")
-    p_camfit.add_argument("--backoff", type=float, default=0.3, help="Backoff multiplier after fit (default 0.3)")
-    p_camfit.add_argument("--focal-mm", dest="focal_mm", type=float, default=35.0, help="Focal length (mm) used with FOV to compute film aperture")
-    p_camfit.add_argument("--near", dest="near_clip", type=float, default=0.01, help="Near clip")
-    p_camfit.add_argument("--far", dest="far_clip", type=float, default=10000.0, help="Far clip")
-    p_camfit.add_argument("--basename", dest="basename", default="/World/AutoCamInherit", help="Camera prim basename")
-    p_camfit.add_argument("--pitch-deg", dest="pitch_deg", type=float, default=0.0, help="Pitch down degrees (positive pitches down, rotate around camera right axis)")
-    p_camfit.add_argument("--height-mode", dest="height_mode", choices=["bbox_z","bbox_max","bbox_diag","abs"], default="bbox_z", help="Height offset mode")
-    p_camfit.add_argument("--height", dest="height_value", type=float, default=0.5, help="Height offset value (ratio for relative modes, absolute units for 'abs')")
-
-    p_camorbit = sub.add_parser("camera-orbit", help="Author a per-frame orbit camera and export a USD")
-    p_camorbit.add_argument("src", help="Path to USD file (input)")
-    p_camorbit.add_argument("out", help="Path to USD file (output with animated camera)")
-    p_camorbit.add_argument("prim", help="Target prim path to orbit around")
-    p_camorbit.add_argument("--source-camera", dest="source_camera", default=None, help="Existing camera prim to copy intrinsics from")
-    p_camorbit.add_argument("--shots", dest="shots", type=int, default=10, help="Number of shots (frames)")
-    p_camorbit.add_argument("--start-deg", dest="start_deg", type=float, default=0.0, help="Start angle degrees")
-    p_camorbit.add_argument("--cw", dest="cw", action="store_true", help="Rotate clockwise (default CCW)")
-    p_camorbit.add_argument("--radius-scale", dest="radius_scale", type=float, default=1.0, help="Radius scale multiplier")
-    p_camorbit.add_argument("--vertical-steps", dest="vertical_steps", type=int, default=1, help="Number of vertical sweep steps (>=1, default keeps level)")
-    p_camorbit.add_argument("--vertical-sweep", dest="vertical_sweep", type=float, default=0.0, help="Total vertical sweep in degrees distributed across steps (0 keeps level)")
-    p_camorbit.add_argument("--vertical-center", dest="vertical_center", type=float, default=0.0, help="Center pitch in degrees for the sweep (0 looks at target center)")
-    p_camorbit.add_argument("--fallback-fov", dest="fallback_fov", type=float, default=55.0, help="Fallback horizontal FOV in degrees when no source camera is found")
-    p_camorbit.add_argument("--fallback-aspect", dest="fallback_aspect", type=float, default=16.0/9.0, help="Fallback aspect ratio when no source camera is found")
-    p_camorbit.add_argument("--fallback-padding", dest="fallback_padding", type=float, default=1.08, help="Safety padding multiplier applied to fitted orbit distance when no source camera is found")
-    p_camorbit.add_argument("--fallback-focal", dest="fallback_focal", type=float, default=35.0, help="Fallback focal length (mm) applied to new camera when no source camera is found")
-    p_camorbit.add_argument("--fallback-near", dest="fallback_near", type=float, default=0.01, help="Fallback near clip when no source camera is found")
-    p_camorbit.add_argument("--fallback-far", dest="fallback_far", type=float, default=10000.0, help="Fallback far clip when no source camera is found")
+    # thumbnails generation subcommand (requires Isaac Sim runtime)
+    p_thumb = sub.add_parser("thumbnails", help="Render multi-view thumbnails of scene instances with background (Isaac Sim)")
+    p_thumb.add_argument("src", help="Path to USD file (scene)")
+    p_thumb.add_argument("--out", dest="out", default=None, help="Output directory (defaults to <srcdir>/thumbnails/multi_views_with_bg)")
+    p_thumb.add_argument("--instance-scope", dest="instance_scope", default="scene/Instances", help="Scope under /World containing instances")
+    p_thumb.add_argument("--width", dest="width", type=int, default=600, help="Image width (default 600)")
+    p_thumb.add_argument("--height", dest="height", type=int, default=450, help="Image height (default 450)")
+    p_thumb.add_argument("--views", dest="views", type=int, default=6, help="Number of views (even number, split top/bottom; default 6)")
+    p_thumb.add_argument("--warmup-steps", dest="warmup_steps", type=int, default=1000, help="Simulation warmup steps before rendering (default 1000)")
+    p_thumb.add_argument("--render-steps", dest="render_steps", type=int, default=8, help="Render steps per view (default 8)")
+    p_thumb.add_argument("--focal-mm", dest="focal_mm", type=float, default=9.0, help="Camera focal length in mm (default 9.0)")
+    p_thumb.add_argument("--bbox-threshold", dest="bbox_threshold", type=float, default=0.8, help="Tight/loose 2D bbox area ratio threshold to accept a view (default 0.8)")
+    p_thumb.add_argument("--no-bbox-draw", dest="no_bbox_draw", action="store_true", help="Do not draw bbox on saved images")
+    p_thumb.add_argument("--skip-model-filter", dest="skip_model_filter", action="store_true", help="Skip filtering using models dir names")
 
     # If no subcommand provided, default to no-mdl for convenience
     args_ns, extras = parser.parse_known_args(argv)
@@ -297,82 +276,29 @@ def main(argv: list[str] | None = None) -> int:
             print("ERROR:", e)
             return 3
 
-    if args_ns.cmd == "camera-fit":
+    if args_ns.cmd == "thumbnails":
         src = _to_posix(args_ns.src)
-        out = _to_posix(args_ns.out)
         if not os.path.exists(src):
             print("Not found:", src)
             return 2
+        out_dir = _to_posix(args_ns.out) if args_ns.out else None
         try:
-            from .camera.fit import FitParams, fit_camera_and_export
-            params = FitParams(
-                target_prim_path=str(args_ns.prim),
-                source_camera_path=str(args_ns.source_camera) if args_ns.source_camera else None,
-                fov_h_deg=float(args_ns.fov_h),
-                aspect=float(args_ns.aspect),
-                padding=float(args_ns.padding),
-                backoff=float(args_ns.backoff),
+            from .thumbnail import run_thumbnail_pipeline
+            code = run_thumbnail_pipeline(
+                scene_usd_path=src,
+                output_dir=out_dir,
+                instance_scope=str(args_ns.instance_scope),
+                image_width=int(args_ns.width),
+                image_height=int(args_ns.height),
+                views=int(args_ns.views),
+                warmup_steps=int(args_ns.warmup_steps),
+                render_steps=int(args_ns.render_steps),
                 focal_mm=float(args_ns.focal_mm),
-                near_clip=float(args_ns.near_clip),
-                far_clip=float(args_ns.far_clip),
-                camera_basename=str(args_ns.basename),
-                pitch_down_deg=float(args_ns.pitch_deg),
-                height_offset_mode=str(args_ns.height_mode),
-                height_offset_value=float(args_ns.height_value),
+                bbox_threshold=float(args_ns.bbox_threshold),
+                draw_bbox=(not bool(args_ns.no_bbox_draw)),
+                skip_model_filter=bool(args_ns.skip_model_filter),
             )
-            res = fit_camera_and_export(src, out, params)
-            print("=== camera-fit ===")
-            print("Out stage   :", out)
-            print("Camera prim :", res.camera_prim_path)
-            print("Target prim :", args_ns.prim)
-            print("Center      :", res.center)
-            print("Size xyz    :", res.size_xyz)
-            print("Aspect/FOV  :", res.aspect, res.fov_h_deg, res.fov_v_deg)
-            print("Distance    :", res.distance)
-            print("Eye         :", res.eye)
-            return 0
-        except RuntimeError as e:
-            print("ERROR:", e)
-            return 3
-
-    if args_ns.cmd == "camera-orbit":
-        src = _to_posix(args_ns.src)
-        out = _to_posix(args_ns.out)
-        if not os.path.exists(src):
-            print("Not found:", src)
-            return 2
-        try:
-            from .camera.orbit import OrbitParams, create_orbit_camera_animation_and_export
-            params = OrbitParams(
-                target_prim_path=str(args_ns.prim),
-                source_camera_path=str(args_ns.source_camera) if args_ns.source_camera else None,
-                num_shots=int(args_ns.shots),
-                start_deg=float(args_ns.start_deg),
-                cw_rotate=bool(args_ns.cw),
-                radius_scale=float(args_ns.radius_scale),
-                vertical_steps=int(args_ns.vertical_steps),
-                vertical_sweep_deg=float(args_ns.vertical_sweep),
-                vertical_center_deg=float(args_ns.vertical_center),
-                fallback_fov_deg=float(args_ns.fallback_fov),
-                fallback_aspect=float(args_ns.fallback_aspect),
-                fallback_padding=float(args_ns.fallback_padding),
-                fallback_focal_mm=float(args_ns.fallback_focal),
-                fallback_near_clip=float(args_ns.fallback_near),
-                fallback_far_clip=float(args_ns.fallback_far),
-            )
-            cam_path = create_orbit_camera_animation_and_export(src, out, params)
-            v_steps = max(1, int(args_ns.vertical_steps))
-            sweep_rad = math.radians(float(args_ns.vertical_sweep))
-            if v_steps <= 1 or abs(sweep_rad) < 1.0e-6:
-                total_frames = max(0, int(args_ns.shots))
-            else:
-                total_frames = max(0, int(args_ns.shots)) * v_steps
-            print("=== camera-orbit ===")
-            print("Out stage   :", out)
-            print("Camera prim :", cam_path)
-            print("Target prim :", args_ns.prim)
-            print("Frames      :", total_frames)
-            return 0
+            return int(code)
         except RuntimeError as e:
             print("ERROR:", e)
             return 3

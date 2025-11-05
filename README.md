@@ -2,6 +2,8 @@
 
 本项目用于将包含 MDL 材质的 USD 资产批量转换为基于 `UsdPreviewSurface` 的无 MDL 版本，保留引用/载荷/variants/clips，不做 flatten，并在原始目录旁生成 `*_noMDL.usd` 文件。
 
+同时提供“带背景的多视角缩略图”生成功能，适用于根据场景内实例对象批量出图，作为检索/标注的可视化资产。
+
 ## 运行
 
 推荐使用新的入口：
@@ -69,6 +71,32 @@ cd /opt/my_dev/ConvertAsset
 - 若你希望统一输出在顶层 USD 目录，可切换 `--placement root`。
 - `--no-external` 可用于只导出根层拥有/定义的材质。
 - 导出过程会自动搭建预览网络并尽可能复用/解析 MDL 贴图路径（BaseColor / Roughness / Metallic / Normal）。
+
+### 新增：缩略图渲染（thumbnails）
+
+使用 Isaac Sim 无头渲染，为场景中的实例 Mesh 生成带背景的多视角缩略图（按实例名分文件夹保存）。
+
+基本用法（默认输出到 `<usd目录>/thumbnails/multi_views_with_bg`）：
+
+```bash
+/isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/main.py thumbnails /abs/path/to/scene.usd
+```
+
+常用参数：
+
+- `--out` 指定输出目录
+- `--instance-scope` 实例所在作用域，默认 `scene/Instances`（等价于 `/World/scene/Instances`）
+- `--width` / `--height` 分辨率（默认 600x450）
+- `--views` 视角数量（偶数，默认 6，上/下半球各一半）
+- `--warmup-steps` / `--render-steps` 预热与渲染步数（默认 1000 / 8）
+- `--focal-mm` 焦距（默认 9.0）
+- `--bbox-threshold` 2D 紧/松包围框面积比阈值（默认 0.8，低于阈值不保存）
+- `--no-bbox-draw` 不在图片上绘制框
+- `--skip-model-filter` 跳过基于 models 目录的过滤（默认跳过）
+
+输出结构：`<out>/<PrimName>/<PrimName>_with_bg_<index>.png`
+
+注意：必须在 Omniverse Isaac Sim 的 Python 环境中运行（`SimulationApp`）。环境与常见问题请参见：`docs/thumbnails/`。
 
 ## 配置
 
