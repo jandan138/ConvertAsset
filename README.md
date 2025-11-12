@@ -6,18 +6,30 @@
 
 ## 运行
 
-推荐使用新的入口：
+推荐使用仓库内的包装脚本（自动定位 Isaac Sim 安装）：
 
 ```bash
-/isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/main.py "/abs/path/to/top.usd"
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py "/abs/path/to/top.usd"
+```
+
+该脚本会按以下优先级查找 Isaac Sim 的 `python.sh`：
+1. 显式环境变量：`ISAAC_SIM_ROOT`（需包含 `python.sh`）
+2. Docker 容器内的 `/isaac-sim/python.sh`
+3. 本地用户目录：`~/.local/share/ov/pkg/isaac_sim-*`（选择最高版本）
+4. 常见系统安装路径：`/opt/nvidia/isaac-sim`、`/opt/NVIDIA/isaac-sim`、`/opt/omniverse/isaac-sim`
+
+若无法自动定位，请手动：
+```bash
+export ISAAC_SIM_ROOT="/abs/path/to/isaac_sim-<version>"
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py "/abs/path/to/top.usd"
 ```
 
 也可以显式指定子命令：
 
 ```bash
-/isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/main.py no-mdl "/abs/path/to/top.usd"
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py no-mdl "/abs/path/to/top.usd"
 # 仅输出 *_noMDL.usd（不写旁路的 summary/audit 文件）
-/isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/main.py no-mdl "/abs/path/to/top.usd" --only-new-usd
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py no-mdl "/abs/path/to/top.usd" --only-new-usd
 
 提示：`--only-new-usd` 只是在本次运行中抑制生成旁路文件；如果目标目录里已存在旧的 `*_noMDL_summary.txt` / `*_noMDL_audit.json`，它们不会被删除。
 ```
@@ -25,7 +37,7 @@
 仍可使用旧脚本：
 
 ```bash
-/isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/scripts/usd_make_preview_copies.py "/abs/path/to/top.usd"
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/scripts/usd_make_preview_copies.py "/abs/path/to/top.usd"
 ```
 
 ### 新增：材质检查 (inspect)
