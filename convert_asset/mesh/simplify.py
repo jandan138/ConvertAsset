@@ -31,10 +31,12 @@ import heapq  # 最小堆（优先队列）实现，用于边候选的“代价�
 import time  # 时间相关工具，用于限时和进度 ETA 计算
 
 try:
-    from pxr import Usd, UsdGeom  # type: ignore  # USD 的 Python 绑定（Isaac/pxr 环境提供）
+    from pxr import Usd, UsdGeom, Gf, Sdf  # type: ignore  # USD 的 Python 绑定（Isaac/pxr 环境提供）
 except Exception:  # pragma: no cover  # 无法导入 pxr 时不中断（便于静态检查/文档生成）
     Usd = None  # type: ignore[assignment]  # 占位：标记当前环境不可用 USD
     UsdGeom = None  # type: ignore[assignment]  # 占位：同上
+    Gf = None  # type: ignore[assignment]
+    Sdf = None  # type: ignore[assignment]
 
 
 @dataclass  # 使用数据类自动生成初始化与repr，便于汇总统计输出
@@ -98,7 +100,8 @@ def simplify_stage_meshes(
         raise RuntimeError(f"Failed to open stage: {stage_or_path}")
     # 汇总统计对象与“待写回编辑”列表（apply=True 时批量写回）
     stats = SimplifyStats()  # 初始化统计累加器
-    mesh_edits: list[tuple[Any, list[tuple[float, float, float]], list[tuple[int, int, int]]]] = []  # 收集每个网格的新几何
+    # 收集每个网格的新几何 (prim, verts, faces, optional face_varying_uv_triplets)
+    mesh_edits: list[tuple[Any, list[tuple[float, float, float]], list[tuple[int, int, int]], Optional[list[tuple[float, float, float, float, float, float]]]]] = []
 
     for prim in stage.Traverse():  # 遍历所有 Prim
         if not prim.IsActive() or prim.IsInstanceProxy():  # 跳过非激活/实例代理
@@ -136,6 +139,36 @@ def simplify_stage_meshes(
             # Build full structures only when applying
             verts = [(float(p[0]), float(p[1]), float(p[2])) for p in pts]  # 顶点三元组列表
             faces = _tri_faces_from_topology(counts, indices)  # 将拓扑展开为 (i,j,k) 面列表
+            # 若存在 faceVarying UV，则构建每面三个UV的triplet列表 (u0,v0,u1,v1,u2,v2)
+            face_uv_triplets: Optional[list[tuple[float, float, float, float, float, float]]] = None
+            try:
+                st_pv = UsdGeom.PrimvarsAPI(mesh).GetPrimvar("st")  # 常见UV名称：st
+                if st_pv and st_pv.HasValue():
+                    interp = st_pv.GetInterpolation()
+                    if interp == UsdGeom.Tokens.faceVarying:
+                        uv_vals = st_pv.Get() or []
+                        total_corners = sum(int(c) for c in counts)
+                        if uv_vals and len(uv_vals) == total_corners:
+                            face_uv_triplets = []
+                            it_idx = 0
+                            for c in counts:
+                                c = int(c)
+                                if c != 3:
+                                    # 仅支持三角；理论上不会到这里，因为上游已过滤
+                                    it_idx += c
+                                    continue
+                                uv0 = uv_vals[it_idx]
+                                uv1 = uv_vals[it_idx + 1]
+                                uv2 = uv_vals[it_idx + 2]
+                                # 统一转为 float
+                                u0, v0 = float(uv0[0]), float(uv0[1])
+                                u1, v1 = float(uv1[0]), float(uv1[1])
+                                u2, v2 = float(uv2[0]), float(uv2[1])
+                                face_uv_triplets.append((u0, v0, u1, v1, u2, v2))
+                                it_idx += 3
+            except Exception:
+                # 如果任何一步失败，则忽略 UV（不致命）
+                face_uv_triplets = None
             # Prepare progress reporter per-mesh
             reporter: Optional[Callable[[int, int, int], bool]] = None  # 进度回调（可中断）
             start_t = time.time()  # 网格级起始时间
@@ -165,18 +198,19 @@ def simplify_stage_meshes(
                 # initial progress emit
                 if reporter:  # 触发一次初始进度（collapsed==0）
                     reporter(0, faces_before_local, target_faces)
-            # 核心简化调用：返回新的顶点与三角面列表
-            verts2, faces2 = qem_simplify(
+            # 核心简化调用（增强版）：返回新的顶点、三角面与（可选）新的UV triplets
+            verts2, faces2, face_uvs2 = qem_simplify_ex(
                 verts,  # 输入顶点
                 faces,  # 输入三角
                 target_faces,  # 目标面数
+                face_uvs=face_uv_triplets,  # 面角UV（可选）
                 progress_cb=reporter,  # 进度回调（可中断）
                 interval=progress_interval_collapses,  # 回调间隔（按坍塌次数）
                 time_limit_seconds=time_limit_seconds,  # 单网格时限
             )
             stats.faces_after += len(faces2)  # 累加“处理后”的总面数
             stats.verts_after += len(verts2)  # 累加“处理后”的总顶点数
-            mesh_edits.append((prim, verts2, faces2))  # 记录该网格的写回数据
+            mesh_edits.append((prim, verts2, faces2, face_uvs2))  # 记录该网格的写回数据
         else:
             # dry-run：仅估算面数（保持顶点数不变，作为保守估计；实际坍塌后顶点数会下降）
             stats.faces_after += target_faces if faces_n > target_faces else faces_n  # 面数估算
@@ -184,8 +218,11 @@ def simplify_stage_meshes(
 
     if apply and mesh_edits:  # 仅当实际应用且有网格变更时才写回/导出
         # Apply edits and export
-        for prim, verts2, faces2 in mesh_edits:  # 逐网格写回点与拓扑
+        for prim, verts2, faces2, face_uvs2 in mesh_edits:  # 逐网格写回点与拓扑
             _write_mesh_triangles(UsdGeom.Mesh(prim), verts2, faces2)  # 设置 points/topology 属性
+            # 若有新的 face-varying UV，则写回到 primvars:st
+            if face_uvs2:
+                _write_facevarying_uv(UsdGeom.Mesh(prim), face_uvs2, name="st")
         if out_path:  # 若提供输出路径，则导出新的 USD 文件
             stage.Export(out_path)
     return stats  # 返回全场统计
@@ -265,6 +302,7 @@ def qem_simplify(
 
     last_emit_collapses = 0  # 距离上次触发回调的坍塌增量
     start_t = time.time()  # 计时起点（用于时限控制）
+    
     # 4) 主循环：持续从堆中弹出“代价最小的边”进行坍塌，直到达到目标面数/时间限制或候选边耗尽
     while faces_current > faces_target and heap:  # 只要需要继续减少面且仍有候选边
         if time_limit_seconds is not None and (time.time() - start_t) >= time_limit_seconds:  # 命中时间上限
@@ -338,6 +376,168 @@ def qem_simplify(
             new_faces.append((index_map[a], index_map[b], index_map[c]))  # 写入重映射后的面
 
     return new_verts, new_faces  # 返回新的几何
+
+
+def qem_simplify_ex(
+    verts: list[tuple[float, float, float]],
+    faces: list[tuple[int, int, int]],
+    target_faces: int,
+    face_uvs: Optional[list[tuple[float, float, float, float, float, float]]] = None,
+    progress_cb: Optional[Callable[[int, int, int], bool]] = None,
+    interval: int = 5000,
+    time_limit_seconds: Optional[float] = None,
+) -> tuple[
+    list[tuple[float, float, float]],
+    list[tuple[int, int, int]],
+    Optional[list[tuple[float, float, float, float, float, float]]],
+]:
+    """QEM 简化的增强版：在几何拓扑简化的同时，携带并过滤 face-varying UV（按面三元组）。
+
+    说明：
+    - face_uvs 为可选，长度应与输入 faces 一致；每个元素包含该三角的三个 (u,v)，展平成 6 个浮点数。
+    - 本实现不在坍塌时修改 UV 值，仅在面退化/删除时同步丢弃对应 triplet，最后与存活面一同压缩输出。
+    - 若未提供 face_uvs，则返回的第三项为 None。
+    """
+    # 将不可变的元组列表拷贝为可变列表，便于更新顶点坐标
+    V = [list(v) for v in verts]  # V[i] = [x, y, z]
+    # 拷贝三角面索引，后续会原位更新顶点索引（替换 v -> u）
+    F = [list(f) for f in faces]  # F[fi] = [a, b, c]
+    # 顶点/面存活标记：坍塌后，v 会被标记为不存活；退化三角会被标记为不存活
+    v_alive = [True] * len(V)
+    f_alive = [True] * len(F)
+    # 为每个顶点准备一个 4x4 Quadric（拉直成 16 个浮点），用于误差评估
+    v_quads = [mat4_zero() for _ in V]
+
+    # 遍历每个三角面，计算其平面 Quadric，并累加到三个顶点
+    for fi, f in enumerate(F):
+        if not f_alive[fi]:  # 已经无效的面直接跳过（初始阶段一般不会命中）
+            continue
+        i, j, k = f  # 三角的三个顶点索引
+        p = V[i]; q = V[j]; r = V[k]  # 对应三顶点的坐标
+        n = cross(sub(q, p), sub(r, p))  # 未归一化法线 = (q-p) x (r-p)
+        norm = length(n)  # 法线长度 ~ 面积的两倍
+        if norm <= 1e-12:  # 面积近零，认为退化
+            f_alive[fi] = False  # 标记该面无效
+            continue
+        n = [n[0]/norm, n[1]/norm, n[2]/norm]  # 归一化法线
+        d = -dot(n, p)  # 平面常数项 d = -n·p
+        K = plane_quadric(n[0], n[1], n[2], d)  # 构建该面的 Quadric 矩阵
+        add_inplace(v_quads[i], K)  # 累加到三个顶点
+        add_inplace(v_quads[j], K)
+        add_inplace(v_quads[k], K)
+
+    # 构建顶点邻接：每个顶点记录它相邻的顶点集合（无向图）
+    v_adj: list[set[int]] = [set() for _ in V]
+    for f in F:
+        a, b, c = f
+        v_adj[a].update((b, c))  # a 邻接 b、c
+        v_adj[b].update((a, c))  # b 邻接 a、c
+        v_adj[c].update((a, b))  # c 邻接 a、b
+
+    # 最小堆存放候选边：(cost, eid, u, v, pos)
+    heap: list[tuple[float, int, int, int, tuple[float, float, float]]] = []
+    eid = 0  # 自增 id，避免堆中比较元组时同 cost 冲突
+
+    def push_edge(u: int, v: int):
+        nonlocal eid
+        if u == v:  # 自环忽略
+            return
+        if v not in v_adj[u]:  # 已不相邻则忽略（拓扑变化后可能发生）
+            return
+        Quv = add(v_quads[u], v_quads[v])  # 合并端点的 Quadric
+        pos, cost = optimal_position_cost(Quv, V[u], V[v])  # 计算最优合并位置与误差
+        heapq.heappush(heap, (cost, eid, u, v, pos))  # 压入候选
+        eid += 1  # 自增 id
+
+    # 初始化：把每条无向边（u<v）入堆一次
+    for u in range(len(V)):
+        for v in v_adj[u]:
+            if u < v:
+                push_edge(u, v)
+
+    # 目标面数取下界 0；faces_current 为当前存活面数
+    faces_target = max(target_faces, 0)
+    faces_current = sum(1 for x in f_alive if x)
+    collapsed = 0  # 已坍塌次数
+    last_emit_collapses = 0  # 上次进度回调时的坍塌计数
+    start_t = time.time()  # 用于限时
+
+    # 主循环：每次弹出代价最小的边进行坍塌，直到达标或无候选
+    while faces_current > faces_target and heap:
+        # 命中时间上限则提前退出，返回部分结果
+        if time_limit_seconds is not None and (time.time() - start_t) >= time_limit_seconds:
+            break
+        cost, _, u, v, pos = heapq.heappop(heap)  # 取出当前最优候选边
+        if (not v_alive[u]) or (not v_alive[v]):  # 任一端点已经被移除，跳过
+            continue
+        if v not in v_adj[u]:  # 不再相邻（期间拓扑变化），跳过
+            continue
+        # 执行坍塌：把 v 合并到 u，u 的位置更新为最优 pos
+        V[u] = [pos[0], pos[1], pos[2]]  # 更新 u 的坐标
+        v_alive[v] = False  # 顶点 v 被移除
+        v_adj[u].discard(v)  # 移除 u-v 邻接
+        v_adj[v].discard(u)  # 移除 v-u 邻接
+        add_inplace(v_quads[u], v_quads[v])  # 合并 Quadric：Q[u]+=Q[v]
+        # 把 v 的邻居改连 u（重建邻接）
+        for w in list(v_adj[v]):
+            v_adj[w].discard(v)
+            if w != u:
+                v_adj[w].add(u)
+                v_adj[u].add(w)
+        v_adj[v].clear()  # v 的邻接清空
+
+        # 更新所有三角的顶点索引：出现重复顶点则该面退化并删除
+        for fi, f in enumerate(F):
+            if not f_alive[fi]:  # 已无效面跳过
+                continue
+            a, b, c = f
+            if a == v:
+                a = u
+            if b == v:
+                b = u
+            if c == v:
+                c = u
+            if len({a, b, c}) < 3:  # 顶点重复 → 退化，删除该面
+                f_alive[fi] = False
+                faces_current -= 1
+                continue
+            F[fi] = [a, b, c]  # 写回更新后的三角
+
+        # u 的相邻边误差已变化，重新入堆
+        for w in list(v_adj[u]):
+            push_edge(min(u, w), max(u, w))
+
+        collapsed += 1  # 计数
+        # 达到回调间隔则触发进度回调；若回调返回 False 则中断
+        if progress_cb is not None and collapsed - last_emit_collapses >= max(1, interval):
+            last_emit_collapses = collapsed
+            if not progress_cb(collapsed, faces_current, faces_target):
+                break
+
+    # 压缩存活顶点：建立旧索引 -> 新索引映射，并构建新顶点数组
+    index_map: dict[int, int] = {}
+    new_verts: list[tuple[float, float, float]] = []
+    for i, alive in enumerate(v_alive):
+        if alive:
+            index_map[i] = len(new_verts)  # 为旧索引 i 分配新索引
+            new_verts.append((V[i][0], V[i][1], V[i][2]))  # 写入坐标
+    # 根据存活面与索引映射，构建新的三角面列表
+    new_faces: list[tuple[int, int, int]] = []
+    # 若传入了 face_uvs，则准备一个输出列表与 new_faces 对齐
+    new_face_uvs: Optional[list[tuple[float, float, float, float, float, float]]] = [] if face_uvs is not None else None
+    for fi, alive in enumerate(f_alive):
+        if not alive:
+            continue  # 跳过被删除的面
+        a, b, c = F[fi]
+        if a in index_map and b in index_map and c in index_map:
+            # 三个端点均存活：重映射到新索引
+            new_faces.append((index_map[a], index_map[b], index_map[c]))
+            if new_face_uvs is not None and face_uvs is not None:
+                # 同步保留该面的 UV triplet（与面一一对应）
+                new_face_uvs.append(face_uvs[fi])
+
+    # 返回新顶点、新三角与（可选）新 UV triplets
+    return new_verts, new_faces, new_face_uvs
 
 
 # --- QEM 相关的 4x4 矩阵与线性代数小工具 ---
@@ -485,3 +685,44 @@ def _write_mesh_triangles(mesh: Any, verts: list[tuple[float, float, float]], fa
         indices.extend([int(a), int(b), int(c)])  # 追加一个面的三个索引
     mesh.GetFaceVertexCountsAttr().Set(counts)  # 写回 FaceVertexCounts
     mesh.GetFaceVertexIndicesAttr().Set(indices)  # 写回 FaceVertexIndices
+
+
+def _write_facevarying_uv(mesh: Any, face_uvs: list[tuple[float, float, float, float, float, float]], name: str = "st"):  # 写回 faceVarying UV primvar
+    """写回 face-varying UV 数据。
+
+    参数：
+        mesh: UsdGeom.Mesh
+        face_uvs: 每个三角的 (u0,v0,u1,v1,u2,v2) 列表
+        name: primvar 名称（默认 'st'）
+    行为：
+        - 展平为 float2 数组并设置插值为 faceVarying。
+        - 若 primvar 不存在则创建；存在则覆写。
+    """
+    if UsdGeom is None:
+        return
+    api = UsdGeom.PrimvarsAPI(mesh)
+    pv = api.GetPrimvar(name)
+    if not pv:
+        # 创建新的 face-varying UV primvar (texCoord2f[])；role 'textureCoordinate'
+        type_name = Sdf.ValueTypeNames.TexCoord2fArray if Sdf is not None else None
+        if type_name is not None:
+            pv = api.CreatePrimvar(name, type_name, UsdGeom.Tokens.faceVarying)
+        else:
+            # 回退：尝试直接创建 float2[] 类型（不一定可用）
+            pv = api.CreatePrimvar(name, Sdf.ValueTypeNames.Float2Array if Sdf else None, UsdGeom.Tokens.faceVarying)  # type: ignore[arg-type]
+        try:
+            pv.SetRole(UsdGeom.Tokens.textureCoordinate)
+        except Exception:
+            pass
+    # 展平
+    flat: list[tuple[float, float]] = []
+    for (u0, v0, u1, v1, u2, v2) in face_uvs:
+        flat.append((u0, v0))
+        flat.append((u1, v1))
+        flat.append((u2, v2))
+    pv.Set(flat)
+    # 确保插值正确
+    try:
+        pv.SetInterpolation(UsdGeom.Tokens.faceVarying)
+    except Exception:
+        pass
