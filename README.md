@@ -45,15 +45,15 @@ export ISAAC_SIM_ROOT="/abs/path/to/isaac_sim-<version>"
 用于**只读**分析某个 Material 在 MDL 或 UsdPreviewSurface 模式下的着色网络：
 
 ```
-/isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/main.py inspect /abs/path/to/scene.usd usdpreview /Looks/Mat01
-/isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/main.py inspect /abs/path/to/scene.usd mdl /Looks/Mat01
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py inspect /abs/path/to/scene.usd usdpreview /Looks/Mat01
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py inspect /abs/path/to/scene.usd mdl /Looks/Mat01
 ```
 
 示例（仓库自带演示文件）：
 ```
 cd /opt/my_dev/ConvertAsset
-/isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/main.py inspect examples/inspect_demo.usda usdpreview /Looks_PreviewMat
-/isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/main.py inspect examples/inspect_demo.usda mdl /Looks_Mat
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py inspect examples/inspect_demo.usda usdpreview /Looks_PreviewMat
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py inspect examples/inspect_demo.usda mdl /Looks_Mat
 ```
 
 更多细节见：`docs/inspect_material.md`
@@ -63,7 +63,7 @@ cd /opt/my_dev/ConvertAsset
 该命令将遍历 MDL 材质并为每个材质创建一个独立的 UsdPreviewSurface 材质 USD 文件。
 
 ```
-/isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/main.py export-mdl-materials \
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py export-mdl-materials \
 	/abs/path/to/scene.usd \
 	--out-dir-name mdl_materials \
 	--placement authoring \  # 将材质球写到“材质定义所在的最小子文件”的同目录（默认）
@@ -91,7 +91,7 @@ cd /opt/my_dev/ConvertAsset
 基本用法（默认输出到 `<usd目录>/thumbnails/multi_views_with_bg`）：
 
 ```bash
-/isaac-sim/isaac_python.sh /opt/my_dev/ConvertAsset/main.py thumbnails /abs/path/to/scene.usd
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py thumbnails /abs/path/to/scene.usd
 ```
 
 常用参数：
