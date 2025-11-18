@@ -36,7 +36,7 @@ def main(argv: list[str] | None = None) -> int:
     p_simpl.add_argument("--progress", action="store_true", help="Show periodic progress (no console flood)")
     p_simpl.add_argument("--progress-interval-collapses", type=int, default=10000, help="Emit progress every N collapses (default 10000)")
     p_simpl.add_argument("--time-limit", type=float, default=None, help="Per-mesh time limit in seconds (abort mesh when exceeded)")
-    p_simpl.add_argument("--backend", choices=["py","cpp"], default="py", help="Simplifier backend: pure Python ('py') or native C++ ('cpp')")
+    p_simpl.add_argument("--backend", choices=["py","cpp","cpp-uv"], default="py", help="Simplifier backend: pure Python ('py'), native C++ executable ('cpp'), or C+++UV pybind ('cpp-uv')")
     p_simpl.add_argument("--cpp-exe", default="native/meshqem/build/meshqem", help="Path to C++ meshqem executable when --backend=cpp")
 
     p_inspect = sub.add_parser("inspect", help="Inspect a Material's MDL or UsdPreviewSurface network")
@@ -149,7 +149,7 @@ def main(argv: list[str] | None = None) -> int:
                     progress_interval_collapses=int(args_ns.progress_interval_collapses),
                     time_limit_seconds=float(args_ns.time_limit) if args_ns.time_limit is not None else None,
                 )
-            else:
+            elif args_ns.backend == "cpp":
                 # C++ backend path: iterate meshes, call native exe, then export
                 from pxr import Usd, UsdGeom  # type: ignore
                 from .mesh.backend_cpp import simplify_mesh_with_cpp
@@ -205,6 +205,64 @@ def main(argv: list[str] | None = None) -> int:
                 if apply and out:
                     stage.Export(out)
                 # Print summary similar to Python backend
+                mode = "APPLY" if apply else "DRY-RUN"
+                print(f"[{mode}] meshes total={meshes_total} tri={meshes_tri} skipped_non_tri={skipped_non_tri}")
+                print(f"faces: {faces_before} -> {faces_after}")
+                print(f"verts: {verts_before} -> {verts_after}")
+                if apply and out:
+                    print("Exported:", out)
+                return 0
+            else:  # cpp-uv backend via pybind11 bindings
+                from pxr import Usd, UsdGeom  # type: ignore
+                from .mesh.backend_cpp import simplify_mesh_with_cpp_uv
+                stage = Usd.Stage.Open(src)
+                if stage is None:
+                    print("Failed to open stage:", src)
+                    return 3
+                meshes_total = 0
+                meshes_tri = 0
+                skipped_non_tri = 0
+                faces_before = 0
+                faces_after = 0
+                verts_before = 0
+                verts_after = 0
+                for prim in stage.Traverse():
+                    if not prim.IsActive() or prim.IsInstanceProxy():
+                        continue
+                    if prim.GetTypeName() != "Mesh":
+                        continue
+                    img = UsdGeom.Imageable(prim)
+                    purpose = img.ComputePurpose()
+                    if purpose in (UsdGeom.Tokens.proxy, UsdGeom.Tokens.guide):
+                        continue
+                    meshes_total += 1
+                    mesh = UsdGeom.Mesh(prim)
+                    counts = mesh.GetFaceVertexCountsAttr().Get()
+                    if not counts:
+                        continue
+                    if not all(int(c) == 3 for c in counts):
+                        skipped_non_tri += 1
+                        continue
+                    meshes_tri += 1
+                    try:
+                        tb, ta, vb, va = simplify_mesh_with_cpp_uv(
+                            prim,
+                            ratio=ratio,
+                            target_faces=None,
+                            max_collapses=max_collapses,
+                            time_limit=float(args_ns.time_limit) if args_ns.time_limit is not None else None,
+                            progress_interval=int(args_ns.progress_interval_collapses),
+                            apply=apply,
+                        )
+                    except RuntimeError as e:
+                        print(f"[SKIP cpp-uv] {prim.GetPath()} -> {e}")
+                        continue
+                    faces_before += tb
+                    faces_after += ta
+                    verts_before += vb
+                    verts_after += va
+                if apply and out:
+                    stage.Export(out)
                 mode = "APPLY" if apply else "DRY-RUN"
                 print(f"[{mode}] meshes total={meshes_total} tri={meshes_tri} skipped_non_tri={skipped_non_tri}")
                 print(f"faces: {faces_before} -> {faces_after}")

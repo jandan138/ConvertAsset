@@ -42,6 +42,8 @@ export ISAAC_SIM_ROOT="/abs/path/to/isaac_sim-<version>"
 
 ### 新增：网格简化（mesh-simplify）
 
+#### Python QEM 后端（默认，带 UV 保留）
+
 保留约 99% 面数（按三角面计）的示例（Python 后端，写入新文件并打印进度）：
 
 ```bash
@@ -69,6 +71,95 @@ Exported: /opt/my_dev/ConvertAsset/asset/test_scene/models/object/others/bed/28d
 - `--apply`: 将简化结果写入导出 USD
 - `--out`: 输出文件路径（默认与源同目录）
 - `--progress`: 打印每个组件的进度
+
+#### C++ QEM 后端（可选，含 UV-aware 路径）
+
+本仓库提供一个基于 C++/pybind11 的 QEM 实现，用于在 Python 进程内高效调用 C++ 版网格简化，并在 `cpp-uv` 模式下保留 surviving faces 的 face‑varying UV。使用前需要完成一次性的 C++ 构建和绑定配置。
+
+**1）在 conda 环境中安装 pybind11（推荐 usd-render 环境）**
+
+```bash
+source /root/miniconda3/bin/activate usd-render
+python -m pip install --upgrade "pybind11[global]"
+```
+
+> 说明：`pybind11[global]` 会额外安装带 CMake 配置的 `pybind11_global`，以便 `find_package(pybind11)` 正常工作。
+
+**2）构建 C++ 可执行与 pybind11 模块**
+
+```bash
+cd /opt/my_dev/ConvertAsset/native/meshqem
+mkdir -p build
+cd build
+cmake -DBUILD_MESHQEM_PY=ON ..
+cmake --build . --config Release -j4
+```
+
+构建成功后将生成：
+
+- `native/meshqem/build/meshqem`：C++ 命令行可执行（`--backend cpp` 使用）
+- `native/meshqem/build/meshqem_py.cpython-<ver>-x86_64-linux-gnu.so`：pybind11 Python 模块（`--backend cpp-uv` 使用）
+
+随后将模块放入 Python 包路径（`convert_asset/mesh`）下，供包内相对导入：
+
+```bash
+cd /opt/my_dev/ConvertAsset/native/meshqem/build
+cp meshqem_py.cpython-*.so ../../../convert_asset/mesh/
+```
+
+**3）运行前设置 Python 环境**
+
+所有 CLI 调用前，推荐在 `usd-render` 环境下设置：
+
+```bash
+cd /opt/my_dev/ConvertAsset
+source /root/miniconda3/bin/activate usd-render
+export PYTHONPATH=/opt/my_dev/ConvertAsset
+```
+
+这样可以确保：
+
+- `convert_asset` 作为包可被正常导入；
+- `convert_asset.mesh.backend_cpp` 能通过 `from . import meshqem_py` 找到刚刚复制的 `.so`。
+
+**4）使用 C++ 后端执行减面**
+
+- 只用 C++ 可执行（几何-only，不处理 UV）：
+
+```bash
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py mesh-simplify \
+	"/abs/path/to/scene.usd" \
+	--backend cpp \
+	--ratio 0.95 \
+	--apply \
+	--out "/abs/path/to/scene_qem_95pct_cpp.usd"
+```
+
+- 使用 C++ + UV-aware 后端（pybind11 模块，保留 face‑varying UV）：
+
+```bash
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py mesh-simplify \
+	"/abs/path/to/scene.usd" \
+	--backend cpp-uv \
+	--ratio 0.95 \
+	--apply \
+	--out "/abs/path/to/scene_qem_95pct_cpp_uv.usd"
+```
+
+结果示例（UV-aware C++ 后端）：
+
+```text
+[APPLY] meshes total=13 tri=13 skipped_non_tri=0
+faces: 857791 -> 814891
+verts: 433164 -> 411060
+Exported: /tmp/instance_simplified_95_cpp_uv.usd
+```
+
+说明：
+
+- `--backend cpp`：走磁盘中间文件（OBJ）+可执行 `meshqem`，只简化几何；
+- `--backend cpp-uv`：通过 `meshqem_py` 模块在 Python 进程内调用 C++，并在内部维护 per-face UV triplets，同步保留 surviving faces 的 face‑varying UV；
+- 两种 C++ 后端都要求输入网格为纯三角面（`faceVertexCounts == 3`），非三角网格会被跳过计入 `skipped_non_tri`。
 
 ### 新增：UV 体检（uv-audit）
 
