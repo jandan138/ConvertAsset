@@ -40,6 +40,66 @@ export ISAAC_SIM_ROOT="/abs/path/to/isaac_sim-<version>"
 ./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/scripts/usd_make_preview_copies.py "/abs/path/to/top.usd"
 ```
 
+### 新增：网格简化（mesh-simplify）
+
+保留约 99% 面数（按三角面计）的示例（Python 后端，写入新文件并打印进度）：
+
+```bash
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py mesh-simplify \
+	"/abs/path/to/scene.usd" \
+	--backend py \
+	--ratio 0.99 \
+	--apply \
+	--out "/abs/path/to/scene_qem_99pct.usd" \
+	--progress
+```
+
+结果示例：
+
+```text
+[APPLY] meshes total=13 tri=13 skipped_non_tri=0
+faces: 857791 -> 849199
+verts: 433164 -> 428500
+Exported: /opt/my_dev/ConvertAsset/asset/test_scene/models/object/others/bed/28d4d65318a0bfb8bf07e713aec1227c/instance_qem_99pct.usd
+```
+
+说明：
+- `--ratio`: 目标保留比例（0.99 ≈ 保留 99% 面数）
+- `--backend py`: 使用 Python 后端，调用 `qem_simplify_ex`（保留 surviving faces 的 face‑varying UV）
+- `--apply`: 将简化结果写入导出 USD
+- `--out`: 输出文件路径（默认与源同目录）
+- `--progress`: 打印每个组件的进度
+
+### 新增：UV 体检（uv-audit）
+
+检查场景/资产中的 Mesh UV 一致性（是否为 `faceVarying` 且长度/indices 与面角点数匹配）。需在 Isaac Sim Python 环境运行：
+
+```bash
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/scripts/uv_audit.py \
+	"/abs/path/to/scene_or_asset.usd" \
+	--limit 50
+```
+
+输出示例（存在不一致时）：
+
+```text
+[SUMMARY] meshes=13 with_uv=13 faceVarying_uv=13 mismatches=13
+[DETAIL] first 13 mismatches:
+- /Root/.../component12 primvar=st interp=faceVarying reason=values length != face corners expectedCorners=95526 valuesLen=100560
+...
+```
+
+输出示例（UV 保留版无不一致）：
+
+```text
+[SUMMARY] meshes=13 with_uv=13 faceVarying_uv=13 mismatches=0
+```
+
+说明：
+- 面角点总数为 `sum(faceVertexCounts)`；`faceVarying` 模式需与之对齐（使用 `indices` 时校验 indices 长度）。
+- `--limit` 控制打印的不一致条目上限。
+- 常见不一致来自“只删几何未同步裁剪 UV（values 仍为旧长度）”。
+
 ### 新增：材质检查 (inspect)
 
 用于**只读**分析某个 Material 在 MDL 或 UsdPreviewSurface 模式下的着色网络：

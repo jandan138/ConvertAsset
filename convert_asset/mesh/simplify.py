@@ -675,54 +675,85 @@ def _tri_faces_from_topology(counts: Iterable[int], indices: Iterable[int]) -> l
 
 
 def _write_mesh_triangles(mesh: Any, verts: list[tuple[float, float, float]], faces: list[tuple[int, int, int]]):  # 将三角网格写回 USD 属性
-    """将三角网格写回到 USD Mesh（点坐标 + 三角面拓扑）。"""
-    # points
+    """将三角网格写回到 USD Mesh（点坐标 + 三角面拓扑）。
+
+    约定/输入：
+    - mesh: 一个 UsdGeom.Mesh 实例（或等价包装），要求支持 GetPointsAttr/Topo 属性。
+    - verts: [(x,y,z), ...]，浮点三元组，长度=顶点数。
+    - faces: [(i,j,k), ...]，每项为三角的三个顶点索引（0-based）。
+
+    行为：
+    - 仅写回 points、faceVertexCounts、faceVertexIndices 三个核心属性；不改动法线/UV/primvars。
+    - faceVertexCounts 全部为 3（纯三角）。
+    """
+    # 1) 写回点坐标（points）。USD 需要 Vec3f[]/Vec3d[]；此处统一转为 Python 元组 (x,y,z)。
     mesh.GetPointsAttr().Set([(v[0], v[1], v[2]) for v in verts])  # 写回点坐标（Vec3f[]）
-    # topology
+
+    # 2) 准备拓扑：faceVertexCounts 与 faceVertexIndices。
+    #    对纯三角网格，counts 中每个条目固定为 3，条目数等于三角面数量。
     counts = [3] * len(faces)  # 每个面都是三角
+
+    # 3) 展平三角面索引为 USD 需要的一维数组（faceVertexIndices）。
+    #    顺序保持为 (i,j,k)，绕序（顺/逆时针）由调用方保证与法线一致。
     indices: list[int] = []  # 展平的顶点索引数组
-    for a, b, c in faces:
+    for a, b, c in faces:  # 逐面追加三个顶点索引
         indices.extend([int(a), int(b), int(c)])  # 追加一个面的三个索引
-    mesh.GetFaceVertexCountsAttr().Set(counts)  # 写回 FaceVertexCounts
-    mesh.GetFaceVertexIndicesAttr().Set(indices)  # 写回 FaceVertexIndices
+
+    # 4) 将 counts 与 indices 写回到 Mesh 拓扑属性。
+    mesh.GetFaceVertexCountsAttr().Set(counts)  # 写回 FaceVertexCounts（每面顶点数）
+    mesh.GetFaceVertexIndicesAttr().Set(indices)  # 写回 FaceVertexIndices（展平索引）
 
 
 def _write_facevarying_uv(mesh: Any, face_uvs: list[tuple[float, float, float, float, float, float]], name: str = "st"):  # 写回 faceVarying UV primvar
     """写回 face-varying UV 数据。
 
     参数：
-        mesh: UsdGeom.Mesh
-        face_uvs: 每个三角的 (u0,v0,u1,v1,u2,v2) 列表
-        name: primvar 名称（默认 'st'）
-    行为：
-        - 展平为 float2 数组并设置插值为 faceVarying。
-        - 若 primvar 不存在则创建；存在则覆写。
+        mesh: UsdGeom.Mesh（目标网格）。
+        face_uvs: List[(u0,v0,u1,v1,u2,v2)]，与每个三角一一对应的三角角点 UV 三元组（展平成 6 个浮点）。
+        name: primvar 名称，通常为 "st"（UV0）。
+
+    约定：
+        - face_uvs 的长度 == 三角面数；顺序必须与 faceVertexIndices 的角点顺序一致。
+        - 本函数仅写入 primvars:name 的值与插值方式，不修改拓扑。
     """
+    # 0) 若当前环境没有 USD 绑定（例如在离线文档构建时），直接返回以避免导入错误。
     if UsdGeom is None:
         return
-    api = UsdGeom.PrimvarsAPI(mesh)
-    pv = api.GetPrimvar(name)
+
+    # 1) 通过 PrimvarsAPI 访问/创建 UV primvar。
+    api = UsdGeom.PrimvarsAPI(mesh)  # 获取 PrimvarsAPI 以便读写 primvar
+    pv = api.GetPrimvar(name)  # 尝试获取已存在的 primvar（例如 "st"）
+
+    # 2) 若 primvar 不存在，则创建一个类型为 texCoord2f[]、插值为 faceVarying 的 primvar。
     if not pv:
-        # 创建新的 face-varying UV primvar (texCoord2f[])；role 'textureCoordinate'
+        # 首选标准的 "TexCoord2fArray" 类型；部分旧版/受限环境下可回退为 Float2Array。
         type_name = Sdf.ValueTypeNames.TexCoord2fArray if Sdf is not None else None
         if type_name is not None:
-            pv = api.CreatePrimvar(name, type_name, UsdGeom.Tokens.faceVarying)
+            pv = api.CreatePrimvar(name, type_name, UsdGeom.Tokens.faceVarying)  # 创建 texCoord2f[] primvar
         else:
-            # 回退：尝试直接创建 float2[] 类型（不一定可用）
+            # 回退路径：直接用 float2[]；此分支理论上很少走到，仅为健壮性考虑。
             pv = api.CreatePrimvar(name, Sdf.ValueTypeNames.Float2Array if Sdf else None, UsdGeom.Tokens.faceVarying)  # type: ignore[arg-type]
+        # 尝试设置 role 为 textureCoordinate，方便下游工具识别为 UV。
         try:
             pv.SetRole(UsdGeom.Tokens.textureCoordinate)
         except Exception:
+            # 某些 USD 版本或绑定可能不支持 SetRole；忽略异常即可。
             pass
-    # 展平
+
+    # 3) 将每个三角的 (u0,v0,u1,v1,u2,v2) 展平成角点顺序一致的 float2 数组。
+    #    对纯三角，最终长度应为 faces*3。
     flat: list[tuple[float, float]] = []
-    for (u0, v0, u1, v1, u2, v2) in face_uvs:
-        flat.append((u0, v0))
-        flat.append((u1, v1))
-        flat.append((u2, v2))
+    for (u0, v0, u1, v1, u2, v2) in face_uvs:  # 遍历每个三角的 UV 三元组
+        flat.append((u0, v0))  # 角点0
+        flat.append((u1, v1))  # 角点1
+        flat.append((u2, v2))  # 角点2
+
+    # 4) 写入 UV 数组到 primvar 的默认时间样本（默认时刻）。
     pv.Set(flat)
-    # 确保插值正确
+
+    # 5) 确保 primvar 的插值模式为 faceVarying（每个角点一个值）。
     try:
         pv.SetInterpolation(UsdGeom.Tokens.faceVarying)
     except Exception:
+        # 某些环境中 SetInterpolation 可能不可用或被限制；忽略异常即可。
         pass
