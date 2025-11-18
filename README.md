@@ -1,10 +1,32 @@
 # ConvertAsset
 
-本项目用于将包含 MDL 材质的 USD 资产批量转换为基于 `UsdPreviewSurface` 的无 MDL 版本，保留引用/载荷/variants/clips，不做 flatten，并在原始目录旁生成 `*_noMDL.usd` 文件。
+ConvertAsset 提供两类核心能力：
 
-同时提供“带背景的多视角缩略图”生成功能，适用于根据场景内实例对象批量出图，作为检索/标注的可视化资产。
+- **no-MDL 转换**：将包含 MDL 材质的 USD 资产批量转换为基于 `UsdPreviewSurface` 的无 MDL 版本，保留引用 / 载荷 / variants / clips，不做 flatten，并在原始目录旁生成 `*_noMDL.usd` 文件；
+- **资产增值工具链**：包括网格简化（mesh-simplify）、UV 体检（uv-audit）、缩略图渲染（thumbnails）、材质检查（inspect）、MDL 材质导出等。
 
-## 运行
+## Quick Start
+
+假设你已有一个 USD 场景 `/abs/path/to/scene.usd`，并可以使用 Isaac Sim 的 Python 运行环境：
+
+```bash
+cd /opt/my_dev/ConvertAsset
+
+# 简单 no-MDL 转换
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py no-mdl "/abs/path/to/scene.usd"
+
+# 对同一个场景做一次 50% 网格简化（Python 后端）
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py mesh-simplify \
+	"/abs/path/to/scene.usd" \
+	--backend py \
+	--ratio 0.5 \
+	--apply \
+	--out "/abs/path/to/scene_qem_50pct_py.usd"
+```
+
+更多细节用法，见下文各功能小节和 `docs/` 目录。
+
+## 运行环境与入口
 
 推荐使用仓库内的包装脚本（自动定位 Isaac Sim 安装）：
 
@@ -19,12 +41,13 @@
 4. 常见系统安装路径：`/opt/nvidia/isaac-sim`、`/opt/NVIDIA/isaac-sim`、`/opt/omniverse/isaac-sim`
 
 若无法自动定位，请手动：
+
 ```bash
 export ISAAC_SIM_ROOT="/abs/path/to/isaac_sim-<version>"
 ./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py "/abs/path/to/top.usd"
 ```
 
-也可以显式指定子命令：
+也可以显式指定子命令，例如：
 
 ```bash
 ./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py no-mdl "/abs/path/to/top.usd"
@@ -40,7 +63,23 @@ export ISAAC_SIM_ROOT="/abs/path/to/isaac_sim-<version>"
 ./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/scripts/usd_make_preview_copies.py "/abs/path/to/top.usd"
 ```
 
-### 新增：网格简化（mesh-simplify）
+## 功能概览
+
+- **no-mdl**：生成 `_noMDL.usd` 版本，移除 MDL 材质，建立 UsdPreviewSurface 网络；
+- **mesh-faces / mesh-simplify**：统计面数与网格简化，支持纯 Python 与 C++（含 UV-aware）后端；
+- **uv-audit**：检查 Mesh UV（face-varying）的一致性与长度匹配；
+- **inspect**：分析指定 Material（MDL / UsdPreviewSurface）的着色网络；
+- **export-mdl-materials**：将场景内 MDL 材质导出为独立材质球 USD；
+- **thumbnails**：在 Isaac Sim 中批量渲染带背景的多视角缩略图。
+
+更详细的设计和实现说明参见：
+
+- 网格简化：`docs/mesh/overview.md`、`docs/mesh/cli_usage.md`；
+- C++ QEM 后端：`docs/native_meshqem/README.md`、`usage_and_integration.md`；
+- 材质与 no-MDL 流程：`docs/no_mdl/`；
+- 缩略图：`docs/thumbnails/`。
+
+## 网格简化（mesh-simplify）
 
 #### Python QEM 后端（默认，带 UV 保留）
 
@@ -161,7 +200,7 @@ Exported: /tmp/instance_simplified_95_cpp_uv.usd
 - `--backend cpp-uv`：通过 `meshqem_py` 模块在 Python 进程内调用 C++，并在内部维护 per-face UV triplets，同步保留 surviving faces 的 face‑varying UV；
 - 两种 C++ 后端都要求输入网格为纯三角面（`faceVertexCounts == 3`），非三角网格会被跳过计入 `skipped_non_tri`。
 
-### 新增：UV 体检（uv-audit）
+## UV 体检（uv-audit）
 
 检查场景/资产中的 Mesh UV 一致性（是否为 `faceVarying` 且长度/indices 与面角点数匹配）。需在 Isaac Sim Python 环境运行：
 
@@ -191,7 +230,7 @@ Exported: /tmp/instance_simplified_95_cpp_uv.usd
 - `--limit` 控制打印的不一致条目上限。
 - 常见不一致来自“只删几何未同步裁剪 UV（values 仍为旧长度）”。
 
-### 新增：材质检查 (inspect)
+## 材质检查（inspect）
 
 用于**只读**分析某个 Material 在 MDL 或 UsdPreviewSurface 模式下的着色网络：
 
@@ -209,7 +248,7 @@ cd /opt/my_dev/ConvertAsset
 
 更多细节见：`docs/inspect_material.md`
 
-### 新增：导出本文件内的 MDL 材质为独立材质球 USD（含贴图连接）
+## 导出 MDL 材质为独立材质球 USD（含贴图连接）
 
 该命令将遍历 MDL 材质并为每个材质创建一个独立的 UsdPreviewSurface 材质 USD 文件。
 
@@ -235,7 +274,7 @@ cd /opt/my_dev/ConvertAsset
 - `--no-external` 可用于只导出根层拥有/定义的材质。
 - 导出过程会自动搭建预览网络并尽可能复用/解析 MDL 贴图路径（BaseColor / Roughness / Metallic / Normal）。
 
-### 新增：缩略图渲染（thumbnails）
+## 缩略图渲染（thumbnails）
 
 使用 Isaac Sim 无头渲染，为场景中的实例 Mesh 生成带背景的多视角缩略图（按实例名分文件夹保存）。
 
