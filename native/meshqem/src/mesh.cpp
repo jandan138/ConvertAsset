@@ -7,4 +7,5 @@
 void Mesh::clear() {
     verts.clear();   // drop all vertex positions
     faces.clear();   // drop all triangle indices
+    face_uvs.clear(); // drop any per-face UV triplets (if present)
 }

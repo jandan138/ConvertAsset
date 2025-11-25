@@ -175,14 +175,38 @@ bool qem_simplify(Mesh& mesh, const SimplifyOptions& opt, SimplifyReport& rep){
         }
     }
 
-    // compact vertices and faces — remove dead vertices and reindex faces.
+    // compact vertices and faces  remove dead vertices and reindex faces.
     std::vector<int> remap(mesh.verts.size(), -1); remap.reserve(mesh.verts.size());
     std::vector<Vec3> v2; v2.reserve(mesh.verts.size());
     for(size_t i=0;i<mesh.verts.size();++i){ if(v_alive[i]){ remap[i]=(int)v2.size(); v2.push_back(mesh.verts[i]); } }
+
     std::vector<Tri> f2; f2.reserve(mesh.faces.size());
-    for(size_t fi=0; fi<mesh.faces.size(); ++fi){ if(!face_alive[fi]) continue; auto f=mesh.faces[fi];
-        int a=remap[f.a], b=remap[f.b], c=remap[f.c]; if(a<0||b<0||c<0) continue; f2.push_back({a,b,c}); }
-    mesh.verts.swap(v2); mesh.faces.swap(f2);
+    // 若存在与 faces 对齐的 face_uvs，则在压缩 faces 时同步压缩 UV triplets；
+    // 仅携带/过滤，不在 C++ 端修改具体 UV 值。
+    std::vector<std::array<double, 6>> uv2;
+    bool has_uv = (mesh.face_uvs.size() == mesh.faces.size());
+    if(has_uv) uv2.reserve(mesh.face_uvs.size());
+
+    for(size_t fi=0; fi<mesh.faces.size(); ++fi){
+        if(!face_alive[fi]) continue; // 已删除的面跳过
+        auto f = mesh.faces[fi];
+        int a = remap[f.a], b = remap[f.b], c = remap[f.c];
+        if(a<0 || b<0 || c<0) continue; // 任一端点被丢弃则跳过该面
+        f2.push_back({a,b,c});
+        if(has_uv){
+            // 与 Python qem_simplify_ex 一致：仅在面存活时保留对应的 UV triplet。
+            uv2.push_back(mesh.face_uvs[fi]);
+        }
+    }
+
+    mesh.verts.swap(v2);
+    mesh.faces.swap(f2);
+    if(has_uv){
+        mesh.face_uvs.swap(uv2);
+    } else {
+        // 若原来尺寸不匹配，说明本次运行未显式填充 UV，保持为空以防误用。
+        mesh.face_uvs.clear();
+    }
 
     rep.faces_after = mesh.faces.size();
     rep.verts_after = mesh.verts.size();
