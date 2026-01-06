@@ -70,6 +70,7 @@ export ISAAC_SIM_ROOT="/abs/path/to/isaac_sim-<version>"
 - **uv-audit**：检查 Mesh UV（face-varying）的一致性与长度匹配；
 - **inspect**：分析指定 Material（MDL / UsdPreviewSurface）的着色网络；
 - **export-mdl-materials**：将场景内 MDL 材质导出为独立材质球 USD；
+- **export-glb**：将 USD 资产转换为 GLB 格式（支持 FaceVarying UV 与材质贴图烘焙/链接）；
 - **thumbnails**：在 Isaac Sim 中批量渲染带背景的多视角缩略图。
 
 更详细的设计和实现说明参见：
@@ -273,6 +274,21 @@ cd /opt/my_dev/ConvertAsset
 - 若你希望统一输出在顶层 USD 目录，可切换 `--placement root`。
 - `--no-external` 可用于只导出根层拥有/定义的材质。
 - 导出过程会自动搭建预览网络并尽可能复用/解析 MDL 贴图路径（BaseColor / Roughness / Metallic / Normal）。
+
+## GLB 导出 (export-glb)
+
+将 USD 资产转换为 GLB (glTF 2.0 Binary) 格式，支持材质纹理和复杂网格拓扑的处理。
+
+```bash
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py export-glb \
+	"/abs/path/to/scene.usd" \
+	--out "/abs/path/to/output.glb"
+```
+
+**关键特性**：
+- **FaceVarying UV 支持**：自动检测并处理 USD 的 FaceVarying UV 拓扑，通过顶点分裂（Mesh Flattening）确保在 glTF 中正确显示纹理，解决 UV 错乱或丢失问题。
+- **稳健的纹理提取**：智能解析 UsdPreviewSurface 网络，支持嵌套连接、直接 Prim 引用以及 `info:id="UsdUVTexture"` 等多种 USD 变体，确保 BaseColor、Normal、Metallic 等贴图正确链接。
+- **自动坐标系转换**：处理 Z-up 到 Y-up 的转换（如果需要）。
 
 ## 缩略图渲染（thumbnails）
 

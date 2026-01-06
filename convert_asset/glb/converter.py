@@ -175,35 +175,12 @@ class UsdToGlbConverter:
         points_np = np.array(points, dtype=np.float32)
         
         # Apply root transform (Z-up fix)
-        # Gf Matrix is 4x4. We can do dot product.
-        # Efficient way: transform points in place.
-        # Only if transform is not identity.
-        # Gf.Matrix4d equality check
         is_identity = (self.root_transform == Gf.Matrix4d(1.0))
         if not is_identity:
-            # Convert Gf Matrix to numpy 4x4
-            mat_np = np.array(self.root_transform).reshape(4, 4) # Gf returns flat list? No, usually object.
-            # Actually Gf matrix access in python is a bit tricky, let's just use Gf for safety or construct numpy mat manually
-            # Z-up to Y-up matrix:
-            # [1  0  0  0]
-            # [0  0  1  0]
-            # [0 -1  0  0]
-            # [0  0  0  1]
-            # Let's just do manual swizzle if it's just Z-up rotation
-            # y' = z, z' = -y
-            # But let's stick to matrix mult for correctness
             pts_homo = np.hstack((points_np, np.ones((len(points_np), 1), dtype=np.float32)))
-            # Transpose matrix because numpy dot is (N,4) x (4,4)
-            # Gf.Matrix4d is row-major storage but acts as column vectors?
-            # Standard: v_new = M * v
-            # In numpy: v_new = v * M.T
-            # Let's extract values
             m_flat = np.array([self.root_transform[i][j] for i in range(4) for j in range(4)]).reshape(4,4)
-            # Points are transformed
             t_points = pts_homo @ m_flat
             points_np = t_points[:, :3].astype(np.float32)
-            
-            # Also transform normals if present
         
         # 3. Extract Normals
         normals_np = None
@@ -211,49 +188,75 @@ class UsdToGlbConverter:
         if normals and len(normals) == len(points): # Vertex normals
             normals_np = np.array(normals, dtype=np.float32)
             if not is_identity:
-                 # Rotate normals (ignore translation)
-                 # m_flat rotation part
                  m_rot = m_flat[:3, :3]
                  normals_np = normals_np @ m_rot
-                 # Re-normalize? Usually rotation is orthogonal so length is preserved.
 
         # 4. Extract UVs (primvars:st)
         uvs_np = None
         st_pv = UsdGeom.PrimvarsAPI(usd_mesh).GetPrimvar("st")
+        
+        needs_flattening = False
+        uv_data = None
+        uv_indices = None
+        
         if st_pv and st_pv.HasValue():
-            uv_data = st_pv.Get()
-            indices = st_pv.GetIndices()
-            
-            # If indexed, we need to flatten because GLTF expects 1 UV per vertex (or indexed same as position)
-            # USD allows different topology for UVs (FaceVarying).
-            # GLTF requires strict correlation: Attribute i corresponds to Vertex i.
-            # If USD has FaceVarying UVs (indices on faces, not vertices), we need to split vertices.
-            # THIS IS A COMPLEXITY: "Splitting vertices"
-            # For Phase 1, we assume Vertex Interpolation or simple mapping.
-            # If interpolation is 'vertex', simple 1:1.
-            # If 'faceVarying', logic is harder.
-            
+            uv_data = np.array(st_pv.Get(), dtype=np.float32)
+            uv_indices = st_pv.GetIndices()
+            if uv_indices:
+                uv_indices = np.array(uv_indices, dtype=np.uint32)
+                
             interp = st_pv.GetInterpolation()
+            
             if interp == UsdGeom.Tokens.vertex:
                  # 1:1 mapping if not indexed, or resolve indices
-                 if indices:
-                     uv_expanded = np.array([uv_data[i] for i in indices], dtype=np.float32)
-                     uvs_np = uv_expanded
+                 if uv_indices is not None:
+                     uvs_np = uv_data[uv_indices]
                  else:
-                     uvs_np = np.array(uv_data, dtype=np.float32)
+                     uvs_np = uv_data
             elif interp == UsdGeom.Tokens.faceVarying:
-                # For Phase 1, we might skip faceVarying UVs or just warn.
-                # Or, if mesh-simplify was run with 'cpp-uv', it preserves faceVarying.
-                # To support this in GLB, we must duplicate positions/normals for unique UVs.
-                # This is "unindexing".
-                # For simplicity in Phase 1: Skip UVs if faceVarying to avoid complex geometry splitting code.
-                # User can refine this later.
-                print(f"[WARN] Mesh {usd_mesh.GetPath()} has faceVarying UVs. Skipping UVs in Phase 1.")
-                uvs_np = None
+                # Need to flatten the mesh
+                needs_flattening = True
         
         # 5. Extract Indices
         indices = usd_mesh.GetFaceVertexIndicesAttr().Get()
         indices_np = np.array(indices, dtype=np.uint32) # Standardize to uint32
+        
+        # Handle Flattening for FaceVarying UVs
+        if needs_flattening:
+            # We must explode the topology:
+            # New vertex count = len(indices_np) (Total face corners)
+            # New points[i] = Old points[indices_np[i]]
+            # New normals[i] = Old normals[indices_np[i]]
+            # New UVs[i] = UV Data[UV Indices[i]] (or directly UV Data[i] if not indexed and matches face counts?)
+            # Wait, FaceVarying UVs usually match face vertex count (or are indexed to match it).
+            
+            # Points & Normals expansion
+            points_np = points_np[indices_np]
+            if normals_np is not None:
+                normals_np = normals_np[indices_np]
+                
+            # UV expansion
+            # For faceVarying, the data usually corresponds to face corners.
+            # If indexed, indices length == face corners length.
+            # If not indexed, data length == face corners length.
+            if uv_indices is not None and len(uv_indices) > 0:
+                # If indices are present, they map face corner -> uv value
+                if len(uv_indices) == len(indices_np):
+                    uvs_np = uv_data[uv_indices]
+                else:
+                    print(f"[WARN] UV indices count {len(uv_indices)} != Face Vertex indices count {len(indices_np)}")
+            else:
+                # Not indexed, check length
+                if len(uv_data) == len(indices_np):
+                    uvs_np = uv_data
+                else:
+                    # Sometimes faceVarying data matches vertex count if topology is trivial?
+                    # Or maybe it matches face count?
+                    print(f"[WARN] UV data count {len(uv_data)} != Face Vertex indices count {len(indices_np)}")
+
+            # New indices are just 0..N-1
+            indices_np = np.arange(len(indices_np), dtype=np.uint32)
+            
         
         # 6. Extract Material (BaseColor)
         # Find bound material
@@ -298,9 +301,32 @@ class UsdToGlbConverter:
                                
                                # Let's try to unpack carefully.
                                val = connections[0]
+                               
+                               # Robust unpacking for nested list structure (observed in debug: [[Info], []])
+                               if isinstance(val, list) and len(val) > 0:
+                                   # Check if the element inside is the Info object
+                                   # Or if val itself is the Info object (but isinstance list returned true?)
+                                   # The debug output showed `Type: <class 'list'>` and content `[UsdShade.UsdShadeConnectionSourceInfo...]`
+                                   # So it is a list containing the info object.
+                                   val = val[0]
+
                                if hasattr(val, "source"): # UsdShadeConnectionSourceInfo
-                                    src = val.source.prim
-                                    src_name = val.sourceName
+                                     # source can be ConnectableAPI, Usd.Prim, or SdfPath?
+                                     s = val.source
+                                     src = None
+                                     if isinstance(s, Usd.Prim):
+                                         src = s
+                                     elif hasattr(s, "GetPrim"):
+                                         src = s.GetPrim()
+                                     elif hasattr(s, "prim"):
+                                         src = s.prim
+                                     
+                                     if src:
+                                         print(f"[DEBUG] Found connected source: {src.GetPath()} ({src.GetTypeName()})")
+                                     else:
+                                         print(f"[WARN] Could not resolve prim from source: {s} Type: {type(s)}")
+                                     
+                                     src_name = val.sourceName
                                elif isinstance(val, (list, tuple)) and len(val) >= 2:
                                     # If it returns (SdfPath, TfToken), we need to get Prim from Stage
                                     # Wait, GetConnectedSources returns (SdfPath, TfToken) usually?
@@ -339,19 +365,41 @@ class UsdToGlbConverter:
                               # What if it returned None? We checked HasConnectedSource.
                               return None
                           # Assume connected to UsdUVTexture
-                          if src.GetTypeName() == "UsdUVTexture":
-                             f_attr = src.GetInput("file")
-                             if f_attr:
-                                 path = f_attr.Get()
-                                 # Resolve path relative to layer? 
-                                 # Usd.Stage.ResolveUnits?
-                                 # For simplicity, if path is relative, assume relative to USD file
-                                 if path and not os.path.isabs(path):
-                                     # Get layer dir
-                                     layer_path = src.GetPrim().GetStage().GetRootLayer().realPath
-                                     if layer_path:
-                                         path = os.path.join(os.path.dirname(layer_path), path)
-                                 return path
+                          # Note: Prim type might be "Shader" with info:id="UsdUVTexture" OR type "UsdUVTexture"
+                          is_tex = False
+                          if src:
+                              if src.GetTypeName() == "UsdUVTexture":
+                                  is_tex = True
+                              elif src.GetTypeName() == "Shader":
+                                  # Check info:id
+                                  sh_src = UsdShade.Shader(src)
+                                  if sh_src.GetIdAttr().Get() == "UsdUVTexture":
+                                      is_tex = True
+                          
+                          if is_tex:
+                              f_attr = src.GetAttribute("inputs:file")
+                              if f_attr:
+                                  asset_path_obj = f_attr.Get()
+                                  # asset_path_obj is Sdf.AssetPath usually
+                                  path = None
+                                  if hasattr(asset_path_obj, "path"):
+                                      path = asset_path_obj.path
+                                  else:
+                                      path = str(asset_path_obj)
+                                      
+                                  print(f"[DEBUG] Texture Path Raw: {path}")
+                                  # Resolve path relative to layer? 
+                                  # Usd.Stage.ResolveUnits?
+                                  # For simplicity, if path is relative, assume relative to USD file
+                                  if path and not os.path.isabs(path):
+                                      # Get layer dir
+                                      # Use Usd.Prim.GetStage().GetRootLayer().realPath
+                                      # src is Usd.Prim
+                                      layer_path = src.GetStage().GetRootLayer().realPath
+                                      if layer_path:
+                                          path = os.path.join(os.path.dirname(layer_path), path)
+                                  print(f"[DEBUG] Texture Path Resolved: {path}")
+                                  return path
                     return None
 
                 bc_path = get_tex_path("diffuseColor")

@@ -266,14 +266,16 @@ class GlbWriter:
             "scene": 0,
             "nodes": self.nodes,
             "meshes": self.meshes,
-            "textures": self.textures,
-            "images": self.images,
-            "samplers": self.samplers,
             "materials": self.materials,
             "accessors": self.accessors,
             "bufferViews": self.buffer_views,
             "buffers": [{"byteLength": len(self.buffer_data)}]
         }
+        
+        # Optional lists (must not be empty)
+        if self.textures: gltf["textures"] = self.textures
+        if self.images: gltf["images"] = self.images
+        if self.samplers: gltf["samplers"] = self.samplers
         
         json_bytes = json.dumps(gltf, separators=(',', ':')).encode('utf-8')
         
