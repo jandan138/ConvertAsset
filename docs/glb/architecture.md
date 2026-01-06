@@ -8,13 +8,13 @@ The goal was to create a lightweight, "headless" GLB exporter that runs in a sta
 ### Core Classes
 
 #### 1. `UsdToGlbConverter` (`convert_asset/glb/converter.py`)
-- **Role**: The "Bridge". Traverses the USD stage and extracts data.
+- **Role**: The "Orchestrator".
 - **Key Responsibilities**:
-  - **Traversal**: Iterates through `UsdGeom.Mesh` prims.
-  - **Triangulation Check**: Verifies that meshes are triangulated (face vertex counts == 3).
-  - **Coordinate Conversion**: Converts USD Z-up (default) to glTF Y-up using a root transform matrix.
-  - **Material Extraction**: Reads `displayColor` or `UsdPreviewSurface` inputs (currently `diffuseColor`) to determine base color.
-  - **Data Handoff**: Passes raw data (points, normals, indices, UVs) to the `GlbWriter`.
+  - Initializes the `GlbWriter`.
+  - Determines stage up-axis and root transform.
+  - Iterates through the USD stage (via `UsdPrimRange`).
+  - Delegates specific extraction tasks to helper modules (`UsdMeshExtractor`, `UsdMaterialExtractor`).
+  - Coordinates texture processing and caching.
 
 #### 2. `GlbWriter` (`convert_asset/glb/writer.py`)
 - **Role**: The "Builder". Constructs the valid GLB binary file.
@@ -23,6 +23,27 @@ The goal was to create a lightweight, "headless" GLB exporter that runs in a sta
   - **Padding/Alignment**: Ensures 4-byte alignment for all chunks and accessors as per glTF 2.0 spec.
   - **JSON Construction**: Builds the `asset`, `scenes`, `nodes`, `meshes`, `accessors`, `bufferViews`, `materials` dictionaries.
   - **Export**: Writes the final `.glb` file with the standard header (`glTF` magic, version, length) + JSON Chunk + Binary Chunk.
+
+#### 3. `UsdMeshExtractor` (`convert_asset/glb/usd_mesh.py`)
+- **Role**: Geometry Extractor.
+- **Key Responsibilities**:
+  - Extracts positions, normals, and indices from `UsdGeom.Mesh`.
+  - Handles **FaceVarying UV** topology by flattening vertices (exploding indices) to ensure correct texture mapping in glTF (which supports only Vertex-Interpolation).
+  - Applies coordinate system transforms (Z-up to Y-up).
+
+#### 4. `UsdMaterialExtractor` (`convert_asset/glb/usd_material.py`)
+- **Role**: Material Graph Walker.
+- **Key Responsibilities**:
+  - Finds bound `UsdPreviewSurface` materials.
+  - Extracts scalar parameters (BaseColor, Roughness, Metallic).
+  - Robustly traverses connection paths to find texture files, handling nested connection lists and direct/indirect Prim references.
+
+#### 5. `TextureUtils` (`convert_asset/glb/texture_utils.py`)
+- **Role**: Image Processor.
+- **Key Responsibilities**:
+  - Reads image files using Pillow (PIL).
+  - Converts images to in-memory PNG bytes.
+  - **Channel Packing**: Merges Metallic (B) and Roughness (G) images into a single texture for glTF PBR compliance.
 
 ### Data Flow
 1. **Input**: USD Stage (opened via `pxr.Usd`).

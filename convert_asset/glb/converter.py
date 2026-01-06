@@ -5,106 +5,42 @@ Traverses a USD stage, extracts geometry/material, and drives the GlbWriter.
 """
 import os
 import numpy as np
-from PIL import Image
-from io import BytesIO
-from pxr import Usd, UsdGeom, UsdShade, Gf, Vt
-from .writer import GlbWriter
+from pxr import Usd, UsdGeom, Gf
 
+from .writer import GlbWriter
+from .usd_mesh import UsdMeshExtractor
+from .usd_material import UsdMaterialExtractor
+from .texture_utils import process_texture, pack_metallic_roughness
 
 class UsdToGlbConverter:
     def __init__(self):
         self.writer = GlbWriter()
         # Transform matrix to convert USD (usually Z-up or Y-up) to GLTF (Y-up)
-        # We will compute this based on stage up-axis.
         self.root_transform = Gf.Matrix4d(1.0)
         
-        # Cache for processed images (path -> glb_image_index)
+        # Cache for processed images (path or key -> glb_image_index)
         self._image_cache = {}
 
-    def _process_texture(self, file_path):
+    def _get_image_index(self, key, loader_func, *args):
         """
-        Read image from path, convert to PNG bytes, add to writer.
-        Returns image index.
+        Helper to handle image caching.
+        key: Unique cache key (e.g. file path).
+        loader_func: Function that returns (bytes, mime_type) or None.
+        args: Arguments for loader_func.
         """
-        if not file_path:
+        if not key:
             return None
             
-        # Resolve absolute path (simplistic resolution)
-        # In a real USD pipeline, we need ArResolver. For now, assume file system paths.
-        if not os.path.exists(file_path):
-            print(f"[WARN] Texture not found: {file_path}")
-            return None
-            
-        if file_path in self._image_cache:
-            return self._image_cache[file_path]
-            
-        try:
-            with Image.open(file_path) as img:
-                # Convert to RGBA or RGB
-                if img.mode != 'RGBA' and img.mode != 'RGB':
-                    img = img.convert('RGB')
-                
-                # Export to PNG in memory
-                buf = BytesIO()
-                img.save(buf, format="PNG")
-                img_bytes = buf.getvalue()
-                
-                idx = self.writer.add_image(img_bytes, mime_type="image/png")
-                self._image_cache[file_path] = idx
-                return idx
-        except Exception as e:
-            print(f"[ERROR] Failed to process texture {file_path}: {e}")
-            return None
-
-    def _pack_metallic_roughness(self, metal_path, rough_path):
-        """
-        Combine metallic (B) and roughness (G) into one texture.
-        glTF expects: G=Roughness, B=Metallic.
-        """
-        key = f"MR_{metal_path}_{rough_path}"
         if key in self._image_cache:
             return self._image_cache[key]
             
-        try:
-            # Load images or create defaults
-            metal_img = None
-            rough_img = None
-            size = (1, 1)
-            
-            if metal_path and os.path.exists(metal_path):
-                metal_img = Image.open(metal_path).convert('L') # Grayscale
-                size = metal_img.size
-            
-            if rough_path and os.path.exists(rough_path):
-                rough_img = Image.open(rough_path).convert('L') # Grayscale
-                size = rough_img.size
-                
-            # If mismatch size, resize to larger? or just first one.
-            # For simplicity, resize to match if both exist
-            if metal_img and rough_img and metal_img.size != rough_img.size:
-                size = metal_img.size # Prioritize metallic size
-                rough_img = rough_img.resize(size)
-                
-            # Create packed image (R=0, G=Rough, B=Metal, A=1)
-            packed = Image.new('RGB', size, (255, 255, 255))
-            r_ch = Image.new('L', size, 255) # Unused R
-            
-            g_ch = rough_img if rough_img else Image.new('L', size, 255) # Default Roughness 1.0
-            b_ch = metal_img if metal_img else Image.new('L', size, 0)   # Default Metallic 0.0
-            
-            packed = Image.merge('RGB', (r_ch, g_ch, b_ch))
-            
-            buf = BytesIO()
-            packed.save(buf, format="PNG")
-            img_bytes = buf.getvalue()
-            
-            idx = self.writer.add_image(img_bytes, mime_type="image/png")
+        result = loader_func(*args)
+        if result:
+            img_bytes, mime = result
+            idx = self.writer.add_image(img_bytes, mime_type=mime)
             self._image_cache[key] = idx
             return idx
-            
-        except Exception as e:
-            print(f"[ERROR] Failed to pack MetallicRoughness: {e}")
-            return None
+        return None
 
     def process_stage(self, src_usd_path, out_glb_path):
         """
@@ -116,24 +52,13 @@ class UsdToGlbConverter:
 
         # 1. Setup coordinate system conversion
         up_axis = UsdGeom.GetStageUpAxis(stage)
-        meters_per_unit = UsdGeom.GetStageMetersPerUnit(stage)
         
-        # GLTF is Y-up, meters.
-        # We need a root transform to:
-        #   - Rotate if Z-up
-        #   - Scale to meters (optional, but good practice. For now let's keep unit scale 1:1 to avoid confusion, 
-        #     or apply meters_per_unit if we want strict real-world scale. 
-        #     Let's just handle Up-Axis rotation for now to match visual orientation).
-        
+        # GLTF is Y-up. If Z-up, rotate -90 around X.
         if up_axis == 'Z':
-            # Rotate -90 degrees around X axis to bring Z+ to Y+
-            # USD matrix is row-major in python API? Gf.Matrix4d is usually row-major.
-            # Let's use Gf.Matrix4d().SetRotate()
             rot = Gf.Rotation(Gf.Vec3d(1, 0, 0), -90)
             self.root_transform = Gf.Matrix4d(rot, Gf.Vec3d(0))
         
         # 2. Traverse and convert meshes
-        # We use UsdPrimRange to traverse all primitives
         for prim in Usd.PrimRange(stage.GetPseudoRoot()):
             if not prim.IsActive() or prim.IsInstanceProxy():
                 continue
@@ -152,313 +77,60 @@ class UsdToGlbConverter:
         """
         Extract data from UsdGeom.Mesh and add to GlbWriter.
         """
-        # 1. Check topology (must be triangles)
-        counts = usd_mesh.GetFaceVertexCountsAttr().Get()
-        if not counts:
-            return
-            
-        # Optimization: Check if all counts are 3 using numpy if available or simple loop
-        # counts is a VtIntArray, acts like list
-        # If not all triangles, we skip (assuming mesh-simplify was run) or warn
-        # For efficiency in Python, we can just check a few or converting to numpy
-        counts_np = np.array(counts)
-        if not np.all(counts_np == 3):
-            print(f"[WARN] Skipping mesh {usd_mesh.GetPath()}: Not triangulated (run mesh-simplify first).")
+        # 1. Extract Geometry
+        mesh_data = UsdMeshExtractor.extract_mesh_data(usd_mesh, self.root_transform)
+        if not mesh_data:
             return
 
-        # 2. Extract Points (and apply root transform)
-        points = usd_mesh.GetPointsAttr().Get()
-        if not points:
-            return
-        
-        # Convert to numpy (N, 3) float32
-        points_np = np.array(points, dtype=np.float32)
-        
-        # Apply root transform (Z-up fix)
-        is_identity = (self.root_transform == Gf.Matrix4d(1.0))
-        if not is_identity:
-            pts_homo = np.hstack((points_np, np.ones((len(points_np), 1), dtype=np.float32)))
-            m_flat = np.array([self.root_transform[i][j] for i in range(4) for j in range(4)]).reshape(4,4)
-            t_points = pts_homo @ m_flat
-            points_np = t_points[:, :3].astype(np.float32)
-        
-        # 3. Extract Normals
-        normals_np = None
-        normals = usd_mesh.GetNormalsAttr().Get()
-        if normals and len(normals) == len(points): # Vertex normals
-            normals_np = np.array(normals, dtype=np.float32)
-            if not is_identity:
-                 m_rot = m_flat[:3, :3]
-                 normals_np = normals_np @ m_rot
-
-        # 4. Extract UVs (primvars:st)
-        uvs_np = None
-        st_pv = UsdGeom.PrimvarsAPI(usd_mesh).GetPrimvar("st")
-        
-        needs_flattening = False
-        uv_data = None
-        uv_indices = None
-        
-        if st_pv and st_pv.HasValue():
-            uv_data = np.array(st_pv.Get(), dtype=np.float32)
-            uv_indices = st_pv.GetIndices()
-            if uv_indices:
-                uv_indices = np.array(uv_indices, dtype=np.uint32)
-                
-            interp = st_pv.GetInterpolation()
-            
-            if interp == UsdGeom.Tokens.vertex:
-                 # 1:1 mapping if not indexed, or resolve indices
-                 if uv_indices is not None:
-                     uvs_np = uv_data[uv_indices]
-                 else:
-                     uvs_np = uv_data
-            elif interp == UsdGeom.Tokens.faceVarying:
-                # Need to flatten the mesh
-                needs_flattening = True
-        
-        # 5. Extract Indices
-        indices = usd_mesh.GetFaceVertexIndicesAttr().Get()
-        indices_np = np.array(indices, dtype=np.uint32) # Standardize to uint32
-        
-        # Handle Flattening for FaceVarying UVs
-        if needs_flattening:
-            # We must explode the topology:
-            # New vertex count = len(indices_np) (Total face corners)
-            # New points[i] = Old points[indices_np[i]]
-            # New normals[i] = Old normals[indices_np[i]]
-            # New UVs[i] = UV Data[UV Indices[i]] (or directly UV Data[i] if not indexed and matches face counts?)
-            # Wait, FaceVarying UVs usually match face vertex count (or are indexed to match it).
-            
-            # Points & Normals expansion
-            points_np = points_np[indices_np]
-            if normals_np is not None:
-                normals_np = normals_np[indices_np]
-                
-            # UV expansion
-            # For faceVarying, the data usually corresponds to face corners.
-            # If indexed, indices length == face corners length.
-            # If not indexed, data length == face corners length.
-            if uv_indices is not None and len(uv_indices) > 0:
-                # If indices are present, they map face corner -> uv value
-                if len(uv_indices) == len(indices_np):
-                    uvs_np = uv_data[uv_indices]
-                else:
-                    print(f"[WARN] UV indices count {len(uv_indices)} != Face Vertex indices count {len(indices_np)}")
-            else:
-                # Not indexed, check length
-                if len(uv_data) == len(indices_np):
-                    uvs_np = uv_data
-                else:
-                    # Sometimes faceVarying data matches vertex count if topology is trivial?
-                    # Or maybe it matches face count?
-                    print(f"[WARN] UV data count {len(uv_data)} != Face Vertex indices count {len(indices_np)}")
-
-            # New indices are just 0..N-1
-            indices_np = np.arange(len(indices_np), dtype=np.uint32)
-            
-        
-        # 6. Extract Material (BaseColor)
-        # Find bound material
+        # 2. Extract Material
         mat_idx = None
-        bound = UsdShade.MaterialBindingAPI(usd_mesh).ComputeBoundMaterial()
-        if bound and bound[0]:
-            mat = bound[0]
-            # Find PreviewSurface shader
-            # We assume no-mdl structure: mat/PreviewNetwork/PreviewSurface
-            # or just search for UsdPreviewSurface in descendants
-            shader = None
-            for child in Usd.PrimRange(mat.GetPrim()):
-                if child.GetTypeName() == "Shader":
-                    sh = UsdShade.Shader(child)
-                    if sh.GetIdAttr().Get() == "UsdPreviewSurface":
-                        shader = sh
-                        break
+        mat_data = UsdMaterialExtractor.extract_material_data(usd_mesh)
+        
+        if mat_data:
+            # Process Textures
+            textures = mat_data["textures"]
+            bc_path = textures.get("diffuse")
+            rough_path = textures.get("roughness")
+            metal_path = textures.get("metallic")
+            norm_path = textures.get("normal")
+
+            bc_tex_idx = None
+            if bc_path:
+                img_idx = self._get_image_index(bc_path, process_texture, bc_path)
+                if img_idx is not None:
+                    bc_tex_idx = self.writer.add_texture(img_idx)
             
-            if shader:
-                # Get diffuseColor
-                diffuse = shader.GetInput("diffuseColor").Get()
-                # Roughness/Metallic defaults
-                rough = shader.GetInput("roughness").Get()
-                metal = shader.GetInput("metallic").Get()
-                
-                # Texture Paths (resolve asset path)
-                def get_tex_path(input_name):
-                    inp = shader.GetInput(input_name)
-                    if inp and inp.HasConnectedSource():
-                          connections = inp.GetConnectedSources()
-                          if connections:
-                               # GetConnectedSources returns list of Sdf.PathExpression.PathSource?
-                               # Or list of (SdfPath, TfToken) tuples?
-                               # Let's inspect what it returns.
-                               # Actually, let's use GetConnectedSource() (singular) for single connection
-                               # But wait, earlier error was "too many values to unpack".
-                               # GetConnectedSource() returns (SdfPath, TfToken).
-                               # GetConnectedSources() returns list of (SdfPath, TfToken).
-                               
-                               # The issue might be that `connections[0]` is a UsdShade.ConnectionSourceInfo object in newer USD versions?
-                               # Or simply (prim, portName).
-                               
-                               # Let's try to unpack carefully.
-                               val = connections[0]
-                               
-                               # Robust unpacking for nested list structure (observed in debug: [[Info], []])
-                               if isinstance(val, list) and len(val) > 0:
-                                   # Check if the element inside is the Info object
-                                   # Or if val itself is the Info object (but isinstance list returned true?)
-                                   # The debug output showed `Type: <class 'list'>` and content `[UsdShade.UsdShadeConnectionSourceInfo...]`
-                                   # So it is a list containing the info object.
-                                   val = val[0]
+            mr_tex_idx = None
+            if rough_path or metal_path:
+                key = f"MR_{metal_path}_{rough_path}"
+                img_idx = self._get_image_index(key, pack_metallic_roughness, metal_path, rough_path)
+                if img_idx is not None:
+                    mr_tex_idx = self.writer.add_texture(img_idx)
+                    
+            norm_tex_idx = None
+            if norm_path:
+                img_idx = self._get_image_index(norm_path, process_texture, norm_path)
+                if img_idx is not None:
+                    norm_tex_idx = self.writer.add_texture(img_idx)
+            
+            mat_idx = self.writer.add_material(
+                base_color=mat_data["base_color"], 
+                metallic=mat_data["metallic"], 
+                roughness=mat_data["roughness"],
+                base_color_texture=bc_tex_idx,
+                metallic_roughness_texture=mr_tex_idx,
+                normal_texture=norm_tex_idx
+            )
 
-                               if hasattr(val, "source"): # UsdShadeConnectionSourceInfo
-                                     # source can be ConnectableAPI, Usd.Prim, or SdfPath?
-                                     s = val.source
-                                     src = None
-                                     if isinstance(s, Usd.Prim):
-                                         src = s
-                                     elif hasattr(s, "GetPrim"):
-                                         src = s.GetPrim()
-                                     elif hasattr(s, "prim"):
-                                         src = s.prim
-                                     
-                                     if src:
-                                         print(f"[DEBUG] Found connected source: {src.GetPath()} ({src.GetTypeName()})")
-                                     else:
-                                         print(f"[WARN] Could not resolve prim from source: {s} Type: {type(s)}")
-                                     
-                                     src_name = val.sourceName
-                               elif isinstance(val, (list, tuple)) and len(val) >= 2:
-                                    # If it returns (SdfPath, TfToken), we need to get Prim from Stage
-                                    # Wait, GetConnectedSources returns (SdfPath, TfToken) usually?
-                                    # Actually, let's look at the error "not enough values to unpack (expected 2, got 1)"
-                                    # This means connections[0] is a single object, not a tuple.
-                                    # It is likely UsdShade.ConnectionSourceInfo or just SdfPath if old API?
-                                    
-                                    # Let's try the safe way:
-                                    src_info = val
-                                    # If it is an SdfPath, get prim
-                                    # If it is ConnectionSourceInfo
-                                    pass
-                               else:
-                                    # Assume it's just SdfPath?
-                                    # Let's print type if we could.
-                                    pass
-
-                               # Revert to GetConnectedSource for simplicity if we assume single connection
-                               # The previous error "too many values to unpack (expected 2)" on GetConnectedSource() 
-                               # implies it returned MORE than 2 values? Or maybe LESS?
-                               # "ValueError: too many values to unpack (expected 2)" usually means it returned 3 or more.
-                               # But GetConnectedSource returns (source, sourceName).
-                               
-                               # Ah, wait. `inp.GetConnectedSource()` returns `(source, sourceName)` where source is UsdShade.ConnectableAPI (wrapper).
-                               # Maybe in this USD version it returns something else?
-                               pass
-                          
-                          # Let's try GetConnectedSource again but inspect return
-                          res = inp.GetConnectedSource()
-                          if isinstance(res, tuple):
-                              src_connectable = res[0]
-                              # src_connectable is UsdShade.ConnectableAPI. GetPrim() gives Prim.
-                              src = src_connectable.GetPrim()
-                              # src_name = res[1]
-                          else:
-                              # What if it returned None? We checked HasConnectedSource.
-                              return None
-                          # Assume connected to UsdUVTexture
-                          # Note: Prim type might be "Shader" with info:id="UsdUVTexture" OR type "UsdUVTexture"
-                          is_tex = False
-                          if src:
-                              if src.GetTypeName() == "UsdUVTexture":
-                                  is_tex = True
-                              elif src.GetTypeName() == "Shader":
-                                  # Check info:id
-                                  sh_src = UsdShade.Shader(src)
-                                  if sh_src.GetIdAttr().Get() == "UsdUVTexture":
-                                      is_tex = True
-                          
-                          if is_tex:
-                              f_attr = src.GetAttribute("inputs:file")
-                              if f_attr:
-                                  asset_path_obj = f_attr.Get()
-                                  # asset_path_obj is Sdf.AssetPath usually
-                                  path = None
-                                  if hasattr(asset_path_obj, "path"):
-                                      path = asset_path_obj.path
-                                  else:
-                                      path = str(asset_path_obj)
-                                      
-                                  print(f"[DEBUG] Texture Path Raw: {path}")
-                                  # Resolve path relative to layer? 
-                                  # Usd.Stage.ResolveUnits?
-                                  # For simplicity, if path is relative, assume relative to USD file
-                                  if path and not os.path.isabs(path):
-                                      # Get layer dir
-                                      # Use Usd.Prim.GetStage().GetRootLayer().realPath
-                                      # src is Usd.Prim
-                                      layer_path = src.GetStage().GetRootLayer().realPath
-                                      if layer_path:
-                                          path = os.path.join(os.path.dirname(layer_path), path)
-                                  print(f"[DEBUG] Texture Path Resolved: {path}")
-                                  return path
-                    return None
-
-                bc_path = get_tex_path("diffuseColor")
-                rough_path = get_tex_path("roughness")
-                metal_path = get_tex_path("metallic")
-                norm_path = get_tex_path("normal")
-
-                # Process Textures
-                bc_tex_idx = None
-                if bc_path:
-                    img_idx = self._process_texture(bc_path)
-                    if img_idx is not None:
-                        bc_tex_idx = self.writer.add_texture(img_idx)
-                
-                mr_tex_idx = None
-                if rough_path or metal_path:
-                    # Need to pack
-                    img_idx = self._pack_metallic_roughness(metal_path, rough_path)
-                    if img_idx is not None:
-                        mr_tex_idx = self.writer.add_texture(img_idx)
-                        
-                norm_tex_idx = None
-                if norm_path:
-                    img_idx = self._process_texture(norm_path)
-                    if img_idx is not None:
-                        norm_tex_idx = self.writer.add_texture(img_idx)
-                
-                # Handle types (GfVec3f -> tuple)
-                if diffuse is None: diffuse = (1.0, 1.0, 1.0)
-                else: diffuse = tuple(diffuse)
-                
-                # Add Alpha 1.0
-                if len(diffuse) == 3: diffuse = diffuse + (1.0,)
-                
-                if rough is None: rough = 0.5
-                if metal is None: metal = 0.0
-                
-                mat_idx = self.writer.add_material(
-                    base_color=diffuse, 
-                    metallic=float(metal), 
-                    roughness=float(rough),
-                    base_color_texture=bc_tex_idx,
-                    metallic_roughness_texture=mr_tex_idx,
-                    normal_texture=norm_tex_idx
-                )
-
-        # 7. Add to Writer
+        # 3. Add to Writer
         mesh_idx = self.writer.add_mesh(
             name=usd_mesh.GetPath().name,
-            positions=points_np,
-            normals=normals_np,
-            uvs=uvs_np,
-            indices=indices_np,
+            positions=mesh_data["positions"],
+            normals=mesh_data["normals"],
+            uvs=mesh_data["uvs"],
+            indices=mesh_data["indices"],
             material_index=mat_idx
         )
         
-        # 8. Add Node
-        # We ignore hierarchy for Phase 1, just add all meshes as root nodes
-        # If we wanted hierarchy, we'd need recursive traversal.
-        # But for "Object Asset" (usually one root), flat is often okay.
+        # 4. Add Node (Flat hierarchy)
         self.writer.add_node(name=usd_mesh.GetPath().name, mesh_index=mesh_idx)
-
