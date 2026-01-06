@@ -1,39 +1,28 @@
-# 文档总览与索引
+# ConvertAsset Documentation
 
-本目录收录 ConvertAsset 项目的设计、实现与运维文档。以下为分类导航与各分类索引入口。
+Welcome to the documentation for **ConvertAsset**, a comprehensive toolkit for USD asset processing, optimization, and conversion.
 
-## 1) 架构与设计（Architecture & Design）
-- 分类索引：`architecture/README.md`
-- 涵盖：整体设计、执行流程、模块职责、调用栈、处理器说明
+## Directory Structure
 
-## 2) no-MDL 转换管线（noMDL Pipeline）
-- 分类索引：`no_mdl/README.md`
-- 涵盖：材质与预览、no-MDL 开发变更记录、参考说明
+### 🏗 Architecture & Core
+- [**Architecture**](architecture/README.md): System design, data flow, and core module analysis.
+- [**No-MDL Conversion**](no_mdl/README.md): The core feature for stripping MDL and converting to UsdPreviewSurface.
 
-## 3) 变更记录（Changes & Changelogs）
-- 分类索引：`changes/README.md`
-- 涵盖：按日期记录的重要改动与说明
+### 🚀 Features & Tools
+- [**GLB Export**](glb/README.md): (New) Asset-level USD to GLB conversion (Pure Python).
+- [**Mesh Simplification**](mesh/README.md): Geometry reduction and optimization.
+- [**Native MeshQEM**](native_meshqem/README.md): High-performance C++ mesh simplification.
+- [**Thumbnails**](thumbnails/README.md): Automated thumbnail generation.
+- [**Export MDL Materials**](export_mdl_materials/README.md): Tools for extracting MDL materials.
+- [**Tools**](tools/README.md): Miscellaneous helper scripts and wrappers.
 
-## 4) 故障排查（Troubleshooting）
-- 分类索引：`troubleshooting/README.md`
-- 涵盖：常见问题、失败案例与解决方案
+### 📚 Knowledge Base
+- [**USD Knowledge**](usd_knowledge/README.md): Educational resources about USD concepts.
+- [**AI Representation Analysis**](ai_representation_analysis/material_conversion_representation_analysis.md): Research on material representation.
+- [**Troubleshooting**](troubleshooting/README.md): Solutions for common issues.
 
-## 5) USD 知识库（USD Knowledge）
-- 分类索引：`usd_knowledge/README.md`
-- 涵盖：USD 基础概念、组合与材质等背景知识
+### 📝 Changelog
+- [**Changes**](changes/README.md): History of changes and development logs.
 
-## 6) 参考与外链（References）
-- 文档：`references.md`
-
-## 7) 网格简化（Mesh Simplification）
-- 分类索引：`mesh/README.md`
-- 内容：
-	- 概览：`mesh/overview.md`
-	- 算法（Python QEM）：`mesh/algorithm_qem.md`
-	- CLI 用法：`mesh/cli_usage.md`
-	- 性能与限制：`mesh/performance_and_limits.md`
-	- 路线图：`mesh/roadmap.md`
-	- 面数统计：`mesh/face_counting.md`
-
-——
-维护约定：新增文档请归入上述分类，并在对应分类索引中登记；如出现新主题，可新增分类目录与索引。
+---
+*Generated automatically by documentation reorganization task.*

@@ -70,6 +70,11 @@ def main(argv: list[str] | None = None) -> int:
     p_thumb.add_argument("--no-bbox-draw", dest="no_bbox_draw", action="store_true", help="Do not draw bbox on saved images")
     p_thumb.add_argument("--skip-model-filter", dest="skip_model_filter", action="store_true", help="Skip filtering using models dir names")
 
+    # export-glb subcommand (Pure Python)
+    p_glb = sub.add_parser("export-glb", help="Export USD to GLB (Pure Python, Lightweight)")
+    p_glb.add_argument("src", help="Path to input USD file (recommended: *_noMDL.usd)")
+    p_glb.add_argument("--out", required=True, help="Path to output .glb file")
+
     # If no subcommand provided, default to no-mdl for convenience
     args_ns, extras = parser.parse_known_args(argv)
     if args_ns.cmd is None:
@@ -359,6 +364,23 @@ def main(argv: list[str] | None = None) -> int:
             return int(code)
         except RuntimeError as e:
             print("ERROR:", e)
+            return 3
+
+    if args_ns.cmd == "export-glb":
+        src = _to_posix(args_ns.src)
+        out = _to_posix(args_ns.out)
+        if not os.path.exists(src):
+            print("Not found:", src)
+            return 2
+        try:
+            from .glb.converter import UsdToGlbConverter
+            conv = UsdToGlbConverter()
+            conv.process_stage(src, out)
+            return 0
+        except Exception as e:
+            print("ERROR:", e)
+            import traceback
+            traceback.print_exc()
             return 3
 
     parser.print_help()

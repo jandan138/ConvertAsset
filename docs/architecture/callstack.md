@@ -136,6 +136,3 @@
 - 旧版 USD 无 `GetReferences()` 读取：改用 `prim.GetMetadata("references")`/`"payloads"` 读取 ListOp
 - 写入优先 API（`Clear*/Add*`），失败回退 `SetMetadata`
 - 递归中检测循环：`in_stack` 防止环
-
----
-如需将本文中的内容合并进现有 `docs/flow.md` 或补充时序图（Mermaid），告诉我我可以继续完善。

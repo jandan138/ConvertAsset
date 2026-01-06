@@ -1,9 +1,14 @@
-# 变更记录索引（Changes）
+# Changelog & History
 
-按主题与日期收录的变更日志：
+This directory tracks the development history and changes of the ConvertAsset project.
 
-- no-MDL 专题：
-  - `no_mdl_diagnostics_changes.md`（诊断与宽松验证增强）
-  - `no_mdl_strict_pass_and_audit.md`（材质修复+外部抑制+严格PASS+审计）
+## Structure
+- **`history/`**: Detailed logs of major feature implementations and architectural changes.
+- **`commits/`**: (Optional) Granular logs corresponding to specific commits or small updates.
 
-说明：新增变更请在此登记，并在相应专题索引处补链。
+## Recent Changes
+- [**2026-01-06: GLB Export Feature**](history/2026_01_06_glb_export.md)
+- [**No-MDL Development Changes**](history/no_mdl_dev_changes.md)
+- [**No-MDL Strict Pass & Audit**](no_mdl_strict_pass_and_audit.md)
+- [**No-MDL Diagnostics**](no_mdl_diagnostics_changes.md)
+- [**Orbit Camera Headless**](orbit_camera_headless.md)

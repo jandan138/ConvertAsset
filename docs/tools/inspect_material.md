@@ -144,4 +144,3 @@ python -m convert_asset.cli inspect examples/inspect_demo.usda mdl /Looks_Mat
 ---
 ## 版本
 初始版本：inspect 子命令 v1（纯读取，无写操作）。
-

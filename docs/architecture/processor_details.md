@@ -38,7 +38,7 @@
 - 将条目中的 `assetPath` 解析为绝对路径，过滤 USD 扩展，汇总为 `child_abs_paths`
 
 ### 4.3 先递归处理子节点，建立映射
-- 初始化空 `mapping`
+- 初始化 `mapping`
 - 对 `child_abs_paths` 排序后逐个递归调用 `self.process(c)`；
   - 将返回的目标 `_noMDL` 路径记入 `mapping[c] = dst_c`
 
