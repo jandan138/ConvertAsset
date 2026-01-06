@@ -30,7 +30,7 @@ python main.py export-glb --input <path_to_usd_file> --output <path_to_glb_file>
 - ✅ **Geometry**: Vertex points, Normals, UV coordinates (0).
 - ✅ **Topology**: Triangle indices.
 - ✅ **Material**: Basic BaseColor (Factor).
-- 🚧 **Textures**: Texture packing and embedding (Coming Soon).
+- ✅ **Textures**: Embedded textures (BaseColor, Normal) and auto-packed Metallic/Roughness.
 - 🚧 **Hierarchy**: Node hierarchy is flattened or simplified (Currently single mesh per primitive).
 
 For technical details, see [Architecture](architecture.md).

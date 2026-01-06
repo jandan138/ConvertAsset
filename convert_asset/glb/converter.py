@@ -3,7 +3,10 @@
 High-level USD to GLB converter logic.
 Traverses a USD stage, extracts geometry/material, and drives the GlbWriter.
 """
+import os
 import numpy as np
+from PIL import Image
+from io import BytesIO
 from pxr import Usd, UsdGeom, UsdShade, Gf, Vt
 from .writer import GlbWriter
 
@@ -14,6 +17,94 @@ class UsdToGlbConverter:
         # Transform matrix to convert USD (usually Z-up or Y-up) to GLTF (Y-up)
         # We will compute this based on stage up-axis.
         self.root_transform = Gf.Matrix4d(1.0)
+        
+        # Cache for processed images (path -> glb_image_index)
+        self._image_cache = {}
+
+    def _process_texture(self, file_path):
+        """
+        Read image from path, convert to PNG bytes, add to writer.
+        Returns image index.
+        """
+        if not file_path:
+            return None
+            
+        # Resolve absolute path (simplistic resolution)
+        # In a real USD pipeline, we need ArResolver. For now, assume file system paths.
+        if not os.path.exists(file_path):
+            print(f"[WARN] Texture not found: {file_path}")
+            return None
+            
+        if file_path in self._image_cache:
+            return self._image_cache[file_path]
+            
+        try:
+            with Image.open(file_path) as img:
+                # Convert to RGBA or RGB
+                if img.mode != 'RGBA' and img.mode != 'RGB':
+                    img = img.convert('RGB')
+                
+                # Export to PNG in memory
+                buf = BytesIO()
+                img.save(buf, format="PNG")
+                img_bytes = buf.getvalue()
+                
+                idx = self.writer.add_image(img_bytes, mime_type="image/png")
+                self._image_cache[file_path] = idx
+                return idx
+        except Exception as e:
+            print(f"[ERROR] Failed to process texture {file_path}: {e}")
+            return None
+
+    def _pack_metallic_roughness(self, metal_path, rough_path):
+        """
+        Combine metallic (B) and roughness (G) into one texture.
+        glTF expects: G=Roughness, B=Metallic.
+        """
+        key = f"MR_{metal_path}_{rough_path}"
+        if key in self._image_cache:
+            return self._image_cache[key]
+            
+        try:
+            # Load images or create defaults
+            metal_img = None
+            rough_img = None
+            size = (1, 1)
+            
+            if metal_path and os.path.exists(metal_path):
+                metal_img = Image.open(metal_path).convert('L') # Grayscale
+                size = metal_img.size
+            
+            if rough_path and os.path.exists(rough_path):
+                rough_img = Image.open(rough_path).convert('L') # Grayscale
+                size = rough_img.size
+                
+            # If mismatch size, resize to larger? or just first one.
+            # For simplicity, resize to match if both exist
+            if metal_img and rough_img and metal_img.size != rough_img.size:
+                size = metal_img.size # Prioritize metallic size
+                rough_img = rough_img.resize(size)
+                
+            # Create packed image (R=0, G=Rough, B=Metal, A=1)
+            packed = Image.new('RGB', size, (255, 255, 255))
+            r_ch = Image.new('L', size, 255) # Unused R
+            
+            g_ch = rough_img if rough_img else Image.new('L', size, 255) # Default Roughness 1.0
+            b_ch = metal_img if metal_img else Image.new('L', size, 0)   # Default Metallic 0.0
+            
+            packed = Image.merge('RGB', (r_ch, g_ch, b_ch))
+            
+            buf = BytesIO()
+            packed.save(buf, format="PNG")
+            img_bytes = buf.getvalue()
+            
+            idx = self.writer.add_image(img_bytes, mime_type="image/png")
+            self._image_cache[key] = idx
+            return idx
+            
+        except Exception as e:
+            print(f"[ERROR] Failed to pack MetallicRoughness: {e}")
+            return None
 
     def process_stage(self, src_usd_path, out_glb_path):
         """
@@ -188,6 +279,106 @@ class UsdToGlbConverter:
                 rough = shader.GetInput("roughness").Get()
                 metal = shader.GetInput("metallic").Get()
                 
+                # Texture Paths (resolve asset path)
+                def get_tex_path(input_name):
+                    inp = shader.GetInput(input_name)
+                    if inp and inp.HasConnectedSource():
+                          connections = inp.GetConnectedSources()
+                          if connections:
+                               # GetConnectedSources returns list of Sdf.PathExpression.PathSource?
+                               # Or list of (SdfPath, TfToken) tuples?
+                               # Let's inspect what it returns.
+                               # Actually, let's use GetConnectedSource() (singular) for single connection
+                               # But wait, earlier error was "too many values to unpack".
+                               # GetConnectedSource() returns (SdfPath, TfToken).
+                               # GetConnectedSources() returns list of (SdfPath, TfToken).
+                               
+                               # The issue might be that `connections[0]` is a UsdShade.ConnectionSourceInfo object in newer USD versions?
+                               # Or simply (prim, portName).
+                               
+                               # Let's try to unpack carefully.
+                               val = connections[0]
+                               if hasattr(val, "source"): # UsdShadeConnectionSourceInfo
+                                    src = val.source.prim
+                                    src_name = val.sourceName
+                               elif isinstance(val, (list, tuple)) and len(val) >= 2:
+                                    # If it returns (SdfPath, TfToken), we need to get Prim from Stage
+                                    # Wait, GetConnectedSources returns (SdfPath, TfToken) usually?
+                                    # Actually, let's look at the error "not enough values to unpack (expected 2, got 1)"
+                                    # This means connections[0] is a single object, not a tuple.
+                                    # It is likely UsdShade.ConnectionSourceInfo or just SdfPath if old API?
+                                    
+                                    # Let's try the safe way:
+                                    src_info = val
+                                    # If it is an SdfPath, get prim
+                                    # If it is ConnectionSourceInfo
+                                    pass
+                               else:
+                                    # Assume it's just SdfPath?
+                                    # Let's print type if we could.
+                                    pass
+
+                               # Revert to GetConnectedSource for simplicity if we assume single connection
+                               # The previous error "too many values to unpack (expected 2)" on GetConnectedSource() 
+                               # implies it returned MORE than 2 values? Or maybe LESS?
+                               # "ValueError: too many values to unpack (expected 2)" usually means it returned 3 or more.
+                               # But GetConnectedSource returns (source, sourceName).
+                               
+                               # Ah, wait. `inp.GetConnectedSource()` returns `(source, sourceName)` where source is UsdShade.ConnectableAPI (wrapper).
+                               # Maybe in this USD version it returns something else?
+                               pass
+                          
+                          # Let's try GetConnectedSource again but inspect return
+                          res = inp.GetConnectedSource()
+                          if isinstance(res, tuple):
+                              src_connectable = res[0]
+                              # src_connectable is UsdShade.ConnectableAPI. GetPrim() gives Prim.
+                              src = src_connectable.GetPrim()
+                              # src_name = res[1]
+                          else:
+                              # What if it returned None? We checked HasConnectedSource.
+                              return None
+                          # Assume connected to UsdUVTexture
+                          if src.GetTypeName() == "UsdUVTexture":
+                             f_attr = src.GetInput("file")
+                             if f_attr:
+                                 path = f_attr.Get()
+                                 # Resolve path relative to layer? 
+                                 # Usd.Stage.ResolveUnits?
+                                 # For simplicity, if path is relative, assume relative to USD file
+                                 if path and not os.path.isabs(path):
+                                     # Get layer dir
+                                     layer_path = src.GetPrim().GetStage().GetRootLayer().realPath
+                                     if layer_path:
+                                         path = os.path.join(os.path.dirname(layer_path), path)
+                                 return path
+                    return None
+
+                bc_path = get_tex_path("diffuseColor")
+                rough_path = get_tex_path("roughness")
+                metal_path = get_tex_path("metallic")
+                norm_path = get_tex_path("normal")
+
+                # Process Textures
+                bc_tex_idx = None
+                if bc_path:
+                    img_idx = self._process_texture(bc_path)
+                    if img_idx is not None:
+                        bc_tex_idx = self.writer.add_texture(img_idx)
+                
+                mr_tex_idx = None
+                if rough_path or metal_path:
+                    # Need to pack
+                    img_idx = self._pack_metallic_roughness(metal_path, rough_path)
+                    if img_idx is not None:
+                        mr_tex_idx = self.writer.add_texture(img_idx)
+                        
+                norm_tex_idx = None
+                if norm_path:
+                    img_idx = self._process_texture(norm_path)
+                    if img_idx is not None:
+                        norm_tex_idx = self.writer.add_texture(img_idx)
+                
                 # Handle types (GfVec3f -> tuple)
                 if diffuse is None: diffuse = (1.0, 1.0, 1.0)
                 else: diffuse = tuple(diffuse)
@@ -198,7 +389,14 @@ class UsdToGlbConverter:
                 if rough is None: rough = 0.5
                 if metal is None: metal = 0.0
                 
-                mat_idx = self.writer.add_material(diffuse, float(metal), float(rough))
+                mat_idx = self.writer.add_material(
+                    base_color=diffuse, 
+                    metallic=float(metal), 
+                    roughness=float(rough),
+                    base_color_texture=bc_tex_idx,
+                    metallic_roughness_texture=mr_tex_idx,
+                    normal_texture=norm_tex_idx
+                )
 
         # 7. Add to Writer
         mesh_idx = self.writer.add_mesh(

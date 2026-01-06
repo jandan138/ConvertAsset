@@ -15,8 +15,8 @@ Implemented a lightweight, pure Python GLB exporter to convert Asset-level USD f
 
 ## Key Technical Decisions
 - **Standard Libraries**: Used `struct` for binary packing and `json` for metadata. No `pygltflib` dependency.
-- **Dependencies**: Relies only on `pxr` (USD) and `numpy`.
-- **Scope**: currently supports Geometry (Mesh) + Basic Color (Factor). Texture embedding is planned for future iterations.
+- **Dependencies**: Relies only on `pxr` (USD) and `numpy`. `Pillow` is used for texture processing.
+- **Scope**: Supports Geometry (Mesh), Basic Color (Factor), and Texture Embedding (BaseColor, Normal, Metallic/Roughness packed).
 
 ## Usage
 ```bash

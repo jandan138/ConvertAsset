@@ -37,10 +37,22 @@ The goal was to create a lightweight, "headless" GLB exporter that runs in a sta
 3. **Output**: `.glb` file.
 
 ### Limitations & Roadmap
-- **Textures**: Currently, texture maps (BaseColor, Normal, Roughness, Metallic) are NOT embedded. Only uniform colors are supported.
 - **Animation**: No skeletal or blend shape animation support.
 - **Instancing**: Point instancers are not currently resolved.
 - **Multiple UV Sets**: Only the primary UV set (`st` or `uv`) is exported.
+- **Hierarchy**: Scene hierarchy is currently flattened.
+
+### Texture Handling (New)
+The exporter now supports texture embedding with automatic channel packing.
+- **Library**: Uses `Pillow` (PIL) for image reading and processing.
+- **Base Color**: Read from `UsdPreviewSurface.diffuseColor` input texture. Converted to PNG.
+- **Normal Map**: Read from `UsdPreviewSurface.normal` input texture.
+- **Metallic/Roughness Packing**:
+  - glTF requires a combined "Metallic-Roughness" texture where:
+    - **Green (G)** channel = Roughness
+    - **Blue (B)** channel = Metallic
+  - The converter automatically reads independent `roughness` and `metallic` textures from USD, resizes them if necessary, and packs them into a single PNG.
+- **Caching**: Processed images and packed textures are cached to avoid duplication in the GLB.
 
 ### Coordinate System
 - **USD**: Right-handed, typically Z-up.

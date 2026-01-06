@@ -16,6 +16,9 @@ class GlbWriter:
         self.materials = []
         self.accessors = []
         self.buffer_views = []
+        self.textures = []
+        self.images = []
+        self.samplers = []
         self.scenes = [{"nodes": []}]
         
         # Binary buffer
@@ -125,23 +128,84 @@ class GlbWriter:
         self.meshes.append(mesh)
         return idx
 
-    def add_material(self, base_color=(1.0, 1.0, 1.0, 1.0), metallic=0.0, roughness=0.5):
+    def add_image(self, image_bytes, mime_type="image/png"):
         """
-        Add a simple PBR material (solid color).
-        base_color: (r, g, b, a)
+        Embed an image into the buffer and create an image entry.
         """
-        key = (tuple(base_color), metallic, roughness)
+        # Create BufferView for image
+        self._align_buffer(4)
+        offset = len(self.buffer_data)
+        self.buffer_data.extend(image_bytes)
+        length = len(image_bytes)
+        
+        bv_idx = len(self.buffer_views)
+        self.buffer_views.append({
+            "buffer": 0,
+            "byteOffset": offset,
+            "byteLength": length
+        })
+        
+        # Create Image entry
+        img_idx = len(self.images)
+        self.images.append({
+            "bufferView": bv_idx,
+            "mimeType": mime_type
+        })
+        return img_idx
+
+    def add_texture(self, image_index):
+        """
+        Create a texture entry pointing to an image.
+        Uses a default sampler (linear, repeat).
+        """
+        # Ensure default sampler exists
+        if not self.samplers:
+            self.samplers.append({
+                "magFilter": 9729, # LINEAR
+                "minFilter": 9987, # LINEAR_MIPMAP_LINEAR (requires mips? use 9729 LINEAR for safety)
+                "wrapS": 10497,    # REPEAT
+                "wrapT": 10497     # REPEAT
+            })
+            # Actually, let's use LINEAR (9729) for minFilter to be safe without mips
+            self.samplers[0]["minFilter"] = 9729
+            
+        tex_idx = len(self.textures)
+        self.textures.append({
+            "sampler": 0,
+            "source": image_index
+        })
+        return tex_idx
+
+    def add_material(self, base_color=(1.0, 1.0, 1.0, 1.0), metallic=0.0, roughness=0.5, 
+                     base_color_texture=None, metallic_roughness_texture=None, normal_texture=None):
+        """
+        Add a PBR material.
+        textures are indices to texture entries.
+        """
+        key = (tuple(base_color), metallic, roughness, base_color_texture, metallic_roughness_texture, normal_texture)
         if key in self._material_cache:
             return self._material_cache[key]
             
-        mat = {
-            "pbrMetallicRoughness": {
-                "baseColorFactor": list(base_color),
-                "metallicFactor": metallic,
-                "roughnessFactor": roughness
-            },
-            "doubleSided": True # Safer for generic assets
+        pbr = {
+            "baseColorFactor": list(base_color),
+            "metallicFactor": metallic,
+            "roughnessFactor": roughness
         }
+        
+        if base_color_texture is not None:
+            pbr["baseColorTexture"] = {"index": base_color_texture}
+            
+        if metallic_roughness_texture is not None:
+            pbr["metallicRoughnessTexture"] = {"index": metallic_roughness_texture}
+
+        mat = {
+            "pbrMetallicRoughness": pbr,
+            "doubleSided": True
+        }
+        
+        if normal_texture is not None:
+            mat["normalTexture"] = {"index": normal_texture}
+            
         idx = len(self.materials)
         self.materials.append(mat)
         self._material_cache[key] = idx
@@ -202,6 +266,9 @@ class GlbWriter:
             "scene": 0,
             "nodes": self.nodes,
             "meshes": self.meshes,
+            "textures": self.textures,
+            "images": self.images,
+            "samplers": self.samplers,
             "materials": self.materials,
             "accessors": self.accessors,
             "bufferViews": self.buffer_views,
