@@ -23,13 +23,29 @@
 ### CLI 命令
 GLB 导出功能已集成到主 CLI 中。
 
+#### 1. 直接导出 (基础)
+如果你已经有了 `*_noMDL.usd` 文件（通过 `no-mdl` 命令处理过）：
+
 ```bash
 python main.py export-glb <path_to_usd_file> --out <path_to_glb_file>
 ```
 
+#### 2. 一站式管道 (推荐)
+如果你有一个包含 MDL 材质的原始 USD，并希望一步生成 GLB（且不希望管理中间文件）：
+
+```bash
+python main.py usd-to-glb <path_to_input.usd> --out <path_to_output.glb>
+```
+
+**工作流程**:
+1.  **MDL 转换**: 自动运行 `no-mdl` 逻辑，生成临时的 `*_noMDL.usd` 文件（含 PBR 纹理）。
+2.  **GLB 导出**: 将临时 USD 转换为 GLB。
+3.  **自动清理**: 删除临时的 `*_noMDL.usd` 文件（除非使用了 `--keep-intermediate` 参数）。
+
 ### 选项
 - `input_path`: 源 USD 文件路径。
 - `--out`: 目标 GLB 文件路径。
+- `--keep-intermediate`: (仅 `usd-to-glb`) 保留生成的 `*_noMDL.usd` 文件用于调试。
 
 ## 环境要求
 - 输入 USD **必须是三角化的** (面只能是三角形)。

@@ -75,6 +75,12 @@ def main(argv: list[str] | None = None) -> int:
     p_glb.add_argument("src", help="Path to input USD file (recommended: *_noMDL.usd)")
     p_glb.add_argument("--out", required=True, help="Path to output .glb file")
 
+    # Pipeline: usd-to-glb (no-mdl + export-glb + cleanup)
+    p_pipe = sub.add_parser("usd-to-glb", help="One-step pipeline: no-mdl -> glb -> cleanup intermediate files")
+    p_pipe.add_argument("src", help="Path to source USD file")
+    p_pipe.add_argument("--out", required=True, help="Path to output .glb file")
+    p_pipe.add_argument("--keep-intermediate", action="store_true", help="Do not delete the intermediate *_noMDL.usd file")
+
     # If no subcommand provided, default to no-mdl for convenience
     args_ns, extras = parser.parse_known_args(argv)
     if args_ns.cmd is None:
@@ -382,6 +388,61 @@ def main(argv: list[str] | None = None) -> int:
             import traceback
             traceback.print_exc()
             return 3
+
+    if args_ns.cmd == "usd-to-glb":
+        src = _to_posix(args_ns.src)
+        out_glb = _to_posix(args_ns.out)
+        keep = bool(args_ns.keep_intermediate)
+        
+        if not os.path.exists(src):
+            print("Not found:", src)
+            return 2
+
+        print(f"=== Pipeline: USD -> GLB (src: {src}) ===")
+        
+        # Step 1: Run no-mdl conversion
+        intermediate_usd = None
+        try:
+            print("[Step 1/3] Converting MDL to UsdPreviewSurface...")
+            # Configure processor to only output the new USD file (skip summaries for speed)
+            from .no_mdl import processor as _proc_mod
+            _proc_mod.RUNTIME_ONLY_NEW_USD = True
+            
+            from .no_mdl.processor import Processor
+            proc = Processor()
+            intermediate_usd = proc.process(src)
+            print(f"  Intermediate file created: {intermediate_usd}")
+            
+            if not intermediate_usd or not os.path.exists(intermediate_usd):
+                print("ERROR: Intermediate USD generation failed.")
+                return 4
+
+            # Step 2: Export to GLB
+            print("[Step 2/3] Exporting to GLB...")
+            from .glb.converter import UsdToGlbConverter
+            conv = UsdToGlbConverter()
+            conv.process_stage(intermediate_usd, out_glb)
+            print(f"  GLB exported to: {out_glb}")
+            
+            return 0
+            
+        except Exception as e:
+            print("Pipeline ERROR:", e)
+            import traceback
+            traceback.print_exc()
+            return 3
+        finally:
+            # Step 3: Cleanup
+            if intermediate_usd and os.path.exists(intermediate_usd) and not keep:
+                print(f"[Step 3/3] Cleaning up intermediate file: {intermediate_usd}")
+                try:
+                    os.remove(intermediate_usd)
+                    # Also try to remove related .validate.txt if it exists (though RUNTIME_ONLY_NEW_USD should prevent it)
+                    val_file = intermediate_usd + ".validate.txt"
+                    if os.path.exists(val_file):
+                        os.remove(val_file)
+                except OSError as err:
+                    print(f"WARN: Failed to delete {intermediate_usd}: {err}")
 
     parser.print_help()
     return 1

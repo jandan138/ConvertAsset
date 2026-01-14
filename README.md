@@ -71,6 +71,7 @@ export ISAAC_SIM_ROOT="/abs/path/to/isaac_sim-<version>"
 - **inspect**：分析指定 Material（MDL / UsdPreviewSurface）的着色网络；
 - **export-mdl-materials**：将场景内 MDL 材质导出为独立材质球 USD；
 - **export-glb**：将 USD 资产转换为 GLB 格式（支持 FaceVarying UV 与材质贴图烘焙/链接）；
+- **usd-to-glb**：一站式管道命令，自动执行 MDL 转换 -> GLB 导出 -> 清理中间文件；
 - **thumbnails**：在 Isaac Sim 中批量渲染带背景的多视角缩略图。
 
 更详细的设计和实现说明参见：
@@ -275,12 +276,22 @@ cd /opt/my_dev/ConvertAsset
 - `--no-external` 可用于只导出根层拥有/定义的材质。
 - 导出过程会自动搭建预览网络并尽可能复用/解析 MDL 贴图路径（BaseColor / Roughness / Metallic / Normal）。
 
-## GLB 导出 (export-glb)
+## GLB 导出 (export-glb / usd-to-glb)
 
-将 USD 资产转换为 GLB (glTF 2.0 Binary) 格式，支持材质纹理和复杂网格拓扑的处理。
+将 USD 资产转换为 GLB (glTF 2.0 Binary) 格式。支持两种模式：
 
+**1. 直接导出 (`export-glb`)**
+适用于已经去除了 MDL 的文件：
 ```bash
 ./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py export-glb \
+	"/abs/path/to/scene_noMDL.usd" \
+	--out "/abs/path/to/output.glb"
+```
+
+**2. 一站式管道 (`usd-to-glb`)**
+适用于原始 MDL 资产，自动处理材质转换并清理中间文件：
+```bash
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py usd-to-glb \
 	"/abs/path/to/scene.usd" \
 	--out "/abs/path/to/output.glb"
 ```
