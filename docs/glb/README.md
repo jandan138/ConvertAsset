@@ -21,21 +21,23 @@ This module provides functionality to convert **Asset-level USD** files (typical
 ## Usage
 
 ### CLI Command
-The GLB export is integrated into the main CLI.
+The GLB export is integrated into the main CLI. **Use the Isaac Sim Python environment**; the recommended entry is the wrapper script.
 
 #### 1. Direct Export (Basic)
 If you already have a `*_noMDL.usd` file (processed via `no-mdl` command):
 
 ```bash
-python main.py export-glb <path_to_usd_file> --out <path_to_glb_file>
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py export-glb <path_to_usd_file> --out <path_to_glb_file>
 ```
 
 #### 2. One-Step Pipeline (Recommended)
 If you have a raw USD with MDL materials and want to convert it to GLB in one go (without managing intermediate files):
 
 ```bash
-python main.py usd-to-glb <path_to_input.usd> --out <path_to_output.glb>
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py usd-to-glb <path_to_input.usd> --out <path_to_output.glb>
 ```
+
+> **Note**: Running `python main.py ...` directly may fail if `pxr` (USD) is not available in your Python. Use `./scripts/isaac_python.sh` to ensure the correct Isaac Sim Python environment is used.
 
 **Workflow**:
 1.  **MDL Conversion**: Automatically runs `no-mdl` logic to generate a temporary `*_noMDL.usd` with PBR textures.

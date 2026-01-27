@@ -21,21 +21,23 @@
 ## 使用方法
 
 ### CLI 命令
-GLB 导出功能已集成到主 CLI 中。
+GLB 导出功能已集成到主 CLI 中。**请使用 Isaac Sim 的 Python 环境**，推荐通过包装脚本启动。
 
 #### 1. 直接导出 (基础)
 如果你已经有了 `*_noMDL.usd` 文件（通过 `no-mdl` 命令处理过）：
 
 ```bash
-python main.py export-glb <path_to_usd_file> --out <path_to_glb_file>
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py export-glb <path_to_usd_file> --out <path_to_glb_file>
 ```
 
 #### 2. 一站式管道 (推荐)
 如果你有一个包含 MDL 材质的原始 USD，并希望一步生成 GLB（且不希望管理中间文件）：
 
 ```bash
-python main.py usd-to-glb <path_to_input.usd> --out <path_to_output.glb>
+./scripts/isaac_python.sh /opt/my_dev/ConvertAsset/main.py usd-to-glb <path_to_input.usd> --out <path_to_output.glb>
 ```
+
+> **提示**：直接使用 `python main.py ...` 可能因本地 Python 缺少 `pxr` (USD) 而失败，请优先使用 `./scripts/isaac_python.sh` 以确保正确的 Isaac Sim Python 环境。
 
 **工作流程**:
 1.  **MDL 转换**: 自动运行 `no-mdl` 逻辑，生成临时的 `*_noMDL.usd` 文件（含 PBR 纹理）。
