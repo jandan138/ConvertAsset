@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+import os
 from pxr import Usd, UsdShade  # type: ignore  # pxr provided in runtime environment
 from .config import (
     MATERIAL_ROOT_HINTS, ALWAYS_SCAN_ALL_MATERIALS, CLEAN_VARIANT_MDL,
     RESTORE_VARIANT_SELECTION, OVERRIDE_EXTERNAL_MDL_PREVIEW,
     DEACTIVATE_EXTERNAL_MDL_SHADERS, CLEAN_DELETE_EXTERNAL_MDL_SHADERS,
 )
+from . import config as _config  # 动态读取 RESOLVE_TEXTURES_TO_ABSOLUTE，支持 CLI 运行时覆盖
 from .materials import (
     find_mdl_shader, ensure_preview, copy_textures, connect_preview,
     remove_material_mdl_outputs, remove_all_mdl_shaders, post_process_material_surfaces
@@ -42,11 +44,25 @@ def _collect_root_materials(stage: Usd.Stage):
     return mats
 
 
-def _convert_active_materials(stage: Usd.Stage, stats: dict, processed_paths: set):
+def _convert_active_materials(
+    stage: Usd.Stage,
+    stats: dict,
+    processed_paths: set,
+    resolve_to_absolute: bool = False,
+):
     """在当前激活的组合（含当前 variant selections）下转换所有 root-owned MDL 材质。
 
     使用 processed_paths 避免对同一个 prim 重复统计（prim path 相同即视为同一材质）。
+
+    参数：
+    - `resolve_to_absolute`: True 时总是将纹理路径写为绝对路径（旧行为）；
+      False（默认）保持源路径类型（相对→相对，绝对→绝对）。
     """
+    # 提取目标层目录（输出 *_noMDL.usd 文件所在目录），用于相对路径重算
+    root_layer = stage.GetRootLayer()
+    dst_layer_dir = os.path.dirname(
+        root_layer.realPath or root_layer.identifier or ""
+    ) or None
     mats = _collect_root_materials(stage)
     for prim in mats:
         pstr = prim.GetPath().pathString
@@ -60,21 +76,34 @@ def _convert_active_materials(stage: Usd.Stage, stats: dict, processed_paths: se
         if first_time:
             stats["mdl"] += 1
         ensure_preview(stage, mat)
-        filled, has_c, c_rgb, bc_tex = copy_textures(stage, mdl, mat)
+        filled, has_c, c_rgb, bc_tex = copy_textures(
+            stage, mdl, mat,
+            dst_layer_dir=dst_layer_dir,
+            resolve_to_absolute=resolve_to_absolute,
+        )
         connect_preview(stage, mat, filled, has_c, c_rgb, bc_tex)
         if first_time:
             stats["preview"] += 1
         processed_paths.add(pstr)
 
 
-def convert_and_strip_mdl_in_this_file_only(stage: Usd.Stage):
+def convert_and_strip_mdl_in_this_file_only(
+    stage: Usd.Stage,
+    resolve_to_absolute: bool | None = None,
+):
     """主入口：转换当前文件（及可选所有 variant）中的 root-owned MDL 材质，并清理 MDL 输出/Shader。
 
     - 默认（CLEAN_VARIANT_MDL=False）：只处理当前激活组合（原行为）。
     - 若开启 variant 清理：对每个含 VariantSet 的 prim，遍历其各个 variant *单独* 激活并执行转换。
       注意：此实现按『逐个 VariantSet 独立遍历』，未进行多个 VariantSet 的笛卡尔积组合（潜在遗漏组合特有内容）。
       若需要完整组合覆盖，后续可扩展为组合枚举。
+
+    参数：
+    - `resolve_to_absolute`: 纹理路径写出策略；None 时从 config.RESOLVE_TEXTURES_TO_ABSOLUTE 读取默认值。
+      True → 总是写绝对路径（旧行为）；False → 保持源路径类型（新默认）。
     """
+    if resolve_to_absolute is None:
+        resolve_to_absolute = _config.RESOLVE_TEXTURES_TO_ABSOLUTE
     stats = {"total": 0, "mdl": 0, "preview": 0}
     processed = set()
 
@@ -104,7 +133,15 @@ def convert_and_strip_mdl_in_this_file_only(stage: Usd.Stage):
                     # 构建 preview 网络并复制贴图
                     ensure_preview(stage, mat)
                     try:
-                        filled, has_c, c_rgb, bc_tex = copy_textures(stage, mdl, mat)
+                        root_layer = stage.GetRootLayer()
+                        ext_dst_layer_dir = os.path.dirname(
+                            root_layer.realPath or root_layer.identifier or ""
+                        ) or None
+                        filled, has_c, c_rgb, bc_tex = copy_textures(
+                            stage, mdl, mat,
+                            dst_layer_dir=ext_dst_layer_dir,
+                            resolve_to_absolute=resolve_to_absolute,
+                        )
                         connect_preview(stage, mat, filled, has_c, c_rgb, bc_tex)
                     except Exception:
                         pass
@@ -119,7 +156,7 @@ def convert_and_strip_mdl_in_this_file_only(stage: Usd.Stage):
                 stats["external_overridden_preview"] = external_overridden
             if DEACTIVATE_EXTERNAL_MDL_SHADERS:
                 stats["external_deactivated_mdl_shaders"] = external_deactivated
-        _convert_active_materials(stage, stats, processed)
+        _convert_active_materials(stage, stats, processed, resolve_to_absolute=resolve_to_absolute)
         mdl_out_stats = remove_material_mdl_outputs(stage)
         remove_all_mdl_shaders(stage)
         # 二次清理：删除仍然残留的外部 MDL Shader（未被覆盖到的孤立/附属节点）
@@ -189,7 +226,7 @@ def convert_and_strip_mdl_in_this_file_only(stage: Usd.Stage):
 
     # Variant 模式
     # 先处理当前激活（保持与旧行为一致）
-    _convert_active_materials(stage, stats, processed)
+    _convert_active_materials(stage, stats, processed, resolve_to_absolute=resolve_to_absolute)
     mdl_out_stats = remove_material_mdl_outputs(stage)
     remove_all_mdl_shaders(stage)
 
@@ -210,7 +247,7 @@ def convert_and_strip_mdl_in_this_file_only(stage: Usd.Stage):
                     vs.SetVariantSelection(vname)
                 except Exception:
                     continue
-                _convert_active_materials(stage, stats, processed)
+                _convert_active_materials(stage, stats, processed, resolve_to_absolute=resolve_to_absolute)
                 _ = remove_material_mdl_outputs(stage)
                 remove_all_mdl_shaders(stage)
             # 恢复原选择

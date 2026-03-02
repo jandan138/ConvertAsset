@@ -125,4 +125,8 @@ DEACTIVATE_EXTERNAL_MDL_SHADERS = True
 # 让 strict 验证彻底归零；对 *_noMDL.usd* 内部不可逆（需重新生成才能恢复）。
 CLEAN_DELETE_EXTERNAL_MDL_SHADERS = True
 
-
+# ── Texture Path Resolution ─────────────────────────────────────────────────
+# False（默认）：保持源路径类型（相对→相对，绝对→绝对）。
+# True：总是将纹理路径写为绝对路径（旧行为，向后兼容）。
+# 可被 CLI --resolve-textures-to-absolute 覆盖。
+RESOLVE_TEXTURES_TO_ABSOLUTE: bool = False

@@ -22,6 +22,15 @@ def main(argv: list[str] | None = None) -> int:
     p_nomdl = sub.add_parser("no-mdl", help="Generate *_noMDL.usd siblings recursively")
     p_nomdl.add_argument("src", help="Path to top or single USD file")
     p_nomdl.add_argument("--only-new-usd", action="store_true", help="Only write the new *_noMDL.usd; do not emit sidecar summary/audit files")
+    p_nomdl.add_argument(
+        "--resolve-textures-to-absolute",
+        action="store_true",
+        default=False,
+        help=(
+            "Write texture paths as absolute paths in *_noMDL.usd output "
+            "(legacy behavior). By default, relative paths are preserved as relative."
+        ),
+    )
 
     p_faces = sub.add_parser("mesh-faces", help="Count total render mesh faces in a USD stage")
     p_faces.add_argument("src", help="Path to USD file")
@@ -95,6 +104,12 @@ def main(argv: list[str] | None = None) -> int:
             try:
                 from .no_mdl import processor as _proc_mod  # type: ignore
                 _proc_mod.RUNTIME_ONLY_NEW_USD = True
+            except Exception:
+                pass
+        if getattr(args_ns, "resolve_textures_to_absolute", False):
+            try:
+                from .no_mdl import config as _no_mdl_cfg
+                _no_mdl_cfg.RESOLVE_TEXTURES_TO_ABSOLUTE = True
             except Exception:
                 pass
         from .no_mdl.processor import Processor  # pylint: disable=import-error

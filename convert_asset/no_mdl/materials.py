@@ -1,8 +1,8 @@
 """
 materials.py — 材质转换与 MDL 移除的实现细节
 
-本模块聚焦“在不打平（no-flatten）的前提下，将当前文件内由 MDL 驱动的材质转换为 UsdPreviewSurface 网络”，并保证：
-- 仅处理“本文件 root layer 里拥有/定义”的材质（外部引用的材质不在此处硬改）。
+本模块聚焦"在不打平（no-flatten）的前提下，将当前文件内由 MDL 驱动的材质转换为 UsdPreviewSurface 网络"，并保证：
+- 仅处理"本文件 root layer 里拥有/定义"的材质（外部引用的材质不在此处硬改）。
 - 建立最小可用的 PreviewSurface 网络（BaseColor/Roughness/Metallic/Normal 四个通道）。
 - 在可能的情况下复制与连接贴图；当信息缺失时用默认常量兜底。
 - 移除 MDL 着色器（Shader）与 Material 输出中的 MDL 接口，最终验证场景中不再残留 MDL。
@@ -10,11 +10,11 @@ materials.py — 材质转换与 MDL 移除的实现细节
 设计要点：
 - Preview 网络布局固定在每个 Material 下的一个 `Scope`（名为 `GROUP`，配置项）中，便于与原有节点隔离。
 - UV 使用 `UsdPrimvarReader_float2` 读取配置指定的 UV 集（`UVSET`）。
-- BaseColor 的“常量色 + 贴图”策略：
+- BaseColor 的"常量色 + 贴图"策略：
     - 如果配置 `ALWAYS_BAKE_TINT=True`，则直接写入常量色（即使贴图存在）。
-    - 否则优先连接贴图；当 `BAKE_TINT_WHEN_WHITE=True` 且贴图被判定为“白图”时，用常量色覆盖以避免多余开销。
+    - 否则优先连接贴图；当 `BAKE_TINT_WHEN_WHITE=True` 且贴图被判定为"白图"时，用常量色覆盖以避免多余开销。
 - Roughness 支持从 Gloss 反转（scale=-1, bias=1）这一常见美术约定。
-- 路径解析遵循“以声明该路径的 Layer 目录为锚点”的规则，`_anchor_dir_for_attr` 提供定位。
+- 路径解析遵循"以声明该路径的 Layer 目录为锚点"的规则，`_anchor_dir_for_attr` 提供定位。
 
 主要函数：
 - `ensure_preview(stage, mat)`：为 Material 搭建 Preview 网络骨架。
@@ -26,7 +26,7 @@ materials.py — 材质转换与 MDL 移除的实现细节
 - `remove_all_mdl_shaders(stage)`：删除场景中所有 MDL Shader prim。
 - `verify_no_mdl(stage)`：验证场景已不含 MDL 残留。
 
-注意：本模块不负责“材质是否属于当前 root layer”的判断，调用方（如 convert.py）应在进入前过滤好目标。
+注意：本模块不负责"材质是否属于当前 root layer"的判断，调用方（如 convert.py）应在进入前过滤好目标。
 """
 
 # -*- coding: utf-8 -*-
@@ -42,7 +42,7 @@ from .config import (
 
 if PRINT_DIAGNOSTICS:
     print(f"[DEBUG] materials.py loaded (BREAK_INSTANCE_FOR_MDL={BREAK_INSTANCE_FOR_MDL})")
-from .path_utils import _resolve_abs_path
+from .path_utils import _resolve_abs_path, _rebase_tex_path
 from .mdl_parse import parse_mdl_text
 
 
@@ -76,7 +76,7 @@ def _to_vec3(v, default=(1.0, 1.0, 1.0)):
 
 
 def _is_white_tex(path: str) -> bool:
-    """基于文件名的启发式判断“是否为白图”。
+    """基于文件名的启发式判断"是否为白图"。
 
     目的：当 BaseColor 贴图几乎恒定白色时，可直接烘焙常量色避免多余纹理开销。
     限制：仅根据文件名关键字与常见白图命名，非严格像素分析。
@@ -138,7 +138,7 @@ def ensure_preview(stage: Usd.Stage, mat: UsdShade.Material):
     out_def = mat.GetSurfaceOutput()
     # 关键切换点（1/2）：将材质的通用表面输出 outputs:surface 指向 UsdPreviewSurface
     # - 若原来 outputs:surface 未连接，我们在此连接到 PreviewSurface.outputs:surface
-    # - 这是让最终渲染从“MDL 管线”切换到“UsdPreviewSurface 管线”的核心操作之一
+    # - 这是让最终渲染从"MDL 管线"切换到"UsdPreviewSurface 管线"的核心操作之一
     if not (out_def and out_def.HasConnectedSource()):
         mat.CreateSurfaceOutput().ConnectToSource(prev.CreateOutput("surface", Sdf.ValueTypeNames.Token))
     return prev
@@ -180,11 +180,11 @@ def read_mdl_basecolor_const(mdl_shader):
 
 
 def _anchor_dir_for_attr(attr):
-    """基于属性的 PropertyStack 推断“相对路径的锚点目录”。
+    """基于属性的 PropertyStack 推断"相对路径的锚点目录"。
 
     原理：
     - `attr.GetPropertyStack()` 能返回该属性在各 Layer 中的定义栈；
-    - 从上往下寻找第一个“非匿名层（非 anon:）”，取其 `realPath` 或 `identifier`；
+    - 从上往下寻找第一个"非匿名层（非 anon:）"，取其 `realPath` 或 `identifier`；
     - 返回其所在目录，用作解析 `Sdf.AssetPath` 的相对路径锚点。
 
     失败回退：若栈不可用或均为匿名层，返回 None，调用方可再用其它锚点（如 RootLayer 目录）。
@@ -201,13 +201,21 @@ def _anchor_dir_for_attr(attr):
     return None
 
 
-def copy_textures(stage: Usd.Stage, mdl_shader, mat: UsdShade.Material):
+def copy_textures(
+    stage: Usd.Stage,
+    mdl_shader,
+    mat: UsdShade.Material,
+    dst_layer_dir: str | None = None,
+    resolve_to_absolute: bool = False,
+):
     """解析并填充四类纹理输入，再返回连接与常量的上下文信息。
 
     输入：
     - `stage`: 目标 Stage（已指向 _noMDL 文件）。
     - `mdl_shader`: Material 上定位到的 MDL Shader；可为 None（进入兜底流程）。
     - `mat`: 目标 Material。
+    - `dst_layer_dir`: 输出 *_noMDL.usd 文件所在目录；用于将相对路径重算为相对于目标的新相对路径。
+    - `resolve_to_absolute`: True 时总是将纹理路径写为绝对路径（旧行为）；False（默认）保持路径类型。
 
     步骤：
     1) 直接读取 MDL shader 的四个 pin（BaseColor/Roughness/Metallic/Normal）上的 `Sdf.AssetPath`；
@@ -218,7 +226,7 @@ def copy_textures(stage: Usd.Stage, mdl_shader, mat: UsdShade.Material):
     - `filled`: dict，记录每个通道是否成功设置贴图；
     - `has_c`: bool，是否得到 BaseColor 常量；
     - `c_rgb`: tuple，BaseColor 常量值；
-    - `bc_tex`: str|None，BaseColor 贴图绝对路径（用于“白图”判断）。
+    - `bc_tex`: str|None，BaseColor 贴图路径（用于"白图"判断）。
     """
     mpath = mat.GetPath().pathString
     filled = {}
@@ -227,7 +235,8 @@ def copy_textures(stage: Usd.Stage, mdl_shader, mat: UsdShade.Material):
     def _set_tex(tag, path, colorspace="raw", invert_r_to_rough=False, anchor_dir=None):
         """在 `Tex_{tag}` 上设置 `file` 与 `sourceColorSpace`，必要时添加 R→Roughness 的反转参数。
 
-        - `path` 可为相对/绝对路径；若提供 `anchor_dir`，会先 `_resolve_abs_path(anchor_dir, path)`；
+        - `path` 可为相对/绝对路径；通过 `_rebase_tex_path` 根据路径类型保持策略重算最终写入路径；
+        - `anchor_dir`: 解析相对路径的锚点目录；闭包通过 `dst_layer_dir`/`resolve_to_absolute` 控制行为；
         - BaseColor 强制 `sourceColorSpace=sRGB`，其它通道为 `raw`；
         - 当 `invert_r_to_rough=True` 且 `tag=='Roughness'` 时，写入 `scale=-1, bias=1`，对应 Gloss→Roughness。
         返回：是否成功设置。
@@ -235,7 +244,7 @@ def copy_textures(stage: Usd.Stage, mdl_shader, mat: UsdShade.Material):
         nonlocal bc_tex
         if not path:
             return False
-        ap = _resolve_abs_path(anchor_dir, path) if anchor_dir else path
+        ap = _rebase_tex_path(path, anchor_dir, dst_layer_dir, resolve_to_absolute)
         tex_prim = stage.GetPrimAtPath(f"{mpath}/{GROUP}/Tex_{tag}")
         if not tex_prim:
             return False
@@ -259,14 +268,22 @@ def copy_textures(stage: Usd.Stage, mdl_shader, mat: UsdShade.Material):
         return True
 
     # 1) 直接读 MDL pin（如果 MDL shader 存在且 pin 有值）
+    # 优先读取 v.path（原始路径，可能是相对路径），以保留相对路径信息用于路径类型保持；
+    # 若原始路径为空则回退到 v.resolvedPath（已解析的绝对路径）。
     slots = {"BaseColor": "BaseColor_Tex", "Roughness": "Roughness_Tex", "Metallic": "Metallic_Tex", "Normal": "Normal_Tex"}
     for tag, mdl_in in slots.items():
         inp = mdl_shader.GetInput(mdl_in) if mdl_shader else None
         v = inp.Get() if inp else None
-        path = getattr(v, "resolvedPath", getattr(v, "path", None)) if v is not None else None
+        if v is None:
+            continue
+        raw_path = getattr(v, "path", None)
+        resolved_path = getattr(v, "resolvedPath", None)
+        path = (raw_path or resolved_path)
         if not path:
             continue
-        _set_tex(tag, path, colorspace=("sRGB" if tag == "BaseColor" else "raw"))
+        # path A: pin 上的 anchor_dir 以 resolvedPath 对应层目录为准（已绝对路径或相对层目录）
+        anchor_dir_pin = _anchor_dir_for_attr(inp.GetAttr()) if inp else None
+        _set_tex(tag, path, colorspace=("sRGB" if tag == "BaseColor" else "raw"), anchor_dir=anchor_dir_pin)
 
     # 2) 兜底：解析 .mdl 文本（在 MDL pin 缺失时，尽量由源码推断纹理路径）
     need_tags = [t for t in ("BaseColor", "Roughness", "Metallic", "Normal") if not filled.get(t)]
