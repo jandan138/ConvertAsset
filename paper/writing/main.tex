@@ -1,0 +1,60 @@
+% CVPR 2026 Workshop: SynData4CV
+% Double-blind submission
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+% CVPR style
+\usepackage[review]{cvpr}
+
+% hyperref is not loaded by cvpr.sty (only checked), so we load it here
+\usepackage{hyperref}
+% cleveref is loaded by cvpr.sty with [capitalize]
+
+% Double-blind: do not include author names
+\def\cvprPaperID{****}
+\def\paperID{****}
+\def\confName{CVPR}
+\def\confYear{2026}
+
+\title{Evaluating the Trade-offs of MDL-to-UsdPreviewSurface Material
+Simplification in NVIDIA Isaac Sim: Visual Quality, Feature Preservation,
+and AI Task Performance}
+
+\author{Anonymous CVPR 2026 Submission\\
+Paper ID \cvprPaperID}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Physics-based simulation platforms such as NVIDIA Isaac Sim use MDL (Material
+Definition Language) materials to achieve photorealistic rendering, but these
+materials limit interoperability with standard 3D tools and web-based viewers.
+We present a systematic multi-level evaluation of MDL-to-UsdPreviewSurface material
+simplification, measuring its impact across four dimensions: pixel-level image
+quality (PSNR, SSIM, LPIPS), rendering performance (load time, GPU memory, FPS),
+feature-level semantic preservation (CLIP and DINOv2 cosine similarity), and
+downstream AI task performance (zero-shot YOLOv8 detection confidence). Our
+experiments on four chest-of-drawers assets rendered from six viewpoints show
+that the conversion preserves high visual fidelity (mean PSNR 35.52\,dB, SSIM
+0.990, LPIPS 0.020), maintains strong semantic similarity (CLIP cosine
+similarity 0.925), and is detection-neutral in zero-shot object detection,
+with negligible impact on rendering performance. We release ConvertAsset, an
+open-source toolkit automating the conversion pipeline with
+composition-preserving USD traversal, and provide practical guidelines for
+synthetic data practitioners on when material simplification is safe for AI
+training pipelines.
+\end{abstract}
+
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/methodology}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/conclusion}
+
+{\small
+\bibliographystyle{ieeenat_fullname}
+\bibliography{../references/references}
+}
+
+\end{document}

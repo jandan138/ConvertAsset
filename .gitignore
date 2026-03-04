@@ -27,7 +27,9 @@ Thumbs.db
 
 # Logs
 *.log
-*.csv
+
+# CSV (experiment results - commented to allow committing paper results)
+# Uncomment to exclude all CSV: *.csv
 
 # Byte-compiled / optimized / DLL files
 *.pyc
@@ -41,6 +43,18 @@ build/
 
 # Output files
 *.glb
+
+# Paper LaTeX build artifacts
+paper/writing/*.aux
+paper/writing/*.bbl
+paper/writing/*.blg
+paper/writing/*.log
+paper/writing/*.out
+
+# ML model weights (downloaded at runtime)
+*.pt
+*.pth
+*.onnx
 
 # Claude Code configuration
 .claude/agent-memory/

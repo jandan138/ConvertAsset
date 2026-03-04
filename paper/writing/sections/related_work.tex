@@ -1,0 +1,78 @@
+\section{Related Work}
+\label{sec:related_work}
+
+\subsection{USD and MDL in Robotics Simulation}
+
+Universal Scene Description (USD) has emerged as the standard scene format for
+robotics simulation, underpinning NVIDIA's Isaac
+Lab~\cite{Mittal2025Isaac} and its predecessor
+Orbit~\cite{Mittal2023Orbit}. These platforms combine USD's compositional scene
+graph with MDL-based physically accurate materials rendered via RTX ray tracing.
+Downstream pipelines such as SynTable~\cite{Ng2023SynTable} and
+Synthetica~\cite{Singh2024Synthetica} generate millions of labeled images using
+this rendering stack, demonstrating its importance for training perception
+models. However, none of these works examine the consequences of simplifying
+MDL to lighter-weight material representations, a gap our study directly
+addresses.
+
+\subsection{Sim-to-Real Visual Gap}
+
+The disparity between simulated and real images has been studied extensively.
+Domain randomization~\cite{Tobin2017Domain,Tremblay2018Training} improves
+transfer by diversifying visual parameters such as textures and lighting during
+rendering. Zakharov~et~al.~\cite{Zakharov2022Photo} show that photorealistic
+rendering outperforms non-photorealistic alternatives for 6D object detection,
+establishing a direct link between rendering fidelity and task performance.
+These findings motivate our investigation, yet prior work focuses exclusively
+on the gap between simulation and reality. We complement this line of research
+by characterizing a \emph{within-simulation} rendering gap: the difference
+between full MDL and simplified UsdPreviewSurface materials inside the same
+simulator.
+
+\subsection{Material Simplification and Simulation Platforms}
+
+Simplifying complex material models while preserving visual appearance has a
+long history in computer graphics, from analytic BRDF
+fitting~\cite{Ngan2005Experimental} to data-driven reflectance
+compression~\cite{Sztrajman2021Neural}. Meanwhile, simulation platforms for
+embodied AI such as Habitat~\cite{Savva2019Habitat},
+AI2-THOR~\cite{Kolve2017AI2THOR}, and
+ThreeDWorld~\cite{Gan2021ThreeDWorld} typically employ simplified shading models
+(e.g., Phong or PBR metallicness) from the outset, avoiding the MDL conversion
+problem entirely. In contrast, NVIDIA Isaac Sim couples high-fidelity MDL
+materials with RTX ray tracing, making it the dominant platform for robotic
+manipulation data generation but also creating a unique conversion challenge
+when assets must be exported to lighter-weight renderers. Our work studies this
+specific gap between MDL and UsdPreviewSurface within the Isaac Sim ecosystem,
+complementing the broader material simplification literature with a focused,
+application-driven evaluation.
+
+\subsection{Image Quality Evaluation}
+
+Quantifying visual differences between rendered images requires perceptual
+metrics beyond simple pixel error. SSIM~\cite{Wang2004Image} captures
+structural distortion, LPIPS~\cite{Zhang2018Unreasonable} measures perceptual
+similarity using deep features, and FID~\cite{Heusel2017GANs} quantifies
+distributional distance between image populations. While FID and related
+distributional metrics are standard for comparing large image populations, they
+require sample sizes substantially larger than our $n=24$ pairs to produce
+reliable estimates~\cite{Heusel2017GANs}; we therefore focus on paired per-image
+metrics. These metrics are routinely
+applied to evaluate generative models, but have seen limited use for comparing
+rendering configurations within a simulation pipeline. We adopt PSNR, SSIM,
+and LPIPS for paired image-level comparison, extending their application to the
+material simplification setting.
+
+\subsection{Visual Feature Robustness}
+
+Foundation vision models such as CLIP~\cite{Radford2021Learning} and
+DINOv2~\cite{Oquab2023DINOv2} learn representations that generalize across
+visual domains and have become standard feature extractors for downstream
+tasks. Their robustness to domain shifts makes them natural probes for assessing
+whether material simplification alters the semantic content of rendered images.
+Unlike pixel-level metrics, cosine similarity in CLIP or DINOv2 embedding space
+captures whether high-level visual concepts --- object identity, shape, texture
+category --- are preserved despite low-level shading differences. We use both
+models to evaluate feature-level preservation as a complement to pixel-level
+quality metrics, providing a more complete picture of the simplification
+trade-off for AI pipelines.

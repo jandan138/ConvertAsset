@@ -93,3 +93,39 @@ After building, use `--backend cpp-uv` to invoke the C++ path.
 ## Docs
 
 `docs/` contains detailed markdown documentation for each module (architecture, data flow, algorithm details). Chinese inline comments are used throughout the source.
+
+## Agent Team Documentation Rule (Mandatory)
+
+**Every agent in a team MUST produce documentation for its work.** This is a hard requirement, not optional.
+
+### What to document
+
+Each agent must record the full lifecycle of its task:
+
+1. **Research / Investigation** — what was explored, which files were read, what was discovered
+2. **Design decisions** — why a particular approach was chosen, alternatives considered
+3. **Code changes** — what was modified, added, or deleted, with file paths and brief rationale
+4. **Testing** — what was tested, how it was tested, test commands run, and results (pass/fail/output)
+5. **Open issues** — known limitations, follow-up work needed, edge cases not covered
+
+### Where to write
+
+- Place docs under `docs/changes/YYYY-MM-DD_<topic>.md` for change logs
+- Place feature docs under the relevant `docs/<module>/` directory
+- Place design specs under `docs/<module>/feature_specs/`
+- Follow existing doc conventions (see `docs/` structure)
+
+### How: agents with write permission
+
+If the agent has file-write capability (Edit/Write tools), it **must write the documentation itself** before marking its task as completed. A task is NOT complete until its documentation is committed.
+
+### How: agents without write permission
+
+If the agent is read-only (e.g., Explore, Plan agents), it **must send a message to the docs-writer agent** (or request the team lead to dispatch docs-writer) with:
+- A structured summary of findings, decisions, and results
+- Suggested file path and title for the documentation
+
+### Enforcement
+
+- Team leads must verify documentation exists before accepting a task as completed
+- The version-commit-agent should check for corresponding `docs/` changes when committing code changes — if missing, flag a warning

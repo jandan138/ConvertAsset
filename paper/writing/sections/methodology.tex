@@ -1,0 +1,112 @@
+\section{Methodology}
+\label{sec:methodology}
+
+\subsection{ConvertAsset Pipeline}
+\label{sec:pipeline}
+
+ConvertAsset is an open-source toolkit that converts NVIDIA Isaac Sim assets
+from MDL materials to UsdPreviewSurface, preserving the compositional structure
+of USD scenes. The pipeline operates in three stages.
+
+\paragraph{Stage 1: Recursive USD Traversal.}
+The processor begins at a root USD file and recursively discovers all
+referenced assets --- sublayers, references, payloads, variant selections, and
+value clips --- building a dependency graph.  A cycle-detection mechanism
+(\texttt{in\_stack} set) prevents infinite recursion on circular references,
+while a deduplication dictionary (\texttt{done} map) ensures each asset file is
+processed exactly once. Crucially, the pipeline does \emph{not} flatten the USD
+composition: each file is processed independently and saved as a sibling
+\texttt{*\_noMDL.usd} file, so the original composition arcs (references,
+payloads, variants) remain intact with only their asset paths rewritten to
+point to the converted counterparts.
+
+\paragraph{Stage 2: Material Conversion.}
+For each USD file in the dependency graph, the pipeline identifies all
+materials driven by MDL shaders. It constructs a minimal UsdPreviewSurface
+shader network per material, mapping four primary channels: base color (diffuse
+albedo), roughness, metallic, and normal. Texture assets referenced by the MDL
+shader are located, resolved against the declaring layer's directory, and
+connected to the new UsdPreviewSurface inputs via \texttt{UsdShadeConnectableAPI}.
+When texture files cannot be resolved, constant fallback values are used.
+MDL features not captured by the four-channel mapping include subsurface
+scattering, clearcoat layers, anisotropic reflectance, emission, opacity, and
+displacement. After the UsdPreviewSurface network is established, all MDL shader prims and
+MDL-specific material outputs are removed. A post-conversion verification pass
+confirms that no MDL residuals remain.
+
+\paragraph{Stage 3: Asset Path Rewriting.}
+All composition arcs in the converted file --- references, payloads, sublayer
+paths, and variant-internal asset paths --- are rewritten from their original
+targets to the corresponding \texttt{*\_noMDL} variants. This ensures that
+opening the converted root file yields a fully self-consistent scene composed
+entirely of UsdPreviewSurface materials.
+
+\subsection{Experimental Setup}
+\label{sec:setup}
+
+\paragraph{Dataset.}
+We select four chest-of-drawers assets from the NVIDIA Isaac Sim asset library:
+\texttt{chestofdrawers\_0004}, \texttt{chestofdrawers\_0011},
+\texttt{chestofdrawers\_0023}, and \texttt{chestofdrawers\_0029}. These objects
+feature diverse wood, metal, and fabric materials with varying degrees of MDL
+complexity, including multi-layer coatings and procedural textures, making them
+representative test cases for material simplification.
+
+\paragraph{Rendering.}
+For each object, we render images from six camera viewpoints distributed around
+the scene: front, back, left, right, top-front-left, and top-front-right. Each viewpoint
+is rendered twice --- once with the original MDL materials and once with the
+ConvertAsset-converted UsdPreviewSurface materials --- yielding $4 \times 6
+\times 2 = 48$ images total (24 matched pairs). All renders use identical
+geometry, lighting, and camera parameters at $1024 \times 1024$ resolution to
+isolate the effect of material representation.
+
+\paragraph{Hardware.}
+All experiments are conducted on a workstation equipped with an NVIDIA GeForce
+RTX 4090 (24\,GB VRAM) GPU and an Intel Xeon Gold 6462C processor. Rendering uses NVIDIA Isaac Sim's
+built-in RTX renderer. Feature extraction and detection inference run on the
+same GPU hardware.
+
+\subsection{Evaluation Metrics}
+\label{sec:metrics}
+
+We evaluate the impact of material simplification at four complementary levels.
+
+\paragraph{Rendering Performance.}
+We measure scene load time (seconds from \texttt{open\_stage} to first rendered
+frame), peak GPU memory consumption (MB), and rendering throughput (frames per
+second) for both MDL and UsdPreviewSurface versions of each scene.
+
+\paragraph{Pixel-Level Image Quality.}
+For each of the 24 matched image pairs, we compute:
+\begin{itemize}
+    \item \textbf{PSNR} (Peak Signal-to-Noise Ratio): measures pixel-level
+    reconstruction accuracy in decibels (higher is better).
+    \item \textbf{SSIM}~\cite{Wang2004Image} (Structural Similarity Index):
+    captures luminance, contrast, and structural distortion on a $[0,1]$ scale
+    (higher is better).
+    \item \textbf{LPIPS}~\cite{Zhang2018Unreasonable} (Learned Perceptual
+    Image Patch Similarity, VGG backbone): uses deep features to measure
+    perceptual distance (lower is better).
+\end{itemize}
+
+\paragraph{Feature-Level Preservation.}
+To assess whether material simplification alters semantic content as perceived
+by modern vision models, we extract embeddings from both
+CLIP~\cite{Radford2021Learning} (ViT-B/32) and
+DINOv2~\cite{Oquab2023DINOv2} (ViT-B/14) for each matched pair and compute
+cosine similarity. High similarity ($> 0.95$) indicates that the feature
+representations are largely invariant to the material change. We report
+per-pair scores and across-scene averages to identify whether specific material
+types are more sensitive to simplification.
+
+\paragraph{Detection Proxy.}
+As a downstream task probe, we apply a pretrained YOLOv8 object detector
+(nano variant, YOLOv8n), selected as a representative lightweight detector
+commonly deployed in robotics applications, in a
+zero-shot setting (no fine-tuning on our rendered data) to both MDL and
+UsdPreviewSurface images. We compare detection confidence scores for the
+target object across matched pairs. A statistically significant drop in
+confidence would indicate that material simplification degrades object
+appearance sufficiently to affect recognition, even for a detector trained on
+real-world images.

@@ -1,0 +1,69 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We presented a systematic multi-level evaluation of MDL-to-UsdPreviewSurface
+material simplification in NVIDIA Isaac Sim, quantifying trade-offs across
+four complementary dimensions: pixel-level image quality, rendering performance,
+feature-level semantic preservation, and downstream AI task performance.
+
+Our pixel-level analysis demonstrates that UsdPreviewSurface conversions
+achieve high fidelity relative to the original MDL renderings, with a mean
+PSNR of 35.52\,dB, SSIM of 0.990, and LPIPS of 0.020 across 24 matched image
+pairs. These results indicate that the four primary material channels ---
+diffuse albedo, roughness, metallic, and normal --- capture the dominant visual
+appearance of the tested assets, with degradation concentrated in scenes
+featuring complex multi-layer MDL effects such as procedural noise textures and
+specular coatings.
+
+Rendering performance measurements reveal that material simplification does not
+yield significant throughput or memory benefits for single-object scenes under
+the RTX path tracer, with both material types achieving approximately 119\,FPS
+and comparable GPU memory consumption. This finding suggests that the primary
+motivation for conversion lies in interoperability and portability rather than
+rendering efficiency, at least for scenes of the scale tested.
+
+Feature-level evaluation confirms that semantic content is well preserved:
+CLIP embeddings achieve a mean cosine similarity of 0.925 across matched pairs,
+while DINOv2 --- which is more sensitive to fine-grained texture differences ---
+yields 0.872. Zero-shot YOLOv8 detection experiments show that both material
+versions trigger comparable detection patterns (MDL: 4/24 images detected, mean
+confidence 0.560; UsdPreviewSurface: 7/24, mean confidence 0.513), confirming
+that the conversion does not introduce artifacts that degrade object
+detectability. These higher-level metrics are particularly important for
+practitioners generating synthetic training data, as they directly probe
+whether vision models perceive the simplified renderings as equivalent to the
+originals.
+
+Based on our findings, we offer the following practical guidelines for
+synthetic data practitioners:
+\begin{itemize}
+    \item For assets with standard PBR materials (diffuse, roughness, metallic,
+    normal maps), MDL-to-UsdPreviewSurface conversion is safe and introduces
+    negligible visual degradation (PSNR $>$ 35\,dB, SSIM $>$ 0.99).
+    \item Assets with complex multi-layer MDL effects should be validated
+    individually, as conversion quality varies with material complexity (PSNR
+    range: 23--44\,dB across viewpoints).
+    \item The conversion enables broader toolchain compatibility --- including
+    standard USD viewers, web-based visualization, and GLB export --- without
+    sacrificing visual quality for most use cases.
+\end{itemize}
+
+\paragraph{Limitations.}
+Our evaluation is limited to four chest-of-drawers assets from the Isaac Sim
+library, all belonging to the same furniture category. While these assets span
+a range of material complexity, further validation on diverse object categories
+(e.g., transparent or translucent materials, highly specular metals, organic
+surfaces) is needed to establish broader generalizability. Additionally, our
+performance benchmarks use single-object scenes; the efficiency impact of
+material simplification in large-scale multi-object environments remains an
+open question.
+
+\paragraph{Future Work.}
+We plan to extend this evaluation along several axes: (1) scaling to larger
+asset collections spanning diverse object categories and material types;
+(2) measuring the impact on downstream task performance with fine-tuned
+detectors and segmentation models trained on simplified vs.\ original
+renderings; (3) investigating the cumulative effect of material simplification
+combined with mesh simplification and texture compression in the full
+USD-to-GLB export pipeline; and (4) benchmarking rendering performance in
+complex multi-object scenes where material count may become a bottleneck.
