@@ -7,6 +7,7 @@ This directory tracks the development history and changes of the ConvertAsset pr
 - **`commits/`**: (Optional) Granular logs corresponding to specific commits or small updates.
 
 ## Recent Changes
+- [**2026-03-06: Codex Agent System**](2026-03-06_codex_agent_system.md)
 - [**2026-01-06: GLB Export Feature**](history/2026_01_06_glb_export.md)
 - [**No-MDL Development Changes**](history/no_mdl_dev_changes.md)
 - [**No-MDL Strict Pass & Audit**](no_mdl_strict_pass_and_audit.md)

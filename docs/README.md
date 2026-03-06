@@ -7,6 +7,7 @@ Welcome to the documentation for **ConvertAsset**, a comprehensive toolkit for U
 ### 🏗 Architecture & Core
 - [**Architecture**](architecture/README.md): System design, data flow, and core module analysis.
 - [**No-MDL Conversion**](no_mdl/README.md): The core feature for stripping MDL and converting to UsdPreviewSurface.
+- [**Codex Agent Playbook**](codex-agent-playbook.md): How the Codex multi-agent system is organized in this repo.
 
 ### 🚀 Features & Tools
 - [**GLB Export**](glb/README.md): (New) Asset-level USD to GLB conversion (Pure Python).
