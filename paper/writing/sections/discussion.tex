@@ -2,11 +2,11 @@
 \label{sec:discussion}
 
 \paragraph{When is simplification safe?}
-Our results across four evaluation dimensions consistently indicate that
+Our results across three evaluation dimensions consistently indicate that
 MDL-to-UsdPreviewSurface conversion is safe for assets whose appearance is
 dominated by standard PBR channels (diffuse albedo, roughness, metallic,
 normal). For such assets, we observe PSNR $>$ 35\,dB, SSIM $>$ 0.99, CLIP
-similarity $>$ 0.92, and no systematic change in detection behavior. Caution is
+similarity $>$ 0.92. Caution is
 warranted for materials that rely on multi-layer MDL effects --- procedural
 noise textures, specular coatings, and anisotropic reflectance --- where
 per-viewpoint PSNR can drop below 25\,dB and DINOv2 similarity below 0.60. We
@@ -30,14 +30,23 @@ applications, the within-simulation gap introduced by material simplification
 is small relative to typical sim-to-real gaps reported in the literature.
 
 \paragraph{Interoperability versus fidelity.}
-The primary motivation for material simplification is not rendering performance
---- which we show is effectively unchanged for single-object scenes --- but
-interoperability. UsdPreviewSurface materials are supported by standard USD
-viewers, web-based 3D platforms, and the glTF/GLB export path, none of which
-can interpret NVIDIA's proprietary MDL shaders. Our results quantify the cost
-of this interoperability gain: a mean LPIPS increase of 0.020 and a DINOv2
-cosine similarity of 0.872. For synthetic data pipelines where downstream
-models operate on features rather than pixels, this trade-off is favorable.
+The performance story is workload-dependent. In our shallow single-object RTX
+path-tracing benchmark, FPS and GPU memory are nearly identical between MDL and
+UsdPreviewSurface, and the only visible difference is reduced first-load
+latency variability. In contrast, the supplemental GRScenes whole-scene startup
+runs to a substantial gain for noMDL: time to a fully warmed ready-to-render
+state drops from 52.0\,s to 13.7\,s, and post-load GPU memory decreases by
+roughly 200\,MB. The fact that this gap emerges primarily during the post-open warm-up phase
+rather than the raw \texttt{open\_stage} call suggests that material
+initialization and early-frame settling dominate startup cost once scene scale
+and shader complexity become substantial. The clearest general benefit in this
+study remains interoperability: UsdPreviewSurface materials are supported by
+standard USD viewers, web-based 3D platforms, and the glTF/GLB export path,
+none of which can interpret NVIDIA's proprietary MDL shaders. Our results
+quantify the visual cost of this interoperability gain: a mean LPIPS increase
+of 0.020 and a DINOv2 cosine similarity of 0.872. For synthetic data pipelines
+where downstream models operate on features rather than pixels, this trade-off
+is favorable.
 
 \paragraph{Why DINOv2 is more sensitive than CLIP.}
 Figure~\ref{fig:tsne_dino} provides a t-SNE visualization of DINOv2 embeddings
@@ -72,40 +81,26 @@ tasks relying on high-level semantics (e.g., image--text retrieval,
 classification), while DINOv2 similarity better captures texture-level fidelity
 relevant to dense prediction tasks (e.g., segmentation, depth estimation).
 
-\paragraph{Interpreting sparse detection results.}
-The low absolute detection rate in our zero-shot experiment (4--7 of 24 images
-per version) is a consequence of the evaluation design: single-object renders
-on plain backgrounds fall far outside YOLOv8's COCO training
-distribution~\cite{Jocher2023YOLO}. While the small number of detections limits statistical power, we observe no
-systematic difference in which viewpoints trigger detections or in their
-associated confidence scores. This preliminary observation suggests that
-material simplification does not introduce obvious artifacts that confuse
-pre-trained detectors, though confirmation with larger sample sizes is needed.
-Future work should evaluate with detectors fine-tuned on synthetic data, where
-the material representation directly influences training signal quality.
-
 \paragraph{Practical recommendations.}
 Based on our findings, we offer the following guidelines for synthetic data
 practitioners working with Isaac Sim assets:
 \begin{enumerate}
-    \item \textbf{Default to conversion} for assets with standard PBR materials.
-    The quality loss is negligible and the interoperability benefits are
-    significant.
+    \item \textbf{Consider defaulting to conversion} for assets with standard
+    PBR materials. In our study, the quality loss is negligible and the
+    interoperability benefits are significant.
     \item \textbf{Validate complex materials} using CLIP and DINOv2 cosine
     similarity as quick diagnostic metrics before deploying converted assets in
     training pipelines.
-    \item \textbf{Use CLIP similarity as a go/no-go threshold.} A per-pair CLIP
-    cosine similarity below 0.85 may indicate material features that are poorly
-    captured by UsdPreviewSurface and warrant manual inspection. In our
-    experiments, one pair falls below this threshold, corresponding to a
-    viewpoint with complex specular effects.
-    \item \textbf{Monitor DINOv2 for texture-sensitive tasks.} If the downstream
-    task depends on fine-grained texture features, require DINOv2 similarity
-    above 0.80 as an additional quality gate. In our experiments, three pairs
-    fall below this threshold, all corresponding to viewpoints with complex
-    specular effects.
+    \item \textbf{Use low CLIP similarity as a manual-review trigger.} In this
+    dataset, the single pair below 0.85 corresponds to a viewpoint with complex
+    specular effects, suggesting that unusually low CLIP similarity merits
+    visual inspection rather than serving as a universal acceptance threshold.
+    \item \textbf{Monitor low DINOv2 similarity for texture-sensitive tasks.}
+    In our dataset, values below 0.80 occur only for viewpoints with complex
+    specular effects. We therefore treat this range as a cautionary signal for
+    manual validation, not as a hard deployment rule.
 \end{enumerate}
-We note that these guidelines are derived from furniture assets with
-predominantly wood, metal, and fabric materials; validation on diverse object
+These recommendations are heuristic signals derived from furniture assets with
+predominantly wood, metal, and fabric materials. Validation on diverse object
 categories (e.g., transparent, organic, or highly specular surfaces) is needed
 before broader generalization.

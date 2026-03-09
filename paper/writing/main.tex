@@ -6,7 +6,7 @@
 \usepackage[review]{cvpr}
 
 % hyperref is not loaded by cvpr.sty (only checked), so we load it here
-\usepackage{hyperref}
+\usepackage[pagebackref,breaklinks,colorlinks]{hyperref}
 % cleveref is loaded by cvpr.sty with [capitalize]
 
 % Double-blind: do not include author names
@@ -30,17 +30,19 @@ Physics-based simulation platforms such as NVIDIA Isaac Sim use MDL (Material
 Definition Language) materials to achieve photorealistic rendering, but these
 materials limit interoperability with standard 3D tools and web-based viewers.
 We present a systematic multi-level evaluation of MDL-to-UsdPreviewSurface material
-simplification, measuring its impact across four dimensions: pixel-level image
-quality (PSNR, SSIM, LPIPS), rendering performance (load time, GPU memory, FPS),
-feature-level semantic preservation (CLIP and DINOv2 cosine similarity), and
-downstream AI task performance (zero-shot YOLOv8 detection confidence). Our
+simplification, measuring its impact across three dimensions: pixel-level image
+quality (PSNR, SSIM, LPIPS), rendering performance (cold-start load time, GPU memory, FPS),
+and feature-level semantic preservation (CLIP and DINOv2 cosine similarity). Our
 experiments on four chest-of-drawers assets rendered from six viewpoints show
 that the conversion preserves high visual fidelity (mean PSNR 35.52\,dB, SSIM
-0.990, LPIPS 0.020), maintains strong semantic similarity (CLIP cosine
-similarity 0.925), and is detection-neutral in zero-shot object detection,
-with negligible impact on rendering performance. We release ConvertAsset, an
-open-source toolkit automating the conversion pipeline with
-composition-preserving USD traversal, and provide practical guidelines for
+0.990, LPIPS 0.020) and maintains strong semantic similarity (CLIP cosine
+similarity 0.925, DINOv2 cosine similarity 0.872). In a headless single-object benchmark, conversion reduces
+first-load latency variability but yields near-identical steady-state FPS and
+GPU memory usage; in a supplemental single-scene GRScenes startup benchmark, the
+converted scene reaches a fully warmed ready-to-render state 3.8$\times$
+faster and uses roughly 200\,MB less GPU memory. We
+release an open-source conversion toolkit (available upon acceptance) automating the pipeline with
+composition-preserving USD traversal, and provide preliminary guidelines for
 synthetic data practitioners on when material simplification is safe for AI
 training pipelines.
 \end{abstract}

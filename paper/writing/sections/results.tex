@@ -2,9 +2,8 @@
 \label{sec:results}
 
 We evaluate the impact of MDL-to-UsdPreviewSurface material simplification
-across four complementary dimensions: pixel-level image quality, rendering
-performance, feature-level semantic preservation, and downstream detection
-performance. All metrics are computed over 24 matched image pairs (4 scenes
+across three complementary dimensions: pixel-level image quality, rendering
+performance, and feature-level semantic preservation. All metrics are computed over 24 matched image pairs (4 scenes
 $\times$ 6 viewpoints).
 
 \subsection{Pixel-Level Image Quality}
@@ -86,38 +85,108 @@ multi-layer MDL materials.}
 \label{sec:perf}
 
 Table~\ref{tab:performance} compares rendering performance between the original
-MDL and converted UsdPreviewSurface materials. Both versions achieve
-near-identical rendering throughput and GPU memory consumption, indicating that
-material simplification does not provide a measurable performance advantage for
-single-asset scenes rendered with the RTX path tracer.
+MDL and converted UsdPreviewSurface materials in the headless single-object
+benchmark used in this study. Under this workload, the two material
+representations exhibit similar steady-state rendering throughput and post-load
+GPU memory usage. The main observable difference lies in first-load behavior
+rather than in a persistent FPS or memory separation.
 
 \begin{table}[t]
 \centering
-\caption{Rendering performance comparison (mean $\pm$ std over 4 scenes
-$\times$ 3 runs). Load time is measured from stage open to first rendered frame.}
+\caption{Rendering performance comparison for the headless single-object
+benchmark in this study. Cold-start load is computed from the first run for
+each scene; warm load is computed from runs 2--3. Load time is measured from
+\texttt{open\_stage} through a fixed 30-update warm-up window.}
 \label{tab:performance}
 \resizebox{\linewidth}{!}{
-\begin{tabular}{lccc}
+\begin{tabular}{lcccc}
 \toprule
-\textbf{Version} & \textbf{Load Time (s)} $\downarrow$ & \textbf{GPU Memory (MB)} $\downarrow$ & \textbf{FPS} $\uparrow$ \\
+\textbf{Version} & \textbf{Cold Load (s)} $\downarrow$ & \textbf{Warm Load (s)} $\downarrow$ & \textbf{GPU Memory (MB)} $\downarrow$ & \textbf{FPS} $\uparrow$ \\
 \midrule
-MDL & $0.580 \pm 0.237$ & $2947.7 \pm 9.2$ & $118.69 \pm 1.23$ \\
-UsdPreviewSurface & $0.508 \pm 0.024$ & $2942.7 \pm 9.4$ & $118.78 \pm 0.70$ \\
+MDL & $0.722 \pm 0.406$ & $0.509 \pm 0.016$ & $2947.7 \pm 9.2$ & $118.69 \pm 1.23$ \\
+UsdPreviewSurface & $0.505 \pm 0.021$ & $0.509 \pm 0.027$ & $2942.7 \pm 9.4$ & $118.78 \pm 0.70$ \\
 \bottomrule
 \end{tabular}
 }
 \end{table}
 
-The mean load time for UsdPreviewSurface ($0.508 \pm 0.024$\,s) is slightly
-lower and more consistent than for MDL ($0.580 \pm 0.237$\,s), though the
-difference is largely driven by the first-run cold-start effect in MDL scene
-loading (the first MDL load for \texttt{chestofdrawers\_0004} takes 1.33\,s
-versus 0.49--0.52\,s on subsequent runs). GPU memory consumption differs by
-less than 5\,MB on average, and FPS is effectively identical ($118.69$ vs.\
-$118.78$). These results suggest that for the single-object scenes tested,
-the rendering backend processes both material types with comparable efficiency.
-Performance differences may become more pronounced in large-scale scenes with
-hundreds of material instances, which we leave for future work.
+Separating cold-start and warm-start loads clarifies the benchmark behavior.
+On the first pass, MDL is slower and substantially more variable
+($0.722 \pm 0.406$\,s) than UsdPreviewSurface ($0.505 \pm 0.021$\,s), with the
+largest gap coming from the first MDL load of
+\texttt{chestofdrawers\_0004} at 1.33\,s. Once the benchmark is warm, however,
+the two versions are effectively indistinguishable on load time
+($0.509 \pm 0.016$\,s vs.\ $0.509 \pm 0.027$\,s), GPU memory differs by less
+than 5\,MB on average, and FPS remains nearly identical ($118.69$ vs.\
+$118.78$). The supported claim is therefore narrower than ``no performance
+difference'' in general: in these shallow single-object scenes, conversion
+reduces first-load latency variability but does not yield a clear steady-state
+throughput or memory advantage.
+
+This benchmark should also be interpreted conservatively. It measures headless
+\texttt{open\_stage} plus a fixed warm-up window on four single-asset instance
+scenes, not interactive whole-scene startup on large composed Isaac Sim
+environments. As a result, it likely underestimates startup costs associated
+with complex scene composition and extensive MDL initialization. A stronger
+claim about scene-open speedups at scale requires a dedicated benchmark on
+larger composed scenes with explicit stage-readiness synchronization, cold/warm
+cache control, randomized version order, and peak-memory logging.
+
+To probe exactly that larger-scene regime, we add a supplemental startup
+benchmark on a composed GRScenes commercial interior with preexisting MDL and
+noMDL variants. Each trial launches a fresh headless Isaac Sim process, opens
+the interaction scene, and measures time from \texttt{open\_stage} to a fully
+warmed ready-to-render state using the same 30-update post-open window.
+Table~\ref{tab:grscene_startup} shows that the large-scene behavior differs
+sharply from the shallow
+single-object benchmark: noMDL reduces scene-ready time from
+$52.02 \pm 2.69$\,s to $13.70 \pm 1.01$\,s, a 3.80$\times$ speedup
+($-73.7\%$), while also lowering post-load GPU memory by about 199\,MB.
+Interestingly, the pure \texttt{open\_stage}-to-ready component is not where
+the gain appears; that term is slightly lower for MDL
+($1.12 \pm 0.22$\,s vs.\ $1.76 \pm 0.08$\,s). The dominant gap comes from the
+first 30 post-open updates, which take $50.90 \pm 2.88$\,s for MDL but only
+$11.94 \pm 0.93$\,s for noMDL. This suggests that early-frame material
+initialization and settling, rather than raw USD composition alone, dominate
+startup cost in large composed scenes.
+
+\begin{table}[t]
+\centering
+\caption{Supplemental whole-scene startup benchmark on a large GRScenes
+commercial interior (3 fresh-process runs per version). Scene-ready time
+measures the time from \texttt{open\_stage} to a fully warmed ready-to-render
+state after 30 post-open updates.}
+\label{tab:grscene_startup}
+\resizebox{\linewidth}{!}{
+\begin{tabular}{lccc}
+\toprule
+\textbf{Version} & \textbf{Post-open Warm-up (s)} $\downarrow$ & \textbf{Scene-ready Time (s)} $\downarrow$ & \textbf{GPU Memory (MB)} $\downarrow$ \\
+\midrule
+MDL & $50.90 \pm 2.88$ & $52.02 \pm 2.69$ & $5458.3 \pm 125.9$ \\
+UsdPreviewSurface & $11.94 \pm 0.93$ & $13.70 \pm 1.01$ & $5259.0 \pm 83.1$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+Figure~\ref{fig:grscene_qualitative} provides a qualitative companion to the
+GRScenes startup benchmark. Across two representative approximately matched
+views, the converted noMDL scene remains broadly similar to the MDL scene at
+the level of overall layout, dominant materials, and major shading cues; we
+interpret this figure only as scene-level qualitative support, not as a
+pixel-aligned fidelity comparison.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_grscene_qualitative.pdf}
+\caption{Two representative MDL/noMDL views from the supplemental GRScenes
+commercial-interior benchmark. Left column: original MDL scene. Right column:
+converted noMDL scene. Despite the large reduction in time to a fully warmed
+ready-to-render state for noMDL, the converted scene remains broadly similar at
+scene level. The viewpoints are approximately matched and are shown only as a
+qualitative sanity check rather than a pixel-aligned fidelity comparison.}
+\label{fig:grscene_qualitative}
+\end{figure}
 
 \subsection{Feature-Level Similarity}
 \label{sec:feature_sim}
@@ -138,19 +207,19 @@ renderings (mean $\pm$ std over 6 viewpoints per scene). Higher is better.}
 \toprule
 \textbf{Scene} & \textbf{CLIP cos\,sim} $\uparrow$ & \textbf{DINOv2 cos\,sim} $\uparrow$ \\
 \midrule
-chestofdrawers\_0004 & $0.921 \pm 0.047$ & $0.798 \pm 0.171$ \\
-chestofdrawers\_0011 & $0.956 \pm 0.041$ & $0.922 \pm 0.042$ \\
-chestofdrawers\_0023 & $0.938 \pm 0.038$ & $0.905 \pm 0.045$ \\
+chestofdrawers\_0004 & $0.921 \pm 0.048$ & $0.798 \pm 0.171$ \\
+chestofdrawers\_0011 & $0.956 \pm 0.043$ & $0.922 \pm 0.046$ \\
+chestofdrawers\_0023 & $0.938 \pm 0.038$ & $0.905 \pm 0.046$ \\
 chestofdrawers\_0029 & $0.885 \pm 0.049$ & $0.864 \pm 0.072$ \\
 \midrule
-\textbf{Overall} & $\mathbf{0.925 \pm 0.049}$ & $\mathbf{0.872 \pm 0.102}$ \\
+\textbf{Overall} & $\mathbf{0.925 \pm 0.049}$ & $\mathbf{0.872 \pm 0.104}$ \\
 \bottomrule
 \end{tabular}
 }
 \end{table}
 
 Across all 24 pairs, CLIP embeddings achieve a mean cosine similarity of
-$0.925 \pm 0.049$, while DINOv2 yields $0.872 \pm 0.102$. The consistently
+$0.925 \pm 0.049$, while DINOv2 yields $0.872 \pm 0.104$. The consistently
 higher CLIP similarity is expected: CLIP's contrastive language--image
 pre-training encourages representations that are invariant to low-level
 appearance variations, making it more robust to the subtle texture and shading
@@ -189,48 +258,3 @@ material simplification introduces a feature-level perturbation comparable in
 magnitude to moderate viewpoint changes within the same scene.
 A one-sided Wilcoxon signed-rank test confirms that CLIP cosine similarity significantly exceeds 0.90 ($p < 0.01$) and DINOv2 cosine similarity significantly exceeds 0.80 ($p < 0.003$).
 
-\subsection{Zero-Shot Detection}
-\label{sec:detection}
-
-We evaluate whether material simplification affects the detectability of
-rendered objects by running a pre-trained YOLOv8n model~\cite{Jocher2023YOLO}
-in zero-shot mode (i.e., without fine-tuning on synthetic data) on all 48
-images (24 per material version). Table~\ref{tab:detection} summarizes the
-results.
-
-\begin{table}[t]
-\centering
-\caption{Zero-shot YOLOv8n detection results. ``Images w/ det.'' counts images
-with $\geq$1 detection; ``Mean conf.'' averages over all individual detections
-within each version.}
-\label{tab:detection}
-\resizebox{\linewidth}{!}{
-\begin{tabular}{lccc}
-\toprule
-\textbf{Version} & \textbf{Images w/ det.} & \textbf{Total det.} & \textbf{Mean conf.} \\
-\midrule
-MDL (A)              & 4 / 24 & 6 & 0.560 \\
-UsdPreviewSurface (B) & 7 / 24 & 9 & 0.513 \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
-
-Detections are sparse for both versions: only 4 of 24 MDL images and 7 of 24
-UsdPreviewSurface images trigger at least one detection. This sparsity is
-expected, as the rendered chest-of-drawers assets on a plain background do not
-closely resemble the cluttered, real-world scenes in YOLOv8's COCO training
-distribution. When detections do occur, mean confidence is comparable between
-the two versions (0.560 for MDL vs.\ 0.513 for UsdPreviewSurface), and both
-versions share a broadly consistent spatial pattern --- detections occur
-predominantly at elevated viewpoints (top-front-left and top-front-right), with
-the front view also triggering detections for one scene
-(\texttt{chestofdrawers\_0011}) in both material versions.
-
-The key finding is not the absolute detection rate --- which is limited by the
-domain gap between synthetic single-object renders and COCO --- but rather the
-consistency between the two material versions. Material simplification does not
-systematically suppress or amplify detections, nor does it shift detection
-confidence in a meaningful direction. For practitioners concerned about whether
-material conversion might introduce artifacts that confuse downstream
-detectors, these results provide evidence that the conversion is detection-neutral.

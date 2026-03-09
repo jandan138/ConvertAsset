@@ -4,10 +4,10 @@
 %  and AI task performance."
 %
 % Key format: [FirstAuthorLastName][Year][FirstWordOfTitle]
-% All entries include a note= field with verification URL.
-% Verification date: 2026-03-03.
-%
-% ONLY VERIFIED entries are included. Every URL was confirmed via direct fetch.
+% Submission-normalized bibliography policy:
+% - formally published work uses the formal journal / proceedings version
+% - preprints use arXiv-only metadata
+% - software resources may retain repository / version information
 % ============================================================================
 
 % ---------------------------------------------------------------------------
@@ -21,7 +21,6 @@
   title     = {{Isaac Lab: A GPU-Accelerated Simulation Framework for Multi-Modal Robot Learning}},
   journal   = {arXiv preprint arXiv:2511.04831},
   year      = {2025},
-  note      = {\url{https://arxiv.org/abs/2511.04831}},
 }
 
 @article{Mittal2023Orbit,
@@ -33,8 +32,9 @@
   journal   = {{IEEE Robotics and Automation Letters}},
   volume    = {8},
   number    = {6},
+  pages     = {3740--3747},
   year      = {2023},
-  note      = {\url{https://arxiv.org/abs/2301.04195}},
+  doi       = {10.1109/LRA.2023.3270034},
 }
 
 @inproceedings{Makoviychuk2021Isaac,
@@ -42,9 +42,9 @@
                and Kier Storey and Miles Macklin and David Hoeller and Nikita Rudin
                and Arthur Allshire and Ankur Handa and Gavriel State},
   title     = {{Isaac Gym: High Performance GPU-Based Physics Simulation For Robot Learning}},
-  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  booktitle = {Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks},
+  volume    = {1},
   year      = {2021},
-  note      = {\url{https://arxiv.org/abs/2108.10470}},
 }
 
 @article{Ng2023SynTable,
@@ -54,17 +54,16 @@
                Instance Segmentation of Cluttered Tabletop Scenes}},
   journal   = {arXiv preprint arXiv:2307.07333},
   year      = {2023},
-  note      = {Published at SynData4CV Workshop, CVPR 2025. \url{https://arxiv.org/abs/2307.07333}},
 }
 
-@article{Singh2024Synthetica,
+@inproceedings{Singh2025Synthetica,
   author    = {Ritvik Singh and Jingzhou Liu and Karl Van Wyk and Yu-Wei Chao
                and Jean-Francois Lafleche and Florian Shkurti and Nathan Ratliff
                and Ankur Handa},
-  title     = {{Synthetica: Large Scale Synthetic Data for Robot Perception}},
-  journal   = {arXiv preprint arXiv:2410.21153},
-  year      = {2024},
-  note      = {\url{https://arxiv.org/abs/2410.21153}},
+  title     = {{Synthetica: Large Scale Synthetic Data Generation for Robot Perception}},
+  booktitle = {2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  pages     = {7810--7817},
+  year      = {2025},
 }
 
 % ---------------------------------------------------------------------------
@@ -76,7 +75,6 @@
   title     = {{Experimental Analysis of BRDF Models}},
   booktitle = {Eurographics Symposium on Rendering (EGSR)},
   year      = {2005},
-  note      = {\url{https://dl.acm.org/doi/10.5555/2383654.2383673}},
 }
 
 @article{Sztrajman2021Neural,
@@ -88,7 +86,7 @@
   number    = {6},
   pages     = {332--346},
   year      = {2021},
-  note      = {\url{https://onlinelibrary.wiley.com/doi/10.1111/cgf.14335}},
+  doi       = {10.1111/cgf.14335},
 }
 
 @inproceedings{Savva2019Habitat,
@@ -98,18 +96,18 @@
                and Devi Parikh and Dhruv Batra},
   title     = {{Habitat: A Platform for Embodied AI Research}},
   booktitle = {IEEE/CVF International Conference on Computer Vision (ICCV)},
+  pages     = {9339--9347},
   year      = {2019},
-  note      = {\url{https://arxiv.org/abs/1904.01201}},
 }
 
 @article{Kolve2017AI2THOR,
   author    = {Eric Kolve and Roozbeh Mottaghi and Winson Han and Eli VanderBilt
-               and Luca Weihs and Alvaro Herrasti and Daniel Gordon
-               and Yuke Zhu and Abhinav Gupta and Ali Farhadi},
+               and Luca Weihs and Alvaro Herrasti and Matt Deitke and Kiana Ehsani
+               and Daniel Gordon and Yuke Zhu and Aniruddha Kembhavi
+               and Abhinav Gupta and Ali Farhadi},
   title     = {{AI2-THOR: An Interactive 3D Environment for Visual AI}},
   journal   = {arXiv preprint arXiv:1712.05474},
   year      = {2017},
-  note      = {\url{https://arxiv.org/abs/1712.05474}},
 }
 
 @inproceedings{Gan2021ThreeDWorld,
@@ -124,7 +122,6 @@
   title     = {{ThreeDWorld: A Platform for Interactive Multi-Modal Physical Simulation}},
   booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
   year      = {2021},
-  note      = {\url{https://arxiv.org/abs/2007.04954}},
 }
 
 % ---------------------------------------------------------------------------
@@ -138,7 +135,6 @@
                Simulation to the Real World}},
   booktitle = {2017 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
   year      = {2017},
-  note      = {\url{https://arxiv.org/abs/1703.06907}},
 }
 
 @inproceedings{Tremblay2018Training,
@@ -149,7 +145,6 @@
                by Domain Randomization}},
   booktitle = {IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)},
   year      = {2018},
-  note      = {\url{https://arxiv.org/abs/1804.06516}},
 }
 
 @inproceedings{Garcia2023Robust,
@@ -158,7 +153,6 @@
   title     = {{Robust Visual Sim-to-Real Transfer for Robotic Manipulation}},
   booktitle = {2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
   year      = {2023},
-  note      = {\url{https://arxiv.org/abs/2307.15320}},
 }
 
 @inproceedings{Zakharov2022Photo,
@@ -167,7 +161,6 @@
   title     = {{Photo-realistic Neural Domain Randomization}},
   booktitle = {European Conference on Computer Vision (ECCV)},
   year      = {2022},
-  note      = {\url{https://arxiv.org/abs/2210.12682}},
 }
 
 @inproceedings{Zhao2020Sim,
@@ -175,7 +168,6 @@
   title     = {{Sim-to-Real Transfer in Deep Reinforcement Learning for Robotics: a Survey}},
   booktitle = {2020 IEEE Symposium Series on Computational Intelligence (SSCI)},
   year      = {2020},
-  note      = {\url{https://arxiv.org/abs/2009.13303}},
 }
 
 % ---------------------------------------------------------------------------
@@ -190,7 +182,6 @@
   number    = {4},
   pages     = {600--612},
   year      = {2004},
-  note      = {\url{https://ieeexplore.ieee.org/document/1284395/}},
 }
 
 @inproceedings{Zhang2018Unreasonable,
@@ -198,8 +189,8 @@
                and Eli Shechtman and Oliver Wang},
   title     = {{The Unreasonable Effectiveness of Deep Features as a Perceptual Metric}},
   booktitle = {IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {586--595},
   year      = {2018},
-  note      = {Introduces LPIPS. \url{https://arxiv.org/abs/1801.03924}},
 }
 
 @inproceedings{Heusel2017GANs,
@@ -209,7 +200,6 @@
                Nash Equilibrium}},
   booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
   year      = {2017},
-  note      = {Introduces FID. \url{https://arxiv.org/abs/1706.08500}},
 }
 
 % ---------------------------------------------------------------------------
@@ -226,7 +216,6 @@
   volume    = {139},
   pages     = {8748--8763},
   year      = {2021},
-  note      = {Introduces CLIP. \url{https://arxiv.org/abs/2103.00020}},
 }
 
 @article{Oquab2023DINOv2,
@@ -241,17 +230,9 @@
   title     = {{DINOv2: Learning Robust Visual Features without Supervision}},
   journal   = {Transactions on Machine Learning Research (TMLR)},
   year      = {2024},
-  note      = {\url{https://arxiv.org/abs/2304.07193}},
 }
 
 % ---------------------------------------------------------------------------
 % Area 5: Object Detection
 % ---------------------------------------------------------------------------
 
-@misc{Jocher2023YOLO,
-  author    = {Glenn Jocher and Ayush Chaurasia and Jing Qiu},
-  title     = {{Ultralytics YOLOv8}},
-  year      = {2023},
-  howpublished = {\url{https://github.com/ultralytics/ultralytics}},
-  note      = {Version 8.0.0},
-}

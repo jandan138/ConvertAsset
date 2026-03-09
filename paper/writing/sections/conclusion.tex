@@ -3,8 +3,8 @@
 
 We presented a systematic multi-level evaluation of MDL-to-UsdPreviewSurface
 material simplification in NVIDIA Isaac Sim, quantifying trade-offs across
-four complementary dimensions: pixel-level image quality, rendering performance,
-feature-level semantic preservation, and downstream AI task performance.
+three complementary dimensions: pixel-level image quality, rendering performance,
+and feature-level semantic preservation.
 
 Our pixel-level analysis demonstrates that UsdPreviewSurface conversions
 achieve high fidelity relative to the original MDL renderings, with a mean
@@ -15,26 +15,27 @@ appearance of the tested assets, with degradation concentrated in scenes
 featuring complex multi-layer MDL effects such as procedural noise textures and
 specular coatings.
 
-Rendering performance measurements reveal that material simplification does not
-yield significant throughput or memory benefits for single-object scenes under
-the RTX path tracer, with both material types achieving approximately 119\,FPS
-and comparable GPU memory consumption. This finding suggests that the primary
-motivation for conversion lies in interoperability and portability rather than
-rendering efficiency, at least for scenes of the scale tested.
+The performance outcome depends strongly on workload. In the single-object
+furniture benchmark, rendering throughput and GPU memory are nearly
+indistinguishable between MDL and UsdPreviewSurface, with only reduced
+first-load latency variability for the converted assets. In a supplemental
+whole-scene benchmark on a large GRScenes commercial interior, however, noMDL
+reduces time to a fully warmed ready-to-render state from
+$52.02 \pm 2.69$\,s to $13.70 \pm 1.01$\,s and lowers post-load GPU memory by
+about 199\,MB. The practical conclusion is therefore two-part: conversion does
+not buy much steady-state rendering throughput for shallow single-object scenes,
+but it can substantially improve startup behavior once scene scale and material
+complexity are high.
 
 Feature-level evaluation confirms that semantic content is well preserved:
 CLIP embeddings achieve a mean cosine similarity of 0.925 across matched pairs,
 while DINOv2 --- which is more sensitive to fine-grained texture differences ---
-yields 0.872. Zero-shot YOLOv8 detection experiments show that both material
-versions trigger comparable detection patterns (MDL: 4/24 images detected, mean
-confidence 0.560; UsdPreviewSurface: 7/24, mean confidence 0.513), confirming
-that the conversion does not introduce artifacts that degrade object
-detectability. These higher-level metrics are particularly important for
+yields 0.872. These higher-level metrics are particularly important for
 practitioners generating synthetic training data, as they directly probe
 whether vision models perceive the simplified renderings as equivalent to the
 originals.
 
-Based on our findings, we offer the following practical guidelines for
+Based on our findings, we offer the following preliminary guidelines for
 synthetic data practitioners:
 \begin{itemize}
     \item For assets with standard PBR materials (diffuse, roughness, metallic,
@@ -56,14 +57,16 @@ a range of material complexity, further validation on diverse object categories
 surfaces) is needed to establish broader generalizability. Additionally, our
 performance benchmarks use single-object scenes; the efficiency impact of
 material simplification in large-scale multi-object environments remains an
-open question.
+open question. Our performance claims are therefore limited to four
+single-object furniture scenes plus one GRScenes commercial interior under a
+headless RTX path-tracing setup, and should not yet be generalized to all
+larger, heavily instanced, or materially diverse environments.
 
 \paragraph{Future Work.}
-We plan to extend this evaluation along several axes: (1) scaling to larger
-asset collections spanning diverse object categories and material types;
-(2) measuring the impact on downstream task performance with fine-tuned
-detectors and segmentation models trained on simplified vs.\ original
-renderings; (3) investigating the cumulative effect of material simplification
-combined with mesh simplification and texture compression in the full
-USD-to-GLB export pipeline; and (4) benchmarking rendering performance in
-complex multi-object scenes where material count may become a bottleneck.
+We plan to extend this evaluation along several axes: (1)~scaling to diverse
+object categories and material types; (2)~measuring downstream task impact
+with fine-tuned detection and segmentation models; (3)~investigating the
+cumulative effect of material simplification combined with mesh simplification
+and texture compression in the full USD-to-GLB pipeline; and
+(4)~benchmarking rendering in complex multi-object scenes where material count
+may become a bottleneck.

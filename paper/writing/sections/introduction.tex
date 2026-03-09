@@ -7,21 +7,24 @@ Sim~\cite{Mittal2025Isaac,Mittal2023Orbit,Makoviychuk2021Isaac} leverage
 Universal Scene Description (USD) as a scene representation and GPU-accelerated
 ray tracing to produce photorealistic synthetic data at scale. Recent efforts
 demonstrate that millions of high-fidelity rendered images can train competitive
-object detectors~\cite{Singh2024Synthetica} and instance segmentation
+object detectors~\cite{Singh2025Synthetica} and instance segmentation
 models~\cite{Ng2023SynTable} without any real-world labels, making the
 rendering pipeline a critical component of modern sim-to-real transfer.
 
 A key contributor to the visual realism of Isaac Sim is NVIDIA's Material
 Definition Language (MDL), which provides physically based shading with
 multi-layer effects, subsurface scattering, and procedural noise functions.
-However, MDL materials carry practical costs: they require the NVIDIA Omniverse
-runtime, increase scene load times, elevate GPU memory consumption, and produce
-assets incompatible with standard 3D tools and web viewers that expect
-UsdPreviewSurface or PBR glTF materials. Practitioners who generate synthetic
-training data at scale~\cite{Singh2024Synthetica,Ng2023SynTable} or deploy
-digital twins in resource-constrained settings therefore face a recurring
-question: \emph{can we simplify MDL materials to UsdPreviewSurface without
-degrading the downstream utility of the rendered images?}
+However, MDL materials carry clear interoperability costs: they require the
+NVIDIA Omniverse runtime and produce assets incompatible with many standard 3D
+tools and web viewers that expect UsdPreviewSurface or PBR glTF materials.
+Whether MDL also incurs meaningful runtime overhead relative to
+UsdPreviewSurface depends on workload and scene scale, and has not been
+systematically quantified. Practitioners who generate synthetic training data
+at scale~\cite{Singh2025Synthetica,Ng2023SynTable} or deploy digital twins in
+resource-constrained settings therefore face a recurring question:
+\emph{can we simplify MDL materials to UsdPreviewSurface without degrading the
+downstream utility of the rendered images, and under what workloads does such
+conversion materially affect runtime behavior?}
 
 Despite the widespread use of Isaac Sim in the robotics and computer vision
 communities, no prior work has systematically quantified the consequences of
@@ -29,24 +32,22 @@ this material simplification. The sim-to-real gap literature focuses on
 the boundary between simulated and real images~\cite{Tobin2017Domain,Tremblay2018Training,Zakharov2022Photo}, but largely ignores the
 \emph{within-simulation} rendering gap introduced by material representation
 choices. This gap is particularly insidious because it operates silently inside
-the data generation pipeline: a practitioner may convert assets for efficiency,
-unaware of any impact on the training signal.
+the data generation pipeline: a practitioner may convert assets for portability
+or presumed efficiency gains, unaware of any impact on the training signal.
 
-In this paper we address this gap with four contributions:
+In this paper we address this gap with three contributions:
 \begin{enumerate}
-    \item We present a systematic multi-level quantification of
+    \item We present an initial multi-level quantification of
     MDL-to-UsdPreviewSurface material simplification trade-offs in NVIDIA Isaac
-    Sim, measuring visual quality degradation across multiple scenes and
-    viewpoints.
-    \item We conduct a multi-level evaluation spanning pixel-level image quality
+    Sim, spanning pixel-level image quality
     (PSNR, SSIM~\cite{Wang2004Image}, LPIPS~\cite{Zhang2018Unreasonable}),
-    semantic feature preservation (CLIP~\cite{Radford2021Learning} and
-    DINOv2~\cite{Oquab2023DINOv2} cosine similarity), and downstream AI task
-    performance (object detection confidence).
-    \item We derive practical decision guidelines for synthetic data
+    rendering performance, and semantic feature preservation
+    (CLIP~\cite{Radford2021Learning} and
+    DINOv2~\cite{Oquab2023DINOv2} cosine similarity).
+    \item We derive preliminary decision guidelines for synthetic data
     practitioners: under what conditions material simplification is safe, and
     when full-fidelity MDL rendering remains necessary.
-    \item We release \textbf{ConvertAsset}\footnote{Repository URL withheld for double-blind review.}, an open-source toolkit that
+    \item We release an open-source conversion toolkit (available upon acceptance) that
     automates the MDL-to-UsdPreviewSurface conversion pipeline with
     composition-preserving USD traversal, texture remapping, and optional mesh
     simplification and GLB export.

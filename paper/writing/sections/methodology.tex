@@ -1,12 +1,23 @@
 \section{Methodology}
 \label{sec:methodology}
 
-\subsection{ConvertAsset Pipeline}
+\subsection{Conversion Pipeline}
 \label{sec:pipeline}
 
-ConvertAsset is an open-source toolkit that converts NVIDIA Isaac Sim assets
-from MDL materials to UsdPreviewSurface, preserving the compositional structure
-of USD scenes. The pipeline operates in three stages.
+Our conversion toolkit transforms NVIDIA Isaac Sim assets from MDL materials
+to UsdPreviewSurface while preserving the compositional structure of USD
+scenes. The pipeline operates in three stages.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_method_pipeline.pdf}
+\caption{Overview of the composition-preserving MDL-to-UsdPreviewSurface conversion pipeline. The processor recursively discovers dependent USD files without flattening the scene composition, converts MDL materials in each file to a minimal UsdPreviewSurface approximation, rewrites composition arcs to sibling \texttt{*\_noMDL.usd} assets, and preserves a self-consistent converted USD hierarchy.}
+\label{fig:method_pipeline}
+\end{figure*}
+
+Figure~\ref{fig:method_pipeline} summarizes the traversal, conversion, and
+rewriting stages that transform an MDL-based USD composition into Preview-only
+assets while preserving the original scene structure.
 
 \paragraph{Stage 1: Recursive USD Traversal.}
 The processor begins at a root USD file and recursively discovers all
@@ -54,9 +65,9 @@ representative test cases for material simplification.
 
 \paragraph{Rendering.}
 For each object, we render images from six camera viewpoints distributed around
-the scene: front, back, left, right, top-front-left, and top-front-right. Each viewpoint
-is rendered twice --- once with the original MDL materials and once with the
-ConvertAsset-converted UsdPreviewSurface materials --- yielding $4 \times 6
+the scene: front, back, left, right, top-front-left, and top-front-right.
+Each viewpoint is rendered twice --- once with the original MDL materials and
+once with the converted UsdPreviewSurface materials --- yielding $4 \times 6
 \times 2 = 48$ images total (24 matched pairs). All renders use identical
 geometry, lighting, and camera parameters at $1024 \times 1024$ resolution to
 isolate the effect of material representation.
@@ -64,18 +75,25 @@ isolate the effect of material representation.
 \paragraph{Hardware.}
 All experiments are conducted on a workstation equipped with an NVIDIA GeForce
 RTX 4090 (24\,GB VRAM) GPU and an Intel Xeon Gold 6462C processor. Rendering uses NVIDIA Isaac Sim's
-built-in RTX renderer. Feature extraction and detection inference run on the
-same GPU hardware.
+built-in RTX renderer. Feature extraction runs on the same GPU hardware.
 
 \subsection{Evaluation Metrics}
 \label{sec:metrics}
 
-We evaluate the impact of material simplification at four complementary levels.
+We evaluate the impact of material simplification at three complementary levels.
 
 \paragraph{Rendering Performance.}
-We measure scene load time (seconds from \texttt{open\_stage} to first rendered
-frame), peak GPU memory consumption (MB), and rendering throughput (frames per
-second) for both MDL and UsdPreviewSurface versions of each scene.
+We measure scene load time in a headless benchmark by timing
+\texttt{open\_stage} plus a fixed 30-update post-open warm-up window, which
+approximates the time to a ready-to-render state in our setup. We report this
+metric separately for the first cold-start pass and the subsequent warm passes,
+together with post-load GPU memory consumption (MB) and steady-state rendering
+throughput (frames per second) for both MDL and UsdPreviewSurface versions of
+each scene. To better approximate practitioner-facing startup cost at scale, we
+also run a supplemental large-scene benchmark on one composed GRScenes
+commercial interior, launching a fresh headless Isaac Sim process for each run
+and measuring scene-ready time from \texttt{open\_stage} through the same
+30-update post-open window.
 
 \paragraph{Pixel-Level Image Quality.}
 For each of the 24 matched image pairs, we compute:
@@ -98,15 +116,5 @@ DINOv2~\cite{Oquab2023DINOv2} (ViT-B/14) for each matched pair and compute
 cosine similarity. High similarity ($> 0.95$) indicates that the feature
 representations are largely invariant to the material change. We report
 per-pair scores and across-scene averages to identify whether specific material
-types are more sensitive to simplification.
+types are more sensitive to simplification. All reported standard deviations use the sample standard deviation ($n-1$ denominator).
 
-\paragraph{Detection Proxy.}
-As a downstream task probe, we apply a pretrained YOLOv8 object detector
-(nano variant, YOLOv8n), selected as a representative lightweight detector
-commonly deployed in robotics applications, in a
-zero-shot setting (no fine-tuning on our rendered data) to both MDL and
-UsdPreviewSurface images. We compare detection confidence scores for the
-target object across matched pairs. A statistically significant drop in
-confidence would indicate that material simplification degrades object
-appearance sufficiently to affect recognition, even for a detector trained on
-real-world images.
