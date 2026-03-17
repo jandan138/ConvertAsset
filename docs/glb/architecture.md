@@ -3,6 +3,47 @@
 ## Design Philosophy
 The goal was to create a lightweight, "headless" GLB exporter that runs in a standard Python environment (with USD libraries) without requiring the heavy NVIDIA Omniverse Kit or SimulationApp.
 
+## Old vs New (Visual)
+
+The key behavioral change is that the exporter no longer treats every mesh as an already-placed world-space object.
+
+```text
+OLD FLOW (flat export)
+
+USD Stage
+  |
+  +-- scan every Prim
+        |
+        +-- if Prim is Mesh:
+              - read mesh-local points
+              - write one glTF mesh
+              - write one top-level glTF node
+  |
+  +-- result: all mesh nodes sit at scene root
+              parent Xform hierarchy is lost
+
+
+NEW FLOW (hierarchy-preserving export)
+
+USD Stage
+  |
+  +-- build scene graph
+  |     - collect Xform + Mesh nodes
+  |     - preserve parent/child relationships
+  |     - compute local node matrices
+  |     - insert synthetic root if stage is Z-up
+  |
+  +-- convert mesh-local geometry only
+  |
+  +-- attach each mesh to its glTF node
+  |
+  +-- result: scene graph is preserved
+              mesh stays local
+              node matrix carries placement
+```
+
+In practical terms: the old path exported "parts without assembly"; the new path exports "parts plus assembly relationships".
+
 ## Implementation Details
 
 ### Core Classes

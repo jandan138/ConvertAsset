@@ -3,6 +3,47 @@
 ## 设计哲学
 我们的目标是创建一个轻量级、"无头 (headless)" 的 GLB 导出器，它能够在标准的 Python 环境（仅需 USD 库）中运行，而不需要依赖庞大的 NVIDIA Omniverse Kit 或 SimulationApp。
 
+## 旧流程 vs 新流程（直观示意）
+
+这次修复的核心变化是：导出器不再把每个 mesh 当成“已经摆到最终位置的世界空间物体”。
+
+```text
+旧流程（flat export）
+
+USD Stage
+  |
+  +-- 扫描所有 Prim
+        |
+        +-- 如果 Prim 是 Mesh：
+              - 读取 mesh-local points
+              - 写一个 glTF mesh
+              - 写一个顶层 glTF node
+  |
+  +-- 结果：所有 mesh 都被平铺到 scene root
+            父级 Xform 层级语义丢失
+
+
+新流程（保 hierarchy 的导出）
+
+USD Stage
+  |
+  +-- 先构建 scene graph
+  |     - 收集 Xform + Mesh 节点
+  |     - 保留父子关系
+  |     - 计算每个节点的 local matrix
+  |     - 若舞台是 Z-up，则插入 synthetic root
+  |
+  +-- 再只转换 mesh-local 几何
+  |
+  +-- 最后把 mesh 挂回对应 glTF node
+  |
+  +-- 结果：scene graph 被保留
+            mesh 仍然保持 local
+            node matrix 负责摆放
+```
+
+通俗地说：旧流程导出的是“零件本身”，新流程导出的是“零件 + 装配关系”。
+
 ## 实现细节
 
 ### 核心类
