@@ -20,5 +20,5 @@ Implemented a lightweight, pure Python GLB exporter to convert Asset-level USD f
 
 ## Usage
 ```bash
-python main.py export-glb --input asset_noMDL.usd --output asset.glb
+./scripts/isaac_python.sh ./main.py export-glb <asset_noMDL.usd> --out <asset.glb>
 ```

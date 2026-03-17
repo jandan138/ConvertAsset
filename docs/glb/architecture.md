@@ -60,8 +60,8 @@ The goal was to create a lightweight, "headless" GLB exporter that runs in a sta
 ### Limitations & Roadmap
 - **Animation**: No skeletal or blend shape animation support.
 - **Instancing**: Point instancers are not currently resolved.
-- **Multiple UV Sets**: Only the primary UV set (`st` or `uv`) is exported.
-- **Hierarchy**: Scene hierarchy is currently flattened.
+- **UV Sets**: Only the `primvars:st` UV set is read; other sets such as `uv` or `st1` are ignored.
+- **Hierarchy**: Scene hierarchy is currently flattened and per-prim transforms are dropped after the up-axis correction, so each mesh ends up as a top-level node.
 
 ### Texture Handling (New)
 The exporter now supports texture embedding with automatic channel packing.
@@ -78,4 +78,4 @@ The exporter now supports texture embedding with automatic channel packing.
 ### Coordinate System
 - **USD**: Right-handed, typically Z-up.
 - **glTF**: Right-handed, Y-up.
-- **Solution**: A root node is added to the glTF scene with a rotation matrix to align the axes.
+- **Solution**: Each mesh's vertex positions and normals are transformed in place using the stage-level `root_transform`, so the exporter never emits an extra root node; the glTF scene remains a flat list of meshes after that rotation.

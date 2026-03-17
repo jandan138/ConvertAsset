@@ -41,11 +41,11 @@ This module handles the complexity of USD geometry, particularly the "FaceVaryin
     -   It reads `faceVertexCounts`. If any face has more than 3 vertices, it skips the mesh (GLB requires triangles). *Tip: Run mesh simplification/triangulation before export.*
 2.  **Points & Transform**:
     -   Reads points (`GetPointsAttr`).
-    -   Multiplies them by the `root_transform` (calculated in `converter.py`) to fix the Up-axis.
+    -   Multiplies them by the `root_transform` (calculated in `converter.py`) to fix the Up-axis; the rotated positions and normals are written directly, so the exporter never emits an additional root node and the scene remains a flat list of mesh nodes.
 3.  **Normals**:
     -   Reads normals (`GetNormalsAttr`). Also applies rotation if needed.
 4.  **UVs & Topology (The Tricky Part)**:
-    -   Reads UVs from `primvars:st`.
+    -   Reads UVs from `primvars:st` and ignores other sets such as `uv` or `st1`.
     -   Checks **Interpolation**:
         -   `vertex`: One UV per vertex. Easy (1:1 mapping).
         -   `faceVarying`: UVs are defined per face-corner (e.g., a sharp UV seam).
@@ -75,7 +75,7 @@ This module traverses the USD shading graph to find what the mesh looks like.
     -   This is the most complex part. It traces connections (`GetConnectedSource`).
     -   It handles various USD versions/structures (nested lists of connections).
     -   It identifies if the source is a `UsdUVTexture` shader.
-    -   If found, it extracts the file path (`inputs:file`) and resolves it to an absolute path.
+    -   If found, it extracts the file path (`inputs:file`) and, if the path is relative, rebases it against `src.GetStage().GetRootLayer().realPath`; it does not rely on `SdfComputeAssetPathRelativeToLayer` or `resolvedPath` for this step.
 
 ---
 

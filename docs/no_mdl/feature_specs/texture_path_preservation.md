@@ -430,7 +430,7 @@ path = (raw_path or resolved_path) if v is not None else None
 ### 7.2 影响评估
 
 **需要注意的场景**（新行为可能导致行为变化）：
-1. 后续 GLB 导出（`export-glb` / `usd-to-glb`）：GLB converter 读取 `*_noMDL.usd` 时，其纹理路径将变为相对路径。`glb/usd_material.py` 通过 USD 层的 `SdfComputeAssetPathRelativeToLayer` 或 `resolvedPath` 读取纹理实际位置，只要 USD 能正确解析相对路径，GLB 导出不受影响。
+1. 后续 GLB 导出（`export-glb` / `usd-to-glb`）：GLB converter 读取 `*_noMDL.usd` 时，其纹理路径将变为相对路径。实际实现中，`glb/usd_material.py` 读到 `inputs:file` 后，如果路径是相对的，会以 `stage.GetRootLayer().realPath` 所在目录为基准拼接绝对路径，并不会调用 `SdfComputeAssetPathRelativeToLayer` 或 `resolvedPath`；这在某些材质存在多层 authoring 的场景里可能无法按照最初的 authoring layer 解析出正确的相对路径。
 2. 已有的 `*_noMDL.usd` 文件：不受影响（本功能只影响新生成的文件）。
 3. 依赖绝对路径行为的脚本/工具：可通过 `--resolve-textures-to-absolute` 恢复旧行为。
 

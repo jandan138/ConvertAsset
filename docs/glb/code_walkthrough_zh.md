@@ -41,11 +41,11 @@
     -   读取 `faceVertexCounts`。如果任何面包含超过 3 个顶点，跳过该网格（GLB 仅支持三角形）。*提示：导出前请运行网格简化/三角化。*
 2.  **顶点与变换**:
     -   读取顶点位置 (`GetPointsAttr`)。
-    -   乘以 `root_transform`（在 `converter.py` 中计算）以修正 Up 轴方向。
+    -   乘以 `root_transform`（在 `converter.py` 中计算）以修正 Up 轴方向，旋转后的顶点和法线直接写入 glTF，因此不会额外生成根节点，所有网格仍然是扁平的顶层元素。
 3.  **法线**:
     -   读取法线 (`GetNormalsAttr`)。如有需要同样应用旋转。
 4.  **UV 与拓扑（难点）**:
-    -   从 `primvars:st` 读取 UV。
+    -   仅读取 `primvars:st`，`uv`、`st1` 等其它 UV 集不会被导出。
     -   检查 **插值方式 (Interpolation)**:
         -   `vertex`: 每个顶点一个 UV。简单（1:1 映射）。
         -   `faceVarying`: UV 定义在面角（face-corner）上（例如锐利的 UV 接缝）。
@@ -75,7 +75,7 @@
     -   这是最复杂的部分。它追踪连接关系 (`GetConnectedSource`)。
     -   它能处理各种 USD 版本/结构（嵌套的连接列表）。
     -   它识别源是否为 `UsdUVTexture`。
-    -   如果找到，提取文件路径 (`inputs:file`) 并将其解析为绝对路径。
+    -   如果找到，提取文件路径 (`inputs:file`)；若路径是相对的，会以 `src.GetStage().GetRootLayer().realPath` 为基准拼接绝对路径，并不会调用 `SdfComputeAssetPathRelativeToLayer` 或 `resolvedPath`。
 
 ---
 
