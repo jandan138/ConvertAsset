@@ -11,9 +11,11 @@
 
 本记录默认采用以下提交假设：
 
-- 作者数量：`1`
-- 作者姓名：`Zihou Zhu`
-- OpenReview profile：`~Zihou_Zhu1`
+- 作者数量：`4`
+- 第一作者：`Zihou Zhu`，OpenReview profile：`~Zihou_Zhu1`
+- 第二作者：`Haitao Mei`，OpenReview profile：`~Mei_Haitao1`
+- 第三作者：`Haolong Zheng`，OpenReview profile：`~Haolong_Zheng2`
+- 第四作者：`Zhou Zhang`，OpenReview profile：`~Zhou_Zhang7`
 
 ## 本次已完成的稿件侧收敛
 
@@ -67,8 +69,8 @@
 | Field | Draft |
 |---|---|
 | `title` | `Evaluating the Trade-offs of MDL-to-UsdPreviewSurface Material Simplification in NVIDIA Isaac Sim: Visual Quality, Feature Preservation, and AI Task Performance` |
-| `authors` | `Zihou Zhu` |
-| `authorids` | `~Zihou_Zhu1` |
+| `authors` | `Zihou Zhu, Haitao Mei, Haolong Zheng, Zhou Zhang` |
+| `authorids` | `~Zihou_Zhu1, ~Mei_Haitao1, ~Haolong_Zheng2, ~Zhou_Zhang7` |
 | `keywords` | `synthetic data`, `Isaac Sim`, `USD`, `MDL`, `UsdPreviewSurface`, `material simplification` |
 | `TLDR` | `We quantify how converting Isaac Sim assets from MDL to UsdPreviewSurface affects visual fidelity, feature similarity, and rendering performance across single-object and large-scene workloads.` |
 | `pdf` | `paper/writing/main.pdf` |
