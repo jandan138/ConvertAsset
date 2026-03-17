@@ -16,20 +16,40 @@
     -   `__init__`: 初始化 `GlbWriter` 和纹理缓存 (`_image_cache`)，防止重复处理同一张图片。
     -   `process_stage(src_usd_path, out_glb_path)`:
         1.  使用 `Usd.Stage.Open` 打开 USD 场景。
-        2.  **坐标系转换**: 检查 `UsdGeom.GetStageUpAxis`。如果是 Z-up（USD 标准），则创建一个旋转矩阵（绕 X 轴旋转 -90°）以适配 glTF 的 Y-up 系统。
-        3.  **遍历**: 使用 `Usd.PrimRange` 遍历场景中的所有 Prim。筛选出 `UsdGeom.Mesh` 类型并调用 `_convert_mesh`。
-        4.  **写入**: 最后调用 `writer.write()` 保存文件。
+        2.  **坐标系转换**: 检查 `UsdGeom.GetStageUpAxis`。如果是 Z-up，则准备一个 synthetic root matrix（绕 X 轴旋转 -90°），而不是继续把这个旋转 bake 到每个网格顶点里。
+        3.  **场景层级提取**: 调用 `UsdSceneGraphBuilder.build(...)`，拿到导出节点、父子关系和 local matrix。
+        4.  **网格转换**: 仅转换 mesh-local 几何与材质，再把 mesh index 绑定到对应 node。
+        5.  **写入**: 最后调用 `writer.write()` 保存文件。
 
 -   **`_convert_mesh(usd_mesh)`**:
     1.  调用 `UsdMeshExtractor.extract_mesh_data` 获取几何数据（点、法线、UV）。
     2.  调用 `UsdMaterialExtractor.extract_material_data` 获取材质信息（颜色、纹理）。
     3.  **纹理处理**: 如果发现纹理路径，通过 `_get_image_index` 调用 `texture_utils` 的函数进行处理。
         -   *注*: 它会生成缓存键（如文件路径），确保同一张图只在 GLB 中存储一次。
-    4.  将所有数据传递给 `self.writer.add_mesh` 和 `self.writer.add_node`。
+    4.  将所有数据传递给 `self.writer.add_mesh`；node 的创建和挂接由场景层级路径单独完成。
 
 ---
 
-## 2. 几何提取：`usd_mesh.py`
+## 2. 场景层级提取：`usd_scene.py`
+
+[源代码](../../convert_asset/glb/usd_scene.py)
+
+该模块负责把 USD 的 prim tree 映射成 glTF node tree。
+
+### `UsdSceneGraphBuilder.build`
+
+1.  **Mesh 选择**:
+    -   沿用当前 exporter 的 mesh 选择语义：只导出 active 且非 `instance proxy` 的 `Mesh`。
+2.  **祖先收集**:
+    -   对每个导出 mesh，向上收集所有需要保留层级语义的 xformable 祖先。
+3.  **local matrix 提取**:
+    -   使用每个 prim 的局部 USD 变换，作为 glTF node 的 matrix。
+4.  **Synthetic Root**:
+    -   若舞台是 Z-up，则插入一个 synthetic root node，用来承载坐标系修正。
+
+---
+
+## 3. 几何提取：`usd_mesh.py`
 
 [源代码](../../convert_asset/glb/usd_mesh.py)
 
@@ -39,11 +59,11 @@
 
 1.  **三角化检查**:
     -   读取 `faceVertexCounts`。如果任何面包含超过 3 个顶点，跳过该网格（GLB 仅支持三角形）。*提示：导出前请运行网格简化/三角化。*
-2.  **顶点与变换**:
+2.  **顶点**:
     -   读取顶点位置 (`GetPointsAttr`)。
-    -   乘以 `root_transform`（在 `converter.py` 中计算）以修正 Up 轴方向，旋转后的顶点和法线直接写入 glTF，因此不会额外生成根节点，所有网格仍然是扁平的顶层元素。
+    -   保持 mesh-local 坐标，不再在这里乘舞台级 `root_transform`。场景空间的摆放由 glTF node matrix 表达。
 3.  **法线**:
-    -   读取法线 (`GetNormalsAttr`)。如有需要同样应用旋转。
+    -   读取法线 (`GetNormalsAttr`)。当前只在法线数量与点数量一致时导出。
 4.  **UV 与拓扑（难点）**:
     -   仅读取 `primvars:st`，`uv`、`st1` 等其它 UV 集不会被导出。
     -   检查 **插值方式 (Interpolation)**:
@@ -59,7 +79,7 @@
 
 ---
 
-## 3. 材质提取：`usd_material.py`
+## 4. 材质提取：`usd_material.py`
 
 [源代码](../../convert_asset/glb/usd_material.py)
 
@@ -79,7 +99,7 @@
 
 ---
 
-## 4. 纹理处理：`texture_utils.py`
+## 5. 纹理处理：`texture_utils.py`
 
 [源代码](../../convert_asset/glb/texture_utils.py)
 
@@ -96,7 +116,7 @@
 
 ---
 
-## 5. 写入器：`writer.py`
+## 6. 写入器：`writer.py`
 
 [源代码](../../convert_asset/glb/writer.py)
 
@@ -114,6 +134,10 @@
     -   接收 numpy 数组（位置、法线等）。
     -   调用 `_add_accessor` 将原始数据写入 BIN 块。
     -   在 JSON 的 `"meshes"` 中创建条目。
+-   **`add_node` / `add_scene_root` / `attach_child`**:
+    -   `add_node` 负责创建 node payload。
+    -   `add_scene_root` 显式声明 scene roots。
+    -   `attach_child` 用于构建 parent-child 树，而不是把所有 node 都强行扁平挂到 scene 根。
 -   **`_add_accessor`**:
     -   **对齐**: glTF 要求数据按 4 字节对齐。如有需要，该方法会添加填充字节 (`\x00`)。
     -   将数据写入 `self.buffer_data`。
@@ -130,8 +154,9 @@
 
 ## 数据流总结
 
-1.  **`converter.py`** 向 **`usd_mesh.py`** 请求顶点/索引数据。
-2.  **`converter.py`** 向 **`usd_material.py`** 请求纹理路径。
-3.  **`converter.py`** 请求 **`texture_utils.py`** 加载/打包这些纹理为字节流。
-4.  **`converter.py`** 将所有原始数据（数组、字节）交给 **`writer.py`**。
-5.  **`writer.py`** 将其格式化为 GLB 规范并保存文件。
+1.  **`converter.py`** 向 **`usd_scene.py`** 请求导出节点树。
+2.  **`converter.py`** 向 **`usd_mesh.py`** 请求 mesh-local 顶点/索引数据。
+3.  **`converter.py`** 向 **`usd_material.py`** 请求纹理路径。
+4.  **`converter.py`** 请求 **`texture_utils.py`** 加载/打包这些纹理为字节流。
+5.  **`converter.py`** 将层级信息和所有原始数据交给 **`writer.py`**。
+6.  **`writer.py`** 将其格式化为 GLB 规范并保存文件。

@@ -16,20 +16,40 @@ This file is the entry point. It manages the high-level flow: **Open USD -> Extr
     -   `__init__`: Initializes the `GlbWriter` and a texture cache (`_image_cache`) to avoid processing the same image twice.
     -   `process_stage(src_usd_path, out_glb_path)`:
         1.  Opens the USD stage using `Usd.Stage.Open`.
-        2.  **Coordinate Conversion**: Checks `UsdGeom.GetStageUpAxis`. If it's Z-up (standard for USD), it creates a rotation matrix (Rotate X -90°) to align with glTF's Y-up system.
-        3.  **Traversal**: Uses `Usd.PrimRange` to iterate over every Prim in the stage. It filters for `UsdGeom.Mesh` types and calls `_convert_mesh`.
-        4.  **Write**: Finally calls `writer.write()` to save the file.
+        2.  **Coordinate Conversion**: Checks `UsdGeom.GetStageUpAxis`. If it's Z-up, it prepares a synthetic root matrix (Rotate X -90°) instead of baking that rotation into every mesh.
+        3.  **Scene Graph Extraction**: Calls `UsdSceneGraphBuilder.build(...)` to get exported nodes, parent-child relationships, and local matrices.
+        4.  **Mesh Conversion**: Converts only mesh-local geometry and materials, then attaches the resulting mesh index to the correct node.
+        5.  **Write**: Finally calls `writer.write()` to save the file.
 
 -   **`_convert_mesh(usd_mesh)`**:
     1.  Calls `UsdMeshExtractor.extract_mesh_data` to get geometry (points, normals, UVs).
     2.  Calls `UsdMaterialExtractor.extract_material_data` to get material info (colors, textures).
     3.  **Texture Handling**: If textures are found, it calls `texture_utils` functions via `_get_image_index`.
         -   *Note*: It creates a cache key (e.g., file path) to ensure we don't store the same image twice in the GLB.
-    4.  Feeds everything into `self.writer.add_mesh` and `self.writer.add_node`.
+    4.  Feeds everything into `self.writer.add_mesh`; node creation is handled separately by the scene graph path.
 
 ---
 
-## 2. Geometry Extraction: `usd_mesh.py`
+## 2. Scene Graph Extraction: `usd_scene.py`
+
+[Source Code](../../convert_asset/glb/usd_scene.py)
+
+This module is responsible for preserving hierarchy.
+
+### `UsdSceneGraphBuilder.build`
+
+1.  **Mesh Selection**:
+    -   Reuses the current exporter mesh-selection semantics: active prims only, and skip `instance proxy`.
+2.  **Ancestor Collection**:
+    -   For each exported mesh, it walks up the parent chain and keeps all xformable ancestors that are needed to preserve the scene graph.
+3.  **Local Matrix Extraction**:
+    -   Uses each prim's local USD transform as the glTF node matrix.
+4.  **Synthetic Root**:
+    -   If the source stage is Z-up, it inserts a synthetic root node that carries the up-axis conversion matrix.
+
+---
+
+## 3. Geometry Extraction: `usd_mesh.py`
 
 [Source Code](../../convert_asset/glb/usd_mesh.py)
 
@@ -39,11 +59,11 @@ This module handles the complexity of USD geometry, particularly the "FaceVaryin
 
 1.  **Triangulation Check**:
     -   It reads `faceVertexCounts`. If any face has more than 3 vertices, it skips the mesh (GLB requires triangles). *Tip: Run mesh simplification/triangulation before export.*
-2.  **Points & Transform**:
+2.  **Points**:
     -   Reads points (`GetPointsAttr`).
-    -   Multiplies them by the `root_transform` (calculated in `converter.py`) to fix the Up-axis; the rotated positions and normals are written directly, so the exporter never emits an additional root node and the scene remains a flat list of mesh nodes.
+    -   Keeps them in mesh-local space. Scene-space placement is now expressed via glTF node matrices.
 3.  **Normals**:
-    -   Reads normals (`GetNormalsAttr`). Also applies rotation if needed.
+    -   Reads normals (`GetNormalsAttr`) only when the normals count matches the points count.
 4.  **UVs & Topology (The Tricky Part)**:
     -   Reads UVs from `primvars:st` and ignores other sets such as `uv` or `st1`.
     -   Checks **Interpolation**:
@@ -59,7 +79,7 @@ This module handles the complexity of USD geometry, particularly the "FaceVaryin
 
 ---
 
-## 3. Material Extraction: `usd_material.py`
+## 4. Material Extraction: `usd_material.py`
 
 [Source Code](../../convert_asset/glb/usd_material.py)
 
@@ -79,7 +99,7 @@ This module traverses the USD shading graph to find what the mesh looks like.
 
 ---
 
-## 4. Texture Processing: `texture_utils.py`
+## 5. Texture Processing: `texture_utils.py`
 
 [Source Code](../../convert_asset/glb/texture_utils.py)
 
@@ -96,7 +116,7 @@ Handles image manipulation using the `Pillow` (PIL) library.
 
 ---
 
-## 5. The Writer: `writer.py`
+## 6. The Writer: `writer.py`
 
 [Source Code](../../convert_asset/glb/writer.py)
 
@@ -114,6 +134,10 @@ A GLB file has 3 parts:
     -   Takes numpy arrays (positions, normals, etc.).
     -   Calls `_add_accessor` to write raw data to the BIN chunk.
     -   Creates a JSON entry in `"meshes"`.
+-   **`add_node` / `add_scene_root` / `attach_child`**:
+    -   `add_node` creates the node payload.
+    -   `add_scene_root` explicitly marks scene roots.
+    -   `attach_child` builds the parent-child tree without forcing every node into the scene root list.
 -   **`_add_accessor`**:
     -   **Alignment**: glTF requires data to be aligned to 4 bytes. The method adds padding bytes (`\x00`) if needed.
     -   Writes data to `self.buffer_data`.
@@ -130,8 +154,9 @@ A GLB file has 3 parts:
 
 ## Summary of Data Flow
 
-1.  **`converter.py`** asks **`usd_mesh.py`** for points/indices.
-2.  **`converter.py`** asks **`usd_material.py`** for texture paths.
-3.  **`converter.py`** asks **`texture_utils.py`** to load/pack those textures into bytes.
-4.  **`converter.py`** hands all raw data (arrays, bytes) to **`writer.py`**.
-5.  **`writer.py`** formats it into GLB spec and saves the file.
+1.  **`converter.py`** asks **`usd_scene.py`** for the exported node tree.
+2.  **`converter.py`** asks **`usd_mesh.py`** for mesh-local geometry.
+3.  **`converter.py`** asks **`usd_material.py`** for texture paths.
+4.  **`converter.py`** asks **`texture_utils.py`** to load/pack those textures into bytes.
+5.  **`converter.py`** hands scene-graph info and raw payloads to **`writer.py`**.
+6.  **`writer.py`** formats it into GLB spec and saves the file.

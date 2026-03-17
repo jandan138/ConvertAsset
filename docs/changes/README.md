@@ -7,6 +7,7 @@ This directory tracks the development history and changes of the ConvertAsset pr
 - **`commits/`**: (Optional) Granular logs corresponding to specific commits or small updates.
 
 ## Recent Changes
+- [**2026-03-17: GLB Hierarchy Preservation Implementation**](2026-03-17_glb_hierarchy_preservation_implementation.md)
 - [**2026-03-06: SynData4CV Submission Package**](2026-03-06_syndata4cv_submission_package.md)
 - [**2026-03-06: SynData4CV Submission Readiness**](2026-03-06_syndata4cv_submission_readiness.md)
 - [**2026-03-06: Codex Agent System**](2026-03-06_codex_agent_system.md)

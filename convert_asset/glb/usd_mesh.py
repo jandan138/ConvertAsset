@@ -4,17 +4,16 @@ USD 网格提取模块。
 负责从 UsdGeom.Mesh 中提取几何数据（顶点、法线、UV、索引），并处理 FaceVarying 拓扑。
 """
 import numpy as np
-from pxr import Usd, UsdGeom, Gf
+from pxr import UsdGeom
 
 class UsdMeshExtractor:
     @staticmethod
-    def extract_mesh_data(usd_mesh, root_transform=Gf.Matrix4d(1.0)):
+    def extract_mesh_data(usd_mesh):
         """
         从 UsdGeom.Mesh 提取数据。
         
         Args:
             usd_mesh: UsdGeom.Mesh 对象。
-            root_transform: 根变换矩阵（用于坐标系转换，如 Z-up 到 Y-up）。
             
         Returns:
             dict: 包含 'positions', 'normals', 'uvs', 'indices' 的字典。
@@ -33,7 +32,7 @@ class UsdMeshExtractor:
             print(f"[WARN] Skipping mesh {usd_mesh.GetPath()}: Not triangulated (run mesh-simplify first).")
             return None
 
-        # 2. 提取顶点 (Points) 并应用根变换
+        # 2. 提取顶点 (Points)
         points = usd_mesh.GetPointsAttr().Get()
         if not points:
             return None
@@ -41,28 +40,12 @@ class UsdMeshExtractor:
         # 转换为 numpy (N, 3) float32 格式
         points_np = np.array(points, dtype=np.float32)
         
-        # 应用根变换 (修正 Up 轴)
-        is_identity = (root_transform == Gf.Matrix4d(1.0))
-        if not is_identity:
-            # 构造齐次坐标 (N, 4)
-            pts_homo = np.hstack((points_np, np.ones((len(points_np), 1), dtype=np.float32)))
-            # 将 Matrix4d 展平为 numpy 数组
-            m_flat = np.array([root_transform[i][j] for i in range(4) for j in range(4)]).reshape(4,4)
-            # 执行矩阵乘法
-            t_points = pts_homo @ m_flat
-            # 取回前三维坐标
-            points_np = t_points[:, :3].astype(np.float32)
-        
         # 3. 提取法线 (Normals)
         normals_np = None
         normals = usd_mesh.GetNormalsAttr().Get()
         # 仅处理顶点法线 (Vertex Normals)，即数量与顶点数一致的情况
         if normals and len(normals) == len(points): 
             normals_np = np.array(normals, dtype=np.float32)
-            if not is_identity:
-                 # 仅应用旋转部分 (左上角 3x3)
-                 m_rot = m_flat[:3, :3]
-                 normals_np = normals_np @ m_rot
 
         # 4. 提取 UV (primvars:st)
         uvs_np = None

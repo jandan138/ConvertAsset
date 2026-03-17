@@ -32,7 +32,17 @@ class GlbWriter:
         # 键: tuple(color_rgba, roughness, metallic, texture_indices...) -> 值: material_index
         self._material_cache = {}
 
-    def add_node(self, name, mesh_index=None, translation=None, rotation=None, scale=None, matrix=None):
+    def add_node(
+        self,
+        name,
+        mesh_index=None,
+        translation=None,
+        rotation=None,
+        scale=None,
+        matrix=None,
+        add_to_scene_root=True,
+        children=None,
+    ):
         """
         向场景层级中添加一个节点。
         
@@ -43,6 +53,8 @@ class GlbWriter:
             rotation: 旋转四元数 [x, y, z, w]。
             scale: 缩放向量 [x, y, z]。
             matrix: 4x4 变换矩阵（如果提供，将覆盖 T/R/S）。
+            add_to_scene_root: 是否将该节点直接挂到默认 scene 根节点列表。
+            children: 可选的子节点索引列表。
             
         Returns:
             int: 新节点的索引。
@@ -50,7 +62,9 @@ class GlbWriter:
         node = {"name": name}
         if mesh_index is not None:
             node["mesh"] = mesh_index
-        
+        if children:
+            node["children"] = list(children)
+
         # 设置变换属性
         if matrix is not None:
             node["matrix"] = matrix
@@ -61,9 +75,25 @@ class GlbWriter:
             
         idx = len(self.nodes)
         self.nodes.append(node)
-        # 目前将所有节点都添加到默认场景的根节点列表中（扁平层级）
-        self.scenes[0]["nodes"].append(idx)
+        if add_to_scene_root:
+            self.add_scene_root(idx)
         return idx
+
+    def add_scene_root(self, node_index):
+        """将节点添加为默认 scene 的根节点。"""
+        roots = self.scenes[0]["nodes"]
+        if node_index not in roots:
+            roots.append(node_index)
+
+    def attach_child(self, parent_index, child_index):
+        """将 child 节点挂到 parent 下，并确保 child 不再重复出现在 scene root。"""
+        parent = self.nodes[parent_index]
+        children = parent.setdefault("children", [])
+        if child_index not in children:
+            children.append(child_index)
+        roots = self.scenes[0]["nodes"]
+        if child_index in roots:
+            roots.remove(child_index)
 
     def add_mesh(self, name, positions, normals=None, uvs=None, indices=None, material_index=None):
         """

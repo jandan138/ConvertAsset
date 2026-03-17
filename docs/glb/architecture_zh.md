@@ -11,34 +11,43 @@
 - **角色**: "协调者 (Orchestrator)"。
 - **主要职责**:
   - 初始化 `GlbWriter`。
-  - 确定舞台的 Up 轴 (Up-axis) 和根变换矩阵。
-  - 遍历 USD 舞台（通过 `UsdPrimRange`）。
+  - 确定舞台的 Up 轴 (Up-axis)，并在需要时插入 synthetic root 矩阵。
+  - 调用 `UsdSceneGraphBuilder` 提取层级、局部矩阵与 scene roots。
   - 将具体的提取任务委托给辅助模块 (`UsdMeshExtractor`, `UsdMaterialExtractor`)。
   - 协调纹理的处理和缓存。
 
-#### 2. `GlbWriter` (`convert_asset/glb/writer.py`)
+#### 2. `UsdSceneGraphBuilder` (`convert_asset/glb/usd_scene.py`)
+- **角色**: 场景层级提取器。
+- **主要职责**:
+  - 将 USD prim tree 映射成 glTF node tree。
+  - 计算每个导出节点的 local matrix。
+  - 保留父子关系与 scene roots。
+  - 在舞台为 Z-up 时插入 synthetic root。
+
+#### 3. `GlbWriter` (`convert_asset/glb/writer.py`)
 - **角色**: "构建者 (Builder)"。构建合法的 GLB 二进制文件。
 - **主要职责**:
   - **二进制缓冲区管理**: 管理一个 `bytearray` 缓冲区。
   - **填充/对齐**: 确保所有块 (Chunks) 和访问器 (Accessors) 符合 glTF 2.0 规范的 4 字节对齐要求。
   - **JSON 构建**: 构建 `asset`, `scenes`, `nodes`, `meshes`, `accessors`, `bufferViews`, `materials` 等字典结构。
+  - **场景树组装**: 支持显式 scene root 和 parent-child 挂接，不再强制扁平化。
   - **导出**: 写入最终的 `.glb` 文件，包含标准头（`glTF` 魔数、版本、长度）+ JSON 块 + Binary 块。
 
-#### 3. `UsdMeshExtractor` (`convert_asset/glb/usd_mesh.py`)
+#### 4. `UsdMeshExtractor` (`convert_asset/glb/usd_mesh.py`)
 - **角色**: 几何提取器。
 - **主要职责**:
   - 从 `UsdGeom.Mesh` 中提取位置、法线和索引。
   - 处理 **FaceVarying UV** 拓扑：通过分裂顶点（展开索引）来确保在 glTF 中正确显示纹理（glTF 仅支持顶点插值）。
-  - 应用坐标系转换（从 Z-up 到 Y-up）。
+  - 保持 mesh-local 几何数据；场景空间关系由 node matrix 表达。
 
-#### 4. `UsdMaterialExtractor` (`convert_asset/glb/usd_material.py`)
+#### 5. `UsdMaterialExtractor` (`convert_asset/glb/usd_material.py`)
 - **角色**: 材质图遍历器。
 - **主要职责**:
   - 查找绑定的 `UsdPreviewSurface` 材质。
   - 提取标量参数（BaseColor, Roughness, Metallic）。
   - 稳健地遍历连接路径以查找纹理文件，处理嵌套的连接列表以及直接/间接的 Prim 引用。
 
-#### 5. `TextureUtils` (`convert_asset/glb/texture_utils.py`)
+#### 6. `TextureUtils` (`convert_asset/glb/texture_utils.py`)
 - **角色**: 图像处理器。
 - **主要职责**:
   - 使用 Pillow (PIL) 读取图像文件。
@@ -48,20 +57,23 @@
 ### 数据流
 1. **输入**: USD Stage (通过 `pxr.Usd` 打开)。
 2. **处理**:
-   - `UsdToGlbConverter` 应用 `root_transform` (单位矩阵或绕 X 轴旋转 -90度)。
+   - `UsdSceneGraphBuilder` 提取导出节点、local matrix、父子关系与 scene roots。
+   - `UsdToGlbConverter` 仅转换 mesh-local 几何与材质。
+   - `GlbWriter` 将层级关系和几何 payload 组装为 glTF scene。
    - 对每个网格 (Mesh):
      - 获取顶点 (Vec3f) -> 展平为 float 数组 -> 添加到 Writer。
      - 获取法线 (Vec3f) -> 展平 -> 添加到 Writer。
      - 获取 UV (Vec2f) -> 展平 -> 添加到 Writer。
      - 获取索引 (Int) -> 添加到 Writer。
-     - 获取材质 -> 在 Writer 中创建材质 -> 分配给网格。
+     - 获取材质 -> 在 Writer 中创建材质 -> 分配给网格节点。
 3. **输出**: `.glb` 文件。
 
 ### 局限性与路线图
 - **动画**: 目前不支持骨骼或 Blend Shape 动画。
 - **实例化**: 目前未解析 Point Instancers。
 - **UV 集**: 仅读取 `primvars:st`，`uv`、`st1` 等其它 UV 集不会导出。
-- **层级**: 场景层级目前被展平，导出的每个网格都是顶层节点，且不保留 prim 或父级变换。
+- **Physics 回环**: articulation / joint schema 不会在 GLB 中保留；当前只保证静态 pose 的几何与层级保真。
+- **法线**: 目前只导出与 points 数量一致的逐点法线；face-varying / indexed normals 仍未支持。
 
 ### 纹理处理 (新增)
 导出器现在支持带有自动通道打包功能的纹理嵌入。
@@ -78,4 +90,4 @@
 ### 坐标系
 - **USD**: 右手系，通常为 Z-up。
 - **glTF**: 右手系，Y-up。
-- **解决方案**: 在导出前直接使用舞台级 `root_transform` 旋转每个网格的顶点与法线，因此没有额外的根节点，旋转后所有网格都保持扁平列表。
+- **解决方案**: 当舞台是 Z-up 时，导出器会插入一个 synthetic root node，用其 matrix 将整棵场景树旋转到 glTF 的 Y-up 坐标系；mesh-local 顶点不会被额外 bake。

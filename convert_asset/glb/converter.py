@@ -3,11 +3,10 @@
 High-level USD to GLB converter logic.
 Traverses a USD stage, extracts geometry/material, and drives the GlbWriter.
 """
-import os
-import numpy as np
 from pxr import Usd, UsdGeom, Gf
 
 from .writer import GlbWriter
+from .usd_scene import UsdSceneGraphBuilder
 from .usd_mesh import UsdMeshExtractor
 from .usd_material import UsdMaterialExtractor
 from .texture_utils import process_texture, pack_metallic_roughness
@@ -66,6 +65,11 @@ class UsdToGlbConverter:
             src_usd_path: 输入 USD 文件的路径。
             out_glb_path: 输出 GLB 文件的路径。
         """
+        # 每次导出都重置内部状态，避免复用同一个 converter 时串场。
+        self.writer = GlbWriter()
+        self.root_transform = Gf.Matrix4d(1.0)
+        self._image_cache = {}
+
         # 1. 打开 USD 舞台 (Stage)
         stage = Usd.Stage.Open(src_usd_path)
         if not stage:
@@ -80,16 +84,34 @@ class UsdToGlbConverter:
             rot = Gf.Rotation(Gf.Vec3d(1, 0, 0), -90)
             self.root_transform = Gf.Matrix4d(rot, Gf.Vec3d(0))
         
-        # 3. 遍历并转换网格
-        # 使用 UsdPrimRange 遍历场景中的所有 Prim（图元）
-        for prim in Usd.PrimRange(stage.GetPseudoRoot()):
-            # 跳过非激活的 Prim 或实例代理（Instance Proxy，暂不处理复杂实例化）
-            if not prim.IsActive() or prim.IsInstanceProxy():
+        # 3. 提取并写出场景层级
+        scene_nodes = UsdSceneGraphBuilder.build(stage, root_transform=self.root_transform)
+        node_indices = {}
+        for desc in scene_nodes:
+            mesh_index = None
+            if desc.is_mesh and desc.prim_path is not None:
+                mesh_index = self._convert_mesh(UsdGeom.Mesh(stage.GetPrimAtPath(desc.prim_path)))
+                if mesh_index is None:
+                    continue
+            node_indices[desc.key] = self.writer.add_node(
+                name=desc.name,
+                mesh_index=mesh_index,
+                matrix=desc.matrix,
+                add_to_scene_root=False,
+            )
+
+        for desc in scene_nodes:
+            node_index = node_indices.get(desc.key)
+            if node_index is None:
                 continue
-            
-            # 如果是 Mesh 类型，则调用转换逻辑
-            if prim.GetTypeName() == "Mesh":
-                self._convert_mesh(UsdGeom.Mesh(prim))
+            if desc.parent_key is None:
+                self.writer.add_scene_root(node_index)
+                continue
+            parent_index = node_indices.get(desc.parent_key)
+            if parent_index is None:
+                self.writer.add_scene_root(node_index)
+                continue
+            self.writer.attach_child(parent_index, node_index)
         
         # 4. 写入输出文件
         # 调用写入器的 write 方法生成最终的 .glb 文件
@@ -103,16 +125,16 @@ class UsdToGlbConverter:
 
     def _convert_mesh(self, usd_mesh):
         """
-        将单个 UsdGeom.Mesh 转换为 GLB 数据。
+        将单个 UsdGeom.Mesh 转换为 GLB mesh。
         
         Args:
             usd_mesh: UsdGeom.Mesh 对象。
         """
         # 1. 提取几何数据 (点、法线、UV、索引)
-        # 这一步会处理 FaceVarying 拓扑（如果需要展平网格）并应用根变换
-        mesh_data = UsdMeshExtractor.extract_mesh_data(usd_mesh, self.root_transform)
+        # 这一步只保留 mesh local-space geometry；场景空间关系由 node matrix 表达
+        mesh_data = UsdMeshExtractor.extract_mesh_data(usd_mesh)
         if not mesh_data:
-            return # 如果提取失败（例如非三角形网格），则跳过
+            return None  # 如果提取失败（例如非三角形网格），则跳过
 
         # 2. 提取材质数据
         mat_idx = None
@@ -161,7 +183,7 @@ class UsdToGlbConverter:
             )
 
         # 3. 将网格数据添加到写入器
-        mesh_idx = self.writer.add_mesh(
+        return self.writer.add_mesh(
             name=usd_mesh.GetPath().name,
             positions=mesh_data["positions"],
             normals=mesh_data["normals"],
@@ -169,6 +191,3 @@ class UsdToGlbConverter:
             indices=mesh_data["indices"],
             material_index=mat_idx
         )
-        
-        # 4. 添加节点 (目前采用扁平层级，即所有 Mesh 都是根节点)
-        self.writer.add_node(name=usd_mesh.GetPath().name, mesh_index=mesh_idx)
