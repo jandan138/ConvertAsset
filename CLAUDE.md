@@ -92,7 +92,19 @@ After building, use `--backend cpp-uv` to invoke the C++ path.
 
 ## Docs
 
-`docs/` contains detailed markdown documentation for each module (architecture, data flow, algorithm details). Chinese inline comments are used throughout the source.
+`docs/` uses a Genesis-LLM-style purpose-based structure:
+
+| Path | Purpose |
+|---|---|
+| `docs/index.md` | Canonical documentation entry |
+| `docs/setup.md` | Isaac Sim Python and runtime setup |
+| `docs/design/` | Architecture, module responsibilities, algorithms, implementation deep dives |
+| `docs/operations/` | CLI usage, runbooks, build instructions, troubleshooting, agent operations |
+| `docs/records/` | Dated change logs, implementation records, audits, route decisions |
+| `docs/reference/` | USD, UsdShade, MDL, and material background knowledge |
+| `archive/` | Retained historical material that is not first-class active documentation |
+
+Chinese inline comments are used throughout the source.
 
 ## Agent Team Documentation Rule (Mandatory)
 
@@ -110,10 +122,12 @@ Each agent must record the full lifecycle of its task:
 
 ### Where to write
 
-- Place docs under `docs/changes/YYYY-MM-DD_<topic>.md` for change logs
-- Place feature docs under the relevant `docs/<module>/` directory
-- Place design specs under `docs/<module>/feature_specs/`
-- Follow existing doc conventions (see `docs/` structure)
+- Place dated change logs and implementation records under `docs/records/`
+- Place architecture, algorithm, and feature design docs under `docs/design/`
+- Place CLI usage, setup, runbooks, and troubleshooting under `docs/operations/`
+- Place USD, MDL, and conceptual background under `docs/reference/`
+- Place retained but non-current historical material under `archive/`
+- Keep `docs/index.md` and the relevant directory `README.md` updated when adding first-class docs
 
 ### How: agents with write permission
 

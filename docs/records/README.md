@@ -1,0 +1,25 @@
+# Records
+
+Dated change logs, implementation records, audits, and route decisions for ConvertAsset.
+
+## Engineering Records
+
+- [2026-01-06 GLB refactor](2026-01-06-glb-refactor.md)
+- [2026-01-06 GLB export history](2026-01-06-glb-export-history.md)
+- [2026-03-06 Codex agent system](2026-03-06-codex-agent-system.md)
+- [2026-03-09 agent team diagnosis](2026-03-09-agent-team-diagnosis.md)
+- [2026-03-17 GLB hierarchy preservation implementation](2026-03-17-glb-hierarchy-preservation-implementation.md)
+- [2026-03-17 USD to GLB implementation survey](2026-03-17-usd-to-glb-implementation-survey.md)
+
+## no-MDL Records
+
+- [no-MDL development changes](no-mdl-dev-changes.md)
+- [no-MDL diagnostics changes](no-mdl-diagnostics-changes.md)
+- [no-MDL strict pass and audit](no-mdl-strict-pass-and-audit.md)
+
+## Camera And Mesh Records
+
+- [Orbit camera headless](orbit-camera-headless.md)
+- [Mesh roadmap](mesh-roadmap.md)
+
+Paper/submission process records were retained under [archive/docs/paper](../../archive/docs/paper/).

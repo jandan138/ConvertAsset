@@ -285,11 +285,11 @@ Create a concise Chinese-first docs index with:
 
 ## 快速导航
 
-- **[设计文档](design/)** - 架构、模块职责、算法与实现深挖
-- **[运维文档](operations/)** - 运行环境、CLI、构建、排障与 agent 协作
-- **[过程记录](records/)** - 变更日志、实现记录、审计与路线记录
-- **[参考资料](reference/)** - USD、UsdShade、MDL 与材质背景知识
-- **[归档材料](../archive/)** - 旧索引、legacy 文档、论文/提交相关历史材料
+- `docs/design/` - 架构、模块职责、算法与实现深挖
+- `docs/operations/` - 运行环境、CLI、构建、排障与 agent 协作
+- `docs/records/` - 变更日志、实现记录、审计与路线记录
+- `docs/reference/` - USD、UsdShade、MDL 与材质背景知识
+- `archive/` - 旧索引、legacy 文档、论文/提交相关历史材料
 
 ## 项目概述
 
@@ -305,7 +305,7 @@ Write:
 ```markdown
 # ConvertAsset Documentation
 
-Canonical documentation now starts at [docs/index.md](index.md).
+Canonical documentation now starts at `docs/index.md`.
 ```
 
 Expected: old docs entry remains usable.

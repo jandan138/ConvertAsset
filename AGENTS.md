@@ -18,7 +18,12 @@
   - `convert_asset/mesh/`：mesh 简化
   - `convert_asset/glb/`：USD -> GLB
   - `convert_asset/camera/`：缩略图视角与取景
-- 设计和实现细节优先看 `docs/`，不要靠记忆猜。
+- 设计和实现细节优先从 `docs/index.md` 进入，不要靠记忆猜：
+  - `docs/design/`：架构、算法、模块实现深挖
+  - `docs/operations/`：运行环境、CLI、构建、排障、agent 协作
+  - `docs/records/`：变更日志、实现记录、审计与路线记录
+  - `docs/reference/`：USD / UsdShade / MDL / 材质背景知识
+  - `archive/`：保留但不作为当前主导航的历史材料
 
 ## Team Lead Protocol
 
@@ -70,12 +75,18 @@
 
 ## Documentation Rule
 
-- `docs/` 默认由 `docs-writer` 负责。
+- `docs/` 和 `archive/` 下的 Markdown 默认由 `docs-writer` 负责。
 - 任何会改行为的 agent，在完成时都要返回文档 handoff：
   - 推荐文档路径
   - 需要记录的设计决策/行为变化
   - 已执行的验证命令
 - 主会话在接受代码任务完成前，应评估是否需要追加 `docs-writer` 任务。
+- 文档路径按新 taxonomy 选择：
+  - `docs/design/`：设计、架构、算法、实现深挖
+  - `docs/operations/`：运行、CLI、构建、排障、agent runbook
+  - `docs/records/`：日期化变更、审计、实现记录、路线记录
+  - `docs/reference/`：USD、MDL、材质等背景知识
+  - `archive/`：legacy、旧索引、非当前工程主线历史材料
 
 ## Persistent Memory Rule
 
