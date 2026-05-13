@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import yaml
+
 
 ROOT = Path(__file__).resolve().parents[1]
 PAPER = ROOT / "paper"
@@ -10,8 +12,20 @@ def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def read_yaml(path: Path) -> dict:
+    return yaml.safe_load(read_text(path))
+
+
 def active_text_files() -> list[Path]:
-    roots = [PAPER, ROOT / "README.md", ROOT / "AGENTS.md", ROOT / "CLAUDE.md", ROOT / "docs", ROOT / ".codex"]
+    roots = [
+        PAPER,
+        ROOT / "README.md",
+        ROOT / "AGENTS.md",
+        ROOT / "CLAUDE.md",
+        ROOT / "docs",
+        ROOT / ".codex",
+        ROOT / ".claude",
+    ]
     paths: list[Path] = []
     for root in roots:
         if root.is_file():
@@ -113,15 +127,77 @@ def test_build_files_and_evidence_registries() -> None:
     for pattern in ("venues/*/build/", "submissions/", "camera-ready/", "*.aux", "*.bbl", "*.blg", "*.log", "*.out"):
         assert pattern in gitignore, pattern
 
-    claims = read_text(PAPER / "shared/evidence/claims.yaml")
-    manifest = read_text(PAPER / "shared/evidence/results_manifest.yaml")
-    sources = read_text(PAPER / "shared/figures/sources.yaml")
-    assert "schema_version:" in claims
-    assert "claims:" in claims
-    assert "schema_version:" in manifest
-    assert "results:" in manifest
-    assert "schema_version:" in sources
-    assert "figures:" in sources
+    claims = read_yaml(PAPER / "shared/evidence/claims.yaml")
+    manifest = read_yaml(PAPER / "shared/evidence/results_manifest.yaml")
+    sources = read_yaml(PAPER / "shared/figures/sources.yaml")
+    assert claims["schema_version"] == 1
+    assert claims["claims"]
+    assert manifest["schema_version"] == 1
+    assert manifest["results"]
+    assert sources["schema_version"] == 1
+    assert sources["figures"]
+
+
+def _relative_exists(relative_path: str) -> bool:
+    return (ROOT / relative_path).exists()
+
+
+def _script_declares_output(script_text: str, output_path: str) -> bool:
+    output = Path(output_path)
+    suffix = output.suffix.lstrip(".")
+    quoted_suffixes = (f'"{suffix}"', f"'{suffix}'", f'"{output.suffix}"', f"'{output.suffix}'")
+    return output.name in script_text or (output.stem in script_text and any(token in script_text for token in quoted_suffixes))
+
+
+def test_figure_sources_outputs_and_generators_are_consistent() -> None:
+    sources = read_yaml(PAPER / "shared/figures/sources.yaml")
+    for figure in sources["figures"]:
+        generator = ROOT / figure["generated_by"]
+        assert generator.exists(), figure["generated_by"]
+        script_text = read_text(generator)
+
+        for output in figure["outputs"]:
+            assert _relative_exists(output), output
+            assert _script_declares_output(script_text, output), f"{figure['generated_by']} does not declare {output}"
+
+        for source in figure["sources"]:
+            assert _relative_exists(source), source
+
+
+def test_evidence_manifest_covers_claim_sources_and_registered_paths_exist() -> None:
+    claims = read_yaml(PAPER / "shared/evidence/claims.yaml")
+    manifest = read_yaml(PAPER / "shared/evidence/results_manifest.yaml")
+    raw_entries = manifest["results"]["raw"]
+    registered_raw_paths = {entry["path"] for entry in raw_entries}
+
+    for entry in raw_entries:
+        assert _relative_exists(entry["path"]), entry["path"]
+    for figure_path in manifest["results"]["figures"]:
+        assert _relative_exists(figure_path), figure_path
+
+    claim_raw_sources = {
+        source
+        for claim in claims["claims"]
+        for source in claim["sources"]
+        if source.startswith("paper/shared/evidence/raw/")
+    }
+    assert sorted(claim_raw_sources - registered_raw_paths) == []
+
+
+def test_paper_agent_playbooks_reference_shared_layout() -> None:
+    claude_figure = read_text(ROOT / ".claude/agents/paper-figure-generator.md")
+    codex_figure = read_text(ROOT / ".codex/agents/paper-figure-generator.md")
+
+    assert "paper/shared/evidence/experiments/figures" not in claude_figure
+    assert "paper/shared/evidence/experiments/figures" not in codex_figure
+    assert "paper/shared/figures/gen_<name>.py" in claude_figure
+    assert "paper/shared/figures/" in codex_figure
+
+
+def test_cvpr_archive_declares_pdf_only_snapshot() -> None:
+    readme = read_text(ROOT / "archive/paper/cvpr26-workshop/README.md")
+    assert "PDF-only" in readme
+    assert "paper/venues/cvpr26" in readme
 
 
 def test_active_sources_do_not_reference_old_paper_paths() -> None:

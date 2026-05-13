@@ -7,7 +7,7 @@
 ## Codex Mapping
 
 - Built-in agent type: `worker`
-- Writes: `paper/shared/figures/`, and figure generation scripts when explicitly assigned
+- Writes: `paper/shared/figures/`, including `paper/shared/figures/gen_<name>.py` scripts when explicitly assigned
 - Parallel-safe when: figure outputs do not overlap
 - Memory: `.codex/agent-memory/paper-figure-generator/MEMORY.md`
 

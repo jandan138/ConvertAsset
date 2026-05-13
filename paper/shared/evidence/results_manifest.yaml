@@ -7,6 +7,12 @@ results:
     - id: feature_similarity
       path: paper/shared/evidence/raw/feature_similarity.csv
       description: "CLIP and DINOv2 cosine similarity measurements."
+    - id: clip_embeddings
+      path: paper/shared/evidence/raw/clip_embeddings.npz
+      description: "CLIP embeddings used for feature-level similarity checks."
+    - id: dino_embeddings
+      path: paper/shared/evidence/raw/dino_embeddings.npz
+      description: "DINOv2 embeddings used for similarity checks and t-SNE visualization."
     - id: performance_single_object
       path: paper/shared/evidence/raw/perf_benchmark.csv
       description: "Single-object load time, GPU memory, FPS benchmark."

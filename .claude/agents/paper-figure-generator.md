@@ -58,7 +58,7 @@ isolation: worktree
 - 参照目标会议/期刊的风格指南（列宽、字体大小）
 
 ### Phase 3：实现生成脚本
-- 在 `paper/shared/evidence/experiments/figures/gen_<name>.py` 编写生成脚本
+- 在 `paper/shared/figures/gen_<name>.py` 编写生成脚本
 - 脚本顶部有配置区（输入路径、输出路径、颜色主题）
 - 所有图表同时保存 PNG（300dpi）和 PDF（矢量）
 

@@ -13,7 +13,9 @@ PAIRS = [
     ("orbit_mdl_01.png", "orbit_01.png", "View 1"),
     ("orbit_mdl_03.png", "orbit_03.png", "View 2"),
 ]
-OUT_PNG = Path(__file__).resolve().parent / "fig_grscene_qualitative.png"
+OUT_STEM = Path(__file__).resolve().parent / "fig_grscene_qualitative"
+OUT_PNG = OUT_STEM.with_suffix(".png")
+OUT_PDF = OUT_STEM.with_suffix(".pdf")
 
 CELL_W = 420
 CELL_H = 236
@@ -62,7 +64,9 @@ def main() -> None:
         draw.text((MARGIN + 6, y + CELL_H + 5), view_label, fill=(40, 40, 40))
 
     canvas.save(OUT_PNG)
+    canvas.save(OUT_PDF, "PDF", resolution=300.0)
     print(OUT_PNG)
+    print(OUT_PDF)
 
 
 if __name__ == "__main__":
