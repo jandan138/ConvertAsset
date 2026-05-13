@@ -7,7 +7,7 @@
 ## Codex Mapping
 
 - Built-in agent type: `worker`
-- Writes: `paper/writing/`
+- Writes: `paper/venues/<venue>/`
 - Parallel-safe when: sections do not overlap
 - Memory: `.codex/agent-memory/paper-writer/MEMORY.md`
 

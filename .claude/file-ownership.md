@@ -57,7 +57,7 @@
 | `paper/results/raw/` | paper-experiment-runner | 原始数据输出（CSV / JSON / NPZ）；只写不删 |
 | `paper/results/figures/` | paper-figure-generator | 图表输出（PNG + PDF）；只读 raw/，只写 figures/ |
 | `paper/writing/` | paper-writer | 论文章节（LaTeX / Markdown） |
-| `paper/references/` | paper-research-advisor | BibTeX 数据库、相关工作调研、文献核查报告 |
+| `paper/shared/evidence/references/` | paper-research-advisor | BibTeX 数据库、相关工作调研、文献核查报告 |
 | `paper/EXPERIMENT_CHECKLIST.md` | team lead / 手动 | 实验总清单；需人工更新进度 |
 
 > **注意**：所有论文 agent 对 `convert_asset/` 只有读权限，不得修改核心工具代码。

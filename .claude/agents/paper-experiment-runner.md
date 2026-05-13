@@ -1,6 +1,6 @@
 ---
 name: paper-experiment-runner
-description: "Use this agent when you need to implement or run paper experiment scripts for the ConvertAsset research paper. This includes quantitative experiments such as image quality metrics (PSNR, SSIM, LPIPS), visual feature extraction (CLIP, DINOv2), distribution metrics (FID, Wasserstein distance), rendering performance benchmarks (FPS, GPU memory, loading time), downstream task evaluations, and RL training experiments. Outputs results to paper/results/raw/ as CSV/JSON files.
+description: "Use this agent when you need to implement or run paper experiment scripts for the ConvertAsset research paper. This includes quantitative experiments such as image quality metrics (PSNR, SSIM, LPIPS), visual feature extraction (CLIP, DINOv2), distribution metrics (FID, Wasserstein distance), rendering performance benchmarks (FPS, GPU memory, loading time), downstream task evaluations, and RL training experiments. Outputs results to paper/shared/evidence/raw/ as CSV/JSON files.
 
 <example>
 Context: User wants to compute PSNR and SSIM between original MDL renders and simplified noMDL renders.
@@ -33,8 +33,8 @@ isolation: worktree
 - 工具入口：`./scripts/isaac_python.sh ./main.py <subcommand>`
 - Isaac Sim 渲染脚本通过 `./scripts/isaac_python.sh` 调用
 - 普通 Python 指标脚本（PSNR、CLIP 等）直接用系统 Python 运行
-- 实验脚本放在 `paper/experiments/<编号>_<任务名>/`
-- 原始结果输出到 `paper/results/raw/`（CSV / JSON 格式）
+- 实验脚本放在 `paper/shared/evidence/experiments/<编号>_<任务名>/`
+- 原始结果输出到 `paper/shared/evidence/raw/`（CSV / JSON 格式）
 - 论文 A/B 图片对：A = 原始 MDL 渲染，B = 转换后 UsdPreviewSurface 渲染
 
 ## 实验任务清单
@@ -43,15 +43,15 @@ isolation: worktree
 
 | 编号 | 实验名称 | 核心库 | 输出文件 |
 |---|---|---|---|
-| 01 | 渲染成对图片 | Isaac Sim / omni.replicator | `paper/results/raw/renders/` |
-| 02 | 渲染性能基准 | time, nvidia-smi, psutil | `paper/results/raw/perf_benchmark.csv` |
-| 03 | 图像质量指标 | skimage, lpips, torch | `paper/results/raw/image_quality.csv` |
-| 04a | CLIP 特征提取 | clip, torch | `paper/results/raw/clip_embeddings.npz` |
-| 04b | DINOv2 特征提取 | torch, timm | `paper/results/raw/dino_embeddings.npz` |
-| 04c | 特征分布指标 | scipy, torch-fidelity | `paper/results/raw/feature_distribution.json` |
-| 05a | 目标检测迁移 | detectron2 / mmdetection | `paper/results/raw/detection_results.json` |
-| 05b | CLIP 零样本检索 | clip, faiss | `paper/results/raw/retrieval_results.json` |
-| 06 | RL 策略迁移 | stable-baselines3 / isaacgym | `paper/results/raw/rl_results.json` |
+| 01 | 渲染成对图片 | Isaac Sim / omni.replicator | `paper/shared/evidence/raw/renders/` |
+| 02 | 渲染性能基准 | time, nvidia-smi, psutil | `paper/shared/evidence/raw/perf_benchmark.csv` |
+| 03 | 图像质量指标 | skimage, lpips, torch | `paper/shared/evidence/raw/image_quality.csv` |
+| 04a | CLIP 特征提取 | clip, torch | `paper/shared/evidence/raw/clip_embeddings.npz` |
+| 04b | DINOv2 特征提取 | torch, timm | `paper/shared/evidence/raw/dino_embeddings.npz` |
+| 04c | 特征分布指标 | scipy, torch-fidelity | `paper/shared/evidence/raw/feature_distribution.json` |
+| 05a | 目标检测迁移 | detectron2 / mmdetection | `paper/shared/evidence/raw/detection_results.json` |
+| 05b | CLIP 零样本检索 | clip, faiss | `paper/shared/evidence/raw/retrieval_results.json` |
+| 06 | RL 策略迁移 | stable-baselines3 / isaacgym | `paper/shared/evidence/raw/rl_results.json` |
 
 ## 工作方法论
 
@@ -61,7 +61,7 @@ isolation: worktree
 - 检查所需 Python 包是否可用
 
 ### Phase 2：实现脚本
-- 在 `paper/experiments/<编号>_<任务名>/run.py` 编写实验脚本
+- 在 `paper/shared/evidence/experiments/<编号>_<任务名>/run.py` 编写实验脚本
 - 脚本顶部有清晰的配置变量（路径、超参数），无硬编码
 - 加进度条（tqdm）和错误处理，避免单个样本失败中断整批
 - 每个脚本独立可运行，输出标准的 CSV/JSON
@@ -81,13 +81,13 @@ isolation: worktree
 # 脚本标准结构
 """
 实验名称: PSNR/SSIM/LPIPS 图像质量评估
-输入: paper/results/raw/renders/ 下的成对图片
-输出: paper/results/raw/image_quality.csv
+输入: paper/shared/evidence/raw/renders/ 下的成对图片
+输出: paper/shared/evidence/raw/image_quality.csv
 """
 
 # ── 配置区（用户只需修改这里）──────────────────────────
-RENDERS_DIR = "paper/results/raw/renders"
-OUTPUT_CSV  = "paper/results/raw/image_quality.csv"
+RENDERS_DIR = "paper/shared/evidence/raw/renders"
+OUTPUT_CSV  = "paper/shared/evidence/raw/image_quality.csv"
 DEVICE      = "cuda" if torch.cuda.is_available() else "cpu"
 # ─────────────────────────────────────────────────────
 

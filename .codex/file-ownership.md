@@ -24,17 +24,17 @@
 | 路径 | 推荐 Agent | 说明 |
 |---|---|---|
 | `docs/` | `docs-writer` | 项目文档与变更记录 |
-| `paper/references/` | `paper-research-advisor` | 文献、BibTeX、核查报告 |
-| `paper/writing/` | `paper-writer` | 论文章节 |
+| `paper/shared/evidence/references/` | `paper-research-advisor` | 文献、BibTeX、核查报告 |
+| `paper/venues/<venue>/` | `paper-writer` | 论文章节 |
 
 ## 测试与验证归属
 
 | 路径 | 推荐 Agent | 说明 |
 |---|---|---|
 | `tests/` | `isaac-sim-headless-tester` | 若后续补测试目录，优先由 tester 维护 |
-| `paper/experiments/` | `paper-experiment-runner` | 论文实验脚本 |
-| `paper/results/raw/` | `paper-experiment-runner` | 原始数据输出，只写不删 |
-| `paper/results/figures/` | `paper-figure-generator` | 图表输出，只读 raw/，只写 figures/ |
+| `paper/shared/evidence/experiments/` | `paper-experiment-runner` | 论文实验脚本 |
+| `paper/shared/evidence/raw/` | `paper-experiment-runner` | 原始数据输出，只写不删 |
+| `paper/shared/figures/` | `paper-figure-generator` | 图表输出，只读 raw/，只写 figures/ |
 
 ## 基础设施归属
 
@@ -55,7 +55,7 @@
 | `convert_asset/cli.py` | 几乎所有新功能都可能接入这里 | 串行处理，或由主会话统一集成 |
 | `convert_asset/no_mdl/config.py` | 全局配置，被多个模块依赖 | 同轮只允许一个 writer 修改 |
 | `convert_asset/no_mdl/path_utils.py` | 被多个 no_mdl 模块复用 | 同轮只允许一个 writer 修改 |
-| `paper/references/references.bib` | 多个文献任务都可能触及 | 文献相关任务串行 |
+| `paper/shared/references.bib` | 多个文献任务都可能触及 | 文献相关任务串行 |
 
 ## 并行规则摘要
 

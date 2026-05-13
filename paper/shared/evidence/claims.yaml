@@ -1,0 +1,22 @@
+schema_version: 1
+claims:
+  - id: visual_quality_mean
+    statement: "The converted assets preserve high visual fidelity with mean PSNR 35.52 dB, SSIM 0.990, and LPIPS 0.020."
+    sources:
+      - paper/shared/evidence/raw/image_quality.csv
+    scope: "Four chest-of-drawers assets rendered from six matched viewpoints."
+  - id: semantic_similarity_mean
+    statement: "The converted assets maintain strong feature-level similarity with CLIP cosine similarity 0.925 and DINOv2 cosine similarity 0.872."
+    sources:
+      - paper/shared/evidence/raw/feature_similarity.csv
+      - paper/shared/evidence/raw/clip_embeddings.npz
+      - paper/shared/evidence/raw/dino_embeddings.npz
+    scope: "Matched MDL and UsdPreviewSurface render pairs from the current evidence set."
+  - id: grscene_startup
+    statement: "The supplemental GRScenes benchmark reaches a fully warmed ready-to-render state 3.8x faster and uses roughly 200 MB less GPU memory after conversion."
+    sources:
+      - paper/shared/evidence/raw/perf_benchmark_grscene.csv
+    scope: "Single-scene GRScenes startup benchmark retained from the CVPR workshop draft."
+review_requirements:
+  - "Re-check every numerical statement after AAAI 2027 narrative edits."
+  - "Update this file in the same change as any result, table, figure, seed, or claim change."

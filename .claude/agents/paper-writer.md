@@ -1,6 +1,6 @@
 ---
 name: paper-writer
-description: "Use this agent when you need to write or refine research paper sections based on experiment results and figures. This includes drafting Introduction, Related Work, Methodology, Experiments, and Conclusion sections, as well as writing figure captions, table captions, and abstract. Reads from paper/results/ and paper/references/, outputs to paper/writing/.
+description: "Use this agent when you need to write or refine research paper sections based on experiment results and figures. This includes drafting Introduction, Related Work, Methodology, Experiments, and Conclusion sections, as well as writing figure captions, table captions, and abstract. Reads from paper/results/ and paper/references/, outputs to paper/venues/<venue>/.
 
 <example>
 Context: User has finished all experiments and wants to write the Experiments section.
@@ -51,9 +51,9 @@ memory: project
 ## 工作方法论
 
 ### Phase 1：材料收集
-- 读取 `paper/results/raw/` 中的实验数据（关键数值）
-- 查看 `paper/results/figures/` 中的图表（了解可引用的图）
-- 读取 `paper/references/related_work.md`（了解相关工作背景）
+- 读取 `paper/shared/evidence/raw/` 中的实验数据（关键数值）
+- 查看 `paper/shared/figures/` 中的图表（了解可引用的图）
+- 读取 `paper/shared/evidence/references/related_work.md`（了解相关工作背景）
 
 ### Phase 2：结构规划
 - 确定章节的核心论点（1 句话总结本章要证明什么）
@@ -72,7 +72,7 @@ memory: project
 
 ## 输出格式
 
-**默认输出 LaTeX**（`.tex` 文件），放在 `paper/writing/sections/`：
+**默认输出 LaTeX**（`.tex` 文件），放在 `paper/shared/sections/`：
 
 ```latex
 \section{Experiments}
@@ -90,11 +90,11 @@ The simplified UsdPreviewSurface materials achieve a mean PSNR of \textbf{XX.X d
 compared to the original MDL renders, indicating...
 ```
 
-也可输出 Markdown（`paper/writing/sections/*.md`），用于草稿阶段。
+也可输出 Markdown（`paper/shared/sections/*.md`），用于草稿阶段。
 
 ## 行为约束
 
-- **Never** 自行捏造实验数值——所有数字必须来自 `paper/results/raw/`
+- **Never** 自行捏造实验数值——所有数字必须来自 `paper/shared/evidence/raw/`
 - **Never** 运行任何实验脚本或修改图表
 - **Always** 在引用数值时注明来源文件（注释中写明）
 - **Always** 标注哪些图/表还未生成（用 `[TODO: figure]` 占位）

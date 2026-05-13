@@ -1,0 +1,31 @@
+# Per-venue build artifacts
+venues/*/build/
+
+# Submission packages
+submissions/
+arxiv-submission/
+camera-ready/
+*.zip
+*.tar.gz
+
+# LaTeX intermediate files
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.nav
+*.snm
+*.vrb
+*.run.xml
+*-blx.bib
+
+# Python caches from figure/table generation scripts
+__pycache__/
+*.pyc

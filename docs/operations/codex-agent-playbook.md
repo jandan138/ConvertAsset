@@ -94,7 +94,7 @@ AGENTS.md
 基本规则：
 
 - 同一文件同一轮只能归一个 writer
-- `convert_asset/cli.py`、`convert_asset/no_mdl/config.py`、`paper/references/references.bib` 属于高冲突文件
+- `convert_asset/cli.py`、`convert_asset/no_mdl/config.py`、`paper/shared/references.bib` 属于高冲突文件
 - 并行只发生在 write scope 明确不重叠时
 
 ### 5. 等待策略要保守而耐心

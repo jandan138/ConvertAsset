@@ -1,0 +1,45 @@
+schema_version: 1
+figures:
+  - id: fig_render_pairs
+    outputs:
+      - paper/shared/figures/fig_render_pairs.pdf
+      - paper/shared/figures/fig_render_pairs.png
+    generated_by: paper/shared/figures/gen_figures.py
+    sources:
+      - paper/shared/evidence/raw/renders/
+  - id: fig_image_quality
+    outputs:
+      - paper/shared/figures/fig_image_quality.pdf
+      - paper/shared/figures/fig_image_quality.png
+    generated_by: paper/shared/figures/gen_figures.py
+    sources:
+      - paper/shared/evidence/raw/image_quality.csv
+  - id: fig_feature_similarity
+    outputs:
+      - paper/shared/figures/fig_feature_similarity.pdf
+      - paper/shared/figures/fig_feature_similarity.png
+    generated_by: paper/shared/figures/gen_figures.py
+    sources:
+      - paper/shared/evidence/raw/feature_similarity.csv
+  - id: fig_tsne_dino
+    outputs:
+      - paper/shared/figures/fig_tsne_dino.pdf
+      - paper/shared/figures/fig_tsne_dino.png
+    generated_by: paper/shared/figures/gen_figures.py
+    sources:
+      - paper/shared/evidence/raw/dino_embeddings.npz
+  - id: fig_method_pipeline
+    outputs:
+      - paper/shared/figures/fig_method_pipeline.pdf
+      - paper/shared/figures/fig_method_pipeline.png
+      - paper/shared/figures/fig_method_pipeline.svg
+    generated_by: paper/shared/figures/gen_method_pipeline.py
+    sources:
+      - paper/shared/figures/final_run/
+  - id: fig_grscene_qualitative
+    outputs:
+      - paper/shared/figures/fig_grscene_qualitative.pdf
+      - paper/shared/figures/fig_grscene_qualitative.png
+    generated_by: paper/shared/figures/gen_grscene_qualitative.py
+    sources:
+      - paper/shared/figures/out_tmp/

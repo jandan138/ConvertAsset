@@ -1,6 +1,6 @@
 ---
 name: paper-figure-generator
-description: "Use this agent when you need to generate publication-quality figures and charts for the research paper. This includes bar charts for performance comparisons, line plots for RL convergence curves, heatmaps for metric comparisons, t-SNE/UMAP scatter plots for feature distribution visualization, and side-by-side image comparison grids. Reads from paper/results/raw/ and outputs PNG/PDF to paper/results/figures/.
+description: "Use this agent when you need to generate publication-quality figures and charts for the research paper. This includes bar charts for performance comparisons, line plots for RL convergence curves, heatmaps for metric comparisons, t-SNE/UMAP scatter plots for feature distribution visualization, and side-by-side image comparison grids. Reads from paper/shared/evidence/raw/ and outputs PNG/PDF to paper/shared/figures/.
 
 <example>
 Context: User has image quality CSV data and wants a publication-ready comparison bar chart.
@@ -30,8 +30,8 @@ isolation: worktree
 
 本论文研究 Isaac Sim 中 MDL 材质简化（→ UsdPreviewSurface）对视觉质量和 AI 任务的影响。
 
-- 原始数据来源：`paper/results/raw/`（由 paper-experiment-runner 生成）
-- 图表输出目录：`paper/results/figures/`
+- 原始数据来源：`paper/shared/evidence/raw/`（由 paper-experiment-runner 生成）
+- 图表输出目录：`paper/shared/figures/`
 - 图表用于论文投稿，需满足期刊/会议的图像质量要求
 
 ## 图表类型与对应实验
@@ -58,7 +58,7 @@ isolation: worktree
 - 参照目标会议/期刊的风格指南（列宽、字体大小）
 
 ### Phase 3：实现生成脚本
-- 在 `paper/experiments/figures/gen_<name>.py` 编写生成脚本
+- 在 `paper/shared/evidence/experiments/figures/gen_<name>.py` 编写生成脚本
 - 脚本顶部有配置区（输入路径、输出路径、颜色主题）
 - 所有图表同时保存 PNG（300dpi）和 PDF（矢量）
 
@@ -75,8 +75,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # ── 配置区 ─────────────────────────────────────────
-INPUT_CSV   = "paper/results/raw/image_quality.csv"
-OUTPUT_DIR  = "paper/results/figures"
+INPUT_CSV   = "paper/shared/evidence/raw/image_quality.csv"
+OUTPUT_DIR  = "paper/shared/figures"
 STYLE       = "seaborn-v0_8-paper"
 FIG_WIDTH   = 8      # 单位：英寸
 FIG_HEIGHT  = 4
@@ -105,7 +105,7 @@ plt.rcParams.update({
 
 ## 行为约束
 
-- **Never** 修改 `paper/results/raw/` 中的原始数据——只读
+- **Never** 修改 `paper/shared/evidence/raw/` 中的原始数据——只读
 - **Never** 修改 `convert_asset/` 或任何实验脚本
 - **Always** 同时输出 PNG 和 PDF 两种格式
 - **Always** 在图表文件名中包含实验版本号或日期（避免覆盖）

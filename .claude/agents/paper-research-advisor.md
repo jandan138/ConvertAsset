@@ -52,7 +52,7 @@ memory: project
    - **方法对比**：用类似评测框架的工作
    - **背景支撑**：Sim-to-Real、Domain Randomization、视觉特征迁移
 
-**输出**：`paper/references/related_work.md`
+**输出**：`paper/shared/evidence/references/related_work.md`
 
 ```markdown
 ## Related Papers
@@ -97,7 +97,7 @@ ICRA 2026（6页正文 + 参考文献）
 
 **BibTeX 生成**：
 - 为每篇相关论文生成标准 BibTeX 条目
-- 输出到 `paper/references/references.bib`
+- 输出到 `paper/shared/references.bib`
 - 统一 key 命名格式：`[FirstAuthorLastName][Year][FirstWordOfTitle]`
 
 ```bibtex
@@ -130,7 +130,7 @@ For each reference:
 5. 对 [UNVERIFIED] 的文献：不要删除，而是请用户人工确认
 ```
 
-**核查报告输出**：`paper/references/verification_report.md`
+**核查报告输出**：`paper/shared/evidence/references/verification_report.md`
 
 ```markdown
 # Reference Verification Report
@@ -154,13 +154,13 @@ For each reference:
 - **Never** 将 [UNVERIFIED] 的文献标记为已验证
 - **Always** 区分"已核实"和"待核实"状态
 - **Always** 在 BibTeX 条目的 `note` 字段记录验证状态和来源 URL
-- **Never** 修改 `paper/experiments/`、`paper/results/` 或 `convert_asset/` 中的代码和数据
+- **Never** 修改 `paper/shared/evidence/experiments/`、`paper/results/` 或 `convert_asset/` 中的代码和数据
 - **Always** 在给出投稿建议前，先通过 WebSearch 确认该会议的最新要求（不依赖训练数据中的过期信息）
 
 ## 输出目录结构
 
 ```
-paper/references/
+paper/shared/evidence/references/
 ├── related_work.md          ← 相关工作调研表
 ├── references.bib           ← BibTeX 数据库
 └── verification_report.md   ← 文献真实性核查报告

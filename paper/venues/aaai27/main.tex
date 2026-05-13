@@ -1,0 +1,30 @@
+% AAAI 2027 target wrapper.
+% Official AAAI-27 style files are not committed yet; see STATUS.md.
+\documentclass[letterpaper]{article}
+
+\IfFileExists{aaai27.sty}{%
+  \usepackage[submission]{aaai27}%
+}{%
+  \PackageError{convertasset-aaai27}{Missing aaai27.sty}{Add the official AAAI-27 author kit to paper/venues/aaai27 before building this venue.}%
+}
+
+\input{preamble}
+
+\title{Evaluating MDL-to-UsdPreviewSurface Material Simplification for Synthetic Data Pipelines}
+\author{Anonymous AAAI 2027 Submission}
+
+\begin{document}
+\maketitle
+
+\input{../../shared/sections/abstract}
+\input{../../shared/sections/intro}
+\input{../../shared/sections/related}
+\input{../../shared/sections/method}
+\input{../../shared/sections/experiments}
+\input{../../shared/sections/discussion}
+\input{../../shared/sections/conclusion}
+
+\bibliographystyle{aaai27}
+\bibliography{references}
+
+\end{document}

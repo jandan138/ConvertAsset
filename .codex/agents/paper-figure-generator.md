@@ -7,7 +7,7 @@
 ## Codex Mapping
 
 - Built-in agent type: `worker`
-- Writes: `paper/results/figures/`, and figure generation scripts when explicitly assigned
+- Writes: `paper/shared/figures/`, and figure generation scripts when explicitly assigned
 - Parallel-safe when: figure outputs do not overlap
 - Memory: `.codex/agent-memory/paper-figure-generator/MEMORY.md`
 
@@ -26,7 +26,7 @@
 
 ## Dispatch Contract
 
-- 只读 `paper/results/raw/`
+- 只读 `paper/shared/evidence/raw/`
 - 输出 PNG 和 PDF 两种格式
 - 保持 A/B 颜色编码一致
 

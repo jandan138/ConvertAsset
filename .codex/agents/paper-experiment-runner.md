@@ -7,7 +7,7 @@
 ## Codex Mapping
 
 - Built-in agent type: `worker`
-- Writes: `paper/experiments/`, `paper/results/raw/`
+- Writes: `paper/shared/evidence/experiments/`, `paper/shared/evidence/raw/`
 - Parallel-safe when: individual experiment directories and outputs do not overlap
 - Memory: `.codex/agent-memory/paper-experiment-runner/MEMORY.md`
 
