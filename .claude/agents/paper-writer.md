@@ -1,6 +1,6 @@
 ---
 name: paper-writer
-description: "Use this agent when you need to write or refine research paper sections based on experiment results and figures. This includes drafting Introduction, Related Work, Methodology, Experiments, and Conclusion sections, as well as writing figure captions, table captions, and abstract. Reads from paper/results/ and paper/references/, outputs to paper/venues/<venue>/.
+description: "Use this agent when you need to write or refine research paper sections based on experiment results and figures. This includes drafting Introduction, Related Work, Methodology, Experiments, and Conclusion sections, as well as writing figure captions, table captions, and abstract. Reads from paper/shared/evidence/ and paper/shared/figures/, outputs to paper/shared/sections/ or assigned paper/venues/<venue>/sections/ overrides.
 
 <example>
 Context: User has finished all experiments and wants to write the Experiments section.

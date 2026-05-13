@@ -53,11 +53,13 @@
 
 | 路径 | 负责 Agent | 说明 |
 |---|---|---|
-| `paper/experiments/` | paper-experiment-runner | 实验脚本；含渲染、指标计算、特征提取、RL 等 |
-| `paper/results/raw/` | paper-experiment-runner | 原始数据输出（CSV / JSON / NPZ）；只写不删 |
-| `paper/results/figures/` | paper-figure-generator | 图表输出（PNG + PDF）；只读 raw/，只写 figures/ |
-| `paper/writing/` | paper-writer | 论文章节（LaTeX / Markdown） |
-| `paper/shared/evidence/references/` | paper-research-advisor | BibTeX 数据库、相关工作调研、文献核查报告 |
+| `paper/shared/evidence/experiments/` | paper-experiment-runner | 实验脚本；含渲染、指标计算、特征提取、RL 等 |
+| `paper/shared/evidence/raw/` | paper-experiment-runner | 原始数据输出（CSV / JSON / NPZ）；只写不删 |
+| `paper/shared/figures/` | paper-figure-generator | 图表输出（PNG + PDF）；只读 raw/，只写 figures/ |
+| `paper/shared/evidence/references/` | paper-research-advisor | 文献调研与核查报告 |
+| `paper/shared/references.bib` | paper-research-advisor | BibTeX 数据库，高冲突文件 |
+| `paper/shared/sections/` | paper-writer | 论文章节（LaTeX / Markdown） |
+| `paper/venues/<venue>/sections/` | paper-writer | venue-specific section overrides |
 | `paper/EXPERIMENT_CHECKLIST.md` | team lead / 手动 | 实验总清单；需人工更新进度 |
 
 > **注意**：所有论文 agent 对 `convert_asset/` 只有读权限，不得修改核心工具代码。

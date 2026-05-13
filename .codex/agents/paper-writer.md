@@ -7,7 +7,7 @@
 ## Codex Mapping
 
 - Built-in agent type: `worker`
-- Writes: `paper/venues/<venue>/`
+- Writes: `paper/shared/sections/`, `paper/venues/<venue>/sections/` only for assigned venue-specific overrides
 - Parallel-safe when: sections do not overlap
 - Memory: `.codex/agent-memory/paper-writer/MEMORY.md`
 

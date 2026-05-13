@@ -7,7 +7,7 @@
 ## Codex Mapping
 
 - Built-in agent type: `default`
-- Writes: `paper/shared/evidence/references/` when explicitly asked; otherwise may stay read-only
+- Writes: `paper/shared/evidence/references/`, `paper/shared/references.bib` when explicitly asked; otherwise may stay read-only
 - Parallel-safe when: yes, but serialize edits to `references.bib`
 - Memory: `.codex/agent-memory/paper-research-advisor/MEMORY.md`
 
@@ -28,7 +28,7 @@
 
 - 需要联网时必须查最新来源
 - 对每条引用明确标记 `VERIFIED` 或 `UNVERIFIED`
-- 若写 `paper/shared/evidence/references/`，避免和其他 agent 并行改同一文件
+- 若写 `paper/shared/evidence/references/` 或 `paper/shared/references.bib`，避免和其他 agent 并行改同一文件
 
 ## Return To Lead
 

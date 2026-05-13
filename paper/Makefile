@@ -56,11 +56,7 @@ $(1)_BUILDDIR := venues/$(1)/build
 $$($(1)_PDF): $$($(1)_MAIN) $$($(1)_LOCAL) $(SHARED_SRCS) | $$($(1)_BUILDDIR)
 > @$$(MAKE) check-latex-tools
 > @$$(MAKE) check-template-$(1)
-> @if command -v latexmk >/dev/null 2>&1; then \
->   cd venues/$(1) && latexmk -cd -pdf -outdir=build -interaction=nonstopmode -halt-on-error main.tex; \
-> else \
->   cd venues/$(1) && pdflatex -interaction=nonstopmode -halt-on-error -output-directory=build main.tex && BIBINPUTS="$$(pwd)/../../shared:" bibtex build/main && pdflatex -interaction=nonstopmode -halt-on-error -output-directory=build main.tex && pdflatex -interaction=nonstopmode -halt-on-error -output-directory=build main.tex; \
-> fi
+> @if command -v latexmk >/dev/null 2>&1; then cd venues/$(1) && latexmk -cd -pdf -outdir=build -interaction=nonstopmode -halt-on-error main.tex; else cd venues/$(1) && pdflatex -interaction=nonstopmode -halt-on-error -output-directory=build main.tex && BIBINPUTS="../../shared:" bibtex build/main && pdflatex -interaction=nonstopmode -halt-on-error -output-directory=build main.tex && pdflatex -interaction=nonstopmode -halt-on-error -output-directory=build main.tex; fi
 
 $$($(1)_BUILDDIR):
 > @mkdir -p $$@

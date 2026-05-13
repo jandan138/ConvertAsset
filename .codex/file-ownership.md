@@ -24,8 +24,10 @@
 | 路径 | 推荐 Agent | 说明 |
 |---|---|---|
 | `docs/` | `docs-writer` | 项目文档与变更记录 |
-| `paper/shared/evidence/references/` | `paper-research-advisor` | 文献、BibTeX、核查报告 |
-| `paper/venues/<venue>/` | `paper-writer` | 论文章节 |
+| `paper/shared/evidence/references/` | `paper-research-advisor` | 文献调研与核查报告 |
+| `paper/shared/references.bib` | `paper-research-advisor` | BibTeX 数据库，高冲突文件 |
+| `paper/shared/sections/` | `paper-writer` | 跨 venue 共享论文章节 |
+| `paper/venues/<venue>/sections/` | `paper-writer` | venue-specific section overrides |
 
 ## 测试与验证归属
 

@@ -154,7 +154,7 @@ For each reference:
 - **Never** 将 [UNVERIFIED] 的文献标记为已验证
 - **Always** 区分"已核实"和"待核实"状态
 - **Always** 在 BibTeX 条目的 `note` 字段记录验证状态和来源 URL
-- **Never** 修改 `paper/shared/evidence/experiments/`、`paper/results/` 或 `convert_asset/` 中的代码和数据
+- **Never** 修改 `paper/shared/evidence/experiments/`、`paper/shared/evidence/raw/`、`paper/shared/figures/` 或 `convert_asset/` 中的代码和数据
 - **Always** 在给出投稿建议前，先通过 WebSearch 确认该会议的最新要求（不依赖训练数据中的过期信息）
 
 ## 输出目录结构
@@ -162,8 +162,9 @@ For each reference:
 ```
 paper/shared/evidence/references/
 ├── related_work.md          ← 相关工作调研表
-├── references.bib           ← BibTeX 数据库
 └── verification_report.md   ← 文献真实性核查报告
+
+paper/shared/references.bib  ← BibTeX 数据库
 ```
 
 # Persistent Agent Memory
