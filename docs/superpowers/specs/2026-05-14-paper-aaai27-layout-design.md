@@ -41,6 +41,7 @@ paper/
       raw/
       experiments/
     figures/
+      sources.yaml
     references.bib
     sections/
     supplemental/
@@ -102,6 +103,7 @@ paper/
 - Venue wrappers use shared section inputs such as `\input{../../shared/sections/method}`.
 - Venue wrappers use `\bibliography{references}`. `.latexmkrc` and the Makefile set `BIBINPUTS` to `paper/shared/`, matching Genesis-LLM and avoiding brittle `../../shared/references` paths from build directories.
 - Shared figure references use stable shared paths such as `figures/fig_render_pairs.pdf`, not `../results/figures/...`.
+- Moved experiment scripts must recompute `PROJECT_ROOT` from their new depth under `paper/shared/evidence/experiments/` and write to `paper/shared/evidence/raw/`.
 
 ## Build System
 
@@ -119,7 +121,7 @@ paper/
 
 ## Evidence Registry
 
-`paper/shared/evidence/claims.yaml` records current numerical claims and their source files. `results_manifest.yaml` records raw outputs, generated figures, and historical review artifacts. These registries are intentionally lightweight YAML so future AAAI revisions can update claims and provenance in the same commit as manuscript changes.
+`paper/shared/evidence/claims.yaml` records current numerical claims and their source files. `results_manifest.yaml` records raw outputs, generated figures, and historical review artifacts. `paper/shared/figures/sources.yaml` records figure-generation provenance. These registries are intentionally lightweight YAML so future AAAI revisions can update claims and provenance in the same commit as manuscript changes.
 
 ## Documentation Updates
 
@@ -140,6 +142,7 @@ Add `tests/test_paper_layout.py` to assert:
 - preambles and `.latexmkrc` contain shared `input@path`, `graphicspath`, and `BIBINPUTS` setup;
 - active shared sections no longer reference old figure/result paths;
 - evidence registries exist and contain expected top-level keys.
+- figure provenance registry exists and contains expected top-level keys.
 
 Run:
 
