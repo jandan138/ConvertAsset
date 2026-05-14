@@ -22,4 +22,8 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [Orbit camera headless](orbit-camera-headless.md)
 - [Mesh roadmap](mesh-roadmap.md)
 
+## Paper Records
+
+- [2026-05-14 workshop review ingestion for AAAI 2027](2026-05-14-workshop-review-aaai27-roadmap.md)
+
 Paper/submission process records were retained under [archive/docs/paper](../../archive/docs/paper/).
