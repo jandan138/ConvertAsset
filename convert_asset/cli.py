@@ -4,12 +4,10 @@ import os
 import sys
 import argparse
 import math
-try:
-    from .no_mdl.path_utils import _to_posix  # noqa: F401
-except Exception:  # noqa
-    def _to_posix(p: str) -> str:
-        return p.replace('\\', '/')
-from .mesh.faces import count_mesh_faces
+
+
+def _to_posix(p: str) -> str:
+    return p.replace("\\", "/") if isinstance(p, str) else p
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -79,6 +77,32 @@ def main(argv: list[str] | None = None) -> int:
     p_thumb.add_argument("--no-bbox-draw", dest="no_bbox_draw", action="store_true", help="Do not draw bbox on saved images")
     p_thumb.add_argument("--skip-model-filter", dest="skip_model_filter", action="store_true", help="Skip filtering using models dir names")
 
+    p_target_list = sub.add_parser("target-list", help="List logical capture targets in a USD scene")
+    p_target_list.add_argument("src", help="Path to USD file (scene)")
+    p_target_list.add_argument("--target-scope", default="auto", help="Target scope path, or auto for GRScenes defaults")
+    p_target_list.add_argument("--target-level", choices=["object", "mesh", "category"], default="object", help="Target granularity")
+    p_target_list.add_argument("--include-animation", action="store_true", help="Allow targets under Meshes/Animation")
+    p_target_list.add_argument("--limit", type=int, default=None, help="Limit number of listed targets")
+    p_target_list.add_argument("--out", default=None, help="Optional JSON output path")
+
+    p_target_capture = sub.add_parser("target-capture", help="Capture multi-view images around logical scene targets")
+    p_target_capture.add_argument("src", help="Path to USD file (scene)")
+    p_target_capture.add_argument("--out", default=None, help="Output directory (defaults to <srcdir>/target_capture)")
+    p_target_capture.add_argument("--target-scope", default="auto", help="Target scope path, or auto for GRScenes defaults")
+    p_target_capture.add_argument("--target-level", choices=["object", "mesh", "category"], default="object", help="Target granularity")
+    p_target_capture.add_argument("--include-animation", action="store_true", help="Allow targets under Meshes/Animation")
+    p_target_capture.add_argument("--limit", type=int, default=None, help="Limit number of captured targets")
+    p_target_capture.add_argument("--views", type=int, default=6, help="Number of orbit views, rounded up to an even number")
+    p_target_capture.add_argument("--width", type=int, default=1024, help="Capture width")
+    p_target_capture.add_argument("--height", type=int, default=768, help="Capture height")
+    p_target_capture.add_argument("--focal-mm", type=float, default=35.0, help="Camera focal length in mm")
+    p_target_capture.add_argument("--renderer", default="RayTracedLighting", help="Isaac renderer preset")
+    p_target_capture.add_argument("--wait-frames", type=int, default=2, help="Frames to wait before/after capture")
+    p_target_capture.add_argument("--camera-path", default="/World/TargetCaptureCamera", help="Reusable camera prim path")
+    p_target_capture.add_argument("--no-headless", action="store_true", help="Run Isaac Sim with a visible UI")
+    p_target_capture.add_argument("--no-resume", action="store_true", help="Recapture existing images instead of skipping them")
+    p_target_capture.add_argument("--image-ext", default="png", help="Output image extension")
+
     # export-glb subcommand (Pure Python)
     p_glb = sub.add_parser("export-glb", help="Export USD to GLB (Pure Python, Lightweight)")
     p_glb.add_argument("src", help="Path to input USD file (recommended: *_noMDL.usd)")
@@ -131,6 +155,8 @@ def main(argv: list[str] | None = None) -> int:
             print("Not found:", src)
             return 2
         try:
+            from .mesh.faces import count_mesh_faces
+
             total = count_mesh_faces(src)
         except RuntimeError as e:
             print("ERROR:", e)
@@ -384,6 +410,78 @@ def main(argv: list[str] | None = None) -> int:
             )
             return int(code)
         except RuntimeError as e:
+            print("ERROR:", e)
+            return 3
+
+    if args_ns.cmd == "target-list":
+        src = _to_posix(args_ns.src)
+        if not os.path.exists(src):
+            print("Not found:", src)
+            return 2
+        try:
+            from .capture.pipeline import run_target_list
+
+            return int(
+                run_target_list(
+                    scene_usd_path=src,
+                    output_path=_to_posix(args_ns.out) if args_ns.out else None,
+                    target_scope=str(args_ns.target_scope),
+                    target_level=str(args_ns.target_level),
+                    include_animation=bool(args_ns.include_animation),
+                    limit=int(args_ns.limit) if args_ns.limit is not None else None,
+                )
+            )
+        except RuntimeError as e:
+            print("ERROR:", e)
+            return 3
+        except Exception as e:
+            print("ERROR:", e)
+            return 3
+
+    if args_ns.cmd == "target-capture":
+        src = _to_posix(args_ns.src)
+        if not os.path.exists(src):
+            print("Not found:", src)
+            return 2
+        if int(args_ns.views) <= 0 or int(args_ns.width) <= 0 or int(args_ns.height) <= 0:
+            print("--views, --width, and --height must be > 0")
+            return 2
+        if float(args_ns.focal_mm) <= 0.0:
+            print("--focal-mm must be > 0")
+            return 2
+        if int(args_ns.wait_frames) < 0:
+            print("--wait-frames must be >= 0")
+            return 2
+        if not str(args_ns.image_ext).strip() or "/" in str(args_ns.image_ext) or "\\" in str(args_ns.image_ext):
+            print("--image-ext must be a file extension, not a path")
+            return 2
+        try:
+            from .capture.pipeline import run_target_capture
+
+            return int(
+                run_target_capture(
+                    scene_usd_path=src,
+                    output_dir=_to_posix(args_ns.out) if args_ns.out else None,
+                    target_scope=str(args_ns.target_scope),
+                    target_level=str(args_ns.target_level),
+                    include_animation=bool(args_ns.include_animation),
+                    limit=int(args_ns.limit) if args_ns.limit is not None else None,
+                    views=int(args_ns.views),
+                    width=int(args_ns.width),
+                    height=int(args_ns.height),
+                    focal_mm=float(args_ns.focal_mm),
+                    renderer=str(args_ns.renderer),
+                    headless=(not bool(args_ns.no_headless)),
+                    wait_frames=int(args_ns.wait_frames),
+                    camera_path=str(args_ns.camera_path),
+                    resume=(not bool(args_ns.no_resume)),
+                    image_ext=str(args_ns.image_ext),
+                )
+            )
+        except RuntimeError as e:
+            print("ERROR:", e)
+            return 3
+        except Exception as e:
             print("ERROR:", e)
             return 3
 

@@ -36,5 +36,6 @@ Architecture, module responsibilities, algorithms, and implementation deep dives
 - [Export MDL materials overview](export-mdl-materials-overview.md)
 - [Export MDL materials code walkthrough](export-mdl-materials-code-walkthrough.md)
 - [Export MDL materials line by line](export-mdl-materials-line-by-line.md)
+- [Scene target capture](target-capture.md)
 - [Orbit camera capture](orbit-camera-capture.md)
 - [Orbit camera capture zh](orbit-camera-capture-zh.md)

@@ -32,6 +32,7 @@ Runbooks, CLI usage, build instructions, troubleshooting, and agent collaboratio
 - [Thumbnails environment](thumbnails-environment.md)
 - [Thumbnails usage](thumbnails-usage.md)
 - [Thumbnails troubleshooting](thumbnails-troubleshooting.md)
+- [Target capture](target-capture.md)
 
 ## Troubleshooting
 

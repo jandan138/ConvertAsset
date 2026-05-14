@@ -18,3 +18,5 @@ large documentation or implementation change.
 
 - [Genesis-style documentation refactor design](specs/2026-05-13-docs-genesis-style-refactor-design.md)
 - [Genesis-style documentation refactor implementation plan](plans/2026-05-13-docs-genesis-style-refactor.md)
+- [Scene target capture design](specs/2026-05-14-target-capture-design.md)
+- [Scene target capture implementation plan](plans/2026-05-14-target-capture.md)

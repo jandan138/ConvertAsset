@@ -19,6 +19,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 ## Camera And Mesh Records
 
+- [2026-05-14 scene target capture implementation](2026-05-14-target-capture.md)
 - [Orbit camera headless](orbit-camera-headless.md)
 - [Mesh roadmap](mesh-roadmap.md)
 
