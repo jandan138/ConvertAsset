@@ -5,7 +5,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 PAPER = ROOT / "paper"
-VENUES = ("aaai27", "cvpr26")
+VENUES = ("aaai27", "acl27", "cvpr26")
 
 
 def read_text(path: Path) -> str:
@@ -114,9 +114,10 @@ def test_venue_entrypoints_status_preambles_and_bib_paths() -> None:
 def test_build_files_and_evidence_registries() -> None:
     makefile = read_text(PAPER / "Makefile")
     for snippet in (
-        "VENUES := aaai27 cvpr26",
+        "VENUES := aaai27 acl27 cvpr26",
         "template-check:",
         "check-template-aaai27:",
+        "check-template-acl27:",
         "check-template-cvpr26:",
         "BIBINPUTS=",
         "bibtex build/main",

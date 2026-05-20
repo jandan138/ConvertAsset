@@ -1,6 +1,6 @@
 # ConvertAsset Paper Workspace
 
-This paper workspace follows the Genesis-LLM multi-venue layout. The active target is AAAI 2027; the previous CVPR/SynData4CV workshop draft is retained as a historical venue wrapper and archived PDF.
+This paper workspace follows the Genesis-LLM multi-venue layout. The active target is AAAI 2027; an ACL 2027 candidate wrapper tracks the user-requested Japan route; the previous CVPR/SynData4CV workshop draft is retained as a historical venue wrapper and archived PDF.
 
 ## Layout
 
@@ -8,6 +8,7 @@ This paper workspace follows the Genesis-LLM multi-venue layout. The active targ
 paper/
   shared/                 # Venue-neutral manuscript content, evidence, figures, references
   venues/aaai27/          # AAAI 2027 target wrapper
+  venues/acl27/           # Annual ACL 2027 candidate wrapper
   venues/cvpr26/          # Preserved CVPR/SynData4CV workshop wrapper
 ```
 
@@ -17,12 +18,15 @@ paper/
 make list
 make template-check
 make aaai27
+make acl27
 make cvpr26
 make all
 make clean
 ```
 
 `make aaai27` is the primary target. It intentionally requires the official AAAI-27 author kit files to be added under `paper/venues/aaai27/` before a submission build can succeed.
+
+`make acl27` is a candidate target for the Annual ACL 2027 route. It intentionally requires official ACL style files under `paper/venues/acl27/` before a submission build can succeed. Public checks on 2026-05-20 found ACL 2027 branding information but no public ACL 2027 CFP or official city/date page, so this wrapper records Japan as the user-requested target until an official source is available.
 
 Venue wrappers use `\bibliography{references}`. The shared bibliography is resolved by each venue's `.latexmkrc` and the Makefile fallback, which set `BIBINPUTS` to `paper/shared/`.
 
@@ -35,6 +39,7 @@ Venue `main.tex` files explicitly choose shared or local sections. Shared inputs
 | Venue | Template source | Expected files | Readiness intent |
 | --- | --- | --- | --- |
 | aaai27 | official AAAI 2027 author kit, not yet vendored | `aaai27.sty`, `aaai27.bst` | primary-target |
+| acl27 | official ACL style files / ACL 2027 author kit, not yet vendored | `acl.sty`, `acl_natbib.bst` | candidate-target |
 | cvpr26 | migrated local SynData4CV/CVPR workshop wrapper | `cvpr.sty`, `ieeenat_fullname.bst` | historical-baseline |
 
 ## Evidence Rules

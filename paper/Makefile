@@ -1,9 +1,9 @@
 # Multi-venue LaTeX paper build system.
-# Usage: make list | make aaai27 | make cvpr26 | make all | make clean | make template-check | make check
+# Usage: make list | make aaai27 | make acl27 | make cvpr26 | make all | make clean | make template-check | make check
 
 .RECIPEPREFIX := >
 
-VENUES := aaai27 cvpr26
+VENUES := aaai27 acl27 cvpr26
 SHARED_DIR := shared
 SHARED_SRCS := $(shell find $(SHARED_DIR) -type f \( -name '*.tex' -o -name '*.bib' -o -name '*.cls' -o -name '*.sty' -o -name '*.pdf' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.yaml' -o -name '*.yml' \) -print 2>/dev/null)
 
@@ -14,6 +14,7 @@ all: $(VENUES)
 list:
 > @printf 'Available venues: %s\n' '$(VENUES)'
 > @printf 'Primary: aaai27\n'
+> @printf 'ACL-family candidate: acl27\n'
 > @printf 'Historical baseline: cvpr26\n'
 
 template-check: check-latex-tools $(addprefix check-template-,$(VENUES))
@@ -34,6 +35,16 @@ check-template-aaai27:
 > fi
 > @if [ ! -f venues/aaai27/aaai27.bst ]; then \
 >   echo 'Missing AAAI-27 bibliography style: expected venues/aaai27/aaai27.bst from the official AAAI-27 author kit.'; \
+>   exit 1; \
+> fi
+
+check-template-acl27:
+> @if [ ! -f venues/acl27/acl.sty ]; then \
+>   echo 'Missing ACL style: expected venues/acl27/acl.sty from the official ACL style files.'; \
+>   exit 1; \
+> fi
+> @if [ ! -f venues/acl27/acl_natbib.bst ]; then \
+>   echo 'Missing ACL bibliography style: expected venues/acl27/acl_natbib.bst from the official ACL style files.'; \
 >   exit 1; \
 > fi
 

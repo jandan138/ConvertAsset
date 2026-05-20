@@ -1,0 +1,35 @@
+% Annual ACL 2027 target wrapper.
+% Official ACL style files are not committed yet; see STATUS.md.
+\documentclass[11pt]{article}
+
+\IfFileExists{acl.sty}{%
+  \usepackage[review]{acl}%
+}{%
+  \PackageError{convertasset-acl27}{Missing acl.sty}{Add the official ACL style files to paper/venues/acl27 before building this venue.}%
+}
+
+\input{preamble}
+
+\title{Synthetic Scene Asset Conversion for Vision-Language Grounding Pipelines}
+\author{Anonymous ACL 2027 Submission}
+
+\begin{document}
+\maketitle
+
+\input{../../shared/sections/abstract}
+\input{../../shared/sections/intro}
+\input{../../shared/sections/related}
+\input{../../shared/sections/method}
+\input{../../shared/sections/experiments}
+\input{../../shared/sections/discussion}
+\input{../../shared/sections/conclusion}
+\input{sections/limitations}
+\input{sections/ethical-considerations}
+
+\bibliographystyle{acl_natbib}
+\bibliography{references}
+
+\appendix
+\input{../../shared/sections/appendix}
+
+\end{document}
