@@ -22,3 +22,5 @@ large documentation or implementation change.
 - [Paper ACL-27 layout implementation plan](plans/2026-05-20-paper-acl27-layout.md)
 - [GRScenes target resolver implementation plan](plans/2026-05-20-grscenes-target-resolver.md)
 - [GRScenes render manifest implementation plan](plans/2026-05-20-grscenes-render-manifest.md)
+- [Local Isaac render-single design](specs/2026-05-20-local-isaac-render-single-design.md)
+- [Local Isaac render-single implementation plan](plans/2026-05-20-local-isaac-render-single.md)

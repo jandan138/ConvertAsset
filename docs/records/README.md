@@ -19,6 +19,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 ## Camera And Mesh Records
 
+- [2026-05-20 Local Isaac render-single](2026-05-20-local-isaac-render-single.md)
 - [Orbit camera headless](orbit-camera-headless.md)
 - [Mesh roadmap](mesh-roadmap.md)
 

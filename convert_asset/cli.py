@@ -4,12 +4,10 @@ import os
 import sys
 import argparse
 import math
-try:
-    from .no_mdl.path_utils import _to_posix  # noqa: F401
-except Exception:  # noqa
-    def _to_posix(p: str) -> str:
-        return p.replace('\\', '/')
-from .mesh.faces import count_mesh_faces
+
+
+def _to_posix(p: str) -> str:
+    return p.replace("\\", "/") if isinstance(p, str) else p
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -79,6 +77,30 @@ def main(argv: list[str] | None = None) -> int:
     p_thumb.add_argument("--no-bbox-draw", dest="no_bbox_draw", action="store_true", help="Do not draw bbox on saved images")
     p_thumb.add_argument("--skip-model-filter", dest="skip_model_filter", action="store_true", help="Skip filtering using models dir names")
 
+    # local Isaac Sim single-asset render (no render-usd conda/runtime dependency)
+    p_render = sub.add_parser("render-single", help="Render one USD asset from orbit views with local Isaac Sim")
+    p_render.add_argument("src", help="Path to USD file")
+    p_render.add_argument("--out", required=True, help="Output root directory")
+    p_render.add_argument("--width", type=int, default=512, help="Image width (default 512)")
+    p_render.add_argument("--height", type=int, default=512, help="Image height (default 512)")
+    p_render.add_argument("--views", type=int, default=4, help="Number of orbit views (default 4)")
+    p_render.add_argument("--naming-style", choices=["index", "view"], default="index", help="Output naming style")
+    p_render.add_argument("--overwrite", action="store_true", help="Overwrite existing PNG files")
+    p_render.add_argument("--warmup-steps", type=int, default=100, help="Simulation warmup steps before capture (default 100)")
+    p_render.add_argument("--render-steps", type=int, default=8, help="Rendered steps before capture (default 8)")
+    p_render.add_argument("--focal-mm", type=float, default=18.0, help="Camera focal length in mm (default 18)")
+    p_render.add_argument("--elevation", type=float, default=35.0, help="Camera elevation in degrees (default 35)")
+    p_render.add_argument("--azimuth-offset", type=float, default=0.0, help="Initial azimuth in degrees (default 0)")
+    p_render.add_argument("--min-distance", type=float, default=0.1, help="Minimum camera distance (default 0.1)")
+    p_render.add_argument("--renderer", default="PathTracing", help="Isaac renderer name (default PathTracing)")
+    p_render.add_argument(
+        "--mdl-path",
+        dest="mdl_paths",
+        action="append",
+        default=[],
+        help="Additional MDL search path; may be repeated",
+    )
+
     # export-glb subcommand (Pure Python)
     p_glb = sub.add_parser("export-glb", help="Export USD to GLB (Pure Python, Lightweight)")
     p_glb.add_argument("src", help="Path to input USD file (recommended: *_noMDL.usd)")
@@ -131,6 +153,7 @@ def main(argv: list[str] | None = None) -> int:
             print("Not found:", src)
             return 2
         try:
+            from .mesh.faces import count_mesh_faces
             total = count_mesh_faces(src)
         except RuntimeError as e:
             print("ERROR:", e)
@@ -356,6 +379,34 @@ def main(argv: list[str] | None = None) -> int:
             for mpath, fpath in results:
                 print(" ", mpath, "->", fpath)
             return 0
+        except RuntimeError as e:
+            print("ERROR:", e)
+            return 3
+
+    if args_ns.cmd == "render-single":
+        src = _to_posix(args_ns.src)
+        if not os.path.exists(src):
+            print("Not found:", src)
+            return 2
+        try:
+            from .render.single import run_render_single
+            return int(run_render_single(
+                usd_path=src,
+                output_root=_to_posix(args_ns.out),
+                width=int(args_ns.width),
+                height=int(args_ns.height),
+                sample_number=int(args_ns.views),
+                naming_style=str(args_ns.naming_style),
+                overwrite=bool(args_ns.overwrite),
+                warmup_steps=int(args_ns.warmup_steps),
+                render_steps=int(args_ns.render_steps),
+                focal_mm=float(args_ns.focal_mm),
+                elevation=float(args_ns.elevation),
+                azimuth_offset=float(args_ns.azimuth_offset),
+                min_distance=float(args_ns.min_distance),
+                renderer=str(args_ns.renderer),
+                mdl_paths=list(args_ns.mdl_paths or []),
+            ))
         except RuntimeError as e:
             print("ERROR:", e)
             return 3

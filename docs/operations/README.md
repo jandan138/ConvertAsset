@@ -28,6 +28,7 @@ Runbooks, CLI usage, build instructions, troubleshooting, and agent collaboratio
 
 ## Thumbnails
 
+- [Local Isaac single-asset rendering](local-rendering.md)
 - [Thumbnails overview](thumbnails.md)
 - [Thumbnails environment](thumbnails-environment.md)
 - [Thumbnails usage](thumbnails-usage.md)
