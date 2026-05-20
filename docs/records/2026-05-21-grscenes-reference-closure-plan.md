@@ -117,9 +117,9 @@ Full-repo verification is tracked in the final commit notes for this change.
 
 ## Open Work
 
-- Add the follow-up material dependency planner/parser for selected target
-  model USDs.
-- Only after the material dependency closure is planned, implement a
+- The follow-up material dependency planner has been added in
+  `2026-05-21-grscenes-material-dependency-closure-plan.md`.
+- After the material dependency closure is planned, implement a
   materializer that hardlinks/copies the planned closure into scratch.
 - Run no-MDL on scratch inputs and regenerate `render_manifest.json` with
   `--require-converted`.

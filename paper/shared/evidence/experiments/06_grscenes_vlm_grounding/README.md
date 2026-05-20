@@ -239,6 +239,52 @@ one-scene split-level mirror, but the closure is not runnable yet. The next
 implementation should resolve only the material files used by these selected
 model USDs, not copy the entire split-level `Materials/` tree.
 
+## Material Dependency Closure Plan
+
+Before writing a new scratch materializer, plan the exact split-level material
+files needed by the selected model USDs:
+
+```bash
+./scripts/isaac_python.sh \
+  paper/shared/evidence/experiments/06_grscenes_vlm_grounding/plan_material_dependency_closure.py \
+  --dependency-backend pxr
+```
+
+Default output:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/material_dependency_closure_plan.json
+```
+
+The current checked-in plan was generated at
+`2026-05-20T18:03:34.938417Z`.
+
+This planner is also read-only. It opens only the 23 selected `instance.usd`
+roots with `UsdUtils.ComputeAllDependencies`, recovers unresolved
+`./Materials/...` paths against split-level `home_scenes/Materials`, and emits
+file-level hardlink actions. It does not copy files or mutate either asset
+tree.
+
+Current result:
+
+- 23 selected model roots scanned.
+- USD reports 70 resolved dependency paths and 61 unresolved dependency paths.
+- All unresolved paths recover to split-level `home_scenes/Materials`.
+- The deduplicated material subset is 68 files, 56,405,072 bytes total:
+  20 `.mdl`, 42 `.png`, and 6 `.jpg`.
+- 9 selected model roots still need a scratch-side `Materials` entry repair:
+  5 pointer files should be replaced with relative symlinks, and 4 missing
+  entries should be created as relative symlinks.
+- `safe_to_materialize_selected_materials=true`, but
+  `ready_for_nomdl_after_material_file_actions=false` until those entry repairs
+  are executed in scratch.
+
+Plain version: the material files are now small enough to materialize safely.
+The next implementation should hardlink the 5 selected scene directories, 23
+selected model roots, 68 material files, and 9 `Materials` entry repairs into
+scratch. Do not run no-MDL after only copying the 68 files; pointer-file and
+missing-entry model roots will still fail to resolve `./Materials/...`.
+
 ## Target Manifest
 
 Before rendering, resolve the selected episode targets to USD prims and world-space bboxes:
