@@ -1,0 +1,1696 @@
+{
+  "schema_version": 1,
+  "status": "planned_reference_closure",
+  "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/plan_reference_closure.py",
+  "generated_at_utc": "2026-05-20T17:08:10.354908Z",
+  "generator_git_commit": "cb3e385afd6c38fb038ff2c22ff24ebca469ee02",
+  "source_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+  "scratch_root": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520",
+  "summary": {
+    "episode_record_count": 40,
+    "resolved_episode_record_count": 40,
+    "unique_target_count": 23,
+    "duplicate_episode_target_count": 17,
+    "unique_scene_count": 5,
+    "unique_model_root_count": 23,
+    "action_count": 28,
+    "target_model_file_count": 51,
+    "target_model_dir_count": 0,
+    "target_model_symlink_count": 14,
+    "uncovered_symlink_target_count": 1,
+    "materials_entry_counts": {
+      "symlink": 14,
+      "missing": 4,
+      "pointer_file": 5
+    },
+    "model_roots_requiring_external_materials": 23,
+    "required_external_resource_root_count": 1,
+    "warning_counts": {
+      "materials_symlink_escapes_selected_root": 14,
+      "model_root_only_materialization_unsafe": 23,
+      "unresolved_split_level_material_closure": 23,
+      "materials_entry_missing_requires_usd_dependency_scan": 4,
+      "materials_pointer_file_not_usd_resolvable": 5
+    },
+    "model_root_only_materialization_safe": false,
+    "material_closure_status": "requires_material_dependency_resolution",
+    "copy_mode": "hardlink",
+    "planner_only": true
+  },
+  "targets": [
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "bottle/model_1f3a3f56a624361c98fc37e723ef2b52_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/bottle/model_1f3a3f56a624361c98fc37e723ef2b52_0",
+      "object_category": "bottle",
+      "reference_asset_path": "models/object/others/bottle/1f3a3f56a624361c98fc37e723ef2b52/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/bottle/1f3a3f56a624361c98fc37e723ef2b52/instance.usd",
+      "linked_episode_ids": [
+        "339145f678e866b8acc2c583",
+        "787f1d6be741da924bca0aee"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "cup/model_7a48f717b383883432c89a34f6b25f2f_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/cup/model_7a48f717b383883432c89a34f6b25f2f_0",
+      "object_category": "cup",
+      "reference_asset_path": "models/object/others/cup/7a48f717b383883432c89a34f6b25f2f/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/7a48f717b383883432c89a34f6b25f2f/instance.usd",
+      "linked_episode_ids": [
+        "42804966890dd2039e1469a5",
+        "6f5cfd76e5724b9e2fe96859"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "pillow/model_fd19fbe9bc625e175917e78b747bd35b_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/pillow/model_fd19fbe9bc625e175917e78b747bd35b_0",
+      "object_category": "pillow",
+      "reference_asset_path": "models/object/others/pillow/fd19fbe9bc625e175917e78b747bd35b/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/pillow/fd19fbe9bc625e175917e78b747bd35b/instance.usd",
+      "linked_episode_ids": [
+        "04517b0612f9750246023d5f",
+        "67ff5580b3fb494bfa321a00"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "plate/model_9536648c50ee1bb44077edfc1c2c9b6c_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/plate/model_9536648c50ee1bb44077edfc1c2c9b6c_0",
+      "object_category": "plate",
+      "reference_asset_path": "models/object/others/plate/9536648c50ee1bb44077edfc1c2c9b6c/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/plate/9536648c50ee1bb44077edfc1c2c9b6c/instance.usd",
+      "linked_episode_ids": [
+        "942202964090b4f152f5e6f1",
+        "a9af0576855c9dc058ca8af5"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "bed/model_364f20a3bda6c0f22392cbd7108d54fc_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/bed/model_364f20a3bda6c0f22392cbd7108d54fc_0",
+      "object_category": "bed",
+      "reference_asset_path": "models/object/others/bed/364f20a3bda6c0f22392cbd7108d54fc/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/bed/364f20a3bda6c0f22392cbd7108d54fc/instance.usd",
+      "linked_episode_ids": [
+        "8d0daeed8db781bfff4e1fcc"
+      ],
+      "linked_episode_count": 1
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "blanket/model_a80394c95a7875638747dbc865485c65_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/blanket/model_a80394c95a7875638747dbc865485c65_0",
+      "object_category": "blanket",
+      "reference_asset_path": "models/object/others/blanket/a80394c95a7875638747dbc865485c65/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/blanket/a80394c95a7875638747dbc865485c65/instance.usd",
+      "linked_episode_ids": [
+        "5eab8d116046885570bce820"
+      ],
+      "linked_episode_count": 1
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "pan/model_d3500be84c8c7216739f690509680477_0",
+      "target_prim_path": "/Root/Meshes/Animation/pan/model_d3500be84c8c7216739f690509680477_0",
+      "object_category": "pan",
+      "reference_asset_path": "models/object/articulated/pan/d3500be84c8c7216739f690509680477/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/pan/d3500be84c8c7216739f690509680477/instance.usd",
+      "linked_episode_ids": [
+        "aac616bc0c6e76b44c1b0646",
+        "b2592453400adcf11a4dfc38"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "picture/model_91d6f7bd3387ffa49a896fe682a3b3ae_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/picture/model_91d6f7bd3387ffa49a896fe682a3b3ae_0",
+      "object_category": "picture",
+      "reference_asset_path": "models/object/others/picture/91d6f7bd3387ffa49a896fe682a3b3ae/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/picture/91d6f7bd3387ffa49a896fe682a3b3ae/instance.usd",
+      "linked_episode_ids": [
+        "8f6c5d4c9fa8abb97f6165f0",
+        "ad07f081481e8ba057033cdd"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "pot/model_efe4976e69317ada2c1487b0211c64a1_0",
+      "target_prim_path": "/Root/Meshes/Animation/pot/model_efe4976e69317ada2c1487b0211c64a1_0",
+      "object_category": "pot",
+      "reference_asset_path": "models/object/articulated/pot/efe4976e69317ada2c1487b0211c64a1/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/pot/efe4976e69317ada2c1487b0211c64a1/instance.usd",
+      "linked_episode_ids": [
+        "5cad014cc82b2ea300ed914f",
+        "90d6efc91a0ded5427fd0be5"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "backpack/model_e883e28f0fdd4a6163b9b6198f5d0b80_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/backpack/model_e883e28f0fdd4a6163b9b6198f5d0b80_0",
+      "object_category": "backpack",
+      "reference_asset_path": "models/object/others/backpack/e883e28f0fdd4a6163b9b6198f5d0b80/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/backpack/e883e28f0fdd4a6163b9b6198f5d0b80/instance.usd",
+      "linked_episode_ids": [
+        "3bf90f5e8eccd61f1906917c",
+        "3fc221d913244a8ecb2a16c1"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "clock/model_bf679119ea2cb383756475ddc0dcca04_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/clock/model_bf679119ea2cb383756475ddc0dcca04_0",
+      "object_category": "clock",
+      "reference_asset_path": "models/object/others/clock/bf679119ea2cb383756475ddc0dcca04/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/clock/bf679119ea2cb383756475ddc0dcca04/instance.usd",
+      "linked_episode_ids": [
+        "3bbfa72a5b895e0e87228206",
+        "e59ffc3396144ac9263fb525"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "cup/model_8ca2bdc7e6d147bb2e9844725dad2943_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/cup/model_8ca2bdc7e6d147bb2e9844725dad2943_0",
+      "object_category": "cup",
+      "reference_asset_path": "models/object/others/cup/8ca2bdc7e6d147bb2e9844725dad2943/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/8ca2bdc7e6d147bb2e9844725dad2943/instance.usd",
+      "linked_episode_ids": [
+        "2787cc96361d6199d4b692c2",
+        "bc2548b790f3e1b647c5107a"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "cup/model_97a5d8ffa4e5197d728307133fb6cca4_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/cup/model_97a5d8ffa4e5197d728307133fb6cca4_0",
+      "object_category": "cup",
+      "reference_asset_path": "models/object/others/cup/97a5d8ffa4e5197d728307133fb6cca4/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/97a5d8ffa4e5197d728307133fb6cca4/instance.usd",
+      "linked_episode_ids": [
+        "1dde7c7b33f8c650cc070bdf",
+        "75acec435a7344704d717b60"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "blanket/model_21daaa3146f69e6b6506cbe630a38bc9_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/blanket/model_21daaa3146f69e6b6506cbe630a38bc9_0",
+      "object_category": "blanket",
+      "reference_asset_path": "models/object/others/blanket/21daaa3146f69e6b6506cbe630a38bc9/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/blanket/21daaa3146f69e6b6506cbe630a38bc9/instance.usd",
+      "linked_episode_ids": [
+        "977abc87ecf63a9f40b73339"
+      ],
+      "linked_episode_count": 1
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "chestofdrawers/model_7434427118680313ebf8e9cb10677aec_0",
+      "target_prim_path": "/Root/Meshes/Animation/chestofdrawers/model_7434427118680313ebf8e9cb10677aec_0",
+      "object_category": "chestofdrawers",
+      "reference_asset_path": "models/object/articulated/chestofdrawers/7434427118680313ebf8e9cb10677aec/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/chestofdrawers/7434427118680313ebf8e9cb10677aec/instance.usd",
+      "linked_episode_ids": [
+        "ca0c388e4753dd7f262b5098"
+      ],
+      "linked_episode_count": 1
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "cup/model_d1ad9c675790611bac5c0602a6d20ac5_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/cup/model_d1ad9c675790611bac5c0602a6d20ac5_0",
+      "object_category": "cup",
+      "reference_asset_path": "models/object/others/cup/d1ad9c675790611bac5c0602a6d20ac5/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/d1ad9c675790611bac5c0602a6d20ac5/instance.usd",
+      "linked_episode_ids": [
+        "397407e0aa498cacc359cf48",
+        "a74cf1d66a797411993b39ad"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "desk/model_2fd3be3184316979dd938934f8633935_0",
+      "target_prim_path": "/Root/Meshes/Animation/desk/model_2fd3be3184316979dd938934f8633935_0",
+      "object_category": "desk",
+      "reference_asset_path": "models/object/articulated/desk/2fd3be3184316979dd938934f8633935/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/desk/2fd3be3184316979dd938934f8633935/instance.usd",
+      "linked_episode_ids": [
+        "37c1bdf6a42226b8ab8a7d5a"
+      ],
+      "linked_episode_count": 1
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+      "target_prim_path": "/Root/Meshes/Animation/faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+      "object_category": "faucet",
+      "reference_asset_path": "models/object/articulated/faucet/baf45789fdb0af5bf7d2b519d38e5a40/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/faucet/baf45789fdb0af5bf7d2b519d38e5a40/instance.usd",
+      "linked_episode_ids": [
+        "283fb57eff7866a5548638a7"
+      ],
+      "linked_episode_count": 1
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "light/model_8eb01c9d0c7feb986eedfcba11ffd30b_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/light/model_8eb01c9d0c7feb986eedfcba11ffd30b_0",
+      "object_category": "light",
+      "reference_asset_path": "models/object/others/light/8eb01c9d0c7feb986eedfcba11ffd30b/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/light/8eb01c9d0c7feb986eedfcba11ffd30b/instance.usd",
+      "linked_episode_ids": [
+        "a44e492e7b8db191b9292076",
+        "e9078c7f7ab4c204e4e98323"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "backpack/model_3f99b44a34f7c6c935c508293a194502_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/backpack/model_3f99b44a34f7c6c935c508293a194502_0",
+      "object_category": "backpack",
+      "reference_asset_path": "models/object/others/backpack/3f99b44a34f7c6c935c508293a194502/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/backpack/3f99b44a34f7c6c935c508293a194502/instance.usd",
+      "linked_episode_ids": [
+        "5effff7e96ec8ac29e30f07a",
+        "bf4a01ac38a669ccd3773c8d"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "bottle/model_dd1758f4b5a988f5af35a15cd4b92ae8_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/bottle/model_dd1758f4b5a988f5af35a15cd4b92ae8_0",
+      "object_category": "bottle",
+      "reference_asset_path": "models/object/others/bottle/dd1758f4b5a988f5af35a15cd4b92ae8/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/bottle/dd1758f4b5a988f5af35a15cd4b92ae8/instance.usd",
+      "linked_episode_ids": [
+        "3a41b882ebfc31435b523a26",
+        "3c31a8de41f35f2a59596e56"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "clock/model_677e29e819ce65dc31d1ceb8620e953e_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/clock/model_677e29e819ce65dc31d1ceb8620e953e_0",
+      "object_category": "clock",
+      "reference_asset_path": "models/object/others/clock/677e29e819ce65dc31d1ceb8620e953e/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/clock/677e29e819ce65dc31d1ceb8620e953e/instance.usd",
+      "linked_episode_ids": [
+        "06bd388d86b192b5ec931eac",
+        "e829b255a9a8d43133bb7df5"
+      ],
+      "linked_episode_count": 2
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "source_scene_split": "home_scenes",
+      "object_instance_id": "picture/model_56a5e56b686fbd1174a75e915eaedf03_0",
+      "target_prim_path": "/Root/Meshes/Furnitures/picture/model_56a5e56b686fbd1174a75e915eaedf03_0",
+      "object_category": "picture",
+      "reference_asset_path": "models/object/others/picture/56a5e56b686fbd1174a75e915eaedf03/instance.usd",
+      "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/picture/56a5e56b686fbd1174a75e915eaedf03/instance.usd",
+      "linked_episode_ids": [
+        "060f853820de063e602fca25",
+        "89dd109bb8312254956d51fd"
+      ],
+      "linked_episode_count": 2
+    }
+  ],
+  "actions": [
+    {
+      "kind": "scene_dir",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "source_scene_split": "home_scenes",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "source_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw.usd",
+      "source_usd_variant": "start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw.usd",
+      "converted_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw_noMDL.usd",
+      "conversion_command": "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw.usd",
+      "copy_mode": "hardlink"
+    },
+    {
+      "kind": "scene_dir",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "source_scene_split": "home_scenes",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "source_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw.usd",
+      "source_usd_variant": "start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw.usd",
+      "converted_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw_noMDL.usd",
+      "conversion_command": "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw.usd",
+      "copy_mode": "hardlink"
+    },
+    {
+      "kind": "scene_dir",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "source_scene_split": "home_scenes",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "source_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+      "source_usd_variant": "start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+      "converted_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw_noMDL.usd",
+      "conversion_command": "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+      "copy_mode": "hardlink"
+    },
+    {
+      "kind": "scene_dir",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source_scene_split": "home_scenes",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
+      "source_usd_variant": "start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
+      "converted_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw_noMDL.usd",
+      "conversion_command": "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
+      "copy_mode": "hardlink"
+    },
+    {
+      "kind": "scene_dir",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "source_scene_split": "home_scenes",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "source_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
+      "source_usd_variant": "start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
+      "converted_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw_noMDL.usd",
+      "conversion_command": "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
+      "copy_mode": "hardlink"
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/chestofdrawers/7434427118680313ebf8e9cb10677aec",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/articulated/chestofdrawers/7434427118680313ebf8e9cb10677aec",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/articulated/chestofdrawers/7434427118680313ebf8e9cb10677aec",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/articulated/chestofdrawers/7434427118680313ebf8e9cb10677aec",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 1
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/chestofdrawers/7434427118680313ebf8e9cb10677aec/Materials",
+        "relative_path": "Materials",
+        "type": "symlink",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_symlink_escapes_selected_root",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+          "object_instance_id": "chestofdrawers/model_7434427118680313ebf8e9cb10677aec_0",
+          "target_prim_path": "/Root/Meshes/Animation/chestofdrawers/model_7434427118680313ebf8e9cb10677aec_0",
+          "object_category": "chestofdrawers",
+          "reference_asset_path": "models/object/articulated/chestofdrawers/7434427118680313ebf8e9cb10677aec/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/chestofdrawers/7434427118680313ebf8e9cb10677aec/instance.usd",
+          "linked_episode_ids": [
+            "ca0c388e4753dd7f262b5098"
+          ],
+          "linked_episode_count": 1
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/desk/2fd3be3184316979dd938934f8633935",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/articulated/desk/2fd3be3184316979dd938934f8633935",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/articulated/desk/2fd3be3184316979dd938934f8633935",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/articulated/desk/2fd3be3184316979dd938934f8633935",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 1
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/desk/2fd3be3184316979dd938934f8633935/Materials",
+        "relative_path": "Materials",
+        "type": "symlink",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_symlink_escapes_selected_root",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+          "object_instance_id": "desk/model_2fd3be3184316979dd938934f8633935_0",
+          "target_prim_path": "/Root/Meshes/Animation/desk/model_2fd3be3184316979dd938934f8633935_0",
+          "object_category": "desk",
+          "reference_asset_path": "models/object/articulated/desk/2fd3be3184316979dd938934f8633935/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/desk/2fd3be3184316979dd938934f8633935/instance.usd",
+          "linked_episode_ids": [
+            "37c1bdf6a42226b8ab8a7d5a"
+          ],
+          "linked_episode_count": 1
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/faucet/baf45789fdb0af5bf7d2b519d38e5a40",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/articulated/faucet/baf45789fdb0af5bf7d2b519d38e5a40",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/articulated/faucet/baf45789fdb0af5bf7d2b519d38e5a40",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/articulated/faucet/baf45789fdb0af5bf7d2b519d38e5a40",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 1
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/faucet/baf45789fdb0af5bf7d2b519d38e5a40/Materials",
+        "relative_path": "Materials",
+        "type": "symlink",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_symlink_escapes_selected_root",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+          "object_instance_id": "faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+          "target_prim_path": "/Root/Meshes/Animation/faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+          "object_category": "faucet",
+          "reference_asset_path": "models/object/articulated/faucet/baf45789fdb0af5bf7d2b519d38e5a40/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/faucet/baf45789fdb0af5bf7d2b519d38e5a40/instance.usd",
+          "linked_episode_ids": [
+            "283fb57eff7866a5548638a7"
+          ],
+          "linked_episode_count": 1
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/pan/d3500be84c8c7216739f690509680477",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/articulated/pan/d3500be84c8c7216739f690509680477",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/articulated/pan/d3500be84c8c7216739f690509680477",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/articulated/pan/d3500be84c8c7216739f690509680477",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 1
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/pan/d3500be84c8c7216739f690509680477/Materials",
+        "relative_path": "Materials",
+        "type": "symlink",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_symlink_escapes_selected_root",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+          "object_instance_id": "pan/model_d3500be84c8c7216739f690509680477_0",
+          "target_prim_path": "/Root/Meshes/Animation/pan/model_d3500be84c8c7216739f690509680477_0",
+          "object_category": "pan",
+          "reference_asset_path": "models/object/articulated/pan/d3500be84c8c7216739f690509680477/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/pan/d3500be84c8c7216739f690509680477/instance.usd",
+          "linked_episode_ids": [
+            "aac616bc0c6e76b44c1b0646",
+            "b2592453400adcf11a4dfc38"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/pot/efe4976e69317ada2c1487b0211c64a1",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/articulated/pot/efe4976e69317ada2c1487b0211c64a1",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/articulated/pot/efe4976e69317ada2c1487b0211c64a1",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/articulated/pot/efe4976e69317ada2c1487b0211c64a1",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 1
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/pot/efe4976e69317ada2c1487b0211c64a1/Materials",
+        "relative_path": "Materials",
+        "type": "symlink",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_symlink_escapes_selected_root",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+          "object_instance_id": "pot/model_efe4976e69317ada2c1487b0211c64a1_0",
+          "target_prim_path": "/Root/Meshes/Animation/pot/model_efe4976e69317ada2c1487b0211c64a1_0",
+          "object_category": "pot",
+          "reference_asset_path": "models/object/articulated/pot/efe4976e69317ada2c1487b0211c64a1/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/pot/efe4976e69317ada2c1487b0211c64a1/instance.usd",
+          "linked_episode_ids": [
+            "5cad014cc82b2ea300ed914f",
+            "90d6efc91a0ded5427fd0be5"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/backpack/3f99b44a34f7c6c935c508293a194502",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/backpack/3f99b44a34f7c6c935c508293a194502",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/backpack/3f99b44a34f7c6c935c508293a194502",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/backpack/3f99b44a34f7c6c935c508293a194502",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 1
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/backpack/3f99b44a34f7c6c935c508293a194502/Materials",
+        "relative_path": "Materials",
+        "type": "symlink",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_symlink_escapes_selected_root",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+          "object_instance_id": "backpack/model_3f99b44a34f7c6c935c508293a194502_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/backpack/model_3f99b44a34f7c6c935c508293a194502_0",
+          "object_category": "backpack",
+          "reference_asset_path": "models/object/others/backpack/3f99b44a34f7c6c935c508293a194502/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/backpack/3f99b44a34f7c6c935c508293a194502/instance.usd",
+          "linked_episode_ids": [
+            "5effff7e96ec8ac29e30f07a",
+            "bf4a01ac38a669ccd3773c8d"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/backpack/e883e28f0fdd4a6163b9b6198f5d0b80",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/backpack/e883e28f0fdd4a6163b9b6198f5d0b80",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/backpack/e883e28f0fdd4a6163b9b6198f5d0b80",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/backpack/e883e28f0fdd4a6163b9b6198f5d0b80",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 1
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/backpack/e883e28f0fdd4a6163b9b6198f5d0b80/Materials",
+        "relative_path": "Materials",
+        "type": "symlink",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_symlink_escapes_selected_root",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+          "object_instance_id": "backpack/model_e883e28f0fdd4a6163b9b6198f5d0b80_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/backpack/model_e883e28f0fdd4a6163b9b6198f5d0b80_0",
+          "object_category": "backpack",
+          "reference_asset_path": "models/object/others/backpack/e883e28f0fdd4a6163b9b6198f5d0b80/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/backpack/e883e28f0fdd4a6163b9b6198f5d0b80/instance.usd",
+          "linked_episode_ids": [
+            "3bf90f5e8eccd61f1906917c",
+            "3fc221d913244a8ecb2a16c1"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/bed/364f20a3bda6c0f22392cbd7108d54fc",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/bed/364f20a3bda6c0f22392cbd7108d54fc",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/bed/364f20a3bda6c0f22392cbd7108d54fc",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/bed/364f20a3bda6c0f22392cbd7108d54fc",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 0
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/bed/364f20a3bda6c0f22392cbd7108d54fc/Materials",
+        "relative_path": "Materials",
+        "type": "missing",
+        "target_text": null,
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_entry_missing_requires_usd_dependency_scan",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+          "object_instance_id": "bed/model_364f20a3bda6c0f22392cbd7108d54fc_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/bed/model_364f20a3bda6c0f22392cbd7108d54fc_0",
+          "object_category": "bed",
+          "reference_asset_path": "models/object/others/bed/364f20a3bda6c0f22392cbd7108d54fc/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/bed/364f20a3bda6c0f22392cbd7108d54fc/instance.usd",
+          "linked_episode_ids": [
+            "8d0daeed8db781bfff4e1fcc"
+          ],
+          "linked_episode_count": 1
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/blanket/21daaa3146f69e6b6506cbe630a38bc9",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/blanket/21daaa3146f69e6b6506cbe630a38bc9",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/blanket/21daaa3146f69e6b6506cbe630a38bc9",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/blanket/21daaa3146f69e6b6506cbe630a38bc9",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 1
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/blanket/21daaa3146f69e6b6506cbe630a38bc9/Materials",
+        "relative_path": "Materials",
+        "type": "symlink",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_symlink_escapes_selected_root",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+          "object_instance_id": "blanket/model_21daaa3146f69e6b6506cbe630a38bc9_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/blanket/model_21daaa3146f69e6b6506cbe630a38bc9_0",
+          "object_category": "blanket",
+          "reference_asset_path": "models/object/others/blanket/21daaa3146f69e6b6506cbe630a38bc9/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/blanket/21daaa3146f69e6b6506cbe630a38bc9/instance.usd",
+          "linked_episode_ids": [
+            "977abc87ecf63a9f40b73339"
+          ],
+          "linked_episode_count": 1
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/blanket/a80394c95a7875638747dbc865485c65",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/blanket/a80394c95a7875638747dbc865485c65",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/blanket/a80394c95a7875638747dbc865485c65",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/blanket/a80394c95a7875638747dbc865485c65",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 1
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/blanket/a80394c95a7875638747dbc865485c65/Materials",
+        "relative_path": "Materials",
+        "type": "symlink",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_symlink_escapes_selected_root",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+          "object_instance_id": "blanket/model_a80394c95a7875638747dbc865485c65_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/blanket/model_a80394c95a7875638747dbc865485c65_0",
+          "object_category": "blanket",
+          "reference_asset_path": "models/object/others/blanket/a80394c95a7875638747dbc865485c65/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/blanket/a80394c95a7875638747dbc865485c65/instance.usd",
+          "linked_episode_ids": [
+            "5eab8d116046885570bce820"
+          ],
+          "linked_episode_count": 1
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/bottle/1f3a3f56a624361c98fc37e723ef2b52",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/bottle/1f3a3f56a624361c98fc37e723ef2b52",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/bottle/1f3a3f56a624361c98fc37e723ef2b52",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/bottle/1f3a3f56a624361c98fc37e723ef2b52",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 3,
+        "dir_count": 0,
+        "symlink_count": 0
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/bottle/1f3a3f56a624361c98fc37e723ef2b52/Materials",
+        "relative_path": "Materials",
+        "type": "pointer_file",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_pointer_file_not_usd_resolvable",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+          "object_instance_id": "bottle/model_1f3a3f56a624361c98fc37e723ef2b52_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/bottle/model_1f3a3f56a624361c98fc37e723ef2b52_0",
+          "object_category": "bottle",
+          "reference_asset_path": "models/object/others/bottle/1f3a3f56a624361c98fc37e723ef2b52/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/bottle/1f3a3f56a624361c98fc37e723ef2b52/instance.usd",
+          "linked_episode_ids": [
+            "339145f678e866b8acc2c583",
+            "787f1d6be741da924bca0aee"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/bottle/dd1758f4b5a988f5af35a15cd4b92ae8",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/bottle/dd1758f4b5a988f5af35a15cd4b92ae8",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/bottle/dd1758f4b5a988f5af35a15cd4b92ae8",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/bottle/dd1758f4b5a988f5af35a15cd4b92ae8",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 3,
+        "dir_count": 0,
+        "symlink_count": 0
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/bottle/dd1758f4b5a988f5af35a15cd4b92ae8/Materials",
+        "relative_path": "Materials",
+        "type": "pointer_file",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_pointer_file_not_usd_resolvable",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+          "object_instance_id": "bottle/model_dd1758f4b5a988f5af35a15cd4b92ae8_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/bottle/model_dd1758f4b5a988f5af35a15cd4b92ae8_0",
+          "object_category": "bottle",
+          "reference_asset_path": "models/object/others/bottle/dd1758f4b5a988f5af35a15cd4b92ae8/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/bottle/dd1758f4b5a988f5af35a15cd4b92ae8/instance.usd",
+          "linked_episode_ids": [
+            "3a41b882ebfc31435b523a26",
+            "3c31a8de41f35f2a59596e56"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/clock/677e29e819ce65dc31d1ceb8620e953e",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/clock/677e29e819ce65dc31d1ceb8620e953e",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/clock/677e29e819ce65dc31d1ceb8620e953e",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/clock/677e29e819ce65dc31d1ceb8620e953e",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 0
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/clock/677e29e819ce65dc31d1ceb8620e953e/Materials",
+        "relative_path": "Materials",
+        "type": "missing",
+        "target_text": null,
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_entry_missing_requires_usd_dependency_scan",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+          "object_instance_id": "clock/model_677e29e819ce65dc31d1ceb8620e953e_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/clock/model_677e29e819ce65dc31d1ceb8620e953e_0",
+          "object_category": "clock",
+          "reference_asset_path": "models/object/others/clock/677e29e819ce65dc31d1ceb8620e953e/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/clock/677e29e819ce65dc31d1ceb8620e953e/instance.usd",
+          "linked_episode_ids": [
+            "06bd388d86b192b5ec931eac",
+            "e829b255a9a8d43133bb7df5"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/clock/bf679119ea2cb383756475ddc0dcca04",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/clock/bf679119ea2cb383756475ddc0dcca04",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/clock/bf679119ea2cb383756475ddc0dcca04",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/clock/bf679119ea2cb383756475ddc0dcca04",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 3,
+        "dir_count": 0,
+        "symlink_count": 0
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/clock/bf679119ea2cb383756475ddc0dcca04/Materials",
+        "relative_path": "Materials",
+        "type": "pointer_file",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_pointer_file_not_usd_resolvable",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+          "object_instance_id": "clock/model_bf679119ea2cb383756475ddc0dcca04_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/clock/model_bf679119ea2cb383756475ddc0dcca04_0",
+          "object_category": "clock",
+          "reference_asset_path": "models/object/others/clock/bf679119ea2cb383756475ddc0dcca04/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/clock/bf679119ea2cb383756475ddc0dcca04/instance.usd",
+          "linked_episode_ids": [
+            "3bbfa72a5b895e0e87228206",
+            "e59ffc3396144ac9263fb525"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/7a48f717b383883432c89a34f6b25f2f",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/cup/7a48f717b383883432c89a34f6b25f2f",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/cup/7a48f717b383883432c89a34f6b25f2f",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/cup/7a48f717b383883432c89a34f6b25f2f",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 0
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/7a48f717b383883432c89a34f6b25f2f/Materials",
+        "relative_path": "Materials",
+        "type": "missing",
+        "target_text": null,
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_entry_missing_requires_usd_dependency_scan",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+          "object_instance_id": "cup/model_7a48f717b383883432c89a34f6b25f2f_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/cup/model_7a48f717b383883432c89a34f6b25f2f_0",
+          "object_category": "cup",
+          "reference_asset_path": "models/object/others/cup/7a48f717b383883432c89a34f6b25f2f/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/7a48f717b383883432c89a34f6b25f2f/instance.usd",
+          "linked_episode_ids": [
+            "42804966890dd2039e1469a5",
+            "6f5cfd76e5724b9e2fe96859"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/8ca2bdc7e6d147bb2e9844725dad2943",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/cup/8ca2bdc7e6d147bb2e9844725dad2943",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/cup/8ca2bdc7e6d147bb2e9844725dad2943",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/cup/8ca2bdc7e6d147bb2e9844725dad2943",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 3,
+        "dir_count": 0,
+        "symlink_count": 0
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/8ca2bdc7e6d147bb2e9844725dad2943/Materials",
+        "relative_path": "Materials",
+        "type": "pointer_file",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_pointer_file_not_usd_resolvable",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+          "object_instance_id": "cup/model_8ca2bdc7e6d147bb2e9844725dad2943_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/cup/model_8ca2bdc7e6d147bb2e9844725dad2943_0",
+          "object_category": "cup",
+          "reference_asset_path": "models/object/others/cup/8ca2bdc7e6d147bb2e9844725dad2943/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/8ca2bdc7e6d147bb2e9844725dad2943/instance.usd",
+          "linked_episode_ids": [
+            "2787cc96361d6199d4b692c2",
+            "bc2548b790f3e1b647c5107a"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/97a5d8ffa4e5197d728307133fb6cca4",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/cup/97a5d8ffa4e5197d728307133fb6cca4",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/cup/97a5d8ffa4e5197d728307133fb6cca4",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/cup/97a5d8ffa4e5197d728307133fb6cca4",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 0
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/97a5d8ffa4e5197d728307133fb6cca4/Materials",
+        "relative_path": "Materials",
+        "type": "missing",
+        "target_text": null,
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_entry_missing_requires_usd_dependency_scan",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+          "object_instance_id": "cup/model_97a5d8ffa4e5197d728307133fb6cca4_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/cup/model_97a5d8ffa4e5197d728307133fb6cca4_0",
+          "object_category": "cup",
+          "reference_asset_path": "models/object/others/cup/97a5d8ffa4e5197d728307133fb6cca4/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/97a5d8ffa4e5197d728307133fb6cca4/instance.usd",
+          "linked_episode_ids": [
+            "1dde7c7b33f8c650cc070bdf",
+            "75acec435a7344704d717b60"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/d1ad9c675790611bac5c0602a6d20ac5",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/cup/d1ad9c675790611bac5c0602a6d20ac5",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/cup/d1ad9c675790611bac5c0602a6d20ac5",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/cup/d1ad9c675790611bac5c0602a6d20ac5",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 3,
+        "dir_count": 0,
+        "symlink_count": 0
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/d1ad9c675790611bac5c0602a6d20ac5/Materials",
+        "relative_path": "Materials",
+        "type": "pointer_file",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_pointer_file_not_usd_resolvable",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+          "object_instance_id": "cup/model_d1ad9c675790611bac5c0602a6d20ac5_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/cup/model_d1ad9c675790611bac5c0602a6d20ac5_0",
+          "object_category": "cup",
+          "reference_asset_path": "models/object/others/cup/d1ad9c675790611bac5c0602a6d20ac5/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/cup/d1ad9c675790611bac5c0602a6d20ac5/instance.usd",
+          "linked_episode_ids": [
+            "397407e0aa498cacc359cf48",
+            "a74cf1d66a797411993b39ad"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/light/8eb01c9d0c7feb986eedfcba11ffd30b",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/light/8eb01c9d0c7feb986eedfcba11ffd30b",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/light/8eb01c9d0c7feb986eedfcba11ffd30b",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/light/8eb01c9d0c7feb986eedfcba11ffd30b",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 1
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/light/8eb01c9d0c7feb986eedfcba11ffd30b/Materials",
+        "relative_path": "Materials",
+        "type": "symlink",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_symlink_escapes_selected_root",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+          "object_instance_id": "light/model_8eb01c9d0c7feb986eedfcba11ffd30b_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/light/model_8eb01c9d0c7feb986eedfcba11ffd30b_0",
+          "object_category": "light",
+          "reference_asset_path": "models/object/others/light/8eb01c9d0c7feb986eedfcba11ffd30b/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/light/8eb01c9d0c7feb986eedfcba11ffd30b/instance.usd",
+          "linked_episode_ids": [
+            "a44e492e7b8db191b9292076",
+            "e9078c7f7ab4c204e4e98323"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/picture/56a5e56b686fbd1174a75e915eaedf03",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/picture/56a5e56b686fbd1174a75e915eaedf03",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/picture/56a5e56b686fbd1174a75e915eaedf03",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/picture/56a5e56b686fbd1174a75e915eaedf03",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 1
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/picture/56a5e56b686fbd1174a75e915eaedf03/Materials",
+        "relative_path": "Materials",
+        "type": "symlink",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_symlink_escapes_selected_root",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+          "object_instance_id": "picture/model_56a5e56b686fbd1174a75e915eaedf03_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/picture/model_56a5e56b686fbd1174a75e915eaedf03_0",
+          "object_category": "picture",
+          "reference_asset_path": "models/object/others/picture/56a5e56b686fbd1174a75e915eaedf03/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/picture/56a5e56b686fbd1174a75e915eaedf03/instance.usd",
+          "linked_episode_ids": [
+            "060f853820de063e602fca25",
+            "89dd109bb8312254956d51fd"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/picture/91d6f7bd3387ffa49a896fe682a3b3ae",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/picture/91d6f7bd3387ffa49a896fe682a3b3ae",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/picture/91d6f7bd3387ffa49a896fe682a3b3ae",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/picture/91d6f7bd3387ffa49a896fe682a3b3ae",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 1
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/picture/91d6f7bd3387ffa49a896fe682a3b3ae/Materials",
+        "relative_path": "Materials",
+        "type": "symlink",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_symlink_escapes_selected_root",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+          "object_instance_id": "picture/model_91d6f7bd3387ffa49a896fe682a3b3ae_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/picture/model_91d6f7bd3387ffa49a896fe682a3b3ae_0",
+          "object_category": "picture",
+          "reference_asset_path": "models/object/others/picture/91d6f7bd3387ffa49a896fe682a3b3ae/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/picture/91d6f7bd3387ffa49a896fe682a3b3ae/instance.usd",
+          "linked_episode_ids": [
+            "8f6c5d4c9fa8abb97f6165f0",
+            "ad07f081481e8ba057033cdd"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/pillow/fd19fbe9bc625e175917e78b747bd35b",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/pillow/fd19fbe9bc625e175917e78b747bd35b",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/pillow/fd19fbe9bc625e175917e78b747bd35b",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/pillow/fd19fbe9bc625e175917e78b747bd35b",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 1
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/pillow/fd19fbe9bc625e175917e78b747bd35b/Materials",
+        "relative_path": "Materials",
+        "type": "symlink",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_symlink_escapes_selected_root",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+          "object_instance_id": "pillow/model_fd19fbe9bc625e175917e78b747bd35b_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/pillow/model_fd19fbe9bc625e175917e78b747bd35b_0",
+          "object_category": "pillow",
+          "reference_asset_path": "models/object/others/pillow/fd19fbe9bc625e175917e78b747bd35b/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/pillow/fd19fbe9bc625e175917e78b747bd35b/instance.usd",
+          "linked_episode_ids": [
+            "04517b0612f9750246023d5f",
+            "67ff5580b3fb494bfa321a00"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    },
+    {
+      "kind": "target_model_root",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/plate/9536648c50ee1bb44077edfc1c2c9b6c",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models/object/others/plate/9536648c50ee1bb44077edfc1c2c9b6c",
+      "copy_mode": "hardlink",
+      "split_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/plate/9536648c50ee1bb44077edfc1c2c9b6c",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/models/object/others/plate/9536648c50ee1bb44077edfc1c2c9b6c",
+      "source_exists": true,
+      "tree_counts": {
+        "file_count": 2,
+        "dir_count": 0,
+        "symlink_count": 1
+      },
+      "materials_entry": {
+        "path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/plate/9536648c50ee1bb44077edfc1c2c9b6c/Materials",
+        "relative_path": "Materials",
+        "type": "symlink",
+        "target_text": "../../../../../Materials",
+        "resolved_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "target_exists": true,
+        "target_scope": "inside_split_root_outside_model_root"
+      },
+      "required_external_resource_roots": [
+        {
+          "resource_name": "Materials",
+          "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+          "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+          "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+          "reason": "model_materials_entry_points_outside_selected_model_root"
+        }
+      ],
+      "warnings": [
+        "materials_symlink_escapes_selected_root",
+        "model_root_only_materialization_unsafe",
+        "unresolved_split_level_material_closure"
+      ],
+      "targets": [
+        {
+          "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+          "object_instance_id": "plate/model_9536648c50ee1bb44077edfc1c2c9b6c_0",
+          "target_prim_path": "/Root/Meshes/Furnitures/plate/model_9536648c50ee1bb44077edfc1c2c9b6c_0",
+          "object_category": "plate",
+          "reference_asset_path": "models/object/others/plate/9536648c50ee1bb44077edfc1c2c9b6c/instance.usd",
+          "resolved_model_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/others/plate/9536648c50ee1bb44077edfc1c2c9b6c/instance.usd",
+          "linked_episode_ids": [
+            "942202964090b4f152f5e6f1",
+            "a9af0576855c9dc058ca8af5"
+          ],
+          "linked_episode_count": 2
+        }
+      ]
+    }
+  ],
+  "required_external_resource_roots": [
+    {
+      "resource_name": "Materials",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+      "source_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+      "scratch_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+      "reason": "model_materials_entry_points_outside_selected_model_root"
+    }
+  ],
+  "uncovered_symlink_targets": [
+    {
+      "link_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models/object/articulated/chestofdrawers/7434427118680313ebf8e9cb10677aec/Materials",
+      "link_relative_path": "scenes/GRScenes-100/home_scenes/models/object/articulated/chestofdrawers/7434427118680313ebf8e9cb10677aec/Materials",
+      "link_target_text": "../../../../../Materials",
+      "source_target": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+      "source_target_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+      "projected_target": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+      "projected_target_relative_path": "scenes/GRScenes-100/home_scenes/Materials",
+      "target_inside_scratch_root": true,
+      "target_covered_by_planned_actions": false
+    }
+  ],
+  "conversion_commands": [
+    "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw.usd",
+    "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw.usd",
+    "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+    "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
+    "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd"
+  ],
+  "notes": [
+    "This is a planner-only artifact; it does not copy, hardlink, convert, render, or mutate assets.",
+    "Uncovered symlink targets identify dependency roots that selected model directories still expect in scratch.",
+    "Run no-MDL only on scratch_input_usd paths after a follow-up materializer has created the planned closure."
+  ]
+}

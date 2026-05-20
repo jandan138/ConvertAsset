@@ -27,9 +27,10 @@ The important traps:
 - Do not scale the current split-level mirror beyond `--limit-scenes 1`. The
   one-scene scratch tree already exposes about 104G through `du` and creates
   141,082 visible files, 27,819 symlinks, and 52,601 directories.
-- The next scalable implementation must materialize only the target/reference
-  closure needed by selected prims. Full split-level mirroring is only a smoke
-  gate.
+- Use the target/reference closure planner before any further materialization.
+  The current plan sees 23 selected model roots with 51 model files and 14 model
+  symlinks, but all 23 selected roots still require split-level `Materials`
+  dependency resolution.
 - `prepare_render_manifest.py --require-converted` is expected to fail until
   no-MDL is run on the scratch scene. The current failure is 92 missing
   converted render jobs.
@@ -176,6 +177,11 @@ source. Asset-internal GRScenes relative symlinks under `models/` are different:
 the materializer preserves them and validates that their scratch-side targets
 resolve inside the scratch root.
 
+Current hard stop: do not use this split-level materializer for more scenes or
+as the next ACL evidence step. The next step is the reference-closure and
+material-dependency closure plan below, because all 23 selected model roots
+still need split-level `Materials` resolution.
+
 To materialize one scene after reviewing the dry-run report:
 
 ```bash
@@ -196,6 +202,42 @@ After conversion, regenerate the render manifest with the converted-input gate:
 python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/prepare_render_manifest.py \
   --require-converted
 ```
+
+## Reference Closure Plan
+
+Before scaling scratch materialization, plan the target/reference closure:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/plan_reference_closure.py
+```
+
+Default output:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/reference_closure_plan.json
+```
+
+The current checked-in plan was generated at `2026-05-20T17:08:10.354908Z`.
+
+This planner is intentionally read-only. It does not copy, hardlink, convert,
+render, or open USD stages. It consumes the resolved targets from
+`target_manifest.json`, deduplicates them by
+`(source_scene_id, object_instance_id, target_prim_path)`, and plans one model
+root action per unique `resolved_model_path` parent directory.
+
+Current result:
+
+- 40 resolved episode records collapse to 23 unique spatial targets.
+- Those targets reference 23 unique model roots across 5 scenes.
+- The selected model roots contain 51 files and 14 symlinks.
+- `Materials` entry pattern: 14 symlinks, 5 ordinary pointer files, and 4
+  missing entries.
+- All 23 selected model roots require external split-level material resolution.
+
+Plain version: this proves the model part can be made much smaller than the
+one-scene split-level mirror, but the closure is not runnable yet. The next
+implementation should resolve only the material files used by these selected
+model USDs, not copy the entire split-level `Materials/` tree.
 
 ## Target Manifest
 
