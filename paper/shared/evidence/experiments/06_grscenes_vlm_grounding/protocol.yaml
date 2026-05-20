@@ -1,17 +1,103 @@
-schema_version: 1
+schema_version: 2
 status: planned
 title: GRScenes VLM grounding under USD material conversion
-primary_dataset:
-  name: GRScenes-100
-  local_root: /cpfs/user/zhuzihou/assets/dedup_workspaces/test0_transitive_apply_parallel/dataset/GRScenes100
-  first_scene: /cpfs/user/zhuzihou/assets/dedup_workspaces/test0_transitive_apply_parallel/dataset/GRScenes100/home/MV7J6NIKTKJZ2AABAAAAADQ8_usd/layout.usd
+dataset_roles:
+  benchmark_source_dataset:
+    name: GRScenes-100 original benchmark package
+    role: Immutable benchmark source for ACL/VLM scene selection, episode metadata, and paper claims.
+    local_root: /cpfs/user/zhuzihou/assets/zzh-grscenes
+    scenes_root: /cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100
+    home_scenes_root: /cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes
+    commercial_scenes_root: /cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes
+    benchmark_root: /cpfs/user/zhuzihou/assets/zzh-grscenes/benchmark
+    mm_episodes: /cpfs/user/zhuzihou/assets/zzh-grscenes/benchmark/mm_episodes.json
+    sn_episodes: /cpfs/user/zhuzihou/assets/zzh-grscenes/benchmark/sn_episodes.json
+    scene_usd_candidates:
+      - start_result_raw.usd
+      - start_result_navigation.usd
+      - start_result_interaction.usd
+    scene_metadata_files:
+      - metadata.json
+      - interactive_obj_list.json
+    mutation_policy: Never run ConvertAsset in place inside this dataset tree.
+  engineering_validation_dataset:
+    name: GRScenes-100 local test0 engineering mirror
+    role: ConvertAsset no-MDL smoke tests, runner debugging, and path validation only; not the benchmark source for paper claims.
+    clean_local_root: /cpfs/user/zhuzihou/assets/dedup_workspaces/test0_transitive_apply_parallel/dataset/GRScenes100
+    no_mdl_work_root: /cpfs/user/zhuzihou/assets/dedup_workspaces/test0_transitive_apply_parallel/dataset_no_mdl_work_20260520/GRScenes100
+    first_smoke_scene: /cpfs/user/zhuzihou/assets/dedup_workspaces/test0_transitive_apply_parallel/dataset/GRScenes100/home/MV7J6NIKTKJZ2AABAAAAADQ8_usd/layout.usd
+  intervention_outputs:
+    scratch_root: /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520
+    role: Scratch/work tree for copied benchmark scenes and generated no-MDL derivatives.
+    retention_policy: Generated outputs may be deleted and regenerated; source benchmark files must remain immutable.
+source_inventory:
+  scene_counts:
+    home: 69
+    commercial: 30
+    total: 99
+  required_files_per_scene:
+    - start_result_raw.usd
+    - start_result_navigation.usd
+    - start_result_interaction.usd
+    - metadata.json
+    - interactive_obj_list.json
+  benchmark_episode_coverage:
+    scene_type_coverage:
+      home: 30
+      commercial: 0
+    mm_and_sn_scene_sets: identical
+    mm_episodes:
+      scenes: 30
+      episodes: 420
+      split_counts:
+        test:
+          scenes: 20
+          objects: 147
+          episodes: 291
+        validate:
+          scenes: 10
+          objects: 65
+          episodes: 129
+    sn_episodes:
+      scenes: 30
+      episodes: 300
+      split_counts:
+        test:
+          scenes: 20
+          objects: 200
+          episodes: 200
+        validate:
+          scenes: 10
+          objects: 100
+          episodes: 100
+  filesystem_notes:
+    - Scene directories contain Materials and models pointer files whose contents are relative paths, not symlinks.
+    - USD files use .usd names but may contain binary USDC data; open them with pxr or Isaac Sim before declaring a scene valid.
+  license_note: GRScenes assets are CC BY-NC-SA 4.0; check redistribution limits before releasing derived assets.
+scene_selection:
+  primary_pool: Use the 30 benchmark-episode-covered home scenes for the first ACL/VLM episode-backed pilot.
+  commercial_pool: Commercial scenes are metadata-driven material-generalization stress tests unless a future benchmark episode source is added.
+  broader_pool: The full 99-scene set can support later material-generalization or stress-test ablations after metadata mapping is checked.
+  minimum_pilot:
+    episode_backed_home_scenes: 5
+    metadata_driven_commercial_scenes: 5
+    targets_per_scene: 8
+    views_per_target: 3
+    material_conditions:
+      - original
+      - converted
+  exclusion_rules:
+    - Exclude any scene whose benchmark episode IDs cannot be mapped to scene metadata or USD prims.
+    - Exclude any scene whose scratch no-MDL conversion leaves unresolved references or residual MDL materials.
 intervention:
-  original_condition: layout.usd
-  converted_condition: layout_noMDL.usd
-  command_template: ./scripts/isaac_python.sh ./main.py no-mdl {scene_layout_usd}
+  original_condition: benchmark-source USD, usually start_result_raw.usd or the task-specific navigation/interaction USD.
+  converted_condition: no-MDL derivative generated from a scratch copy of the selected benchmark scene.
+  command_template: ./scripts/isaac_python.sh ./main.py no-mdl {scratch_scene_usd}
+  safety_rule: Copy selected benchmark scenes to scratch first; do not generate sidecars in benchmark_source_dataset or the clean engineering mirror.
+  residual_mdl_check: Required before rendering converted scenes.
 external_protocols:
   - name: Point-It-Out
-    role: Prompt and metric inspiration for precise VLM grounding.
+    role: Prompt and metric inspiration for precise VLM grounding; do not claim direct PIO evaluation unless the PIO dataset is actually used.
     url: https://research.nvidia.com/labs/cosmos-lab/pio/
   - name: InternNav VL-LN
     role: Downstream navigation and dialog-enabled embodied language extension.
@@ -35,14 +121,53 @@ task_families:
       - target_region_accuracy
       - answer_consistency
       - original_vs_converted_delta
-minimum_pilot:
-  home_scenes: 5
-  commercial_scenes: 5
-  targets_per_scene: 8
-  views_per_target: 3
-  material_conditions:
-    - original
-    - converted
+rendering:
+  fixed_variables:
+    - Isaac Sim version
+    - renderer and render settings
+    - resolution and camera intrinsics
+    - lighting setup
+    - cache policy
+    - VLM input preprocessing
+targets_and_prompts:
+  annotation_sources:
+    - benchmark/mm_episodes.json
+    - benchmark/sn_episodes.json
+    - metadata.json
+    - interactive_obj_list.json
+  required_mapping_checks:
+    - episode scene_id to scene directory
+    - episode object_instance_id to metadata entry
+    - metadata target to USD prim path
+    - USD prim bounds or mask to image coordinates
+  prompt_policy: Use PIO-style prompt shapes over GRScenes targets unless a later protocol explicitly imports PIO data.
+models:
+  first_candidates:
+    - Qwen2.5-VL-style coordinate-capable VLM
+    - Molmo-style coordinate-capable VLM
+  fixed_variables:
+    - checkpoint
+    - image resolution
+    - decoding parameters
+    - prompt template
+provenance:
+  required_manifest_fields:
+    - dataset_role
+    - source_dataset_root
+    - source_scene_id
+    - source_scene_split
+    - source_usd
+    - scratch_scene_root
+    - converted_usd
+    - material_condition
+    - conversion_command
+    - conversion_log
+    - renderer_settings
+    - model_checkpoint
+paper_claim_gate:
+  require_registered_outputs: true
+  require_source_dataset: /cpfs/user/zhuzihou/assets/zzh-grscenes
+  disallow_benchmark_claims_from_engineering_validation_dataset: true
 reporting:
   raw_dir: paper/shared/evidence/raw/grscene_vlm_grounding
   predictions: paper/shared/evidence/raw/grscene_vlm_grounding/predictions.jsonl

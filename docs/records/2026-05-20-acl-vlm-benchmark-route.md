@@ -21,10 +21,12 @@ Use **GRScenes-100 + PIO-style VLM grounding** as the first reproducible ACL exp
 
 Reasons:
 
-- The local dataset is already available under `/cpfs/user/zhuzihou/assets/dedup_workspaces/test0_transitive_apply_parallel/dataset/GRScenes100`.
+- The original GRScenes-100 benchmark package is available under `/cpfs/user/zhuzihou/assets/zzh-grscenes` and should be treated as the benchmark source for ACL/VLM claims.
+- The restored local test0 mirror under `/cpfs/user/zhuzihou/assets/dedup_workspaces/test0_transitive_apply_parallel/dataset/GRScenes100` is available for engineering validation and first smoke-scene checks only.
 - GRScenes is USD-native and uses MDL materials, so ConvertAsset creates a clean paired intervention.
 - PIO-style object localization and task-driven grounding align with ACL/VLM embodied language evaluation.
 - The pilot can be scored without committing to a full navigation training stack.
+- The first episode-backed pilot should use the 30 home scenes covered by `mm_episodes.json` / `sn_episodes.json`. Commercial scenes can be used for metadata-driven material stress tests, and the full 99-scene pool is a later expansion target after metadata and target mapping are verified.
 
 InternNav / VL-LN remains valuable, but it should follow the grounding pilot because it introduces more simulator, policy, and evaluation dependencies.
 
@@ -47,6 +49,7 @@ Planned verification for this documentation/scaffold change:
 
 ## Open Work
 
+- Implement a scratch-copy or explicit output-root workflow before running no-MDL conversion on selected benchmark scenes.
 - Implement the render manifest generator for selected GRScenes scenes.
 - Add an Isaac Sim runner that renders paired original/no-MDL views around semantic target prims.
 - Add a VLM inference runner for coordinate-capable open models.
