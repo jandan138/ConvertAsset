@@ -2,6 +2,47 @@
 
 This experiment is the ACL-oriented material-generalization study. It measures whether ConvertAsset's MDL-to-UsdPreviewSurface conversion changes VLM grounding behavior on realistic USD indoor scenes.
 
+## Read This First: 1-Scene Pilot Lessons
+
+Plain version: this run only prepared one scene so no-MDL can be run safely
+outside the benchmark source tree. It did not produce converted USDs, rendered
+images, VLM predictions, or paper-ready scores.
+
+The important traps:
+
+- Never run no-MDL directly on `/cpfs/user/zhuzihou/assets/zzh-grscenes`.
+  ConvertAsset writes `*_noMDL.usd` beside the input USD, so source inputs must
+  first be materialized into scratch.
+- Scene-local `models` and `Materials` entries are small pointer files, not the
+  real resource trees. The real resources live at the split level under
+  `home_scenes/models` and `home_scenes/Materials`.
+- GRScenes `models/` contains many internal relative symlinks. A naive copy
+  with `symlinks=False` expands those links into hundreds of thousands of real
+  files and is slow to clean up. The current materializer preserves internal
+  symlinks and checks that they resolve inside scratch.
+- Hardlink mode is space-saving but not a physical copy. `du` can report a
+  large logical size because the files are visible from scratch, but the input
+  files share inodes with the source tree. This relies on no-MDL writing
+  sidecars and never editing existing inputs in place.
+- Do not scale the current split-level mirror beyond `--limit-scenes 1`. The
+  one-scene scratch tree already exposes about 104G through `du` and creates
+  141,082 visible files, 27,819 symlinks, and 52,601 directories.
+- The next scalable implementation must materialize only the target/reference
+  closure needed by selected prims. Full split-level mirroring is only a smoke
+  gate.
+- `prepare_render_manifest.py --require-converted` is expected to fail until
+  no-MDL is run on the scratch scene. The current failure is 92 missing
+  converted render jobs.
+
+Safe status after the 2026-05-20 pilot:
+
+```text
+source tree: /cpfs/user/zhuzihou/assets/zzh-grscenes
+scratch tree: /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520
+report: paper/shared/evidence/raw/grscene_vlm_grounding/scratch_materialization_report.json
+result: one scene materialized, converted USDs still missing
+```
+
 ## Benchmark Basis
 
 - Benchmark source: GRScenes-100 original benchmark package under
