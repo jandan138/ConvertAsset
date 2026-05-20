@@ -133,17 +133,45 @@ For command-line smoke tests, use:
 
 USD may emit broken relative-reference warnings when opening the original scene USDs. Those warnings are expected for the immutable source layout and do not imply that the resolver modified the source dataset.
 
+## Render Manifest
+
+Before rendering images, generate the paired view/job plan:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/prepare_render_manifest.py
+```
+
+Default output:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/render_manifest.json
+```
+
+This manifest is a render plan and provenance bridge, not rendered image evidence and not a VLM result:
+
+- 40 resolved episode records are collapsed into 23 unique spatial render targets.
+- Four target-centered static orbit views are planned per unique target.
+- The current pilot therefore has 92 original/converted render pairs and 184 material-condition render jobs.
+- Original jobs point at immutable benchmark source USDs and have material inputs available, but camera-stage authoring is still pending.
+- Converted jobs point at scratch no-MDL USDs and are currently `blocked_missing_material_input` until selected scenes are copied and converted outside `/cpfs/user/zhuzihou/assets/zzh-grscenes`.
+- Each pair stores one shared camera plan so original and converted renders differ only by material condition once the scratch derivative exists.
+- No job is `render_jobs_ready_to_run` yet because camera USD stages have not been authored.
+- Image-space target bboxes remain `pending_projection_from_world_bbox`; scoring must not run until the renderer projects bboxes or masks into image coordinates.
+- Each planned image record includes a `visual_review` packet marker for the clean-room `render-visual-reviewer` skill.
+
+Use `--require-converted` after scratch conversion to fail fast if any converted USD is still missing.
+
 ## Task Families
 
 | Task | Prompt shape | Metric |
 |---|---|---|
-| S1 referred object localization | "Point to the {attribute} {category}." | point-in-box or point-in-mask accuracy |
+| S1 referred object localization | "Point to the {category}." for the current render-plan gate; attribute-augmented prompts are a later extension after image-space labels exist. | point-in-box or point-in-mask accuracy |
 | S2 task-driven grounding | "Where should the robot interact to {action}?" | part/object region hit rate |
 | S3 navigation proxy | "Which object should the robot move toward to {goal}?" | target-region accuracy and answer consistency |
 
 ## Planned Outputs
 
-Do not cite these files in the paper until they exist and are registered in `paper/shared/evidence/results_manifest.yaml`.
+Do not cite these files as task-performance evidence until the corresponding rendered images, image-space labels, predictions, and score summaries exist and are registered in `paper/shared/evidence/results_manifest.yaml`.
 
 ```text
 paper/shared/evidence/raw/grscene_vlm_grounding/target_manifest.json
