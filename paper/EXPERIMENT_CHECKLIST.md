@@ -22,6 +22,7 @@ paper/
 │   └── sections/                ← 共享论文章节（LaTeX）
 └── venues/
     ├── aaai27/                  ← AAAI 2027 目标 wrapper
+    ├── acl27/                   ← ACL 2027 Japan route candidate wrapper
     └── cvpr26/                  ← 保留的 CVPR/SynData4CV wrapper
 ```
 
@@ -41,7 +42,9 @@ paper/
 | **4b** | **语义分割迁移评测** | paper-experiment-runner | 同上 | `shared/evidence/raw/segmentation_results.json` | mIoU | 材质变化对分割任务准确率的影响 |
 | **4c** | **CLIP 零样本检索** | paper-experiment-runner | 用 A 建索引库，用 B 图片当查询 | `shared/evidence/raw/retrieval_results.json` | Top-1 / Top-5 准确率、mAP | 证明简化材质不破坏跨模态语义检索能力 |
 | **5** | **RL 策略迁移实验** | paper-experiment-runner | A 环境训练策略，B 环境测试（双向） | `shared/evidence/raw/rl_results.json` | 收敛步数、成功率(%)、平均奖励 | 材质差异是否真正影响策略学习和泛化 |
-| **6** | **综合 Trade-off 分析** | paper-writer | 以上所有结果 | `shared/sections/discussion.tex` | — | 回答"何时可以简化、何时要小心"，形成论文核心结论 |
+| **6a** | **GRScenes VLM grounding** | paper-experiment-runner | GRScenes-100 `layout.usd` + `layout_noMDL.usd` 成对渲染，PIO-style prompts | `shared/evidence/raw/grscene_vlm_grounding/score_summary.json` | point-in-box / point-in-mask accuracy、answer consistency | ACL 主线实验：材质/纹理泛化是否影响 VLM 的语言 grounding |
+| **6b** | **InternNav / VL-LN navigation extension** | paper-experiment-runner | GRScenes-100 + InternNav / VL-LN configs | `shared/evidence/raw/internnav_vln_results.json` | SR、SPL、dialog efficiency、goal success delta | ACL 下游扩展：材质变化是否影响语言条件导航 |
+| **7** | **综合 Trade-off 分析** | paper-writer | 以上所有结果 | `shared/sections/discussion.tex` | — | 回答"何时可以简化、何时要小心"，形成论文核心结论 |
 
 ---
 
@@ -59,7 +62,9 @@ paper/
 | 4b 语义分割迁移 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 4c CLIP 零样本检索 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 5 RL 策略迁移 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| 6 综合讨论 | — | — | — | — | ⬜ |
+| 6a GRScenes VLM grounding | 🔄 | ⬜ | ⬜ | ⬜ | ⬜ |
+| 6b InternNav / VL-LN navigation | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
+| 7 综合讨论 | — | — | — | — | ⬜ |
 
 > 状态：⬜ 未开始 ｜ 🔄 进行中 ｜ ✅ 完成
 
@@ -120,7 +125,9 @@ paper/
     ├── 实验 #4a（检测迁移）   → 需要 A/B 渲染图 + 标注
     ├── 实验 #4b（分割迁移）   → 需要 A/B 渲染图 + 标注
     ├── 实验 #4c（CLIP 检索）  → 需要 #3a 的特征文件
-    └── 实验 #5（RL 实验）     → 需要 Isaac Sim 环境
+    ├── 实验 #5（RL 实验）     → 需要 Isaac Sim 环境
+    ├── 实验 #6a（GRScenes VLM grounding） → 需要 A/B 渲染图 + 语义目标/box/mask
+    └── 实验 #6b（InternNav / VL-LN）      → 需要 #6a 的 grounding pilot 和 InternNav 配置
 
-所有实验完成 → 实验 #6（综合讨论）
+所有实验完成 → 实验 #7（综合讨论）
 ```

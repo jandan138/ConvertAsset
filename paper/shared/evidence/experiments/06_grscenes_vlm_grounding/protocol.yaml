@@ -1,0 +1,49 @@
+schema_version: 1
+status: planned
+title: GRScenes VLM grounding under USD material conversion
+primary_dataset:
+  name: GRScenes-100
+  local_root: /cpfs/user/zhuzihou/assets/dedup_workspaces/test0_transitive_apply_parallel/dataset/GRScenes100
+  first_scene: /cpfs/user/zhuzihou/assets/dedup_workspaces/test0_transitive_apply_parallel/dataset/GRScenes100/home/MV7J6NIKTKJZ2AABAAAAADQ8_usd/layout.usd
+intervention:
+  original_condition: layout.usd
+  converted_condition: layout_noMDL.usd
+  command_template: ./scripts/isaac_python.sh ./main.py no-mdl {scene_layout_usd}
+external_protocols:
+  - name: Point-It-Out
+    role: Prompt and metric inspiration for precise VLM grounding.
+    url: https://research.nvidia.com/labs/cosmos-lab/pio/
+  - name: InternNav VL-LN
+    role: Downstream navigation and dialog-enabled embodied language extension.
+    url: https://internrobotics.github.io/user_guide/internnav/projects/benchmark.html
+task_families:
+  - id: s1_referred_object_localization
+    prompt_template: Point to the {attribute} {category}.
+    metrics:
+      - point_in_bbox_accuracy
+      - point_in_mask_accuracy
+      - original_vs_converted_delta
+  - id: s2_task_driven_grounding
+    prompt_template: Where should the robot interact to {action}?
+    metrics:
+      - part_region_hit_rate
+      - object_region_hit_rate
+      - original_vs_converted_delta
+  - id: s3_navigation_proxy
+    prompt_template: Which object should the robot move toward to {goal}?
+    metrics:
+      - target_region_accuracy
+      - answer_consistency
+      - original_vs_converted_delta
+minimum_pilot:
+  home_scenes: 5
+  commercial_scenes: 5
+  targets_per_scene: 8
+  views_per_target: 3
+  material_conditions:
+    - original
+    - converted
+reporting:
+  raw_dir: paper/shared/evidence/raw/grscene_vlm_grounding
+  predictions: paper/shared/evidence/raw/grscene_vlm_grounding/predictions.jsonl
+  score_summary: paper/shared/evidence/raw/grscene_vlm_grounding/score_summary.json
