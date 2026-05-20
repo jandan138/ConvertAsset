@@ -14,6 +14,7 @@ from typing import Iterable
 
 
 VIEW_NAMES = ("front", "left", "back", "right")
+DEFAULT_BACKGROUND_COLOR = (40, 40, 40)
 
 
 def plan_output_paths(
@@ -79,6 +80,72 @@ def _configure_mdl_search_paths(paths: Iterable[str]) -> None:
     print(f"[render-single] MDL search paths configured: {merged}")
 
 
+def _parse_rgb_color(value) -> tuple[int, int, int]:
+    if isinstance(value, str):
+        parts = [part.strip() for part in value.split(",")]
+    else:
+        parts = list(value)
+    if len(parts) != 3:
+        raise ValueError("background color must be R,G,B")
+    color = tuple(int(part) for part in parts)
+    if any(channel < 0 or channel > 255 for channel in color):
+        raise ValueError("background color channels must be in 0..255")
+    return color
+
+
+def _configure_background_zero_alpha(settings) -> None:
+    settings.set("/rtx/post/backgroundZeroAlpha/enabled", True)
+    settings.set("/rtx/post/backgroundZeroAlpha/backgroundComposite", False)
+    settings.set("/rtx/post/backgroundZeroAlpha/outputAlphaInComposite", True)
+    settings.set("/app/captureFrame/setAlphaTo1", False)
+
+
+def _find_builtin_hdri() -> str | None:
+    roots: list[Path] = []
+
+    def add_root(raw) -> None:
+        if not raw:
+            return
+        root = Path(raw).expanduser()
+        if root not in roots:
+            roots.append(root)
+
+    add_root(os.environ.get("ISAAC_SIM_ROOT"))
+
+    try:
+        import isaacsim  # type: ignore
+    except Exception:
+        pass
+    else:
+        package_file = getattr(isaacsim, "__file__", None)
+        if package_file:
+            package_dir = Path(package_file).resolve().parent
+            add_root(package_dir)
+            for parent in package_dir.parents:
+                add_root(parent)
+    add_root("/isaac-sim")
+
+    for root in roots:
+        for pattern in (
+            "extscache/omni.kit.widget.material_preview-*/data/photo_studio_01_4k.hdr",
+            "extscache/omni.kit.widget.material_preview-*/data/domeLight/photo_studio_01_4k.hdr",
+        ):
+            for candidate in sorted(root.glob(pattern)):
+                if candidate.exists():
+                    return str(candidate)
+        direct = root / "extscache" / "omni.kit.widget.material_preview-1.0.16" / "data" / "photo_studio_01_4k.hdr"
+        if direct.exists():
+            return str(direct)
+        direct_dome = root / "extscache" / "omni.kit.widget.material_preview-1.0.16" / "data" / "domeLight" / "photo_studio_01_4k.hdr"
+        if direct_dome.exists():
+            return str(direct_dome)
+        if root.name.startswith("omni.kit.widget.material_preview-"):
+            candidate = root / "data" / "photo_studio_01_4k.hdr"
+            if candidate.exists():
+                return str(candidate)
+    return None
+
+
 def _init_world():
     from omni.isaac.core import World  # type: ignore
 
@@ -100,12 +167,30 @@ def _init_camera(name: str, width: int, height: int, focal_mm: float):
 
 
 def _setup_environment(stage) -> None:
-    from pxr import UsdGeom, UsdLux  # type: ignore
+    from pxr import Gf, UsdGeom, UsdLux  # type: ignore
 
     UsdGeom.Xform.Define(stage, "/World")
     dome = UsdLux.DomeLight.Define(stage, "/World/default_dome_light")
-    dome.CreateIntensityAttr(1200.0)
+    dome.CreateTextureFormatAttr(UsdLux.Tokens.latlong)
+
+    hdri_path = _find_builtin_hdri()
+    if hdri_path:
+        dome.CreateIntensityAttr(1500.0)
+        dome.CreateTextureFileAttr(hdri_path)
+        dome.CreateColorAttr(Gf.Vec3f(1.0, 1.0, 1.0))
+        try:
+            import carb.settings  # type: ignore
+
+            _configure_background_zero_alpha(carb.settings.get_settings())
+        except Exception as exc:
+            print(f"[render-single] Warning configuring transparent background: {exc}")
+        print(f"[render-single] HDRI environment loaded: {hdri_path}")
+        return
+
+    dome.CreateIntensityAttr(1000.0)
+    dome.CreateColorAttr(Gf.Vec3f(0.18, 0.18, 0.18))
     dome.CreateExposureAttr(0.0)
+    print("[render-single] Built-in HDRI not found; using gray DomeLight fallback")
 
 
 def _range_to_bbox(range_obj):
@@ -135,68 +220,112 @@ def _mesh_point_bbox(prim):
     import numpy as np  # type: ignore
     from pxr import Usd, UsdGeom  # type: ignore
 
+    def is_default_visible(imageable, time) -> bool:
+        if imageable.ComputeEffectiveVisibility(time=time) == UsdGeom.Tokens.invisible:
+            return False
+        return imageable.ComputePurpose() == UsdGeom.Tokens.default_
+
+    def union_bbox(first, second):
+        if first is None:
+            return second
+        if second is None:
+            return first
+        return np.array(
+            [np.minimum(first[0], second[0]), np.maximum(first[1], second[1])],
+            dtype=float,
+        )
+
     time = Usd.TimeCode.Default()
     bbox = None
     for child in Usd.PrimRange(prim):
-        if not child.IsA(UsdGeom.Mesh):
-            continue
         imageable = UsdGeom.Imageable(child)
-        points = child.GetAttribute("points").Get()
-        if not points:
+        if not is_default_visible(imageable, time):
             continue
-        try:
-            points_np = np.array([point for point in points], dtype=float)
-        except (TypeError, ValueError):
-            continue
-        if points_np.size == 0 or points_np.ndim != 2 or points_np.shape[1] != 3:
-            continue
+        if child.IsA(UsdGeom.Mesh):
+            points = child.GetAttribute("points").Get()
+            if not points:
+                continue
+            try:
+                points_np = np.array([point for point in points], dtype=float)
+            except (TypeError, ValueError):
+                continue
+            if points_np.size == 0 or points_np.ndim != 2 or points_np.shape[1] != 3:
+                continue
 
-        transform = np.array(imageable.ComputeLocalToWorldTransform(time), dtype=float)
-        ones = np.ones((points_np.shape[0], 1), dtype=float)
-        points_h = np.hstack([points_np, ones])
-        points_world_h = np.dot(points_h, transform)
-        with np.errstate(divide="ignore", invalid="ignore"):
-            points_world = points_world_h[:, :3] / points_world_h[:, 3][:, None]
-        points_world = points_world[np.isfinite(points_world).all(axis=1)]
-        if points_world.size == 0:
-            continue
+            transform = np.array(imageable.ComputeLocalToWorldTransform(time), dtype=float)
+            ones = np.ones((points_np.shape[0], 1), dtype=float)
+            points_h = np.hstack([points_np, ones])
+            points_world_h = np.dot(points_h, transform)
+            with np.errstate(divide="ignore", invalid="ignore"):
+                points_world = points_world_h[:, :3] / points_world_h[:, 3][:, None]
+            points_world = points_world[np.isfinite(points_world).all(axis=1)]
+            if points_world.size == 0:
+                continue
 
-        child_bbox = np.array(
-            [np.min(points_world, axis=0), np.max(points_world, axis=0)],
-            dtype=float,
-        )
-        if bbox is None:
-            bbox = child_bbox
-        else:
-            bbox = np.array(
-                [np.minimum(bbox[0], child_bbox[0]), np.maximum(bbox[1], child_bbox[1])],
+            child_bbox = np.array(
+                [np.min(points_world, axis=0), np.max(points_world, axis=0)],
                 dtype=float,
             )
+            bbox = union_bbox(bbox, child_bbox)
+            continue
+
+        if child.IsA(UsdGeom.Boundable):
+            boundable = UsdGeom.Boundable(child)
+            bound_range = boundable.ComputeWorldBound(time, UsdGeom.Tokens.default_).ComputeAlignedBox()
+            child_bbox = _range_to_bbox(bound_range)
+            if _is_valid_bbox(child_bbox):
+                bbox = union_bbox(bbox, child_bbox)
     return bbox
 
 
-def _compute_bbox(prim):
+def _choose_bbox(
+    authored_bbox,
+    mesh_bbox,
+    *,
+    extent_fallback_ratio: float,
+    center_offset_threshold: float,
+):
     import numpy as np  # type: ignore
 
-    authored_bbox = _bbox_cache_bbox(prim)
-    mesh_bbox = _mesh_point_bbox(prim)
+    if not np.isfinite(extent_fallback_ratio) or extent_fallback_ratio <= 0:
+        raise ValueError("extent_fallback_ratio must be finite and positive")
+    if not np.isfinite(center_offset_threshold) or center_offset_threshold <= 0:
+        raise ValueError("center_offset_threshold must be finite and positive")
+
     if not _is_valid_bbox(mesh_bbox):
-        return authored_bbox
+        return authored_bbox, "authored_no_mesh_fallback"
     if not _is_valid_bbox(authored_bbox):
-        return mesh_bbox
+        return mesh_bbox, "mesh_invalid_authored"
 
     authored_diagonal = np.linalg.norm(authored_bbox[1] - authored_bbox[0])
     mesh_diagonal = np.linalg.norm(mesh_bbox[1] - mesh_bbox[0])
     if mesh_diagonal <= 0 or not np.isfinite(mesh_diagonal):
-        return authored_bbox
-    if authored_diagonal / mesh_diagonal >= 5.0:
-        return mesh_bbox
+        return authored_bbox, "authored_invalid_mesh_diagonal"
+    if authored_diagonal / mesh_diagonal >= extent_fallback_ratio:
+        return mesh_bbox, "mesh_extent_ratio"
 
     authored_center = (authored_bbox[0] + authored_bbox[1]) / 2.0
     mesh_center = (mesh_bbox[0] + mesh_bbox[1]) / 2.0
-    if np.linalg.norm(authored_center - mesh_center) / mesh_diagonal >= 1.0:
-        return mesh_bbox
-    return authored_bbox
+    center_offset_ratio = np.linalg.norm(authored_center - mesh_center) / mesh_diagonal
+    if center_offset_ratio >= center_offset_threshold:
+        return mesh_bbox, "mesh_center_offset"
+    return authored_bbox, "authored"
+
+
+def _compute_bbox(
+    prim,
+    *,
+    extent_fallback_ratio: float = 5.0,
+    center_offset_threshold: float = 1.0,
+):
+    authored_bbox = _bbox_cache_bbox(prim)
+    mesh_bbox = _mesh_point_bbox(prim)
+    return _choose_bbox(
+        authored_bbox,
+        mesh_bbox,
+        extent_fallback_ratio=extent_fallback_ratio,
+        center_offset_threshold=center_offset_threshold,
+    )
 
 
 def _set_camera_look_at(camera, target, *, distance: float, elevation: float, azimuth: float) -> None:
@@ -223,7 +352,7 @@ def _camera_rgba(camera):
     return None
 
 
-def _rgba_to_rgb(rgba):
+def _rgba_to_rgb(rgba, *, background_color=DEFAULT_BACKGROUND_COLOR):
     import numpy as np  # type: ignore
 
     arr = np.asarray(rgba)
@@ -234,7 +363,8 @@ def _rgba_to_rgb(rgba):
         arr = np.clip(arr, 0, 255).astype(np.uint8)
     if arr.ndim == 3 and arr.shape[2] == 4:
         alpha = arr[:, :, 3:4].astype(np.float32) / 255.0
-        background = np.full_like(arr[:, :, :3], 40, dtype=np.float32)
+        bg_color = np.array(_parse_rgb_color(background_color), dtype=np.float32).reshape(1, 1, 3)
+        background = np.broadcast_to(bg_color, arr[:, :, :3].shape)
         return (arr[:, :, :3].astype(np.float32) * alpha + background * (1.0 - alpha)).astype(np.uint8)
     if arr.ndim == 3 and arr.shape[2] >= 3:
         return arr[:, :, :3].astype(np.uint8)
@@ -274,6 +404,9 @@ def run_render_single(
     elevation: float = 35.0,
     azimuth_offset: float = 0.0,
     min_distance: float = 0.1,
+    background_color=DEFAULT_BACKGROUND_COLOR,
+    extent_fallback_ratio: float = 5.0,
+    center_offset_threshold: float = 1.0,
     renderer: str = "PathTracing",
     mdl_paths: Iterable[str] | None = None,
 ) -> int:
@@ -288,6 +421,20 @@ def run_render_single(
         return 2
     if int(width) <= 0 or int(height) <= 0 or int(sample_number) <= 0:
         print("[render-single] width, height, and views must be positive")
+        return 2
+    try:
+        background_rgb = _parse_rgb_color(background_color)
+        extent_fallback_ratio = float(extent_fallback_ratio)
+        center_offset_threshold = float(center_offset_threshold)
+        if (
+            not math.isfinite(extent_fallback_ratio)
+            or not math.isfinite(center_offset_threshold)
+            or extent_fallback_ratio <= 0
+            or center_offset_threshold <= 0
+        ):
+            raise ValueError("bbox fallback thresholds must be finite and positive")
+    except (TypeError, ValueError) as exc:
+        print("[render-single] Invalid render option:", exc)
         return 2
 
     planned_paths = plan_output_paths(
@@ -342,7 +489,11 @@ def run_render_single(
             print("[render-single] Failed to load USD prim:", usd)
             return 3
 
-        bbox = _compute_bbox(prim)
+        bbox, bbox_source = _compute_bbox(
+            prim,
+            extent_fallback_ratio=extent_fallback_ratio,
+            center_offset_threshold=center_offset_threshold,
+        )
         if not _is_valid_bbox(bbox):
             print("[render-single] Invalid bounding box:", usd)
             return 3
@@ -353,7 +504,10 @@ def run_render_single(
             float(min_distance),
             float(np.linalg.norm(bbox_max - bbox_min)),
         )
-        print(f"[render-single] center={center.tolist()} distance={distance:.4f}")
+        print(
+            f"[render-single] center={center.tolist()} distance={distance:.4f} "
+            f"bbox_source={bbox_source}"
+        )
 
         for idx in range(int(sample_number)):
             camera = _init_camera(f"render_camera_{idx}", int(width), int(height), float(focal_mm))
@@ -378,7 +532,7 @@ def run_render_single(
                 saved_count += 1
                 continue
             rgba = _camera_rgba(camera)
-            rgb = _rgba_to_rgb(rgba) if rgba is not None else None
+            rgb = _rgba_to_rgb(rgba, background_color=background_rgb) if rgba is not None else None
             if rgb is None:
                 print("[render-single] Empty frame:", path)
                 continue

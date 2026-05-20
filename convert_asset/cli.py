@@ -92,6 +92,9 @@ def main(argv: list[str] | None = None) -> int:
     p_render.add_argument("--elevation", type=float, default=35.0, help="Camera elevation in degrees (default 35)")
     p_render.add_argument("--azimuth-offset", type=float, default=0.0, help="Initial azimuth in degrees (default 0)")
     p_render.add_argument("--min-distance", type=float, default=0.1, help="Minimum camera distance (default 0.1)")
+    p_render.add_argument("--background-color", default="40,40,40", help="RGB background used for alpha composite, e.g. 40,40,40")
+    p_render.add_argument("--extent-fallback-ratio", type=float, default=5.0, help="Use mesh bbox when authored bbox diagonal is this many times larger (default 5)")
+    p_render.add_argument("--center-offset-threshold", type=float, default=1.0, help="Use mesh bbox when authored bbox center offset exceeds this mesh-diagonal ratio (default 1)")
     p_render.add_argument("--renderer", default="PathTracing", help="Isaac renderer name (default PathTracing)")
     p_render.add_argument(
         "--mdl-path",
@@ -404,6 +407,9 @@ def main(argv: list[str] | None = None) -> int:
                 elevation=float(args_ns.elevation),
                 azimuth_offset=float(args_ns.azimuth_offset),
                 min_distance=float(args_ns.min_distance),
+                background_color=str(args_ns.background_color),
+                extent_fallback_ratio=float(args_ns.extent_fallback_ratio),
+                center_offset_threshold=float(args_ns.center_offset_threshold),
                 renderer=str(args_ns.renderer),
                 mdl_paths=list(args_ns.mdl_paths or []),
             ))

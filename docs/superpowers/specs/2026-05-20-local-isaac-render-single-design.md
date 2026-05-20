@@ -17,7 +17,7 @@ Implement a narrow local renderer in ConvertAsset:
 1. Keep `convert_asset.cli` safe to import for render commands by removing top-level `pxr` imports from the CLI import path.
 2. Add a new `render-single` CLI command for one USD file and four fixed orbit views.
 3. Keep all `isaacsim`, `omni`, and `pxr` imports inside the runtime function after `SimulationApp` is created.
-4. Port the render-usd practices that are directly useful: `SimulationApp` first, headless PathTracing defaults, environment fallback lighting, bbox validation, camera orbit from object bbox, view-name output, overwrite/skip behavior, explicit cleanup before `kit.close()`.
+4. Port the render-usd practices that are directly useful: `SimulationApp` first, headless PathTracing defaults, HDRI environment lighting with transparent-background alpha composite, bbox validation and mesh/boundable bbox fallback, camera orbit from object bbox, view-name output, overwrite/skip behavior, explicit cleanup before `kit.close()`.
 5. Leave ACL `render_manifest.json` execution as the next layer. It should call the same local runtime after the single-file path is verified.
 
 ## Non-Goals
@@ -83,3 +83,9 @@ Runtime verification uses local Isaac Sim:
 ```
 
 The smoke pass requires four nonempty RGB PNG files.
+
+Follow-up refinement from render-usd review:
+
+- default background composite should be `RGB(40,40,40)` after RTX `backgroundZeroAlpha`;
+- bbox fallback should cover authored extent inflation and authored/mesh center offset;
+- mesh fallback should ignore invisible and non-default-purpose geometry, and include visible default non-mesh `UsdGeom.Boundable` prims.
