@@ -4,23 +4,25 @@
 
 Restored a clean sibling copy of the GRScenes test0 parallel dataset from the
 existing Alibaba OSS release prefix after a local no-MDL experiment wrote
-`*_noMDL.usd` sidecar files into the working dataset tree.
+`*_noMDL.usd` sidecar files into the working dataset tree, then promoted the
+clean copy back to the canonical `dataset/` path.
 
-The original working tree was not overwritten:
+Current clean reference tree:
 
 ```text
 /cpfs/user/zhuzihou/assets/dedup_workspaces/test0_transitive_apply_parallel/dataset
 ```
 
-The restored clean tree is:
+Current no-MDL experiment working tree:
 
 ```text
-/cpfs/user/zhuzihou/assets/dedup_workspaces/test0_transitive_apply_parallel/dataset_oss_restored_20260520
+/cpfs/user/zhuzihou/assets/dedup_workspaces/test0_transitive_apply_parallel/dataset_no_mdl_work_20260520
 ```
 
-The polluted working tree remains available for experiments that intentionally
-use generated no-MDL outputs. Use the restored tree as the clean reference when
-the experiment needs the OSS-published dataset state.
+The initial restore target was
+`dataset_oss_restored_20260520`; after verification it was renamed to
+`dataset/`. The polluted working tree remains available for experiments that
+intentionally use generated no-MDL outputs.
 
 ## Source
 
@@ -70,6 +72,14 @@ env -u HTTP_PROXY -u HTTPS_PROXY -u http_proxy -u https_proxy -u ALL_PROXY -u al
   --log-level INFO
 ```
 
+After verification, the directories were renamed in the same parent directory:
+
+```bash
+BASE='/cpfs/user/zhuzihou/assets/dedup_workspaces/test0_transitive_apply_parallel'
+mv "$BASE/dataset" "$BASE/dataset_no_mdl_work_20260520"
+mv "$BASE/dataset_oss_restored_20260520" "$BASE/dataset"
+```
+
 ## Verification
 
 Remote preflight:
@@ -103,6 +113,17 @@ candidate_count=452
 restored_candidate_exists=0
 ```
 
+Post-rename checks:
+
+```text
+clean=/cpfs/user/zhuzihou/assets/dedup_workspaces/test0_transitive_apply_parallel/dataset
+work=/cpfs/user/zhuzihou/assets/dedup_workspaces/test0_transitive_apply_parallel/dataset_no_mdl_work_20260520
+clean_candidate_exists=0
+work_candidate_exists=452
+clean_sample_files=layout.usd
+work_sample_files=layout.usd, layout_noMDL.usd, layout_noMDL_audit.json, layout_noMDL_summary.txt
+```
+
 Full remote-to-local check:
 
 ```text
@@ -123,6 +144,7 @@ restore record. The known sidecar candidates are still tracked at:
 
 Future ConvertAsset experiments should prefer one of these two modes:
 
-- Read-only experiments against `dataset_oss_restored_20260520`.
+- Read-only experiments against the canonical clean `dataset/`.
 - Write-producing conversion experiments against an explicit scratch/output
-  directory, never against the clean reference tree.
+  directory or `dataset_no_mdl_work_20260520/`, never against the clean
+  reference tree.
