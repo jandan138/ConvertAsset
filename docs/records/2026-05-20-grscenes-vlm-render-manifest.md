@@ -78,7 +78,8 @@ python -m py_compile paper/shared/evidence/experiments/06_grscenes_vlm_grounding
 
 ## Open Work
 
-- Materialize scratch copies of selected GRScenes scenes and run no-MDL conversion there.
+- Materialize scratch copies of selected GRScenes scenes with
+  `materialize_scratch.py`, then run no-MDL conversion on scratch USDs.
 - Add the runner that authors camera USDs and renders the planned original/no-MDL image pairs.
 - Project world bboxes or masks into image-space boxes for VLM scoring.
 - Use the clean-room visual reviewer on render samples before treating image outputs as paper evidence.

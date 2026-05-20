@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "status": "planned_scratch_materialization",
+  "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/materialize_scratch.py",
+  "generated_at_utc": "2026-05-20T10:53:45.724360Z",
+  "source_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+  "scratch_root": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520",
+  "summary": {
+    "scene_count": 1,
+    "resource_tree_count": 2,
+    "action_count": 3,
+    "copy_mode": "hardlink",
+    "conversion_command_count": 1,
+    "dry_run": false,
+    "planned_count": 0,
+    "created_count": 3,
+    "exists_count": 0
+  },
+  "actions": [
+    {
+      "kind": "resource_tree",
+      "resource_name": "Materials",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+      "copy_mode": "hardlink"
+    },
+    {
+      "kind": "resource_tree",
+      "resource_name": "models",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models",
+      "copy_mode": "hardlink"
+    },
+    {
+      "kind": "scene_dir",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "source_scene_split": "home_scenes",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "copy_mode": "hardlink"
+    }
+  ],
+  "conversion_commands": [
+    "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw.usd"
+  ],
+  "dry_run": false,
+  "results": [
+    {
+      "kind": "resource_tree",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/Materials",
+      "copy_mode": "hardlink",
+      "status": "created"
+    },
+    {
+      "kind": "resource_tree",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/models",
+      "copy_mode": "hardlink",
+      "status": "created"
+    },
+    {
+      "kind": "scene_dir",
+      "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "dst": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "copy_mode": "hardlink",
+      "status": "created"
+    }
+  ]
+}

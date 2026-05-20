@@ -97,6 +97,65 @@ This manifest is not a VLM result. It fixes provenance and selection for the fir
 
 The current no-MDL CLI writes `*_noMDL.usd` beside the input USD. Until an explicit `--out-root` path exists, never run it directly on `/cpfs/user/zhuzihou/assets/zzh-grscenes`; copy selected scenes into the scratch tree first.
 
+## Scratch Materialization
+
+Before running no-MDL conversion, materialize the selected benchmark scenes into
+the scratch tree:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/materialize_scratch.py \
+  --limit-scenes 1 \
+  --dry-run
+```
+
+Default output:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/scratch_materialization_report.json
+```
+
+The materializer reads `source_manifest.json`, validates that the scratch root is
+outside the manifest-declared benchmark source root, and mirrors each selected
+scene directory plus the split-level `models/` and `Materials/` resource trees.
+It uses hardlinks by default so the first pilot does not duplicate the shared
+material tree. Hardlinked files are not independent physical copies: this mode
+assumes the no-MDL pipeline writes new `*_noMDL.usd` sidecars and does not edit
+existing input USD/MDL/texture files in place.
+
+Storage guardrail: keep this command to `--limit-scenes 1` for smoke
+preparation. A completed one-scene scratch tree exposes about 104G of
+hardlinked data through `du` and creates 27,819 internal symlinks plus 52,601
+directories. Do not scale this split-level mirror approach or use
+`--copy-mode copy` until the experiment has a target/reference-closure
+materializer.
+
+Do not replace the scratch resource roots with symlinks to the source tree:
+no-MDL sidecars must be created in scratch, never inside the immutable benchmark
+source. Asset-internal GRScenes relative symlinks under `models/` are different:
+the materializer preserves them and validates that their scratch-side targets
+resolve inside the scratch root.
+
+To materialize one scene after reviewing the dry-run report:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/materialize_scratch.py \
+  --limit-scenes 1
+```
+
+Then run conversion on the scratch input USD, not on `source_usd`:
+
+```bash
+./scripts/isaac_python.sh ./main.py no-mdl \
+  /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/<scene_id>/start_result_raw.usd
+```
+
+After conversion, regenerate the render manifest with the converted-input gate:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/prepare_render_manifest.py \
+  --require-converted
+```
+
 ## Target Manifest
 
 Before rendering, resolve the selected episode targets to USD prims and world-space bboxes:
