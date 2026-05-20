@@ -1,0 +1,3168 @@
+{
+  "schema_version": 1,
+  "status": "planned_source_manifest",
+  "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/prepare_source_manifest.py",
+  "generator_git_commit": "d0f15dd21c1c9349dffe8a721a9b7b2eb02ef10e",
+  "generated_at_utc": "2026-05-20T05:19:51.925265Z",
+  "protocol_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/protocol.yaml",
+  "protocol_hash_sha256": "6ad7051c06e37e2f51c6674769e275d0062450dee79b1651fb7421e73fb6f335",
+  "dataset_roles": {
+    "benchmark_source_dataset": {
+      "local_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "name": "GRScenes-100",
+      "url": "https://huggingface.co/datasets/InternRobotics/GRScenes",
+      "license": "CC BY-NC-SA 4.0",
+      "mutation_policy": "never_in_place"
+    },
+    "intervention_outputs": {
+      "scratch_root": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520",
+      "retention_policy": "generated_outputs_may_be_deleted_and_regenerated"
+    }
+  },
+  "selection": {
+    "source_usd_variant": "start_result_raw.usd",
+    "episode_home_scenes": 5,
+    "metadata_commercial_scenes": 5,
+    "targets_per_scene": 8,
+    "episode_backed_home_pool": 30,
+    "home_scene_pool": 69,
+    "commercial_scene_pool": 30,
+    "selection_policy": "deterministic_sorted_scene_ids_then_deterministic_sorted_episode_records"
+  },
+  "paper_claim_gate": {
+    "episode_backed_results_require_paper_claim_eligible_true": true,
+    "commercial_stress_results_are_not_episode_backed": true,
+    "source_root_required": "/cpfs/user/zhuzihou/assets/zzh-grscenes"
+  },
+  "scenes": [
+    {
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "source_scene_split": "home_scenes",
+      "scene_dir": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "source_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw.usd",
+      "source_usd_hash_sha256": "eab3d3d0b5f118c1caeff043faeba7c9c787aa4631230a2083628b2da48f5255",
+      "source_usd_size_bytes": 1124196,
+      "source_usd_mtime_ns": 1760161437535589454,
+      "source_usd_variant": "start_result_raw.usd",
+      "scratch_scene_root": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "converted_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw_noMDL.usd",
+      "conversion_command": "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw.usd",
+      "material_conditions": [
+        "original",
+        "converted"
+      ],
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "episode_sources": [
+        "mm_episodes.json",
+        "sn_episodes.json"
+      ],
+      "episode_counts": {
+        "mm_episodes.json": 19,
+        "sn_episodes.json": 10
+      },
+      "metadata_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/metadata.json",
+      "metadata_hash_sha256": "bcdc6bdf61a0fbd1c0fd70858155aa98b9a3decdd665e577e50efcde4274a17c",
+      "interactive_obj_list_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/interactive_obj_list.json",
+      "interactive_obj_list_hash_sha256": "b29081d3e7d3487f29dc6f4f6a720382e33f665d28e4a9f2818632d8d2c39c00",
+      "filesystem_notes": {
+        "materials_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/Materials",
+        "models_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/models"
+      }
+    },
+    {
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "source_scene_split": "home_scenes",
+      "scene_dir": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "source_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw.usd",
+      "source_usd_hash_sha256": "f4889e17c2b08eb564bc0fc1bcde86b04d3909fd20b1ba85157fc42a6e6efcdc",
+      "source_usd_size_bytes": 1021394,
+      "source_usd_mtime_ns": 1760161431658618146,
+      "source_usd_variant": "start_result_raw.usd",
+      "scratch_scene_root": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "converted_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw_noMDL.usd",
+      "conversion_command": "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw.usd",
+      "material_conditions": [
+        "original",
+        "converted"
+      ],
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "episode_sources": [
+        "mm_episodes.json",
+        "sn_episodes.json"
+      ],
+      "episode_counts": {
+        "mm_episodes.json": 6,
+        "sn_episodes.json": 10
+      },
+      "metadata_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/metadata.json",
+      "metadata_hash_sha256": "d3e7c4dca2eb9e3512cbc75dab03e90a5a749f8721d1f347f31925963c4729c8",
+      "interactive_obj_list_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/interactive_obj_list.json",
+      "interactive_obj_list_hash_sha256": "bba1ba831c8dd1941226ec14f4ddcfd5b42fa50f5a2ec5307eb1b8bcf57af730",
+      "filesystem_notes": {
+        "materials_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/Materials",
+        "models_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/models"
+      }
+    },
+    {
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "source_scene_split": "home_scenes",
+      "scene_dir": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "source_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+      "source_usd_hash_sha256": "4e17efa37669c939b5896c4da00cb51b82caaa1f03e6a6a3ff2c2cbf2ec1793c",
+      "source_usd_size_bytes": 1013964,
+      "source_usd_mtime_ns": 1760161435806369855,
+      "source_usd_variant": "start_result_raw.usd",
+      "scratch_scene_root": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "converted_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw_noMDL.usd",
+      "conversion_command": "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+      "material_conditions": [
+        "original",
+        "converted"
+      ],
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "episode_sources": [
+        "mm_episodes.json",
+        "sn_episodes.json"
+      ],
+      "episode_counts": {
+        "mm_episodes.json": 20,
+        "sn_episodes.json": 10
+      },
+      "metadata_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/metadata.json",
+      "metadata_hash_sha256": "4c1f56861b773d419a4671bef023e4c8fc0316312a549eb12727e5b23dab97d7",
+      "interactive_obj_list_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/interactive_obj_list.json",
+      "interactive_obj_list_hash_sha256": "d29f4f428f551389f7a2f9b34b1fa995e1a2fde9f3a9aedc00d3760cf0c0bbed",
+      "filesystem_notes": {
+        "materials_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/Materials",
+        "models_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/models"
+      }
+    },
+    {
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source_scene_split": "home_scenes",
+      "scene_dir": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
+      "source_usd_hash_sha256": "73107b1887d041b9741445426c5817e99c605ad555ed75406a380be5c0eddada",
+      "source_usd_size_bytes": 1012156,
+      "source_usd_mtime_ns": 1760161440312189678,
+      "source_usd_variant": "start_result_raw.usd",
+      "scratch_scene_root": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "converted_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw_noMDL.usd",
+      "conversion_command": "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
+      "material_conditions": [
+        "original",
+        "converted"
+      ],
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "episode_sources": [
+        "mm_episodes.json",
+        "sn_episodes.json"
+      ],
+      "episode_counts": {
+        "mm_episodes.json": 4,
+        "sn_episodes.json": 10
+      },
+      "metadata_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/metadata.json",
+      "metadata_hash_sha256": "d81c6212e793946c74c3d964d6006c1985ef75e7054f64baf318d2114ac175a7",
+      "interactive_obj_list_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/interactive_obj_list.json",
+      "interactive_obj_list_hash_sha256": "c58065cc88431cc7a6aebfe6e112e4327de33e9a9a1275271765b6b879cff121",
+      "filesystem_notes": {
+        "materials_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/Materials",
+        "models_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/models"
+      }
+    },
+    {
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "source_scene_split": "home_scenes",
+      "scene_dir": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "source_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
+      "source_usd_hash_sha256": "6d4dc5087994a4d686ea2fa9659ae9d102ac9d5d794befbd14dee4da4080f30b",
+      "source_usd_size_bytes": 1024042,
+      "source_usd_mtime_ns": 1760161437124319898,
+      "source_usd_variant": "start_result_raw.usd",
+      "scratch_scene_root": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "converted_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw_noMDL.usd",
+      "conversion_command": "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
+      "material_conditions": [
+        "original",
+        "converted"
+      ],
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "episode_sources": [
+        "mm_episodes.json",
+        "sn_episodes.json"
+      ],
+      "episode_counts": {
+        "mm_episodes.json": 10,
+        "sn_episodes.json": 10
+      },
+      "metadata_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/metadata.json",
+      "metadata_hash_sha256": "8e75a0b11ce1a9b5ab983c3e4282a26f5bcd9e2b32cb5715a7e72843cd74b520",
+      "interactive_obj_list_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/interactive_obj_list.json",
+      "interactive_obj_list_hash_sha256": "c4916343e809a41c9a42ef17369da4fadbc94a8125c232329fc27ce4681db23c",
+      "filesystem_notes": {
+        "materials_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/Materials",
+        "models_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/models"
+      }
+    },
+    {
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_id": "MV4AFHQKTKJZ2AABAAAAADQ8_usd",
+      "source_scene_split": "commercial_scenes",
+      "scene_dir": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd",
+      "source_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+      "source_usd_hash_sha256": "bf757c14a9ec142ebd8b775238f2f517915b000792547f76bef55d92ced11204",
+      "source_usd_size_bytes": 1124418,
+      "source_usd_mtime_ns": 1760162929204241502,
+      "source_usd_variant": "start_result_raw.usd",
+      "scratch_scene_root": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd",
+      "converted_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd/start_result_raw_noMDL.usd",
+      "conversion_command": "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+      "material_conditions": [
+        "original",
+        "converted"
+      ],
+      "pilot_role": "metadata_driven_commercial_stress",
+      "paper_claim_eligible": false,
+      "episode_sources": [],
+      "episode_counts": {},
+      "metadata_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd/metadata.json",
+      "metadata_hash_sha256": "8cc47425ca5f24acbc831fb0411f6cc322da2bd999b17763c80a2098ecdd59b3",
+      "interactive_obj_list_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd/interactive_obj_list.json",
+      "interactive_obj_list_hash_sha256": "8091b765d7a01fc1ed9d1a92dc83fd1a36839c61fa82650e07605ec5f7ce8c8a",
+      "filesystem_notes": {
+        "materials_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd/Materials",
+        "models_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd/models"
+      }
+    },
+    {
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_id": "MV4AFHQKTKJZ2AABAAAAADY8_usd",
+      "source_scene_split": "commercial_scenes",
+      "scene_dir": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd",
+      "source_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
+      "source_usd_hash_sha256": "8557d7d4ac77ad011893cee90d89044889a8e135a5490132da16eaa1fdc3eed6",
+      "source_usd_size_bytes": 2692121,
+      "source_usd_mtime_ns": 1760162928851700221,
+      "source_usd_variant": "start_result_raw.usd",
+      "scratch_scene_root": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd",
+      "converted_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd/start_result_raw_noMDL.usd",
+      "conversion_command": "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
+      "material_conditions": [
+        "original",
+        "converted"
+      ],
+      "pilot_role": "metadata_driven_commercial_stress",
+      "paper_claim_eligible": false,
+      "episode_sources": [],
+      "episode_counts": {},
+      "metadata_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd/metadata.json",
+      "metadata_hash_sha256": "fa9ac57652b90b7af5fc278602e01282e6f62c2e14ff8cdbbfbdde8a79ce0240",
+      "interactive_obj_list_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd/interactive_obj_list.json",
+      "interactive_obj_list_hash_sha256": "51a64fac5673af45214a2606fececdd1417f8ccadf1ecdfb857a1a8daf9ea602",
+      "filesystem_notes": {
+        "materials_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd/Materials",
+        "models_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd/models"
+      }
+    },
+    {
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_id": "MV4AFHQKTKJZ2AABAAAAAEA8_usd",
+      "source_scene_split": "commercial_scenes",
+      "scene_dir": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd",
+      "source_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
+      "source_usd_hash_sha256": "e81e5a300f94fc7222650aad8acc04f7559f7244acfbd62e08e743028b0fe353",
+      "source_usd_size_bytes": 1393946,
+      "source_usd_mtime_ns": 1760162929644253944,
+      "source_usd_variant": "start_result_raw.usd",
+      "scratch_scene_root": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd",
+      "converted_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd/start_result_raw_noMDL.usd",
+      "conversion_command": "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
+      "material_conditions": [
+        "original",
+        "converted"
+      ],
+      "pilot_role": "metadata_driven_commercial_stress",
+      "paper_claim_eligible": false,
+      "episode_sources": [],
+      "episode_counts": {},
+      "metadata_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd/metadata.json",
+      "metadata_hash_sha256": "1a1e60050fa48a6f8da845cab00fa06f8459416df2fe9c610bd284f8d38b7377",
+      "interactive_obj_list_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd/interactive_obj_list.json",
+      "interactive_obj_list_hash_sha256": "a693a844ad7d6cf0137f1fc0f3f362aa5f63ea2cffe765e3ab3e691919bd8cf5",
+      "filesystem_notes": {
+        "materials_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd/Materials",
+        "models_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd/models"
+      }
+    },
+    {
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_id": "MV4AFHQKTKJZ2AABAAAAAEI8_usd",
+      "source_scene_split": "commercial_scenes",
+      "scene_dir": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEI8_usd",
+      "source_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEI8_usd/start_result_raw.usd",
+      "source_usd_hash_sha256": "cdfe5a34e95424cac85ccfc8d9b5b23fc90f6b1a760543682f77d9c276c257ed",
+      "source_usd_size_bytes": 1714545,
+      "source_usd_mtime_ns": 1760162928282425763,
+      "source_usd_variant": "start_result_raw.usd",
+      "scratch_scene_root": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEI8_usd",
+      "converted_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEI8_usd/start_result_raw_noMDL.usd",
+      "conversion_command": "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEI8_usd/start_result_raw.usd",
+      "material_conditions": [
+        "original",
+        "converted"
+      ],
+      "pilot_role": "metadata_driven_commercial_stress",
+      "paper_claim_eligible": false,
+      "episode_sources": [],
+      "episode_counts": {},
+      "metadata_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEI8_usd/metadata.json",
+      "metadata_hash_sha256": "ae025ee446f2c5259375d0068cb1ac9e093fc98b6e791b1a7bec9a91eff7989e",
+      "interactive_obj_list_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEI8_usd/interactive_obj_list.json",
+      "interactive_obj_list_hash_sha256": "6791be88a3c462a1c78e4854b208d8971d578174d7c248a585aedf176530b43e",
+      "filesystem_notes": {
+        "materials_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEI8_usd/Materials",
+        "models_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEI8_usd/models"
+      }
+    },
+    {
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_id": "MV5M25QKTKJZ2AABAAAAAAA8_usd",
+      "source_scene_split": "commercial_scenes",
+      "scene_dir": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAA8_usd",
+      "source_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAA8_usd/start_result_raw.usd",
+      "source_usd_hash_sha256": "fad6527b2eef9cce53947f12dbd587c58ee9349d0b6bec514f402a4a7557e8d7",
+      "source_usd_size_bytes": 1086403,
+      "source_usd_mtime_ns": 1760162929324750813,
+      "source_usd_variant": "start_result_raw.usd",
+      "scratch_scene_root": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAA8_usd",
+      "converted_usd": "/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAA8_usd/start_result_raw_noMDL.usd",
+      "conversion_command": "./scripts/isaac_python.sh ./main.py no-mdl /cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAA8_usd/start_result_raw.usd",
+      "material_conditions": [
+        "original",
+        "converted"
+      ],
+      "pilot_role": "metadata_driven_commercial_stress",
+      "paper_claim_eligible": false,
+      "episode_sources": [],
+      "episode_counts": {},
+      "metadata_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAA8_usd/metadata.json",
+      "metadata_hash_sha256": "baae5e04b36979d1c0ab93dc9104ca5d8ee687a14ef8096d8cf985815721bdf3",
+      "interactive_obj_list_json": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAA8_usd/interactive_obj_list.json",
+      "interactive_obj_list_hash_sha256": "c8e1c64c66332a4347421fe0be4c0369582c232cc8cdeb40d99961f9d3584221",
+      "filesystem_notes": {
+        "materials_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAA8_usd/Materials",
+        "models_pointer_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAA8_usd/models"
+      }
+    }
+  ],
+  "episode_records": [
+    {
+      "stable_episode_id": "787f1d6be741da924bca0aee",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "object_instance_id": "bottle/model_1f3a3f56a624361c98fc37e723ef2b52_0",
+      "object_category": "bottle",
+      "model_hash": "1f3a3f56a624361c98fc37e723ef2b52",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADA8_usd/bottle~1model_1f3a3f56a624361c98fc37e723ef2b52_0/0",
+      "episode_hash_sha256": "a2f867dbccf1e612ecaddaa6a7969cde6de6f6e3bfdb69960320bbc05df9b795",
+      "instruction": "Pick the bottle from the bedroom and place it on the desk near the bed.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "desk/model_dc740e0ecd977814bd93ce2c0a2c0b7f_0",
+            "category": "desk",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "bed/model_a9459386053d1999873e9e781307bc13_0",
+            "category": "bed",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is bottle(This object is a bottle. This object is in bedroom.)\". The target location is on a desk, and nearby a bed.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "bottle/SM_07_6PYGE6RVAV6OSPTUKU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/bottle/1f3a3f56a624361c98fc37e723ef2b52/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "339145f678e866b8acc2c583",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "object_instance_id": "bottle/model_1f3a3f56a624361c98fc37e723ef2b52_0",
+      "object_category": "bottle",
+      "model_hash": "1f3a3f56a624361c98fc37e723ef2b52",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADA8_usd/bottle~1model_1f3a3f56a624361c98fc37e723ef2b52_0/1",
+      "episode_hash_sha256": "f3b1954487cad524d8cbb215473a595e46d8b82c83fe19c09b3f31ade3b1fb5b",
+      "instruction": "Pick the bottle in the bedroom and place it on the bed near the cabinet and the tvstand, with a curtain nearby.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "bed/model_a9459386053d1999873e9e781307bc13_0",
+            "category": "bed",
+            "room": null,
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "curtain"
+              ]
+            ]
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "cabinet/model_3802c64f1d64d6b6e70831b2be69a863_0",
+            "category": "cabinet",
+            "room": "3/bedroom",
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "tvstand"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is bottle(This object is a bottle. This object is in bedroom.)\". The target location is on a bed( There is/are a curtain located near the object.), and nearby a cabinet(This object is in bedroom. There is/are a tvstand located near the object.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "bottle/SM_07_6PYGE6RVAV6OSPTUKU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/bottle/1f3a3f56a624361c98fc37e723ef2b52/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "42804966890dd2039e1469a5",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "object_instance_id": "cup/model_7a48f717b383883432c89a34f6b25f2f_0",
+      "object_category": "cup",
+      "model_hash": "7a48f717b383883432c89a34f6b25f2f",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADA8_usd/cup~1model_7a48f717b383883432c89a34f6b25f2f_0/0",
+      "episode_hash_sha256": "f9fc5832348e2e04207963b7661930b4f0c8e021085b40f89d1e8e85d787a4d2",
+      "instruction": "Pick the cup located near a cabinet and a chair, and place it on the chair near a bowl and a plate.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "chair/model_b3ad650be1eac49c2849109d2b90c147_0",
+            "category": "chair",
+            "room": null,
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "bowl"
+              ]
+            ]
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "plate/model_3346a827d13afadc7a1b4b712cce6b30_0",
+            "category": "plate",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is cup(This object is a cup.  There is/are a cabinet located near the cup.  There is/are a chair located near the cup.)\". The target location is on a chair( There is/are a bowl located near the object.), and nearby a plate.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "cup/SM_20_SIXLMRGO7PRR6IRELU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/cup/7a48f717b383883432c89a34f6b25f2f/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "6f5cfd76e5724b9e2fe96859",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "object_instance_id": "cup/model_7a48f717b383883432c89a34f6b25f2f_0",
+      "object_category": "cup",
+      "model_hash": "7a48f717b383883432c89a34f6b25f2f",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADA8_usd/cup~1model_7a48f717b383883432c89a34f6b25f2f_0/1",
+      "episode_hash_sha256": "66ab2259f27b006033a18294d12c916b1c97d4a787c03e4753ef77804c83300a",
+      "instruction": "Pick the cup located near the cabinet and chair, and place it near the tvstand in the bedroom, which is near the door and the curtain with a hem.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "tvstand/model_6b9d96dd8c61f14f3a4a0fa5914dae82_0",
+            "category": "tvstand",
+            "room": "3/bedroom",
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "door"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "curtain/model_419a2f220952ca772f2fbf99e0e1295f_0",
+            "category": "curtain",
+            "room": null,
+            "appearance": [
+              "The bottom edge of the curtain is finished with a hem."
+            ],
+            "relation": [
+              [
+                true,
+                "near",
+                "tvstand"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is cup(This object is a cup.  There is/are a cabinet located near the cup.  There is/are a chair located near the cup.)\". The target location is nearby a tvstand(This object is in bedroom. There is/are a door located near the object.), and nearby a curtain( There is/are a tvstand located near the object.The bottom edge of the curtain is finished with a hem.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "cup/SM_20_SIXLMRGO7PRR6IRELU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/cup/7a48f717b383883432c89a34f6b25f2f/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "04517b0612f9750246023d5f",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "object_instance_id": "pillow/model_fd19fbe9bc625e175917e78b747bd35b_0",
+      "object_category": "pillow",
+      "model_hash": "fd19fbe9bc625e175917e78b747bd35b",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADA8_usd/pillow~1model_fd19fbe9bc625e175917e78b747bd35b_0/0",
+      "episode_hash_sha256": "fbb87dea65878802788d3a5c5480a585709ba551b5d6635adf92d907b8f264c2",
+      "instruction": "Pick the pillow in the bedroom, which is near some clothes and has nothing below it, and place it on the chair in the dining room, which is nearby a plate.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "chair/model_4e75fd81e6a7bb9af0b6380fff35df79_0",
+            "category": "chair",
+            "room": "6/dinning room",
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "plate/model_0e528234d39bf291e772ec669b00e4f8_0",
+            "category": "plate",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is pillow(This object is a pillow. This object is in bedroom.  There is/are a clothes located near the pillow. nothing is below the pillow.)\". The target location is on a chair(This object is in dinning room.), and nearby a plate.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "pillow/SM_06_6FMSZHETD5TGGPTUK4888888",
+        "pillow/SM_07_6K7PH2RVAVUHCPTUKA888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/pillow/fd19fbe9bc625e175917e78b747bd35b/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "67ff5580b3fb494bfa321a00",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "object_instance_id": "pillow/model_fd19fbe9bc625e175917e78b747bd35b_0",
+      "object_category": "pillow",
+      "model_hash": "fd19fbe9bc625e175917e78b747bd35b",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADA8_usd/pillow~1model_fd19fbe9bc625e175917e78b747bd35b_0/1",
+      "episode_hash_sha256": "8c27242294bd3e6b06e86008b2ac1fbde814f1d77843109ef57a04541618c7ef",
+      "instruction": "Pick the pillow in the bedroom, which has clothes nearby, and place it near the bowl, which is located under the target object.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "bowl/model_2c7d0b0c24db25dddca8b95a3eed45db_0",
+            "category": "bowl",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "bowl/model_bb61aa39ac80b703a1b54bfdff12561f_0",
+            "category": "bowl",
+            "room": null,
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "under",
+                "bowl"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is pillow(This object is a pillow. This object is in bedroom.  There is/are a clothes located near the pillow. nothing is below the pillow.)\". The target location is nearby a bowl, and nearby a bowl( There is/are a bowl located under the object.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "pillow/SM_06_6FMSZHETD5TGGPTUK4888888",
+        "pillow/SM_07_6K7PH2RVAVUHCPTUKA888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/pillow/fd19fbe9bc625e175917e78b747bd35b/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "942202964090b4f152f5e6f1",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "object_instance_id": "plate/model_9536648c50ee1bb44077edfc1c2c9b6c_0",
+      "object_category": "plate",
+      "model_hash": "9536648c50ee1bb44077edfc1c2c9b6c",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADA8_usd/plate~1model_9536648c50ee1bb44077edfc1c2c9b6c_0/0",
+      "episode_hash_sha256": "febb825a4ebf5a03d9b9cfbe38e096a19aba80c08404890c62b1803d26b241be",
+      "instruction": "Pick the plate located near the cabinet and dishwasher, and place it on the microwave near the dishwasher.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "microwave/model_8d35b10c3b1880b405e4a4ecd83edc7f_0",
+            "category": "microwave",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "dishwasher/model_d887aa45d2bf3c36b5797da16bf28a0d_0",
+            "category": "dishwasher",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is plate(This object is a plate.  There is/are a cabinet located near the plate.  There is/are a dishwasher located near the plate.)\". The target location is on a microwave, and nearby a dishwasher.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "plate/SM_27_6KZMCJBVAVGTEPTUKU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/plate/9536648c50ee1bb44077edfc1c2c9b6c/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "a9af0576855c9dc058ca8af5",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "object_instance_id": "plate/model_9536648c50ee1bb44077edfc1c2c9b6c_0",
+      "object_category": "plate",
+      "model_hash": "9536648c50ee1bb44077edfc1c2c9b6c",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADA8_usd/plate~1model_9536648c50ee1bb44077edfc1c2c9b6c_0/1",
+      "episode_hash_sha256": "98e48673ac3a098898a5abf37f6169b182c08dd2fa697d0fec7a89b8e875d632",
+      "instruction": "Pick up the plate located near the cabinet and dishwasher, and place it nearby the laptop and shelf.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "laptop/model_8bb5be69d40b9962e2eb20a89b331f73_0",
+            "category": "laptop",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "shelf/model_45a782daf5181ef2fc9420ae20e60f3c_0",
+            "category": "shelf",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is plate(This object is a plate.  There is/are a cabinet located near the plate.  There is/are a dishwasher located near the plate.)\". The target location is nearby a laptop, and nearby a shelf.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "plate/SM_27_6KZMCJBVAVGTEPTUKU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/plate/9536648c50ee1bb44077edfc1c2c9b6c/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "b2592453400adcf11a4dfc38",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "object_instance_id": "pan/model_d3500be84c8c7216739f690509680477_0",
+      "object_category": "pan",
+      "model_hash": "d3500be84c8c7216739f690509680477",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADI8_usd/pan~1model_d3500be84c8c7216739f690509680477_0/0",
+      "episode_hash_sha256": "6c6a77e7eae06819488725017de52081c9520444d11bb96ad74d90943d0c281e",
+      "instruction": "Pick the pan and place it on the shoecabinet in the corridor, nearby a cabinet.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "shoecabinet/model_ed97f05f54b60263ed7d252996e6d19c_0",
+            "category": "shoecabinet",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "cabinet/model_699ee472b56c3ee2d55dd742e0e74c8d_0",
+            "category": "cabinet",
+            "room": "8/corridor",
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "above",
+                "nothing"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is pan(This object is a pan.)\". The target location is on a shoecabinet, and nearby a cabinet(This object is in corridor.nothing is above the object.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "pan/SM_01_ZFE2IPJVAIUEQPTULM888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/articulated/pan/d3500be84c8c7216739f690509680477/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "aac616bc0c6e76b44c1b0646",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "object_instance_id": "pan/model_d3500be84c8c7216739f690509680477_0",
+      "object_category": "pan",
+      "model_hash": "d3500be84c8c7216739f690509680477",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADI8_usd/pan~1model_d3500be84c8c7216739f690509680477_0/1",
+      "episode_hash_sha256": "f64ff347d7175144d74d7d76e6952c794695dbbf500dd2f83ec02b61191d16e6",
+      "instruction": "Pick the pan located near the door in the dining room, and place it on the chair nearby the curtain and the cabinet.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "chair/model_4b3350dfd941a8acd916e828cef14470_0",
+            "category": "chair",
+            "room": null,
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "door"
+              ]
+            ]
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "curtain/model_68239479f33dd493a353b8261ae76090_0",
+            "category": "curtain",
+            "room": "7/dinning room",
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "cabinet"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is pan(This object is a pan.)\". The target location is on a chair( There is/are a door located near the object.), and nearby a curtain(This object is in dinning room. There is/are a cabinet located near the object.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "pan/SM_01_ZFE2IPJVAIUEQPTULM888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/articulated/pan/d3500be84c8c7216739f690509680477/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "ad07f081481e8ba057033cdd",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "object_instance_id": "picture/model_91d6f7bd3387ffa49a896fe682a3b3ae_0",
+      "object_category": "picture",
+      "model_hash": "91d6f7bd3387ffa49a896fe682a3b3ae",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADI8_usd/picture~1model_91d6f7bd3387ffa49a896fe682a3b3ae_0/0",
+      "episode_hash_sha256": "eda60c656cf77a83604c2440c9ea673e0bc653003e8edb445b8de4657d00cea2",
+      "instruction": "Pick the picture in the study room near the door and place it on the sofa chair near the TV and TV stand.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "sofa_chair/model_421c723501498e3a997debcf40ba36ca_0",
+            "category": "sofa_chair",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "tv/model_c856cd8c30f7cecb669b18ea3ef7f347_0",
+            "category": "tv",
+            "room": null,
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "tvstand"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is picture(This object is a picture. This object is in study room.  There is/are a door located near the picture.)\". The target location is on a sofa_chair, and nearby a tv( There is/are a tvstand located near the object.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "picture/SM_00_66PWJ2UTDZTVQ6L7LM888888",
+        "picture/SM_01_66PWJ2UTDZTVQ6L7LM888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/picture/91d6f7bd3387ffa49a896fe682a3b3ae/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "8f6c5d4c9fa8abb97f6165f0",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "object_instance_id": "picture/model_91d6f7bd3387ffa49a896fe682a3b3ae_0",
+      "object_category": "picture",
+      "model_hash": "91d6f7bd3387ffa49a896fe682a3b3ae",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADI8_usd/picture~1model_91d6f7bd3387ffa49a896fe682a3b3ae_0/1",
+      "episode_hash_sha256": "2867fea78f1b3d40ff8100e742880b854925768fd35c1bc8fb3ebbafa0cee11a",
+      "instruction": "Pick the picture in the study room near the door and place it on the dishwasher, which is nearby the microwave.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "dishwasher/model_dc455ef266417650b30b36f0b5a6c060_0",
+            "category": "dishwasher",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "microwave/model_d2fedf2123ba667b377c31c5ca39d9d5_0",
+            "category": "microwave",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is picture(This object is a picture. This object is in study room.  There is/are a door located near the picture.)\". The target location is on a dishwasher, and nearby a microwave.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "picture/SM_00_66PWJ2UTDZTVQ6L7LM888888",
+        "picture/SM_01_66PWJ2UTDZTVQ6L7LM888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/picture/91d6f7bd3387ffa49a896fe682a3b3ae/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "90d6efc91a0ded5427fd0be5",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "object_instance_id": "pot/model_efe4976e69317ada2c1487b0211c64a1_0",
+      "object_category": "pot",
+      "model_hash": "efe4976e69317ada2c1487b0211c64a1",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADI8_usd/pot~1model_efe4976e69317ada2c1487b0211c64a1_0/0",
+      "episode_hash_sha256": "a903909ae1ed4be0f0140607fc4436e04d03ba8de7121c041e5a41d6a92da92a",
+      "instruction": "Pick the pot and place it near the chest of drawers and the picture.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "chestofdrawers/model_f7402f05c0f7723630d9aff98ad37cbe_0",
+            "category": "chestofdrawers",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "picture/model_e003f259ccbc898ecd2c8d0e58653ae9_0",
+            "category": "picture",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is pot(This object is a pot.)\". The target location is nearby a chestofdrawers, and nearby a picture.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "pot/SM_01_ZFE2USRVAJ5MEPTUKM888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/articulated/pot/efe4976e69317ada2c1487b0211c64a1/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "5cad014cc82b2ea300ed914f",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "object_instance_id": "pot/model_efe4976e69317ada2c1487b0211c64a1_0",
+      "object_category": "pot",
+      "model_hash": "efe4976e69317ada2c1487b0211c64a1",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADI8_usd/pot~1model_efe4976e69317ada2c1487b0211c64a1_0/1",
+      "episode_hash_sha256": "57119acbd28ae2d5b547d04a7f3dcae4d64d83f6c46ad78332d0b9647cce4d7c",
+      "instruction": "Pick the pot and place it nearby a plant.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "plant/model_a50c4424d891b07a57216e0479561135_0",
+            "category": "plant",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "plant/model_d7446aecaad1a5be17d69d7b69d856fd_0",
+            "category": "plant",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is pot(This object is a pot.)\". The target location is nearby a plant, and nearby a plant.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "pot/SM_01_ZFE2USRVAJ5MEPTUKM888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/articulated/pot/efe4976e69317ada2c1487b0211c64a1/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "8d0daeed8db781bfff4e1fcc",
+      "episode_family": "sn",
+      "episode_file": "sn_episodes.json",
+      "episode_file_hash_sha256": "22d535c6176776ce87bc8ac71fc29e9254a94f3ad76c768986a0e11ab5865f1d",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "object_instance_id": "bed/model_364f20a3bda6c0f22392cbd7108d54fc_0",
+      "object_category": "bed",
+      "model_hash": "364f20a3bda6c0f22392cbd7108d54fc",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADI8_usd/bed~1model_364f20a3bda6c0f22392cbd7108d54fc_0/0",
+      "episode_hash_sha256": "d0a98df55d4c985970c6a59bb6559be0466edd57d95ba0241b386dc3a1141823",
+      "instruction": null,
+      "condition": null,
+      "prompt": null,
+      "candidate_instance_ids": [],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/bed/364f20a3bda6c0f22392cbd7108d54fc/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "5eab8d116046885570bce820",
+      "episode_family": "sn",
+      "episode_file": "sn_episodes.json",
+      "episode_file_hash_sha256": "22d535c6176776ce87bc8ac71fc29e9254a94f3ad76c768986a0e11ab5865f1d",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "object_instance_id": "blanket/model_a80394c95a7875638747dbc865485c65_0",
+      "object_category": "blanket",
+      "model_hash": "a80394c95a7875638747dbc865485c65",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADI8_usd/blanket~1model_a80394c95a7875638747dbc865485c65_0/0",
+      "episode_hash_sha256": "67c9e6155803c1a995e6a1e68bb9f06b278e17ae310082b1f28cb665daf2a65a",
+      "instruction": null,
+      "condition": null,
+      "prompt": null,
+      "candidate_instance_ids": [],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/blanket/a80394c95a7875638747dbc865485c65/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "3fc221d913244a8ecb2a16c1",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "object_instance_id": "backpack/model_e883e28f0fdd4a6163b9b6198f5d0b80_0",
+      "object_category": "backpack",
+      "model_hash": "e883e28f0fdd4a6163b9b6198f5d0b80",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADQ8_usd/backpack~1model_e883e28f0fdd4a6163b9b6198f5d0b80_0/0",
+      "episode_hash_sha256": "4ce9da8c4c256b85b8b9d16ebc82450523f9a9839383731023e5f69c01b62050",
+      "instruction": "Pick the backpack in the dining room and place it on the chair near the plant.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "chair/model_0b53f6b7156db2ba5773a4ce736d931e_0",
+            "category": "chair",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "chair/model_54bb55f2e14ed07589e4a0bd842736ea_0",
+            "category": "chair",
+            "room": "6/dinning room",
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "plant"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is backpack(This object is a backpack.)\". The target location is on a chair, and nearby a chair(This object is in dinning room. There is/are a plant located near the object.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "backpack/SM_01_6F6WNM4TDD52CPTUKU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/backpack/e883e28f0fdd4a6163b9b6198f5d0b80/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "3bf90f5e8eccd61f1906917c",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "object_instance_id": "backpack/model_e883e28f0fdd4a6163b9b6198f5d0b80_0",
+      "object_category": "backpack",
+      "model_hash": "e883e28f0fdd4a6163b9b6198f5d0b80",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADQ8_usd/backpack~1model_e883e28f0fdd4a6163b9b6198f5d0b80_0/1",
+      "episode_hash_sha256": "0853fde3effe19b27c25768ecd9daf642c2e94a4777399712e418eca1bfa6f1b",
+      "instruction": "Pick the backpack and place it nearby a light and a chair, ensuring nothing is below the object.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "light/model_f8c79bb081669534ff613b9a96c54af5_0",
+            "category": "light",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "chair/model_0b53f6b7156db2ba5773a4ce736d931e_0",
+            "category": "chair",
+            "room": null,
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "below",
+                "nothing"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is backpack(This object is a backpack.)\". The target location is nearby a light, and nearby a chair(nothing is below the object.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "backpack/SM_01_6F6WNM4TDD52CPTUKU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/backpack/e883e28f0fdd4a6163b9b6198f5d0b80/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "e59ffc3396144ac9263fb525",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "object_instance_id": "clock/model_bf679119ea2cb383756475ddc0dcca04_0",
+      "object_category": "clock",
+      "model_hash": "bf679119ea2cb383756475ddc0dcca04",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADQ8_usd/clock~1model_bf679119ea2cb383756475ddc0dcca04_0/0",
+      "episode_hash_sha256": "b6f782b664413b8244016a295211aa98ae52fcd09443a9e730b040c0129a728f",
+      "instruction": "Pick the clock located in the bedroom and place it on the nightstand near the cabinet and door.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "nightstand/model_505398f9bc170435c30c52913d0e3fb6_0",
+            "category": "nightstand",
+            "room": null,
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "cabinet"
+              ]
+            ]
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "cabinet/model_c3e6bb431a3e6492e667d6961d6d296b_0",
+            "category": "cabinet",
+            "room": "0/bedroom",
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "door"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is clock(This object is a clock.)\". The target location is on a nightstand( There is/are a cabinet located near the object.), and nearby a cabinet(This object is in bedroom. There is/are a door located near the object.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "clock/SM_01_6ETT4TUTD5TGKFKZKE888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/clock/bf679119ea2cb383756475ddc0dcca04/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "3bbfa72a5b895e0e87228206",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "object_instance_id": "clock/model_bf679119ea2cb383756475ddc0dcca04_0",
+      "object_category": "clock",
+      "model_hash": "bf679119ea2cb383756475ddc0dcca04",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADQ8_usd/clock~1model_bf679119ea2cb383756475ddc0dcca04_0/1",
+      "episode_hash_sha256": "858f9f8bc7e23f3e679c0f18fe721cafad5a2b32210ceca7806232dfa221e8e5",
+      "instruction": "Pick the clock and place it nearby the bottle and decoration in the dining room.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "bottle/model_249abb9594802e414fb495562c52cdbe_0",
+            "category": "bottle",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "decoration/model_a9621c7011413cdca3269942fbe92d00_0",
+            "category": "decoration",
+            "room": "6/dinning room",
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is clock(This object is a clock.)\". The target location is nearby a bottle, and nearby a decoration(This object is in dinning room.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "clock/SM_01_6ETT4TUTD5TGKFKZKE888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/clock/bf679119ea2cb383756475ddc0dcca04/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "bc2548b790f3e1b647c5107a",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "object_instance_id": "cup/model_8ca2bdc7e6d147bb2e9844725dad2943_0",
+      "object_category": "cup",
+      "model_hash": "8ca2bdc7e6d147bb2e9844725dad2943",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADQ8_usd/cup~1model_8ca2bdc7e6d147bb2e9844725dad2943_0/0",
+      "episode_hash_sha256": "136fe362e96244506dec7b8e1a31c3bea5ee1e9eb95eec076a92cd4e3046e49e",
+      "instruction": "Pick the cup from the kitchen and place it on the nightstand near the bed.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "nightstand/model_505398f9bc170435c30c52913d0e3fb6_0",
+            "category": "nightstand",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "bed/model_0a85b986de35ccfdec7c686d791fd747_0",
+            "category": "bed",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is cup(This object is a cup. This object is in kitchen.)\". The target location is on a nightstand, and nearby a bed.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "cup/SM_01_6MLYLYZVAJ366PTUK4888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/cup/8ca2bdc7e6d147bb2e9844725dad2943/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "2787cc96361d6199d4b692c2",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "object_instance_id": "cup/model_8ca2bdc7e6d147bb2e9844725dad2943_0",
+      "object_category": "cup",
+      "model_hash": "8ca2bdc7e6d147bb2e9844725dad2943",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADQ8_usd/cup~1model_8ca2bdc7e6d147bb2e9844725dad2943_0/1",
+      "episode_hash_sha256": "234279addd5b2ef5a9136f424f25f13fbabfa5ebb8ffb73957c16ba15bbc0722",
+      "instruction": "Pick the cup from the kitchen and place it near the shoe and the decoration in the dining room.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "shoe/model_afe524aa965adbf88370751397e30b89_0",
+            "category": "shoe",
+            "room": null,
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "decoration"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "decoration/model_a9621c7011413cdca3269942fbe92d00_0",
+            "category": "decoration",
+            "room": "6/dinning room",
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is cup(This object is a cup. This object is in kitchen.)\". The target location is nearby a shoe( There is/are a decoration located near the object.), and nearby a decoration(This object is in dinning room.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "cup/SM_01_6MLYLYZVAJ366PTUK4888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/cup/8ca2bdc7e6d147bb2e9844725dad2943/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "1dde7c7b33f8c650cc070bdf",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "object_instance_id": "cup/model_97a5d8ffa4e5197d728307133fb6cca4_0",
+      "object_category": "cup",
+      "model_hash": "97a5d8ffa4e5197d728307133fb6cca4",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADQ8_usd/cup~1model_97a5d8ffa4e5197d728307133fb6cca4_0/0",
+      "episode_hash_sha256": "f3e42cf2c0ace6d01f8ac4c8791030d2d2e641f5dacb5ae3d08e4fe87c263266",
+      "instruction": "Pick the cup from the dining room and place it on the TV stand in the living room, near the curtain and decoration.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "tvstand/model_0cc2991a6e4938f4dabcca576d78eb94_0",
+            "category": "tvstand",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "curtain/model_ceeb2277305dc9ed257933bc550fed18_0",
+            "category": "curtain",
+            "room": "1/living room",
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "decoration"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is cup(This object is a cup. This object is in dinning room.)\". The target location is on a tvstand, and nearby a curtain(This object is in living room. There is/are a decoration located near the object.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "cup/SM_01_6H6I4TJVAZV5CPTULI888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/cup/97a5d8ffa4e5197d728307133fb6cca4/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "75acec435a7344704d717b60",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "object_instance_id": "cup/model_97a5d8ffa4e5197d728307133fb6cca4_0",
+      "object_category": "cup",
+      "model_hash": "97a5d8ffa4e5197d728307133fb6cca4",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADQ8_usd/cup~1model_97a5d8ffa4e5197d728307133fb6cca4_0/1",
+      "episode_hash_sha256": "29e28f3fd4f6f5cad261f89fa497ee9e97b00800884462af4bc148e954ab4e6c",
+      "instruction": "Pick the cup from the dining room and place it on the nightstand near the bed.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "nightstand/model_126df572c7fefdf156362f49daf74117_0",
+            "category": "nightstand",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "bed/model_8ea15953edfde395bb8c1d7ed1bc3c92_0",
+            "category": "bed",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is cup(This object is a cup. This object is in dinning room.)\". The target location is on a nightstand, and nearby a bed.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "cup/SM_01_6H6I4TJVAZV5CPTULI888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/cup/97a5d8ffa4e5197d728307133fb6cca4/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "a74cf1d66a797411993b39ad",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "object_instance_id": "cup/model_d1ad9c675790611bac5c0602a6d20ac5_0",
+      "object_category": "cup",
+      "model_hash": "d1ad9c675790611bac5c0602a6d20ac5",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADY8_usd/cup~1model_d1ad9c675790611bac5c0602a6d20ac5_0/0",
+      "episode_hash_sha256": "05607091711f1e63bd42f6740f2ea94143606102f592af7f5e3227097d108645",
+      "instruction": "Pick the cup and place it near the chair in the living room, next to the book with nothing above it.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "chair/model_8c89fb2c2b1ee42698150b5d5ffb4811_0",
+            "category": "chair",
+            "room": "1/living room",
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "book/model_b582a1f0bfad711c454eb49b4ccc235f_0",
+            "category": "book",
+            "room": null,
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "above",
+                "nothing"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is cup(This object is a cup.)\". The target location is nearby a chair(This object is in living room.), and nearby a book(nothing is above the object.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "cup/SM_01_ZU4VGQRVAUQICPTUKI888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/cup/d1ad9c675790611bac5c0602a6d20ac5/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "397407e0aa498cacc359cf48",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "object_instance_id": "cup/model_d1ad9c675790611bac5c0602a6d20ac5_0",
+      "object_category": "cup",
+      "model_hash": "d1ad9c675790611bac5c0602a6d20ac5",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADY8_usd/cup~1model_d1ad9c675790611bac5c0602a6d20ac5_0/1",
+      "episode_hash_sha256": "c17872ce7144bcd91fa417d4aa95e204e3ad31479aea10ef466d9326dce3dd3e",
+      "instruction": "Pick the cup and place it on the desk, nearby a book located above the object.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "desk/model_2fd3be3184316979dd938934f8633935_0",
+            "category": "desk",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "book/model_06715766aa450c3ff360c9684dac1bdd_0",
+            "category": "book",
+            "room": null,
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "above",
+                "book"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is cup(This object is a cup.)\". The target location is on a desk, and nearby a book( There is/are a book located above the object.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "cup/SM_01_ZU4VGQRVAUQICPTUKI888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/cup/d1ad9c675790611bac5c0602a6d20ac5/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "a44e492e7b8db191b9292076",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "object_instance_id": "light/model_8eb01c9d0c7feb986eedfcba11ffd30b_0",
+      "object_category": "light",
+      "model_hash": "8eb01c9d0c7feb986eedfcba11ffd30b",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADY8_usd/light~1model_8eb01c9d0c7feb986eedfcba11ffd30b_0/0",
+      "episode_hash_sha256": "8a00cf3883403ebb69d9a70a4750ba3d41fbd981e39af86eaeaf9c4a1ba73a16",
+      "instruction": "Pick the light from the living room and place it in the dining room, nearby the plant and the blanket.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "plant/model_a73051fec6be102e9acdf31bbf907b7e_0",
+            "category": "plant",
+            "room": "7/dinning room",
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "blanket/model_6a82a00d89d77ffe9830945afd82a94b_0",
+            "category": "blanket",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is light(This object is a light. This object is in living room.)\". The target location is nearby a plant(This object is in dinning room.), and nearby a blanket.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "light/SM_00_6IUF4GUTDD52APTULY888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/light/8eb01c9d0c7feb986eedfcba11ffd30b/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "e9078c7f7ab4c204e4e98323",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "object_instance_id": "light/model_8eb01c9d0c7feb986eedfcba11ffd30b_0",
+      "object_category": "light",
+      "model_hash": "8eb01c9d0c7feb986eedfcba11ffd30b",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADY8_usd/light~1model_8eb01c9d0c7feb986eedfcba11ffd30b_0/1",
+      "episode_hash_sha256": "916cf40122a574f8c0ea7be90da988d032efe027b80ab63e5660237f99194ca6",
+      "instruction": "Pick the light from the living room and place it in the dining room, nearby the oven and the plant.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "oven/model_97fa5e4ff19db6d3a78ce6dea2fc7438_0",
+            "category": "oven",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "plant/model_a73051fec6be102e9acdf31bbf907b7e_0",
+            "category": "plant",
+            "room": "7/dinning room",
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is light(This object is a light. This object is in living room.)\". The target location is nearby a oven, and nearby a plant(This object is in dinning room.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "light/SM_00_6IUF4GUTDD52APTULY888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/light/8eb01c9d0c7feb986eedfcba11ffd30b/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "977abc87ecf63a9f40b73339",
+      "episode_family": "sn",
+      "episode_file": "sn_episodes.json",
+      "episode_file_hash_sha256": "22d535c6176776ce87bc8ac71fc29e9254a94f3ad76c768986a0e11ab5865f1d",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "object_instance_id": "blanket/model_21daaa3146f69e6b6506cbe630a38bc9_0",
+      "object_category": "blanket",
+      "model_hash": "21daaa3146f69e6b6506cbe630a38bc9",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADY8_usd/blanket~1model_21daaa3146f69e6b6506cbe630a38bc9_0/0",
+      "episode_hash_sha256": "156f6a54fc1aa60f3f8329afb730f2f0ddf2a6b6c3a09c23b4d49f5cd5606822",
+      "instruction": null,
+      "condition": null,
+      "prompt": null,
+      "candidate_instance_ids": [],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/blanket/21daaa3146f69e6b6506cbe630a38bc9/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "ca0c388e4753dd7f262b5098",
+      "episode_family": "sn",
+      "episode_file": "sn_episodes.json",
+      "episode_file_hash_sha256": "22d535c6176776ce87bc8ac71fc29e9254a94f3ad76c768986a0e11ab5865f1d",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "object_instance_id": "chestofdrawers/model_7434427118680313ebf8e9cb10677aec_0",
+      "object_category": "chestofdrawers",
+      "model_hash": "7434427118680313ebf8e9cb10677aec",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADY8_usd/chestofdrawers~1model_7434427118680313ebf8e9cb10677aec_0/0",
+      "episode_hash_sha256": "4243a16e3b8c53413827ba018d7013301eef2401bb436a005530f477b21056a2",
+      "instruction": null,
+      "condition": null,
+      "prompt": null,
+      "candidate_instance_ids": [],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/articulated/chestofdrawers/7434427118680313ebf8e9cb10677aec/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "37c1bdf6a42226b8ab8a7d5a",
+      "episode_family": "sn",
+      "episode_file": "sn_episodes.json",
+      "episode_file_hash_sha256": "22d535c6176776ce87bc8ac71fc29e9254a94f3ad76c768986a0e11ab5865f1d",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "object_instance_id": "desk/model_2fd3be3184316979dd938934f8633935_0",
+      "object_category": "desk",
+      "model_hash": "2fd3be3184316979dd938934f8633935",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADY8_usd/desk~1model_2fd3be3184316979dd938934f8633935_0/0",
+      "episode_hash_sha256": "8ff39c36cfd8a774ab91703ef0f3df306c37a83db1bb1be6a205358d2a99b1e0",
+      "instruction": null,
+      "condition": null,
+      "prompt": null,
+      "candidate_instance_ids": [],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/articulated/desk/2fd3be3184316979dd938934f8633935/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "283fb57eff7866a5548638a7",
+      "episode_family": "sn",
+      "episode_file": "sn_episodes.json",
+      "episode_file_hash_sha256": "22d535c6176776ce87bc8ac71fc29e9254a94f3ad76c768986a0e11ab5865f1d",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "object_instance_id": "faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+      "object_category": "faucet",
+      "model_hash": "baf45789fdb0af5bf7d2b519d38e5a40",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADY8_usd/faucet~1model_baf45789fdb0af5bf7d2b519d38e5a40_0/0",
+      "episode_hash_sha256": "c0f7c7fb4d3d5982261f5e7904761ce691d90109b818b94fdda6e99d18b53dac",
+      "instruction": null,
+      "condition": null,
+      "prompt": null,
+      "candidate_instance_ids": [],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/articulated/faucet/baf45789fdb0af5bf7d2b519d38e5a40/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "5effff7e96ec8ac29e30f07a",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "object_instance_id": "backpack/model_3f99b44a34f7c6c935c508293a194502_0",
+      "object_category": "backpack",
+      "model_hash": "3f99b44a34f7c6c935c508293a194502",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAAEA8_usd/backpack~1model_3f99b44a34f7c6c935c508293a194502_0/0",
+      "episode_hash_sha256": "b19db7c20d71fe9fdef2a14dc077de90f90eba446f5596a656b048a1be222fe0",
+      "instruction": "Pick the backpack and place it on the chair in the bedroom, nearby the cabinet.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "chair/model_87d364b1433c9d8bbd0848587685ba50_0",
+            "category": "chair",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "cabinet/model_de43aacc904ddb4d3c7761ffe59384bb_0",
+            "category": "cabinet",
+            "room": "1/bedroom",
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is backpack(This object is a backpack.)\". The target location is on a chair, and nearby a cabinet(This object is in bedroom.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "backpack/SM_01_6F6WNM4TDD52CPTUKU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/backpack/3f99b44a34f7c6c935c508293a194502/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "bf4a01ac38a669ccd3773c8d",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "object_instance_id": "backpack/model_3f99b44a34f7c6c935c508293a194502_0",
+      "object_category": "backpack",
+      "model_hash": "3f99b44a34f7c6c935c508293a194502",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAAEA8_usd/backpack~1model_3f99b44a34f7c6c935c508293a194502_0/1",
+      "episode_hash_sha256": "62ce5d24acf3ca96eebd070328f08741d8d43168edb575f186581d26aa5b8345",
+      "instruction": "Pick the backpack and place it near the towel with a band of ribbed detailing along one edge, and near the bed with a door located nearby.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "towel/model_a9e233547966e2c05b55c67986ce5768_0",
+            "category": "towel",
+            "room": null,
+            "appearance": [
+              "There is a band of ribbed detailing running along one edge."
+            ],
+            "relation": [
+              [
+                true,
+                "on",
+                "nothing"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "bed/model_e26e4c16158005d3419bb4f9b1a64626_0",
+            "category": "bed",
+            "room": null,
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "door"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is backpack(This object is a backpack.)\". The target location is nearby a towel(nothing is on the object.There is a band of ribbed detailing running along one edge.), and nearby a bed( There is/are a door located near the object.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "backpack/SM_01_6F6WNM4TDD52CPTUKU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/backpack/3f99b44a34f7c6c935c508293a194502/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "3a41b882ebfc31435b523a26",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "object_instance_id": "bottle/model_dd1758f4b5a988f5af35a15cd4b92ae8_0",
+      "object_category": "bottle",
+      "model_hash": "dd1758f4b5a988f5af35a15cd4b92ae8",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAAEA8_usd/bottle~1model_dd1758f4b5a988f5af35a15cd4b92ae8_0/0",
+      "episode_hash_sha256": "330126d2b3f0a4e4fe2792cfab5d0b8186fd2040bf41c0750ee621f4e87b61e1",
+      "instruction": "Pick the bottle and place it on the cabinet in the bathroom, nearby the faucet in the bathroom.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "cabinet/model_81d4e1ff7e2e5cf8c4a2fd447f09557f_0",
+            "category": "cabinet",
+            "room": "8/bathroom",
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "faucet/model_7fe8e1b646f0bd2c522c121e4b95a7cd_0",
+            "category": "faucet",
+            "room": "8/bathroom",
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is bottle(This object is a bottle.)\". The target location is on a cabinet(This object is in bathroom.), and nearby a faucet(This object is in bathroom.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "bottle/SM_01_ZUSXUBBVAX3DKPTULI888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/bottle/dd1758f4b5a988f5af35a15cd4b92ae8/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "3c31a8de41f35f2a59596e56",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "object_instance_id": "bottle/model_dd1758f4b5a988f5af35a15cd4b92ae8_0",
+      "object_category": "bottle",
+      "model_hash": "dd1758f4b5a988f5af35a15cd4b92ae8",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAAEA8_usd/bottle~1model_dd1758f4b5a988f5af35a15cd4b92ae8_0/1",
+      "episode_hash_sha256": "1da202c5ecbaf304ae8c57ba3a2eea90a99f360185707372ab9825a560b34190",
+      "instruction": "Pick the bottle and place it near the cabinet and the rolled-up towel.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "cabinet/model_de29d17f67a7bd9f2f0fae5833642f13_0",
+            "category": "cabinet",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "towel/model_a9e233547966e2c05b55c67986ce5768_0",
+            "category": "towel",
+            "room": null,
+            "appearance": [
+              "It is rolled up into a cylindrical shape."
+            ],
+            "relation": [
+              [
+                true,
+                "on",
+                "nothing"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is bottle(This object is a bottle.)\". The target location is nearby a cabinet, and nearby a towel(nothing is on the object.It is rolled up into a cylindrical shape.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "bottle/SM_01_ZUSXUBBVAX3DKPTULI888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/bottle/dd1758f4b5a988f5af35a15cd4b92ae8/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "e829b255a9a8d43133bb7df5",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "object_instance_id": "clock/model_677e29e819ce65dc31d1ceb8620e953e_0",
+      "object_category": "clock",
+      "model_hash": "677e29e819ce65dc31d1ceb8620e953e",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAAEA8_usd/clock~1model_677e29e819ce65dc31d1ceb8620e953e_0/0",
+      "episode_hash_sha256": "22fbb6e5c68ff3597fbb3daf5164cf4ab534b990ec647dd11709168633a802df",
+      "instruction": "Pick the clock and place it on the cabinet in the bathroom, nearby the faucet in the bathroom.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "cabinet/model_81d4e1ff7e2e5cf8c4a2fd447f09557f_0",
+            "category": "cabinet",
+            "room": "8/bathroom",
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "faucet/model_7fe8e1b646f0bd2c522c121e4b95a7cd_0",
+            "category": "faucet",
+            "room": "8/bathroom",
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is clock(This object is a clock.)\". The target location is on a cabinet(This object is in bathroom.), and nearby a faucet(This object is in bathroom.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "clock/SM_01_6GMEJMMTDD52GPTUKU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/clock/677e29e819ce65dc31d1ceb8620e953e/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "06bd388d86b192b5ec931eac",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "object_instance_id": "clock/model_677e29e819ce65dc31d1ceb8620e953e_0",
+      "object_category": "clock",
+      "model_hash": "677e29e819ce65dc31d1ceb8620e953e",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAAEA8_usd/clock~1model_677e29e819ce65dc31d1ceb8620e953e_0/1",
+      "episode_hash_sha256": "834863c668dd90649e32e49b376a85179051e8e3cc4ccbcbba4c1f5df47c333e",
+      "instruction": "Pick the clock located near the chair in the bedroom and place it on the bed.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "bed/model_8c326f20d4b98ee7e0e33f6db73e3224_0",
+            "category": "bed",
+            "room": null,
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "chair"
+              ]
+            ]
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "chair/model_87d364b1433c9d8bbd0848587685ba50_0",
+            "category": "chair",
+            "room": "1/bedroom",
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is clock(This object is a clock.)\". The target location is on a bed( There is/are a chair located near the object.), and nearby a chair(This object is in bedroom.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "clock/SM_01_6GMEJMMTDD52GPTUKU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/clock/677e29e819ce65dc31d1ceb8620e953e/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "89dd109bb8312254956d51fd",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "object_instance_id": "picture/model_56a5e56b686fbd1174a75e915eaedf03_0",
+      "object_category": "picture",
+      "model_hash": "56a5e56b686fbd1174a75e915eaedf03",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAAEA8_usd/picture~1model_56a5e56b686fbd1174a75e915eaedf03_0/0",
+      "episode_hash_sha256": "19522c8fee0a9ea02eb7307f97e063910ba75e31210ff590e9be50d833e574c1",
+      "instruction": "Pick the picture from the dining room and place it in the bedroom, nearby the cabinet and the shoe.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "cabinet/model_de43aacc904ddb4d3c7761ffe59384bb_0",
+            "category": "cabinet",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "shoe/model_1eb6496194754e73b10c2a31f14ad553_0",
+            "category": "shoe",
+            "room": "1/bedroom",
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is picture(This object is a picture. This object is in dinning room.)\". The target location is nearby a cabinet, and nearby a shoe(This object is in bedroom.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "picture/SM_03_Z422R3ZVAIBFGPTULU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/picture/56a5e56b686fbd1174a75e915eaedf03/instance.usd"
+      ],
+      "metadata_match_count": 1
+    },
+    {
+      "stable_episode_id": "060f853820de063e602fca25",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "object_instance_id": "picture/model_56a5e56b686fbd1174a75e915eaedf03_0",
+      "object_category": "picture",
+      "model_hash": "56a5e56b686fbd1174a75e915eaedf03",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAAEA8_usd/picture~1model_56a5e56b686fbd1174a75e915eaedf03_0/1",
+      "episode_hash_sha256": "f457bae6fc42681b3165ad5598242d37529d20e5742d21d1d924e990a9338356",
+      "instruction": "Pick the picture in the dining room and place it on the chair in the study room near the book.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "chair/model_9a9c824afbcd4f70c691d2904c8739da_0",
+            "category": "chair",
+            "room": "4/study room",
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "door"
+              ]
+            ]
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "book/model_c05aa1e6873acd469149e833aa910439_0",
+            "category": "book",
+            "room": "4/study room",
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "under",
+                "nothing"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is picture(This object is a picture. This object is in dinning room.)\". The target location is on a chair(This object is in study room. There is/are a door located near the object.), and nearby a book(This object is in study room.nothing is under the object.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "picture/SM_03_Z422R3ZVAIBFGPTULU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": true,
+      "metadata_model_paths": [
+        "models/object/others/picture/56a5e56b686fbd1174a75e915eaedf03/instance.usd"
+      ],
+      "metadata_match_count": 1
+    }
+  ],
+  "excluded_episode_records": [
+    {
+      "stable_episode_id": "95fa2fd06e0cb1d07233a366",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "object_instance_id": "bowl/model_835e5ddadbbc5cac554b8ff80a843754_0",
+      "object_category": "bowl",
+      "model_hash": "835e5ddadbbc5cac554b8ff80a843754",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADA8_usd/bowl~1model_835e5ddadbbc5cac554b8ff80a843754_0/0",
+      "episode_hash_sha256": "99cec2311134cfa51355a11ac4d9c60b6ce47baae8a48d84c15d0d9eb2236e13",
+      "instruction": "Pick up the bowl, which has another bowl inside it, and place it on the washing machine near the mirror. There is a cabinet located near and above the bowl, and a chair located near the bowl.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "washingmachine/model_4ccdcfde6a7f0a3ff4c6bff6b8a47c43_0",
+            "category": "washingmachine",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "mirror/model_c175d74dc53d065c9616a2d7272d2712_0",
+            "category": "mirror",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is bowl(This object is a bowl.  There is/are a cabinet located near the bowl.  There is/are a chair located near the bowl.  There is/are a cabinet located above the bowl. nothing is on the bowl.  There is/are 1 another bowl located in the bowl.)\". The target location is on a washingmachine, and nearby a mirror.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "bowl/SM_09_6H7K5UMTDD52APTUKQ888888",
+        "bowl/SM_11_6H7K5UMTDD52APTUKQ888888",
+        "bowl/SM_12_6H7K5UMTDD52APTUKQ888888",
+        "bowl/SM_17_6H7K5UMTDD52APTUKQ888888",
+        "bowl/SM_27_6H7K5UMTDD52APTUKQ888888",
+        "bowl/SM_40_6KZMCFJVAZUSYPTUJU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": false,
+      "metadata_model_paths": [],
+      "metadata_match_count": 0,
+      "exclusion_reason": "metadata_model_path_match_count_not_one"
+    },
+    {
+      "stable_episode_id": "58fefa1884d14d615fc80756",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "object_instance_id": "bowl/model_835e5ddadbbc5cac554b8ff80a843754_0",
+      "object_category": "bowl",
+      "model_hash": "835e5ddadbbc5cac554b8ff80a843754",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADA8_usd/bowl~1model_835e5ddadbbc5cac554b8ff80a843754_0/1",
+      "episode_hash_sha256": "cdd6cbeba3bf32851fa4a9840be957deb6bac6a9074166ad05b1739f73970953",
+      "instruction": "Pick the bowl that has another bowl inside it, which is near a cabinet, a chair, and below another cabinet. Place it near a plate that can hold the object and near another bowl.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "plate/model_4d0b57e28a379625a640b432939960d3_0",
+            "category": "plate",
+            "room": null,
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "contain/hold",
+                "plate"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "bowl/model_f6382b1d309b8a810d4ec0d0c4b9d72d_0",
+            "category": "bowl",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is bowl(This object is a bowl.  There is/are a cabinet located near the bowl.  There is/are a chair located near the bowl.  There is/are a cabinet located above the bowl. nothing is on the bowl.  There is/are 1 another bowl located in the bowl.)\". The target location is nearby a plate( There is/are a plate located contain/hold the object.), and nearby a bowl.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "bowl/SM_09_6H7K5UMTDD52APTUKQ888888",
+        "bowl/SM_11_6H7K5UMTDD52APTUKQ888888",
+        "bowl/SM_12_6H7K5UMTDD52APTUKQ888888",
+        "bowl/SM_17_6H7K5UMTDD52APTUKQ888888",
+        "bowl/SM_27_6H7K5UMTDD52APTUKQ888888",
+        "bowl/SM_40_6KZMCFJVAZUSYPTUJU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": false,
+      "metadata_model_paths": [],
+      "metadata_match_count": 0,
+      "exclusion_reason": "metadata_model_path_match_count_not_one"
+    },
+    {
+      "stable_episode_id": "fff56a6f2eece4bc1f4fd02a",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "object_instance_id": "bowl/model_f6382b1d309b8a810d4ec0d0c4b9d72d_0",
+      "object_category": "bowl",
+      "model_hash": "f6382b1d309b8a810d4ec0d0c4b9d72d",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADA8_usd/bowl~1model_f6382b1d309b8a810d4ec0d0c4b9d72d_0/0",
+      "episode_hash_sha256": "6669a4b72449c22d844737c717f80e660c40bdceeaca25db23649b42d5d2d431",
+      "instruction": "Pick the bowl located near the window and place it on the nightstand near the pillow and the cabinet.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "nightstand/model_b630d155c5ef47d3bee26ff3be755280_0",
+            "category": "nightstand",
+            "room": null,
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "cabinet"
+              ]
+            ]
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "pillow/model_79dffb445894435587d3241331afa3de_0",
+            "category": "pillow",
+            "room": null,
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "cabinet"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is bowl(This object is a bowl.  There is/are a window located near the bowl.)\". The target location is on a nightstand( There is/are a cabinet located near the object.), and nearby a pillow( There is/are a cabinet located near the object.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "bowl/SM_38_6JLDCIZVAZWGUPTUJQ888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": false,
+      "metadata_model_paths": [],
+      "metadata_match_count": 0,
+      "exclusion_reason": "metadata_model_path_match_count_not_one"
+    },
+    {
+      "stable_episode_id": "f0048e41c3b27aaa143ae495",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "object_instance_id": "plate/model_b6b279a4dd4bd8b3f4953fca800aca67_0",
+      "object_category": "plate",
+      "model_hash": "b6b279a4dd4bd8b3f4953fca800aca67",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADA8_usd/plate~1model_b6b279a4dd4bd8b3f4953fca800aca67_0/0",
+      "episode_hash_sha256": "0f00b3bc0dda5358e1bb8c1b5fe78623abc78459a4069050a0064c0815a60716",
+      "instruction": "Pick the plate located near the cabinet, chair, and bowl, and place it on the chair in the dining room, nearby the towel in the dining room.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "chair/model_2096523e02233b46c58a8ae3e65e9cd6_0",
+            "category": "chair",
+            "room": "6/dinning room",
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "towel/model_b07085eeaca6348e3b603b77fa97143b_0",
+            "category": "towel",
+            "room": "6/dinning room",
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "above",
+                "nothing"
+              ]
+            ]
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is plate(This object is a plate.  There is/are a cabinet located near the plate.  There is/are a chair located near the plate.  There is/are a bowl located near the plate.)\". The target location is on a chair(This object is in dinning room.), and nearby a towel(This object is in dinning room.nothing is above the object.).. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "plate/SM_28_6KZMCJBVAVGTEPTUKU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": false,
+      "metadata_model_paths": [],
+      "metadata_match_count": 0,
+      "exclusion_reason": "metadata_model_path_match_count_not_one"
+    },
+    {
+      "stable_episode_id": "c183d6dba57bce2e659d23a9",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "object_instance_id": "plate/model_b6b279a4dd4bd8b3f4953fca800aca67_0",
+      "object_category": "plate",
+      "model_hash": "b6b279a4dd4bd8b3f4953fca800aca67",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADA8_usd/plate~1model_b6b279a4dd4bd8b3f4953fca800aca67_0/1",
+      "episode_hash_sha256": "f78577fee4304bde180df68406109f8b944e4f566ca65354ccd749e837d740ad",
+      "instruction": "Pick the plate located near the cabinet, chair, and bowl, and place it nearby the cabinet and decoration.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "cabinet/model_f72edcf5eed1da98a84cc045f3a0fe1b_0",
+            "category": "cabinet",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "decoration/model_65e4b2ed5c0b8dad93444af150d4d698_0",
+            "category": "decoration",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is plate(This object is a plate.  There is/are a cabinet located near the plate.  There is/are a chair located near the plate.  There is/are a bowl located near the plate.)\". The target location is nearby a cabinet, and nearby a decoration.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "plate/SM_28_6KZMCJBVAVGTEPTUKU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": false,
+      "metadata_model_paths": [],
+      "metadata_match_count": 0,
+      "exclusion_reason": "metadata_model_path_match_count_not_one"
+    },
+    {
+      "stable_episode_id": "01d6b6afdc26175f94bdd18b",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "object_instance_id": "plate/model_c9bf8fa85f3141ae511a9bfb03bf7a32_0",
+      "object_category": "plate",
+      "model_hash": "c9bf8fa85f3141ae511a9bfb03bf7a32",
+      "instance_index": 0,
+      "episode_index": 0,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADA8_usd/plate~1model_c9bf8fa85f3141ae511a9bfb03bf7a32_0/0",
+      "episode_hash_sha256": "4639a2cfb8cb2a187a5398b2dd8495535a70bfe47d4cef2cb67a4155c20eaead",
+      "instruction": "Pick the plate that is in the cabinet, near a window, another plate, and a bowl, with another plate on top of it, and place it on the chair in the bedroom, which is near a cabinet and a desk.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "chair/model_5298d3fe01fc207884c6633f915b8d76_0",
+            "category": "chair",
+            "room": "0/bedroom",
+            "appearance": null,
+            "relation": [
+              [
+                true,
+                "near",
+                "cabinet"
+              ]
+            ]
+          },
+          "sample_relation": "on"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "desk/model_64a72e14d9b7e061a46e6fc802452525_0",
+            "category": "desk",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is plate(This object is a plate.  There is/are a window located near the plate.  There is/are 1 another plate located near the plate.  There is/are a bowl located near the plate.  There is/are a cabinet located contain/hold the plate.  There is/are 1 another plate located on the plate.)\". The target location is on a chair(This object is in bedroom. There is/are a cabinet located near the object.), and nearby a desk.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "plate/SM_18_6H7I7PBVAZS36PTUKE888888",
+        "plate/SM_21_6H7I7PBVAZS36PTUKE888888",
+        "plate/SM_22_6H7I7PBVAZS36PTUKE888888",
+        "plate/SM_23_6H7I7PBVAZS36PTUKE888888",
+        "plate/SM_24_6H7I7PBVAZS36PTUKE888888",
+        "plate/SM_26_6KZMCJBVAVGTEPTUKU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": false,
+      "metadata_model_paths": [],
+      "metadata_match_count": 0,
+      "exclusion_reason": "metadata_model_path_match_count_not_one"
+    },
+    {
+      "stable_episode_id": "583cb2fc2248d9e9af36a109",
+      "episode_family": "mm",
+      "episode_file": "mm_episodes.json",
+      "episode_file_hash_sha256": "e420efc951e99839434554f5d2c6e474fd14e8cfc243e441241e06ee62776143",
+      "episode_split": "validate",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "object_instance_id": "plate/model_c9bf8fa85f3141ae511a9bfb03bf7a32_0",
+      "object_category": "plate",
+      "model_hash": "c9bf8fa85f3141ae511a9bfb03bf7a32",
+      "instance_index": 0,
+      "episode_index": 1,
+      "episode_json_pointer": "/validate/MV7J6NIKTKJZ2AABAAAAADA8_usd/plate~1model_c9bf8fa85f3141ae511a9bfb03bf7a32_0/1",
+      "episode_hash_sha256": "b8900e2291c139bb72d4629dc97d0ca4b45ad7f867472b6870651f60d7b63ba1",
+      "instruction": "Pick the plate, which is near a window, another plate, a bowl, and is in a cabinet with another plate on it. Place it near an electric cooker and a plate.",
+      "condition": [
+        {
+          "object_attribute": {
+            "instance_id": "electriccooker/model_a461b973dc0f27ddd06ac68587ab9323_0",
+            "category": "electriccooker",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        },
+        {
+          "object_attribute": {
+            "instance_id": "plate/model_ee9c0764a20274e6b32bb0c62a7a0201_0",
+            "category": "plate",
+            "room": null,
+            "appearance": null,
+            "relation": null
+          },
+          "sample_relation": "nearby"
+        }
+      ],
+      "prompt": "You are playing the role of a human. You are asking your robot assistant to pick some object and place it to a target location. The pickable object is plate(This object is a plate.  There is/are a window located near the plate.  There is/are 1 another plate located near the plate.  There is/are a bowl located near the plate.  There is/are a cabinet located contain/hold the plate.  There is/are 1 another plate located on the plate.)\". The target location is nearby a electriccooker, and nearby a plate.. All descriptions inside parentheses should be condensed and included in the generated instruction. The instruction should be concise and readable. Do not add any call before your words. Please output the instruction in the following format: [ instruction ]. ",
+      "candidate_instance_ids": [
+        "plate/SM_18_6H7I7PBVAZS36PTUKE888888",
+        "plate/SM_21_6H7I7PBVAZS36PTUKE888888",
+        "plate/SM_22_6H7I7PBVAZS36PTUKE888888",
+        "plate/SM_23_6H7I7PBVAZS36PTUKE888888",
+        "plate/SM_24_6H7I7PBVAZS36PTUKE888888",
+        "plate/SM_26_6KZMCJBVAVGTEPTUKU888888"
+      ],
+      "mapping_status": "pending_metadata_to_prim",
+      "mapping_method": null,
+      "mapping_confidence": null,
+      "target_prim_path": null,
+      "candidate_prim_paths": [],
+      "world_bbox": null,
+      "image_bbox": null,
+      "dataset_role": "benchmark_source_dataset",
+      "source_dataset_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+      "source_scene_split": "home_scenes",
+      "pilot_role": "episode_backed_home",
+      "paper_claim_eligible": false,
+      "metadata_model_paths": [],
+      "metadata_match_count": 0,
+      "exclusion_reason": "metadata_model_path_match_count_not_one"
+    }
+  ]
+}

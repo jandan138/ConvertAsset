@@ -73,6 +73,30 @@ The paired material conditions are:
 
 PIO is a prompt and metric inspiration here. Do not write that this experiment evaluates on PIO unless a later protocol actually imports the PIO dataset.
 
+## Source Manifest
+
+Before rendering, generate the source/episode manifest:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/prepare_source_manifest.py
+```
+
+Default output:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/source_manifest.json
+```
+
+This manifest is not a VLM result. It fixes provenance and selection for the first pilot:
+
+- 5 episode-backed home scenes.
+- 5 metadata-driven commercial stress scenes.
+- 8 uniquely metadata-mapped episode targets per home scene, 40 episode records total.
+- Scratch paths mirror the original GRScenes layout under `/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520`.
+- `excluded_episode_records` captures episode records that fail the current source-mapping gate.
+
+The current no-MDL CLI writes `*_noMDL.usd` beside the input USD. Until an explicit `--out-root` path exists, never run it directly on `/cpfs/user/zhuzihou/assets/zzh-grscenes`; copy selected scenes into the scratch tree first.
+
 ## Task Families
 
 | Task | Prompt shape | Metric |
