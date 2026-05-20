@@ -20,3 +20,4 @@ large documentation or implementation change.
 - [Genesis-style documentation refactor implementation plan](plans/2026-05-13-docs-genesis-style-refactor.md)
 - [Paper ACL-27 layout design](specs/2026-05-20-paper-acl27-layout-design.md)
 - [Paper ACL-27 layout implementation plan](plans/2026-05-20-paper-acl27-layout.md)
+- [GRScenes target resolver implementation plan](plans/2026-05-20-grscenes-target-resolver.md)

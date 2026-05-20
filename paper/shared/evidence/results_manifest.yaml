@@ -28,6 +28,12 @@ results:
     - id: render_pairs
       path: paper/shared/evidence/raw/renders/
       description: "Matched MDL and UsdPreviewSurface render pairs."
+    - id: grscenes_vlm_source_manifest
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/source_manifest.json
+      description: "ACL/VLM GRScenes source scene and episode selection provenance; not a model-result file."
+    - id: grscenes_vlm_target_manifest
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/target_manifest.json
+      description: "ACL/VLM GRScenes target prim and world-bbox localization provenance for 40 episode records / 23 unique targets; not a model-result file."
   figures:
     - paper/shared/figures/fig_render_pairs.pdf
     - paper/shared/figures/fig_image_quality.pdf

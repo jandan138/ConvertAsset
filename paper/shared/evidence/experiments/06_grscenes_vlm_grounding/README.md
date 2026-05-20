@@ -91,11 +91,47 @@ This manifest is not a VLM result. It fixes provenance and selection for the fir
 
 - 5 episode-backed home scenes.
 - 5 metadata-driven commercial stress scenes.
-- 8 uniquely metadata-mapped episode targets per home scene, 40 episode records total.
+- 8 metadata-mapped episode records per home scene, 40 episode records total. These are not guaranteed to be 40 unique spatial targets because `mm` and `sn` episodes can repeat the same object.
 - Scratch paths mirror the original GRScenes layout under `/cpfs/user/zhuzihou/assets/acl27_grscenes_vlm_nomdl_work_20260520`.
 - `excluded_episode_records` captures episode records that fail the current source-mapping gate.
 
 The current no-MDL CLI writes `*_noMDL.usd` beside the input USD. Until an explicit `--out-root` path exists, never run it directly on `/cpfs/user/zhuzihou/assets/zzh-grscenes`; copy selected scenes into the scratch tree first.
+
+## Target Manifest
+
+Before rendering, resolve the selected episode targets to USD prims and world-space bboxes:
+
+```bash
+./scripts/isaac_python.sh \
+  paper/shared/evidence/experiments/06_grscenes_vlm_grounding/resolve_target_prims.py
+```
+
+Default output:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/target_manifest.json
+```
+
+This manifest is also not a VLM result. It is the camera-target localization gate for paired rendering:
+
+- 5 episode-backed home scenes attempted.
+- 40 episode records attempted.
+- 40 episode records resolved to USD prim paths and world-space bboxes.
+- 23 unique `(scene, object_instance_id, target_prim_path)` targets after duplicate episode records are collapsed.
+- 17 duplicate episode-record targets, with at most 2 episode records mapped to the same unique target.
+- Resolution uses authored USD reference paths first, with exact prim-suffix fallback for objects whose `interactive_obj_list.json` coverage is incomplete.
+- Bboxes use the absolute split-level model USD bbox transformed by the scene prim transform (`model_local_bbox_x_scene_xform`), because scene-local `models` pointer files are regular text files rather than symlinks and composed scene bbox warnings are expected.
+
+For command-line smoke tests, use:
+
+```bash
+./scripts/isaac_python.sh \
+  paper/shared/evidence/experiments/06_grscenes_vlm_grounding/resolve_target_prims.py \
+  --limit-scenes 1 \
+  --out /tmp/grscene_target_manifest_smoke.json
+```
+
+USD may emit broken relative-reference warnings when opening the original scene USDs. Those warnings are expected for the immutable source layout and do not imply that the resolver modified the source dataset.
 
 ## Task Families
 
@@ -110,6 +146,7 @@ The current no-MDL CLI writes `*_noMDL.usd` beside the input USD. Until an expli
 Do not cite these files in the paper until they exist and are registered in `paper/shared/evidence/results_manifest.yaml`.
 
 ```text
+paper/shared/evidence/raw/grscene_vlm_grounding/target_manifest.json
 paper/shared/evidence/raw/grscene_vlm_grounding/render_manifest.json
 paper/shared/evidence/raw/grscene_vlm_grounding/predictions.jsonl
 paper/shared/evidence/raw/grscene_vlm_grounding/score_summary.json
