@@ -24,6 +24,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 ## Paper Records
 
+- [2026-05-20 OSS dataset restore for GRScenes test0 parallel](2026-05-20-oss-dataset-restore.md)
 - [2026-05-20 ACL VLM benchmark route](2026-05-20-acl-vlm-benchmark-route.md)
 - [2026-05-20 ACL 2027 candidate venue wrapper](2026-05-20-paper-acl27-candidate.md)
 - [2026-05-14 workshop review ingestion for AAAI 2027](2026-05-14-workshop-review-aaai27-roadmap.md)
