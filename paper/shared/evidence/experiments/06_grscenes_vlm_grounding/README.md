@@ -279,11 +279,47 @@ Current result:
   `ready_for_nomdl_after_material_file_actions=false` until those entry repairs
   are executed in scratch.
 
-Plain version: the material files are now small enough to materialize safely.
-The next implementation should hardlink the 5 selected scene directories, 23
-selected model roots, 68 material files, and 9 `Materials` entry repairs into
-scratch. Do not run no-MDL after only copying the 68 files; pointer-file and
-missing-entry model roots will still fail to resolve `./Materials/...`.
+Plain version: the material files are now small enough to materialize safely,
+but they are not sufficient by themselves. Do not run no-MDL after only copying
+the 68 files; pointer-file and missing-entry model roots will still fail to
+resolve `./Materials/...`.
+
+## Targeted Materialization Plan
+
+Use the targeted materializer instead of scaling the old split-level mirror:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/materialize_targeted_closure.py
+```
+
+Default output:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/targeted_materialization_report.json
+```
+
+The command defaults to dry-run. It writes only the report unless `--apply` is
+passed.
+
+Current dry-run result:
+
+- 115 planned actions, 0 writes.
+- 5 selected scene directories.
+- 23 selected model roots.
+- 68 selected material files.
+- 10 scene-local entry repairs: each selected scene's `models` and
+  `Materials` pointer files become scratch-side relative symlinks.
+- 9 model-root `Materials` entry repairs from the material dependency closure.
+- `resource_tree_count=0`, so it does not mirror full split-level `models/` or
+  `Materials/`.
+
+Important limitation: this closes the target-object storage subset, not the
+whole-scene conversion problem. A read-only probe found that the selected
+scenes still author many unselected `models/...` references, and scene-level
+materials such as `Materials/DayMaterial.mdl` and `Materials/Textures/Day.png`
+are outside the 68 model-root material files. Before citing converted whole
+scenes, either implement broader scene dependency closure or intentionally move
+to target-object/cropped render stages.
 
 ## Target Manifest
 

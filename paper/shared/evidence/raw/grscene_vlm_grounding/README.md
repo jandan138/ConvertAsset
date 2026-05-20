@@ -10,6 +10,7 @@ Expected files:
 - `scratch_materialization_report.json`: dry-run or execution report for mirroring selected benchmark scenes and split-level resources into the no-MDL scratch tree.
 - `reference_closure_plan.json`: planner-only target/reference closure artifact that lists selected scene directories, selected model roots, and unresolved symlink/material dependency gaps.
 - `material_dependency_closure_plan.json`: planner-only material subset artifact that lists the exact split-level `Materials` files and model-root `Materials` entry repairs needed by the selected targets.
+- `targeted_materialization_report.json`: dry-run or execution report for the storage-safe target-object subset materializer.
 - `predictions.jsonl`: model outputs using the schema documented by `score_grounding.py`.
 - `score_summary.json`: aggregate point-in-box, answer consistency, and original-vs-converted metrics.
 
@@ -35,6 +36,23 @@ It scans only the 23 selected model roots with pxr/`UsdUtils.ComputeAllDependenc
 The checked-in plan resolves the material-file subset to 68 files, 56,405,072 bytes total: 20 `.mdl`, 42 `.png`, and 6 `.jpg`. It has `missing_material_asset_count=0` and `safe_to_materialize_selected_materials=true`, so a targeted materializer no longer needs the full split-level `Materials/` tree.
 
 This still does not mean no-MDL can run after copying only those files. The plan has 9 `materials_entry_repair_actions`: 5 selected model roots have ordinary `Materials` pointer files, and 4 have no `Materials` entry. The scratch materializer must repair those roots to relative symlinks pointing at scratch split-level `Materials` before no-MDL conversion.
+
+`targeted_materialization_report.json` is the storage-safe follow-up materializer
+gate. The current checked-in report is a dry-run with 115 planned actions: 5
+selected scene directories, 23 selected model roots, 68 material files, 10
+scene-local `models`/`Materials` entry repairs, and 9 model-root `Materials`
+entry repairs. It plans zero full resource-tree mirrors and records
+`dry_run=true`, so no benchmark or scratch asset files were changed by the
+checked-in run.
+
+This still is not whole-scene conversion evidence. It is target-object closure.
+Repairing scene-local `models` makes selected model roots addressable, but full
+GRScenes scene USDs still author unselected `models/...` references. A read-only
+probe also found scene-level material dependencies such as
+`Materials/DayMaterial.mdl` and `Materials/Textures/Day.png`, outside the 68
+model-root material files. Whole-scene no-MDL conversion needs a broader scene
+dependency closure, or the render pipeline must intentionally crop/extract
+target-object stages before conversion.
 
 `render_manifest.json` currently plans 23 unique targets x 4 target-centered views = 92 original/converted pairs and 184 material-condition jobs. Original material inputs exist under the immutable benchmark source, but camera-stage authoring is still pending; converted material inputs are marked `blocked_missing_material_input` until no-MDL scratch derivatives are generated outside the source tree. Image-space boxes are explicitly pending projection and must be filled by the render/projection stage before VLM scoring. The manifest normalizes current VLM prompts to S1 category-pointing prompts and keeps source episode instructions/prompts separately as provenance; some source SN episode records do not carry instruction text and must not be treated as ready-made VLM prompts.
 
