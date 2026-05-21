@@ -129,6 +129,12 @@ def test_report_recovers_split_level_scene_references_and_maps_recursive_outputs
     assert str(paths["scratch_root"] / model_usd.relative_to(paths["source_root"])).replace(
         "instance.usd", "instance_noMDL.usd"
     ) in {item["expected_output_usd"] for item in report["expected_recursive_nomdl_outputs"]}
+    assert report["jobs"][0]["blocked_by"] == report["safety"]["remaining_apply_blockers"]
+    assert "whole_scene_dependency_closure_not_scanned" in report["jobs"][0]["source_plan_blocked_by"]
+    assert "whole_scene_dependency_closure_not_scanned" not in report["jobs"][0]["blocked_by"]
+    assert "single_process_multi_root_runner_missing" in report["jobs"][0]["source_plan_blocked_by"]
+    assert "single_process_multi_root_runner_missing" not in report["safety"]["remaining_apply_blockers"]
+    assert "single_process_multi_root_runner_closure_report_not_consumed" in report["safety"]["remaining_apply_blockers"]
 
 
 def test_report_blocks_missing_and_outside_dependencies(tmp_path: Path) -> None:
@@ -185,6 +191,28 @@ def test_report_dedupes_shared_dependencies(tmp_path: Path) -> None:
     assert report["summary"]["expected_top_output_count"] == 2
     assert report["summary"]["expected_recursive_nomdl_output_count"] == 1
     assert report["summary"]["duplicate_expected_output_count"] == 0
+
+
+def test_report_tracks_duplicate_usd_dependency_enqueues(tmp_path: Path) -> None:
+    module = load_closure_module()
+    plan, paths = make_plan(tmp_path)
+    child = paths["source_root"] / "scenes/GRScenes-100/home_scenes/models/shared/instance.usd"
+    child.parent.mkdir(parents=True)
+    child.write_text("#usda 1.0\n", encoding="utf-8")
+    dependency_records = {
+        str(paths["root_usd"]): [
+            ref("models/shared/instance.usd", layer_dir=paths["scene_dir"], kind="reference"),
+            ref("models/shared/instance.usd", layer_dir=paths["scene_dir"], kind="payload"),
+        ],
+        str(child): [],
+    }
+
+    report = module.build_full_dependency_closure_report(plan, dependency_records_by_layer=dependency_records)
+
+    assert report["summary"]["reachable_source_usd_count"] == 2
+    assert report["summary"]["unique_usd_enqueue_count"] == 2
+    assert report["summary"]["duplicate_usd_dependency_enqueue_count"] == 1
+    assert report["summary"]["max_usd_queue_depth"] == 1
 
 
 def test_report_detects_recursive_output_collisions(tmp_path: Path) -> None:

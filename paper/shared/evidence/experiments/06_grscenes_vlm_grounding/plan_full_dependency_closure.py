@@ -12,7 +12,8 @@ from __future__ import annotations
 
 import argparse
 import json
-from collections import Counter
+import sys
+from collections import Counter, deque
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterable
@@ -29,6 +30,8 @@ SCAN_MISSING_BLOCKERS = {
     "whole_scene_dependency_closure_not_scanned",
     "recursive_nomdl_output_collision_scan_missing",
 }
+SOURCE_RUNNER_MISSING_BLOCKER = "single_process_multi_root_runner_missing"
+RUNNER_CLOSURE_REPORT_NOT_CONSUMED_BLOCKER = "single_process_multi_root_runner_closure_report_not_consumed"
 TIMESTAMP_PATTERN_EXTENSIONS = (".usd", ".usda", ".usdc", ".usdz")
 
 DependencyProvider = Callable[[Path], list[dict[str, Any]]]
@@ -95,6 +98,16 @@ def _dedupe_preserve_order(values: Iterable[str]) -> list[str]:
         seen.add(value)
         ordered.append(value)
     return ordered
+
+
+def _closure_plan_blockers(plan_blockers: Iterable[str]) -> list[str]:
+    blockers: list[str] = []
+    for blocker in plan_blockers:
+        if blocker == SOURCE_RUNNER_MISSING_BLOCKER:
+            blockers.append(RUNNER_CLOSURE_REPORT_NOT_CONSUMED_BLOCKER)
+        else:
+            blockers.append(blocker)
+    return _dedupe_preserve_order(blockers)
 
 
 def _limit_records(records: list[Any], max_records: int | None) -> list[Any]:
@@ -384,9 +397,22 @@ def _collect_closure(
     source_root: Path,
     dependency_provider: DependencyProvider,
     max_usd_layers: int | None = None,
+    progress_every: int | None = None,
 ) -> dict[str, Any]:
-    queue = [_resolve_maybe_missing(Path(str(job["source_usd"]))) for job in jobs]
-    root_sources = {str(path) for path in queue}
+    root_paths = [_resolve_maybe_missing(Path(str(job["source_usd"]))) for job in jobs]
+    root_sources = {str(path) for path in root_paths}
+    queue: deque[Path] = deque()
+    queued_usd: set[str] = set()
+    duplicate_usd_dependency_enqueue_count = 0
+    for root_path in root_paths:
+        root_key = str(root_path)
+        if root_key in queued_usd:
+            duplicate_usd_dependency_enqueue_count += 1
+            continue
+        queued_usd.add(root_key)
+        queue.append(root_path)
+    unique_usd_enqueue_count = len(queued_usd)
+    max_usd_queue_depth = len(queue)
     visited_usd: set[str] = set()
     reachable_usds: dict[str, dict[str, Any]] = {}
     resolved_dependencies: dict[tuple[str, str, str, str], dict[str, Any]] = {}
@@ -398,7 +424,7 @@ def _collect_closure(
     unscanned_usd_queue: list[str] = []
 
     while queue:
-        current = _resolve_maybe_missing(queue.pop(0))
+        current = _resolve_maybe_missing(queue.popleft())
         current_key = str(current)
         if current_key in visited_usd:
             continue
@@ -407,6 +433,14 @@ def _collect_closure(
             unscanned_usd_queue = [current_key, *[str(_resolve_maybe_missing(path)) for path in queue]]
             break
         visited_usd.add(current_key)
+        if progress_every and len(visited_usd) % progress_every == 0:
+            print(
+                f"[dependency-closure] scanned_usd_layers={len(visited_usd)} "
+                f"queue_depth={len(queue)} unique_enqueued={unique_usd_enqueue_count} "
+                f"duplicate_enqueues={duplicate_usd_dependency_enqueue_count}",
+                file=sys.stderr,
+                flush=True,
+            )
         reachable_usds[current_key] = {
             "source_usd": current_key,
             "source_relative_path": _relative_to(current, source_root),
@@ -444,8 +478,14 @@ def _collect_closure(
             resolved_dependencies.setdefault(key, resolved)
             if resolved.get("dependency_kind") == "usd":
                 child = _resolve_maybe_missing(Path(str(resolved["source_path"])))
-                if str(child) not in visited_usd:
+                child_key = str(child)
+                if child_key in visited_usd or child_key in queued_usd:
+                    duplicate_usd_dependency_enqueue_count += 1
+                else:
+                    queued_usd.add(child_key)
                     queue.append(child)
+                    unique_usd_enqueue_count += 1
+                    max_usd_queue_depth = max(max_usd_queue_depth, len(queue))
 
     return {
         "reachable_usds": sorted(reachable_usds.values(), key=lambda item: item["source_usd"]),
@@ -454,6 +494,9 @@ def _collect_closure(
         "outside_dependencies": sorted(outside_dependencies.values(), key=lambda item: item.get("resolved_path", "")),
         "ignored_dependency_count": ignored_dependency_count,
         "direct_scan_counts": direct_scan_counts,
+        "unique_usd_enqueue_count": unique_usd_enqueue_count,
+        "duplicate_usd_dependency_enqueue_count": duplicate_usd_dependency_enqueue_count,
+        "max_usd_queue_depth": max_usd_queue_depth,
         "scan_truncated": scan_truncated,
         "unscanned_usd_queue": sorted(set(unscanned_usd_queue)),
     }
@@ -513,6 +556,7 @@ def build_full_dependency_closure_report(
     limit_jobs: int | None = None,
     max_usd_layers: int | None = None,
     max_report_records: int | None = DEFAULT_MAX_REPORT_RECORDS,
+    progress_every: int | None = None,
 ) -> dict[str, Any]:
     """Build a read-only full-scene dependency/output closure report."""
 
@@ -526,6 +570,7 @@ def build_full_dependency_closure_report(
         source_root=source_root,
         dependency_provider=provider,
         max_usd_layers=max_usd_layers,
+        progress_every=progress_every,
     )
     root_source_paths = {job["source_usd"] for job in jobs}
     output_scan = _build_output_scan(
@@ -542,7 +587,7 @@ def build_full_dependency_closure_report(
     )
     scratch_input_missing_count = top_level_scratch_input_missing_count + recursive_scratch_input_missing_count
 
-    plan_blockers = list((plan.get("safety") or {}).get("apply_blockers") or [])
+    plan_blockers = _closure_plan_blockers((plan.get("safety") or {}).get("apply_blockers") or [])
     if closure["scan_truncated"]:
         satisfied_blockers: list[str] = []
         remaining_blockers = list(plan_blockers)
@@ -561,6 +606,15 @@ def build_full_dependency_closure_report(
     if scratch_input_missing_count:
         remaining_blockers.append("scratch_inputs_missing")
     remaining_blockers = _dedupe_preserve_order(remaining_blockers)
+    report_jobs = [
+        {
+            **job,
+            "source_plan_blocked_by": list(job.get("blocked_by") or []),
+            "blocked_by": list(remaining_blockers),
+            "safe_to_execute_now": not remaining_blockers,
+        }
+        for job in jobs
+    ]
 
     resolved_usd_dependencies = [
         item for item in closure["resolved_dependencies"] if item.get("dependency_kind") == "usd"
@@ -578,6 +632,9 @@ def build_full_dependency_closure_report(
         "missing_dependency_count": len(closure["missing_dependencies"]),
         "outside_source_root_ref_count": len(closure["outside_dependencies"]),
         "ignored_dependency_count": closure["ignored_dependency_count"],
+        "unique_usd_enqueue_count": closure["unique_usd_enqueue_count"],
+        "duplicate_usd_dependency_enqueue_count": closure["duplicate_usd_dependency_enqueue_count"],
+        "max_usd_queue_depth": closure["max_usd_queue_depth"],
         "expected_output_count": len(output_scan["all_expected_outputs"]),
         "expected_top_output_count": len(output_scan["expected_top_outputs"]),
         "expected_recursive_nomdl_output_count": len(output_scan["expected_recursive_outputs"]),
@@ -632,7 +689,7 @@ def build_full_dependency_closure_report(
             "remaining_apply_blockers": remaining_blockers,
             "safe_to_run_multi_root_nomdl": not remaining_blockers,
         },
-        "jobs": jobs,
+        "jobs": report_jobs,
         "reachable_source_usds": reported_reachable_usds,
         "resolved_dependencies": reported_resolved_dependencies,
         "missing_dependencies": reported_missing_dependencies,
@@ -652,7 +709,7 @@ def build_full_dependency_closure_report(
             "Scene-local models/Materials references are recovered to the split-level GRScenes resource roots before scratch mapping when they appear as composition dependencies.",
             "The Sdf backend scans authored composition dependencies; material shader and texture asset attributes remain separate material-closure evidence unless they are surfaced as composition arcs.",
             "Recursive outputs are based on ConvertAsset's base *_noMDL sidecar naming; timestamped siblings are conservatively treated as collisions.",
-            "This report alone is not permission to run --apply while scratch materialization and runner consumption gates remain unresolved.",
+            "This report alone is not permission to run --apply while scratch materialization, scratch cleanliness, and runner closure-report consumption gates remain unresolved.",
         ],
     }
 
@@ -675,6 +732,12 @@ def main() -> int:
         default=DEFAULT_MAX_REPORT_RECORDS,
         help="Cap large JSON record lists while preserving complete summary counts; use -1 for no cap",
     )
+    parser.add_argument(
+        "--progress-every",
+        type=int,
+        default=1000,
+        help="Print scan progress to stderr every N visited USD layers; use 0 to disable",
+    )
     args = parser.parse_args()
 
     plan = _load_json(args.plan)
@@ -685,6 +748,7 @@ def main() -> int:
         limit_jobs=args.limit_jobs,
         max_usd_layers=None if args.max_usd_layers == 0 else args.max_usd_layers,
         max_report_records=None if args.max_report_records < 0 else args.max_report_records,
+        progress_every=None if args.progress_every == 0 else args.progress_every,
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(report, indent=2), encoding="utf-8")

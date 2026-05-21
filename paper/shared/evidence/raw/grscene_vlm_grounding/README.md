@@ -111,6 +111,10 @@ For automation, read `jobs[*].blocked_by` as the current report-level blocker
 list. The original plan's stale job blockers are retained separately in
 `jobs[*].source_plan_blocked_by`.
 
+The newer `full_dependency_closure_report.json` satisfies the dependency
+closure and recursive output-collision scan blockers. The runner still needs a
+follow-up integration pass that consumes that closure report before `--apply`.
+
 Do not treat this JSON as evidence that no-MDL conversion has run.
 
 `full_dependency_closure_report.json` is the next read-only gate for the full
@@ -119,12 +123,12 @@ composition dependency scanning, maps reachable source USDs into the planned
 scratch tree, and computes recursive `_noMDL` sidecar output paths.
 
 The current checked-in report was generated at
-`2026-05-21T03:32:10.797891Z`. It scanned 5,000 reachable USD layers before the
-configured safety cap, resolved 89,484 USD dependency records, found 0 missing
-dependencies, found 0 outside-source references, and found 0 recursive output
-collisions in the scanned prefix. It also records 99 missing top-level scratch
-inputs, 4,901 missing recursive scratch inputs, and 80,705 unscanned queue
-entries, so `scan_truncated=true` and `safe_to_run_multi_root_nomdl=false`.
+`2026-05-21T06:20:46.606510Z`. It scanned the full 85,705 reachable USD
+composition layers with no cap, resolved 89,484 USD dependency records, found 0
+missing dependencies, found 0 outside-source references, and found 0 recursive
+output collisions. It also records 99 missing top-level scratch inputs and
+85,606 missing recursive scratch inputs, so `scan_truncated=false` but
+`safe_to_run_multi_root_nomdl=false`.
 
 Do not treat this JSON as converted-scene evidence, render evidence, or
 permission to run `--apply`. Its large arrays are capped at 2,000 records;
@@ -132,6 +136,10 @@ complete totals live under `summary` and `report_limits`. It is not
 material-file or texture-file closure evidence; shader and texture asset
 attributes remain separate material-dependency gates unless surfaced as USD
 composition arcs.
+
+Its remaining runner blocker is
+`single_process_multi_root_runner_closure_report_not_consumed`, which means the
+runner exists but has not yet consumed this closure report as an apply gate.
 
 Timestamped `_noMDL_*` siblings are conservative collision signals in this
 report, not a precise overwrite model.

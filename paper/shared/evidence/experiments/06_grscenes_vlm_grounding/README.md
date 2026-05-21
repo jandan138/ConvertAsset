@@ -400,6 +400,11 @@ future `--apply` would reuse one `Processor` instance and one `Processor.done`
 map across all roots. It still will not run conversion while blockers remain,
 and the default path imports no `pxr` and no no-MDL modules.
 
+The later `full_dependency_closure_report.json` now satisfies the dependency
+closure and recursive output-collision scan blockers. The runner report itself
+is still useful as runner-shape evidence, but it has not yet been regenerated
+against the closure report as an apply gate.
+
 ## Full Dependency Closure Report
 
 Before materializing or converting the full scratch route, scan the authored USD
@@ -426,26 +431,25 @@ source/scratch asset roots.
 Current checked-in result:
 
 - 99 planned raw-scene jobs.
-- 5,000 reachable source USD layers scanned before the safety cap.
-- 89,484 resolved USD dependency records in the scanned prefix.
-- 0 missing dependencies in the scanned prefix.
-- 0 outside-source references in the scanned prefix.
-- 5,000 expected no-MDL sidecar outputs in the scanned prefix: 99 top-level
-  roots and 4,901 recursive dependency outputs.
+- 85,705 reachable source USD layers scanned with no layer cap.
+- 89,484 resolved USD composition dependency records.
+- 0 missing dependencies.
+- 0 outside-source references.
+- 85,705 expected no-MDL sidecar outputs: 99 top-level roots and 85,606
+  recursive dependency outputs.
 - 0 existing base sidecars, 0 timestamped sidecars, and 0 duplicate planned
-  outputs in the scanned prefix.
-- 5,000 missing scratch inputs in the scanned prefix: 99 top-level inputs and
-  4,901 recursive dependency inputs.
-- `scan_truncated=true`, with 80,705 unscanned USD queue entries still recorded
-  in summary counts.
+  outputs.
+- 85,705 missing scratch inputs: 99 top-level inputs and 85,606 recursive
+  dependency inputs.
+- `scan_truncated=false` and `unscanned_usd_queue_count=0`.
+- The no-cap scan took 817 seconds in the local Isaac/PXR environment.
 - `safe_to_run_multi_root_nomdl=false`.
 
-Plain version: the first 5,000 USD layers look structurally clean, but the scan
-did not finish the whole dependency graph. Because it is truncated, it does not
-satisfy `whole_scene_dependency_closure_not_scanned` or
-`recursive_nomdl_output_collision_scan_missing`. The remaining blockers are:
-runner consumption of this closure, full scratch materialization, scratch
-cleanliness verification, and an untruncated dependency/output scan.
+Plain version: the full USD composition graph now looks structurally clean for
+the recursive no-MDL sidecar gate, and the scan-missing blockers are satisfied.
+This is still not permission to run conversion. The remaining blockers are:
+multi-root runner consumption of this closure report, full scratch
+materialization, and scratch cleanliness verification.
 
 The JSON intentionally caps large record lists at 2,000 items so the evidence
 file stays reviewable. Use `summary` and `report_limits` for complete counts;

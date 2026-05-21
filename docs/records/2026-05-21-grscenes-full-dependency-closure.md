@@ -57,29 +57,32 @@ paper/shared/evidence/raw/grscene_vlm_grounding/full_dependency_closure_report.j
 Current checked-in summary:
 
 - 99 planned jobs.
-- 5,000 reachable source USD layers scanned.
+- 85,705 reachable source USD layers scanned.
 - 89,484 resolved USD dependency records.
-- 0 missing dependencies in the scanned prefix.
-- 0 outside-source references in the scanned prefix.
-- 5,000 expected no-MDL outputs in the scanned prefix: 99 top-level outputs
-  and 4,901 recursive dependency outputs.
+- 0 missing dependencies.
+- 0 outside-source references.
+- 85,705 expected no-MDL outputs: 99 top-level outputs and 85,606 recursive
+  dependency outputs.
 - 0 existing expected outputs, 0 timestamped output siblings, and 0 duplicate
-  planned outputs in the scanned prefix.
+  planned outputs.
+- `unique_usd_enqueue_count=85705`.
+- `duplicate_usd_dependency_enqueue_count=3878`.
+- `max_usd_queue_depth=85606`.
 - `scratch_root_exists=false`.
 - `top_level_scratch_input_missing_count=99`.
-- `recursive_scratch_input_missing_count=4901`.
-- `scratch_input_missing_count=5000`.
-- `scan_truncated=true`.
-- `unscanned_usd_queue_count=80705`.
+- `recursive_scratch_input_missing_count=85606`.
+- `scratch_input_missing_count=85705`.
+- `scan_truncated=false`.
+- `unscanned_usd_queue_count=0`.
 - `safe_to_run_multi_root_nomdl=false`.
 
 ## Important Limitation
 
-The real graph is larger than the current default scan cap. Because the scan
-stopped at 5,000 reachable USD layers, it deliberately does not mark
-`whole_scene_dependency_closure_not_scanned` or
-`recursive_nomdl_output_collision_scan_missing` as satisfied. This prevents the
-report from being mistaken for a green light to run full conversion.
+The dependency/output scan is now complete for USD composition arcs. It marks
+`whole_scene_dependency_closure_not_scanned` and
+`recursive_nomdl_output_collision_scan_missing` as satisfied. This still does
+not make conversion runnable, because the full scratch tree has not been
+materialized and scratch cleanliness has not been verified.
 
 The Sdf backend scans authored composition dependencies. It is enough for the
 recursive USD sidecar-output gate, but it is not a standalone proof that all
@@ -93,13 +96,9 @@ than ignoring stale generated sidecars.
 
 The remaining blockers are:
 
-- `single_process_multi_root_runner_missing`, retained from the source plan
-  because this closure report consumes the original scratch plan rather than
-  the runner report;
-- `whole_scene_dependency_closure_not_scanned`;
-- `recursive_nomdl_output_collision_scan_missing`;
+- `single_process_multi_root_runner_closure_report_not_consumed`, because the
+  multi-root runner has not yet consumed this closure report as an apply gate;
 - `scratch_cleanliness_not_verified`;
-- `dependency_closure_scan_truncated`;
 - `scratch_root_missing`;
 - `scratch_inputs_missing`.
 
@@ -114,10 +113,8 @@ as debugging samples.
 ## Next Gate
 
 To advance the ACL material-generalization experiment, the full route now needs
-one of these engineering moves:
+these engineering moves:
 
-- finish the closure by raising or sharding the USD layer scan until
-  `scan_truncated=false`;
 - materialize the full scratch root and verify scratch cleanliness;
 - teach the multi-root runner to consume the dependency closure report rather
   than only the original scratch plan.
