@@ -70,39 +70,24 @@ Current checked-in summary:
 
 - 99 planned jobs.
 - `dry_run=true`.
-- `apply_ready=false`.
+- `apply_ready=true`.
 - `single_process_multi_root_runner_missing`,
   `single_process_multi_root_runner_closure_report_not_consumed`,
   `whole_scene_dependency_closure_not_scanned`, and
-  `recursive_nomdl_output_collision_scan_missing` are listed under
+  `recursive_nomdl_output_collision_scan_missing`, and
+  `scratch_cleanliness_not_verified` are listed under
   `satisfied_apply_blockers`.
-- Remaining blockers:
-  - `scratch_cleanliness_not_verified`
-  - `scratch_root_missing`
-  - `scratch_inputs_missing`
-- The materialization report is consumed but is still `dry_run=true`, so it
-  does not clear scratch cleanliness.
+- Remaining blockers: none.
 - `source_usd_missing_count=0`.
-- `scratch_input_missing_count=99`.
+- `scratch_input_missing_count=0`.
 - `top_level_output_collision_count=0`.
 
 ## Important Limitation
 
-This runner shell is deliberately not a green button. It exists so the future
-conversion step can deduplicate recursive dependencies through one shared
-`Processor.done` map. The current scratch root has not been materialized, so all
-99 planned scratch inputs are missing. The runner has consumed the current
-closure report, but that closure report was generated before scratch
-materialization and still records 85,705 missing scratch inputs.
-
-Do not run `--apply` for paper evidence until:
-
-- scratch scene/resource materialization exists for the full route;
-- USD dependency closure is regenerated after materialization and proves no
-  missing or outside-source references;
-- recursive no-MDL output collisions are absent;
-- recursive scratch inputs are complete;
-- the dry-run report says `apply_ready=true`.
+This runner shell is now the green button for the no-MDL conversion gate, but
+the current checked-in report is still a dry-run readiness report. It is not
+converted-scene evidence until the same command is run with `--apply` under
+Isaac Python.
 
 ## Verification
 

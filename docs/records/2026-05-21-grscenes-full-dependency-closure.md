@@ -68,10 +68,10 @@ Current checked-in summary:
 - `unique_usd_enqueue_count=85705`.
 - `duplicate_usd_dependency_enqueue_count=3878`.
 - `max_usd_queue_depth=85606`.
-- `scratch_root_exists=false`.
-- `top_level_scratch_input_missing_count=99`.
-- `recursive_scratch_input_missing_count=85606`.
-- `scratch_input_missing_count=85705`.
+- `scratch_root_exists=true`.
+- `top_level_scratch_input_missing_count=0`.
+- `recursive_scratch_input_missing_count=0`.
+- `scratch_input_missing_count=0`.
 - `scan_truncated=false`.
 - `unscanned_usd_queue_count=0`.
 - `safe_to_run_multi_root_nomdl=false`.
@@ -80,9 +80,8 @@ Current checked-in summary:
 
 The dependency/output scan is now complete for USD composition arcs. It marks
 `whole_scene_dependency_closure_not_scanned` and
-`recursive_nomdl_output_collision_scan_missing` as satisfied. This still does
-not make conversion runnable, because the full scratch tree has not been
-materialized and scratch cleanliness has not been verified.
+`recursive_nomdl_output_collision_scan_missing` as satisfied. After full
+scratch materialization, it also proves all 85,705 scratch inputs exist.
 
 The Sdf backend scans authored composition dependencies. It is enough for the
 recursive USD sidecar-output gate, but it is not a standalone proof that all
@@ -94,16 +93,14 @@ Timestamped `_noMDL_*` siblings are intentionally treated as conservative
 collision signals. This may over-block later apply attempts, but it is safer
 than ignoring stale generated sidecars.
 
-The remaining blockers are:
+The remaining blockers in this closure report alone are:
 
 - `scratch_cleanliness_not_verified`;
-- `scratch_root_missing`;
-- `scratch_inputs_missing`.
+- `single_process_multi_root_runner_closure_report_not_consumed`.
 
-The multi-root runner now consumes this closure report as an apply gate in
-`full_nomdl_multi_root_run_report.json`. The current closure report was still
-generated before scratch materialization, so it cannot clear the scratch-input
-blockers.
+The multi-root runner now consumes this closure report and the materialization
+report as apply gates in `full_nomdl_multi_root_run_report.json`; that
+downstream report has no remaining blockers and says `apply_ready=true`.
 
 ## Pitfall Recorded
 
@@ -116,14 +113,10 @@ as debugging samples.
 ## Next Gate
 
 To advance the ACL material-generalization experiment, the full route now needs
-these engineering moves:
+the guarded no-MDL apply run:
 
-- materialize the full scratch root and verify scratch cleanliness;
-- rerun this closure report after materialization and require
-  `scratch_input_missing_count=0`.
-
-Only after those gates are closed should a guarded `--apply` no-MDL conversion
-run be used as paper evidence.
+Only after the runner-ready gate is checked should a guarded `--apply` no-MDL
+conversion run be used as paper evidence.
 
 ## Verification
 

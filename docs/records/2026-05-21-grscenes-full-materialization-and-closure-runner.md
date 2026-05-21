@@ -2,13 +2,13 @@
 
 ## Summary
 
-Added the next guarded step for the ACL/VLM GRScenes route: a full scratch
-materializer dry-run and a closure-aware multi-root runner report.
+Added the next guarded step for the ACL/VLM GRScenes route: full scratch
+materialization, post-materialization dependency closure, and a closure-aware
+multi-root runner report.
 
 Plain version: the full dependency scan is no longer the blocker. The current
-blocker is now physical scratch materialization and scratch cleanliness. We can
-plan exactly what would be hardlinked into scratch, and the runner can consume
-the full closure report, but no full no-MDL conversion has run yet.
+route now has a materialized scratch tree and a runner dry-run that says
+`apply_ready=true`. No full no-MDL conversion has run yet.
 
 ## Files Added
 
@@ -27,17 +27,18 @@ the full closure report, but no full no-MDL conversion has run yet.
 ## Materializer Behavior
 
 The full materializer consumes `full_nomdl_scratch_plan.json`. Its default mode
-is dry-run, so it writes only the JSON report and creates no asset files.
+is dry-run, but the current report records the real hardlink materialization and
+an idempotency rerun.
 
-Current checked-in dry-run summary:
+Current checked-in summary:
 
-- `dry_run=true`.
-- 103 planned tree actions.
-- 138 planned scene-entry repairs.
+- `dry_run=false`.
+- 103 existing tree actions on the idempotency rerun.
+- 138 existing scene-entry repairs on the idempotency rerun.
 - 99 ignored `convert_no_mdl` actions.
 - 0 existing planned no-MDL outputs.
-- 0 existing top-level scratch inputs.
-- 99 missing top-level scratch inputs.
+- 99 existing top-level scratch inputs.
+- 0 missing top-level scratch inputs.
 
 Safety behavior:
 
@@ -73,19 +74,14 @@ existing no-MDL outputs, and reports zero missing top-level scratch inputs.
 
 Current checked-in runner report:
 
-- `apply_ready=false`.
+- `apply_ready=true`.
 - Satisfied blockers:
   - `single_process_multi_root_runner_missing`;
   - `single_process_multi_root_runner_closure_report_not_consumed`;
   - `whole_scene_dependency_closure_not_scanned`;
-  - `recursive_nomdl_output_collision_scan_missing`.
-- Remaining blockers:
-  - `scratch_cleanliness_not_verified`;
-  - `scratch_inputs_missing`;
-  - `scratch_root_missing`.
-
-The current materialization report is consumed but remains `dry_run=true`, so
-it intentionally does not clear scratch cleanliness.
+  - `recursive_nomdl_output_collision_scan_missing`;
+  - `scratch_cleanliness_not_verified`.
+- Remaining blockers: none.
 
 ## Storage Notes
 
@@ -102,15 +98,18 @@ not recommended without a fresh storage estimate under the 1.6 TiB quota.
 
 ## Next Gate
 
-Before real no-MDL conversion:
+The next gate is the guarded no-MDL conversion:
 
-1. Run quota/source preflight and a source `_noMDL` pollution scan.
-2. Run real full scratch materialization with `--apply --copy-mode hardlink`.
-3. Rerun the materializer to prove idempotency.
-4. Rerun `plan_full_dependency_closure.py --max-usd-layers 0` after
-   materialization and require `scratch_input_missing_count=0`.
-5. Regenerate the closure-aware runner report and require `apply_ready=true`
-   before using `--apply`.
+```bash
+PYTHONDONTWRITEBYTECODE=1 ./scripts/isaac_python.sh \
+  paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_full_nomdl_multi_root.py \
+  --closure-report paper/shared/evidence/raw/grscene_vlm_grounding/full_dependency_closure_report.json \
+  --materialization-report paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_scratch_materialization_report.json \
+  --apply
+```
+
+Use the Isaac Python wrapper for this apply command, because it imports
+`convert_asset.no_mdl` and `pxr` after the readiness gate.
 
 ## Verification
 
@@ -120,8 +119,8 @@ Fresh checks during implementation:
 PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider tests/test_grscenes_vlm_full_scratch_materializer.py
 PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider tests/test_grscenes_vlm_full_nomdl_runner.py
 PYTHONDONTWRITEBYTECODE=1 python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/materialize_full_nomdl_scratch.py
-PYTHONDONTWRITEBYTECODE=1 python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_full_nomdl_multi_root.py --closure-report paper/shared/evidence/raw/grscene_vlm_grounding/full_dependency_closure_report.json
+PYTHONDONTWRITEBYTECODE=1 python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_full_nomdl_multi_root.py --closure-report paper/shared/evidence/raw/grscene_vlm_grounding/full_dependency_closure_report.json --materialization-report paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_scratch_materialization_report.json
 ```
 
-The materializer tests report 13 passing tests. The runner tests report 19
+The materializer tests report 14 passing tests. The runner tests report 19
 passing tests.

@@ -359,10 +359,9 @@ Running 99 scene roots as 99 separate CLI commands would not share
 `Processor.done`, so shared dependencies can be converted repeatedly and may
 produce timestamped outputs when `ALLOW_OVERWRITE=False`.
 
-The dedicated single-process multi-root runner and the full dependency/output
-collision scan now exist. The next safe step is full scratch materialization,
-then rerunning the closure scan so it proves `scratch_input_missing_count=0`
-for all top-level and recursive inputs.
+The dedicated single-process multi-root runner, full scratch materialization,
+and post-materialization dependency/output collision scan now exist. The next
+safe step is the guarded no-MDL `--apply` conversion.
 
 ## Full no-MDL Scratch Materialization Report
 
@@ -380,21 +379,21 @@ paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_scratch_materializati
 
 Current checked-in result:
 
-- `dry_run=true`; no asset files were created by this report.
-- 103 tree actions planned: 99 scene directories and 4 split-level
+- `dry_run=false`; the full scratch tree has been materialized.
+- 103 tree actions verified as existing on the idempotency rerun: 99 scene
+  directories and 4 split-level
   `models`/`Materials` resource roots.
-- 138 scratch scene-entry repairs planned for pointer-file `models` and
+- 138 scratch scene-entry repairs verified as existing for pointer-file `models` and
   `Materials` entries.
 - 99 `convert_no_mdl` actions are intentionally ignored by the materializer.
 - 0 existing planned no-MDL outputs detected in the scratch root.
-- 0 top-level scratch inputs exist and 99 are still missing.
+- 99 top-level scratch inputs exist and 0 are missing.
 
-Plain version: this is the first safe "how to create scratch" tool for the
-full route. Real materialization still requires `--apply`; it defaults to
-hardlinks, rejects source/scratch nesting, refuses report writes inside asset
-roots, validates projected symlink targets, and blocks stale scratch no-MDL
-outputs. Do not use `--copy-mode copy` under the current quota without a fresh
-storage estimate.
+Plain version: the full input scratch dataset exists now. It was materialized
+with hardlinks, not full physical copies. The materializer rejects
+source/scratch nesting, refuses report writes inside asset roots, validates
+projected symlink targets, and blocks stale scratch/source no-MDL outputs before
+real materialization.
 
 ## Full no-MDL Multi-Root Runner Report
 
@@ -416,25 +415,23 @@ Current checked-in result:
 
 - 99 planned raw-scene jobs.
 - `dry_run=true`.
-- `apply_ready=false`.
+- `apply_ready=true`.
 - `single_process_multi_root_runner_missing`,
   `single_process_multi_root_runner_closure_report_not_consumed`,
   `whole_scene_dependency_closure_not_scanned`, and
   `recursive_nomdl_output_collision_scan_missing` are satisfied by the runner
   shell plus `full_dependency_closure_report.json`.
-- Remaining blockers are scratch cleanliness, missing scratch root, and missing
-  scratch input USDs.
-- The dry-run materialization report is consumed, but it does not satisfy
-  scratch cleanliness because `dry_run=true`.
-- Top-level expected-output collision count is currently 0 because the scratch
-  root has not been materialized.
+- `scratch_cleanliness_not_verified` is satisfied by the non-dry-run
+  materialization report.
+- Remaining blockers: none.
+- Top-level expected-output collision count is 0.
 - Each job's current `blocked_by` is recomputed from this report; the older
   plan-level blockers are preserved separately as `source_plan_blocked_by`.
 
 Plain version: this gives us the right execution shape for later, because a
 future `--apply` would reuse one `Processor` instance and one `Processor.done`
-map across all roots. It still will not run conversion while scratch blockers
-remain, and the default path imports no `pxr` and no no-MDL modules.
+map across all roots. The dry-run report now says the guarded apply path is
+ready. The default dry-run path imports no `pxr` and no no-MDL modules.
 
 ## Full Dependency Closure Report
 
@@ -470,17 +467,19 @@ Current checked-in result:
   recursive dependency outputs.
 - 0 existing base sidecars, 0 timestamped sidecars, and 0 duplicate planned
   outputs.
-- 85,705 missing scratch inputs: 99 top-level inputs and 85,606 recursive
-  dependency inputs.
+- 0 missing scratch inputs: 99 top-level inputs and 85,606 recursive dependency
+  inputs all exist under the scratch root.
 - `scan_truncated=false` and `unscanned_usd_queue_count=0`.
-- The no-cap scan took 817 seconds in the local Isaac/PXR environment.
+- The post-materialization no-cap scan took 702 seconds in the local Isaac/PXR
+  environment.
 - `safe_to_run_multi_root_nomdl=false`.
 
 Plain version: the full USD composition graph now looks structurally clean for
 the recursive no-MDL sidecar gate, and the scan-missing blockers are satisfied.
-This is still not permission to run conversion. The remaining blockers are:
-full scratch materialization, regenerated scratch-complete closure evidence,
-and scratch cleanliness verification.
+This closure report alone still records runner/cleanliness blockers because it
+does not consume runner/materialization evidence. The downstream
+`full_nomdl_multi_root_run_report.json` consumes both and reports
+`apply_ready=true`.
 
 The JSON intentionally caps large record lists at 2,000 items so the evidence
 file stays reviewable. Use `summary` and `report_limits` for complete counts;

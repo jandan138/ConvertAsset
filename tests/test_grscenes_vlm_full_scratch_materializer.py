@@ -261,6 +261,24 @@ def test_materializer_is_idempotent_after_repairs(tmp_path: Path) -> None:
     assert second_report["summary"]["repaired_scene_entry_count"] == 0
 
 
+def test_materializer_idempotency_skips_byte_compare_for_hardlinks(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    module = load_materializer_module()
+    plan, _paths = make_full_plan(tmp_path)
+    module.materialize_full_scratch_plan(plan, dry_run=False)
+
+    def forbidden_byte_compare(*args, **kwargs):
+        raise AssertionError("hardlinked files should be validated by inode without byte compare")
+
+    monkeypatch.setattr(module.filecmp, "cmp", forbidden_byte_compare)
+
+    second_report = module.materialize_full_scratch_plan(plan, dry_run=False)
+
+    assert second_report["summary"]["existing_tree_count"] == 3
+
+
 def test_materializer_copy_mode_copies_files_instead_of_hardlinking(tmp_path: Path) -> None:
     module = load_materializer_module()
     plan, paths = make_full_plan(tmp_path, copy_mode="copy")

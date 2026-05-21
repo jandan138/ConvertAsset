@@ -2,9 +2,9 @@
   "schema_version": 1,
   "status": "planned_full_grscenes_nomdl_multi_root_run",
   "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_full_nomdl_multi_root.py",
-  "generated_at_utc": "2026-05-21T07:14:21.779800Z",
+  "generated_at_utc": "2026-05-21T09:06:14.361149Z",
   "dry_run": true,
-  "apply_ready": false,
+  "apply_ready": true,
   "source_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
   "scratch_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521",
   "source_plan_status": "planned_full_grscenes_nomdl_scratch",
@@ -25,9 +25,7 @@
       "whole_scene_dependency_closure_not_scanned",
       "recursive_nomdl_output_collision_scan_missing"
     ],
-    "remaining_apply_blockers": [
-      "scratch_inputs_missing"
-    ],
+    "remaining_apply_blockers": [],
     "summary": {
       "conversion_job_count": 99,
       "dependency_backend": "sdf",
@@ -48,10 +46,10 @@
       "existing_timestamped_output_count": 0,
       "duplicate_expected_output_count": 0,
       "output_collision_count": 0,
-      "scratch_root_exists": false,
-      "top_level_scratch_input_missing_count": 99,
-      "recursive_scratch_input_missing_count": 85606,
-      "scratch_input_missing_count": 85705,
+      "scratch_root_exists": true,
+      "top_level_scratch_input_missing_count": 0,
+      "recursive_scratch_input_missing_count": 0,
+      "scratch_input_missing_count": 0,
       "usd_layer_scan_limit": null,
       "scan_truncated": false,
       "unscanned_usd_queue_count": 0,
@@ -60,158 +58,55 @@
   },
   "materialization_gate": {
     "provided": true,
-    "satisfied_apply_blockers": [],
-    "remaining_apply_blockers": [
+    "satisfied_apply_blockers": [
       "scratch_cleanliness_not_verified"
     ],
+    "remaining_apply_blockers": [],
     "summary": {
       "tree_action_count": 103,
       "repair_action_count": 138,
       "ignored_convert_action_count": 99,
-      "dry_run": true,
-      "planned_tree_action_count": 103,
+      "dry_run": false,
+      "planned_tree_action_count": 0,
       "created_tree_count": 0,
-      "existing_tree_count": 0,
-      "planned_repair_action_count": 138,
+      "existing_tree_count": 103,
+      "planned_repair_action_count": 0,
       "repaired_scene_entry_count": 0,
-      "existing_scene_entry_count": 0,
+      "existing_scene_entry_count": 138,
       "existing_nomdl_output_count": 0,
-      "top_level_scratch_input_exists_count": 0,
-      "top_level_scratch_input_missing_count": 99
+      "top_level_scratch_input_exists_count": 99,
+      "top_level_scratch_input_missing_count": 0
     }
   },
   "safety": {
     "source_root_immutable": true,
-    "safe_to_apply": false,
+    "safe_to_apply": true,
     "satisfied_apply_blockers": [
       "single_process_multi_root_runner_missing",
       "single_process_multi_root_runner_closure_report_not_consumed",
       "whole_scene_dependency_closure_not_scanned",
-      "recursive_nomdl_output_collision_scan_missing"
+      "recursive_nomdl_output_collision_scan_missing",
+      "scratch_cleanliness_not_verified"
     ],
-    "remaining_apply_blockers": [
-      "scratch_cleanliness_not_verified",
-      "scratch_inputs_missing",
-      "scratch_root_missing"
-    ]
+    "remaining_apply_blockers": []
   },
   "summary": {
     "planned_job_count": 99,
-    "scratch_root_exists": false,
+    "scratch_root_exists": true,
     "source_usd_missing_count": 0,
-    "scratch_input_missing_count": 99,
+    "scratch_input_missing_count": 0,
     "existing_expected_top_output_count": 0,
     "existing_timestamped_top_output_count": 0,
     "duplicate_expected_top_output_count": 0,
     "top_level_output_collision_count": 0,
-    "apply_ready": false
+    "apply_ready": true
   },
   "collision_scan": {
     "scan_scope": "planned_top_level_outputs_only",
     "existing_expected_top_outputs": [],
     "existing_timestamped_top_outputs": [],
     "duplicate_expected_top_outputs": [],
-    "missing_scratch_inputs": [
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAEI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAAA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAAI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVJWVGYKTLDAYAABAAAAAAQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSGSAIKTKJ66AABAAAAADY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSGSAIKTKJ66AABAAAAAEA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAAAA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAACY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAADA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAADI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAABY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAAEA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAAEI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWHLEPQKTIFZIAABAAAAAAA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAACA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABA8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABI8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABQ8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABY8_usd/start_result_raw.usd",
-      "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAACA8_usd/start_result_raw.usd"
-    ],
+    "missing_scratch_inputs": [],
     "missing_source_usds": [],
     "recursive_dependency_outputs": "not_scanned"
   },
@@ -234,13 +129,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -269,13 +160,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -304,13 +191,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -339,13 +222,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -374,13 +253,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -409,13 +284,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -444,13 +315,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -479,13 +346,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -514,13 +377,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -549,13 +408,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -584,13 +439,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -619,13 +470,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -654,13 +501,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -689,13 +532,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -724,13 +563,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -759,13 +594,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -794,13 +625,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -829,13 +656,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -864,13 +687,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -899,13 +718,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -934,13 +749,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -969,13 +780,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1004,13 +811,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1039,13 +842,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1074,13 +873,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1109,13 +904,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1144,13 +935,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1179,13 +966,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1214,13 +997,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1249,13 +1028,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1284,13 +1059,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1319,13 +1090,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1354,13 +1121,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1389,13 +1152,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1424,13 +1183,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1459,13 +1214,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1494,13 +1245,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1529,13 +1276,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1564,13 +1307,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1599,13 +1338,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1634,13 +1369,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1669,13 +1400,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1704,13 +1431,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1739,13 +1462,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1774,13 +1493,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1809,13 +1524,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1844,13 +1555,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1879,13 +1586,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1914,13 +1617,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1949,13 +1648,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -1984,13 +1679,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2019,13 +1710,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2054,13 +1741,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2089,13 +1772,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAACA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2124,13 +1803,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2159,13 +1834,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2194,13 +1865,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2229,13 +1896,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2264,13 +1927,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2299,13 +1958,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2334,13 +1989,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2369,13 +2020,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2404,13 +2051,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2439,13 +2082,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2474,13 +2113,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2509,13 +2144,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2544,13 +2175,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2579,13 +2206,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2614,13 +2237,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAACA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2649,13 +2268,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2684,13 +2299,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2719,13 +2330,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2754,13 +2361,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2789,13 +2392,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2824,13 +2423,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2859,13 +2454,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2894,13 +2485,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2929,13 +2516,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAEI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2964,13 +2547,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAAA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -2999,13 +2578,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAAI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3034,13 +2609,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVJWVGYKTLDAYAABAAAAAAQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3069,13 +2640,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSGSAIKTKJ66AABAAAAADY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3104,13 +2671,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSGSAIKTKJ66AABAAAAAEA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3139,13 +2702,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAAAA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3174,13 +2733,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAACY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3209,13 +2764,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAADA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3244,13 +2795,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAADI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3279,13 +2826,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAABY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3314,13 +2857,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3349,13 +2888,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3384,13 +2919,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3419,13 +2950,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3454,13 +2981,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3489,13 +3012,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3524,13 +3043,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADQ8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3559,13 +3074,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADY8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3594,13 +3105,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAAEA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3629,13 +3136,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAAEI8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],
@@ -3664,13 +3167,9 @@
         "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWHLEPQKTIFZIAABAAAAAAA8_usd/start_result_raw.usd"
       ],
       "command_is_preview_only": true,
-      "safe_to_execute_now": false,
-      "blocked_by": [
-        "scratch_cleanliness_not_verified",
-        "scratch_inputs_missing",
-        "scratch_root_missing"
-      ],
-      "scratch_input_exists": false,
+      "safe_to_execute_now": true,
+      "blocked_by": [],
+      "scratch_input_exists": true,
       "source_usd_exists": true,
       "expected_top_output_exists": false,
       "timestamped_top_output_siblings": [],

@@ -127,7 +127,18 @@ def _compare_tree_files(src: Path, dst: Path, manifest: dict[str, dict[str, Any]
             continue
         source_file = src / relative_text
         destination_file = dst / relative_text
-        if not filecmp.cmp(source_file, destination_file, shallow=False):
+        try:
+            source_stat = source_file.stat()
+            destination_stat = destination_file.stat()
+        except OSError as exc:
+            raise ValueError(f"cannot stat existing tree file pair: {source_file} -> {destination_file}: {exc}") from exc
+        if (source_stat.st_dev, source_stat.st_ino) == (destination_stat.st_dev, destination_stat.st_ino):
+            continue
+        try:
+            files_match = filecmp.cmp(source_file, destination_file, shallow=False)
+        except OSError as exc:
+            raise ValueError(f"cannot compare existing tree file pair: {source_file} -> {destination_file}: {exc}") from exc
+        if not files_match:
             raise ValueError(f"existing destination file differs from source: {destination_file}")
 
 

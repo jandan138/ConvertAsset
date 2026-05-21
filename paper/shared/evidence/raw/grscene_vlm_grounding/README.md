@@ -83,21 +83,19 @@ are blocked because no-MDL recursively writes dependency `*_noMDL.usd`
 sidecars, and independent per-scene CLI runs do not share one `Processor.done`
 map. Each job includes structured `argv` fields for a later runner, but the
 runner should still use the structured `scratch_input_usd` list instead of
-parsing the human-readable command string. The next full-conversion step is
-full scratch materialization, then a regenerated dependency closure report.
-Do not treat this JSON as evidence that full converted scenes exist.
+parsing the human-readable command string. The full scratch materialization and
+post-materialization dependency closure report now exist. Do not treat this
+planner JSON as evidence that full converted scenes exist.
 
-`full_nomdl_scratch_materialization_report.json` is the dry-run materialization
-report for the full scratch route. It consumes `full_nomdl_scratch_plan.json`
-and plans scratch-side tree hardlinks/copies plus scene-entry repairs; it does
+`full_nomdl_scratch_materialization_report.json` is the materialization report
+for the full scratch route. It consumes `full_nomdl_scratch_plan.json` and
+applies/verifies scratch-side tree hardlinks plus scene-entry repairs; it does
 not run no-MDL conversion.
 
-The current checked-in report has `dry_run=true`, 103 planned tree actions, 138
-planned scene-entry repairs, 99 ignored conversion actions, 0 existing planned
-no-MDL outputs, and 99 missing top-level scratch inputs. Treat it as a
-preflight report only. A real run requires `--apply`, should use hardlink mode
-under the current quota, and must be followed by a regenerated full dependency
-closure report proving `scratch_input_missing_count=0`.
+The current checked-in report has `dry_run=false`, 103 existing tree actions,
+138 existing scene-entry repairs, 99 ignored conversion actions, 0 existing
+planned no-MDL outputs, and 0 missing top-level scratch inputs. It is
+filesystem-preparation evidence, not converted-scene evidence.
 
 `full_nomdl_multi_root_run_report.json` is the dry-run readiness report for the
 full-route runner shell. It consumes `full_nomdl_scratch_plan.json` and proves
@@ -105,28 +103,22 @@ that a later conversion path can reuse one Python process and one `Processor`
 instance across the 99 planned raw-scene roots.
 
 The current checked-in report has 99 planned jobs, `dry_run=true`, and
-`apply_ready=false`. It consumes `full_dependency_closure_report.json` and the
-current dry-run `full_nomdl_scratch_materialization_report.json`. It marks
+`apply_ready=true`. It consumes `full_dependency_closure_report.json` and the
+non-dry-run `full_nomdl_scratch_materialization_report.json`. It marks
 these blockers as satisfied:
 
 - `single_process_multi_root_runner_missing`
 - `single_process_multi_root_runner_closure_report_not_consumed`
 - `whole_scene_dependency_closure_not_scanned`
 - `recursive_nomdl_output_collision_scan_missing`
-
-It still blocks apply on:
-
 - `scratch_cleanliness_not_verified`
-- `scratch_root_missing`
-- `scratch_inputs_missing`
 
-The materialization gate is present but does not clear scratch cleanliness yet,
-because the current materialization report is still `dry_run=true`.
+It has no remaining apply blockers. This is still only a dry-run readiness
+report; it is not evidence that no-MDL conversion has run.
 
-It also records `source_usd_missing_count=0`, `scratch_input_missing_count=99`,
-and `top_level_output_collision_count=0`. The zero collision count is only for
-planned top-level outputs and only because the full scratch root does not yet
-exist. Recursive dependency outputs are explicitly not scanned by this report.
+It also records `source_usd_missing_count=0`, `scratch_input_missing_count=0`,
+and `top_level_output_collision_count=0`. Recursive dependency outputs are
+covered by `full_dependency_closure_report.json`.
 
 For automation, read `jobs[*].blocked_by` as the current report-level blocker
 list. The original plan's stale job blockers are retained separately in
@@ -140,12 +132,12 @@ composition dependency scanning, maps reachable source USDs into the planned
 scratch tree, and computes recursive `_noMDL` sidecar output paths.
 
 The current checked-in report was generated at
-`2026-05-21T06:20:46.606510Z`. It scanned the full 85,705 reachable USD
+`2026-05-21T09:05:33.920851Z`. It scanned the full 85,705 reachable USD
 composition layers with no cap, resolved 89,484 USD dependency records, found 0
 missing dependencies, found 0 outside-source references, and found 0 recursive
-output collisions. It also records 99 missing top-level scratch inputs and
-85,606 missing recursive scratch inputs, so `scan_truncated=false` but
-`safe_to_run_multi_root_nomdl=false`.
+output collisions. It also records 0 missing top-level scratch inputs and 0
+missing recursive scratch inputs, so `scan_truncated=false` and
+`scratch_input_missing_count=0`.
 
 Do not treat this JSON as converted-scene evidence, render evidence, or
 permission to run `--apply`. Its large arrays are capped at 2,000 records;
@@ -154,10 +146,8 @@ material-file or texture-file closure evidence; shader and texture asset
 attributes remain separate material-dependency gates unless surfaced as USD
 composition arcs.
 
-The runner now consumes this report as an apply gate, but this report still
-records `scratch_input_missing_count=85705`. After real scratch
-materialization, regenerate the closure report and require
-`scratch_input_missing_count=0` before running no-MDL conversion.
+The runner consumes this report as an apply gate together with the
+materialization report.
 
 Timestamped `_noMDL_*` siblings are conservative collision signals in this
 report, not a precise overwrite model.

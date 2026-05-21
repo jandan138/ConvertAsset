@@ -2,8 +2,8 @@
   "schema_version": 1,
   "status": "full_grscenes_nomdl_scratch_materialization",
   "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/materialize_full_nomdl_scratch.py",
-  "generated_at_utc": "2026-05-21T07:08:37.955424Z",
-  "dry_run": true,
+  "generated_at_utc": "2026-05-21T08:53:01.606592Z",
+  "dry_run": false,
   "source_plan_status": "planned_full_grscenes_nomdl_scratch",
   "source_plan_generated_at_utc": "2026-05-21T00:44:41.141650Z",
   "source_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
@@ -12,16 +12,16 @@
     "tree_action_count": 103,
     "repair_action_count": 138,
     "ignored_convert_action_count": 99,
-    "dry_run": true,
-    "planned_tree_action_count": 103,
+    "dry_run": false,
+    "planned_tree_action_count": 0,
     "created_tree_count": 0,
-    "existing_tree_count": 0,
-    "planned_repair_action_count": 138,
+    "existing_tree_count": 103,
+    "planned_repair_action_count": 0,
     "repaired_scene_entry_count": 0,
-    "existing_scene_entry_count": 0,
+    "existing_scene_entry_count": 138,
     "existing_nomdl_output_count": 0,
-    "top_level_scratch_input_exists_count": 0,
-    "top_level_scratch_input_missing_count": 99
+    "top_level_scratch_input_exists_count": 99,
+    "top_level_scratch_input_missing_count": 0
   },
   "tree_results": [
     {
@@ -29,721 +29,824 @@
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 205910
     },
     {
       "kind": "resource_tree",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 15573
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 9
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 10
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 8
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 8
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAACA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAACA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 8
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAACA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAACA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "resource_tree",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/models",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/models",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 136263
     },
     {
       "kind": "resource_tree",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/Materials",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/Materials",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 8452
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 8
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAEI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAEI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAAA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAAA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAAI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAAI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MVJWVGYKTLDAYAABAAAAAAQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVJWVGYKTLDAYAABAAAAAAQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MVSGSAIKTKJ66AABAAAAADY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSGSAIKTKJ66AABAAAAADY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MVSGSAIKTKJ66AABAAAAAEA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSGSAIKTKJ66AABAAAAAEA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAAAA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAAAA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAACY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAACY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAADA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAADA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAADI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAADI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAABY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAABY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADQ8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADQ8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADY8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADY8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAAEA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAAEA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAAEI8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAAEI8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     },
     {
       "kind": "scene_dir",
       "src": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/commercial_scenes/scenes/MWHLEPQKTIFZIAABAAAAAAA8_usd",
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWHLEPQKTIFZIAABAAAAAAA8_usd",
       "copy_mode": "hardlink",
-      "status": "planned"
+      "status": "exists",
+      "validated_entry_count": 5
     }
   ],
   "repair_results": [
@@ -753,7 +856,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -761,7 +864,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -769,7 +872,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -777,7 +880,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -785,7 +888,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -793,7 +896,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -801,7 +904,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -809,7 +912,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -817,7 +920,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -825,7 +928,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -833,7 +936,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -841,7 +944,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -849,7 +952,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -857,7 +960,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -865,7 +968,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -873,7 +976,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -881,7 +984,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAQ8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -889,7 +992,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAQ8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -897,7 +1000,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAY8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -905,7 +1008,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAY8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -913,7 +1016,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -921,7 +1024,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -929,7 +1032,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -937,7 +1040,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -945,7 +1048,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABQ8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -953,7 +1056,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABQ8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -961,7 +1064,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -969,7 +1072,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -977,7 +1080,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -985,7 +1088,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -993,7 +1096,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1001,7 +1104,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1009,7 +1112,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACQ8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1017,7 +1120,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACQ8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1025,7 +1128,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACY8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1033,7 +1136,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACY8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1041,7 +1144,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1049,7 +1152,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1057,7 +1160,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1065,7 +1168,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1073,7 +1176,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADQ8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1081,7 +1184,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADQ8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1089,7 +1192,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADY8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1097,7 +1200,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADY8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1105,7 +1208,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1113,7 +1216,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1121,7 +1224,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1129,7 +1232,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1137,7 +1240,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1145,7 +1248,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1153,7 +1256,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1161,7 +1264,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1169,7 +1272,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAQ8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1177,7 +1280,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAQ8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1185,7 +1288,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1193,7 +1296,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1201,7 +1304,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1209,7 +1312,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1217,7 +1320,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAQ8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1225,7 +1328,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAQ8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1233,7 +1336,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAY8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1241,7 +1344,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAY8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1249,7 +1352,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1257,7 +1360,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1265,7 +1368,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1273,7 +1376,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1281,7 +1384,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABQ8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1289,7 +1392,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABQ8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1297,7 +1400,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABY8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1305,7 +1408,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABY8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1313,7 +1416,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1321,7 +1424,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1329,7 +1432,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1337,7 +1440,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1345,7 +1448,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACQ8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1353,7 +1456,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACQ8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1361,7 +1464,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACY8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1369,7 +1472,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACY8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1377,7 +1480,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1385,7 +1488,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1393,7 +1496,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1401,7 +1504,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1409,7 +1512,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADQ8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1417,7 +1520,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADQ8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1425,7 +1528,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADY8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1433,7 +1536,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADY8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1441,7 +1544,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1449,7 +1552,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1457,7 +1560,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1465,7 +1568,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1473,7 +1576,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1481,7 +1584,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1489,7 +1592,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1497,7 +1600,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1505,7 +1608,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAQ8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1513,7 +1616,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAQ8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1521,7 +1624,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAY8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1529,7 +1632,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAY8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1537,7 +1640,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1545,7 +1648,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1553,7 +1656,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1561,7 +1664,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1569,7 +1672,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABQ8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1577,7 +1680,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABQ8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1585,7 +1688,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABY8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1593,7 +1696,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABY8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1601,7 +1704,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAACA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1609,7 +1712,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAACA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1617,7 +1720,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1625,7 +1728,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1633,7 +1736,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1641,7 +1744,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1649,7 +1752,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADQ8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1657,7 +1760,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADQ8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1665,7 +1768,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADY8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1673,7 +1776,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADY8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1681,7 +1784,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1689,7 +1792,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1697,7 +1800,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1705,7 +1808,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1713,7 +1816,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1721,7 +1824,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1729,7 +1832,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1737,7 +1840,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1745,7 +1848,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAQ8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1753,7 +1856,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAQ8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1761,7 +1864,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAY8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1769,7 +1872,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAY8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1777,7 +1880,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1785,7 +1888,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1793,7 +1896,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABI8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1801,7 +1904,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABI8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1809,7 +1912,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABQ8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1817,7 +1920,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABQ8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1825,7 +1928,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABY8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1833,7 +1936,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABY8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1841,7 +1944,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAACA8_usd/models",
       "target_text": "../../models",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models",
-      "status": "planned"
+      "status": "exists"
     },
     {
       "kind": "scene_entry_repair",
@@ -1849,7 +1952,7 @@
       "dst": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAACA8_usd/Materials",
       "target_text": "../../Materials",
       "target_resolved": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
-      "status": "planned"
+      "status": "exists"
     }
   ],
   "ignored_actions": [
@@ -2251,8 +2354,7 @@
     }
   ],
   "top_level_scratch_inputs": {
-    "existing": [],
-    "missing": [
+    "existing": [
       "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
       "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
       "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
@@ -2352,7 +2454,8 @@
       "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABQ8_usd/start_result_raw.usd",
       "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABY8_usd/start_result_raw.usd",
       "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAACA8_usd/start_result_raw.usd"
-    ]
+    ],
+    "missing": []
   },
   "existing_nomdl_outputs": [],
   "notes": [
