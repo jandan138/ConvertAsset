@@ -13,6 +13,7 @@ Expected files:
 - `targeted_materialization_report.json`: dry-run or execution report for the storage-safe target-object subset materializer.
 - `full_nomdl_scratch_plan.json`: read-only whole-GRScenes scratch route planner for full no-MDL conversion preparation.
 - `full_nomdl_multi_root_run_report.json`: dry-run readiness report for the guarded full-route single-process no-MDL runner.
+- `full_dependency_closure_report.json`: read-only whole-GRScenes authored USD dependency and recursive no-MDL output scan for the full scratch route.
 - `predictions.jsonl`: model outputs using the schema documented by `score_grounding.py`.
 - `score_summary.json`: aggregate point-in-box, answer consistency, and original-vs-converted metrics.
 
@@ -111,6 +112,29 @@ list. The original plan's stale job blockers are retained separately in
 `jobs[*].source_plan_blocked_by`.
 
 Do not treat this JSON as evidence that no-MDL conversion has run.
+
+`full_dependency_closure_report.json` is the next read-only gate for the full
+scratch route. It consumes `full_nomdl_scratch_plan.json`, uses lazy `pxr.Sdf`
+composition dependency scanning, maps reachable source USDs into the planned
+scratch tree, and computes recursive `_noMDL` sidecar output paths.
+
+The current checked-in report was generated at
+`2026-05-21T03:32:10.797891Z`. It scanned 5,000 reachable USD layers before the
+configured safety cap, resolved 89,484 USD dependency records, found 0 missing
+dependencies, found 0 outside-source references, and found 0 recursive output
+collisions in the scanned prefix. It also records 99 missing top-level scratch
+inputs, 4,901 missing recursive scratch inputs, and 80,705 unscanned queue
+entries, so `scan_truncated=true` and `safe_to_run_multi_root_nomdl=false`.
+
+Do not treat this JSON as converted-scene evidence, render evidence, or
+permission to run `--apply`. Its large arrays are capped at 2,000 records;
+complete totals live under `summary` and `report_limits`. It is not
+material-file or texture-file closure evidence; shader and texture asset
+attributes remain separate material-dependency gates unless surfaced as USD
+composition arcs.
+
+Timestamped `_noMDL_*` siblings are conservative collision signals in this
+report, not a precise overwrite model.
 
 `render_manifest.json` currently plans 23 unique targets x 4 target-centered views = 92 original/converted pairs and 184 material-condition jobs. Original material inputs exist under the immutable benchmark source, but camera-stage authoring is still pending; converted material inputs are marked `blocked_missing_material_input` until no-MDL scratch derivatives are generated outside the source tree. Image-space boxes are explicitly pending projection and must be filled by the render/projection stage before VLM scoring. The manifest normalizes current VLM prompts to S1 category-pointing prompts and keeps source episode instructions/prompts separately as provenance; some source SN episode records do not carry instruction text and must not be treated as ready-made VLM prompts.
 

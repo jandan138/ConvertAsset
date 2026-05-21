@@ -400,6 +400,66 @@ future `--apply` would reuse one `Processor` instance and one `Processor.done`
 map across all roots. It still will not run conversion while blockers remain,
 and the default path imports no `pxr` and no no-MDL modules.
 
+## Full Dependency Closure Report
+
+Before materializing or converting the full scratch route, scan the authored USD
+composition dependency closure and recursive no-MDL sidecar write set:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/plan_full_dependency_closure.py
+```
+
+Default output:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/full_dependency_closure_report.json
+```
+
+This report is read-only. It consumes `full_nomdl_scratch_plan.json`, lazily
+uses `pxr.Sdf` for authored composition dependency scanning, recovers
+scene-local `models/...` and `Materials/...` references when they appear as USD
+composition dependencies, maps reachable source USDs into the planned scratch
+tree, and computes the recursive `*_noMDL.usd` sidecars that ConvertAsset would
+write later. It does not copy, hardlink, convert, render, or write inside the
+source/scratch asset roots.
+
+Current checked-in result:
+
+- 99 planned raw-scene jobs.
+- 5,000 reachable source USD layers scanned before the safety cap.
+- 89,484 resolved USD dependency records in the scanned prefix.
+- 0 missing dependencies in the scanned prefix.
+- 0 outside-source references in the scanned prefix.
+- 5,000 expected no-MDL sidecar outputs in the scanned prefix: 99 top-level
+  roots and 4,901 recursive dependency outputs.
+- 0 existing base sidecars, 0 timestamped sidecars, and 0 duplicate planned
+  outputs in the scanned prefix.
+- 5,000 missing scratch inputs in the scanned prefix: 99 top-level inputs and
+  4,901 recursive dependency inputs.
+- `scan_truncated=true`, with 80,705 unscanned USD queue entries still recorded
+  in summary counts.
+- `safe_to_run_multi_root_nomdl=false`.
+
+Plain version: the first 5,000 USD layers look structurally clean, but the scan
+did not finish the whole dependency graph. Because it is truncated, it does not
+satisfy `whole_scene_dependency_closure_not_scanned` or
+`recursive_nomdl_output_collision_scan_missing`. The remaining blockers are:
+runner consumption of this closure, full scratch materialization, scratch
+cleanliness verification, and an untruncated dependency/output scan.
+
+The JSON intentionally caps large record lists at 2,000 items so the evidence
+file stays reviewable. Use `summary` and `report_limits` for complete counts;
+the long arrays are samples for debugging.
+
+This report should not be read as material-file or texture-file closure. The
+Sdf backend scans USD composition asset dependencies; shader inputs and texture
+asset attributes remain covered by separate material-dependency evidence unless
+they are surfaced through composition arcs.
+
+Timestamped `_noMDL_*` siblings are treated as conservative collision signals.
+That can over-block a future run, but it avoids silently stepping past stale
+sidecars.
+
 ## Target Manifest
 
 Before rendering, resolve the selected episode targets to USD prims and world-space bboxes:
