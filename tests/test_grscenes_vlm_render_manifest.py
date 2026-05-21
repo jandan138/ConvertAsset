@@ -151,6 +151,8 @@ def test_build_render_manifest_collapses_duplicates_and_pairs_conditions(tmp_pat
     assert converted["render_status"] == "planned_camera_stage_pending"
     assert original["output_image"].endswith("/original_0000.png")
     assert converted["output_image"].endswith("/converted_0000.png")
+    assert "--wait-frames" in original["render_command"]
+    assert original["render_command"][original["render_command"].index("--wait-frames") + 1] == "8"
     assert len(manifest["records"]) == 4
     assert manifest["records"][0]["target"]["bbox_source"] == "pending_projection_from_world_bbox"
     assert manifest["records"][0]["target"]["bbox_xyxy"] is None
@@ -187,6 +189,27 @@ def test_build_render_manifest_tracks_missing_converted_inputs(tmp_path: Path) -
             view_azimuths=[0.0],
             require_converted=True,
         )
+
+
+def test_build_render_manifest_keeps_planned_image_hashes_empty(tmp_path: Path) -> None:
+    module = load_render_module()
+    target_manifest = make_target_manifest(tmp_path, converted_exists=True)
+    first = module.build_render_manifest(
+        target_manifest,
+        render_root=tmp_path / "renders",
+        view_azimuths=[0.0],
+    )
+    image_path = Path(first["records"][0]["output_image"])
+    image_path.parent.mkdir(parents=True)
+    image_path.write_bytes(b"already rendered")
+
+    manifest = module.build_render_manifest(
+        target_manifest,
+        render_root=tmp_path / "renders",
+        view_azimuths=[0.0],
+    )
+
+    assert manifest["records"][0]["image"]["hash_sha256"] is None
 
 
 def test_build_render_manifest_can_overlay_completed_full_nomdl_run_report(tmp_path: Path) -> None:
@@ -229,9 +252,15 @@ def test_build_render_manifest_can_overlay_completed_full_nomdl_run_report(tmp_p
         nomdl_run_report=run_report,
     )
 
+    original = manifest["render_pairs"][0]["conditions"][0]
     converted = manifest["render_pairs"][0]["conditions"][1]
+    assert original["input_exists"] is True
+    assert original["usd_path"] == str(scratch_input)
+    assert original["source_usd"] == target_manifest["scenes"][0]["source_usd"]
+    assert original["scratch_input_usd"] == str(scratch_input)
     assert converted["input_exists"] is True
     assert converted["converted_usd"] == str(converted_output)
+    assert converted["scratch_input_usd"] == str(scratch_input)
     assert converted["scratch_scene_root"] == str(full_scratch_scene)
     assert manifest["render_summary"]["converted_jobs_missing_input_count"] == 0
 

@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 import argparse
+import asyncio
+import inspect
 import os
-from typing import Optional
-
-from isaacsim import SimulationApp
+from typing import Any, Optional
 
 
 def _maybe_stage_timecode(stage, getter: str, checker: str | None = None):
@@ -50,7 +50,9 @@ def _parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def _create_simulation_app(args: argparse.Namespace) -> SimulationApp:
+def _create_simulation_app(args: argparse.Namespace) -> Any:
+    from isaacsim import SimulationApp
+
     config = {"sync_loads": True, "headless": args.headless, "renderer": args.renderer}
     return SimulationApp(launch_config=config)
 
@@ -75,6 +77,40 @@ def _enable_viewport_extension() -> None:
 def _wait_frames(app: SimulationApp, count: int) -> None:
     for _ in range(max(1, count)):
         app.update()
+
+
+def _run_capture_waiter(waiter: Any) -> None:
+    result = waiter()
+    if not inspect.isawaitable(result):
+        return
+    try:
+        loop = asyncio.get_event_loop()
+    except RuntimeError:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+    if loop.is_running():
+        close = getattr(result, "close", None)
+        if callable(close):
+            close()
+        return
+    loop.run_until_complete(result)
+
+
+def _wait_for_capture_result(
+    app: Any,
+    capture_result: Any,
+    out_path: str,
+    *,
+    max_update_checks: int = 120,
+) -> None:
+    waiter = getattr(capture_result, "wait_for_result", None)
+    if callable(waiter):
+        _run_capture_waiter(waiter)
+    for _ in range(max_update_checks):
+        if os.path.isfile(out_path) and os.path.getsize(out_path) > 0:
+            return
+        app.update()
+    raise RuntimeError(f"capture did not create output file: {out_path}")
 
 
 def _open_stage(app: SimulationApp, usd_path: str):
@@ -203,7 +239,8 @@ def _capture_sequence(app: SimulationApp, args: argparse.Namespace) -> None:
         filename = f"{args.prefix}_{frame_index:0{args.digits}d}.{args.ext}"
         out_path = os.path.join(args.output_dir, filename)
         result = capture_viewport_to_file(viewport, out_path)
-        print(f"Saved frame {frame_index} (time {t}) -> {out_path} [success={result}]", flush=True)
+        _wait_for_capture_result(app, result, out_path)
+        print(f"Saved frame {frame_index} (time {t}) -> {out_path} [capture={result}]", flush=True)
         frame_index += 1
         t += step
 

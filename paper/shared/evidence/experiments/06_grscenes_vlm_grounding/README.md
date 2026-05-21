@@ -235,7 +235,7 @@ Current result:
   missing entries.
 - All 23 selected model roots require external split-level material resolution.
 
-Plain version: this proves the model part can be made much smaller than the
+Plain version: this shows the model part can be made much smaller than the
 one-scene split-level mirror, but the closure is not runnable yet. The next
 implementation should resolve only the material files used by these selected
 model USDs, not copy the entire split-level `Materials/` tree.
@@ -596,16 +596,61 @@ This manifest is a render plan and provenance bridge, not rendered image evidenc
 - 40 resolved episode records are collapsed into 23 unique spatial render targets.
 - Four target-centered static orbit views are planned per unique target.
 - The current pilot therefore has 92 original/converted render pairs and 184 material-condition render jobs.
-- Original jobs point at immutable benchmark source USDs and have material inputs available.
+- Original jobs keep immutable benchmark source provenance in `source_usd`, but
+  render from the full scratch `scratch_input_usd`. The scratch route repairs
+  scene-local `models` / `Materials` pointer entries without writing back to the
+  benchmark source tree, so original and converted renders share the same
+  addressable dependency layout.
 - Converted jobs point at the full no-MDL scratch outputs recorded by
   `full_nomdl_multi_root_run_report.json`; `converted_jobs_missing_input_count=0`.
-- Camera-stage authoring is still pending.
+- Camera-stage authoring has been executed with
+  `author_render_camera_stages.py`; `camera_stage_missing_count=0` and
+  `render_jobs_ready_to_run=184`.
 - Each pair stores one shared camera plan so original and converted renders differ only by material condition.
-- No job is `render_jobs_ready_to_run` yet because camera USD stages have not been authored.
 - Image-space target bboxes remain `pending_projection_from_world_bbox`; scoring must not run until the renderer projects bboxes or masks into image coordinates.
 - Each planned image record includes a `visual_review` packet marker for the clean-room `render-visual-reviewer` skill.
 
 Use `--require-converted` after scratch conversion to fail fast if any converted USD is still missing.
+
+Author camera wrapper stages:
+
+```bash
+./scripts/isaac_python.sh \
+  paper/shared/evidence/experiments/06_grscenes_vlm_grounding/author_render_camera_stages.py \
+  --include-existing \
+  --overwrite \
+  --apply
+```
+
+The camera wrappers are thin USD files in the render output tree. Each wrapper
+opens the condition-specific scratch USD as a sublayer, adds the planned camera
+prim, and adds identical auto-light anchors for both material conditions.
+
+The current paired render smoke is recorded in:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_smoke_report.json
+paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/
+```
+
+Run it with:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python \
+  paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_paired_render_smoke.py \
+  --pair-id c27086f557d316584264.view_001
+```
+
+The current smoke shows that both original and converted view-001 renders
+produce visible pixels under the local Isaac viewport path. The original render
+still reports many MDL/KooPbr failures; the converted render reports no KooPbr
+signal. The report stores image hashes, stdout/stderr log hashes, and the
+executed renderer script hash for `scripts/render_with_viewport_capture.py`.
+Independent visual review marked the pair `WARN`: the bottle is visible, but
+the converted material/color shift is large enough that this is not yet a fair
+final grounding comparison. Treat this as render-stack smoke evidence only; it
+is not VLM metric evidence. The next render gate is visibility-aware view
+selection before batch rendering.
 
 ## Task Families
 

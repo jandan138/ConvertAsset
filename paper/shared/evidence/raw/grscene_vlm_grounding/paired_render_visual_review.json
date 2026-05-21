@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "status": "independent_visual_review_summary",
+  "generated_at_utc": "2026-05-21T15:56:00Z",
+  "review_mode": "clean_room_render_visual_reviewer",
+  "pair_id": "c27086f557d316584264.view_001",
+  "target_expectation": "bottle in an indoor scene, useful for referred-object localization",
+  "label_mapping": {
+    "A": "original",
+    "B": "converted"
+  },
+  "images": {
+    "A": "paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/view_001/original/original_0000.png",
+    "B": "paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/view_001/converted/converted_0000.png"
+  },
+  "overall_verdict": "WARN",
+  "per_image": [
+    {
+      "id": "A",
+      "verdict": "PASS",
+      "visible_evidence": "A red bottle-like object is visible near the back corner on the red surface.",
+      "main_risk": "The target is small relative to the frame and competes with nearby cylindrical objects."
+    },
+    {
+      "id": "B",
+      "verdict": "WARN",
+      "visible_evidence": "A bottle-like object appears in the same area.",
+      "main_risk": "The material/color changes to mostly black with a tan band, weakening identity relative to the original."
+    },
+    {
+      "id": "pair",
+      "verdict": "WARN",
+      "visible_evidence": "Camera angle, object layout, and framing are broadly comparable.",
+      "main_risk": "Lighting/material shifts are strong enough to complicate a fair visual comparison."
+    }
+  ],
+  "retake_recommendation": "Keep the same camera family but move or zoom closer so the bottle occupies more pixels, and prefer a visibility-aware selected view before using the pair for VLM scoring.",
+  "confidence": "high",
+  "claim_boundary": "This review supports render-stack smoke only; it does not establish final VLM metric evidence."
+}

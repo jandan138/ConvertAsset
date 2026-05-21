@@ -39,6 +39,7 @@ DEFAULT_CAMERA_PRIM_PATH = "/World/GRScenesVLMTargetCamera"
 DEFAULT_WIDTH = 600
 DEFAULT_HEIGHT = 450
 DEFAULT_RENDERER = "RayTracedLighting"
+DEFAULT_WAIT_FRAMES = 8
 
 
 def _load_json(path: Path) -> Any:
@@ -131,6 +132,7 @@ def _nomdl_scene_overrides(nomdl_run_report: dict[str, Any] | None) -> dict[tupl
         )
         overrides[key] = {
             "scratch_scene_root": str(scratch_input.parent),
+            "scratch_input_usd": str(scratch_input),
             "converted_usd": str(converted_usd),
             "conversion_command": "full_no_mdl_multi_root_apply",
             "conversion_report": str(DEFAULT_INPUT.with_name("full_nomdl_multi_root_run_report.json")),
@@ -326,10 +328,12 @@ def _condition_record(
     image_width: int,
     image_height: int,
     renderer: str,
+    wait_frames: int,
 ) -> dict[str, Any]:
     source_usd = Path(scene["source_usd"])
+    scratch_input_usd = Path(str(scene.get("scratch_input_usd") or scene.get("source_usd")))
     converted_usd = Path(scene["converted_usd"])
-    usd_path = source_usd if condition == "original" else converted_usd
+    usd_path = scratch_input_usd if condition == "original" else converted_usd
     target_dir = render_root / _safe_token(str(scene["source_scene_id"])) / target["target_id"] / view["view_id"]
     condition_dir = target_dir / condition
     output_image = condition_dir / f"{condition}_0000.png"
@@ -369,6 +373,8 @@ def _condition_record(
         "1",
         "--renderer",
         renderer,
+        "--wait-frames",
+        str(wait_frames),
         "--headless",
     ]
     return {
@@ -382,6 +388,8 @@ def _condition_record(
         "source_usd": scene.get("source_usd"),
         "source_usd_hash_sha256": _hash_if_exists(source_usd),
         "scratch_scene_root": scene.get("scratch_scene_root"),
+        "scratch_input_usd": str(scratch_input_usd),
+        "scratch_input_usd_hash_sha256": _hash_if_exists(scratch_input_usd),
         "converted_usd": scene.get("converted_usd"),
         "converted_usd_hash_sha256": _hash_if_exists(converted_usd),
         "usd_path": str(usd_path),
@@ -401,7 +409,7 @@ def _condition_record(
         "camera_stage_path": str(camera_stage_path),
         "image": {
             "path": str(output_image),
-            "hash_sha256": _hash_if_exists(output_image),
+            "hash_sha256": None,
             "width": image_width,
             "height": image_height,
             "format": "png",
@@ -461,6 +469,7 @@ def _render_pair(
     image_width: int,
     image_height: int,
     renderer: str,
+    wait_frames: int,
 ) -> dict[str, Any]:
     pair_id = f"{target['target_id']}.{view['view_id']}"
     original = _condition_record(
@@ -474,6 +483,7 @@ def _render_pair(
         image_width=image_width,
         image_height=image_height,
         renderer=renderer,
+        wait_frames=wait_frames,
     )
     converted = _condition_record(
         pair_id=pair_id,
@@ -486,6 +496,7 @@ def _render_pair(
         image_width=image_width,
         image_height=image_height,
         renderer=renderer,
+        wait_frames=wait_frames,
     )
     return {
         "pair_id": pair_id,
@@ -516,6 +527,7 @@ def build_render_manifest(
     radius_scale: float = DEFAULT_RADIUS_SCALE,
     min_distance: float = DEFAULT_MIN_DISTANCE,
     renderer: str = DEFAULT_RENDERER,
+    wait_frames: int = DEFAULT_WAIT_FRAMES,
     camera_prim_path: str = DEFAULT_CAMERA_PRIM_PATH,
     require_converted: bool = False,
 ) -> dict[str, Any]:
@@ -562,6 +574,7 @@ def build_render_manifest(
                 image_width=int(image_width),
                 image_height=int(image_height),
                 renderer=renderer,
+                wait_frames=int(wait_frames),
             )
             render_pairs.append(pair)
             records.extend(pair["conditions"])
@@ -611,8 +624,8 @@ def build_render_manifest(
             "image_format": "png",
             "renderer": renderer,
             "headless": True,
-            "wait_frames": 2,
-            "render_steps": 8,
+            "wait_frames": int(wait_frames),
+            "render_steps": int(wait_frames),
             "camera_policy": "target_centered_static_orbit_plan",
             "view_azimuths_deg": [float(value) for value in view_azimuths],
             "elevation_deg": float(elevation_deg),
@@ -640,6 +653,7 @@ def main() -> int:
     parser.add_argument("--radius-scale", type=float, default=DEFAULT_RADIUS_SCALE)
     parser.add_argument("--min-distance", type=float, default=DEFAULT_MIN_DISTANCE)
     parser.add_argument("--renderer", default=DEFAULT_RENDERER)
+    parser.add_argument("--wait-frames", type=int, default=DEFAULT_WAIT_FRAMES)
     parser.add_argument("--camera-prim-path", default=DEFAULT_CAMERA_PRIM_PATH)
     parser.add_argument("--require-converted", action="store_true")
     args = parser.parse_args()
@@ -658,6 +672,7 @@ def main() -> int:
             radius_scale=args.radius_scale,
             min_distance=args.min_distance,
             renderer=args.renderer,
+            wait_frames=args.wait_frames,
             camera_prim_path=args.camera_prim_path,
             require_converted=args.require_converted,
         )

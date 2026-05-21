@@ -15,6 +15,16 @@ Expected files:
 - `full_nomdl_multi_root_run_report.json`: full-route single-process no-MDL runner report; the current checked-in report is completed apply evidence.
 - `full_nomdl_apply_verification_report.json`: post-apply verification report for completed full-route no-MDL evidence.
 - `full_dependency_closure_report.json`: read-only whole-GRScenes authored USD dependency and recursive no-MDL output scan for the full scratch route.
+- `camera_stage_authoring_report.json`: execution report for authoring paired
+  render camera wrapper stages.
+- `paired_render_smoke_report.json`: first paired Isaac viewport smoke summary
+  for one original/converted render pair.
+- `paired_render_visual_review.json`: independent visual QA summary for the
+  smoke pair.
+- `render_logs/`: archived `.txt` stdout/stderr logs referenced by the smoke
+  report.
+- `renders/`: thin camera wrapper USDs and smoke PNG outputs for GRScenes
+  render jobs.
 - `predictions.jsonl`: model outputs using the schema documented by `score_grounding.py`.
 - `score_summary.json`: aggregate point-in-box, answer consistency, and original-vs-converted metrics.
 
@@ -38,7 +48,7 @@ or render planning manifests.
 
 `reference_closure_plan.json` is the follow-up storage guardrail, currently generated at `2026-05-20T17:08:10.354908Z`.
 
-It proves the selected model-root part is small: 40 resolved episode records collapse to 23 unique spatial targets, 5 scene-directory actions, 23 selected model-root actions, 51 model files, and 14 model symlinks.
+It shows the selected model-root part is small: 40 resolved episode records collapse to 23 unique spatial targets, 5 scene-directory actions, 23 selected model-root actions, 51 model files, and 14 model symlinks.
 
 It does not make conversion runnable. It reports `material_closure_status=requires_material_dependency_resolution` and `model_root_only_materialization_safe=false`: the 23 selected model roots contain 14 `Materials` symlinks, 5 ordinary `Materials` pointer files, and 4 missing `Materials` entries.
 
@@ -139,6 +149,35 @@ source tree contains no `_noMDL` USD sidecars. Treat converted scenes as ready
 for the next render-manifest and USD/render smoke-validation gate only when
 this report has `passed=true`.
 
+`render_manifest.json` now consumes the completed full no-MDL report. Original
+jobs retain immutable benchmark provenance in `source_usd`, but their actual
+`usd_path` points at the scratch `scratch_input_usd` so the renderer uses the
+same repaired pointer-file layout as converted jobs. The current manifest has
+184 render jobs, 0 missing material inputs, 0 missing camera stages, and 184
+ready-to-run jobs.
+
+`camera_stage_authoring_report.json` records the camera-wrapper authoring pass.
+The current report selected 184 records, authored 184 camera stages, and has 0
+blocked or failed jobs. Auto-light anchors are enabled in the wrappers so
+original and converted conditions share identical supplemental lighting.
+
+`paired_render_smoke_report.json` records the first usable paired render smoke:
+`c27086f557d316584264.view_001.original` and
+`c27086f557d316584264.view_001.converted`. Both commands exited 0 and produced
+PNG files. Both images contain visible pixels for this view, but the original
+render log still contains MDL/KooPbr failures while the converted render has no
+KooPbr signal in stderr. This is render-stack smoke evidence only. The
+associated `render_logs/` files are archived as `.txt` artifacts so the report
+hashes point at files that can be committed. The report also hashes the
+executed renderer script, `scripts/render_with_viewport_capture.py`. VLM
+scoring still requires visibility-aware view selection, image-space boxes or
+masks, predictions, and a score summary.
+
+`paired_render_visual_review.json` records the independent clean-room visual
+review for the same smoke pair. The verdict is `WARN`: the bottle is visible in
+both images, but the converted material/color shift is large enough that this
+pair should not be used as final VLM grounding evidence.
+
 The current checked-in verification report has `passed=true`, `blockers=[]`,
 99 existing top-level outputs, and 0 source `_noMDL` USD sidecars.
 
@@ -170,16 +209,18 @@ report, not a precise overwrite model.
 
 `render_manifest.json` currently plans 23 unique targets x 4 target-centered
 views = 92 original/converted pairs and 184 material-condition jobs. Original
-material inputs exist under the immutable benchmark source, and converted
-material inputs now point at the completed full no-MDL scratch outputs via
+render inputs use scratch `scratch_input_usd` files while retaining immutable
+benchmark provenance in `source_usd`; converted material inputs point at the
+completed full no-MDL scratch outputs via
 `full_nomdl_multi_root_run_report.json`; `converted_jobs_missing_input_count=0`.
-Camera-stage authoring is still pending, so `render_jobs_ready_to_run=0`.
-Image-space boxes are explicitly pending projection and must be filled by the
-render/projection stage before VLM scoring. The manifest normalizes current VLM
-prompts to S1 category-pointing prompts and keeps source episode
-instructions/prompts separately as provenance; some source SN episode records
-do not carry instruction text and must not be treated as ready-made VLM
-prompts.
+Camera-stage authoring has been completed, so `camera_stage_missing_count=0`
+and `render_jobs_ready_to_run=184`. Image-space boxes are explicitly pending
+projection and must be filled by the render/projection stage before VLM
+scoring. The manifest normalizes current VLM prompts to S1 category-pointing
+prompts and keeps source episode instructions/prompts separately as provenance;
+some source SN episode records do not carry instruction text and must not be
+treated as ready-made VLM prompts. Rendered image hashes live in smoke/result
+reports, not in this planned manifest.
 
 Do not cite generated results unless the provenance shows that benchmark scenes came from `/cpfs/user/zhuzihou/assets/zzh-grscenes` and no in-place conversion was run there. PIO should be treated as prompt/metric inspiration unless a future run explicitly imports PIO data.
 
