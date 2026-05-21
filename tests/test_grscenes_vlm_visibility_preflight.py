@@ -45,7 +45,7 @@ def test_classify_candidate_blocks_camera_inside_non_target_obstacle() -> None:
         ],
     )
 
-    assert result["status"] == "blocked_camera_inside_obstacle"
+    assert result["status"] == "blocked_camera_inside_obstacle_aabb"
     assert result["blocker_prim_path"] == "/Room/Wall"
 
 
@@ -60,7 +60,7 @@ def test_classify_candidate_blocks_obstacle_before_target() -> None:
         ],
     )
 
-    assert result["status"] == "blocked_line_of_sight"
+    assert result["status"] == "blocked_centerline_aabb"
     assert result["blocker_prim_path"] == "/Room/Table"
     assert result["blocker_interval"]["t_enter"] < result["target_interval"]["t_enter"]
 
@@ -76,7 +76,7 @@ def test_classify_candidate_keeps_obstacle_behind_target_clear() -> None:
         ],
     )
 
-    assert result["status"] == "clear"
+    assert result["status"] == "centerline_clear"
     assert result["blocker_prim_path"] is None
 
 
@@ -115,6 +115,63 @@ def test_build_visibility_report_selects_first_clear_view_for_target() -> None:
 
     report = module.build_visibility_report(manifest, geometry_index=geometry_index)
 
-    assert report["summary"]["clear_pair_count"] == 1
+    assert report["summary"]["visibility_method"] == "single_centerline_vs_non_target_aabb_preflight"
+    assert report["summary"]["centerline_clear_pair_count"] == 1
     assert report["summary"]["blocked_pair_count"] == 1
     assert report["recommended_pairs_by_target"]["target_a"]["pair_id"] == "target_a.view_001"
+
+
+def test_build_visibility_report_unwraps_geometry_index_report_schema() -> None:
+    module = load_visibility_module()
+    manifest = {
+        "render_pairs": [
+            {
+                "pair_id": "target_a.view_000",
+                "target_id": "target_a",
+                "source_scene_id": "scene_usd",
+                "view": {"view_id": "view_000", "camera": camera([0.0, 0.0, 0.0])},
+                "conditions": [
+                    {"world_bbox": bbox([9.5, -0.5, -0.5], [10.5, 0.5, 0.5])},
+                    {"world_bbox": bbox([9.5, -0.5, -0.5], [10.5, 0.5, 0.5])},
+                ],
+            }
+        ],
+    }
+    geometry_report = {
+        "status": "visibility_geometry_index",
+        "geometry_index": {
+            "scene_usd": [
+                {"prim_path": "/Room/Table", "bbox": bbox([4.0, -1.0, -1.0], [5.0, 1.0, 1.0])},
+            ]
+        },
+    }
+
+    report = module.build_visibility_report(manifest, geometry_index=geometry_report)
+
+    assert report["summary"]["geometry_source_schema"] == "visibility_geometry_index_report"
+    assert report["pair_reviews"][0]["visibility_status"] == "blocked_centerline_aabb"
+
+
+def test_build_visibility_report_rejects_missing_scene_geometry() -> None:
+    module = load_visibility_module()
+    manifest = {
+        "render_pairs": [
+            {
+                "pair_id": "target_a.view_000",
+                "target_id": "target_a",
+                "source_scene_id": "scene_usd",
+                "view": {"view_id": "view_000", "camera": camera([0.0, 0.0, 0.0])},
+                "conditions": [
+                    {"world_bbox": bbox([9.5, -0.5, -0.5], [10.5, 0.5, 0.5])},
+                    {"world_bbox": bbox([9.5, -0.5, -0.5], [10.5, 0.5, 0.5])},
+                ],
+            }
+        ],
+    }
+
+    try:
+        module.build_visibility_report(manifest, geometry_index={})
+    except ValueError as exc:
+        assert "missing geometry scenes" in str(exc)
+    else:
+        raise AssertionError("missing scene geometry should not silently clear views")

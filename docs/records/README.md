@@ -42,6 +42,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-21 GRScenes render manifest full no-MDL overlay](2026-05-21-grscenes-render-manifest-full-nomdl-overlay.md)
 - [2026-05-21 GRScenes camera stage authoring and render smoke](2026-05-21-grscenes-camera-stage-authoring-and-render-smoke.md)
 - [2026-05-21 GRScenes visibility preflight](2026-05-21-grscenes-visibility-preflight.md)
+- [2026-05-22 GRScenes visibility preflight schema and bbox fix](2026-05-22-grscenes-visibility-preflight-schema-and-bbox-fix.md)
 - [2026-05-20 ACL VLM benchmark route](2026-05-20-acl-vlm-benchmark-route.md)
 - [2026-05-20 ACL 2027 candidate venue wrapper](2026-05-20-paper-acl27-candidate.md)
 - [2026-05-14 workshop review ingestion for AAAI 2027](2026-05-14-workshop-review-aaai27-roadmap.md)

@@ -1,0 +1,361 @@
+{
+  "schema_version": 1,
+  "status": "recommended_paired_render_summary",
+  "generated_at_utc": "2026-05-21T18:19:56.758052Z",
+  "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/summarize_recommended_paired_renders.py",
+  "summary": {
+    "recommended_pair_count": 10,
+    "reports_found_count": 10,
+    "report_dir_count": 9,
+    "fallback_report_count": 1,
+    "paired_non_dark_render_smoke_count": 10,
+    "black_or_missing_image_count": 0,
+    "render_smoke_pass_count": 10,
+    "preflight_centerline_clear_pair_count": 21,
+    "claim_boundary": "render_smoke_only_requires_projection_visual_qa_and_vlm_predictions"
+  },
+  "pairs": [
+    {
+      "pair_id": "c27086f557d316584264.view_001",
+      "report_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_smoke_report.json",
+      "report_source": "fallback_report",
+      "report_hash_sha256": "0ae384f9885ff9c21ed5e269fe10b0b9cb880e34bc53679f61c98b272bf755d2",
+      "both_commands_exit_zero": true,
+      "both_images_exist": true,
+      "render_smoke_pass": true,
+      "original": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/view_001/original/original_0000.png",
+        "hash_sha256": "08c3ea179d6ffcb8cd888311c1936ec5e83b5b88d6fb76e7ac226053c7447a9f",
+        "non_dark_pixel_count": 255343,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 1556
+      },
+      "converted": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/view_001/converted/converted_0000.png",
+        "hash_sha256": "e018db94d16c0d06541ee852826348e4257895b1ca7abc8119ba67942647cc2c",
+        "non_dark_pixel_count": 256949,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 0
+      }
+    },
+    {
+      "pair_id": "32ba3ade1a8e63c981af.view_002",
+      "report_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/32ba3ade1a8e63c981af.view_002.json",
+      "report_source": "report_dir",
+      "report_hash_sha256": "64f47adee4dcdb425e26a3f7790a8a4c56bf93a5cdc47e5dcc92301953ba4f88",
+      "both_commands_exit_zero": true,
+      "both_images_exist": true,
+      "render_smoke_pass": true,
+      "original": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/32ba3ade1a8e63c981af/view_002/original/original_0000.png",
+        "hash_sha256": "60d53670aa5cda09d3b65a795bc39cc17402b6aa7d1dd8e1f7d45ed2c69b8131",
+        "non_dark_pixel_count": 269165,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 1556
+      },
+      "converted": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/32ba3ade1a8e63c981af/view_002/converted/converted_0000.png",
+        "hash_sha256": "113d24d27cfa3bdae724676341f0cfcbf04d488ab443170e26a707cf1392f840",
+        "non_dark_pixel_count": 79174,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 0
+      }
+    },
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.view_001",
+      "report_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/f35ef3d86c42446b7ddf.view_001.json",
+      "report_source": "report_dir",
+      "report_hash_sha256": "5844d1b6c50897e95b99bf30bb7e04033c5758609a418e4729e538ad925abd7a",
+      "both_commands_exit_zero": true,
+      "both_images_exist": true,
+      "render_smoke_pass": true,
+      "original": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/view_001/original/original_0000.png",
+        "hash_sha256": "f0ae1befa04ca8eb3d9c27fb50cfb7f1e64043377cc94c44c7ac901c770e7ea1",
+        "non_dark_pixel_count": 266293,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 988
+      },
+      "converted": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/view_001/converted/converted_0000.png",
+        "hash_sha256": "7e36f6911d1ddbb35f68f48611ba43288f1d550e24bcd7c76df43b58886e1492",
+        "non_dark_pixel_count": 253288,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 0
+      }
+    },
+    {
+      "pair_id": "bb985fd4504a1afe8516.view_000",
+      "report_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/bb985fd4504a1afe8516.view_000.json",
+      "report_source": "report_dir",
+      "report_hash_sha256": "142aca6b220eedb78b40e527e1473d87e543a154e451a8a3c89184960d81cb75",
+      "both_commands_exit_zero": true,
+      "both_images_exist": true,
+      "render_smoke_pass": true,
+      "original": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_000/original/original_0000.png",
+        "hash_sha256": "2963c3578afddc6652be0f8ad4ea4737a6fbd0642f4c21cca6b603042f08477d",
+        "non_dark_pixel_count": 270000,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 988
+      },
+      "converted": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_000/converted/converted_0000.png",
+        "hash_sha256": "1fba7ee1bc83d0251fdb52ced30037dd7abde1215f1608e0b93857d6e7ca41b3",
+        "non_dark_pixel_count": 247267,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 0
+      }
+    },
+    {
+      "pair_id": "e2ec085d524d5df4455d.view_000",
+      "report_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/e2ec085d524d5df4455d.view_000.json",
+      "report_source": "report_dir",
+      "report_hash_sha256": "ef49e6b4f8662a01e8fb673d4985abbdfd08fbe107ad357c4205dfb1a2e5d6ac",
+      "both_commands_exit_zero": true,
+      "both_images_exist": true,
+      "render_smoke_pass": true,
+      "original": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_000/original/original_0000.png",
+        "hash_sha256": "792fd67ccf952249cea988a0e1e9b861c6a6e6a1ccd9abc17187312502077982",
+        "non_dark_pixel_count": 269935,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 988
+      },
+      "converted": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_000/converted/converted_0000.png",
+        "hash_sha256": "5ae197b23233227bad85c691f8e33bef99ff901575d055aee1a67cdae34ed944",
+        "non_dark_pixel_count": 263774,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 0
+      }
+    },
+    {
+      "pair_id": "f405f964229ca3d3fbad.view_000",
+      "report_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/f405f964229ca3d3fbad.view_000.json",
+      "report_source": "report_dir",
+      "report_hash_sha256": "4d86bbbeb8d489371e76f3cbaec93429261065d336050ceea23b3381d51ca5e9",
+      "both_commands_exit_zero": true,
+      "both_images_exist": true,
+      "render_smoke_pass": true,
+      "original": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/f405f964229ca3d3fbad/view_000/original/original_0000.png",
+        "hash_sha256": "a4dc754bd19ce3da529b7305ece8206a9e0ee1e381efa883ef712ff4d8f448c5",
+        "non_dark_pixel_count": 266749,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 1588
+      },
+      "converted": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/f405f964229ca3d3fbad/view_000/converted/converted_0000.png",
+        "hash_sha256": "1b0c22840c8e04332167aca1320c65797c7261b1b994fa834e806f2b4f7459e1",
+        "non_dark_pixel_count": 143643,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 0
+      }
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.view_000",
+      "report_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/c8ee4b66274b05d242c2.view_000.json",
+      "report_source": "report_dir",
+      "report_hash_sha256": "fee706d8b60a1b6634041459a8eaa2f67d97a6b17c50c8d0932bbaa4fdb5982b",
+      "both_commands_exit_zero": true,
+      "both_images_exist": true,
+      "render_smoke_pass": true,
+      "original": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_000/original/original_0000.png",
+        "hash_sha256": "c8430c23be20e1eb70960b3946e8378464a90663ce3e553c704d15e1e59ba6f7",
+        "non_dark_pixel_count": 261517,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 1588
+      },
+      "converted": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_000/converted/converted_0000.png",
+        "hash_sha256": "5b45a2a2d678c229d0f0c4d8b581231a738e147d90757090ebd897abed710c53",
+        "non_dark_pixel_count": 267245,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 0
+      }
+    },
+    {
+      "pair_id": "2c2bd8f1c808f5a4b227.view_002",
+      "report_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/2c2bd8f1c808f5a4b227.view_002.json",
+      "report_source": "report_dir",
+      "report_hash_sha256": "733559c1e77294584f46f2b2f6f208251ce99443f3a2cf359c9178ca6c05fb4c",
+      "both_commands_exit_zero": true,
+      "both_images_exist": true,
+      "render_smoke_pass": true,
+      "original": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/2c2bd8f1c808f5a4b227/view_002/original/original_0000.png",
+        "hash_sha256": "df313a6045d0ac80195b3dcc0392c2db80477f7928b5f215bc33821cea8abf1c",
+        "non_dark_pixel_count": 269917,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 1280
+      },
+      "converted": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/2c2bd8f1c808f5a4b227/view_002/converted/converted_0000.png",
+        "hash_sha256": "aba92c845876d90e83153cd87775213c6b13d2913629b5a6ee8867c29bd84196",
+        "non_dark_pixel_count": 165126,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 0
+      }
+    },
+    {
+      "pair_id": "1e397951c1926c7f0a0b.view_000",
+      "report_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/1e397951c1926c7f0a0b.view_000.json",
+      "report_source": "report_dir",
+      "report_hash_sha256": "9513afeb5da66e863ed3b5392933d1bc14ff720c22be725dbd7fb7dd75585bbe",
+      "both_commands_exit_zero": true,
+      "both_images_exist": true,
+      "render_smoke_pass": true,
+      "original": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/view_000/original/original_0000.png",
+        "hash_sha256": "1745a46ebd191adc920331d08b40de3ce195042df7e55bda1e342a361bc832b6",
+        "non_dark_pixel_count": 265300,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 1280
+      },
+      "converted": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/view_000/converted/converted_0000.png",
+        "hash_sha256": "4faa27e55582a2403caa4b1230d1ee7c6d7947700c984840fd3ffaed1b3cf7ba",
+        "non_dark_pixel_count": 260866,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 0
+      }
+    },
+    {
+      "pair_id": "90e105daa7e6ff59da38.view_002",
+      "report_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/90e105daa7e6ff59da38.view_002.json",
+      "report_source": "report_dir",
+      "report_hash_sha256": "9b5c6a9188944075f0a386d144c5b983167ac75d58753a298483aa3a8c48faf3",
+      "both_commands_exit_zero": true,
+      "both_images_exist": true,
+      "render_smoke_pass": true,
+      "original": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/90e105daa7e6ff59da38/view_002/original/original_0000.png",
+        "hash_sha256": "d6f330d62e0c041c41ec41753ac65d61b7ffd185308be08af6feb266bd9ecd9a",
+        "non_dark_pixel_count": 270000,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 1280
+      },
+      "converted": {
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/90e105daa7e6ff59da38/view_002/converted/converted_0000.png",
+        "hash_sha256": "ea5b3ab17434da975902e30bfc46fabc0c75b4b32dbf888f950e33e524552b61",
+        "non_dark_pixel_count": 261540,
+        "width": 600,
+        "height": 450,
+        "mdl_error_signal": 0
+      }
+    }
+  ],
+  "preflight_report": {
+    "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/visibility_preflight_report.json",
+    "hash_sha256": "30605312f52298c4574eb988a0cef30144b1970e5eec0a904d13dc265fc7fd9a"
+  },
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/summarize_recommended_paired_renders.py",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/recommended_paired_render_summary.json"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/summarize_recommended_paired_renders.py",
+    "script_hash_sha256": "02d16e59d4c732ab2367082098575d78ad3bcf334e5490b24acde7c824a81f43",
+    "git_commit": "0864002987df5e8acb442fb8f8cc7753601e98e4",
+    "git_status_porcelain": [
+      " M docs/records/README.md",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/plan_visibility_aware_views.py",
+      " M paper/shared/evidence/raw/grscene_vlm_grounding/README.md",
+      " M tests/test_grscenes_vlm_visibility_preflight.py",
+      "?? docs/records/2026-05-22-grscenes-visibility-preflight-schema-and-bbox-fix.md",
+      "?? paper/shared/evidence/experiments/06_grscenes_vlm_grounding/extract_visibility_geometry_index.py",
+      "?? paper/shared/evidence/experiments/06_grscenes_vlm_grounding/summarize_recommended_paired_renders.py",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/1e397951c1926c7f0a0b.view_000.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/2c2bd8f1c808f5a4b227.view_002.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/32ba3ade1a8e63c981af.view_002.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/90e105daa7e6ff59da38.view_002.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/bb985fd4504a1afe8516.view_000.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/c8ee4b66274b05d242c2.view_000.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/e2ec085d524d5df4455d.view_000.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/f35ef3d86c42446b7ddf.view_001.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/f405f964229ca3d3fbad.view_000.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/recommended_paired_render_summary.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/1e397951c1926c7f0a0b.view_000/1e397951c1926c7f0a0b.view_000.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/1e397951c1926c7f0a0b.view_000/1e397951c1926c7f0a0b.view_000.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/1e397951c1926c7f0a0b.view_000/1e397951c1926c7f0a0b.view_000.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/1e397951c1926c7f0a0b.view_000/1e397951c1926c7f0a0b.view_000.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/2c2bd8f1c808f5a4b227.view_002/2c2bd8f1c808f5a4b227.view_002.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/2c2bd8f1c808f5a4b227.view_002/2c2bd8f1c808f5a4b227.view_002.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/2c2bd8f1c808f5a4b227.view_002/2c2bd8f1c808f5a4b227.view_002.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/2c2bd8f1c808f5a4b227.view_002/2c2bd8f1c808f5a4b227.view_002.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/32ba3ade1a8e63c981af.view_002/32ba3ade1a8e63c981af.view_002.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/32ba3ade1a8e63c981af.view_002/32ba3ade1a8e63c981af.view_002.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/32ba3ade1a8e63c981af.view_002/32ba3ade1a8e63c981af.view_002.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/32ba3ade1a8e63c981af.view_002/32ba3ade1a8e63c981af.view_002.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/90e105daa7e6ff59da38.view_002/90e105daa7e6ff59da38.view_002.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/90e105daa7e6ff59da38.view_002/90e105daa7e6ff59da38.view_002.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/90e105daa7e6ff59da38.view_002/90e105daa7e6ff59da38.view_002.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/90e105daa7e6ff59da38.view_002/90e105daa7e6ff59da38.view_002.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_000/bb985fd4504a1afe8516.view_000.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_000/bb985fd4504a1afe8516.view_000.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_000/bb985fd4504a1afe8516.view_000.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_000/bb985fd4504a1afe8516.view_000.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/c8ee4b66274b05d242c2.view_000/c8ee4b66274b05d242c2.view_000.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/c8ee4b66274b05d242c2.view_000/c8ee4b66274b05d242c2.view_000.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/c8ee4b66274b05d242c2.view_000/c8ee4b66274b05d242c2.view_000.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/c8ee4b66274b05d242c2.view_000/c8ee4b66274b05d242c2.view_000.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/e2ec085d524d5df4455d.view_000/e2ec085d524d5df4455d.view_000.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/e2ec085d524d5df4455d.view_000/e2ec085d524d5df4455d.view_000.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/e2ec085d524d5df4455d.view_000/e2ec085d524d5df4455d.view_000.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/e2ec085d524d5df4455d.view_000/e2ec085d524d5df4455d.view_000.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f35ef3d86c42446b7ddf.view_001/f35ef3d86c42446b7ddf.view_001.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f35ef3d86c42446b7ddf.view_001/f35ef3d86c42446b7ddf.view_001.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f35ef3d86c42446b7ddf.view_001/f35ef3d86c42446b7ddf.view_001.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f35ef3d86c42446b7ddf.view_001/f35ef3d86c42446b7ddf.view_001.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_000/f405f964229ca3d3fbad.view_000.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_000/f405f964229ca3d3fbad.view_000.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_000/f405f964229ca3d3fbad.view_000.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_000/f405f964229ca3d3fbad.view_000.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/32ba3ade1a8e63c981af/view_002/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/32ba3ade1a8e63c981af/view_002/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_000/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_000/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_000/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_000/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/view_001/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/view_001/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_000/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_000/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/f405f964229ca3d3fbad/view_000/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/f405f964229ca3d3fbad/view_000/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/view_000/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/view_000/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/2c2bd8f1c808f5a4b227/view_002/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/2c2bd8f1c808f5a4b227/view_002/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/90e105daa7e6ff59da38/view_002/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/90e105daa7e6ff59da38/view_002/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/visibility_geometry_index.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/visibility_preflight_report.json",
+      "?? tests/test_grscenes_vlm_recommended_render_summary.py",
+      "?? tests/test_grscenes_vlm_visibility_geometry_index.py"
+    ]
+  }
+}

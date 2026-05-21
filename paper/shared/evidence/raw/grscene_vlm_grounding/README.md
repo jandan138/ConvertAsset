@@ -21,14 +21,18 @@ Expected files:
   for one original/converted render pair.
 - `paired_render_visual_review.json`: independent visual QA summary for the
   smoke pair.
+- `paired_render_reports/`: per-pair render smoke reports for centerline-AABB
+  recommended pairs after the visibility preflight gate.
+- `recommended_paired_render_summary.json`: aggregate smoke summary over the
+  recommended paired renders.
 - `render_logs/`: archived `.txt` stdout/stderr logs referenced by the smoke
-  report.
+  reports.
 - `renders/`: thin camera wrapper USDs and smoke PNG outputs for GRScenes
   render jobs.
-- `visibility_geometry_index.json`: planned next artifact containing scene-id
-  keyed non-target obstacle bboxes for visibility preflight.
-- `visibility_preflight_report.json`: planned next artifact selecting clear
-  camera pairs before batch rendering.
+- `visibility_geometry_index.json`: scene-id keyed non-target obstacle bboxes
+  for centerline-AABB visibility preflight.
+- `visibility_preflight_report.json`: centerline-AABB preflight report used to
+  pick first-pass render candidates before image-space QA.
 - `predictions.jsonl`: model outputs using the schema documented by `score_grounding.py`.
 - `score_summary.json`: aggregate point-in-box, answer consistency, and original-vs-converted metrics.
 
@@ -181,6 +185,29 @@ masks, predictions, and a score summary.
 review for the same smoke pair. The verdict is `WARN`: the bottle is visible in
 both images, but the converted material/color shift is large enough that this
 pair should not be used as final VLM grounding evidence.
+
+`visibility_geometry_index.json` and `visibility_preflight_report.json` are now
+generated artifacts, not planned placeholders. The current geometry index covers
+5 scenes, 19,435 filtered obstacle AABBs, 0 failures, `min_diagonal=5.0`,
+`max_diagonal=1000.0`, and `max_abs_coordinate=1000000.0`. These filters remove
+USD extreme bounds and overlarge scene components that otherwise make every
+camera appear to sit inside an obstacle.
+
+The current visibility preflight has 92 render pairs, 21
+`centerline_clear` pairs, 71 blocked/ambiguous pairs, and 10 recommended target
+pairs. Its method is `single_centerline_vs_non_target_aabb_preflight`; it is a
+render-candidate filter only. It does not prove target visibility, image-space
+coverage, depth visibility, material fidelity, or VLM readiness.
+
+`paired_render_reports/` and `recommended_paired_render_summary.json` record the
+recommended-pair render smoke follow-up after the preflight repair. The
+aggregate summary covers 10 recommended pairs: 9 reports from
+`paired_render_reports/` plus the earlier `paired_render_smoke_report.json`
+fallback. All 10 commands exited 0, and every original/converted image has
+non-dark pixels and image hashes. This advances the render evidence beyond a
+single smoke pair, but the claim boundary remains render-smoke only: VLM
+scoring still needs image-space target boxes or masks, visual QA over the
+candidates, predictions, and `score_summary.json`.
 
 The current checked-in verification report has `passed=true`, `blockers=[]`,
 99 existing top-level outputs, and 0 source `_noMDL` USD sidecars.

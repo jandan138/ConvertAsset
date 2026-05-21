@@ -15,6 +15,7 @@ import json
 import math
 import subprocess
 import sys
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -142,7 +143,7 @@ def classify_visibility_candidate(
         obstacle_bbox = obstacle.get("bbox") or {}
         if _point_inside_bbox(position, obstacle_bbox, padding=padding):
             return {
-                "status": "blocked_camera_inside_obstacle",
+                "status": "blocked_camera_inside_obstacle_aabb",
                 "blocker_prim_path": obstacle.get("prim_path"),
                 "blocker_interval": {"t_enter": 0.0, "t_exit": 0.0},
                 "target_interval": target_interval,
@@ -162,14 +163,14 @@ def classify_visibility_candidate(
 
     if best_blocker is not None:
         return {
-            "status": "blocked_line_of_sight",
+            "status": "blocked_centerline_aabb",
             "blocker_prim_path": best_blocker["prim_path"],
             "blocker_interval": best_blocker["blocker_interval"],
             "target_interval": target_interval,
         }
 
     return {
-        "status": "clear",
+        "status": "centerline_clear",
         "blocker_prim_path": None,
         "blocker_interval": None,
         "target_interval": target_interval,
@@ -185,11 +186,49 @@ def _pair_target_bbox(pair: dict[str, Any]) -> dict[str, Any]:
     raise KeyError(f"world_bbox missing for pair {pair.get('pair_id')}")
 
 
+def normalize_geometry_index(geometry_index: dict[str, Any]) -> tuple[dict[str, list[dict[str, Any]]], str]:
+    """Accept either a direct scene mapping or the full geometry-index report."""
+
+    if not isinstance(geometry_index, dict):
+        raise TypeError("geometry_index must be a dictionary")
+    if isinstance(geometry_index.get("geometry_index"), dict):
+        mapping = geometry_index["geometry_index"]
+        schema = "visibility_geometry_index_report"
+    else:
+        mapping = geometry_index
+        schema = "scene_id_mapping"
+    normalized: dict[str, list[dict[str, Any]]] = {}
+    for scene_id, obstacles in mapping.items():
+        if not isinstance(obstacles, list):
+            raise TypeError(f"geometry obstacles for scene {scene_id!r} must be a list")
+        normalized[str(scene_id)] = [dict(item) for item in obstacles]
+    return normalized, schema
+
+
+def _manifest_scene_ids(render_manifest: dict[str, Any]) -> list[str]:
+    return sorted({str(pair.get("source_scene_id")) for pair in render_manifest.get("render_pairs", []) if pair.get("source_scene_id")})
+
+
+def _validate_geometry_coverage(
+    render_manifest: dict[str, Any],
+    geometry_index: dict[str, list[dict[str, Any]]],
+) -> list[str]:
+    scene_ids = _manifest_scene_ids(render_manifest)
+    missing = [scene_id for scene_id in scene_ids if scene_id not in geometry_index]
+    if missing:
+        preview = ", ".join(missing[:10])
+        suffix = "" if len(missing) <= 10 else f", ... (+{len(missing) - 10} more)"
+        raise ValueError(f"missing geometry scenes: {preview}{suffix}")
+    return [scene_id for scene_id in scene_ids if not geometry_index.get(scene_id)]
+
+
 def build_visibility_report(
     render_manifest: dict[str, Any],
     *,
-    geometry_index: dict[str, list[dict[str, Any]]],
+    geometry_index: dict[str, Any],
 ) -> dict[str, Any]:
+    normalized_geometry, geometry_source_schema = normalize_geometry_index(geometry_index)
+    empty_geometry_scene_ids = _validate_geometry_coverage(render_manifest, normalized_geometry)
     pair_reviews: list[dict[str, Any]] = []
     recommended: dict[str, dict[str, Any]] = {}
     for pair in render_manifest.get("render_pairs", []):
@@ -199,7 +238,7 @@ def build_visibility_report(
         result = classify_visibility_candidate(
             camera=dict(view.get("camera") or {}),
             target_bbox=_pair_target_bbox(pair),
-            obstacles=geometry_index.get(scene_id, []),
+            obstacles=normalized_geometry.get(scene_id, []),
         )
         review = {
             "pair_id": pair.get("pair_id"),
@@ -212,15 +251,16 @@ def build_visibility_report(
             "target_interval": result["target_interval"],
         }
         pair_reviews.append(review)
-        if result["status"] == "clear" and target_id not in recommended:
+        if result["status"] == "centerline_clear" and target_id not in recommended:
             recommended[target_id] = {
                 "pair_id": pair.get("pair_id"),
                 "view_id": view.get("view_id"),
                 "source_scene_id": scene_id,
-                "selection_reason": "first_clear_candidate_in_manifest_order",
+                "selection_reason": "first_centerline_clear_candidate_in_manifest_order",
             }
 
-    clear_count = len([item for item in pair_reviews if item["visibility_status"] == "clear"])
+    status_counts = Counter(item["visibility_status"] for item in pair_reviews)
+    centerline_clear_count = int(status_counts.get("centerline_clear", 0))
     return {
         "schema_version": 1,
         "status": "visibility_preflight_report",
@@ -228,10 +268,17 @@ def build_visibility_report(
         "generated_at_utc": _utc_now(),
         "summary": {
             "render_pair_count": len(pair_reviews),
-            "clear_pair_count": clear_count,
-            "blocked_pair_count": len(pair_reviews) - clear_count,
+            "visibility_method": "single_centerline_vs_non_target_aabb_preflight",
+            "claim_boundary": "preflight_only_not_rendered_visibility_or_vlm_evidence",
+            "geometry_source_schema": geometry_source_schema,
+            "centerline_clear_pair_count": centerline_clear_count,
+            "clear_pair_count": centerline_clear_count,
+            "blocked_pair_count": len(pair_reviews) - centerline_clear_count,
             "recommended_target_count": len(recommended),
             "geometry_source": "provided_geometry_index",
+            "empty_geometry_scene_count": len(empty_geometry_scene_ids),
+            "empty_geometry_scene_ids": empty_geometry_scene_ids,
+            "visibility_status_counts": dict(sorted(status_counts.items())),
         },
         "recommended_pairs_by_target": recommended,
         "pair_reviews": pair_reviews,

@@ -1,0 +1,1526 @@
+{
+  "schema_version": 1,
+  "status": "visibility_preflight_report",
+  "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/plan_visibility_aware_views.py",
+  "generated_at_utc": "2026-05-21T17:31:23.574003Z",
+  "summary": {
+    "render_pair_count": 92,
+    "visibility_method": "single_centerline_vs_non_target_aabb_preflight",
+    "claim_boundary": "preflight_only_not_rendered_visibility_or_vlm_evidence",
+    "geometry_source_schema": "visibility_geometry_index_report",
+    "centerline_clear_pair_count": 21,
+    "clear_pair_count": 21,
+    "blocked_pair_count": 71,
+    "recommended_target_count": 10,
+    "geometry_source": "provided_geometry_index",
+    "empty_geometry_scene_count": 0,
+    "empty_geometry_scene_ids": [],
+    "visibility_status_counts": {
+      "blocked_camera_inside_obstacle_aabb": 7,
+      "blocked_centerline_aabb": 64,
+      "centerline_clear": 21
+    }
+  },
+  "recommended_pairs_by_target": {
+    "c27086f557d316584264": {
+      "pair_id": "c27086f557d316584264.view_001",
+      "view_id": "view_001",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "selection_reason": "first_centerline_clear_candidate_in_manifest_order"
+    },
+    "32ba3ade1a8e63c981af": {
+      "pair_id": "32ba3ade1a8e63c981af.view_002",
+      "view_id": "view_002",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "selection_reason": "first_centerline_clear_candidate_in_manifest_order"
+    },
+    "f35ef3d86c42446b7ddf": {
+      "pair_id": "f35ef3d86c42446b7ddf.view_001",
+      "view_id": "view_001",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "selection_reason": "first_centerline_clear_candidate_in_manifest_order"
+    },
+    "bb985fd4504a1afe8516": {
+      "pair_id": "bb985fd4504a1afe8516.view_000",
+      "view_id": "view_000",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "selection_reason": "first_centerline_clear_candidate_in_manifest_order"
+    },
+    "e2ec085d524d5df4455d": {
+      "pair_id": "e2ec085d524d5df4455d.view_000",
+      "view_id": "view_000",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "selection_reason": "first_centerline_clear_candidate_in_manifest_order"
+    },
+    "f405f964229ca3d3fbad": {
+      "pair_id": "f405f964229ca3d3fbad.view_000",
+      "view_id": "view_000",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "selection_reason": "first_centerline_clear_candidate_in_manifest_order"
+    },
+    "c8ee4b66274b05d242c2": {
+      "pair_id": "c8ee4b66274b05d242c2.view_000",
+      "view_id": "view_000",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "selection_reason": "first_centerline_clear_candidate_in_manifest_order"
+    },
+    "2c2bd8f1c808f5a4b227": {
+      "pair_id": "2c2bd8f1c808f5a4b227.view_002",
+      "view_id": "view_002",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "selection_reason": "first_centerline_clear_candidate_in_manifest_order"
+    },
+    "1e397951c1926c7f0a0b": {
+      "pair_id": "1e397951c1926c7f0a0b.view_000",
+      "view_id": "view_000",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "selection_reason": "first_centerline_clear_candidate_in_manifest_order"
+    },
+    "90e105daa7e6ff59da38": {
+      "pair_id": "90e105daa7e6ff59da38.view_002",
+      "view_id": "view_002",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "selection_reason": "first_centerline_clear_candidate_in_manifest_order"
+    }
+  },
+  "pair_reviews": [
+    {
+      "pair_id": "c27086f557d316584264.view_000",
+      "target_id": "c27086f557d316584264",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_df7a41119e5d7db6ebebee2340a6579c_0/Instance/MUXAUZAKTKQ5KAABAAAAACI8_face_mesh_fd_arch_1000030989_w_46386_l_0",
+      "blocker_interval": {
+        "t_enter": 0.127686537,
+        "t_exit": 0.127686537
+      },
+      "target_interval": {
+        "t_enter": 0.917000609,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "c27086f557d316584264.view_001",
+      "target_id": "c27086f557d316584264",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_001",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.91476264,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "c27086f557d316584264.view_002",
+      "target_id": "c27086f557d316584264",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_7dbcfdfa7625411a14ba103e0c3f763b_0/Instance/MUXAUZAKTKQ5KAABAAAAACI8_face_mesh_fd_arch_1144026963_w_46369_l_0",
+      "blocker_interval": {
+        "t_enter": 0.074225825,
+        "t_exit": 0.074225825
+      },
+      "target_interval": {
+        "t_enter": 0.917000609,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "c27086f557d316584264.view_003",
+      "target_id": "c27086f557d316584264",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_7dbcfdfa7625411a14ba103e0c3f763b_0/Instance/MUXAUZAKTKQ5KAABAAAAACI8_face_mesh_fd_arch_1144026963_w_46369_l_0",
+      "blocker_interval": {
+        "t_enter": 0.465504033,
+        "t_exit": 0.465504033
+      },
+      "target_interval": {
+        "t_enter": 0.91476264,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "f2f3a63639dd7a7a62ae.view_000",
+      "target_id": "f2f3a63639dd7a7a62ae",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/BaseAnimation/cabinet/model_237bf5be60663216718b4d694b4ac420_0/Instance/Group_0dc17cdd_68ca_4ef1_85db_a2ddeb793ddf/SM_00/MUXAUZAKTKQ5KAABAAAAACI8_primitiveModel_PlankModel_mesh_ca621b10__DD__9e60__DD__11ee__DD__bf90__DD__724163078352_roomId_null_0",
+      "blocker_interval": {
+        "t_enter": 0.904696588,
+        "t_exit": 0.917698465
+      },
+      "target_interval": {
+        "t_enter": 0.963650302,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "f2f3a63639dd7a7a62ae.view_001",
+      "target_id": "f2f3a63639dd7a7a62ae",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_b52a8438fef98e43de594cca83d9aa70_0/Instance/MUXAUZAKTKQ5KAABAAAAACI8_face_mesh_fd_arch_1144022804_w_46320_l_0",
+      "blocker_interval": {
+        "t_enter": 0.658912383,
+        "t_exit": 0.658912383
+      },
+      "target_interval": {
+        "t_enter": 0.937040475,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "f2f3a63639dd7a7a62ae.view_002",
+      "target_id": "f2f3a63639dd7a7a62ae",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_cf09747a19b71d7bb8261364f28c7f47_0/Instance/MUXAUZAKTKQ5KAABAAAAACI8_face_mesh_fd_arch_1144012143_w_46322_l_0",
+      "blocker_interval": {
+        "t_enter": 0.656128891,
+        "t_exit": 0.656128891
+      },
+      "target_interval": {
+        "t_enter": 0.963650301,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "f2f3a63639dd7a7a62ae.view_003",
+      "target_id": "f2f3a63639dd7a7a62ae",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/BaseAnimation/cabinet/model_237bf5be60663216718b4d694b4ac420_0/Instance/Group_03627a9b_97d1_45a9_a627_1ad175a19748/SM_00/MUXAUZAKTKQ5KAABAAAAACI8_primitiveModel_PlankModel_mesh_ca61f3f5__DD__9e60__DD__11ee__DD__bf90__DD__724163078352_roomId_null_0",
+      "blocker_interval": {
+        "t_enter": 0.834929649,
+        "t_exit": 0.85744956
+      },
+      "target_interval": {
+        "t_enter": 0.937040476,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "21dde4a14ca93f539a47.view_000",
+      "target_id": "21dde4a14ca93f539a47",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_camera_inside_obstacle_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_283456eb4a16b61a4b486edae99a0331_0/Instance/MUXAUZAKTKQ5KAABAAAAACI8_face_mesh_fd_planar_555__BB__01ef00__BB__00_0_0",
+      "blocker_interval": {
+        "t_enter": 0.0,
+        "t_exit": 0.0
+      },
+      "target_interval": {
+        "t_enter": 0.937165201,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "21dde4a14ca93f539a47.view_001",
+      "target_id": "21dde4a14ca93f539a47",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_61b55e3a6767491b3ce3c374779f20a5_0/Instance/MUXAUZAKTKQ5KAABAAAAACI8_face_mesh_fd_arch_1000030988_w_46353_r_0",
+      "blocker_interval": {
+        "t_enter": 0.292596028,
+        "t_exit": 0.292596028
+      },
+      "target_interval": {
+        "t_enter": 0.891166924,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "21dde4a14ca93f539a47.view_002",
+      "target_id": "21dde4a14ca93f539a47",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_camera_inside_obstacle_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_e18295fcbf723885b0e50e737a4d2873_0/Instance/MUXAUZAKTKQ5KAABAAAAACI8_face_mesh_fd_planar_10495__BB__01ff00__BB__00_0_0",
+      "blocker_interval": {
+        "t_enter": 0.0,
+        "t_exit": 0.0
+      },
+      "target_interval": {
+        "t_enter": 0.937165194,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "21dde4a14ca93f539a47.view_003",
+      "target_id": "21dde4a14ca93f539a47",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_camera_inside_obstacle_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_283456eb4a16b61a4b486edae99a0331_0/Instance/MUXAUZAKTKQ5KAABAAAAACI8_face_mesh_fd_planar_555__BB__01ef00__BB__00_0_0",
+      "blocker_interval": {
+        "t_enter": 0.0,
+        "t_exit": 0.0
+      },
+      "target_interval": {
+        "t_enter": 0.891166935,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "32ba3ade1a8e63c981af.view_000",
+      "target_id": "32ba3ade1a8e63c981af",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_136e206a5630c753d16bd15900ec7a5a_0/Instance/MUXAUZAKTKQ5KAABAAAAACI8_face_mesh_fd_planar_1000062385_2783__BB__01ff00__BB__00_0",
+      "blocker_interval": {
+        "t_enter": 0.294233412,
+        "t_exit": 0.294233412
+      },
+      "target_interval": {
+        "t_enter": 0.826679161,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "32ba3ade1a8e63c981af.view_001",
+      "target_id": "32ba3ade1a8e63c981af",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_camera_inside_obstacle_aabb",
+      "blocker_prim_path": "/Root/Meshes/Animation/refrigerator/model_8958330cdaa9b7dcda067c99f5916ca3_0/Instance/Group_477/Component_17",
+      "blocker_interval": {
+        "t_enter": 0.0,
+        "t_exit": 0.0
+      },
+      "target_interval": {
+        "t_enter": 0.826679161,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "32ba3ade1a8e63c981af.view_002",
+      "target_id": "32ba3ade1a8e63c981af",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_002",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.826679161,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "32ba3ade1a8e63c981af.view_003",
+      "target_id": "32ba3ade1a8e63c981af",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_7324404cf3f2fe2d6adbad81a45801be_0/Instance/MUXAUZAKTKQ5KAABAAAAACI8_face_mesh_fd_arch_1144013150_w_47425_l_1",
+      "blocker_interval": {
+        "t_enter": 0.424143051,
+        "t_exit": 0.424143051
+      },
+      "target_interval": {
+        "t_enter": 0.826679161,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "38f3755b3527493692e6.view_000",
+      "target_id": "38f3755b3527493692e6",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_60fc5e665b0188250c3698b04186c4dc_0/Instance/MUXE4WQKTJFWAAABAAAAABY8_level_MeshWithData_824_0",
+      "blocker_interval": {
+        "t_enter": 0.804813936,
+        "t_exit": 0.804813936
+      },
+      "target_interval": {
+        "t_enter": 0.852132103,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "38f3755b3527493692e6.view_001",
+      "target_id": "38f3755b3527493692e6",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_55b36425177a5a2c6636f6535cfaad90_0/Instance/MUXE4WQKTJFWAAABAAAAABY8_level_MeshWithData_835_0",
+      "blocker_interval": {
+        "t_enter": 0.363476448,
+        "t_exit": 0.363476448
+      },
+      "target_interval": {
+        "t_enter": 0.816919627,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "38f3755b3527493692e6.view_002",
+      "target_id": "38f3755b3527493692e6",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Furnitures/cabinet/model_28c8c28a8194033cb94a49a251a7705c_0/Instance/SM_6MQUDZZVAV772PTULI888888/component3",
+      "blocker_interval": {
+        "t_enter": 0.564014883,
+        "t_exit": 0.594840986
+      },
+      "target_interval": {
+        "t_enter": 0.852132102,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "38f3755b3527493692e6.view_003",
+      "target_id": "38f3755b3527493692e6",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_54823aeb1a5caa171e69103b9635c256_0/Instance/MUXE4WQKTJFWAAABAAAAABY8_level_MeshWithData_821_0",
+      "blocker_interval": {
+        "t_enter": 0.747145272,
+        "t_exit": 0.747145272
+      },
+      "target_interval": {
+        "t_enter": 0.816919627,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "a0a5a48200eb25e61b00.view_000",
+      "target_id": "a0a5a48200eb25e61b00",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ground/model_83d03b61f94bb78e1526ddaac15e43a4_0/Instance/MUXE4WQKTJFWAAABAAAAABY8_level_MeshWithData_517_0",
+      "blocker_interval": {
+        "t_enter": 0.037192181,
+        "t_exit": 0.037192181
+      },
+      "target_interval": {
+        "t_enter": 0.998123182,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "a0a5a48200eb25e61b00.view_001",
+      "target_id": "a0a5a48200eb25e61b00",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/lights/arealight/N__AA__0__BB__L__AA__MUXE4WQKTJFWAAABAAAAABY8__BB__R__AA__346__BB__M__AA__SCEOIEWO7PRTCJF6LU888888__BB__T__AA__WINDOW_OUTER_LIGHT__BB__",
+      "blocker_interval": {
+        "t_enter": 0.429059371,
+        "t_exit": 0.429059427
+      },
+      "target_interval": {
+        "t_enter": 0.998123182,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "a0a5a48200eb25e61b00.view_002",
+      "target_id": "a0a5a48200eb25e61b00",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_camera_inside_obstacle_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_285a55fc19cbfeea8bf0a18e4348d680_0/Instance/MUXE4WQKTJFWAAABAAAAABY8_face_mesh_fd_planar_1821__BB__01ef00__BB__00_0_0",
+      "blocker_interval": {
+        "t_enter": 0.0,
+        "t_exit": 0.0
+      },
+      "target_interval": {
+        "t_enter": 0.998123182,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "a0a5a48200eb25e61b00.view_003",
+      "target_id": "a0a5a48200eb25e61b00",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_963438797310741d5a4b7e3fed1d62b1_0/Instance/MUXE4WQKTJFWAAABAAAAABY8_face_mesh_fd_planar_1011__BB__01ef00__BB__00_0_0",
+      "blocker_interval": {
+        "t_enter": 0.039530796,
+        "t_exit": 0.063467637
+      },
+      "target_interval": {
+        "t_enter": 0.998123182,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "9f1139aa6ec40285628f.view_000",
+      "target_id": "9f1139aa6ec40285628f",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/BaseAnimation/door/model_301fc5a5bbb3a65ec04dc378d7932405_0/Instance/Group_Static/SM_01/MUXE4WQKTJFWAAABAAAAABY8_primitiveModel_LoftModel_mesh_42f0a262__DD__f16d__DD__5c6d__DD__b1f4__DD__76b893d12d62_roomId_null_0",
+      "blocker_interval": {
+        "t_enter": 0.510395403,
+        "t_exit": 0.530659348
+      },
+      "target_interval": {
+        "t_enter": 0.887836883,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "9f1139aa6ec40285628f.view_001",
+      "target_id": "9f1139aa6ec40285628f",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_03ee6fb3ad9ca514298ff81807dd96d1_0/Instance/MUXE4WQKTJFWAAABAAAAABY8_stripLight_mesh_sl_0_0_1000036350_0",
+      "blocker_interval": {
+        "t_enter": 0.272681895,
+        "t_exit": 0.288958869
+      },
+      "target_interval": {
+        "t_enter": 0.805727785,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "9f1139aa6ec40285628f.view_002",
+      "target_id": "9f1139aa6ec40285628f",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_916d0e825359fff20acd875ad2d7c18c_0/Instance/MUXE4WQKTJFWAAABAAAAABY8_stripLight_mesh_sl_0_7_1000056474_0",
+      "blocker_interval": {
+        "t_enter": 0.272681895,
+        "t_exit": 0.288958869
+      },
+      "target_interval": {
+        "t_enter": 0.887836884,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "9f1139aa6ec40285628f.view_003",
+      "target_id": "9f1139aa6ec40285628f",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_c2977a9711aba190555b22204b266a6c_0/Instance/MUXE4WQKTJFWAAABAAAAABY8_level_MeshWithData_883_0",
+      "blocker_interval": {
+        "t_enter": 0.662359165,
+        "t_exit": 0.662359165
+      },
+      "target_interval": {
+        "t_enter": 0.805727782,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "ef6a4fe9448f672c2ecc.view_000",
+      "target_id": "ef6a4fe9448f672c2ecc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_camera_inside_obstacle_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_116e5166b5f7a4a36da3f2a2a2b0339d_0/Instance/MUXE4WQKTJFWAAABAAAAABY8_face_mesh_fd_planar_1289__BB__01ef00__BB__00_0_0",
+      "blocker_interval": {
+        "t_enter": 0.0,
+        "t_exit": 0.0
+      },
+      "target_interval": {
+        "t_enter": 0.991927535,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "ef6a4fe9448f672c2ecc.view_001",
+      "target_id": "ef6a4fe9448f672c2ecc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_camera_inside_obstacle_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_1560bdb0ee4979d9f786a8eaaedaca07_0/Instance/MUXE4WQKTJFWAAABAAAAABY8_face_mesh_fd_planar_3273__BB__01ef00__BB__00_0_0",
+      "blocker_interval": {
+        "t_enter": 0.0,
+        "t_exit": 0.0
+      },
+      "target_interval": {
+        "t_enter": 0.986018087,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "ef6a4fe9448f672c2ecc.view_002",
+      "target_id": "ef6a4fe9448f672c2ecc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_817772adda32a2a3b6c6f4860c9c32d2_0/Instance/MUXE4WQKTJFWAAABAAAAABY8_face_mesh_fd_arch_2210057943_w_337_r_0",
+      "blocker_interval": {
+        "t_enter": 0.42084807,
+        "t_exit": 0.420848117
+      },
+      "target_interval": {
+        "t_enter": 0.991927539,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "ef6a4fe9448f672c2ecc.view_003",
+      "target_id": "ef6a4fe9448f672c2ecc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_e1a94d248571bf0753c4625272a536ec_0/Instance/MUXE4WQKTJFWAAABAAAAABY8_face_mesh_fd_arch_2210002195_w_299_l_0",
+      "blocker_interval": {
+        "t_enter": 0.019830026,
+        "t_exit": 0.019830026
+      },
+      "target_interval": {
+        "t_enter": 0.986018081,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "efeadf7403f9170da306.view_000",
+      "target_id": "efeadf7403f9170da306",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Animation/dishwasher/model_dc455ef266417650b30b36f0b5a6c060_0/Instance/Group_120/Component_18",
+      "blocker_interval": {
+        "t_enter": 0.761468035,
+        "t_exit": 0.827182201
+      },
+      "target_interval": {
+        "t_enter": 0.829657483,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "efeadf7403f9170da306.view_001",
+      "target_id": "efeadf7403f9170da306",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Animation/dishwasher/model_dc455ef266417650b30b36f0b5a6c060_0/Instance/Group_00/Component_0",
+      "blocker_interval": {
+        "t_enter": 0.646425795,
+        "t_exit": 0.701215506
+      },
+      "target_interval": {
+        "t_enter": 0.829657479,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "efeadf7403f9170da306.view_002",
+      "target_id": "efeadf7403f9170da306",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_55ca4551c592706a3edf06dd6d5fa5a1_0/Instance/MUXE4WQKTJFWAAABAAAAABY8_face_mesh_fd_planar_2210001724_5655__BB__01ff00__BB__00_2",
+      "blocker_interval": {
+        "t_enter": 0.508888299,
+        "t_exit": 0.508888299
+      },
+      "target_interval": {
+        "t_enter": 0.829657479,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "efeadf7403f9170da306.view_003",
+      "target_id": "efeadf7403f9170da306",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/lights/arealight/N__AA__0__BB__L__AA__MUXE4WQKTJFWAAABAAAAABY8__BB__R__AA__232__BB__M__AA__SCEOIEWO7PRTCJF6LU888888__BB__T__AA__WINDOW_OUTER_LIGHT__BB__",
+      "blocker_interval": {
+        "t_enter": 0.299356123,
+        "t_exit": 0.299356554
+      },
+      "target_interval": {
+        "t_enter": 0.829657483,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "47aa36277a54f6ca90cc.view_000",
+      "target_id": "47aa36277a54f6ca90cc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_8b15926b31a48779cae0e775ce80cc07_0/Instance/MUXBIJIKTIC5IAABAAAAABY8_face_mesh_fd_planar_1915__BB__01ef00__BB__00_0_0",
+      "blocker_interval": {
+        "t_enter": 0.118805411,
+        "t_exit": 0.367700662
+      },
+      "target_interval": {
+        "t_enter": 0.959634604,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "47aa36277a54f6ca90cc.view_001",
+      "target_id": "47aa36277a54f6ca90cc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ground/model_705d3ffcde354be10cdfb1ca13fdc307_0/Instance/MUXBIJIKTIC5IAABAAAAABY8_level_MeshWithData_419_0",
+      "blocker_interval": {
+        "t_enter": 0.118805411,
+        "t_exit": 0.118805411
+      },
+      "target_interval": {
+        "t_enter": 0.930085078,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "47aa36277a54f6ca90cc.view_002",
+      "target_id": "47aa36277a54f6ca90cc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_e68afb7c1b43f1069a5f1677b3ce0469_0/Instance/MUXBIJIKTIC5IAABAAAAABY8_level_MeshWithData_551_0",
+      "blocker_interval": {
+        "t_enter": 0.459611377,
+        "t_exit": 0.459842588
+      },
+      "target_interval": {
+        "t_enter": 0.959634601,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "47aa36277a54f6ca90cc.view_003",
+      "target_id": "47aa36277a54f6ca90cc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_1574c1cbac195ced5cebecec3974dc4c_0/Instance/MUXBIJIKTIC5IAABAAAAABY8_level_MeshWithData_553_0",
+      "blocker_interval": {
+        "t_enter": 0.74438641,
+        "t_exit": 0.74438641
+      },
+      "target_interval": {
+        "t_enter": 0.930085083,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.view_000",
+      "target_id": "f35ef3d86c42446b7ddf",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_129ab8c15e1166a0294fc21ac14c4027_0/Instance/MUXBIJIKTIC5IAABAAAAABY8_face_mesh_fd_arch_856515_w_848153_l_1",
+      "blocker_interval": {
+        "t_enter": 0.679088997,
+        "t_exit": 0.679088997
+      },
+      "target_interval": {
+        "t_enter": 0.980310856,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.view_001",
+      "target_id": "f35ef3d86c42446b7ddf",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_001",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.965897402,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.view_002",
+      "target_id": "f35ef3d86c42446b7ddf",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_002",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.980310856,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.view_003",
+      "target_id": "f35ef3d86c42446b7ddf",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_36c97a6efbe9d686d66a5c09ec74f7e0_0/Instance/MUXBIJIKTIC5IAABAAAAABY8_face_mesh_fd_arch_3000009462_w_855740_e_0",
+      "blocker_interval": {
+        "t_enter": 0.817933188,
+        "t_exit": 0.817933188
+      },
+      "target_interval": {
+        "t_enter": 0.965897403,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "bb985fd4504a1afe8516.view_000",
+      "target_id": "bb985fd4504a1afe8516",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_000",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.87370954,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "bb985fd4504a1afe8516.view_001",
+      "target_id": "bb985fd4504a1afe8516",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_001",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.873709535,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "bb985fd4504a1afe8516.view_002",
+      "target_id": "bb985fd4504a1afe8516",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_002",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.873709543,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "bb985fd4504a1afe8516.view_003",
+      "target_id": "bb985fd4504a1afe8516",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_003",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.873709535,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "e2ec085d524d5df4455d.view_000",
+      "target_id": "e2ec085d524d5df4455d",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_000",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.82089786,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "e2ec085d524d5df4455d.view_001",
+      "target_id": "e2ec085d524d5df4455d",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_001",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.876684231,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "e2ec085d524d5df4455d.view_002",
+      "target_id": "e2ec085d524d5df4455d",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_da352c4ce4f894efb210192ec306936b_0/Instance/MUXBIJIKTIC5IAABAAAAABY8_face_mesh_fd_arch_3000009327_w_848137_l_0",
+      "blocker_interval": {
+        "t_enter": 0.149777441,
+        "t_exit": 0.149778323
+      },
+      "target_interval": {
+        "t_enter": 0.82089786,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "e2ec085d524d5df4455d.view_003",
+      "target_id": "e2ec085d524d5df4455d",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_003",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.876684231,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "d69ac93d82ac6d13ba58.view_000",
+      "target_id": "d69ac93d82ac6d13ba58",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_23396306f0cdcc4d04b7c40e6ccd6618_0/Instance/MUXBITAKTKQ5KAABAAAAADY8_face_mesh_fd_planar_1001__BB__01ee00__BB__01__BB__02ef00__BB__02_0_0",
+      "blocker_interval": {
+        "t_enter": 0.412591917,
+        "t_exit": 0.496663243
+      },
+      "target_interval": {
+        "t_enter": 0.998908798,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "d69ac93d82ac6d13ba58.view_001",
+      "target_id": "d69ac93d82ac6d13ba58",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ground/model_3d5c03733343440f174b1cde269c8d05_0/Instance/MUXBITAKTKQ5KAABAAAAADY8_level_MeshWithData_964_0",
+      "blocker_interval": {
+        "t_enter": 0.412591917,
+        "t_exit": 0.412591917
+      },
+      "target_interval": {
+        "t_enter": 0.998908798,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "d69ac93d82ac6d13ba58.view_002",
+      "target_id": "d69ac93d82ac6d13ba58",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_7763d6209f78a8a53e0ac91b879d4df6_0/Instance/MUXBITAKTKQ5KAABAAAAADY8_level_MeshWithData_1045_0",
+      "blocker_interval": {
+        "t_enter": 0.550728773,
+        "t_exit": 0.550728773
+      },
+      "target_interval": {
+        "t_enter": 0.998908798,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "d69ac93d82ac6d13ba58.view_003",
+      "target_id": "d69ac93d82ac6d13ba58",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/lights/arealight/N__AA__5__BB__L__AA__MUXBITAKTKQ5KAABAAAAADY8__BB__R__AA__86502951__BB__M__AA__U__DD__GivkNnRUNJtwFBAAAA__BB__T__AA__WINDOW_OUTER_LIGHT__BB__",
+      "blocker_interval": {
+        "t_enter": 0.599881842,
+        "t_exit": 0.599881892
+      },
+      "target_interval": {
+        "t_enter": 0.998908798,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "7905936f4bdd2820d87a.view_000",
+      "target_id": "7905936f4bdd2820d87a",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/lights/arealight/N__AA__0__BB__L__AA__MUXBITAKTKQ5KAABAAAAADY8__BB__R__AA__86499339__BB__M__AA__SNVIMU6O7DSS2DEDLI888888__BB__T__AA__WINDOW_OUTER_LIGHT__BB__",
+      "blocker_interval": {
+        "t_enter": 0.548760263,
+        "t_exit": 0.548760576
+      },
+      "target_interval": {
+        "t_enter": 0.854937622,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "7905936f4bdd2820d87a.view_001",
+      "target_id": "7905936f4bdd2820d87a",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Animation/electriccooker/model_441837a19229a98d827c1df74b3f0207_0/Instance/Group_00/Component_24",
+      "blocker_interval": {
+        "t_enter": 0.710989374,
+        "t_exit": 0.816338402
+      },
+      "target_interval": {
+        "t_enter": 0.810694565,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "7905936f4bdd2820d87a.view_002",
+      "target_id": "7905936f4bdd2820d87a",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Animation/sideboardcabinet/model_3142bbdfe5ce8dfdaa476e6cbc958838_0/Instance/Group_00/Component_10",
+      "blocker_interval": {
+        "t_enter": 0.599703739,
+        "t_exit": 0.616267962
+      },
+      "target_interval": {
+        "t_enter": 0.854937626,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "7905936f4bdd2820d87a.view_003",
+      "target_id": "7905936f4bdd2820d87a",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/lights/arealight/N__AA__3__BB__L__AA__MUXBITAKTKQ5KAABAAAAADY8__BB__R__AA__86502951__BB__M__AA__SNVIMU6O7DSS2DEDLI888888__BB__T__AA__WINDOW_OUTER_LIGHT__BB__",
+      "blocker_interval": {
+        "t_enter": 0.218429849,
+        "t_exit": 0.21843039
+      },
+      "target_interval": {
+        "t_enter": 0.810694569,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "f405f964229ca3d3fbad.view_000",
+      "target_id": "f405f964229ca3d3fbad",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_000",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.87111173,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "f405f964229ca3d3fbad.view_001",
+      "target_id": "f405f964229ca3d3fbad",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_001",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.925586322,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "f405f964229ca3d3fbad.view_002",
+      "target_id": "f405f964229ca3d3fbad",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_002",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.871111728,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "f405f964229ca3d3fbad.view_003",
+      "target_id": "f405f964229ca3d3fbad",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_003",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.925586321,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "161edb520b1c5947c55d.view_000",
+      "target_id": "161edb520b1c5947c55d",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_ab6d6027b2590a397e4a87e5221fe06b_0/Instance/MUXBITAKTKQ5KAABAAAAADY8_level_MeshWithData_1024_0",
+      "blocker_interval": {
+        "t_enter": 0.560703703,
+        "t_exit": 0.560703703
+      },
+      "target_interval": {
+        "t_enter": 0.830816872,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "161edb520b1c5947c55d.view_001",
+      "target_id": "161edb520b1c5947c55d",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_a4286423e6b6889cd9c65c5162d70e81_0/Instance/MUXBITAKTKQ5KAABAAAAADY8_level_MeshWithData_1026_0",
+      "blocker_interval": {
+        "t_enter": 0.549021915,
+        "t_exit": 0.549021915
+      },
+      "target_interval": {
+        "t_enter": 0.902322075,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "161edb520b1c5947c55d.view_002",
+      "target_id": "161edb520b1c5947c55d",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_5a9a349c927d3054ac96319d16149fce_0/Instance/MUXBITAKTKQ5KAABAAAAADY8_face_mesh_fd_planar_1309__BB__01ef00__BB__00_0_0",
+      "blocker_interval": {
+        "t_enter": 0.056042277,
+        "t_exit": 0.233548271
+      },
+      "target_interval": {
+        "t_enter": 0.830816869,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "161edb520b1c5947c55d.view_003",
+      "target_id": "161edb520b1c5947c55d",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_f2dca0566e84931f0351666841112c19_0/Instance/MUXBITAKTKQ5KAABAAAAADY8_level_MeshWithData_1021_0",
+      "blocker_interval": {
+        "t_enter": 0.239116494,
+        "t_exit": 0.239116494
+      },
+      "target_interval": {
+        "t_enter": 0.902322074,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.view_000",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_000",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.960995718,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.view_001",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_4c86caa85043515d5f7be61239152ebc_0/Instance/MUXBITAKTKQ5KAABAAAAADY8_face_mesh_fd_arch_2300008601_w_2000034734_r_0",
+      "blocker_interval": {
+        "t_enter": 0.019093079,
+        "t_exit": 0.019093079
+      },
+      "target_interval": {
+        "t_enter": 0.932442608,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.view_002",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/BaseAnimation/cabinet/model_5aff015d97098ec6b289923aa005a595_0/Instance/Group_Static/SM_06/MUXBITAKTKQ5KAABAAAAADY8_primitiveModel_PlankModel_mesh_c85c6004__DD__9e60__DD__11ee__DD__b617__DD__7e9f33516dc3_roomId_null_0",
+      "blocker_interval": {
+        "t_enter": 0.404024655,
+        "t_exit": 0.418068666
+      },
+      "target_interval": {
+        "t_enter": 0.960995722,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.view_003",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_003",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.932442603,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "84b10cd99ba8afc6c2cb.view_000",
+      "target_id": "84b10cd99ba8afc6c2cb",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_23396306f0cdcc4d04b7c40e6ccd6618_0/Instance/MUXBITAKTKQ5KAABAAAAADY8_face_mesh_fd_planar_1001__BB__01ee00__BB__01__BB__02ef00__BB__02_0_0",
+      "blocker_interval": {
+        "t_enter": 0.693807753,
+        "t_exit": 0.916493145
+      },
+      "target_interval": {
+        "t_enter": 0.978278497,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "84b10cd99ba8afc6c2cb.view_001",
+      "target_id": "84b10cd99ba8afc6c2cb",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_23396306f0cdcc4d04b7c40e6ccd6618_0/Instance/MUXBITAKTKQ5KAABAAAAADY8_face_mesh_fd_planar_1001__BB__01ee00__BB__01__BB__02ef00__BB__02_0_0",
+      "blocker_interval": {
+        "t_enter": 0.693807753,
+        "t_exit": 0.916493145
+      },
+      "target_interval": {
+        "t_enter": 0.987459084,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "84b10cd99ba8afc6c2cb.view_002",
+      "target_id": "84b10cd99ba8afc6c2cb",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_23396306f0cdcc4d04b7c40e6ccd6618_0/Instance/MUXBITAKTKQ5KAABAAAAADY8_face_mesh_fd_planar_1001__BB__01ee00__BB__01__BB__02ef00__BB__02_0_0",
+      "blocker_interval": {
+        "t_enter": 0.693807753,
+        "t_exit": 0.916493145
+      },
+      "target_interval": {
+        "t_enter": 0.9782785,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "84b10cd99ba8afc6c2cb.view_003",
+      "target_id": "84b10cd99ba8afc6c2cb",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_23396306f0cdcc4d04b7c40e6ccd6618_0/Instance/MUXBITAKTKQ5KAABAAAAADY8_face_mesh_fd_planar_1001__BB__01ee00__BB__01__BB__02ef00__BB__02_0_0",
+      "blocker_interval": {
+        "t_enter": 0.693807753,
+        "t_exit": 0.916493145
+      },
+      "target_interval": {
+        "t_enter": 0.987459086,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "e1cf9f0feb81aa92d8a1.view_000",
+      "target_id": "e1cf9f0feb81aa92d8a1",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_5144c7691ed76a5804dc4ec2fd6e1acb_0/Instance/MUXAUNYKTJFWAAABAAAAACA8_face_mesh_fd_planar_1711__BB__01ef00__BB__00_0_0",
+      "blocker_interval": {
+        "t_enter": 0.085024575,
+        "t_exit": 0.347219919
+      },
+      "target_interval": {
+        "t_enter": 0.959238988,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "e1cf9f0feb81aa92d8a1.view_001",
+      "target_id": "e1cf9f0feb81aa92d8a1",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_ea57d2931d4a58b3fa0d195965ac1ea1_0/Instance/MUXAUNYKTJFWAAABAAAAACA8_level_MeshWithData_745_0",
+      "blocker_interval": {
+        "t_enter": 0.741881157,
+        "t_exit": 0.741881157
+      },
+      "target_interval": {
+        "t_enter": 0.929399864,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "e1cf9f0feb81aa92d8a1.view_002",
+      "target_id": "e1cf9f0feb81aa92d8a1",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_ea57d2931d4a58b3fa0d195965ac1ea1_0/Instance/MUXAUNYKTJFWAAABAAAAACA8_level_MeshWithData_745_0",
+      "blocker_interval": {
+        "t_enter": 0.850975016,
+        "t_exit": 0.850975016
+      },
+      "target_interval": {
+        "t_enter": 0.959238992,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "e1cf9f0feb81aa92d8a1.view_003",
+      "target_id": "e1cf9f0feb81aa92d8a1",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_58ef33a1d513cd7a800ee199c33df872_0/Instance/MUXAUNYKTJFWAAABAAAAACA8_face_mesh_fd_planar_1783__BB__01ef00__BB__00_0_0",
+      "blocker_interval": {
+        "t_enter": 0.085024575,
+        "t_exit": 0.294470111
+      },
+      "target_interval": {
+        "t_enter": 0.929399857,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "2c2bd8f1c808f5a4b227.view_000",
+      "target_id": "2c2bd8f1c808f5a4b227",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_f2c13e09852d4c6e9a1217e91f197ee6_0/Instance/MUXAUNYKTJFWAAABAAAAACA8_level_MeshWithData_713_0",
+      "blocker_interval": {
+        "t_enter": 0.698504061,
+        "t_exit": 0.698504061
+      },
+      "target_interval": {
+        "t_enter": 0.858277805,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "2c2bd8f1c808f5a4b227.view_001",
+      "target_id": "2c2bd8f1c808f5a4b227",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/BaseAnimation/door/model_15bcefc7efeb05b00e0b0ff4540d62d0_0/Instance/Group_Static/SM_03/MUXAUNYKTJFWAAABAAAAACA8_primitiveModel_LoftModel_mesh_e6a724bd__DD__3771__DD__5499__DD__8ada__DD__1e7496a280ce_roomId_null_0",
+      "blocker_interval": {
+        "t_enter": 0.411893042,
+        "t_exit": 0.448949109
+      },
+      "target_interval": {
+        "t_enter": 0.808414817,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "2c2bd8f1c808f5a4b227.view_002",
+      "target_id": "2c2bd8f1c808f5a4b227",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_002",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.858277809,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "2c2bd8f1c808f5a4b227.view_003",
+      "target_id": "2c2bd8f1c808f5a4b227",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_f2c13e09852d4c6e9a1217e91f197ee6_0/Instance/MUXAUNYKTJFWAAABAAAAACA8_level_MeshWithData_713_0",
+      "blocker_interval": {
+        "t_enter": 0.477793714,
+        "t_exit": 0.477793714
+      },
+      "target_interval": {
+        "t_enter": 0.808414817,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "1e397951c1926c7f0a0b.view_000",
+      "target_id": "1e397951c1926c7f0a0b",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_000",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.982209842,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "1e397951c1926c7f0a0b.view_001",
+      "target_id": "1e397951c1926c7f0a0b",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_5144c7691ed76a5804dc4ec2fd6e1acb_0/Instance/MUXAUNYKTJFWAAABAAAAACA8_face_mesh_fd_planar_1711__BB__01ef00__BB__00_0_0",
+      "blocker_interval": {
+        "t_enter": 0.347890698,
+        "t_exit": 0.65220791
+      },
+      "target_interval": {
+        "t_enter": 0.969186542,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "1e397951c1926c7f0a0b.view_002",
+      "target_id": "1e397951c1926c7f0a0b",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_002",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_956cfda40f6631dd48a97468ec3b207f_0/Instance/MUXAUNYKTJFWAAABAAAAACA8_face_mesh_fd_arch_300011211_w_3563_r_0",
+      "blocker_interval": {
+        "t_enter": 0.590501548,
+        "t_exit": 0.590501548
+      },
+      "target_interval": {
+        "t_enter": 0.982209842,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "1e397951c1926c7f0a0b.view_003",
+      "target_id": "1e397951c1926c7f0a0b",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_003",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.969186542,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "90e105daa7e6ff59da38.view_000",
+      "target_id": "90e105daa7e6ff59da38",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_000",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ground/model_c4563cb45cdc69dbb0bf8105005ebe0c_0/Instance/MUXAUNYKTJFWAAABAAAAACA8_level_MeshWithData_619_0",
+      "blocker_interval": {
+        "t_enter": 0.492530949,
+        "t_exit": 0.492530949
+      },
+      "target_interval": {
+        "t_enter": 0.995082505,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "90e105daa7e6ff59da38.view_001",
+      "target_id": "90e105daa7e6ff59da38",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_001",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/ceiling/model_b0d0cfcad506ca8481df047637a8688e_0/Instance/MUXAUNYKTJFWAAABAAAAACA8_room_mesh_ZI_DING_YI_741_fid_r_741_c_0",
+      "blocker_interval": {
+        "t_enter": 0.492530949,
+        "t_exit": 0.492530949
+      },
+      "target_interval": {
+        "t_enter": 0.99148265,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "90e105daa7e6ff59da38.view_002",
+      "target_id": "90e105daa7e6ff59da38",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_002",
+      "visibility_status": "centerline_clear",
+      "blocker_prim_path": null,
+      "blocker_interval": null,
+      "target_interval": {
+        "t_enter": 0.995082505,
+        "t_exit": 1.0
+      }
+    },
+    {
+      "pair_id": "90e105daa7e6ff59da38.view_003",
+      "target_id": "90e105daa7e6ff59da38",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "view_003",
+      "visibility_status": "blocked_centerline_aabb",
+      "blocker_prim_path": "/Root/Meshes/Base/wall/model_8c4ba36154b6b826db0ecb5734f45191_0/Instance/MUXAUNYKTJFWAAABAAAAACA8_face_mesh_fd_arch_2100044492_w_437_l_0",
+      "blocker_interval": {
+        "t_enter": 0.553389504,
+        "t_exit": 0.553389504
+      },
+      "target_interval": {
+        "t_enter": 0.99148265,
+        "t_exit": 1.0
+      }
+    }
+  ],
+  "render_manifest": {
+    "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/render_manifest.json",
+    "hash_sha256": "769cfad5a8d02c244e81898faec1ed8815e8a9c00ade7af93b9cd5af598f8765"
+  },
+  "geometry_index": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/visibility_geometry_index.json",
+    "hash_sha256": "3a6d2da19e1abcd72fc4d14b738e081102c5de3b2126a0621494a869ad4820dc"
+  },
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/plan_visibility_aware_views.py",
+      "--geometry-index",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/visibility_geometry_index.json",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/visibility_preflight_report.json"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/plan_visibility_aware_views.py",
+    "script_hash_sha256": "e2476e957d562079f67e167df361013e01b2dc4aa886229525f80053bb1e1135",
+    "git_commit": "0864002987df5e8acb442fb8f8cc7753601e98e4",
+    "git_status_porcelain": [
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/plan_visibility_aware_views.py",
+      " M tests/test_grscenes_vlm_visibility_preflight.py",
+      "?? paper/shared/evidence/experiments/06_grscenes_vlm_grounding/extract_visibility_geometry_index.py",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/visibility_geometry_index.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/visibility_preflight_report.json",
+      "?? tests/test_grscenes_vlm_visibility_geometry_index.py"
+    ]
+  }
+}
