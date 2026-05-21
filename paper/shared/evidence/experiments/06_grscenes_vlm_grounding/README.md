@@ -321,6 +321,51 @@ are outside the 68 model-root material files. Before citing converted whole
 scenes, either implement broader scene dependency closure or intentionally move
 to target-object/cropped render stages.
 
+## Full no-MDL Scratch Plan
+
+For the "convert the whole `zzh-grscenes` benchmark into no-MDL scratch first"
+route, use the read-only full planner:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/plan_full_nomdl_scratch.py
+```
+
+Default output:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_scratch_plan.json
+```
+
+Current checked-in result:
+
+- 99 scenes: 69 home and 30 commercial.
+- 99 planned `start_result_raw.usd` no-MDL inputs by default.
+- All 297 scene-entry USDs exist in inventory: 99 raw, 99 navigation, and 99
+  interaction.
+- 99 scene-directory materialization actions.
+- 4 split-level resource-tree actions: home/commercial `models` and
+  `Materials`.
+- 138 home scene pointer-file repairs for `models` and `Materials`.
+- 60 commercial scene symlink entries are already projectable into scratch.
+- 0 existing source-side raw `_noMDL` sidecars were found at the scene-entry
+  layer.
+- `planner_only=true` and `safe_to_apply=false`.
+
+Plain version: full scratch conversion is possible as a staged route, but this
+planner is not permission to run no-MDL. ConvertAsset recursively writes
+`*_noMDL.usd` beside every reachable USD. `--only-new-usd` suppresses
+summary/audit files, but it still writes recursive dependency USD sidecars.
+Running 99 scene roots as 99 separate CLI commands would not share
+`Processor.done`, so shared dependencies can be converted repeatedly and may
+produce timestamped outputs when `ALLOW_OVERWRITE=False`.
+
+The next safe step for full conversion is a dedicated single-process multi-root
+runner plus dependency/output collision scan. Until that exists, treat the
+preview commands inside `full_nomdl_scratch_plan.json` as blocked. The JSON
+also stores structured `argv` fields, but the next runner should consume
+`conversion_jobs[*].scratch_input_usd` directly rather than parse shell-like
+command strings.
+
 ## Target Manifest
 
 Before rendering, resolve the selected episode targets to USD prims and world-space bboxes:

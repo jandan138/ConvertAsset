@@ -11,10 +11,21 @@ Expected files:
 - `reference_closure_plan.json`: planner-only target/reference closure artifact that lists selected scene directories, selected model roots, and unresolved symlink/material dependency gaps.
 - `material_dependency_closure_plan.json`: planner-only material subset artifact that lists the exact split-level `Materials` files and model-root `Materials` entry repairs needed by the selected targets.
 - `targeted_materialization_report.json`: dry-run or execution report for the storage-safe target-object subset materializer.
+- `full_nomdl_scratch_plan.json`: read-only whole-GRScenes scratch route planner for full no-MDL conversion preparation.
 - `predictions.jsonl`: model outputs using the schema documented by `score_grounding.py`.
 - `score_summary.json`: aggregate point-in-box, answer consistency, and original-vs-converted metrics.
 
-Planning manifests must record benchmark source provenance, engineering mirror or scratch path, scene USD filename, material condition, and generation command. At minimum, planning manifests should include `dataset_role`, `source_dataset_root`, `source_scene_id`, `source_scene_split`, `source_usd`, `scratch_scene_root`, `converted_usd`, `material_condition`, `conversion_command`, and `renderer_settings`. `model_checkpoint` is required later for `predictions.jsonl` and `score_summary.json`, not for source, target, or render planning manifests.
+Task/render planning manifests must record benchmark source provenance,
+engineering mirror or scratch path, scene USD filename, material condition, and
+generation command. At minimum, task/render planning manifests should include
+`dataset_role`, `source_dataset_root`, `source_scene_id`,
+`source_scene_split`, `source_usd`, `scratch_scene_root`, `converted_usd`,
+`material_condition`, `conversion_command`, and `renderer_settings`.
+Route-planner artifacts such as `reference_closure_plan.json`,
+`material_dependency_closure_plan.json`, and `full_nomdl_scratch_plan.json`
+use their own action-schema fields instead. `model_checkpoint` is required
+later for `predictions.jsonl` and `score_summary.json`, not for source, target,
+or render planning manifests.
 
 `source_manifest.json`, `target_manifest.json`, and `render_manifest.json` are generated provenance/planning artifacts, not VLM results, and should not be cited as task performance. The current `target_manifest.json` resolves 40/40 selected episode records across 5 home scenes to USD prim paths and world-space bboxes; those records correspond to 23 unique spatial targets after duplicate episode references are collapsed.
 
@@ -53,6 +64,26 @@ probe also found scene-level material dependencies such as
 model-root material files. Whole-scene no-MDL conversion needs a broader scene
 dependency closure, or the render pipeline must intentionally crop/extract
 target-object stages before conversion.
+
+`full_nomdl_scratch_plan.json` is the read-only full-dataset route planner. It
+does not apply scratch actions and does not run no-MDL.
+
+The current checked-in plan covers 99 scenes: 69 home and 30 commercial. It
+defaults to 99 planned `start_result_raw.usd` inputs while recording that all
+297 scene-entry USDs exist across raw, navigation, and interaction variants. It
+plans 99 scene-directory actions, 4 split-level resource-tree actions, 138 home
+scene pointer-file repairs, and 99 preview no-MDL jobs. Commercial scene
+`models`/`Materials` entries are already relative symlinks, so 60 entries are
+recorded as projectable.
+
+This file intentionally records `safe_to_apply=false`. The preview no-MDL jobs
+are blocked because no-MDL recursively writes dependency `*_noMDL.usd`
+sidecars, and independent per-scene CLI runs do not share one `Processor.done`
+map. Each job includes structured `argv` fields for a later runner, but the
+runner should still use the structured `scratch_input_usd` list instead of
+parsing the human-readable command string. The next full-conversion step should
+be a single-process multi-root runner plus a dependency/output collision scan.
+Do not treat this JSON as evidence that full converted scenes exist.
 
 `render_manifest.json` currently plans 23 unique targets x 4 target-centered views = 92 original/converted pairs and 184 material-condition jobs. Original material inputs exist under the immutable benchmark source, but camera-stage authoring is still pending; converted material inputs are marked `blocked_missing_material_input` until no-MDL scratch derivatives are generated outside the source tree. Image-space boxes are explicitly pending projection and must be filled by the render/projection stage before VLM scoring. The manifest normalizes current VLM prompts to S1 category-pointing prompts and keeps source episode instructions/prompts separately as provenance; some source SN episode records do not carry instruction text and must not be treated as ready-made VLM prompts.
 
