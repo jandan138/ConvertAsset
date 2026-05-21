@@ -83,9 +83,21 @@ are blocked because no-MDL recursively writes dependency `*_noMDL.usd`
 sidecars, and independent per-scene CLI runs do not share one `Processor.done`
 map. Each job includes structured `argv` fields for a later runner, but the
 runner should still use the structured `scratch_input_usd` list instead of
-parsing the human-readable command string. The next full-conversion step should
-be a single-process multi-root runner plus a dependency/output collision scan.
+parsing the human-readable command string. The next full-conversion step is
+full scratch materialization, then a regenerated dependency closure report.
 Do not treat this JSON as evidence that full converted scenes exist.
+
+`full_nomdl_scratch_materialization_report.json` is the dry-run materialization
+report for the full scratch route. It consumes `full_nomdl_scratch_plan.json`
+and plans scratch-side tree hardlinks/copies plus scene-entry repairs; it does
+not run no-MDL conversion.
+
+The current checked-in report has `dry_run=true`, 103 planned tree actions, 138
+planned scene-entry repairs, 99 ignored conversion actions, 0 existing planned
+no-MDL outputs, and 99 missing top-level scratch inputs. Treat it as a
+preflight report only. A real run requires `--apply`, should use hardlink mode
+under the current quota, and must be followed by a regenerated full dependency
+closure report proving `scratch_input_missing_count=0`.
 
 `full_nomdl_multi_root_run_report.json` is the dry-run readiness report for the
 full-route runner shell. It consumes `full_nomdl_scratch_plan.json` and proves
@@ -93,14 +105,23 @@ that a later conversion path can reuse one Python process and one `Processor`
 instance across the 99 planned raw-scene roots.
 
 The current checked-in report has 99 planned jobs, `dry_run=true`, and
-`apply_ready=false`. It marks `single_process_multi_root_runner_missing` as
-satisfied, but still blocks apply on:
+`apply_ready=false`. It consumes `full_dependency_closure_report.json` and the
+current dry-run `full_nomdl_scratch_materialization_report.json`. It marks
+these blockers as satisfied:
 
+- `single_process_multi_root_runner_missing`
+- `single_process_multi_root_runner_closure_report_not_consumed`
 - `whole_scene_dependency_closure_not_scanned`
 - `recursive_nomdl_output_collision_scan_missing`
+
+It still blocks apply on:
+
 - `scratch_cleanliness_not_verified`
 - `scratch_root_missing`
 - `scratch_inputs_missing`
+
+The materialization gate is present but does not clear scratch cleanliness yet,
+because the current materialization report is still `dry_run=true`.
 
 It also records `source_usd_missing_count=0`, `scratch_input_missing_count=99`,
 and `top_level_output_collision_count=0`. The zero collision count is only for
@@ -110,10 +131,6 @@ exist. Recursive dependency outputs are explicitly not scanned by this report.
 For automation, read `jobs[*].blocked_by` as the current report-level blocker
 list. The original plan's stale job blockers are retained separately in
 `jobs[*].source_plan_blocked_by`.
-
-The newer `full_dependency_closure_report.json` satisfies the dependency
-closure and recursive output-collision scan blockers. The runner still needs a
-follow-up integration pass that consumes that closure report before `--apply`.
 
 Do not treat this JSON as evidence that no-MDL conversion has run.
 
@@ -137,9 +154,10 @@ material-file or texture-file closure evidence; shader and texture asset
 attributes remain separate material-dependency gates unless surfaced as USD
 composition arcs.
 
-Its remaining runner blocker is
-`single_process_multi_root_runner_closure_report_not_consumed`, which means the
-runner exists but has not yet consumed this closure report as an apply gate.
+The runner now consumes this report as an apply gate, but this report still
+records `scratch_input_missing_count=85705`. After real scratch
+materialization, regenerate the closure report and require
+`scratch_input_missing_count=0` before running no-MDL conversion.
 
 Timestamped `_noMDL_*` siblings are conservative collision signals in this
 report, not a precise overwrite model.

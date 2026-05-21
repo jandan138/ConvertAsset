@@ -96,11 +96,14 @@ than ignoring stale generated sidecars.
 
 The remaining blockers are:
 
-- `single_process_multi_root_runner_closure_report_not_consumed`, because the
-  multi-root runner has not yet consumed this closure report as an apply gate;
 - `scratch_cleanliness_not_verified`;
 - `scratch_root_missing`;
 - `scratch_inputs_missing`.
+
+The multi-root runner now consumes this closure report as an apply gate in
+`full_nomdl_multi_root_run_report.json`. The current closure report was still
+generated before scratch materialization, so it cannot clear the scratch-input
+blockers.
 
 ## Pitfall Recorded
 
@@ -116,8 +119,8 @@ To advance the ACL material-generalization experiment, the full route now needs
 these engineering moves:
 
 - materialize the full scratch root and verify scratch cleanliness;
-- teach the multi-root runner to consume the dependency closure report rather
-  than only the original scratch plan.
+- rerun this closure report after materialization and require
+  `scratch_input_missing_count=0`.
 
 Only after those gates are closed should a guarded `--apply` no-MDL conversion
 run be used as paper evidence.

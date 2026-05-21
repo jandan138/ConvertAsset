@@ -88,6 +88,76 @@ def make_plan(
     return plan, {"source_root": source_root, "scratch_root": scratch_root, "scratch_scene": scratch_scene}
 
 
+def make_closure_report(
+    plan: dict,
+    *,
+    scan_truncated: bool = False,
+    scratch_input_missing_count: int = 0,
+    missing_dependency_count: int = 0,
+    outside_source_root_ref_count: int = 0,
+    output_collision_count: int = 0,
+    source_root: Path | None = None,
+) -> dict:
+    jobs = [
+        {
+            "conversion_job_id": job["conversion_job_id"],
+            "scratch_input_usd": job["scratch_input_usd"],
+            "expected_top_output_usd": job["expected_top_output_usd"],
+        }
+        for job in plan["conversion_jobs"]
+    ]
+    return {
+        "schema_version": 1,
+        "status": "planned_full_grscenes_dependency_closure",
+        "source_root": str(source_root or plan["source_root"]),
+        "scratch_root": plan["scratch_root"],
+        "source_plan_status": plan["status"],
+        "summary": {
+            "conversion_job_count": len(jobs),
+            "expected_top_output_count": len(jobs),
+            "scan_truncated": scan_truncated,
+            "unscanned_usd_queue_count": 1 if scan_truncated else 0,
+            "missing_dependency_count": missing_dependency_count,
+            "outside_source_root_ref_count": outside_source_root_ref_count,
+            "output_collision_count": output_collision_count,
+            "scratch_input_missing_count": scratch_input_missing_count,
+        },
+        "safety": {
+            "remaining_apply_blockers": [
+                "single_process_multi_root_runner_closure_report_not_consumed",
+                "scratch_cleanliness_not_verified",
+            ]
+        },
+        "jobs": jobs,
+    }
+
+
+def make_materialization_report(plan: dict, *, dry_run: bool = False, existing_nomdl_output_count: int = 0) -> dict:
+    return {
+        "schema_version": 1,
+        "status": "full_grscenes_nomdl_scratch_materialization",
+        "dry_run": dry_run,
+        "source_root": plan["source_root"],
+        "scratch_root": plan["scratch_root"],
+        "source_plan_status": plan["status"],
+        "summary": {
+            "tree_action_count": 3,
+            "repair_action_count": 2,
+            "ignored_convert_action_count": len(plan["conversion_jobs"]),
+            "dry_run": dry_run,
+            "planned_tree_action_count": 0 if not dry_run else 3,
+            "created_tree_count": 3 if not dry_run else 0,
+            "existing_tree_count": 0,
+            "planned_repair_action_count": 0 if not dry_run else 2,
+            "repaired_scene_entry_count": 2 if not dry_run else 0,
+            "existing_scene_entry_count": 0,
+            "existing_nomdl_output_count": existing_nomdl_output_count,
+            "top_level_scratch_input_exists_count": len(plan["conversion_jobs"]),
+            "top_level_scratch_input_missing_count": 0,
+        },
+    }
+
+
 def test_module_imports_without_pxr(monkeypatch: pytest.MonkeyPatch) -> None:
     real_import = builtins.__import__
     for module_name in list(sys.modules):
@@ -126,6 +196,142 @@ def test_build_report_satisfies_runner_blocker_but_keeps_remaining_blockers(tmp_
     assert all("single_process_multi_root_runner_missing" not in job["blocked_by"] for job in report["jobs"])
     assert all("whole_scene_dependency_closure_not_scanned" in job["blocked_by"] for job in report["jobs"])
     assert all(Path(job["scratch_input_usd"]).resolve().is_relative_to(paths["scratch_root"].resolve()) for job in report["jobs"])
+
+
+def test_build_report_consumes_valid_closure_report_and_clears_scan_blockers(tmp_path: Path) -> None:
+    module = load_runner_module()
+    plan, _paths = make_plan(tmp_path)
+    closure = make_closure_report(plan)
+
+    report = module.build_multi_root_run_report(plan, closure_report=closure)
+
+    assert report["apply_ready"] is False
+    assert "single_process_multi_root_runner_missing" in report["safety"]["satisfied_apply_blockers"]
+    assert "single_process_multi_root_runner_closure_report_not_consumed" in report["safety"]["satisfied_apply_blockers"]
+    assert "whole_scene_dependency_closure_not_scanned" not in report["safety"]["remaining_apply_blockers"]
+    assert "recursive_nomdl_output_collision_scan_missing" not in report["safety"]["remaining_apply_blockers"]
+    assert "single_process_multi_root_runner_closure_report_not_consumed" not in report["safety"]["remaining_apply_blockers"]
+    assert "scratch_cleanliness_not_verified" in report["safety"]["remaining_apply_blockers"]
+
+
+def test_build_report_consumes_materialization_report_and_can_be_apply_ready(tmp_path: Path) -> None:
+    module = load_runner_module()
+    plan, _paths = make_plan(tmp_path)
+    closure = make_closure_report(plan)
+    materialization = make_materialization_report(plan)
+
+    report = module.build_multi_root_run_report(
+        plan,
+        closure_report=closure,
+        materialization_report=materialization,
+    )
+
+    assert report["apply_ready"] is True
+    assert "scratch_cleanliness_not_verified" in report["safety"]["satisfied_apply_blockers"]
+    assert report["safety"]["remaining_apply_blockers"] == []
+
+
+def test_build_report_does_not_clear_cleanliness_from_dry_run_materialization_report(tmp_path: Path) -> None:
+    module = load_runner_module()
+    plan, _paths = make_plan(tmp_path)
+    closure = make_closure_report(plan)
+    materialization = make_materialization_report(plan, dry_run=True)
+
+    report = module.build_multi_root_run_report(
+        plan,
+        closure_report=closure,
+        materialization_report=materialization,
+    )
+
+    assert report["apply_ready"] is False
+    assert "scratch_cleanliness_not_verified" in report["safety"]["remaining_apply_blockers"]
+
+
+def test_build_report_rejects_closure_report_root_mismatch(tmp_path: Path) -> None:
+    module = load_runner_module()
+    plan, _paths = make_plan(tmp_path)
+    closure = make_closure_report(plan, source_root=tmp_path / "other-source")
+
+    with pytest.raises(ValueError, match="closure report source_root must match plan"):
+        module.build_multi_root_run_report(plan, closure_report=closure)
+
+
+def test_build_report_rejects_closure_report_missing_required_summary_fields(tmp_path: Path) -> None:
+    module = load_runner_module()
+    plan, _paths = make_plan(tmp_path)
+    closure = make_closure_report(plan)
+    del closure["summary"]["missing_dependency_count"]
+
+    with pytest.raises(ValueError, match="closure report summary missing required fields"):
+        module.build_multi_root_run_report(plan, closure_report=closure)
+
+
+def test_build_report_rejects_closure_report_null_required_summary_fields(tmp_path: Path) -> None:
+    module = load_runner_module()
+    plan, _paths = make_plan(tmp_path)
+    closure = make_closure_report(plan)
+    closure["summary"]["missing_dependency_count"] = None
+
+    with pytest.raises(ValueError, match="closure report summary missing_dependency_count must be a non-negative integer"):
+        module.build_multi_root_run_report(plan, closure_report=closure)
+
+
+def test_build_report_rejects_materialization_report_null_required_summary_fields(tmp_path: Path) -> None:
+    module = load_runner_module()
+    plan, _paths = make_plan(tmp_path)
+    closure = make_closure_report(plan)
+    materialization = make_materialization_report(plan)
+    materialization["summary"]["existing_nomdl_output_count"] = None
+
+    with pytest.raises(
+        ValueError,
+        match="materialization report summary existing_nomdl_output_count must be a non-negative integer",
+    ):
+        module.build_multi_root_run_report(
+            plan,
+            closure_report=closure,
+            materialization_report=materialization,
+        )
+
+
+def test_build_report_keeps_closure_blockers_when_closure_scan_is_not_clean(tmp_path: Path) -> None:
+    module = load_runner_module()
+    plan, _paths = make_plan(tmp_path)
+    closure = make_closure_report(
+        plan,
+        scan_truncated=True,
+        scratch_input_missing_count=1,
+        missing_dependency_count=2,
+        outside_source_root_ref_count=3,
+        output_collision_count=4,
+    )
+
+    report = module.build_multi_root_run_report(plan, closure_report=closure)
+
+    assert "whole_scene_dependency_closure_not_scanned" in report["safety"]["remaining_apply_blockers"]
+    assert "recursive_nomdl_output_collision_scan_missing" in report["safety"]["remaining_apply_blockers"]
+    assert "dependency_closure_scan_truncated" in report["safety"]["remaining_apply_blockers"]
+    assert "missing_dependencies_present" in report["safety"]["remaining_apply_blockers"]
+    assert "outside_source_root_refs_present" in report["safety"]["remaining_apply_blockers"]
+    assert "recursive_nomdl_output_collisions_present" in report["safety"]["remaining_apply_blockers"]
+    assert "scratch_inputs_missing" in report["safety"]["remaining_apply_blockers"]
+
+
+def test_apply_requires_closure_report_before_importing_nomdl(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    module = load_runner_module()
+    plan, _paths = make_plan(tmp_path)
+    plan["safety"]["apply_blockers"] = ["single_process_multi_root_runner_missing"]
+    real_import = builtins.__import__
+
+    def guarded_import(name, globals=None, locals=None, fromlist=(), level=0):
+        if name.startswith("convert_asset.no_mdl") or name == "pxr" or name.startswith("pxr."):
+            raise AssertionError("apply without closure report must not import no_mdl or pxr")
+        return real_import(name, globals, locals, fromlist, level)
+
+    monkeypatch.setattr(builtins, "__import__", guarded_import)
+
+    with pytest.raises(ValueError, match="closure report is required"):
+        module.run_multi_root_conversion(plan)
 
 
 def test_build_report_imports_no_nomdl_or_pxr(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:

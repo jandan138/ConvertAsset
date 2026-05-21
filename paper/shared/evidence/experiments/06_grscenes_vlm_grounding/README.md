@@ -359,19 +359,51 @@ Running 99 scene roots as 99 separate CLI commands would not share
 `Processor.done`, so shared dependencies can be converted repeatedly and may
 produce timestamped outputs when `ALLOW_OVERWRITE=False`.
 
-The next safe step for full conversion is a dedicated single-process multi-root
-runner plus dependency/output collision scan. Until that exists, treat the
-preview commands inside `full_nomdl_scratch_plan.json` as blocked. The JSON
-also stores structured `argv` fields, but the next runner should consume
-`conversion_jobs[*].scratch_input_usd` directly rather than parse shell-like
-command strings.
+The dedicated single-process multi-root runner and the full dependency/output
+collision scan now exist. The next safe step is full scratch materialization,
+then rerunning the closure scan so it proves `scratch_input_missing_count=0`
+for all top-level and recursive inputs.
+
+## Full no-MDL Scratch Materialization Report
+
+For the full scratch route, the guarded materializer is:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/materialize_full_nomdl_scratch.py
+```
+
+Default output:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_scratch_materialization_report.json
+```
+
+Current checked-in result:
+
+- `dry_run=true`; no asset files were created by this report.
+- 103 tree actions planned: 99 scene directories and 4 split-level
+  `models`/`Materials` resource roots.
+- 138 scratch scene-entry repairs planned for pointer-file `models` and
+  `Materials` entries.
+- 99 `convert_no_mdl` actions are intentionally ignored by the materializer.
+- 0 existing planned no-MDL outputs detected in the scratch root.
+- 0 top-level scratch inputs exist and 99 are still missing.
+
+Plain version: this is the first safe "how to create scratch" tool for the
+full route. Real materialization still requires `--apply`; it defaults to
+hardlinks, rejects source/scratch nesting, refuses report writes inside asset
+roots, validates projected symlink targets, and blocks stale scratch no-MDL
+outputs. Do not use `--copy-mode copy` under the current quota without a fresh
+storage estimate.
 
 ## Full no-MDL Multi-Root Runner Report
 
 For the full scratch route, the guarded runner shell is:
 
 ```bash
-python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_full_nomdl_multi_root.py
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_full_nomdl_multi_root.py \
+  --closure-report paper/shared/evidence/raw/grscene_vlm_grounding/full_dependency_closure_report.json \
+  --materialization-report paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_scratch_materialization_report.json
 ```
 
 Default output:
@@ -385,11 +417,15 @@ Current checked-in result:
 - 99 planned raw-scene jobs.
 - `dry_run=true`.
 - `apply_ready=false`.
-- `single_process_multi_root_runner_missing` is now satisfied by the runner
-  shell.
-- Remaining blockers are dependency closure, recursive no-MDL output collision
-  scan, scratch cleanliness, missing scratch root, and 99 missing scratch input
-  USDs.
+- `single_process_multi_root_runner_missing`,
+  `single_process_multi_root_runner_closure_report_not_consumed`,
+  `whole_scene_dependency_closure_not_scanned`, and
+  `recursive_nomdl_output_collision_scan_missing` are satisfied by the runner
+  shell plus `full_dependency_closure_report.json`.
+- Remaining blockers are scratch cleanliness, missing scratch root, and missing
+  scratch input USDs.
+- The dry-run materialization report is consumed, but it does not satisfy
+  scratch cleanliness because `dry_run=true`.
 - Top-level expected-output collision count is currently 0 because the scratch
   root has not been materialized.
 - Each job's current `blocked_by` is recomputed from this report; the older
@@ -397,13 +433,8 @@ Current checked-in result:
 
 Plain version: this gives us the right execution shape for later, because a
 future `--apply` would reuse one `Processor` instance and one `Processor.done`
-map across all roots. It still will not run conversion while blockers remain,
-and the default path imports no `pxr` and no no-MDL modules.
-
-The later `full_dependency_closure_report.json` now satisfies the dependency
-closure and recursive output-collision scan blockers. The runner report itself
-is still useful as runner-shape evidence, but it has not yet been regenerated
-against the closure report as an apply gate.
+map across all roots. It still will not run conversion while scratch blockers
+remain, and the default path imports no `pxr` and no no-MDL modules.
 
 ## Full Dependency Closure Report
 
@@ -448,8 +479,8 @@ Current checked-in result:
 Plain version: the full USD composition graph now looks structurally clean for
 the recursive no-MDL sidecar gate, and the scan-missing blockers are satisfied.
 This is still not permission to run conversion. The remaining blockers are:
-multi-root runner consumption of this closure report, full scratch
-materialization, and scratch cleanliness verification.
+full scratch materialization, regenerated scratch-complete closure evidence,
+and scratch cleanliness verification.
 
 The JSON intentionally caps large record lists at 2,000 items so the evidence
 file stays reviewable. Use `summary` and `report_limits` for complete counts;

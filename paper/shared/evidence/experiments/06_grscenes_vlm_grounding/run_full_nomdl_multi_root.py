@@ -24,6 +24,28 @@ RAW_DIR = PROJECT_ROOT / "paper" / "shared" / "evidence" / "raw" / "grscene_vlm_
 DEFAULT_PLAN = RAW_DIR / "full_nomdl_scratch_plan.json"
 DEFAULT_OUTPUT = RAW_DIR / "full_nomdl_multi_root_run_report.json"
 RUNNER_MISSING_BLOCKER = "single_process_multi_root_runner_missing"
+CLOSURE_REPORT_NOT_CONSUMED_BLOCKER = "single_process_multi_root_runner_closure_report_not_consumed"
+WHOLE_SCENE_CLOSURE_BLOCKER = "whole_scene_dependency_closure_not_scanned"
+RECURSIVE_COLLISION_SCAN_BLOCKER = "recursive_nomdl_output_collision_scan_missing"
+REQUIRED_CLOSURE_SUMMARY_FIELDS = {
+    "expected_top_output_count",
+    "scan_truncated",
+    "unscanned_usd_queue_count",
+    "missing_dependency_count",
+    "outside_source_root_ref_count",
+    "output_collision_count",
+    "scratch_input_missing_count",
+}
+SCRATCH_CLEANLINESS_BLOCKER = "scratch_cleanliness_not_verified"
+REQUIRED_MATERIALIZATION_SUMMARY_FIELDS = {
+    "dry_run",
+    "tree_action_count",
+    "repair_action_count",
+    "ignored_convert_action_count",
+    "existing_nomdl_output_count",
+    "top_level_scratch_input_exists_count",
+    "top_level_scratch_input_missing_count",
+}
 
 
 def _utc_now() -> str:
@@ -101,6 +123,193 @@ def _dedupe_preserve_order(values: list[str]) -> list[str]:
         seen.add(value)
         ordered.append(value)
     return ordered
+
+
+def _same_resolved_path(left: str | Path, right: str | Path) -> bool:
+    return _resolve_maybe_missing(Path(left)) == _resolve_maybe_missing(Path(right))
+
+
+def _closure_jobs_by_id(closure_report: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    jobs: dict[str, dict[str, Any]] = {}
+    for job in closure_report.get("jobs") or []:
+        job_id = str(job.get("conversion_job_id") or "")
+        if job_id:
+            jobs[job_id] = job
+    return jobs
+
+
+def _required_bool(mapping: dict[str, Any], field: str, *, label: str) -> bool:
+    value = mapping.get(field)
+    if not isinstance(value, bool):
+        raise ValueError(f"{label} {field} must be a boolean")
+    return value
+
+
+def _required_nonnegative_int(mapping: dict[str, Any], field: str, *, label: str) -> int:
+    value = mapping.get(field)
+    if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+        raise ValueError(f"{label} {field} must be a non-negative integer")
+    return value
+
+
+def _validate_closure_report_shape(
+    closure_report: dict[str, Any],
+    *,
+    plan: dict[str, Any],
+    jobs: list[dict[str, Any]],
+    source_root: Path,
+    scratch_root: Path,
+) -> dict[str, Any]:
+    if closure_report.get("status") != "planned_full_grscenes_dependency_closure":
+        raise ValueError("closure report status must be planned_full_grscenes_dependency_closure")
+    if not _same_resolved_path(str(closure_report.get("source_root") or ""), source_root):
+        raise ValueError("closure report source_root must match plan")
+    if not _same_resolved_path(str(closure_report.get("scratch_root") or ""), scratch_root):
+        raise ValueError("closure report scratch_root must match plan")
+    if closure_report.get("source_plan_status") != plan.get("status"):
+        raise ValueError("closure report source_plan_status must match plan status")
+
+    summary = dict(closure_report.get("summary") or {})
+    missing_summary_fields = sorted(field for field in REQUIRED_CLOSURE_SUMMARY_FIELDS if field not in summary)
+    if missing_summary_fields:
+        raise ValueError(f"closure report summary missing required fields: {missing_summary_fields}")
+    _required_nonnegative_int(summary, "expected_top_output_count", label="closure report summary")
+    _required_bool(summary, "scan_truncated", label="closure report summary")
+    _required_nonnegative_int(summary, "unscanned_usd_queue_count", label="closure report summary")
+    _required_nonnegative_int(summary, "missing_dependency_count", label="closure report summary")
+    _required_nonnegative_int(summary, "outside_source_root_ref_count", label="closure report summary")
+    _required_nonnegative_int(summary, "output_collision_count", label="closure report summary")
+    _required_nonnegative_int(summary, "scratch_input_missing_count", label="closure report summary")
+    expected_top_count = summary.get("expected_top_output_count")
+    plan_total_count = (plan.get("summary") or {}).get("conversion_job_count")
+    if plan_total_count == len(jobs) and expected_top_count != len(jobs):
+        raise ValueError("closure report expected_top_output_count must match selected jobs")
+
+    closure_jobs = _closure_jobs_by_id(closure_report)
+    missing_closure_jobs: list[str] = []
+    for job in jobs:
+        job_id = str(job.get("conversion_job_id") or "")
+        closure_job = closure_jobs.get(job_id)
+        if closure_job is None:
+            missing_closure_jobs.append(job_id)
+            continue
+        if not _same_resolved_path(closure_job.get("scratch_input_usd") or "", job["scratch_input_usd"]):
+            raise ValueError(f"closure report scratch_input_usd mismatch for job: {job_id}")
+        if not _same_resolved_path(closure_job.get("expected_top_output_usd") or "", job["expected_top_output_usd"]):
+            raise ValueError(f"closure report expected_top_output_usd mismatch for job: {job_id}")
+    if missing_closure_jobs:
+        raise ValueError(f"closure report missing selected jobs: {missing_closure_jobs[:5]}")
+    return summary
+
+
+def _closure_gate(
+    closure_report: dict[str, Any] | None,
+    *,
+    plan: dict[str, Any],
+    jobs: list[dict[str, Any]],
+    source_root: Path,
+    scratch_root: Path,
+) -> dict[str, Any]:
+    if closure_report is None:
+        return {
+            "provided": False,
+            "satisfied_apply_blockers": [],
+            "remaining_apply_blockers": [],
+            "summary": None,
+        }
+
+    summary = _validate_closure_report_shape(
+        closure_report,
+        plan=plan,
+        jobs=jobs,
+        source_root=source_root,
+        scratch_root=scratch_root,
+    )
+    satisfied = [CLOSURE_REPORT_NOT_CONSUMED_BLOCKER]
+    remaining: list[str] = []
+
+    scan_complete = summary.get("scan_truncated") is False and int(summary.get("unscanned_usd_queue_count") or 0) == 0
+    dependencies_clean = (
+        int(summary.get("missing_dependency_count") or 0) == 0
+        and int(summary.get("outside_source_root_ref_count") or 0) == 0
+    )
+    collisions_clean = int(summary.get("output_collision_count") or 0) == 0
+    scratch_inputs_complete = int(summary.get("scratch_input_missing_count") or 0) == 0
+
+    if scan_complete and dependencies_clean:
+        satisfied.append(WHOLE_SCENE_CLOSURE_BLOCKER)
+    else:
+        remaining.append(WHOLE_SCENE_CLOSURE_BLOCKER)
+    if scan_complete and collisions_clean:
+        satisfied.append(RECURSIVE_COLLISION_SCAN_BLOCKER)
+    else:
+        remaining.append(RECURSIVE_COLLISION_SCAN_BLOCKER)
+    if not scan_complete:
+        remaining.append("dependency_closure_scan_truncated")
+    if int(summary.get("missing_dependency_count") or 0):
+        remaining.append("missing_dependencies_present")
+    if int(summary.get("outside_source_root_ref_count") or 0):
+        remaining.append("outside_source_root_refs_present")
+    if not collisions_clean:
+        remaining.append("recursive_nomdl_output_collisions_present")
+    if not scratch_inputs_complete:
+        remaining.append("scratch_inputs_missing")
+
+    return {
+        "provided": True,
+        "satisfied_apply_blockers": _dedupe_preserve_order(satisfied),
+        "remaining_apply_blockers": _dedupe_preserve_order(remaining),
+        "summary": summary,
+    }
+
+
+def _materialization_gate(
+    materialization_report: dict[str, Any] | None,
+    *,
+    plan: dict[str, Any],
+    source_root: Path,
+    scratch_root: Path,
+) -> dict[str, Any]:
+    if materialization_report is None:
+        return {
+            "provided": False,
+            "satisfied_apply_blockers": [],
+            "remaining_apply_blockers": [],
+            "summary": None,
+        }
+    if materialization_report.get("status") != "full_grscenes_nomdl_scratch_materialization":
+        raise ValueError("materialization report status must be full_grscenes_nomdl_scratch_materialization")
+    if not _same_resolved_path(str(materialization_report.get("source_root") or ""), source_root):
+        raise ValueError("materialization report source_root must match plan")
+    if not _same_resolved_path(str(materialization_report.get("scratch_root") or ""), scratch_root):
+        raise ValueError("materialization report scratch_root must match plan")
+    if materialization_report.get("source_plan_status") != plan.get("status"):
+        raise ValueError("materialization report source_plan_status must match plan status")
+
+    summary = dict(materialization_report.get("summary") or {})
+    missing_summary_fields = sorted(field for field in REQUIRED_MATERIALIZATION_SUMMARY_FIELDS if field not in summary)
+    if missing_summary_fields:
+        raise ValueError(f"materialization report summary missing required fields: {missing_summary_fields}")
+    _required_bool(summary, "dry_run", label="materialization report summary")
+    _required_nonnegative_int(summary, "tree_action_count", label="materialization report summary")
+    _required_nonnegative_int(summary, "repair_action_count", label="materialization report summary")
+    _required_nonnegative_int(summary, "ignored_convert_action_count", label="materialization report summary")
+    _required_nonnegative_int(summary, "existing_nomdl_output_count", label="materialization report summary")
+    _required_nonnegative_int(summary, "top_level_scratch_input_exists_count", label="materialization report summary")
+    _required_nonnegative_int(summary, "top_level_scratch_input_missing_count", label="materialization report summary")
+
+    clean = (
+        materialization_report.get("dry_run") is False
+        and summary.get("dry_run") is False
+        and int(summary.get("existing_nomdl_output_count") or 0) == 0
+        and int(summary.get("top_level_scratch_input_missing_count") or 0) == 0
+    )
+    return {
+        "provided": True,
+        "satisfied_apply_blockers": [SCRATCH_CLEANLINESS_BLOCKER] if clean else [],
+        "remaining_apply_blockers": [] if clean else [SCRATCH_CLEANLINESS_BLOCKER],
+        "summary": summary,
+    }
 
 
 def _selected_jobs(plan: dict[str, Any], *, limit_jobs: int | None = None) -> list[dict[str, Any]]:
@@ -198,7 +407,13 @@ def _with_current_job_safety(
     }
 
 
-def build_multi_root_run_report(plan: dict[str, Any], *, limit_jobs: int | None = None) -> dict[str, Any]:
+def build_multi_root_run_report(
+    plan: dict[str, Any],
+    *,
+    limit_jobs: int | None = None,
+    closure_report: dict[str, Any] | None = None,
+    materialization_report: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     """Build a dry-run readiness report for the full no-MDL multi-root runner."""
 
     if plan.get("status") != "planned_full_grscenes_nomdl_scratch":
@@ -208,6 +423,19 @@ def build_multi_root_run_report(plan: dict[str, Any], *, limit_jobs: int | None 
         _validated_job(job, source_root=source_root, scratch_root=scratch_root)
         for job in _selected_jobs(plan, limit_jobs=limit_jobs)
     ]
+    closure_gate = _closure_gate(
+        closure_report,
+        plan=plan,
+        jobs=jobs,
+        source_root=source_root,
+        scratch_root=scratch_root,
+    )
+    materialization_gate = _materialization_gate(
+        materialization_report,
+        plan=plan,
+        source_root=source_root,
+        scratch_root=scratch_root,
+    )
 
     expected_outputs = [job["expected_top_output_usd"] for job in jobs]
     output_counts = Counter(expected_outputs)
@@ -224,7 +452,16 @@ def build_multi_root_run_report(plan: dict[str, Any], *, limit_jobs: int | None 
 
     plan_blockers = list((plan.get("safety") or {}).get("apply_blockers") or [])
     satisfied_blockers = [RUNNER_MISSING_BLOCKER] if RUNNER_MISSING_BLOCKER in plan_blockers else []
-    remaining_blockers = [blocker for blocker in plan_blockers if blocker != RUNNER_MISSING_BLOCKER]
+    satisfied_blockers.extend(closure_gate["satisfied_apply_blockers"])
+    satisfied_blockers.extend(materialization_gate["satisfied_apply_blockers"])
+    satisfied_set = set(satisfied_blockers)
+    remaining_blockers = [blocker for blocker in plan_blockers if blocker not in satisfied_set]
+    remaining_blockers.extend(closure_gate["remaining_apply_blockers"])
+    if materialization_report is not None:
+        remaining_blockers = [
+            blocker for blocker in remaining_blockers if blocker not in set(materialization_gate["satisfied_apply_blockers"])
+        ]
+        remaining_blockers.extend(materialization_gate["remaining_apply_blockers"])
     if not scratch_root.exists():
         remaining_blockers.append("scratch_root_missing")
     if missing_scratch_inputs:
@@ -280,11 +517,15 @@ def build_multi_root_run_report(plan: dict[str, Any], *, limit_jobs: int | None 
             "only_new_usd": True,
             "imports_no_mdl_on_dry_run": False,
             "apply_imports_processor_after_readiness_gate": True,
+            "closure_report_consumed": bool(closure_gate["provided"]),
+            "materialization_report_consumed": bool(materialization_gate["provided"]),
         },
+        "closure_gate": closure_gate,
+        "materialization_gate": materialization_gate,
         "safety": {
             "source_root_immutable": True,
             "safe_to_apply": apply_ready,
-            "satisfied_apply_blockers": satisfied_blockers,
+            "satisfied_apply_blockers": _dedupe_preserve_order(satisfied_blockers),
             "remaining_apply_blockers": remaining_blockers,
         },
         "summary": summary,
@@ -300,19 +541,32 @@ def build_multi_root_run_report(plan: dict[str, Any], *, limit_jobs: int | None 
         "jobs": jobs,
         "notes": [
             "This report does not convert assets.",
-            "It removes only the runner-missing blocker; dependency closure and recursive output collision scan still need separate evidence.",
+            "When a closure report is supplied, it is consumed as pure JSON before any no-MDL import.",
             "Use jobs[*].scratch_input_usd as the runner contract; command strings in the source plan are preview text.",
         ],
     }
 
 
-def run_multi_root_conversion(plan: dict[str, Any], *, limit_jobs: int | None = None) -> dict[str, Any]:
+def run_multi_root_conversion(
+    plan: dict[str, Any],
+    *,
+    limit_jobs: int | None = None,
+    closure_report: dict[str, Any] | None = None,
+    materialization_report: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     """Run no-MDL for all ready scratch roots with one shared Processor."""
 
-    report = build_multi_root_run_report(plan, limit_jobs=limit_jobs)
+    report = build_multi_root_run_report(
+        plan,
+        limit_jobs=limit_jobs,
+        closure_report=closure_report,
+        materialization_report=materialization_report,
+    )
     if not report["apply_ready"]:
         blockers = ", ".join(report["safety"]["remaining_apply_blockers"])
         raise ValueError(f"multi-root no-MDL apply is not ready: {blockers}")
+    if closure_report is None:
+        raise ValueError("closure report is required for multi-root no-MDL apply")
 
     from convert_asset.no_mdl import processor as processor_module  # pylint: disable=import-error
     from convert_asset.no_mdl.processor import Processor  # pylint: disable=import-error
@@ -342,17 +596,31 @@ def run_multi_root_conversion(plan: dict[str, Any], *, limit_jobs: int | None = 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--plan", type=Path, default=DEFAULT_PLAN)
+    parser.add_argument("--closure-report", type=Path, default=None)
+    parser.add_argument("--materialization-report", type=Path, default=None)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--limit-jobs", type=int, default=None)
     parser.add_argument("--apply", action="store_true", help="Run conversion only if every readiness blocker is gone")
     args = parser.parse_args()
 
     plan = _load_json(args.plan)
+    closure_report = _load_json(args.closure_report) if args.closure_report else None
+    materialization_report = _load_json(args.materialization_report) if args.materialization_report else None
     output_path = validate_output_path(args.out, plan=plan)
     report = (
-        run_multi_root_conversion(plan, limit_jobs=args.limit_jobs)
+        run_multi_root_conversion(
+            plan,
+            limit_jobs=args.limit_jobs,
+            closure_report=closure_report,
+            materialization_report=materialization_report,
+        )
         if args.apply
-        else build_multi_root_run_report(plan, limit_jobs=args.limit_jobs)
+        else build_multi_root_run_report(
+            plan,
+            limit_jobs=args.limit_jobs,
+            closure_report=closure_report,
+            materialization_report=materialization_report,
+        )
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
