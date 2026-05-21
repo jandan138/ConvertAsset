@@ -652,6 +652,21 @@ final grounding comparison. Treat this as render-stack smoke evidence only; it
 is not VLM metric evidence. The next render gate is visibility-aware view
 selection before batch rendering.
 
+Start visibility-aware view selection with the pure geometry preflight:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/plan_visibility_aware_views.py \
+  --render-manifest paper/shared/evidence/raw/grscene_vlm_grounding/render_manifest.json \
+  --geometry-index paper/shared/evidence/raw/grscene_vlm_grounding/visibility_geometry_index.json \
+  --out paper/shared/evidence/raw/grscene_vlm_grounding/visibility_preflight_report.json
+```
+
+`visibility_geometry_index.json` is the next missing artifact. It should be
+generated from composed USD stages with lazy `pxr` imports and should contain
+scene-id keyed non-target obstacle bboxes. The current preflight code already
+handles camera-inside-obstacle, line-of-sight obstacle-before-target, and first
+clear-view selection once that geometry index exists.
+
 ## Task Families
 
 | Task | Prompt shape | Metric |

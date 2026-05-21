@@ -25,6 +25,10 @@ Expected files:
   report.
 - `renders/`: thin camera wrapper USDs and smoke PNG outputs for GRScenes
   render jobs.
+- `visibility_geometry_index.json`: planned next artifact containing scene-id
+  keyed non-target obstacle bboxes for visibility preflight.
+- `visibility_preflight_report.json`: planned next artifact selecting clear
+  camera pairs before batch rendering.
 - `predictions.jsonl`: model outputs using the schema documented by `score_grounding.py`.
 - `score_summary.json`: aggregate point-in-box, answer consistency, and original-vs-converted metrics.
 
