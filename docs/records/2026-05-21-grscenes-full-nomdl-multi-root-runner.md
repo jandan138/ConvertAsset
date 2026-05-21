@@ -6,9 +6,9 @@ Added a guarded single-process no-MDL runner shell for the full GRScenes scratch
 route. It closes the "runner is missing" part of the previous full scratch plan
 without converting any assets by default.
 
-Plain version: we now have the code shape needed to run 99 scratch roots through
-one Python process and one `Processor` instance later. The current checked-in
-run is still a dry-run report, not converted-scene evidence.
+Plain version: this record captures the initial runner-shell checkpoint. It is
+now superseded by `2026-05-21-grscenes-full-nomdl-apply.md`, where the 99-root
+apply run is recorded as completed and verified.
 
 ## Files Added
 
@@ -49,7 +49,7 @@ run is still a dry-run report, not converted-scene evidence.
   `convert_asset.no_mdl.processor`, set `RUNTIME_ONLY_NEW_USD=True`, create one
   `Processor`, and reuse that instance across all selected roots.
 
-## Current Output
+## Historical Dry-Run Output
 
 Command:
 
@@ -66,7 +66,7 @@ Output:
 paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_multi_root_run_report.json
 ```
 
-Current checked-in summary:
+Historical dry-run summary at this checkpoint:
 
 - 99 planned jobs.
 - `dry_run=true`.
@@ -84,10 +84,9 @@ Current checked-in summary:
 
 ## Important Limitation
 
-This runner shell is now the green button for the no-MDL conversion gate, but
-the current checked-in report is still a dry-run readiness report. It is not
-converted-scene evidence until the same command is run with `--apply` under
-Isaac Python.
+This runner shell was the green button for the no-MDL conversion gate. The
+full apply has since been run under Isaac Python and is tracked in
+`2026-05-21-grscenes-full-nomdl-apply.md`.
 
 ## Verification
 
@@ -98,5 +97,5 @@ PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider tests/test_grs
 PYTHONDONTWRITEBYTECODE=1 python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_full_nomdl_multi_root.py --closure-report paper/shared/evidence/raw/grscene_vlm_grounding/full_dependency_closure_report.json --materialization-report paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_scratch_materialization_report.json
 ```
 
-The runner tests report 19 passing tests. Full-repo verification is tracked in
+The runner tests reported 19 passing tests at this checkpoint. Full-repo verification is tracked in
 the final commit notes for this change.

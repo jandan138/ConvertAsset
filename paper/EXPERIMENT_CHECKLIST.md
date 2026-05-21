@@ -70,6 +70,24 @@ paper/
 
 ---
 
+## 当前离论文完成还差几步
+
+截至 2026-05-21，ACL 主线不是还差“写几段文字”，而是还差下面 5 个
+证据门槛。只有这些门槛都过了，论文才算真正可投稿：
+
+| 顺序 | 门槛 | 当前状态 | 完成标准 |
+|---|---|---|---|
+| 1 | 全量 no-MDL 数据集 | ✅ 已完成并验证 | `full_nomdl_multi_root_run_report.json` 记录 `dry_run=false`、99 个顶层 raw scene 转换完成，且 `full_nomdl_apply_verification_report.json` 记录 `passed=true`、原始 `/cpfs/user/zhuzihou/assets/zzh-grscenes` 没有 `_noMDL` sidecar 污染 |
+| 2 | 原始/简化成对渲染 | ⬜ 未完成 | 23 个 unique target x 4 view 的 original/no-MDL 成对图生成完成，图像哈希、相机、目标 bbox/point 投影全部入账 |
+| 3 | VLM/下游评测 | ⬜ 未完成 | `predictions.jsonl`、`score_summary.json`、必要的 InternNav/VL-LN 扩展结果生成，指标能回答材质变化是否影响 grounding/navigation |
+| 4 | 图表和结论 | ⬜ 未完成 | 质量图、VLM 表、失败案例/定性图、trade-off 结论全部进入 `paper/shared/figures/`、`paper/shared/tables/` 和 `results_manifest.yaml` |
+| 5 | 论文写作与审稿式自查 | ⬜ 未完成 | ACL/AAAI wrapper 能编译，Abstract/Intro/Method/Experiments/Discussion/Limitations 与证据一致，完成至少一轮 reviewer-style 反向审阅 |
+
+当前最短路径：立刻进入第 2 步成对渲染。第 2 步是后面所有 VLM
+指标、图表和论文章节的共同入口。
+
+---
+
 ## 论文 Agent 使用说明
 
 ### 开始实验（数据准备 → 定量评测）

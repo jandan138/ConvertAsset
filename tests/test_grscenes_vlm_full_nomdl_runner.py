@@ -334,6 +334,69 @@ def test_apply_requires_closure_report_before_importing_nomdl(monkeypatch: pytes
         module.run_multi_root_conversion(plan)
 
 
+def test_apply_adds_project_root_to_sys_path_before_importing_nomdl(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    module = load_runner_module()
+    plan, _paths = make_plan(tmp_path)
+    closure = make_closure_report(plan)
+    materialization = make_materialization_report(plan)
+    monkeypatch.setattr(sys, "path", [path for path in sys.path if path != str(ROOT)])
+    real_import = builtins.__import__
+
+    def guarded_import(name, globals=None, locals=None, fromlist=(), level=0):
+        if name.startswith("convert_asset.no_mdl"):
+            assert str(ROOT) in sys.path
+            raise RuntimeError("stop after project root path check")
+        return real_import(name, globals, locals, fromlist, level)
+
+    monkeypatch.setattr(builtins, "__import__", guarded_import)
+
+    with pytest.raises(RuntimeError, match="stop after project root path check"):
+        module.run_multi_root_conversion(
+            plan,
+            closure_report=closure,
+            materialization_report=materialization,
+        )
+
+
+def test_apply_report_status_and_notes_reflect_completed_conversion(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    module = load_runner_module()
+    plan, _paths = make_plan(tmp_path)
+    closure = make_closure_report(plan)
+    materialization = make_materialization_report(plan)
+    calls = []
+
+    class FakeProcessor:
+        def __init__(self):
+            self.done = {}
+
+        def process(self, path):
+            self.done[path] = path
+            calls.append(path)
+            return str(Path(path).with_name(f"{Path(path).stem}_noMDL.usd"))
+
+    fake_processor_module = type("FakeProcessorModule", (), {})()
+    monkeypatch.setattr(module, "_ensure_project_root_on_sys_path", lambda: None)
+    monkeypatch.setitem(sys.modules, "convert_asset.no_mdl", type("FakeNoMdlModule", (), {"processor": fake_processor_module})())
+    monkeypatch.setitem(sys.modules, "convert_asset.no_mdl.processor", type("FakeProcessorModule", (), {"Processor": FakeProcessor})())
+
+    report = module.run_multi_root_conversion(
+        plan,
+        closure_report=closure,
+        materialization_report=materialization,
+    )
+
+    assert report["status"] == "completed_full_grscenes_nomdl_multi_root_run"
+    assert report["dry_run"] is False
+    assert "converted_at_utc" in report
+    assert report["results"]
+    assert "This report records a completed no-MDL apply run." in report["notes"]
+    assert "This report does not convert assets." not in report["notes"]
+    assert len(calls) == len(plan["conversion_jobs"])
+
+
 def test_build_report_imports_no_nomdl_or_pxr(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     module = load_runner_module()
     plan, _paths = make_plan(tmp_path)

@@ -397,7 +397,7 @@ real materialization.
 
 ## Full no-MDL Multi-Root Runner Report
 
-For the full scratch route, the guarded runner shell is:
+For a dry-run readiness check, use:
 
 ```bash
 python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_full_nomdl_multi_root.py \
@@ -414,7 +414,7 @@ paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_multi_root_run_report
 Current checked-in result:
 
 - 99 planned raw-scene jobs.
-- `dry_run=true`.
+- `dry_run=false`.
 - `apply_ready=true`.
 - `single_process_multi_root_runner_missing`,
   `single_process_multi_root_runner_closure_report_not_consumed`,
@@ -425,13 +425,57 @@ Current checked-in result:
   materialization report.
 - Remaining blockers: none.
 - Top-level expected-output collision count is 0.
+- 99 conversion results were written.
+- `processor_done_count=89583`.
 - Each job's current `blocked_by` is recomputed from this report; the older
   plan-level blockers are preserved separately as `source_plan_blocked_by`.
 
-Plain version: this gives us the right execution shape for later, because a
-future `--apply` would reuse one `Processor` instance and one `Processor.done`
-map across all roots. The dry-run report now says the guarded apply path is
-ready. The default dry-run path imports no `pxr` and no no-MDL modules.
+Plain version: the full scratch no-MDL apply has run successfully. It reused
+one `Processor` instance and one `Processor.done` map across all 99 roots. The
+default dry-run path still imports no `pxr` and no no-MDL modules.
+
+The real apply command must use Isaac Python and `--apply`:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 ./scripts/isaac_python.sh \
+  paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_full_nomdl_multi_root.py \
+  --closure-report paper/shared/evidence/raw/grscene_vlm_grounding/full_dependency_closure_report.json \
+  --materialization-report paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_scratch_materialization_report.json \
+  --apply
+```
+
+The runner explicitly adds the repository root to `sys.path` before importing
+`convert_asset.no_mdl`; this is needed because Isaac's wrapper runs path-based
+scripts with the experiment directory, not the repository root, as
+`sys.path[0]`.
+
+After a real apply finishes, verify it before using the converted scenes:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/verify_full_nomdl_apply.py
+```
+
+Default output:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_apply_verification_report.json
+```
+
+The verifier is pure Python. It checks that the runner report is non-dry-run
+evidence, all planned top-level no-MDL outputs exist under scratch, result
+paths match expected outputs, and the immutable source tree has no `_noMDL`
+USD sidecars.
+
+Current checked-in verification result:
+
+- `passed=true`.
+- `blockers=[]`.
+- 99 expected top-level no-MDL outputs exist.
+- 0 source `_noMDL` USD sidecars were found under
+  `/cpfs/user/zhuzihou/assets/zzh-grscenes`.
+
+This verifier is not a residual-MDL, USD-open, or visual render validation.
+The next gate is render-manifest regeneration plus USD/render smoke validation.
 
 ## Full Dependency Closure Report
 

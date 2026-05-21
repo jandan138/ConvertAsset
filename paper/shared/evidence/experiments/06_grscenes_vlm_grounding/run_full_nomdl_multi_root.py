@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -54,6 +55,12 @@ def _utc_now() -> str:
 
 def _load_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _ensure_project_root_on_sys_path() -> None:
+    project_root_text = str(PROJECT_ROOT)
+    if project_root_text not in sys.path:
+        sys.path.insert(0, project_root_text)
 
 
 def _resolve_maybe_missing(path: Path) -> Path:
@@ -500,6 +507,11 @@ def build_multi_root_run_report(
         ),
         "apply_ready": apply_ready,
     }
+    report_notes = [
+        "This report does not convert assets.",
+        "When a closure report is supplied, it is consumed as pure JSON before any no-MDL import.",
+        "Use jobs[*].scratch_input_usd as the runner contract; command strings in the source plan are preview text.",
+    ]
     return {
         "schema_version": 1,
         "status": "planned_full_grscenes_nomdl_multi_root_run",
@@ -539,11 +551,7 @@ def build_multi_root_run_report(
             "recursive_dependency_outputs": "not_scanned",
         },
         "jobs": jobs,
-        "notes": [
-            "This report does not convert assets.",
-            "When a closure report is supplied, it is consumed as pure JSON before any no-MDL import.",
-            "Use jobs[*].scratch_input_usd as the runner contract; command strings in the source plan are preview text.",
-        ],
+        "notes": report_notes,
     }
 
 
@@ -568,6 +576,7 @@ def run_multi_root_conversion(
     if closure_report is None:
         raise ValueError("closure report is required for multi-root no-MDL apply")
 
+    _ensure_project_root_on_sys_path()
     from convert_asset.no_mdl import processor as processor_module  # pylint: disable=import-error
     from convert_asset.no_mdl.processor import Processor  # pylint: disable=import-error
 
@@ -586,10 +595,16 @@ def run_multi_root_conversion(
         )
     return {
         **report,
+        "status": "completed_full_grscenes_nomdl_multi_root_run",
         "dry_run": False,
         "converted_at_utc": _utc_now(),
         "results": results,
         "processor_done_count": len(processor.done),
+        "notes": [
+            "This report records a completed no-MDL apply run.",
+            "The closure report was consumed as pure JSON before any no-MDL import.",
+            "Use jobs[*].scratch_input_usd and results[*].top_output_usd as the conversion evidence contract.",
+        ],
     }
 
 

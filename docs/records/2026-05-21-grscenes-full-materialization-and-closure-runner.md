@@ -6,9 +6,10 @@ Added the next guarded step for the ACL/VLM GRScenes route: full scratch
 materialization, post-materialization dependency closure, and a closure-aware
 multi-root runner report.
 
-Plain version: the full dependency scan is no longer the blocker. The current
-route now has a materialized scratch tree and a runner dry-run that says
-`apply_ready=true`. No full no-MDL conversion has run yet.
+Plain version: this record captures the pre-apply gate that made the full
+conversion safe to start. It is now superseded by
+`docs/records/2026-05-21-grscenes-full-nomdl-apply.md`, where the full no-MDL
+apply is recorded as completed and verified.
 
 ## Files Added
 
@@ -72,7 +73,7 @@ blockers. It also validates materialization reports and clears
 `scratch_cleanliness_not_verified` only when the report is non-dry-run, has zero
 existing no-MDL outputs, and reports zero missing top-level scratch inputs.
 
-Current checked-in runner report:
+Pre-apply runner report at this checkpoint:
 
 - `apply_ready=true`.
 - Satisfied blockers:
@@ -96,9 +97,9 @@ than editing inputs in place. Hardlinks still share input inodes, so they are
 not acceptable for any workflow that mutates input files in place. Copy mode is
 not recommended without a fresh storage estimate under the 1.6 TiB quota.
 
-## Next Gate
+## Superseded Next Gate
 
-The next gate is the guarded no-MDL conversion:
+At this checkpoint, the next gate was the guarded no-MDL conversion:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 ./scripts/isaac_python.sh \
@@ -108,8 +109,32 @@ PYTHONDONTWRITEBYTECODE=1 ./scripts/isaac_python.sh \
   --apply
 ```
 
-Use the Isaac Python wrapper for this apply command, because it imports
+That command has now completed successfully. Current apply evidence lives in
+`paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_multi_root_run_report.json`
+with `status=completed_full_grscenes_nomdl_multi_root_run` and in
+`paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_apply_verification_report.json`
+with `passed=true`.
+
+Use the Isaac Python wrapper for apply commands, because they import
 `convert_asset.no_mdl` and `pxr` after the readiness gate.
+
+Operational pitfall: when the wrapper executes a script by path,
+`sys.path[0]` is the experiment script directory, not the repository root. The
+runner therefore adds the project root to `sys.path` immediately before the
+lazy no-MDL import. Without that guard, the gated apply command fails before
+conversion with `ModuleNotFoundError: No module named 'convert_asset'`.
+
+After the apply command finishes, run the pure-Python post-apply verifier:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/verify_full_nomdl_apply.py
+```
+
+It writes
+`paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_apply_verification_report.json`
+and checks that the runner report is non-dry-run evidence, top-level outputs
+exist under scratch, result paths match expected outputs, and the immutable
+source tree has no `_noMDL` USD sidecars.
 
 ## Verification
 
@@ -118,9 +143,10 @@ Fresh checks during implementation:
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider tests/test_grscenes_vlm_full_scratch_materializer.py
 PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider tests/test_grscenes_vlm_full_nomdl_runner.py
+PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider tests/test_grscenes_vlm_full_nomdl_apply_verifier.py
 PYTHONDONTWRITEBYTECODE=1 python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/materialize_full_nomdl_scratch.py
 PYTHONDONTWRITEBYTECODE=1 python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_full_nomdl_multi_root.py --closure-report paper/shared/evidence/raw/grscene_vlm_grounding/full_dependency_closure_report.json --materialization-report paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_scratch_materialization_report.json
 ```
 
-The materializer tests report 14 passing tests. The runner tests report 19
-passing tests.
+The materializer tests report 14 passing tests. The runner tests report 21
+passing tests. The post-apply verifier tests report 11 passing tests.

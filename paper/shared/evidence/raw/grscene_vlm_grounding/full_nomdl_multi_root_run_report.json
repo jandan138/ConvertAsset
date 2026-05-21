@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "status": "planned_full_grscenes_nomdl_multi_root_run",
+  "status": "completed_full_grscenes_nomdl_multi_root_run",
   "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_full_nomdl_multi_root.py",
-  "generated_at_utc": "2026-05-21T09:06:14.361149Z",
-  "dry_run": true,
+  "generated_at_utc": "2026-05-21T09:21:38.607473Z",
+  "dry_run": false,
   "apply_ready": true,
   "source_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
   "scratch_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521",
@@ -3182,8 +3182,606 @@
     }
   ],
   "notes": [
-    "This report does not convert assets.",
-    "When a closure report is supplied, it is consumed as pure JSON before any no-MDL import.",
-    "Use jobs[*].scratch_input_usd as the runner contract; command strings in the source plan are preview text."
-  ]
+    "This report records a completed no-MDL apply run.",
+    "The closure report was consumed as pure JSON before any no-MDL import.",
+    "Use jobs[*].scratch_input_usd and results[*].top_output_usd as the conversion evidence contract."
+  ],
+  "converted_at_utc": "2026-05-21T11:12:03.540908Z",
+  "results": [
+    {
+      "conversion_job_id": "home_scenes:MV7J6NIKTKJZ2AABAAAAADA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 1106
+    },
+    {
+      "conversion_job_id": "home_scenes:MV7J6NIKTKJZ2AABAAAAADI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 1831
+    },
+    {
+      "conversion_job_id": "home_scenes:MV7J6NIKTKJZ2AABAAAAADQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 2354
+    },
+    {
+      "conversion_job_id": "home_scenes:MV7J6NIKTKJZ2AABAAAAADY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 2908
+    },
+    {
+      "conversion_job_id": "home_scenes:MV7J6NIKTKJZ2AABAAAAAEA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 3553
+    },
+    {
+      "conversion_job_id": "home_scenes:MV7J6NIKTKJZ2AABAAAAAEI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 4121
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAAAA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 5077
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAAAI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 5735
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAAAQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 6374
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAAAY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 7054
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAABA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 7870
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAABI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 8541
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAABQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 9257
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAABY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 10179
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAACA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 10779
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAACI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 11271
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAACQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 12017
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAACY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 13773
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAADA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 14496
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAADI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 15293
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAADQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 15911
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAADY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 16386
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAAEA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 17617
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUCSQAKTKJ5EAABAAAAAEI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 18142
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHL5YKTKJ5EAABAAAAAAA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 19163
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHL5YKTKJ5EAABAAAAAAI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 19949
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHL5YKTKJ5EAABAAAAAAQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 20959
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAAAA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 21767
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAAAI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 22357
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAAAQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 23111
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAAAY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 23865
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAABA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 24472
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAABI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 25241
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAABQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 26129
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAABY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAABY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 26826
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAACA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 27479
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAACI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 28605
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAACQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 29574
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAACY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAACY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 29952
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAADA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 30689
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAADI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 31349
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAADQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 32574
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAADY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAADY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 33730
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAAEA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 34767
+    },
+    {
+      "conversion_job_id": "home_scenes:MVUHLWYKTKJ5EAABAAAAAEI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAEI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 36075
+    },
+    {
+      "conversion_job_id": "home_scenes:MWAX5JYKTKJZ2AABAAAAAAA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 37402
+    },
+    {
+      "conversion_job_id": "home_scenes:MWAX5JYKTKJZ2AABAAAAAAI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 37946
+    },
+    {
+      "conversion_job_id": "home_scenes:MWAX5JYKTKJZ2AABAAAAAAQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 38631
+    },
+    {
+      "conversion_job_id": "home_scenes:MWAX5JYKTKJZ2AABAAAAAAY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAAY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 39259
+    },
+    {
+      "conversion_job_id": "home_scenes:MWAX5JYKTKJZ2AABAAAAABA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 40049
+    },
+    {
+      "conversion_job_id": "home_scenes:MWAX5JYKTKJZ2AABAAAAABI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 40498
+    },
+    {
+      "conversion_job_id": "home_scenes:MWAX5JYKTKJZ2AABAAAAABQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 41256
+    },
+    {
+      "conversion_job_id": "home_scenes:MWAX5JYKTKJZ2AABAAAAABY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAABY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 41935
+    },
+    {
+      "conversion_job_id": "home_scenes:MWAX5JYKTKJZ2AABAAAAACA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAACA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAACA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 42449
+    },
+    {
+      "conversion_job_id": "home_scenes:MWAX5JYKTKJZ2AABAAAAADA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 43152
+    },
+    {
+      "conversion_job_id": "home_scenes:MWAX5JYKTKJZ2AABAAAAADI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 44111
+    },
+    {
+      "conversion_job_id": "home_scenes:MWAX5JYKTKJZ2AABAAAAADQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 44540
+    },
+    {
+      "conversion_job_id": "home_scenes:MWAX5JYKTKJZ2AABAAAAADY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAADY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 45110
+    },
+    {
+      "conversion_job_id": "home_scenes:MWAX5JYKTKJZ2AABAAAAAEA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 45485
+    },
+    {
+      "conversion_job_id": "home_scenes:MWAX5JYKTKJZ2AABAAAAAEI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWAX5JYKTKJZ2AABAAAAAEI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 46130
+    },
+    {
+      "conversion_job_id": "home_scenes:MWBGLKQKTKJZ2AABAAAAAAA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 46663
+    },
+    {
+      "conversion_job_id": "home_scenes:MWBGLKQKTKJZ2AABAAAAAAI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 47361
+    },
+    {
+      "conversion_job_id": "home_scenes:MWBGLKQKTKJZ2AABAAAAAAQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 47832
+    },
+    {
+      "conversion_job_id": "home_scenes:MWBGLKQKTKJZ2AABAAAAAAY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAAAY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 48376
+    },
+    {
+      "conversion_job_id": "home_scenes:MWBGLKQKTKJZ2AABAAAAABA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 48898
+    },
+    {
+      "conversion_job_id": "home_scenes:MWBGLKQKTKJZ2AABAAAAABI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 49857
+    },
+    {
+      "conversion_job_id": "home_scenes:MWBGLKQKTKJZ2AABAAAAABQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 50718
+    },
+    {
+      "conversion_job_id": "home_scenes:MWBGLKQKTKJZ2AABAAAAABY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAABY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 51227
+    },
+    {
+      "conversion_job_id": "home_scenes:MWBGLKQKTKJZ2AABAAAAACA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAACA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MWBGLKQKTKJZ2AABAAAAACA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 51844
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MV4AFHQKTKJZ2AABAAAAADQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 52832
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MV4AFHQKTKJZ2AABAAAAADY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAADY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 56332
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MV4AFHQKTKJZ2AABAAAAAEA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 58296
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MV4AFHQKTKJZ2AABAAAAAEI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV4AFHQKTKJZ2AABAAAAAEI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 60484
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MV5M25QKTKJZ2AABAAAAAAA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 61279
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MV5M25QKTKJZ2AABAAAAAAI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 61876
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MV5M25QKTKJZ2AABAAAAAAQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 62587
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MV5M25QKTKJZ2AABAAAAAAY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAAY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 63845
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MV5M25QKTKJZ2AABAAAAAEI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAEI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV5M25QKTKJZ2AABAAAAAEI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 65418
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MV7J6NIKTKJZ2AABAAAAAAA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAAA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAAA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 66700
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MV7J6NIKTKJZ2AABAAAAAAI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAAI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAAI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 67863
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MVJWVGYKTLDAYAABAAAAAAQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVJWVGYKTLDAYAABAAAAAAQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVJWVGYKTLDAYAABAAAAAAQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 69310
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MVSGSAIKTKJ66AABAAAAADY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSGSAIKTKJ66AABAAAAADY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSGSAIKTKJ66AABAAAAADY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 69732
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MVSGSAIKTKJ66AABAAAAAEA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSGSAIKTKJ66AABAAAAAEA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSGSAIKTKJ66AABAAAAAEA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 70354
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MVSYCXYKTKJ66AABAAAAAAA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAAAA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAAAA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 71494
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MVSYCXYKTKJ66AABAAAAACY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAACY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAACY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 72706
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MVSYCXYKTKJ66AABAAAAADA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAADA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAADA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 73119
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MVSYCXYKTKJ66AABAAAAADI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAADI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MVSYCXYKTKJ66AABAAAAADI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 74520
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MWF4WLIKTIFZIAABAAAAABY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAABY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAABY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 75990
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MWF4WLIKTIFZIAABAAAAACA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 77071
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MWF4WLIKTIFZIAABAAAAACI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 77413
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MWF4WLIKTIFZIAABAAAAACQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 78742
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MWF4WLIKTIFZIAABAAAAACY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAACY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 81249
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MWF4WLIKTIFZIAABAAAAADA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 81847
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MWF4WLIKTIFZIAABAAAAADI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 82217
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MWF4WLIKTIFZIAABAAAAADQ8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADQ8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADQ8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 82998
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MWF4WLIKTIFZIAABAAAAADY8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADY8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAADY8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 86757
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MWF4WLIKTIFZIAABAAAAAEA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAAEA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAAEA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 88877
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MWF4WLIKTIFZIAABAAAAAEI8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAAEI8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWF4WLIKTIFZIAABAAAAAEI8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 89226
+    },
+    {
+      "conversion_job_id": "commercial_scenes:MWHLEPQKTIFZIAABAAAAAAA8_usd:start_result_raw.usd",
+      "scratch_input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWHLEPQKTIFZIAABAAAAAAA8_usd/start_result_raw.usd",
+      "top_output_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/commercial_scenes/scenes/MWHLEPQKTIFZIAABAAAAAAA8_usd/start_result_raw_noMDL.usd",
+      "processor_done_count": 89583
+    }
+  ],
+  "processor_done_count": 89583
 }
