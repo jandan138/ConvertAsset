@@ -25,6 +25,8 @@ Expected files:
   recommended pairs after the visibility preflight gate.
 - `recommended_paired_render_summary.json`: aggregate smoke summary over the
   recommended paired renders.
+- `target_projection_qa_report.json`: projected image-space target bboxes and
+  scoring-record skeletons for the recommended render-smoke pairs.
 - `render_logs/`: archived `.txt` stdout/stderr logs referenced by the smoke
   reports.
 - `renders/`: thin camera wrapper USDs and smoke PNG outputs for GRScenes
@@ -208,6 +210,14 @@ non-dark pixels and image hashes. This advances the render evidence beyond a
 single smoke pair, but the claim boundary remains render-smoke only: VLM
 scoring still needs image-space target boxes or masks, visual QA over the
 candidates, predictions, and `score_summary.json`.
+
+`target_projection_qa_report.json` projects the world-space target bboxes for
+the 10 recommended render-smoke pairs into image coordinates using the manifest
+camera fields. The current report has 10 `projection_ok` pairs, 0 projection
+blockers, and 20 scoring-record skeletons across original/converted conditions.
+These projected boxes are the first point-in-box labels for VLM scoring, but
+they are still geometric labels only. Final claims still need visual or depth QA,
+VLM predictions, and `score_summary.json`.
 
 The current checked-in verification report has `passed=true`, `blockers=[]`,
 99 existing top-level outputs, and 0 source `_noMDL` USD sidecars.
