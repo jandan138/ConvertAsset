@@ -27,5 +27,6 @@ large documentation or implementation change.
 - [GRScenes material dependency closure planner implementation plan](plans/2026-05-21-grscenes-material-dependency-closure-plan.md)
 - [GRScenes targeted materialization implementation plan](plans/2026-05-21-grscenes-targeted-materialization.md)
 - [GRScenes full no-MDL scratch planner implementation plan](plans/2026-05-21-grscenes-full-nomdl-scratch-plan.md)
+- [GRScenes full no-MDL multi-root runner implementation plan](plans/2026-05-21-grscenes-full-nomdl-multi-root-runner.md)
 - [Local Isaac render-single design](specs/2026-05-20-local-isaac-render-single-design.md)
 - [Local Isaac render-single implementation plan](plans/2026-05-20-local-isaac-render-single.md)

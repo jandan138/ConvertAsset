@@ -12,6 +12,7 @@ Expected files:
 - `material_dependency_closure_plan.json`: planner-only material subset artifact that lists the exact split-level `Materials` files and model-root `Materials` entry repairs needed by the selected targets.
 - `targeted_materialization_report.json`: dry-run or execution report for the storage-safe target-object subset materializer.
 - `full_nomdl_scratch_plan.json`: read-only whole-GRScenes scratch route planner for full no-MDL conversion preparation.
+- `full_nomdl_multi_root_run_report.json`: dry-run readiness report for the guarded full-route single-process no-MDL runner.
 - `predictions.jsonl`: model outputs using the schema documented by `score_grounding.py`.
 - `score_summary.json`: aggregate point-in-box, answer consistency, and original-vs-converted metrics.
 
@@ -84,6 +85,32 @@ runner should still use the structured `scratch_input_usd` list instead of
 parsing the human-readable command string. The next full-conversion step should
 be a single-process multi-root runner plus a dependency/output collision scan.
 Do not treat this JSON as evidence that full converted scenes exist.
+
+`full_nomdl_multi_root_run_report.json` is the dry-run readiness report for the
+full-route runner shell. It consumes `full_nomdl_scratch_plan.json` and proves
+that a later conversion path can reuse one Python process and one `Processor`
+instance across the 99 planned raw-scene roots.
+
+The current checked-in report has 99 planned jobs, `dry_run=true`, and
+`apply_ready=false`. It marks `single_process_multi_root_runner_missing` as
+satisfied, but still blocks apply on:
+
+- `whole_scene_dependency_closure_not_scanned`
+- `recursive_nomdl_output_collision_scan_missing`
+- `scratch_cleanliness_not_verified`
+- `scratch_root_missing`
+- `scratch_inputs_missing`
+
+It also records `source_usd_missing_count=0`, `scratch_input_missing_count=99`,
+and `top_level_output_collision_count=0`. The zero collision count is only for
+planned top-level outputs and only because the full scratch root does not yet
+exist. Recursive dependency outputs are explicitly not scanned by this report.
+
+For automation, read `jobs[*].blocked_by` as the current report-level blocker
+list. The original plan's stale job blockers are retained separately in
+`jobs[*].source_plan_blocked_by`.
+
+Do not treat this JSON as evidence that no-MDL conversion has run.
 
 `render_manifest.json` currently plans 23 unique targets x 4 target-centered views = 92 original/converted pairs and 184 material-condition jobs. Original material inputs exist under the immutable benchmark source, but camera-stage authoring is still pending; converted material inputs are marked `blocked_missing_material_input` until no-MDL scratch derivatives are generated outside the source tree. Image-space boxes are explicitly pending projection and must be filled by the render/projection stage before VLM scoring. The manifest normalizes current VLM prompts to S1 category-pointing prompts and keeps source episode instructions/prompts separately as provenance; some source SN episode records do not carry instruction text and must not be treated as ready-made VLM prompts.
 

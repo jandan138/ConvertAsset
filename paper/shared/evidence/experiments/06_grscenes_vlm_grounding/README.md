@@ -366,6 +366,40 @@ also stores structured `argv` fields, but the next runner should consume
 `conversion_jobs[*].scratch_input_usd` directly rather than parse shell-like
 command strings.
 
+## Full no-MDL Multi-Root Runner Report
+
+For the full scratch route, the guarded runner shell is:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_full_nomdl_multi_root.py
+```
+
+Default output:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_multi_root_run_report.json
+```
+
+Current checked-in result:
+
+- 99 planned raw-scene jobs.
+- `dry_run=true`.
+- `apply_ready=false`.
+- `single_process_multi_root_runner_missing` is now satisfied by the runner
+  shell.
+- Remaining blockers are dependency closure, recursive no-MDL output collision
+  scan, scratch cleanliness, missing scratch root, and 99 missing scratch input
+  USDs.
+- Top-level expected-output collision count is currently 0 because the scratch
+  root has not been materialized.
+- Each job's current `blocked_by` is recomputed from this report; the older
+  plan-level blockers are preserved separately as `source_plan_blocked_by`.
+
+Plain version: this gives us the right execution shape for later, because a
+future `--apply` would reuse one `Processor` instance and one `Processor.done`
+map across all roots. It still will not run conversion while blockers remain,
+and the default path imports no `pxr` and no no-MDL modules.
+
 ## Target Manifest
 
 Before rendering, resolve the selected episode targets to USD prims and world-space bboxes:

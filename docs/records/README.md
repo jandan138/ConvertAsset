@@ -35,6 +35,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-21 GRScenes material dependency closure plan](2026-05-21-grscenes-material-dependency-closure-plan.md)
 - [2026-05-21 GRScenes targeted materialization](2026-05-21-grscenes-targeted-materialization.md)
 - [2026-05-21 GRScenes full no-MDL scratch plan](2026-05-21-grscenes-full-nomdl-scratch-plan.md)
+- [2026-05-21 GRScenes full no-MDL multi-root runner](2026-05-21-grscenes-full-nomdl-multi-root-runner.md)
 - [2026-05-20 ACL VLM benchmark route](2026-05-20-acl-vlm-benchmark-route.md)
 - [2026-05-20 ACL 2027 candidate venue wrapper](2026-05-20-paper-acl27-candidate.md)
 - [2026-05-14 workshop review ingestion for AAAI 2027](2026-05-14-workshop-review-aaai27-roadmap.md)
