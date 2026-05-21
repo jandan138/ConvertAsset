@@ -31,9 +31,9 @@ The important traps:
   The current plan sees 23 selected model roots with 51 model files and 14 model
   symlinks, but all 23 selected roots still require split-level `Materials`
   dependency resolution.
-- `prepare_render_manifest.py --require-converted` is expected to fail until
-  no-MDL is run on the scratch scene. The current failure is 92 missing
-  converted render jobs.
+- This one-scene pilot predates the full scratch route. For the current full
+  route, pass `--nomdl-run-report` when regenerating `render_manifest.json` so
+  converted paths are taken from the completed full no-MDL apply report.
 
 Safe status after the 2026-05-20 pilot:
 
@@ -200,6 +200,7 @@ After conversion, regenerate the render manifest with the converted-input gate:
 
 ```bash
 python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/prepare_render_manifest.py \
+  --nomdl-run-report paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_multi_root_run_report.json \
   --require-converted
 ```
 
@@ -579,7 +580,9 @@ USD may emit broken relative-reference warnings when opening the original scene 
 Before rendering images, generate the paired view/job plan:
 
 ```bash
-python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/prepare_render_manifest.py
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/prepare_render_manifest.py \
+  --nomdl-run-report paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_multi_root_run_report.json \
+  --require-converted
 ```
 
 Default output:
@@ -593,9 +596,11 @@ This manifest is a render plan and provenance bridge, not rendered image evidenc
 - 40 resolved episode records are collapsed into 23 unique spatial render targets.
 - Four target-centered static orbit views are planned per unique target.
 - The current pilot therefore has 92 original/converted render pairs and 184 material-condition render jobs.
-- Original jobs point at immutable benchmark source USDs and have material inputs available, but camera-stage authoring is still pending.
-- Converted jobs point at scratch no-MDL USDs and are currently `blocked_missing_material_input` until selected scenes are copied and converted outside `/cpfs/user/zhuzihou/assets/zzh-grscenes`.
-- Each pair stores one shared camera plan so original and converted renders differ only by material condition once the scratch derivative exists.
+- Original jobs point at immutable benchmark source USDs and have material inputs available.
+- Converted jobs point at the full no-MDL scratch outputs recorded by
+  `full_nomdl_multi_root_run_report.json`; `converted_jobs_missing_input_count=0`.
+- Camera-stage authoring is still pending.
+- Each pair stores one shared camera plan so original and converted renders differ only by material condition.
 - No job is `render_jobs_ready_to_run` yet because camera USD stages have not been authored.
 - Image-space target bboxes remain `pending_projection_from_world_bbox`; scoring must not run until the renderer projects bboxes or masks into image coordinates.
 - Each planned image record includes a `visual_review` packet marker for the clean-room `render-visual-reviewer` skill.

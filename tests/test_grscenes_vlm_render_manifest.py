@@ -189,6 +189,53 @@ def test_build_render_manifest_tracks_missing_converted_inputs(tmp_path: Path) -
         )
 
 
+def test_build_render_manifest_can_overlay_completed_full_nomdl_run_report(tmp_path: Path) -> None:
+    module = load_render_module()
+    target_manifest = make_target_manifest(tmp_path, converted_exists=False)
+    full_scratch_scene = tmp_path / "full_scratch/scenes/scene_a"
+    scratch_input = full_scratch_scene / "start_result_raw.usd"
+    converted_output = full_scratch_scene / "start_result_raw_noMDL.usd"
+    scratch_input.parent.mkdir(parents=True)
+    scratch_input.write_text("#usda 1.0\n", encoding="utf-8")
+    converted_output.write_text("#usda 1.0\n", encoding="utf-8")
+    run_report = {
+        "status": "completed_full_grscenes_nomdl_multi_root_run",
+        "dry_run": False,
+        "apply_ready": True,
+        "results": [
+            {
+                "conversion_job_id": "home_scenes:scene_a_usd:start_result_raw.usd",
+                "scratch_input_usd": str(scratch_input),
+                "top_output_usd": str(converted_output),
+            }
+        ],
+        "jobs": [
+            {
+                "conversion_job_id": "home_scenes:scene_a_usd:start_result_raw.usd",
+                "source_scene_id": "scene_a_usd",
+                "source_scene_split": "home_scenes",
+                "source_usd_variant": "start_result_raw.usd",
+                "scratch_input_usd": str(scratch_input),
+                "expected_top_output_usd": str(converted_output),
+            }
+        ],
+    }
+
+    manifest = module.build_render_manifest(
+        target_manifest,
+        render_root=tmp_path / "renders",
+        view_azimuths=[0.0],
+        require_converted=True,
+        nomdl_run_report=run_report,
+    )
+
+    converted = manifest["render_pairs"][0]["conditions"][1]
+    assert converted["input_exists"] is True
+    assert converted["converted_usd"] == str(converted_output)
+    assert converted["scratch_scene_root"] == str(full_scratch_scene)
+    assert manifest["render_summary"]["converted_jobs_missing_input_count"] == 0
+
+
 def test_build_render_manifest_rejects_inconsistent_duplicate_targets(tmp_path: Path) -> None:
     module = load_render_module()
     target_manifest = make_target_manifest(tmp_path, converted_exists=True)

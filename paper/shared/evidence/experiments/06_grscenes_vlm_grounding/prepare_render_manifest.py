@@ -105,6 +105,59 @@ def _scene_lookup(target_manifest: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return {str(scene["source_scene_id"]): scene for scene in target_manifest.get("scenes", [])}
 
 
+def _nomdl_scene_overrides(nomdl_run_report: dict[str, Any] | None) -> dict[tuple[str, str, str], dict[str, str]]:
+    if nomdl_run_report is None:
+        return {}
+    if nomdl_run_report.get("status") != "completed_full_grscenes_nomdl_multi_root_run":
+        raise ValueError("no-MDL run report must be a completed apply report")
+    if nomdl_run_report.get("dry_run") is not False:
+        raise ValueError("no-MDL run report must be non-dry-run evidence")
+    results_by_id = {
+        str(result.get("conversion_job_id")): result
+        for result in nomdl_run_report.get("results", [])
+    }
+    overrides: dict[tuple[str, str, str], dict[str, str]] = {}
+    for job in nomdl_run_report.get("jobs", []):
+        job_id = str(job.get("conversion_job_id"))
+        result = results_by_id.get(job_id)
+        if result is None:
+            continue
+        scratch_input = Path(str(result.get("scratch_input_usd") or job.get("scratch_input_usd")))
+        converted_usd = Path(str(result.get("top_output_usd") or job.get("expected_top_output_usd")))
+        key = (
+            str(job.get("source_scene_split")),
+            str(job.get("source_scene_id")),
+            str(job.get("source_usd_variant") or Path(str(job.get("scratch_input_usd", ""))).name),
+        )
+        overrides[key] = {
+            "scratch_scene_root": str(scratch_input.parent),
+            "converted_usd": str(converted_usd),
+            "conversion_command": "full_no_mdl_multi_root_apply",
+            "conversion_report": str(DEFAULT_INPUT.with_name("full_nomdl_multi_root_run_report.json")),
+        }
+    return overrides
+
+
+def _scene_lookup_with_nomdl_overrides(
+    target_manifest: dict[str, Any],
+    *,
+    nomdl_run_report: dict[str, Any] | None,
+) -> dict[str, dict[str, Any]]:
+    overrides = _nomdl_scene_overrides(nomdl_run_report)
+    scenes = {}
+    for scene in target_manifest.get("scenes", []):
+        scene_copy = dict(scene)
+        key = (
+            str(scene_copy.get("source_scene_split")),
+            str(scene_copy.get("source_scene_id")),
+            str(scene_copy.get("source_usd_variant", "start_result_raw.usd")),
+        )
+        if key in overrides:
+            scene_copy.update(overrides[key])
+        scenes[str(scene_copy["source_scene_id"])] = scene_copy
+    return scenes
+
+
 def _resolved_records(target_manifest: dict[str, Any]) -> list[dict[str, Any]]:
     return [
         record
@@ -455,6 +508,7 @@ def build_render_manifest(
     target_manifest: dict[str, Any],
     *,
     render_root: Path,
+    nomdl_run_report: dict[str, Any] | None = None,
     view_azimuths: list[float] | tuple[float, ...] = DEFAULT_VIEW_AZIMUTHS,
     elevation_deg: float = DEFAULT_ELEVATION_DEG,
     image_width: int = DEFAULT_WIDTH,
@@ -465,7 +519,10 @@ def build_render_manifest(
     camera_prim_path: str = DEFAULT_CAMERA_PRIM_PATH,
     require_converted: bool = False,
 ) -> dict[str, Any]:
-    scenes = _scene_lookup(target_manifest)
+    scenes = _scene_lookup_with_nomdl_overrides(
+        target_manifest,
+        nomdl_run_report=nomdl_run_report,
+    )
     resolved_records = _resolved_records(target_manifest)
     render_targets = _group_records(resolved_records)
     render_root = render_root.resolve()
@@ -573,6 +630,7 @@ def build_render_manifest(
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--target-manifest", type=Path, default=DEFAULT_INPUT)
+    parser.add_argument("--nomdl-run-report", type=Path, default=None)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--render-root", type=Path, default=DEFAULT_RENDER_ROOT)
     parser.add_argument("--view-azimuths", default=",".join(str(v) for v in DEFAULT_VIEW_AZIMUTHS))
@@ -587,10 +645,12 @@ def main() -> int:
     args = parser.parse_args()
 
     target_manifest = _load_json(args.target_manifest)
+    nomdl_run_report = _load_json(args.nomdl_run_report) if args.nomdl_run_report else None
     try:
         result = build_render_manifest(
             target_manifest,
             render_root=args.render_root,
+            nomdl_run_report=nomdl_run_report,
             view_azimuths=_parse_azimuths(args.view_azimuths),
             elevation_deg=args.elevation_deg,
             image_width=args.width,
@@ -608,6 +668,11 @@ def main() -> int:
         "path": str(args.target_manifest),
         "hash_sha256": _sha256_file(args.target_manifest),
     }
+    if args.nomdl_run_report:
+        result["nomdl_run_report"] = {
+            "path": str(args.nomdl_run_report),
+            "hash_sha256": _sha256_file(args.nomdl_run_report),
+        }
     source_manifest = target_manifest.get("source_manifest")
     if isinstance(source_manifest, dict) and source_manifest.get("path"):
         source_path = Path(str(source_manifest["path"]))

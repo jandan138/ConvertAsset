@@ -168,7 +168,18 @@ materialization report.
 Timestamped `_noMDL_*` siblings are conservative collision signals in this
 report, not a precise overwrite model.
 
-`render_manifest.json` currently plans 23 unique targets x 4 target-centered views = 92 original/converted pairs and 184 material-condition jobs. Original material inputs exist under the immutable benchmark source, but camera-stage authoring is still pending; converted material inputs are marked `blocked_missing_material_input` until no-MDL scratch derivatives are generated outside the source tree. Image-space boxes are explicitly pending projection and must be filled by the render/projection stage before VLM scoring. The manifest normalizes current VLM prompts to S1 category-pointing prompts and keeps source episode instructions/prompts separately as provenance; some source SN episode records do not carry instruction text and must not be treated as ready-made VLM prompts.
+`render_manifest.json` currently plans 23 unique targets x 4 target-centered
+views = 92 original/converted pairs and 184 material-condition jobs. Original
+material inputs exist under the immutable benchmark source, and converted
+material inputs now point at the completed full no-MDL scratch outputs via
+`full_nomdl_multi_root_run_report.json`; `converted_jobs_missing_input_count=0`.
+Camera-stage authoring is still pending, so `render_jobs_ready_to_run=0`.
+Image-space boxes are explicitly pending projection and must be filled by the
+render/projection stage before VLM scoring. The manifest normalizes current VLM
+prompts to S1 category-pointing prompts and keeps source episode
+instructions/prompts separately as provenance; some source SN episode records
+do not carry instruction text and must not be treated as ready-made VLM
+prompts.
 
 Do not cite generated results unless the provenance shows that benchmark scenes came from `/cpfs/user/zhuzihou/assets/zzh-grscenes` and no in-place conversion was run there. PIO should be treated as prompt/metric inspiration unless a future run explicitly imports PIO data.
 
