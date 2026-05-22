@@ -1262,3 +1262,23 @@ Plain version: the zoom stress result gives a concrete material-shift story.
 Gemma4 remains stable in these target-visible views, while Qwen shows protocol
 sensitivity and a raw-coordinate original/converted drop. Treat this as pilot
 stress evidence, not final GRScenes benchmark performance.
+
+### Stress Probe Alignment Audit
+
+The existing `zoom_stress_probes/` predictions are sample-aligned with
+`stress_vlm_run_manifest.json`:
+
+- Gemma4: 28/28 prediction rows, exact `sample_id` order match.
+- Qwen2.5-VL: 28/28 prediction rows, exact `sample_id` order match.
+- Both runs used `structured_text` responses and `normalized_1000`
+  coordinates.
+
+They are still not canonical stress outputs because their metadata points to the
+older `retake_zoom_target_projection_qa_report.json`, not to
+`stress_vlm_run_manifest.json`. Keep them as pilot/protocol evidence and do not
+rename or copy them to root `stress_predictions.jsonl`.
+
+The root `stress_predictions.jsonl` and `stress_score_summary.json` remain
+reserved for a full manifest-backed stress run. Even after that run exists, the
+current manifest still blocks final benchmark claims until the stress pool has
+at least 30 pairs.
