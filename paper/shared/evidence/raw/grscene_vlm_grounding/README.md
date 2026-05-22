@@ -59,6 +59,21 @@ Expected files:
 - `predictions.jsonl.metadata.json`: provenance for model-generated
   predictions from `run_vlm_predictions.py`.
 - `score_summary.json`: aggregate point-in-box, answer consistency, and original-vs-converted metrics.
+- `probes/qwen25_pass_only_predictions.jsonl`: failed direct-JSON Qwen2.5-VL
+  PASS-only diagnostic; all eight rows failed parser recovery because the model
+  emitted malformed JSON fragments.
+- `probes/qwen25_pass_only_predictions.jsonl.metadata.json`: provenance
+  sidecar for the direct-JSON Qwen2.5-VL diagnostic.
+- `probes/qwen25_pass_only_score_summary.json`: score summary for the
+  direct-JSON Qwen2.5-VL diagnostic; no scored answers or points.
+- `probes/qwen25_pass_only_structured_predictions.jsonl`: structured-text
+  Qwen2.5-VL PASS-only probe over the same four visual-QA PASS pairs.
+- `probes/qwen25_pass_only_structured_predictions.jsonl.metadata.json`:
+  provenance sidecar for the structured-text Qwen2.5-VL probe.
+- `probes/qwen25_pass_only_structured_selection.json`: machine-readable
+  visual-QA PASS-only selection for the Qwen2.5-VL probe.
+- `probes/qwen25_pass_only_structured_score_summary.json`: score summary for
+  the structured-text Qwen2.5-VL PASS-only probe.
 
 Task/render planning manifests must record benchmark source provenance,
 engineering mirror or scratch path, scene USD filename, material condition, and
@@ -334,6 +349,26 @@ mean normalized-1000 pair point delta is 27.047455 px. This is the best current
 real-model pilot for the ACL story, but the claim boundary remains
 `pilot_probe_only_not_final_vlm_performance` until the PASS set is larger and
 the coordinate protocol is frozen.
+
+`probes/qwen25_pass_only_predictions.jsonl` records the matching
+Qwen2.5-VL direct-JSON diagnostic on the same four PASS pairs. It should be
+read as a failed response-format probe, not model-performance evidence: all 8
+rows have `parse_status="parse_failed"`, and
+`probes/qwen25_pass_only_score_summary.json` therefore has zero scored answers
+or points.
+
+`probes/qwen25_pass_only_structured_*` records the follow-up Qwen2.5-VL
+structured-text probe. The prediction runner requested normalized-1000
+coordinates, but the returned coordinates are ambiguous and score better under
+raw image-space boxes than normalized scaling. The parser accepts clear
+two-number point lines, unlabeled answer lines, and four-number boxes by taking
+the box center. The score summary has 8 parsed rows. Under the current strict
+expected-label matcher, answer accuracy is 3/4 for both original and converted
+renders because `fauc` does not match the expected `faucet`. Raw point-in-bbox
+is 2/3 for original and 2/4 for converted among parsed points, while
+normalized-1000 point-in-bbox is 0/3 for original and 0/4 for converted. Treat
+this as second-backend protocol-sensitivity evidence, not a success claim for
+final VLM robustness.
 
 The current checked-in verification report has `passed=true`, `blockers=[]`,
 99 existing top-level outputs, and 0 source `_noMDL` USD sidecars.

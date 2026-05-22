@@ -20,8 +20,11 @@ recorded in
 
 The runner reads `target_projection_qa_report.json`, builds one S1 pointing
 prompt per scoring record, sends the prompt plus rendered image to an explicit
-backend, parses JSON-shaped model output, and writes `predictions.jsonl` plus a
-metadata sidecar.
+backend, parses model output, and writes `predictions.jsonl` plus a metadata
+sidecar. Follow-up updates added explicit `--coordinate-frame` and
+`--response-format` switches. Use `--response-format structured_text` for
+Qwen2.5-VL probes unless a later frozen protocol verifies direct-JSON
+reliability.
 
 ## Backend Route
 
@@ -46,8 +49,13 @@ without `--force`.
 Each output row preserves the original scoring record fields and adds:
 
 - `prompt`: prompt type and text.
+- `prompt.coordinate_frame`: requested coordinate frame, currently `pixel` or
+  `normalized_1000`.
+- `prompt.response_format`: requested response format, currently `json` or
+  `structured_text`.
 - `image.hash_sha256`: hash of the rendered PNG when available.
 - `prediction.backend`: selected backend.
+- `prediction.coordinate_frame_requested`: coordinate frame sent in the prompt.
 - `prediction.point_xy`: parsed model point, or `null`.
 - `prediction.answer`: parsed model answer, or `null`.
 - `prediction.parse_status`: `parsed`, `parsed_empty`, or `parse_failed`.
@@ -57,7 +65,8 @@ Each output row preserves the original scoring record fields and adds:
 - `prediction_generated_at_utc`.
 
 The metadata sidecar records input projection-report hash, output JSONL hash,
-runner script hash, git commit, git status, backend, model checkpoint, and
+runner script hash, git commit, git status, backend, model checkpoint,
+coordinate frame, response format, and
 `claim_boundary="model_prediction_scores_require_model_provenance_review"`.
 
 ## Claim Boundary
@@ -82,7 +91,8 @@ PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider \
   tests/test_grscenes_vlm_prediction_runner.py
 ```
 
-Latest local result: `9 passed in 0.61s`.
+Latest local result after the coordinate and structured-text parser updates:
+`15 passed in 0.26s`.
 
 No live model command was executed. The safe first live probe should use
 `--limit 1` and an isolated output path such as

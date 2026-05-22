@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "status": "qwen25_pass_only_visual_qa_selection",
+  "selection_id": "qwen25_pass_only_visual_qa_structured_text",
+  "claim_boundary": "pilot_probe_only_not_final_vlm_performance",
+  "source_projection_report": "paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json",
+  "source_visual_qa_artifacts": [
+    "paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json"
+  ],
+  "model_probe": {
+    "backend": "local_hf_qwen",
+    "model_checkpoint": "/cpfs/shared/simulation/zhuzihou/models/Qwen2.5-VL-7B-Instruct",
+    "coordinate_frame_requested": "normalized_1000",
+    "response_format": "structured_text",
+    "predictions": "paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_predictions.jsonl",
+    "metadata": "paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_predictions.jsonl.metadata.json",
+    "score_summary": "paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_score_summary.json"
+  },
+  "failed_probe_diagnostic": {
+    "response_format": "json",
+    "predictions": "paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_predictions.jsonl",
+    "metadata": "paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_predictions.jsonl.metadata.json",
+    "score_summary": "paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_score_summary.json",
+    "reason": "direct JSON prompting repeatedly produced malformed text with addCriterion fragments, leaving zero parsed answers or points"
+  },
+  "summary": {
+    "pair_count": 4,
+    "sample_count": 8,
+    "visual_qa_tier": "PASS_only",
+    "selected_pair_ids": [
+      "c27086f557d316584264.view_001",
+      "e2ec085d524d5df4455d.view_001",
+      "e2ec085d524d5df4455d.view_003",
+      "c8ee4b66274b05d242c2.view_003"
+    ]
+  },
+  "pairs": [
+    {
+      "pair_id": "c27086f557d316584264.view_001",
+      "target_category": "bottle",
+      "visual_qa_source": "paired_render_visual_review_batch",
+      "visual_qa_verdict": "PASS"
+    },
+    {
+      "pair_id": "e2ec085d524d5df4455d.view_001",
+      "target_category": "cup",
+      "visual_qa_source": "alternative_centerline_visual_review_batch",
+      "visual_qa_verdict": "PASS"
+    },
+    {
+      "pair_id": "e2ec085d524d5df4455d.view_003",
+      "target_category": "cup",
+      "visual_qa_source": "alternative_centerline_visual_review_batch",
+      "visual_qa_verdict": "PASS"
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.view_003",
+      "target_category": "faucet",
+      "visual_qa_source": "alternative_centerline_visual_review_batch",
+      "visual_qa_verdict": "PASS"
+    }
+  ]
+}

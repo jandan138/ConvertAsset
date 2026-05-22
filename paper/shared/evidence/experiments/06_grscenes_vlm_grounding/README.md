@@ -922,8 +922,9 @@ Normalized-1000 pair hit agreement is 3/4, both-hit pair count is 3/4, and
 mean pair point delta is 27.047455 px. Treat this as the current strongest
 pilot, not final VLM performance.
 
-The matching second-backend PASS-only Qwen2.5-VL probe should use the same
-projection artifact, decoding length, and normalized-1000 coordinate request:
+The matching second-backend PASS-only Qwen2.5-VL direct-JSON probe used the
+same projection artifact, decoding length, and normalized-1000 coordinate
+request:
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 PYTHONUNBUFFERED=1 \
@@ -935,7 +936,8 @@ CUDA_VISIBLE_DEVICES=0 PYTHONUNBUFFERED=1 \
   --model-path /cpfs/shared/simulation/zhuzihou/models/Qwen2.5-VL-7B-Instruct \
   --attn-implementation eager \
   --coordinate-frame normalized_1000 \
-  --max-new-tokens 64
+  --max-new-tokens 64 \
+  --force
 ```
 
 Score it with:
@@ -945,3 +947,44 @@ python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_groundi
   --predictions paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_predictions.jsonl \
   --out paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_score_summary.json
 ```
+
+This direct-JSON run is a failed response-format diagnostic: Qwen repeatedly
+emitted malformed JSON with `addCriterion` fragments, so the score summary has
+zero scored answers or points.
+
+For Qwen, use the structured-text response format instead:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 PYTHONUNBUFFERED=1 \
+  /cpfs/shared/simulation/zhuzihou/dev/Auto-Asset-Annotator/.venv_dlc/bin/python \
+  paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py \
+  --projection-report paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json \
+  --out paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_predictions.jsonl \
+  --model-backend local_hf_qwen \
+  --model-path /cpfs/shared/simulation/zhuzihou/models/Qwen2.5-VL-7B-Instruct \
+  --attn-implementation eager \
+  --coordinate-frame normalized_1000 \
+  --response-format structured_text \
+  --max-new-tokens 64 \
+  --force
+```
+
+Score it with:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py \
+  --predictions paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_predictions.jsonl \
+  --out paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_score_summary.json
+```
+
+The structured-text probe has 8 parsed rows. Under the current strict
+expected-label matcher, answer accuracy is 3/4 for both material conditions
+because Qwen truncated `faucet` to `fauc` on the faucet pair. Raw
+point-in-bbox is 2/3 original and 2/4 converted among parsed points;
+normalized-1000 point-in-bbox is 0/3 original and 0/4 converted. The returned
+coordinates are therefore still semantically ambiguous: they score better under
+raw image-space boxes than normalized scaling, but this is not a frozen
+coordinate policy. The pair-level raw point hit agreement is 2/3 with one
+both-hit pair. Treat this as second-backend protocol-sensitivity evidence and
+as motivation for a frozen Qwen coordinate rerun, not as final ACL VLM
+performance.

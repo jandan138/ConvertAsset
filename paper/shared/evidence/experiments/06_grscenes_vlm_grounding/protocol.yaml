@@ -118,6 +118,11 @@ task_families:
       small real-model probes. Raw pixel-coordinate metrics remain recorded as
       diagnostics because earlier prompts requested pixels and some models may
       still emit raw pixel coordinates.
+    response_format_note: >
+      Direct JSON prompting is not reliable for all local VLM backends. The
+      Qwen2.5-VL PASS-only diagnostic produced malformed JSON with addCriterion
+      fragments; use structured_text for Qwen unless a later frozen protocol
+      verifies JSON reliability.
     pair_consistency_metrics:
       - normalized_1000_point_pair_count
       - normalized_1000_point_hit_agreement
@@ -157,6 +162,7 @@ targets_and_prompts:
   prompt_policy: Use PIO-style prompt shapes over GRScenes targets unless a later protocol explicitly imports PIO data.
 models:
   first_candidates:
+    - Gemma4 local multimodal checkpoint
     - Qwen2.5-VL-style coordinate-capable VLM
     - Molmo-style coordinate-capable VLM
   fixed_variables:

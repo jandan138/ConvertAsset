@@ -25,7 +25,20 @@ claims:
       - paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_selection.json
       - paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_score_summary.json
     scope: "Pilot-only real-model probe over four blind-visual-QA PASS original/converted GRScenes pairs; not canonical VLM benchmark performance and not a final ACL result."
+  - id: grscenes_vlm_qwen25_pass_only_diagnostic
+    statement: "On the same four-pair PASS-only GRScenes pilot, Qwen2.5-VL exposed response-format and coordinate-protocol sensitivity: direct JSON prompting yielded zero parsed answers or points, while structured-text prompting produced 8 parsed rows with answer accuracy 3/4 for both material conditions under the current strict expected-label matcher, raw point-in-box 2/3 for original and 2/4 for converted among parsed points, and normalized-1000 point-in-box 0/3 for original and 0/4 for converted."
+    sources:
+      - paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_predictions.jsonl.metadata.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_score_summary.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_predictions.jsonl.metadata.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_selection.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_score_summary.json
+    scope: "Pilot-only diagnostic over four visual-QA PASS original/converted GRScenes pairs; use as protocol-sensitivity evidence, not as a final VLM robustness claim."
 review_requirements:
   - "Re-check every numerical statement after AAAI 2027 narrative edits."
   - "Update this file in the same change as any result, table, figure, seed, or claim change."
   - "Do not promote `grscenes_vlm_gemma4_pass_only_pilot` beyond pilot evidence until the coordinate protocol, sample size, and canonical score files are frozen."
+  - "Do not promote `grscenes_vlm_qwen25_pass_only_diagnostic` beyond protocol-sensitivity evidence until Qwen is rerun with a frozen coordinate prompt and parser policy."

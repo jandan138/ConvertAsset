@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "status": "vlm_predictions",
+  "prediction_count": 8,
+  "backend": "local_hf_qwen",
+  "model_checkpoint": "/cpfs/shared/simulation/zhuzihou/models/Qwen2.5-VL-7B-Instruct",
+  "coordinate_frame": "normalized_1000",
+  "response_format": "structured_text",
+  "claim_boundary": "model_prediction_scores_require_model_provenance_review",
+  "generated_at_utc": "2026-05-22T05:50:46.024989Z",
+  "input_projection_report": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json",
+    "hash_sha256": "c1ef05974d49c18093a520eda202ac9e38999afcb42a90a09d06c99aac912b02"
+  },
+  "output_jsonl": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_predictions.jsonl",
+    "hash_sha256": "617e1a92c4d8eaaf5b83ad61627a7bfefd15972ffd310509d2eacd19e57d735c"
+  },
+  "runner_provenance": {
+    "command": [
+      "/cpfs/shared/simulation/zhuzihou/dev/Auto-Asset-Annotator/.venv_dlc/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+      "--projection-report",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_predictions.jsonl",
+      "--model-backend",
+      "local_hf_qwen",
+      "--model-path",
+      "/cpfs/shared/simulation/zhuzihou/models/Qwen2.5-VL-7B-Instruct",
+      "--attn-implementation",
+      "eager",
+      "--coordinate-frame",
+      "normalized_1000",
+      "--response-format",
+      "structured_text",
+      "--max-new-tokens",
+      "64",
+      "--force"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+    "script_hash_sha256": "bbec628dbcbc58eff6002a992c8826d95260d43c41c02578287b946d31f73ac4",
+    "git_commit": "5ef20a954d78162614abda8443df6c1760cc94ff",
+    "git_status_porcelain": [
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_predictions.jsonl",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_predictions.jsonl.metadata.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_score_summary.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_predictions.jsonl",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_predictions.jsonl.metadata.json"
+    ]
+  }
+}

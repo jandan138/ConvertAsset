@@ -94,6 +94,27 @@ results:
     - id: grscenes_vlm_gemma4_pass_only_score
       path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_score_summary.json
       description: "Score summary for the Gemma4 PASS-only probe; normalized-1000 original 4/4 and converted 3/4 pilot evidence."
+    - id: grscenes_vlm_qwen25_pass_only_json_predictions
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_predictions.jsonl
+      description: "Failed Qwen2.5-VL direct-JSON PASS-only probe; response-format diagnostic with zero parsed answers or points."
+    - id: grscenes_vlm_qwen25_pass_only_json_predictions_metadata
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_predictions.jsonl.metadata.json
+      description: "Provenance sidecar for the failed Qwen2.5-VL direct-JSON PASS-only diagnostic."
+    - id: grscenes_vlm_qwen25_pass_only_json_score
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_score_summary.json
+      description: "Score summary for the failed Qwen2.5-VL direct-JSON diagnostic; no scored answers or points."
+    - id: grscenes_vlm_qwen25_pass_only_structured_predictions
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_predictions.jsonl
+      description: "Qwen2.5-VL structured-text probe on the four visual-QA PASS pairs; isolated probe, not canonical predictions.jsonl."
+    - id: grscenes_vlm_qwen25_pass_only_structured_predictions_metadata
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_predictions.jsonl.metadata.json
+      description: "Provenance sidecar for the Qwen2.5-VL structured-text PASS-only probe."
+    - id: grscenes_vlm_qwen25_pass_only_structured_selection
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_selection.json
+      description: "Machine-readable visual-QA PASS-only selection for the Qwen2.5-VL structured-text probe and failed JSON diagnostic."
+    - id: grscenes_vlm_qwen25_pass_only_structured_score
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_score_summary.json
+      description: "Score summary for the Qwen2.5-VL structured-text PASS-only probe; second-backend protocol-sensitivity pilot evidence."
   figures:
     - paper/shared/figures/fig_render_pairs.pdf
     - paper/shared/figures/fig_image_quality.pdf
