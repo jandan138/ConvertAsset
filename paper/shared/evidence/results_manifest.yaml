@@ -57,7 +57,7 @@ results:
       description: "Provenance sidecar for the first local Gemma4 real-model probe."
     - id: grscenes_vlm_gemma4_p01_probe_score
       path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_score_summary.json
-      description: "Score summary for the Gemma4 P01 probe; answer matches but point predictions are outside image and bbox."
+      description: "Score summary for the Gemma4 P01 probe; raw-pixel point scoring misses while normalized-1000 point scoring hits."
   figures:
     - paper/shared/figures/fig_render_pairs.pdf
     - paper/shared/figures/fig_image_quality.pdf

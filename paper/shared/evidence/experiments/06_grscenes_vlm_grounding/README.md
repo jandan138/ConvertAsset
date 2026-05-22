@@ -670,7 +670,7 @@ non-target AABBs, not rendered image visibility, depth, mask, or model evidence.
 
 | Task | Prompt shape | Metric |
 |---|---|---|
-| S1 referred object localization | "Point to the {category}." for the current render-plan gate; attribute-augmented prompts are a later extension after image-space labels exist. | point-in-box or point-in-mask accuracy |
+| S1 referred object localization | "Point to the {category}." for the current render-plan gate; attribute-augmented prompts are a later extension after image-space labels exist. | raw pixel point-in-box, point-in-image, and normalized-1000 point-in-box diagnostics; point-in-mask after masks exist |
 | S2 task-driven grounding | "Where should the robot interact to {action}?" | part/object region hit rate |
 | S3 navigation proxy | "Which object should the robot move toward to {goal}?" | target-region accuracy and answer consistency |
 
@@ -782,8 +782,10 @@ python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_groundi
   --out paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_score_summary.json
 ```
 
-The P01 probe result is intentionally negative for localization: both model
-points are outside the 600x450 image and outside the target bbox, while the
-answer text matches `bottle`. This makes the next experiment step clear: scale
-from one probe to visually accepted pairs only, and report coordinate failures
-separately from category-answer matches.
+The P01 probe result is a coordinate-frame calibration result. Under raw pixel
+scoring, both model points are outside the 600x450 image and outside the target
+bbox. Under the 0-1000 normalized-coordinate diagnostic, both points hit the
+target bbox, and the answer text also matches `bottle`. This makes the next
+experiment step clear: scale from one probe to visually accepted pairs only,
+and lock the coordinate-frame protocol before reporting final grounding
+metrics.

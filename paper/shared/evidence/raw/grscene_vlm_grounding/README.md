@@ -241,7 +241,7 @@ VLM predictions, and `score_summary.json`.
 `projection_center_baseline_score_summary.json` are deterministic scoring-smoke
 artifacts. They use the projected bbox center as the predicted point and the
 target category as the predicted answer for all 20 scoring records. The current
-score summary uses `schema_version=3` and records
+score summary uses `schema_version=4` and records
 `prediction_backends=["projection_center_smoke_baseline"]`,
 `model_checkpoints=["projection_center_smoke_baseline_no_vlm"]`, and
 `claim_boundary="scoring_smoke_only_not_vlm_evidence"`. It also includes
@@ -266,9 +266,11 @@ so tests do not load VLM weights. The first checked-in real-model probe is under
 for the visually accepted bottle pair `c27086f557d316584264.view_001`. This is
 still a probe, not canonical `predictions.jsonl`. Its paired score summary is
 `probes/gemma4_p01_score_summary.json`: answer accuracy is 1.0 for
-original/converted, but point-in-bbox is 0.0 and the new point-in-image
-diagnostic is also 0.0 because both predicted points are outside the 600x450
-image. The runner blocks limited runs to canonical `predictions.jsonl` unless
+original/converted. Under a raw pixel-coordinate interpretation, point-in-bbox
+and point-in-image are both 0.0. Under the 0-1000 normalized-coordinate
+diagnostic, both points are valid and hit the target bbox. This means the first
+probe is primarily a coordinate-frame calibration result, not a localization
+failure. The runner blocks limited runs to canonical `predictions.jsonl` unless
 `--force` is explicitly supplied, rejects empty record selections, and checks
 image files before loading a local model.
 

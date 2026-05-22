@@ -1,5 +1,5 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "num_records": 20,
   "prediction_backends": [
     "projection_center_smoke_baseline"
@@ -16,6 +16,10 @@
       "point_in_bbox_accuracy": 1.0,
       "n_point_in_image": 10,
       "point_in_image_accuracy": 1.0,
+      "n_point_in_normalized_1000_frame": 10,
+      "point_in_normalized_1000_frame_accuracy": 1.0,
+      "n_point_normalized_1000": 10,
+      "point_in_bbox_normalized_1000_accuracy": 0.0,
       "n_answer": 10,
       "answer_accuracy": 1.0
     },
@@ -26,6 +30,10 @@
       "point_in_bbox_accuracy": 1.0,
       "n_point_in_image": 10,
       "point_in_image_accuracy": 1.0,
+      "n_point_in_normalized_1000_frame": 10,
+      "point_in_normalized_1000_frame_accuracy": 1.0,
+      "n_point_normalized_1000": 10,
+      "point_in_bbox_normalized_1000_accuracy": 0.0,
       "n_answer": 10,
       "answer_accuracy": 1.0
     }
@@ -47,6 +55,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -55,6 +65,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -63,6 +75,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -71,6 +85,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -79,6 +95,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -87,6 +105,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -95,6 +115,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -103,6 +125,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -111,6 +135,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -119,6 +145,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -127,6 +155,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -135,6 +165,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -143,6 +175,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -151,6 +185,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -159,6 +195,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -167,6 +205,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -175,6 +215,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -183,6 +225,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -191,6 +235,8 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     },
     {
@@ -199,11 +245,13 @@
       "task": "s1_referred_object_localization",
       "point_in_bbox": true,
       "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
       "answer_match": true
     }
   ],
   "score_provenance": {
-    "generated_at_utc": "2026-05-22T03:10:12.860308Z",
+    "generated_at_utc": "2026-05-22T03:14:44.085878Z",
     "command": [
       "/usr/bin/python",
       "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
@@ -218,25 +266,13 @@
     },
     "scorer": {
       "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
-      "script_hash_sha256": "4ed38c6716f645d4d00dc61a1e4bbd0acbd40dc7397a1154adc2fb062bff200a"
+      "script_hash_sha256": "91a8f0b4b882cc50d46f51012c8abef8acd759fd29bde97892b403202df9dfce"
     },
     "git": {
-      "commit": "00eb0676560c033de1d02498154933944213524f",
+      "commit": "834fa8a4c8145a3c820bb2e1931779744131a05d",
       "status_porcelain": [
-        " M .gitignore",
-        " M docs/records/2026-05-22-grscenes-scoring-smoke-baseline.md",
-        " M docs/records/2026-05-22-grscenes-vlm-prediction-runner.md",
-        " M docs/records/README.md",
-        " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/README.md",
         " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
-        " M paper/shared/evidence/raw/grscene_vlm_grounding/README.md",
-        " M paper/shared/evidence/results_manifest.yaml",
-        " M tests/test_grscenes_vlm_score_grounding.py",
-        "?? docs/records/2026-05-22-grscenes-vlm-visual-qa-and-gemma4-probe.md",
-        "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
-        "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_predictions.jsonl",
-        "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_predictions.jsonl.metadata.json",
-        "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_score_summary.json"
+        " M tests/test_grscenes_vlm_score_grounding.py"
       ]
     }
   }

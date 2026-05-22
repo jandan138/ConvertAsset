@@ -46,7 +46,7 @@ score summary records 20 scoring records across 10 original/converted pairs.
 | `pair_consistency.answer_match_agreement` | 1.0 |
 | `pair_consistency.duplicate_pair_version_count` | 0 |
 
-The current score output uses `schema_version=3` and records:
+The current score output uses `schema_version=4` and records:
 
 - `prediction_backends=["projection_center_smoke_baseline"]`
 - `model_checkpoints=["projection_center_smoke_baseline_no_vlm"]`
@@ -105,7 +105,8 @@ PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider \
   tests/test_grscenes_vlm_projection_center_baseline.py
 ```
 
-Latest local result: `10 passed in 0.58s`.
+Latest local result after the normalized-1000 coordinate diagnostic update:
+`12 passed in 0.69s`.
 
 Generation commands:
 

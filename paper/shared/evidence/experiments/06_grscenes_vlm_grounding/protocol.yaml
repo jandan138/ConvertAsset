@@ -107,8 +107,15 @@ task_families:
     prompt_template: Point to the {attribute} {category}.
     metrics:
       - point_in_bbox_accuracy
+      - point_in_image_accuracy
+      - point_in_bbox_normalized_1000_accuracy
       - point_in_mask_accuracy
       - original_vs_converted_delta
+    coordinate_frame_note: >
+      Raw pixel-coordinate metrics remain primary until the protocol is locked.
+      The current scorer also reports a 0-1000 normalized-coordinate diagnostic
+      because some VLMs emit normalized visual coordinates even when prompted
+      for pixels.
   - id: s2_task_driven_grounding
     prompt_template: Where should the robot interact to {action}?
     metrics:

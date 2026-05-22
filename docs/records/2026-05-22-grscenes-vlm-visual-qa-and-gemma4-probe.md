@@ -59,30 +59,37 @@ Result:
 
 - The model produced parseable JSON for both original and converted images.
 - The answer string matched `bottle` for both images.
-- Both predicted points were outside the 600x450 image and outside the target
-  bbox.
+- Under a raw pixel-coordinate interpretation, both predicted points were
+  outside the 600x450 image and outside the target bbox.
+- Under the 0-1000 normalized-coordinate diagnostic, both predicted points hit
+  the target bbox.
 - The score summary reports `point_in_bbox_accuracy=0.0`,
-  `point_in_image_accuracy=0.0`, and `answer_accuracy=1.0` for both material
-  conditions.
+  `point_in_image_accuracy=0.0`,
+  `point_in_bbox_normalized_1000_accuracy=1.0`, and
+  `answer_accuracy=1.0` for both material conditions.
 
 Interpretation: this is useful real-model evidence because it proves the
-prediction runner and scorer can run end-to-end on local VLM output. It is not
-positive grounding evidence. It shows that coordinate grounding must be analyzed
-separately from category text answers.
+prediction runner and scorer can run end-to-end on local VLM output. It is also
+a coordinate-frame calibration result: Gemma4 appears to emit normalized visual
+coordinates even though the prompt requested pixels. Final metrics must choose
+and document the coordinate protocol before scaling this experiment.
 
 ## Code Change
 
-`score_grounding.py` now emits score `schema_version=3` and reports
+`score_grounding.py` now emits score `schema_version=4` and reports
 `point_in_image` per record plus `point_in_image_accuracy` in aggregate
-summaries. This was added because the first real model generated
-image-out-of-bounds coordinates; treating those only as bbox misses would hide
-an important failure mode.
+summaries. It also reports a 0-1000 normalized-coordinate diagnostic via
+`point_in_normalized_1000_frame` and `point_in_bbox_normalized_1000`. This was
+added because the first real model generated image-out-of-bounds raw pixel
+coordinates that become correct hits under the normalized-coordinate convention
+common in VLMs.
 
 Tests:
 
 - Added
   `test_score_reports_out_of_frame_points_separately_from_bbox_misses`.
-- Targeted scorer tests pass: `9 passed`.
+- Added `test_score_reports_normalized_1000_coordinate_hits`.
+- Targeted scorer tests pass: `10 passed`.
 
 ## Runtime Notes
 
@@ -100,8 +107,9 @@ Do not cite this as final VLM performance. It supports only:
 - render candidate filtering exists and has concrete accept/reject results,
 - local Gemma4 inference can run on the generated renders,
 - the scorer can evaluate real model predictions,
-- the first probe found a coordinate-grounding failure.
+- the first probe found a coordinate-frame ambiguity: raw-pixel scoring fails,
+  while normalized-1000 scoring hits the projected bbox.
 
 The next publishable experiment step is to run the real model on the visually
 accepted/caution subset, retake failed views, and aggregate metrics only over
-QA-accepted pairs.
+QA-accepted pairs with an explicit coordinate-frame protocol.

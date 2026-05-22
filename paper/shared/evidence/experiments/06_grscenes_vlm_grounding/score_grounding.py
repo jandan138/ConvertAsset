@@ -6,6 +6,8 @@ any VLM runner as long as each record includes a target box and either a
 predicted point or answer text.
 When image width/height are available, the scorer also reports whether predicted
 points are inside the rendered image.
+It additionally reports a 0-1000 normalized-coordinate interpretation because
+many VLMs emit normalized visual coordinates even when prompts request pixels.
 
 Input JSONL record schema:
 {
@@ -137,6 +139,30 @@ def _point_in_image(point: Any, image: Any) -> bool | None:
     return 0 <= x < width and 0 <= y < height
 
 
+def _point_in_normalized_1000_frame(point: Any) -> bool | None:
+    point_values = _finite_float_list(point, 2)
+    if point_values is None:
+        return None
+    x, y = point_values
+    return 0 <= x <= 1000 and 0 <= y <= 1000
+
+
+def _normalized_1000_point_to_image(point: Any, image: Any) -> list[float] | None:
+    point_values = _finite_float_list(point, 2)
+    if point_values is None or not isinstance(image, dict):
+        return None
+    try:
+        width = float(image.get("width"))
+        height = float(image.get("height"))
+    except (TypeError, ValueError):
+        return None
+    if not math.isfinite(width) or not math.isfinite(height) or width <= 0 or height <= 0:
+        return None
+
+    x, y = point_values
+    return [x * width / 1000.0, y * height / 1000.0]
+
+
 def _answer_matches(answer: Any, expected: Any) -> bool | None:
     if answer is None or expected is None:
         return None
@@ -258,6 +284,9 @@ def score(records: list[dict[str, Any]]) -> dict[str, Any]:
 
         point_hit = _point_in_box(prediction.get("point_xy"), target.get("bbox_xyxy"))
         point_in_image = _point_in_image(prediction.get("point_xy"), record.get("image"))
+        point_in_normalized_1000_frame = _point_in_normalized_1000_frame(prediction.get("point_xy"))
+        normalized_1000_point = _normalized_1000_point_to_image(prediction.get("point_xy"), record.get("image"))
+        normalized_1000_point_hit = _point_in_box(normalized_1000_point, target.get("bbox_xyxy"))
         answer_hit = _answer_matches(prediction.get("answer"), record.get("expected_answers"))
         row = {
             "sample_id": record.get("sample_id"),
@@ -265,6 +294,8 @@ def score(records: list[dict[str, Any]]) -> dict[str, Any]:
             "task": task,
             "point_in_bbox": point_hit,
             "point_in_image": point_in_image,
+            "point_in_normalized_1000_frame": point_in_normalized_1000_frame,
+            "point_in_bbox_normalized_1000": normalized_1000_point_hit,
             "answer_match": answer_hit,
         }
         rows.append(row)
@@ -274,6 +305,10 @@ def score(records: list[dict[str, Any]]) -> dict[str, Any]:
             bucket["point_in_bbox"].append(point_hit)
         if point_in_image is not None:
             bucket["point_in_image"].append(point_in_image)
+        if point_in_normalized_1000_frame is not None:
+            bucket["point_in_normalized_1000_frame"].append(point_in_normalized_1000_frame)
+        if normalized_1000_point_hit is not None:
+            bucket["point_in_bbox_normalized_1000"].append(normalized_1000_point_hit)
         if answer_hit is not None:
             bucket["answer_match"].append(answer_hit)
 
@@ -287,6 +322,10 @@ def score(records: list[dict[str, Any]]) -> dict[str, Any]:
                 "point_in_bbox_accuracy": _mean(metrics["point_in_bbox"]),
                 "n_point_in_image": len(metrics["point_in_image"]),
                 "point_in_image_accuracy": _mean(metrics["point_in_image"]),
+                "n_point_in_normalized_1000_frame": len(metrics["point_in_normalized_1000_frame"]),
+                "point_in_normalized_1000_frame_accuracy": _mean(metrics["point_in_normalized_1000_frame"]),
+                "n_point_normalized_1000": len(metrics["point_in_bbox_normalized_1000"]),
+                "point_in_bbox_normalized_1000_accuracy": _mean(metrics["point_in_bbox_normalized_1000"]),
                 "n_answer": len(metrics["answer_match"]),
                 "answer_accuracy": _mean(metrics["answer_match"]),
             }
@@ -294,7 +333,7 @@ def score(records: list[dict[str, Any]]) -> dict[str, Any]:
 
     backends = _prediction_backends(records)
     return {
-        "schema_version": 3,
+        "schema_version": 4,
         "num_records": len(records),
         "prediction_backends": backends,
         "model_checkpoints": _model_checkpoints(records),

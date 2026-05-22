@@ -148,6 +148,26 @@ def test_score_reports_out_of_frame_points_separately_from_bbox_misses() -> None
     json.dumps(result, allow_nan=False)
 
 
+def test_score_reports_normalized_1000_coordinate_hits() -> None:
+    module = load_score_module()
+    normalized_point = record("pair_a", "original", [493.0, 500.0])
+    normalized_point["image"] = {"width": 600, "height": 450}
+    normalized_point["target"]["bbox_xyxy"] = [274.22, 171.824, 324.525, 278.53]
+
+    result = module.score([normalized_point])
+
+    row = result["records"][0]
+    assert row["point_in_bbox"] is False
+    assert row["point_in_image"] is False
+    assert row["point_in_normalized_1000_frame"] is True
+    assert row["point_in_bbox_normalized_1000"] is True
+    summary = result["summary"][0]
+    assert summary["point_in_bbox_accuracy"] == 0.0
+    assert summary["point_in_bbox_normalized_1000_accuracy"] == 1.0
+    assert summary["point_in_normalized_1000_frame_accuracy"] == 1.0
+    json.dumps(result, allow_nan=False)
+
+
 def test_score_rejects_string_coordinates_and_non_dict_schema_objects() -> None:
     module = load_score_module()
     string_point = record("pair_a", "original", [20.0, 20.0])
@@ -178,7 +198,7 @@ def test_main_writes_score_provenance(tmp_path: Path) -> None:
 
     assert status == 0
     result = json.loads(out.read_text(encoding="utf-8"))
-    assert result["schema_version"] == 3
+    assert result["schema_version"] == 4
     provenance = result["score_provenance"]
     assert provenance["input_predictions"]["path"] == str(predictions)
     assert len(provenance["input_predictions"]["hash_sha256"]) == 64
