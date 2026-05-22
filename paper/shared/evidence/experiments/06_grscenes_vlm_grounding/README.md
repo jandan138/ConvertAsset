@@ -1136,3 +1136,87 @@ normalized scaling, but this is not a frozen coordinate policy. The pair-level
 raw point hit agreement is 2/3 with one both-hit pair. Treat this as
 second-backend protocol-sensitivity evidence and as motivation for a frozen
 Qwen coordinate rerun, not as final ACL VLM performance.
+
+## Clean-Pool 15-Pair Real-Model Probes
+
+After the ordinary retake visual-QA pass, the clean preservation pool has 15
+PASS original/no-MDL pairs: the older 4 PASS pairs plus 11 retake PASS pairs.
+The projection subset is:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_pass15_projection_qa_report.json
+```
+
+It contains 15 pairs and 30 scoring records, all `projection_ok`. This is still
+below the 20-pair final benchmark gate, so these outputs are pilot evidence and
+must not be promoted to root `predictions.jsonl` / `score_summary.json`.
+
+Current clean-pool probes:
+
+- `clean_pool_probes/gemma4_clean_pool_pass15_predictions.jsonl`
+- `clean_pool_probes/gemma4_clean_pool_pass15_predictions.jsonl.metadata.json`
+- `clean_pool_probes/gemma4_clean_pool_pass15_score_summary.json`
+- `clean_pool_probes/qwen25_clean_pool_pass15_structured_predictions.jsonl`
+- `clean_pool_probes/qwen25_clean_pool_pass15_structured_predictions.jsonl.metadata.json`
+- `clean_pool_probes/qwen25_clean_pool_pass15_structured_score_summary.json`
+
+Gemma4 structured-text results:
+
+- 30/30 parsed rows.
+- answer accuracy 15/15 original and 15/15 converted.
+- normalized-1000 point-in-bbox 8/15 original and 6/15 converted.
+- normalized-1000 pair hit agreement 11/15; both-hit pairs 5/15.
+
+Qwen2.5-VL structured-text results:
+
+- 30/30 parsed rows, but only 23/30 scorable answer strings.
+- answer accuracy 8/11 original and 9/12 converted.
+- raw point-in-bbox 5/14 original and 5/15 converted.
+- normalized-1000 point-in-bbox 0/14 original and 0/15 converted.
+
+Plain version: Gemma4 now gives a usable 15-pair pilot signal, while Qwen still
+shows coordinate-protocol sensitivity. The next higher-value experiment is the
+zoom/material-shift stress pool, because it tests the paper story more directly:
+target visible, but material/color/lighting changed by no-MDL conversion.
+
+## Zoom Material-Shift Stress Real-Model Probes
+
+The zoom stress pool uses:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_target_projection_qa_report.json
+```
+
+It has 14 target-visible original/no-MDL pairs and 28 scoring records. Visual QA
+marks only 2 pairs as PASS and 12 as WARN because material/color/lighting shifts
+are large, so this pool is not clean preservation evidence. It is the current
+best pilot for the ACL material-shift story.
+
+Current zoom stress probes:
+
+- `zoom_stress_probes/gemma4_zoom_stress_predictions.jsonl`
+- `zoom_stress_probes/gemma4_zoom_stress_predictions.jsonl.metadata.json`
+- `zoom_stress_probes/gemma4_zoom_stress_score_summary.json`
+- `zoom_stress_probes/qwen25_zoom_stress_structured_predictions.jsonl`
+- `zoom_stress_probes/qwen25_zoom_stress_structured_predictions.jsonl.metadata.json`
+- `zoom_stress_probes/qwen25_zoom_stress_structured_score_summary.json`
+
+Gemma4 structured-text results:
+
+- 28/28 parsed rows.
+- answer accuracy 14/14 original and 14/14 converted.
+- normalized-1000 point-in-bbox 11/14 original and 13/14 converted.
+- normalized-1000 pair hit agreement 12/14; both-hit pairs 11/14.
+
+Qwen2.5-VL structured-text results:
+
+- 28/28 parsed rows.
+- 26/28 scorable answer rows.
+- answer accuracy 12/14 original and 10/12 converted.
+- raw point-in-bbox 9/14 original and 6/13 converted.
+- normalized-1000 point-in-bbox 3/14 original and 3/13 converted.
+
+Plain version: the zoom stress result gives a concrete material-shift story.
+Gemma4 remains stable in these target-visible views, while Qwen shows protocol
+sensitivity and a raw-coordinate original/converted drop. Treat this as pilot
+stress evidence, not final GRScenes benchmark performance.

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "status": "vlm_predictions",
+  "prediction_count": 30,
+  "backend": "local_hf_qwen",
+  "model_checkpoint": "/cpfs/shared/simulation/zhuzihou/models/Qwen2.5-VL-7B-Instruct",
+  "coordinate_frame": "normalized_1000",
+  "response_format": "structured_text",
+  "claim_boundary": "model_prediction_scores_require_model_provenance_review",
+  "generated_at_utc": "2026-05-22T11:52:07.486090Z",
+  "input_projection_report": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_pass15_projection_qa_report.json",
+    "hash_sha256": "7b54cf1f2416c0026f3a34a86e9fbdc88905414edf2b1655fce95d04805e5100"
+  },
+  "output_jsonl": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/qwen25_clean_pool_pass15_structured_predictions.jsonl",
+    "hash_sha256": "94cd3198cb8d84f96212f53781857d85f1be6658b770bf02e42cfa19aa91a201"
+  },
+  "runner_provenance": {
+    "command": [
+      "/cpfs/shared/simulation/zhuzihou/dev/Auto-Asset-Annotator/.venv_dlc/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+      "--projection-report",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_pass15_projection_qa_report.json",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/qwen25_clean_pool_pass15_structured_predictions.jsonl",
+      "--model-backend",
+      "local_hf_qwen",
+      "--model-path",
+      "/cpfs/shared/simulation/zhuzihou/models/Qwen2.5-VL-7B-Instruct",
+      "--attn-implementation",
+      "eager",
+      "--coordinate-frame",
+      "normalized_1000",
+      "--response-format",
+      "structured_text",
+      "--max-new-tokens",
+      "64",
+      "--force"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+    "script_hash_sha256": "51c4fd9751a66392e4577948a75c873d52fa293540e822e0abdebc5893fc7c7d",
+    "git_commit": "7034eb4473aee52df142566fdbacec11c151de02",
+    "git_status_porcelain": [
+      "?? 5 untracked files omitted from provenance"
+    ]
+  }
+}

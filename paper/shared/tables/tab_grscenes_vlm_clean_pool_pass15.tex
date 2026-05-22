@@ -1,0 +1,16 @@
+\begin{table*}[t]
+\centering
+\caption{Clean-pool GRScenes VLM grounding pilot over 15 blind-visual-QA PASS original/converted pairs. Values are hit counts for original/converted renders. The pool is larger than the earlier four-pair canonical pilot, but it is still below the 20-pair final benchmark gate and is not final ACL performance evidence.}
+\label{tab:grscenes_vlm_clean_pool_pass15}
+\scriptsize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lllcccp{0.32\textwidth}}
+\toprule
+\textbf{Probe} & \textbf{Format} & \textbf{Answer rows} & \textbf{Answer O/C} & \textbf{Raw point O/C} & \textbf{Norm-1000 point O/C} & \textbf{Note / boundary} \\
+\midrule
+Gemma4 local & structured\_text & 30/30 & 15/15 / 15/15 & 0/15 / 0/15 & 8/15 / 6/15 & Norm-1000: 11/15 same hit status; 5/15 both-hit; mean point delta 27.90 px \\
+Qwen2.5-VL structured & structured\_text & 23/30 & 8/11 / 9/12 & 5/14 / 5/15 & 0/14 / 0/15 & Coordinate semantics unresolved; norm agreement is 14/14 only because all comparable norm points miss; raw pair agreement 9/14 with 2/14 both-hit \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}

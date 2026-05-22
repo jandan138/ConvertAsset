@@ -55,6 +55,8 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-22 GRScenes canonical VLM run manifest](2026-05-22-grscenes-canonical-vlm-run-manifest.md)
 - [2026-05-22 GRScenes canonical VLM model probes](2026-05-22-grscenes-canonical-vlm-model-probes.md)
 - [2026-05-22 GRScenes retake and zoom evidence expansion](2026-05-22-grscenes-retake-pass-pool-expansion.md)
+- [2026-05-22 GRScenes clean-pool VLM probes](2026-05-22-grscenes-clean-pool-vlm-probes.md)
+- [2026-05-22 GRScenes zoom stress VLM probes](2026-05-22-grscenes-zoom-stress-vlm-probes.md)
 - [2026-05-20 ACL VLM benchmark route](2026-05-20-acl-vlm-benchmark-route.md)
 - [2026-05-20 ACL 2027 candidate venue wrapper](2026-05-20-paper-acl27-candidate.md)
 - [2026-05-14 workshop review ingestion for AAAI 2027](2026-05-14-workshop-review-aaai27-roadmap.md)

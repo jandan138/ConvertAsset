@@ -13,12 +13,30 @@ Venue-neutral table sources for the ConvertAsset paper live here.
 - `tab_grscenes_vlm_pass_only_pilot.tex`: LaTeX table generated from the same
   CSV source. It is pilot-only material and must not be presented as final
   benchmark performance.
+- `grscenes_vlm_clean_pool_pass15.csv`: machine-readable clean-pool pilot table
+  over 15 blind-visual-QA PASS original/no-MDL pairs. It summarizes Gemma4 and
+  Qwen2.5-VL structured-text probes under
+  `paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/`. This is
+  still below the 20-pair final gate.
+- `tab_grscenes_vlm_clean_pool_pass15.tex`: LaTeX table for the same 15-pair
+  clean-pool pilot.
+- `grscenes_vlm_zoom_stress.csv`: machine-readable zoom material-shift stress
+  table over 14 target-visible original/no-MDL pairs. It summarizes Gemma4 and
+  Qwen2.5-VL structured-text probes under
+  `paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/`. This is
+  stress/protocol evidence, not clean preservation evidence.
+- `tab_grscenes_vlm_zoom_stress.tex`: LaTeX table for the same zoom stress
+  pilot.
 
 Regenerate with:
 
 ```bash
 python paper/shared/tables/gen_vlm_pilot_tables.py
 ```
+
+The two newer clean-pool and zoom-stress tables were assembled directly from
+their score summaries and are registered in
+`paper/shared/evidence/results_manifest.yaml`.
 
 Most legacy table content remains embedded in `shared/sections/experiments.tex`
 until a later paper-editing pass extracts reusable table sources.

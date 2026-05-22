@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "status": "vlm_predictions",
+  "prediction_count": 28,
+  "backend": "local_gemma4_multimodal",
+  "model_checkpoint": "/cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8",
+  "coordinate_frame": "normalized_1000",
+  "response_format": "structured_text",
+  "claim_boundary": "model_prediction_scores_require_model_provenance_review",
+  "generated_at_utc": "2026-05-22T12:00:54.522366Z",
+  "input_projection_report": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_target_projection_qa_report.json",
+    "hash_sha256": "5bfff2c7cbe24dbafd0bae79a55b40c70e709eb4eab7d89750aecf5922580026"
+  },
+  "output_jsonl": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/gemma4_zoom_stress_predictions.jsonl",
+    "hash_sha256": "c198ce29e0ea2587b1fb4ff6a746dce6de9089cf4d200fca26d3c65a5f17e2ea"
+  },
+  "runner_provenance": {
+    "command": [
+      "/cpfs/user/zhuzihou/conda-managed/envs/genesis-llm-qlora-py310/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+      "--projection-report",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_target_projection_qa_report.json",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/gemma4_zoom_stress_predictions.jsonl",
+      "--model-backend",
+      "local_gemma4_multimodal",
+      "--model-path",
+      "/cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8",
+      "--coordinate-frame",
+      "normalized_1000",
+      "--response-format",
+      "structured_text",
+      "--max-new-tokens",
+      "64",
+      "--force"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+    "script_hash_sha256": "51c4fd9751a66392e4577948a75c873d52fa293540e822e0abdebc5893fc7c7d",
+    "git_commit": "7034eb4473aee52df142566fdbacec11c151de02",
+    "git_status_porcelain": [
+      " M docs/records/README.md",
+      " M paper/EXPERIMENT_CHECKLIST.md",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/README.md",
+      " M paper/shared/evidence/raw/grscene_vlm_grounding/README.md",
+      " M paper/shared/evidence/results_manifest.yaml",
+      " M paper/venues/acl27/STATUS.md",
+      "?? 11 untracked files omitted from provenance"
+    ]
+  }
+}

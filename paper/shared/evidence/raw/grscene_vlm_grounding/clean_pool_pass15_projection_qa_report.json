@@ -1,0 +1,1482 @@
+{
+  "schema_version": 1,
+  "status": "projection_subset_report",
+  "generated_at_utc": "2026-05-22T11:48:30.962438Z",
+  "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/select_projection_subset.py",
+  "summary": {
+    "selection_id": "clean_pool_pass15_v1",
+    "selection_mode": "explicit_pair_ids_from_projection_reports",
+    "selected_pair_count": 15,
+    "projection_ok_pair_count": 15,
+    "projection_blocked_pair_count": 0,
+    "scoring_record_count": 30,
+    "source_report_count": 2,
+    "image_width": 600,
+    "image_height": 450,
+    "status_counts": {
+      "projection_ok": 15
+    },
+    "claim_boundary": "clean_pool_projection_labels_only_not_final_vlm_metric_evidence"
+  },
+  "source_projection_reports": [
+    {
+      "path": "paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json",
+      "hash_sha256": "c1ef05974d49c18093a520eda202ac9e38999afcb42a90a09d06c99aac912b02"
+    },
+    {
+      "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_target_projection_qa_report.json",
+      "hash_sha256": "98689a5066803be33afdd461e0267038d213690a743c920e070361fc371af562"
+    }
+  ],
+  "selected_pair_ids": [
+    "c27086f557d316584264.view_001",
+    "e2ec085d524d5df4455d.view_001",
+    "e2ec085d524d5df4455d.view_003",
+    "c8ee4b66274b05d242c2.view_003",
+    "47aa36277a54f6ca90cc.retake_011",
+    "47aa36277a54f6ca90cc.retake_012",
+    "e1cf9f0feb81aa92d8a1.retake_008",
+    "1e397951c1926c7f0a0b.retake_008",
+    "1e397951c1926c7f0a0b.retake_009",
+    "ef6a4fe9448f672c2ecc.retake_008",
+    "ef6a4fe9448f672c2ecc.retake_009",
+    "21dde4a14ca93f539a47.retake_008",
+    "f35ef3d86c42446b7ddf.retake_011",
+    "c8ee4b66274b05d242c2.retake_008",
+    "c8ee4b66274b05d242c2.retake_014"
+  ],
+  "pairs": [
+    {
+      "pair_id": "c27086f557d316584264.view_001",
+      "target_id": "c27086f557d316584264",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_001",
+      "target_prim_path": "/Root/Meshes/Furnitures/bottle/model_1f3a3f56a624361c98fc37e723ef2b52_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          274.22,
+          171.824,
+          324.525,
+          278.53
+        ],
+        "raw_bbox_xyxy": [
+          274.22,
+          171.824,
+          324.525,
+          278.53
+        ],
+        "bbox_area_px": 5367.872,
+        "bbox_area_fraction": 0.019881,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json",
+        "hash_sha256": "c1ef05974d49c18093a520eda202ac9e38999afcb42a90a09d06c99aac912b02"
+      }
+    },
+    {
+      "pair_id": "e2ec085d524d5df4455d.view_001",
+      "target_id": "e2ec085d524d5df4455d",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_001",
+      "target_prim_path": "/Root/Meshes/Furnitures/cup/model_97a5d8ffa4e5197d728307133fb6cca4_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "raw_bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "bbox_area_px": 8321.007,
+        "bbox_area_fraction": 0.030819,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json",
+        "hash_sha256": "c1ef05974d49c18093a520eda202ac9e38999afcb42a90a09d06c99aac912b02"
+      }
+    },
+    {
+      "pair_id": "e2ec085d524d5df4455d.view_003",
+      "target_id": "e2ec085d524d5df4455d",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_003",
+      "target_prim_path": "/Root/Meshes/Furnitures/cup/model_97a5d8ffa4e5197d728307133fb6cca4_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "raw_bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "bbox_area_px": 8321.007,
+        "bbox_area_fraction": 0.030819,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json",
+        "hash_sha256": "c1ef05974d49c18093a520eda202ac9e38999afcb42a90a09d06c99aac912b02"
+      }
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.view_003",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_003",
+      "target_prim_path": "/Root/Meshes/Animation/faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          268.176,
+          180.122,
+          325.361,
+          277.26
+        ],
+        "raw_bbox_xyxy": [
+          268.176,
+          180.122,
+          325.361,
+          277.26
+        ],
+        "bbox_area_px": 5554.833,
+        "bbox_area_fraction": 0.020573,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json",
+        "hash_sha256": "c1ef05974d49c18093a520eda202ac9e38999afcb42a90a09d06c99aac912b02"
+      }
+    },
+    {
+      "pair_id": "47aa36277a54f6ca90cc.retake_011",
+      "target_id": "47aa36277a54f6ca90cc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "retake_011",
+      "target_prim_path": "/Root/Meshes/Furnitures/backpack/model_e883e28f0fdd4a6163b9b6198f5d0b80_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          253.906,
+          165.142,
+          338.22,
+          294.969
+        ],
+        "raw_bbox_xyxy": [
+          253.906,
+          165.142,
+          338.22,
+          294.969
+        ],
+        "bbox_area_px": 10946.27,
+        "bbox_area_fraction": 0.040542,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_target_projection_qa_report.json",
+        "hash_sha256": "98689a5066803be33afdd461e0267038d213690a743c920e070361fc371af562"
+      }
+    },
+    {
+      "pair_id": "47aa36277a54f6ca90cc.retake_012",
+      "target_id": "47aa36277a54f6ca90cc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "retake_012",
+      "target_prim_path": "/Root/Meshes/Furnitures/backpack/model_e883e28f0fdd4a6163b9b6198f5d0b80_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          250.425,
+          167.688,
+          349.575,
+          279.411
+        ],
+        "raw_bbox_xyxy": [
+          250.425,
+          167.688,
+          349.575,
+          279.411
+        ],
+        "bbox_area_px": 11077.432,
+        "bbox_area_fraction": 0.041028,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_target_projection_qa_report.json",
+        "hash_sha256": "98689a5066803be33afdd461e0267038d213690a743c920e070361fc371af562"
+      }
+    },
+    {
+      "pair_id": "e1cf9f0feb81aa92d8a1.retake_008",
+      "target_id": "e1cf9f0feb81aa92d8a1",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "retake_008",
+      "target_prim_path": "/Root/Meshes/Furnitures/backpack/model_3f99b44a34f7c6c935c508293a194502_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          251.16,
+          167.111,
+          348.84,
+          279.93
+        ],
+        "raw_bbox_xyxy": [
+          251.16,
+          167.111,
+          348.84,
+          279.93
+        ],
+        "bbox_area_px": 11020.146,
+        "bbox_area_fraction": 0.040815,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_target_projection_qa_report.json",
+        "hash_sha256": "98689a5066803be33afdd461e0267038d213690a743c920e070361fc371af562"
+      }
+    },
+    {
+      "pair_id": "1e397951c1926c7f0a0b.retake_008",
+      "target_id": "1e397951c1926c7f0a0b",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "retake_008",
+      "target_prim_path": "/Root/Meshes/Furnitures/clock/model_677e29e819ce65dc31d1ceb8620e953e_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          245.209,
+          173.27,
+          354.791,
+          272.478
+        ],
+        "raw_bbox_xyxy": [
+          245.209,
+          173.27,
+          354.791,
+          272.478
+        ],
+        "bbox_area_px": 10871.359,
+        "bbox_area_fraction": 0.040264,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_target_projection_qa_report.json",
+        "hash_sha256": "98689a5066803be33afdd461e0267038d213690a743c920e070361fc371af562"
+      }
+    },
+    {
+      "pair_id": "1e397951c1926c7f0a0b.retake_009",
+      "target_id": "1e397951c1926c7f0a0b",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "retake_009",
+      "target_prim_path": "/Root/Meshes/Furnitures/clock/model_677e29e819ce65dc31d1ceb8620e953e_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          263.066,
+          169.532,
+          347.677,
+          290.609
+        ],
+        "raw_bbox_xyxy": [
+          263.066,
+          169.532,
+          347.677,
+          290.609
+        ],
+        "bbox_area_px": 10244.517,
+        "bbox_area_fraction": 0.037943,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_target_projection_qa_report.json",
+        "hash_sha256": "98689a5066803be33afdd461e0267038d213690a743c920e070361fc371af562"
+      }
+    },
+    {
+      "pair_id": "ef6a4fe9448f672c2ecc.retake_008",
+      "target_id": "ef6a4fe9448f672c2ecc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "retake_008",
+      "target_prim_path": "/Root/Meshes/Furnitures/picture/model_91d6f7bd3387ffa49a896fe682a3b3ae_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          254.902,
+          165.265,
+          345.098,
+          277.784
+        ],
+        "raw_bbox_xyxy": [
+          254.902,
+          165.265,
+          345.098,
+          277.784
+        ],
+        "bbox_area_px": 10148.75,
+        "bbox_area_fraction": 0.037588,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_target_projection_qa_report.json",
+        "hash_sha256": "98689a5066803be33afdd461e0267038d213690a743c920e070361fc371af562"
+      }
+    },
+    {
+      "pair_id": "ef6a4fe9448f672c2ecc.retake_009",
+      "target_id": "ef6a4fe9448f672c2ecc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "retake_009",
+      "target_prim_path": "/Root/Meshes/Furnitures/picture/model_91d6f7bd3387ffa49a896fe682a3b3ae_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          270.044,
+          162.825,
+          337.404,
+          292.951
+        ],
+        "raw_bbox_xyxy": [
+          270.044,
+          162.825,
+          337.404,
+          292.951
+        ],
+        "bbox_area_px": 8765.356,
+        "bbox_area_fraction": 0.032464,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_target_projection_qa_report.json",
+        "hash_sha256": "98689a5066803be33afdd461e0267038d213690a743c920e070361fc371af562"
+      }
+    },
+    {
+      "pair_id": "21dde4a14ca93f539a47.retake_008",
+      "target_id": "21dde4a14ca93f539a47",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "retake_008",
+      "target_prim_path": "/Root/Meshes/Furnitures/pillow/model_fd19fbe9bc625e175917e78b747bd35b_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          232.637,
+          187.694,
+          367.363,
+          263.915
+        ],
+        "raw_bbox_xyxy": [
+          232.637,
+          187.694,
+          367.363,
+          263.915
+        ],
+        "bbox_area_px": 10268.911,
+        "bbox_area_fraction": 0.038033,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_target_projection_qa_report.json",
+        "hash_sha256": "98689a5066803be33afdd461e0267038d213690a743c920e070361fc371af562"
+      }
+    },
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.retake_011",
+      "target_id": "f35ef3d86c42446b7ddf",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "retake_011",
+      "target_prim_path": "/Root/Meshes/Furnitures/clock/model_bf679119ea2cb383756475ddc0dcca04_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          255.824,
+          166.218,
+          335.085,
+          292.617
+        ],
+        "raw_bbox_xyxy": [
+          255.824,
+          166.218,
+          335.085,
+          292.617
+        ],
+        "bbox_area_px": 10018.618,
+        "bbox_area_fraction": 0.037106,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_target_projection_qa_report.json",
+        "hash_sha256": "98689a5066803be33afdd461e0267038d213690a743c920e070361fc371af562"
+      }
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.retake_008",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "retake_008",
+      "target_prim_path": "/Root/Meshes/Animation/faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          241.763,
+          175.867,
+          358.237,
+          272.403
+        ],
+        "raw_bbox_xyxy": [
+          241.763,
+          175.867,
+          358.237,
+          272.403
+        ],
+        "bbox_area_px": 11243.999,
+        "bbox_area_fraction": 0.041644,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_target_projection_qa_report.json",
+        "hash_sha256": "98689a5066803be33afdd461e0267038d213690a743c920e070361fc371af562"
+      }
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.retake_014",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "retake_014",
+      "target_prim_path": "/Root/Meshes/Animation/faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          285.954,
+          171.136,
+          314.046,
+          296.06
+        ],
+        "raw_bbox_xyxy": [
+          285.954,
+          171.136,
+          314.046,
+          296.06
+        ],
+        "bbox_area_px": 3509.425,
+        "bbox_area_fraction": 0.012998,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_target_projection_qa_report.json",
+        "hash_sha256": "98689a5066803be33afdd461e0267038d213690a743c920e070361fc371af562"
+      }
+    }
+  ],
+  "scoring_records": [
+    {
+      "sample_id": "c27086f557d316584264.view_001.original",
+      "pair_id": "c27086f557d316584264.view_001",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/view_001/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          274.22,
+          171.824,
+          324.525,
+          278.53
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "bottle",
+        "expected_answers": [
+          "bottle"
+        ]
+      },
+      "expected_answers": [
+        "bottle"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "c27086f557d316584264.view_001.converted",
+      "pair_id": "c27086f557d316584264.view_001",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/view_001/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          274.22,
+          171.824,
+          324.525,
+          278.53
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "bottle",
+        "expected_answers": [
+          "bottle"
+        ]
+      },
+      "expected_answers": [
+        "bottle"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.view_001.original",
+      "pair_id": "e2ec085d524d5df4455d.view_001",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_001/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "cup",
+        "expected_answers": [
+          "cup"
+        ]
+      },
+      "expected_answers": [
+        "cup"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.view_001.converted",
+      "pair_id": "e2ec085d524d5df4455d.view_001",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_001/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "cup",
+        "expected_answers": [
+          "cup"
+        ]
+      },
+      "expected_answers": [
+        "cup"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.view_003.original",
+      "pair_id": "e2ec085d524d5df4455d.view_003",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_003/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "cup",
+        "expected_answers": [
+          "cup"
+        ]
+      },
+      "expected_answers": [
+        "cup"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.view_003.converted",
+      "pair_id": "e2ec085d524d5df4455d.view_003",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_003/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "cup",
+        "expected_answers": [
+          "cup"
+        ]
+      },
+      "expected_answers": [
+        "cup"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.view_003.original",
+      "pair_id": "c8ee4b66274b05d242c2.view_003",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_003/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          268.176,
+          180.122,
+          325.361,
+          277.26
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.view_003.converted",
+      "pair_id": "c8ee4b66274b05d242c2.view_003",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_003/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          268.176,
+          180.122,
+          325.361,
+          277.26
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "47aa36277a54f6ca90cc.retake_011.original",
+      "pair_id": "47aa36277a54f6ca90cc.retake_011",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/retake_011/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          253.906,
+          165.142,
+          338.22,
+          294.969
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "47aa36277a54f6ca90cc.retake_011.converted",
+      "pair_id": "47aa36277a54f6ca90cc.retake_011",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/retake_011/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          253.906,
+          165.142,
+          338.22,
+          294.969
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "47aa36277a54f6ca90cc.retake_012.original",
+      "pair_id": "47aa36277a54f6ca90cc.retake_012",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/retake_012/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          250.425,
+          167.688,
+          349.575,
+          279.411
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "47aa36277a54f6ca90cc.retake_012.converted",
+      "pair_id": "47aa36277a54f6ca90cc.retake_012",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/retake_012/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          250.425,
+          167.688,
+          349.575,
+          279.411
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "e1cf9f0feb81aa92d8a1.retake_008.original",
+      "pair_id": "e1cf9f0feb81aa92d8a1.retake_008",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/e1cf9f0feb81aa92d8a1/retake_008/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          251.16,
+          167.111,
+          348.84,
+          279.93
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "e1cf9f0feb81aa92d8a1.retake_008.converted",
+      "pair_id": "e1cf9f0feb81aa92d8a1.retake_008",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/e1cf9f0feb81aa92d8a1/retake_008/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          251.16,
+          167.111,
+          348.84,
+          279.93
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "1e397951c1926c7f0a0b.retake_008.original",
+      "pair_id": "1e397951c1926c7f0a0b.retake_008",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/retake_008/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          245.209,
+          173.27,
+          354.791,
+          272.478
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "1e397951c1926c7f0a0b.retake_008.converted",
+      "pair_id": "1e397951c1926c7f0a0b.retake_008",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/retake_008/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          245.209,
+          173.27,
+          354.791,
+          272.478
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "1e397951c1926c7f0a0b.retake_009.original",
+      "pair_id": "1e397951c1926c7f0a0b.retake_009",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/retake_009/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          263.066,
+          169.532,
+          347.677,
+          290.609
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "1e397951c1926c7f0a0b.retake_009.converted",
+      "pair_id": "1e397951c1926c7f0a0b.retake_009",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/retake_009/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          263.066,
+          169.532,
+          347.677,
+          290.609
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "ef6a4fe9448f672c2ecc.retake_008.original",
+      "pair_id": "ef6a4fe9448f672c2ecc.retake_008",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/retake_008/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          254.902,
+          165.265,
+          345.098,
+          277.784
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "picture",
+        "expected_answers": [
+          "picture"
+        ]
+      },
+      "expected_answers": [
+        "picture"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "ef6a4fe9448f672c2ecc.retake_008.converted",
+      "pair_id": "ef6a4fe9448f672c2ecc.retake_008",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/retake_008/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          254.902,
+          165.265,
+          345.098,
+          277.784
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "picture",
+        "expected_answers": [
+          "picture"
+        ]
+      },
+      "expected_answers": [
+        "picture"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "ef6a4fe9448f672c2ecc.retake_009.original",
+      "pair_id": "ef6a4fe9448f672c2ecc.retake_009",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/retake_009/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          270.044,
+          162.825,
+          337.404,
+          292.951
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "picture",
+        "expected_answers": [
+          "picture"
+        ]
+      },
+      "expected_answers": [
+        "picture"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "ef6a4fe9448f672c2ecc.retake_009.converted",
+      "pair_id": "ef6a4fe9448f672c2ecc.retake_009",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/retake_009/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          270.044,
+          162.825,
+          337.404,
+          292.951
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "picture",
+        "expected_answers": [
+          "picture"
+        ]
+      },
+      "expected_answers": [
+        "picture"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "21dde4a14ca93f539a47.retake_008.original",
+      "pair_id": "21dde4a14ca93f539a47.retake_008",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/21dde4a14ca93f539a47/retake_008/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          232.637,
+          187.694,
+          367.363,
+          263.915
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "pillow",
+        "expected_answers": [
+          "pillow"
+        ]
+      },
+      "expected_answers": [
+        "pillow"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "21dde4a14ca93f539a47.retake_008.converted",
+      "pair_id": "21dde4a14ca93f539a47.retake_008",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/21dde4a14ca93f539a47/retake_008/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          232.637,
+          187.694,
+          367.363,
+          263.915
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "pillow",
+        "expected_answers": [
+          "pillow"
+        ]
+      },
+      "expected_answers": [
+        "pillow"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "f35ef3d86c42446b7ddf.retake_011.original",
+      "pair_id": "f35ef3d86c42446b7ddf.retake_011",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/retake_011/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          255.824,
+          166.218,
+          335.085,
+          292.617
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "f35ef3d86c42446b7ddf.retake_011.converted",
+      "pair_id": "f35ef3d86c42446b7ddf.retake_011",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/retake_011/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          255.824,
+          166.218,
+          335.085,
+          292.617
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.retake_008.original",
+      "pair_id": "c8ee4b66274b05d242c2.retake_008",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/retake_008/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          241.763,
+          175.867,
+          358.237,
+          272.403
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.retake_008.converted",
+      "pair_id": "c8ee4b66274b05d242c2.retake_008",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/retake_008/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          241.763,
+          175.867,
+          358.237,
+          272.403
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.retake_014.original",
+      "pair_id": "c8ee4b66274b05d242c2.retake_014",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/retake_014/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          285.954,
+          171.136,
+          314.046,
+          296.06
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.retake_014.converted",
+      "pair_id": "c8ee4b66274b05d242c2.retake_014",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/retake_014/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          285.954,
+          171.136,
+          314.046,
+          296.06
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null
+    }
+  ],
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/select_projection_subset.py",
+      "--projection-report",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json",
+      "--projection-report",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_target_projection_qa_report.json",
+      "--selection-id",
+      "clean_pool_pass15_v1",
+      "--claim-boundary",
+      "clean_pool_projection_labels_only_not_final_vlm_metric_evidence",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_pass15_projection_qa_report.json",
+      "--pair-id",
+      "c27086f557d316584264.view_001",
+      "--pair-id",
+      "e2ec085d524d5df4455d.view_001",
+      "--pair-id",
+      "e2ec085d524d5df4455d.view_003",
+      "--pair-id",
+      "c8ee4b66274b05d242c2.view_003",
+      "--pair-id",
+      "47aa36277a54f6ca90cc.retake_011",
+      "--pair-id",
+      "47aa36277a54f6ca90cc.retake_012",
+      "--pair-id",
+      "e1cf9f0feb81aa92d8a1.retake_008",
+      "--pair-id",
+      "1e397951c1926c7f0a0b.retake_008",
+      "--pair-id",
+      "1e397951c1926c7f0a0b.retake_009",
+      "--pair-id",
+      "ef6a4fe9448f672c2ecc.retake_008",
+      "--pair-id",
+      "ef6a4fe9448f672c2ecc.retake_009",
+      "--pair-id",
+      "21dde4a14ca93f539a47.retake_008",
+      "--pair-id",
+      "f35ef3d86c42446b7ddf.retake_011",
+      "--pair-id",
+      "c8ee4b66274b05d242c2.retake_008",
+      "--pair-id",
+      "c8ee4b66274b05d242c2.retake_014"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/select_projection_subset.py",
+    "script_hash_sha256": "b2acc67dbe623a8b4c79da682e3c1d611ee884c73666792861dc639374a9d94a",
+    "git_commit": "7034eb4473aee52df142566fdbacec11c151de02",
+    "git_status_porcelain": []
+  }
+}

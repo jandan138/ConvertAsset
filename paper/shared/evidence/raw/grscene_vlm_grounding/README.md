@@ -100,6 +100,35 @@ Expected files:
 - `retake_zoom_render_logs/`: archived `.txt` stdout/stderr logs referenced by
   the zoom retake render reports.
 - `retake_zoom_renders/`: zoom camera wrapper USDs and zoom PNG outputs.
+- `clean_pool_pass15_projection_qa_report.json`: combined projection-label
+  subset for the 15 clean visual-QA PASS original/no-MDL pairs. This merges
+  the older four PASS pairs with 11 ordinary retake PASS pairs.
+- `clean_pool_probes/gemma4_clean_pool_pass15_predictions.jsonl`: Gemma4
+  structured-text real-model predictions over the 15-pair clean pool.
+- `clean_pool_probes/gemma4_clean_pool_pass15_predictions.jsonl.metadata.json`:
+  provenance sidecar for the Gemma4 clean-pool probe.
+- `clean_pool_probes/gemma4_clean_pool_pass15_score_summary.json`: score
+  summary for the Gemma4 clean-pool probe.
+- `clean_pool_probes/qwen25_clean_pool_pass15_structured_predictions.jsonl`:
+  Qwen2.5-VL structured-text real-model predictions over the same 15-pair
+  clean pool.
+- `clean_pool_probes/qwen25_clean_pool_pass15_structured_predictions.jsonl.metadata.json`:
+  provenance sidecar for the Qwen2.5-VL clean-pool probe.
+- `clean_pool_probes/qwen25_clean_pool_pass15_structured_score_summary.json`:
+  score summary for the Qwen2.5-VL clean-pool probe.
+- `zoom_stress_probes/gemma4_zoom_stress_predictions.jsonl`: Gemma4 structured-
+  text real-model predictions over the 14-pair zoom material-shift stress pool.
+- `zoom_stress_probes/gemma4_zoom_stress_predictions.jsonl.metadata.json`:
+  provenance sidecar for the Gemma4 zoom stress probe.
+- `zoom_stress_probes/gemma4_zoom_stress_score_summary.json`: score summary for
+  the Gemma4 zoom stress probe.
+- `zoom_stress_probes/qwen25_zoom_stress_structured_predictions.jsonl`:
+  Qwen2.5-VL structured-text real-model predictions over the same zoom stress
+  pool.
+- `zoom_stress_probes/qwen25_zoom_stress_structured_predictions.jsonl.metadata.json`:
+  provenance sidecar for the Qwen2.5-VL zoom stress probe.
+- `zoom_stress_probes/qwen25_zoom_stress_structured_score_summary.json`: score
+  summary for the Qwen2.5-VL zoom stress probe.
 - `projection_center_baseline_predictions.jsonl`: deterministic bbox-center
   scoring-smoke predictions generated from `target_projection_qa_report.json`;
   this is not a VLM output file.
@@ -170,6 +199,24 @@ pairs and the 20-pair final benchmark gate remains closed. The zoom set is best
 treated as material-shift stress evidence: 14/14 render and projection checks
 passed, but visual QA produced only 2 target-visible PASS pairs and 12 WARN
 pairs because material/color/lighting shifts are large.
+
+`clean_pool_probes/` contains the first two real-model runs over the expanded
+15-pair clean pool. Gemma4 structured-text gives 30/30 parsed rows, answer
+accuracy 15/15 for both original and converted renders, and normalized-1000
+point-in-bbox 8/15 original versus 6/15 converted. Qwen2.5-VL structured-text
+gives 30 parsed rows but only 23 scorable answer strings; raw point-in-bbox
+scores are 5/14 original and 5/15 converted, while normalized-1000 point hits
+remain 0. These are pilot/protocol evidence only. They still cannot close the
+final benchmark gate because the clean pool has 15 pairs, not 20+.
+
+`zoom_stress_probes/` contains the first two real-model runs over the 14-pair
+target-visible zoom stress pool. Gemma4 structured-text gives 28/28 parsed
+rows, answer accuracy 14/14 for both material conditions, and normalized-1000
+point-in-bbox 11/14 original versus 13/14 converted. Qwen2.5-VL structured-text
+gives 28 parsed rows, 26 scorable answer strings, raw point-in-bbox 9/14
+original versus 6/13 converted, and normalized-1000 point hits 3/14 original
+versus 3/13 converted. These files support a material-shift stress pilot, not a
+clean preservation benchmark claim.
 
 `target_manifest.json` uses the original GRScenes source tree read-only. The resolver opens source scene USDs with Isaac/pxr, matches target metadata paths to authored USD references, and computes bboxes from the absolute split-level model USD transformed by the scene prim transform. This avoids relying on composed scene bboxes when scene-local `models` and `Materials` entries are text pointer files rather than symlinks.
 
