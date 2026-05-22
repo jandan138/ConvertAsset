@@ -76,6 +76,9 @@ results:
     - id: grscenes_vlm_retake_zoom_visual_review
       path: paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json
       description: "Independent clean-room visual QA over the 14 zoom retake pairs; 2 target-visible PASS and 12 WARN. This is material-shift stress evidence, not clean material-preservation evidence."
+    - id: grscenes_vlm_stress_run_manifest
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest.json
+      description: "Material-shift stress VLM input/protocol and claim-gate manifest: 14 target-visible PASS/WARN zoom pairs, pilot-only status, model-run-ready=true, and final_benchmark_claimable=false until the stress gate has enough samples and canonical stress predictions/scores."
     - id: grscenes_vlm_clean_pool_pass15_projection
       path: paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_pass15_projection_qa_report.json
       description: "Projection subset for the 15 clean visual-QA PASS original/no-MDL pairs; label provenance only, not final model-result evidence."
@@ -105,7 +108,7 @@ results:
       description: "Provenance sidecar for the Gemma4 zoom material-shift stress probe."
     - id: grscenes_vlm_gemma4_zoom_stress_score
       path: paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/gemma4_zoom_stress_score_summary.json
-      description: "Score summary for the Gemma4 zoom stress probe: answer 14/14 original and converted, normalized-1000 point hit 11/14 original and 13/14 converted."
+      description: "Pilot-only score summary for the Gemma4 zoom stress probe: answer 14/14 original and converted, normalized-1000 point hit 11/14 original and 13/14 converted."
     - id: grscenes_vlm_qwen25_zoom_stress_structured_predictions
       path: paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_predictions.jsonl
       description: "Qwen2.5-VL structured-text real-model predictions over the 14-pair zoom material-shift stress pool; coordinate-semantics diagnostic only."
@@ -114,7 +117,7 @@ results:
       description: "Provenance sidecar for the Qwen2.5-VL zoom material-shift stress probe."
     - id: grscenes_vlm_qwen25_zoom_stress_structured_score
       path: paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_score_summary.json
-      description: "Score summary for the Qwen2.5-VL zoom stress probe; raw point hits drop from original to converted while normalized-1000 coordinate semantics remain mixed."
+      description: "Pilot-only score summary for the Qwen2.5-VL zoom stress probe; raw point hits drop from original to converted while normalized-1000 coordinate semantics remain mixed."
     - id: grscenes_vlm_gemma4_canonical_probe_predictions
       path: paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/gemma4_canonical_pass_only_predictions.jsonl
       description: "Manifest-aligned Gemma4 pilot rerun over the four visual-QA PASS pairs using normalized-1000 structured-text prompts; not root canonical predictions.jsonl."

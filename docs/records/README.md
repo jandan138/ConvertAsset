@@ -57,6 +57,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-22 GRScenes retake and zoom evidence expansion](2026-05-22-grscenes-retake-pass-pool-expansion.md)
 - [2026-05-22 GRScenes clean-pool VLM probes](2026-05-22-grscenes-clean-pool-vlm-probes.md)
 - [2026-05-22 GRScenes zoom stress VLM probes](2026-05-22-grscenes-zoom-stress-vlm-probes.md)
+- [2026-05-22 GRScenes stress VLM manifest](2026-05-22-grscenes-stress-vlm-manifest.md)
 - [2026-05-22 GRScenes paper story VLM integration](2026-05-22-grscenes-paper-story-vlm-integration.md)
 - [2026-05-22 paper claim readiness audit](2026-05-22-paper-claim-readiness-audit.md)
 - [2026-05-22 ACL27 VLM story overrides](2026-05-22-acl27-vlm-story-overrides.md)

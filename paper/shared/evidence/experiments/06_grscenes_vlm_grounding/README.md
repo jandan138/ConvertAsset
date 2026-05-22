@@ -1192,6 +1192,30 @@ marks only 2 pairs as PASS and 12 as WARN because material/color/lighting shifts
 are large, so this pool is not clean preservation evidence. It is the current
 best pilot for the ACL material-shift story.
 
+Build the stress input and claim-gate manifest with:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_stress_vlm_run_manifest.py
+```
+
+Default output:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest.json
+```
+
+The stress manifest accepts target-visible PASS and WARN pairs, excludes FAIL or
+projection-blocked pairs, and freezes the same structured-text,
+`normalized_1000` coordinate contract used by the current pilot probes. The
+current manifest has 14 stress pairs across 5 target categories, so it is ready
+as a model-run input. It still has `claim_status=pilot_only` and
+`final_benchmark_claimable=false` because the final stress benchmark gate
+requires at least 30 stress pairs plus canonical root
+`stress_predictions.jsonl` and `stress_score_summary.json`.
+
+Plain version: use `stress_vlm_run_manifest.json` to run the next controlled
+stress experiment. Do not treat it as final benchmark evidence by itself.
+
 Current zoom stress probes:
 
 - `zoom_stress_probes/gemma4_zoom_stress_predictions.jsonl`

@@ -1,0 +1,2121 @@
+{
+  "schema_version": 1,
+  "status": "stress_vlm_run_manifest",
+  "claim_status": "pilot_only",
+  "final_benchmark_claimable": false,
+  "generated_at_utc": "2026-05-22T13:46:48.724647Z",
+  "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_stress_vlm_run_manifest.py",
+  "summary": {
+    "selection_id": "zoom_material_shift_stress_v1",
+    "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+    "stress_pair_count": 14,
+    "stress_scoring_record_count": 28,
+    "stress_verdict_counts": {
+      "PASS": 2,
+      "WARN": 12
+    },
+    "excluded_pair_count": 0,
+    "min_stress_pairs_for_final_benchmark": 30,
+    "min_target_categories_for_final_benchmark": 5,
+    "ready_for_model_run": true,
+    "ready_for_final_benchmark_run": false,
+    "model_run_blockers": [],
+    "blockers": [
+      "stress_pair_count_below_minimum_final_benchmark_gate",
+      "canonical_predictions_missing",
+      "canonical_score_summary_missing"
+    ],
+    "missing_visual_review_pair_ids": [],
+    "projection_blocked_pair_ids": [],
+    "unsupported_verdict_pair_ids": [],
+    "selected_target_category_counts": {
+      "backpack": 3,
+      "clock": 4,
+      "faucet": 4,
+      "picture": 2,
+      "pillow": 1
+    }
+  },
+  "protocol": {
+    "task_id": "s1_referred_object_localization",
+    "coordinate_frame": "normalized_1000",
+    "response_format": "structured_text",
+    "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+    "answer_metric": "answer_accuracy",
+    "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+    "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+    "stress_interpretation": "material_shift_stress_not_clean_preservation",
+    "runner": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+    "scorer": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
+    "protocol_schema_version": 2,
+    "response_format_note": "Use structured_text for Qwen-family backends until direct JSON prompting is revalidated."
+  },
+  "claim_gate": {
+    "claim_status": "pilot_only",
+    "final_benchmark_claimable": false,
+    "blocked_by": [
+      "stress_pair_count_below_minimum_final_benchmark_gate",
+      "canonical_predictions_missing",
+      "canonical_score_summary_missing"
+    ],
+    "allowed_claims": [
+      "pilot-only material-shift stress protocol definition",
+      "pilot-only Gemma4/Qwen stress diagnostics if model outputs are generated under this manifest",
+      "stress candidate selection and target-visible visual QA provenance"
+    ],
+    "forbidden_claims": [
+      "not a final GRScenes benchmark result",
+      "not a clean material-preservation benchmark",
+      "not evidence that no-MDL conversion preserves VLM grounding in general",
+      "not a Gemma4-vs-Qwen model comparison",
+      "not a PIO dataset evaluation"
+    ]
+  },
+  "recommended_model_runs": [
+    {
+      "id": "gemma4_zoom_stress",
+      "backend": "local_gemma4_multimodal",
+      "coordinate_frame": "normalized_1000",
+      "response_format": "structured_text",
+      "claim_boundary": "stress_pilot_model_run_until_final_gate_satisfied"
+    },
+    {
+      "id": "qwen25_zoom_stress",
+      "backend": "local_hf_qwen",
+      "coordinate_frame": "normalized_1000",
+      "response_format": "structured_text",
+      "claim_boundary": "stress_pilot_model_run_until_final_gate_satisfied"
+    }
+  ],
+  "selected_pair_ids": [
+    "47aa36277a54f6ca90cc.zoom_018",
+    "47aa36277a54f6ca90cc.zoom_019",
+    "e1cf9f0feb81aa92d8a1.zoom_016",
+    "ef6a4fe9448f672c2ecc.zoom_016",
+    "ef6a4fe9448f672c2ecc.zoom_017",
+    "c8ee4b66274b05d242c2.zoom_016",
+    "c8ee4b66274b05d242c2.zoom_017",
+    "c8ee4b66274b05d242c2.zoom_020",
+    "c8ee4b66274b05d242c2.zoom_021",
+    "1e397951c1926c7f0a0b.zoom_016",
+    "1e397951c1926c7f0a0b.zoom_017",
+    "f35ef3d86c42446b7ddf.zoom_018",
+    "f35ef3d86c42446b7ddf.zoom_019",
+    "21dde4a14ca93f539a47.zoom_016"
+  ],
+  "selected_pairs": [
+    {
+      "pair_id": "47aa36277a54f6ca90cc.zoom_018",
+      "target_id": "47aa36277a54f6ca90cc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "zoom_018",
+      "target_prim_path": "/Root/Meshes/Furnitures/backpack/model_e883e28f0fdd4a6163b9b6198f5d0b80_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          207.811,
+          105.285,
+          376.441,
+          364.938
+        ],
+        "raw_bbox_xyxy": [
+          207.811,
+          105.285,
+          376.441,
+          364.938
+        ],
+        "bbox_area_px": 43785.079,
+        "bbox_area_fraction": 0.162167,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "visual_review": {
+        "pair_id": "47aa36277a54f6ca90cc.zoom_018",
+        "target_category": "backpack",
+        "verdict": "WARN",
+        "packet_id": "Z01",
+        "visible_evidence": "A blue hanging bag-like object is visible below a hat in the central wall area in both images.",
+        "risk_or_retake": "Target reads more like a handbag or purse than a clear backpack; retake from an angle showing straps, back panel, or fuller body shape.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "target_category": "backpack"
+    },
+    {
+      "pair_id": "47aa36277a54f6ca90cc.zoom_019",
+      "target_id": "47aa36277a54f6ca90cc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "zoom_019",
+      "target_prim_path": "/Root/Meshes/Furnitures/backpack/model_e883e28f0fdd4a6163b9b6198f5d0b80_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          200.849,
+          110.376,
+          399.151,
+          333.822
+        ],
+        "raw_bbox_xyxy": [
+          200.849,
+          110.376,
+          399.151,
+          333.822
+        ],
+        "bbox_area_px": 44309.726,
+        "bbox_area_fraction": 0.16411,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "visual_review": {
+        "pair_id": "47aa36277a54f6ca90cc.zoom_019",
+        "target_category": "backpack",
+        "verdict": "WARN",
+        "packet_id": "Z02",
+        "visible_evidence": "A blue hanging bag is centered and visible in both images with comparable camera/view.",
+        "risk_or_retake": "Object reads more like a small handbag or satchel than a clearly identifiable backpack; retake lower or closer to show backpack-defining features.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "target_category": "backpack"
+    },
+    {
+      "pair_id": "e1cf9f0feb81aa92d8a1.zoom_016",
+      "target_id": "e1cf9f0feb81aa92d8a1",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "zoom_016",
+      "target_prim_path": "/Root/Meshes/Furnitures/backpack/model_3f99b44a34f7c6c935c508293a194502_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          202.32,
+          109.222,
+          397.68,
+          334.861
+        ],
+        "raw_bbox_xyxy": [
+          202.32,
+          109.222,
+          397.68,
+          334.861
+        ],
+        "bbox_area_px": 44080.585,
+        "bbox_area_fraction": 0.163261,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "visual_review": {
+        "pair_id": "e1cf9f0feb81aa92d8a1.zoom_016",
+        "target_category": "backpack",
+        "verdict": "WARN",
+        "packet_id": "Z03",
+        "visible_evidence": "A small blue hanging bag/backpack-like object is centered on the wall and visible in both images.",
+        "risk_or_retake": "Object reads more like a handbag or purse than a clearly identifiable backpack; retake front-facing with backpack-specific features visible.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "target_category": "backpack"
+    },
+    {
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_016",
+      "target_id": "ef6a4fe9448f672c2ecc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "zoom_016",
+      "target_prim_path": "/Root/Meshes/Furnitures/picture/model_91d6f7bd3387ffa49a896fe682a3b3ae_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          209.804,
+          105.529,
+          390.196,
+          330.567
+        ],
+        "raw_bbox_xyxy": [
+          209.804,
+          105.529,
+          390.196,
+          330.567
+        ],
+        "bbox_area_px": 40595.001,
+        "bbox_area_fraction": 0.150352,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "visual_review": {
+        "pair_id": "ef6a4fe9448f672c2ecc.zoom_016",
+        "target_category": "picture",
+        "verdict": "WARN",
+        "packet_id": "Z04",
+        "visible_evidence": "Two framed wall pictures with black-and-white horse/rider artwork are clearly visible in both images.",
+        "risk_or_retake": "Grounding target is ambiguous because two picture instances are visible; retake with the intended picture centered and dominant.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "target_category": "picture"
+    },
+    {
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_017",
+      "target_id": "ef6a4fe9448f672c2ecc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "zoom_017",
+      "target_prim_path": "/Root/Meshes/Furnitures/picture/model_91d6f7bd3387ffa49a896fe682a3b3ae_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          240.087,
+          100.65,
+          374.808,
+          360.903
+        ],
+        "raw_bbox_xyxy": [
+          240.087,
+          100.65,
+          374.808,
+          360.903
+        ],
+        "bbox_area_px": 35061.423,
+        "bbox_area_fraction": 0.129857,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "visual_review": {
+        "pair_id": "ef6a4fe9448f672c2ecc.zoom_017",
+        "target_category": "picture",
+        "verdict": "WARN",
+        "packet_id": "Z05",
+        "visible_evidence": "Wall-mounted framed pictures are clearly visible; the main image appears to show a horse/rider drawing or print.",
+        "risk_or_retake": "Right picture is cropped and left foreground structure distracts; retake so the full intended framed picture is visible.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "target_category": "picture"
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.zoom_016",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "zoom_016",
+      "target_prim_path": "/Root/Meshes/Animation/faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          183.525,
+          126.734,
+          416.475,
+          319.806
+        ],
+        "raw_bbox_xyxy": [
+          183.525,
+          126.734,
+          416.475,
+          319.806
+        ],
+        "bbox_area_px": 44975.996,
+        "bbox_area_fraction": 0.166578,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "visual_review": {
+        "pair_id": "c8ee4b66274b05d242c2.zoom_016",
+        "target_category": "faucet",
+        "verdict": "WARN",
+        "packet_id": "Z06",
+        "visible_evidence": "Faucet is visible near lower center in both images, with spout/handle shape identifiable.",
+        "risk_or_retake": "Strong material/lighting differences dominate the before/after view; usable for target grounding but not clean visual-fidelity evidence.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "target_category": "faucet"
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.zoom_017",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "zoom_017",
+      "target_prim_path": "/Root/Meshes/Animation/faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          215.154,
+          118.861,
+          407.249,
+          356.885
+        ],
+        "raw_bbox_xyxy": [
+          215.154,
+          118.861,
+          407.249,
+          356.885
+        ],
+        "bbox_area_px": 45723.127,
+        "bbox_area_fraction": 0.169345,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "visual_review": {
+        "pair_id": "c8ee4b66274b05d242c2.zoom_017",
+        "target_category": "faucet",
+        "verdict": "WARN",
+        "packet_id": "Z07",
+        "visible_evidence": "Faucet is clearly visible and identifiable in both images, centered near the sink/counter with the same close camera view.",
+        "risk_or_retake": "Camera is comparable, but red-on-red original materials versus black/white converted materials make the visual-domain shift too large for clean before/after preservation.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "target_category": "faucet"
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.zoom_020",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "zoom_020",
+      "target_prim_path": "/Root/Meshes/Animation/faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          271.908,
+          117.272,
+          328.092,
+          367.12
+        ],
+        "raw_bbox_xyxy": [
+          271.908,
+          117.272,
+          328.092,
+          367.12
+        ],
+        "bbox_area_px": 14037.701,
+        "bbox_area_fraction": 0.051991,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "visual_review": {
+        "pair_id": "c8ee4b66274b05d242c2.zoom_020",
+        "target_category": "faucet",
+        "verdict": "WARN",
+        "packet_id": "Z08",
+        "visible_evidence": "Faucet is clearly visible in both images; vertical body, horizontal spout, and handle/lever are identifiable from the same close-up view.",
+        "risk_or_retake": "Strong red-vs-black/white material mismatch dominates the before/after view; useful stress evidence but not clean preservation evidence.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "target_category": "faucet"
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.zoom_021",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "zoom_021",
+      "target_prim_path": "/Root/Meshes/Animation/faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          210.752,
+          117.622,
+          364.907,
+          364.757
+        ],
+        "raw_bbox_xyxy": [
+          210.752,
+          117.622,
+          364.907,
+          364.757
+        ],
+        "bbox_area_px": 38096.939,
+        "bbox_area_fraction": 0.1411,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "visual_review": {
+        "pair_id": "c8ee4b66274b05d242c2.zoom_021",
+        "target_category": "faucet",
+        "verdict": "WARN",
+        "packet_id": "Z09",
+        "visible_evidence": "Faucet is clearly visible in both images; upright body, spout, and handle are identifiable with close matched framing.",
+        "risk_or_retake": "Converted view has major red-to-black/white material/color shift, weakening visual-preservation claims while remaining useful for material-shift stress testing.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "target_category": "faucet"
+    },
+    {
+      "pair_id": "1e397951c1926c7f0a0b.zoom_016",
+      "target_id": "1e397951c1926c7f0a0b",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "zoom_016",
+      "target_prim_path": "/Root/Meshes/Furnitures/clock/model_677e29e819ce65dc31d1ceb8620e953e_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          190.419,
+          121.54,
+          409.581,
+          319.957
+        ],
+        "raw_bbox_xyxy": [
+          190.419,
+          121.54,
+          409.581,
+          319.957
+        ],
+        "bbox_area_px": 43485.436,
+        "bbox_area_fraction": 0.161057,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "visual_review": {
+        "pair_id": "1e397951c1926c7f0a0b.zoom_016",
+        "target_category": "clock",
+        "verdict": "WARN",
+        "packet_id": "Z10",
+        "visible_evidence": "Wall clock is centered, large, and identifiable in both images; circular frame, hands, and radial/axis marks are visible.",
+        "risk_or_retake": "Target is excellent for grounding, but severe material/texture/color shift prevents treating this as clean visual-preservation PASS.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "target_category": "clock"
+    },
+    {
+      "pair_id": "1e397951c1926c7f0a0b.zoom_017",
+      "target_id": "1e397951c1926c7f0a0b",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "zoom_017",
+      "target_prim_path": "/Root/Meshes/Furnitures/clock/model_677e29e819ce65dc31d1ceb8620e953e_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          226.131,
+          114.064,
+          395.354,
+          356.218
+        ],
+        "raw_bbox_xyxy": [
+          226.131,
+          114.064,
+          395.354,
+          356.218
+        ],
+        "bbox_area_px": 40978.067,
+        "bbox_area_fraction": 0.151771,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "visual_review": {
+        "pair_id": "1e397951c1926c7f0a0b.zoom_017",
+        "target_category": "clock",
+        "verdict": "WARN",
+        "packet_id": "Z11",
+        "visible_evidence": "Wall/table clock is visible and identifiable in both images; circular frame, hub, radial spokes, and hands are readable.",
+        "risk_or_retake": "Camera angle is comparable, but nearby wall/door geometry and ceiling overhang crowd the object; dark converted material and glossy red original material reduce clean visual preservation confidence.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "target_category": "clock"
+    },
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "target_id": "f35ef3d86c42446b7ddf",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "zoom_018",
+      "target_prim_path": "/Root/Meshes/Furnitures/clock/model_bf679119ea2cb383756475ddc0dcca04_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          211.647,
+          107.436,
+          370.171,
+          360.234
+        ],
+        "raw_bbox_xyxy": [
+          211.647,
+          107.436,
+          370.171,
+          360.234
+        ],
+        "bbox_area_px": 40074.474,
+        "bbox_area_fraction": 0.148424,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "visual_review": {
+        "pair_id": "f35ef3d86c42446b7ddf.zoom_018",
+        "target_category": "clock",
+        "verdict": "PASS",
+        "packet_id": "Z12",
+        "visible_evidence": "Wall clock is clearly visible on the central wall or pillar in both images; circular rim, hands, and center hub are identifiable with strongly matched viewpoint.",
+        "risk_or_retake": "Fine clock details are thin and slightly soft, and the bright area on the right is blown out, but these issues do not hide the clock.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "target_category": "clock"
+    },
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_019",
+      "target_id": "f35ef3d86c42446b7ddf",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "zoom_019",
+      "target_prim_path": "/Root/Meshes/Furnitures/clock/model_bf679119ea2cb383756475ddc0dcca04_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          198.615,
+          113.466,
+          401.385,
+          326.836
+        ],
+        "raw_bbox_xyxy": [
+          198.615,
+          113.466,
+          401.385,
+          326.836
+        ],
+        "bbox_area_px": 43265.01,
+        "bbox_area_fraction": 0.160241,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "visual_review": {
+        "pair_id": "f35ef3d86c42446b7ddf.zoom_019",
+        "target_category": "clock",
+        "verdict": "PASS",
+        "packet_id": "Z13",
+        "visible_evidence": "Clock is centered, larger, and more front-facing in both images; rim, hands, and wall placement are clear, and A/B framing is highly comparable.",
+        "risk_or_retake": "Scene appearance changes substantially under the high-contrast material condition, so the pair is best treated as grounding stress evidence rather than clean material-preservation evidence.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "target_category": "clock"
+    },
+    {
+      "pair_id": "21dde4a14ca93f539a47.zoom_016",
+      "target_id": "21dde4a14ca93f539a47",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "zoom_016",
+      "target_prim_path": "/Root/Meshes/Furnitures/pillow/model_fd19fbe9bc625e175917e78b747bd35b_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          165.274,
+          150.389,
+          434.726,
+          302.83
+        ],
+        "raw_bbox_xyxy": [
+          165.274,
+          150.389,
+          434.726,
+          302.83
+        ],
+        "bbox_area_px": 41075.644,
+        "bbox_area_fraction": 0.152132,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "visual_review": {
+        "pair_id": "21dde4a14ca93f539a47.zoom_016",
+        "target_category": "pillow",
+        "verdict": "WARN",
+        "packet_id": "Z14",
+        "visible_evidence": "Pillow is centered and identifiable in both images; rectangular cushion shape, dark border, white band, stripes, and button-like details are visible.",
+        "risk_or_retake": "Framing is matched, but saturated red glare in the original and darker shadowed converted view create a strong lighting/material-context shift that can confound fair before/after grounding comparison.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "target_category": "pillow"
+    }
+  ],
+  "excluded_pairs": [],
+  "scoring_records": [
+    {
+      "sample_id": "47aa36277a54f6ca90cc.zoom_018.original",
+      "pair_id": "47aa36277a54f6ca90cc.zoom_018",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "b2ae2a293c1b7436c2439b60793203d63b9f25895dd60654368ca03fb5ecf248"
+      },
+      "target": {
+        "bbox_xyxy": [
+          207.811,
+          105.285,
+          376.441,
+          364.938
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "47aa36277a54f6ca90cc.zoom_018.converted",
+      "pair_id": "47aa36277a54f6ca90cc.zoom_018",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "63b405a7e5b782eed71d5f679dda4de6139c249df2fcd5c9eb31df9686fdd5e6"
+      },
+      "target": {
+        "bbox_xyxy": [
+          207.811,
+          105.285,
+          376.441,
+          364.938
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "47aa36277a54f6ca90cc.zoom_019.original",
+      "pair_id": "47aa36277a54f6ca90cc.zoom_019",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "67003646a979b41eeb1b97a53d192bb3bcfd244a283b0c7b8c4c53a2f58d17cd"
+      },
+      "target": {
+        "bbox_xyxy": [
+          200.849,
+          110.376,
+          399.151,
+          333.822
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "47aa36277a54f6ca90cc.zoom_019.converted",
+      "pair_id": "47aa36277a54f6ca90cc.zoom_019",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "53611d186dc095671f157a4219d568308ecb2ad0dbeae0cef20c65fc62b92211"
+      },
+      "target": {
+        "bbox_xyxy": [
+          200.849,
+          110.376,
+          399.151,
+          333.822
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "e1cf9f0feb81aa92d8a1.zoom_016.original",
+      "pair_id": "e1cf9f0feb81aa92d8a1.zoom_016",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/e1cf9f0feb81aa92d8a1/zoom_016/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "f04b53f784442f6eba27c9000a15138e74654b656745114e59941736a75ea391"
+      },
+      "target": {
+        "bbox_xyxy": [
+          202.32,
+          109.222,
+          397.68,
+          334.861
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "e1cf9f0feb81aa92d8a1.zoom_016.converted",
+      "pair_id": "e1cf9f0feb81aa92d8a1.zoom_016",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/e1cf9f0feb81aa92d8a1/zoom_016/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "2352c06f97af846f73d3aa6cb4ae7113cbf9c27b0a1547b8db1bdb2d6604a0f7"
+      },
+      "target": {
+        "bbox_xyxy": [
+          202.32,
+          109.222,
+          397.68,
+          334.861
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "ef6a4fe9448f672c2ecc.zoom_016.original",
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_016",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_016/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "3c045d4a745a1431e9858a24428e2405f216589315f26fd22b18df25d87f59f6"
+      },
+      "target": {
+        "bbox_xyxy": [
+          209.804,
+          105.529,
+          390.196,
+          330.567
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "picture",
+        "expected_answers": [
+          "picture"
+        ]
+      },
+      "expected_answers": [
+        "picture"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "ef6a4fe9448f672c2ecc.zoom_016.converted",
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_016",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_016/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "4d8281654e5d1fd0ca2953c461822bb8fb629ec0c7e4817a60f2524969fa8170"
+      },
+      "target": {
+        "bbox_xyxy": [
+          209.804,
+          105.529,
+          390.196,
+          330.567
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "picture",
+        "expected_answers": [
+          "picture"
+        ]
+      },
+      "expected_answers": [
+        "picture"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "ef6a4fe9448f672c2ecc.zoom_017.original",
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_017",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "cb1d0588b37355d1e126ddab9fc4459a879c9bbac0d4f47be6e5d32b365bcd98"
+      },
+      "target": {
+        "bbox_xyxy": [
+          240.087,
+          100.65,
+          374.808,
+          360.903
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "picture",
+        "expected_answers": [
+          "picture"
+        ]
+      },
+      "expected_answers": [
+        "picture"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "ef6a4fe9448f672c2ecc.zoom_017.converted",
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_017",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "c5a595e3a061b169ebb4454c5a1da206b73d3dd7beb86dc9e1bc2579b52d98ae"
+      },
+      "target": {
+        "bbox_xyxy": [
+          240.087,
+          100.65,
+          374.808,
+          360.903
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "picture",
+        "expected_answers": [
+          "picture"
+        ]
+      },
+      "expected_answers": [
+        "picture"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_016.original",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_016",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_016/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "d1da6d89267720d102c77e9923e7b7fa0d2eccf1fab26042393e2719e763050e"
+      },
+      "target": {
+        "bbox_xyxy": [
+          183.525,
+          126.734,
+          416.475,
+          319.806
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_016.converted",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_016",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_016/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "c773785a4a9b5133507ca5c54f989f28745c1309c600125a1531c335fea286b0"
+      },
+      "target": {
+        "bbox_xyxy": [
+          183.525,
+          126.734,
+          416.475,
+          319.806
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_017.original",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_017",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "d53223351c14c9201ee4503718faa1f52d3b1bd14e551216440249ca1c0f8c6a"
+      },
+      "target": {
+        "bbox_xyxy": [
+          215.154,
+          118.861,
+          407.249,
+          356.885
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_017.converted",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_017",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "d5d38ecc7b9c1a85fb1133150c63d23bc85546065bb60cc09f68eae973dac776"
+      },
+      "target": {
+        "bbox_xyxy": [
+          215.154,
+          118.861,
+          407.249,
+          356.885
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_020.original",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_020",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_020/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "0aaa8217a752e7ee1aab41628c7849d03bd4c2a467084d46570368a9c2d44e59"
+      },
+      "target": {
+        "bbox_xyxy": [
+          271.908,
+          117.272,
+          328.092,
+          367.12
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_020.converted",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_020",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_020/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "ac24bfc06d759aa3f241a281c718cf1f1c81bb9b468c96ce11aa7ea84a21db76"
+      },
+      "target": {
+        "bbox_xyxy": [
+          271.908,
+          117.272,
+          328.092,
+          367.12
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_021.original",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_021",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_021/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "9354bc4d98f2629ad1d4081fa232629e0c54b7096387642c7d90fb59ebc147ad"
+      },
+      "target": {
+        "bbox_xyxy": [
+          210.752,
+          117.622,
+          364.907,
+          364.757
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_021.converted",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_021",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_021/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "73b98fdfae0a0059bd1fed7237bc28baf2c05171fb3559ece31f9d4366d77cf3"
+      },
+      "target": {
+        "bbox_xyxy": [
+          210.752,
+          117.622,
+          364.907,
+          364.757
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "1e397951c1926c7f0a0b.zoom_016.original",
+      "pair_id": "1e397951c1926c7f0a0b.zoom_016",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/zoom_016/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "1cc66edb3d4743724c5025b40c22eb4e8de78b32f1d504b0bd0f986f62ed30e6"
+      },
+      "target": {
+        "bbox_xyxy": [
+          190.419,
+          121.54,
+          409.581,
+          319.957
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "1e397951c1926c7f0a0b.zoom_016.converted",
+      "pair_id": "1e397951c1926c7f0a0b.zoom_016",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/zoom_016/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "3209fb5c0dd0183ffa6a9f74778aa482464742c38b3432fdb5674e908ddc360c"
+      },
+      "target": {
+        "bbox_xyxy": [
+          190.419,
+          121.54,
+          409.581,
+          319.957
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "1e397951c1926c7f0a0b.zoom_017.original",
+      "pair_id": "1e397951c1926c7f0a0b.zoom_017",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/zoom_017/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "0c65045c2c205b0c8e403d23d4471b198e1ffc57d70f3f7463f5d2df3a02cd88"
+      },
+      "target": {
+        "bbox_xyxy": [
+          226.131,
+          114.064,
+          395.354,
+          356.218
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "1e397951c1926c7f0a0b.zoom_017.converted",
+      "pair_id": "1e397951c1926c7f0a0b.zoom_017",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/zoom_017/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "5b265aaf62d09f81cac096b0c35cc69937198229dc3a878d05b21b9c730eac78"
+      },
+      "target": {
+        "bbox_xyxy": [
+          226.131,
+          114.064,
+          395.354,
+          356.218
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "f35ef3d86c42446b7ddf.zoom_018.original",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "f7d56e639479206b61d4db934d735db39d73f21ac781418e37e1c21af51e48d5"
+      },
+      "target": {
+        "bbox_xyxy": [
+          211.647,
+          107.436,
+          370.171,
+          360.234
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "PASS",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "f35ef3d86c42446b7ddf.zoom_018.converted",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "d636ee6e45b5f7927924675c414e9080f4c01746117da13515d2f16573fe71b7"
+      },
+      "target": {
+        "bbox_xyxy": [
+          211.647,
+          107.436,
+          370.171,
+          360.234
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "PASS",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "f35ef3d86c42446b7ddf.zoom_019.original",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_019",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "0b541ce01f1a5cd925f0e456abe4304a2c0266a226f03fcb163a0ff39537bceb"
+      },
+      "target": {
+        "bbox_xyxy": [
+          198.615,
+          113.466,
+          401.385,
+          326.836
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "PASS",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "f35ef3d86c42446b7ddf.zoom_019.converted",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_019",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "115bcdd6650870cdfb36dae8f8e5c66fe9135ccd9f3d9ffc7d8ed97af16fd3b6"
+      },
+      "target": {
+        "bbox_xyxy": [
+          198.615,
+          113.466,
+          401.385,
+          326.836
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "PASS",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "21dde4a14ca93f539a47.zoom_016.original",
+      "pair_id": "21dde4a14ca93f539a47.zoom_016",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/21dde4a14ca93f539a47/zoom_016/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "9897f4da2929e4d1f2278eebe5a29c29d6813d8049dedb23ec94f59c7d8b831e"
+      },
+      "target": {
+        "bbox_xyxy": [
+          165.274,
+          150.389,
+          434.726,
+          302.83
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "pillow",
+        "expected_answers": [
+          "pillow"
+        ]
+      },
+      "expected_answers": [
+        "pillow"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    },
+    {
+      "sample_id": "21dde4a14ca93f539a47.zoom_016.converted",
+      "pair_id": "21dde4a14ca93f539a47.zoom_016",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/21dde4a14ca93f539a47/zoom_016/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "7b95218824fc85ef2d04ff6eeae5c21e266120175c6988ffdb5c1bf1d6db1e88"
+      },
+      "target": {
+        "bbox_xyxy": [
+          165.274,
+          150.389,
+          434.726,
+          302.83
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "pillow",
+        "expected_answers": [
+          "pillow"
+        ]
+      },
+      "expected_answers": [
+        "pillow"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+        "stress_interpretation": "material_shift_stress_not_clean_preservation"
+      },
+      "claim_boundary": "stress_input_manifest_only_not_final_model_metric_evidence",
+      "visual_review": {
+        "verdict": "WARN",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      }
+    }
+  ],
+  "source_projection_report_summary": {
+    "selection_mode": "explicit_pair_ids",
+    "selected_pair_count": 14,
+    "recommended_pair_count": 14,
+    "projection_ok_pair_count": 14,
+    "projection_blocked_pair_count": 0,
+    "scoring_record_count": 28,
+    "image_width": 600,
+    "image_height": 450,
+    "min_area_px": 1000.0,
+    "status_counts": {
+      "projection_ok": 14
+    },
+    "claim_boundary": "projected_bbox_labels_only_requires_visual_or_depth_qa_before_final_vlm_claims"
+  },
+  "inputs": {
+    "projection_report": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_target_projection_qa_report.json",
+      "hash_sha256": "5bfff2c7cbe24dbafd0bae79a55b40c70e709eb4eab7d89750aecf5922580026"
+    },
+    "visual_review_reports": [
+      {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+        "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+      }
+    ],
+    "protocol": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/protocol.yaml",
+      "hash_sha256": "3a0a4919172be3cf8806b068f4ba12339ef28e1a4b0472a71e6e563751bcbed6"
+    },
+    "predictions_path": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl",
+      "exists": false
+    },
+    "score_summary_path": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/stress_score_summary.json",
+      "exists": false
+    },
+    "runner": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+      "hash_sha256": "51c4fd9751a66392e4577948a75c873d52fa293540e822e0abdebc5893fc7c7d"
+    },
+    "scorer": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
+      "hash_sha256": "25b0d66b288461c35ab480c6671e4bf555345431b46e3ae1be51c44f5248551b"
+    }
+  },
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_stress_vlm_run_manifest.py"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_stress_vlm_run_manifest.py",
+    "script_hash_sha256": "7a47b69a1714773b12a5a3a19aeb789feadcfd7e855ed7e2424b534c2415763c",
+    "git_commit": "b2a0ba0ff4d81dc9526e1e7a4a5e1614314304db",
+    "git_status_porcelain": [
+      " M docs/records/README.md",
+      " M paper/EXPERIMENT_CHECKLIST.md",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/README.md",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/protocol.yaml",
+      " M paper/shared/evidence/results_manifest.yaml",
+      "?? 4 untracked files omitted from provenance"
+    ]
+  }
+}

@@ -78,8 +78,8 @@ paper/
 | 顺序 | 门槛 | 当前状态 | 完成标准 |
 |---|---|---|---|
 | 1 | 全量 no-MDL 数据集 | ✅ 已完成并验证 | `full_nomdl_multi_root_run_report.json` 记录 `dry_run=false`、99 个顶层 raw scene 转换完成，且 `full_nomdl_apply_verification_report.json` 记录 `passed=true`、原始 `/cpfs/user/zhuzihou/assets/zzh-grscenes` 没有 `_noMDL` sidecar 污染 |
-| 2 | 原始/简化成对渲染 | 🔄 部分完成 | 23 个 unique target x 多视角的 original/no-MDL 成对图生成完成，图像哈希、相机、目标 bbox/point 投影全部入账；当前 clean preservation pool 为 15 PASS pair，仍低于 20-pair final gate；另有 14 个 zoom stress pair 通过 render/projection，其中 2 PASS、12 WARN，适合作为材质变化压力集 |
-| 3 | VLM/下游评测 | 🔄 15-pair clean-pool + 14-pair zoom stress 双模型 pilot 已完成 | `canonical_vlm_run_manifest.json` 通过 final gate 后，再生成 canonical `predictions.jsonl`、`score_summary.json`、必要的 InternNav/VL-LN 扩展结果；当前 manifest 标记 `pilot_only` 且 `final_benchmark_claimable=false`，已有 `probes/*`、`canonical_probes/*`、`clean_pool_probes/*` 和 `zoom_stress_probes/*` 只能当 pilot/protocol 诊断 |
+| 2 | 原始/简化成对渲染 | 🔄 部分完成 | 23 个 unique target x 多视角的 original/no-MDL 成对图生成完成，图像哈希、相机、目标 bbox/point 投影全部入账；当前 clean preservation pool 为 15 PASS pair，仍低于 20-pair final gate；另有 14 个 zoom stress pair 通过 render/projection，其中 2 PASS、12 WARN，已被 `stress_vlm_run_manifest.json` 冻结为材质变化压力集 |
+| 3 | VLM/下游评测 | 🔄 15-pair clean-pool + 14-pair zoom stress 双模型 pilot 已完成 | `canonical_vlm_run_manifest.json` 通过 clean final gate 后，再生成 canonical `predictions.jsonl`、`score_summary.json`；`stress_vlm_run_manifest.json` 当前 model-run-ready=true，但需扩到至少 30 stress pairs 并生成 canonical `stress_predictions.jsonl`、`stress_score_summary.json` 后才能作为 final stress benchmark；必要时再追加 InternNav/VL-LN 扩展结果 |
 | 4 | 图表和结论 | 🔄 clean-pool/zoom-stress pilot 表、VLM qualitative figure、coordinate ablation、appendix failure taxonomy 已进入论文系统 | 质量图、VLM 表、失败案例/定性图、trade-off 结论全部进入 `paper/shared/figures/`、`paper/shared/tables/` 和 `results_manifest.yaml`；final VLM 表只能从 manifest 标记为 final-claimable 的 run 生成，当前 PASS-only pilot 表、`canonical_probes/` rerun、clean-pool 15-pair 表、zoom-stress 表、coordinate ablation、failure taxonomy 和 `fig_vlm_grounding_cases` 只能作为 pilot/protocol diagnostic |
 | 5 | 论文写作与审稿式自查 | ⬜ 未完成 | ACL/AAAI wrapper 能编译，Abstract/Intro/Method/Experiments/Discussion/Limitations 与证据一致，完成至少一轮 reviewer-style 反向审阅 |
 
@@ -91,8 +91,11 @@ Qwen2.5-VL 第二后端也能跑通，但暴露了两个协议问题：历史直
 `addCriterion` 片段；冻结 `structured_text` rerun 下，坐标语义仍不清楚，当前 raw
 image-space box 解释比 normalized-1000 scaling 更好。
 `canonical_vlm_run_manifest.json` 已把 4 个 PASS pair、11 个 WARN retake
-candidate、6 个 FAIL 排除样本和 claim gate 串起来；它允许继续做 pilot
-model run，但明确挡住 final benchmark claim。
+candidate、6 个 FAIL 排除样本和 clean claim gate 串起来；它允许继续做 pilot
+model run，但明确挡住 clean final benchmark claim。`stress_vlm_run_manifest.json`
+也已经把 14 个 target-visible zoom stress pair、结构化 prompt/坐标协议和 stress
+claim gate 串起来；它允许继续跑受控 stress model run，但也明确挡住 final stress
+benchmark claim。
 15-pair clean-pool 已补跑 Gemma4 与 Qwen2.5-VL；Gemma4 的答案稳定，但
 normalized-1000 点命中从 original 8/15 降到 converted 6/15。Qwen 仍更像
 raw image-space 坐标，适合作为协议敏感性证据。

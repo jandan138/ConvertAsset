@@ -188,6 +188,21 @@ paper_claim_gate:
   require_registered_outputs: true
   require_source_dataset: /cpfs/user/zhuzihou/assets/zzh-grscenes
   disallow_benchmark_claims_from_engineering_validation_dataset: true
+  clean_preservation_gate:
+    minimum_pass_pairs_for_final_benchmark: 20
+    canonical_manifest: paper/shared/evidence/raw/grscene_vlm_grounding/canonical_vlm_run_manifest.json
+    canonical_predictions: paper/shared/evidence/raw/grscene_vlm_grounding/predictions.jsonl
+    canonical_score_summary: paper/shared/evidence/raw/grscene_vlm_grounding/score_summary.json
+  material_shift_stress_gate:
+    accepted_visual_review_verdicts:
+      - PASS
+      - WARN
+    minimum_stress_pairs_for_final_benchmark: 30
+    minimum_target_categories_for_final_benchmark: 5
+    canonical_manifest: paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest.json
+    canonical_predictions: paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl
+    canonical_score_summary: paper/shared/evidence/raw/grscene_vlm_grounding/stress_score_summary.json
+    claim_boundary: stress_input_manifest_only_not_final_model_metric_evidence
 reporting:
   raw_dir: paper/shared/evidence/raw/grscene_vlm_grounding
   predictions: paper/shared/evidence/raw/grscene_vlm_grounding/predictions.jsonl
