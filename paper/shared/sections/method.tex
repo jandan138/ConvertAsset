@@ -73,8 +73,9 @@ geometry, lighting, and camera parameters at $1024 \times 1024$ resolution to
 isolate the effect of material representation.
 
 \paragraph{GRScenes VLM Pilot Protocol.}
-For the vision-language grounding extension, we use the original GRScenes scene
-tree read-only and materialize converted counterparts in a scratch workspace.
+For the vision-language grounding extension, we use the original
+GRScenes~\cite{Wang2024GRUtopia} scene tree read-only and materialize
+converted counterparts in a scratch workspace.
 Target objects are localized from the scene USDs, projected into matched camera
 views, and filtered by blind visual QA before model evaluation. We keep two
 diagnostic pools separate: a 15-pair clean pool in which the target remains

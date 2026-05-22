@@ -11,7 +11,9 @@ protocols and model sensitivity, but they do not yet establish broad downstream
 benefits for language, vision-language, or embodied-agent models. The ACL
 version therefore still requires a larger canonical VLM run, clearer coordinate
 semantics for all model backends, and any navigation or manipulation extension
-needed for embodied-agent claims. The current pipeline also depends on Isaac
+needed for embodied-agent claims. Any navigation extension should be evaluated
+with an explicit navigation framework such as InternNav/DualVLN~\cite{Wei2026Ground},
+not inferred from image-level probes alone. The current pipeline also depends on Isaac
 Sim and USD assets whose licenses, material graphs, and renderer settings may
 differ across datasets, so any general guidelines should be validated on a
 larger and more heterogeneous scene corpus.

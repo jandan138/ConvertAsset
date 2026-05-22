@@ -101,10 +101,12 @@ zoom stress pool 也已补跑 Gemma4 与 Qwen2.5-VL；Gemma4 在目标更大的 
 point hit 从 original 9/14 降到 converted 6/13。这一轮已经把 clean-pool 表、
 zoom-stress 表、VLM grounding qualitative figure、coordinate ablation 和 appendix failure taxonomy
 接入论文系统，但它们仍只能支撑
-pilot/protocol diagnostic。下一步需要做论文决策：若主线定位为 clean
-preservation benchmark，就继续补 clean PASS set 到 20+；若主线定位为
-material-shift stress for downstream VLM grounding，就把 zoom stress 结果提升为
-核心故事并扩展 failure taxonomy / material-shift ablation。
+pilot/protocol diagnostic。经过两轮独立 reviewer-style 审阅后，当前推荐主线
+不再是单纯追 clean preservation benchmark，而是把 ACL 故事收束为
+material/texture/rendering perturbations 如何影响 VLM grounding protocol
+reliability。clean PASS set 继续作为 sanity-control gate；zoom stress、
+coordinate ablation 和 failure taxonomy 应升级为主故事证据，并需要继续扩展为
+预先定义 bins、样本数和最终 scoring contract 的 controlled stress benchmark。
 
 ---
 

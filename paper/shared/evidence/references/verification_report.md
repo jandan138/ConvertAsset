@@ -1,6 +1,15 @@
 # Reference Verification Report
 
-Verified against online sources on 2026-03-06 for the current [`paper/shared/references.bib`](paper/shared/references.bib).
+Verified against online sources on 2026-03-06 for the then-current
+[`paper/shared/references.bib`](paper/shared/references.bib). The 2026-05-22
+addendum below verifies references added for the ACL/VLM route.
+
+## 2026-05-22 ADDENDUM
+
+| Key | Title | 判定 | Canonical source URL | 一句话理由 |
+|---|---|---|---|---|
+| `Wang2024GRUtopia` | GRUtopia: Dream General Robots in a City at Scale | `VERIFIED` | [arXiv](https://arxiv.org/abs/2407.10943) | arXiv record explicitly describes GRScenes as the scene dataset in GRUtopia and is the correct source for the GRScenes benchmark substrate used in the ACL/VLM route. |
+| `Wei2026Ground` | Ground Slow, Move Fast: A Dual-System Foundation Model for Generalizable Vision-Language Navigation | `VERIFIED` | [OpenReview](https://openreview.net/forum?id=GK4rznYwhn) / [arXiv](https://arxiv.org/abs/2512.08186) | OpenReview/InternNav cite this as the ICLR 2026 DualVLN paper; it is used only as a downstream navigation-framework reference, not as evidence from our experiments. |
 
 ## FORMAL (17)
 

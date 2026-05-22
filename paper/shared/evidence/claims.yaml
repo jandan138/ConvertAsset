@@ -50,10 +50,67 @@ claims:
       - paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/qwen25_canonical_pass_only_predictions.jsonl.metadata.json
       - paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/qwen25_canonical_pass_only_score_summary.json
     scope: "Pilot-only manifest-aligned rerun over four blind-visual-QA PASS original/converted GRScenes pairs; not root canonical `predictions.jsonl` / `score_summary.json`, and not final benchmark evidence while `final_benchmark_claimable=false`."
+  - id: grscenes_vlm_clean_pool_pass15_pilot
+    statement: "In the 15-pair clean visual-QA PASS GRScenes pilot, Gemma4 answered 15/15 original and 15/15 converted renders correctly; its normalized-1000 point-in-box hits were 8/15 original and 6/15 converted. Qwen2.5-VL structured-text probing produced 23/30 scorable answer rows, with answer hits of 8/11 original and 9/12 converted, raw point hits of 5/14 original and 5/15 converted, and normalized-1000 point hits of 0/14 original and 0/15 converted."
+    sources:
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_pass15_projection_qa_report.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/gemma4_clean_pool_pass15_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/gemma4_clean_pool_pass15_predictions.jsonl.metadata.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/gemma4_clean_pool_pass15_score_summary.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/qwen25_clean_pool_pass15_structured_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/qwen25_clean_pool_pass15_structured_predictions.jsonl.metadata.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/qwen25_clean_pool_pass15_structured_score_summary.json
+      - paper/shared/tables/grscenes_vlm_clean_pool_pass15.csv
+      - paper/shared/tables/tab_grscenes_vlm_clean_pool_pass15.tex
+    scope: "Pilot-only 15-pair clean visual-QA PASS pool. This supports a narrow answer-preservation/control diagnostic, but it is below the 20-pair final clean-pool gate and cannot be cited as final GRScenes benchmark performance."
+  - id: grscenes_vlm_zoom_stress_pilot
+    statement: "In the 14-pair zoom material-shift GRScenes stress pilot, Gemma4 answered 14/14 original and 14/14 converted renders correctly and reached normalized-1000 point hits of 11/14 original and 13/14 converted. Qwen2.5-VL answered 12/14 original and 10/12 converted scorable rows correctly; its raw point hits dropped from 9/14 original to 6/13 converted, while normalized-1000 point hits were 3/14 original and 3/13 converted."
+    sources:
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_target_projection_qa_report.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/gemma4_zoom_stress_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/gemma4_zoom_stress_predictions.jsonl.metadata.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/gemma4_zoom_stress_score_summary.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_predictions.jsonl.metadata.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_score_summary.json
+      - paper/shared/tables/grscenes_vlm_zoom_stress.csv
+      - paper/shared/tables/tab_grscenes_vlm_zoom_stress.tex
+    scope: "Pilot-only material/color/lighting-shift stress evidence. This is evidence about protocol and model sensitivity under visible render perturbations, not clean material-preservation evidence and not final benchmark performance."
+  - id: grscenes_vlm_coordinate_ablation
+    statement: "All clean-pool and zoom-stress structured VLM probes requested normalized-1000 coordinates; raw-image point scoring is diagnostic only. Gemma4 scores better under normalized-1000 scoring, while Qwen2.5-VL exposes unresolved coordinate semantics: clean raw 5/14 original and 5/15 converted versus normalized-1000 0/14 and 0/15; zoom raw 9/14 original and 6/13 converted versus normalized-1000 3/14 and 3/13."
+    sources:
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/gemma4_clean_pool_pass15_score_summary.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/gemma4_clean_pool_pass15_predictions.jsonl.metadata.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/qwen25_clean_pool_pass15_structured_score_summary.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/qwen25_clean_pool_pass15_structured_predictions.jsonl.metadata.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/gemma4_zoom_stress_score_summary.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/gemma4_zoom_stress_predictions.jsonl.metadata.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_score_summary.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_predictions.jsonl.metadata.json
+      - paper/shared/tables/grscenes_vlm_coordinate_ablation.csv
+      - paper/shared/tables/tab_grscenes_vlm_coordinate_ablation.tex
+    scope: "Appendix protocol diagnostic for coordinate-frame sensitivity. Raw-image point counts must not be promoted to the primary final metric unless the prompt contract is changed and rerun."
+  - id: grscenes_vlm_failure_taxonomy
+    statement: "The selected failure taxonomy illustrates normalized/raw point flips, answer flips, parse or truncated answers, null converted answers, and a converted-raw-point counterexample drawn from checked clean-pool and zoom-stress VLM pilot artifacts."
+    sources:
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/gemma4_clean_pool_pass15_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/gemma4_clean_pool_pass15_score_summary.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/qwen25_clean_pool_pass15_structured_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/qwen25_clean_pool_pass15_structured_score_summary.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_score_summary.json
+      - paper/shared/tables/grscenes_vlm_failure_taxonomy.csv
+      - paper/shared/tables/tab_grscenes_vlm_failure_taxonomy.tex
+    scope: "Illustrative selected cases only. This is not a final failure-rate distribution and should not be summarized as population-level model performance."
 review_requirements:
   - "Re-check every numerical statement after AAAI 2027 narrative edits."
   - "Update this file in the same change as any result, table, figure, seed, or claim change."
   - "Treat `grscenes_vlm_gemma4_pass_only_pilot` as a historical pre-freeze pilot probe; prefer `grscenes_vlm_canonical_frozen_protocol_pilot` when discussing the frozen prompt contract."
   - "Treat `grscenes_vlm_qwen25_pass_only_diagnostic` as historical response-format evidence; prefer the canonical frozen-protocol rerun when discussing the current Qwen coordinate policy."
   - "Do not promote `grscenes_vlm_canonical_frozen_protocol_pilot` beyond pilot evidence until the PASS pool is expanded and root canonical score files are produced from a final-claimable manifest."
+  - "Do not promote `grscenes_vlm_clean_pool_pass15_pilot` beyond a pilot control unless the clean pool reaches the final gate and the canonical manifest records `final_benchmark_claimable=true`."
+  - "Frame `grscenes_vlm_zoom_stress_pilot` as material-shift stress/protocol-sensitivity evidence unless a future controlled stress benchmark defines bins, sample counts, and final scoring ahead of time."
+  - "Treat raw-image coordinate scores in `grscenes_vlm_coordinate_ablation` as diagnostics for unresolved coordinate semantics, not as primary final VLM metrics."
+  - "Treat `grscenes_vlm_failure_taxonomy` as selected qualitative examples, not an empirical failure distribution."
   - "Do not generate final VLM performance tables from any run whose `canonical_vlm_run_manifest.json` claim gate has `final_benchmark_claimable=false`."
