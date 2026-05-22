@@ -487,6 +487,9 @@ composition dependency closure and recursive no-MDL sidecar write set:
 python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/plan_full_dependency_closure.py
 ```
 
+The default scan is intentionally unbounded. Use `--max-usd-layers N` only for
+diagnostic dry-runs; a bounded scan cannot clear the full-route safety gate.
+
 Default output:
 
 ```text

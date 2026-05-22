@@ -48,6 +48,10 @@ PYTHONDONTWRITEBYTECODE=1 python \
   paper/shared/evidence/experiments/06_grscenes_vlm_grounding/plan_full_dependency_closure.py
 ```
 
+The CLI default is now the production route: `--max-usd-layers 0`, meaning no
+USD layer cap. Use a positive `--max-usd-layers` only for diagnostic dry-runs,
+because any bounded scan keeps the full-route scan gate unresolved.
+
 Output:
 
 ```text
@@ -110,13 +114,17 @@ the complete counts but caps long record arrays. Use `summary` and
 `report_limits` for paper/engineering decisions, and use the capped arrays only
 as debugging samples.
 
-## Next Gate
+## Historical Next Gate
 
-To advance the ACL material-generalization experiment, the full route now needs
-the guarded no-MDL apply run:
+At this checkpoint, the full route still needed the guarded no-MDL apply run:
 
 Only after the runner-ready gate is checked should a guarded `--apply` no-MDL
 conversion run be used as paper evidence.
+
+That apply gate was completed later on 2026-05-21 and is superseded by
+`docs/records/2026-05-21-grscenes-full-nomdl-apply.md` and
+`docs/records/2026-05-22-full-route-status-audit.md`. The current next gate is
+paired rendering, not another full no-MDL apply.
 
 ## Verification
 

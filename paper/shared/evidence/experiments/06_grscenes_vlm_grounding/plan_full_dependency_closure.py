@@ -356,7 +356,7 @@ def _scan_sdf_dependency_records(layer_path: Path) -> list[dict[str, Any]]:
     # This C++ helper is much faster than Python-recursing every PrimSpec in
     # large GRScenes root layers, and it covers composition arcs authored in the
     # layer. Keep the slower helpers above available for future targeted
-    # diagnostics, but use the bounded production path here.
+    # diagnostics, but use the Sdf production path here.
     for asset_path in layer.GetCompositionAssetDependencies():
         records.append(
             {
@@ -714,7 +714,7 @@ def build_full_dependency_closure_report(
     }
 
 
-def main() -> int:
+def build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--plan", type=Path, default=DEFAULT_PLAN)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUTPUT)
@@ -723,8 +723,8 @@ def main() -> int:
     parser.add_argument(
         "--max-usd-layers",
         type=int,
-        default=5000,
-        help="Bound recursive USD layer scans; use 0 for no limit",
+        default=0,
+        help="Bound recursive USD layer scans; default 0 means no limit",
     )
     parser.add_argument(
         "--max-report-records",
@@ -738,6 +738,11 @@ def main() -> int:
         default=1000,
         help="Print scan progress to stderr every N visited USD layers; use 0 to disable",
     )
+    return parser
+
+
+def main() -> int:
+    parser = build_arg_parser()
     args = parser.parse_args()
 
     plan = _load_json(args.plan)

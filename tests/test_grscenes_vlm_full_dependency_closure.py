@@ -263,6 +263,15 @@ def test_report_keeps_scan_blockers_when_layer_limit_is_reached(tmp_path: Path) 
     assert "recursive_nomdl_output_collision_scan_missing" not in report["safety"]["satisfied_apply_blockers"]
 
 
+def test_cli_default_max_usd_layers_is_unbounded() -> None:
+    module = load_closure_module()
+    parser = module.build_arg_parser()
+
+    args = parser.parse_args([])
+
+    assert args.max_usd_layers == 0
+
+
 def test_report_blocks_missing_recursive_scratch_inputs(tmp_path: Path) -> None:
     module = load_closure_module()
     plan, paths = make_plan(tmp_path)
