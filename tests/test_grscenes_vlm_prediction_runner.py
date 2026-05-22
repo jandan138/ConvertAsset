@@ -57,6 +57,16 @@ def test_parse_prediction_text_reports_unparsed_output() -> None:
     assert parsed["answer"] is None
 
 
+def test_build_prompt_can_request_normalized_1000_coordinates(tmp_path: Path) -> None:
+    module = load_runner_module()
+
+    prompt = module.build_prompt(scoring_record(tmp_path / "render.png"), coordinate_frame="normalized_1000")
+
+    assert "normalized 0-1000 coordinate frame" in prompt
+    assert "x=0 is the left image edge" in prompt
+    assert "raw pixel" not in prompt.lower()
+
+
 def test_run_predictions_preserves_record_and_adds_model_metadata(tmp_path: Path) -> None:
     module = load_runner_module()
     image_path = tmp_path / "render.png"
@@ -70,6 +80,7 @@ def test_run_predictions_preserves_record_and_adds_model_metadata(tmp_path: Path
         model_checkpoint="/models/qwen",
         temperature=0.0,
         max_new_tokens=64,
+        coordinate_frame="normalized_1000",
     )
 
     assert len(rows) == 1
@@ -80,6 +91,8 @@ def test_run_predictions_preserves_record_and_adds_model_metadata(tmp_path: Path
     assert row["prediction"]["point_xy"] == [25.0, 40.0]
     assert row["prediction"]["answer"] == "cup"
     assert row["prediction"]["parse_status"] == "parsed"
+    assert row["prediction"]["coordinate_frame_requested"] == "normalized_1000"
+    assert row["prompt"]["coordinate_frame"] == "normalized_1000"
     assert row["prompt"]["text"].startswith("You are evaluating a rendered indoor scene.")
     assert row["image"]["hash_sha256"]
     assert engine.messages[0][0]["content"][0]["type"] == "text"
@@ -100,6 +113,7 @@ def test_write_predictions_writes_jsonl_and_metadata(tmp_path: Path) -> None:
         model_checkpoint="/models/qwen",
         temperature=0.0,
         max_new_tokens=64,
+        coordinate_frame="normalized_1000",
     )
 
     module.write_predictions(
@@ -108,6 +122,7 @@ def test_write_predictions_writes_jsonl_and_metadata(tmp_path: Path) -> None:
         projection_report=projection_report,
         backend="local_hf_qwen",
         model_checkpoint="/models/qwen",
+        coordinate_frame="normalized_1000",
         argv=["--test"],
     )
 
@@ -115,6 +130,7 @@ def test_write_predictions_writes_jsonl_and_metadata(tmp_path: Path) -> None:
     metadata = json.loads(out.with_suffix(out.suffix + ".metadata.json").read_text(encoding="utf-8"))
     assert written[0]["prediction"]["answer"] == "cup"
     assert metadata["backend"] == "local_hf_qwen"
+    assert metadata["coordinate_frame"] == "normalized_1000"
     assert metadata["claim_boundary"] == "model_prediction_scores_require_model_provenance_review"
     assert len(metadata["input_projection_report"]["hash_sha256"]) == 64
     assert len(metadata["output_jsonl"]["hash_sha256"]) == 64

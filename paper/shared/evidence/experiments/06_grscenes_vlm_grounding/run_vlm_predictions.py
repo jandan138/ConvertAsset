@@ -88,19 +88,32 @@ def _finite_point(values: Any) -> list[float] | None:
     return point
 
 
-def build_prompt(record: dict[str, Any]) -> str:
+def build_prompt(record: dict[str, Any], *, coordinate_frame: str = "normalized_1000") -> str:
     image = record.get("image") or {}
     target = record.get("target") or {}
     category = str(target.get("category") or "target object")
     width = image.get("width", "unknown")
     height = image.get("height", "unknown")
+    if coordinate_frame == "pixel":
+        coordinate_instruction = (
+            "The point should be near the visual center of the target object in raw pixel coordinates. "
+            "Use x from the left image edge and y from the top image edge."
+        )
+    elif coordinate_frame == "normalized_1000":
+        coordinate_instruction = (
+            "The point should be near the visual center of the target object in a normalized 0-1000 coordinate frame. "
+            "In this frame, x=0 is the left image edge, x=1000 is the right image edge, "
+            "y=0 is the top image edge, and y=1000 is the bottom image edge."
+        )
+    else:
+        raise ValueError(f"Unsupported coordinate_frame: {coordinate_frame}")
     return (
         "You are evaluating a rendered indoor scene. Locate the target object.\n"
         f"Target category: {category}\n"
         f"Image size: {width} x {height} pixels.\n"
         "Return only a JSON object with this exact shape:\n"
         '{"point_xy": [x, y], "answer": "target category"}\n'
-        "The point should be near the visual center of the target object in pixel coordinates. "
+        f"{coordinate_instruction} "
         "Do not include markdown, explanation, or extra keys."
     )
 
@@ -163,18 +176,20 @@ def run_predictions(
     model_checkpoint: str,
     temperature: float,
     max_new_tokens: int,
+    coordinate_frame: str = "normalized_1000",
 ) -> list[dict[str, Any]]:
     rows = []
     for record in records:
-        prompt = build_prompt(record)
+        prompt = build_prompt(record, coordinate_frame=coordinate_frame)
         messages = build_messages(record, prompt)
         raw_text = engine.generate(messages)
         parsed = parse_prediction_text(raw_text)
         row = dict(record)
         row["image"] = _image_with_hash(record)
-        row["prompt"] = {"type": "s1_point_json", "text": prompt}
+        row["prompt"] = {"type": "s1_point_json", "coordinate_frame": coordinate_frame, "text": prompt}
         row["prediction"] = {
             "backend": backend,
+            "coordinate_frame_requested": coordinate_frame,
             "point_xy": parsed["point_xy"],
             "answer": parsed["answer"],
             "parse_status": parsed["parse_status"],
@@ -194,6 +209,7 @@ def write_predictions(
     projection_report: Path,
     backend: str,
     model_checkpoint: str,
+    coordinate_frame: str = "normalized_1000",
     argv: list[str] | None = None,
 ) -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -207,6 +223,7 @@ def write_predictions(
         "prediction_count": len(rows),
         "backend": backend,
         "model_checkpoint": model_checkpoint,
+        "coordinate_frame": coordinate_frame,
         "claim_boundary": MODEL_CLAIM_BOUNDARY,
         "generated_at_utc": _utc_now(),
         "input_projection_report": {
@@ -580,6 +597,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--api-max-retries", type=int, default=2)
     parser.add_argument("--temperature", type=float, default=0.0)
     parser.add_argument("--max-new-tokens", type=int, default=128)
+    parser.add_argument("--coordinate-frame", choices=["normalized_1000", "pixel"], default="normalized_1000")
     parser.add_argument("--dtype", default="bfloat16")
     parser.add_argument("--attn-implementation", default="eager")
     parser.add_argument("--device-map", default="auto")
@@ -608,6 +626,7 @@ def main(argv: list[str] | None = None) -> int:
         model_checkpoint=args.model_path,
         temperature=args.temperature,
         max_new_tokens=args.max_new_tokens,
+        coordinate_frame=args.coordinate_frame,
     )
     write_predictions(
         rows,
@@ -615,6 +634,7 @@ def main(argv: list[str] | None = None) -> int:
         projection_report=args.projection_report,
         backend=args.model_backend,
         model_checkpoint=args.model_path,
+        coordinate_frame=args.coordinate_frame,
         argv=argv,
     )
     print(f"Wrote {args.out} predictions={len(rows)} backend={args.model_backend}")

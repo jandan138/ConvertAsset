@@ -749,6 +749,7 @@ python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predi
   --out paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen_limit1_predictions.jsonl \
   --model-backend local_hf_qwen \
   --model-path /cpfs/shared/simulation/zhuzihou/models/Qwen2.5-VL-7B-Instruct \
+  --coordinate-frame normalized_1000 \
   --limit 1
 ```
 
@@ -760,6 +761,14 @@ record selections, and checks image files before loading a local model. It also 
 `openai_compatible` when a real API base URL plus key environment variable are
 available. The script uses lazy imports for local model backends, so importing
 or testing it does not load heavy VLM weights.
+
+For new probes after 2026-05-22, use `--coordinate-frame normalized_1000`
+unless a run is explicitly testing raw pixel prompting. This makes the prompt,
+prediction metadata, and scorer interpretation align with the behavior seen in
+the Gemma4 pilot: models often emit 0-1000 visual coordinates even when asked
+for pixels. The scorer still reports raw pixel metrics as diagnostics, but the
+current small real-model probe comparisons should discuss normalized-1000
+point-in-box as the primary point metric.
 
 The first live probe has now been run with `local_gemma4_multimodal` on the
 visually accepted P01 bottle pair:
@@ -774,13 +783,18 @@ CUDA_VISIBLE_DEVICES=0 PYTHONUNBUFFERED=1 \
   --model-path /cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8 \
   --sample-id c27086f557d316584264.view_001.original \
   --sample-id c27086f557d316584264.view_001.converted \
+  --coordinate-frame pixel \
   --max-new-tokens 64 \
   --force
 ```
 
-The Qwen route is not yet the first choice in this repo because the currently
-checked Python environments do not provide `qwen_vl_utils`. The Gemma4 route
-loads successfully on the local RTX 4090. Unsloth may create
+The Qwen route can use the read-only Auto-Asset-Annotator DLC virtualenv:
+`/cpfs/shared/simulation/zhuzihou/dev/Auto-Asset-Annotator/.venv_dlc/bin/python`.
+That environment has `torch`, `transformers`, and `qwen_vl_utils`, while the
+Genesis-LLM Gemma4 environment does not provide `qwen_vl_utils`. Use
+`--attn-implementation eager` for Qwen2.5-VL unless a later environment check
+confirms flash attention support. The Gemma4 route loads successfully on the
+local RTX 4090. Unsloth may create
 `unsloth_compiled_cache/` under the repo root; it is ignored and should be
 treated as disposable runtime cache.
 
@@ -830,6 +844,7 @@ CUDA_VISIBLE_DEVICES=0 PYTHONUNBUFFERED=1 \
   --sample-id c8ee4b66274b05d242c2.view_000.converted \
   --sample-id 90e105daa7e6ff59da38.view_002.original \
   --sample-id 90e105daa7e6ff59da38.view_002.converted \
+  --coordinate-frame pixel \
   --max-new-tokens 64 \
   --force
 ```
@@ -875,7 +890,9 @@ python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/select_projec
   --pair-id c8ee4b66274b05d242c2.view_003
 ```
 
-Run Gemma4 on that artifact with:
+The checked-in Gemma4 PASS-only artifact was generated before the
+`--coordinate-frame` option existed, using the historical pixel-coordinate
+prompt. Reproduce the same prompt semantics with:
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 PYTHONUNBUFFERED=1 \
@@ -885,6 +902,7 @@ CUDA_VISIBLE_DEVICES=0 PYTHONUNBUFFERED=1 \
   --out paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_predictions.jsonl \
   --model-backend local_gemma4_multimodal \
   --model-path /cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8 \
+  --coordinate-frame pixel \
   --max-new-tokens 64
 ```
 
@@ -903,3 +921,27 @@ diagnostic, point-in-bbox is 4/4 for original and 3/4 for converted.
 Normalized-1000 pair hit agreement is 3/4, both-hit pair count is 3/4, and
 mean pair point delta is 27.047455 px. Treat this as the current strongest
 pilot, not final VLM performance.
+
+The matching second-backend PASS-only Qwen2.5-VL probe should use the same
+projection artifact, decoding length, and normalized-1000 coordinate request:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 PYTHONUNBUFFERED=1 \
+  /cpfs/shared/simulation/zhuzihou/dev/Auto-Asset-Annotator/.venv_dlc/bin/python \
+  paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py \
+  --projection-report paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json \
+  --out paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_predictions.jsonl \
+  --model-backend local_hf_qwen \
+  --model-path /cpfs/shared/simulation/zhuzihou/models/Qwen2.5-VL-7B-Instruct \
+  --attn-implementation eager \
+  --coordinate-frame normalized_1000 \
+  --max-new-tokens 64
+```
+
+Score it with:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py \
+  --predictions paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_predictions.jsonl \
+  --out paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_score_summary.json
+```

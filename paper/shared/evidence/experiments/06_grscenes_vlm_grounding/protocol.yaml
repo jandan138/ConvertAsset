@@ -112,10 +112,12 @@ task_families:
       - point_in_mask_accuracy
       - original_vs_converted_delta
     coordinate_frame_note: >
-      Raw pixel-coordinate metrics remain primary until the protocol is locked.
-      The current scorer also reports a 0-1000 normalized-coordinate diagnostic
-      because some VLMs emit normalized visual coordinates even when prompted
-      for pixels.
+      Starting with new probes generated after 2026-05-22, request
+      normalized-1000 visual coordinates from VLMs and treat
+      point_in_bbox_normalized_1000_accuracy as the primary point metric for
+      small real-model probes. Raw pixel-coordinate metrics remain recorded as
+      diagnostics because earlier prompts requested pixels and some models may
+      still emit raw pixel coordinates.
     pair_consistency_metrics:
       - normalized_1000_point_pair_count
       - normalized_1000_point_hit_agreement
