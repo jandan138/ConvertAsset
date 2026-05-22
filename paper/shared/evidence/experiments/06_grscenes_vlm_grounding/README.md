@@ -684,6 +684,83 @@ QA marked 3 PASS, 6 WARN, and 2 FAIL. The three new PASS alternatives are
 next Gemma4 probe. Treat the alternative artifacts as candidate-selection
 evidence, not final model metrics.
 
+The next retake expansion deliberately uses separate artifact names and a
+separate render root so it cannot overwrite the first 92-pair manifest or its
+reviewed outputs. Generate it with namespaced view ids:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/prepare_render_manifest.py \
+  --target-manifest paper/shared/evidence/raw/grscene_vlm_grounding/target_manifest.json \
+  --nomdl-run-report paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_multi_root_run_report.json \
+  --require-converted \
+  --out paper/shared/evidence/raw/grscene_vlm_grounding/retake_render_manifest.json \
+  --render-root paper/shared/evidence/raw/grscene_vlm_grounding/retake_renders \
+  --view-azimuths 0,45,90,135,180,225,270,315 \
+  --view-id-prefix retake \
+  --view-index-offset 8 \
+  --elevation-deg 18 \
+  --radius-scale 1.8 \
+  --min-distance 0.9
+```
+
+The `--view-id-prefix` and `--view-index-offset` flags are important. Without
+them, retake pair ids would reuse names such as `<target>.view_000`, making
+later canonical merging ambiguous even if the files live in separate
+directories.
+
+The ordinary retake review now covers 40 explicit pairs in
+`retake_paired_render_reports/`, and all 40 passed render smoke. Projection QA
+marked 39 pairs `projection_ok`; the only projection blocker is
+`90e105daa7e6ff59da38.retake_014`, which was already a visual-QA FAIL. Clean
+room visual QA marked the ordinary retake set 11 PASS, 23 WARN, and 6 FAIL.
+Adding those 11 PASS pairs to the earlier four-pair PASS pool gives 15 clean
+preservation pairs, still below the configured 20-pair final benchmark gate.
+
+A zoom retake pass was then generated with a separate namespace and narrower
+camera:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/prepare_render_manifest.py \
+  --target-manifest paper/shared/evidence/raw/grscene_vlm_grounding/target_manifest.json \
+  --nomdl-run-report paper/shared/evidence/raw/grscene_vlm_grounding/full_nomdl_multi_root_run_report.json \
+  --require-converted \
+  --out paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_render_manifest.json \
+  --render-root paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders \
+  --view-azimuths 0,45,135,180,270,300 \
+  --view-id-prefix zoom \
+  --view-index-offset 16 \
+  --elevation-deg 18 \
+  --radius-scale 1.8 \
+  --min-distance 0.9 \
+  --focal-length-mm 18.0
+```
+
+The matching zoom artifacts are:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_summary.json
+paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_target_projection_qa_report.json
+paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json
+```
+
+All 14 visibility-preflight recommended zoom pairs passed render smoke and
+projection QA, producing 28 scoring-record skeletons. Independent visual QA
+marked the zoom set 2 PASS, 12 WARN, and 0 FAIL. The two PASS pairs are strong
+target-visible grounding candidates, but they are not clean material-
+preservation evidence: reviewers repeatedly flagged large original-vs-converted
+material, color, lighting, or exposure shifts. The practical ACL story should
+therefore keep two pools separate:
+
+- clean preservation pool: 15 PASS pairs, not yet enough for the 20-pair final
+  benchmark gate;
+- material-shift stress pool: target-visible zoom/WARN/PASS pairs for measuring
+  whether VLM grounding changes when no-MDL visibly shifts material appearance.
+
+Plain version: more camera views alone are not the whole fix. The important
+scientific signal is now that many objects remain recognizable while their
+appearance changes substantially; that is exactly the downstream VLM robustness
+question the ACL paper can study.
+
 ## Task Families
 
 | Task | Prompt shape | Metric |

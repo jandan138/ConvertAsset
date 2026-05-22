@@ -52,8 +52,15 @@ def _git_commit() -> str:
 
 def _git_status_porcelain() -> list[str]:
     try:
-        output = subprocess.check_output(
-            ["git", "status", "--porcelain", "--untracked-files=all"],
+        tracked_output = subprocess.check_output(
+            ["git", "status", "--porcelain", "--untracked-files=no"],
+            cwd=str(PROJECT_ROOT),
+            text=True,
+            stderr=subprocess.DEVNULL,
+            timeout=5,
+        )
+        untracked_output = subprocess.check_output(
+            ["git", "ls-files", "--others", "--exclude-standard"],
             cwd=str(PROJECT_ROOT),
             text=True,
             stderr=subprocess.DEVNULL,
@@ -61,7 +68,11 @@ def _git_status_porcelain() -> list[str]:
         )
     except Exception:
         return ["unknown"]
-    return [line for line in output.splitlines() if line]
+    lines = [line for line in tracked_output.splitlines() if line]
+    untracked_count = len([line for line in untracked_output.splitlines() if line])
+    if untracked_count:
+        lines.append(f"?? {untracked_count} untracked files omitted from provenance")
+    return lines
 
 
 def _bbox_center(box: list[float]) -> list[float]:

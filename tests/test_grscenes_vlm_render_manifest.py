@@ -106,6 +106,24 @@ def test_module_imports_without_pxr() -> None:
     assert hasattr(module, "build_render_manifest")
 
 
+def test_git_status_porcelain_summarizes_untracked_files(monkeypatch) -> None:
+    module = load_render_module()
+
+    def fake_check_output(cmd, **kwargs):
+        if cmd[:3] == ["git", "status", "--porcelain"]:
+            return " M tracked.py\n"
+        if cmd[:2] == ["git", "ls-files"]:
+            return "new_a.png\nnew_b.usd\n"
+        raise AssertionError(cmd)
+
+    monkeypatch.setattr(module.subprocess, "check_output", fake_check_output)
+
+    assert module._git_status_porcelain() == [
+        " M tracked.py",
+        "?? 2 untracked files omitted from provenance",
+    ]
+
+
 def test_build_render_manifest_collapses_duplicates_and_pairs_conditions(tmp_path: Path) -> None:
     module = load_render_module()
     target_manifest = make_target_manifest(tmp_path, converted_exists=True)
@@ -210,6 +228,49 @@ def test_build_render_manifest_keeps_planned_image_hashes_empty(tmp_path: Path) 
     )
 
     assert manifest["records"][0]["image"]["hash_sha256"] is None
+
+
+def test_build_render_manifest_can_namespace_retake_view_ids(tmp_path: Path) -> None:
+    module = load_render_module()
+    target_manifest = make_target_manifest(tmp_path, converted_exists=True)
+
+    manifest = module.build_render_manifest(
+        target_manifest,
+        render_root=tmp_path / "retake_renders",
+        view_azimuths=[45.0, 135.0],
+        view_id_prefix="retake",
+        view_index_offset=8,
+    )
+
+    assert [pair["view"]["view_id"] for pair in manifest["render_pairs"]] == ["retake_008", "retake_009"]
+    assert [pair["pair_id"].split(".")[-1] for pair in manifest["render_pairs"]] == ["retake_008", "retake_009"]
+    assert manifest["records"][0]["output_image"].endswith("/retake_008/original/original_0000.png")
+    assert manifest["render_summary"]["view_id_prefix"] == "retake"
+    assert manifest["render_summary"]["view_index_offset"] == 8
+
+
+def test_build_render_manifest_can_set_focal_length_for_narrow_retake_views(tmp_path: Path) -> None:
+    module = load_render_module()
+    target_manifest = make_target_manifest(tmp_path, converted_exists=True)
+
+    wide = module.build_render_manifest(
+        target_manifest,
+        render_root=tmp_path / "wide_renders",
+        view_azimuths=[0.0],
+    )
+    narrow = module.build_render_manifest(
+        target_manifest,
+        render_root=tmp_path / "narrow_renders",
+        view_azimuths=[0.0],
+        focal_length_mm=18.0,
+    )
+
+    wide_camera = wide["render_pairs"][0]["view"]["camera"]
+    narrow_camera = narrow["render_pairs"][0]["view"]["camera"]
+    assert narrow_camera["focal_length_mm"] == 18.0
+    assert narrow["records"][0]["camera"]["focal_length_mm"] == 18.0
+    assert narrow["renderer_settings"]["focal_length_mm"] == 18.0
+    assert narrow_camera["fov_h_deg"] < wide_camera["fov_h_deg"]
 
 
 def test_build_render_manifest_can_overlay_completed_full_nomdl_run_report(tmp_path: Path) -> None:

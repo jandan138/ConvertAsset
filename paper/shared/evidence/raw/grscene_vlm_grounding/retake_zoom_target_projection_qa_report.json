@@ -1,0 +1,1337 @@
+{
+  "schema_version": 1,
+  "status": "target_projection_qa_report",
+  "generated_at_utc": "2026-05-22T11:35:05.050608Z",
+  "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/project_target_bboxes.py",
+  "summary": {
+    "selection_mode": "explicit_pair_ids",
+    "selected_pair_count": 14,
+    "recommended_pair_count": 14,
+    "projection_ok_pair_count": 14,
+    "projection_blocked_pair_count": 0,
+    "scoring_record_count": 28,
+    "image_width": 600,
+    "image_height": 450,
+    "min_area_px": 1000.0,
+    "status_counts": {
+      "projection_ok": 14
+    },
+    "claim_boundary": "projected_bbox_labels_only_requires_visual_or_depth_qa_before_final_vlm_claims"
+  },
+  "pairs": [
+    {
+      "pair_id": "47aa36277a54f6ca90cc.zoom_018",
+      "target_id": "47aa36277a54f6ca90cc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "zoom_018",
+      "target_prim_path": "/Root/Meshes/Furnitures/backpack/model_e883e28f0fdd4a6163b9b6198f5d0b80_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          207.811,
+          105.285,
+          376.441,
+          364.938
+        ],
+        "raw_bbox_xyxy": [
+          207.811,
+          105.285,
+          376.441,
+          364.938
+        ],
+        "bbox_area_px": 43785.079,
+        "bbox_area_fraction": 0.162167,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok"
+    },
+    {
+      "pair_id": "47aa36277a54f6ca90cc.zoom_019",
+      "target_id": "47aa36277a54f6ca90cc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "zoom_019",
+      "target_prim_path": "/Root/Meshes/Furnitures/backpack/model_e883e28f0fdd4a6163b9b6198f5d0b80_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          200.849,
+          110.376,
+          399.151,
+          333.822
+        ],
+        "raw_bbox_xyxy": [
+          200.849,
+          110.376,
+          399.151,
+          333.822
+        ],
+        "bbox_area_px": 44309.726,
+        "bbox_area_fraction": 0.16411,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok"
+    },
+    {
+      "pair_id": "e1cf9f0feb81aa92d8a1.zoom_016",
+      "target_id": "e1cf9f0feb81aa92d8a1",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "zoom_016",
+      "target_prim_path": "/Root/Meshes/Furnitures/backpack/model_3f99b44a34f7c6c935c508293a194502_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          202.32,
+          109.222,
+          397.68,
+          334.861
+        ],
+        "raw_bbox_xyxy": [
+          202.32,
+          109.222,
+          397.68,
+          334.861
+        ],
+        "bbox_area_px": 44080.585,
+        "bbox_area_fraction": 0.163261,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok"
+    },
+    {
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_016",
+      "target_id": "ef6a4fe9448f672c2ecc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "zoom_016",
+      "target_prim_path": "/Root/Meshes/Furnitures/picture/model_91d6f7bd3387ffa49a896fe682a3b3ae_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          209.804,
+          105.529,
+          390.196,
+          330.567
+        ],
+        "raw_bbox_xyxy": [
+          209.804,
+          105.529,
+          390.196,
+          330.567
+        ],
+        "bbox_area_px": 40595.001,
+        "bbox_area_fraction": 0.150352,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok"
+    },
+    {
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_017",
+      "target_id": "ef6a4fe9448f672c2ecc",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "view_id": "zoom_017",
+      "target_prim_path": "/Root/Meshes/Furnitures/picture/model_91d6f7bd3387ffa49a896fe682a3b3ae_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          240.087,
+          100.65,
+          374.808,
+          360.903
+        ],
+        "raw_bbox_xyxy": [
+          240.087,
+          100.65,
+          374.808,
+          360.903
+        ],
+        "bbox_area_px": 35061.423,
+        "bbox_area_fraction": 0.129857,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok"
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.zoom_016",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "zoom_016",
+      "target_prim_path": "/Root/Meshes/Animation/faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          183.525,
+          126.734,
+          416.475,
+          319.806
+        ],
+        "raw_bbox_xyxy": [
+          183.525,
+          126.734,
+          416.475,
+          319.806
+        ],
+        "bbox_area_px": 44975.996,
+        "bbox_area_fraction": 0.166578,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok"
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.zoom_017",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "zoom_017",
+      "target_prim_path": "/Root/Meshes/Animation/faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          215.154,
+          118.861,
+          407.249,
+          356.885
+        ],
+        "raw_bbox_xyxy": [
+          215.154,
+          118.861,
+          407.249,
+          356.885
+        ],
+        "bbox_area_px": 45723.127,
+        "bbox_area_fraction": 0.169345,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok"
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.zoom_020",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "zoom_020",
+      "target_prim_path": "/Root/Meshes/Animation/faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          271.908,
+          117.272,
+          328.092,
+          367.12
+        ],
+        "raw_bbox_xyxy": [
+          271.908,
+          117.272,
+          328.092,
+          367.12
+        ],
+        "bbox_area_px": 14037.701,
+        "bbox_area_fraction": 0.051991,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok"
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.zoom_021",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "zoom_021",
+      "target_prim_path": "/Root/Meshes/Animation/faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          210.752,
+          117.622,
+          364.907,
+          364.757
+        ],
+        "raw_bbox_xyxy": [
+          210.752,
+          117.622,
+          364.907,
+          364.757
+        ],
+        "bbox_area_px": 38096.939,
+        "bbox_area_fraction": 0.1411,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok"
+    },
+    {
+      "pair_id": "1e397951c1926c7f0a0b.zoom_016",
+      "target_id": "1e397951c1926c7f0a0b",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "zoom_016",
+      "target_prim_path": "/Root/Meshes/Furnitures/clock/model_677e29e819ce65dc31d1ceb8620e953e_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          190.419,
+          121.54,
+          409.581,
+          319.957
+        ],
+        "raw_bbox_xyxy": [
+          190.419,
+          121.54,
+          409.581,
+          319.957
+        ],
+        "bbox_area_px": 43485.436,
+        "bbox_area_fraction": 0.161057,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok"
+    },
+    {
+      "pair_id": "1e397951c1926c7f0a0b.zoom_017",
+      "target_id": "1e397951c1926c7f0a0b",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "view_id": "zoom_017",
+      "target_prim_path": "/Root/Meshes/Furnitures/clock/model_677e29e819ce65dc31d1ceb8620e953e_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          226.131,
+          114.064,
+          395.354,
+          356.218
+        ],
+        "raw_bbox_xyxy": [
+          226.131,
+          114.064,
+          395.354,
+          356.218
+        ],
+        "bbox_area_px": 40978.067,
+        "bbox_area_fraction": 0.151771,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok"
+    },
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "target_id": "f35ef3d86c42446b7ddf",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "zoom_018",
+      "target_prim_path": "/Root/Meshes/Furnitures/clock/model_bf679119ea2cb383756475ddc0dcca04_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          211.647,
+          107.436,
+          370.171,
+          360.234
+        ],
+        "raw_bbox_xyxy": [
+          211.647,
+          107.436,
+          370.171,
+          360.234
+        ],
+        "bbox_area_px": 40074.474,
+        "bbox_area_fraction": 0.148424,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok"
+    },
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_019",
+      "target_id": "f35ef3d86c42446b7ddf",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "zoom_019",
+      "target_prim_path": "/Root/Meshes/Furnitures/clock/model_bf679119ea2cb383756475ddc0dcca04_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          198.615,
+          113.466,
+          401.385,
+          326.836
+        ],
+        "raw_bbox_xyxy": [
+          198.615,
+          113.466,
+          401.385,
+          326.836
+        ],
+        "bbox_area_px": 43265.01,
+        "bbox_area_fraction": 0.160241,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok"
+    },
+    {
+      "pair_id": "21dde4a14ca93f539a47.zoom_016",
+      "target_id": "21dde4a14ca93f539a47",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "zoom_016",
+      "target_prim_path": "/Root/Meshes/Furnitures/pillow/model_fd19fbe9bc625e175917e78b747bd35b_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          165.274,
+          150.389,
+          434.726,
+          302.83
+        ],
+        "raw_bbox_xyxy": [
+          165.274,
+          150.389,
+          434.726,
+          302.83
+        ],
+        "bbox_area_px": 41075.644,
+        "bbox_area_fraction": 0.152132,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok"
+    }
+  ],
+  "scoring_records": [
+    {
+      "sample_id": "47aa36277a54f6ca90cc.zoom_018.original",
+      "pair_id": "47aa36277a54f6ca90cc.zoom_018",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          207.811,
+          105.285,
+          376.441,
+          364.938
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "47aa36277a54f6ca90cc.zoom_018.converted",
+      "pair_id": "47aa36277a54f6ca90cc.zoom_018",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          207.811,
+          105.285,
+          376.441,
+          364.938
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "47aa36277a54f6ca90cc.zoom_019.original",
+      "pair_id": "47aa36277a54f6ca90cc.zoom_019",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          200.849,
+          110.376,
+          399.151,
+          333.822
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "47aa36277a54f6ca90cc.zoom_019.converted",
+      "pair_id": "47aa36277a54f6ca90cc.zoom_019",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          200.849,
+          110.376,
+          399.151,
+          333.822
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "e1cf9f0feb81aa92d8a1.zoom_016.original",
+      "pair_id": "e1cf9f0feb81aa92d8a1.zoom_016",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/e1cf9f0feb81aa92d8a1/zoom_016/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          202.32,
+          109.222,
+          397.68,
+          334.861
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "e1cf9f0feb81aa92d8a1.zoom_016.converted",
+      "pair_id": "e1cf9f0feb81aa92d8a1.zoom_016",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/e1cf9f0feb81aa92d8a1/zoom_016/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          202.32,
+          109.222,
+          397.68,
+          334.861
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "backpack",
+        "expected_answers": [
+          "backpack"
+        ]
+      },
+      "expected_answers": [
+        "backpack"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "ef6a4fe9448f672c2ecc.zoom_016.original",
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_016",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_016/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          209.804,
+          105.529,
+          390.196,
+          330.567
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "picture",
+        "expected_answers": [
+          "picture"
+        ]
+      },
+      "expected_answers": [
+        "picture"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "ef6a4fe9448f672c2ecc.zoom_016.converted",
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_016",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_016/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          209.804,
+          105.529,
+          390.196,
+          330.567
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "picture",
+        "expected_answers": [
+          "picture"
+        ]
+      },
+      "expected_answers": [
+        "picture"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "ef6a4fe9448f672c2ecc.zoom_017.original",
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_017",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          240.087,
+          100.65,
+          374.808,
+          360.903
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "picture",
+        "expected_answers": [
+          "picture"
+        ]
+      },
+      "expected_answers": [
+        "picture"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "ef6a4fe9448f672c2ecc.zoom_017.converted",
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_017",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          240.087,
+          100.65,
+          374.808,
+          360.903
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "picture",
+        "expected_answers": [
+          "picture"
+        ]
+      },
+      "expected_answers": [
+        "picture"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_016.original",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_016",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_016/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          183.525,
+          126.734,
+          416.475,
+          319.806
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_016.converted",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_016",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_016/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          183.525,
+          126.734,
+          416.475,
+          319.806
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_017.original",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_017",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          215.154,
+          118.861,
+          407.249,
+          356.885
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_017.converted",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_017",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          215.154,
+          118.861,
+          407.249,
+          356.885
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_020.original",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_020",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_020/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          271.908,
+          117.272,
+          328.092,
+          367.12
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_020.converted",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_020",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_020/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          271.908,
+          117.272,
+          328.092,
+          367.12
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_021.original",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_021",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_021/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          210.752,
+          117.622,
+          364.907,
+          364.757
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.zoom_021.converted",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_021",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_021/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          210.752,
+          117.622,
+          364.907,
+          364.757
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "1e397951c1926c7f0a0b.zoom_016.original",
+      "pair_id": "1e397951c1926c7f0a0b.zoom_016",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/zoom_016/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          190.419,
+          121.54,
+          409.581,
+          319.957
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "1e397951c1926c7f0a0b.zoom_016.converted",
+      "pair_id": "1e397951c1926c7f0a0b.zoom_016",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/zoom_016/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          190.419,
+          121.54,
+          409.581,
+          319.957
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "1e397951c1926c7f0a0b.zoom_017.original",
+      "pair_id": "1e397951c1926c7f0a0b.zoom_017",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/zoom_017/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          226.131,
+          114.064,
+          395.354,
+          356.218
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "1e397951c1926c7f0a0b.zoom_017.converted",
+      "pair_id": "1e397951c1926c7f0a0b.zoom_017",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAAEA8_usd/1e397951c1926c7f0a0b/zoom_017/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          226.131,
+          114.064,
+          395.354,
+          356.218
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "f35ef3d86c42446b7ddf.zoom_018.original",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          211.647,
+          107.436,
+          370.171,
+          360.234
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "f35ef3d86c42446b7ddf.zoom_018.converted",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          211.647,
+          107.436,
+          370.171,
+          360.234
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "f35ef3d86c42446b7ddf.zoom_019.original",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_019",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          198.615,
+          113.466,
+          401.385,
+          326.836
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "f35ef3d86c42446b7ddf.zoom_019.converted",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_019",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          198.615,
+          113.466,
+          401.385,
+          326.836
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "clock",
+        "expected_answers": [
+          "clock"
+        ]
+      },
+      "expected_answers": [
+        "clock"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "21dde4a14ca93f539a47.zoom_016.original",
+      "pair_id": "21dde4a14ca93f539a47.zoom_016",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/21dde4a14ca93f539a47/zoom_016/original/original_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          165.274,
+          150.389,
+          434.726,
+          302.83
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "pillow",
+        "expected_answers": [
+          "pillow"
+        ]
+      },
+      "expected_answers": [
+        "pillow"
+      ],
+      "prediction": null
+    },
+    {
+      "sample_id": "21dde4a14ca93f539a47.zoom_016.converted",
+      "pair_id": "21dde4a14ca93f539a47.zoom_016",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/21dde4a14ca93f539a47/zoom_016/converted/converted_0000.png",
+        "width": 600,
+        "height": 450
+      },
+      "target": {
+        "bbox_xyxy": [
+          165.274,
+          150.389,
+          434.726,
+          302.83
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "pillow",
+        "expected_answers": [
+          "pillow"
+        ]
+      },
+      "expected_answers": [
+        "pillow"
+      ],
+      "prediction": null
+    }
+  ],
+  "render_manifest": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_render_manifest.json",
+    "hash_sha256": "191aa213ac78c7fbd2699aa3b0673f52c5d4f1e803aebfb33f13e5973eac4e49"
+  },
+  "preflight_report": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visibility_preflight_report.json",
+    "hash_sha256": "e46cceb59198483264e3e8f00d9d7bc736a85adf030d8ce50ac8c989ea9efde8"
+  },
+  "render_summary": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_summary.json",
+    "hash_sha256": "5983979199dc2233383721b46071cc136dee9292252dc071a2c9dba770eed877"
+  },
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/project_target_bboxes.py",
+      "--render-manifest",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_render_manifest.json",
+      "--preflight-report",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visibility_preflight_report.json",
+      "--render-summary",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_summary.json",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_target_projection_qa_report.json",
+      "--pair-id",
+      "47aa36277a54f6ca90cc.zoom_018",
+      "--pair-id",
+      "47aa36277a54f6ca90cc.zoom_019",
+      "--pair-id",
+      "e1cf9f0feb81aa92d8a1.zoom_016",
+      "--pair-id",
+      "ef6a4fe9448f672c2ecc.zoom_016",
+      "--pair-id",
+      "ef6a4fe9448f672c2ecc.zoom_017",
+      "--pair-id",
+      "c8ee4b66274b05d242c2.zoom_016",
+      "--pair-id",
+      "c8ee4b66274b05d242c2.zoom_017",
+      "--pair-id",
+      "c8ee4b66274b05d242c2.zoom_020",
+      "--pair-id",
+      "c8ee4b66274b05d242c2.zoom_021",
+      "--pair-id",
+      "1e397951c1926c7f0a0b.zoom_016",
+      "--pair-id",
+      "1e397951c1926c7f0a0b.zoom_017",
+      "--pair-id",
+      "f35ef3d86c42446b7ddf.zoom_018",
+      "--pair-id",
+      "f35ef3d86c42446b7ddf.zoom_019",
+      "--pair-id",
+      "21dde4a14ca93f539a47.zoom_016"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/project_target_bboxes.py",
+    "script_hash_sha256": "9a9ba7291a1a55c389134eee9538e649387d5107f3b463dd2ca028f8d846baac",
+    "git_commit": "042997fb93161d58f8fe1a3f1a3194d5d52042d0",
+    "git_status_porcelain": [
+      " M docs/index.md",
+      " M docs/records/README.md",
+      " M paper/EXPERIMENT_CHECKLIST.md",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/README.md",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/author_render_camera_stages.py",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_canonical_vlm_run_manifest.py",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/extract_visibility_geometry_index.py",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/generate_projection_center_baseline_predictions.py",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/plan_visibility_aware_views.py",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/prepare_render_manifest.py",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/project_target_bboxes.py",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/resolve_target_prims.py",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_paired_render_smoke.py",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/select_projection_subset.py",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/summarize_recommended_paired_renders.py",
+      " M paper/shared/evidence/raw/grscene_vlm_grounding/README.md",
+      " M paper/shared/evidence/results_manifest.yaml",
+      " M tests/test_grscenes_vlm_render_manifest.py",
+      "?? 1035 untracked files omitted from provenance"
+    ]
+  }
+}

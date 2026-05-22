@@ -61,6 +61,45 @@ Expected files:
   provenance sidecar for the manifest-aligned Qwen2.5-VL pilot rerun.
 - `canonical_probes/qwen25_canonical_pass_only_score_summary.json`: score
   summary for the manifest-aligned Qwen2.5-VL pilot rerun; pilot-only evidence.
+- `retake_render_manifest.json`: non-overwriting expanded render plan with
+  namespaced `retake_008`... view ids, separate `retake_renders/` output paths,
+  and eight orbit views per target.
+- `retake_visibility_preflight_report.json`: centerline-AABB preflight over the
+  retake render plan; candidate filter only.
+- `retake_camera_stage_authoring_report.json`: camera-wrapper authoring report
+  for the retake render root.
+- `retake_paired_render_reports/`: per-pair render-smoke reports for explicit
+  retake candidates.
+- `retake_paired_render_summary.json`: aggregate smoke summary for 40 explicit
+  ordinary retake pairs; render-smoke evidence only.
+- `retake_target_projection_qa_report.json`: projected image-space target boxes
+  for those 40 retake pairs; geometric label QA only.
+- `retake_visual_review_batch.json`: independent clean-room visual QA over the
+  ordinary retake set. The 40 reviewed pairs split into 11 PASS, 23 WARN, and
+  6 FAIL, so they expand but do not yet close the 20-PASS final gate.
+- `retake_render_logs/`: archived `.txt` stdout/stderr logs referenced by the
+  retake render reports.
+- `retake_renders/`: retake camera wrapper USDs and retake PNG outputs.
+- `retake_zoom_render_manifest.json`: narrower-camera zoom retake plan with
+  namespaced `zoom_016`... view ids and separate `retake_zoom_renders/` output
+  paths.
+- `retake_zoom_visibility_preflight_report.json`: centerline-AABB preflight
+  over the zoom retake render plan; candidate filter only.
+- `retake_zoom_camera_stage_authoring_report.json`: camera-wrapper authoring
+  report for the zoom retake render root.
+- `retake_zoom_paired_render_reports/`: per-pair render-smoke reports for the
+  zoom retake candidates.
+- `retake_zoom_paired_render_summary.json`: aggregate smoke summary for the 14
+  reviewed zoom pairs; render-smoke evidence only.
+- `retake_zoom_target_projection_qa_report.json`: projected image-space target
+  boxes for the 14 zoom pairs; geometric label QA only.
+- `retake_zoom_visual_review_batch.json`: independent clean-room visual QA over
+  the zoom retake set. The 14 reviewed pairs split into 2 PASS, 12 WARN, and
+  0 FAIL. PASS here means target-visible grounding suitability, not clean
+  material preservation.
+- `retake_zoom_render_logs/`: archived `.txt` stdout/stderr logs referenced by
+  the zoom retake render reports.
+- `retake_zoom_renders/`: zoom camera wrapper USDs and zoom PNG outputs.
 - `projection_center_baseline_predictions.jsonl`: deterministic bbox-center
   scoring-smoke predictions generated from `target_projection_qa_report.json`;
   this is not a VLM output file.
@@ -118,6 +157,19 @@ the frozen protocol, but they must not be cited as root canonical benchmark
 outputs. The root `predictions.jsonl` and `score_summary.json` remain reserved
 for a future run whose `canonical_vlm_run_manifest.json` satisfies the final
 benchmark gate.
+
+`retake_*` artifacts are the current route for expanding and stress-testing the
+visual-QA pool without overwriting earlier evidence. The ordinary retake batch
+uses a fresh render root and pair ids such as `<target_id>.retake_008`, not the
+original `view_000`... ids. The zoom batch likewise uses `<target_id>.zoom_016`
+and later. This prevents file-path and provenance collisions when retake pairs
+are later merged with the original PASS-only projection subset. The ordinary
+retake set is candidate-selection evidence, not final VLM metric evidence: it
+reached 11 new clean PASS pairs, so the combined clean preservation pool is 15
+pairs and the 20-pair final benchmark gate remains closed. The zoom set is best
+treated as material-shift stress evidence: 14/14 render and projection checks
+passed, but visual QA produced only 2 target-visible PASS pairs and 12 WARN
+pairs because material/color/lighting shifts are large.
 
 `target_manifest.json` uses the original GRScenes source tree read-only. The resolver opens source scene USDs with Isaac/pxr, matches target metadata paths to authored USD references, and computes bboxes from the absolute split-level model USD transformed by the scene prim transform. This avoids relying on composed scene bboxes when scene-local `models` and `Materials` entries are text pointer files rather than symlinks.
 

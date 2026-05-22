@@ -36,6 +36,8 @@ DEFAULT_ELEVATION_DEG = 25.0
 DEFAULT_RADIUS_SCALE = 2.4
 DEFAULT_MIN_DISTANCE = 1.25
 DEFAULT_CAMERA_PRIM_PATH = "/World/GRScenesVLMTargetCamera"
+DEFAULT_FOCAL_LENGTH_MM = 9.0
+DEFAULT_HORIZONTAL_APERTURE_MM = 20.955
 DEFAULT_WIDTH = 600
 DEFAULT_HEIGHT = 450
 DEFAULT_RENDERER = "RayTracedLighting"
@@ -74,8 +76,15 @@ def _git_commit() -> str:
 
 def _git_status_porcelain() -> list[str]:
     try:
-        output = subprocess.check_output(
-            ["git", "status", "--porcelain", "--untracked-files=all"],
+        tracked_output = subprocess.check_output(
+            ["git", "status", "--porcelain", "--untracked-files=no"],
+            cwd=str(PROJECT_ROOT),
+            text=True,
+            stderr=subprocess.DEVNULL,
+            timeout=5,
+        )
+        untracked_output = subprocess.check_output(
+            ["git", "ls-files", "--others", "--exclude-standard"],
             cwd=str(PROJECT_ROOT),
             text=True,
             stderr=subprocess.DEVNULL,
@@ -83,7 +92,11 @@ def _git_status_porcelain() -> list[str]:
         )
     except Exception:
         return ["unknown"]
-    return [line for line in output.splitlines() if line]
+    lines = [line for line in tracked_output.splitlines() if line]
+    untracked_count = len([line for line in untracked_output.splitlines() if line])
+    if untracked_count:
+        lines.append(f"?? {untracked_count} untracked files omitted from provenance")
+    return lines
 
 
 def _parse_azimuths(value: str) -> list[float]:
@@ -266,6 +279,7 @@ def _camera_for_view(
     image_height: int,
     radius_scale: float,
     min_distance: float,
+    focal_length_mm: float,
     camera_prim_path: str,
 ) -> dict[str, Any]:
     center, size, diagonal = _bbox_center_size(world_bbox)
@@ -281,8 +295,10 @@ def _camera_for_view(
     near_clip = max(0.01, distance - diagonal * 2.0)
     far_clip = max(distance + diagonal * 3.0, 100.0)
     aspect = float(image_width) / float(max(1, image_height))
-    focal_length_mm = 9.0
-    horizontal_aperture_mm = 20.955
+    focal_length_mm = float(focal_length_mm)
+    if not math.isfinite(focal_length_mm) or focal_length_mm <= 0.0:
+        raise ValueError("focal_length_mm must be positive and finite")
+    horizontal_aperture_mm = DEFAULT_HORIZONTAL_APERTURE_MM
     vertical_aperture_mm = horizontal_aperture_mm / aspect
     fov_h_deg = math.degrees(2.0 * math.atan(horizontal_aperture_mm / (2.0 * focal_length_mm)))
     return {
@@ -521,11 +537,14 @@ def build_render_manifest(
     render_root: Path,
     nomdl_run_report: dict[str, Any] | None = None,
     view_azimuths: list[float] | tuple[float, ...] = DEFAULT_VIEW_AZIMUTHS,
+    view_id_prefix: str = "view",
+    view_index_offset: int = 0,
     elevation_deg: float = DEFAULT_ELEVATION_DEG,
     image_width: int = DEFAULT_WIDTH,
     image_height: int = DEFAULT_HEIGHT,
     radius_scale: float = DEFAULT_RADIUS_SCALE,
     min_distance: float = DEFAULT_MIN_DISTANCE,
+    focal_length_mm: float = DEFAULT_FOCAL_LENGTH_MM,
     renderer: str = DEFAULT_RENDERER,
     wait_frames: int = DEFAULT_WAIT_FRAMES,
     camera_prim_path: str = DEFAULT_CAMERA_PRIM_PATH,
@@ -548,7 +567,7 @@ def build_render_manifest(
         if scene is None:
             raise KeyError(f"scene entry missing for {target['source_scene_id']}")
         for idx, azimuth in enumerate(view_azimuths):
-            view_id = f"view_{idx:03d}"
+            view_id = f"{_safe_token(str(view_id_prefix))}_{int(view_index_offset) + idx:03d}"
             camera = _camera_for_view(
                 target["world_bbox"],
                 view_id=view_id,
@@ -558,6 +577,7 @@ def build_render_manifest(
                 image_height=int(image_height),
                 radius_scale=float(radius_scale),
                 min_distance=float(min_distance),
+                focal_length_mm=float(focal_length_mm),
                 camera_prim_path=camera_prim_path,
             )
             view = {
@@ -607,6 +627,8 @@ def build_render_manifest(
             "unique_render_targets": len(render_targets),
             "duplicate_episode_records_collapsed": len(resolved_records) - len(render_targets),
             "views_per_target": len(view_azimuths),
+            "view_id_prefix": _safe_token(str(view_id_prefix)),
+            "view_index_offset": int(view_index_offset),
             "render_pairs": len(render_pairs),
             "render_jobs": len(records),
             "material_conditions": ["original", "converted"],
@@ -631,6 +653,7 @@ def build_render_manifest(
             "elevation_deg": float(elevation_deg),
             "radius_scale": float(radius_scale),
             "min_distance": float(min_distance),
+            "focal_length_mm": float(focal_length_mm),
             "camera_prim_path": camera_prim_path,
         },
         "render_root": str(render_root),
@@ -647,11 +670,14 @@ def main() -> int:
     parser.add_argument("--out", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--render-root", type=Path, default=DEFAULT_RENDER_ROOT)
     parser.add_argument("--view-azimuths", default=",".join(str(v) for v in DEFAULT_VIEW_AZIMUTHS))
+    parser.add_argument("--view-id-prefix", default="view")
+    parser.add_argument("--view-index-offset", type=int, default=0)
     parser.add_argument("--elevation-deg", type=float, default=DEFAULT_ELEVATION_DEG)
     parser.add_argument("--width", type=int, default=DEFAULT_WIDTH)
     parser.add_argument("--height", type=int, default=DEFAULT_HEIGHT)
     parser.add_argument("--radius-scale", type=float, default=DEFAULT_RADIUS_SCALE)
     parser.add_argument("--min-distance", type=float, default=DEFAULT_MIN_DISTANCE)
+    parser.add_argument("--focal-length-mm", type=float, default=DEFAULT_FOCAL_LENGTH_MM)
     parser.add_argument("--renderer", default=DEFAULT_RENDERER)
     parser.add_argument("--wait-frames", type=int, default=DEFAULT_WAIT_FRAMES)
     parser.add_argument("--camera-prim-path", default=DEFAULT_CAMERA_PRIM_PATH)
@@ -666,11 +692,14 @@ def main() -> int:
             render_root=args.render_root,
             nomdl_run_report=nomdl_run_report,
             view_azimuths=_parse_azimuths(args.view_azimuths),
+            view_id_prefix=args.view_id_prefix,
+            view_index_offset=args.view_index_offset,
             elevation_deg=args.elevation_deg,
             image_width=args.width,
             image_height=args.height,
             radius_scale=args.radius_scale,
             min_distance=args.min_distance,
+            focal_length_mm=args.focal_length_mm,
             renderer=args.renderer,
             wait_frames=args.wait_frames,
             camera_prim_path=args.camera_prim_path,

@@ -1,0 +1,543 @@
+{
+  "schema_version": 1,
+  "status": "retake_visual_review_batch_partial",
+  "generated_at_utc": "2026-05-22T16:45:00Z",
+  "review_mode": "clean_room_render_visual_reviewer_parallel_blind_pairs",
+  "source_render_summary": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_paired_render_summary.json",
+  "source_projection_report": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_target_projection_qa_report.json",
+  "summary": {
+    "pair_count": 40,
+    "pass_count": 11,
+    "warn_count": 23,
+    "fail_count": 6,
+    "claim_boundary": "visual_candidate_filter_only_not_final_vlm_metric_evidence",
+    "new_pass_pair_ids": [
+      "47aa36277a54f6ca90cc.retake_011",
+      "47aa36277a54f6ca90cc.retake_012",
+      "e1cf9f0feb81aa92d8a1.retake_008",
+      "1e397951c1926c7f0a0b.retake_008",
+      "1e397951c1926c7f0a0b.retake_009",
+      "ef6a4fe9448f672c2ecc.retake_008",
+      "ef6a4fe9448f672c2ecc.retake_009",
+      "21dde4a14ca93f539a47.retake_008",
+      "f35ef3d86c42446b7ddf.retake_011",
+      "c8ee4b66274b05d242c2.retake_008",
+      "c8ee4b66274b05d242c2.retake_014"
+    ],
+    "warn_pair_ids": [
+      "9f1139aa6ec40285628f.retake_010",
+      "7905936f4bdd2820d87a.retake_010",
+      "2c2bd8f1c808f5a4b227.retake_012",
+      "21dde4a14ca93f539a47.retake_009",
+      "32ba3ade1a8e63c981af.retake_012",
+      "32ba3ade1a8e63c981af.retake_013",
+      "c8ee4b66274b05d242c2.retake_009",
+      "c8ee4b66274b05d242c2.retake_010",
+      "f405f964229ca3d3fbad.retake_008",
+      "e2ec085d524d5df4455d.retake_008",
+      "bb985fd4504a1afe8516.retake_009",
+      "c27086f557d316584264.retake_010",
+      "ef6a4fe9448f672c2ecc.retake_015",
+      "21dde4a14ca93f539a47.retake_015",
+      "bb985fd4504a1afe8516.retake_010",
+      "c27086f557d316584264.retake_011",
+      "c8ee4b66274b05d242c2.retake_015",
+      "bb985fd4504a1afe8516.retake_011",
+      "1e397951c1926c7f0a0b.retake_015",
+      "c27086f557d316584264.retake_012",
+      "bb985fd4504a1afe8516.retake_012",
+      "f35ef3d86c42446b7ddf.retake_012",
+      "bb985fd4504a1afe8516.retake_013"
+    ],
+    "excluded_pair_ids": [
+      "90e105daa7e6ff59da38.retake_013",
+      "90e105daa7e6ff59da38.retake_014",
+      "2c2bd8f1c808f5a4b227.retake_013",
+      "f35ef3d86c42446b7ddf.retake_010",
+      "1e397951c1926c7f0a0b.retake_010",
+      "1e397951c1926c7f0a0b.retake_014"
+    ]
+  },
+  "pairs": [
+    {
+      "packet_id": "R01",
+      "pair_id": "9f1139aa6ec40285628f.retake_010",
+      "target_category": "pan",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Small pan-like object is visible on or near the counter in both images, but the target is not prominent.",
+      "main_risk_or_retake": "Retake closer and more centered so the pan is less ambiguous."
+    },
+    {
+      "packet_id": "R02",
+      "pair_id": "90e105daa7e6ff59da38.retake_013",
+      "target_category": "picture",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "FAIL",
+      "visible_evidence": "No identifiable picture is visible; framing is clipped or pointed at walls/floor edges.",
+      "main_risk_or_retake": "Retake from a direct wall-facing angle with the picture visible."
+    },
+    {
+      "packet_id": "R03",
+      "pair_id": "90e105daa7e6ff59da38.retake_014",
+      "target_category": "picture",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "FAIL",
+      "visible_evidence": "No clear picture target is visible; the view mainly shows walls, floor, and a scene edge.",
+      "main_risk_or_retake": "Retake with the picture fully inside the frame."
+    },
+    {
+      "packet_id": "R04",
+      "pair_id": "47aa36277a54f6ca90cc.retake_011",
+      "target_category": "backpack",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Backpack is visible and identifiable in both images with comparable camera framing.",
+      "main_risk_or_retake": "None required."
+    },
+    {
+      "packet_id": "R05",
+      "pair_id": "47aa36277a54f6ca90cc.retake_012",
+      "target_category": "backpack",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Backpack is visible and identifiable in both paired views.",
+      "main_risk_or_retake": "None required."
+    },
+    {
+      "packet_id": "R06",
+      "pair_id": "e1cf9f0feb81aa92d8a1.retake_008",
+      "target_category": "backpack",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Backpack is clearly visible and similarly framed in both images.",
+      "main_risk_or_retake": "None required."
+    },
+    {
+      "packet_id": "R07",
+      "pair_id": "1e397951c1926c7f0a0b.retake_008",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Clock target is visible and identifiable in both images.",
+      "main_risk_or_retake": "None required."
+    },
+    {
+      "packet_id": "R08",
+      "pair_id": "1e397951c1926c7f0a0b.retake_009",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Clock target is visible and identifiable in both images with comparable framing.",
+      "main_risk_or_retake": "None required."
+    },
+    {
+      "packet_id": "R09",
+      "pair_id": "7905936f4bdd2820d87a.retake_010",
+      "target_category": "chestofdrawers",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "A large cabinet or drawer-like object is visible in the foreground in both images.",
+      "main_risk_or_retake": "Object is cropped and lacks clear drawer cues; retake with the front face and drawer structure clearer."
+    },
+    {
+      "packet_id": "R10",
+      "pair_id": "ef6a4fe9448f672c2ecc.retake_008",
+      "target_category": "picture",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Wall pictures with horse artwork are clearly visible in both images; framing and camera angle are closely comparable.",
+      "main_risk_or_retake": "None required."
+    },
+    {
+      "packet_id": "R11",
+      "pair_id": "ef6a4fe9448f672c2ecc.retake_009",
+      "target_category": "picture",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Wall pictures are prominent and identifiable in both images; paired views are comparable.",
+      "main_risk_or_retake": "None required."
+    },
+    {
+      "packet_id": "R12",
+      "pair_id": "2c2bd8f1c808f5a4b227.retake_012",
+      "target_category": "bottle",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "A small bottle-like object appears on the shelf in both images.",
+      "main_risk_or_retake": "Target is small and low contrast; retake closer or with the bottle centered and separated from nearby items."
+    },
+    {
+      "packet_id": "R13",
+      "pair_id": "2c2bd8f1c808f5a4b227.retake_013",
+      "target_category": "bottle",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "FAIL",
+      "visible_evidence": "The scene is viewed through a dense grid or transparent surface; the bottle is tiny and not reliably identifiable.",
+      "main_risk_or_retake": "Retake without foreground obstruction and move closer to the bottle."
+    },
+    {
+      "packet_id": "R14",
+      "pair_id": "21dde4a14ca93f539a47.retake_008",
+      "target_category": "pillow",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Pillow is centered in a shelf or bed recess in both images and identifiable by shape and striping.",
+      "main_risk_or_retake": "None required."
+    },
+    {
+      "packet_id": "R15",
+      "pair_id": "21dde4a14ca93f539a47.retake_009",
+      "target_category": "pillow",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "A small cushion or pillow-like object is visible inside a recessed shelf or bed area in both images.",
+      "main_risk_or_retake": "Target is partially occluded and ambiguous; retake closer and more front-on."
+    },
+    {
+      "packet_id": "R16",
+      "pair_id": "f35ef3d86c42446b7ddf.retake_010",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "FAIL",
+      "visible_evidence": "No clearly identifiable clock is visible; a possible round object lacks readable clock features.",
+      "main_risk_or_retake": "Retake with the clock centered or clearly visible, closer, and with clock face features readable."
+    },
+    {
+      "packet_id": "R17",
+      "pair_id": "f35ef3d86c42446b7ddf.retake_011",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Analog wall clock is visible on the vertical pillar in both images; the clock face and hands are identifiable.",
+      "main_risk_or_retake": "None required."
+    },
+    {
+      "packet_id": "R18",
+      "pair_id": "32ba3ade1a8e63c981af.retake_012",
+      "target_category": "plate",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Plate is visible near the center-left shelf area in both images, with a small cone-like object on it.",
+      "main_risk_or_retake": "Converted image is extremely dark and loses shelf context; retake with brighter exposure or lighting."
+    },
+    {
+      "packet_id": "R19",
+      "pair_id": "32ba3ade1a8e63c981af.retake_013",
+      "target_category": "plate",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Plate is visible near center-left in both images, with a shallow round rim and an object sitting on it.",
+      "main_risk_or_retake": "Converted image is much darker with major material/color shift; retake with improved exposure and slightly clearer plate framing."
+    },
+    {
+      "packet_id": "R20",
+      "pair_id": "c8ee4b66274b05d242c2.retake_008",
+      "target_category": "faucet",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Faucet is centered above the sink basin in both images; surrounding sink and mirror context make it clear.",
+      "main_risk_or_retake": "None required."
+    },
+    {
+      "packet_id": "R21",
+      "pair_id": "c8ee4b66274b05d242c2.retake_009",
+      "target_category": "faucet",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Faucet is visible and identifiable near the center of both images, mounted on the sink basin.",
+      "main_risk_or_retake": "Strong material/color shift and overexposed/flat areas weaken before/after fairness; retake only if material fidelity is central for this pair."
+    },
+    {
+      "packet_id": "R22",
+      "pair_id": "c8ee4b66274b05d242c2.retake_010",
+      "target_category": "faucet",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Faucet is visible near the sink rim in both images; converted view is clearly identifiable and original view is visible but blends into red material.",
+      "main_risk_or_retake": "Strong material/color difference and weak original target contrast; retake with a slightly wider three-quarter sink/faucet view."
+    },
+    {
+      "packet_id": "R23",
+      "pair_id": "f405f964229ca3d3fbad.retake_008",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Cup-like objects are near the center on the tabletop or tray; converted view shows small white circular cup tops more clearly.",
+      "main_risk_or_retake": "Target is small and low-contrast in the original image with strong material/lighting shift; retake closer to the tabletop target."
+    },
+    {
+      "packet_id": "R24",
+      "pair_id": "e2ec085d524d5df4455d.retake_008",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Cup is visible and centered in both images from the same apparent camera/view; shape and open top make it identifiable.",
+      "main_risk_or_retake": "Converted image has a major material/color change that is useful diagnostically but risky for visual-preservation claims; retake after material/color preservation fixes or use a closer crop."
+    },
+    {
+      "packet_id": "R25",
+      "pair_id": "bb985fd4504a1afe8516.retake_009",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "The same stemmed cup or glass is visible on a tabletop in both images from the same camera.",
+      "main_risk_or_retake": "Strong material/color differences and a visible wire/grid background weaken a fair before/after visual claim; retake larger and with better target separation."
+    },
+    {
+      "packet_id": "R26",
+      "pair_id": "1e397951c1926c7f0a0b.retake_010",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "FAIL",
+      "visible_evidence": "A tiny rectangular or clock-like object appears on the far tiled wall, but clock features are not readable and converted view is less distinguishable.",
+      "main_risk_or_retake": "Target is not confidently identifiable as a clock; retake closer with less foreground occlusion and visible face details."
+    },
+    {
+      "packet_id": "R27",
+      "pair_id": "c27086f557d316584264.retake_010",
+      "target_category": "bottle",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Both images show a small bottle or vase-like object near the center against the back wall, with comparable camera/view.",
+      "main_risk_or_retake": "Object is small and could be confused with a vase; converted image is darker and lower contrast. Retake closer with cleaner bottle angle."
+    },
+    {
+      "packet_id": "R28",
+      "pair_id": "c8ee4b66274b05d242c2.retake_014",
+      "target_category": "faucet",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Faucet is clearly visible near the lower center-left; base, spout, and handle/control shape are identifiable in both images.",
+      "main_risk_or_retake": "None required."
+    },
+    {
+      "packet_id": "R29",
+      "pair_id": "ef6a4fe9448f672c2ecc.retake_015",
+      "target_category": "picture",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "The wall-mounted framed picture is visible and identifiable near the center-left in both images with broadly comparable composition.",
+      "main_risk_or_retake": "Dense grid-like overlay and large material/color shift weaken final evidence; retake closer or more centered with solid rendering."
+    },
+    {
+      "packet_id": "R30",
+      "pair_id": "21dde4a14ca93f539a47.retake_015",
+      "target_category": "pillow",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "A light rectangular cushion-like object is visible on the middle shelf near center in both images.",
+      "main_risk_or_retake": "Target is small, recessed, and weakly identifiable as a pillow; retake closer with less shelf occlusion."
+    },
+    {
+      "packet_id": "R31",
+      "pair_id": "bb985fd4504a1afe8516.retake_010",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "The same small cup or glass-like object is visible near the rear tabletop edge, with rim/stem/base and straw.",
+      "main_risk_or_retake": "Target is small and low contrast in the converted image; retake larger, centered, and separated from the tabletop."
+    },
+    {
+      "packet_id": "R32",
+      "pair_id": "c27086f557d316584264.retake_011",
+      "target_category": "bottle",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "The bottle-shaped object is centered and fully visible in both images with comparable camera/view.",
+      "main_risk_or_retake": "Strong material/color shift weakens visual-fidelity claims; retake only if the pair is needed as clean final evidence."
+    },
+    {
+      "packet_id": "R33",
+      "pair_id": "c8ee4b66274b05d242c2.retake_015",
+      "target_category": "faucet",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Faucet is visible near the sink in both images, with upright body and angled spout identifiable.",
+      "main_risk_or_retake": "Original view has weak faucet contrast against red/glossy sink material and A/B exposure differs strongly; retake closer or more centered."
+    },
+    {
+      "packet_id": "R34",
+      "pair_id": "bb985fd4504a1afe8516.retake_011",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "The centered stemmed cup/glass is visible and identifiable on the tabletop in both images.",
+      "main_risk_or_retake": "Converted cup and tabletop are both very dark, and original is highly saturated red; retake with higher cup/surface contrast."
+    },
+    {
+      "packet_id": "R35",
+      "pair_id": "1e397951c1926c7f0a0b.retake_015",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "A round wall clock is visible on the central wall or partition in both images, with radial hands or markers identifiable.",
+      "main_risk_or_retake": "Target is usable but small and oblique; retake with lower or closer view so the clock is larger and less affected by overhang."
+    },
+    {
+      "packet_id": "R36",
+      "pair_id": "c27086f557d316584264.retake_012",
+      "target_category": "bottle",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "The same small bottle-shaped object is visible near the center/back counter area in both images, with matched viewpoint.",
+      "main_risk_or_retake": "Strong material/color changes make the dark converted bottle blend into the background; retake only if clean material-fidelity evidence is needed."
+    },
+    {
+      "packet_id": "R37",
+      "pair_id": "bb985fd4504a1afe8516.retake_012",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "The same centered stemmed cup/goblet is visible on a tabletop in both images from the same camera.",
+      "main_risk_or_retake": "Cup remains small and material/color differences are severe; retake closer with controlled exposure and better target/table separation."
+    },
+    {
+      "packet_id": "R38",
+      "pair_id": "f35ef3d86c42446b7ddf.retake_012",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "A round wall clock-like object with hands is visible on the central pillar in both images.",
+      "main_risk_or_retake": "Strong material/color differences, bright areas, and left-side grid/mesh distraction weaken final evidence; retake with intended clock larger."
+    },
+    {
+      "packet_id": "R39",
+      "pair_id": "bb985fd4504a1afe8516.retake_013",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "The same small stemmed cup/glass is visible near center in both images, with straw/rim details visible.",
+      "main_risk_or_retake": "Target is small and low-contrast under large material/color shifts; retake closer or slightly zoomed."
+    },
+    {
+      "packet_id": "R40",
+      "pair_id": "1e397951c1926c7f0a0b.retake_014",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "FAIL",
+      "visible_evidence": "The views show a dining/table area, chairs, wall art, curtains/lights, and a large foreground obstruction, but no clearly identifiable clock.",
+      "main_risk_or_retake": "Target is missing or too obscured for clock-focused grounding; retake with the clock centered or clearly visible and reduce foreground occlusion."
+    }
+  ]
+}

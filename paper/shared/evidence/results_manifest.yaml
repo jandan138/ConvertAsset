@@ -58,6 +58,24 @@ results:
     - id: grscenes_vlm_canonical_run_manifest
       path: paper/shared/evidence/raw/grscene_vlm_grounding/canonical_vlm_run_manifest.json
       description: "Canonical VLM input/protocol and claim-gate manifest: 4 PASS pairs, 11 WARN retake candidates, 6 FAIL exclusions, pilot-only status, and final_benchmark_claimable=false."
+    - id: grscenes_vlm_retake_render_summary
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/retake_paired_render_summary.json
+      description: "Render-smoke summary for 40 ordinary retake original/no-MDL pairs; 40/40 render-smoke pass, candidate-filter evidence only."
+    - id: grscenes_vlm_retake_target_projection_qa
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/retake_target_projection_qa_report.json
+      description: "Projected image-space target boxes for the 40 ordinary retake pairs; 39 projection_ok, 1 projection_too_small, geometric label QA only."
+    - id: grscenes_vlm_retake_visual_review
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/retake_visual_review_batch.json
+      description: "Independent clean-room visual QA over 40 ordinary retake pairs; 11 PASS, 23 WARN, 6 FAIL, expanding the clean pool to 15 but not closing the 20-pair final gate."
+    - id: grscenes_vlm_retake_zoom_render_summary
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_summary.json
+      description: "Render-smoke summary for 14 narrower-camera zoom retake original/no-MDL pairs; 14/14 render-smoke pass, material-shift stress candidate evidence only."
+    - id: grscenes_vlm_retake_zoom_target_projection_qa
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_target_projection_qa_report.json
+      description: "Projected image-space target boxes for the 14 zoom retake pairs; 14 projection_ok and 28 scoring-record skeletons, geometric label QA only."
+    - id: grscenes_vlm_retake_zoom_visual_review
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json
+      description: "Independent clean-room visual QA over the 14 zoom retake pairs; 2 target-visible PASS and 12 WARN. This is material-shift stress evidence, not clean material-preservation evidence."
     - id: grscenes_vlm_gemma4_canonical_probe_predictions
       path: paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/gemma4_canonical_pass_only_predictions.jsonl
       description: "Manifest-aligned Gemma4 pilot rerun over the four visual-QA PASS pairs using normalized-1000 structured-text prompts; not root canonical predictions.jsonl."

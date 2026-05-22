@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "status": "retake_zoom_visual_review_batch_partial",
+  "generated_at_utc": "2026-05-22T18:25:00Z",
+  "review_mode": "clean_room_render_visual_reviewer_parallel_blind_pairs",
+  "source_render_summary": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_summary.json",
+  "source_projection_report": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_target_projection_qa_report.json",
+  "summary": {
+    "pair_count": 14,
+    "pass_count": 2,
+    "warn_count": 12,
+    "fail_count": 0,
+    "claim_boundary": "visual_candidate_filter_only_not_final_vlm_metric_evidence",
+    "interpretation_note": "PASS here means the target is visible/identifiable and the A/B view is fair enough for a VLM grounding stress example. It does not mean material or texture preservation is clean.",
+    "new_pass_pair_ids": [
+      "f35ef3d86c42446b7ddf.zoom_018",
+      "f35ef3d86c42446b7ddf.zoom_019"
+    ],
+    "warn_pair_ids": [
+      "47aa36277a54f6ca90cc.zoom_018",
+      "47aa36277a54f6ca90cc.zoom_019",
+      "e1cf9f0feb81aa92d8a1.zoom_016",
+      "ef6a4fe9448f672c2ecc.zoom_016",
+      "ef6a4fe9448f672c2ecc.zoom_017",
+      "c8ee4b66274b05d242c2.zoom_016",
+      "c8ee4b66274b05d242c2.zoom_017",
+      "c8ee4b66274b05d242c2.zoom_020",
+      "c8ee4b66274b05d242c2.zoom_021",
+      "1e397951c1926c7f0a0b.zoom_016",
+      "1e397951c1926c7f0a0b.zoom_017",
+      "21dde4a14ca93f539a47.zoom_016"
+    ],
+    "excluded_pair_ids": []
+  },
+  "pairs": [
+    {
+      "packet_id": "Z01",
+      "pair_id": "47aa36277a54f6ca90cc.zoom_018",
+      "target_category": "backpack",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "A blue hanging bag-like object is visible below a hat in the central wall area in both images.",
+      "main_risk_or_retake": "Target reads more like a handbag or purse than a clear backpack; retake from an angle showing straps, back panel, or fuller body shape."
+    },
+    {
+      "packet_id": "Z02",
+      "pair_id": "47aa36277a54f6ca90cc.zoom_019",
+      "target_category": "backpack",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "A blue hanging bag is centered and visible in both images with comparable camera/view.",
+      "main_risk_or_retake": "Object reads more like a small handbag or satchel than a clearly identifiable backpack; retake lower or closer to show backpack-defining features."
+    },
+    {
+      "packet_id": "Z03",
+      "pair_id": "e1cf9f0feb81aa92d8a1.zoom_016",
+      "target_category": "backpack",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "A small blue hanging bag/backpack-like object is centered on the wall and visible in both images.",
+      "main_risk_or_retake": "Object reads more like a handbag or purse than a clearly identifiable backpack; retake front-facing with backpack-specific features visible."
+    },
+    {
+      "packet_id": "Z04",
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_016",
+      "target_category": "picture",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Two framed wall pictures with black-and-white horse/rider artwork are clearly visible in both images.",
+      "main_risk_or_retake": "Grounding target is ambiguous because two picture instances are visible; retake with the intended picture centered and dominant."
+    },
+    {
+      "packet_id": "Z05",
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_017",
+      "target_category": "picture",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Wall-mounted framed pictures are clearly visible; the main image appears to show a horse/rider drawing or print.",
+      "main_risk_or_retake": "Right picture is cropped and left foreground structure distracts; retake so the full intended framed picture is visible."
+    },
+    {
+      "packet_id": "Z06",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_016",
+      "target_category": "faucet",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Faucet is visible near lower center in both images, with spout/handle shape identifiable.",
+      "main_risk_or_retake": "Strong material/lighting differences dominate the before/after view; usable for target grounding but not clean visual-fidelity evidence."
+    },
+    {
+      "packet_id": "Z07",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_017",
+      "target_category": "faucet",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Faucet is clearly visible and identifiable in both images, centered near the sink/counter with the same close camera view.",
+      "main_risk_or_retake": "Camera is comparable, but red-on-red original materials versus black/white converted materials make the visual-domain shift too large for clean before/after preservation."
+    },
+    {
+      "packet_id": "Z08",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_020",
+      "target_category": "faucet",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Faucet is clearly visible in both images; vertical body, horizontal spout, and handle/lever are identifiable from the same close-up view.",
+      "main_risk_or_retake": "Strong red-vs-black/white material mismatch dominates the before/after view; useful stress evidence but not clean preservation evidence."
+    },
+    {
+      "packet_id": "Z09",
+      "pair_id": "c8ee4b66274b05d242c2.zoom_021",
+      "target_category": "faucet",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Faucet is clearly visible in both images; upright body, spout, and handle are identifiable with close matched framing.",
+      "main_risk_or_retake": "Converted view has major red-to-black/white material/color shift, weakening visual-preservation claims while remaining useful for material-shift stress testing."
+    },
+    {
+      "packet_id": "Z10",
+      "pair_id": "1e397951c1926c7f0a0b.zoom_016",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Wall clock is centered, large, and identifiable in both images; circular frame, hands, and radial/axis marks are visible.",
+      "main_risk_or_retake": "Target is excellent for grounding, but severe material/texture/color shift prevents treating this as clean visual-preservation PASS."
+    },
+    {
+      "packet_id": "Z11",
+      "pair_id": "1e397951c1926c7f0a0b.zoom_017",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Wall/table clock is visible and identifiable in both images; circular frame, hub, radial spokes, and hands are readable.",
+      "main_risk_or_retake": "Camera angle is comparable, but nearby wall/door geometry and ceiling overhang crowd the object; dark converted material and glossy red original material reduce clean visual preservation confidence."
+    },
+    {
+      "packet_id": "Z12",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Wall clock is clearly visible on the central wall or pillar in both images; circular rim, hands, and center hub are identifiable with strongly matched viewpoint.",
+      "main_risk_or_retake": "Fine clock details are thin and slightly soft, and the bright area on the right is blown out, but these issues do not hide the clock."
+    },
+    {
+      "packet_id": "Z13",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_019",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Clock is centered, larger, and more front-facing in both images; rim, hands, and wall placement are clear, and A/B framing is highly comparable.",
+      "main_risk_or_retake": "Scene appearance changes substantially under the high-contrast material condition, so the pair is best treated as grounding stress evidence rather than clean material-preservation evidence."
+    },
+    {
+      "packet_id": "Z14",
+      "pair_id": "21dde4a14ca93f539a47.zoom_016",
+      "target_category": "pillow",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Pillow is centered and identifiable in both images; rectangular cushion shape, dark border, white band, stripes, and button-like details are visible.",
+      "main_risk_or_retake": "Framing is matched, but saturated red glare in the original and darker shadowed converted view create a strong lighting/material-context shift that can confound fair before/after grounding comparison."
+    }
+  ]
+}

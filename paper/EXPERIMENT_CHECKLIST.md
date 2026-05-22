@@ -78,12 +78,14 @@ paper/
 | 顺序 | 门槛 | 当前状态 | 完成标准 |
 |---|---|---|---|
 | 1 | 全量 no-MDL 数据集 | ✅ 已完成并验证 | `full_nomdl_multi_root_run_report.json` 记录 `dry_run=false`、99 个顶层 raw scene 转换完成，且 `full_nomdl_apply_verification_report.json` 记录 `passed=true`、原始 `/cpfs/user/zhuzihou/assets/zzh-grscenes` 没有 `_noMDL` sidecar 污染 |
-| 2 | 原始/简化成对渲染 | 🔄 部分完成 | 23 个 unique target x 4 view 的 original/no-MDL 成对图生成完成，图像哈希、相机、目标 bbox/point 投影全部入账；当前已完成 21 个 centerline-clear 候选中的 10 个默认推荐视角 + 11 个替代清晰视角的 smoke renders、投影 QA 和盲视觉 QA，得到 4 个 PASS pair |
+| 2 | 原始/简化成对渲染 | 🔄 部分完成 | 23 个 unique target x 多视角的 original/no-MDL 成对图生成完成，图像哈希、相机、目标 bbox/point 投影全部入账；当前 clean preservation pool 为 15 PASS pair，仍低于 20-pair final gate；另有 14 个 zoom stress pair 通过 render/projection，其中 2 PASS、12 WARN，适合作为材质变化压力集 |
 | 3 | VLM/下游评测 | 🔄 小样本 pilot + 冻结协议 rerun 已完成 | `canonical_vlm_run_manifest.json` 通过 final gate 后，再生成 canonical `predictions.jsonl`、`score_summary.json`、必要的 InternNav/VL-LN 扩展结果；当前 manifest 标记 `pilot_only` 且 `final_benchmark_claimable=false`，已有 `probes/*` 和 `canonical_probes/*` 只能当 pilot/protocol 诊断 |
 | 4 | 图表和结论 | 🔄 pilot 表和冻结协议 prose 已更新 | 质量图、VLM 表、失败案例/定性图、trade-off 结论全部进入 `paper/shared/figures/`、`paper/shared/tables/` 和 `results_manifest.yaml`；final VLM 表只能从 manifest 标记为 final-claimable 的 run 生成，当前 PASS-only pilot 表和 `canonical_probes/` rerun 只能作为 protocol diagnostic |
 | 5 | 论文写作与审稿式自查 | ⬜ 未完成 | ACL/AAAI wrapper 能编译，Abstract/Intro/Method/Experiments/Discussion/Limitations 与证据一致，完成至少一轮 reviewer-style 反向审阅 |
 
-当前最短路径：先扩大第 2 步的干净 PASS 渲染池；第 3 步的最小真实模型链路和
+当前最短路径：不要继续盲目刷同一类 orbit 视角。第 2 步已经证明两件事：
+clean preservation pool 扩到 15 但还没到 final gate；zoom stress pool 则显示很多目标
+能看清，但 no-MDL 后材质、颜色、光照变化很大。第 3 步的最小真实模型链路和
 冻结坐标/响应协议已经在 4-pair pilot 上跑通，但样本太小。
 Qwen2.5-VL 第二后端也能跑通，但暴露了两个协议问题：历史直接 JSON 输出会坏成
 `addCriterion` 片段；冻结 `structured_text` rerun 下，坐标语义仍不清楚，当前 raw
@@ -91,8 +93,9 @@ image-space box 解释比 normalized-1000 scaling 更好。
 `canonical_vlm_run_manifest.json` 已把 4 个 PASS pair、11 个 WARN retake
 candidate、6 个 FAIL 排除样本和 claim gate 串起来；它允许继续做 pilot
 model run，但明确挡住 final benchmark claim。
-下一步应优先 retake/WARN 视角或补新的清晰视角，形成更大的 PASS set，再跑
-Gemma4 + Qwen 的 final-claimable 冻结协议版本，最后把结果写成论文表格和失败案例图。
+下一步应优先把 zoom stress pool 跑成真实 VLM 结果，回答“目标可见但材质域偏移时，
+Gemma4/Qwen 的 grounding 是否变化”。只有当论文还需要 final benchmark claim 时，
+再继续补 clean PASS set 到 20+，然后跑 Gemma4 + Qwen 的 final-claimable 冻结协议版本。
 
 ---
 
