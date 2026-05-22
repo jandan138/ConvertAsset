@@ -1,0 +1,21 @@
+\begin{table*}[t]
+\centering
+\caption{Selected GRScenes VLM pilot failure taxonomy. Rows are illustrative diagnostics sampled from checked prediction and score artifacts, not a final benchmark distribution. Point status uses the metric most relevant to the selected case; Qwen rows marked as raw use raw-image scoring diagnostic over normalized-1000-requested outputs because coordinate semantics remain unresolved.}
+\label{tab:grscenes_vlm_failure_taxonomy}
+\scriptsize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llllllp{0.28\textwidth}}
+\toprule
+\textbf{Split} & \textbf{Model} & \textbf{Target} & \textbf{Original status} & \textbf{Converted status} & \textbf{Failure type} & \textbf{Note} \\
+\midrule
+clean & Gemma4 & faucet & ans=hit; point=hit(norm1000) & ans=hit; point=miss(norm1000) & normalized\_point\_hit\_flip & normalized point hit on original, miss on converted; answer stays correct \\
+clean & Qwen2.5-VL & bottle & ans=hit; point=hit(raw) & ans=hit; point=miss(raw) & raw\_point\_hit\_flip & raw point hit on original, miss on converted; raw-image scoring diagnostic over normalized-1000-requested outputs \\
+clean & Qwen2.5-VL & clock & ans=miss; point=miss(raw) & ans=hit; point=miss(raw) & answer\_flip & original answer is literal prompt text while converted answer matches target; raw-image scoring diagnostic over normalized-1000-requested outputs \\
+clean & Qwen2.5-VL & faucet & ans=n/a; point=miss(raw) & ans=miss; point=miss(raw) & parse\_or\_truncated\_answer & original answer is unscorable and converted answer is truncated as fauc; raw-image scoring diagnostic over normalized-1000-requested outputs \\
+zoom-stress & Qwen2.5-VL & picture & ans=hit; point=hit(raw) & ans=n/a; point=miss(raw) & null\_answer\_and\_point\_flip & converted answer becomes null and raw point changes from hit to miss; raw-image scoring diagnostic over normalized-1000-requested outputs \\
+zoom-stress & Qwen2.5-VL & faucet & ans=hit; point=hit(raw) & ans=miss; point=miss(raw) & material\_shift\_sensitive\_answer\_truncation & converted answer truncates faucet to fauc and raw point misses; raw-image scoring diagnostic over normalized-1000-requested outputs \\
+zoom-stress & Qwen2.5-VL & clock & ans=hit; point=miss(raw) & ans=hit; point=hit(raw) & converted\_raw\_point\_counterexample & raw point misses on original but hits on converted, so conversion is not uniformly worse; raw-image scoring diagnostic over normalized-1000-requested outputs \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}

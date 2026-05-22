@@ -80,7 +80,7 @@ paper/
 | 1 | 全量 no-MDL 数据集 | ✅ 已完成并验证 | `full_nomdl_multi_root_run_report.json` 记录 `dry_run=false`、99 个顶层 raw scene 转换完成，且 `full_nomdl_apply_verification_report.json` 记录 `passed=true`、原始 `/cpfs/user/zhuzihou/assets/zzh-grscenes` 没有 `_noMDL` sidecar 污染 |
 | 2 | 原始/简化成对渲染 | 🔄 部分完成 | 23 个 unique target x 多视角的 original/no-MDL 成对图生成完成，图像哈希、相机、目标 bbox/point 投影全部入账；当前 clean preservation pool 为 15 PASS pair，仍低于 20-pair final gate；另有 14 个 zoom stress pair 通过 render/projection，其中 2 PASS、12 WARN，适合作为材质变化压力集 |
 | 3 | VLM/下游评测 | 🔄 15-pair clean-pool + 14-pair zoom stress 双模型 pilot 已完成 | `canonical_vlm_run_manifest.json` 通过 final gate 后，再生成 canonical `predictions.jsonl`、`score_summary.json`、必要的 InternNav/VL-LN 扩展结果；当前 manifest 标记 `pilot_only` 且 `final_benchmark_claimable=false`，已有 `probes/*`、`canonical_probes/*`、`clean_pool_probes/*` 和 `zoom_stress_probes/*` 只能当 pilot/protocol 诊断 |
-| 4 | 图表和结论 | 🔄 clean-pool/zoom-stress pilot 表和 VLM qualitative figure 已进入正文 | 质量图、VLM 表、失败案例/定性图、trade-off 结论全部进入 `paper/shared/figures/`、`paper/shared/tables/` 和 `results_manifest.yaml`；final VLM 表只能从 manifest 标记为 final-claimable 的 run 生成，当前 PASS-only pilot 表、`canonical_probes/` rerun、clean-pool 15-pair 表、zoom-stress 表和 `fig_vlm_grounding_cases` 只能作为 pilot/protocol diagnostic |
+| 4 | 图表和结论 | 🔄 clean-pool/zoom-stress pilot 表、VLM qualitative figure、appendix failure taxonomy 已进入论文系统 | 质量图、VLM 表、失败案例/定性图、trade-off 结论全部进入 `paper/shared/figures/`、`paper/shared/tables/` 和 `results_manifest.yaml`；final VLM 表只能从 manifest 标记为 final-claimable 的 run 生成，当前 PASS-only pilot 表、`canonical_probes/` rerun、clean-pool 15-pair 表、zoom-stress 表、failure taxonomy 和 `fig_vlm_grounding_cases` 只能作为 pilot/protocol diagnostic |
 | 5 | 论文写作与审稿式自查 | ⬜ 未完成 | ACL/AAAI wrapper 能编译，Abstract/Intro/Method/Experiments/Discussion/Limitations 与证据一致，完成至少一轮 reviewer-style 反向审阅 |
 
 当前最短路径：不要继续盲目刷同一类 orbit 视角。第 2 步已经证明两件事：
@@ -99,11 +99,12 @@ raw image-space 坐标，适合作为协议敏感性证据。
 zoom stress pool 也已补跑 Gemma4 与 Qwen2.5-VL；Gemma4 在目标更大的 zoom
 视角中答案稳定，normalized-1000 点命中较高；Qwen 仍显示协议敏感性，并且 raw
 point hit 从 original 9/14 降到 converted 6/13。这一轮已经把 clean-pool 表、
-zoom-stress 表和 VLM grounding qualitative figure 接入正文，但它们仍只能支撑
+zoom-stress 表、VLM grounding qualitative figure 和 appendix failure taxonomy
+接入论文系统，但它们仍只能支撑
 pilot/protocol diagnostic。下一步需要做论文决策：若主线定位为 clean
 preservation benchmark，就继续补 clean PASS set 到 20+；若主线定位为
 material-shift stress for downstream VLM grounding，就把 zoom stress 结果提升为
-核心故事并补 appendix failure taxonomy。
+核心故事并扩展 failure taxonomy / coordinate ablation。
 
 ---
 

@@ -27,15 +27,22 @@ Venue-neutral table sources for the ConvertAsset paper live here.
   stress/protocol evidence, not clean preservation evidence.
 - `tab_grscenes_vlm_zoom_stress.tex`: LaTeX table for the same zoom stress
   pilot.
+- `grscenes_vlm_failure_taxonomy.csv`: machine-readable selected failure-case
+  taxonomy assembled from the clean-pool and zoom-stress prediction JSONL plus
+  score summaries. It is illustrative appendix material, not a final error
+  distribution.
+- `tab_grscenes_vlm_failure_taxonomy.tex`: LaTeX appendix table for the same
+  selected failure taxonomy.
 
 Regenerate with:
 
 ```bash
 python paper/shared/tables/gen_vlm_pilot_tables.py
+python paper/shared/tables/gen_vlm_failure_taxonomy.py
 ```
 
-The two newer clean-pool and zoom-stress tables were assembled directly from
-their score summaries and are registered in
+The two newer clean-pool and zoom-stress tables plus the failure taxonomy are
+registered in
 `paper/shared/evidence/results_manifest.yaml`.
 
 Most legacy table content remains embedded in `shared/sections/experiments.tex`
