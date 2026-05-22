@@ -134,6 +134,70 @@ def test_build_projection_report_uses_recommended_pairs_only() -> None:
     assert report["scoring_records"][0]["target"]["bbox_xyxy"] == report["pairs"][0]["projection"]["bbox_xyxy"]
 
 
+def test_build_projection_report_can_use_explicit_pair_ids() -> None:
+    module = load_projection_module()
+    render_manifest = {
+        "renderer_settings": {"image_width": 100, "image_height": 100},
+        "render_pairs": [
+            {"pair_id": "target.view_000", "conditions": []},
+            {
+                "pair_id": "target.view_001",
+                "target_id": "target",
+                "source_scene_id": "scene",
+                "target_prim_path": "/Root/Target",
+                "view": {"view_id": "view_001", "camera": camera()},
+                "conditions": [
+                    {
+                        "sample_id": "target.view_001.original",
+                        "material_condition": "original",
+                        "world_bbox": bbox([9.0, -1.0, -1.0], [11.0, 1.0, 1.0]),
+                        "output_image": "/renders/view_001_original.png",
+                        "target": {"category": "cup", "expected_answers": ["cup"]},
+                    }
+                ],
+            },
+            {
+                "pair_id": "target.view_002",
+                "target_id": "target",
+                "source_scene_id": "scene",
+                "target_prim_path": "/Root/Target",
+                "view": {"view_id": "view_002", "camera": camera()},
+                "conditions": [
+                    {
+                        "sample_id": "target.view_002.original",
+                        "material_condition": "original",
+                        "world_bbox": bbox([9.0, -1.0, -1.0], [11.0, 1.0, 1.0]),
+                        "output_image": "/renders/view_002_original.png",
+                        "target": {"category": "cup", "expected_answers": ["cup"]},
+                    }
+                ],
+            },
+        ],
+    }
+    preflight_report = {"recommended_pairs_by_target": {"target": {"pair_id": "target.view_000"}}}
+    render_summary = {
+        "pairs": [
+            {"pair_id": "target.view_001", "render_smoke_pass": True},
+            {"pair_id": "target.view_002", "render_smoke_pass": True},
+        ]
+    }
+
+    report = module.build_projection_report(
+        render_manifest,
+        preflight_report=preflight_report,
+        render_summary=render_summary,
+        pair_ids=["target.view_001", "target.view_002"],
+        min_area_px=25.0,
+    )
+
+    assert report["summary"]["selection_mode"] == "explicit_pair_ids"
+    assert report["summary"]["selected_pair_count"] == 2
+    assert report["summary"]["recommended_pair_count"] == 1
+    assert report["pairs"][0]["pair_id"] == "target.view_001"
+    assert report["pairs"][1]["pair_id"] == "target.view_002"
+    assert len(report["scoring_records"]) == 2
+
+
 def test_main_writes_projection_report(tmp_path: Path) -> None:
     module = load_projection_module()
     render_manifest = {

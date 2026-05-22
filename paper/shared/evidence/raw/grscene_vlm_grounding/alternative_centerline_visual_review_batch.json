@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "status": "alternative_centerline_visual_review_batch",
+  "generated_at_utc": "2026-05-22T04:33:51Z",
+  "review_mode": "clean_room_render_visual_reviewer_parallel_blind_pairs",
+  "source_render_summary": "paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_paired_render_summary.json",
+  "source_projection_report": "paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_target_projection_qa_report.json",
+  "summary": {
+    "pair_count": 11,
+    "pass_count": 3,
+    "warn_count": 6,
+    "fail_count": 2,
+    "claim_boundary": "visual_candidate_filter_only_not_final_vlm_metric_evidence",
+    "new_pass_pair_ids": [
+      "e2ec085d524d5df4455d.view_001",
+      "e2ec085d524d5df4455d.view_003",
+      "c8ee4b66274b05d242c2.view_003"
+    ],
+    "warn_pair_ids": [
+      "f35ef3d86c42446b7ddf.view_002",
+      "bb985fd4504a1afe8516.view_001",
+      "bb985fd4504a1afe8516.view_002",
+      "bb985fd4504a1afe8516.view_003",
+      "f405f964229ca3d3fbad.view_002",
+      "f405f964229ca3d3fbad.view_003"
+    ],
+    "excluded_pair_ids": [
+      "f405f964229ca3d3fbad.view_001",
+      "1e397951c1926c7f0a0b.view_003"
+    ]
+  },
+  "pairs": [
+    {
+      "packet_id": "A01",
+      "pair_id": "f35ef3d86c42446b7ddf.view_002",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Clock-like circular marking is visible near center in both images, but target is small/ambiguous with glossy material shifts and geometry crowding.",
+      "main_risk_or_retake": "Retake with the clock larger, less overhead obstruction, and less glossy material response."
+    },
+    {
+      "packet_id": "A02",
+      "pair_id": "bb985fd4504a1afe8516.view_001",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "converted",
+        "B": "original"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Cup/goblet is visible on tabletop in both images with similar framing.",
+      "main_risk_or_retake": "Retake closer in a more complete indoor context with reduced specular glare."
+    },
+    {
+      "packet_id": "A03",
+      "pair_id": "bb985fd4504a1afe8516.view_002",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Cup/goblet is clearly visible near center in both images, but background is mostly blank/unfinished and glare/material differences are strong.",
+      "main_risk_or_retake": "Retake with more room context and balanced lighting/materials."
+    },
+    {
+      "packet_id": "A04",
+      "pair_id": "bb985fd4504a1afe8516.view_003",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "converted",
+        "B": "original"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Target is visible near table center but reads more like a small stemmed glass than a cup.",
+      "main_risk_or_retake": "Retake closer with clearer cup geometry, less glare, and no floating artifact."
+    },
+    {
+      "packet_id": "A05",
+      "pair_id": "e2ec085d524d5df4455d.view_001",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Cup is visible on tabletop/counter near the wall in both images; framing and viewpoint are comparable.",
+      "main_risk_or_retake": "None required."
+    },
+    {
+      "packet_id": "A06",
+      "pair_id": "e2ec085d524d5df4455d.view_003",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "converted",
+        "B": "original"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Cup is clearly visible, reasonably sized, and framed well in both images; handle and open top are identifiable.",
+      "main_risk_or_retake": "None required."
+    },
+    {
+      "packet_id": "A07",
+      "pair_id": "f405f964229ca3d3fbad.view_001",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "FAIL",
+      "visible_evidence": "Indoor scene is visible, but the cup target is not clearly identifiable in either image.",
+      "main_risk_or_retake": "Retake with cup unobstructed, larger in frame, and separated from competing tabletop objects."
+    },
+    {
+      "packet_id": "A08",
+      "pair_id": "f405f964229ca3d3fbad.view_002",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "converted",
+        "B": "original"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Indoor desk/bookshelf scene is visible; a small cup-like object may be on tabletop/tray but is ambiguous.",
+      "main_risk_or_retake": "Retake with cup larger and visually distinct from tabletop/tray, away from blown highlights."
+    },
+    {
+      "packet_id": "A09",
+      "pair_id": "f405f964229ca3d3fbad.view_003",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Indoor desk/bookshelf scene; small object on desk/tray could be the cup, more visible in one image.",
+      "main_risk_or_retake": "Retake with cup larger and higher contrast against tabletop."
+    },
+    {
+      "packet_id": "A10",
+      "pair_id": "c8ee4b66274b05d242c2.view_003",
+      "target_category": "faucet",
+      "label_mapping": {
+        "A": "converted",
+        "B": "original"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Faucet is clearly visible over the sink in both images; bathroom context is recognizable.",
+      "main_risk_or_retake": "None required."
+    },
+    {
+      "packet_id": "A11",
+      "pair_id": "1e397951c1926c7f0a0b.view_003",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "FAIL",
+      "visible_evidence": "Clock is not visible; images appear clipped/overframed by a large plane with broken composition.",
+      "main_risk_or_retake": "Retake from an angle that fully shows the clock and avoids clipping through furniture or walls."
+    }
+  ]
+}

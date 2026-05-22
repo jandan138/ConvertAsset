@@ -1,0 +1,249 @@
+{
+  "schema_version": 1,
+  "status": "paired_render_smoke_report",
+  "generated_at_utc": "2026-05-22T03:52:40.111346Z",
+  "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_paired_render_smoke.py",
+  "render_manifest": {
+    "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/render_manifest.json",
+    "hash_sha256": "769cfad5a8d02c244e81898faec1ed8815e8a9c00ade7af93b9cd5af598f8765"
+  },
+  "report_path": "paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/bb985fd4504a1afe8516.view_002.json",
+  "pair_id": "bb985fd4504a1afe8516.view_002",
+  "target_category": "cup",
+  "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+  "view_id": "view_002",
+  "renderer": "RayTracedLighting",
+  "image_width": 600,
+  "image_height": 450,
+  "records": [
+    {
+      "sample_id": "bb985fd4504a1afe8516.view_002.original",
+      "material_condition": "original",
+      "exit_code": 0,
+      "render_command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_002/original/original_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_002/original",
+        "--prefix",
+        "original",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "8",
+        "--headless"
+      ],
+      "renderer_script": {
+        "path": "scripts/render_with_viewport_capture.py",
+        "resolved_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/scripts/render_with_viewport_capture.py",
+        "hash_sha256": "8e71b356616e38ad8594341c7b3f89f3e7c215f0f3c7355229c8a545cd9893e8"
+      },
+      "image": {
+        "mode": "RGBA",
+        "width": 600,
+        "height": 450,
+        "bytes": 187613,
+        "hash_sha256": "dc392ab78d23a9e5f9f379bee6d8870c1b18355042fa88361891e899bd5342aa",
+        "mean_rgb": [
+          233.1198,
+          160.7967,
+          160.0841
+        ],
+        "stddev_rgb": [
+          15.51,
+          69.2358,
+          69.8926
+        ],
+        "non_dark_pixel_threshold": 10,
+        "non_dark_pixel_count": 270000,
+        "non_dark_pixel_bbox_xyxy": [
+          0,
+          0,
+          599,
+          449
+        ],
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_002/original/original_0000.png"
+      },
+      "stdout_summary": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_002/bb985fd4504a1afe8516.view_002.original.stdout.txt",
+        "bytes": 216390,
+        "hash_sha256": "7165e7c2952a8840e06211c10b89121d36a9cca249a316a79493cce5d67194bb",
+        "line_count": 878,
+        "contains_saved_frame": true,
+        "counts": {
+          "KooPbr": 0,
+          "KooPbr_maps": 0,
+          "Failed to create MDL shade node": 0,
+          "coroutine was never awaited": 0
+        }
+      },
+      "stderr_summary": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_002/bb985fd4504a1afe8516.view_002.original.stderr.txt",
+        "bytes": 817128,
+        "hash_sha256": "dc615867197d425409480569344facddf63241ef2bc05a12e1d643c411815dd4",
+        "line_count": 2529,
+        "contains_saved_frame": false,
+        "counts": {
+          "KooPbr": 408,
+          "KooPbr_maps": 580,
+          "Failed to create MDL shade node": 1114,
+          "coroutine was never awaited": 0
+        }
+      }
+    },
+    {
+      "sample_id": "bb985fd4504a1afe8516.view_002.converted",
+      "material_condition": "converted",
+      "exit_code": 0,
+      "render_command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_002/converted/converted_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_002/converted",
+        "--prefix",
+        "converted",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "8",
+        "--headless"
+      ],
+      "renderer_script": {
+        "path": "scripts/render_with_viewport_capture.py",
+        "resolved_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/scripts/render_with_viewport_capture.py",
+        "hash_sha256": "8e71b356616e38ad8594341c7b3f89f3e7c215f0f3c7355229c8a545cd9893e8"
+      },
+      "image": {
+        "mode": "RGBA",
+        "width": 600,
+        "height": 450,
+        "bytes": 211825,
+        "hash_sha256": "02e5728cff81662d865027e149dbe132a9a7d43927437fcfe53e1bd960b68f5a",
+        "mean_rgb": [
+          164.0545,
+          163.536,
+          162.8411
+        ],
+        "stddev_rgb": [
+          66.1157,
+          66.6061,
+          67.2058
+        ],
+        "non_dark_pixel_threshold": 10,
+        "non_dark_pixel_count": 268470,
+        "non_dark_pixel_bbox_xyxy": [
+          0,
+          0,
+          599,
+          449
+        ],
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_002/converted/converted_0000.png"
+      },
+      "stdout_summary": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_002/bb985fd4504a1afe8516.view_002.converted.stdout.txt",
+        "bytes": 43942,
+        "hash_sha256": "a163cd19fff953dfa674ac7fb560e2d17addd7cd39c14ea41bae67b0cd17db0c",
+        "line_count": 466,
+        "contains_saved_frame": true,
+        "counts": {
+          "KooPbr": 0,
+          "KooPbr_maps": 0,
+          "Failed to create MDL shade node": 0,
+          "coroutine was never awaited": 0
+        }
+      },
+      "stderr_summary": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_002/bb985fd4504a1afe8516.view_002.converted.stderr.txt",
+        "bytes": 357,
+        "hash_sha256": "b130bb4790de921b72f1fc42e4b0ce4481e17bf836f99f96cb9d0934b8f0f494",
+        "line_count": 8,
+        "contains_saved_frame": false,
+        "counts": {
+          "KooPbr": 0,
+          "KooPbr_maps": 0,
+          "Failed to create MDL shade node": 0,
+          "coroutine was never awaited": 0
+        }
+      }
+    }
+  ],
+  "summary": {
+    "both_commands_exit_zero": true,
+    "both_images_exist": true,
+    "original_non_dark_pixel_count": 270000,
+    "converted_non_dark_pixel_count": 268470,
+    "original_mdl_error_signal": 988,
+    "converted_mdl_error_signal": 0,
+    "interpretation": "Both paired renders contain visible pixels for this view. The original render still reports MDL/KooPbr error signal 988, while the converted render reports 0. Treat as render-stack smoke evidence only; final VLM claims require visibility-aware batch renders, image-space labels, predictions, and score summaries.",
+    "next_gate": "implement visibility-aware view selection and render more paired images before VLM scoring"
+  },
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_paired_render_smoke.py",
+      "--pair-id",
+      "bb985fd4504a1afe8516.view_002",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/bb985fd4504a1afe8516.view_002.json",
+      "--timeout-seconds",
+      "900"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_paired_render_smoke.py",
+    "script_hash_sha256": "3131f8fee470bd54390d04dbafa33288b6c4b4966a6f740449d4bcd46647c1a4",
+    "git_commit": "8d26a696c84ffbb9191949ddf4868f6b8e4aae29",
+    "git_status_porcelain": [
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/bb985fd4504a1afe8516.view_001.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/f35ef3d86c42446b7ddf.view_002.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_001/bb985fd4504a1afe8516.view_001.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_001/bb985fd4504a1afe8516.view_001.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_001/bb985fd4504a1afe8516.view_001.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_001/bb985fd4504a1afe8516.view_001.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_002/bb985fd4504a1afe8516.view_002.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_002/bb985fd4504a1afe8516.view_002.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_002/bb985fd4504a1afe8516.view_002.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_002/bb985fd4504a1afe8516.view_002.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f35ef3d86c42446b7ddf.view_002/f35ef3d86c42446b7ddf.view_002.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f35ef3d86c42446b7ddf.view_002/f35ef3d86c42446b7ddf.view_002.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f35ef3d86c42446b7ddf.view_002/f35ef3d86c42446b7ddf.view_002.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f35ef3d86c42446b7ddf.view_002/f35ef3d86c42446b7ddf.view_002.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_001/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_001/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_002/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_002/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/view_002/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/view_002/original/original_0000.png"
+    ]
+  }
+}

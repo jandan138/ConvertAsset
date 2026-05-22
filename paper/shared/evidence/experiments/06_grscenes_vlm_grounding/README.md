@@ -666,6 +666,24 @@ exist as generated preflight artifacts. Treat them as candidate-selection
 helpers only: they use a single camera-to-target centerline against filtered
 non-target AABBs, not rendered image visibility, depth, mask, or model evidence.
 
+After the first blind visual-QA pass accepted only one of the 10 default
+recommended pairs as clean PASS, the remaining 11 `centerline_clear` pairs were
+rendered as an alternative-view expansion. The summary artifacts are:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_paired_render_summary.json
+paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_target_projection_qa_report.json
+paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json
+```
+
+All 11 alternative pairs passed render smoke and bbox projection. Blind visual
+QA marked 3 PASS, 6 WARN, and 2 FAIL. The three new PASS alternatives are
+`e2ec085d524d5df4455d.view_001`, `e2ec085d524d5df4455d.view_003`, and
+`c8ee4b66274b05d242c2.view_003`. Together with the original PASS pair
+`c27086f557d316584264.view_001`, this gives a four-pair PASS-only pool for the
+next Gemma4 probe. Treat the alternative artifacts as candidate-selection
+evidence, not final model metrics.
+
 ## Task Families
 
 | Task | Prompt shape | Metric |
@@ -826,3 +844,18 @@ point-in-bbox is 4/6 for original and 3/6 for converted. Normalized-1000 pair
 consistency has 6 comparable pairs, 5/6 hit-agreement, 3/6 both-hit pairs, and
 20.931062 px mean point delta. Treat this as pilot evidence because five of the
 six pairs were WARN in visual QA.
+
+The next stronger probe should avoid the WARN-heavy subset and run Gemma4 on
+the PASS-only pool:
+
+```text
+c27086f557d316584264.view_001
+e2ec085d524d5df4455d.view_001
+e2ec085d524d5df4455d.view_003
+c8ee4b66274b05d242c2.view_003
+```
+
+Because those pairs are split across the original recommended projection report
+and the alternative projection report, create a small combined PASS-only
+projection artifact before inference rather than mixing prediction rows without
+shared label provenance.

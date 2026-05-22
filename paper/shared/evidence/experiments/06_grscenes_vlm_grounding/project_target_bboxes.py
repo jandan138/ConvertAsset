@@ -276,6 +276,7 @@ def build_projection_report(
     *,
     preflight_report: dict[str, Any],
     render_summary: dict[str, Any],
+    pair_ids: list[str] | None = None,
     min_area_px: float = DEFAULT_MIN_AREA_PX,
 ) -> dict[str, Any]:
     renderer_settings = render_manifest.get("renderer_settings") or {}
@@ -283,13 +284,15 @@ def build_projection_report(
     image_height = int(renderer_settings.get("image_height") or 450)
     pairs_by_id = _pair_lookup(render_manifest)
     render_smoke_pass = _render_smoke_pass_lookup(render_summary)
-    pair_ids = _recommended_pair_ids(preflight_report)
+    recommended_pair_ids = _recommended_pair_ids(preflight_report)
+    selection_mode = "explicit_pair_ids" if pair_ids is not None else "recommended_pairs_by_target"
+    selected_pair_ids = list(pair_ids) if pair_ids is not None else recommended_pair_ids
     pair_reports: list[dict[str, Any]] = []
     scoring_records: list[dict[str, Any]] = []
 
-    for pair_id in pair_ids:
+    for pair_id in selected_pair_ids:
         if pair_id not in pairs_by_id:
-            raise KeyError(f"recommended pair missing from render_manifest: {pair_id}")
+            raise KeyError(f"selected pair missing from render_manifest: {pair_id}")
         pair = pairs_by_id[pair_id]
         condition0 = (pair.get("conditions") or [{}])[0]
         world_bbox = condition0.get("world_bbox") or pair.get("world_bbox")
@@ -340,7 +343,9 @@ def build_projection_report(
         "generated_at_utc": _utc_now(),
         "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/project_target_bboxes.py",
         "summary": {
-            "recommended_pair_count": len(pair_ids),
+            "selection_mode": selection_mode,
+            "selected_pair_count": len(selected_pair_ids),
+            "recommended_pair_count": len(recommended_pair_ids),
             "projection_ok_pair_count": int(counts.get("projection_ok", 0)),
             "projection_blocked_pair_count": len(pair_reports) - int(counts.get("projection_ok", 0)),
             "scoring_record_count": len(scoring_records),
@@ -362,6 +367,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--render-summary", type=Path, default=DEFAULT_RENDER_SUMMARY)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--min-area-px", type=float, default=DEFAULT_MIN_AREA_PX)
+    parser.add_argument("--pair-id", action="append", dest="pair_ids", help="Explicit pair id to project; repeatable.")
     args = parser.parse_args(argv)
 
     render_manifest = _load_json(args.render_manifest)
@@ -371,6 +377,7 @@ def main(argv: list[str] | None = None) -> int:
         render_manifest,
         preflight_report=preflight_report,
         render_summary=render_summary,
+        pair_ids=args.pair_ids,
         min_area_px=args.min_area_px,
     )
     report["render_manifest"] = {

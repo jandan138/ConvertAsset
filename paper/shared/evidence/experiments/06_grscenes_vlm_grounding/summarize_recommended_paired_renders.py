@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Summarize rendered recommended GRScenes original/no-MDL pairs."""
+"""Summarize rendered selected GRScenes original/no-MDL pairs."""
 
 from __future__ import annotations
 
@@ -83,7 +83,7 @@ def _find_report(pair_id: str, *, report_dirs: list[Path], fallback_reports: lis
             continue
         if report.get("pair_id") == pair_id:
             return path, "fallback_report"
-    raise FileNotFoundError(f"missing paired render report for recommended pair: {pair_id}")
+    raise FileNotFoundError(f"missing paired render report for selected pair: {pair_id}")
 
 
 def _condition(records: list[dict[str, Any]], material_condition: str) -> dict[str, Any]:
@@ -140,10 +140,24 @@ def build_recommended_render_summary(
     *,
     report_dirs: list[Path],
     fallback_reports: list[Path],
+    pair_ids: list[str] | None = None,
+    selection_mode: str | None = None,
+    status: str | None = None,
+    claim_boundary: str | None = None,
 ) -> dict[str, Any]:
-    pair_ids = _recommended_pair_ids(preflight_report)
+    recommended_pair_ids = _recommended_pair_ids(preflight_report)
+    selected_pair_ids = list(pair_ids) if pair_ids is not None else recommended_pair_ids
+    resolved_selection_mode = (
+        selection_mode
+        if selection_mode is not None
+        else ("explicit_pair_ids" if pair_ids is not None else "recommended_pairs_by_target")
+    )
+    resolved_status = status or (
+        "selected_paired_render_summary" if pair_ids is not None else "recommended_paired_render_summary"
+    )
+    resolved_claim_boundary = claim_boundary or "render_smoke_only_requires_projection_visual_qa_and_vlm_predictions"
     pairs: list[dict[str, Any]] = []
-    for pair_id in pair_ids:
+    for pair_id in selected_pair_ids:
         report_path, report_source = _find_report(pair_id, report_dirs=report_dirs, fallback_reports=fallback_reports)
         pairs.append(_pair_summary(pair_id, report_path, report_source))
     smoke_pass_count = len([item for item in pairs if item["render_smoke_pass"]])
@@ -151,11 +165,13 @@ def build_recommended_render_summary(
     fallback_count = len([item for item in pairs if item["report_source"] == "fallback_report"])
     return {
         "schema_version": 1,
-        "status": "recommended_paired_render_summary",
+        "status": resolved_status,
         "generated_at_utc": _utc_now(),
         "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/summarize_recommended_paired_renders.py",
         "summary": {
-            "recommended_pair_count": len(pair_ids),
+            "selection_mode": resolved_selection_mode,
+            "selected_pair_count": len(selected_pair_ids),
+            "recommended_pair_count": len(recommended_pair_ids),
             "reports_found_count": len(pairs),
             "report_dir_count": len(pairs) - fallback_count,
             "fallback_report_count": fallback_count,
@@ -163,7 +179,7 @@ def build_recommended_render_summary(
             "black_or_missing_image_count": black_or_missing,
             "render_smoke_pass_count": smoke_pass_count,
             "preflight_centerline_clear_pair_count": (preflight_report.get("summary") or {}).get("centerline_clear_pair_count"),
-            "claim_boundary": "render_smoke_only_requires_projection_visual_qa_and_vlm_predictions",
+            "claim_boundary": resolved_claim_boundary,
         },
         "pairs": pairs,
     }
@@ -175,6 +191,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--report-dir", type=Path, action="append", default=[DEFAULT_REPORT_DIR])
     parser.add_argument("--fallback-report", type=Path, action="append", default=[DEFAULT_FALLBACK_REPORT])
     parser.add_argument("--out", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--pair-id", action="append", dest="pair_ids", help="Explicit pair id to summarize; repeatable.")
+    parser.add_argument("--selection-mode", help="Selection-mode string to record in summary metadata.")
+    parser.add_argument("--status", help="Top-level status string to record in the generated summary.")
+    parser.add_argument("--claim-boundary", help="Claim-boundary string to record in summary metadata.")
     args = parser.parse_args(argv)
 
     preflight_report = _load_json(args.preflight_report)
@@ -182,6 +202,10 @@ def main(argv: list[str] | None = None) -> int:
         preflight_report,
         report_dirs=args.report_dir,
         fallback_reports=args.fallback_report,
+        pair_ids=args.pair_ids,
+        selection_mode=args.selection_mode,
+        status=args.status,
+        claim_boundary=args.claim_boundary,
     )
     summary["preflight_report"] = {
         "path": str(args.preflight_report),
@@ -197,7 +221,8 @@ def main(argv: list[str] | None = None) -> int:
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(summary, indent=2), encoding="utf-8")
     print(
-        f"Wrote {args.out} recommended={summary['summary']['recommended_pair_count']} "
+        f"Wrote {args.out} selected={summary['summary']['selected_pair_count']} "
+        f"recommended={summary['summary']['recommended_pair_count']} "
         f"render_smoke_pass={summary['summary']['render_smoke_pass_count']}"
     )
     return 0 if summary["summary"]["black_or_missing_image_count"] == 0 else 1

@@ -43,6 +43,15 @@ results:
     - id: grscenes_vlm_visual_review_batch
       path: paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json
       description: "Independent blind visual QA over 10 recommended render-smoke pairs; candidate filter only, not model-result evidence."
+    - id: grscenes_vlm_alternative_centerline_render_summary
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_paired_render_summary.json
+      description: "Render-smoke summary for 11 additional centerline-clear GRScenes view pairs after the first visual-QA pass; candidate-filter evidence only."
+    - id: grscenes_vlm_alternative_centerline_target_projection_qa
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_target_projection_qa_report.json
+      description: "Projected image-space target boxes for the 11 additional centerline-clear view pairs; geometric label QA only."
+    - id: grscenes_vlm_alternative_centerline_visual_review
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json
+      description: "Independent blind visual QA over 11 additional centerline-clear view pairs; 3 PASS, 6 WARN, 2 FAIL candidate split."
     - id: grscenes_vlm_projection_center_baseline_predictions_metadata
       path: paper/shared/evidence/raw/grscene_vlm_grounding/projection_center_baseline_predictions.jsonl.metadata.json
       description: "Provenance for deterministic projection-center scoring-smoke predictions; smoke-only and not VLM output evidence."

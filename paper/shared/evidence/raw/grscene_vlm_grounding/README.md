@@ -27,6 +27,15 @@ Expected files:
   recommended paired renders.
 - `target_projection_qa_report.json`: projected image-space target bboxes and
   scoring-record skeletons for the recommended render-smoke pairs.
+- `alternative_centerline_paired_render_summary.json`: aggregate smoke summary
+  for the 11 additional centerline-clear view pairs rendered after the first
+  visual-QA pass.
+- `alternative_centerline_target_projection_qa_report.json`: projected
+  image-space target boxes and scoring-record skeletons for those 11 explicit
+  alternative view pairs.
+- `alternative_centerline_visual_review_batch.json`: independent blind visual
+  QA over the 11 additional centerline-clear view pairs; candidate filter only,
+  not model-result evidence.
 - `projection_center_baseline_predictions.jsonl`: deterministic bbox-center
   scoring-smoke predictions generated from `target_projection_qa_report.json`;
   this is not a VLM output file.
@@ -228,6 +237,23 @@ non-dark pixels and image hashes. This advances the render evidence beyond a
 single smoke pair, but the claim boundary remains render-smoke only: VLM
 scoring still needs image-space target boxes or masks, visual QA over the
 candidates, predictions, and `score_summary.json`.
+
+`alternative_centerline_paired_render_summary.json`,
+`alternative_centerline_target_projection_qa_report.json`, and
+`alternative_centerline_visual_review_batch.json` record the first retake-style
+view expansion after visual QA showed that the default recommended set had too
+few clean samples. This expansion rendered the remaining 11
+`centerline_clear` pairs from `visibility_preflight_report.json` that were not
+in the first 10 recommended pairs. All 11 pairs passed render smoke, and all 11
+projected target boxes have `projection_ok` status. Independent blind visual QA
+then marked 3 PASS, 6 WARN, and 2 FAIL. The new PASS candidates are
+`e2ec085d524d5df4455d.view_001`, `e2ec085d524d5df4455d.view_003`, and
+`c8ee4b66274b05d242c2.view_003`. Together with the original PASS pair
+`c27086f557d316584264.view_001`, the current visually clean pool has four
+candidate pairs for the next PASS-only Gemma4 probe. These files are still
+candidate-selection evidence only. They do not replace canonical
+`predictions.jsonl` / `score_summary.json`, and WARN/FAIL samples must not be
+mixed into final VLM metrics without their QA tier being reported.
 
 `target_projection_qa_report.json` projects the world-space target bboxes for
 the 10 recommended render-smoke pairs into image coordinates using the manifest

@@ -84,6 +84,8 @@ def test_build_summary_counts_non_dark_and_black_failures(tmp_path: Path) -> Non
     summary = module.build_recommended_render_summary(preflight, report_dirs=[report_dir], fallback_reports=[])
 
     assert summary["summary"]["recommended_pair_count"] == 2
+    assert summary["summary"]["selected_pair_count"] == 2
+    assert summary["summary"]["selection_mode"] == "recommended_pairs_by_target"
     assert summary["summary"]["reports_found_count"] == 2
     assert summary["summary"]["paired_non_dark_render_smoke_count"] == 1
     assert summary["summary"]["black_or_missing_image_count"] == 1
@@ -121,6 +123,66 @@ def test_main_writes_summary_with_fallback_report(tmp_path: Path) -> None:
     assert status == 0
     written = json.loads(out.read_text(encoding="utf-8"))
     assert written["summary"]["recommended_pair_count"] == 1
+    assert written["summary"]["selected_pair_count"] == 1
     assert written["summary"]["fallback_report_count"] == 1
     assert written["pairs"][0]["report_path"] == str(fallback)
     assert written["pairs"][0]["report_source"] == "fallback_report"
+
+
+def test_main_writes_summary_with_explicit_pair_ids_and_provenance(tmp_path: Path) -> None:
+    module = load_summary_module()
+    preflight_path = tmp_path / "visibility_preflight_report.json"
+    report_dir = tmp_path / "reports"
+    out = tmp_path / "alternative_summary.json"
+    report_dir.mkdir()
+    preflight_path.write_text(
+        json.dumps(
+            {
+                "summary": {"centerline_clear_pair_count": 3},
+                "recommended_pairs_by_target": {"target_a": {"pair_id": "pair_a.view_000"}},
+            }
+        ),
+        encoding="utf-8",
+    )
+    (report_dir / "pair_b.view_001.json").write_text(
+        json.dumps(_report("pair_b.view_001", original_pixels=4, converted_pixels=5)),
+        encoding="utf-8",
+    )
+    (report_dir / "pair_c.view_002.json").write_text(
+        json.dumps(_report("pair_c.view_002", original_pixels=6, converted_pixels=7)),
+        encoding="utf-8",
+    )
+
+    status = module.main(
+        [
+            "--preflight-report",
+            str(preflight_path),
+            "--report-dir",
+            str(report_dir),
+            "--fallback-report",
+            str(tmp_path / "missing_fallback.json"),
+            "--out",
+            str(out),
+            "--pair-id",
+            "pair_b.view_001",
+            "--pair-id",
+            "pair_c.view_002",
+            "--selection-mode",
+            "explicit_centerline_clear_alternatives",
+            "--status",
+            "selected_centerline_paired_render_summary",
+            "--claim-boundary",
+            "render_smoke_only_for_alternative_view_visual_qa",
+        ]
+    )
+
+    assert status == 0
+    written = json.loads(out.read_text(encoding="utf-8"))
+    assert written["status"] == "selected_centerline_paired_render_summary"
+    assert written["summary"]["selection_mode"] == "explicit_centerline_clear_alternatives"
+    assert written["summary"]["selected_pair_count"] == 2
+    assert written["summary"]["recommended_pair_count"] == 1
+    assert written["summary"]["preflight_centerline_clear_pair_count"] == 3
+    assert written["summary"]["claim_boundary"] == "render_smoke_only_for_alternative_view_visual_qa"
+    assert [item["pair_id"] for item in written["pairs"]] == ["pair_b.view_001", "pair_c.view_002"]
+    assert "--pair-id" in written["generator_provenance"]["command"]

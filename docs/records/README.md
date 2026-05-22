@@ -48,6 +48,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-22 GRScenes VLM prediction runner](2026-05-22-grscenes-vlm-prediction-runner.md)
 - [2026-05-22 GRScenes VLM visual QA and Gemma4 probe](2026-05-22-grscenes-vlm-visual-qa-and-gemma4-probe.md)
 - [2026-05-22 GRScenes Gemma4 visual-QA subset probe](2026-05-22-grscenes-gemma4-visual-qa-subset.md)
+- [2026-05-22 GRScenes alternative centerline render views](2026-05-22-grscenes-alternative-centerline-renders.md)
 - [2026-05-20 ACL VLM benchmark route](2026-05-20-acl-vlm-benchmark-route.md)
 - [2026-05-20 ACL 2027 candidate venue wrapper](2026-05-20-paper-acl27-candidate.md)
 - [2026-05-14 workshop review ingestion for AAAI 2027](2026-05-14-workshop-review-aaai27-roadmap.md)

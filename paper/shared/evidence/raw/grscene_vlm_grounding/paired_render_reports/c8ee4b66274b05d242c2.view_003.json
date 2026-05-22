@@ -1,0 +1,298 @@
+{
+  "schema_version": 1,
+  "status": "paired_render_smoke_report",
+  "generated_at_utc": "2026-05-22T04:17:49.860299Z",
+  "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_paired_render_smoke.py",
+  "render_manifest": {
+    "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/render_manifest.json",
+    "hash_sha256": "769cfad5a8d02c244e81898faec1ed8815e8a9c00ade7af93b9cd5af598f8765"
+  },
+  "report_path": "paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/c8ee4b66274b05d242c2.view_003.json",
+  "pair_id": "c8ee4b66274b05d242c2.view_003",
+  "target_category": "faucet",
+  "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+  "view_id": "view_003",
+  "renderer": "RayTracedLighting",
+  "image_width": 600,
+  "image_height": 450,
+  "records": [
+    {
+      "sample_id": "c8ee4b66274b05d242c2.view_003.original",
+      "material_condition": "original",
+      "exit_code": 0,
+      "render_command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_003/original/original_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_003/original",
+        "--prefix",
+        "original",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "8",
+        "--headless"
+      ],
+      "renderer_script": {
+        "path": "scripts/render_with_viewport_capture.py",
+        "resolved_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/scripts/render_with_viewport_capture.py",
+        "hash_sha256": "8e71b356616e38ad8594341c7b3f89f3e7c215f0f3c7355229c8a545cd9893e8"
+      },
+      "image": {
+        "mode": "RGBA",
+        "width": 600,
+        "height": 450,
+        "bytes": 418327,
+        "hash_sha256": "166c1cffbd6f11f6af09144792a3eb613b0eece861ca96662ee9e0fbfc739c8d",
+        "mean_rgb": [
+          146.7018,
+          65.9376,
+          65.2553
+        ],
+        "stddev_rgb": [
+          81.5209,
+          59.3886,
+          59.2667
+        ],
+        "non_dark_pixel_threshold": 10,
+        "non_dark_pixel_count": 235950,
+        "non_dark_pixel_bbox_xyxy": [
+          0,
+          0,
+          599,
+          449
+        ],
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_003/original/original_0000.png"
+      },
+      "stdout_summary": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/c8ee4b66274b05d242c2.view_003/c8ee4b66274b05d242c2.view_003.original.stdout.txt",
+        "bytes": 341345,
+        "hash_sha256": "1c743e4057ef3e0b5ec4fc70b00b4c5377528b87bf1e8e1261bcbb1fb910103a",
+        "line_count": 1174,
+        "contains_saved_frame": true,
+        "counts": {
+          "KooPbr": 0,
+          "KooPbr_maps": 0,
+          "Failed to create MDL shade node": 0,
+          "coroutine was never awaited": 0
+        }
+      },
+      "stderr_summary": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/c8ee4b66274b05d242c2.view_003/c8ee4b66274b05d242c2.view_003.original.stderr.txt",
+        "bytes": 1266863,
+        "hash_sha256": "28cbe7785f8821eaad1b7939c25cdfe0877112f5bfa84657b0bbe57eb9b47eb9",
+        "line_count": 3897,
+        "contains_saved_frame": false,
+        "counts": {
+          "KooPbr": 704,
+          "KooPbr_maps": 884,
+          "Failed to create MDL shade node": 1586,
+          "coroutine was never awaited": 0
+        }
+      }
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.view_003.converted",
+      "material_condition": "converted",
+      "exit_code": 0,
+      "render_command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_003/converted/converted_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_003/converted",
+        "--prefix",
+        "converted",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "8",
+        "--headless"
+      ],
+      "renderer_script": {
+        "path": "scripts/render_with_viewport_capture.py",
+        "resolved_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/scripts/render_with_viewport_capture.py",
+        "hash_sha256": "8e71b356616e38ad8594341c7b3f89f3e7c215f0f3c7355229c8a545cd9893e8"
+      },
+      "image": {
+        "mode": "RGBA",
+        "width": 600,
+        "height": 450,
+        "bytes": 319750,
+        "hash_sha256": "2c2ad5a061d955134476262ae2b5e74339494c00bb9a7e45ee48684440ce06ef",
+        "mean_rgb": [
+          165.8425,
+          165.1075,
+          164.261
+        ],
+        "stddev_rgb": [
+          87.1629,
+          87.2355,
+          87.3086
+        ],
+        "non_dark_pixel_threshold": 10,
+        "non_dark_pixel_count": 258388,
+        "non_dark_pixel_bbox_xyxy": [
+          0,
+          0,
+          599,
+          449
+        ],
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_003/converted/converted_0000.png"
+      },
+      "stdout_summary": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/c8ee4b66274b05d242c2.view_003/c8ee4b66274b05d242c2.view_003.converted.stdout.txt",
+        "bytes": 43933,
+        "hash_sha256": "ec01544b01784dd7b74c5a1367be2dc76760d31b58de4c055656eef4230007e2",
+        "line_count": 466,
+        "contains_saved_frame": true,
+        "counts": {
+          "KooPbr": 0,
+          "KooPbr_maps": 0,
+          "Failed to create MDL shade node": 0,
+          "coroutine was never awaited": 0
+        }
+      },
+      "stderr_summary": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/c8ee4b66274b05d242c2.view_003/c8ee4b66274b05d242c2.view_003.converted.stderr.txt",
+        "bytes": 357,
+        "hash_sha256": "ec556883fe5eecfe3fa9ce927341dc612a38e7562c449aa7baee32dfc622be21",
+        "line_count": 8,
+        "contains_saved_frame": false,
+        "counts": {
+          "KooPbr": 0,
+          "KooPbr_maps": 0,
+          "Failed to create MDL shade node": 0,
+          "coroutine was never awaited": 0
+        }
+      }
+    }
+  ],
+  "summary": {
+    "both_commands_exit_zero": true,
+    "both_images_exist": true,
+    "original_non_dark_pixel_count": 235950,
+    "converted_non_dark_pixel_count": 258388,
+    "original_mdl_error_signal": 1588,
+    "converted_mdl_error_signal": 0,
+    "interpretation": "Both paired renders contain visible pixels for this view. The original render still reports MDL/KooPbr error signal 1588, while the converted render reports 0. Treat as render-stack smoke evidence only; final VLM claims require visibility-aware batch renders, image-space labels, predictions, and score summaries.",
+    "next_gate": "implement visibility-aware view selection and render more paired images before VLM scoring"
+  },
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_paired_render_smoke.py",
+      "--pair-id",
+      "c8ee4b66274b05d242c2.view_003",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/c8ee4b66274b05d242c2.view_003.json",
+      "--timeout-seconds",
+      "900"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_paired_render_smoke.py",
+    "script_hash_sha256": "3131f8fee470bd54390d04dbafa33288b6c4b4966a6f740449d4bcd46647c1a4",
+    "git_commit": "8d26a696c84ffbb9191949ddf4868f6b8e4aae29",
+    "git_status_porcelain": [
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/bb985fd4504a1afe8516.view_001.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/bb985fd4504a1afe8516.view_002.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/bb985fd4504a1afe8516.view_003.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/e2ec085d524d5df4455d.view_001.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/e2ec085d524d5df4455d.view_003.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/f35ef3d86c42446b7ddf.view_002.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/f405f964229ca3d3fbad.view_001.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/f405f964229ca3d3fbad.view_002.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_reports/f405f964229ca3d3fbad.view_003.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_001/bb985fd4504a1afe8516.view_001.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_001/bb985fd4504a1afe8516.view_001.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_001/bb985fd4504a1afe8516.view_001.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_001/bb985fd4504a1afe8516.view_001.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_002/bb985fd4504a1afe8516.view_002.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_002/bb985fd4504a1afe8516.view_002.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_002/bb985fd4504a1afe8516.view_002.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_002/bb985fd4504a1afe8516.view_002.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_003/bb985fd4504a1afe8516.view_003.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_003/bb985fd4504a1afe8516.view_003.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_003/bb985fd4504a1afe8516.view_003.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/bb985fd4504a1afe8516.view_003/bb985fd4504a1afe8516.view_003.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/c8ee4b66274b05d242c2.view_003/c8ee4b66274b05d242c2.view_003.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/c8ee4b66274b05d242c2.view_003/c8ee4b66274b05d242c2.view_003.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/c8ee4b66274b05d242c2.view_003/c8ee4b66274b05d242c2.view_003.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/c8ee4b66274b05d242c2.view_003/c8ee4b66274b05d242c2.view_003.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/e2ec085d524d5df4455d.view_001/e2ec085d524d5df4455d.view_001.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/e2ec085d524d5df4455d.view_001/e2ec085d524d5df4455d.view_001.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/e2ec085d524d5df4455d.view_001/e2ec085d524d5df4455d.view_001.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/e2ec085d524d5df4455d.view_001/e2ec085d524d5df4455d.view_001.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/e2ec085d524d5df4455d.view_003/e2ec085d524d5df4455d.view_003.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/e2ec085d524d5df4455d.view_003/e2ec085d524d5df4455d.view_003.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/e2ec085d524d5df4455d.view_003/e2ec085d524d5df4455d.view_003.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/e2ec085d524d5df4455d.view_003/e2ec085d524d5df4455d.view_003.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f35ef3d86c42446b7ddf.view_002/f35ef3d86c42446b7ddf.view_002.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f35ef3d86c42446b7ddf.view_002/f35ef3d86c42446b7ddf.view_002.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f35ef3d86c42446b7ddf.view_002/f35ef3d86c42446b7ddf.view_002.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f35ef3d86c42446b7ddf.view_002/f35ef3d86c42446b7ddf.view_002.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_001/f405f964229ca3d3fbad.view_001.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_001/f405f964229ca3d3fbad.view_001.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_001/f405f964229ca3d3fbad.view_001.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_001/f405f964229ca3d3fbad.view_001.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_002/f405f964229ca3d3fbad.view_002.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_002/f405f964229ca3d3fbad.view_002.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_002/f405f964229ca3d3fbad.view_002.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_002/f405f964229ca3d3fbad.view_002.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_003/f405f964229ca3d3fbad.view_003.converted.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_003/f405f964229ca3d3fbad.view_003.converted.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_003/f405f964229ca3d3fbad.view_003.original.stderr.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/render_logs/f405f964229ca3d3fbad.view_003/f405f964229ca3d3fbad.view_003.original.stdout.txt",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_001/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_001/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_002/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_002/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_003/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/view_003/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_001/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_001/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_003/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_003/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/view_002/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/view_002/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_003/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_003/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/f405f964229ca3d3fbad/view_001/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/f405f964229ca3d3fbad/view_001/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/f405f964229ca3d3fbad/view_002/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/f405f964229ca3d3fbad/view_002/original/original_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/f405f964229ca3d3fbad/view_003/converted/converted_0000.png",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/f405f964229ca3d3fbad/view_003/original/original_0000.png"
+    ]
+  }
+}
