@@ -55,6 +55,9 @@ results:
     - id: grscenes_vlm_pass_only_target_projection_qa
       path: paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json
       description: "Combined projection-label artifact for the four visual-QA PASS original/converted pairs; label provenance only, not model-result evidence."
+    - id: grscenes_vlm_canonical_run_manifest
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/canonical_vlm_run_manifest.json
+      description: "Canonical VLM input/protocol and claim-gate manifest: 4 PASS pairs, 11 WARN retake candidates, 6 FAIL exclusions, pilot-only status, and final_benchmark_claimable=false."
     - id: grscenes_vlm_projection_center_baseline_predictions_metadata
       path: paper/shared/evidence/raw/grscene_vlm_grounding/projection_center_baseline_predictions.jsonl.metadata.json
       description: "Provenance for deterministic projection-center scoring-smoke predictions; smoke-only and not VLM output evidence."

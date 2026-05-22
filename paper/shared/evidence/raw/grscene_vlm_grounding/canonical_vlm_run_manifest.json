@@ -1,0 +1,921 @@
+{
+  "schema_version": 1,
+  "status": "canonical_vlm_run_manifest",
+  "claim_status": "pilot_only",
+  "final_benchmark_claimable": false,
+  "generated_at_utc": "2026-05-22T06:53:27.248357Z",
+  "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_canonical_vlm_run_manifest.py",
+  "summary": {
+    "selection_id": "canonical_pass_only_v1",
+    "claim_boundary": "canonical_input_manifest_only_not_model_metric_evidence",
+    "pass_pair_count": 4,
+    "pass_scoring_record_count": 8,
+    "warn_pair_count": 11,
+    "fail_pair_count": 6,
+    "min_pass_pairs_for_final_benchmark": 20,
+    "ready_for_pilot_model_run": true,
+    "ready_for_final_benchmark_run": false,
+    "pilot_blockers": [],
+    "blockers": [
+      "pass_pair_count_below_minimum_final_benchmark_gate"
+    ],
+    "non_pass_selected_pair_ids": [],
+    "missing_visual_review_pair_ids": [],
+    "projection_blocked_pair_ids": [],
+    "selected_target_category_counts": {
+      "bottle": 1,
+      "cup": 2,
+      "faucet": 1
+    }
+  },
+  "protocol": {
+    "task_id": "s1_referred_object_localization",
+    "coordinate_frame": "normalized_1000",
+    "response_format": "structured_text",
+    "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+    "answer_metric": "answer_accuracy",
+    "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+    "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image",
+    "runner": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+    "scorer": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
+    "protocol_schema_version": 2,
+    "response_format_note": "Use structured_text for Qwen-family backends until direct JSON prompting is revalidated."
+  },
+  "claim_gate": {
+    "claim_status": "pilot_only",
+    "final_benchmark_claimable": false,
+    "blocked_by": [
+      "only_four_visual_qa_pass_pairs",
+      "canonical_predictions_missing",
+      "canonical_score_summary_missing",
+      "probe_outputs_under_probes_not_canonical_predictions_jsonl",
+      "legacy_gemma4_probe_not_frozen_protocol",
+      "qwen_coordinate_semantics_unresolved",
+      "pass_pair_count_below_minimum_final_benchmark_gate"
+    ],
+    "allowed_claims": [
+      "pipeline plumbing and provenance for the current PASS-only VLM pilot",
+      "pilot-only Gemma4/Qwen protocol diagnostics over the selected visual-QA PASS pairs",
+      "retake queue identification for WARN visual-QA pairs"
+    ],
+    "forbidden_claims": [
+      "not a final GRScenes benchmark result",
+      "not evidence that no-MDL conversion preserves VLM grounding in general",
+      "not a Gemma4-vs-Qwen model comparison",
+      "not a PIO dataset evaluation"
+    ]
+  },
+  "recommended_model_runs": [
+    {
+      "id": "gemma4_canonical_pass_only",
+      "backend": "local_gemma4_multimodal",
+      "coordinate_frame": "normalized_1000",
+      "response_format": "structured_text",
+      "claim_boundary": "pilot_model_run_until_final_pass_pool_gate_satisfied"
+    },
+    {
+      "id": "qwen25_canonical_pass_only",
+      "backend": "local_hf_qwen",
+      "coordinate_frame": "normalized_1000",
+      "response_format": "structured_text",
+      "claim_boundary": "pilot_model_run_until_final_pass_pool_gate_satisfied"
+    }
+  ],
+  "selected_pair_ids": [
+    "c27086f557d316584264.view_001",
+    "e2ec085d524d5df4455d.view_001",
+    "e2ec085d524d5df4455d.view_003",
+    "c8ee4b66274b05d242c2.view_003"
+  ],
+  "selected_pairs": [
+    {
+      "pair_id": "c27086f557d316584264.view_001",
+      "target_id": "c27086f557d316584264",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "view_id": "view_001",
+      "target_prim_path": "/Root/Meshes/Furnitures/bottle/model_1f3a3f56a624361c98fc37e723ef2b52_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          274.22,
+          171.824,
+          324.525,
+          278.53
+        ],
+        "raw_bbox_xyxy": [
+          274.22,
+          171.824,
+          324.525,
+          278.53
+        ],
+        "bbox_area_px": 5367.872,
+        "bbox_area_fraction": 0.019881,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/target_projection_qa_report.json",
+        "hash_sha256": "8715fad5c37117c66c97982e9ef3bbcee4f4a4306f29162ad70f0d16f6fcab3c"
+      },
+      "visual_review": {
+        "pair_id": "c27086f557d316584264.view_001",
+        "target_category": "bottle",
+        "verdict": "PASS",
+        "packet_id": "P01",
+        "visible_evidence": "Bottle is centered and identifiable in both blind A/B images, with comparable camera framing.",
+        "risk_or_retake": "Target is somewhat small and near similarly sized objects, but still usable.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+          "hash_sha256": "18772da996028d528a684cc1da408eab477c6289c8844f0b16c30c1ea18f2bdc"
+        }
+      }
+    },
+    {
+      "pair_id": "e2ec085d524d5df4455d.view_001",
+      "target_id": "e2ec085d524d5df4455d",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_001",
+      "target_prim_path": "/Root/Meshes/Furnitures/cup/model_97a5d8ffa4e5197d728307133fb6cca4_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "raw_bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "bbox_area_px": 8321.007,
+        "bbox_area_fraction": 0.030819,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_target_projection_qa_report.json",
+        "hash_sha256": "94d190fd7b11f85b61cfeb74d8fbac364b3633a23bafada207c533449ee3440b"
+      },
+      "visual_review": {
+        "pair_id": "e2ec085d524d5df4455d.view_001",
+        "target_category": "cup",
+        "verdict": "PASS",
+        "packet_id": "A05",
+        "visible_evidence": "Cup is visible on tabletop/counter near the wall in both images; framing and viewpoint are comparable.",
+        "risk_or_retake": "None required.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+          "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+        }
+      }
+    },
+    {
+      "pair_id": "e2ec085d524d5df4455d.view_003",
+      "target_id": "e2ec085d524d5df4455d",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "view_id": "view_003",
+      "target_prim_path": "/Root/Meshes/Furnitures/cup/model_97a5d8ffa4e5197d728307133fb6cca4_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "raw_bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "bbox_area_px": 8321.007,
+        "bbox_area_fraction": 0.030819,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_target_projection_qa_report.json",
+        "hash_sha256": "94d190fd7b11f85b61cfeb74d8fbac364b3633a23bafada207c533449ee3440b"
+      },
+      "visual_review": {
+        "pair_id": "e2ec085d524d5df4455d.view_003",
+        "target_category": "cup",
+        "verdict": "PASS",
+        "packet_id": "A06",
+        "visible_evidence": "Cup is clearly visible, reasonably sized, and framed well in both images; handle and open top are identifiable.",
+        "risk_or_retake": "None required.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+          "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+        }
+      }
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.view_003",
+      "target_id": "c8ee4b66274b05d242c2",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "view_id": "view_003",
+      "target_prim_path": "/Root/Meshes/Animation/faucet/model_baf45789fdb0af5bf7d2b519d38e5a40_0",
+      "render_smoke_pass": true,
+      "projection": {
+        "status": "projection_ok",
+        "bbox_xyxy": [
+          268.176,
+          180.122,
+          325.361,
+          277.26
+        ],
+        "raw_bbox_xyxy": [
+          268.176,
+          180.122,
+          325.361,
+          277.26
+        ],
+        "bbox_area_px": 5554.833,
+        "bbox_area_fraction": 0.020573,
+        "center_pixel_xy": [
+          300.0,
+          225.0
+        ],
+        "center_in_frame": true,
+        "front_corner_count": 8
+      },
+      "status": "projection_ok",
+      "source_projection_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_target_projection_qa_report.json",
+        "hash_sha256": "94d190fd7b11f85b61cfeb74d8fbac364b3633a23bafada207c533449ee3440b"
+      },
+      "visual_review": {
+        "pair_id": "c8ee4b66274b05d242c2.view_003",
+        "target_category": "faucet",
+        "verdict": "PASS",
+        "packet_id": "A10",
+        "visible_evidence": "Faucet is clearly visible over the sink in both images; bathroom context is recognizable.",
+        "risk_or_retake": "None required.",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+          "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+        }
+      }
+    }
+  ],
+  "rejected_selected_pairs": [],
+  "scoring_records": [
+    {
+      "sample_id": "c27086f557d316584264.view_001.original",
+      "pair_id": "c27086f557d316584264.view_001",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/view_001/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "08c3ea179d6ffcb8cd888311c1936ec5e83b5b88d6fb76e7ac226053c7447a9f"
+      },
+      "target": {
+        "bbox_xyxy": [
+          274.22,
+          171.824,
+          324.525,
+          278.53
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "bottle",
+        "expected_answers": [
+          "bottle"
+        ]
+      },
+      "expected_answers": [
+        "bottle"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image"
+      },
+      "claim_boundary": "canonical_input_manifest_only_not_model_metric_evidence",
+      "visual_review": {
+        "verdict": "PASS",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+          "hash_sha256": "18772da996028d528a684cc1da408eab477c6289c8844f0b16c30c1ea18f2bdc"
+        }
+      }
+    },
+    {
+      "sample_id": "c27086f557d316584264.view_001.converted",
+      "pair_id": "c27086f557d316584264.view_001",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/view_001/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "e018db94d16c0d06541ee852826348e4257895b1ca7abc8119ba67942647cc2c"
+      },
+      "target": {
+        "bbox_xyxy": [
+          274.22,
+          171.824,
+          324.525,
+          278.53
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "bottle",
+        "expected_answers": [
+          "bottle"
+        ]
+      },
+      "expected_answers": [
+        "bottle"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image"
+      },
+      "claim_boundary": "canonical_input_manifest_only_not_model_metric_evidence",
+      "visual_review": {
+        "verdict": "PASS",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+          "hash_sha256": "18772da996028d528a684cc1da408eab477c6289c8844f0b16c30c1ea18f2bdc"
+        }
+      }
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.view_001.original",
+      "pair_id": "e2ec085d524d5df4455d.view_001",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_001/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "77ee49b987fbeeedc28380e8360d9a37b47b2790b820c34575e183b7be63029b"
+      },
+      "target": {
+        "bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "cup",
+        "expected_answers": [
+          "cup"
+        ]
+      },
+      "expected_answers": [
+        "cup"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image"
+      },
+      "claim_boundary": "canonical_input_manifest_only_not_model_metric_evidence",
+      "visual_review": {
+        "verdict": "PASS",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+          "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+        }
+      }
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.view_001.converted",
+      "pair_id": "e2ec085d524d5df4455d.view_001",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_001/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "db6032361961298afeaa23f5ddb8d5d6ab2d1cdf90e5fa82cc37ca6ab92a26a3"
+      },
+      "target": {
+        "bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "cup",
+        "expected_answers": [
+          "cup"
+        ]
+      },
+      "expected_answers": [
+        "cup"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image"
+      },
+      "claim_boundary": "canonical_input_manifest_only_not_model_metric_evidence",
+      "visual_review": {
+        "verdict": "PASS",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+          "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+        }
+      }
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.view_003.original",
+      "pair_id": "e2ec085d524d5df4455d.view_003",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_003/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "6408a4402da887cc65bfb846b9877cab809b6c77e8629d02f4ea13ee8d4c1fc3"
+      },
+      "target": {
+        "bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "cup",
+        "expected_answers": [
+          "cup"
+        ]
+      },
+      "expected_answers": [
+        "cup"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image"
+      },
+      "claim_boundary": "canonical_input_manifest_only_not_model_metric_evidence",
+      "visual_review": {
+        "verdict": "PASS",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+          "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+        }
+      }
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.view_003.converted",
+      "pair_id": "e2ec085d524d5df4455d.view_003",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/view_003/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "c55a6adfd5ff76ed2c2e98be7a0d89d34117f61db17ce270bd18214352b5644a"
+      },
+      "target": {
+        "bbox_xyxy": [
+          253.221,
+          183.973,
+          345.586,
+          274.061
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "cup",
+        "expected_answers": [
+          "cup"
+        ]
+      },
+      "expected_answers": [
+        "cup"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image"
+      },
+      "claim_boundary": "canonical_input_manifest_only_not_model_metric_evidence",
+      "visual_review": {
+        "verdict": "PASS",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+          "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+        }
+      }
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.view_003.original",
+      "pair_id": "c8ee4b66274b05d242c2.view_003",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_003/original/original_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "166c1cffbd6f11f6af09144792a3eb613b0eece861ca96662ee9e0fbfc739c8d"
+      },
+      "target": {
+        "bbox_xyxy": [
+          268.176,
+          180.122,
+          325.361,
+          277.26
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image"
+      },
+      "claim_boundary": "canonical_input_manifest_only_not_model_metric_evidence",
+      "visual_review": {
+        "verdict": "PASS",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+          "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+        }
+      }
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.view_003.converted",
+      "pair_id": "c8ee4b66274b05d242c2.view_003",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/view_003/converted/converted_0000.png",
+        "width": 600,
+        "height": 450,
+        "hash_sha256": "2c2ad5a061d955134476262ae2b5e74339494c00bb9a7e45ee48684440ce06ef"
+      },
+      "target": {
+        "bbox_xyxy": [
+          268.176,
+          180.122,
+          325.361,
+          277.26
+        ],
+        "bbox_source": "projected_world_bbox_from_manifest_camera",
+        "category": "faucet",
+        "expected_answers": [
+          "faucet"
+        ]
+      },
+      "expected_answers": [
+        "faucet"
+      ],
+      "prediction": null,
+      "prompt_contract": {
+        "task_id": "s1_referred_object_localization",
+        "coordinate_frame": "normalized_1000",
+        "response_format": "structured_text",
+        "primary_point_metric": "point_in_bbox_normalized_1000_accuracy",
+        "answer_metric": "answer_accuracy",
+        "pair_consistency_metric": "normalized_1000_point_hit_agreement",
+        "diagnostic_point_metrics": "raw_pixel_point_in_bbox_and_point_in_image"
+      },
+      "claim_boundary": "canonical_input_manifest_only_not_model_metric_evidence",
+      "visual_review": {
+        "verdict": "PASS",
+        "source_visual_review_report": {
+          "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+          "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+        }
+      }
+    }
+  ],
+  "source_projection_reports": [
+    {
+      "path": "paper/shared/evidence/raw/grscene_vlm_grounding/target_projection_qa_report.json",
+      "hash_sha256": "8715fad5c37117c66c97982e9ef3bbcee4f4a4306f29162ad70f0d16f6fcab3c"
+    },
+    {
+      "path": "paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_target_projection_qa_report.json",
+      "hash_sha256": "94d190fd7b11f85b61cfeb74d8fbac364b3633a23bafada207c533449ee3440b"
+    }
+  ],
+  "retake_candidates": [
+    {
+      "pair_id": "32ba3ade1a8e63c981af.view_002",
+      "target_category": "plate",
+      "verdict": "WARN",
+      "packet_id": "P02",
+      "visible_evidence": "Plate is visible in both views, but one view is very dark and the other has heavy red tint or overexposure.",
+      "risk_or_retake": "Lighting and material shift make the pair only weakly comparable; target detail is limited.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+        "hash_sha256": "18772da996028d528a684cc1da408eab477c6289c8844f0b16c30c1ea18f2bdc"
+      }
+    },
+    {
+      "pair_id": "bb985fd4504a1afe8516.view_000",
+      "target_category": "cup",
+      "verdict": "WARN",
+      "packet_id": "P04",
+      "visible_evidence": "A small cup-like object is visible on a tabletop in both blind images; framing is comparable.",
+      "risk_or_retake": "Target is small, and material/gloss changes make the cup blend partly into the surface.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+        "hash_sha256": "18772da996028d528a684cc1da408eab477c6289c8844f0b16c30c1ea18f2bdc"
+      }
+    },
+    {
+      "pair_id": "e2ec085d524d5df4455d.view_000",
+      "target_category": "cup",
+      "verdict": "WARN",
+      "packet_id": "P05",
+      "visible_evidence": "Cup or mug is centered and identifiable in both blind views; camera angle is comparable.",
+      "risk_or_retake": "Low contrast and noisy or dark material changes may affect before/after fairness.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+        "hash_sha256": "18772da996028d528a684cc1da408eab477c6289c8844f0b16c30c1ea18f2bdc"
+      }
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.view_000",
+      "target_category": "faucet",
+      "verdict": "WARN",
+      "packet_id": "P07",
+      "visible_evidence": "Faucet is visible and identifiable in both blind images at the sink; camera angle is usable.",
+      "risk_or_retake": "Strong material/color shift, blown mirror area, and heavy tint reduce fair before/after confidence.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+        "hash_sha256": "18772da996028d528a684cc1da408eab477c6289c8844f0b16c30c1ea18f2bdc"
+      }
+    },
+    {
+      "pair_id": "90e105daa7e6ff59da38.view_002",
+      "target_category": "picture",
+      "verdict": "WARN",
+      "packet_id": "P10",
+      "visible_evidence": "A picture-like rectangular object may be visible, but it is small, oblique, and visually ambiguous.",
+      "risk_or_retake": "Grazing camera angle, overexposure or flat materials, and scale distortion make localization weak.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+        "hash_sha256": "18772da996028d528a684cc1da408eab477c6289c8844f0b16c30c1ea18f2bdc"
+      }
+    },
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.view_002",
+      "target_category": "clock",
+      "verdict": "WARN",
+      "packet_id": "A01",
+      "visible_evidence": "Clock-like circular marking is visible near center in both images, but target is small/ambiguous with glossy material shifts and geometry crowding.",
+      "risk_or_retake": "Retake with the clock larger, less overhead obstruction, and less glossy material response.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+        "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+      }
+    },
+    {
+      "pair_id": "bb985fd4504a1afe8516.view_001",
+      "target_category": "cup",
+      "verdict": "WARN",
+      "packet_id": "A02",
+      "visible_evidence": "Cup/goblet is visible on tabletop in both images with similar framing.",
+      "risk_or_retake": "Retake closer in a more complete indoor context with reduced specular glare.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+        "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+      }
+    },
+    {
+      "pair_id": "bb985fd4504a1afe8516.view_002",
+      "target_category": "cup",
+      "verdict": "WARN",
+      "packet_id": "A03",
+      "visible_evidence": "Cup/goblet is clearly visible near center in both images, but background is mostly blank/unfinished and glare/material differences are strong.",
+      "risk_or_retake": "Retake with more room context and balanced lighting/materials.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+        "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+      }
+    },
+    {
+      "pair_id": "bb985fd4504a1afe8516.view_003",
+      "target_category": "cup",
+      "verdict": "WARN",
+      "packet_id": "A04",
+      "visible_evidence": "Target is visible near table center but reads more like a small stemmed glass than a cup.",
+      "risk_or_retake": "Retake closer with clearer cup geometry, less glare, and no floating artifact.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+        "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+      }
+    },
+    {
+      "pair_id": "f405f964229ca3d3fbad.view_002",
+      "target_category": "cup",
+      "verdict": "WARN",
+      "packet_id": "A08",
+      "visible_evidence": "Indoor desk/bookshelf scene is visible; a small cup-like object may be on tabletop/tray but is ambiguous.",
+      "risk_or_retake": "Retake with cup larger and visually distinct from tabletop/tray, away from blown highlights.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+        "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+      }
+    },
+    {
+      "pair_id": "f405f964229ca3d3fbad.view_003",
+      "target_category": "cup",
+      "verdict": "WARN",
+      "packet_id": "A09",
+      "visible_evidence": "Indoor desk/bookshelf scene; small object on desk/tray could be the cup, more visible in one image.",
+      "risk_or_retake": "Retake with cup larger and higher contrast against tabletop.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+        "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+      }
+    }
+  ],
+  "excluded_pairs": [
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.view_001",
+      "target_category": "clock",
+      "verdict": "FAIL",
+      "packet_id": "P03",
+      "visible_evidence": "No clearly identifiable clock is visible in either blind image; a large grid or geometry artifact dominates.",
+      "risk_or_retake": "Target appears missing, hidden, or too ambiguous for referred-object localization.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+        "hash_sha256": "18772da996028d528a684cc1da408eab477c6289c8844f0b16c30c1ea18f2bdc"
+      }
+    },
+    {
+      "pair_id": "f405f964229ca3d3fbad.view_000",
+      "target_category": "cup",
+      "verdict": "FAIL",
+      "packet_id": "P06",
+      "visible_evidence": "The object is not clearly identifiable as a cup in either blind view.",
+      "risk_or_retake": "Target ambiguity, small scale, heavy red material, and glare make localization unreliable.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+        "hash_sha256": "18772da996028d528a684cc1da408eab477c6289c8844f0b16c30c1ea18f2bdc"
+      }
+    },
+    {
+      "pair_id": "2c2bd8f1c808f5a4b227.view_002",
+      "target_category": "bottle",
+      "verdict": "FAIL",
+      "packet_id": "P08",
+      "visible_evidence": "A small object may be present near shelving, but the bottle is not clearly identifiable.",
+      "risk_or_retake": "Target is too small or occluded and material artifacts are severe.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+        "hash_sha256": "18772da996028d528a684cc1da408eab477c6289c8844f0b16c30c1ea18f2bdc"
+      }
+    },
+    {
+      "pair_id": "1e397951c1926c7f0a0b.view_000",
+      "target_category": "clock",
+      "verdict": "FAIL",
+      "packet_id": "P09",
+      "visible_evidence": "Clock is not visible or identifiable in either blind image; the camera appears clipped or trapped behind large geometry.",
+      "risk_or_retake": "Framing is task-breaking and the target is effectively missing.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+        "hash_sha256": "18772da996028d528a684cc1da408eab477c6289c8844f0b16c30c1ea18f2bdc"
+      }
+    },
+    {
+      "pair_id": "f405f964229ca3d3fbad.view_001",
+      "target_category": "cup",
+      "verdict": "FAIL",
+      "packet_id": "A07",
+      "visible_evidence": "Indoor scene is visible, but the cup target is not clearly identifiable in either image.",
+      "risk_or_retake": "Retake with cup unobstructed, larger in frame, and separated from competing tabletop objects.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+        "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+      }
+    },
+    {
+      "pair_id": "1e397951c1926c7f0a0b.view_003",
+      "target_category": "clock",
+      "verdict": "FAIL",
+      "packet_id": "A11",
+      "visible_evidence": "Clock is not visible; images appear clipped/overframed by a large plane with broken composition.",
+      "risk_or_retake": "Retake from an angle that fully shows the clock and avoids clipping through furniture or walls.",
+      "source_visual_review_report": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+        "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+      }
+    }
+  ],
+  "inputs": {
+    "projection_report": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json",
+      "hash_sha256": "c1ef05974d49c18093a520eda202ac9e38999afcb42a90a09d06c99aac912b02"
+    },
+    "visual_review_reports": [
+      {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+        "hash_sha256": "18772da996028d528a684cc1da408eab477c6289c8844f0b16c30c1ea18f2bdc"
+      },
+      {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json",
+        "hash_sha256": "398a6b1602ef0cf94a2a05201fc20aaa056027d69ee846c2bb28a28178955521"
+      }
+    ],
+    "protocol": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/protocol.yaml",
+      "hash_sha256": "c487871f42dde18de1241a006dd3313acc7d2d54998cd9c4586a3c7f5524cd0c"
+    },
+    "runner": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+      "hash_sha256": "bbec628dbcbc58eff6002a992c8826d95260d43c41c02578287b946d31f73ac4"
+    },
+    "scorer": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
+      "hash_sha256": "4983ea6eac57967f988789602ad25a60f279bccc41d16b87c3fc65eeb731d303"
+    }
+  },
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_canonical_vlm_run_manifest.py"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_canonical_vlm_run_manifest.py",
+    "script_hash_sha256": "85b92b214a363df7da44c33d8b06535005537e3c7183b6b3e56988b6525adf90",
+    "git_commit": "2f691e2e2c672de1de07fcf8308c44f55f998740",
+    "git_status_porcelain": [
+      " M paper/EXPERIMENT_CHECKLIST.md",
+      " M paper/shared/evidence/claims.yaml",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/README.md",
+      " M paper/shared/evidence/raw/grscene_vlm_grounding/README.md",
+      " M paper/shared/evidence/results_manifest.yaml",
+      " M paper/shared/sections/experiments.tex",
+      "?? paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_canonical_vlm_run_manifest.py",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/canonical_vlm_run_manifest.json",
+      "?? tests/test_grscenes_vlm_canonical_manifest.py"
+    ]
+  }
+}

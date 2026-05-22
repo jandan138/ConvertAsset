@@ -39,6 +39,11 @@ Expected files:
 - `pass_only_target_projection_qa_report.json`: combined projection-label
   artifact for the four visual-QA PASS pairs selected from the original and
   alternative projection reports.
+- `canonical_vlm_run_manifest.json`: canonical VLM input/protocol and claim
+  gate manifest. It verifies the four PASS pairs against the blind visual
+  review reports, lists 11 WARN retake candidates and 6 FAIL exclusions, fixes
+  the next-run protocol to `normalized_1000` + `structured_text`, and records
+  `claim_status=pilot_only` / `final_benchmark_claimable=false`.
 - `projection_center_baseline_predictions.jsonl`: deterministic bbox-center
   scoring-smoke predictions generated from `target_projection_qa_report.json`;
   this is not a VLM output file.
@@ -357,12 +362,20 @@ rows have `parse_status="parse_failed"`, and
 `probes/qwen25_pass_only_score_summary.json` therefore has zero scored answers
 or points.
 
+`canonical_vlm_run_manifest.json` is not model-result evidence. It is the
+single audit point for deciding which records may enter the next canonical VLM
+run and which claims remain blocked. The current manifest allows pilot model
+runs over the four PASS pairs but blocks final benchmark claims because the
+PASS pool is below the configured final gate and canonical `predictions.jsonl`
+/ `score_summary.json` files are still missing.
+
 `probes/qwen25_pass_only_structured_*` records the follow-up Qwen2.5-VL
 structured-text probe. The prediction runner requested normalized-1000
 coordinates, but the returned coordinates are ambiguous and score better under
 raw image-space boxes than normalized scaling. The parser accepts clear
 two-number point lines, unlabeled answer lines, and four-number boxes by taking
-the box center. The score summary has 8 parsed rows. Under the current strict
+the box center. The score summary has 8/8 scorable answer rows, but point-row
+coverage is 3/4 for original and 4/4 for converted. Under the current strict
 expected-label matcher, answer accuracy is 3/4 for both original and converted
 renders because `fauc` does not match the expected `faucet`. Raw point-in-bbox
 is 2/3 for original and 2/4 for converted among parsed points, while

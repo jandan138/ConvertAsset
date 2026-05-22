@@ -270,17 +270,18 @@ read as final VLM robustness evidence.
 
 \input{tables/tab_grscenes_vlm_pass_only_pilot}
 
-Table~\ref{tab:grscenes_vlm_pass_only_pilot} shows that local Gemma4 preserves
-target-category answers across all four original and converted renders, and
-under the normalized-1000 diagnostic its point predictions hit 4/4 original
-boxes and 3/4 converted boxes. In contrast, Qwen2.5-VL exposes two protocol
-issues. Direct JSON prompting produces malformed outputs and no scored answers
-or points. Structured-text prompting recovers 8/8 scorable answer rows, but
-point coverage remains asymmetric (3/4 original and 4/4 converted point rows)
-and the coordinate semantics remain unresolved: raw image-space boxes score
-better than normalized-1000 scaling, while normalized-1000 pair agreement is
-uninformative because all comparable Qwen points miss the boxes. The answer
+Table~\ref{tab:grscenes_vlm_pass_only_pilot} shows that, in this pilot, local
+Gemma4 produced target-category answers across all four original and converted
+renders, and under the normalized-1000 diagnostic its point predictions hit 4/4
+original boxes and 3/4 converted boxes. In contrast, Qwen2.5-VL exposes two
+protocol issues. Direct JSON prompting produces malformed outputs and no scored
+answers or points. Structured-text prompting recovers 8/8 scorable answer rows,
+but point coverage remains asymmetric (3/4 original and 4/4 converted point
+rows) and the coordinate semantics remain unresolved: raw image-space boxes
+score better than normalized-1000 scaling, while normalized-1000 pair agreement
+is uninformative because all comparable Qwen points miss the boxes. The answer
 matcher also treats the truncated string \texttt{fauc} as a miss for
-\texttt{faucet}. These results motivate a larger PASS render pool and a frozen
-coordinate/response-format contract before claiming final downstream task
-performance.
+\texttt{faucet}. These rows are registered as \texttt{pilot\_only} in the VLM
+run manifest and do not satisfy the canonical benchmark gate. They motivate a
+larger PASS render pool and a frozen coordinate/response-format contract before
+claiming final downstream task performance.

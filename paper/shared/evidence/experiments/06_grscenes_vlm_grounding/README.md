@@ -922,6 +922,39 @@ Normalized-1000 pair hit agreement is 3/4, both-hit pair count is 3/4, and
 mean pair point delta is 27.047455 px. Treat this as the current strongest
 pilot, not final VLM performance.
 
+## Canonical VLM Run Manifest
+
+Before promoting any VLM run beyond probe status, build the canonical input
+and claim-gate manifest:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_canonical_vlm_run_manifest.py
+```
+
+Default output:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/canonical_vlm_run_manifest.json
+```
+
+The manifest is an input/protocol artifact, not model-result evidence. It
+cross-checks the four selected PASS pairs against the independent blind visual
+review reports, lists all WARN pairs as retake candidates, lists FAIL pairs as
+excluded, and attaches runner/scorer/protocol hashes. The current checked-in
+manifest has:
+
+- 4 visual-QA PASS pairs and 8 runner-compatible scoring records.
+- 11 WARN retake candidates.
+- 6 FAIL exclusions.
+- `coordinate_frame=normalized_1000`,
+  `response_format=structured_text`, and primary metric
+  `point_in_bbox_normalized_1000_accuracy` for the next frozen-protocol run.
+- `claim_status=pilot_only` and `final_benchmark_claimable=false`.
+
+Plain version: this manifest says the next real-model pilot can be rerun with a
+cleaner protocol, but the current evidence still cannot be presented as final
+GRScenes VLM benchmark performance.
+
 The matching second-backend PASS-only Qwen2.5-VL direct-JSON probe used the
 same projection artifact, decoding length, and normalized-1000 coordinate
 request:
@@ -977,14 +1010,14 @@ python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_groundi
   --out paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_score_summary.json
 ```
 
-The structured-text probe has 8 parsed rows. Under the current strict
-expected-label matcher, answer accuracy is 3/4 for both material conditions
-because Qwen truncated `faucet` to `fauc` on the faucet pair. Raw
-point-in-bbox is 2/3 original and 2/4 converted among parsed points;
-normalized-1000 point-in-bbox is 0/3 original and 0/4 converted. The returned
-coordinates are therefore still semantically ambiguous: they score better under
-raw image-space boxes than normalized scaling, but this is not a frozen
-coordinate policy. The pair-level raw point hit agreement is 2/3 with one
-both-hit pair. Treat this as second-backend protocol-sensitivity evidence and
-as motivation for a frozen Qwen coordinate rerun, not as final ACL VLM
-performance.
+The structured-text probe has 8/8 scorable answer rows, with point-row coverage
+of 3/4 original and 4/4 converted. Under the current strict expected-label
+matcher, answer accuracy is 3/4 for both material conditions because Qwen
+truncated `faucet` to `fauc` on the faucet pair. Raw point-in-bbox is 2/3
+original and 2/4 converted among parsed points; normalized-1000 point-in-bbox
+is 0/3 original and 0/4 converted. The returned coordinates are therefore still
+semantically ambiguous: they score better under raw image-space boxes than
+normalized scaling, but this is not a frozen coordinate policy. The pair-level
+raw point hit agreement is 2/3 with one both-hit pair. Treat this as
+second-backend protocol-sensitivity evidence and as motivation for a frozen
+Qwen coordinate rerun, not as final ACL VLM performance.
