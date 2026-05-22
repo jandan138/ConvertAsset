@@ -270,18 +270,29 @@ read as final VLM robustness evidence.
 
 \input{tables/tab_grscenes_vlm_pass_only_pilot}
 
-Table~\ref{tab:grscenes_vlm_pass_only_pilot} shows that, in this pilot, local
-Gemma4 produced target-category answers across all four original and converted
-renders, and under the normalized-1000 diagnostic its point predictions hit 4/4
-original boxes and 3/4 converted boxes. In contrast, Qwen2.5-VL exposes two
-protocol issues. Direct JSON prompting produces malformed outputs and no scored
-answers or points. Structured-text prompting recovers 8/8 scorable answer rows,
-but point coverage remains asymmetric (3/4 original and 4/4 converted point
-rows) and the coordinate semantics remain unresolved: raw image-space boxes
-score better than normalized-1000 scaling, while normalized-1000 pair agreement
-is uninformative because all comparable Qwen points miss the boxes. The answer
-matcher also treats the truncated string \texttt{fauc} as a miss for
-\texttt{faucet}. These rows are registered as \texttt{pilot\_only} in the VLM
-run manifest and do not satisfy the canonical benchmark gate. They motivate a
-larger PASS render pool and a frozen coordinate/response-format contract before
-claiming final downstream task performance.
+Table~\ref{tab:grscenes_vlm_pass_only_pilot} reports the initial probe suite
+that motivated the frozen protocol. Local Gemma4 produced target-category
+answers across all four original and converted renders, and under the
+normalized-1000 diagnostic its point predictions hit 4/4 original boxes and 3/4
+converted boxes. In contrast, Qwen2.5-VL exposes two protocol issues. Direct
+JSON prompting produces malformed outputs and no scored answers or points.
+Structured-text prompting recovers 8/8 scorable answer rows, but point coverage
+remains asymmetric (3/4 original and 4/4 converted point rows) and the
+coordinate semantics remain unresolved: raw image-space boxes score better than
+normalized-1000 scaling, while normalized-1000 pair agreement is uninformative
+because all comparable Qwen points miss the boxes. The answer matcher also
+treats the truncated string \texttt{fauc} as a miss for \texttt{faucet}.
+
+We then reran Gemma4 and Qwen2.5-VL from the canonical VLM run manifest using
+the frozen \texttt{normalized\_1000} + \texttt{structured\_text} prompt
+contract. The rerun keeps the conclusion at the protocol-validation level:
+Gemma4 again answered all eight rows correctly, with normalized-1000
+point-in-box scores of 2/4 original and 3/4 converted, while Qwen2.5-VL answered
+3/4 rows in both material conditions and still produced normalized-1000 point
+scores of 0/3 original and 0/4 converted among parsed points. These
+manifest-aligned reruns are stored under \texttt{canonical\_probes/}; they are
+not root canonical \texttt{predictions.jsonl} or \texttt{score\_summary.json}
+outputs. The run manifest remains \texttt{pilot\_only} and
+\texttt{final\_benchmark\_claimable=false}, because only four visual-QA PASS
+pairs are available against a minimum final gate of 20. They motivate a larger
+PASS render pool before claiming final downstream task performance.

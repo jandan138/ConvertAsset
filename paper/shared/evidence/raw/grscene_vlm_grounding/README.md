@@ -44,6 +44,23 @@ Expected files:
   review reports, lists 11 WARN retake candidates and 6 FAIL exclusions, fixes
   the next-run protocol to `normalized_1000` + `structured_text`, and records
   `claim_status=pilot_only` / `final_benchmark_claimable=false`.
+- `canonical_probes/gemma4_canonical_pass_only_predictions.jsonl`: manifest-
+  aligned Gemma4 pilot rerun over the four visual-QA PASS pairs. This uses the
+  frozen `normalized_1000` + `structured_text` protocol from
+  `canonical_vlm_run_manifest.json`; it is not the root canonical
+  `predictions.jsonl` benchmark output.
+- `canonical_probes/gemma4_canonical_pass_only_predictions.jsonl.metadata.json`:
+  provenance sidecar for the manifest-aligned Gemma4 pilot rerun.
+- `canonical_probes/gemma4_canonical_pass_only_score_summary.json`: score
+  summary for the manifest-aligned Gemma4 pilot rerun; pilot-only evidence.
+- `canonical_probes/qwen25_canonical_pass_only_predictions.jsonl`: manifest-
+  aligned Qwen2.5-VL pilot rerun over the four visual-QA PASS pairs. This keeps
+  the same frozen protocol as the Gemma4 rerun and remains a coordinate-
+  semantics diagnostic, not final benchmark evidence.
+- `canonical_probes/qwen25_canonical_pass_only_predictions.jsonl.metadata.json`:
+  provenance sidecar for the manifest-aligned Qwen2.5-VL pilot rerun.
+- `canonical_probes/qwen25_canonical_pass_only_score_summary.json`: score
+  summary for the manifest-aligned Qwen2.5-VL pilot rerun; pilot-only evidence.
 - `projection_center_baseline_predictions.jsonl`: deterministic bbox-center
   scoring-smoke predictions generated from `target_projection_qa_report.json`;
   this is not a VLM output file.
@@ -93,6 +110,14 @@ later for `predictions.jsonl` and `score_summary.json`, not for source, target,
 or render planning manifests.
 
 `source_manifest.json`, `target_manifest.json`, and `render_manifest.json` are generated provenance/planning artifacts, not VLM results, and should not be cited as task performance. The current `target_manifest.json` resolves 40/40 selected episode records across 5 home scenes to USD prim paths and world-space bboxes; those records correspond to 23 unique spatial targets after duplicate episode references are collapsed.
+
+`canonical_probes/` is reserved for manifest-aligned pilot reruns that use the
+canonical input manifest and frozen prompt contract while the final claim gate is
+still closed. These files are useful evidence that real local VLMs can run under
+the frozen protocol, but they must not be cited as root canonical benchmark
+outputs. The root `predictions.jsonl` and `score_summary.json` remain reserved
+for a future run whose `canonical_vlm_run_manifest.json` satisfies the final
+benchmark gate.
 
 `target_manifest.json` uses the original GRScenes source tree read-only. The resolver opens source scene USDs with Isaac/pxr, matches target metadata paths to authored USD references, and computes bboxes from the absolute split-level model USD transformed by the scene prim transform. This avoids relying on composed scene bboxes when scene-local `models` and `Materials` entries are text pointer files rather than symlinks.
 

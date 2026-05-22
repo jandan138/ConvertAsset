@@ -147,6 +147,27 @@ def test_run_predictions_preserves_record_and_adds_model_metadata(tmp_path: Path
     assert engine.messages[0][0]["content"][1]["type"] == "image_url"
 
 
+def test_run_predictions_overwrites_input_manifest_claim_boundary(tmp_path: Path) -> None:
+    module = load_runner_module()
+    image_path = tmp_path / "render.png"
+    image_path.write_bytes(b"fake image bytes")
+    record = scoring_record(image_path)
+    record["claim_boundary"] = "canonical_input_manifest_only_not_model_metric_evidence"
+
+    rows = module.run_predictions(
+        [record],
+        FakeEngine("Point: 25, 40\nAnswer: cup"),
+        backend="local_hf_qwen",
+        model_checkpoint="/models/qwen",
+        temperature=0.0,
+        max_new_tokens=64,
+        coordinate_frame="normalized_1000",
+        response_format="structured_text",
+    )
+
+    assert rows[0]["claim_boundary"] == "model_prediction_scores_require_model_provenance_review"
+
+
 def test_write_predictions_writes_jsonl_and_metadata(tmp_path: Path) -> None:
     module = load_runner_module()
     image_path = tmp_path / "render.png"

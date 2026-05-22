@@ -39,9 +39,21 @@ claims:
       - paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_selection.json
       - paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_score_summary.json
     scope: "Pilot-only diagnostic over four visual-QA PASS original/converted GRScenes pairs; use as protocol-sensitivity evidence, not as a final VLM robustness claim. The canonical VLM run manifest keeps this evidence under `pilot_only` claim status."
+  - id: grscenes_vlm_canonical_frozen_protocol_pilot
+    statement: "Under the frozen manifest-aligned protocol (`normalized_1000` coordinates plus `structured_text` responses) on the same four visual-QA PASS GRScenes pairs, Gemma4 produced 8/8 scorable answers with 4/4 answer accuracy for both original and converted renders, and normalized-1000 point-in-box accuracy of 2/4 original and 3/4 converted. Qwen2.5-VL produced 8/8 scorable answers with 3/4 answer accuracy for both material conditions, normalized-1000 point-in-box accuracy of 0/3 original and 0/4 converted among parsed points, and raw point-in-box accuracy of 2/3 original and 2/4 converted."
+    sources:
+      - paper/shared/evidence/raw/grscene_vlm_grounding/canonical_vlm_run_manifest.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/gemma4_canonical_pass_only_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/gemma4_canonical_pass_only_predictions.jsonl.metadata.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/gemma4_canonical_pass_only_score_summary.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/qwen25_canonical_pass_only_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/qwen25_canonical_pass_only_predictions.jsonl.metadata.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/qwen25_canonical_pass_only_score_summary.json
+    scope: "Pilot-only manifest-aligned rerun over four blind-visual-QA PASS original/converted GRScenes pairs; not root canonical `predictions.jsonl` / `score_summary.json`, and not final benchmark evidence while `final_benchmark_claimable=false`."
 review_requirements:
   - "Re-check every numerical statement after AAAI 2027 narrative edits."
   - "Update this file in the same change as any result, table, figure, seed, or claim change."
-  - "Do not promote `grscenes_vlm_gemma4_pass_only_pilot` beyond pilot evidence until the coordinate protocol, sample size, and canonical score files are frozen."
-  - "Do not promote `grscenes_vlm_qwen25_pass_only_diagnostic` beyond protocol-sensitivity evidence until Qwen is rerun with a frozen coordinate prompt and parser policy."
+  - "Treat `grscenes_vlm_gemma4_pass_only_pilot` as a historical pre-freeze pilot probe; prefer `grscenes_vlm_canonical_frozen_protocol_pilot` when discussing the frozen prompt contract."
+  - "Treat `grscenes_vlm_qwen25_pass_only_diagnostic` as historical response-format evidence; prefer the canonical frozen-protocol rerun when discussing the current Qwen coordinate policy."
+  - "Do not promote `grscenes_vlm_canonical_frozen_protocol_pilot` beyond pilot evidence until the PASS pool is expanded and root canonical score files are produced from a final-claimable manifest."
   - "Do not generate final VLM performance tables from any run whose `canonical_vlm_run_manifest.json` claim gate has `final_benchmark_claimable=false`."

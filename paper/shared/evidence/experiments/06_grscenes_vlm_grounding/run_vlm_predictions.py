@@ -265,6 +265,7 @@ def run_predictions(
         raw_text = engine.generate(messages)
         parsed = parse_prediction_text(raw_text, response_format=response_format)
         row = dict(record)
+        row["claim_boundary"] = MODEL_CLAIM_BOUNDARY
         row["image"] = _image_with_hash(record)
         row["prompt"] = {
             "type": "s1_point",

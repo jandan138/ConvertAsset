@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "status": "vlm_predictions",
+  "prediction_count": 8,
+  "backend": "local_gemma4_multimodal",
+  "model_checkpoint": "/cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8",
+  "coordinate_frame": "normalized_1000",
+  "response_format": "structured_text",
+  "claim_boundary": "model_prediction_scores_require_model_provenance_review",
+  "generated_at_utc": "2026-05-22T07:12:27.274776Z",
+  "input_projection_report": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/canonical_vlm_run_manifest.json",
+    "hash_sha256": "3180a398d6eff90acf8549a56fb9b52919a7bc03a74db946fd7ddd74f6415cf2"
+  },
+  "output_jsonl": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/gemma4_canonical_pass_only_predictions.jsonl",
+    "hash_sha256": "200dcbb88cb008a715a5dcf0779d07fcd06db047d00eb664c71c92bde309d30e"
+  },
+  "runner_provenance": {
+    "command": [
+      "/cpfs/user/zhuzihou/conda-managed/envs/genesis-llm-qlora-py310/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+      "--projection-report",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/canonical_vlm_run_manifest.json",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/gemma4_canonical_pass_only_predictions.jsonl",
+      "--model-backend",
+      "local_gemma4_multimodal",
+      "--model-path",
+      "/cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8",
+      "--coordinate-frame",
+      "normalized_1000",
+      "--response-format",
+      "structured_text",
+      "--max-new-tokens",
+      "64",
+      "--force"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+    "script_hash_sha256": "ace5926526a0c738ffc20f6874c2c5c4e4565125a2679f6646a0e065fcd4aa08",
+    "git_commit": "8bc4e0a7ab12fd1e87a866552bf0b536535dd33a",
+    "git_status_porcelain": [
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+      " M tests/test_grscenes_vlm_prediction_runner.py",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/gemma4_canonical_pass_only_predictions.jsonl",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/gemma4_canonical_pass_only_predictions.jsonl.metadata.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/gemma4_canonical_pass_only_score_summary.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/qwen25_canonical_pass_only_predictions.jsonl",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/qwen25_canonical_pass_only_predictions.jsonl.metadata.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/qwen25_canonical_pass_only_score_summary.json"
+    ]
+  }
+}

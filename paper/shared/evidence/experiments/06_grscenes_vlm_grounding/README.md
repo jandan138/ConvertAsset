@@ -955,6 +955,44 @@ Plain version: this manifest says the next real-model pilot can be rerun with a
 cleaner protocol, but the current evidence still cannot be presented as final
 GRScenes VLM benchmark performance.
 
+## Canonical Frozen-Protocol Pilot Probes
+
+The manifest-aligned Gemma4 and Qwen2.5-VL reruns now live under:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/canonical_probes/
+```
+
+These files use `canonical_vlm_run_manifest.json` as the projection report and
+therefore inherit the frozen prompt contract:
+
+- `coordinate_frame=normalized_1000`
+- `response_format=structured_text`
+- primary point metric `point_in_bbox_normalized_1000_accuracy`
+
+Current Gemma4 canonical probe:
+
+- `gemma4_canonical_pass_only_predictions.jsonl`
+- `gemma4_canonical_pass_only_predictions.jsonl.metadata.json`
+- `gemma4_canonical_pass_only_score_summary.json`
+- answer accuracy 4/4 original and 4/4 converted.
+- normalized-1000 point-in-bbox 2/4 original and 3/4 converted.
+
+Current Qwen2.5-VL canonical probe:
+
+- `qwen25_canonical_pass_only_predictions.jsonl`
+- `qwen25_canonical_pass_only_predictions.jsonl.metadata.json`
+- `qwen25_canonical_pass_only_score_summary.json`
+- answer accuracy 3/4 original and 3/4 converted.
+- normalized-1000 point-in-bbox 0/3 original and 0/4 converted among parsed
+  points; raw point-in-bbox is 2/3 original and 2/4 converted.
+
+Treat these as manifest-aligned pilot reruns, not final benchmark outputs. The
+root `predictions.jsonl` and `score_summary.json` remain reserved for a future
+run whose manifest has enough PASS pairs and `final_benchmark_claimable=true`.
+The Gemma4 frozen rerun also differs from the older historical Gemma4 PASS-only
+probe, so do not silently mix the two evidence sets.
+
 The matching second-backend PASS-only Qwen2.5-VL direct-JSON probe used the
 same projection artifact, decoding length, and normalized-1000 coordinate
 request:
