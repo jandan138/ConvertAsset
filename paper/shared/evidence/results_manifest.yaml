@@ -122,6 +122,17 @@ results:
     - paper/shared/figures/fig_tsne_dino.pdf
     - paper/shared/figures/fig_method_pipeline.pdf
     - paper/shared/figures/fig_grscene_qualitative.pdf
+  tables:
+    - id: grscenes_vlm_pass_only_pilot
+      outputs:
+        - paper/shared/tables/grscenes_vlm_pass_only_pilot.csv
+        - paper/shared/tables/tab_grscenes_vlm_pass_only_pilot.tex
+      generated_by: paper/shared/tables/gen_vlm_pilot_tables.py
+      sources:
+        - paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_score_summary.json
+        - paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_score_summary.json
+        - paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_score_summary.json
+      description: "Pilot-only table source and LaTeX for the four-pair GRScenes PASS-only Gemma4/Qwen grounding probes."
   provenance:
     experiments: paper/shared/evidence/experiments/
     references: paper/shared/evidence/references/

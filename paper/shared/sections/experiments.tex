@@ -258,3 +258,29 @@ material simplification introduces a feature-level perturbation comparable in
 magnitude to moderate viewpoint changes within the same scene.
 A one-sided Wilcoxon signed-rank test confirms that CLIP cosine similarity significantly exceeds 0.90 ($p < 0.01$) and DINOv2 cosine similarity significantly exceeds 0.80 ($p < 0.003$).
 
+\subsection{Pilot GRScenes VLM Grounding}
+\label{sec:vlm_grounding_pilot}
+
+For the ACL-oriented extension, we also ran a small PASS-only GRScenes VLM
+grounding pilot on four blind visual-QA accepted original/converted render
+pairs: one bottle pair, two cup views, and one faucet view. The goal of this
+pilot is to validate the end-to-end benchmark plumbing and expose protocol
+sensitivity before scaling to a canonical benchmark result. It should not be
+read as final VLM robustness evidence.
+
+\input{tables/tab_grscenes_vlm_pass_only_pilot}
+
+Table~\ref{tab:grscenes_vlm_pass_only_pilot} shows that local Gemma4 preserves
+target-category answers across all four original and converted renders, and
+under the normalized-1000 diagnostic its point predictions hit 4/4 original
+boxes and 3/4 converted boxes. In contrast, Qwen2.5-VL exposes two protocol
+issues. Direct JSON prompting produces malformed outputs and no scored answers
+or points. Structured-text prompting recovers 8/8 scorable answer rows, but
+point coverage remains asymmetric (3/4 original and 4/4 converted point rows)
+and the coordinate semantics remain unresolved: raw image-space boxes score
+better than normalized-1000 scaling, while normalized-1000 pair agreement is
+uninformative because all comparable Qwen points miss the boxes. The answer
+matcher also treats the truncated string \texttt{fauc} as a miss for
+\texttt{faucet}. These results motivate a larger PASS render pool and a frozen
+coordinate/response-format contract before claiming final downstream task
+performance.

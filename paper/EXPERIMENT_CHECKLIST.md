@@ -62,7 +62,7 @@ paper/
 | 4b 语义分割迁移 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 4c CLIP 零样本检索 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 5 RL 策略迁移 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| 6a GRScenes VLM grounding | 🔄 | 🔄 | ⬜ | ⬜ | ⬜ |
+| 6a GRScenes VLM grounding | 🔄 | 🔄 | ⬜ | 🔄 pilot 表已生成 | 🔄 pilot 小节已接入 |
 | 6b InternNav / VL-LN navigation | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 7 综合讨论 | — | — | — | — | ⬜ |
 
@@ -80,7 +80,7 @@ paper/
 | 1 | 全量 no-MDL 数据集 | ✅ 已完成并验证 | `full_nomdl_multi_root_run_report.json` 记录 `dry_run=false`、99 个顶层 raw scene 转换完成，且 `full_nomdl_apply_verification_report.json` 记录 `passed=true`、原始 `/cpfs/user/zhuzihou/assets/zzh-grscenes` 没有 `_noMDL` sidecar 污染 |
 | 2 | 原始/简化成对渲染 | 🔄 部分完成 | 23 个 unique target x 4 view 的 original/no-MDL 成对图生成完成，图像哈希、相机、目标 bbox/point 投影全部入账；当前已完成 21 个 centerline-clear 候选中的 10 个默认推荐视角 + 11 个替代清晰视角的 smoke renders、投影 QA 和盲视觉 QA，得到 4 个 PASS pair |
 | 3 | VLM/下游评测 | 🔄 小样本 pilot 已完成 | canonical `predictions.jsonl`、`score_summary.json`、必要的 InternNav/VL-LN 扩展结果生成，指标能回答材质变化是否影响 grounding/navigation；当前已有 `probes/gemma4_pass_only_*` 的 4-pair Gemma4 PASS-only pilot，以及 `probes/qwen25_pass_only_*` 的第二后端协议敏感性诊断，二者都不能当最终性能 |
-| 4 | 图表和结论 | ⬜ 未完成 | 质量图、VLM 表、失败案例/定性图、trade-off 结论全部进入 `paper/shared/figures/`、`paper/shared/tables/` 和 `results_manifest.yaml`；pilot 只能作为下一轮实验设计依据 |
+| 4 | 图表和结论 | 🔄 pilot 表已生成 | 质量图、VLM 表、失败案例/定性图、trade-off 结论全部进入 `paper/shared/figures/`、`paper/shared/tables/` 和 `results_manifest.yaml`；当前已有 PASS-only pilot 表，但它只能作为下一轮实验设计依据 |
 | 5 | 论文写作与审稿式自查 | ⬜ 未完成 | ACL/AAAI wrapper 能编译，Abstract/Intro/Method/Experiments/Discussion/Limitations 与证据一致，完成至少一轮 reviewer-style 反向审阅 |
 
 当前最短路径：先扩大第 2 步的干净 PASS 渲染池，同时冻结第 3 步的坐标协议。
