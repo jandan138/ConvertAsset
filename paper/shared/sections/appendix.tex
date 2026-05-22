@@ -2,6 +2,14 @@
 \section{Supplementary Diagnostics}
 \label{sec:appendix}
 
+Table~\ref{tab:grscenes_vlm_coordinate_ablation} reports the coordinate-frame
+ablation behind the VLM pilot interpretation. All model runs requested
+normalized-1000 point coordinates, while raw-image scoring is retained only as
+a diagnostic because Qwen2.5-VL does not consistently follow the requested
+coordinate convention.
+
+\input{tables/tab_grscenes_vlm_coordinate_ablation}
+
 Table~\ref{tab:grscenes_vlm_failure_taxonomy} lists representative VLM pilot
 failure modes selected from the checked prediction and score artifacts. The
 rows are illustrative diagnostics rather than a frequency estimate over a final

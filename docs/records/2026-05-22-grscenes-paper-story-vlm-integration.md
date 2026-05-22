@@ -42,7 +42,8 @@ model answers in quotes to make that failure mode explicit.
 - `paper/shared/sections/conclusion.tex` adds the VLM pilot result and keeps
   final downstream robustness as future work.
 - `paper/shared/sections/appendix.tex` now includes an illustrative failure
-  taxonomy table generated from checked prediction and score artifacts.
+  taxonomy table and a coordinate-frame ablation table generated from checked
+  prediction, metadata, and score artifacts.
 - `paper/venues/acl27/sections/limitations.tex` now states that the VLM results
   are pilot diagnostics below the final clean-pair gate.
 
@@ -88,6 +89,16 @@ The unsupported story is:
 
 ## Failure taxonomy
 
+Added `paper/shared/tables/gen_vlm_coordinate_ablation.py`, which generates:
+
+- `paper/shared/tables/grscenes_vlm_coordinate_ablation.csv`
+- `paper/shared/tables/tab_grscenes_vlm_coordinate_ablation.tex`
+
+This table contrasts raw-image diagnostic scoring with normalized-1000 scoring
+for the clean-pool and zoom-stress VLM probes. It records that all runs were
+prompted for normalized-1000 coordinates, so raw scoring is only a diagnostic
+for unresolved coordinate semantics rather than the final benchmark metric.
+
 Added `paper/shared/tables/gen_vlm_failure_taxonomy.py`, which generates:
 
 - `paper/shared/tables/grscenes_vlm_failure_taxonomy.csv`
@@ -104,8 +115,12 @@ not a final error distribution.
   passed: 4 tests.
 - `PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider tests/test_paper_vlm_failure_taxonomy.py`
   passed: 3 tests.
+- `PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider tests/test_paper_vlm_coordinate_ablation.py`
+  passed: 3 tests.
 - `python paper/shared/figures/gen_vlm_grounding_cases.py` regenerated the PNG
   and PDF outputs.
+- `python paper/shared/tables/gen_vlm_coordinate_ablation.py` regenerated the
+  CSV and LaTeX appendix table.
 - `python paper/shared/tables/gen_vlm_failure_taxonomy.py` regenerated the CSV
   and LaTeX appendix table.
 - Independent visual QA over `fig_vlm_grounding_cases.png` returned overall

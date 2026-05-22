@@ -230,6 +230,21 @@ results:
         - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/gemma4_zoom_stress_score_summary.json
         - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_score_summary.json
       description: "Pilot-only table source and LaTeX for the 14-pair zoom material-shift stress Gemma4/Qwen grounding probes; not clean material-preservation or final benchmark performance."
+    - id: grscenes_vlm_coordinate_ablation
+      outputs:
+        - paper/shared/tables/grscenes_vlm_coordinate_ablation.csv
+        - paper/shared/tables/tab_grscenes_vlm_coordinate_ablation.tex
+      generated_by: paper/shared/tables/gen_vlm_coordinate_ablation.py
+      sources:
+        - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/gemma4_clean_pool_pass15_score_summary.json
+        - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/gemma4_clean_pool_pass15_predictions.jsonl.metadata.json
+        - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/qwen25_clean_pool_pass15_structured_score_summary.json
+        - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/qwen25_clean_pool_pass15_structured_predictions.jsonl.metadata.json
+        - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/gemma4_zoom_stress_score_summary.json
+        - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/gemma4_zoom_stress_predictions.jsonl.metadata.json
+        - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_score_summary.json
+        - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_predictions.jsonl.metadata.json
+      description: "Appendix coordinate-frame ablation contrasting raw-image diagnostic scoring with normalized-1000 scoring for the clean-pool and zoom-stress VLM probes; not a final benchmark metric."
     - id: grscenes_vlm_failure_taxonomy
       outputs:
         - paper/shared/tables/grscenes_vlm_failure_taxonomy.csv
