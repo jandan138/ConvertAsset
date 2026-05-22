@@ -36,6 +36,9 @@ Expected files:
 - `alternative_centerline_visual_review_batch.json`: independent blind visual
   QA over the 11 additional centerline-clear view pairs; candidate filter only,
   not model-result evidence.
+- `pass_only_target_projection_qa_report.json`: combined projection-label
+  artifact for the four visual-QA PASS pairs selected from the original and
+  alternative projection reports.
 - `projection_center_baseline_predictions.jsonl`: deterministic bbox-center
   scoring-smoke predictions generated from `target_projection_qa_report.json`;
   this is not a VLM output file.
@@ -314,6 +317,23 @@ consistency under normalized-1000 has 6 comparable pairs, 5/6 hit-agreement,
 3/6 both-hit pairs, and 20.931062 px mean prediction-point delta. Because 5/6
 pairs were visual-QA WARN rather than PASS, this is pilot evidence for
 coordinate protocol and metric wiring, not final VLM performance.
+
+`pass_only_target_projection_qa_report.json` and
+`probes/gemma4_pass_only_*` record the stronger PASS-only Gemma4 probe. The
+projection subset combines the original PASS pair
+`c27086f557d316584264.view_001` with the three alternative PASS pairs
+`e2ec085d524d5df4455d.view_001`, `e2ec085d524d5df4455d.view_003`, and
+`c8ee4b66274b05d242c2.view_003`. The probe has 8 predictions over 4
+original/converted pairs and is still isolated under `probes/`, not canonical
+`predictions.jsonl`. `probes/gemma4_pass_only_score_summary.json` reports
+answer accuracy 4/4 for both material conditions. Raw pixel point-in-bbox is
+0/4 for both because Gemma4 continues to emit normalized visual coordinates.
+Under the normalized-1000 diagnostic, original is 4/4 and converted is 3/4;
+normalized-1000 pair hit agreement is 3/4, both-hit pair count is 3/4, and
+mean normalized-1000 pair point delta is 27.047455 px. This is the best current
+real-model pilot for the ACL story, but the claim boundary remains
+`pilot_probe_only_not_final_vlm_performance` until the PASS set is larger and
+the coordinate protocol is frozen.
 
 The current checked-in verification report has `passed=true`, `blockers=[]`,
 99 existing top-level outputs, and 0 source `_noMDL` USD sidecars.

@@ -52,6 +52,9 @@ results:
     - id: grscenes_vlm_alternative_centerline_visual_review
       path: paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_visual_review_batch.json
       description: "Independent blind visual QA over 11 additional centerline-clear view pairs; 3 PASS, 6 WARN, 2 FAIL candidate split."
+    - id: grscenes_vlm_pass_only_target_projection_qa
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json
+      description: "Combined projection-label artifact for the four visual-QA PASS original/converted pairs; label provenance only, not model-result evidence."
     - id: grscenes_vlm_projection_center_baseline_predictions_metadata
       path: paper/shared/evidence/raw/grscene_vlm_grounding/projection_center_baseline_predictions.jsonl.metadata.json
       description: "Provenance for deterministic projection-center scoring-smoke predictions; smoke-only and not VLM output evidence."
@@ -79,6 +82,18 @@ results:
     - id: grscenes_vlm_gemma4_visual_qa_pass_warn_score
       path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_visual_qa_pass_warn_score_summary.json
       description: "Score summary for the Gemma4 PASS/WARN visual-QA subset; normalized-1000 point scoring is pilot evidence only."
+    - id: grscenes_vlm_gemma4_pass_only_predictions
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_predictions.jsonl
+      description: "Local Gemma4 probe on the four visual-QA PASS pairs; isolated probe, not canonical predictions.jsonl."
+    - id: grscenes_vlm_gemma4_pass_only_predictions_metadata
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_predictions.jsonl.metadata.json
+      description: "Provenance sidecar for the Gemma4 PASS-only probe."
+    - id: grscenes_vlm_gemma4_pass_only_selection
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_selection.json
+      description: "Machine-readable visual-QA PASS-only selection for the Gemma4 probe."
+    - id: grscenes_vlm_gemma4_pass_only_score
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_score_summary.json
+      description: "Score summary for the Gemma4 PASS-only probe; normalized-1000 original 4/4 and converted 3/4 pilot evidence."
   figures:
     - paper/shared/figures/fig_render_pairs.pdf
     - paper/shared/figures/fig_image_quality.pdf

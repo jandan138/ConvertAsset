@@ -1,0 +1,166 @@
+{
+  "schema_version": 5,
+  "num_records": 8,
+  "prediction_backends": [
+    "local_gemma4_multimodal"
+  ],
+  "model_checkpoints": [
+    "/cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8"
+  ],
+  "claim_boundary": "model_prediction_scores_require_model_provenance_review",
+  "summary": [
+    {
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "n_point": 4,
+      "point_in_bbox_accuracy": 0.0,
+      "n_point_in_image": 4,
+      "point_in_image_accuracy": 0.25,
+      "n_point_in_normalized_1000_frame": 4,
+      "point_in_normalized_1000_frame_accuracy": 1.0,
+      "n_point_normalized_1000": 4,
+      "point_in_bbox_normalized_1000_accuracy": 0.75,
+      "n_answer": 4,
+      "answer_accuracy": 1.0
+    },
+    {
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "n_point": 4,
+      "point_in_bbox_accuracy": 0.0,
+      "n_point_in_image": 4,
+      "point_in_image_accuracy": 0.0,
+      "n_point_in_normalized_1000_frame": 4,
+      "point_in_normalized_1000_frame_accuracy": 1.0,
+      "n_point_normalized_1000": 4,
+      "point_in_bbox_normalized_1000_accuracy": 1.0,
+      "n_answer": 4,
+      "answer_accuracy": 1.0
+    }
+  ],
+  "pair_consistency": {
+    "pair_count": 4,
+    "point_pair_count": 4,
+    "point_hit_agreement": 1.0,
+    "both_point_hit_count": 0,
+    "mean_prediction_point_delta_px": 45.332442,
+    "normalized_1000_point_pair_count": 4,
+    "normalized_1000_point_hit_agreement": 0.75,
+    "normalized_1000_both_point_hit_count": 3,
+    "normalized_1000_mean_prediction_point_delta_px": 27.047455,
+    "answer_pair_count": 4,
+    "answer_match_agreement": 1.0,
+    "duplicate_pair_version_count": 0
+  },
+  "records": [
+    {
+      "sample_id": "c27086f557d316584264.view_001.original",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "point_in_bbox": false,
+      "point_in_image": false,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": true,
+      "answer_match": true
+    },
+    {
+      "sample_id": "c27086f557d316584264.view_001.converted",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "point_in_bbox": false,
+      "point_in_image": false,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": true,
+      "answer_match": true
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.view_001.original",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "point_in_bbox": false,
+      "point_in_image": false,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": true,
+      "answer_match": true
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.view_001.converted",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "point_in_bbox": false,
+      "point_in_image": false,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": true,
+      "answer_match": true
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.view_003.original",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "point_in_bbox": false,
+      "point_in_image": false,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": true,
+      "answer_match": true
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.view_003.converted",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "point_in_bbox": false,
+      "point_in_image": false,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": true,
+      "answer_match": true
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.view_003.original",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "point_in_bbox": false,
+      "point_in_image": false,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": true,
+      "answer_match": true
+    },
+    {
+      "sample_id": "c8ee4b66274b05d242c2.view_003.converted",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "point_in_bbox": false,
+      "point_in_image": true,
+      "point_in_normalized_1000_frame": true,
+      "point_in_bbox_normalized_1000": false,
+      "answer_match": true
+    }
+  ],
+  "score_provenance": {
+    "generated_at_utc": "2026-05-22T05:03:38.437708Z",
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
+      "--predictions",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_predictions.jsonl",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_score_summary.json"
+    ],
+    "input_predictions": {
+      "path": "paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_predictions.jsonl",
+      "hash_sha256": "acbbe90900f16b31b1ba8ba57f1c75923b7522f584fff76f084440d8e9833fe5"
+    },
+    "scorer": {
+      "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
+      "script_hash_sha256": "4983ea6eac57967f988789602ad25a60f279bccc41d16b87c3fc65eeb731d303"
+    },
+    "git": {
+      "commit": "05aa8a0aa5d7f40fc548bf5fcaedfb89e3a9952e",
+      "status_porcelain": [
+        "?? paper/shared/evidence/experiments/06_grscenes_vlm_grounding/select_projection_subset.py",
+        "?? paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json",
+        "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_predictions.jsonl",
+        "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_predictions.jsonl.metadata.json",
+        "?? tests/test_grscenes_vlm_projection_subset.py"
+      ]
+    }
+  }
+}

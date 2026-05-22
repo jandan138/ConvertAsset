@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "status": "vlm_predictions",
+  "prediction_count": 8,
+  "backend": "local_gemma4_multimodal",
+  "model_checkpoint": "/cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8",
+  "claim_boundary": "model_prediction_scores_require_model_provenance_review",
+  "generated_at_utc": "2026-05-22T05:03:19.909815Z",
+  "input_projection_report": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json",
+    "hash_sha256": "c1ef05974d49c18093a520eda202ac9e38999afcb42a90a09d06c99aac912b02"
+  },
+  "output_jsonl": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_predictions.jsonl",
+    "hash_sha256": "acbbe90900f16b31b1ba8ba57f1c75923b7522f584fff76f084440d8e9833fe5"
+  },
+  "runner_provenance": {
+    "command": [
+      "/cpfs/user/zhuzihou/conda-managed/envs/genesis-llm-qlora-py310/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+      "--projection-report",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_predictions.jsonl",
+      "--model-backend",
+      "local_gemma4_multimodal",
+      "--model-path",
+      "/cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8",
+      "--max-new-tokens",
+      "64"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+    "script_hash_sha256": "476f382f8dcde4c03248d8ffba5b06902d292dc064ad8b3838d6657faa3cb004",
+    "git_commit": "05aa8a0aa5d7f40fc548bf5fcaedfb89e3a9952e",
+    "git_status_porcelain": [
+      "?? paper/shared/evidence/experiments/06_grscenes_vlm_grounding/select_projection_subset.py",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_predictions.jsonl",
+      "?? tests/test_grscenes_vlm_projection_subset.py"
+    ]
+  }
+}

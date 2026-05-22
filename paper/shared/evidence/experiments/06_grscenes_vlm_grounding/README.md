@@ -859,3 +859,47 @@ Because those pairs are split across the original recommended projection report
 and the alternative projection report, create a small combined PASS-only
 projection artifact before inference rather than mixing prediction rows without
 shared label provenance.
+
+The PASS-only projection artifact and Gemma4 probe now exist:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/select_projection_subset.py \
+  --projection-report paper/shared/evidence/raw/grscene_vlm_grounding/target_projection_qa_report.json \
+  --projection-report paper/shared/evidence/raw/grscene_vlm_grounding/alternative_centerline_target_projection_qa_report.json \
+  --selection-id gemma4_pass_only_visual_qa \
+  --claim-boundary pass_only_projection_labels_for_probe_not_final_vlm_metric_evidence \
+  --out paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json \
+  --pair-id c27086f557d316584264.view_001 \
+  --pair-id e2ec085d524d5df4455d.view_001 \
+  --pair-id e2ec085d524d5df4455d.view_003 \
+  --pair-id c8ee4b66274b05d242c2.view_003
+```
+
+Run Gemma4 on that artifact with:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 PYTHONUNBUFFERED=1 \
+  /cpfs/user/zhuzihou/conda-managed/envs/genesis-llm-qlora-py310/bin/python \
+  paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py \
+  --projection-report paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json \
+  --out paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_predictions.jsonl \
+  --model-backend local_gemma4_multimodal \
+  --model-path /cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8 \
+  --max-new-tokens 64
+```
+
+Score it with:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py \
+  --predictions paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_predictions.jsonl \
+  --out paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_score_summary.json
+```
+
+The PASS-only subset has 8 predictions over 4 pairs. All category answers
+match. Raw pixel point-in-bbox remains 0/4 for both material conditions because
+Gemma4 still outputs normalized-style points. Under the normalized-1000
+diagnostic, point-in-bbox is 4/4 for original and 3/4 for converted.
+Normalized-1000 pair hit agreement is 3/4, both-hit pair count is 3/4, and
+mean pair point delta is 27.047455 px. Treat this as the current strongest
+pilot, not final VLM performance.
