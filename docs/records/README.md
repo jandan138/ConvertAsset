@@ -59,6 +59,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-22 GRScenes zoom stress VLM probes](2026-05-22-grscenes-zoom-stress-vlm-probes.md)
 - [2026-05-22 GRScenes paper story VLM integration](2026-05-22-grscenes-paper-story-vlm-integration.md)
 - [2026-05-22 paper claim readiness audit](2026-05-22-paper-claim-readiness-audit.md)
+- [2026-05-22 ACL27 VLM story overrides](2026-05-22-acl27-vlm-story-overrides.md)
 - [2026-05-20 ACL VLM benchmark route](2026-05-20-acl-vlm-benchmark-route.md)
 - [2026-05-20 ACL 2027 candidate venue wrapper](2026-05-20-paper-acl27-candidate.md)
 - [2026-05-14 workshop review ingestion for AAAI 2027](2026-05-14-workshop-review-aaai27-roadmap.md)

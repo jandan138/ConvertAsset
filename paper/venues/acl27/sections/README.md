@@ -4,6 +4,9 @@ Keep this directory for ACL-specific compliance sections or genuine local overri
 
 Current local sections:
 
+- `abstract.tex`: ACL-facing abstract that frames material conversion as a VLM grounding perturbation.
+- `intro.tex`: ACL-facing introduction and contributions focused on grounding protocol reliability.
+- `conclusion.tex`: ACL-facing conclusion that keeps VLM evidence at pilot/diagnostic scope.
 - `limitations.tex`: ACL-required limitations section.
 - `ethical-considerations.tex`: ACL-style broader-impact and data-use note.
 

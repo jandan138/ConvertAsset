@@ -4,9 +4,9 @@ Template provenance: Official ACL 2027 conference-specific files are not committ
 
 Readiness: candidate-target scaffold for the user-requested Annual ACL 2027 Japan route.
 
-Local section overrides: none. This version inputs shared scientific sections directly. It adds ACL-required local compliance sections for limitations and ethical considerations.
+Local section overrides: `sections/abstract.tex`, `sections/intro.tex`, and `sections/conclusion.tex` reframe the shared evidence around VLM grounding protocol reliability under material perturbations. The ACL wrapper still inputs the shared related work, method, experiments, and discussion sections directly. It also adds ACL-required local compliance sections for limitations and ethical considerations.
 
-Known missing checks: official ACL 2027 CFP, official city/date confirmation in a public ACL 2027 site, ACL 2027 submission deadline, ARR cycle mapping, final page-limit policy, Responsible NLP Checklist requirements, anonymity policy, AI-use disclosure policy, official style-file provenance, DOI/ACL Anthology citation audit, and full narrative rewrite toward computational linguistics.
+Known missing checks: official ACL 2027 CFP, official city/date confirmation in a public ACL 2027 site, ACL 2027 submission deadline, ARR cycle mapping, final page-limit policy, Responsible NLP Checklist requirements, anonymity policy, AI-use disclosure policy, official style-file provenance, DOI/ACL Anthology citation audit, and full shared-section rewrite toward computational linguistics.
 
 Venue fit: current content is still a synthetic-data and simulation paper. To make this viable for ACL, the main story should shift toward multimodal language grounding, vision-language model evaluation, embodied/agent data generation, and data-conversion reliability for NLP/VLM benchmarks. Without that pivot, AAAI remains the stronger general AI target.
 

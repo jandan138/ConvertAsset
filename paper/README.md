@@ -26,7 +26,7 @@ make clean
 
 `make aaai27` is the primary target. It intentionally requires the official AAAI-27 author kit files to be added under `paper/venues/aaai27/` before a submission build can succeed.
 
-`make acl27` is a candidate target for the Annual ACL 2027 route. It intentionally requires official ACL style files under `paper/venues/acl27/` before a submission build can succeed. Official-source checks on 2026-05-22 found ACL 2027 branding information but no public ACL 2027 CFP, official city/date page, or Japan confirmation, so this wrapper records Japan as the user-requested target until an official source is available.
+`make acl27` is a candidate target for the Annual ACL 2027 route. It intentionally requires official ACL style files under `paper/venues/acl27/` before a submission build can succeed. Official-source checks on 2026-05-22 found ACL 2027 branding information but no public ACL 2027 CFP, official city/date page, or Japan confirmation, so this wrapper records Japan as the user-requested target until an official source is available. The ACL wrapper now uses local abstract, introduction, and conclusion overrides to prioritize VLM grounding protocol reliability under material perturbations while reusing the shared method, experiments, and discussion evidence.
 
 Venue wrappers use `\bibliography{references}`. The shared bibliography is resolved by each venue's `.latexmkrc` and the Makefile fallback, which set `BIBINPUTS` to `paper/shared/`.
 

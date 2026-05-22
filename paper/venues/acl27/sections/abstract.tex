@@ -1,0 +1,20 @@
+\begin{abstract}
+Synthetic 3D scenes are increasingly used to evaluate vision-language and
+embodied agents, but the assets used in those scenes often undergo material
+conversion before they can be rendered or shared across toolchains. This paper
+studies MDL-to-UsdPreviewSurface conversion as a controlled within-simulation
+perturbation for vision-language grounding evaluation. We first quantify the
+conversion on four Isaac Sim assets using paired image quality, rendering, and
+feature-similarity metrics, finding high visual fidelity (mean PSNR
+35.52\,dB, SSIM 0.990, LPIPS 0.020) and strong CLIP/DINOv2 similarity. We then
+extend the route to GRScenes by converting a scratch copy of the benchmark
+scenes and running matched original/converted VLM grounding pilots. The current
+real-model evidence remains pilot-scale: a 15-pair clean visual-QA pool and a
+14-pair material-shift stress pool expose model- and coordinate-protocol
+sensitivity rather than supporting a final benchmark claim. The main result is
+therefore methodological: visual fidelity alone is not sufficient evidence that
+a converted synthetic scene preserves language-grounding behavior. VLM
+grounding evaluations should separate clean preservation pools from
+material-shift stress pools, freeze coordinate contracts, and register claim
+boundaries before reporting downstream robustness.
+\end{abstract}

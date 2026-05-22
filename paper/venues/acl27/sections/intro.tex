@@ -1,0 +1,63 @@
+\section{Introduction}
+\label{sec:introduction}
+
+Vision-language models are increasingly evaluated in simulated 3D environments
+where agents must connect language to objects, viewpoints, and actions. These
+evaluations often assume that the rendered scene is a stable substrate. In
+practice, however, synthetic-scene assets are frequently converted across
+material systems before they can be rendered at scale, distributed, exported to
+other viewers, or reused by downstream robotics stacks. A seemingly engineering
+level conversion can therefore become a hidden intervention in the benchmark
+itself.
+
+We study this problem in NVIDIA Isaac Sim, where photorealistic assets commonly
+use Material Definition Language (MDL) shaders while portable USD and glTF-style
+pipelines usually expect UsdPreviewSurface or PBR-like materials. Converting
+MDL materials to UsdPreviewSurface can improve interoperability, but it can also
+change color, reflectance, lighting response, or texture cues. For a
+vision-language grounding benchmark, the key question is not only whether two
+renders look similar by pixel or feature metrics, but whether a model still
+answers the same object query and points to the same target after the material
+representation changes.
+
+This paper treats material conversion as a controlled within-simulation
+perturbation. We ask: \emph{when synthetic-scene assets are converted for
+toolchain compatibility, what evidence is needed before using the converted
+renders for language-grounding claims?} The answer matters for embodied-AI
+benchmarks such as GRScenes~\cite{Wang2024GRUtopia}, where downstream
+experiments may combine large USD scenes, object-level goals, VLM prompting,
+and navigation frameworks such as InternNav/DualVLN~\cite{Wei2026Ground}.
+
+Our current evidence base has two layers. First, we quantify the conversion on
+four Isaac Sim furniture assets with paired visual quality, rendering
+performance, and CLIP/DINOv2 feature similarity. These measurements show that
+the conversion can preserve the dominant visual and feature-level structure of
+the tested assets, while runtime effects depend strongly on scene scale.
+Second, we build a GRScenes VLM grounding route using a read-only benchmark
+source tree, a scratch no-MDL conversion, matched original/converted renders,
+target projection, blind visual QA, and local Gemma4/Qwen2.5-VL probes.
+
+The VLM results are intentionally reported as pilot diagnostics, not final
+benchmark performance. A 15-pair clean visual-QA pool shows that answer-level
+recognition can be stable for one backend, while point grounding remains
+sensitive to the coordinate contract. A 14-pair zoom stress pool shows a
+different phenomenon: target-visible render pairs with obvious material, color,
+or lighting changes can expose model-specific degradation. These two pools must
+not be conflated. The clean pool is a preservation control; the zoom pool is a
+material-perturbation stress test.
+
+We make four contributions:
+\begin{enumerate}
+    \item We frame MDL-to-UsdPreviewSurface conversion as a measurable
+    within-simulation perturbation for VLM grounding evaluation, rather than
+    only as an asset-optimization step.
+    \item We provide a composition-preserving conversion route and quantify its
+    visual, rendering, and feature-level effects on matched Isaac Sim assets.
+    \item We extend the evaluation to GRScenes by constructing a scratch
+    original/noMDL render pipeline with target localization, projection QA, and
+    blind visual filtering before model scoring.
+    \item We show, at pilot scale, that VLM grounding claims require stricter
+    gates than image fidelity: clean preservation pools, material-shift stress
+    pools, coordinate-frame ablations, and explicit claim registries should be
+    reported separately.
+\end{enumerate}

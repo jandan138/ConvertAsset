@@ -1,0 +1,29 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+This paper reframes synthetic-scene material conversion as a benchmark
+reliability problem for vision-language grounding. On the four single-object
+Isaac Sim assets retained from the workshop study, MDL-to-UsdPreviewSurface
+conversion preserves high paired visual fidelity and strong CLIP/DINOv2 feature
+similarity. On the GRScenes route, however, the pilot VLM probes show why those
+metrics are not enough for language-grounding claims: answer recognition, point
+grounding, coordinate interpretation, and visible material shifts can separate
+from pixel-level similarity.
+
+The practical outcome is a claim discipline rather than a final downstream
+benchmark result. Clean visual-QA pools and material-shift stress pools should
+be reported separately. Coordinate contracts should be frozen before model
+scoring. Raw-image coordinate rescoring should remain diagnostic when the prompt
+asks for normalized coordinates. Failure cases should be registered as
+qualitative evidence unless their sampling rule supports distributional
+statistics. Under that discipline, material conversion becomes useful not only
+for portability, but also as a controlled stressor for testing whether VLM
+grounding evaluations are robust to rendering-pipeline changes.
+
+The current ACL version is therefore not yet a completed benchmark paper. The
+next step is to expand the stress framing into a final-claimable protocol:
+predefine material-shift bins, target categories, sample counts, coordinate
+semantics, and root canonical prediction/score files. Downstream navigation or
+manipulation results should be added only after the image-level grounding gate
+is reproducible, and should be evaluated through an explicit embodied framework
+rather than inferred from VLM image probes alone.
