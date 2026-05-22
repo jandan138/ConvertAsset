@@ -113,6 +113,10 @@ material/texture/rendering perturbations 如何影响 VLM grounding protocol
 reliability。clean PASS set 继续作为 sanity-control gate；zoom stress、
 coordinate ablation 和 failure taxonomy 应升级为主故事证据，并需要继续扩展为
 预先定义 bins、样本数和最终 scoring contract 的 controlled stress benchmark。
+当前 stress 扩样不需要换数据集：`retake_zoom_visibility_preflight_report.json`
+还有 27 个未渲染/未审阅的 centerline-clear candidate，已在
+`docs/records/2026-05-22-grscenes-stress-expansion-candidates.md` 里列出首批 16 个，
+渲染并视觉审阅通过后即可把 stress pool 推到 30-pair gate。
 
 ---
 
