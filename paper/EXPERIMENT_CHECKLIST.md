@@ -62,7 +62,7 @@ paper/
 | 4b 语义分割迁移 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 4c CLIP 零样本检索 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 5 RL 策略迁移 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| 6a GRScenes VLM grounding | 🔄 | ⬜ | ⬜ | ⬜ | ⬜ |
+| 6a GRScenes VLM grounding | 🔄 | 🔄 | ⬜ | ⬜ | ⬜ |
 | 6b InternNav / VL-LN navigation | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 7 综合讨论 | — | — | — | — | ⬜ |
 
@@ -72,19 +72,22 @@ paper/
 
 ## 当前离论文完成还差几步
 
-截至 2026-05-21，ACL 主线不是还差“写几段文字”，而是还差下面 5 个
+截至 2026-05-22，ACL 主线不是还差“写几段文字”，而是还差下面 5 个
 证据门槛。只有这些门槛都过了，论文才算真正可投稿：
 
 | 顺序 | 门槛 | 当前状态 | 完成标准 |
 |---|---|---|---|
 | 1 | 全量 no-MDL 数据集 | ✅ 已完成并验证 | `full_nomdl_multi_root_run_report.json` 记录 `dry_run=false`、99 个顶层 raw scene 转换完成，且 `full_nomdl_apply_verification_report.json` 记录 `passed=true`、原始 `/cpfs/user/zhuzihou/assets/zzh-grscenes` 没有 `_noMDL` sidecar 污染 |
-| 2 | 原始/简化成对渲染 | ⬜ 未完成 | 23 个 unique target x 4 view 的 original/no-MDL 成对图生成完成，图像哈希、相机、目标 bbox/point 投影全部入账 |
-| 3 | VLM/下游评测 | ⬜ 未完成 | `predictions.jsonl`、`score_summary.json`、必要的 InternNav/VL-LN 扩展结果生成，指标能回答材质变化是否影响 grounding/navigation |
-| 4 | 图表和结论 | ⬜ 未完成 | 质量图、VLM 表、失败案例/定性图、trade-off 结论全部进入 `paper/shared/figures/`、`paper/shared/tables/` 和 `results_manifest.yaml` |
+| 2 | 原始/简化成对渲染 | 🔄 部分完成 | 23 个 unique target x 4 view 的 original/no-MDL 成对图生成完成，图像哈希、相机、目标 bbox/point 投影全部入账；当前已完成 21 个 centerline-clear 候选中的 10 个默认推荐视角 + 11 个替代清晰视角的 smoke renders、投影 QA 和盲视觉 QA，得到 4 个 PASS pair |
+| 3 | VLM/下游评测 | 🔄 小样本 pilot 已完成 | canonical `predictions.jsonl`、`score_summary.json`、必要的 InternNav/VL-LN 扩展结果生成，指标能回答材质变化是否影响 grounding/navigation；当前只有 `probes/gemma4_pass_only_*` 的 4-pair Gemma4 PASS-only pilot，不能当最终性能 |
+| 4 | 图表和结论 | ⬜ 未完成 | 质量图、VLM 表、失败案例/定性图、trade-off 结论全部进入 `paper/shared/figures/`、`paper/shared/tables/` 和 `results_manifest.yaml`；pilot 只能作为下一轮实验设计依据 |
 | 5 | 论文写作与审稿式自查 | ⬜ 未完成 | ACL/AAAI wrapper 能编译，Abstract/Intro/Method/Experiments/Discussion/Limitations 与证据一致，完成至少一轮 reviewer-style 反向审阅 |
 
-当前最短路径：立刻进入第 2 步成对渲染。第 2 步是后面所有 VLM
-指标、图表和论文章节的共同入口。
+当前最短路径：先扩大第 2 步的干净 PASS 渲染池，同时冻结第 3 步的坐标协议。
+当前 4-pair Gemma4 PASS-only pilot 已经证明真实模型链路能跑通，但样本太小，
+且 Gemma4 输出的是 normalized visual coordinates 而不是 raw pixel coordinates。
+下一步应优先 retake/WARN 视角或补新的清晰视角，形成更大的 PASS set，再跑
+Gemma4 + 至少一个第二 VLM backend，最后把结果写成论文表格和失败案例图。
 
 ---
 

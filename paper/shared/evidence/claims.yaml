@@ -17,6 +17,15 @@ claims:
     sources:
       - paper/shared/evidence/raw/perf_benchmark_grscene.csv
     scope: "Single-scene GRScenes startup benchmark retained from the CVPR workshop draft."
+  - id: grscenes_vlm_gemma4_pass_only_pilot
+    statement: "In a four-pair visual-QA PASS-only GRScenes pilot, local Gemma4 answered the target category correctly for all original and converted renders; under normalized-1000 coordinate scoring, point-in-box accuracy was 4/4 for original renders and 3/4 for converted renders."
+    sources:
+      - paper/shared/evidence/raw/grscene_vlm_grounding/pass_only_target_projection_qa_report.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_selection.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_pass_only_score_summary.json
+    scope: "Pilot-only real-model probe over four blind-visual-QA PASS original/converted GRScenes pairs; not canonical VLM benchmark performance and not a final ACL result."
 review_requirements:
   - "Re-check every numerical statement after AAAI 2027 narrative edits."
   - "Update this file in the same change as any result, table, figure, seed, or claim change."
+  - "Do not promote `grscenes_vlm_gemma4_pass_only_pilot` beyond pilot evidence until the coordinate protocol, sample size, and canonical score files are frozen."
