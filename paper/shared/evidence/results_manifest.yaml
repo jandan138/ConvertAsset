@@ -58,6 +58,18 @@ results:
     - id: grscenes_vlm_gemma4_p01_probe_score
       path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_score_summary.json
       description: "Score summary for the Gemma4 P01 probe; raw-pixel point scoring misses while normalized-1000 point scoring hits."
+    - id: grscenes_vlm_gemma4_visual_qa_pass_warn_predictions
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_visual_qa_pass_warn_predictions.jsonl
+      description: "Local Gemma4 probe on the 6 PASS/WARN visual-QA pairs; isolated probe, not canonical predictions.jsonl."
+    - id: grscenes_vlm_gemma4_visual_qa_pass_warn_predictions_metadata
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_visual_qa_pass_warn_predictions.jsonl.metadata.json
+      description: "Provenance sidecar for the Gemma4 PASS/WARN visual-QA subset probe."
+    - id: grscenes_vlm_gemma4_visual_qa_pass_warn_selection
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_visual_qa_pass_warn_selection.json
+      description: "Machine-readable visual-QA tier selection and pilot-only claim boundary for the Gemma4 PASS/WARN subset."
+    - id: grscenes_vlm_gemma4_visual_qa_pass_warn_score
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_visual_qa_pass_warn_score_summary.json
+      description: "Score summary for the Gemma4 PASS/WARN visual-QA subset; normalized-1000 point scoring is pilot evidence only."
   figures:
     - paper/shared/figures/fig_render_pairs.pdf
     - paper/shared/figures/fig_image_quality.pdf

@@ -789,3 +789,40 @@ target bbox, and the answer text also matches `bottle`. This makes the next
 experiment step clear: scale from one probe to visually accepted pairs only,
 and lock the coordinate-frame protocol before reporting final grounding
 metrics.
+
+The next probe scales to the PASS/WARN visual-QA subset:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 PYTHONUNBUFFERED=1 \
+  /cpfs/user/zhuzihou/conda-managed/envs/genesis-llm-qlora-py310/bin/python \
+  paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py \
+  --projection-report paper/shared/evidence/raw/grscene_vlm_grounding/target_projection_qa_report.json \
+  --out paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_visual_qa_pass_warn_predictions.jsonl \
+  --model-backend local_gemma4_multimodal \
+  --model-path /cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8 \
+  --sample-id c27086f557d316584264.view_001.original \
+  --sample-id c27086f557d316584264.view_001.converted \
+  --sample-id 32ba3ade1a8e63c981af.view_002.original \
+  --sample-id 32ba3ade1a8e63c981af.view_002.converted \
+  --sample-id bb985fd4504a1afe8516.view_000.original \
+  --sample-id bb985fd4504a1afe8516.view_000.converted \
+  --sample-id e2ec085d524d5df4455d.view_000.original \
+  --sample-id e2ec085d524d5df4455d.view_000.converted \
+  --sample-id c8ee4b66274b05d242c2.view_000.original \
+  --sample-id c8ee4b66274b05d242c2.view_000.converted \
+  --sample-id 90e105daa7e6ff59da38.view_002.original \
+  --sample-id 90e105daa7e6ff59da38.view_002.converted \
+  --max-new-tokens 64 \
+  --force
+```
+
+Its score summary is
+`paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_visual_qa_pass_warn_score_summary.json`.
+The machine-readable selection sidecar is
+`paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_visual_qa_pass_warn_selection.json`.
+The subset has 12 predictions over 6 pairs. All category answers match. Raw
+pixel point-in-bbox is 0.0 for both material conditions, while normalized-1000
+point-in-bbox is 4/6 for original and 3/6 for converted. Normalized-1000 pair
+consistency has 6 comparable pairs, 5/6 hit-agreement, 3/6 both-hit pairs, and
+20.931062 px mean point delta. Treat this as pilot evidence because five of the
+six pairs were WARN in visual QA.

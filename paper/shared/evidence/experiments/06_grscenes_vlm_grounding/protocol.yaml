@@ -116,6 +116,11 @@ task_families:
       The current scorer also reports a 0-1000 normalized-coordinate diagnostic
       because some VLMs emit normalized visual coordinates even when prompted
       for pixels.
+    pair_consistency_metrics:
+      - normalized_1000_point_pair_count
+      - normalized_1000_point_hit_agreement
+      - normalized_1000_both_point_hit_count
+      - normalized_1000_mean_prediction_point_delta_px
   - id: s2_task_driven_grounding
     prompt_template: Where should the robot interact to {action}?
     metrics:

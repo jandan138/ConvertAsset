@@ -241,7 +241,7 @@ VLM predictions, and `score_summary.json`.
 `projection_center_baseline_score_summary.json` are deterministic scoring-smoke
 artifacts. They use the projected bbox center as the predicted point and the
 target category as the predicted answer for all 20 scoring records. The current
-score summary uses `schema_version=4` and records
+score summary uses `schema_version=5` and records
 `prediction_backends=["projection_center_smoke_baseline"]`,
 `model_checkpoints=["projection_center_smoke_baseline_no_vlm"]`, and
 `claim_boundary="scoring_smoke_only_not_vlm_evidence"`. It also includes
@@ -273,6 +273,21 @@ probe is primarily a coordinate-frame calibration result, not a localization
 failure. The runner blocks limited runs to canonical `predictions.jsonl` unless
 `--force` is explicitly supplied, rejects empty record selections, and checks
 image files before loading a local model.
+
+The first QA-filtered real-model subset is under
+`probes/gemma4_visual_qa_pass_warn_predictions.jsonl`. It contains 12 Gemma4
+predictions over the 6 PASS/WARN visual-QA pairs and remains a probe artifact,
+not canonical `predictions.jsonl`. The machine-readable selection sidecar is
+`probes/gemma4_visual_qa_pass_warn_selection.json`; it records 1 PASS pair, 5
+WARN pairs, and 4 excluded FAIL pairs, with
+`claim_boundary="pilot_probe_only_not_final_vlm_performance"`. Its score summary is
+`probes/gemma4_visual_qa_pass_warn_score_summary.json`: answer accuracy is 1.0
+for both material conditions; raw pixel point-in-bbox accuracy is 0.0 for both;
+normalized-1000 point-in-bbox accuracy is 4/6 original and 3/6 converted. Pair
+consistency under normalized-1000 has 6 comparable pairs, 5/6 hit-agreement,
+3/6 both-hit pairs, and 20.931062 px mean prediction-point delta. Because 5/6
+pairs were visual-QA WARN rather than PASS, this is pilot evidence for
+coordinate protocol and metric wiring, not final VLM performance.
 
 The current checked-in verification report has `passed=true`, `blockers=[]`,
 99 existing top-level outputs, and 0 source `_noMDL` USD sidecars.

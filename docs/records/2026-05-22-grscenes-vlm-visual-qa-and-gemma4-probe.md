@@ -76,11 +76,12 @@ and document the coordinate protocol before scaling this experiment.
 
 ## Code Change
 
-`score_grounding.py` now emits score `schema_version=4` and reports
+`score_grounding.py` now emits score `schema_version=5` and reports
 `point_in_image` per record plus `point_in_image_accuracy` in aggregate
 summaries. It also reports a 0-1000 normalized-coordinate diagnostic via
-`point_in_normalized_1000_frame` and `point_in_bbox_normalized_1000`. This was
-added because the first real model generated image-out-of-bounds raw pixel
+`point_in_normalized_1000_frame` and `point_in_bbox_normalized_1000`. Pair
+consistency also includes normalized-1000 agreement and both-hit counts. This
+was added because the first real model generated image-out-of-bounds raw pixel
 coordinates that become correct hits under the normalized-coordinate convention
 common in VLMs.
 
@@ -89,7 +90,8 @@ Tests:
 - Added
   `test_score_reports_out_of_frame_points_separately_from_bbox_misses`.
 - Added `test_score_reports_normalized_1000_coordinate_hits`.
-- Targeted scorer tests pass: `10 passed`.
+- Added `test_pair_consistency_reports_normalized_1000_agreement`.
+- Targeted scorer tests pass: `11 passed`.
 
 ## Runtime Notes
 

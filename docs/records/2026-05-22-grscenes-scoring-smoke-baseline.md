@@ -46,7 +46,7 @@ score summary records 20 scoring records across 10 original/converted pairs.
 | `pair_consistency.answer_match_agreement` | 1.0 |
 | `pair_consistency.duplicate_pair_version_count` | 0 |
 
-The current score output uses `schema_version=4` and records:
+The current score output uses `schema_version=5` and records:
 
 - `prediction_backends=["projection_center_smoke_baseline"]`
 - `model_checkpoints=["projection_center_smoke_baseline_no_vlm"]`
@@ -71,6 +71,11 @@ point-in-box scoring, answer matching, and original/converted pair aggregation
 are wired together. The 1.0 scores are expected by construction and must not be
 cited as VLM accuracy, VLM robustness, downstream task performance, or paper
 evidence that no-MDL improves model behavior.
+
+The normalized-1000 fields in this baseline are also not model evidence. This
+baseline intentionally emits pixel-space bbox centers, so reinterpreting those
+same numbers as normalized visual coordinates is only a schema compatibility
+check.
 
 The environment did not provide a ready non-interactive VLM backend during this
 pass. No OpenAI/Anthropic-style API keys were present, local `torch`,
@@ -105,8 +110,8 @@ PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider \
   tests/test_grscenes_vlm_projection_center_baseline.py
 ```
 
-Latest local result after the normalized-1000 coordinate diagnostic update:
-`12 passed in 0.69s`.
+Latest local result after the normalized-1000 coordinate diagnostic and pair
+consistency update: `13 passed`.
 
 Generation commands:
 

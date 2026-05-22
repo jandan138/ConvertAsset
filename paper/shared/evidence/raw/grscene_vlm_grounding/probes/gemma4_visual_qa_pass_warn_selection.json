@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "status": "visual_qa_pass_warn_probe_selection",
+  "source_visual_qa": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json"
+  },
+  "prediction_artifact": "paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_visual_qa_pass_warn_predictions.jsonl",
+  "score_artifact": "paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_visual_qa_pass_warn_score_summary.json",
+  "claim_boundary": "pilot_probe_only_not_final_vlm_performance",
+  "selection_summary": {
+    "selected_pair_count": 6,
+    "selected_sample_count": 12,
+    "pass_pair_count": 1,
+    "warn_pair_count": 5,
+    "fail_pair_count": 0,
+    "excluded_fail_pair_count": 4
+  },
+  "selected_pairs": [
+    {"pair_id": "c27086f557d316584264.view_001", "target_category": "bottle", "visual_qa_verdict": "PASS"},
+    {"pair_id": "32ba3ade1a8e63c981af.view_002", "target_category": "plate", "visual_qa_verdict": "WARN"},
+    {"pair_id": "bb985fd4504a1afe8516.view_000", "target_category": "cup", "visual_qa_verdict": "WARN"},
+    {"pair_id": "e2ec085d524d5df4455d.view_000", "target_category": "cup", "visual_qa_verdict": "WARN"},
+    {"pair_id": "c8ee4b66274b05d242c2.view_000", "target_category": "faucet", "visual_qa_verdict": "WARN"},
+    {"pair_id": "90e105daa7e6ff59da38.view_002", "target_category": "picture", "visual_qa_verdict": "WARN"}
+  ],
+  "excluded_pairs": [
+    {"pair_id": "f35ef3d86c42446b7ddf.view_001", "target_category": "clock", "visual_qa_verdict": "FAIL"},
+    {"pair_id": "f405f964229ca3d3fbad.view_000", "target_category": "cup", "visual_qa_verdict": "FAIL"},
+    {"pair_id": "2c2bd8f1c808f5a4b227.view_002", "target_category": "bottle", "visual_qa_verdict": "FAIL"},
+    {"pair_id": "1e397951c1926c7f0a0b.view_000", "target_category": "clock", "visual_qa_verdict": "FAIL"}
+  ]
+}

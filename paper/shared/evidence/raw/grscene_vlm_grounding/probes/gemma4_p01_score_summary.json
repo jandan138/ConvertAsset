@@ -1,5 +1,5 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "num_records": 2,
   "prediction_backends": [
     "local_gemma4_multimodal"
@@ -44,6 +44,10 @@
     "point_hit_agreement": 1.0,
     "both_point_hit_count": 0,
     "mean_prediction_point_delta_px": 30.413813,
+    "normalized_1000_point_pair_count": 1,
+    "normalized_1000_point_hit_agreement": 1.0,
+    "normalized_1000_both_point_hit_count": 1,
+    "normalized_1000_mean_prediction_point_delta_px": 18.14008,
     "answer_pair_count": 1,
     "answer_match_agreement": 1.0,
     "duplicate_pair_version_count": 0
@@ -71,7 +75,7 @@
     }
   ],
   "score_provenance": {
-    "generated_at_utc": "2026-05-22T03:14:44.126022Z",
+    "generated_at_utc": "2026-05-22T03:27:54.921763Z",
     "command": [
       "/usr/bin/python",
       "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
@@ -86,13 +90,16 @@
     },
     "scorer": {
       "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
-      "script_hash_sha256": "91a8f0b4b882cc50d46f51012c8abef8acd759fd29bde97892b403202df9dfce"
+      "script_hash_sha256": "4983ea6eac57967f988789602ad25a60f279bccc41d16b87c3fc65eeb731d303"
     },
     "git": {
-      "commit": "834fa8a4c8145a3c820bb2e1931779744131a05d",
+      "commit": "b0dfc6d6fc8b6958f23975ca9365952ef0683ece",
       "status_porcelain": [
         " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
-        " M tests/test_grscenes_vlm_score_grounding.py"
+        " M tests/test_grscenes_vlm_score_grounding.py",
+        "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_visual_qa_pass_warn_predictions.jsonl",
+        "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_visual_qa_pass_warn_predictions.jsonl.metadata.json",
+        "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_visual_qa_pass_warn_score_summary.json"
       ]
     }
   }

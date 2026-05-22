@@ -211,8 +211,11 @@ def _pair_consistency(rows: list[dict[str, Any]], records: list[dict[str, Any]])
     comparable = [item for item in grouped.values() if "original" in item and "converted" in item]
     point_agreements: list[bool] = []
     answer_agreements: list[bool] = []
+    normalized_1000_point_agreements: list[bool] = []
     both_point_hit_count = 0
+    normalized_1000_both_point_hit_count = 0
     point_deltas: list[float] = []
+    normalized_1000_point_deltas: list[float] = []
     for item in comparable:
         original = item["original"]
         converted = item["converted"]
@@ -226,18 +229,47 @@ def _pair_consistency(rows: list[dict[str, Any]], records: list[dict[str, Any]])
         converted_answer_hit = converted["row"].get("answer_match")
         if original_answer_hit is not None and converted_answer_hit is not None:
             answer_agreements.append(bool(original_answer_hit) == bool(converted_answer_hit))
+        original_normalized_1000_hit = original["row"].get("point_in_bbox_normalized_1000")
+        converted_normalized_1000_hit = converted["row"].get("point_in_bbox_normalized_1000")
+        if original_normalized_1000_hit is not None and converted_normalized_1000_hit is not None:
+            normalized_1000_point_agreements.append(
+                bool(original_normalized_1000_hit) == bool(converted_normalized_1000_hit)
+            )
+            if original_normalized_1000_hit and converted_normalized_1000_hit:
+                normalized_1000_both_point_hit_count += 1
         original_point = _float_pair(_prediction_dict(original["record"]).get("point_xy"))
         converted_point = _float_pair(_prediction_dict(converted["record"]).get("point_xy"))
         if original_point is not None and converted_point is not None:
             point_deltas.append(math.dist(original_point, converted_point))
+        original_normalized_point = _float_pair(
+            _normalized_1000_point_to_image(
+                _prediction_dict(original["record"]).get("point_xy"), original["record"].get("image")
+            )
+        )
+        converted_normalized_point = _float_pair(
+            _normalized_1000_point_to_image(
+                _prediction_dict(converted["record"]).get("point_xy"), converted["record"].get("image")
+            )
+        )
+        if original_normalized_point is not None and converted_normalized_point is not None:
+            normalized_1000_point_deltas.append(
+                math.dist(original_normalized_point, converted_normalized_point)
+            )
 
     mean_delta = _mean_float(point_deltas)
+    normalized_1000_mean_delta = _mean_float(normalized_1000_point_deltas)
     return {
         "pair_count": len(comparable),
         "point_pair_count": len(point_agreements),
         "point_hit_agreement": _mean(point_agreements),
         "both_point_hit_count": both_point_hit_count,
         "mean_prediction_point_delta_px": round(mean_delta, 6) if mean_delta is not None else None,
+        "normalized_1000_point_pair_count": len(normalized_1000_point_agreements),
+        "normalized_1000_point_hit_agreement": _mean(normalized_1000_point_agreements),
+        "normalized_1000_both_point_hit_count": normalized_1000_both_point_hit_count,
+        "normalized_1000_mean_prediction_point_delta_px": (
+            round(normalized_1000_mean_delta, 6) if normalized_1000_mean_delta is not None else None
+        ),
         "answer_pair_count": len(answer_agreements),
         "answer_match_agreement": _mean(answer_agreements),
         "duplicate_pair_version_count": duplicate_pair_version_count,
@@ -333,7 +365,7 @@ def score(records: list[dict[str, Any]]) -> dict[str, Any]:
 
     backends = _prediction_backends(records)
     return {
-        "schema_version": 4,
+        "schema_version": 5,
         "num_records": len(records),
         "prediction_backends": backends,
         "model_checkpoints": _model_checkpoints(records),
