@@ -23,8 +23,9 @@ systematically quantified. Practitioners who generate synthetic training data
 at scale~\cite{Singh2025Synthetica,Ng2023SynTable} or deploy digital twins in
 resource-constrained settings therefore face a recurring question:
 \emph{can we simplify MDL materials to UsdPreviewSurface without degrading the
-downstream utility of the rendered images, and under what workloads does such
-conversion materially affect runtime behavior?}
+downstream utility of the rendered images, including vision-language grounding
+signals, and under what workloads does such conversion materially affect runtime
+behavior?}
 
 Despite the widespread use of Isaac Sim in the robotics and computer vision
 communities, no prior work has systematically quantified the consequences of
@@ -35,7 +36,7 @@ choices. This gap is particularly insidious because it operates silently inside
 the data generation pipeline: a practitioner may convert assets for portability
 or presumed efficiency gains, unaware of any impact on the training signal.
 
-In this paper we address this gap with three contributions:
+In this paper we address this gap with four contributions:
 \begin{enumerate}
     \item We present an initial multi-level quantification of
     MDL-to-UsdPreviewSurface material simplification trade-offs in NVIDIA Isaac
@@ -44,9 +45,15 @@ In this paper we address this gap with three contributions:
     rendering performance, and semantic feature preservation
     (CLIP~\cite{Radford2021Learning} and
     DINOv2~\cite{Oquab2023DINOv2} cosine similarity).
+    \item We extend the evaluation route to GRScenes by converting a full
+    scratch copy of the benchmark scenes and running matched original/converted
+    VLM grounding pilots. We separate a clean visual-QA PASS pool from a
+    zoomed material-shift stress pool so that preservation evidence and stress
+    diagnostics are not conflated.
     \item We derive preliminary decision guidelines for synthetic data
-    practitioners: under what conditions material simplification is safe, and
-    when full-fidelity MDL rendering remains necessary.
+    practitioners: when material simplification appears visually and
+    feature-preserving, and when full-fidelity MDL rendering or task-specific
+    VLM validation remains necessary.
     \item We release an open-source conversion toolkit (available upon acceptance) that
     automates the MDL-to-UsdPreviewSurface conversion pipeline with
     composition-preserving USD traversal, texture remapping, and optional mesh

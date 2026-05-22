@@ -43,3 +43,17 @@ figures:
     generated_by: paper/shared/figures/gen_grscene_qualitative.py
     sources:
       - paper/shared/figures/out_tmp/
+  - id: fig_vlm_grounding_cases
+    outputs:
+      - paper/shared/figures/fig_vlm_grounding_cases.pdf
+      - paper/shared/figures/fig_vlm_grounding_cases.png
+    generated_by: paper/shared/figures/gen_vlm_grounding_cases.py
+    sources:
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/gemma4_clean_pool_pass15_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/gemma4_clean_pool_pass15_score_summary.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/qwen25_clean_pool_pass15_structured_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/qwen25_clean_pool_pass15_structured_score_summary.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/gemma4_zoom_stress_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/gemma4_zoom_stress_score_summary.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_predictions.jsonl
+      - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_score_summary.json

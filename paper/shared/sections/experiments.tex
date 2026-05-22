@@ -3,7 +3,9 @@
 
 We evaluate the impact of MDL-to-UsdPreviewSurface material simplification
 across three complementary dimensions: pixel-level image quality, rendering
-performance, and feature-level semantic preservation. All metrics are computed over 24 matched image pairs (4 scenes
+performance, and feature-level semantic preservation. We additionally report a
+GRScenes VLM grounding pilot as a downstream diagnostic, not as a final
+benchmark. The single-object visual and feature metrics are computed over 24 matched image pairs (4 scenes
 $\times$ 6 viewpoints).
 
 \subsection{Pixel-Level Image Quality}
@@ -261,38 +263,54 @@ A one-sided Wilcoxon signed-rank test confirms that CLIP cosine similarity signi
 \subsection{Pilot GRScenes VLM Grounding}
 \label{sec:vlm_grounding_pilot}
 
-For the ACL-oriented extension, we also ran a small PASS-only GRScenes VLM
-grounding pilot on four blind visual-QA accepted original/converted render
-pairs: one bottle pair, two cup views, and one faucet view. The goal of this
-pilot is to validate the end-to-end benchmark plumbing and expose protocol
-sensitivity before scaling to a canonical benchmark result. It should not be
-read as final VLM robustness evidence.
+For the vision-language grounding extension, we use GRScenes as a controlled scene-level
+testbed for whether material conversion changes VLM grounding behavior. The
+first four-pair PASS-only probe was used to debug prompt format, answer
+parsing, and coordinate scoring. We therefore report the larger follow-up
+diagnostics here: a 15-pair clean visual-QA PASS pool and a 14-pair zoomed
+material-shift stress pool. Both remain pilot evidence because the clean pool is
+below the 20-pair final benchmark gate and the zoom pool intentionally includes
+visible material/color/lighting shifts.
 
-\input{tables/tab_grscenes_vlm_pass_only_pilot}
+\input{tables/tab_grscenes_vlm_clean_pool_pass15}
 
-Table~\ref{tab:grscenes_vlm_pass_only_pilot} reports the initial probe suite
-that motivated the frozen protocol. Local Gemma4 produced target-category
-answers across all four original and converted renders, and under the
-normalized-1000 diagnostic its point predictions hit 4/4 original boxes and 3/4
-converted boxes. In contrast, Qwen2.5-VL exposes two protocol issues. Direct
-JSON prompting produces malformed outputs and no scored answers or points.
-Structured-text prompting recovers 8/8 scorable answer rows, but point coverage
-remains asymmetric (3/4 original and 4/4 converted point rows) and the
-coordinate semantics remain unresolved: raw image-space boxes score better than
-normalized-1000 scaling, while normalized-1000 pair agreement is uninformative
-because all comparable Qwen points miss the boxes. The answer matcher also
-treats the truncated string \texttt{fauc} as a miss for \texttt{faucet}.
+Table~\ref{tab:grscenes_vlm_clean_pool_pass15} shows the cleaner
+material-preservation diagnostic. Gemma4 preserves target-category answers
+across all 15 original and 15 converted renders. Its normalized-1000 point hits
+are lower than answer accuracy, dropping from 8/15 on original renders to 6/15
+on converted renders, with 11/15 pairwise hit-status agreement. Qwen2.5-VL is
+less stable under the same structured-text contract: only 23/30 answer strings
+are scorable, raw point hits are 5/14 original and 5/15 converted, and
+normalized-1000 point hits are 0 for both material conditions. Thus the clean
+pool supports a narrow claim: answer-level recognition is often preserved, but
+point grounding is strongly model- and coordinate-protocol dependent.
 
-We then reran Gemma4 and Qwen2.5-VL from the canonical VLM run manifest using
-the frozen \texttt{normalized\_1000} + \texttt{structured\_text} prompt
-contract. The rerun keeps the conclusion at the protocol-validation level:
-Gemma4 again answered all eight rows correctly, with normalized-1000
-point-in-box scores of 2/4 original and 3/4 converted, while Qwen2.5-VL answered
-3/4 rows in both material conditions and still produced normalized-1000 point
-scores of 0/3 original and 0/4 converted among parsed points. These
-manifest-aligned reruns are stored under \texttt{canonical\_probes/}; they are
-not root canonical \texttt{predictions.jsonl} or \texttt{score\_summary.json}
-outputs. The run manifest remains \texttt{pilot\_only} and
-\texttt{final\_benchmark\_claimable=false}, because only four visual-QA PASS
-pairs are available against a minimum final gate of 20. They motivate a larger
-PASS render pool before claiming final downstream task performance.
+\input{tables/tab_grscenes_vlm_zoom_stress}
+
+The zoom-stress pool in Table~\ref{tab:grscenes_vlm_zoom_stress} asks a
+different question: how VLM grounding behaves when the target remains visible
+but the converted render can exhibit obvious material, color, or lighting
+changes. Gemma4 again preserves answers across all 14 pairs and obtains high
+normalized-1000 point hits (11/14 original, 13/14 converted). Qwen2.5-VL shows
+the stress more clearly: answer hits decrease from 12/14 original to 10/12
+converted, and raw point hits drop from 9/14 to 6/13. The contrast between
+Gemma4 and Qwen2.5-VL indicates that material conversion effects on VLM
+grounding cannot be summarized by a single visual-fidelity score.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_vlm_grounding_cases.pdf}
+\caption{Qualitative GRScenes VLM grounding cases sampled from the clean and
+zoom-stress pilots. Each row shows an original MDL render and its converted
+noMDL counterpart with the projected target box and model point prediction.
+The panels illustrate the main diagnostic pattern: some pairs preserve both
+answer and point grounding, while other pairs expose coordinate or material
+shift sensitivity.}
+\label{fig:vlm_grounding_cases}
+\end{figure*}
+
+Figure~\ref{fig:vlm_grounding_cases} visualizes representative success and
+disagreement cases. The current evidence is therefore best used as a protocol
+and stress-test result. It motivates a final clean benchmark with canonical
+\texttt{predictions.jsonl} and \texttt{score\_summary.json} outputs, but it
+does not yet establish broad VLM robustness or embodied downstream task gains.

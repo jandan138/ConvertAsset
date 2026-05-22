@@ -1,11 +1,11 @@
 \section{Discussion}
 \label{sec:discussion}
 
-\paragraph{When is simplification safe?}
+\paragraph{When does simplification appear low-risk?}
 Our results across three evaluation dimensions consistently indicate that
-MDL-to-UsdPreviewSurface conversion is safe for assets whose appearance is
-dominated by standard PBR channels (diffuse albedo, roughness, metallic,
-normal). For such assets, we observe PSNR $>$ 35\,dB, SSIM $>$ 0.99, CLIP
+MDL-to-UsdPreviewSurface conversion appears low-risk for tested assets whose
+appearance is dominated by standard PBR channels (diffuse albedo, roughness,
+metallic, normal). For such assets, we observe PSNR $>$ 35\,dB, SSIM $>$ 0.99, CLIP
 similarity $>$ 0.92. Caution is
 warranted for materials that rely on multi-layer MDL effects --- procedural
 noise textures, specular coatings, and anisotropic reflectance --- where
@@ -46,7 +46,20 @@ none of which can interpret NVIDIA's proprietary MDL shaders. Our results
 quantify the visual cost of this interoperability gain: a mean LPIPS increase
 of 0.020 and a DINOv2 cosine similarity of 0.872. For synthetic data pipelines
 where downstream models operate on features rather than pixels, this trade-off
-is favorable.
+may be favorable, but it should still be gated by task-specific checks.
+
+\paragraph{VLM grounding requires a stricter gate.}
+The GRScenes pilot shows why feature similarity and qualitative scene fidelity
+are not enough for language-conditioned grounding claims. In the clean PASS
+pool, Gemma4 preserves answer accuracy across material conditions, but its
+point hits remain imperfect and slightly lower after conversion. Qwen2.5-VL is
+more sensitive to response format and coordinate interpretation: raw-image
+points score better than normalized-1000 scoring even though the prompt asks
+for normalized coordinates. In the zoom-stress pool, Gemma4 remains stable
+while Qwen shows answer and raw-point degradation on converted renders. This
+does not imply that conversion generally harms VLM grounding; rather, it shows
+that the effect is model- and protocol-dependent, and that clean-preservation
+pools must be separated from material-shift stress tests.
 
 \paragraph{Why DINOv2 is more sensitive than CLIP.}
 Figure~\ref{fig:tsne_dino} provides a t-SNE visualization of DINOv2 embeddings
@@ -99,6 +112,10 @@ practitioners working with Isaac Sim assets:
     In our dataset, values below 0.80 occur only for viewpoints with complex
     specular effects. We therefore treat this range as a cautionary signal for
     manual validation, not as a hard deployment rule.
+    \item \textbf{Add VLM-specific acceptance gates} before using converted
+    renders as embodied-language benchmark evidence. Answer accuracy, point
+    grounding, coordinate conventions, and visual-QA filtering should be
+    reported separately.
 \end{enumerate}
 These recommendations are heuristic signals derived from furniture assets with
 predominantly wood, metal, and fabric materials. Validation on diverse object

@@ -2,12 +2,16 @@
 
 The current evidence base is intentionally narrow: the workshop-era experiments
 cover a small asset set, limited scene diversity, and mostly visual or
-feature-level metrics. These results support claims about material-conversion
-fidelity and rendering behavior, but they do not yet establish broad downstream
-benefits for language, vision-language, or embodied-agent models. The ACL version
-therefore requires additional experiments that connect converted synthetic
-scenes to multimodal grounding tasks, captioning or question-answering behavior,
-scene-text alignment, or agent instruction-following robustness. The current
-pipeline also depends on Isaac Sim and USD assets whose licenses, material
-graphs, and renderer settings may differ across datasets, so any general
-guidelines should be validated on a larger and more heterogeneous scene corpus.
+feature-level metrics. The GRScenes extension adds real VLM grounding probes,
+but these probes are still pilot diagnostics rather than final benchmark
+evidence: the clean visual-QA pool has 15 pairs, below the configured 20-pair
+final gate, and the zoom pool is a material-shift stress set rather than a
+clean preservation set. These results support claims about measurement
+protocols and model sensitivity, but they do not yet establish broad downstream
+benefits for language, vision-language, or embodied-agent models. The ACL
+version therefore still requires a larger canonical VLM run, clearer coordinate
+semantics for all model backends, and any navigation or manipulation extension
+needed for embodied-agent claims. The current pipeline also depends on Isaac
+Sim and USD assets whose licenses, material graphs, and renderer settings may
+differ across datasets, so any general guidelines should be validated on a
+larger and more heterogeneous scene corpus.

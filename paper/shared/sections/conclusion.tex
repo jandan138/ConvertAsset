@@ -35,18 +35,29 @@ practitioners generating synthetic training data, as they directly probe
 whether vision models perceive the simplified renderings as equivalent to the
 originals.
 
+The GRScenes pilot extends this analysis to language-conditioned grounding. On
+a 15-pair clean visual-QA pool, Gemma4 preserves answer accuracy across all
+original and converted renders, while point grounding remains less stable; on a
+14-pair zoom material-shift stress pool, Qwen2.5-VL shows answer and raw-point
+degradation on converted renders. These results support the use of VLM probes
+as diagnostics for material conversion, but not yet as final downstream
+robustness evidence.
+
 Based on our findings, we offer the following preliminary guidelines for
 synthetic data practitioners:
 \begin{itemize}
     \item For assets with standard PBR materials (diffuse, roughness, metallic,
-    normal maps), MDL-to-UsdPreviewSurface conversion is safe and introduces
-    negligible visual degradation (PSNR $>$ 35\,dB, SSIM $>$ 0.99).
+    normal maps), MDL-to-UsdPreviewSurface conversion appears low-risk under
+    the tested visual and feature metrics (PSNR $>$ 35\,dB, SSIM $>$ 0.99).
     \item Assets with complex multi-layer MDL effects should be validated
     individually, as conversion quality varies with material complexity (PSNR
     range: 23--44\,dB across viewpoints).
     \item The conversion enables broader toolchain compatibility --- including
     standard USD viewers, web-based visualization, and GLB export --- without
     sacrificing visual quality for most use cases.
+    \item For VLM or embodied-language use cases, clean visual-QA pools and
+    material-shift stress pools should be reported separately before claiming
+    benchmark-level robustness.
 \end{itemize}
 
 \paragraph{Limitations.}
@@ -56,16 +67,19 @@ a range of material complexity, further validation on diverse object categories
 (e.g., transparent or translucent materials, highly specular metals, organic
 surfaces) is needed to establish broader generalizability. Additionally, our
 performance benchmarks use single-object scenes; the efficiency impact of
-material simplification in large-scale multi-object environments remains an
-open question. Our performance claims are therefore limited to four
-single-object furniture scenes plus one GRScenes commercial interior under a
-headless RTX path-tracing setup, and should not yet be generalized to all
-larger, heavily instanced, or materially diverse environments.
+material simplification beyond the one GRScenes commercial-interior startup
+benchmark remains an open question. Our performance claims are therefore
+limited to four single-object furniture scenes plus one GRScenes commercial
+interior under a headless RTX path-tracing setup, and should not yet be
+generalized to all larger, heavily instanced, or materially diverse
+environments. The VLM results are also pilot diagnostics: the clean pool remains
+below the final benchmark gate, and Qwen coordinate semantics are unresolved.
 
 \paragraph{Future Work.}
 We plan to extend this evaluation along several axes: (1)~scaling to diverse
-object categories and material types; (2)~measuring downstream task impact
-with fine-tuned detection and segmentation models; (3)~investigating the
+object categories and material types; (2)~scaling the GRScenes VLM clean pool
+to a final benchmark with canonical model outputs and adding downstream
+navigation or manipulation proxies where appropriate; (3)~investigating the
 cumulative effect of material simplification combined with mesh simplification
 and texture compression in the full USD-to-GLB pipeline; and
 (4)~benchmarking rendering in complex multi-object scenes where material count
