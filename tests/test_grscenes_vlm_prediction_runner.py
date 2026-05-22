@@ -47,6 +47,38 @@ def test_parse_prediction_text_extracts_point_and_answer() -> None:
     assert parsed == {"parse_status": "parsed", "point_xy": [25.0, 40.0], "answer": "cup"}
 
 
+def test_parse_prediction_text_extracts_structured_text_point_and_answer() -> None:
+    module = load_runner_module()
+
+    parsed = module.parse_prediction_text("Point: 25, 40\nAnswer: cup", response_format="structured_text")
+
+    assert parsed == {"parse_status": "parsed", "point_xy": [25.0, 40.0], "answer": "cup"}
+
+
+def test_parse_prediction_text_extracts_structured_text_without_point_label() -> None:
+    module = load_runner_module()
+
+    parsed = module.parse_prediction_text("720,280\nAnswer: bottle", response_format="structured_text")
+
+    assert parsed == {"parse_status": "parsed", "point_xy": [720.0, 280.0], "answer": "bottle"}
+
+
+def test_parse_prediction_text_extracts_structured_text_without_labels() -> None:
+    module = load_runner_module()
+
+    parsed = module.parse_prediction_text("300,200\nbottle", response_format="structured_text")
+
+    assert parsed == {"parse_status": "parsed", "point_xy": [300.0, 200.0], "answer": "bottle"}
+
+
+def test_parse_prediction_text_extracts_structured_text_bbox_center() -> None:
+    module = load_runner_module()
+
+    parsed = module.parse_prediction_text("300,230,350,310\ncup", response_format="structured_text")
+
+    assert parsed == {"parse_status": "parsed", "point_xy": [325.0, 270.0], "answer": "cup"}
+
+
 def test_parse_prediction_text_reports_unparsed_output() -> None:
     module = load_runner_module()
 
@@ -67,11 +99,25 @@ def test_build_prompt_can_request_normalized_1000_coordinates(tmp_path: Path) ->
     assert "raw pixel" not in prompt.lower()
 
 
+def test_build_prompt_can_request_structured_text_response(tmp_path: Path) -> None:
+    module = load_runner_module()
+
+    prompt = module.build_prompt(
+        scoring_record(tmp_path / "render.png"),
+        coordinate_frame="normalized_1000",
+        response_format="structured_text",
+    )
+
+    assert "Point: x, y" in prompt
+    assert "Answer: target category" in prompt
+    assert "JSON" not in prompt
+
+
 def test_run_predictions_preserves_record_and_adds_model_metadata(tmp_path: Path) -> None:
     module = load_runner_module()
     image_path = tmp_path / "render.png"
     image_path.write_bytes(b"fake image bytes")
-    engine = FakeEngine('{"point_xy": [25, 40], "answer": "cup"}')
+    engine = FakeEngine("Point: 25, 40\nAnswer: cup")
 
     rows = module.run_predictions(
         [scoring_record(image_path)],
@@ -81,6 +127,7 @@ def test_run_predictions_preserves_record_and_adds_model_metadata(tmp_path: Path
         temperature=0.0,
         max_new_tokens=64,
         coordinate_frame="normalized_1000",
+        response_format="structured_text",
     )
 
     assert len(rows) == 1
@@ -93,6 +140,7 @@ def test_run_predictions_preserves_record_and_adds_model_metadata(tmp_path: Path
     assert row["prediction"]["parse_status"] == "parsed"
     assert row["prediction"]["coordinate_frame_requested"] == "normalized_1000"
     assert row["prompt"]["coordinate_frame"] == "normalized_1000"
+    assert row["prompt"]["response_format"] == "structured_text"
     assert row["prompt"]["text"].startswith("You are evaluating a rendered indoor scene.")
     assert row["image"]["hash_sha256"]
     assert engine.messages[0][0]["content"][0]["type"] == "text"
@@ -114,6 +162,7 @@ def test_write_predictions_writes_jsonl_and_metadata(tmp_path: Path) -> None:
         temperature=0.0,
         max_new_tokens=64,
         coordinate_frame="normalized_1000",
+        response_format="json",
     )
 
     module.write_predictions(
@@ -123,6 +172,7 @@ def test_write_predictions_writes_jsonl_and_metadata(tmp_path: Path) -> None:
         backend="local_hf_qwen",
         model_checkpoint="/models/qwen",
         coordinate_frame="normalized_1000",
+        response_format="json",
         argv=["--test"],
     )
 
@@ -131,6 +181,7 @@ def test_write_predictions_writes_jsonl_and_metadata(tmp_path: Path) -> None:
     assert written[0]["prediction"]["answer"] == "cup"
     assert metadata["backend"] == "local_hf_qwen"
     assert metadata["coordinate_frame"] == "normalized_1000"
+    assert metadata["response_format"] == "json"
     assert metadata["claim_boundary"] == "model_prediction_scores_require_model_provenance_review"
     assert len(metadata["input_projection_report"]["hash_sha256"]) == 64
     assert len(metadata["output_jsonl"]["hash_sha256"]) == 64

@@ -88,7 +88,12 @@ def _finite_point(values: Any) -> list[float] | None:
     return point
 
 
-def build_prompt(record: dict[str, Any], *, coordinate_frame: str = "normalized_1000") -> str:
+def build_prompt(
+    record: dict[str, Any],
+    *,
+    coordinate_frame: str = "normalized_1000",
+    response_format: str = "json",
+) -> str:
     image = record.get("image") or {}
     target = record.get("target") or {}
     category = str(target.get("category") or "target object")
@@ -107,12 +112,24 @@ def build_prompt(record: dict[str, Any], *, coordinate_frame: str = "normalized_
         )
     else:
         raise ValueError(f"Unsupported coordinate_frame: {coordinate_frame}")
+    if response_format == "json":
+        response_instruction = (
+            "Return only a JSON object with this exact shape:\n"
+            '{"point_xy": [x, y], "answer": "target category"}\n'
+        )
+    elif response_format == "structured_text":
+        response_instruction = (
+            "Return exactly two plain-text lines and no code block:\n"
+            "Point: x, y\n"
+            "Answer: target category\n"
+        )
+    else:
+        raise ValueError(f"Unsupported response_format: {response_format}")
     return (
         "You are evaluating a rendered indoor scene. Locate the target object.\n"
         f"Target category: {category}\n"
         f"Image size: {width} x {height} pixels.\n"
-        "Return only a JSON object with this exact shape:\n"
-        '{"point_xy": [x, y], "answer": "target category"}\n'
+        f"{response_instruction}"
         f"{coordinate_instruction} "
         "Do not include markdown, explanation, or extra keys."
     )
@@ -134,7 +151,69 @@ def build_messages(record: dict[str, Any], prompt: str) -> list[dict[str, Any]]:
     ]
 
 
-def parse_prediction_text(text: str) -> dict[str, Any]:
+_STRUCTURED_NUMBER_LINE = re.compile(
+    r"(?im)^\s*(?:Point\s*:\s*)?\[?\s*"
+    r"(-?\d+(?:\.\d+)?)\s*,\s*"
+    r"(-?\d+(?:\.\d+)?)"
+    r"(?:\s*,\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?))?"
+    r"\s*\]?\s*$"
+)
+
+
+def _point_from_structured_number_match(match: re.Match[str]) -> list[float] | None:
+    values = [group for group in match.groups() if group is not None]
+    if len(values) == 2:
+        return _finite_point(values)
+    if len(values) == 4:
+        box = _finite_point(
+            [
+                (float(values[0]) + float(values[2])) / 2.0,
+                (float(values[1]) + float(values[3])) / 2.0,
+            ]
+        )
+        return box
+    return None
+
+
+def _structured_answer_candidate(line: str) -> str | None:
+    cleaned = line.strip().strip("`").strip()
+    if not cleaned or "addcriterion" in cleaned.lower():
+        return None
+    if _STRUCTURED_NUMBER_LINE.match(cleaned):
+        return None
+    if re.search(r"[A-Za-z]", cleaned) is None:
+        return None
+    return cleaned
+
+
+def _parse_structured_prediction_text(text: str) -> dict[str, Any]:
+    point = None
+    answer = None
+    point_match = _STRUCTURED_NUMBER_LINE.search(text)
+    if point_match:
+        point = _point_from_structured_number_match(point_match)
+    answer_match = re.search(r"(?im)^\s*Answer\s*:\s*(.+?)\s*$", text)
+    if answer_match:
+        answer = _structured_answer_candidate(answer_match.group(1))
+    if not answer:
+        for line in text.splitlines():
+            candidate = _structured_answer_candidate(line)
+            if candidate:
+                answer = candidate
+                break
+    return {
+        "parse_status": "parsed" if point is not None or answer else "parse_failed",
+        "point_xy": point,
+        "answer": answer or None,
+    }
+
+
+def parse_prediction_text(text: str, *, response_format: str = "json") -> dict[str, Any]:
+    if response_format == "structured_text":
+        return _parse_structured_prediction_text(text)
+    if response_format != "json":
+        raise ValueError(f"Unsupported response_format: {response_format}")
+
     parsed_obj = None
     for match in re.finditer(r"\{[\s\S]*?\}", text):
         try:
@@ -177,16 +256,22 @@ def run_predictions(
     temperature: float,
     max_new_tokens: int,
     coordinate_frame: str = "normalized_1000",
+    response_format: str = "json",
 ) -> list[dict[str, Any]]:
     rows = []
     for record in records:
-        prompt = build_prompt(record, coordinate_frame=coordinate_frame)
+        prompt = build_prompt(record, coordinate_frame=coordinate_frame, response_format=response_format)
         messages = build_messages(record, prompt)
         raw_text = engine.generate(messages)
-        parsed = parse_prediction_text(raw_text)
+        parsed = parse_prediction_text(raw_text, response_format=response_format)
         row = dict(record)
         row["image"] = _image_with_hash(record)
-        row["prompt"] = {"type": "s1_point_json", "coordinate_frame": coordinate_frame, "text": prompt}
+        row["prompt"] = {
+            "type": "s1_point",
+            "coordinate_frame": coordinate_frame,
+            "response_format": response_format,
+            "text": prompt,
+        }
         row["prediction"] = {
             "backend": backend,
             "coordinate_frame_requested": coordinate_frame,
@@ -210,6 +295,7 @@ def write_predictions(
     backend: str,
     model_checkpoint: str,
     coordinate_frame: str = "normalized_1000",
+    response_format: str = "json",
     argv: list[str] | None = None,
 ) -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -224,6 +310,7 @@ def write_predictions(
         "backend": backend,
         "model_checkpoint": model_checkpoint,
         "coordinate_frame": coordinate_frame,
+        "response_format": response_format,
         "claim_boundary": MODEL_CLAIM_BOUNDARY,
         "generated_at_utc": _utc_now(),
         "input_projection_report": {
@@ -598,6 +685,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--temperature", type=float, default=0.0)
     parser.add_argument("--max-new-tokens", type=int, default=128)
     parser.add_argument("--coordinate-frame", choices=["normalized_1000", "pixel"], default="normalized_1000")
+    parser.add_argument("--response-format", choices=["json", "structured_text"], default="json")
     parser.add_argument("--dtype", default="bfloat16")
     parser.add_argument("--attn-implementation", default="eager")
     parser.add_argument("--device-map", default="auto")
@@ -627,6 +715,7 @@ def main(argv: list[str] | None = None) -> int:
         temperature=args.temperature,
         max_new_tokens=args.max_new_tokens,
         coordinate_frame=args.coordinate_frame,
+        response_format=args.response_format,
     )
     write_predictions(
         rows,
@@ -635,6 +724,7 @@ def main(argv: list[str] | None = None) -> int:
         backend=args.model_backend,
         model_checkpoint=args.model_path,
         coordinate_frame=args.coordinate_frame,
+        response_format=args.response_format,
         argv=argv,
     )
     print(f"Wrote {args.out} predictions={len(rows)} backend={args.model_backend}")
