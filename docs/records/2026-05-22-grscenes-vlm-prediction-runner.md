@@ -6,7 +6,9 @@ This record documents the first real-model prediction runner for the GRScenes
 VLM grounding pilot. It creates the bridge between projected scoring records and
 future model-generated `predictions.jsonl` files.
 
-No live VLM inference was run in this pass.
+No live VLM inference was run in this pass. The later first live Gemma4 probe is
+recorded in
+`docs/records/2026-05-22-grscenes-vlm-visual-qa-and-gemma4-probe.md`.
 
 ## Changes
 

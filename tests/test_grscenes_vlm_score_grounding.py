@@ -129,6 +129,25 @@ def test_score_treats_malformed_and_non_finite_points_as_unscored() -> None:
     json.dumps(result, allow_nan=False)
 
 
+def test_score_reports_out_of_frame_points_separately_from_bbox_misses() -> None:
+    module = load_score_module()
+    out_of_frame = record("pair_a", "original", [493.0, 500.0])
+    out_of_frame["image"] = {"width": 600, "height": 450}
+    in_frame_bbox_miss = record("pair_a", "converted", [493.0, 200.0])
+    in_frame_bbox_miss["image"] = {"width": 600, "height": 450}
+
+    result = module.score([out_of_frame, in_frame_bbox_miss])
+
+    assert [row["point_in_bbox"] for row in result["records"]] == [False, False]
+    assert [row["point_in_image"] for row in result["records"]] == [False, True]
+    summary_by_version = {row["version"]: row for row in result["summary"]}
+    assert summary_by_version["original"]["n_point_in_image"] == 1
+    assert summary_by_version["original"]["point_in_image_accuracy"] == 0.0
+    assert summary_by_version["converted"]["n_point_in_image"] == 1
+    assert summary_by_version["converted"]["point_in_image_accuracy"] == 1.0
+    json.dumps(result, allow_nan=False)
+
+
 def test_score_rejects_string_coordinates_and_non_dict_schema_objects() -> None:
     module = load_score_module()
     string_point = record("pair_a", "original", [20.0, 20.0])
@@ -159,7 +178,7 @@ def test_main_writes_score_provenance(tmp_path: Path) -> None:
 
     assert status == 0
     result = json.loads(out.read_text(encoding="utf-8"))
-    assert result["schema_version"] == 2
+    assert result["schema_version"] == 3
     provenance = result["score_provenance"]
     assert provenance["input_predictions"]["path"] == str(predictions)
     assert len(provenance["input_predictions"]["hash_sha256"]) == 64

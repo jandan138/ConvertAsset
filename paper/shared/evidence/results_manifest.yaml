@@ -40,12 +40,24 @@ results:
     - id: grscenes_vlm_target_projection_qa
       path: paper/shared/evidence/raw/grscene_vlm_grounding/target_projection_qa_report.json
       description: "Projected image-space target boxes for 10 render-smoke pairs; geometric label QA only, not visibility or model-result evidence."
+    - id: grscenes_vlm_visual_review_batch
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json
+      description: "Independent blind visual QA over 10 recommended render-smoke pairs; candidate filter only, not model-result evidence."
     - id: grscenes_vlm_projection_center_baseline_predictions_metadata
       path: paper/shared/evidence/raw/grscene_vlm_grounding/projection_center_baseline_predictions.jsonl.metadata.json
       description: "Provenance for deterministic projection-center scoring-smoke predictions; smoke-only and not VLM output evidence."
     - id: grscenes_vlm_projection_center_baseline_score_summary
       path: paper/shared/evidence/raw/grscene_vlm_grounding/projection_center_baseline_score_summary.json
       description: "Score pipeline smoke summary over deterministic bbox-center predictions; not task-performance or VLM robustness evidence."
+    - id: grscenes_vlm_gemma4_p01_probe_predictions
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_predictions.jsonl
+      description: "First local Gemma4 real-model probe on one visually accepted bottle pair; isolated probe, not canonical predictions.jsonl."
+    - id: grscenes_vlm_gemma4_p01_probe_predictions_metadata
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_predictions.jsonl.metadata.json
+      description: "Provenance sidecar for the first local Gemma4 real-model probe."
+    - id: grscenes_vlm_gemma4_p01_probe_score
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_score_summary.json
+      description: "Score summary for the Gemma4 P01 probe; answer matches but point predictions are outside image and bbox."
   figures:
     - paper/shared/figures/fig_render_pairs.pdf
     - paper/shared/figures/fig_image_quality.pdf

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "status": "vlm_predictions",
+  "prediction_count": 2,
+  "backend": "local_gemma4_multimodal",
+  "model_checkpoint": "/cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8",
+  "claim_boundary": "model_prediction_scores_require_model_provenance_review",
+  "generated_at_utc": "2026-05-22T03:02:05.100709Z",
+  "input_projection_report": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/target_projection_qa_report.json",
+    "hash_sha256": "8715fad5c37117c66c97982e9ef3bbcee4f4a4306f29162ad70f0d16f6fcab3c"
+  },
+  "output_jsonl": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_predictions.jsonl",
+    "hash_sha256": "4a3fff21e01f52f21b2e96869fc728b5c225fcc681ad4203e7145c81258db6a5"
+  },
+  "runner_provenance": {
+    "command": [
+      "/cpfs/user/zhuzihou/conda-managed/envs/genesis-llm-qlora-py310/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+      "--projection-report",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/target_projection_qa_report.json",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_predictions.jsonl",
+      "--model-backend",
+      "local_gemma4_multimodal",
+      "--model-path",
+      "/cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8",
+      "--sample-id",
+      "c27086f557d316584264.view_001.original",
+      "--sample-id",
+      "c27086f557d316584264.view_001.converted",
+      "--max-new-tokens",
+      "64",
+      "--force"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+    "script_hash_sha256": "476f382f8dcde4c03248d8ffba5b06902d292dc064ad8b3838d6657faa3cb004",
+    "git_commit": "00eb0676560c033de1d02498154933944213524f",
+    "git_status_porcelain": [
+      " M .gitignore",
+      " M docs/records/2026-05-22-grscenes-vlm-prediction-runner.md",
+      " M docs/records/README.md",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/README.md",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
+      " M paper/shared/evidence/raw/grscene_vlm_grounding/README.md",
+      " M paper/shared/evidence/results_manifest.yaml",
+      " M tests/test_grscenes_vlm_score_grounding.py",
+      "?? docs/records/2026-05-22-grscenes-vlm-visual-qa-and-gemma4-probe.md",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_predictions.jsonl",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_predictions.jsonl.metadata.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_score_summary.json"
+    ]
+  }
+}

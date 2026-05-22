@@ -743,6 +743,29 @@ record selections, and checks image files before loading a local model. It also 
 available. The script uses lazy imports for local model backends, so importing
 or testing it does not load heavy VLM weights.
 
+The first live probe has now been run with `local_gemma4_multimodal` on the
+visually accepted P01 bottle pair:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 PYTHONUNBUFFERED=1 \
+  /cpfs/user/zhuzihou/conda-managed/envs/genesis-llm-qlora-py310/bin/python \
+  paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py \
+  --projection-report paper/shared/evidence/raw/grscene_vlm_grounding/target_projection_qa_report.json \
+  --out paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_predictions.jsonl \
+  --model-backend local_gemma4_multimodal \
+  --model-path /cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8 \
+  --sample-id c27086f557d316584264.view_001.original \
+  --sample-id c27086f557d316584264.view_001.converted \
+  --max-new-tokens 64 \
+  --force
+```
+
+The Qwen route is not yet the first choice in this repo because the currently
+checked Python environments do not provide `qwen_vl_utils`. The Gemma4 route
+loads successfully on the local RTX 4090. Unsloth may create
+`unsloth_compiled_cache/` under the repo root; it is ignored and should be
+treated as disposable runtime cache.
+
 Scoring command:
 
 ```bash
@@ -750,3 +773,17 @@ python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_groundi
   --predictions paper/shared/evidence/raw/grscene_vlm_grounding/predictions.jsonl \
   --out paper/shared/evidence/raw/grscene_vlm_grounding/score_summary.json
 ```
+
+For the Gemma4 P01 probe, score the isolated probe output instead:
+
+```bash
+python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py \
+  --predictions paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_predictions.jsonl \
+  --out paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_score_summary.json
+```
+
+The P01 probe result is intentionally negative for localization: both model
+points are outside the 600x450 image and outside the target bbox, while the
+answer text matches `bottle`. This makes the next experiment step clear: scale
+from one probe to visually accepted pairs only, and report coordinate failures
+separately from category-answer matches.

@@ -4,6 +4,8 @@
 The script is intentionally model-agnostic. It scores JSONL records produced by
 any VLM runner as long as each record includes a target box and either a
 predicted point or answer text.
+When image width/height are available, the scorer also reports whether predicted
+points are inside the rendered image.
 
 Input JSONL record schema:
 {
@@ -117,6 +119,22 @@ def _point_in_box(point: Any, box: Any) -> bool | None:
     left, right = sorted((x1, x2))
     top, bottom = sorted((y1, y2))
     return left <= x <= right and top <= y <= bottom
+
+
+def _point_in_image(point: Any, image: Any) -> bool | None:
+    point_values = _finite_float_list(point, 2)
+    if point_values is None or not isinstance(image, dict):
+        return None
+    try:
+        width = float(image.get("width"))
+        height = float(image.get("height"))
+    except (TypeError, ValueError):
+        return None
+    if not math.isfinite(width) or not math.isfinite(height) or width <= 0 or height <= 0:
+        return None
+
+    x, y = point_values
+    return 0 <= x < width and 0 <= y < height
 
 
 def _answer_matches(answer: Any, expected: Any) -> bool | None:
@@ -239,12 +257,14 @@ def score(records: list[dict[str, Any]]) -> dict[str, Any]:
         prediction = prediction_raw if isinstance(prediction_raw, dict) else {}
 
         point_hit = _point_in_box(prediction.get("point_xy"), target.get("bbox_xyxy"))
+        point_in_image = _point_in_image(prediction.get("point_xy"), record.get("image"))
         answer_hit = _answer_matches(prediction.get("answer"), record.get("expected_answers"))
         row = {
             "sample_id": record.get("sample_id"),
             "version": version,
             "task": task,
             "point_in_bbox": point_hit,
+            "point_in_image": point_in_image,
             "answer_match": answer_hit,
         }
         rows.append(row)
@@ -252,6 +272,8 @@ def score(records: list[dict[str, Any]]) -> dict[str, Any]:
         bucket = aggregates[(version, task)]
         if point_hit is not None:
             bucket["point_in_bbox"].append(point_hit)
+        if point_in_image is not None:
+            bucket["point_in_image"].append(point_in_image)
         if answer_hit is not None:
             bucket["answer_match"].append(answer_hit)
 
@@ -263,6 +285,8 @@ def score(records: list[dict[str, Any]]) -> dict[str, Any]:
                 "task": task,
                 "n_point": len(metrics["point_in_bbox"]),
                 "point_in_bbox_accuracy": _mean(metrics["point_in_bbox"]),
+                "n_point_in_image": len(metrics["point_in_image"]),
+                "point_in_image_accuracy": _mean(metrics["point_in_image"]),
                 "n_answer": len(metrics["answer_match"]),
                 "answer_accuracy": _mean(metrics["answer_match"]),
             }
@@ -270,7 +294,7 @@ def score(records: list[dict[str, Any]]) -> dict[str, Any]:
 
     backends = _prediction_backends(records)
     return {
-        "schema_version": 2,
+        "schema_version": 3,
         "num_records": len(records),
         "prediction_backends": backends,
         "model_checkpoints": _model_checkpoints(records),

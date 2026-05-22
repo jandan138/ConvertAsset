@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "status": "independent_visual_review_batch",
+  "generated_at_utc": "2026-05-22T02:58:33Z",
+  "review_mode": "clean_room_render_visual_reviewer_parallel_blind_pairs",
+  "source_projection_report": "paper/shared/evidence/raw/grscene_vlm_grounding/target_projection_qa_report.json",
+  "source_render_summary": "paper/shared/evidence/raw/grscene_vlm_grounding/recommended_paired_render_summary.json",
+  "summary": {
+    "pair_count": 10,
+    "pass_count": 1,
+    "warn_count": 5,
+    "fail_count": 4,
+    "primary_probe_pair_ids": [
+      "c27086f557d316584264.view_001"
+    ],
+    "caution_candidate_pair_ids": [
+      "32ba3ade1a8e63c981af.view_002",
+      "bb985fd4504a1afe8516.view_000",
+      "e2ec085d524d5df4455d.view_000",
+      "c8ee4b66274b05d242c2.view_000",
+      "90e105daa7e6ff59da38.view_002"
+    ],
+    "excluded_pair_ids": [
+      "f35ef3d86c42446b7ddf.view_001",
+      "f405f964229ca3d3fbad.view_000",
+      "2c2bd8f1c808f5a4b227.view_002",
+      "1e397951c1926c7f0a0b.view_000"
+    ],
+    "overall_verdict": "FAIL",
+    "claim_boundary": "visual_candidate_filter_only_not_final_vlm_metric_evidence"
+  },
+  "pairs": [
+    {
+      "packet_id": "P01",
+      "pair_id": "c27086f557d316584264.view_001",
+      "target_category": "bottle",
+      "label_mapping": {"A": "original", "B": "converted"},
+      "verdict": "PASS",
+      "visible_evidence": "Bottle is centered and identifiable in both blind A/B images, with comparable camera framing.",
+      "main_risk": "Target is somewhat small and near similarly sized objects, but still usable.",
+      "retake_recommendation": "Keep as the primary first real-model probe; for final larger metrics, prefer a closer crop if rerendering."
+    },
+    {
+      "packet_id": "P02",
+      "pair_id": "32ba3ade1a8e63c981af.view_002",
+      "target_category": "plate",
+      "label_mapping": {"A": "converted", "B": "original"},
+      "verdict": "WARN",
+      "visible_evidence": "Plate is visible in both views, but one view is very dark and the other has heavy red tint or overexposure.",
+      "main_risk": "Lighting and material shift make the pair only weakly comparable; target detail is limited.",
+      "retake_recommendation": "Retake with neutral exposure and a slightly closer crop before using for final model metrics."
+    },
+    {
+      "packet_id": "P03",
+      "pair_id": "f35ef3d86c42446b7ddf.view_001",
+      "target_category": "clock",
+      "label_mapping": {"A": "original", "B": "converted"},
+      "verdict": "FAIL",
+      "visible_evidence": "No clearly identifiable clock is visible in either blind image; a large grid or geometry artifact dominates.",
+      "main_risk": "Target appears missing, hidden, or too ambiguous for referred-object localization.",
+      "retake_recommendation": "Retake from an angle where the clock is plainly visible and large enough to localize."
+    },
+    {
+      "packet_id": "P04",
+      "pair_id": "bb985fd4504a1afe8516.view_000",
+      "target_category": "cup",
+      "label_mapping": {"A": "converted", "B": "original"},
+      "verdict": "WARN",
+      "visible_evidence": "A small cup-like object is visible on a tabletop in both blind images; framing is comparable.",
+      "main_risk": "Target is small, and material/gloss changes make the cup blend partly into the surface.",
+      "retake_recommendation": "Retake slightly closer or lower with better target contrast before final scoring."
+    },
+    {
+      "packet_id": "P05",
+      "pair_id": "e2ec085d524d5df4455d.view_000",
+      "target_category": "cup",
+      "label_mapping": {"A": "original", "B": "converted"},
+      "verdict": "WARN",
+      "visible_evidence": "Cup or mug is centered and identifiable in both blind views; camera angle is comparable.",
+      "main_risk": "Low contrast and noisy or dark material changes may affect before/after fairness.",
+      "retake_recommendation": "Retake with improved target contrast and cleaner material response if used beyond a pilot probe."
+    },
+    {
+      "packet_id": "P06",
+      "pair_id": "f405f964229ca3d3fbad.view_000",
+      "target_category": "cup",
+      "label_mapping": {"A": "converted", "B": "original"},
+      "verdict": "FAIL",
+      "visible_evidence": "The object is not clearly identifiable as a cup in either blind view.",
+      "main_risk": "Target ambiguity, small scale, heavy red material, and glare make localization unreliable.",
+      "retake_recommendation": "Retake from a closer centered view where the cup shape is unambiguous."
+    },
+    {
+      "packet_id": "P07",
+      "pair_id": "c8ee4b66274b05d242c2.view_000",
+      "target_category": "faucet",
+      "label_mapping": {"A": "original", "B": "converted"},
+      "verdict": "WARN",
+      "visible_evidence": "Faucet is visible and identifiable in both blind images at the sink; camera angle is usable.",
+      "main_risk": "Strong material/color shift, blown mirror area, and heavy tint reduce fair before/after confidence.",
+      "retake_recommendation": "Retake with reduced glare/exposure and less extreme material color wash."
+    },
+    {
+      "packet_id": "P08",
+      "pair_id": "2c2bd8f1c808f5a4b227.view_002",
+      "target_category": "bottle",
+      "label_mapping": {"A": "converted", "B": "original"},
+      "verdict": "FAIL",
+      "visible_evidence": "A small object may be present near shelving, but the bottle is not clearly identifiable.",
+      "main_risk": "Target is too small or occluded and material artifacts are severe.",
+      "retake_recommendation": "Move the camera closer and in front of the shelving; center the bottle and remove grid or wall occlusion."
+    },
+    {
+      "packet_id": "P09",
+      "pair_id": "1e397951c1926c7f0a0b.view_000",
+      "target_category": "clock",
+      "label_mapping": {"A": "original", "B": "converted"},
+      "verdict": "FAIL",
+      "visible_evidence": "Clock is not visible or identifiable in either blind image; the camera appears clipped or trapped behind large geometry.",
+      "main_risk": "Framing is task-breaking and the target is effectively missing.",
+      "retake_recommendation": "Retake from a normal room-facing viewpoint with the clock clearly in frame."
+    },
+    {
+      "packet_id": "P10",
+      "pair_id": "90e105daa7e6ff59da38.view_002",
+      "target_category": "picture",
+      "label_mapping": {"A": "converted", "B": "original"},
+      "verdict": "WARN",
+      "visible_evidence": "A picture-like rectangular object may be visible, but it is small, oblique, and visually ambiguous.",
+      "main_risk": "Grazing camera angle, overexposure or flat materials, and scale distortion make localization weak.",
+      "retake_recommendation": "Retake from a more upright angle with the picture occupying a clearer wall or tabletop region."
+    }
+  ]
+}

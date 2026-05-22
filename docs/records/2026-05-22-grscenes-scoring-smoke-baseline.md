@@ -46,7 +46,7 @@ score summary records 20 scoring records across 10 original/converted pairs.
 | `pair_consistency.answer_match_agreement` | 1.0 |
 | `pair_consistency.duplicate_pair_version_count` | 0 |
 
-The score output uses `schema_version=2` and records:
+The current score output uses `schema_version=3` and records:
 
 - `prediction_backends=["projection_center_smoke_baseline"]`
 - `model_checkpoints=["projection_center_smoke_baseline_no_vlm"]`

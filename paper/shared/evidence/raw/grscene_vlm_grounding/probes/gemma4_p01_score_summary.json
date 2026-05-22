@@ -1,0 +1,99 @@
+{
+  "schema_version": 3,
+  "num_records": 2,
+  "prediction_backends": [
+    "local_gemma4_multimodal"
+  ],
+  "model_checkpoints": [
+    "/cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8"
+  ],
+  "claim_boundary": "model_prediction_scores_require_model_provenance_review",
+  "summary": [
+    {
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "n_point": 1,
+      "point_in_bbox_accuracy": 0.0,
+      "n_point_in_image": 1,
+      "point_in_image_accuracy": 0.0,
+      "n_answer": 1,
+      "answer_accuracy": 1.0
+    },
+    {
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "n_point": 1,
+      "point_in_bbox_accuracy": 0.0,
+      "n_point_in_image": 1,
+      "point_in_image_accuracy": 0.0,
+      "n_answer": 1,
+      "answer_accuracy": 1.0
+    }
+  ],
+  "pair_consistency": {
+    "pair_count": 1,
+    "point_pair_count": 1,
+    "point_hit_agreement": 1.0,
+    "both_point_hit_count": 0,
+    "mean_prediction_point_delta_px": 30.413813,
+    "answer_pair_count": 1,
+    "answer_match_agreement": 1.0,
+    "duplicate_pair_version_count": 0
+  },
+  "records": [
+    {
+      "sample_id": "c27086f557d316584264.view_001.original",
+      "version": "original",
+      "task": "s1_referred_object_localization",
+      "point_in_bbox": false,
+      "point_in_image": false,
+      "answer_match": true
+    },
+    {
+      "sample_id": "c27086f557d316584264.view_001.converted",
+      "version": "converted",
+      "task": "s1_referred_object_localization",
+      "point_in_bbox": false,
+      "point_in_image": false,
+      "answer_match": true
+    }
+  ],
+  "score_provenance": {
+    "generated_at_utc": "2026-05-22T03:10:12.852670Z",
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
+      "--predictions",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_predictions.jsonl",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_score_summary.json"
+    ],
+    "input_predictions": {
+      "path": "paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_predictions.jsonl",
+      "hash_sha256": "4a3fff21e01f52f21b2e96869fc728b5c225fcc681ad4203e7145c81258db6a5"
+    },
+    "scorer": {
+      "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
+      "script_hash_sha256": "4ed38c6716f645d4d00dc61a1e4bbd0acbd40dc7397a1154adc2fb062bff200a"
+    },
+    "git": {
+      "commit": "00eb0676560c033de1d02498154933944213524f",
+      "status_porcelain": [
+        " M .gitignore",
+        " M docs/records/2026-05-22-grscenes-scoring-smoke-baseline.md",
+        " M docs/records/2026-05-22-grscenes-vlm-prediction-runner.md",
+        " M docs/records/README.md",
+        " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/README.md",
+        " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
+        " M paper/shared/evidence/raw/grscene_vlm_grounding/README.md",
+        " M paper/shared/evidence/results_manifest.yaml",
+        " M tests/test_grscenes_vlm_score_grounding.py",
+        "?? docs/records/2026-05-22-grscenes-vlm-visual-qa-and-gemma4-probe.md",
+        "?? paper/shared/evidence/raw/grscene_vlm_grounding/paired_render_visual_review_batch.json",
+        "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_predictions.jsonl",
+        "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_predictions.jsonl.metadata.json",
+        "?? paper/shared/evidence/raw/grscene_vlm_grounding/probes/gemma4_p01_score_summary.json"
+      ]
+    }
+  }
+}

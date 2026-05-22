@@ -198,6 +198,14 @@ review for the same smoke pair. The verdict is `WARN`: the bottle is visible in
 both images, but the converted material/color shift is large enough that this
 pair should not be used as final VLM grounding evidence.
 
+`paired_render_visual_review_batch.json` records the follow-up blind visual QA
+over all 10 recommended render-smoke pairs. The batch-level verdict is `FAIL`
+because 4/10 pairs have task-breaking visibility or framing problems. The useful
+split is: one primary probe pair (`c27086f557d316584264.view_001`), five
+WARN/caution candidates that need caveated or retaken use, and four excluded
+pairs that should not enter VLM metrics without rerendering. This file is a
+candidate filter only, not a model metric.
+
 `visibility_geometry_index.json` and `visibility_preflight_report.json` are now
 generated artifacts, not planned placeholders. The current geometry index covers
 5 scenes, 19,435 filtered obstacle AABBs, 0 failures, `min_diagonal=5.0`,
@@ -233,7 +241,7 @@ VLM predictions, and `score_summary.json`.
 `projection_center_baseline_score_summary.json` are deterministic scoring-smoke
 artifacts. They use the projected bbox center as the predicted point and the
 target category as the predicted answer for all 20 scoring records. The current
-score summary uses `schema_version=2` and records
+score summary uses `schema_version=3` and records
 `prediction_backends=["projection_center_smoke_baseline"]`,
 `model_checkpoints=["projection_center_smoke_baseline_no_vlm"]`, and
 `claim_boundary="scoring_smoke_only_not_vlm_evidence"`. It also includes
@@ -253,13 +261,16 @@ scorer crashes.
 `run_vlm_predictions.py` is the real-model prediction runner for future
 `predictions.jsonl` files. It supports `local_hf_qwen`,
 `local_gemma4_multimodal`, and `openai_compatible` backends with lazy imports
-so tests do not load VLM weights. No checked-in `predictions.jsonl` from a real
-model exists yet; the next live gate should start with `--limit 1`, preserve the
-generated `.metadata.json`, use an isolated probe output under `probes/`, and
-score only after visual/depth QA accepts the candidate render pair. The runner
-blocks limited runs to canonical `predictions.jsonl` unless `--force` is
-explicitly supplied, rejects empty record selections, and checks image files
-before loading a local model.
+so tests do not load VLM weights. The first checked-in real-model probe is under
+`probes/gemma4_p01_predictions.jsonl`: local Gemma4 generated two predictions
+for the visually accepted bottle pair `c27086f557d316584264.view_001`. This is
+still a probe, not canonical `predictions.jsonl`. Its paired score summary is
+`probes/gemma4_p01_score_summary.json`: answer accuracy is 1.0 for
+original/converted, but point-in-bbox is 0.0 and the new point-in-image
+diagnostic is also 0.0 because both predicted points are outside the 600x450
+image. The runner blocks limited runs to canonical `predictions.jsonl` unless
+`--force` is explicitly supplied, rejects empty record selections, and checks
+image files before loading a local model.
 
 The current checked-in verification report has `passed=true`, `blockers=[]`,
 99 existing top-level outputs, and 0 source `_noMDL` USD sidecars.
