@@ -44,6 +44,8 @@ Expected files:
 - `visibility_preflight_report.json`: centerline-AABB preflight report used to
   pick first-pass render candidates before image-space QA.
 - `predictions.jsonl`: model outputs using the schema documented by `score_grounding.py`.
+- `predictions.jsonl.metadata.json`: provenance for model-generated
+  predictions from `run_vlm_predictions.py`.
 - `score_summary.json`: aggregate point-in-box, answer consistency, and original-vs-converted metrics.
 
 Task/render planning manifests must record benchmark source provenance,
@@ -247,6 +249,17 @@ Duplicate rows for the same `pair_id/task/version` are counted in
 Malformed coordinate fields, string-valued coordinate arrays, and non-dict
 `target` or `prediction` objects are treated as unscored rows rather than
 scorer crashes.
+
+`run_vlm_predictions.py` is the real-model prediction runner for future
+`predictions.jsonl` files. It supports `local_hf_qwen`,
+`local_gemma4_multimodal`, and `openai_compatible` backends with lazy imports
+so tests do not load VLM weights. No checked-in `predictions.jsonl` from a real
+model exists yet; the next live gate should start with `--limit 1`, preserve the
+generated `.metadata.json`, use an isolated probe output under `probes/`, and
+score only after visual/depth QA accepts the candidate render pair. The runner
+blocks limited runs to canonical `predictions.jsonl` unless `--force` is
+explicitly supplied, rejects empty record selections, and checks image files
+before loading a local model.
 
 The current checked-in verification report has `passed=true`, `blockers=[]`,
 99 existing top-level outputs, and 0 source `_noMDL` USD sidecars.
