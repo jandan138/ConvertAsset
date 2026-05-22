@@ -30,7 +30,18 @@ Before this change, the zoom stress results existed as pilot probes but did not 
 
 Plain version: this is the guardrail that keeps the ACL story honest. The stress data is useful and ready for more model runs, but it is still not final benchmark evidence.
 
+## Runner validation
+
+`run_vlm_predictions.py --validate-only` can now validate a manifest before a heavy model is loaded. The current stress manifest validation reports 28 runnable scoring records, zero missing images, and zero blockers:
+
+```text
+Validated VLM prediction run: {"blockers": [], "missing_images": [], "missing_sample_ids": [], "ok": true, "record_count": 28}
+```
+
+Use this before launching Gemma4 or Qwen jobs so input/path problems fail quickly without allocating GPU memory.
+
 ## Verification
 
 - `PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider tests/test_grscenes_vlm_stress_manifest.py`
 - `PYTHONDONTWRITEBYTECODE=1 python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_stress_vlm_run_manifest.py`
+- `PYTHONDONTWRITEBYTECODE=1 python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py --projection-report paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest.json --out paper/shared/evidence/raw/grscene_vlm_grounding/stress_probes/validate_only_predictions.jsonl --validate-only`

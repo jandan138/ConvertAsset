@@ -1216,6 +1216,24 @@ requires at least 30 stress pairs plus canonical root
 Plain version: use `stress_vlm_run_manifest.json` to run the next controlled
 stress experiment. Do not treat it as final benchmark evidence by itself.
 
+Before loading a real VLM, validate that the stress manifest is runnable:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py \
+  --projection-report paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest.json \
+  --out paper/shared/evidence/raw/grscene_vlm_grounding/stress_probes/validate_only_predictions.jsonl \
+  --validate-only
+```
+
+Expected current result:
+
+```text
+Validated VLM prediction run: {"blockers": [], "missing_images": [], "missing_sample_ids": [], "ok": true, "record_count": 28}
+```
+
+`--validate-only` checks record selection, image paths, and output collision
+rules without loading a local or API model. It does not write prediction rows.
+
 Current zoom stress probes:
 
 - `zoom_stress_probes/gemma4_zoom_stress_predictions.jsonl`

@@ -3,6 +3,8 @@ import json
 import sys
 from pathlib import Path
 
+import pytest
+
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py"
@@ -229,6 +231,104 @@ def test_validate_run_plan_rejects_limited_canonical_output_and_missing_images(t
     assert "missing_image_files" in result["blockers"]
 
 
+def test_validate_run_plan_rejects_limited_stress_canonical_output(tmp_path: Path) -> None:
+    module = load_runner_module()
+    report = tmp_path / "stress_vlm_run_manifest.json"
+    canonical_out = report.parent / "stress_predictions.jsonl"
+    image_path = tmp_path / "render.png"
+    image_path.write_bytes(b"fake image bytes")
+
+    result = module.validate_run_plan(
+        [scoring_record(image_path)],
+        out=canonical_out,
+        projection_report=report,
+        limit=1,
+        sample_ids=None,
+        force=False,
+    )
+
+    assert result["ok"] is False
+    assert "limited_run_requires_noncanonical_output_or_force" in result["blockers"]
+
+
+def test_validate_run_plan_rejects_sample_subset_to_canonical_output(tmp_path: Path) -> None:
+    module = load_runner_module()
+    report = tmp_path / "target_projection_qa_report.json"
+    canonical_out = report.parent / "predictions.jsonl"
+    image_path = tmp_path / "render.png"
+    image_path.write_bytes(b"fake image bytes")
+
+    result = module.validate_run_plan(
+        [scoring_record(image_path)],
+        out=canonical_out,
+        projection_report=report,
+        limit=None,
+        sample_ids=["pair.view_000.original"],
+        force=False,
+    )
+
+    assert result["ok"] is False
+    assert "limited_run_requires_noncanonical_output_or_force" in result["blockers"]
+
+
+def test_validate_run_plan_rejects_unmatched_sample_ids(tmp_path: Path) -> None:
+    module = load_runner_module()
+    image_path = tmp_path / "render.png"
+    image_path.write_bytes(b"fake image bytes")
+
+    result = module.validate_run_plan(
+        [scoring_record(image_path)],
+        out=tmp_path / "probe_predictions.jsonl",
+        projection_report=tmp_path / "target_projection_qa_report.json",
+        limit=None,
+        sample_ids=["pair.view_000.original", "missing.sample"],
+        force=False,
+        available_sample_ids={"pair.view_000.original"},
+    )
+
+    assert result["ok"] is False
+    assert result["missing_sample_ids"] == ["missing.sample"]
+    assert "requested_sample_ids_missing" in result["blockers"]
+
+
+def test_validate_run_plan_rejects_negative_limit(tmp_path: Path) -> None:
+    module = load_runner_module()
+    image_path = tmp_path / "render.png"
+    image_path.write_bytes(b"fake image bytes")
+
+    result = module.validate_run_plan(
+        [scoring_record(image_path)],
+        out=tmp_path / "probe_predictions.jsonl",
+        projection_report=tmp_path / "target_projection_qa_report.json",
+        limit=-1,
+        sample_ids=None,
+        force=False,
+    )
+
+    assert result["ok"] is False
+    assert "negative_limit" in result["blockers"]
+
+
+def test_validate_run_plan_rejects_metadata_sidecar_collision(tmp_path: Path) -> None:
+    module = load_runner_module()
+    image_path = tmp_path / "render.png"
+    image_path.write_bytes(b"fake image bytes")
+    out = tmp_path / "probe_predictions.jsonl"
+    out.with_suffix(out.suffix + ".metadata.json").write_text("{}", encoding="utf-8")
+
+    result = module.validate_run_plan(
+        [scoring_record(image_path)],
+        out=out,
+        projection_report=tmp_path / "target_projection_qa_report.json",
+        limit=None,
+        sample_ids=None,
+        force=False,
+    )
+
+    assert result["ok"] is False
+    assert "output_metadata_exists_requires_force" in result["blockers"]
+
+
 def test_validate_run_plan_rejects_empty_selection(tmp_path: Path) -> None:
     module = load_runner_module()
 
@@ -243,6 +343,45 @@ def test_validate_run_plan_rejects_empty_selection(tmp_path: Path) -> None:
 
     assert result["ok"] is False
     assert "empty_record_selection" in result["blockers"]
+
+
+def test_main_validate_only_checks_records_without_model_args(tmp_path: Path, capsys) -> None:
+    module = load_runner_module()
+    image_path = tmp_path / "render.png"
+    image_path.write_bytes(b"fake image bytes")
+    projection_report = tmp_path / "stress_vlm_run_manifest.json"
+    projection_report.write_text(json.dumps({"scoring_records": [scoring_record(image_path)]}), encoding="utf-8")
+    out = tmp_path / "predictions.jsonl"
+
+    status = module.main(
+        [
+            "--projection-report",
+            str(projection_report),
+            "--out",
+            str(out),
+            "--validate-only",
+        ]
+    )
+
+    stdout = capsys.readouterr().out
+    assert status == 0
+    assert not out.exists()
+    assert "Validated VLM prediction run:" in stdout
+    assert '"ok": true' in stdout
+    assert '"record_count": 1' in stdout
+
+
+def test_main_requires_model_args_for_prediction_runs(tmp_path: Path) -> None:
+    module = load_runner_module()
+    image_path = tmp_path / "render.png"
+    image_path.write_bytes(b"fake image bytes")
+    projection_report = tmp_path / "target_projection_qa_report.json"
+    projection_report.write_text(json.dumps({"scoring_records": [scoring_record(image_path)]}), encoding="utf-8")
+
+    with pytest.raises(SystemExit) as excinfo:
+        module.main(["--projection-report", str(projection_report), "--out", str(tmp_path / "predictions.jsonl")])
+
+    assert excinfo.value.code == 2
 
 
 def test_openai_extraction_handles_content_block_responses() -> None:

@@ -648,8 +648,20 @@ def _selected_records(report: dict[str, Any], *, limit: int | None, sample_ids: 
     return records
 
 
-def _canonical_predictions_path(projection_report: Path) -> Path:
-    return projection_report.parent / "predictions.jsonl"
+def _canonical_predictions_paths(projection_report: Path) -> set[Path]:
+    return {
+        projection_report.parent / "predictions.jsonl",
+        projection_report.parent / "stress_predictions.jsonl",
+    }
+
+
+def _is_canonical_predictions_path(out: Path, projection_report: Path) -> bool:
+    out_resolved = out.resolve()
+    return any(out_resolved == path.resolve() for path in _canonical_predictions_paths(projection_report))
+
+
+def _metadata_sidecar_path(out: Path) -> Path:
+    return out.with_suffix(out.suffix + ".metadata.json")
 
 
 def validate_run_plan(
@@ -660,11 +672,19 @@ def validate_run_plan(
     limit: int | None,
     sample_ids: list[str] | None,
     force: bool,
+    available_sample_ids: set[str] | None = None,
 ) -> dict[str, Any]:
     blockers = []
     missing_images = []
+    missing_sample_ids: list[str] = []
     if not records:
         blockers.append("empty_record_selection")
+    if limit is not None and limit < 0:
+        blockers.append("negative_limit")
+    if sample_ids and available_sample_ids is not None:
+        missing_sample_ids = sorted(set(sample_ids) - available_sample_ids)
+        if missing_sample_ids:
+            blockers.append("requested_sample_ids_missing")
     for record in records:
         image = record.get("image") if isinstance(record.get("image"), dict) else {}
         image_path = image.get("path")
@@ -672,15 +692,18 @@ def validate_run_plan(
             missing_images.append({"sample_id": record.get("sample_id"), "path": image_path})
     if missing_images:
         blockers.append("missing_image_files")
-    if limit is not None and out.resolve() == _canonical_predictions_path(projection_report).resolve() and not force:
+    if (limit is not None or sample_ids) and _is_canonical_predictions_path(out, projection_report) and not force:
         blockers.append("limited_run_requires_noncanonical_output_or_force")
     if out.exists() and not force:
         blockers.append("output_exists_requires_force")
+    if _metadata_sidecar_path(out).exists() and not force:
+        blockers.append("output_metadata_exists_requires_force")
     return {
         "ok": not blockers,
         "blockers": blockers,
         "record_count": len(records),
         "missing_images": missing_images,
+        "missing_sample_ids": missing_sample_ids,
     }
 
 
@@ -688,8 +711,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--projection-report", type=Path, default=DEFAULT_PROJECTION_REPORT)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUTPUT)
-    parser.add_argument("--model-backend", choices=["openai_compatible", "local_hf_qwen", "local_gemma4_multimodal"], required=True)
-    parser.add_argument("--model-path", required=True, help="Local model path or API model name.")
+    parser.add_argument("--model-backend", choices=["openai_compatible", "local_hf_qwen", "local_gemma4_multimodal"])
+    parser.add_argument("--model-path", help="Local model path or API model name.")
     parser.add_argument("--api-base-url")
     parser.add_argument("--api-key-env")
     parser.add_argument("--api-timeout-seconds", type=int, default=120)
@@ -704,9 +727,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--limit", type=int)
     parser.add_argument("--sample-id", action="append", dest="sample_ids")
     parser.add_argument("--force", action="store_true", help="Allow overwriting existing output or writing limited probes to canonical predictions.jsonl.")
+    parser.add_argument("--validate-only", action="store_true", help="Validate record selection, image paths, and output collision checks without loading a model.")
     args = parser.parse_args(argv)
 
+    if not args.validate_only:
+        if not args.model_backend:
+            parser.error("--model-backend is required unless --validate-only is set")
+        if not args.model_path:
+            parser.error("--model-path is required unless --validate-only is set")
+
     projection_report = _load_json(args.projection_report)
+    all_records = list(projection_report.get("scoring_records", []))
     records = _selected_records(projection_report, limit=args.limit, sample_ids=args.sample_ids)
     validation = validate_run_plan(
         records,
@@ -715,9 +746,13 @@ def main(argv: list[str] | None = None) -> int:
         limit=args.limit,
         sample_ids=args.sample_ids,
         force=args.force,
+        available_sample_ids={str(record.get("sample_id")) for record in all_records if record.get("sample_id")},
     )
     if not validation["ok"]:
         raise SystemExit(f"Blocked VLM prediction run: {json.dumps(validation, sort_keys=True)}")
+    if args.validate_only:
+        print(f"Validated VLM prediction run: {json.dumps(validation, sort_keys=True)}")
+        return 0
     engine = build_engine(args)
     rows = run_predictions(
         records,
