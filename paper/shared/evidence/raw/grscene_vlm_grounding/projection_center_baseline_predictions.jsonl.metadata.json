@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "status": "projection_center_baseline_predictions",
+  "prediction_count": 20,
+  "backend": "projection_center_smoke_baseline",
+  "model_checkpoint": "projection_center_smoke_baseline_no_vlm",
+  "claim_boundary": "scoring_smoke_only_not_vlm_evidence",
+  "generated_at_utc": "2026-05-22T02:18:35.745680Z",
+  "projection_report": {
+    "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/target_projection_qa_report.json",
+    "hash_sha256": "8715fad5c37117c66c97982e9ef3bbcee4f4a4306f29162ad70f0d16f6fcab3c"
+  },
+  "output_jsonl": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/projection_center_baseline_predictions.jsonl",
+    "hash_sha256": "2558f9d372c0362802094736ed4f9d3593b2eb9169efe4ac2fce0c7442c54a07"
+  },
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/generate_projection_center_baseline_predictions.py",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/projection_center_baseline_predictions.jsonl"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/generate_projection_center_baseline_predictions.py",
+    "script_hash_sha256": "1d7ba9f2725e35a7aacfbd71873e1eebd1536a4e0e2a32c10f22e93ae8d6809c",
+    "git_commit": "324e8c822c29f70ea785578b84984c644b954a97",
+    "git_status_porcelain": [
+      " M docs/records/README.md",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/score_grounding.py",
+      " M paper/shared/evidence/raw/grscene_vlm_grounding/README.md",
+      "?? docs/records/2026-05-22-grscenes-scoring-smoke-baseline.md",
+      "?? paper/shared/evidence/experiments/06_grscenes_vlm_grounding/generate_projection_center_baseline_predictions.py",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/projection_center_baseline_predictions.jsonl",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/projection_center_baseline_predictions.jsonl.metadata.json",
+      "?? paper/shared/evidence/raw/grscene_vlm_grounding/projection_center_baseline_score_summary.json",
+      "?? tests/test_grscenes_vlm_projection_center_baseline.py",
+      "?? tests/test_grscenes_vlm_score_grounding.py"
+    ]
+  }
+}

@@ -27,6 +27,14 @@ Expected files:
   recommended paired renders.
 - `target_projection_qa_report.json`: projected image-space target bboxes and
   scoring-record skeletons for the recommended render-smoke pairs.
+- `projection_center_baseline_predictions.jsonl`: deterministic bbox-center
+  scoring-smoke predictions generated from `target_projection_qa_report.json`;
+  this is not a VLM output file.
+- `projection_center_baseline_predictions.jsonl.metadata.json`: provenance and
+  hashes for the deterministic baseline prediction file.
+- `projection_center_baseline_score_summary.json`: scorer-smoke summary over
+  the deterministic baseline predictions; this is not task-performance
+  evidence.
 - `render_logs/`: archived `.txt` stdout/stderr logs referenced by the smoke
   reports.
 - `renders/`: thin camera wrapper USDs and smoke PNG outputs for GRScenes
@@ -219,6 +227,27 @@ These projected boxes are the first point-in-box labels for VLM scoring, but
 they are still geometric labels only. Final claims still need visual or depth QA,
 VLM predictions, and `score_summary.json`.
 
+`projection_center_baseline_predictions.jsonl` and
+`projection_center_baseline_score_summary.json` are deterministic scoring-smoke
+artifacts. They use the projected bbox center as the predicted point and the
+target category as the predicted answer for all 20 scoring records. The current
+score summary uses `schema_version=2` and records
+`prediction_backends=["projection_center_smoke_baseline"]`,
+`model_checkpoints=["projection_center_smoke_baseline_no_vlm"]`, and
+`claim_boundary="scoring_smoke_only_not_vlm_evidence"`. It also includes
+`score_provenance` with the input prediction hash and scorer script hash. The
+1.0 point and answer scores only prove that the scorer, paired sample ids,
+labels, and original/converted aggregation are wired correctly. They must not
+be cited as VLM accuracy, model robustness, or downstream task performance.
+Mixed baseline/model prediction files are also guarded: the scorer reports
+`mixed_projection_baseline_and_model_predictions_not_claimable` if deterministic
+baseline rows appear beside real model rows.
+Duplicate rows for the same `pair_id/task/version` are counted in
+`pair_consistency.duplicate_pair_version_count`.
+Malformed coordinate fields, string-valued coordinate arrays, and non-dict
+`target` or `prediction` objects are treated as unscored rows rather than
+scorer crashes.
+
 The current checked-in verification report has `passed=true`, `blockers=[]`,
 99 existing top-level outputs, and 0 source `_noMDL` USD sidecars.
 
@@ -255,14 +284,17 @@ benchmark provenance in `source_usd`; converted material inputs point at the
 completed full no-MDL scratch outputs via
 `full_nomdl_multi_root_run_report.json`; `converted_jobs_missing_input_count=0`.
 Camera-stage authoring has been completed, so `camera_stage_missing_count=0`
-and `render_jobs_ready_to_run=184`. Image-space boxes are explicitly pending
-projection and must be filled by the render/projection stage before VLM
-scoring. The manifest normalizes current VLM prompts to S1 category-pointing
-prompts and keeps source episode instructions/prompts separately as provenance;
-some source SN episode records do not carry instruction text and must not be
-treated as ready-made VLM prompts. Rendered image hashes live in smoke/result
-reports, not in this planned manifest.
+and `render_jobs_ready_to_run=184`. The first 10 recommended pairs now have
+image-space projected boxes and deterministic scorer-smoke outputs, but real
+paper claims still require visual/depth QA and model-generated VLM predictions.
+The manifest normalizes current VLM prompts to S1 category-pointing prompts and
+keeps source episode instructions/prompts separately as provenance; some source
+SN episode records do not carry instruction text and must not be treated as
+ready-made VLM prompts. Rendered image hashes live in smoke/result reports, not
+in this planned manifest.
 
 Do not cite generated results unless the provenance shows that benchmark scenes came from `/cpfs/user/zhuzihou/assets/zzh-grscenes` and no in-place conversion was run there. PIO should be treated as prompt/metric inspiration unless a future run explicitly imports PIO data.
 
-Do not cite result files until rendered images, image hashes, image-space target boxes, predictions, and score summaries exist and have been checked.
+Do not cite result files until rendered images, image hashes, image-space
+target boxes, model-generated predictions, and real `score_summary.json` files
+exist and have been checked.
