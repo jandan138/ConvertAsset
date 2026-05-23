@@ -125,6 +125,57 @@ readiness. `row_count_acl_ready` can become true after enough paired episodes,
 but `acl_main_result_ready` also requires aggregate result provenance and a
 video manifest to be explicitly supplied to the analyzer.
 
+## ACL Pilot30 Prepared Batch
+
+The first storage-bounded multi-scene batch input is now prepared, but it has
+not been executed through InternNav yet:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_prep_manifest.json
+/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30
+```
+
+This manifest uses `--ready-only --selection-strategy round_robin_scenes` so it
+only selects scenes with both original and converted navigation USDs and avoids
+taking all episodes from the first available scene. The prepared dataset has 30
+episodes balanced across six ready scenes, five episodes per scene.
+
+Current ready scene inventory:
+
+| source split | ready scenes | ready episodes |
+| --- | ---: | ---: |
+| `test` | 5 | 52 |
+| `validate` | 1 | 10 |
+| total | 6 | 62 |
+
+The pilot30 sample itself contains 25 `test` episodes and 5 `validate`
+episodes. It is a custom readiness-bounded split, not a full GRScenes benchmark
+claim. The manifest records 24 skipped scenes, currently blocked by
+`missing_converted_navigation_usd`.
+
+The five newly prepared `test` scenes were converted only in the scratch tree:
+
+```text
+/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521
+```
+
+The clean source tree remains unchanged:
+
+```text
+/cpfs/user/zhuzihou/assets/zzh-grscenes
+```
+
+The prepared work root uses symlinks into those external CPFS trees, so
+reproduction currently depends on those paths remaining available. No pilot30
+`result.json` exists yet under InternNav logs; this is input-preparation
+evidence only.
+
+Run the paired metric batch with the commands recorded in
+`internnav_eval_commands.original` and `internnav_eval_commands.converted` in the
+pilot manifest. Metric runs should keep `vis_output=False`; paper-video reruns
+should be launched later on selected cases only, after paired metrics identify
+representative success/failure or trajectory-divergence examples.
+
 ## Current Smoke Result
 
 Real InternNav / InternVLA-N1 smoke runs were completed on 2026-05-23 for one

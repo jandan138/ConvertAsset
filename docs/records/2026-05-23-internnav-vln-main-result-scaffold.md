@@ -61,6 +61,68 @@ The next hard gate is a real multi-episode paired batch:
 - selected qualitative reruns should enable video only for cases listed in the
   video manifest.
 
+## Pilot30 Prep Update
+
+The first pilot-main input batch is now prepared:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_prep_manifest.json
+/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30
+```
+
+Current external readiness for `/cpfs/user/zhuzihou/assets/zzh-grscenes` is 6
+ready scenes and 62 ready SN episodes across the `test` and `validate` splits.
+The pilot manifest selects 30 episodes with `ready_only=true`,
+`selection_strategy=round_robin_scenes`, and `min_scenes=5`; the generated claim
+gate is:
+
+```json
+{"blocked_by": [], "can_run_paired_eval": true, "min_scenes": 5, "selected_scene_count": 6, "status": "ready_for_internnav_runtime"}
+```
+
+The selected scenes are balanced at five episodes each:
+
+```text
+MVUCSQAKTKJ5EAABAAAAABQ8_usd
+MVUCSQAKTKJ5EAABAAAAADY8_usd
+MVUCSQAKTKJ5EAABAAAAACY8_usd
+MVUCSQAKTKJ5EAABAAAAABA8_usd
+MVUCSQAKTKJ5EAABAAAAACA8_usd
+MV7J6NIKTKJZ2AABAAAAADY8_usd
+```
+
+The selected sample is 25 `test` episodes plus 5 `validate` episodes. The
+manifest also records 24 skipped scene records, all blocked by
+`missing_converted_navigation_usd`. That makes this a readiness-bounded pilot
+split, not a claim about full GRScenes coverage.
+
+The five `MVUCS...` navigation no-MDL files were generated only under the
+scratch modified tree:
+
+```text
+/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521
+```
+
+The clean source tree was not modified:
+
+```text
+/cpfs/user/zhuzihou/assets/zzh-grscenes
+```
+
+The clean source check found no `start_result_navigation_noMDL.usd` under the
+selected source scene directories. The prepared work root uses symlinks into the
+clean and scratch CPFS trees, so exact reproduction currently depends on those
+external paths. The pilot30 InternNav `result.json` files are intentionally
+absent at this stage; no SR/SPL/NE/TL claim should be made from the manifest
+alone.
+
+This update still does not complete the ACL main result. It only proves the next
+real InternNav paired batch can be launched from an auditable manifest. The
+remaining paper-level deliverables are: original and modified batch runs,
+per-episode metric extraction, paired statistics/effect sizes, selected
+paper-video reruns, trajectory or frame-level qualitative figures, and final
+paper text.
+
 ## Verification
 
 Focused tests:
@@ -72,7 +134,19 @@ python -m pytest tests/test_internnav_vln_downstream_prep.py -q
 Result:
 
 ```text
-23 passed
+24 passed
+```
+
+Full tests after the pilot30 prep changes:
+
+```bash
+python -m pytest -q
+```
+
+Result:
+
+```text
+287 passed
 ```
 
 Actual smoke LMDB extraction used the external InternNav runtime dependency
