@@ -247,6 +247,53 @@ broken sidecars、旧 LMDB 污染这类工程失败分开解释。
 最终 paper-facing 指标仍在等待。只有完整 30 条 clean original 和匹配的 30 条
 modified 都完成，并能做 paired analysis 后，claim gate 才能打开。
 
+## Runtime Hang Exclusions And V3 Split
+
+`acl_main_pilot30_v2` 进一步暴露了两条 simulator/runtime hang，而不是有效导航
+失败：
+
+- `MVUCSQAKTKJ5EAABAAAAACA8_usd_electriccooker_model_6dcff0778b2c8c7614949fa7f4d8a8bd_0_0_16`
+- `MVUCSQAKTKJ5EAABAAAAACA8_usd_refrigerator_model_b40856029554f6e152f24a267738f99f_0_0_10`
+
+这两条都没有 episode terminal metric，不能记成 `not_reach_goal`。其中
+refrigerator case 的 v2 evidence 是：progress 只有 `start sampling`，common
+log 进入 `WARM UP` 并记录 `Env Reset time: 9.35s`、`agent step time: 0.0s`，
+之后没有 `now action`、没有 `Env Step`、没有 `finish`。进程仍高 CPU，但日志
+长时间不再更新。
+
+v2 partial run 已归档为工程排障材料，不进 paper result：
+
+```text
+/cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_original_acl_main_pilot30_v2_invalid_refrigerator_warmup_hang_20260524052033
+/cpfs/user/zhuzihou/dev/InternNav/data/sample_episodes/convertasset_grscene_sn_original_acl_main_pilot30_v2_invalid_refrigerator_warmup_hang_20260524052033
+```
+
+v2 停止前的 partial aggregate 是 `Count=12`，只能说明前 12 条有 terminal
+metrics，不能作为论文主结果。
+
+`acl_main_pilot30_v3` 是当前 paper-main candidate split。它 supersedes v2，
+保留 30 条、6 个场景，并用 deterministic replacement policy 从 ready
+candidate 顺序中补入：
+
+- `MVUCSQAKTKJ5EAABAAAAABQ8_usd_sofa_chair_model_d5f1d04da565644d5b370cb39f1ea6bb_0_0_30`
+- `MVUCSQAKTKJ5EAABAAAAADY8_usd_toilet_model_9b773fd00bc7a69cb9fd954d0c2a48d9_0_0_31`
+
+v3 manifest:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_v3_prep_manifest.json
+```
+
+The v3 original clean run has passed the run-shape gate:
+
+```text
+start eval dataset: convertasset_grscene_sn_original_acl_main_pilot30_v3, total_path: 30
+```
+
+For paper statistics, include only paired episodes where both original and
+modified produce terminal metrics. Runtime hangs are reported as exclusions and
+limitations, not silently counted as navigation failures.
+
 ## Failure Boundary
 
 后续 triage InternNav run 时使用这个边界：
@@ -254,6 +301,7 @@ modified 都完成，并能做 paired analysis 后，claim gate 才能打开。
 | 类别 | 例子 | 论文状态 |
 |---|---|---|
 | 工程失败 | 缺 `@models/...@` 或 `@Materials/...@` sidecar；旧 `data/sample_episodes/<task_name>/sample_data0.lmdb` 污染；第一行不是 `total_path: 30` | 无效 run artifact。归档，但不要用于 downstream claims。 |
+| runtime hang | reset/warm-up 后无 `now action`、无 `Env Step`、无 `finish`、无 terminal metric；进程仍高 CPU | 无效 episode artifact。按 deterministic policy 排除并替换，记录 exclusion count/rate。 |
 | 任务失败 | `not_reach_goal`；`exceed_total_max_step`；episode 数符合预期且有正常 terminal metrics | 有效 episode outcome。只有 original 和 modified 两侧都完整并配对后再纳入分析。 |
 
 ## Next Work
