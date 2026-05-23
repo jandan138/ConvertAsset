@@ -72,8 +72,11 @@ paper/
 
 ## 当前离论文完成还差几步
 
-截至 2026-05-23，ACL 主线不是还差“写几段文字”，而是还差下面 5 个
-证据门槛。只有这些门槛都过了，论文才算真正可投稿：
+截至 2026-05-23，ACL 主线已经完成 expanded30 GRScenes stress VLM
+canonical 证据闭环，但还没有达到“ACL 主会稳妥投稿终版”。当前状态应读成：
+VLM grounding 主实验已经成立；CVPR workshop reviewer 的一部分核心质疑已被
+缓解；NVIDIA baseline、per-material-effect 分析、真实 embodied downstream task
+仍未闭环。
 
 | 顺序 | 门槛 | 当前状态 | 完成标准 |
 |---|---|---|---|
@@ -81,7 +84,29 @@ paper/
 | 2 | 原始/简化成对渲染 | 🔄 部分完成；stress 渲染门槛已过 | 23 个 unique target x 多视角的 original/no-MDL 成对图生成完成，图像哈希、相机、目标 bbox/point 投影全部入账；当前 clean preservation pool 为 15 PASS pair，仍低于 20-pair final gate；zoom material-shift stress 已扩到 exactly 30 个 PASS/WARN pair，`retake_zoom_expanded30_paired_render_summary.json` 记录 30/30 非黑图，`retake_zoom_expanded30_target_projection_qa_report.json` 记录 30/30 projection_ok |
 | 3 | VLM/下游评测 | ✅ expanded30 material-shift stress 已完成；clean-pool 仍是 15-pair pilot | `stress_vlm_run_manifest_expanded30.json` 的 manifest-internal stress gate 已打开，canonical Gemma4 `stress_predictions.jsonl` / `stress_score_summary.json` 已生成，Qwen2.5-VL expanded30 diagnostic 已生成；论文 claim 仅限 frozen 30-pair target-centered stress set，clean preservation final gate 仍未关闭，必要时再追加 InternNav/VL-LN 扩展结果 |
 | 4 | 图表和结论 | 🔄 expanded30 stress 表和 VLM qualitative figure 已接入；trade-off 结论仍需全文收束 | 质量图、VLM 表、失败案例/定性图、trade-off 结论全部进入 `paper/shared/figures/`、`paper/shared/tables/` 和 `results_manifest.yaml`；当前 expanded30 stress 表可作为 frozen stress-set evidence，clean-pool 15-pair 表、旧 zoom-stress 表、coordinate ablation 和 failure taxonomy 仍是 pilot/protocol diagnostic |
-| 5 | 论文写作与审稿式自查 | ⬜ 未完成 | ACL/AAAI wrapper 能编译，Abstract/Intro/Method/Experiments/Discussion/Limitations 与证据一致，完成至少一轮 reviewer-style 反向审阅 |
+| 5 | 论文写作与审稿式自查 | ✅ expanded30 ACL wrapper 已闭环；投稿终版仍需下一轮扩展 | `make -C paper acl27` 已通过，Abstract/Intro/Method/Experiments/Discussion/Limitations 已按 expanded30 evidence 收紧，且完成三路 reviewer-style 审阅并修订；下一轮目标是补 ACL/NLP related work、citation audit、baseline/ablation，或明确放弃 downstream claim |
+
+## CVPR Workshop Reviewer 意见闭环状态
+
+| Reviewer 主题 | 当前状态 | 解释 |
+|---|---|---|
+| 实验范围太小 | 🔄 部分缓解 | workshop 的 4 个家具资产没有被完全替换；但 ACL 路线新增 GRScenes 30-pair target-centered material-shift stress set，覆盖 cup、clock、faucet、bottle、backpack 等更多目标类别。仍缺系统材料矩阵。 |
+| “AI Task Performance” 无真实任务 | 🔄 部分修复 | 已从 CLIP/DINOv2 proxy 推进到真实 Gemma4/Qwen2.5-VL image-level VLM grounding。仍不是 InternNav/VLN/manipulation 等 embodied downstream task。 |
+| 缺 NVIDIA 官方 baseline | ❌ 未修 | 还没有和 MDL Distill/Bake、Asset Converter 做 head-to-head comparison。 |
+| 缺 per-material-effect 分析 | ❌ 未修 | 当前 stress set 能观察 material/color/lighting perturbation，但没有按 clearcoat、anisotropy、procedural texture、transparency、emission、opacity、displacement 等 MDL effect 系统归因。 |
+| general guideline 过度 | ✅ 已收紧 | 现在 claim 绑定到 frozen 30-pair target-centered stress set；clean preservation、broad GRScenes distribution、downstream embodied robustness 都明确不 claim。 |
+| large-scene performance 太窄 | ❌ 未修 | 仍缺多 GRScenes 场景、多重复、variance/CI 的性能实验。 |
+| 自动 recommender / safe-conversion detector | ❌ 未修 | 还没有 material-risk classifier 或 rule-based recommender。 |
+
+## 下一阶段 ACL 投稿目标
+
+优先级从高到低：
+
+1. **补 baseline / ablation**：center/random point baseline、bbox-center oracle、prompt/coordinate ablation，先把 VLM grounding 证据变成 reviewer 更难打掉的 diagnostic study。
+2. **补 ACL/NLP related work 和 citation audit**：把 synthetic asset conversion 写成 VLM grounding reliability / multimodal evaluation / embodied language data reliability 问题。
+3. **决定 downstream strategy**：如果短期不跑 InternNav/VLN，就把它写成 future work；如果要冲 ACL main，更强路径是补一个真实 embodied task。
+4. **补 NVIDIA baseline 或明确不可比边界**：至少写清 ConvertAsset 与官方工具在 composition-preserving、batch scratch conversion、evidence manifest 方面的不同目标；更好是实际跑一个对比。
+5. **补材料效应归因**：按 MDL effect/material family 标注或自动抽取，解释哪些材质转换最危险。
 
 当前最短路径：不要继续盲目刷同一类 orbit 视角。第 2 步已经证明两件事：
 clean preservation pool 扩到 15 但还没到 final gate；zoom stress pool 则显示很多目标

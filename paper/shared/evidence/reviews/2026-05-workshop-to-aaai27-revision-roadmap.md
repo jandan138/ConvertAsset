@@ -33,6 +33,51 @@ AAAI 2027.
 
 ## Cross-Reviewer Failure Themes
 
+## 2026-05-23 Status Update For ACL Route
+
+The expanded30 GRScenes VLM grounding work changes the review-response status,
+but it does not close every CVPR workshop concern.
+
+Current interpretation:
+
+- The paper now has real model evidence beyond CLIP/DINOv2 feature proxies:
+  Gemma4 canonical and Qwen2.5-VL diagnostic runs over a frozen 30-pair
+  target-centered material-shift stress set.
+- This partially addresses the unsupported "AI Task Performance" criticism, but
+  only for image-level VLM grounding. It does not establish InternNav, VLN,
+  manipulation, or other embodied downstream performance.
+- The new GRScenes stress route partially addresses the four-asset scarcity
+  criticism by adding more target categories and scene context, but it is not a
+  full material-family benchmark and does not replace the narrow visual-quality
+  matrix from the workshop version.
+- The general-guideline overclaim has been addressed by narrowing claims to the
+  frozen stress set and marking clean preservation, broad GRScenes robustness,
+  and embodied downstream transfer as open.
+- NVIDIA official-tool baselines, per-MDL-effect degradation analysis,
+  multi-scene performance statistics, and automatic safe-conversion
+  recommendation remain open.
+
+Updated status by reviewer theme:
+
+| ID | Status | Current Evidence / Gap |
+|---|---|---|
+| P1-1 | Partially mitigated | GRScenes expanded30 stress set adds target/category diversity for VLM grounding; original visual-quality matrix is still narrow and not a material-family benchmark. |
+| P1-2 | Partially fixed | Real Gemma4/Qwen VLM grounding replaces proxy-only task language for the ACL route; no InternNav/VLN/manipulation result yet. |
+| P1-3 | Open | No head-to-head against NVIDIA MDL Distill/Bake or Asset Converter yet. |
+| P1-4 | Open | No systematic clearcoat/anisotropy/procedural/transparent/emissive/opacity/displacement effect attribution yet. |
+| P1-5 | Addressed for ACL wording | Claims now stay evidence-bounded to the frozen target-centered stress set. |
+| P1-6 | Open | Large-scene performance is still not multi-scene/multi-run with variance or confidence intervals. |
+| P2-1 | Open | No material-risk classifier or safe-conversion recommender yet. |
+| P2-2 | Partially addressed | ACL framing shifts novelty toward benchmark protocol and VLM reliability under material perturbation, but official-tool comparison is still needed for a stronger engineering novelty defense. |
+| P2-3 | Partially fixed | CLIP/DINOv2 are now diagnostics; VLM grounding is the main ACL evidence. |
+| P2-4 | Open | Expanded30 counts are reported, but broader statistical support, bootstrap CIs, and per-category aggregation are still pending. |
+| P2-5 | Addressed for ACL wording | Current ACL wording avoids broad AI task/downstream claims unless future experiments add them. |
+
+Practical next target: for an ACL/ARR short-style submission, prioritize
+point baselines, coordinate ablations, failure taxonomy, and ACL/VLM related
+work. For a stronger ACL main submission, add either a real embodied downstream
+task or a much broader VLM/material-effect benchmark plus NVIDIA baseline.
+
 ### P1 Must Fix For AAAI
 
 | ID | Theme | Reviewer Evidence | Required AAAI Action |
