@@ -41,6 +41,7 @@ ORIGINAL_NAV_USD = "start_result_navigation.usd"
 CONVERTED_NAV_USD = "start_result_navigation_noMDL.usd"
 ORIGINAL_CONDITION_LABEL = "original"
 MODIFIED_CONDITION_LABEL = "modified"
+SELECTION_STRATEGIES = ("sequential", "round_robin_scenes")
 SCENE_SPLITS = ("home_scenes", "commercial_scenes")
 INTERNNAV_ROOT = Path("/cpfs/user/zhuzihou/dev/InternNav")
 INTERNVLA_MODEL_PATH = "checkpoints/InternVLA-N1-DualVLN"
@@ -398,21 +399,20 @@ def _internnav_runtime_metadata() -> dict[str, Any]:
     }
 
 
-def _scene_record(
-    *,
-    scene_id: str,
-    source_root: Path,
-    nomdl_root: Path,
-    work_root: Path,
-    link_mode: str,
-) -> dict[str, Any]:
+def _scene_pair_status(*, scene_id: str, source_root: Path, nomdl_root: Path) -> dict[str, Any]:
     source_split = _scene_split_for_scene(source_root, scene_id)
     nomdl_split = _scene_split_for_scene(nomdl_root, scene_id)
     if source_split is None:
         return {
             "scene_id": scene_id,
+            "source_scene_split": None,
+            "nomdl_scene_split": nomdl_split,
             "pair_status": "missing_original_scene_dir",
             "blocked_by": ["missing_original_scene_dir"],
+            "original_navigation_usd": None,
+            "converted_navigation_usd": None,
+            "original_navigation_usd_exists": False,
+            "converted_navigation_usd_exists": False,
         }
 
     original_usd = _scene_dir(source_root, source_split, scene_id) / ORIGINAL_NAV_USD
@@ -422,21 +422,6 @@ def _scene_record(
         blocked_by.append("missing_original_navigation_usd")
     if not converted_usd.exists():
         blocked_by.append("missing_converted_navigation_usd")
-
-    original_fixed = None
-    converted_fixed = None
-    if original_usd.exists():
-        original_fixed = _install_fixed_usd(
-            original_usd,
-            work_root / "scene_data/original" / scene_id,
-            link_mode=link_mode,
-        )
-    if converted_usd.exists():
-        converted_fixed = _install_fixed_usd(
-            converted_usd,
-            work_root / "scene_data/converted" / scene_id,
-            link_mode=link_mode,
-        )
 
     return {
         "scene_id": scene_id,
@@ -448,11 +433,77 @@ def _scene_record(
         "converted_navigation_usd": str(converted_usd),
         "original_navigation_usd_exists": original_usd.exists(),
         "converted_navigation_usd_exists": converted_usd.exists(),
+    }
+
+
+def _scene_record(
+    *,
+    scene_id: str,
+    source_root: Path,
+    nomdl_root: Path,
+    work_root: Path,
+    link_mode: str,
+) -> dict[str, Any]:
+    status = _scene_pair_status(scene_id=scene_id, source_root=source_root, nomdl_root=nomdl_root)
+    original_fixed = None
+    converted_fixed = None
+    original_usd = Path(status["original_navigation_usd"]) if status["original_navigation_usd"] else None
+    converted_usd = Path(status["converted_navigation_usd"]) if status["converted_navigation_usd"] else None
+    if original_usd and original_usd.exists():
+        original_fixed = _install_fixed_usd(
+            original_usd,
+            work_root / "scene_data/original" / scene_id,
+            link_mode=link_mode,
+        )
+    if converted_usd and converted_usd.exists():
+        converted_fixed = _install_fixed_usd(
+            converted_usd,
+            work_root / "scene_data/converted" / scene_id,
+            link_mode=link_mode,
+        )
+
+    return {
+        **status,
         "original_fixed_usd": str(original_fixed) if original_fixed else None,
         "converted_fixed_usd": str(converted_fixed) if converted_fixed else None,
         "original_fixed_docker_usd": str(original_fixed.with_name("fixed_docker.usd")) if original_fixed else None,
         "converted_fixed_docker_usd": str(converted_fixed.with_name("fixed_docker.usd")) if converted_fixed else None,
     }
+
+
+def _status_by_scene(records: list[dict[str, Any]], source_root: Path, nomdl_root: Path) -> dict[str, dict[str, Any]]:
+    return {
+        scene_id: _scene_pair_status(scene_id=scene_id, source_root=source_root, nomdl_root=nomdl_root)
+        for scene_id in sorted({record["scene_id"] for record in records})
+    }
+
+
+def _select_records(records: list[dict[str, Any]], *, max_episodes: int, selection_strategy: str) -> list[dict[str, Any]]:
+    if selection_strategy == "sequential":
+        return records[:max_episodes]
+    if selection_strategy != "round_robin_scenes":
+        raise ValueError(f"unsupported selection_strategy: {selection_strategy}")
+
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for record in records:
+        grouped.setdefault(record["scene_id"], []).append(record)
+
+    selected: list[dict[str, Any]] = []
+    scene_ids = list(grouped)
+    offset = 0
+    while len(selected) < max_episodes:
+        added = False
+        for scene_id in scene_ids:
+            records_for_scene = grouped[scene_id]
+            if offset < len(records_for_scene):
+                selected.append(records_for_scene[offset])
+                added = True
+                if len(selected) >= max_episodes:
+                    break
+        if not added:
+            break
+        offset += 1
+    return selected
 
 
 def prepare_minipair(
@@ -465,6 +516,9 @@ def prepare_minipair(
     split_name: str = DEFAULT_SPLIT_NAME,
     link_mode: str = "symlink",
     scene_ids: list[str] | None = None,
+    ready_only: bool = False,
+    min_scenes: int = 0,
+    selection_strategy: str = "sequential",
 ) -> dict[str, Any]:
     source_root = source_root.resolve()
     nomdl_root = nomdl_root.resolve()
@@ -474,15 +528,32 @@ def prepare_minipair(
         raise ValueError("work_root must not be inside source_root")
     if max_episodes <= 0:
         raise ValueError("max_episodes must be positive")
+    if min_scenes < 0:
+        raise ValueError("min_scenes must be non-negative")
     if link_mode not in {"symlink", "copy"}:
         raise ValueError("link_mode must be 'symlink' or 'copy'")
+    if selection_strategy not in SELECTION_STRATEGIES:
+        raise ValueError(f"selection_strategy must be one of: {', '.join(SELECTION_STRATEGIES)}")
 
     requested_scene_ids = list(scene_ids or [])
     raw_records = _iter_sn_records(source_root)
     if requested_scene_ids:
         requested_scene_id_set = set(requested_scene_ids)
         raw_records = [record for record in raw_records if record["scene_id"] in requested_scene_id_set]
-    raw_records = raw_records[:max_episodes]
+    candidate_record_count = len(raw_records)
+    scene_statuses = _status_by_scene(raw_records, source_root, nomdl_root)
+    skipped_scene_records = [
+        status
+        for status in scene_statuses.values()
+        if status.get("blocked_by")
+    ]
+    if ready_only:
+        raw_records = [
+            record
+            for record in raw_records
+            if not scene_statuses[record["scene_id"]].get("blocked_by")
+        ]
+    raw_records = _select_records(raw_records, max_episodes=max_episodes, selection_strategy=selection_strategy)
     episodes = [_build_internnav_episode(record, episode_id) for episode_id, record in enumerate(raw_records)]
     dataset_root = work_root / f"datasets/grscene_sn_{_sanitize_id(split_name)}"
     dataset_path = dataset_root / split_name / f"{split_name}.json.gz"
@@ -503,6 +574,10 @@ def prepare_minipair(
     runtime_metadata = _internnav_runtime_metadata()
     expected_result_jsons = _expected_result_jsons(split_name)
     blocked_by = sorted({reason for scene in scene_records for reason in scene.get("blocked_by", [])})
+    selected_scene_count = len(scene_ids)
+    if min_scenes and selected_scene_count < min_scenes:
+        blocked_by.append("insufficient_ready_scenes")
+        blocked_by = sorted(set(blocked_by))
     can_run_paired_eval = bool(episodes) and not blocked_by
     manifest = {
         "schema_version": 1,
@@ -516,6 +591,16 @@ def prepare_minipair(
             "source_episode_file": str(source_root / "benchmark" / SOURCE_EPISODE_FILE),
             "requested_scene_ids": requested_scene_ids,
             "selected_scene_ids": scene_ids,
+        },
+        "selection": {
+            "ready_only": ready_only,
+            "selection_strategy": selection_strategy,
+            "min_scenes": min_scenes,
+            "candidate_record_count": candidate_record_count,
+            "selected_episode_count": len(episodes),
+            "selected_scene_count": selected_scene_count,
+            "skipped_scene_count": len(skipped_scene_records),
+            "skipped_scene_records": skipped_scene_records,
         },
         "work_root": str(work_root),
         "dataset": {
@@ -574,6 +659,8 @@ def prepare_minipair(
         "claim_gate": {
             "can_run_paired_eval": can_run_paired_eval,
             "blocked_by": blocked_by,
+            "selected_scene_count": selected_scene_count,
+            "min_scenes": min_scenes,
             "status": "ready_for_internnav_runtime" if can_run_paired_eval else "missing_pair_inputs",
         },
     }
@@ -590,6 +677,9 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--max-episodes", type=int, default=1)
     parser.add_argument("--split-name", default=DEFAULT_SPLIT_NAME)
     parser.add_argument("--link-mode", choices=("symlink", "copy"), default="symlink")
+    parser.add_argument("--ready-only", action="store_true", help="Only select episodes whose original/modified scene pair is ready.")
+    parser.add_argument("--min-scenes", type=int, default=0, help="Minimum selected scene count required for claim_gate readiness.")
+    parser.add_argument("--selection-strategy", choices=SELECTION_STRATEGIES, default="sequential")
     parser.add_argument(
         "--scene-id",
         action="append",
@@ -611,6 +701,9 @@ def main() -> int:
         split_name=args.split_name,
         link_mode=args.link_mode,
         scene_ids=args.scene_ids,
+        ready_only=args.ready_only,
+        min_scenes=args.min_scenes,
+        selection_strategy=args.selection_strategy,
     )
     print(json.dumps(manifest["claim_gate"], ensure_ascii=True, sort_keys=True))
     return 0

@@ -325,6 +325,94 @@ def test_prepare_minipair_preserves_legacy_mini_nomdl_result_paths(tmp_path: Pat
     assert 'task_name="convertasset_grscene_sn_nomdl_mini"' in converted_cfg
 
 
+def test_prepare_minipair_ready_only_round_robins_ready_scenes_and_reports_gate(tmp_path: Path) -> None:
+    module = load_prep_module()
+    source_root = make_source_root(tmp_path)
+    nomdl_root = tmp_path / "zzh-grscenes_nomdl"
+    sn_path = source_root / "benchmark/sn_episodes.json"
+    data = json.loads(sn_path.read_text(encoding="utf-8"))
+    data["test"]["scene_a_usd"]["chair/model_hash_0"].append(
+        {
+            "start_point": [2.0, 2.0],
+            "target_point": [4.0, 2.0, 0.0],
+            "distance": 2.0,
+            "path": [[2.0, 2.0], [4.0, 2.0]],
+            "dialogue": [{"role": "human", "content": "Find another chair."}],
+        }
+    )
+    for scene_id, object_id in (
+        ("scene_b_usd", "table/model_hash_0"),
+        ("scene_c_usd", "lamp/model_hash_0"),
+        ("scene_d_usd", "sofa/model_hash_0"),
+    ):
+        write_scene_usd(source_root, "home_scenes", scene_id, "start_result_navigation.usd")
+        data["test"][scene_id] = {
+            object_id: [
+                {
+                    "start_point": [0.0, 0.0],
+                    "target_point": [0.0, 1.0, 0.0],
+                    "distance": 1.0,
+                    "path": [[0.0, 0.0], [0.0, 1.0]],
+                    "dialogue": [{"role": "human", "content": f"Find {object_id.split('/')[0]}."}],
+                },
+                {
+                    "start_point": [1.0, 0.0],
+                    "target_point": [1.0, 1.0, 0.0],
+                    "distance": 1.0,
+                    "path": [[1.0, 0.0], [1.0, 1.0]],
+                    "dialogue": [{"role": "human", "content": f"Find another {object_id.split('/')[0]}."}],
+                },
+            ]
+        }
+    sn_path.write_text(json.dumps(data), encoding="utf-8")
+    for scene_id in ("scene_a_usd", "scene_b_usd", "scene_d_usd"):
+        write_scene_usd(nomdl_root, "home_scenes", scene_id, "start_result_navigation_noMDL.usd")
+
+    manifest = module.prepare_minipair(
+        source_root=source_root,
+        nomdl_root=nomdl_root,
+        work_root=tmp_path / "internnav_work",
+        repo_manifest_path=tmp_path / "prep_manifest.json",
+        max_episodes=3,
+        split_name="acl_main_ready3",
+        link_mode="copy",
+        ready_only=True,
+        min_scenes=3,
+        selection_strategy="round_robin_scenes",
+    )
+
+    assert manifest["claim_gate"]["can_run_paired_eval"] is True
+    assert manifest["claim_gate"]["selected_scene_count"] == 3
+    assert manifest["source"]["selected_scene_ids"] == ["scene_a_usd", "scene_b_usd", "scene_d_usd"]
+    assert [record["scan"] for record in manifest["episode_records"]] == [
+        "scene_a_usd",
+        "scene_b_usd",
+        "scene_d_usd",
+    ]
+    assert manifest["selection"]["ready_only"] is True
+    assert manifest["selection"]["selection_strategy"] == "round_robin_scenes"
+    assert manifest["selection"]["skipped_scene_count"] == 1
+    assert manifest["selection"]["skipped_scene_records"][0]["scene_id"] == "scene_c_usd"
+    assert manifest["selection"]["skipped_scene_records"][0]["blocked_by"] == ["missing_converted_navigation_usd"]
+
+    blocked_manifest = module.prepare_minipair(
+        source_root=source_root,
+        nomdl_root=nomdl_root,
+        work_root=tmp_path / "internnav_work_blocked",
+        repo_manifest_path=tmp_path / "prep_manifest_blocked.json",
+        max_episodes=2,
+        split_name="acl_main_ready2",
+        link_mode="copy",
+        ready_only=True,
+        min_scenes=3,
+        selection_strategy="round_robin_scenes",
+    )
+
+    assert blocked_manifest["claim_gate"]["can_run_paired_eval"] is False
+    assert blocked_manifest["claim_gate"]["blocked_by"] == ["insufficient_ready_scenes"]
+    assert blocked_manifest["claim_gate"]["selected_scene_count"] == 2
+
+
 def test_collect_results_writes_metric_deltas(tmp_path: Path) -> None:
     module = load_collect_module()
     manifest_path = tmp_path / "prep_manifest.json"
