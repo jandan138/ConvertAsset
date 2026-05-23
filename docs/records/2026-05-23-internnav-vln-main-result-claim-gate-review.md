@@ -247,7 +247,7 @@ broken sidecars、旧 LMDB 污染这类工程失败分开解释。
 最终 paper-facing 指标仍在等待。只有完整 30 条 clean original 和匹配的 30 条
 modified 都完成，并能做 paired analysis 后，claim gate 才能打开。
 
-## Runtime Hang Exclusions And V3 Split
+## Runtime Hang Exclusions And V4 Split
 
 `acl_main_pilot30_v2` 进一步暴露了两条 simulator/runtime hang，而不是有效导航
 失败：
@@ -271,7 +271,7 @@ v2 partial run 已归档为工程排障材料，不进 paper result：
 v2 停止前的 partial aggregate 是 `Count=12`，只能说明前 12 条有 terminal
 metrics，不能作为论文主结果。
 
-`acl_main_pilot30_v3` 是当前 paper-main candidate split。它 supersedes v2，
+`acl_main_pilot30_v3` supersedes v2，
 保留 30 条、6 个场景，并用 deterministic replacement policy 从 ready
 candidate 顺序中补入：
 
@@ -284,10 +284,47 @@ v3 manifest:
 paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_v3_prep_manifest.json
 ```
 
-The v3 original clean run has passed the run-shape gate:
+The v3 original clean run passed the run-shape gate:
 
 ```text
 start eval dataset: convertasset_grscene_sn_original_acl_main_pilot30_v3, total_path: 30
+```
+
+但 v3 original 在第 13 个 task 暴露了第三条 simulator/runtime hang：
+
+```text
+MVUCSQAKTKJ5EAABAAAAACA8_usd_microwave_model_699bb196fbcad1de3f017f4e61fb5a50_0_0_20
+```
+
+它停在 `WARM UP`、`Env Reset time: 10.84s`、`agent step time: 0.0s`，
+之后没有 `now action`、没有 `Env Step`、没有 `finish`、没有 terminal
+metrics。`result.json` 停在 `Count=12`，因此它不是导航失败，而是无效
+runtime artifact。v3 partial run 已归档：
+
+```text
+/cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_original_acl_main_pilot30_v3_invalid_microwave_warmup_hang_20260524070839
+/cpfs/user/zhuzihou/dev/InternNav/data/sample_episodes/convertasset_grscene_sn_original_acl_main_pilot30_v3_invalid_microwave_warmup_hang_20260524070839
+```
+
+`acl_main_pilot30_v4` 是当前 paper-main candidate split。它 supersedes v3，
+继续保持 30 条、6 个场景，三条 runtime hang 都在 manifest 中显式排除，
+`unmatched_excluded_path_keys=[]`。第三条 microwave hang 的日志显示 ID 使用
+InternNav runtime 的 episode index `_20`，而 source selection path key 是
+`_22`；`prepare_minipair.py` 现在同时接受 raw `trajectory_id`、source
+`path_key` 和 `trajectory_id_<number>` 形式，避免从日志复制 exclusion key 时漏排。
+
+v4 deterministic replacements are:
+
+```text
+MVUCSQAKTKJ5EAABAAAAABQ8_usd_sofa_chair_model_d5f1d04da565644d5b370cb39f1ea6bb_0_0_30
+MVUCSQAKTKJ5EAABAAAAADY8_usd_toilet_model_9b773fd00bc7a69cb9fd954d0c2a48d9_0_0_31
+MVUCSQAKTKJ5EAABAAAAACY8_usd_couch_model_676b88959789c12273e483c196b28191_0_0_32
+```
+
+v4 manifest:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_v4_prep_manifest.json
 ```
 
 For paper statistics, include only paired episodes where both original and
@@ -306,9 +343,9 @@ limitations, not silently counted as navigation failures.
 
 ## Next Work
 
-1. Let the clean original pilot30 complete and inspect its final result and
+1. Let the clean original v4 pilot30 complete and inspect its final result and
    logs.
-2. Run the modified pilot30 counterpart from equally clean logs and
+2. Run the modified v4 pilot30 counterpart from equally clean logs and
    `data/sample_episodes` state, with stdout redirected to a log file.
 3. Extract aggregate and per-episode metrics for both conditions.
 4. Run paired analysis and select video cases.

@@ -538,6 +538,52 @@ def test_prepare_minipair_excludes_path_key_and_replaces_from_selection_order(tm
     assert len(manifest["selection"]["supersedes_manifest"]["hash_sha256"]) == 64
 
 
+def test_prepare_minipair_excludes_internnav_runtime_display_path_key(tmp_path: Path) -> None:
+    module = load_prep_module()
+    source_root = make_source_root(tmp_path)
+    nomdl_root = tmp_path / "zzh-grscenes_nomdl"
+    sn_path = source_root / "benchmark/sn_episodes.json"
+    data = json.loads(sn_path.read_text(encoding="utf-8"))
+    for index, scene_id in enumerate(("scene_a_usd", "scene_b_usd", "scene_c_usd")):
+        write_scene_usd(source_root, "home_scenes", scene_id, "start_result_navigation.usd")
+        write_scene_usd(nomdl_root, "home_scenes", scene_id, "start_result_navigation_noMDL.usd")
+        data["test"][scene_id] = {
+            f"object{index}/model_hash_0": [
+                {
+                    "start_point": [0.0, 0.0],
+                    "target_point": [0.0, 1.0, 0.0],
+                    "distance": 1.0,
+                    "path": [[0.0, 0.0], [0.0, 1.0]],
+                    "dialogue": [{"role": "human", "content": f"Find object {index}."}],
+                }
+            ]
+        }
+    sn_path.write_text(json.dumps(data), encoding="utf-8")
+
+    manifest = module.prepare_minipair(
+        source_root=source_root,
+        nomdl_root=nomdl_root,
+        work_root=tmp_path / "internnav_work",
+        repo_manifest_path=tmp_path / "prep_manifest.json",
+        max_episodes=2,
+        split_name="acl_main_runtime_display_exclusion",
+        link_mode="copy",
+        ready_only=True,
+        min_scenes=2,
+        selection_strategy="round_robin_scenes",
+        excluded_path_keys=["scene_b_usd_object1_model_hash_0_0_20"],
+        exclusion_reason="simulator_or_runtime_hang_no_terminal_metrics",
+    )
+
+    assert manifest["selection"]["unmatched_excluded_path_keys"] == []
+    assert manifest["selection"]["excluded_episode_count"] == 1
+    assert manifest["selection"]["excluded_episode_records"][0]["trajectory_id"] == "scene_b_usd_object1_model_hash_0_0"
+    assert [record["scan"] for record in manifest["episode_records"]] == [
+        "scene_a_usd",
+        "scene_c_usd",
+    ]
+
+
 def test_collect_results_writes_metric_deltas(tmp_path: Path) -> None:
     module = load_collect_module()
     manifest_path = tmp_path / "prep_manifest.json"

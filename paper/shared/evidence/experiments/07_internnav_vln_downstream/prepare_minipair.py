@@ -566,6 +566,22 @@ def _selection_record(episode: dict[str, Any], *, source_selection_rank: int, re
     return record
 
 
+def _matching_excluded_path_keys(
+    episode: dict[str, Any],
+    *,
+    source_path_key: str,
+    excluded_path_keys: set[str],
+) -> set[str]:
+    trajectory_id = episode["trajectory_id"]
+    exact_keys = {trajectory_id, source_path_key}
+    matched = excluded_path_keys & exact_keys
+    runtime_display_prefix = f"{trajectory_id}_"
+    for path_key in excluded_path_keys:
+        if path_key.startswith(runtime_display_prefix) and path_key[len(runtime_display_prefix) :].isdigit():
+            matched.add(path_key)
+    return matched
+
+
 def _select_records_with_exclusions(
     records: list[dict[str, Any]],
     *,
@@ -584,8 +600,13 @@ def _select_records_with_exclusions(
     for source_selection_rank, record in enumerate(ordered_records):
         source_episode = _build_internnav_episode(record, source_selection_rank)
         source_path_key = _episode_path_key(source_episode)
-        if source_path_key in excluded_path_key_set:
-            matched_excluded_path_keys.add(source_path_key)
+        matched_path_keys = _matching_excluded_path_keys(
+            source_episode,
+            source_path_key=source_path_key,
+            excluded_path_keys=excluded_path_key_set,
+        )
+        if matched_path_keys:
+            matched_excluded_path_keys.update(matched_path_keys)
             excluded_episode_records.append(
                 _selection_record(
                     source_episode,
