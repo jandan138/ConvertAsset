@@ -10,7 +10,7 @@
   "dataset": {
     "dataset_type": "grscene",
     "episode_count": 30,
-    "hash_sha256": "f89c25b9e438f1b97f70c3765d037f47ea8e4460c80ce06de4096ecde33fec85",
+    "hash_sha256": "7409aac15ff7674a640fe19668a2b66e2ac6efcacc253fd791ce8d337d45f9b4",
     "path": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/datasets/grscene_sn_acl_main_pilot30/acl_main_pilot30/acl_main_pilot30.json.gz",
     "split": "acl_main_pilot30"
   },
@@ -685,7 +685,7 @@
     "SPL",
     "Count"
   ],
-  "generated_at": "2026-05-23T13:11:25.165391Z",
+  "generated_at": "2026-05-23T15:59:08.420284Z",
   "internnav_eval_commands": {
     "collect_results": "python /cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/07_internnav_vln_downstream/collect_results.py --prep-manifest /cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_prep_manifest.json --original-result /cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_original_acl_main_pilot30/result.json --converted-result /cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_modified_acl_main_pilot30/result.json --output /cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/internnav_vln_downstream/internnav_vln_results.json",
     "converted": "cd /cpfs/user/zhuzihou/dev/ConvertAsset && ./scripts/isaac_python.sh /cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/07_internnav_vln_downstream/run_internnav_eval.py --config /cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/configs/convertasset_grscene_sn_modified_acl_main_pilot30_eval_cfg.py --internnav-root /cpfs/user/zhuzihou/dev/InternNav --runtime-deps-root /cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523",
@@ -728,7 +728,7 @@
     "runtime_deps_root": "/cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523",
     "wrapper_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/07_internnav_vln_downstream/run_internnav_eval.py"
   },
-  "project_git_commit": "95a92af8a3c8598af30b135a6a5b6aad7a81cd57",
+  "project_git_commit": "da41fb4567d6d2f91dc63d301326cb3d7b51142c",
   "runtime_requirements": {
     "not_required_for_this_preparation_step": [
       "pxr",
@@ -753,11 +753,19 @@
   "scene_records": [
     {
       "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
       "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/converted/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed_docker.usd",
       "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/converted/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed.usd",
       "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_navigation_noMDL.usd",
       "converted_navigation_usd_exists": true,
       "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
       "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/original/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed_docker.usd",
       "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/original/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed.usd",
       "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_navigation.usd",
@@ -768,11 +776,19 @@
     },
     {
       "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
       "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAABA8_usd/fixed_docker.usd",
       "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAABA8_usd/fixed.usd",
       "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABA8_usd/start_result_navigation_noMDL.usd",
       "converted_navigation_usd_exists": true,
       "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
       "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/original/MVUCSQAKTKJ5EAABAAAAABA8_usd/fixed_docker.usd",
       "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/original/MVUCSQAKTKJ5EAABAAAAABA8_usd/fixed.usd",
       "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABA8_usd/start_result_navigation.usd",
@@ -783,11 +799,19 @@
     },
     {
       "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
       "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAABQ8_usd/fixed_docker.usd",
       "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAABQ8_usd/fixed.usd",
       "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABQ8_usd/start_result_navigation_noMDL.usd",
       "converted_navigation_usd_exists": true,
       "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
       "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/original/MVUCSQAKTKJ5EAABAAAAABQ8_usd/fixed_docker.usd",
       "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/original/MVUCSQAKTKJ5EAABAAAAABQ8_usd/fixed.usd",
       "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABQ8_usd/start_result_navigation.usd",
@@ -798,11 +822,19 @@
     },
     {
       "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
       "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAACA8_usd/fixed_docker.usd",
       "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAACA8_usd/fixed.usd",
       "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACA8_usd/start_result_navigation_noMDL.usd",
       "converted_navigation_usd_exists": true,
       "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
       "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/original/MVUCSQAKTKJ5EAABAAAAACA8_usd/fixed_docker.usd",
       "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/original/MVUCSQAKTKJ5EAABAAAAACA8_usd/fixed.usd",
       "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACA8_usd/start_result_navigation.usd",
@@ -813,11 +845,19 @@
     },
     {
       "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
       "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAACY8_usd/fixed_docker.usd",
       "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAACY8_usd/fixed.usd",
       "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACY8_usd/start_result_navigation_noMDL.usd",
       "converted_navigation_usd_exists": true,
       "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
       "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/original/MVUCSQAKTKJ5EAABAAAAACY8_usd/fixed_docker.usd",
       "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/original/MVUCSQAKTKJ5EAABAAAAACY8_usd/fixed.usd",
       "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACY8_usd/start_result_navigation.usd",
@@ -828,11 +868,19 @@
     },
     {
       "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
       "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAADY8_usd/fixed_docker.usd",
       "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAADY8_usd/fixed.usd",
       "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADY8_usd/start_result_navigation_noMDL.usd",
       "converted_navigation_usd_exists": true,
       "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
       "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/original/MVUCSQAKTKJ5EAABAAAAADY8_usd/fixed_docker.usd",
       "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/original/MVUCSQAKTKJ5EAABAAAAADY8_usd/fixed.usd",
       "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADY8_usd/start_result_navigation.usd",
