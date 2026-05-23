@@ -1219,6 +1219,28 @@ requires at least 30 stress pairs plus canonical root
 Plain version: use `stress_vlm_run_manifest.json` to run the next controlled
 stress experiment. Do not treat it as final benchmark evidence by itself.
 
+The expanded stress input now lives at:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded30.json
+```
+
+It contains 30 target-visible PASS/WARN zoom pairs and 60 scoring records.
+`retake_zoom_expanded30_paired_render_summary.json` records 30/30 non-dark
+paired renders, and `retake_zoom_expanded30_target_projection_qa_report.json`
+records 30/30 `projection_ok`. The manifest is `ready_for_model_run=true`, with
+only the expected final-evidence blockers left:
+
+```text
+canonical_predictions_missing
+canonical_score_summary_missing
+```
+
+Important pitfall: the first 16 expansion candidates all passed render and
+projection gates, but independent visual review rejected 5/16 because the target
+was not actually human-identifiable enough. Keep clean-room visual QA between
+projection QA and VLM scoring.
+
 Before loading a real VLM, validate that the stress manifest is runnable:
 
 ```bash
@@ -1232,6 +1254,21 @@ Expected current result:
 
 ```text
 Validated VLM prediction run: {"blockers": [], "missing_images": [], "missing_sample_ids": [], "ok": true, "record_count": 28}
+```
+
+For the expanded manifest, validate with:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py \
+  --projection-report paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded30.json \
+  --out /tmp/convertasset_stress_expanded30_validate_predictions.jsonl \
+  --validate-only
+```
+
+Expected expanded result:
+
+```text
+Validated VLM prediction run: {"blockers": [], "missing_images": [], "missing_sample_ids": [], "ok": true, "record_count": 60}
 ```
 
 `--validate-only` checks record selection, image paths, and output collision
@@ -1282,6 +1319,7 @@ older `retake_zoom_target_projection_qa_report.json`, not to
 rename or copy them to root `stress_predictions.jsonl`.
 
 The root `stress_predictions.jsonl` and `stress_score_summary.json` remain
-reserved for a full manifest-backed stress run. Even after that run exists, the
-current manifest still blocks final benchmark claims until the stress pool has
-at least 30 pairs.
+reserved for a full manifest-backed stress run. The 30-pair input gate is now
+satisfied by `stress_vlm_run_manifest_expanded30.json`; the remaining stress
+gate is to generate canonical predictions and scores from that expanded
+manifest.

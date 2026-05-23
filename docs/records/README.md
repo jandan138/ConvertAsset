@@ -60,6 +60,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-22 GRScenes stress VLM manifest](2026-05-22-grscenes-stress-vlm-manifest.md)
 - [2026-05-22 GRScenes stress probe alignment audit](2026-05-22-grscenes-stress-probe-alignment-audit.md)
 - [2026-05-22 GRScenes stress expansion candidates](2026-05-22-grscenes-stress-expansion-candidates.md)
+- [2026-05-22 GRScenes stress expanded30 render gate](2026-05-22-grscenes-stress-expanded30-render-gate.md)
 - [2026-05-22 Full-route status audit](2026-05-22-full-route-status-audit.md)
 - [2026-05-22 GRScenes paper story VLM integration](2026-05-22-grscenes-paper-story-vlm-integration.md)
 - [2026-05-22 paper claim readiness audit](2026-05-22-paper-claim-readiness-audit.md)

@@ -1,0 +1,250 @@
+{
+  "schema_version": 1,
+  "status": "retake_zoom_expansion16_visual_review_batch",
+  "generated_at_utc": "2026-05-22T23:55:00Z",
+  "review_mode": "clean_room_render_visual_reviewer_parallel_blind_pairs",
+  "source_render_summary": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expansion16_paired_render_summary.json",
+  "source_projection_report": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expansion16_target_projection_qa_report.json",
+  "summary": {
+    "pair_count": 16,
+    "pass_count": 1,
+    "warn_count": 10,
+    "fail_count": 5,
+    "usable_pair_count": 11,
+    "claim_boundary": "visual_candidate_filter_only_not_final_vlm_metric_evidence",
+    "interpretation_note": "PASS/WARN means the target is visible enough for stress-candidate filtering. WARN records material, lighting, contrast, category, or framing caveats. FAIL pairs are excluded from expanded stress VLM scoring even if render smoke and projection gates passed.",
+    "adjudication_note": "Z16-01 had one clean-room PASS review and one earlier clean-room WARN review for material/color shift; the stored verdict is conservatively downgraded to WARN because both reviews agree the target is visible but one flags material shift as a comparison caveat.",
+    "pass_pair_ids": [
+      "1e397951c1926c7f0a0b.zoom_021"
+    ],
+    "warn_pair_ids": [
+      "c27086f557d316584264.zoom_018",
+      "c27086f557d316584264.zoom_019",
+      "32ba3ade1a8e63c981af.zoom_019",
+      "ef6a4fe9448f672c2ecc.zoom_021",
+      "2c2bd8f1c808f5a4b227.zoom_019",
+      "bb985fd4504a1afe8516.zoom_017",
+      "bb985fd4504a1afe8516.zoom_018",
+      "bb985fd4504a1afe8516.zoom_019",
+      "bb985fd4504a1afe8516.zoom_020",
+      "bb985fd4504a1afe8516.zoom_021"
+    ],
+    "fail_pair_ids": [
+      "21dde4a14ca93f539a47.zoom_017",
+      "21dde4a14ca93f539a47.zoom_021",
+      "f35ef3d86c42446b7ddf.zoom_020",
+      "1e397951c1926c7f0a0b.zoom_020",
+      "90e105daa7e6ff59da38.zoom_020"
+    ]
+  },
+  "pairs": [
+    {
+      "packet_id": "Z16-01",
+      "pair_id": "c27086f557d316584264.zoom_018",
+      "target_category": "bottle",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Bottle is centered, upright, and identifiable in both A and B; surrounding objects provide scale/context.",
+      "main_risk_or_retake": "Conservative adjudication: one reviewer flagged substantial material/color shift in B, while another treated it as minor. Usable for material-shift stress, not for material-fidelity preservation.",
+      "confidence": "high"
+    },
+    {
+      "packet_id": "Z16-02",
+      "pair_id": "c27086f557d316584264.zoom_019",
+      "target_category": "bottle",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Bottle is visible in both images, but B has a very dark body that blends into shadow/table.",
+      "main_risk_or_retake": "Retake with brighter fill or less dark material contrast for clearer VLM grounding.",
+      "confidence": "high"
+    },
+    {
+      "packet_id": "Z16-03",
+      "pair_id": "21dde4a14ca93f539a47.zoom_017",
+      "target_category": "pillow",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "FAIL",
+      "visible_evidence": "Target-like object is only partially visible inside a recess and reads more like a boxed/stacked cushion than an identifiable pillow.",
+      "main_risk_or_retake": "Retake with more of the pillow exposed and less shelf/cabinet occlusion.",
+      "confidence": "medium"
+    },
+    {
+      "packet_id": "Z16-04",
+      "pair_id": "21dde4a14ca93f539a47.zoom_021",
+      "target_category": "pillow",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "FAIL",
+      "visible_evidence": "Pillow target is narrow, heavily occluded by vertical panels, and not confidently identifiable in either view.",
+      "main_risk_or_retake": "Retake from a clearer frontal angle; current A/B comparison is also weakened by different occlusion and lighting.",
+      "confidence": "high"
+    },
+    {
+      "packet_id": "Z16-05",
+      "pair_id": "32ba3ade1a8e63c981af.zoom_019",
+      "target_category": "plate",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Plate stack is centered and identifiable in both A and B.",
+      "main_risk_or_retake": "A/B have strong material and lighting differences; B background is very dark. Usable, but comparison caveat.",
+      "confidence": "high"
+    },
+    {
+      "packet_id": "Z16-06",
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_021",
+      "target_category": "picture",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Framed wall pictures are visible in both images from similar angle.",
+      "main_risk_or_retake": "Dense grid overlay and oblique framing reduce content clarity; retake closer/front-on if picture details matter.",
+      "confidence": "high"
+    },
+    {
+      "packet_id": "Z16-07",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_020",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "FAIL",
+      "visible_evidence": "No clearly identifiable clock face is visible; scene mostly shows wall, sofa, and side/cabinet structure.",
+      "main_risk_or_retake": "Target appears missing, hidden, or edge-on. Retake with the clock centered and front-facing.",
+      "confidence": "high"
+    },
+    {
+      "packet_id": "Z16-08",
+      "pair_id": "2c2bd8f1c808f5a4b227.zoom_019",
+      "target_category": "bottle",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Bottle is visible in both images, especially B; A shows it but red/dark material reduces separation.",
+      "main_risk_or_retake": "A/B material and lighting differ substantially, and A bottle blends into the red/dark background. Usable with caveat.",
+      "confidence": "medium"
+    },
+    {
+      "packet_id": "Z16-09",
+      "pair_id": "1e397951c1926c7f0a0b.zoom_020",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "FAIL",
+      "visible_evidence": "Room/table/curtains are visible, but no identifiable clock appears in either A or B.",
+      "main_risk_or_retake": "Retake with camera aimed at the clock; current pair is not useful for target grounding.",
+      "confidence": "high"
+    },
+    {
+      "packet_id": "Z16-10",
+      "pair_id": "1e397951c1926c7f0a0b.zoom_021",
+      "target_category": "clock",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "PASS",
+      "visible_evidence": "Round wall clock with rim and hands is clearly visible in both A and B; framing is comparable.",
+      "main_risk_or_retake": "Minor caveat: dark surrounding areas, but target remains identifiable.",
+      "confidence": "high"
+    },
+    {
+      "packet_id": "Z16-11",
+      "pair_id": "90e105daa7e6ff59da38.zoom_020",
+      "target_category": "picture",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "FAIL",
+      "visible_evidence": "Only architectural planes/grid wall are visible; no identifiable picture/frame/artwork in either A or B.",
+      "main_risk_or_retake": "Retake from a viewpoint that includes the picture, not just adjacent surfaces.",
+      "confidence": "high"
+    },
+    {
+      "packet_id": "Z16-12",
+      "pair_id": "bb985fd4504a1afe8516.zoom_017",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "A stemmed cocktail/cup-like glass is centered and identifiable in both A and B; contents/props visible.",
+      "main_risk_or_retake": "A/B material/color differences are strong, and the object reads more like a cocktail glass than a generic cup; usable with category caveat.",
+      "confidence": "medium"
+    },
+    {
+      "packet_id": "Z16-13",
+      "pair_id": "bb985fd4504a1afe8516.zoom_018",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Stemmed cup/glass is centered and identifiable in both A and B; straw and cherries help match geometry.",
+      "main_risk_or_retake": "Low contrast: A red cup on red table, B black cup on dark table loses bowl/detail. Usable but segmentation/grounding may be harder.",
+      "confidence": "high"
+    },
+    {
+      "packet_id": "Z16-14",
+      "pair_id": "bb985fd4504a1afe8516.zoom_019",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Target remains centered, full height visible, and comparable across A/B.",
+      "main_risk_or_retake": "B cup body is very dark and blends into the background/table; surface detail is mostly lost, though silhouette is clear.",
+      "confidence": "high"
+    },
+    {
+      "packet_id": "Z16-15",
+      "pair_id": "bb985fd4504a1afe8516.zoom_020",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Cup/glass is visible in both images with consistent camera angle and full stem/base mostly in frame.",
+      "main_risk_or_retake": "Overhead clutter and side object add distraction; B again has poor dark-material contrast. Still usable for VLM grounding.",
+      "confidence": "medium-high"
+    },
+    {
+      "packet_id": "Z16-16",
+      "pair_id": "bb985fd4504a1afe8516.zoom_021",
+      "target_category": "cup",
+      "label_mapping": {
+        "A": "original",
+        "B": "converted"
+      },
+      "verdict": "WARN",
+      "visible_evidence": "Cup/glass is identifiable and similarly framed in A/B; no target truncation.",
+      "main_risk_or_retake": "Background object is close behind the straw/rim, and B has dark cup/table contrast loss; comparison remains mostly fair.",
+      "confidence": "medium-high"
+    }
+  ]
+}

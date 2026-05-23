@@ -79,6 +79,33 @@ results:
     - id: grscenes_vlm_stress_run_manifest
       path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest.json
       description: "Material-shift stress VLM input/protocol and claim-gate manifest: 14 target-visible PASS/WARN zoom pairs, pilot-only status, model-run-ready=true, and final_benchmark_claimable=false until the stress gate has enough samples and canonical stress predictions/scores."
+    - id: grscenes_vlm_retake_zoom_expansion16_render_summary
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expansion16_paired_render_summary.json
+      description: "Render-smoke summary for the first 16 zoom stress expansion candidates; 16/16 non-dark paired renders before visual filtering."
+    - id: grscenes_vlm_retake_zoom_expansion16_target_projection_qa
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expansion16_target_projection_qa_report.json
+      description: "Projected image-space target boxes for the first 16 zoom stress expansion candidates; 16 projection_ok and 32 scoring-record skeletons."
+    - id: grscenes_vlm_retake_zoom_expansion16_visual_review
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expansion16_visual_review_batch.json
+      description: "Independent clean-room visual QA over the first 16 zoom stress expansion candidates; 1 PASS, 10 WARN, 5 FAIL, proving machine projection gates are not sufficient."
+    - id: grscenes_vlm_retake_zoom_replacement11_render_summary
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_replacement11_paired_render_summary.json
+      description: "Render-smoke summary for 11 replacement cup zoom candidates after expansion16 visual filtering; 11/11 non-dark paired renders."
+    - id: grscenes_vlm_retake_zoom_replacement11_target_projection_qa
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_replacement11_target_projection_qa_report.json
+      description: "Projected image-space target boxes for the 11 replacement cup zoom candidates; 11 projection_ok and 22 scoring-record skeletons."
+    - id: grscenes_vlm_retake_zoom_replacement11_visual_review
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_replacement11_visual_review_batch.json
+      description: "Independent clean-room visual QA over 11 replacement cup zoom candidates; 1 PASS, 9 WARN, 1 FAIL, with five close cup/mug views recommended for exactly-30 stress expansion."
+    - id: grscenes_vlm_retake_zoom_expanded30_render_summary
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expanded30_paired_render_summary.json
+      description: "Render-smoke summary for the exactly-30 material-shift stress pool; 30/30 non-dark paired renders after visual QA filtering."
+    - id: grscenes_vlm_retake_zoom_expanded30_target_projection_qa
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expanded30_target_projection_qa_report.json
+      description: "Projected image-space target boxes for the exactly-30 material-shift stress pool; 30 projection_ok and 60 scoring-record skeletons."
+    - id: grscenes_vlm_stress_run_manifest_expanded30
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded30.json
+      description: "Expanded material-shift stress VLM input/protocol manifest: 30 PASS/WARN zoom pairs, 60 scoring records, model-run-ready=true, and final_benchmark_claimable=false until canonical stress predictions/scores exist."
     - id: grscenes_vlm_clean_pool_pass15_projection
       path: paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_pass15_projection_qa_report.json
       description: "Projection subset for the 15 clean visual-QA PASS original/no-MDL pairs; label provenance only, not final model-result evidence."
