@@ -33,7 +33,7 @@ The repository currently has:
 - one real paired InternNav smoke episode;
 - a prepared `acl_main_pilot30` dataset with 30 episodes across six ready
   scenes;
-- an original-side `acl_main_pilot30` run in progress;
+- a repaired `acl_main_pilot30` work root with scene dependency sidecars;
 - no modified-side `acl_main_pilot30` result yet;
 - no pilot30 per-episode JSONL extraction or paired analysis yet;
 - no paper video frames or mp4 artifacts yet.
@@ -134,35 +134,59 @@ ConvertAsset target-centered render pipeline for static close-ups, bbox
 projection QA, and paper figures. Keep no-MDL generation in scratch trees, not
 inside `/cpfs/user/zhuzihou/assets/zzh-grscenes`.
 
-## Current Runtime Observation
+## Runtime Observation And Sidecar Fix
 
-As of the review, the original `acl_main_pilot30` run was still active. The
-progress log had reached seven completed episodes and the eighth had started.
-The aggregate partial metrics at `Count=7` were:
+The first original-side `acl_main_pilot30` run was stopped and archived because
+it was not a valid paper run. It reached 12 completed episodes, then stalled
+after starting episode 13:
+
+```text
+/cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_original_acl_main_pilot30_invalid_broken_sidecars_20260523235649
+```
+
+The root cause was the prepared work root. It installed only `fixed.usd` and
+`fixed_docker.usd` into each scene directory. GRScenes `fixed.usd` files contain
+relative references such as `models/...` and `Materials/...`; the clean source
+tree stores per-scene `models` and `Materials` entries as small text files
+pointing to `../../models` and `../../Materials`, while the no-MDL scratch tree
+uses real symlinks. Without recreating those sidecar entries in the InternNav
+work root, Isaac resolved the references relative to:
+
+```text
+/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30/scene_data/<condition>/<scene_id>/
+```
+
+and logged many `Could not open asset @models/...@` warnings.
+
+The fix in `prepare_minipair.py` now resolves text sidecars, symlinks, and real
+directories, then installs `models` and `Materials` symlinks beside every
+prepared `fixed.usd`. The regenerated pilot30 manifest records those sidecars in
+each `scene_records[*].original_dependency_sidecars` and
+`scene_records[*].converted_dependency_sidecars` field.
+
+The invalid original-only partial metrics at `Count=12` were:
 
 ```json
 {
-  "TL": 21.8069,
-  "NE": 11.2418,
+  "TL": 30.3341,
+  "NE": 11.6283,
   "FR": 0.0,
   "StR": 0.0,
-  "OS": 0.2857,
+  "OS": 0.25,
   "SR": 0.0,
   "SPL": 0.0,
-  "Count": 7
+  "Count": 12
 }
 ```
 
-This is an in-progress original-only artifact and must not be used as final
-paper evidence.
+This artifact must not be used as paper evidence.
 
 ## Next Work
 
-1. Let the original pilot30 run finish.
+1. Rerun original pilot30 from the repaired work root.
 2. Inspect the final original result and logs.
 3. Run the modified pilot30 counterpart with stdout redirected to a log file.
 4. Extract aggregate and per-episode metrics for both conditions.
 5. Run paired analysis and select video cases.
 6. Generate selected-only video reruns and side-by-side mp4s.
 7. Update the ACL paper only after the claim gate records real paired results.
-

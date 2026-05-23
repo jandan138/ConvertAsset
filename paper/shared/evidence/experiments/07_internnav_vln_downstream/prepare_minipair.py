@@ -43,6 +43,7 @@ ORIGINAL_CONDITION_LABEL = "original"
 MODIFIED_CONDITION_LABEL = "modified"
 SELECTION_STRATEGIES = ("sequential", "round_robin_scenes")
 SCENE_SPLITS = ("home_scenes", "commercial_scenes")
+SCENE_DEPENDENCY_SIDECARS = ("models", "Materials")
 INTERNNAV_ROOT = Path("/cpfs/user/zhuzihou/dev/InternNav")
 INTERNVLA_MODEL_PATH = "checkpoints/InternVLA-N1-DualVLN"
 H1_ROBOT_USD_PATH = "data/Embodiments/vln-pe/h1/h1_internvla.usd"
@@ -232,6 +233,39 @@ def _install_fixed_usd(source: Path, destination_dir: Path, *, link_mode: str) -
         else:
             destination.symlink_to(source.resolve())
     return fixed_path
+
+
+def _scene_sidecar_target(scene_dir: Path, sidecar_name: str) -> Path | None:
+    sidecar = scene_dir / sidecar_name
+    if sidecar.is_symlink():
+        target = sidecar.resolve(strict=False)
+        return target if target.exists() else None
+    if sidecar.is_dir():
+        return sidecar.resolve()
+    if sidecar.is_file():
+        raw_target = sidecar.read_text(encoding="utf-8").strip()
+        if raw_target:
+            target = (sidecar.parent / raw_target).resolve()
+            return target if target.exists() else None
+    return None
+
+
+def _install_scene_dependency_sidecars(scene_dir: Path, destination_dir: Path) -> dict[str, str]:
+    destination_dir.mkdir(parents=True, exist_ok=True)
+    installed: dict[str, str] = {}
+    for sidecar_name in SCENE_DEPENDENCY_SIDECARS:
+        target = _scene_sidecar_target(scene_dir, sidecar_name)
+        if target is None:
+            continue
+        destination = destination_dir / sidecar_name
+        if destination.exists() or destination.is_symlink():
+            if destination.is_dir() and not destination.is_symlink():
+                shutil.rmtree(destination)
+            else:
+                destination.unlink()
+        destination.symlink_to(target)
+        installed[sidecar_name] = str(target)
+    return installed
 
 
 def _write_dataset(path: Path, episodes: list[dict[str, Any]]) -> None:
@@ -447,20 +481,26 @@ def _scene_record(
     status = _scene_pair_status(scene_id=scene_id, source_root=source_root, nomdl_root=nomdl_root)
     original_fixed = None
     converted_fixed = None
+    original_sidecars: dict[str, str] = {}
+    converted_sidecars: dict[str, str] = {}
     original_usd = Path(status["original_navigation_usd"]) if status["original_navigation_usd"] else None
     converted_usd = Path(status["converted_navigation_usd"]) if status["converted_navigation_usd"] else None
     if original_usd and original_usd.exists():
+        original_destination_dir = work_root / "scene_data/original" / scene_id
         original_fixed = _install_fixed_usd(
             original_usd,
-            work_root / "scene_data/original" / scene_id,
+            original_destination_dir,
             link_mode=link_mode,
         )
+        original_sidecars = _install_scene_dependency_sidecars(original_usd.parent, original_destination_dir)
     if converted_usd and converted_usd.exists():
+        converted_destination_dir = work_root / "scene_data/converted" / scene_id
         converted_fixed = _install_fixed_usd(
             converted_usd,
-            work_root / "scene_data/converted" / scene_id,
+            converted_destination_dir,
             link_mode=link_mode,
         )
+        converted_sidecars = _install_scene_dependency_sidecars(converted_usd.parent, converted_destination_dir)
 
     return {
         **status,
@@ -468,6 +508,8 @@ def _scene_record(
         "converted_fixed_usd": str(converted_fixed) if converted_fixed else None,
         "original_fixed_docker_usd": str(original_fixed.with_name("fixed_docker.usd")) if original_fixed else None,
         "converted_fixed_docker_usd": str(converted_fixed.with_name("fixed_docker.usd")) if converted_fixed else None,
+        "original_dependency_sidecars": original_sidecars,
+        "converted_dependency_sidecars": converted_sidecars,
     }
 
 

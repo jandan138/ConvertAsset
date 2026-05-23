@@ -192,10 +192,22 @@ pilot manifest. Metric runs should keep `vis_output=False`; paper-video reruns
 should be launched later on selected cases only, after paired metrics identify
 representative success/failure or trajectory-divergence examples.
 
-At the time of the claim-gate review, the original pilot30 run was active and
-had reached seven completed episodes. This partial original-only `result.json`
-must not be used as paper evidence. The modified pilot30 counterpart must finish
-before any paired metric claim is made.
+The first original pilot30 attempt was stopped and archived after 12 completed
+episodes because the prepared scene directories did not expose GRScenes'
+`models` and `Materials` dependency sidecars. Isaac therefore emitted missing
+asset warnings for references such as `@models/...@`, and episode 13 stalled
+after environment warm-up. That partial original-only run is invalid paper
+evidence.
+
+`prepare_minipair.py` now installs `models` and `Materials` symlinks beside each
+prepared `fixed.usd`, resolving either text sidecar files such as
+`../../models`, real symlinks, or real directories. The regenerated pilot30
+manifest records the installed sidecars under each scene record.
+
+The modified pilot30 counterpart must finish before any paired metric claim is
+made. If a future run stalls, first inspect whether the last scene has complete
+dependency sidecars and whether the Isaac kit log contains unresolved asset
+warnings.
 
 ## Paper Video Workflow
 

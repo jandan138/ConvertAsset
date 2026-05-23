@@ -63,7 +63,7 @@ paper/
 | 4c CLIP 零样本检索 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 5 RL 策略迁移 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 6a GRScenes VLM grounding | ✅ | ✅ | 🔄 stress 已完成 / clean 未完成 | ✅ expanded30 stress 表和图已生成 | 🔄 ACL 小节已接入，仍需全文审阅 |
-| 6b InternNav / VL-LN navigation | ✅ prep + wrapper + batch/stat/video scaffold | ✅ one-episode real smoke + per-episode extraction | 🔄 original pilot30 running; modified pending | 🔄 selected-only video rerun plan documented; no mp4 yet | ✅ smoke paragraph; main-result text pending paired batch |
+| 6b InternNav / VL-LN navigation | ✅ prep + wrapper + batch/stat/video scaffold | ✅ one-episode real smoke + per-episode extraction | 🔄 pilot30 workroot sidecars fixed; original rerun pending; modified pending | 🔄 selected-only video rerun plan documented; no mp4 yet | ✅ smoke paragraph; main-result text pending paired batch |
 | 7 综合讨论 | — | — | — | — | ⬜ |
 
 > 状态：⬜ 未开始 ｜ 🔄 进行中 ｜ ✅ 完成

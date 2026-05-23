@@ -76,6 +76,19 @@ def write_scene_usd(root: Path, scene_split: str, scene_id: str, usd_name: str) 
     return usd_path
 
 
+def write_grscene_sidecar_entries(root: Path, scene_split: str, scene_id: str) -> dict[str, Path]:
+    split_root = root / "scenes/GRScenes-100" / scene_split
+    models_root = split_root / "models"
+    materials_root = split_root / "Materials"
+    models_root.mkdir(parents=True, exist_ok=True)
+    materials_root.mkdir(parents=True, exist_ok=True)
+    scene_dir = split_root / "scenes" / scene_id
+    scene_dir.mkdir(parents=True, exist_ok=True)
+    (scene_dir / "models").write_text("../../models", encoding="utf-8")
+    (scene_dir / "Materials").write_text("../../Materials", encoding="utf-8")
+    return {"models": models_root, "Materials": materials_root}
+
+
 def make_source_root(tmp_path: Path) -> Path:
     source_root = tmp_path / "zzh-grscenes"
     episode = {
@@ -180,6 +193,44 @@ def test_prepare_minipair_writes_internnav_dataset_scene_links_and_manifest(tmp_
     assert runtime["nextdit_checkpoint_ffn_multiplier"] == 2 / 3
     assert "hard_blockers_before_metrics" not in persisted["runtime_requirements"]
     assert "required_for_real_metrics" in persisted["runtime_requirements"]
+
+
+def test_prepare_minipair_installs_grscene_dependency_sidecar_links(tmp_path: Path) -> None:
+    module = load_prep_module()
+    source_root = make_source_root(tmp_path)
+    original_sidecars = write_grscene_sidecar_entries(source_root, "home_scenes", "scene_a_usd")
+    nomdl_root = tmp_path / "zzh-grscenes_nomdl"
+    write_scene_usd(
+        nomdl_root,
+        "home_scenes",
+        "scene_a_usd",
+        "start_result_navigation_noMDL.usd",
+    )
+    converted_sidecars = write_grscene_sidecar_entries(nomdl_root, "home_scenes", "scene_a_usd")
+    work_root = tmp_path / "internnav_work"
+
+    manifest = module.prepare_minipair(
+        source_root=source_root,
+        nomdl_root=nomdl_root,
+        work_root=work_root,
+        repo_manifest_path=tmp_path / "prep_manifest.json",
+        max_episodes=1,
+        split_name="mini",
+        link_mode="symlink",
+    )
+
+    original_scene_dir = work_root / "scene_data/original/scene_a_usd"
+    converted_scene_dir = work_root / "scene_data/converted/scene_a_usd"
+    for sidecar_name, target in original_sidecars.items():
+        installed = original_scene_dir / sidecar_name
+        assert installed.is_symlink()
+        assert installed.resolve() == target
+        assert manifest["scene_records"][0]["original_dependency_sidecars"][sidecar_name] == str(target)
+    for sidecar_name, target in converted_sidecars.items():
+        installed = converted_scene_dir / sidecar_name
+        assert installed.is_symlink()
+        assert installed.resolve() == target
+        assert manifest["scene_records"][0]["converted_dependency_sidecars"][sidecar_name] == str(target)
 
 
 def test_prepare_minipair_reports_missing_converted_navigation_usd(tmp_path: Path) -> None:
