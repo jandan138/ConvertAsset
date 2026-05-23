@@ -31,6 +31,9 @@ results:
     - id: grscenes_vlm_source_manifest
       path: paper/shared/evidence/raw/grscene_vlm_grounding/source_manifest.json
       description: "ACL/VLM GRScenes source scene and episode selection provenance; not a model-result file."
+    - id: internnav_vln_prep_manifest
+      path: paper/shared/evidence/raw/internnav_vln_downstream/prep_manifest.json
+      description: "InternNav/VL-LN downstream input-preparation manifest for one GRScenes SN original/no-MDL navigation pair; input gate only, not SR/SPL result evidence."
     - id: grscenes_vlm_target_manifest
       path: paper/shared/evidence/raw/grscene_vlm_grounding/target_manifest.json
       description: "ACL/VLM GRScenes target prim and world-bbox localization provenance for 40 episode records / 23 unique targets; not a model-result file."

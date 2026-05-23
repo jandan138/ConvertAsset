@@ -1,0 +1,112 @@
+{
+  "claim_boundary": "input_preparation_only_not_sr_spl_evidence",
+  "claim_gate": {
+    "blocked_by": [],
+    "can_run_paired_eval": true,
+    "status": "ready_for_internnav_runtime"
+  },
+  "dataset": {
+    "dataset_type": "grscene",
+    "episode_count": 1,
+    "hash_sha256": "f02c09ccb41999ec6db0f9d0069f578d6e3a3382808e43ecbc21d25a57f3fa9d",
+    "path": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/datasets/grscene_sn_mini/mini/mini.json.gz",
+    "split": "mini"
+  },
+  "episode_records": [
+    {
+      "episode_id": 0,
+      "geodesic_distance": 8.027836162572427,
+      "instruction_text": "Navigate to towel.",
+      "scan": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source": {
+        "candidates": [],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "validate",
+        "object_instance_id": "towel/model_6568e0645616074f53ec54bee02f3654_0",
+        "target_point": [
+          -11.79243509029649,
+          6.262033686250954,
+          0.9886718509926958
+        ]
+      },
+      "trajectory_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd_towel_model_6568e0645616074f53ec54bee02f3654_0_0"
+    }
+  ],
+  "expected_metrics": [
+    "TL",
+    "NE",
+    "FR",
+    "StR",
+    "OS",
+    "SR",
+    "SPL",
+    "Count"
+  ],
+  "generated_at": "2026-05-23T09:47:52.283880Z",
+  "internnav_eval_commands": {
+    "converted": "cd /cpfs/user/zhuzihou/dev/InternNav && python scripts/eval/eval.py --config /cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/configs/converted_eval_cfg.py",
+    "expected_result_jsons": [
+      "logs/convertasset_grscene_sn_original_mini/result.json",
+      "logs/convertasset_grscene_sn_nomdl_mini/result.json"
+    ],
+    "original": "cd /cpfs/user/zhuzihou/dev/InternNav && python scripts/eval/eval.py --config /cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/configs/original_eval_cfg.py"
+  },
+  "internnav_eval_configs": {
+    "converted": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/configs/converted_eval_cfg.py",
+    "original": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/configs/original_eval_cfg.py"
+  },
+  "internnav_git_commit": "7a5c62400ac45b313d9b709c740b64191556a242",
+  "project_git_commit": "8936a8625f7a637341643d947fb662ecdfc11129",
+  "runtime_requirements": {
+    "hard_blockers_before_metrics": [
+      "internutopia",
+      "internutopia_extension",
+      "Isaac Sim omni runtime",
+      "lmdb",
+      "msgpack_numpy",
+      "torch",
+      "InternVLA-N1 or alternate VLN model checkpoint",
+      "H1 robot USD and policy assets"
+    ],
+    "not_required_for_this_preparation_step": [
+      "pxr",
+      "omni",
+      "InternNav model import"
+    ]
+  },
+  "scene_data": {
+    "converted": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/scene_data/converted",
+    "original": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/scene_data/original"
+  },
+  "scene_records": [
+    {
+      "blocked_by": [],
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/scene_data/converted/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/scene_data/converted/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/scene_data/original/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/scene_data/original/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source_scene_split": "home_scenes"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "grscenes_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+    "nomdl_work_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521",
+    "requested_scene_ids": [
+      "MV7J6NIKTKJZ2AABAAAAADY8_usd"
+    ],
+    "selected_scene_ids": [
+      "MV7J6NIKTKJZ2AABAAAAADY8_usd"
+    ],
+    "source_episode_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/benchmark/sn_episodes.json"
+  },
+  "work_root": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523"
+}

@@ -22,4 +22,18 @@ CVPR workshop reviewer carry-over status on 2026-05-23: the expanded30 VLM groun
 
 Near-term ACL target: a defensible ACL/ARR draft should present the current work as a VLM grounding reliability diagnostic under 3D material perturbations, not as a completed embodied benchmark paper. Before claiming ACL-main readiness, add at least point baselines/coordinate ablations, ACL/VLM related-work expansion, citation/integrity audit, and a clear decision on whether InternNav/VLN is a real experiment or future work. A stronger main-conference version should additionally add NVIDIA baseline comparison, per-material-effect analysis, or a real embodied downstream task.
 
+InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now prepares a real
+GRScenes SN mini pair for InternNav using scene `MV7J6NIKTKJZ2AABAAAAADY8_usd`.
+The manifest is `../../shared/evidence/raw/internnav_vln_downstream/prep_manifest.json`,
+and the external work root is
+`/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523`. The input
+gate is open (`ready_for_internnav_runtime`): original and no-MDL `fixed.usd`
+entries exist and point to clean source vs scratch no-MDL navigation USDs.
+However, this is still not SR/SPL evidence. The local InternNav checkout lacks
+the InternUtopia environment, `internutopia`/`internutopia_extension`, `lmdb`,
+`msgpack_numpy`, `transformers`, `data/Embodiments/vln-pe/h1/h1_internvla.usd`,
+and `checkpoints/InternVLA-N1-DualVLN`. Keep InternNav as a prepared downstream
+extension until those runtime blockers are solved and `result.json` files are
+collected with `collect_results.py`.
+
 External status checked on 2026-05-22: the official ACL resolutions page records a July 2025 resolution that the 2027 conference will be branded as `ACL 2027` with no IJCNLP/AFNLP co-branding. No public ACL 2027 CFP, official conference site, city/date page, or Japan confirmation was found in the checked official sources. Japan is recorded here as the user-requested target until a public official source is available. Source: https://www.aclweb.org/adminwiki/index.php/ACL_Resolutions.
