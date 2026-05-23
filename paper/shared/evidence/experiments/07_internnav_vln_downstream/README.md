@@ -16,6 +16,11 @@ InternNav's expected dataset layout:
 <work_root>/configs/converted_eval_cfg.py
 ```
 
+The legacy `mini` split keeps `original_eval_cfg.py`, `converted_eval_cfg.py`,
+and the existing `convertasset_grscene_sn_nomdl_mini` task name so the recorded
+smoke logs remain reproducible. Larger batch splits use task-name-based config
+filenames, for example `convertasset_grscene_sn_modified_acl_main_050_eval_cfg.py`.
+
 The default work root is outside git:
 
 ```text
@@ -87,6 +92,39 @@ expected log suffix recorded in `prep_manifest.json`, and each result split's
 `Count` must match the prepared episode count. This prevents stale or unrelated
 InternNav runs from becoming paper evidence by accident.
 
+## Main-Result Batch Infrastructure
+
+The current smoke run has been extended with the repository-side infrastructure
+needed for a larger ACL main-result benchmark:
+
+- `extract_episode_metrics.py` reads InternNav LMDB `sample_data*.lmdb` outputs
+  and writes per-episode JSONL rows. It lazy-imports `lmdb` and `msgpack_numpy`
+  so unit tests remain runnable without the full InternNav runtime.
+- `analyze_paired_metrics.py` pairs original and modified rows by `path_key`,
+  computes means, modified-minus-original deltas, paired win/loss/tie counts,
+  paired effect sizes, and a claim gate.
+- `select_video_cases.py` chooses a small, storage-bounded set of cases for
+  later video reruns. Metric batch runs should keep `vis_output=False`; selected
+  video reruns should set `eval_settings.vis_output=True`.
+
+The actual mini smoke LMDBs were extracted into:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/original_episode_metrics.jsonl
+paper/shared/evidence/raw/internnav_vln_downstream/modified_episode_metrics.jsonl
+paper/shared/evidence/raw/internnav_vln_downstream/paired_episode_analysis.json
+paper/shared/evidence/raw/internnav_vln_downstream/video_case_manifest.json
+```
+
+`video_case_manifest.json` currently selects the one smoke episode as a
+`both_failure_divergent` case. This is a rerun target for qualitative video, not
+evidence that the benchmark is complete.
+
+The analysis claim gate intentionally separates row-count readiness from paper
+readiness. `row_count_acl_ready` can become true after enough paired episodes,
+but `acl_main_result_ready` also requires aggregate result provenance and a
+video manifest to be explicitly supplied to the analyzer.
+
 ## Current Smoke Result
 
 Real InternNav / InternVLA-N1 smoke runs were completed on 2026-05-23 for one
@@ -122,3 +160,11 @@ Debug video output remains disabled in the generated configs to avoid extra
 `imageio`/`ffmpeg` dependencies and large output files. The canonical evidence
 for this smoke run is `result.json`, the progress logs, and
 `internnav_vln_results.json`.
+
+Explorer review of the InternNav runtime found that `vis_output=True` should
+write rendered visualizations under `logs/<task>/video/<trajectory_id>/`, but the
+current mini smoke directories contain no frames or mp4 files because video was
+disabled. InternNav can provide failure reasons and terminal metrics through
+LMDB; it does not yet emit a clean per-step robot trajectory JSON, so trajectory
+figures need either an InternNav-side patch or a selected video rerun with
+top-down frames.

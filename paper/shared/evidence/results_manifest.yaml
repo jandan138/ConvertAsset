@@ -37,6 +37,18 @@ results:
     - id: internnav_vln_smoke_results
       path: paper/shared/evidence/raw/internnav_vln_downstream/internnav_vln_results.json
       description: "One-episode real InternNav/InternVLA-N1 paired smoke result: both original and no-MDL have SR/SPL 0, while no-MDL increases TL by 33.5054 and NE by 33.7468; protocol evidence only, not a broad benchmark claim."
+    - id: internnav_vln_original_episode_metrics
+      path: paper/shared/evidence/raw/internnav_vln_downstream/original_episode_metrics.jsonl
+      description: "Per-episode InternNav LMDB metric rows extracted from the original-condition one-episode smoke run."
+    - id: internnav_vln_modified_episode_metrics
+      path: paper/shared/evidence/raw/internnav_vln_downstream/modified_episode_metrics.jsonl
+      description: "Per-episode InternNav LMDB metric rows extracted from the modified/no-MDL-condition one-episode smoke run."
+    - id: internnav_vln_paired_episode_analysis
+      path: paper/shared/evidence/raw/internnav_vln_downstream/paired_episode_analysis.json
+      description: "Paired per-episode analysis scaffold over the current one smoke pair; claim gate remains acl_main_result_ready=false."
+    - id: internnav_vln_video_case_manifest
+      path: paper/shared/evidence/raw/internnav_vln_downstream/video_case_manifest.json
+      description: "Storage-bounded video rerun selection manifest; currently selects the one smoke episode as a both-failure divergent qualitative case."
     - id: grscenes_vlm_target_manifest
       path: paper/shared/evidence/raw/grscene_vlm_grounding/target_manifest.json
       description: "ACL/VLM GRScenes target prim and world-bbox localization provenance for 40 episode records / 23 unique targets; not a model-result file."

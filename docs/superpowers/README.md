@@ -32,3 +32,6 @@ large documentation or implementation change.
 - [GRScenes full materialization and closure runner implementation plan](plans/2026-05-21-grscenes-full-materialization-and-closure-runner.md)
 - [Local Isaac render-single design](specs/2026-05-20-local-isaac-render-single-design.md)
 - [Local Isaac render-single implementation plan](plans/2026-05-20-local-isaac-render-single.md)
+- [InternNav VLN downstream implementation plan](plans/2026-05-23-internnav-vln-downstream.md)
+- [InternNav VLN main-result design](specs/2026-05-23-internnav-vln-main-result-design.md)
+- [InternNav VLN main-result implementation plan](plans/2026-05-23-internnav-vln-main-result.md)

@@ -10,6 +10,9 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstream/prepare_minipair.py"
 COLLECT_SCRIPT = ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstream/collect_results.py"
 RUN_SCRIPT = ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstream/run_internnav_eval.py"
+EXTRACT_SCRIPT = ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstream/extract_episode_metrics.py"
+ANALYZE_SCRIPT = ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstream/analyze_paired_metrics.py"
+VIDEO_SELECT_SCRIPT = ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstream/select_video_cases.py"
 
 
 def load_prep_module():
@@ -30,6 +33,30 @@ def load_collect_module():
 
 def load_run_module():
     spec = importlib.util.spec_from_file_location("internnav_vln_run_eval", RUN_SCRIPT)
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def load_extract_module():
+    spec = importlib.util.spec_from_file_location("internnav_vln_extract_episode_metrics", EXTRACT_SCRIPT)
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def load_analyze_module():
+    spec = importlib.util.spec_from_file_location("internnav_vln_analyze_paired_metrics", ANALYZE_SCRIPT)
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def load_video_select_module():
+    spec = importlib.util.spec_from_file_location("internnav_vln_select_video_cases", VIDEO_SELECT_SCRIPT)
     assert spec and spec.loader
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -213,6 +240,91 @@ def test_prepare_minipair_filters_to_requested_scene_ids(tmp_path: Path) -> None
     assert manifest["source"]["selected_scene_ids"] == ["scene_b_usd"]
 
 
+def test_prepare_minipair_uses_dynamic_task_names_for_acl_batch(tmp_path: Path) -> None:
+    module = load_prep_module()
+    source_root = make_source_root(tmp_path)
+    nomdl_root = tmp_path / "zzh-grscenes_nomdl"
+    write_scene_usd(
+        nomdl_root,
+        "home_scenes",
+        "scene_a_usd",
+        "start_result_navigation_noMDL.usd",
+    )
+    write_scene_usd(source_root, "home_scenes", "scene_b_usd", "start_result_navigation.usd")
+    write_scene_usd(
+        nomdl_root,
+        "home_scenes",
+        "scene_b_usd",
+        "start_result_navigation_noMDL.usd",
+    )
+    sn_path = source_root / "benchmark/sn_episodes.json"
+    data = json.loads(sn_path.read_text(encoding="utf-8"))
+    data["test"]["scene_b_usd"] = {
+        "table/model_hash_0": [
+            {
+                "start_point": [0.0, 0.0],
+                "target_point": [0.0, 1.0, 0.0],
+                "distance": 1.0,
+                "path": [[0.0, 0.0], [0.0, 1.0]],
+                "dialogue": [{"role": "human", "content": "Find the table."}],
+            }
+        ]
+    }
+    sn_path.write_text(json.dumps(data), encoding="utf-8")
+
+    manifest = module.prepare_minipair(
+        source_root=source_root,
+        nomdl_root=nomdl_root,
+        work_root=tmp_path / "internnav_work",
+        repo_manifest_path=tmp_path / "prep_manifest.json",
+        max_episodes=2,
+        split_name="acl_main_050",
+        link_mode="copy",
+    )
+
+    assert manifest["dataset"]["split"] == "acl_main_050"
+    assert manifest["dataset"]["episode_count"] == 2
+    assert "convertasset_grscene_sn_original_acl_main_050" in manifest["internnav_eval_commands"]["original"]
+    assert "convertasset_grscene_sn_modified_acl_main_050" in manifest["internnav_eval_commands"]["converted"]
+    assert manifest["internnav_eval_commands"]["expected_result_jsons"] == [
+        "logs/convertasset_grscene_sn_original_acl_main_050/result.json",
+        "logs/convertasset_grscene_sn_modified_acl_main_050/result.json",
+    ]
+    converted_cfg = Path(manifest["internnav_eval_configs"]["converted"]).read_text(encoding="utf-8")
+    assert 'task_name="convertasset_grscene_sn_modified_acl_main_050"' in converted_cfg
+
+
+def test_prepare_minipair_preserves_legacy_mini_nomdl_result_paths(tmp_path: Path) -> None:
+    module = load_prep_module()
+    source_root = make_source_root(tmp_path)
+    nomdl_root = tmp_path / "zzh-grscenes_nomdl"
+    write_scene_usd(
+        nomdl_root,
+        "home_scenes",
+        "scene_a_usd",
+        "start_result_navigation_noMDL.usd",
+    )
+
+    manifest = module.prepare_minipair(
+        source_root=source_root,
+        nomdl_root=nomdl_root,
+        work_root=tmp_path / "internnav_work",
+        repo_manifest_path=tmp_path / "prep_manifest.json",
+        max_episodes=1,
+        split_name="mini",
+        link_mode="copy",
+    )
+
+    assert manifest["internnav_eval_commands"]["expected_result_jsons"] == [
+        "logs/convertasset_grscene_sn_original_mini/result.json",
+        "logs/convertasset_grscene_sn_nomdl_mini/result.json",
+    ]
+    assert Path(manifest["internnav_eval_configs"]["original"]).name == "original_eval_cfg.py"
+    assert Path(manifest["internnav_eval_configs"]["converted"]).name == "converted_eval_cfg.py"
+    converted_cfg = Path(manifest["internnav_eval_configs"]["converted"]).read_text(encoding="utf-8")
+    assert 'task_name="convertasset_grscene_sn_nomdl_mini"' in converted_cfg
+
+
 def test_collect_results_writes_metric_deltas(tmp_path: Path) -> None:
     module = load_collect_module()
     manifest_path = tmp_path / "prep_manifest.json"
@@ -328,6 +440,305 @@ def test_collect_results_rejects_count_mismatch(tmp_path: Path) -> None:
         assert "Count does not match prep manifest episode_count" in str(exc)
     else:
         raise AssertionError("collect_results accepted mismatched Count")
+
+
+def test_extract_episode_metrics_normalizes_internnav_lmdb_record() -> None:
+    module = load_extract_module()
+
+    row = module.record_to_episode_row(
+        condition="original",
+        path_key="scene_obj_0_0",
+        record={
+            "info": {
+                "TL": 10.0,
+                "NE": 1.0,
+                "osr": 1.0,
+                "success": 0.0,
+                "spl": 0.0,
+                "steps": 200,
+            },
+            "finish_status": "fail",
+            "fail_reason": "exceed_total_max_step",
+        },
+    )
+
+    assert row == {
+        "condition": "original",
+        "path_key": "scene_obj_0_0",
+        "finish_status": "fail",
+        "failure_reason": "exceed_total_max_step",
+        "metrics": {
+            "TL": 10.0,
+            "NE": 1.0,
+            "OS": 1.0,
+            "SR": 0.0,
+            "SPL": 0.0,
+            "steps": 200,
+        },
+    }
+
+
+def test_extract_episode_metrics_requires_expected_metric_keys_and_normalizes_sentinels() -> None:
+    module = load_extract_module()
+
+    row = module.record_to_episode_row(
+        condition="modified",
+        path_key="episode_0",
+        record={
+            "info": {
+                "TL": 1.0,
+                "NE": -1.0,
+                "osr": -1.0,
+                "success": 0.0,
+                "spl": 0.0,
+                "steps": 10,
+            },
+            "finish_status": "fail",
+            "fail_reason": "not_reach_goal",
+        },
+    )
+
+    assert row["metrics"]["NE"] == 0.0
+    assert row["metrics"]["OS"] == 0.0
+
+    try:
+        module.record_to_episode_row(
+            condition="original",
+            path_key="episode_1",
+            record={
+                "info": {"TL": 1.0, "NE": 1.0, "success": 0.0, "spl": 0.0, "steps": 10},
+                "finish_status": "fail",
+                "fail_reason": "not_reach_goal",
+            },
+        )
+    except KeyError as exc:
+        assert "missing InternNav metric keys" in str(exc)
+    else:
+        raise AssertionError("extractor accepted a record missing osr")
+
+
+def test_analyze_paired_metrics_computes_paper_summary() -> None:
+    module = load_analyze_module()
+    rows = [
+        {
+            "condition": "original",
+            "path_key": "episode_0",
+            "failure_reason": "success",
+            "metrics": {"TL": 10.0, "NE": 1.0, "OS": 1.0, "SR": 1.0, "SPL": 0.5, "steps": 100},
+        },
+        {
+            "condition": "modified",
+            "path_key": "episode_0",
+            "failure_reason": "not_reach_goal",
+            "metrics": {"TL": 12.0, "NE": 3.0, "OS": 0.0, "SR": 0.0, "SPL": 0.0, "steps": 120},
+        },
+        {
+            "condition": "original",
+            "path_key": "episode_1",
+            "failure_reason": "exceed_total_max_step",
+            "metrics": {"TL": 5.0, "NE": 4.0, "OS": 0.0, "SR": 0.0, "SPL": 0.0, "steps": 80},
+        },
+        {
+            "condition": "modified",
+            "path_key": "episode_1",
+            "failure_reason": "exceed_total_max_step",
+            "metrics": {"TL": 7.0, "NE": 5.0, "OS": 0.0, "SR": 0.0, "SPL": 0.0, "steps": 90},
+        },
+    ]
+
+    summary = module.analyze_paired_rows(rows)
+
+    assert summary["schema_version"] == 1
+    assert summary["episode_count"] == 2
+    assert summary["metrics"]["NE"]["original_mean"] == 2.5
+    assert summary["metrics"]["NE"]["modified_mean"] == 4.0
+    assert summary["metrics"]["NE"]["mean_delta_modified_minus_original"] == 1.5
+    assert summary["metrics"]["NE"]["cohen_dz"] == 2.1213
+    assert summary["metrics"]["Count"]["original_mean"] == 1.0
+    assert summary["metrics"]["FR"]["original_mean"] == 0.0
+    assert summary["metrics"]["StR"]["original_mean"] == 0.0
+    assert summary["paired_outcomes"]["SR"] == {
+        "modified_better": 0,
+        "original_better": 1,
+        "tie": 1,
+    }
+    assert summary["paired_outcomes"]["NE"] == {
+        "modified_better": 0,
+        "original_better": 2,
+        "tie": 0,
+    }
+    assert summary["failure_pairs"]["original_success__modified_not_reach_goal"] == 1
+    assert summary["claim_gate"]["has_paired_episode_metrics"] is True
+    assert summary["claim_gate"]["acl_main_result_ready"] is False
+
+
+def test_analyze_paired_metrics_does_not_claim_acl_ready_from_counts_alone() -> None:
+    module = load_analyze_module()
+    rows = []
+    for scene_idx in range(10):
+        for episode_idx in range(10):
+            path_key = f"scene_{scene_idx}_usd_obj_{episode_idx}"
+            rows.append(
+                {
+                    "condition": "original",
+                    "path_key": path_key,
+                    "failure_reason": "success",
+                    "metrics": {"TL": 10.0, "NE": 1.0, "OS": 1.0, "SR": 1.0, "SPL": 0.5, "steps": 100},
+                }
+            )
+            rows.append(
+                {
+                    "condition": "modified",
+                    "path_key": path_key,
+                    "failure_reason": "success",
+                    "metrics": {"TL": 10.0, "NE": 1.0, "OS": 1.0, "SR": 1.0, "SPL": 0.5, "steps": 100},
+                }
+            )
+
+    summary = module.analyze_paired_rows(rows)
+
+    assert summary["episode_count"] == 100
+    assert summary["scene_count"] == 10
+    assert summary["claim_gate"]["row_count_acl_ready"] is True
+    assert summary["claim_gate"]["has_video_manifest"] is False
+    assert summary["claim_gate"]["has_aggregate_result_json"] is False
+    assert summary["claim_gate"]["acl_main_result_ready"] is False
+
+
+def test_analyze_paired_metrics_rejects_missing_metric_rows() -> None:
+    module = load_analyze_module()
+
+    try:
+        module.analyze_paired_rows(
+            [
+                {
+                    "condition": "original",
+                    "path_key": "episode_0",
+                    "failure_reason": "success",
+                    "metrics": {"TL": 10.0, "NE": 1.0, "OS": 1.0, "SR": 1.0, "SPL": 0.5},
+                },
+                {
+                    "condition": "modified",
+                    "path_key": "episode_0",
+                    "failure_reason": "success",
+                    "metrics": {"TL": 10.0, "NE": 1.0, "OS": 1.0, "SR": 1.0, "SPL": 0.5, "steps": 100},
+                },
+            ]
+        )
+    except KeyError as exc:
+        assert "missing metric steps" in str(exc)
+    else:
+        raise AssertionError("analyzer accepted a row missing steps")
+
+
+def test_select_video_cases_builds_storage_bounded_manifest() -> None:
+    module = load_video_select_module()
+    rows = [
+        {
+            "condition": "original",
+            "path_key": "scene_a_usd_obj_0_0",
+            "failure_reason": "success",
+            "metrics": {"TL": 10.0, "NE": 1.0, "OS": 1.0, "SR": 1.0, "SPL": 0.5, "steps": 100},
+        },
+        {
+            "condition": "modified",
+            "path_key": "scene_a_usd_obj_0_0",
+            "failure_reason": "not_reach_goal",
+            "metrics": {"TL": 12.0, "NE": 3.0, "OS": 0.0, "SR": 0.0, "SPL": 0.0, "steps": 120},
+        },
+        {
+            "condition": "original",
+            "path_key": "scene_b_usd_obj_0_0",
+            "failure_reason": "not_reach_goal",
+            "metrics": {"TL": 9.0, "NE": 2.0, "OS": 0.0, "SR": 0.0, "SPL": 0.0, "steps": 90},
+        },
+        {
+            "condition": "modified",
+            "path_key": "scene_b_usd_obj_0_0",
+            "failure_reason": "success",
+            "metrics": {"TL": 7.0, "NE": 0.5, "OS": 1.0, "SR": 1.0, "SPL": 0.6, "steps": 70},
+        },
+        {
+            "condition": "original",
+            "path_key": "scene_c_usd_obj_0_0",
+            "failure_reason": "exceed_total_max_step",
+            "metrics": {"TL": 20.0, "NE": 4.0, "OS": 0.0, "SR": 0.0, "SPL": 0.0, "steps": 200},
+        },
+        {
+            "condition": "modified",
+            "path_key": "scene_c_usd_obj_0_0",
+            "failure_reason": "exceed_total_max_step",
+            "metrics": {"TL": 50.0, "NE": 20.0, "OS": 0.0, "SR": 0.0, "SPL": 0.0, "steps": 250},
+        },
+    ]
+
+    manifest = module.select_video_cases(rows, max_cases=8)
+
+    assert manifest["storage_policy"]["metric_runs_keep_video_disabled"] is True
+    assert manifest["case_quota"]["max_cases"] == 8
+    assert manifest["case_quota"]["selected_count"] == 3
+    assert {case["case_type"] for case in manifest["selected_cases"]} == {
+        "original_only_success",
+        "modified_only_success",
+        "both_failure_divergent",
+    }
+    assert manifest["selected_cases"][0]["rerun_profile"] == "video_selected_only"
+
+
+def test_select_video_cases_reserves_diverse_case_types_when_over_quota() -> None:
+    module = load_video_select_module()
+    rows = []
+    for idx in range(4):
+        rows.extend(
+            [
+                {
+                    "condition": "original",
+                    "path_key": f"original_only_{idx}",
+                    "failure_reason": "success",
+                    "metrics": {"TL": 10.0, "NE": 1.0, "OS": 1.0, "SR": 1.0, "SPL": 0.5, "steps": 100},
+                },
+                {
+                    "condition": "modified",
+                    "path_key": f"original_only_{idx}",
+                    "failure_reason": "not_reach_goal",
+                    "metrics": {"TL": 20.0, "NE": 10.0, "OS": 0.0, "SR": 0.0, "SPL": 0.0, "steps": 200},
+                },
+            ]
+        )
+    rows.extend(
+        [
+            {
+                "condition": "original",
+                "path_key": "modified_only_0",
+                "failure_reason": "not_reach_goal",
+                "metrics": {"TL": 20.0, "NE": 10.0, "OS": 0.0, "SR": 0.0, "SPL": 0.0, "steps": 200},
+            },
+            {
+                "condition": "modified",
+                "path_key": "modified_only_0",
+                "failure_reason": "success",
+                "metrics": {"TL": 8.0, "NE": 0.5, "OS": 1.0, "SR": 1.0, "SPL": 0.6, "steps": 80},
+            },
+        ]
+    )
+
+    manifest = module.select_video_cases(rows, max_cases=2)
+
+    assert {case["case_type"] for case in manifest["selected_cases"]} == {
+        "original_only_success",
+        "modified_only_success",
+    }
+
+
+def test_select_video_cases_rejects_non_positive_case_quota() -> None:
+    module = load_video_select_module()
+
+    try:
+        module.select_video_cases([], max_cases=0)
+    except ValueError as exc:
+        assert "max_cases must be positive" in str(exc)
+    else:
+        raise AssertionError("selector accepted max_cases=0")
 
 
 def test_run_internnav_eval_builds_runtime_env_without_dropping_existing_pythonpath(tmp_path: Path) -> None:

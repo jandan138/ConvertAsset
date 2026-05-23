@@ -1,0 +1,47 @@
+{
+  "case_quota": {
+    "candidate_count": 1,
+    "max_cases": 8,
+    "selected_count": 1
+  },
+  "schema_version": 1,
+  "selected_cases": [
+    {
+      "case_type": "both_failure_divergent",
+      "divergence_score": 37.0974,
+      "failure_reason": {
+        "modified": "exceed_total_max_step",
+        "original": "exceed_total_max_step"
+      },
+      "metrics": {
+        "modified": {
+          "NE": 42.10533510428335,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 98.27826301994534,
+          "steps": 1100
+        },
+        "original": {
+          "NE": 8.358486721938739,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 64.77293182333764,
+          "steps": 1100
+        }
+      },
+      "path_key": "MV7J6NIKTKJZ2AABAAAAADY8_usd_towel_model_6568e0645616074f53ec54bee02f3654_0_0_0",
+      "recommended_config_overrides": {
+        "agent.model_settings.vis_debug": false,
+        "eval_settings.vis_output": true
+      },
+      "rerun_profile": "video_selected_only"
+    }
+  ],
+  "storage_policy": {
+    "keep_compressed_mp4_not_raw_frames": true,
+    "metric_runs_keep_video_disabled": true,
+    "rerun_only_selected_cases_with_video": true
+  }
+}

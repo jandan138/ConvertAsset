@@ -9,6 +9,13 @@ Current files:
   `paper/shared/evidence/experiments/07_internnav_vln_downstream/prepare_minipair.py`.
 - `internnav_vln_results.json`: paired original/no-MDL InternNav `result.json`
   summary for the 2026-05-23 one-episode smoke run.
+- `original_episode_metrics.jsonl` and `modified_episode_metrics.jsonl`:
+  per-episode rows extracted from the matching InternNav LMDB outputs.
+- `paired_episode_analysis.json`: paired per-episode analysis over the current
+  smoke rows; `acl_main_result_ready=false` because `episode_count=1` and the
+  main-result video/aggregate gates are not satisfied.
+- `video_case_manifest.json`: storage-bounded qualitative rerun manifest. It
+  currently selects the one smoke episode as `both_failure_divergent`.
 
 Large runtime assets, `fixed.usd` links, generated InternNav configs, and
 `mini.json.gz` live outside git under:
@@ -21,3 +28,8 @@ The real smoke run completed with `Count=1` for both material conditions. Both
 conditions have `SR=0` and `SPL=0`; no-MDL increased trajectory length by
 `33.5054` and final navigation error by `33.7468`. This is protocol/downstream
 smoke evidence, not a broad benchmark result.
+
+The batch-main-result path now has the expected small-file evidence format, but
+not enough rows. The next evidence gate is at least 30 paired episodes across at
+least five scenes, with 100+ paired episodes across 10+ scenes preferred for a
+strong ACL main-result claim.

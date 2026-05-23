@@ -27,6 +27,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 - [2026-05-23 InternNav VLN downstream prep](2026-05-23-internnav-vln-downstream-prep.md)
 - [2026-05-23 InternNav VLN runtime smoke](2026-05-23-internnav-vln-runtime-smoke.md)
+- [2026-05-23 InternNav VLN main-result scaffold](2026-05-23-internnav-vln-main-result-scaffold.md)
 - [2026-05-23 CVPR review status and ACL goals](2026-05-23-cvpr-review-status-and-acl-goals.md)
 - [2026-05-20 OSS dataset restore for GRScenes test0 parallel](2026-05-20-oss-dataset-restore.md)
 - [2026-05-20 ACL GRScenes dataset role correction](2026-05-20-acl-grscenes-dataset-role-correction.md)

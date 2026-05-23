@@ -39,6 +39,8 @@ DEFAULT_SPLIT_NAME = "mini"
 SOURCE_EPISODE_FILE = "sn_episodes.json"
 ORIGINAL_NAV_USD = "start_result_navigation.usd"
 CONVERTED_NAV_USD = "start_result_navigation_noMDL.usd"
+ORIGINAL_CONDITION_LABEL = "original"
+MODIFIED_CONDITION_LABEL = "modified"
 SCENE_SPLITS = ("home_scenes", "commercial_scenes")
 INTERNNAV_ROOT = Path("/cpfs/user/zhuzihou/dev/InternNav")
 INTERNVLA_MODEL_PATH = "checkpoints/InternVLA-N1-DualVLN"
@@ -93,6 +95,22 @@ def _is_relative_to(path: Path, parent: Path) -> bool:
 def _sanitize_id(value: str) -> str:
     chars = [ch if ch.isalnum() else "_" for ch in value]
     return "_".join("".join(chars).strip("_").split("_"))
+
+
+def _task_name(condition_label: str, split_name: str) -> str:
+    return f"convertasset_grscene_sn_{_sanitize_id(condition_label)}_{_sanitize_id(split_name)}"
+
+
+def _modified_condition_label(split_name: str) -> str:
+    if split_name == DEFAULT_SPLIT_NAME:
+        return "nomdl"
+    return MODIFIED_CONDITION_LABEL
+
+
+def _config_filename(condition: str, task_name: str, split_name: str) -> str:
+    if split_name == DEFAULT_SPLIT_NAME:
+        return f"{condition}_eval_cfg.py"
+    return f"{task_name}_eval_cfg.py"
 
 
 def _scene_dir(root: Path, scene_split: str, scene_id: str) -> Path:
@@ -311,17 +329,16 @@ def _write_eval_configs(work_root: Path, dataset_root: Path, split_name: str) ->
     config_dir.mkdir(parents=True, exist_ok=True)
     configs = {
         "original": {
-            "path": config_dir / "original_eval_cfg.py",
-            "task_name": "convertasset_grscene_sn_original_mini",
+            "task_name": _task_name(ORIGINAL_CONDITION_LABEL, split_name),
             "scene_data_dir": work_root / "scene_data/original",
         },
         "converted": {
-            "path": config_dir / "converted_eval_cfg.py",
-            "task_name": "convertasset_grscene_sn_nomdl_mini",
+            "task_name": _task_name(_modified_condition_label(split_name), split_name),
             "scene_data_dir": work_root / "scene_data/converted",
         },
     }
-    for cfg in configs.values():
+    for condition, cfg in configs.items():
+        cfg["path"] = config_dir / _config_filename(condition, str(cfg["task_name"]), split_name)
         cfg["path"].write_text(
             _config_text(
                 task_name=str(cfg["task_name"]),
@@ -332,6 +349,13 @@ def _write_eval_configs(work_root: Path, dataset_root: Path, split_name: str) ->
             encoding="utf-8",
         )
     return {key: str(value["path"]) for key, value in configs.items()}
+
+
+def _expected_result_jsons(split_name: str) -> list[str]:
+    return [
+        f"logs/{_task_name(ORIGINAL_CONDITION_LABEL, split_name)}/result.json",
+        f"logs/{_task_name(_modified_condition_label(split_name), split_name)}/result.json",
+    ]
 
 
 def _wrapper_command(config_path: str) -> str:
@@ -460,7 +484,7 @@ def prepare_minipair(
         raw_records = [record for record in raw_records if record["scene_id"] in requested_scene_id_set]
     raw_records = raw_records[:max_episodes]
     episodes = [_build_internnav_episode(record, episode_id) for episode_id, record in enumerate(raw_records)]
-    dataset_root = work_root / "datasets/grscene_sn_mini"
+    dataset_root = work_root / f"datasets/grscene_sn_{_sanitize_id(split_name)}"
     dataset_path = dataset_root / split_name / f"{split_name}.json.gz"
     _write_dataset(dataset_path, episodes)
 
@@ -477,6 +501,7 @@ def prepare_minipair(
     ]
     eval_configs = _write_eval_configs(work_root, dataset_root, split_name)
     runtime_metadata = _internnav_runtime_metadata()
+    expected_result_jsons = _expected_result_jsons(split_name)
     blocked_by = sorted({reason for scene in scene_records for reason in scene.get("blocked_by", [])})
     can_run_paired_eval = bool(episodes) and not blocked_by
     manifest = {
@@ -522,14 +547,13 @@ def prepare_minipair(
             "original": _wrapper_command(eval_configs["original"]),
             "converted": _wrapper_command(eval_configs["converted"]),
             "expected_result_jsons": [
-                "logs/convertasset_grscene_sn_original_mini/result.json",
-                "logs/convertasset_grscene_sn_nomdl_mini/result.json",
+                *expected_result_jsons,
             ],
             "collect_results": (
                 f"python {COLLECT_RESULTS_SCRIPT} "
                 f"--prep-manifest {repo_manifest_path} "
-                "--original-result /cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_original_mini/result.json "
-                "--converted-result /cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_nomdl_mini/result.json "
+                f"--original-result {INTERNNAV_ROOT / expected_result_jsons[0]} "
+                f"--converted-result {INTERNNAV_ROOT / expected_result_jsons[1]} "
                 f"--output {DEFAULT_RESULTS_SUMMARY}"
             ),
         },

@@ -38,4 +38,13 @@ prepared extension to real protocol evidence and a failure-case seed, but it is
 not broad ACL-main evidence until repeated over more scenes/episodes with
 aggregate statistics.
 
+InternNav main-result upgrade status on 2026-05-23: the repository now has the
+scaffold needed to scale this route: dynamic batch task naming, per-episode LMDB
+metric extraction, paired original/modified analysis, and storage-bounded video
+case selection. The current extracted per-episode evidence still contains only
+one paired smoke row, and `paired_episode_analysis.json` explicitly reports
+`acl_main_result_ready=false`. A future main-result claim requires at least 30
+paired episodes across five scenes for pilot-main evidence, with 100+ paired
+episodes across 10+ scenes preferred.
+
 External status checked on 2026-05-22: the official ACL resolutions page records a July 2025 resolution that the 2027 conference will be branded as `ACL 2027` with no IJCNLP/AFNLP co-branding. No public ACL 2027 CFP, official conference site, city/date page, or Japan confirmation was found in the checked official sources. Japan is recorded here as the user-requested target until a public official source is available. Source: https://www.aclweb.org/adminwiki/index.php/ACL_Resolutions.
