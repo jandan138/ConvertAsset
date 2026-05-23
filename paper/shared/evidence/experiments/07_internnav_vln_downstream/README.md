@@ -44,6 +44,22 @@ eval. It runs InternNav under `./scripts/isaac_python.sh`, adds the external
 runtime dependency root to `PYTHONPATH`, pins `HF_HOME`, disables Hugging Face
 Xet, and applies the compatibility patches recorded in `prep_manifest.json`.
 
+## Main-Result Goal
+
+To make this route part of the ACL main result, the goal is:
+
+```text
+Run paired InternNav / DualVLN evaluation on GRScenes original and
+ConvertAsset-modified scenes, produce SR/SPL/NE/TL/OS/StR/FR aggregate metrics,
+per-episode paired deltas, failure taxonomy, reproducible manifests, and
+selected paper-quality side-by-side videos.
+```
+
+The current one-episode smoke is not enough for that claim. It is protocol
+evidence and a failure-case seed. The current pilot-main gate is 30 paired
+episodes across at least five scenes; the preferred ACL main-result gate is 100+
+paired episodes across at least 10 scenes with repeat or seed-control evidence.
+
 ## Current Smoke Pair
 
 The first prepared pair uses:
@@ -175,6 +191,45 @@ Run the paired metric batch with the commands recorded in
 pilot manifest. Metric runs should keep `vis_output=False`; paper-video reruns
 should be launched later on selected cases only, after paired metrics identify
 representative success/failure or trajectory-divergence examples.
+
+At the time of the claim-gate review, the original pilot30 run was active and
+had reached seven completed episodes. This partial original-only `result.json`
+must not be used as paper evidence. The modified pilot30 counterpart must finish
+before any paired metric claim is made.
+
+## Paper Video Workflow
+
+Do not enable video for the full metric batch. Use this storage-bounded flow:
+
+1. Run original and modified metric batches with `vis_output=False`.
+2. Extract per-episode metrics and run paired analysis.
+3. Use `select_video_cases.py` to choose 2-6 representative cases.
+4. Generate selected-only original and modified rerun configs with new task
+   names and `eval_settings["vis_output"] = True`.
+5. Run those selected-only configs through `run_internnav_eval.py`.
+6. Stack matched original and modified mp4s with `ffmpeg`.
+
+InternNav visualization is expected to write:
+
+```text
+/cpfs/user/zhuzihou/dev/InternNav/logs/<task>/video/<trajectory_id>/frames/*.png
+/cpfs/user/zhuzihou/dev/InternNav/logs/<task>/video/<trajectory_id>/<trajectory_id>.mp4
+```
+
+Current metric configs intentionally produce no paper video artifacts. The
+existing LMDB records contain terminal metrics, not per-step robot trajectory
+JSON, so trajectory figures require either selected video reruns or an
+InternNav-side pose/action dump patch.
+
+Paper videos should show a matched original/no-MDL episode with the same scene,
+instruction, start, and goal. Each clip should label the episode id,
+instruction, terminal metrics, failure reason, and step count. If possible,
+include the first-person and top-down views that InternNav already composes.
+
+Useful case types are: original-only success, modified-only success,
+both-success but trajectory-divergent, both-failure divergent, and neutral
+control. If a case type does not occur in the finished batch, record the absence
+instead of forcing an example.
 
 ## Current Smoke Result
 

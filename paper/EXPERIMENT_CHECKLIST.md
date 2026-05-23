@@ -43,7 +43,7 @@ paper/
 | **4c** | **CLIP 零样本检索** | paper-experiment-runner | 用 A 建索引库，用 B 图片当查询 | `shared/evidence/raw/retrieval_results.json` | Top-1 / Top-5 准确率、mAP | 证明简化材质不破坏跨模态语义检索能力 |
 | **5** | **RL 策略迁移实验** | paper-experiment-runner | A 环境训练策略，B 环境测试（双向） | `shared/evidence/raw/rl_results.json` | 收敛步数、成功率(%)、平均奖励 | 材质差异是否真正影响策略学习和泛化 |
 | **6a** | **GRScenes VLM grounding** | paper-experiment-runner | `benchmark_source_dataset` 使用 `/cpfs/user/zhuzihou/assets/zzh-grscenes` 原始 GRScenes-100；episode-backed pilot 优先从 30 个 home episode scenes 选样；commercial scenes 只做 metadata-driven stress test；`engineering_validation_dataset` 只用于 smoke/debug；no-MDL 从 scratch copy 生成成对渲染，PIO-style prompts | `shared/evidence/raw/grscene_vlm_grounding/score_summary.json` | point-in-box / point-in-mask accuracy、answer consistency | ACL 主线实验：材质/纹理泛化是否影响 VLM 的语言 grounding |
-| **6b** | **InternNav / VL-LN navigation extension** | paper-experiment-runner | 原始 GRScenes-100 benchmark scenes + `benchmark/mm_episodes.json` / `sn_episodes.json` + InternNav / VL-LN configs；不要把 test0 mirror 当 benchmark 源 | `shared/evidence/raw/internnav_vln_downstream/internnav_vln_results.json`; `paired_episode_analysis.json`; `video_case_manifest.json` | SR、SPL、NE、TL、OS、StR、FR、paired deltas、failure cases、video cases | ACL 下游扩展：材质变化是否影响语言条件导航 |
+| **6b** | **InternNav / VL-LN navigation extension** | paper-experiment-runner | 原始 GRScenes-100 benchmark scenes + `benchmark/mm_episodes.json` / `sn_episodes.json` + InternNav / VL-LN configs；不要把 test0 mirror 当 benchmark 源 | `shared/evidence/raw/internnav_vln_downstream/internnav_vln_results.json`; `paired_episode_analysis.json`; `video_case_manifest.json`; selected-only side-by-side videos | SR、SPL、NE、TL、OS、StR、FR、paired deltas、failure cases、video cases | ACL 下游扩展：材质变化是否影响语言条件导航；主结果门槛是 paired batch + 失败分类 + 论文级视频，不是单 episode smoke |
 | **7** | **综合 Trade-off 分析** | paper-writer | 以上所有结果 | `shared/sections/discussion.tex` | — | 回答"何时可以简化、何时要小心"，形成论文核心结论 |
 
 ---
@@ -63,7 +63,7 @@ paper/
 | 4c CLIP 零样本检索 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 5 RL 策略迁移 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 6a GRScenes VLM grounding | ✅ | ✅ | 🔄 stress 已完成 / clean 未完成 | ✅ expanded30 stress 表和图已生成 | 🔄 ACL 小节已接入，仍需全文审阅 |
-| 6b InternNav / VL-LN navigation | ✅ prep + wrapper + batch/stat/video scaffold | ✅ one-episode real smoke + per-episode extraction | 🔄 needs multi-episode batch | ⬜ | ✅ smoke paragraph |
+| 6b InternNav / VL-LN navigation | ✅ prep + wrapper + batch/stat/video scaffold | ✅ one-episode real smoke + per-episode extraction | 🔄 original pilot30 running; modified pending | 🔄 selected-only video rerun plan documented; no mp4 yet | ✅ smoke paragraph; main-result text pending paired batch |
 | 7 综合讨论 | — | — | — | — | ⬜ |
 
 > 状态：⬜ 未开始 ｜ 🔄 进行中 ｜ ✅ 完成
