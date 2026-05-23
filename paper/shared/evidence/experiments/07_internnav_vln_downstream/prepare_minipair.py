@@ -520,9 +520,9 @@ def _status_by_scene(records: list[dict[str, Any]], source_root: Path, nomdl_roo
     }
 
 
-def _select_records(records: list[dict[str, Any]], *, max_episodes: int, selection_strategy: str) -> list[dict[str, Any]]:
+def _ordered_records(records: list[dict[str, Any]], *, selection_strategy: str) -> list[dict[str, Any]]:
     if selection_strategy == "sequential":
-        return records[:max_episodes]
+        return records
     if selection_strategy != "round_robin_scenes":
         raise ValueError(f"unsupported selection_strategy: {selection_strategy}")
 
@@ -533,19 +533,98 @@ def _select_records(records: list[dict[str, Any]], *, max_episodes: int, selecti
     selected: list[dict[str, Any]] = []
     scene_ids = list(grouped)
     offset = 0
-    while len(selected) < max_episodes:
+    while True:
         added = False
         for scene_id in scene_ids:
             records_for_scene = grouped[scene_id]
             if offset < len(records_for_scene):
                 selected.append(records_for_scene[offset])
                 added = True
-                if len(selected) >= max_episodes:
-                    break
         if not added:
             break
         offset += 1
     return selected
+
+
+def _select_records(records: list[dict[str, Any]], *, max_episodes: int, selection_strategy: str) -> list[dict[str, Any]]:
+    return _ordered_records(records, selection_strategy=selection_strategy)[:max_episodes]
+
+
+def _episode_path_key(episode: dict[str, Any]) -> str:
+    return f"{episode['trajectory_id']}_{episode['episode_id']}"
+
+
+def _selection_record(episode: dict[str, Any], *, source_selection_rank: int, reason: str | None = None) -> dict[str, Any]:
+    record = {
+        "path_key": _episode_path_key(episode),
+        "scan": episode["scan"],
+        "source_selection_rank": source_selection_rank,
+        "trajectory_id": episode["trajectory_id"],
+    }
+    if reason is not None:
+        record["reason"] = reason
+    return record
+
+
+def _select_records_with_exclusions(
+    records: list[dict[str, Any]],
+    *,
+    max_episodes: int,
+    selection_strategy: str,
+    excluded_path_keys: list[str],
+    exclusion_reason: str,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    excluded_path_key_set = set(excluded_path_keys)
+    ordered_records = _ordered_records(records, selection_strategy=selection_strategy)
+    selected_records: list[dict[str, Any]] = []
+    excluded_episode_records: list[dict[str, Any]] = []
+    replacement_episode_records: list[dict[str, Any]] = []
+    matched_excluded_path_keys: set[str] = set()
+
+    for source_selection_rank, record in enumerate(ordered_records):
+        source_episode = _build_internnav_episode(record, source_selection_rank)
+        source_path_key = _episode_path_key(source_episode)
+        if source_path_key in excluded_path_key_set:
+            matched_excluded_path_keys.add(source_path_key)
+            excluded_episode_records.append(
+                _selection_record(
+                    source_episode,
+                    source_selection_rank=source_selection_rank,
+                    reason=exclusion_reason,
+                )
+            )
+            continue
+        if len(selected_records) >= max_episodes:
+            continue
+        selected_records.append({**record, "_source_selection_rank": source_selection_rank, "_source_path_key": source_path_key})
+        if source_selection_rank >= max_episodes:
+            replacement_episode_records.append(
+                _selection_record(
+                    source_episode,
+                    source_selection_rank=source_selection_rank,
+                )
+            )
+
+    return selected_records, {
+        "requested_excluded_path_keys": excluded_path_keys,
+        "unmatched_excluded_path_keys": sorted(excluded_path_key_set - matched_excluded_path_keys),
+        "exclusion_reason": exclusion_reason,
+        "excluded_episode_count": len(excluded_episode_records),
+        "excluded_episode_records": excluded_episode_records,
+        "replacement_policy": "continue_existing_selection_order_after_exclusions",
+        "replacement_episode_count": len(replacement_episode_records),
+        "replacement_episode_records": replacement_episode_records,
+    }
+
+
+def _supersedes_manifest_record(path: Path | None) -> dict[str, str] | None:
+    if path is None:
+        return None
+    path = path.resolve()
+    return {
+        "path": str(path),
+        "hash_sha256": _sha256_file(path),
+    }
 
 
 def prepare_minipair(
@@ -561,6 +640,9 @@ def prepare_minipair(
     ready_only: bool = False,
     min_scenes: int = 0,
     selection_strategy: str = "sequential",
+    excluded_path_keys: list[str] | None = None,
+    exclusion_reason: str = "manual_exclusion",
+    supersedes_manifest_path: Path | None = None,
 ) -> dict[str, Any]:
     source_root = source_root.resolve()
     nomdl_root = nomdl_root.resolve()
@@ -595,7 +677,17 @@ def prepare_minipair(
             for record in raw_records
             if not scene_statuses[record["scene_id"]].get("blocked_by")
         ]
-    raw_records = _select_records(raw_records, max_episodes=max_episodes, selection_strategy=selection_strategy)
+    excluded_path_keys = list(excluded_path_keys or [])
+    raw_records, exclusion_metadata = _select_records_with_exclusions(
+        raw_records,
+        max_episodes=max_episodes,
+        selection_strategy=selection_strategy,
+        excluded_path_keys=excluded_path_keys,
+        exclusion_reason=exclusion_reason,
+    )
+    supersedes_manifest = _supersedes_manifest_record(supersedes_manifest_path)
+    if supersedes_manifest is not None:
+        exclusion_metadata["supersedes_manifest"] = supersedes_manifest
     episodes = [_build_internnav_episode(record, episode_id) for episode_id, record in enumerate(raw_records)]
     dataset_root = work_root / f"datasets/grscene_sn_{_sanitize_id(split_name)}"
     dataset_path = dataset_root / split_name / f"{split_name}.json.gz"
@@ -643,6 +735,7 @@ def prepare_minipair(
             "selected_scene_count": selected_scene_count,
             "skipped_scene_count": len(skipped_scene_records),
             "skipped_scene_records": skipped_scene_records,
+            **exclusion_metadata,
         },
         "work_root": str(work_root),
         "dataset": {
@@ -665,6 +758,8 @@ def prepare_minipair(
                 "instruction_text": episode["instruction"]["instruction_text"],
                 "geodesic_distance": episode["info"]["geodesic_distance"],
                 "source": episode["source"],
+                "source_selection_rank": raw_records[episode["episode_id"]].get("_source_selection_rank"),
+                "source_path_key": raw_records[episode["episode_id"]].get("_source_path_key"),
             }
             for episode in episodes
         ],
@@ -723,6 +818,24 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--min-scenes", type=int, default=0, help="Minimum selected scene count required for claim_gate readiness.")
     parser.add_argument("--selection-strategy", choices=SELECTION_STRATEGIES, default="sequential")
     parser.add_argument(
+        "--exclude-path-key",
+        action="append",
+        dest="excluded_path_keys",
+        default=None,
+        help="Exclude this pre-exclusion selection path_key and replace from the same ordered candidate pool.",
+    )
+    parser.add_argument(
+        "--exclusion-reason",
+        default="manual_exclusion",
+        help="Reason attached to --exclude-path-key records in the manifest.",
+    )
+    parser.add_argument(
+        "--supersedes-manifest-path",
+        type=Path,
+        default=None,
+        help="Previous prep manifest superseded by this split, recorded with sha256 in the new manifest.",
+    )
+    parser.add_argument(
         "--scene-id",
         action="append",
         dest="scene_ids",
@@ -746,6 +859,9 @@ def main() -> int:
         ready_only=args.ready_only,
         min_scenes=args.min_scenes,
         selection_strategy=args.selection_strategy,
+        excluded_path_keys=args.excluded_path_keys,
+        exclusion_reason=args.exclusion_reason,
+        supersedes_manifest_path=args.supersedes_manifest_path,
     )
     print(json.dumps(manifest["claim_gate"], ensure_ascii=True, sort_keys=True))
     return 0
