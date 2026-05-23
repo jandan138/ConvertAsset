@@ -5,7 +5,7 @@ This script is intentionally pure Python. It does not import pxr, launch Isaac
 Sim, run InternNav, or copy large scene trees into the repository. It only
 converts GRScenes SN episode metadata into InternNav's expected json.gz layout,
 creates fixed.usd entry points under an external work root, and records the
-runtime blockers that still need the full InternNav environment.
+external InternNav runtime metadata needed to reproduce real metrics.
 """
 
 from __future__ import annotations
@@ -29,6 +29,12 @@ DEFAULT_WORK_ROOT = Path("/cpfs/user/zhuzihou/assets/internnav_vln_downstream_wo
 DEFAULT_REPO_MANIFEST = (
     PROJECT_ROOT / "paper/shared/evidence/raw/internnav_vln_downstream/prep_manifest.json"
 )
+RUN_EVAL_SCRIPT = PROJECT_ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstream/run_internnav_eval.py"
+COLLECT_RESULTS_SCRIPT = PROJECT_ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstream/collect_results.py"
+DEFAULT_RESULTS_SUMMARY = (
+    PROJECT_ROOT / "paper/shared/evidence/raw/internnav_vln_downstream/internnav_vln_results.json"
+)
+RUNTIME_DEPS_ROOT = Path("/cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523")
 DEFAULT_SPLIT_NAME = "mini"
 SOURCE_EPISODE_FILE = "sn_episodes.json"
 ORIGINAL_NAV_USD = "start_result_navigation.usd"
@@ -38,6 +44,8 @@ INTERNNAV_ROOT = Path("/cpfs/user/zhuzihou/dev/InternNav")
 INTERNVLA_MODEL_PATH = "checkpoints/InternVLA-N1-DualVLN"
 H1_ROBOT_USD_PATH = "data/Embodiments/vln-pe/h1/h1_internvla.usd"
 CAMERA_PRIM_PATH = "torso_link/h1_1_25_down_30"
+INTERNVLA_ATTN_FALLBACK = "sdpa"
+NEXTDIT_CHECKPOINT_FFN_MULTIPLIER = 2 / 3
 
 
 def _utc_now() -> str:
@@ -248,7 +256,7 @@ eval_cfg = EvalCfg(
             "predict_step_nums": 32,
             "continuous_traj": True,
             "infer_mode": "partial_async",
-            "vis_debug": True,
+            "vis_debug": False,
             "vis_debug_path": "./logs/{task_name}/vis_debug",
         }},
     ),
@@ -291,7 +299,7 @@ eval_cfg = EvalCfg(
     eval_type="vln_distributed",
     eval_settings={{
         "save_to_json": True,
-        "vis_output": True,
+        "vis_output": False,
         "use_agent_server": False,
     }},
 )
@@ -324,6 +332,46 @@ def _write_eval_configs(work_root: Path, dataset_root: Path, split_name: str) ->
             encoding="utf-8",
         )
     return {key: str(value["path"]) for key, value in configs.items()}
+
+
+def _wrapper_command(config_path: str) -> str:
+    return (
+        f"cd {PROJECT_ROOT} && ./scripts/isaac_python.sh {RUN_EVAL_SCRIPT} "
+        f"--config {config_path} "
+        f"--internnav-root {INTERNNAV_ROOT} "
+        f"--runtime-deps-root {RUNTIME_DEPS_ROOT}"
+    )
+
+
+def _internnav_runtime_metadata() -> dict[str, Any]:
+    return {
+        "wrapper_path": str(RUN_EVAL_SCRIPT),
+        "internnav_root": str(INTERNNAV_ROOT),
+        "runtime_deps_root": str(RUNTIME_DEPS_ROOT),
+        "pythonpath_entries": [
+            str(RUNTIME_DEPS_ROOT / "python_target"),
+            str(RUNTIME_DEPS_ROOT / "internutopia_probe"),
+            str(INTERNNAV_ROOT),
+        ],
+        "hf_home": str(RUNTIME_DEPS_ROOT / "hf_cache"),
+        "hf_hub_disable_xet": "1",
+        "attn_fallback": INTERNVLA_ATTN_FALLBACK,
+        "nextdit_checkpoint_ffn_multiplier": NEXTDIT_CHECKPOINT_FFN_MULTIPLIER,
+        "checkpoint_path": str(INTERNNAV_ROOT / INTERNVLA_MODEL_PATH),
+        "h1_robot_usd_path": str(INTERNNAV_ROOT / H1_ROBOT_USD_PATH),
+        "compatibility_patches": [
+            "disable_transformers_sklearn_probe",
+            "flash_attention_2_to_sdpa_when_flash_attn_missing",
+            "pkg_resources_packaging_alias_for_longclip",
+            "lumina_gradient_checkpointing_signature_compat",
+            "nextdit_ffn_dim_multiplier_for_checkpoint_shape",
+        ],
+        "debug_video_outputs": {
+            "vis_debug": False,
+            "vis_output": False,
+            "reason": "avoid imageio/ffmpeg dependency and large debug video output in the minimal paired smoke run",
+        },
+    }
 
 
 def _scene_record(
@@ -428,6 +476,7 @@ def prepare_minipair(
         for scene_id in scene_ids
     ]
     eval_configs = _write_eval_configs(work_root, dataset_root, split_name)
+    runtime_metadata = _internnav_runtime_metadata()
     blocked_by = sorted({reason for scene in scene_records for reason in scene.get("blocked_by", [])})
     can_run_paired_eval = bool(episodes) and not blocked_by
     manifest = {
@@ -468,17 +517,25 @@ def prepare_minipair(
             for episode in episodes
         ],
         "internnav_eval_configs": eval_configs,
+        "internnav_runtime": runtime_metadata,
         "internnav_eval_commands": {
-            "original": f"cd {INTERNNAV_ROOT} && python scripts/eval/eval.py --config {eval_configs['original']}",
-            "converted": f"cd {INTERNNAV_ROOT} && python scripts/eval/eval.py --config {eval_configs['converted']}",
+            "original": _wrapper_command(eval_configs["original"]),
+            "converted": _wrapper_command(eval_configs["converted"]),
             "expected_result_jsons": [
                 "logs/convertasset_grscene_sn_original_mini/result.json",
                 "logs/convertasset_grscene_sn_nomdl_mini/result.json",
             ],
+            "collect_results": (
+                f"python {COLLECT_RESULTS_SCRIPT} "
+                f"--prep-manifest {repo_manifest_path} "
+                "--original-result /cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_original_mini/result.json "
+                "--converted-result /cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_nomdl_mini/result.json "
+                f"--output {DEFAULT_RESULTS_SUMMARY}"
+            ),
         },
         "expected_metrics": ["TL", "NE", "FR", "StR", "OS", "SR", "SPL", "Count"],
         "runtime_requirements": {
-            "hard_blockers_before_metrics": [
+            "required_for_real_metrics": [
                 "internutopia",
                 "internutopia_extension",
                 "Isaac Sim omni runtime",

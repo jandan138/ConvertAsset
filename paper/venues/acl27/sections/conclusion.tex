@@ -21,7 +21,9 @@ for portability, but also as a controlled stressor for testing whether VLM
 grounding evaluations are robust to rendering-pipeline changes.
 
 The current ACL version is therefore a stress-protocol paper rather than a
-completed embodied benchmark paper. The next step is to close the clean
-preservation branch and, if the claim is extended beyond image-level grounding,
-add navigation or manipulation results through an explicit embodied framework
-rather than inferring downstream robustness from VLM image probes alone.
+completed embodied benchmark paper. The one-episode InternNav smoke run shows
+that an explicit embodied framework can be attached to the paired scenes and
+that material conversion can alter navigation trajectories, but it remains a
+failure-case seed rather than aggregate downstream evidence. The next step is to
+close the clean preservation branch and scale the navigation or manipulation
+runs before making broader embodied-agent claims.

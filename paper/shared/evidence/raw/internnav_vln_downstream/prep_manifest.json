@@ -8,7 +8,7 @@
   "dataset": {
     "dataset_type": "grscene",
     "episode_count": 1,
-    "hash_sha256": "f02c09ccb41999ec6db0f9d0069f578d6e3a3382808e43ecbc21d25a57f3fa9d",
+    "hash_sha256": "7f26e9ab8f53a829068d60f41e5659cb1b33f3cfb6ced5dc7d59c2cf2777c763",
     "path": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/datasets/grscene_sn_mini/mini/mini.json.gz",
     "split": "mini"
   },
@@ -43,23 +43,57 @@
     "SPL",
     "Count"
   ],
-  "generated_at": "2026-05-23T09:47:52.283880Z",
+  "generated_at": "2026-05-23T11:33:22.963629Z",
   "internnav_eval_commands": {
-    "converted": "cd /cpfs/user/zhuzihou/dev/InternNav && python scripts/eval/eval.py --config /cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/configs/converted_eval_cfg.py",
+    "collect_results": "python /cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/07_internnav_vln_downstream/collect_results.py --prep-manifest /cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/internnav_vln_downstream/prep_manifest.json --original-result /cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_original_mini/result.json --converted-result /cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_nomdl_mini/result.json --output /cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/internnav_vln_downstream/internnav_vln_results.json",
+    "converted": "cd /cpfs/user/zhuzihou/dev/ConvertAsset && ./scripts/isaac_python.sh /cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/07_internnav_vln_downstream/run_internnav_eval.py --config /cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/configs/converted_eval_cfg.py --internnav-root /cpfs/user/zhuzihou/dev/InternNav --runtime-deps-root /cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523",
     "expected_result_jsons": [
       "logs/convertasset_grscene_sn_original_mini/result.json",
       "logs/convertasset_grscene_sn_nomdl_mini/result.json"
     ],
-    "original": "cd /cpfs/user/zhuzihou/dev/InternNav && python scripts/eval/eval.py --config /cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/configs/original_eval_cfg.py"
+    "original": "cd /cpfs/user/zhuzihou/dev/ConvertAsset && ./scripts/isaac_python.sh /cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/07_internnav_vln_downstream/run_internnav_eval.py --config /cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/configs/original_eval_cfg.py --internnav-root /cpfs/user/zhuzihou/dev/InternNav --runtime-deps-root /cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523"
   },
   "internnav_eval_configs": {
     "converted": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/configs/converted_eval_cfg.py",
     "original": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/configs/original_eval_cfg.py"
   },
   "internnav_git_commit": "7a5c62400ac45b313d9b709c740b64191556a242",
-  "project_git_commit": "8936a8625f7a637341643d947fb662ecdfc11129",
+  "internnav_runtime": {
+    "attn_fallback": "sdpa",
+    "checkpoint_path": "/cpfs/user/zhuzihou/dev/InternNav/checkpoints/InternVLA-N1-DualVLN",
+    "compatibility_patches": [
+      "disable_transformers_sklearn_probe",
+      "flash_attention_2_to_sdpa_when_flash_attn_missing",
+      "pkg_resources_packaging_alias_for_longclip",
+      "lumina_gradient_checkpointing_signature_compat",
+      "nextdit_ffn_dim_multiplier_for_checkpoint_shape"
+    ],
+    "debug_video_outputs": {
+      "reason": "avoid imageio/ffmpeg dependency and large debug video output in the minimal paired smoke run",
+      "vis_debug": false,
+      "vis_output": false
+    },
+    "h1_robot_usd_path": "/cpfs/user/zhuzihou/dev/InternNav/data/Embodiments/vln-pe/h1/h1_internvla.usd",
+    "hf_home": "/cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523/hf_cache",
+    "hf_hub_disable_xet": "1",
+    "internnav_root": "/cpfs/user/zhuzihou/dev/InternNav",
+    "nextdit_checkpoint_ffn_multiplier": 0.6666666666666666,
+    "pythonpath_entries": [
+      "/cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523/python_target",
+      "/cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523/internutopia_probe",
+      "/cpfs/user/zhuzihou/dev/InternNav"
+    ],
+    "runtime_deps_root": "/cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523",
+    "wrapper_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/07_internnav_vln_downstream/run_internnav_eval.py"
+  },
+  "project_git_commit": "85128d82c1b7c0047be32ec88fe74b959604cbce",
   "runtime_requirements": {
-    "hard_blockers_before_metrics": [
+    "not_required_for_this_preparation_step": [
+      "pxr",
+      "omni",
+      "InternNav model import"
+    ],
+    "required_for_real_metrics": [
       "internutopia",
       "internutopia_extension",
       "Isaac Sim omni runtime",
@@ -68,11 +102,6 @@
       "torch",
       "InternVLA-N1 or alternate VLN model checkpoint",
       "H1 robot USD and policy assets"
-    ],
-    "not_required_for_this_preparation_step": [
-      "pxr",
-      "omni",
-      "InternNav model import"
     ]
   },
   "scene_data": {

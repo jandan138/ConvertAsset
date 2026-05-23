@@ -1,10 +1,13 @@
 # ACL VLM Benchmark Selection
 
-Checked: 2026-05-20.
+Checked: 2026-05-23.
 
 ## Recommendation
 
-Use **GRScenes-100 + PIO-style VLM grounding** as the primary ACL experiment route. Use **InternNav / VL-LN** as the downstream navigation extension after the grounding pilot is working.
+Use **GRScenes-100 + PIO-style VLM grounding** as the primary ACL experiment
+route. Use **InternNav / VL-LN** as the downstream navigation extension: a
+one-episode smoke run now works, but it must scale before it can carry broad
+paper claims.
 
 This route is the best fit because the original GRScenes-100 benchmark package is available locally, is USD-native, contains MDL materials, and exposes object-level semantics that can be turned into language-grounding prompts. The PIO protocol gives us an ACL-shaped VLM evaluation target: ask a model to point to or identify the visual evidence needed for embodied reasoning, then compare original MDL renders against ConvertAsset no-MDL renders.
 
@@ -17,7 +20,7 @@ Local inventory checked on 2026-05-20 found 69 home scenes and 30 commercial sce
 | Candidate | USD asset fit | VLM / language fit | Reproduction cost | Decision |
 |---|---|---|---|---|
 | GRScenes-100 + PIO-style protocol | Strong: original local USD benchmark package with MDL materials | Strong if we generate referred-object and task-driven grounding prompts | Low-medium: uses official GRScenes source plus local engineering mirror for smoke tests | Primary ACL experiment |
-| InternNav / VL-LN | Strong via InternUtopia / Isaac Sim / GRScenes ecosystem | Strong: dialog-enabled navigation and language-conditioned goals | Medium: heavier simulator and navigation stack | Secondary downstream extension |
+| InternNav / VL-LN | Strong via InternUtopia / Isaac Sim / GRScenes ecosystem | Strong: dialog-enabled navigation and language-conditioned goals | Medium: heavier simulator and navigation stack; one-episode smoke is reproducible, aggregate run still pending | Secondary downstream extension |
 | BEHAVIOR-1K / OmniGibson | Strong Omniverse/Isaac Sim family | Strong household tasks and manipulation | Medium-high: larger install/runtime surface | Optional future extension |
 | OpenEQA-style embodied QA | Weak for this repo unless we re-render our own assets | Strong VLM embodied QA framing | Medium | Not primary |
 | ChaChaBench / OmniGibson video VLM | Indirect | VLM video reasoning | Medium | Not primary because the metric is motion/video, not material-grounded object recognition |

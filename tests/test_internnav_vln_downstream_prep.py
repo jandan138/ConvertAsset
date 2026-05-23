@@ -1,12 +1,15 @@
 import gzip
 import importlib.util
 import json
+import sys
+import types
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstream/prepare_minipair.py"
 COLLECT_SCRIPT = ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstream/collect_results.py"
+RUN_SCRIPT = ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstream/run_internnav_eval.py"
 
 
 def load_prep_module():
@@ -19,6 +22,14 @@ def load_prep_module():
 
 def load_collect_module():
     spec = importlib.util.spec_from_file_location("internnav_vln_collect_results", COLLECT_SCRIPT)
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def load_run_module():
+    spec = importlib.util.spec_from_file_location("internnav_vln_run_eval", RUN_SCRIPT)
     assert spec and spec.loader
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -119,6 +130,29 @@ def test_prepare_minipair_writes_internnav_dataset_scene_links_and_manifest(tmp_
     assert persisted["scene_records"][0]["converted_fixed_usd"] == str(converted_fixed)
     assert Path(persisted["internnav_eval_configs"]["original"]).exists()
     assert Path(persisted["internnav_eval_configs"]["converted"]).exists()
+    original_eval_cfg = Path(persisted["internnav_eval_configs"]["original"]).read_text(encoding="utf-8")
+    assert '"vis_debug": False' in original_eval_cfg
+    assert '"vis_output": False' in original_eval_cfg
+    original_command = persisted["internnav_eval_commands"]["original"]
+    converted_command = persisted["internnav_eval_commands"]["converted"]
+    assert "run_internnav_eval.py" in original_command
+    assert "scripts/eval/eval.py" not in original_command
+    assert "--config" in original_command
+    assert persisted["internnav_eval_configs"]["original"] in original_command
+    assert "run_internnav_eval.py" in converted_command
+    assert "scripts/eval/eval.py" not in converted_command
+    assert persisted["internnav_eval_configs"]["converted"] in converted_command
+    runtime = persisted["internnav_runtime"]
+    assert runtime["wrapper_path"].endswith(
+        "paper/shared/evidence/experiments/07_internnav_vln_downstream/run_internnav_eval.py"
+    )
+    assert runtime["runtime_deps_root"] == "/cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523"
+    assert runtime["hf_home"] == "/cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523/hf_cache"
+    assert runtime["hf_hub_disable_xet"] == "1"
+    assert runtime["attn_fallback"] == "sdpa"
+    assert runtime["nextdit_checkpoint_ffn_multiplier"] == 2 / 3
+    assert "hard_blockers_before_metrics" not in persisted["runtime_requirements"]
+    assert "required_for_real_metrics" in persisted["runtime_requirements"]
 
 
 def test_prepare_minipair_reports_missing_converted_navigation_usd(tmp_path: Path) -> None:
@@ -294,3 +328,144 @@ def test_collect_results_rejects_count_mismatch(tmp_path: Path) -> None:
         assert "Count does not match prep manifest episode_count" in str(exc)
     else:
         raise AssertionError("collect_results accepted mismatched Count")
+
+
+def test_run_internnav_eval_builds_runtime_env_without_dropping_existing_pythonpath(tmp_path: Path) -> None:
+    module = load_run_module()
+    deps_root = tmp_path / "runtime_deps"
+    internnav_root = tmp_path / "InternNav"
+
+    env = module.build_runtime_env(
+        runtime_deps_root=deps_root,
+        internnav_root=internnav_root,
+        base_env={"PYTHONPATH": "/already/there"},
+    )
+
+    entries = env["PYTHONPATH"].split(":")
+    assert entries[:3] == [
+        str(deps_root / "python_target"),
+        str(deps_root / "internutopia_probe"),
+        str(internnav_root),
+    ]
+    assert entries[3] == "/already/there"
+    assert env["HF_HOME"] == str(deps_root / "hf_cache")
+    assert env["HF_HUB_DISABLE_XET"] == "1"
+
+
+def test_run_internnav_eval_forces_xet_disabled_even_if_parent_env_enables_it(tmp_path: Path) -> None:
+    module = load_run_module()
+    deps_root = tmp_path / "runtime_deps"
+    internnav_root = tmp_path / "InternNav"
+
+    env = module.build_runtime_env(
+        runtime_deps_root=deps_root,
+        internnav_root=internnav_root,
+        base_env={"HF_HUB_DISABLE_XET": "0"},
+    )
+
+    assert env["HF_HUB_DISABLE_XET"] == "1"
+
+
+def test_run_internnav_eval_dry_run_reports_wrapper_configuration(tmp_path: Path, capsys) -> None:
+    module = load_run_module()
+    deps_root = tmp_path / "runtime_deps"
+    internnav_root = tmp_path / "InternNav"
+    config_path = tmp_path / "original_eval_cfg.py"
+    config_path.write_text("eval_cfg = None\n", encoding="utf-8")
+
+    exit_code = module.main(
+        [
+            "--config",
+            str(config_path),
+            "--runtime-deps-root",
+            str(deps_root),
+            "--internnav-root",
+            str(internnav_root),
+            "--dry-run",
+        ]
+    )
+
+    assert exit_code == 0
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["config_path"] == str(config_path)
+    assert payload["internnav_root"] == str(internnav_root)
+    assert payload["runtime_deps_root"] == str(deps_root)
+    assert payload["preload_internvla_policy"] is True
+
+
+def test_run_internnav_eval_selects_sdpa_when_flash_attention_is_missing() -> None:
+    module = load_run_module()
+
+    assert (
+        module.select_attn_implementation(
+            requested="flash_attention_2",
+            fallback="sdpa",
+            flash_attention_available=False,
+        )
+        == "sdpa"
+    )
+    assert (
+        module.select_attn_implementation(
+            requested="flash_attention_2",
+            fallback="sdpa",
+            flash_attention_available=True,
+        )
+        == "flash_attention_2"
+    )
+    assert (
+        module.select_attn_implementation(
+            requested="eager",
+            fallback="sdpa",
+            flash_attention_available=False,
+        )
+        == "eager"
+    )
+
+
+def test_run_internnav_eval_sets_gradient_checkpointing_on_nested_modules() -> None:
+    module = load_run_module()
+
+    class Child:
+        gradient_checkpointing = False
+
+    child = Child()
+
+    class Parent:
+        gradient_checkpointing = False
+
+        def modules(self):
+            return [self, child]
+
+    parent = Parent()
+    module.set_gradient_checkpointing_compat(parent, enable=True)
+
+    assert parent.gradient_checkpointing is True
+    assert child.gradient_checkpointing is True
+
+
+def test_run_internnav_eval_exposes_packaging_on_pkg_resources(monkeypatch) -> None:
+    module = load_run_module()
+    fake_pkg_resources = types.SimpleNamespace()
+    fake_packaging = types.SimpleNamespace(version="fake")
+    monkeypatch.setitem(sys.modules, "pkg_resources", fake_pkg_resources)
+    monkeypatch.setitem(sys.modules, "packaging", fake_packaging)
+
+    module.patch_pkg_resources_packaging()
+
+    assert fake_pkg_resources.packaging is fake_packaging
+
+
+def test_run_internnav_eval_patches_nextdit_config_default_ffn_multiplier() -> None:
+    module = load_run_module()
+
+    class FakeNextDiTConfig:
+        def __init__(self, **kwargs):
+            self.kwargs = kwargs
+
+    module.patch_nextdit_config_default_ffn_multiplier(FakeNextDiTConfig)
+
+    default_cfg = FakeNextDiTConfig(latent_embedding_size=768)
+    explicit_cfg = FakeNextDiTConfig(ffn_dim_multiplier=0.5)
+
+    assert default_cfg.kwargs["ffn_dim_multiplier"] == 2 / 3
+    assert explicit_cfg.kwargs["ffn_dim_multiplier"] == 0.5

@@ -1,0 +1,72 @@
+{
+  "claim_boundary": "actual_internnav_metrics_from_supplied_result_jsons",
+  "episode_count": 1,
+  "generated_at": "2026-05-23T11:38:25.075508Z",
+  "input_results": {
+    "converted": {
+      "hash_sha256": "5b7b6208ef55ece7a320964c2f91f295ec52c2bfcb4c5bbaa9bb630615f28368",
+      "path": "/cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_nomdl_mini/result.json"
+    },
+    "original": {
+      "hash_sha256": "3c9ba6b8146e9f49acc6ebd33708ed5f7fa9c36a77caff881afc8001e135805f",
+      "path": "/cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_original_mini/result.json"
+    }
+  },
+  "interpretation_guardrail": "This file is valid only if the supplied InternNav result.json files come from the matching prep_manifest original and converted configs.",
+  "metric_deltas": {
+    "Count": 0.0,
+    "FR": 0.0,
+    "NE": 33.7468,
+    "OS": 0.0,
+    "SPL": 0.0,
+    "SR": 0.0,
+    "StR": 0.0,
+    "TL": 33.5054
+  },
+  "metrics": {
+    "converted": {
+      "Count": 1.0,
+      "FR": 0.0,
+      "NE": 42.1053,
+      "OS": 0.0,
+      "SPL": 0.0,
+      "SR": 0.0,
+      "StR": 0.0,
+      "TL": 98.2783
+    },
+    "original": {
+      "Count": 1.0,
+      "FR": 0.0,
+      "NE": 8.3585,
+      "OS": 0.0,
+      "SPL": 0.0,
+      "SR": 0.0,
+      "StR": 0.0,
+      "TL": 64.7729
+    }
+  },
+  "prep_manifest": {
+    "hash_sha256": "12f73442d130996ecbc8d551ea028e5016ca5f802cb060351e327ff26b271de8",
+    "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/internnav_vln_downstream/prep_manifest.json"
+  },
+  "project_git_commit": "85128d82c1b7c0047be32ec88fe74b959604cbce",
+  "scene_records": [
+    {
+      "blocked_by": [],
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/scene_data/converted/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/scene_data/converted/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/scene_data/original/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523/scene_data/original/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source_scene_split": "home_scenes"
+    }
+  ],
+  "schema_version": 1,
+  "split": "mini"
+}

@@ -28,6 +28,17 @@ The repo evidence manifest is:
 paper/shared/evidence/raw/internnav_vln_downstream/prep_manifest.json
 ```
 
+The paired real-metric summary is:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/internnav_vln_results.json
+```
+
+`run_internnav_eval.py` is the ConvertAsset-side wrapper for the real InternNav
+eval. It runs InternNav under `./scripts/isaac_python.sh`, adds the external
+runtime dependency root to `PYTHONPATH`, pins `HF_HOME`, disables Hugging Face
+Xet, and applies the compatibility patches recorded in `prep_manifest.json`.
+
 ## Current Smoke Pair
 
 The first prepared pair uses:
@@ -76,15 +87,38 @@ expected log suffix recorded in `prep_manifest.json`, and each result split's
 `Count` must match the prepared episode count. This prevents stale or unrelated
 InternNav runs from becoming paper evidence by accident.
 
-## Current Runtime Blockers
+## Current Smoke Result
 
-The input pair is ready for an InternNav runtime, but SR/SPL metrics have not
-been produced yet. Current blockers are:
+Real InternNav / InternVLA-N1 smoke runs were completed on 2026-05-23 for one
+GRScenes SN episode:
 
-- no `internutopia` conda environment in the local conda-managed install;
-- missing `internutopia`, `internutopia_extension`, `lmdb`, `msgpack_numpy`,
-  and `transformers`;
-- missing `data/Embodiments/vln-pe/h1/h1_internvla.usd`;
-- missing `checkpoints/InternVLA-N1-DualVLN`.
+| condition | TL | NE | SR | SPL | Count | runtime result |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| original | 64.7729 | 8.3585 | 0.0 | 0.0 | 1 | `exceed_total_max_step` |
+| no-MDL | 98.2783 | 42.1053 | 0.0 | 0.0 | 1 | `exceed_total_max_step` |
+| no-MDL minus original | +33.5054 | +33.7468 | 0.0 | 0.0 | 0 | longer and farther from goal |
 
-Isaac Python has `torch` and `omni`, but not the InternNav/InternUtopia stack.
+Both conditions failed this single navigation episode, so this is not success
+evidence. It is a real embodied downstream smoke result showing that the
+original vs no-MDL pair can be executed end-to-end and that the material
+intervention changes trajectory length and final navigation error. Treat this as
+protocol evidence and a failure-case seed; do not use it as a broad InternNav
+performance claim.
+
+Persisted InternNav logs:
+
+```text
+/cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_original_mini
+/cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_nomdl_mini
+```
+
+The current minimal runtime dependency root is external to git and about 17 GiB:
+
+```text
+/cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523
+```
+
+Debug video output remains disabled in the generated configs to avoid extra
+`imageio`/`ffmpeg` dependencies and large output files. The canonical evidence
+for this smoke run is `result.json`, the progress logs, and
+`internnav_vln_results.json`.

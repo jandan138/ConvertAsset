@@ -334,3 +334,11 @@ disagreement cases. The current evidence is therefore strongest as a protocol
 and material-shift stress-test result. It does not yet establish broad VLM
 robustness or embodied downstream task gains; those require a larger clean
 benchmark or navigation/manipulation transfer evaluation.
+
+We also ran a one-episode InternNav/DualVLN smoke test on the same GRScenes
+intervention route to verify that the paired USDs can drive a real embodied
+navigation stack. Both original and noMDL conditions reached the maximum-step
+termination with SR/SPL equal to zero, but the noMDL condition changed the
+trajectory statistics substantially: TL increased from 64.7729 to 98.2783 and
+NE increased from 8.3585 to 42.1053. We treat this as protocol evidence and a
+registered failure case, not as aggregate navigation performance evidence.

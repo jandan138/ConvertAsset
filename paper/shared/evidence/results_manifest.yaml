@@ -33,7 +33,10 @@ results:
       description: "ACL/VLM GRScenes source scene and episode selection provenance; not a model-result file."
     - id: internnav_vln_prep_manifest
       path: paper/shared/evidence/raw/internnav_vln_downstream/prep_manifest.json
-      description: "InternNav/VL-LN downstream input-preparation manifest for one GRScenes SN original/no-MDL navigation pair; input gate only, not SR/SPL result evidence."
+      description: "InternNav/VL-LN downstream input-preparation manifest for one GRScenes SN original/no-MDL navigation pair, including external runtime wrapper metadata."
+    - id: internnav_vln_smoke_results
+      path: paper/shared/evidence/raw/internnav_vln_downstream/internnav_vln_results.json
+      description: "One-episode real InternNav/InternVLA-N1 paired smoke result: both original and no-MDL have SR/SPL 0, while no-MDL increases TL by 33.5054 and NE by 33.7468; protocol evidence only, not a broad benchmark claim."
     - id: grscenes_vlm_target_manifest
       path: paper/shared/evidence/raw/grscene_vlm_grounding/target_manifest.json
       description: "ACL/VLM GRScenes target prim and world-bbox localization provenance for 40 episode records / 23 unique targets; not a model-result file."
