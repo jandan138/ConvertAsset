@@ -43,6 +43,10 @@ both original and no-MDL failed with `SR=0` and `SPL=0`, while the no-MDL run ha
 larger `TL` and `NE`. That can be written as a failure-case seed, not as a broad
 benchmark conclusion.
 
+本轮 `acl_main_pilot30` 的运行记录里也出现过两类无效实验启动：
+第一类是资源准备失败，第二类是旧 LMDB 断点污染。它们都不能被写成
+downstream 结论，只能作为工程踩坑和运行门禁记录。
+
 ## Promotion Criteria
 
 Minimum pilot-main criteria:
@@ -181,12 +185,84 @@ The invalid original-only partial metrics at `Count=12` were:
 
 This artifact must not be used as paper evidence.
 
+这次归档对应 `invalid_broken_sidecars`：`@models/...@` 和
+`@Materials/...@` sidecar 缺失导致 USD 引用解析坏掉。它是工程准备失败，
+不能说明导航 agent 因为 original 或 converted 材质而失败；只能说明输入场景
+包本身无效。
+
+## Runtime Observation And LMDB Resume Trap
+
+sidecar 修复后，第二次 original-side pilot30 启动仍然不是干净的 30 条任务。
+它的第一行 progress 输出是：
+
+```text
+total_path: 18
+```
+
+根因是 InternNav 的断点/已完成状态没有一起清掉。上一轮只归档了
+`InternNav/logs/...` 里的任务目录，但 completed/resume 状态仍然留在：
+
+```text
+/cpfs/user/zhuzihou/dev/InternNav/data/sample_episodes/<task_name>/sample_data0.lmdb
+```
+
+这个 LMDB 仍然带着 broken-sidecar run 已完成的 12 条记录，所以 InternNav
+把重启后的任务当成 resume，只暴露剩余 18 条 path。第二次启动也已归档为
+invalid `resumed_lmdb` / `invalid_resumed_lmdb`，同样只是工程运行 artifact，
+不能作为 paper evidence。
+
+有效的 clean pilot30 rerun 必须同时清理或归档两个状态根：
+
+```text
+/cpfs/user/zhuzihou/dev/InternNav/logs/<task_name>
+/cpfs/user/zhuzihou/dev/InternNav/data/sample_episodes/<task_name>
+```
+
+第一行 progress 现在是硬门禁，必须严格等于：
+
+```text
+total_path: 30
+```
+
+只要不是这个值，就说明 run 继承了旧状态，或者 episode set 准备错了，不能当作
+有效 pilot30 结果使用。
+
+## Current Clean Original Run
+
+当前 clean original-side `acl_main_pilot30` 已在同时清理 log 目录和
+`data/sample_episodes` 状态后启动。它已经通过 run-shape gate：第一行 progress
+输出确认是 `total_path: 30`。
+
+主会话观察窗口里，已有若干 episode 以这些 terminal status 结束：
+
+```text
+not_reach_goal
+exceed_total_max_step
+```
+
+这些状态表示对应 episode 的导航任务失败，但程序协议是有效的：场景包能加载，
+任务数是干净的，InternNav 也正常执行到 episode terminal state。它们必须和
+broken sidecars、旧 LMDB 污染这类工程失败分开解释。
+
+最终 paper-facing 指标仍在等待。只有完整 30 条 clean original 和匹配的 30 条
+modified 都完成，并能做 paired analysis 后，claim gate 才能打开。
+
+## Failure Boundary
+
+后续 triage InternNav run 时使用这个边界：
+
+| 类别 | 例子 | 论文状态 |
+|---|---|---|
+| 工程失败 | 缺 `@models/...@` 或 `@Materials/...@` sidecar；旧 `data/sample_episodes/<task_name>/sample_data0.lmdb` 污染；第一行不是 `total_path: 30` | 无效 run artifact。归档，但不要用于 downstream claims。 |
+| 任务失败 | `not_reach_goal`；`exceed_total_max_step`；episode 数符合预期且有正常 terminal metrics | 有效 episode outcome。只有 original 和 modified 两侧都完整并配对后再纳入分析。 |
+
 ## Next Work
 
-1. Rerun original pilot30 from the repaired work root.
-2. Inspect the final original result and logs.
-3. Run the modified pilot30 counterpart with stdout redirected to a log file.
-4. Extract aggregate and per-episode metrics for both conditions.
-5. Run paired analysis and select video cases.
-6. Generate selected-only video reruns and side-by-side mp4s.
-7. Update the ACL paper only after the claim gate records real paired results.
+1. Let the clean original pilot30 complete and inspect its final result and
+   logs.
+2. Run the modified pilot30 counterpart from equally clean logs and
+   `data/sample_episodes` state, with stdout redirected to a log file.
+3. Extract aggregate and per-episode metrics for both conditions.
+4. Run paired analysis and select video cases.
+5. Generate selected-only video reruns and side-by-side mp4s.
+6. Update the ACL paper only after the claim gate records real paired results.
