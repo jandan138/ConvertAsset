@@ -8,13 +8,17 @@ conversion on four Isaac Sim assets using paired image quality, rendering, and
 feature-similarity metrics, finding high visual fidelity (mean PSNR
 35.52\,dB, SSIM 0.990, LPIPS 0.020) and strong CLIP/DINOv2 similarity. We then
 extend the route to GRScenes by converting a scratch copy of the benchmark
-scenes and running matched original/converted VLM grounding pilots. The current
-real-model evidence remains pilot-scale: a 15-pair clean visual-QA pool and a
-14-pair material-shift stress pool expose model- and coordinate-protocol
-sensitivity rather than supporting a final benchmark claim. The main result is
-therefore methodological: visual fidelity alone is not sufficient evidence that
-a converted synthetic scene preserves language-grounding behavior. VLM
-grounding evaluations should separate clean preservation pools from
-material-shift stress pools, freeze coordinate contracts, and register claim
-boundaries before reporting downstream robustness.
+scenes and running matched original/converted VLM grounding probes. The
+clean-preservation branch remains pilot-scale at 15 visually accepted pairs,
+while a frozen 30-pair target-centered material-shift stress set now has canonical Gemma4
+predictions and scores: answer accuracy is 30/30 for both material conditions
+and normalized-1000 point hits are 27/30 on original renders versus 29/30 on
+converted renders. A Qwen2.5-VL diagnostic over the same manifest exposes a
+different coordinate preference, with stronger raw pixel-space point scores
+than normalized-1000 scores. The main result is therefore methodological:
+visual fidelity alone is not sufficient evidence that a converted synthetic
+scene preserves language-grounding behavior. VLM grounding evaluations should
+separate clean preservation pools from material-shift stress pools, freeze
+coordinate contracts, and register claim boundaries before reporting downstream
+robustness.
 \end{abstract}

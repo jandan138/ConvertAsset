@@ -17,20 +17,25 @@ OUT_STEM = FIG_DIR / "fig_vlm_grounding_cases"
 OUT_PNG = OUT_STEM.with_suffix(".png")
 OUT_PDF = OUT_STEM.with_suffix(".pdf")
 
-CELL_W = 300
-CELL_H = 225
+CELL_W = 260
+CELL_H = 205
 MARGIN = 24
-GAP_X = 22
-GAP_Y = 18
+GAP_X = 14
+GAP_Y = 24
 TITLE_H = 34
-STATUS_H = 28
+STATUS_H = 46
 HEADER_H = 22
+CASE_COLUMNS = 2
+CASE_GAP_X = 28
+POINT_RADIUS = 7
+POINT_HALO_RADIUS = 10
 
 BOX_COLOR = (0, 160, 120)
 POINT_COLOR = (210, 40, 40)
 MISS_COLOR = (160, 80, 30)
 TEXT_COLOR = (25, 25, 25)
 MUTED = (90, 90, 90)
+MAX_ANSWER_CHARS = 15
 
 
 class CaseEntry(NamedTuple):
@@ -78,22 +83,22 @@ CASE_SPECS = [
         "score_metric": "point_in_bbox",
     },
     {
-        "title": "Zoom stress success",
-        "split": "zoom",
+        "title": "Expanded stress success",
+        "split": "stress",
         "model": "Gemma4",
         "pair_id": "47aa36277a54f6ca90cc.zoom_018",
-        "predictions": RAW / "zoom_stress_probes" / "gemma4_zoom_stress_predictions.jsonl",
-        "score_summary": RAW / "zoom_stress_probes" / "gemma4_zoom_stress_score_summary.json",
+        "predictions": RAW / "stress_predictions.jsonl",
+        "score_summary": RAW / "stress_score_summary.json",
         "point_frame": "normalized_1000",
         "score_metric": "point_in_bbox_normalized_1000",
     },
     {
-        "title": "Zoom stress disagreement",
-        "split": "zoom",
+        "title": "Expanded stress disagreement",
+        "split": "stress",
         "model": "Qwen2.5-VL",
         "pair_id": "c8ee4b66274b05d242c2.zoom_017",
-        "predictions": RAW / "zoom_stress_probes" / "qwen25_zoom_stress_structured_predictions.jsonl",
-        "score_summary": RAW / "zoom_stress_probes" / "qwen25_zoom_stress_structured_score_summary.json",
+        "predictions": RAW / "stress_expanded30_probes" / "qwen25_stress_expanded30_structured_predictions.jsonl",
+        "score_summary": RAW / "stress_expanded30_probes" / "qwen25_stress_expanded30_structured_score_summary.json",
         "point_frame": "raw_pixel",
         "score_metric": "point_in_bbox",
     },
@@ -200,6 +205,29 @@ def _status(value: bool | None, *, positive: str, negative: str) -> str:
     return "n/a"
 
 
+def _short_answer(answer: str | None) -> str:
+    if not answer:
+        return "none"
+    if len(answer) <= MAX_ANSWER_CHARS:
+        return answer
+    return answer[:MAX_ANSWER_CHARS].rstrip() + "..."
+
+
+def status_line(entry: CaseEntry) -> str:
+    point_status = _status(entry.score_hit, positive="pt hit", negative="pt miss")
+    answer_status = _status(entry.answer_match, positive="ans hit", negative="ans miss")
+    return f"{entry.version}: {point_status}, {answer_status}"
+
+
+def answer_line(entry: CaseEntry) -> str:
+    return f"ans={_short_answer(entry.answer)}"
+
+
+def case_title(case: GroundingCase) -> str:
+    point_label = "norm1000" if case.point_frame == "normalized_1000" else "raw"
+    return f"{case.title} | {case.model} | target={case.target_category} | {point_label}"
+
+
 def _fit_image(path: Path) -> tuple[Image.Image, float, int, int]:
     img = Image.open(path).convert("RGB")
     scale = min(CELL_W / img.width, CELL_H / img.height)
@@ -228,22 +256,32 @@ def _draw_entry(draw: ImageDraw.ImageDraw, canvas: Image.Image, entry: CaseEntry
         px, py = entry.point_xy
         cx = x + ox + px * scale
         cy = y + oy + py * scale
-        r = 5
         color = POINT_COLOR if entry.score_hit is True else MISS_COLOR
-        draw.ellipse((cx - r, cy - r, cx + r, cy + r), fill=color, outline="white", width=2)
-        draw.line((cx - 8, cy, cx + 8, cy), fill="white", width=1)
-        draw.line((cx, cy - 8, cx, cy + 8), fill="white", width=1)
+        halo = POINT_HALO_RADIUS
+        r = POINT_RADIUS
+        draw.ellipse((cx - halo, cy - halo, cx + halo, cy + halo), fill="white", outline=(20, 20, 20), width=1)
+        draw.ellipse((cx - r, cy - r, cx + r, cy + r), fill=color, outline=(20, 20, 20), width=1)
+        draw.line((cx - halo, cy, cx + halo, cy), fill="white", width=2)
+        draw.line((cx, cy - halo, cx, cy + halo), fill="white", width=2)
     draw.rectangle((x, y, x + CELL_W, y + CELL_H), outline=(170, 170, 170), width=1)
 
 
-def _draw_case(canvas: Image.Image, draw: ImageDraw.ImageDraw, case: GroundingCase, row: int) -> None:
-    y = MARGIN + HEADER_H + row * (TITLE_H + CELL_H + STATUS_H + GAP_Y)
-    left_x = MARGIN
-    right_x = MARGIN + CELL_W + GAP_X
-    point_label = "norm1000 point" if case.point_frame == "normalized_1000" else "raw point"
-    title = f"{case.title}: {case.model}, target={case.target_category}, {point_label}"
-    draw.text((left_x, y + 4), title, fill=TEXT_COLOR)
-    draw.text((left_x, y + 18), case.pair_id, fill=MUTED)
+def _case_block_width() -> int:
+    return CELL_W * 2 + GAP_X
+
+
+def _case_block_height() -> int:
+    return TITLE_H + CELL_H + STATUS_H
+
+
+def _draw_case(canvas: Image.Image, draw: ImageDraw.ImageDraw, case: GroundingCase, index: int) -> None:
+    grid_row = index // CASE_COLUMNS
+    grid_col = index % CASE_COLUMNS
+    block_w = _case_block_width()
+    y = MARGIN + HEADER_H + grid_row * (_case_block_height() + GAP_Y)
+    left_x = MARGIN + grid_col * (block_w + CASE_GAP_X)
+    right_x = left_x + CELL_W + GAP_X
+    draw.text((left_x, y + 8), case_title(case), fill=TEXT_COLOR)
 
     image_y = y + TITLE_H
     _draw_entry(draw, canvas, case.entries["original"], left_x, image_y)
@@ -251,21 +289,22 @@ def _draw_case(canvas: Image.Image, draw: ImageDraw.ImageDraw, case: GroundingCa
 
     for x, version in ((left_x, "original"), (right_x, "converted")):
         entry = case.entries[version]
-        point_status = _status(entry.score_hit, positive="point hit", negative="point miss")
-        answer_status = _status(entry.answer_match, positive="answer hit", negative="answer miss")
-        answer = entry.answer or "none"
-        draw.text((x + 4, image_y + CELL_H + 6), f"{version}: {point_status}, {answer_status}, ans='{answer}'", fill=TEXT_COLOR)
+        draw.text((x + 4, image_y + CELL_H + 5), status_line(entry), fill=TEXT_COLOR)
+        draw.text((x + 4, image_y + CELL_H + 20), answer_line(entry), fill=TEXT_COLOR)
 
 
 def render_figure(cases: list[GroundingCase], *, out_png: Path = OUT_PNG, out_pdf: Path = OUT_PDF) -> None:
-    width = MARGIN * 2 + CELL_W * 2 + GAP_X
-    height = MARGIN * 2 + HEADER_H + len(cases) * (TITLE_H + CELL_H + STATUS_H) + (len(cases) - 1) * GAP_Y
+    row_count = (len(cases) + CASE_COLUMNS - 1) // CASE_COLUMNS
+    width = MARGIN * 2 + CASE_COLUMNS * _case_block_width() + (CASE_COLUMNS - 1) * CASE_GAP_X
+    height = MARGIN * 2 + HEADER_H + row_count * _case_block_height() + (row_count - 1) * GAP_Y
     canvas = Image.new("RGB", (width, height), (248, 248, 248))
     draw = ImageDraw.Draw(canvas)
-    draw.text((MARGIN + 115, MARGIN), "Original MDL render", fill=TEXT_COLOR)
-    draw.text((MARGIN + CELL_W + GAP_X + 92, MARGIN), "Converted no-MDL render", fill=TEXT_COLOR)
-    for row, case in enumerate(cases):
-        _draw_case(canvas, draw, case, row)
+    for col in range(CASE_COLUMNS):
+        block_x = MARGIN + col * (_case_block_width() + CASE_GAP_X)
+        draw.text((block_x + 82, MARGIN), "Original MDL render", fill=TEXT_COLOR)
+        draw.text((block_x + CELL_W + GAP_X + 58, MARGIN), "Converted no-MDL render", fill=TEXT_COLOR)
+    for index, case in enumerate(cases):
+        _draw_case(canvas, draw, case, index)
     canvas.save(out_png)
     canvas.save(out_pdf, "PDF", resolution=300.0)
 

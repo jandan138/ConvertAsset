@@ -105,7 +105,25 @@ results:
       description: "Projected image-space target boxes for the exactly-30 material-shift stress pool; 30 projection_ok and 60 scoring-record skeletons."
     - id: grscenes_vlm_stress_run_manifest_expanded30
       path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded30.json
-      description: "Expanded material-shift stress VLM input/protocol manifest: 30 PASS/WARN zoom pairs, 60 scoring records, model-run-ready=true, and final_benchmark_claimable=false until canonical stress predictions/scores exist."
+      description: "Expanded material-shift stress VLM input/protocol manifest: 30 PASS/WARN zoom pairs, 60 scoring records, model-run-ready=true, and the manifest-internal stress gate opened after canonical stress predictions/scores; paper claims are bounded to the frozen target-centered stress set."
+    - id: grscenes_vlm_gemma4_stress_expanded30_predictions
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl
+      description: "Canonical root Gemma4 structured-text real-model predictions over the expanded 30-pair material-shift stress manifest."
+    - id: grscenes_vlm_gemma4_stress_expanded30_predictions_metadata
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl.metadata.json
+      description: "Provenance sidecar for the canonical root Gemma4 expanded30 stress run."
+    - id: grscenes_vlm_gemma4_stress_expanded30_score
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_score_summary.json
+      description: "Canonical root score summary for the Gemma4 expanded30 stress run: answers 30/30 original and converted, normalized-1000 point hits 27/30 original and 29/30 converted, and normalized-1000 both-hit pairs 27/30."
+    - id: grscenes_vlm_qwen25_stress_expanded30_structured_predictions
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen25_stress_expanded30_structured_predictions.jsonl
+      description: "Qwen2.5-VL structured-text real-model predictions over the same expanded30 stress manifest; second-model diagnostic, not the root canonical file."
+    - id: grscenes_vlm_qwen25_stress_expanded30_structured_predictions_metadata
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen25_stress_expanded30_structured_predictions.jsonl.metadata.json
+      description: "Provenance sidecar for the Qwen2.5-VL expanded30 stress diagnostic."
+    - id: grscenes_vlm_qwen25_stress_expanded30_structured_score
+      path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen25_stress_expanded30_structured_score_summary.json
+      description: "Score summary for the Qwen2.5-VL expanded30 stress diagnostic: 55/60 scorable answers, raw point hits 22/29 original and 19/29 converted, normalized-1000 point hits 3/29 for both material conditions."
     - id: grscenes_vlm_clean_pool_pass15_projection
       path: paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_pass15_projection_qa_report.json
       description: "Projection subset for the 15 clean visual-QA PASS original/no-MDL pairs; label provenance only, not final model-result evidence."
@@ -260,6 +278,17 @@ results:
         - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/gemma4_zoom_stress_score_summary.json
         - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_score_summary.json
       description: "Pilot-only table source and LaTeX for the 14-pair zoom material-shift stress Gemma4/Qwen grounding probes; not clean material-preservation or final benchmark performance."
+    - id: grscenes_vlm_stress_expanded30
+      outputs:
+        - paper/shared/tables/grscenes_vlm_stress_expanded30.csv
+        - paper/shared/tables/tab_grscenes_vlm_stress_expanded30.tex
+      generated_by: paper/shared/tables/gen_vlm_stress_expanded30.py
+      sources:
+        - paper/shared/evidence/raw/grscene_vlm_grounding/stress_score_summary.json
+        - paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl.metadata.json
+        - paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen25_stress_expanded30_structured_score_summary.json
+        - paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen25_stress_expanded30_structured_predictions.jsonl.metadata.json
+      description: "Expanded30 material-shift stress VLM table. Gemma4 is the canonical root run for the frozen target-centered stress set; Qwen2.5-VL is a second-model diagnostic under the same frozen manifest."
     - id: grscenes_vlm_coordinate_ablation
       outputs:
         - paper/shared/tables/grscenes_vlm_coordinate_ablation.csv

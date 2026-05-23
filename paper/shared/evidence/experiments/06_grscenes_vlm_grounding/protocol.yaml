@@ -199,10 +199,10 @@ paper_claim_gate:
       - WARN
     minimum_stress_pairs_for_final_benchmark: 30
     minimum_target_categories_for_final_benchmark: 5
-    canonical_manifest: paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest.json
+    canonical_manifest: paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded30.json
     canonical_predictions: paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl
     canonical_score_summary: paper/shared/evidence/raw/grscene_vlm_grounding/stress_score_summary.json
-    claim_boundary: stress_input_manifest_only_not_final_model_metric_evidence
+    claim_boundary: frozen_expanded30_material_shift_stress_set
 reporting:
   raw_dir: paper/shared/evidence/raw/grscene_vlm_grounding
   predictions: paper/shared/evidence/raw/grscene_vlm_grounding/predictions.jsonl

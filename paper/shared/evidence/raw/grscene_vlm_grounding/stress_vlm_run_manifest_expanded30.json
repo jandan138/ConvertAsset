@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "status": "stress_vlm_run_manifest",
-  "claim_status": "pilot_only",
-  "final_benchmark_claimable": false,
-  "generated_at_utc": "2026-05-22T16:43:45.768029Z",
+  "claim_status": "final_stress_benchmark_ready",
+  "final_benchmark_claimable": true,
+  "generated_at_utc": "2026-05-23T08:22:14.359213Z",
   "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_stress_vlm_run_manifest.py",
   "summary": {
     "selection_id": "zoom_material_shift_stress_expanded30_v1",
@@ -18,12 +18,9 @@
     "min_stress_pairs_for_final_benchmark": 30,
     "min_target_categories_for_final_benchmark": 5,
     "ready_for_model_run": true,
-    "ready_for_final_benchmark_run": false,
+    "ready_for_final_benchmark_run": true,
     "model_run_blockers": [],
-    "blockers": [
-      "canonical_predictions_missing",
-      "canonical_score_summary_missing"
-    ],
+    "blockers": [],
     "missing_visual_review_pair_ids": [],
     "projection_blocked_pair_ids": [],
     "unsupported_verdict_pair_ids": [],
@@ -53,22 +50,18 @@
     "response_format_note": "Use structured_text for Qwen-family backends until direct JSON prompting is revalidated."
   },
   "claim_gate": {
-    "claim_status": "pilot_only",
-    "final_benchmark_claimable": false,
-    "blocked_by": [
-      "canonical_predictions_missing",
-      "canonical_score_summary_missing"
-    ],
+    "claim_status": "final_stress_benchmark_ready",
+    "final_benchmark_claimable": true,
+    "blocked_by": [],
     "allowed_claims": [
-      "pilot-only material-shift stress protocol definition",
-      "pilot-only Gemma4/Qwen stress diagnostics if model outputs are generated under this manifest",
+      "frozen 30-pair target-centered material-shift stress set",
+      "Gemma4/Qwen stress diagnostics if model outputs are generated under this manifest",
       "stress candidate selection and target-visible visual QA provenance"
     ],
     "forbidden_claims": [
-      "not a final GRScenes benchmark result",
       "not a clean material-preservation benchmark",
       "not evidence that no-MDL conversion preserves VLM grounding in general",
-      "not a Gemma4-vs-Qwen model comparison",
+      "not a Gemma4-vs-Qwen model comparison unless both canonical model outputs are reported",
       "not a PIO dataset evaluation"
     ]
   },
@@ -4331,15 +4324,15 @@
     ],
     "protocol": {
       "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/protocol.yaml",
-      "hash_sha256": "3a0a4919172be3cf8806b068f4ba12339ef28e1a4b0472a71e6e563751bcbed6"
+      "hash_sha256": "5843dd09745d105c3033c262d2ecc0e789bffc736a80e052f4bbab85167d4d63"
     },
     "predictions_path": {
       "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl",
-      "exists": false
+      "exists": true
     },
     "score_summary_path": {
       "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/stress_score_summary.json",
-      "exists": false
+      "exists": true
     },
     "runner": {
       "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
@@ -4368,10 +4361,35 @@
       "paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded30.json"
     ],
     "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_stress_vlm_run_manifest.py",
-    "script_hash_sha256": "7a47b69a1714773b12a5a3a19aeb789feadcfd7e855ed7e2424b534c2415763c",
-    "git_commit": "f2e05d7cc509eae2d393e6afed36bb12e3228cee",
+    "script_hash_sha256": "0fc8319e874287efa6cfa3fbcf791143ea79626e6afd07b6e87c44077782e71c",
+    "git_commit": "4716d7e04b489b7aa6e009f0e9f82be70d838716",
     "git_status_porcelain": [
-      "?? 197 untracked files omitted from provenance"
+      " M docs/records/2026-05-22-grscenes-stress-expanded30-render-gate.md",
+      " M paper/EXPERIMENT_CHECKLIST.md",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/README.md",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_stress_vlm_run_manifest.py",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/protocol.yaml",
+      " M paper/shared/evidence/raw/grscene_vlm_grounding/README.md",
+      " M paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded30.json",
+      " M paper/shared/evidence/results_manifest.yaml",
+      " M paper/shared/figures/fig_vlm_grounding_cases.pdf",
+      " M paper/shared/figures/fig_vlm_grounding_cases.png",
+      " M paper/shared/figures/gen_vlm_grounding_cases.py",
+      " M paper/shared/sections/abstract.tex",
+      " M paper/shared/sections/conclusion.tex",
+      " M paper/shared/sections/discussion.tex",
+      " M paper/shared/sections/experiments.tex",
+      " M paper/shared/sections/method.tex",
+      " M paper/shared/tables/README.md",
+      " M paper/venues/acl27/STATUS.md",
+      " M paper/venues/acl27/main.tex",
+      " M paper/venues/acl27/sections/abstract.tex",
+      " M paper/venues/acl27/sections/conclusion.tex",
+      " M paper/venues/acl27/sections/intro.tex",
+      " M paper/venues/acl27/sections/limitations.tex",
+      " M tests/test_grscenes_vlm_stress_manifest.py",
+      " M tests/test_vlm_grounding_case_figure.py",
+      "?? 12 untracked files omitted from provenance"
     ]
   }
 }

@@ -60,7 +60,7 @@ canonical_score_summary_missing
 ```
 
 Plain version: the rendering and target-label gates are now good enough to run
-Gemma4/Qwen over the 30-pair stress pool. It is still not final benchmark
+Gemma4/Qwen over the 30-pair stress pool. It is still not citable stress-set
 evidence until real model predictions and score summaries are generated.
 
 ## Important lesson
@@ -137,3 +137,109 @@ paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded
 Use the existing structured-text normalized-1000 protocol. The output should be
 new canonical expanded-stress prediction and score files, not replacements for
 the older 14-pair pilot probes unless the manuscript is intentionally updated.
+
+## 2026-05-23 VLM inference and paper integration update
+
+The next gate above has now been executed.
+
+Canonical Gemma4 stress outputs:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl
+paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl.metadata.json
+paper/shared/evidence/raw/grscene_vlm_grounding/stress_score_summary.json
+```
+
+Second-model Qwen2.5-VL diagnostic outputs:
+
+```text
+paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen25_stress_expanded30_structured_predictions.jsonl
+paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen25_stress_expanded30_structured_predictions.jsonl.metadata.json
+paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen25_stress_expanded30_structured_score_summary.json
+```
+
+After regenerating `stress_vlm_run_manifest_expanded30.json`, the
+manifest-internal stress gate is open:
+
+```text
+claim_status: final_stress_benchmark_ready
+final_benchmark_claimable: true
+ready_for_final_benchmark_run: true
+blockers: []
+```
+
+Paper wording caveat: despite the legacy field names above, the ACL text should
+describe this as a frozen 30-pair target-centered stress set, not a broad
+GRScenes benchmark.
+
+Gemma4 result summary:
+
+```text
+answer accuracy: 30/30 original, 30/30 converted
+normalized-1000 point-in-bbox: 27/30 original, 29/30 converted
+normalized-1000 pair hit agreement: 28/30
+normalized-1000 both-hit pairs: 27/30
+raw pixel point-in-bbox diagnostic: 1/30 original, 1/30 converted
+```
+
+Qwen2.5-VL diagnostic summary:
+
+```text
+scorable answer rows: 55/60
+answer hits: 27/29 original, 24/26 converted
+raw point-in-bbox: 22/29 original, 19/29 converted
+normalized-1000 point-in-bbox: 3/29 original, 3/29 converted
+```
+
+Paper integration changes:
+
+- added `paper/shared/tables/gen_vlm_stress_expanded30.py`;
+- generated `grscenes_vlm_stress_expanded30.csv` and
+  `tab_grscenes_vlm_stress_expanded30.tex`;
+- updated `paper/shared/sections/experiments.tex` to use the expanded30 stress
+  result instead of the old 14-pair zoom stress pilot as the main stress table;
+- updated `fig_vlm_grounding_cases` so the stress examples point to the
+  expanded30 outputs;
+- registered the new raw outputs and table in
+  `paper/shared/evidence/results_manifest.yaml`;
+- updated the ACL wrapper abstract, introduction, conclusion, and status.
+
+One visual QA pass over the updated grounding-case figure returned `WARN`
+because the original status-line formatting made the bottom-right answer look
+truncated. A later independent visual QA pass still warned that long IDs, small
+point markers, and tight lower padding reduced print readability. The figure
+generator now removes long pair IDs from panel titles, uses larger haloed point
+markers, and increases cell/padding height before regenerating the PNG/PDF.
+
+## 2026-05-23 provenance and final-gate hardening
+
+Reviewer-style evidence audit caught two reproducibility pitfalls:
+
+- `protocol.yaml` had been updated after the expanded30 manifest was first
+  generated, so the manifest's stored protocol hash was stale.
+- The stress manifest final gate only checked that canonical prediction and
+  score files existed; it did not prove that those files covered the exact 60
+  manifest sample IDs in order.
+
+Fixes applied:
+
+- `build_stress_vlm_run_manifest.py` now validates canonical prediction JSONL
+  row count, score-summary `num_records`, and exact `sample_id` alignment before
+  opening the final stress gate.
+- The claim-gate wording was narrowed to
+  `frozen 30-pair target-centered material-shift stress set`.
+- `stress_vlm_run_manifest_expanded30.json` was regenerated from the current
+  protocol and the three visual-review reports.
+- Gemma4 canonical and Qwen2.5-VL diagnostic predictions were rerun against the
+  regenerated manifest, then both score summaries were regenerated.
+
+Fresh provenance check:
+
+```text
+manifest hash: ac5a5f9783367e6ea7b39aed2d84953c9b25b6dbbcd5338704c32143574352af
+protocol hash matches current protocol.yaml: true
+Gemma4 metadata manifest hash match: true
+Qwen2.5-VL metadata manifest hash match: true
+Gemma4 prediction/score sample_id alignment: 60/60 true
+Qwen2.5-VL prediction/score sample_id alignment: 60/60 true
+```

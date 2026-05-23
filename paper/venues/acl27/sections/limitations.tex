@@ -3,17 +3,19 @@
 The current evidence base is intentionally narrow: the workshop-era experiments
 cover a small asset set, limited scene diversity, and mostly visual or
 feature-level metrics. The GRScenes extension adds real VLM grounding probes,
-but these probes are still pilot diagnostics rather than final benchmark
-evidence: the clean visual-QA pool has 15 pairs, below the configured 20-pair
-final gate, and the zoom pool is a material-shift stress set rather than a
-clean preservation set. These results support claims about measurement
-protocols and model sensitivity, but they do not yet establish broad downstream
-benefits for language, vision-language, or embodied-agent models. The ACL
-version therefore still requires a larger canonical VLM run, clearer coordinate
-semantics for all model backends, and any navigation or manipulation extension
-needed for embodied-agent claims. Any navigation extension should be evaluated
-with an explicit navigation framework such as InternNav/DualVLN~\cite{Wei2026Ground},
-not inferred from image-level probes alone. The current pipeline also depends on Isaac
-Sim and USD assets whose licenses, material graphs, and renderer settings may
-differ across datasets, so any general guidelines should be validated on a
+but the claim boundaries remain narrow. The clean visual-QA pool has 15 pairs,
+below the configured 20-pair clean final gate, so it is not evidence that
+conversion preserves VLM grounding in general. The 30-pair expanded stress set
+is a frozen, target-centered material-shift set with 4 PASS and 26 WARN pairs;
+it supports a controlled stress-test claim, not a broad GRScenes benchmark
+distribution. Qwen2.5-VL also exposes unresolved coordinate semantics because
+raw image-space scoring is stronger than the requested normalized-1000
+interpretation. These results support claims about measurement protocols,
+coordinate contracts, and model sensitivity, but they do not yet establish
+broad downstream benefits for language, vision-language, or embodied-agent
+models. Any navigation extension should be evaluated with an explicit
+navigation framework such as InternNav/DualVLN~\cite{Wei2026Ground}, not
+inferred from image-level probes alone. The current pipeline also depends on
+Isaac Sim and USD assets whose licenses, material graphs, and renderer settings
+may differ across datasets, so any general guidelines should be validated on a
 larger and more heterogeneous scene corpus.

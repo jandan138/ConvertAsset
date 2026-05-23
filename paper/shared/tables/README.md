@@ -27,6 +27,12 @@ Venue-neutral table sources for the ConvertAsset paper live here.
   stress/protocol evidence, not clean preservation evidence.
 - `tab_grscenes_vlm_zoom_stress.tex`: LaTeX table for the same zoom stress
   pilot.
+- `grscenes_vlm_stress_expanded30.csv`: machine-readable expanded stress table
+  over 30 target-visible original/no-MDL pairs. Gemma4 is the canonical root
+  `stress_predictions.jsonl` / `stress_score_summary.json` run; Qwen2.5-VL is a
+  second-model diagnostic under the same frozen expanded30 manifest.
+- `tab_grscenes_vlm_stress_expanded30.tex`: LaTeX table for the expanded30
+  frozen target-centered material-shift stress set.
 - `grscenes_vlm_coordinate_ablation.csv`: machine-readable raw-image versus
   normalized-1000 coordinate scoring ablation for the clean-pool and
   zoom-stress VLM probes. Raw-image scoring is a diagnostic for coordinate
@@ -44,6 +50,7 @@ Regenerate with:
 
 ```bash
 python paper/shared/tables/gen_vlm_pilot_tables.py
+python paper/shared/tables/gen_vlm_stress_expanded30.py
 python paper/shared/tables/gen_vlm_coordinate_ablation.py
 python paper/shared/tables/gen_vlm_failure_taxonomy.py
 ```

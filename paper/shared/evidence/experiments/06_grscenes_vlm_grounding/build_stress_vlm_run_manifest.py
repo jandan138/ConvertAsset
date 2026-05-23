@@ -30,6 +30,7 @@ DEFAULT_MIN_TARGET_CATEGORIES = 5
 DEFAULT_SELECTION_ID = "zoom_material_shift_stress_v1"
 CLAIM_BOUNDARY = "stress_input_manifest_only_not_final_model_metric_evidence"
 CLAIM_STATUS = "pilot_only"
+FINAL_CLAIM_STATUS = "final_stress_benchmark_ready"
 COORDINATE_FRAME = "normalized_1000"
 RESPONSE_FORMAT = "structured_text"
 PRIMARY_POINT_METRIC = "point_in_bbox_normalized_1000_accuracy"
@@ -184,6 +185,58 @@ def _category_for_pair(pair_id: str, records_by_pair: dict[str, list[dict[str, A
     return "unknown"
 
 
+def _load_jsonl(path: Path) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    with path.open("r", encoding="utf-8") as handle:
+        for lineno, line in enumerate(handle, start=1):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                row = json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise ValueError(f"{path}:{lineno}: invalid JSONL record: {exc}") from exc
+            if not isinstance(row, dict):
+                raise ValueError(f"{path}:{lineno}: expected object record")
+            rows.append(row)
+    return rows
+
+
+def _sample_ids(rows: list[dict[str, Any]]) -> list[str]:
+    return [str(row.get("sample_id")) for row in rows if row.get("sample_id")]
+
+
+def _canonical_prediction_blockers(path: Path, expected_sample_ids: list[str]) -> list[str]:
+    if not path.exists():
+        return ["canonical_predictions_missing"]
+    try:
+        rows = _load_jsonl(path)
+    except Exception:
+        return ["canonical_predictions_unreadable"]
+    blockers: list[str] = []
+    if len(rows) != len(expected_sample_ids):
+        blockers.append("canonical_predictions_record_count_mismatch")
+    if _sample_ids(rows) != expected_sample_ids:
+        blockers.append("canonical_predictions_sample_id_mismatch")
+    return blockers
+
+
+def _canonical_score_blockers(path: Path, expected_sample_ids: list[str]) -> list[str]:
+    if not path.exists():
+        return ["canonical_score_summary_missing"]
+    try:
+        score = _load_json(path)
+    except Exception:
+        return ["canonical_score_summary_unreadable"]
+    records = score.get("records")
+    blockers: list[str] = []
+    if score.get("num_records") != len(expected_sample_ids):
+        blockers.append("canonical_score_summary_record_count_mismatch")
+    if not isinstance(records, list) or _sample_ids(records) != expected_sample_ids:
+        blockers.append("canonical_score_summary_sample_id_mismatch")
+    return blockers
+
+
 def _enrich_scoring_record(record: dict[str, Any], review: dict[str, Any]) -> dict[str, Any]:
     enriched = dict(record)
     enriched["image"] = _image_with_hash(record)
@@ -197,7 +250,24 @@ def _enrich_scoring_record(record: dict[str, Any], review: dict[str, Any]) -> di
     return enriched
 
 
-def _claim_gate(blockers: list[str]) -> dict[str, Any]:
+def _claim_gate(blockers: list[str], *, final_benchmark_claimable: bool) -> dict[str, Any]:
+    if final_benchmark_claimable:
+        return {
+            "claim_status": FINAL_CLAIM_STATUS,
+            "final_benchmark_claimable": True,
+            "blocked_by": [],
+            "allowed_claims": [
+                "frozen 30-pair target-centered material-shift stress set",
+                "Gemma4/Qwen stress diagnostics if model outputs are generated under this manifest",
+                "stress candidate selection and target-visible visual QA provenance",
+            ],
+            "forbidden_claims": [
+                "not a clean material-preservation benchmark",
+                "not evidence that no-MDL conversion preserves VLM grounding in general",
+                "not a Gemma4-vs-Qwen model comparison unless both canonical model outputs are reported",
+                "not a PIO dataset evaluation",
+            ],
+        }
     return {
         "claim_status": CLAIM_STATUS,
         "final_benchmark_claimable": False,
@@ -283,19 +353,19 @@ def build_stress_vlm_run_manifest(
         final_blockers.append("stress_pair_count_below_minimum_final_benchmark_gate")
     if len(category_counts) < int(min_target_categories):
         final_blockers.append("target_category_count_below_minimum_final_benchmark_gate")
-    if not predictions_path.exists():
-        final_blockers.append("canonical_predictions_missing")
-    if not score_summary_path.exists():
-        final_blockers.append("canonical_score_summary_missing")
+    expected_sample_ids = _sample_ids(selected_records)
+    final_blockers.extend(_canonical_prediction_blockers(predictions_path, expected_sample_ids))
+    final_blockers.extend(_canonical_score_blockers(score_summary_path, expected_sample_ids))
 
     ready_for_model_run = not model_run_blockers
     ready_for_final_benchmark_run = ready_for_model_run and not final_blockers
+    claim_status = FINAL_CLAIM_STATUS if ready_for_final_benchmark_run else CLAIM_STATUS
 
     return {
         "schema_version": 1,
         "status": "stress_vlm_run_manifest",
-        "claim_status": CLAIM_STATUS,
-        "final_benchmark_claimable": False,
+        "claim_status": claim_status,
+        "final_benchmark_claimable": ready_for_final_benchmark_run,
         "generated_at_utc": _utc_now(),
         "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_stress_vlm_run_manifest.py",
         "summary": {
@@ -323,7 +393,7 @@ def build_stress_vlm_run_manifest(
             "protocol_schema_version": protocol.get("schema_version"),
             "response_format_note": "Use structured_text for Qwen-family backends until direct JSON prompting is revalidated.",
         },
-        "claim_gate": _claim_gate(final_blockers),
+        "claim_gate": _claim_gate(final_blockers, final_benchmark_claimable=ready_for_final_benchmark_run),
         "recommended_model_runs": [
             {
                 "id": "gemma4_zoom_stress",

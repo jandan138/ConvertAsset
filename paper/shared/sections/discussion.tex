@@ -1,9 +1,9 @@
 \section{Discussion}
 \label{sec:discussion}
 
-\paragraph{When does simplification appear low-risk?}
-Our results across three evaluation dimensions consistently indicate that
-MDL-to-UsdPreviewSurface conversion appears low-risk for tested assets whose
+\paragraph{When does simplification appear low-risk in this case study?}
+Our results across three evaluation dimensions indicate that
+MDL-to-UsdPreviewSurface conversion can be low-risk for tested assets whose
 appearance is dominated by standard PBR channels (diffuse albedo, roughness,
 metallic, normal). For such assets, we observe PSNR $>$ 35\,dB, SSIM $>$ 0.99, CLIP
 similarity $>$ 0.92. Caution is
@@ -22,10 +22,10 @@ complementary and less-studied phenomenon --- the \emph{within-simulation
 rendering gap} --- arising from differences in material representation within
 the same renderer. When converting MDL to UsdPreviewSurface, geometry, lighting,
 and camera parameters remain identical; only the material shader changes. The
-resulting image differences are therefore a pure measure of how much visual
+resulting image differences are therefore a controlled measure of how much visual
 information is lost when reducing a high-fidelity material model to a simpler
-one. Our finding that this gap is small (SSIM $>$ 0.99, CLIP $>$ 0.92) for
-standard PBR assets leads us to hypothesize that, for many practical
+one. Our finding that this gap is small (SSIM $>$ 0.99, CLIP $>$ 0.92) for the
+tested standard-PBR furniture assets leads us to hypothesize that, for many practical
 applications, the within-simulation gap introduced by material simplification
 is small relative to typical sim-to-real gaps reported in the literature.
 
@@ -49,17 +49,22 @@ where downstream models operate on features rather than pixels, this trade-off
 may be favorable, but it should still be gated by task-specific checks.
 
 \paragraph{VLM grounding requires a stricter gate.}
-The GRScenes pilot shows why feature similarity and qualitative scene fidelity
+The GRScenes results show why feature similarity and qualitative scene fidelity
 are not enough for language-conditioned grounding claims. In the clean PASS
 pool, Gemma4 preserves answer accuracy across material conditions, but its
 point hits remain imperfect and slightly lower after conversion. Qwen2.5-VL is
 more sensitive to response format and coordinate interpretation: raw-image
 points score better than normalized-1000 scoring even though the prompt asks
-for normalized coordinates. In the zoom-stress pool, Gemma4 remains stable
-while Qwen shows answer and raw-point degradation on converted renders. This
-does not imply that conversion generally harms VLM grounding; rather, it shows
-that the effect is model- and protocol-dependent, and that clean-preservation
-pools must be separated from material-shift stress tests.
+for normalized coordinates. In the expanded 30-pair stress set, Gemma4 remains
+stable under the frozen normalized-1000 protocol, while Qwen shows answer and
+raw-point degradation on converted renders and still does not follow the same
+coordinate semantics. Because the stress cameras are target-centered and the
+set is category-imbalanced, these point-hit results should not be read as
+general localization accuracy. Their main value is to expose protocol
+sensitivity under a controlled material-shift intervention. This does not imply
+that conversion generally harms VLM grounding; rather, it shows that the effect
+is model- and protocol-dependent, and that clean-preservation pools must be
+separated from material-shift stress tests.
 
 \paragraph{Why DINOv2 is more sensitive than CLIP.}
 Figure~\ref{fig:tsne_dino} provides a t-SNE visualization of DINOv2 embeddings
@@ -98,9 +103,10 @@ relevant to dense prediction tasks (e.g., segmentation, depth estimation).
 Based on our findings, we offer the following guidelines for synthetic data
 practitioners working with Isaac Sim assets:
 \begin{enumerate}
-    \item \textbf{Consider defaulting to conversion} for assets with standard
-    PBR materials. In our study, the quality loss is negligible and the
-    interoperability benefits are significant.
+    \item \textbf{Use conversion as a candidate default only after task-specific
+    checks} for assets with standard PBR materials. In our furniture case
+    study, the quality loss is small and the interoperability benefits are
+    significant, but this does not remove the need for downstream validation.
     \item \textbf{Validate complex materials} using CLIP and DINOv2 cosine
     similarity as quick diagnostic metrics before deploying converted assets in
     training pipelines.

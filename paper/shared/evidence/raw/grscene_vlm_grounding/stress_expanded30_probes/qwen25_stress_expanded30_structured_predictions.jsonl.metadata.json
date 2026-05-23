@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "status": "vlm_predictions",
+  "prediction_count": 60,
+  "backend": "local_hf_qwen",
+  "model_checkpoint": "/cpfs/shared/simulation/zhuzihou/models/Qwen2.5-VL-7B-Instruct",
+  "coordinate_frame": "normalized_1000",
+  "response_format": "structured_text",
+  "claim_boundary": "model_prediction_scores_require_model_provenance_review",
+  "generated_at_utc": "2026-05-23T08:24:44.451841Z",
+  "input_projection_report": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded30.json",
+    "hash_sha256": "ac5a5f9783367e6ea7b39aed2d84953c9b25b6dbbcd5338704c32143574352af"
+  },
+  "output_jsonl": {
+    "path": "paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen25_stress_expanded30_structured_predictions.jsonl",
+    "hash_sha256": "c8be5952f9e5d7a2814c7428f41462bd3553d4be22c8925f822b02bc9496142d"
+  },
+  "runner_provenance": {
+    "command": [
+      "/cpfs/shared/simulation/zhuzihou/dev/Auto-Asset-Annotator/.venv_dlc/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+      "--projection-report",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded30.json",
+      "--out",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen25_stress_expanded30_structured_predictions.jsonl",
+      "--model-backend",
+      "local_hf_qwen",
+      "--model-path",
+      "/cpfs/shared/simulation/zhuzihou/models/Qwen2.5-VL-7B-Instruct",
+      "--attn-implementation",
+      "eager",
+      "--coordinate-frame",
+      "normalized_1000",
+      "--response-format",
+      "structured_text",
+      "--max-new-tokens",
+      "64",
+      "--force"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/run_vlm_predictions.py",
+    "script_hash_sha256": "f7e7289788f195fa42197bf746c9a7abd54e44930a2306f67696ab617df86e4c",
+    "git_commit": "4716d7e04b489b7aa6e009f0e9f82be70d838716",
+    "git_status_porcelain": [
+      " M docs/records/2026-05-22-grscenes-stress-expanded30-render-gate.md",
+      " M paper/EXPERIMENT_CHECKLIST.md",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/README.md",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/build_stress_vlm_run_manifest.py",
+      " M paper/shared/evidence/experiments/06_grscenes_vlm_grounding/protocol.yaml",
+      " M paper/shared/evidence/raw/grscene_vlm_grounding/README.md",
+      " M paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded30.json",
+      " M paper/shared/evidence/results_manifest.yaml",
+      " M paper/shared/figures/fig_vlm_grounding_cases.pdf",
+      " M paper/shared/figures/fig_vlm_grounding_cases.png",
+      " M paper/shared/figures/gen_vlm_grounding_cases.py",
+      " M paper/shared/sections/abstract.tex",
+      " M paper/shared/sections/conclusion.tex",
+      " M paper/shared/sections/discussion.tex",
+      " M paper/shared/sections/experiments.tex",
+      " M paper/shared/sections/method.tex",
+      " M paper/shared/tables/README.md",
+      " M paper/venues/acl27/STATUS.md",
+      " M paper/venues/acl27/main.tex",
+      " M paper/venues/acl27/sections/abstract.tex",
+      " M paper/venues/acl27/sections/conclusion.tex",
+      " M paper/venues/acl27/sections/intro.tex",
+      " M paper/venues/acl27/sections/limitations.tex",
+      " M tests/test_grscenes_vlm_stress_manifest.py",
+      " M tests/test_vlm_grounding_case_figure.py",
+      "?? 12 untracked files omitted from provenance"
+    ]
+  }
+}

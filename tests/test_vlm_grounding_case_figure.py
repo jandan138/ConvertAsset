@@ -25,6 +25,27 @@ def test_point_to_pixel_handles_raw_and_normalized_coordinates() -> None:
     assert module.point_to_pixel(None, width=600, height=450, frame="raw_pixel") is None
 
 
+def test_status_line_is_short_enough_for_figure_cell() -> None:
+    module = load_figure_module()
+    entry = module.CaseEntry(
+        version="converted",
+        image_path=Path("/tmp/fake.png"),
+        width=600,
+        height=450,
+        bbox_xyxy=[10, 20, 30, 40],
+        point_xy=(10.0, 20.0),
+        answer="target category: clock",
+        answer_match=False,
+        score_hit=False,
+    )
+
+    line = module.status_line(entry)
+
+    assert line == "converted: pt miss, ans miss"
+    assert module.answer_line(entry) == "ans=target category..."
+    assert len(line) <= 32
+
+
 def test_load_case_pairs_predictions_with_score_records(tmp_path: Path) -> None:
     module = load_figure_module()
     image_a = tmp_path / "original.png"
@@ -85,19 +106,58 @@ def test_load_case_pairs_predictions_with_score_records(tmp_path: Path) -> None:
     assert case.entries["converted"].score_hit is False
 
 
+def test_render_figure_uses_compact_grid_layout(tmp_path: Path) -> None:
+    module = load_figure_module()
+    cases = module.build_cases()
+    out_png = tmp_path / "cases.png"
+    out_pdf = tmp_path / "cases.pdf"
+
+    module.render_figure(cases, out_png=out_png, out_pdf=out_pdf)
+
+    from PIL import Image
+
+    with Image.open(out_png) as image:
+        width, height = image.size
+    assert height / width < 0.85
+
+
+def test_figure_layout_avoids_long_ids_and_uses_readable_point_markers() -> None:
+    module = load_figure_module()
+    case = module.build_cases()[0]
+
+    title = module.case_title(case)
+
+    assert case.pair_id not in title
+    assert len(title) <= 70
+    assert module.POINT_RADIUS >= 7
+    assert module.STATUS_H >= 44
+
+
 def test_default_case_specs_resolve_to_existing_render_images() -> None:
     module = load_figure_module()
 
     cases = module.build_cases()
 
     assert len(cases) == 4
-    assert {case.split for case in cases} == {"clean", "zoom"}
+    assert {case.split for case in cases} == {"clean", "stress"}
     assert {case.entries["original"].version for case in cases} == {"original"}
     assert {case.entries["converted"].version for case in cases} == {"converted"}
     for case in cases:
         for entry in case.entries.values():
             assert entry.image_path.exists()
             assert entry.bbox_xyxy
+
+
+def test_default_case_specs_use_expanded30_stress_outputs() -> None:
+    module = load_figure_module()
+
+    stress_specs = [spec for spec in module.CASE_SPECS if spec["split"] == "stress"]
+
+    assert len(stress_specs) == 2
+    assert stress_specs[0]["predictions"].name == "stress_predictions.jsonl"
+    assert stress_specs[0]["score_summary"].name == "stress_score_summary.json"
+    assert "stress_expanded30_probes" in str(stress_specs[1]["predictions"])
+    assert "qwen25_stress_expanded30_structured_score_summary.json" in str(stress_specs[1]["score_summary"])
 
 
 def test_load_case_requires_score_records_for_selected_samples(tmp_path: Path) -> None:

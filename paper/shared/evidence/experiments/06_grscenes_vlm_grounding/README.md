@@ -1067,9 +1067,9 @@ Current Qwen2.5-VL canonical probe:
 - normalized-1000 point-in-bbox 0/3 original and 0/4 converted among parsed
   points; raw point-in-bbox is 2/3 original and 2/4 converted.
 
-Treat these as manifest-aligned pilot reruns, not final benchmark outputs. The
+Treat these as manifest-aligned pilot reruns, not final performance outputs. The
 root `predictions.jsonl` and `score_summary.json` remain reserved for a future
-run whose manifest has enough PASS pairs and `final_benchmark_claimable=true`.
+run whose manifest has enough accepted pairs and an open claim gate.
 The Gemma4 frozen rerun also differs from the older historical Gemma4 PASS-only
 probe, so do not silently mix the two evidence sets.
 
@@ -1212,7 +1212,7 @@ projection-blocked pairs, and freezes the same structured-text,
 `normalized_1000` coordinate contract used by the current pilot probes. The
 current manifest has 14 stress pairs across 5 target categories, so it is ready
 as a model-run input. It still has `claim_status=pilot_only` and
-`final_benchmark_claimable=false` because the final stress benchmark gate
+`final_benchmark_claimable=false` because the frozen stress-set evidence gate
 requires at least 30 stress pairs plus canonical root
 `stress_predictions.jsonl` and `stress_score_summary.json`.
 
@@ -1228,13 +1228,9 @@ paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded
 It contains 30 target-visible PASS/WARN zoom pairs and 60 scoring records.
 `retake_zoom_expanded30_paired_render_summary.json` records 30/30 non-dark
 paired renders, and `retake_zoom_expanded30_target_projection_qa_report.json`
-records 30/30 `projection_ok`. The manifest is `ready_for_model_run=true`, with
-only the expected final-evidence blockers left:
-
-```text
-canonical_predictions_missing
-canonical_score_summary_missing
-```
+records 30/30 `projection_ok`. After the canonical Gemma4 stress run, the
+manifest-internal stress gate is open. Treat the resulting claims as evidence
+for this frozen target-centered stress set, not a broad GRScenes benchmark.
 
 Important pitfall: the first 16 expansion candidates all passed render and
 projection gates, but independent visual review rejected 5/16 because the target
@@ -1303,6 +1299,39 @@ Gemma4 remains stable in these target-visible views, while Qwen shows protocol
 sensitivity and a raw-coordinate original/converted drop. Treat this as pilot
 stress evidence, not final GRScenes benchmark performance.
 
+Current expanded30 stress outputs:
+
+- `stress_predictions.jsonl`
+- `stress_predictions.jsonl.metadata.json`
+- `stress_score_summary.json`
+- `stress_expanded30_probes/qwen25_stress_expanded30_structured_predictions.jsonl`
+- `stress_expanded30_probes/qwen25_stress_expanded30_structured_predictions.jsonl.metadata.json`
+- `stress_expanded30_probes/qwen25_stress_expanded30_structured_score_summary.json`
+
+Gemma4 canonical root results:
+
+- 60/60 parsed and scored rows.
+- answer accuracy 30/30 original and 30/30 converted.
+- normalized-1000 point-in-bbox 27/30 original and 29/30 converted.
+- normalized-1000 pair hit agreement 28/30; both-hit pairs 27/30.
+- raw pixel point-in-bbox is only 1/30 for both material conditions, confirming
+  that raw scoring is the wrong coordinate interpretation for this backend.
+
+Qwen2.5-VL expanded30 diagnostic results:
+
+- 60/60 parsed rows and 55/60 scorable answer rows.
+- answer accuracy 27/29 original and 24/26 converted.
+- raw point-in-bbox 22/29 original and 19/29 converted.
+- normalized-1000 point-in-bbox 3/29 original and 3/29 converted.
+
+Plain version: the expanded30 run closes the frozen material-shift stress-set
+evidence gate, not the clean material-preservation gate. The final gate now
+requires the canonical prediction JSONL and score summary to match the
+manifest's 60 `sample_id` values exactly, not merely exist on disk. The paper can
+claim a canonical stress result for the frozen expanded manifest while still
+saying that a larger clean PASS-only benchmark or downstream
+navigation/manipulation transfer is future work.
+
 ### Stress Probe Alignment Audit
 
 The existing `zoom_stress_probes/` predictions are sample-aligned with
@@ -1318,8 +1347,7 @@ older `retake_zoom_target_projection_qa_report.json`, not to
 `stress_vlm_run_manifest.json`. Keep them as pilot/protocol evidence and do not
 rename or copy them to root `stress_predictions.jsonl`.
 
-The root `stress_predictions.jsonl` and `stress_score_summary.json` remain
-reserved for a full manifest-backed stress run. The 30-pair input gate is now
-satisfied by `stress_vlm_run_manifest_expanded30.json`; the remaining stress
-gate is to generate canonical predictions and scores from that expanded
-manifest.
+The root `stress_predictions.jsonl` and `stress_score_summary.json` are now the
+full manifest-backed expanded30 Gemma4 stress run. Do not overwrite them with
+pilot outputs or with second-model diagnostics; keep non-root diagnostic runs
+under `stress_expanded30_probes/`.

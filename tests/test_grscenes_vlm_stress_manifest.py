@@ -166,6 +166,109 @@ def test_build_stress_manifest_blocks_final_gate_when_category_coverage_is_too_s
     assert manifest["claim_gate"]["claim_status"] == "pilot_only"
 
 
+def test_build_stress_manifest_marks_final_claimable_when_canonical_outputs_exist(tmp_path: Path) -> None:
+    module = load_manifest_module()
+    pair_categories = {
+        "p01.zoom_016": "clock",
+        "p02.zoom_017": "faucet",
+    }
+    predictions_path = tmp_path / "stress_predictions.jsonl"
+    score_summary_path = tmp_path / "stress_score_summary.json"
+    expected_sample_ids = [
+        "p01.zoom_016.original",
+        "p01.zoom_016.converted",
+        "p02.zoom_017.original",
+        "p02.zoom_017.converted",
+    ]
+    predictions_path.write_text(
+        "\n".join(json.dumps({"sample_id": sample_id}) for sample_id in expected_sample_ids) + "\n",
+        encoding="utf-8",
+    )
+    score_summary_path.write_text(
+        json.dumps(
+            {
+                "schema_version": 5,
+                "num_records": 4,
+                "records": [{"sample_id": sample_id} for sample_id in expected_sample_ids],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    manifest = module.build_stress_vlm_run_manifest(
+        projection_report(pair_categories),
+        visual_review_sources=[
+            source(
+                "visual.json",
+                visual_review_report(
+                    {
+                        "p01.zoom_016": ("PASS", "clock"),
+                        "p02.zoom_017": ("WARN", "faucet"),
+                    }
+                ),
+            )
+        ],
+        protocol={"schema_version": 2},
+        min_stress_pairs=2,
+        min_target_categories=2,
+        predictions_path=predictions_path,
+        score_summary_path=score_summary_path,
+        selection_id="stress_v1",
+    )
+
+    assert manifest["summary"]["ready_for_model_run"] is True
+    assert manifest["summary"]["ready_for_final_benchmark_run"] is True
+    assert manifest["summary"]["blockers"] == []
+    assert manifest["claim_status"] == "final_stress_benchmark_ready"
+    assert manifest["final_benchmark_claimable"] is True
+    assert manifest["claim_gate"]["claim_status"] == "final_stress_benchmark_ready"
+    assert manifest["claim_gate"]["final_benchmark_claimable"] is True
+    assert manifest["claim_gate"]["blocked_by"] == []
+    assert "frozen 30-pair target-centered material-shift stress set" in manifest[
+        "claim_gate"
+    ]["allowed_claims"]
+    assert "not a final GRScenes benchmark result" not in manifest["claim_gate"]["forbidden_claims"]
+
+
+def test_build_stress_manifest_blocks_final_gate_when_canonical_outputs_do_not_match(tmp_path: Path) -> None:
+    module = load_manifest_module()
+    pair_categories = {
+        "p01.zoom_016": "clock",
+        "p02.zoom_017": "faucet",
+    }
+    predictions_path = tmp_path / "stress_predictions.jsonl"
+    score_summary_path = tmp_path / "stress_score_summary.json"
+    predictions_path.write_text('{"sample_id":"p01.zoom_016.original"}\n', encoding="utf-8")
+    score_summary_path.write_text(json.dumps({"schema_version": 5, "num_records": 1, "records": []}), encoding="utf-8")
+
+    manifest = module.build_stress_vlm_run_manifest(
+        projection_report(pair_categories),
+        visual_review_sources=[
+            source(
+                "visual.json",
+                visual_review_report(
+                    {
+                        "p01.zoom_016": ("PASS", "clock"),
+                        "p02.zoom_017": ("WARN", "faucet"),
+                    }
+                ),
+            )
+        ],
+        protocol={"schema_version": 2},
+        min_stress_pairs=2,
+        min_target_categories=2,
+        predictions_path=predictions_path,
+        score_summary_path=score_summary_path,
+        selection_id="stress_v1",
+    )
+
+    assert manifest["summary"]["ready_for_model_run"] is True
+    assert manifest["summary"]["ready_for_final_benchmark_run"] is False
+    assert manifest["final_benchmark_claimable"] is False
+    assert "canonical_predictions_sample_id_mismatch" in manifest["summary"]["blockers"]
+    assert "canonical_score_summary_sample_id_mismatch" in manifest["summary"]["blockers"]
+
+
 def test_build_stress_manifest_excludes_non_runnable_pairs() -> None:
     module = load_manifest_module()
     report = projection_report(

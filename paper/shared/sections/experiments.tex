@@ -4,8 +4,9 @@
 We evaluate the impact of MDL-to-UsdPreviewSurface material simplification
 across three complementary dimensions: pixel-level image quality, rendering
 performance, and feature-level semantic preservation. We additionally report a
-GRScenes VLM grounding pilot as a downstream diagnostic, not as a final
-benchmark. The single-object visual and feature metrics are computed over 24 matched image pairs (4 scenes
+GRScenes VLM grounding pilot plus a frozen 30-pair target-centered
+material-shift stress set as image-level grounding/protocol diagnostics for VLM reliability. The
+single-object visual and feature metrics are computed over 24 matched image pairs (4 scenes
 $\times$ 6 viewpoints).
 
 \subsection{Pixel-Level Image Quality}
@@ -30,8 +31,8 @@ Table~\ref{tab:image_quality} reports per-scene and overall image quality
 metrics. Across all 24 pairs, material simplification achieves a mean PSNR of
 $35.52 \pm 4.73$\,dB, mean SSIM of $0.990 \pm 0.004$, and mean LPIPS of
 $0.020 \pm 0.009$. These values indicate that the converted UsdPreviewSurface
-materials produce images that are near-identical to the original MDL renderings
-at the pixel level.
+materials produce images that are highly similar to the original MDL renderings
+for this furniture case-study set.
 
 \begin{table}[t]
 \centering
@@ -252,26 +253,32 @@ particularly for scenes with complex specular materials.}
 \end{figure}
 
 Even the lowest per-pair DINOv2 similarity (0.595 for
-\texttt{chestofdrawers\_0004}, right view) remains well above chance-level
-similarity, indicating that the converted materials preserve the dominant
+\texttt{chestofdrawers\_0004}, right view) still preserves substantial
+feature overlap between the matched renders, indicating that the converted materials preserve the dominant
 visual structure captured by self-supervised features. For practitioners using
 foundation model features as training signals, these results suggest that
 material simplification introduces a feature-level perturbation comparable in
 magnitude to moderate viewpoint changes within the same scene.
-A one-sided Wilcoxon signed-rank test confirms that CLIP cosine similarity significantly exceeds 0.90 ($p < 0.01$) and DINOv2 cosine similarity significantly exceeds 0.80 ($p < 0.003$).
+A one-sided Wilcoxon signed-rank test over the 24 matched render pairs confirms
+that CLIP cosine similarity exceeds the preselected diagnostic threshold 0.90
+($p < 0.01$) and DINOv2 cosine similarity exceeds 0.80 ($p < 0.003$). Because
+the 24 views come from four assets rather than 24 independent object
+categories, we treat these tests as case-study diagnostics rather than
+population-level significance claims.
 
-\subsection{Pilot GRScenes VLM Grounding}
+\subsection{GRScenes VLM Grounding Stress Test}
 \label{sec:vlm_grounding_pilot}
 
 For the vision-language grounding extension, we use
 GRScenes~\cite{Wang2024GRUtopia} as a controlled scene-level testbed for
 whether material conversion changes VLM grounding behavior. The
 first four-pair PASS-only probe was used to debug prompt format, answer
-parsing, and coordinate scoring. We therefore report the larger follow-up
-diagnostics here: a 15-pair clean visual-QA PASS pool and a 14-pair zoomed
-material-shift stress pool. Both remain pilot evidence because the clean pool is
-below the 20-pair final benchmark gate and the zoom pool intentionally includes
-visible material/color/lighting shifts.
+parsing, and coordinate scoring. We therefore separate two roles: a 15-pair
+clean visual-QA PASS pool that remains a pilot material-preservation diagnostic,
+and a frozen 30-pair expanded material-shift stress pool that is large enough
+for the stress-set evidence gate. The stress pool intentionally includes
+target-visible material, color, or lighting shifts; it should therefore be read
+as a robustness stress test rather than clean preservation evidence.
 
 \input{tables/tab_grscenes_vlm_clean_pool_pass15}
 
@@ -283,26 +290,38 @@ on converted renders, with 11/15 pairwise hit-status agreement. Qwen2.5-VL is
 less stable under the same structured-text contract: only 23/30 answer strings
 are scorable, raw point hits are 5/14 original and 5/15 converted, and
 normalized-1000 point hits are 0 for both material conditions. Thus the clean
-pool supports a narrow claim: answer-level recognition is often preserved, but
+pool supports a narrow pilot claim: answer-level recognition is often preserved, but
 point grounding is strongly model- and coordinate-protocol dependent.
 
-\input{tables/tab_grscenes_vlm_zoom_stress}
+\input{tables/tab_grscenes_vlm_stress_expanded30}
 
-The zoom-stress pool in Table~\ref{tab:grscenes_vlm_zoom_stress} asks a
-different question: how VLM grounding behaves when the target remains visible
-but the converted render can exhibit obvious material, color, or lighting
-changes. Gemma4 again preserves answers across all 14 pairs and obtains high
-normalized-1000 point hits (11/14 original, 13/14 converted). Qwen2.5-VL shows
-the stress more clearly: answer hits decrease from 12/14 original to 10/12
-converted, and raw point hits drop from 9/14 to 6/13. The contrast between
-Gemma4 and Qwen2.5-VL indicates that material conversion effects on VLM
-grounding cannot be summarized by a single visual-fidelity score.
+The expanded stress pool in
+Table~\ref{tab:grscenes_vlm_stress_expanded30} asks a different question: how
+VLM grounding behaves when the target remains visible but the converted render
+can exhibit obvious material, color, or lighting changes. The canonical Gemma4
+root run produces 60/60 scorable answers and preserves target-category answers
+for all 30 original and 30 converted renders. Under the primary normalized-1000
+point metric, Gemma4 hits 27/30 original boxes and 29/30 converted boxes, with
+28/30 pairwise hit-status agreement and 27/30 both-hit pairs. The raw pixel
+coordinate diagnostic, by contrast, scores only 1/30 in each material condition,
+confirming that the normalized-1000 prompt contract is essential for this
+backend. The stress camera construction deliberately centers target-visible
+objects, so the point metric is a within-protocol original/converted
+consistency diagnostic rather than a general localization benchmark. The
+Qwen2.5-VL run over the same frozen stress set is reported as a
+second-model diagnostic: it produces 55/60 scorable answer rows, with answer
+hits of 27/29 original and 24/26 converted, and it scores much better under raw
+image-space point evaluation (22/29 original, 19/29 converted) than under
+normalized-1000 scoring (3/29 for both). This model difference reinforces the
+main ACL-facing point: material perturbations interact with VLM prompting and
+coordinate semantics, so downstream grounding reliability cannot be inferred
+from a single visual-fidelity score alone.
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_vlm_grounding_cases.pdf}
-\caption{Qualitative GRScenes VLM grounding cases sampled from the clean and
-zoom-stress pilots. Each row shows an original MDL render and its converted
+\caption{Qualitative GRScenes VLM grounding cases sampled from the clean pilot
+and the expanded material-shift stress set. Each row shows an original MDL render and its converted
 noMDL counterpart with the projected target box and model point prediction.
 The panels illustrate the main diagnostic pattern: some pairs preserve both
 answer and point grounding, while other pairs expose coordinate or material
@@ -311,7 +330,7 @@ shift sensitivity.}
 \end{figure*}
 
 Figure~\ref{fig:vlm_grounding_cases} visualizes representative success and
-disagreement cases. The current evidence is therefore best used as a protocol
-and stress-test result. It motivates a final clean benchmark with canonical
-\texttt{predictions.jsonl} and \texttt{score\_summary.json} outputs, but it
-does not yet establish broad VLM robustness or embodied downstream task gains.
+disagreement cases. The current evidence is therefore strongest as a protocol
+and material-shift stress-test result. It does not yet establish broad VLM
+robustness or embodied downstream task gains; those require a larger clean
+benchmark or navigation/manipulation transfer evaluation.

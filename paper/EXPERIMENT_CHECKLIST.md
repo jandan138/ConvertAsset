@@ -62,7 +62,7 @@ paper/
 | 4b 语义分割迁移 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 4c CLIP 零样本检索 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 5 RL 策略迁移 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| 6a GRScenes VLM grounding | 🔄 | 🔄 | ⬜ | 🔄 pilot 表已生成 | 🔄 pilot 小节已接入 |
+| 6a GRScenes VLM grounding | ✅ | ✅ | 🔄 stress 已完成 / clean 未完成 | ✅ expanded30 stress 表和图已生成 | 🔄 ACL 小节已接入，仍需全文审阅 |
 | 6b InternNav / VL-LN navigation | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 7 综合讨论 | — | — | — | — | ⬜ |
 
@@ -72,15 +72,15 @@ paper/
 
 ## 当前离论文完成还差几步
 
-截至 2026-05-22，ACL 主线不是还差“写几段文字”，而是还差下面 5 个
+截至 2026-05-23，ACL 主线不是还差“写几段文字”，而是还差下面 5 个
 证据门槛。只有这些门槛都过了，论文才算真正可投稿：
 
 | 顺序 | 门槛 | 当前状态 | 完成标准 |
 |---|---|---|---|
 | 1 | 全量 no-MDL 数据集 | ✅ 已完成并验证 | `full_nomdl_multi_root_run_report.json` 记录 `dry_run=false`、99 个顶层 raw scene 转换完成，且 `full_nomdl_apply_verification_report.json` 记录 `passed=true`、原始 `/cpfs/user/zhuzihou/assets/zzh-grscenes` 没有 `_noMDL` sidecar 污染 |
 | 2 | 原始/简化成对渲染 | 🔄 部分完成；stress 渲染门槛已过 | 23 个 unique target x 多视角的 original/no-MDL 成对图生成完成，图像哈希、相机、目标 bbox/point 投影全部入账；当前 clean preservation pool 为 15 PASS pair，仍低于 20-pair final gate；zoom material-shift stress 已扩到 exactly 30 个 PASS/WARN pair，`retake_zoom_expanded30_paired_render_summary.json` 记录 30/30 非黑图，`retake_zoom_expanded30_target_projection_qa_report.json` 记录 30/30 projection_ok |
-| 3 | VLM/下游评测 | 🔄 15-pair clean-pool + 14-pair zoom stress 双模型 pilot 已完成；30-pair stress 已 model-run-ready | `canonical_vlm_run_manifest.json` 通过 clean final gate 后，再生成 canonical `predictions.jsonl`、`score_summary.json`；`stress_vlm_run_manifest_expanded30.json` 当前 `model-run-ready=true`，下一步需要生成 canonical expanded-stress `stress_predictions.jsonl`、`stress_score_summary.json` 后才能作为 final stress benchmark；必要时再追加 InternNav/VL-LN 扩展结果 |
-| 4 | 图表和结论 | 🔄 clean-pool/zoom-stress pilot 表、VLM qualitative figure、coordinate ablation、appendix failure taxonomy 已进入论文系统 | 质量图、VLM 表、失败案例/定性图、trade-off 结论全部进入 `paper/shared/figures/`、`paper/shared/tables/` 和 `results_manifest.yaml`；final VLM 表只能从 manifest 标记为 final-claimable 的 run 生成，当前 PASS-only pilot 表、`canonical_probes/` rerun、clean-pool 15-pair 表、zoom-stress 表、coordinate ablation、failure taxonomy 和 `fig_vlm_grounding_cases` 只能作为 pilot/protocol diagnostic |
+| 3 | VLM/下游评测 | ✅ expanded30 material-shift stress 已完成；clean-pool 仍是 15-pair pilot | `stress_vlm_run_manifest_expanded30.json` 的 manifest-internal stress gate 已打开，canonical Gemma4 `stress_predictions.jsonl` / `stress_score_summary.json` 已生成，Qwen2.5-VL expanded30 diagnostic 已生成；论文 claim 仅限 frozen 30-pair target-centered stress set，clean preservation final gate 仍未关闭，必要时再追加 InternNav/VL-LN 扩展结果 |
+| 4 | 图表和结论 | 🔄 expanded30 stress 表和 VLM qualitative figure 已接入；trade-off 结论仍需全文收束 | 质量图、VLM 表、失败案例/定性图、trade-off 结论全部进入 `paper/shared/figures/`、`paper/shared/tables/` 和 `results_manifest.yaml`；当前 expanded30 stress 表可作为 frozen stress-set evidence，clean-pool 15-pair 表、旧 zoom-stress 表、coordinate ablation 和 failure taxonomy 仍是 pilot/protocol diagnostic |
 | 5 | 论文写作与审稿式自查 | ⬜ 未完成 | ACL/AAAI wrapper 能编译，Abstract/Intro/Method/Experiments/Discussion/Limitations 与证据一致，完成至少一轮 reviewer-style 反向审阅 |
 
 当前最短路径：不要继续盲目刷同一类 orbit 视角。第 2 步已经证明两件事：
@@ -95,7 +95,12 @@ candidate、6 个 FAIL 排除样本和 clean claim gate 串起来；它允许继
 model run，但明确挡住 clean final benchmark claim。`stress_vlm_run_manifest_expanded30.json`
 已经把 30 个 target-visible zoom stress pair、结构化 prompt/坐标协议和 stress
 claim gate 串起来；它现在满足 30-pair stress input gate，并且 `model_run_blockers=[]`，
-但仍明确挡住 final stress benchmark claim，直到 canonical stress predictions 和 score summary 生成。
+并且在 canonical stress predictions 和 score summary 生成后，已经打开 manifest-internal stress gate。
+Gemma4 canonical expanded30 stress root run 生成了 60/60 行预测，答案 30/30 original
+和 30/30 converted 全中，normalized-1000 点命中 27/30 original、29/30 converted，
+27/30 pair 双边都中。Qwen2.5-VL expanded30 diagnostic 也已生成，55/60 answer 行可评分，
+raw point hits 为 22/29 original、19/29 converted，normalized-1000 点命中则只有
+3/29 和 3/29，继续说明不同 VLM 的坐标语义强烈依赖 prompt contract。
 15-pair clean-pool 已补跑 Gemma4 与 Qwen2.5-VL；Gemma4 的答案稳定，但
 normalized-1000 点命中从 original 8/15 降到 converted 6/15。Qwen 仍更像
 raw image-space 坐标，适合作为协议敏感性证据。
@@ -105,15 +110,15 @@ point hit 从 original 9/14 降到 converted 6/13。两个旧 zoom stress probe
 与 `stress_vlm_run_manifest.json` 的 28 条 `sample_id` 完全对齐，但 metadata 仍指向
 旧的 `retake_zoom_target_projection_qa_report.json`，所以继续作为 pilot/protocol
 证据，不复制成 root `stress_predictions.jsonl`。新增的 exactly-30 stress manifest
-应作为下一轮真实 VLM 推理入口，而不是继续复用 14-pair pilot probe。这一轮已经把 clean-pool 表、
-zoom-stress 表、VLM grounding qualitative figure、coordinate ablation 和 appendix failure taxonomy
-接入论文系统，但它们仍只能支撑
-pilot/protocol diagnostic。经过两轮独立 reviewer-style 审阅后，当前推荐主线
+已经作为真实 VLM 推理入口跑完，不能再把 14-pair pilot probe 当主证据。这一轮已经把
+clean-pool 表、expanded30 stress 表、VLM grounding qualitative figure、coordinate
+ablation 和 appendix failure taxonomy 接入论文系统；其中 expanded30 stress 表可以支撑
+frozen 30-pair target-centered stress-set claim，其他表仍是 pilot/protocol diagnostic。当前推荐主线
 不再是单纯追 clean preservation benchmark，而是把 ACL 故事收束为
 material/texture/rendering perturbations 如何影响 VLM grounding protocol
 reliability。clean PASS set 继续作为 sanity-control gate；zoom stress、
-coordinate ablation 和 failure taxonomy 应升级为主故事证据，并需要继续扩展为
-预先定义 bins、样本数和最终 scoring contract 的 controlled stress benchmark。
+coordinate ablation 和 failure taxonomy 应作为主故事的诊断支撑，同时明确 clean
+preservation 和下游 embodied task 仍未闭环。
 当前 stress 扩样不需要换数据集：首批 16 个 expansion candidate 经过 render/projection
 机器 gate 后，有 5 个被 clean-room visual review 判为 FAIL；随后 11 个 replacement cup
 candidate 中有 10 个可用。最终只选 5 个 replacement，构成 exactly-30 pool。

@@ -129,6 +129,24 @@ Expected files:
   provenance sidecar for the Qwen2.5-VL zoom stress probe.
 - `zoom_stress_probes/qwen25_zoom_stress_structured_score_summary.json`: score
   summary for the Qwen2.5-VL zoom stress probe.
+- `stress_vlm_run_manifest_expanded30.json`: expanded30 material-shift stress
+  VLM input/protocol manifest. Its internal stress gate is open after the
+  canonical stress prediction and score files below were generated, but paper
+  claims should stay bounded to the frozen target-centered stress set rather
+  than a broad GRScenes benchmark.
+- `stress_predictions.jsonl`: canonical root Gemma4 structured-text real-model
+  predictions over the expanded 30-pair material-shift stress manifest.
+- `stress_predictions.jsonl.metadata.json`: provenance sidecar for the
+  canonical root Gemma4 expanded30 stress run.
+- `stress_score_summary.json`: canonical root score summary for the Gemma4
+  expanded30 stress run.
+- `stress_expanded30_probes/qwen25_stress_expanded30_structured_predictions.jsonl`:
+  Qwen2.5-VL structured-text real-model predictions over the same expanded30
+  stress manifest; second-model diagnostic, not the root canonical file.
+- `stress_expanded30_probes/qwen25_stress_expanded30_structured_predictions.jsonl.metadata.json`:
+  provenance sidecar for the Qwen2.5-VL expanded30 stress diagnostic.
+- `stress_expanded30_probes/qwen25_stress_expanded30_structured_score_summary.json`:
+  score summary for the Qwen2.5-VL expanded30 stress diagnostic.
 - `projection_center_baseline_predictions.jsonl`: deterministic bbox-center
   scoring-smoke predictions generated from `target_projection_qa_report.json`;
   this is not a VLM output file.
@@ -217,6 +235,17 @@ gives 28 parsed rows, 26 scorable answer strings, raw point-in-bbox 9/14
 original versus 6/13 converted, and normalized-1000 point hits 3/14 original
 versus 3/13 converted. These files support a material-shift stress pilot, not a
 clean preservation benchmark claim.
+
+`stress_predictions.jsonl` and `stress_score_summary.json` are the canonical
+root expanded30 stress outputs. The Gemma4 run covers 60/60 rows, preserves
+answers for all 30 original and 30 converted renders, and scores normalized-1000
+point-in-bbox at 27/30 original versus 29/30 converted with 27/30 both-hit
+pairs. `stress_expanded30_probes/` contains the parallel Qwen2.5-VL diagnostic
+under the same frozen manifest: 55/60 scorable answer rows, 27/29 original and
+24/26 converted answer hits, raw point hits 22/29 original versus 19/29
+converted, and normalized-1000 point hits 3/29 for both material conditions.
+This closes the frozen material-shift stress-set evidence gate, but it still
+does not close the clean material-preservation benchmark gate.
 
 `target_manifest.json` uses the original GRScenes source tree read-only. The resolver opens source scene USDs with Isaac/pxr, matches target metadata paths to authored USD references, and computes bboxes from the absolute split-level model USD transformed by the scene prim transform. This avoids relying on composed scene bboxes when scene-local `models` and `Materials` entries are text pointer files rather than symlinks.
 
