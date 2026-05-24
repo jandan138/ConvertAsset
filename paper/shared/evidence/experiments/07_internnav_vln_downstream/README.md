@@ -77,6 +77,12 @@ python paper/shared/evidence/experiments/07_internnav_vln_downstream/advance_spl
 
 This is the preferred path for v11+ split creation. Avoid hand-assembling long
 `--exclude-path-key` command lines after a watchdog triage file exists.
+The tool is intentionally strict: the generated manifest must have
+`unmatched_excluded_path_keys=[]`, and when the triage key is new the manifest's
+`excluded_episode_count` must increase by exactly one. It carries over any
+`source.requested_scene_ids` filter from the previous manifest and records the
+watchdog reason under `runtime_triage_source` while using a stable manifest-level
+exclusion reason.
 
 ## Main-Result Goal
 

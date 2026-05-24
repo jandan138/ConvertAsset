@@ -25,6 +25,7 @@ def previous_manifest_payload(work_root: Path) -> dict:
         "source": {
             "grscenes_root": "/source/grscenes",
             "nomdl_work_root": "/source/grscenes_nomdl",
+            "requested_scene_ids": ["scene_usd"],
         },
         "selection": {
             "ready_only": True,
@@ -88,11 +89,12 @@ def test_advance_from_runtime_hang_triage_derives_v11_paths_and_merges_excludes(
     assert call["ready_only"] is True
     assert call["min_scenes"] == 5
     assert call["selection_strategy"] == "round_robin_scenes"
+    assert call["scene_ids"] == ["scene_usd"]
     assert call["excluded_path_keys"] == [
         "scene_usd_clock_model_hash_0_0_2",
         "scene_usd_bottle_model_hash_0_0_6",
     ]
-    assert call["exclusion_reason"] == "warmup_reset_without_first_action_or_terminal_metric"
+    assert call["exclusion_reason"] == module.DEFAULT_EXCLUSION_REASON
     assert call["supersedes_manifest_path"] == previous_manifest
     assert manifest["selection"]["runtime_triage_source"]["path"] == str(triage_path.resolve())
     assert manifest["selection"]["runtime_triage_source"]["exclude_path_key"] == "scene_usd_bottle_model_hash_0_0_6"
@@ -129,6 +131,80 @@ def test_advance_from_triage_does_not_duplicate_existing_exclusion(tmp_path: Pat
     )
 
     assert manifest["selection"]["requested_excluded_path_keys"].count("scene_usd_bottle_model_hash_0_0_6") == 1
+    assert manifest["selection"]["runtime_triage_source"]["already_requested"] is True
+
+
+def test_advance_from_triage_rejects_unmatched_excluded_keys(tmp_path: Path) -> None:
+    module = load_advance_module()
+    previous_manifest = tmp_path / "acl_main_pilot30_v10_prep_manifest.json"
+    write_json(previous_manifest, previous_manifest_payload(tmp_path / "work_v10"))
+    triage_path = tmp_path / "triage.json"
+    write_json(
+        triage_path,
+        {
+            "status": "runtime_hang",
+            "reason": "warmup_reset_without_first_action_or_terminal_metric",
+            "exclude_path_key": "scene_usd_missing_model_hash_0_0_9",
+        },
+    )
+
+    def fake_prepare_minipair(**kwargs):
+        return {
+            "selection": {
+                "requested_excluded_path_keys": kwargs["excluded_path_keys"],
+                "unmatched_excluded_path_keys": ["scene_usd_missing_model_hash_0_0_9"],
+            },
+            "dataset": {"split": kwargs["split_name"], "episode_count": kwargs["max_episodes"]},
+        }
+
+    try:
+        module.advance_from_triage(
+            previous_manifest_path=previous_manifest,
+            triage_path=triage_path,
+            prepare_func=fake_prepare_minipair,
+        )
+    except ValueError as exc:
+        assert "unmatched_excluded_path_keys must be empty" in str(exc)
+    else:
+        raise AssertionError("expected ValueError")
+
+
+def test_advance_from_triage_rejects_unexpected_exclusion_count(tmp_path: Path) -> None:
+    module = load_advance_module()
+    previous_manifest = tmp_path / "acl_main_pilot30_v10_prep_manifest.json"
+    previous = previous_manifest_payload(tmp_path / "work_v10")
+    previous["selection"]["excluded_episode_count"] = 1
+    write_json(previous_manifest, previous)
+    triage_path = tmp_path / "triage.json"
+    write_json(
+        triage_path,
+        {
+            "status": "runtime_hang",
+            "reason": "warmup_reset_without_first_action_or_terminal_metric",
+            "exclude_path_key": "scene_usd_bottle_model_hash_0_0_6",
+        },
+    )
+
+    def fake_prepare_minipair(**kwargs):
+        return {
+            "selection": {
+                "requested_excluded_path_keys": kwargs["excluded_path_keys"],
+                "unmatched_excluded_path_keys": [],
+                "excluded_episode_count": 1,
+            },
+            "dataset": {"split": kwargs["split_name"], "episode_count": kwargs["max_episodes"]},
+        }
+
+    try:
+        module.advance_from_triage(
+            previous_manifest_path=previous_manifest,
+            triage_path=triage_path,
+            prepare_func=fake_prepare_minipair,
+        )
+    except ValueError as exc:
+        assert "excluded_episode_count" in str(exc)
+    else:
+        raise AssertionError("expected ValueError")
 
 
 def test_advance_from_triage_rejects_non_runtime_hang_status(tmp_path: Path) -> None:
@@ -155,3 +231,10 @@ def test_advance_from_triage_rejects_non_runtime_hang_status(tmp_path: Path) -> 
         assert "status=runtime_hang" in str(exc)
     else:
         raise AssertionError("expected ValueError")
+
+
+def test_next_versioned_name_handles_missing_suffix_and_zero_padded_suffix() -> None:
+    module = load_advance_module()
+
+    assert module._next_versioned_name("acl_main_pilot30") == "acl_main_pilot30_v2"
+    assert module._next_versioned_name("acl_main_pilot30_v09") == "acl_main_pilot30_v10"

@@ -21,6 +21,7 @@ DEFAULT_PREVIOUS_MANIFEST = (
 DEFAULT_TRIAGE = (
     PROJECT_ROOT / "paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_v10_runtime_hang_triage.json"
 )
+DEFAULT_EXCLUSION_REASON = "simulator_hang_reset_warmup_no_terminal_metrics"
 VERSION_SUFFIX_RE = re.compile(r"_v(\d+)$")
 
 
@@ -87,7 +88,13 @@ def _validate_triage(triage: dict[str, Any]) -> str:
     return exclude_path_key
 
 
-def _triage_source_record(triage_path: Path, triage: dict[str, Any], exclude_path_key: str) -> dict[str, Any]:
+def _triage_source_record(
+    triage_path: Path,
+    triage: dict[str, Any],
+    exclude_path_key: str,
+    *,
+    already_requested: bool,
+) -> dict[str, Any]:
     return {
         "path": str(triage_path.resolve()),
         "hash_sha256": _sha256_file(triage_path),
@@ -95,7 +102,26 @@ def _triage_source_record(triage_path: Path, triage: dict[str, Any], exclude_pat
         "reason": triage.get("reason"),
         "trajectory_id": triage.get("trajectory_id"),
         "exclude_path_key": exclude_path_key,
+        "already_requested": already_requested,
     }
+
+
+def _validate_manifest_after_prepare(
+    manifest: dict[str, Any],
+    *,
+    previous_excluded_episode_count: int | None,
+    already_requested: bool,
+) -> None:
+    selection = manifest.get("selection", {})
+    unmatched = selection.get("unmatched_excluded_path_keys") or []
+    if unmatched:
+        raise ValueError(f"unmatched_excluded_path_keys must be empty, got {unmatched!r}")
+    if previous_excluded_episode_count is None:
+        return
+    expected = previous_excluded_episode_count + (0 if already_requested else 1)
+    actual = selection.get("excluded_episode_count")
+    if actual is not None and actual != expected:
+        raise ValueError(f"excluded_episode_count expected {expected}, got {actual}")
 
 
 def advance_from_triage(
@@ -122,8 +148,10 @@ def advance_from_triage(
         next_split=next_split_name,
     )
     selection = previous.get("selection", {})
+    existing_excluded_path_keys = list(selection.get("requested_excluded_path_keys") or [])
+    already_requested = exclude_path_key in existing_excluded_path_keys
     excluded_path_keys = _merged_excludes(
-        list(selection.get("requested_excluded_path_keys") or []),
+        existing_excluded_path_keys,
         exclude_path_key,
     )
     prepare = prepare_func or _load_prepare_minipair()
@@ -135,17 +163,24 @@ def advance_from_triage(
         max_episodes=int(previous["dataset"]["episode_count"]),
         split_name=next_split_name,
         link_mode="symlink",
+        scene_ids=previous.get("source", {}).get("requested_scene_ids") or None,
         ready_only=bool(selection.get("ready_only", False)),
         min_scenes=int(selection.get("min_scenes", 0)),
         selection_strategy=selection.get("selection_strategy", "sequential"),
         excluded_path_keys=excluded_path_keys,
-        exclusion_reason=triage.get("reason") or "runtime_hang_from_watchdog",
+        exclusion_reason=DEFAULT_EXCLUSION_REASON,
         supersedes_manifest_path=previous_manifest_path,
+    )
+    _validate_manifest_after_prepare(
+        manifest,
+        previous_excluded_episode_count=selection.get("excluded_episode_count"),
+        already_requested=already_requested,
     )
     manifest.setdefault("selection", {})["runtime_triage_source"] = _triage_source_record(
         triage_path,
         triage,
         exclude_path_key,
+        already_requested=already_requested,
     )
     _write_json(repo_manifest_path, manifest)
     return manifest
