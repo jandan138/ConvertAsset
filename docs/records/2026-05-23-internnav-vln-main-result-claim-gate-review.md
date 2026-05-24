@@ -306,7 +306,7 @@ runtime artifact。v3 partial run 已归档：
 /cpfs/user/zhuzihou/dev/InternNav/data/sample_episodes/convertasset_grscene_sn_original_acl_main_pilot30_v3_invalid_microwave_warmup_hang_20260524070839
 ```
 
-`acl_main_pilot30_v4` 是当前 paper-main candidate split。它 supersedes v3，
+`acl_main_pilot30_v4` superseded v3，
 继续保持 30 条、6 个场景，三条 runtime hang 都在 manifest 中显式排除，
 `unmatched_excluded_path_keys=[]`。第三条 microwave hang 的日志显示 ID 使用
 InternNav runtime 的 episode index `_20`，而 source selection path key 是
@@ -327,6 +327,49 @@ v4 manifest:
 paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_v4_prep_manifest.json
 ```
 
+The clean original v4 run passed the run-shape gate:
+
+```text
+start eval dataset: convertasset_grscene_sn_original_acl_main_pilot30_v4, total_path: 30
+```
+
+但 v4 original 在第 13 个 task 暴露了第四条 simulator/runtime hang：
+
+```text
+MVUCSQAKTKJ5EAABAAAAACA8_usd_oven_model_95062580413fb9f50a71ffb0b1b34424_0_0_25
+```
+
+它停在 `WARM UP`、`Env Reset time: 16.52s`、`agent step time: 0.0s`，
+之后没有 `now action`、没有 `Env Step`、没有 `finish`、没有 terminal
+metrics。`result.json` 停在 `Count=12`，进程仍高 CPU，因此它不是导航失败，
+而是无效 runtime artifact。v4 partial run 已归档：
+
+```text
+/cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_original_acl_main_pilot30_v4_invalid_oven_warmup_hang_20260524084802
+/cpfs/user/zhuzihou/dev/InternNav/data/sample_episodes/convertasset_grscene_sn_original_acl_main_pilot30_v4_invalid_oven_warmup_hang_20260524084802
+```
+
+`acl_main_pilot30_v5` is the current paper-main candidate split. It supersedes
+v4, keeps 30 episodes across six scenes, and records four explicit runtime-hang
+exclusions with `unmatched_excluded_path_keys=[]`. The oven hang was copied from
+the InternNav runtime log as `_25`; the manifest resolves that to the source
+selection path key `_28` and excludes it deterministically.
+
+v5 deterministic replacements are:
+
+```text
+MVUCSQAKTKJ5EAABAAAAABQ8_usd_sofa_chair_model_d5f1d04da565644d5b370cb39f1ea6bb_0_0_30
+MVUCSQAKTKJ5EAABAAAAADY8_usd_toilet_model_9b773fd00bc7a69cb9fd954d0c2a48d9_0_0_31
+MVUCSQAKTKJ5EAABAAAAACY8_usd_couch_model_676b88959789c12273e483c196b28191_0_0_32
+MVUCSQAKTKJ5EAABAAAAABA8_usd_washingmachine_model_5d9654ff8ea1a4f24fc260cbde4a5cbc_0_0_33
+```
+
+v5 manifest:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_v5_prep_manifest.json
+```
+
 For paper statistics, include only paired episodes where both original and
 modified produce terminal metrics. Runtime hangs are reported as exclusions and
 limitations, not silently counted as navigation failures.
@@ -343,9 +386,9 @@ limitations, not silently counted as navigation failures.
 
 ## Next Work
 
-1. Let the clean original v4 pilot30 complete and inspect its final result and
+1. Let the clean original v5 pilot30 complete and inspect its final result and
    logs.
-2. Run the modified v4 pilot30 counterpart from equally clean logs and
+2. Run the modified v5 pilot30 counterpart from equally clean logs and
    `data/sample_episodes` state, with stdout redirected to a log file.
 3. Extract aggregate and per-episode metrics for both conditions.
 4. Run paired analysis and select video cases.
