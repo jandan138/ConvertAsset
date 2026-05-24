@@ -498,10 +498,58 @@ v8 manifest:
 paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_v8_prep_manifest.json
 ```
 
-The clean original v8 run has passed the run-shape gate:
+The clean original v8 run passed the run-shape gate:
 
 ```text
 start eval dataset: convertasset_grscene_sn_original_acl_main_pilot30_v8, total_path: 30
+```
+
+It then produced 12 valid terminal episodes before exposing an eighth
+simulator/runtime hang on the v8 replacement `washingmachine` episode:
+
+```text
+MVUCSQAKTKJ5EAABAAAAABQ8_usd_washingmachine_model_1d30ef98bc5f6e74a3328cae784ada5e_0_0_29
+```
+
+Evidence boundary: episode 12 (`clock`) produced a normal terminal
+`not_reach_goal` result and `result.json` reached `Count=12`. The next episode
+entered `WARM UP`, logged `Env Reset time: 18.78s` and
+`agent step time: 0.0s`, then produced no `now action`, no `Env Step`, no
+`finish`, and no terminal metric while the process remained high-CPU. An
+independent runtime triage reviewer reached the same conclusion. The v8 partial
+run is archived:
+
+```text
+/cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_original_acl_main_pilot30_v8_invalid_washingmachine1d30_warmup_hang_20260524152217
+/cpfs/user/zhuzihou/dev/InternNav/data/sample_episodes/convertasset_grscene_sn_original_acl_main_pilot30_v8_invalid_washingmachine1d30_warmup_hang_20260524152217
+```
+
+`acl_main_pilot30_v9` is the current paper-main candidate split. It supersedes
+v8, keeps 30 episodes, records eight explicit runtime-hang exclusions, and has
+`unmatched_excluded_path_keys=[]`. The runtime log displayed the hanging
+washing-machine episode as `_29`; the manifest resolves it to source selection
+path key `_36`.
+
+v9 deterministic replacements are:
+
+```text
+MVUCSQAKTKJ5EAABAAAAADY8_usd_toilet_model_9b773fd00bc7a69cb9fd954d0c2a48d9_0_0_31
+MVUCSQAKTKJ5EAABAAAAACY8_usd_couch_model_676b88959789c12273e483c196b28191_0_0_32
+MVUCSQAKTKJ5EAABAAAAABA8_usd_washingmachine_model_5d9654ff8ea1a4f24fc260cbde4a5cbc_0_0_33
+MV7J6NIKTKJZ2AABAAAAADY8_usd_tvstand_model_0b7e2a91f26da6b0f1f83c1c7d824399_0_0_35
+MVUCSQAKTKJ5EAABAAAAADY8_usd_hearth_model_b3e877c43c357ef90c2e0eb051c4c9fd_0_0_37
+```
+
+v9 manifest:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_v9_prep_manifest.json
+```
+
+The v9 claim gate is ready for runtime:
+
+```json
+{"blocked_by": [], "can_run_paired_eval": true, "min_scenes": 5, "selected_scene_count": 5, "status": "ready_for_internnav_runtime"}
 ```
 
 For paper statistics, include only paired episodes where both original and
@@ -520,9 +568,9 @@ limitations, not silently counted as navigation failures.
 
 ## Next Work
 
-1. Let the clean original v8 pilot30 complete and inspect its final result and
+1. Let the clean original v9 pilot30 complete and inspect its final result and
    logs.
-2. Run the modified v8 pilot30 counterpart from equally clean logs and
+2. Run the modified v9 pilot30 counterpart from equally clean logs and
    `data/sample_episodes` state, with stdout redirected to a log file.
 3. Extract aggregate and per-episode metrics for both conditions.
 4. Run paired analysis and select video cases.
