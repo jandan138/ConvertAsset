@@ -407,6 +407,80 @@ It has 13 episodes across six scenes. This is a clean continuation candidate,
 but it still cannot reach the 30-episode pilot gate until more original/no-MDL
 scene pairs are made ready.
 
+## Expanded30 Input Gate
+
+The next ACL pilot input gate expands the converted navigation scene pool in the
+scratch tree, not in the clean GRScenes source tree. On 2026-05-25, ten more
+home-scene `start_result_navigation.usd` files were converted to
+`start_result_navigation_noMDL.usd` under:
+
+```text
+/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521
+```
+
+The expansion report is:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/navigation_nomdl_expand_20260525_report.json
+```
+
+Post-conversion inventory:
+
+| item | value |
+| --- | ---: |
+| newly converted navigation scenes | 10 |
+| failed conversions | 0 |
+| ready original/no-MDL navigation scenes | 16 |
+| ready episodes before height filter | 162 |
+| ready flat episodes at `max_reference_z_delta=0.3` | 38 |
+| skipped high-z ready episodes | 124 |
+
+This enables a 30-episode, 16-scene flat-filter candidate while excluding the
+known modified tvstand reset hang:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_flatfilter_expanded30_prep_manifest.json
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_flatfilter_expanded30_height_audit.json
+/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30
+```
+
+Generation command:
+
+```bash
+python paper/shared/evidence/experiments/07_internnav_vln_downstream/prepare_minipair.py \
+  --max-episodes 30 \
+  --split-name acl_main_pilot30_flatfilter_expanded30 \
+  --work-root /cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30 \
+  --repo-manifest-path paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_flatfilter_expanded30_prep_manifest.json \
+  --ready-only \
+  --min-scenes 10 \
+  --selection-strategy round_robin_scenes \
+  --max-reference-z-delta 0.3 \
+  --exclude-path-key MV7J6NIKTKJZ2AABAAAAADY8_usd_tvstand_model_0b7e2a91f26da6b0f1f83c1c7d824399_0_0_6 \
+  --exclusion-reason modified_flatfilter_reset_hang \
+  --supersedes-manifest-path paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_flatfilter_v2_prep_manifest.json
+```
+
+The numeric suffix in an InternNav display path key is dataset-order dependent.
+The expanded30 exclusion matcher treats the hung tvstand trajectory/base target
+identity as stable, so the manifest may record an excluded replacement record
+with a different final suffix, such as `_92`, while still matching the requested
+hang key ending in `_6`.
+
+Expanded30 status:
+
+| item | value |
+| --- | ---: |
+| selected episodes | 30 |
+| selected scenes | 16 |
+| height audit `would_filter_stairs_count` | 0 |
+| known hang path selected | 0 |
+| claim gate | `ready_for_internnav_runtime` |
+
+This is still input-preparation evidence only. It means the next original and
+modified InternNav runtime jobs can be launched with a paper-pilot-sized split;
+it does not mean SR/SPL/NE/TL evidence exists for this split yet.
+
 ## Paper Video Workflow
 
 Do not enable video for the full metric batch. Use this storage-bounded flow:
@@ -430,6 +504,26 @@ Current metric configs intentionally produce no paper video artifacts. The
 existing LMDB records contain terminal metrics, not per-step robot trajectory
 JSON, so trajectory figures require either selected video reruns or an
 InternNav-side pose/action dump patch.
+
+`generate_video_rerun_configs.py` creates the selected-only video rerun package
+from a prep manifest and a video-case manifest. It reuses the selected
+episode records, installs the required scene sidecars beside `fixed.usd`, and
+generates original/modified configs with `vis_output=True`.
+
+Example for the current 12-pair diagnostic case set:
+
+```bash
+python paper/shared/evidence/experiments/07_internnav_vln_downstream/generate_video_rerun_configs.py \
+  --prep-manifest paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_flatfilter_prep_manifest.json \
+  --video-case-manifest paper/shared/evidence/raw/internnav_vln_downstream/video_case_manifest_flatfilter_partial.json \
+  --output-work-root /cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_flatfilter_video_selected_partial \
+  --output-manifest paper/shared/evidence/raw/internnav_vln_downstream/video_rerun_manifest_flatfilter_partial.json \
+  --split-name acl_main_pilot30_flatfilter_video_selected_partial
+```
+
+The generated manifest currently selects six diagnostic episodes across three
+scenes. It records expected mp4 paths, but no mp4 evidence exists until the
+selected-only original and modified rerun commands complete.
 
 Paper videos should show a matched original/no-MDL episode with the same scene,
 instruction, start, and goal. Each clip should label the episode id,

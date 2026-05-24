@@ -43,12 +43,29 @@ Current files:
 - `acl_main_pilot30_flatfilter_v2_prep_manifest.json`: deterministic follow-up
   split generated from the modified-runtime hang triage. It excludes the hung
   tvstand path and contains 13 episodes across six scenes.
+- `navigation_nomdl_expand_20260525_report.json`: scratch-tree navigation
+  no-MDL expansion report. Ten additional home scenes were converted
+  successfully, raising the ready original/no-MDL navigation inventory to 16
+  scenes and 38 flat-filter episodes.
+- `acl_main_pilot30_flatfilter_expanded30_prep_manifest.json`: current
+  30-episode / 16-scene flat-filter candidate split. It excludes the known
+  modified tvstand reset-hang path and is ready for real InternNav runtime.
+- `acl_main_pilot30_flatfilter_expanded30_height_audit.json`: height and
+  known-hang audit for the expanded30 split; no selected episode violates the
+  0.3m z-jump gate and the known hang path is not present.
+- `video_rerun_manifest_flatfilter_partial.json`: selected-only video rerun
+  package for six diagnostic flat-filter cases. It records configs and expected
+  mp4 paths with `vis_output=True`, but it is not video evidence until the rerun
+  jobs finish.
 
 Large runtime assets, `fixed.usd` links, generated InternNav configs, and
-`mini.json.gz` live outside git under:
+dataset JSON files live outside git. Current roots are:
 
 ```text
-/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523
+/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523                     # one-episode smoke
+/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30_flatfilter  # 14-episode flat-filter diagnostic
+/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30
+/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_flatfilter_video_selected_partial
 ```
 
 The real smoke run completed with `Count=1` for both material conditions. Both
@@ -74,3 +91,8 @@ bbox are identical across original/modified, the modified target has no residual
 MDL, and no target-local unresolved reference or invalid physics authoring was
 found. Treat the 12-pair analysis as runtime-diagnostic evidence only, not a
 paper-level SR/SPL result.
+
+The 2026-05-25 expansion changes the next step from "we only have 14 usable
+flat episodes" to "we have a 30-episode input split ready to run." The evidence
+boundary is important: expanded30 has not produced InternNav metrics yet, and
+the selected video manifest has not produced mp4 files yet.

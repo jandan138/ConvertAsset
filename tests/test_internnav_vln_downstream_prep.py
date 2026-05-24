@@ -13,6 +13,9 @@ RUN_SCRIPT = ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstre
 EXTRACT_SCRIPT = ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstream/extract_episode_metrics.py"
 ANALYZE_SCRIPT = ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstream/analyze_paired_metrics.py"
 VIDEO_SELECT_SCRIPT = ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstream/select_video_cases.py"
+VIDEO_RERUN_SCRIPT = (
+    ROOT / "paper/shared/evidence/experiments/07_internnav_vln_downstream/generate_video_rerun_configs.py"
+)
 
 
 def load_prep_module():
@@ -57,6 +60,14 @@ def load_analyze_module():
 
 def load_video_select_module():
     spec = importlib.util.spec_from_file_location("internnav_vln_select_video_cases", VIDEO_SELECT_SCRIPT)
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def load_video_rerun_module():
+    spec = importlib.util.spec_from_file_location("internnav_vln_generate_video_rerun_configs", VIDEO_RERUN_SCRIPT)
     assert spec and spec.loader
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -1107,6 +1118,161 @@ def test_select_video_cases_rejects_non_positive_case_quota() -> None:
         assert "max_cases must be positive" in str(exc)
     else:
         raise AssertionError("selector accepted max_cases=0")
+
+
+def test_generate_video_rerun_configs_writes_selected_dataset_configs_and_manifest(tmp_path: Path) -> None:
+    prep = load_prep_module()
+    module = load_video_rerun_module()
+    source_root = make_source_root(tmp_path)
+    nomdl_root = tmp_path / "zzh-grscenes_nomdl"
+    write_scene_usd(nomdl_root, "home_scenes", "scene_a_usd", "start_result_navigation_noMDL.usd")
+    metric_work_root = tmp_path / "metric_work"
+    prep_manifest_path = tmp_path / "prep_manifest.json"
+    prep_manifest = prep.prepare_minipair(
+        source_root=source_root,
+        nomdl_root=nomdl_root,
+        work_root=metric_work_root,
+        repo_manifest_path=prep_manifest_path,
+        max_episodes=1,
+        split_name="metric_split",
+        link_mode="symlink",
+    )
+    source_path_key = (
+        f"{prep_manifest['episode_records'][0]['trajectory_id']}_{prep_manifest['episode_records'][0]['episode_id']}"
+    )
+    video_case_manifest_path = tmp_path / "video_case_manifest.json"
+    write_json(
+        video_case_manifest_path,
+        {
+            "schema_version": 1,
+            "selected_cases": [
+                {
+                    "path_key": source_path_key,
+                    "case_type": "both_failure_divergent",
+                    "metrics": {
+                        "original": {"TL": 1.0, "NE": 2.0, "OS": 0.0, "SR": 0.0, "SPL": 0.0, "steps": 10},
+                        "modified": {"TL": 3.0, "NE": 4.0, "OS": 0.0, "SR": 0.0, "SPL": 0.0, "steps": 20},
+                    },
+                }
+            ],
+        },
+    )
+    output_work_root = tmp_path / "video_work"
+    output_manifest_path = tmp_path / "video_rerun_manifest.json"
+
+    manifest = module.generate_video_rerun_configs(
+        prep_manifest_path=prep_manifest_path,
+        video_case_manifest_path=video_case_manifest_path,
+        output_work_root=output_work_root,
+        output_manifest_path=output_manifest_path,
+        split_name="metric_split_video_selected",
+        link_mode="symlink",
+    )
+
+    dataset_path = Path(manifest["dataset"]["path"])
+    assert dataset_path == (
+        output_work_root
+        / "datasets/grscene_sn_metric_split_video_selected/metric_split_video_selected/metric_split_video_selected.json.gz"
+    )
+    with gzip.open(dataset_path, "rt", encoding="utf-8") as handle:
+        payload = json.load(handle)
+    assert len(payload["episodes"]) == 1
+    assert f"{payload['episodes'][0]['trajectory_id']}_{payload['episodes'][0]['episode_id']}" == source_path_key
+    assert Path(manifest["internnav_eval_configs"]["original"]).exists()
+    assert Path(manifest["internnav_eval_configs"]["modified"]).exists()
+    original_cfg = Path(manifest["internnav_eval_configs"]["original"]).read_text(encoding="utf-8")
+    modified_cfg = Path(manifest["internnav_eval_configs"]["modified"]).read_text(encoding="utf-8")
+    assert '"vis_output": True' in original_cfg
+    assert '"vis_output": True' in modified_cfg
+    assert "convertasset_grscene_sn_original_metric_split_video_selected" in original_cfg
+    assert "convertasset_grscene_sn_modified_metric_split_video_selected" in modified_cfg
+    assert (output_work_root / "scene_data/original/scene_a_usd/fixed.usd").is_symlink()
+    assert (output_work_root / "scene_data/converted/scene_a_usd/fixed.usd").is_symlink()
+    expected = manifest["expected_video_outputs"][0]
+    assert expected["path_key"] == source_path_key
+    assert expected["original_mp4"].endswith(f"/video/{source_path_key}/{source_path_key}.mp4")
+    assert expected["modified_mp4"].endswith(f"/video/{source_path_key}/{source_path_key}.mp4")
+    assert manifest["internnav_eval_commands"]["original"].startswith("cd ")
+    assert manifest["claim_gate"]["selected_episode_count"] == 1
+    assert output_manifest_path.exists()
+
+
+def test_generate_video_rerun_configs_rejects_unknown_selected_path_key(tmp_path: Path) -> None:
+    prep = load_prep_module()
+    module = load_video_rerun_module()
+    source_root = make_source_root(tmp_path)
+    nomdl_root = tmp_path / "zzh-grscenes_nomdl"
+    write_scene_usd(nomdl_root, "home_scenes", "scene_a_usd", "start_result_navigation_noMDL.usd")
+    prep_manifest_path = tmp_path / "prep_manifest.json"
+    prep.prepare_minipair(
+        source_root=source_root,
+        nomdl_root=nomdl_root,
+        work_root=tmp_path / "metric_work",
+        repo_manifest_path=prep_manifest_path,
+        max_episodes=1,
+        split_name="metric_split",
+        link_mode="symlink",
+    )
+    video_case_manifest_path = tmp_path / "video_case_manifest.json"
+    write_json(video_case_manifest_path, {"schema_version": 1, "selected_cases": [{"path_key": "missing_key"}]})
+
+    try:
+        module.generate_video_rerun_configs(
+            prep_manifest_path=prep_manifest_path,
+            video_case_manifest_path=video_case_manifest_path,
+            output_work_root=tmp_path / "video_work",
+            output_manifest_path=tmp_path / "video_rerun_manifest.json",
+            split_name="metric_split_video_selected",
+        )
+    except KeyError as exc:
+        assert "selected path_key not found in source dataset" in str(exc)
+    else:
+        raise AssertionError("generator accepted unknown selected path_key")
+
+
+def test_generate_video_rerun_configs_rejects_duplicate_selected_path_key(tmp_path: Path) -> None:
+    prep = load_prep_module()
+    module = load_video_rerun_module()
+    source_root = make_source_root(tmp_path)
+    nomdl_root = tmp_path / "zzh-grscenes_nomdl"
+    write_scene_usd(nomdl_root, "home_scenes", "scene_a_usd", "start_result_navigation_noMDL.usd")
+    prep_manifest_path = tmp_path / "prep_manifest.json"
+    prep_manifest = prep.prepare_minipair(
+        source_root=source_root,
+        nomdl_root=nomdl_root,
+        work_root=tmp_path / "metric_work",
+        repo_manifest_path=prep_manifest_path,
+        max_episodes=1,
+        split_name="metric_split",
+        link_mode="symlink",
+    )
+    source_path_key = (
+        f"{prep_manifest['episode_records'][0]['trajectory_id']}_{prep_manifest['episode_records'][0]['episode_id']}"
+    )
+    video_case_manifest_path = tmp_path / "video_case_manifest.json"
+    write_json(
+        video_case_manifest_path,
+        {
+            "schema_version": 1,
+            "selected_cases": [
+                {"path_key": source_path_key, "case_type": "case_a"},
+                {"path_key": source_path_key, "case_type": "case_b"},
+            ],
+        },
+    )
+
+    try:
+        module.generate_video_rerun_configs(
+            prep_manifest_path=prep_manifest_path,
+            video_case_manifest_path=video_case_manifest_path,
+            output_work_root=tmp_path / "video_work",
+            output_manifest_path=tmp_path / "video_rerun_manifest.json",
+            split_name="metric_split_video_selected",
+        )
+    except ValueError as exc:
+        assert "duplicate selected path_key" in str(exc)
+    else:
+        raise AssertionError("generator accepted duplicate selected path_key")
 
 
 def test_run_internnav_eval_builds_runtime_env_without_dropping_existing_pythonpath(tmp_path: Path) -> None:

@@ -1,0 +1,2510 @@
+{
+  "claim_boundary": "input_preparation_only_not_sr_spl_evidence",
+  "claim_gate": {
+    "blocked_by": [],
+    "can_run_paired_eval": true,
+    "min_scenes": 10,
+    "selected_scene_count": 16,
+    "status": "ready_for_internnav_runtime"
+  },
+  "dataset": {
+    "dataset_type": "grscene",
+    "episode_count": 30,
+    "hash_sha256": "ee9d76da2d86be3b5ce0cc21f7d28644c452de5b43486c45038e4a133f5ebc58",
+    "path": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/datasets/grscene_sn_acl_main_pilot30_flatfilter_expanded30/acl_main_pilot30_flatfilter_expanded30/acl_main_pilot30_flatfilter_expanded30.json.gz",
+    "split": "acl_main_pilot30_flatfilter_expanded30"
+  },
+  "episode_records": [
+    {
+      "episode_id": 0,
+      "geodesic_distance": 9.036797103881831,
+      "instruction_text": "Navigate to tvstand.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAABQ8_usd",
+      "source": {
+        "candidates": [
+          "tvstand/SM_01_6F2B5YUTD5TGIPTULQ888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "tvstand/model_3df4ccf6684cde712f79a51e8888ad05_0",
+        "target_point": [
+          1.7970876755235168,
+          -3.150059318496787,
+          0.1
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_tvstand_model_3df4ccf6684cde712f79a51e8888ad05_0_0_0",
+      "source_selection_rank": 0,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_tvstand_model_3df4ccf6684cde712f79a51e8888ad05_0_0"
+    },
+    {
+      "episode_id": 1,
+      "geodesic_distance": 7.045190285020173,
+      "instruction_text": "Navigate to trashcan.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAADY8_usd",
+      "source": {
+        "candidates": [
+          "trashcan/SM_01_ZEMEBORVAJSQIPTULY888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "trashcan/model_03425f62b0b5632d0cc2f8a9374171ef_0",
+        "target_point": [
+          0.36693000519746716,
+          -0.3561449671336908,
+          0.16006012625009866
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAADY8_usd_trashcan_model_03425f62b0b5632d0cc2f8a9374171ef_0_0_1",
+      "source_selection_rank": 1,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADY8_usd_trashcan_model_03425f62b0b5632d0cc2f8a9374171ef_0_0"
+    },
+    {
+      "episode_id": 2,
+      "geodesic_distance": 12.87109539766859,
+      "instruction_text": "Navigate to shoe.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAACI8_usd",
+      "source": {
+        "candidates": [
+          "shoe/SM_00_6IWDRVBVAZS6WPTUL4888888",
+          "shoe/SM_02_6IWDRVBVAZS6WPTUL4888888",
+          "shoe/SM_01_6IWDRVBVAZS6WPTUL4888888",
+          "shoe/SM_03_6IWDRVBVAZS6WPTUL4888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "shoe/model_7d0eecd986509741ee8b78520e3c7d57_0",
+        "target_point": [
+          -4.381488712942599,
+          -1.9723900565317152,
+          0.03557104720906341
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAACI8_usd_shoe_model_7d0eecd986509741ee8b78520e3c7d57_0_0_7",
+      "source_selection_rank": 7,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACI8_usd_shoe_model_7d0eecd986509741ee8b78520e3c7d57_0_0"
+    },
+    {
+      "episode_id": 3,
+      "geodesic_distance": 9.425159555539743,
+      "instruction_text": "Navigate to basket.",
+      "scan": "MVUHLWYKTKJ5EAABAAAAAAI8_usd",
+      "source": {
+        "candidates": [
+          "basket/SM_00_6PY52XBVAV6OSPTUKQ888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "basket/model_542bba53bbbeff0f80642dcf96aa012e_0",
+        "target_point": [
+          -5.275443393919536,
+          -0.2999094415081349,
+          0.2154107405373189
+        ]
+      },
+      "source_path_key": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_basket_model_542bba53bbbeff0f80642dcf96aa012e_0_0_9",
+      "source_selection_rank": 9,
+      "trajectory_id": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_basket_model_542bba53bbbeff0f80642dcf96aa012e_0_0"
+    },
+    {
+      "episode_id": 4,
+      "geodesic_distance": 9.460651706756433,
+      "instruction_text": "Navigate to box.",
+      "scan": "MVUHL5YKTKJ5EAABAAAAAAI8_usd",
+      "source": {
+        "candidates": [
+          "box/SM_01_66TFZYETDVQVGOW3LI888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "box/model_70857f157d3f489c37d41923e7bea4f0_0",
+        "target_point": [
+          -4.69475452712592,
+          5.54058672635507,
+          0.16134871067614728
+        ]
+      },
+      "source_path_key": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_box_model_70857f157d3f489c37d41923e7bea4f0_0_0_11",
+      "source_selection_rank": 11,
+      "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_box_model_70857f157d3f489c37d41923e7bea4f0_0_0"
+    },
+    {
+      "episode_id": 5,
+      "geodesic_distance": 7.636377512966899,
+      "instruction_text": "Navigate to shoe.",
+      "scan": "MV7J6NIKTKJZ2AABAAAAAEI8_usd",
+      "source": {
+        "candidates": [],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "validate",
+        "object_instance_id": "shoe/model_945a3dcb9a2474cec222546e1fb5186c_0",
+        "target_point": [
+          -1.2024510700919375,
+          1.7274581230774901,
+          0.03546188233552737
+        ]
+      },
+      "source_path_key": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_shoe_model_945a3dcb9a2474cec222546e1fb5186c_0_0_15",
+      "source_selection_rank": 15,
+      "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_shoe_model_945a3dcb9a2474cec222546e1fb5186c_0_0"
+    },
+    {
+      "episode_id": 6,
+      "geodesic_distance": 8.657173805236804,
+      "instruction_text": "Navigate to stool.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAABQ8_usd",
+      "source": {
+        "candidates": [
+          "stool/SM_02_ZYLID5BVAJYD2PTULI888888",
+          "stool/SM_01_ZYLID5BVAJYD2PTULI888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "stool/model_b7afc2a6be1cde6d15f06491b4838949_0",
+        "target_point": [
+          -1.3485231144362735,
+          -5.975755413860276,
+          0.23462136434244432
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_stool_model_b7afc2a6be1cde6d15f06491b4838949_0_0_16",
+      "source_selection_rank": 16,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_stool_model_b7afc2a6be1cde6d15f06491b4838949_0_0"
+    },
+    {
+      "episode_id": 7,
+      "geodesic_distance": 8.829464790868371,
+      "instruction_text": "Navigate to trashcan.",
+      "scan": "MVUHLWYKTKJ5EAABAAAAAAI8_usd",
+      "source": {
+        "candidates": [
+          "trashcan/SM_01_ZEPZEGBVALDHUPTULU888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "trashcan/model_0cd7552a27e98e992c6c8fc14a0d348e_0",
+        "target_point": [
+          -2.7598057091713963,
+          4.5432906793398455,
+          0.2194628761012121
+        ]
+      },
+      "source_path_key": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_trashcan_model_0cd7552a27e98e992c6c8fc14a0d348e_0_0_25",
+      "source_selection_rank": 25,
+      "trajectory_id": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_trashcan_model_0cd7552a27e98e992c6c8fc14a0d348e_0_0"
+    },
+    {
+      "episode_id": 8,
+      "geodesic_distance": 10.548032721430118,
+      "instruction_text": "Navigate to bathtub.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAADA8_usd",
+      "source": {
+        "candidates": [
+          "bathtub/SM_01_ZEO7J7RVAIILMPTUK4888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "bathtub/model_0f4012b0c6260218bd4c2d12afd28f84_0",
+        "target_point": [
+          0.93259175650321,
+          3.563894879469185,
+          0.23776169053172103
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAADA8_usd_bathtub_model_0f4012b0c6260218bd4c2d12afd28f84_0_0_26",
+      "source_selection_rank": 26,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADA8_usd_bathtub_model_0f4012b0c6260218bd4c2d12afd28f84_0_0"
+    },
+    {
+      "episode_id": 9,
+      "geodesic_distance": 10.928113929168761,
+      "instruction_text": "Navigate to trashcan.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAADI8_usd",
+      "source": {
+        "candidates": [
+          "trashcan/SM_01_ZEPZGXZVAIMAGPTULA888888",
+          "trashcan/SM_03_ZEPZEGBVALDHUPTULQ888888",
+          "trashcan/SM_05_ZEMEBPRVAJT3GPTULQ888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "trashcan/model_69e8e98ed9b9e9677f492700a42ccc5c_0",
+        "target_point": [
+          2.3569414463860636,
+          1.534264660983422,
+          0.19670548967599188
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAADI8_usd_trashcan_model_69e8e98ed9b9e9677f492700a42ccc5c_0_0_37",
+      "source_selection_rank": 37,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADI8_usd_trashcan_model_69e8e98ed9b9e9677f492700a42ccc5c_0_0"
+    },
+    {
+      "episode_id": 10,
+      "geodesic_distance": 7.872626802347822,
+      "instruction_text": "Navigate to blanket.",
+      "scan": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source": {
+        "candidates": [],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "validate",
+        "object_instance_id": "blanket/model_21daaa3146f69e6b6506cbe630a38bc9_0",
+        "target_point": [
+          -14.686902802222185,
+          1.7466837767272712,
+          0.0050802492289464705
+        ]
+      },
+      "source_path_key": "MV7J6NIKTKJZ2AABAAAAADY8_usd_blanket_model_21daaa3146f69e6b6506cbe630a38bc9_0_0_44",
+      "source_selection_rank": 44,
+      "trajectory_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd_blanket_model_21daaa3146f69e6b6506cbe630a38bc9_0_0"
+    },
+    {
+      "episode_id": 11,
+      "geodesic_distance": 7.709380703059748,
+      "instruction_text": "Navigate to basket.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAAAY8_usd",
+      "source": {
+        "candidates": [],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "validate",
+        "object_instance_id": "basket/model_6c68230d67112b1dfd2bd7fa9322c756_0",
+        "target_point": [
+          -6.330773328055671,
+          1.6139928148446372,
+          0.21446431103971697
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_basket_model_6c68230d67112b1dfd2bd7fa9322c756_0_0_46",
+      "source_selection_rank": 46,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_basket_model_6c68230d67112b1dfd2bd7fa9322c756_0_0"
+    },
+    {
+      "episode_id": 12,
+      "geodesic_distance": 7.601500663757308,
+      "instruction_text": "Navigate to basket.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAABQ8_usd",
+      "source": {
+        "candidates": [
+          "basket/SM_00_6PY52XBVAV6OSPTUKQ888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "basket/model_8aa79df9bdd027234ef70ce985828995_0",
+        "target_point": [
+          1.2635350059616774,
+          4.226028217984883,
+          0.2158910535809196
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_basket_model_8aa79df9bdd027234ef70ce985828995_0_0_64",
+      "source_selection_rank": 64,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_basket_model_8aa79df9bdd027234ef70ce985828995_0_0"
+    },
+    {
+      "episode_id": 13,
+      "geodesic_distance": 7.066363117713026,
+      "instruction_text": "Navigate to couch.",
+      "scan": "MVUHL5YKTKJ5EAABAAAAAAA8_usd",
+      "source": {
+        "candidates": [
+          "couch/SM_00_6IR7WXJVAZUVYPTUKY888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "couch/model_7e7bd5e330ae861bfb7e9a077e3007ce_0",
+        "target_point": [
+          -3.6770872509248154,
+          1.0327539903727183,
+          0.2681276982214554
+        ]
+      },
+      "source_path_key": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_couch_model_7e7bd5e330ae861bfb7e9a077e3007ce_0_0_70",
+      "source_selection_rank": 70,
+      "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_couch_model_7e7bd5e330ae861bfb7e9a077e3007ce_0_0"
+    },
+    {
+      "episode_id": 14,
+      "geodesic_distance": 9.898774647894689,
+      "instruction_text": "Navigate to tvstand.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAAAY8_usd",
+      "source": {
+        "candidates": [],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "validate",
+        "object_instance_id": "tvstand/model_06092a95ba89d5641a4f86752edd3dff_0",
+        "target_point": [
+          -3.214065440672389,
+          4.36209000134191,
+          0.21002594746612646
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_tvstand_model_06092a95ba89d5641a4f86752edd3dff_0_0_78",
+      "source_selection_rank": 78,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_tvstand_model_06092a95ba89d5641a4f86752edd3dff_0_0"
+    },
+    {
+      "episode_id": 15,
+      "geodesic_distance": 11.227003330100986,
+      "instruction_text": "Navigate to toilet.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAADY8_usd",
+      "source": {
+        "candidates": [
+          "toilet/SM_01_ZEPZB5RVAJ5MYPTUKI888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "toilet/model_9b773fd00bc7a69cb9fd954d0c2a48d9_0",
+        "target_point": [
+          -4.590037033171084,
+          -3.6255935020801218,
+          0.2501815125689813
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAADY8_usd_toilet_model_9b773fd00bc7a69cb9fd954d0c2a48d9_0_0_81",
+      "source_selection_rank": 81,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADY8_usd_toilet_model_9b773fd00bc7a69cb9fd954d0c2a48d9_0_0"
+    },
+    {
+      "episode_id": 16,
+      "geodesic_distance": 10.691088034143371,
+      "instruction_text": "Navigate to cup.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAACI8_usd",
+      "source": {
+        "candidates": [
+          "cup/SM_00_6MVNQ4JVAURAQPTUL4888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "cup/model_99550e8f57d4ce85f878101119910cca_0",
+        "target_point": [
+          3.346304126676747,
+          -1.9638920288934267,
+          0.056895259313876824
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAACI8_usd_cup_model_99550e8f57d4ce85f878101119910cca_0_0_87",
+      "source_selection_rank": 87,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACI8_usd_cup_model_99550e8f57d4ce85f878101119910cca_0_0"
+    },
+    {
+      "episode_id": 17,
+      "geodesic_distance": 8.16969018259782,
+      "instruction_text": "Navigate to nightstand.",
+      "scan": "MV7J6NIKTKJZ2AABAAAAAEI8_usd",
+      "source": {
+        "candidates": [],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "validate",
+        "object_instance_id": "nightstand/model_89639fa1f5b5a0e8f64fc634bd0f33c2_0",
+        "target_point": [
+          -2.2289464919184936,
+          -1.230394390353722,
+          0.29303485
+        ]
+      },
+      "source_path_key": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_nightstand_model_89639fa1f5b5a0e8f64fc634bd0f33c2_0_0_95",
+      "source_selection_rank": 95,
+      "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_nightstand_model_89639fa1f5b5a0e8f64fc634bd0f33c2_0_0"
+    },
+    {
+      "episode_id": 18,
+      "geodesic_distance": 10.240344006376233,
+      "instruction_text": "Navigate to toilet.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAACY8_usd",
+      "source": {
+        "candidates": [
+          "toilet/SM_01_ZEPZBURVAI7DEPTUJQ888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "toilet/model_c91b053b0007cd0be1c5e77622151469_0",
+        "target_point": [
+          -6.206780177621525,
+          1.6473360376370194,
+          0.208485495167384
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAACY8_usd_toilet_model_c91b053b0007cd0be1c5e77622151469_0_0_98",
+      "source_selection_rank": 98,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACY8_usd_toilet_model_c91b053b0007cd0be1c5e77622151469_0_0"
+    },
+    {
+      "episode_id": 19,
+      "geodesic_distance": 7.940081488059328,
+      "instruction_text": "Navigate to tray.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAACI8_usd",
+      "source": {
+        "candidates": [
+          "tray/SM_00_6MVNQ4JVAURAQPTUL4888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "tray/model_0e670d9ca896a91367ae5f3c380720b8_0",
+        "target_point": [
+          3.385708190512717,
+          -1.981275057156227,
+          0.024960799317346488
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAACI8_usd_tray_model_0e670d9ca896a91367ae5f3c380720b8_0_0_103",
+      "source_selection_rank": 103,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACI8_usd_tray_model_0e670d9ca896a91367ae5f3c380720b8_0_0"
+    },
+    {
+      "episode_id": 20,
+      "geodesic_distance": 7.638578421614535,
+      "instruction_text": "Navigate to table.",
+      "scan": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd",
+      "source": {
+        "candidates": [
+          "table/SM_01_ZSONITBVAVVDCPTUKY888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "table/model_ca73927300d6ba342beab019ce834d52_0",
+        "target_point": [
+          -2.508542756120118,
+          2.6701290718214468,
+          0.19229700000000005
+        ]
+      },
+      "source_path_key": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_table_model_ca73927300d6ba342beab019ce834d52_0_0_104",
+      "source_selection_rank": 104,
+      "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_table_model_ca73927300d6ba342beab019ce834d52_0_0"
+    },
+    {
+      "episode_id": 21,
+      "geodesic_distance": 7.578469319207888,
+      "instruction_text": "Navigate to teatable.",
+      "scan": "MV7J6NIKTKJZ2AABAAAAAEI8_usd",
+      "source": {
+        "candidates": [],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "validate",
+        "object_instance_id": "teatable/model_c2fd7610dd954b82e039b69834b2276b_0",
+        "target_point": [
+          3.2877459463918743,
+          -3.1614899259083575,
+          0.18631995479585434
+        ]
+      },
+      "source_path_key": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_teatable_model_c2fd7610dd954b82e039b69834b2276b_0_0_111",
+      "source_selection_rank": 111,
+      "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_teatable_model_c2fd7610dd954b82e039b69834b2276b_0_0"
+    },
+    {
+      "episode_id": 22,
+      "geodesic_distance": 9.448596096038795,
+      "instruction_text": "Navigate to trashcan.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAABQ8_usd",
+      "source": {
+        "candidates": [
+          "trashcan/SM_01_ZELJWAZVAIJBSPTUL4888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "trashcan/model_b644bab815f24cecfd5b6ccb96b02a2f_0",
+        "target_point": [
+          -0.8847319989414857,
+          -1.52306100053744,
+          0.18535405000000005
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_trashcan_model_b644bab815f24cecfd5b6ccb96b02a2f_0_0_112",
+      "source_selection_rank": 112,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_trashcan_model_b644bab815f24cecfd5b6ccb96b02a2f_0_0"
+    },
+    {
+      "episode_id": 23,
+      "geodesic_distance": 10.160978029456242,
+      "instruction_text": "Navigate to trashcan.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAACA8_usd",
+      "source": {
+        "candidates": [
+          "trashcan/SM_02_ZEMWOFRVAJQXQPTUKM888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "trashcan/model_be46eb97cf0615e4937ddf3d337c7b91_0",
+        "target_point": [
+          0.2571152645834554,
+          3.0224107308592036,
+          0.16480500000000003
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAACA8_usd_trashcan_model_be46eb97cf0615e4937ddf3d337c7b91_0_0_116",
+      "source_selection_rank": 116,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACA8_usd_trashcan_model_be46eb97cf0615e4937ddf3d337c7b91_0_0"
+    },
+    {
+      "episode_id": 24,
+      "geodesic_distance": 7.583417463070964,
+      "instruction_text": "Navigate to trashcan.",
+      "scan": "MVUHL5YKTKJ5EAABAAAAAAA8_usd",
+      "source": {
+        "candidates": [
+          "trashcan/SM_02_ZEMEBPBVAIUCIPTULQ888888",
+          "trashcan/SM_03_ZEMEBPBVAIUCIPTULQ888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "trashcan/model_0300e2035133712822b40dccd1515b56_0",
+        "target_point": [
+          -1.9179490327159572,
+          -4.01897458616123,
+          0.15653500000000004
+        ]
+      },
+      "source_path_key": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_trashcan_model_0300e2035133712822b40dccd1515b56_0_0_118",
+      "source_selection_rank": 118,
+      "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_trashcan_model_0300e2035133712822b40dccd1515b56_0_0"
+    },
+    {
+      "episode_id": 25,
+      "geodesic_distance": 8.433226711585558,
+      "instruction_text": "Navigate to teatable.",
+      "scan": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source": {
+        "candidates": [],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "validate",
+        "object_instance_id": "teatable/model_399f06cb7b5055c2996229ea88b37595_0",
+        "target_point": [
+          -14.623947975562192,
+          1.542919364366987,
+          0.2383638028489371
+        ]
+      },
+      "source_path_key": "MV7J6NIKTKJZ2AABAAAAADY8_usd_teatable_model_399f06cb7b5055c2996229ea88b37595_0_0_124",
+      "source_selection_rank": 124,
+      "trajectory_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd_teatable_model_399f06cb7b5055c2996229ea88b37595_0_0"
+    },
+    {
+      "episode_id": 26,
+      "geodesic_distance": 9.772357321845728,
+      "instruction_text": "Navigate to tvstand.",
+      "scan": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "source": {
+        "candidates": [],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "validate",
+        "object_instance_id": "tvstand/model_c0e9857e3d664ede6ad9926dc2584996_0",
+        "target_point": [
+          -3.81673117709472,
+          -1.5854048996746846,
+          0.25365977569394393
+        ]
+      },
+      "source_path_key": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_tvstand_model_c0e9857e3d664ede6ad9926dc2584996_0_0_125",
+      "source_selection_rank": 125,
+      "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_tvstand_model_c0e9857e3d664ede6ad9926dc2584996_0_0"
+    },
+    {
+      "episode_id": 27,
+      "geodesic_distance": 7.147420110830893,
+      "instruction_text": "Navigate to trashcan.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAACY8_usd",
+      "source": {
+        "candidates": [
+          "trashcan/SM_01_ZEMWOFRVAJQXQPTUKM888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "trashcan/model_a6ebe82bee648771fe46fc1ed9d076cb_0",
+        "target_point": [
+          -5.739520974088805,
+          1.8397696651701207,
+          0.17093383999999998
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAACY8_usd_trashcan_model_a6ebe82bee648771fe46fc1ed9d076cb_0_0_130",
+      "source_selection_rank": 130,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACY8_usd_trashcan_model_a6ebe82bee648771fe46fc1ed9d076cb_0_0"
+    },
+    {
+      "episode_id": 28,
+      "geodesic_distance": 10.137599446785764,
+      "instruction_text": "Navigate to toilet.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAABA8_usd",
+      "source": {
+        "candidates": [
+          "toilet/SM_01_ZEPZB5RVAJ5MYPTUKI888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "toilet/model_7b1df9e16776a9af392053f7b50b4135_0",
+        "target_point": [
+          -1.165115192489354,
+          -3.5934718385537185,
+          0.2501741644314619
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAABA8_usd_toilet_model_7b1df9e16776a9af392053f7b50b4135_0_0_131",
+      "source_selection_rank": 131,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABA8_usd_toilet_model_7b1df9e16776a9af392053f7b50b4135_0_0"
+    },
+    {
+      "episode_id": 29,
+      "geodesic_distance": 7.235340796630133,
+      "instruction_text": "Navigate to toilet.",
+      "scan": "MVUCSQAKTKJ5EAABAAAAADI8_usd",
+      "source": {
+        "candidates": [
+          "toilet/SM_02_ZEPZPJBVAIILMPTULI888888"
+        ],
+        "episode_file": "sn_episodes.json",
+        "episode_index": 0,
+        "episode_split": "test",
+        "object_instance_id": "toilet/model_502af48de13603e7fa2b09f549a8f476_0",
+        "target_point": [
+          6.962859468364751,
+          -5.793058734472369,
+          0.23969773422674628
+        ]
+      },
+      "source_path_key": "MVUCSQAKTKJ5EAABAAAAADI8_usd_toilet_model_502af48de13603e7fa2b09f549a8f476_0_0_133",
+      "source_selection_rank": 133,
+      "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADI8_usd_toilet_model_502af48de13603e7fa2b09f549a8f476_0_0"
+    }
+  ],
+  "expected_metrics": [
+    "TL",
+    "NE",
+    "FR",
+    "StR",
+    "OS",
+    "SR",
+    "SPL",
+    "Count"
+  ],
+  "generated_at": "2026-05-24T17:40:43.833354Z",
+  "internnav_eval_commands": {
+    "collect_results": "python /cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/07_internnav_vln_downstream/collect_results.py --prep-manifest /cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_flatfilter_expanded30_prep_manifest.json --original-result /cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_original_acl_main_pilot30_flatfilter_expanded30/result.json --converted-result /cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_modified_acl_main_pilot30_flatfilter_expanded30/result.json --output /cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/internnav_vln_downstream/internnav_vln_results.json",
+    "converted": "cd /cpfs/user/zhuzihou/dev/ConvertAsset && ./scripts/isaac_python.sh /cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/07_internnav_vln_downstream/run_internnav_eval.py --config /cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/configs/convertasset_grscene_sn_modified_acl_main_pilot30_flatfilter_expanded30_eval_cfg.py --internnav-root /cpfs/user/zhuzihou/dev/InternNav --runtime-deps-root /cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523",
+    "expected_result_jsons": [
+      "logs/convertasset_grscene_sn_original_acl_main_pilot30_flatfilter_expanded30/result.json",
+      "logs/convertasset_grscene_sn_modified_acl_main_pilot30_flatfilter_expanded30/result.json"
+    ],
+    "original": "cd /cpfs/user/zhuzihou/dev/ConvertAsset && ./scripts/isaac_python.sh /cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/07_internnav_vln_downstream/run_internnav_eval.py --config /cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/configs/convertasset_grscene_sn_original_acl_main_pilot30_flatfilter_expanded30_eval_cfg.py --internnav-root /cpfs/user/zhuzihou/dev/InternNav --runtime-deps-root /cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523"
+  },
+  "internnav_eval_configs": {
+    "converted": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/configs/convertasset_grscene_sn_modified_acl_main_pilot30_flatfilter_expanded30_eval_cfg.py",
+    "original": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/configs/convertasset_grscene_sn_original_acl_main_pilot30_flatfilter_expanded30_eval_cfg.py"
+  },
+  "internnav_git_commit": "7a5c62400ac45b313d9b709c740b64191556a242",
+  "internnav_runtime": {
+    "attn_fallback": "sdpa",
+    "checkpoint_path": "/cpfs/user/zhuzihou/dev/InternNav/checkpoints/InternVLA-N1-DualVLN",
+    "compatibility_patches": [
+      "disable_transformers_sklearn_probe",
+      "flash_attention_2_to_sdpa_when_flash_attn_missing",
+      "pkg_resources_packaging_alias_for_longclip",
+      "lumina_gradient_checkpointing_signature_compat",
+      "nextdit_ffn_dim_multiplier_for_checkpoint_shape"
+    ],
+    "debug_video_outputs": {
+      "reason": "avoid imageio/ffmpeg dependency and large debug video output in the minimal paired smoke run",
+      "vis_debug": false,
+      "vis_output": false
+    },
+    "h1_robot_usd_path": "/cpfs/user/zhuzihou/dev/InternNav/data/Embodiments/vln-pe/h1/h1_internvla.usd",
+    "hf_home": "/cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523/hf_cache",
+    "hf_hub_disable_xet": "1",
+    "internnav_root": "/cpfs/user/zhuzihou/dev/InternNav",
+    "nextdit_checkpoint_ffn_multiplier": 0.6666666666666666,
+    "pythonpath_entries": [
+      "/cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523/python_target",
+      "/cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523/internutopia_probe",
+      "/cpfs/user/zhuzihou/dev/InternNav"
+    ],
+    "runtime_deps_root": "/cpfs/user/zhuzihou/assets/internnav_vln_runtime_deps_20260523",
+    "wrapper_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/07_internnav_vln_downstream/run_internnav_eval.py"
+  },
+  "project_git_commit": "0f8b2beab79334e9257a82b53ad628c163ce46da",
+  "runtime_requirements": {
+    "not_required_for_this_preparation_step": [
+      "pxr",
+      "omni",
+      "InternNav model import"
+    ],
+    "required_for_real_metrics": [
+      "internutopia",
+      "internutopia_extension",
+      "Isaac Sim omni runtime",
+      "lmdb",
+      "msgpack_numpy",
+      "torch",
+      "InternVLA-N1 or alternate VLN model checkpoint",
+      "H1 robot USD and policy assets"
+    ]
+  },
+  "scene_data": {
+    "converted": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted",
+    "original": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original"
+  },
+  "scene_records": [
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MV7J6NIKTKJZ2AABAAAAADY8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "source_scene_split": "home_scenes"
+    },
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MV7J6NIKTKJZ2AABAAAAAEA8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MV7J6NIKTKJZ2AABAAAAAEA8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MV7J6NIKTKJZ2AABAAAAAEA8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MV7J6NIKTKJZ2AABAAAAAEA8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "source_scene_split": "home_scenes"
+    },
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MV7J6NIKTKJZ2AABAAAAAEI8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MV7J6NIKTKJZ2AABAAAAAEI8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEI8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MV7J6NIKTKJZ2AABAAAAAEI8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MV7J6NIKTKJZ2AABAAAAAEI8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEI8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAAEI8_usd",
+      "source_scene_split": "home_scenes"
+    },
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAAAY8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAAAY8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAY8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAAAY8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAAAY8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAY8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MVUCSQAKTKJ5EAABAAAAAAY8_usd",
+      "source_scene_split": "home_scenes"
+    },
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAABA8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAABA8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABA8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAABA8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAABA8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABA8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MVUCSQAKTKJ5EAABAAAAABA8_usd",
+      "source_scene_split": "home_scenes"
+    },
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAABQ8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAABQ8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABQ8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAABQ8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAABQ8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABQ8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MVUCSQAKTKJ5EAABAAAAABQ8_usd",
+      "source_scene_split": "home_scenes"
+    },
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAACA8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAACA8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACA8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAACA8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAACA8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACA8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MVUCSQAKTKJ5EAABAAAAACA8_usd",
+      "source_scene_split": "home_scenes"
+    },
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAACI8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAACI8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACI8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAACI8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAACI8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACI8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MVUCSQAKTKJ5EAABAAAAACI8_usd",
+      "source_scene_split": "home_scenes"
+    },
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAACY8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAACY8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACY8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAACY8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAACY8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACY8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MVUCSQAKTKJ5EAABAAAAACY8_usd",
+      "source_scene_split": "home_scenes"
+    },
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAADA8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAADA8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADA8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAADA8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAADA8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADA8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MVUCSQAKTKJ5EAABAAAAADA8_usd",
+      "source_scene_split": "home_scenes"
+    },
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAADI8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAADI8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADI8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAADI8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAADI8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADI8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MVUCSQAKTKJ5EAABAAAAADI8_usd",
+      "source_scene_split": "home_scenes"
+    },
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAADY8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUCSQAKTKJ5EAABAAAAADY8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADY8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAADY8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUCSQAKTKJ5EAABAAAAADY8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADY8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MVUCSQAKTKJ5EAABAAAAADY8_usd",
+      "source_scene_split": "home_scenes"
+    },
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUHL5YKTKJ5EAABAAAAAAA8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUHL5YKTKJ5EAABAAAAAAA8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAA8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUHL5YKTKJ5EAABAAAAAAA8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUHL5YKTKJ5EAABAAAAAAA8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAA8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MVUHL5YKTKJ5EAABAAAAAAA8_usd",
+      "source_scene_split": "home_scenes"
+    },
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUHL5YKTKJ5EAABAAAAAAI8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUHL5YKTKJ5EAABAAAAAAI8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAI8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUHL5YKTKJ5EAABAAAAAAI8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUHL5YKTKJ5EAABAAAAAAI8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAI8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MVUHL5YKTKJ5EAABAAAAAAI8_usd",
+      "source_scene_split": "home_scenes"
+    },
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUHL5YKTKJ5EAABAAAAAAQ8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUHL5YKTKJ5EAABAAAAAAQ8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAQ8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUHL5YKTKJ5EAABAAAAAAQ8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUHL5YKTKJ5EAABAAAAAAQ8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHL5YKTKJ5EAABAAAAAAQ8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd",
+      "source_scene_split": "home_scenes"
+    },
+    {
+      "blocked_by": [],
+      "converted_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/models"
+      },
+      "converted_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUHLWYKTKJ5EAABAAAAAAI8_usd/fixed_docker.usd",
+      "converted_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/converted/MVUHLWYKTKJ5EAABAAAAAAI8_usd/fixed.usd",
+      "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAI8_usd/start_result_navigation_noMDL.usd",
+      "converted_navigation_usd_exists": true,
+      "nomdl_scene_split": "home_scenes",
+      "original_dependency_sidecars": {
+        "Materials": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/Materials",
+        "models": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/models"
+      },
+      "original_fixed_docker_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUHLWYKTKJ5EAABAAAAAAI8_usd/fixed_docker.usd",
+      "original_fixed_usd": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30/scene_data/original/MVUHLWYKTKJ5EAABAAAAAAI8_usd/fixed.usd",
+      "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAI8_usd/start_result_navigation.usd",
+      "original_navigation_usd_exists": true,
+      "pair_status": "ready",
+      "scene_id": "MVUHLWYKTKJ5EAABAAAAAAI8_usd",
+      "source_scene_split": "home_scenes"
+    }
+  ],
+  "schema_version": 1,
+  "selection": {
+    "candidate_record_count": 300,
+    "excluded_episode_count": 1,
+    "excluded_episode_records": [
+      {
+        "path_key": "MV7J6NIKTKJZ2AABAAAAADY8_usd_tvstand_model_0b7e2a91f26da6b0f1f83c1c7d824399_0_0_92",
+        "reason": "modified_flatfilter_reset_hang",
+        "scan": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+        "source_selection_rank": 92,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd_tvstand_model_0b7e2a91f26da6b0f1f83c1c7d824399_0_0"
+      }
+    ],
+    "exclusion_reason": "modified_flatfilter_reset_hang",
+    "height_filter_policy": "skip_adjacent_z_delta_gt_threshold",
+    "height_filter_skipped_episode_count": 124,
+    "height_filter_skipped_episode_records": [
+      {
+        "max_adjacent_z_delta": 0.50217,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACY8_usd_clock_model_65d3fef413fc77f32f0ba71c1b56bc40_0_0_2",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACY8_usd",
+        "source_selection_rank": 2,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACY8_usd_clock_model_65d3fef413fc77f32f0ba71c1b56bc40_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.347777,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABA8_usd_pen_model_ec20d4941d36e5fb1eaf05eb45f2185b_0_0_3",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABA8_usd",
+        "source_selection_rank": 3,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABA8_usd_pen_model_ec20d4941d36e5fb1eaf05eb45f2185b_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.947059,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACA8_usd_pan_model_dd34f777a4e80da07c03d555580f2e4b_0_0_4",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACA8_usd",
+        "source_selection_rank": 4,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACA8_usd_pan_model_dd34f777a4e80da07c03d555580f2e4b_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.977984,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADI8_usd_pan_model_bb95a859b55dbceac69b18d30e6521df_0_0_5",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADI8_usd",
+        "source_selection_rank": 5,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADI8_usd_pan_model_bb95a859b55dbceac69b18d30e6521df_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.58053,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_towel_model_bded1cd83ec92d24ecbf0c9a7169c290_0_0_6",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAA8_usd",
+        "source_selection_rank": 6,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_towel_model_bded1cd83ec92d24ecbf0c9a7169c290_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.342723,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_blanket_model_05b9fd5ac5373b8959292191a6263c73_0_0_8",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd",
+        "source_selection_rank": 8,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_blanket_model_05b9fd5ac5373b8959292191a6263c73_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.747821,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADA8_usd_telephone_model_9eeba0db01da5af9e48c5c181749360f_0_0_10",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADA8_usd",
+        "source_selection_rank": 10,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADA8_usd_telephone_model_9eeba0db01da5af9e48c5c181749360f_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.988672,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAADY8_usd_towel_model_6568e0645616074f53ec54bee02f3654_0_0_12",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+        "source_selection_rank": 12,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd_towel_model_6568e0645616074f53ec54bee02f3654_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.428677,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_telephone_model_0e941b7787a15120c15900932fd3bf2a_0_0_13",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+        "source_selection_rank": 13,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_telephone_model_0e941b7787a15120c15900932fd3bf2a_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.132863,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_mirror_model_a271c524245ef0549b1b9bd94fe2177a_0_0_14",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAAAY8_usd",
+        "source_selection_rank": 14,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_mirror_model_a271c524245ef0549b1b9bd94fe2177a_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.12704,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADY8_usd_microwave_model_f79a476c791e395889118e7a6904a28c_0_0_17",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADY8_usd",
+        "source_selection_rank": 17,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADY8_usd_microwave_model_f79a476c791e395889118e7a6904a28c_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.890629,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACY8_usd_bottle_model_cbb22458417f40df7a44ba2af5e1904f_0_0_18",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACY8_usd",
+        "source_selection_rank": 18,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACY8_usd_bottle_model_cbb22458417f40df7a44ba2af5e1904f_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.950098,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABA8_usd_light_model_c23ec6fbdacf99fbffff0052789797b9_0_0_19",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABA8_usd",
+        "source_selection_rank": 19,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABA8_usd_light_model_c23ec6fbdacf99fbffff0052789797b9_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.92369,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACA8_usd_refrigerator_model_b40856029554f6e152f24a267738f99f_0_0_20",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACA8_usd",
+        "source_selection_rank": 20,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACA8_usd_refrigerator_model_b40856029554f6e152f24a267738f99f_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.49868,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADI8_usd_pot_model_470af759a7acbaf3d5d7538cf30b9f3f_0_0_21",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADI8_usd",
+        "source_selection_rank": 21,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADI8_usd_pot_model_470af759a7acbaf3d5d7538cf30b9f3f_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.081807,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_bottle_model_e49cf3bf85829d61c8e42fc972752859_0_0_22",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAA8_usd",
+        "source_selection_rank": 22,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_bottle_model_e49cf3bf85829d61c8e42fc972752859_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.576941,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACI8_usd_curtain_model_6d451957f1c8e05abc7ebbc2f5429840_0_0_23",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACI8_usd",
+        "source_selection_rank": 23,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACI8_usd_curtain_model_6d451957f1c8e05abc7ebbc2f5429840_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.496877,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_bed_model_4af884b0c1d1678b6f66e0ecc6771120_0_0_24",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd",
+        "source_selection_rank": 24,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_bed_model_4af884b0c1d1678b6f66e0ecc6771120_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.285965,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_washingmachine_model_bd2ef34741e9a4a9af869d84f3150836_0_0_27",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 27,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_washingmachine_model_bd2ef34741e9a4a9af869d84f3150836_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 2.25,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAADY8_usd_light_model_8eb01c9d0c7feb986eedfcba11ffd30b_0_0_28",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+        "source_selection_rank": 28,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd_light_model_8eb01c9d0c7feb986eedfcba11ffd30b_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.048988,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_monitor_model_34633ae02bc36a5f5feecab92cc2cc83_0_0_29",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+        "source_selection_rank": 29,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_monitor_model_34633ae02bc36a5f5feecab92cc2cc83_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.972248,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_bottle_model_7f0ab925cdb2a92993dfb56481f0f974_0_0_30",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAAAY8_usd",
+        "source_selection_rank": 30,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_bottle_model_7f0ab925cdb2a92993dfb56481f0f974_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.375,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_desk_model_7c459f4ed7f98cd08b3ec770d24e3b43_0_0_31",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEI8_usd",
+        "source_selection_rank": 31,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_desk_model_7c459f4ed7f98cd08b3ec770d24e3b43_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.721411,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_sink_model_dc2e8cb1a7d54886c1c9bdd37be3c02d_0_0_32",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABQ8_usd",
+        "source_selection_rank": 32,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_sink_model_dc2e8cb1a7d54886c1c9bdd37be3c02d_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.912786,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADY8_usd_refrigerator_model_06b56069550db369c6fb5974f2a3450c_0_0_33",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADY8_usd",
+        "source_selection_rank": 33,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADY8_usd_refrigerator_model_06b56069550db369c6fb5974f2a3450c_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.138845,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACY8_usd_plant_model_45643bf34708e97571c3a5b794cfebae_0_0_34",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACY8_usd",
+        "source_selection_rank": 34,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACY8_usd_plant_model_45643bf34708e97571c3a5b794cfebae_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.646095,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABA8_usd_pillow_model_a47a83a8d062b5d9c56ed64fb2421e11_0_0_35",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABA8_usd",
+        "source_selection_rank": 35,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABA8_usd_pillow_model_a47a83a8d062b5d9c56ed64fb2421e11_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.002332,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACA8_usd_electriccooker_model_6dcff0778b2c8c7614949fa7f4d8a8bd_0_0_36",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACA8_usd",
+        "source_selection_rank": 36,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACA8_usd_electriccooker_model_6dcff0778b2c8c7614949fa7f4d8a8bd_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.093909,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_shelf_model_9e46e3cd4b25a4b698f773328be73f6c_0_0_38",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAA8_usd",
+        "source_selection_rank": 38,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_shelf_model_9e46e3cd4b25a4b698f773328be73f6c_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.144825,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACI8_usd_tv_model_42beb3e0534b9f06c4649d709f386b72_0_0_39",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACI8_usd",
+        "source_selection_rank": 39,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACI8_usd_tv_model_42beb3e0534b9f06c4649d709f386b72_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 2.011223,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_clothes_model_8365b2ac482c9f0b38508da510852173_0_0_40",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd",
+        "source_selection_rank": 40,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_clothes_model_8365b2ac482c9f0b38508da510852173_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.979858,
+        "path_key": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_pan_model_403f970c60db6883c43f2db743334385_0_0_41",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHLWYKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 41,
+        "trajectory_id": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_pan_model_403f970c60db6883c43f2db743334385_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.507775,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADA8_usd_bed_model_a4de6d18fa462050e2f28f6b579cccb3_0_0_42",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADA8_usd",
+        "source_selection_rank": 42,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADA8_usd_bed_model_a4de6d18fa462050e2f28f6b579cccb3_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.400844,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_desk_model_ea1c6320d78130381cbe772d23c9aff3_0_0_43",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 43,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_desk_model_ea1c6320d78130381cbe772d23c9aff3_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.811656,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_keyboard_model_4df403796388286411e599f97b107806_0_0_45",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+        "source_selection_rank": 45,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_keyboard_model_4df403796388286411e599f97b107806_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.55,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_mirror_model_2ddf4e84830a8ad04d39b1d72a868e5e_0_0_47",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEI8_usd",
+        "source_selection_rank": 47,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_mirror_model_2ddf4e84830a8ad04d39b1d72a868e5e_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.48213,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_counter_model_28f3f1060c31e58327a03d8ce1f3cc70_0_0_48",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABQ8_usd",
+        "source_selection_rank": 48,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_counter_model_28f3f1060c31e58327a03d8ce1f3cc70_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.046636,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADY8_usd_faucet_model_b51e8a7684c235c2ed3d79b57ace4eaa_0_0_49",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADY8_usd",
+        "source_selection_rank": 49,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADY8_usd_faucet_model_b51e8a7684c235c2ed3d79b57ace4eaa_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.94,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACY8_usd_towel_model_3d9bce546cbcc96a0b59782acd1db9cf_0_0_50",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACY8_usd",
+        "source_selection_rank": 50,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACY8_usd_towel_model_3d9bce546cbcc96a0b59782acd1db9cf_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.717,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABA8_usd_microwave_model_46fc0bbd1605578fd8b3097884a27ff2_0_0_51",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABA8_usd",
+        "source_selection_rank": 51,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABA8_usd_microwave_model_46fc0bbd1605578fd8b3097884a27ff2_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.333013,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACA8_usd_microwave_model_699bb196fbcad1de3f017f4e61fb5a50_0_0_52",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACA8_usd",
+        "source_selection_rank": 52,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACA8_usd_microwave_model_699bb196fbcad1de3f017f4e61fb5a50_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.129332,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADI8_usd_microwave_model_3d2e2c819b57625aa7851fb04263c036_0_0_53",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADI8_usd",
+        "source_selection_rank": 53,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADI8_usd_microwave_model_3d2e2c819b57625aa7851fb04263c036_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.554903,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_clothes_model_02edc5c57aa9fe25fdb2433b0e51db2a_0_0_54",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAA8_usd",
+        "source_selection_rank": 54,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_clothes_model_02edc5c57aa9fe25fdb2433b0e51db2a_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.435334,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACI8_usd_bottle_model_247c08618a99186d9022c53c09d031fe_0_0_55",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACI8_usd",
+        "source_selection_rank": 55,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACI8_usd_bottle_model_247c08618a99186d9022c53c09d031fe_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.846531,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_cup_model_9c451064427bf0f3bc65143d1ca58e9a_0_0_56",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd",
+        "source_selection_rank": 56,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_cup_model_9c451064427bf0f3bc65143d1ca58e9a_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.403936,
+        "path_key": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_desk_model_14466ee47b2b5f59ef75167603bc0112_0_0_57",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHLWYKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 57,
+        "trajectory_id": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_desk_model_14466ee47b2b5f59ef75167603bc0112_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.027103,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADA8_usd_bottle_model_d849163155969388fb02ebc2b851c654_0_0_58",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADA8_usd",
+        "source_selection_rank": 58,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADA8_usd_bottle_model_d849163155969388fb02ebc2b851c654_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.88205,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_hearth_model_da9d37ab1195fb02f69309b8e0adce95_0_0_59",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 59,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_hearth_model_da9d37ab1195fb02f69309b8e0adce95_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.387008,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAADY8_usd_desk_model_2fd3be3184316979dd938934f8633935_0_0_60",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+        "source_selection_rank": 60,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd_desk_model_2fd3be3184316979dd938934f8633935_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.65661,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_backpack_model_3f99b44a34f7c6c935c508293a194502_0_0_61",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+        "source_selection_rank": 61,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_backpack_model_3f99b44a34f7c6c935c508293a194502_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.080115,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_toy_model_3b15f4ec1e46dade342c28974f191ffa_0_0_62",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAAAY8_usd",
+        "source_selection_rank": 62,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_toy_model_3b15f4ec1e46dade342c28974f191ffa_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.383577,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_table_model_eef587b5c4bcc52eb1400975c3c71e90_0_0_63",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEI8_usd",
+        "source_selection_rank": 63,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_table_model_eef587b5c4bcc52eb1400975c3c71e90_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.405948,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADY8_usd_desk_model_87764a1a59bdc27e15d07db5183fd693_0_0_65",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADY8_usd",
+        "source_selection_rank": 65,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADY8_usd_desk_model_87764a1a59bdc27e15d07db5183fd693_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.872943,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACY8_usd_laptop_model_564429afc89f36c2af69777b018eb6a6_0_0_66",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACY8_usd",
+        "source_selection_rank": 66,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACY8_usd_laptop_model_564429afc89f36c2af69777b018eb6a6_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.92226,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABA8_usd_refrigerator_model_a8319465e589d8abe840f34481bef8f8_0_0_67",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABA8_usd",
+        "source_selection_rank": 67,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABA8_usd_refrigerator_model_a8319465e589d8abe840f34481bef8f8_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.982088,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACA8_usd_oven_model_95062580413fb9f50a71ffb0b1b34424_0_0_68",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACA8_usd",
+        "source_selection_rank": 68,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACA8_usd_oven_model_95062580413fb9f50a71ffb0b1b34424_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.990431,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADI8_usd_electriccooker_model_e18444a3034fa462abb11c1dd80986bd_0_0_69",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADI8_usd",
+        "source_selection_rank": 69,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADI8_usd_electriccooker_model_e18444a3034fa462abb11c1dd80986bd_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.465925,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACI8_usd_plant_model_50b390fadfa5cd708e6623d121292a04_0_0_71",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACI8_usd",
+        "source_selection_rank": 71,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACI8_usd_plant_model_50b390fadfa5cd708e6623d121292a04_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.768536,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_bowl_model_2f49f86d24695f5b7f2c24f48362d7b1_0_0_72",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd",
+        "source_selection_rank": 72,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_bowl_model_2f49f86d24695f5b7f2c24f48362d7b1_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.37084,
+        "path_key": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_toilet_model_7893b71d4b5f08d1d9b58c838dc65632_0_0_73",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHLWYKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 73,
+        "trajectory_id": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_toilet_model_7893b71d4b5f08d1d9b58c838dc65632_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.482713,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADA8_usd_bed_model_49011b55a0dab58b5d5a10a31bd97aa3_0_0_74",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADA8_usd",
+        "source_selection_rank": 74,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADA8_usd_bed_model_49011b55a0dab58b5d5a10a31bd97aa3_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.015476,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_pot_model_b3adab15648c19c301959973e0868e54_0_0_75",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 75,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_pot_model_b3adab15648c19c301959973e0868e54_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.435979,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAADY8_usd_toilet_model_6ff15f68354111245cd223cb2e78285f_0_0_76",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+        "source_selection_rank": 76,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd_toilet_model_6ff15f68354111245cd223cb2e78285f_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.815464,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_mouse_model_632e593212f6387538d5b32125691483_0_0_77",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+        "source_selection_rank": 77,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_mouse_model_632e593212f6387538d5b32125691483_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.638169,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_piano_model_6a348e241fdc8aaecdae8c956936baa3_0_0_79",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEI8_usd",
+        "source_selection_rank": 79,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_piano_model_6a348e241fdc8aaecdae8c956936baa3_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.323705,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_sofa_chair_model_d5f1d04da565644d5b370cb39f1ea6bb_0_0_80",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABQ8_usd",
+        "source_selection_rank": 80,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_sofa_chair_model_d5f1d04da565644d5b370cb39f1ea6bb_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.400578,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACY8_usd_couch_model_676b88959789c12273e483c196b28191_0_0_82",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACY8_usd",
+        "source_selection_rank": 82,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACY8_usd_couch_model_676b88959789c12273e483c196b28191_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.427028,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABA8_usd_washingmachine_model_5d9654ff8ea1a4f24fc260cbde4a5cbc_0_0_83",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABA8_usd",
+        "source_selection_rank": 83,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABA8_usd_washingmachine_model_5d9654ff8ea1a4f24fc260cbde4a5cbc_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.002861,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACA8_usd_faucet_model_350e6ea1267aa72739efe50457e8d793_0_0_84",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACA8_usd",
+        "source_selection_rank": 84,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACA8_usd_faucet_model_350e6ea1267aa72739efe50457e8d793_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.945222,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADI8_usd_oven_model_795baecc701e2a500d358f9fdb102590_0_0_85",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADI8_usd",
+        "source_selection_rank": 85,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADI8_usd_oven_model_795baecc701e2a500d358f9fdb102590_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.333119,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_sofa_chair_model_2a80b92af009255b949f54d84f404465_0_0_86",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAA8_usd",
+        "source_selection_rank": 86,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_sofa_chair_model_2a80b92af009255b949f54d84f404465_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.760998,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_plate_model_0f2ccec0d46e648ead4599129f6c402a_0_0_88",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd",
+        "source_selection_rank": 88,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_plate_model_0f2ccec0d46e648ead4599129f6c402a_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.857785,
+        "path_key": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_faucet_model_9de488a35b252ae7a7c442065f3dd590_0_0_89",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHLWYKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 89,
+        "trajectory_id": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_faucet_model_9de488a35b252ae7a7c442065f3dd590_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.382509,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADA8_usd_desk_model_2dfdeb6450e728b3513aae84e5c66cad_0_0_90",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADA8_usd",
+        "source_selection_rank": 90,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADA8_usd_desk_model_2dfdeb6450e728b3513aae84e5c66cad_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.999001,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_electriccooker_model_065baf92b867eb42a3188b7324b8ed14_0_0_91",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 91,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_electriccooker_model_065baf92b867eb42a3188b7324b8ed14_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.998214,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_clock_model_677e29e819ce65dc31d1ceb8620e953e_0_0_93",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+        "source_selection_rank": 93,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_clock_model_677e29e819ce65dc31d1ceb8620e953e_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.375053,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_desk_model_6b8e1cf3bd8a1fe17e70e415256408a6_0_0_94",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAAAY8_usd",
+        "source_selection_rank": 94,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_desk_model_6b8e1cf3bd8a1fe17e70e415256408a6_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.426799,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_washingmachine_model_1d30ef98bc5f6e74a3328cae784ada5e_0_0_96",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABQ8_usd",
+        "source_selection_rank": 96,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_washingmachine_model_1d30ef98bc5f6e74a3328cae784ada5e_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.866989,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADY8_usd_hearth_model_b3e877c43c357ef90c2e0eb051c4c9fd_0_0_97",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADY8_usd",
+        "source_selection_rank": 97,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADY8_usd_hearth_model_b3e877c43c357ef90c2e0eb051c4c9fd_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.026097,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABA8_usd_electriccooker_model_c5d6106f1ba514fe6d03ace700cbf107_0_0_99",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABA8_usd",
+        "source_selection_rank": 99,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABA8_usd_electriccooker_model_c5d6106f1ba514fe6d03ace700cbf107_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.851415,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACA8_usd_hearth_model_a471d89f9d818e1f130be2e20fd13830_0_0_100",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACA8_usd",
+        "source_selection_rank": 100,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACA8_usd_hearth_model_a471d89f9d818e1f130be2e20fd13830_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.176943,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADI8_usd_dishwasher_model_5e47fe2b13c405c0c09ae2aadfcf0d54_0_0_101",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADI8_usd",
+        "source_selection_rank": 101,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADI8_usd_dishwasher_model_5e47fe2b13c405c0c09ae2aadfcf0d54_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.405374,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_desk_model_ed26a9f8bb6d1ebf6daa1d7ada0d0827_0_0_102",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAA8_usd",
+        "source_selection_rank": 102,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_desk_model_ed26a9f8bb6d1ebf6daa1d7ada0d0827_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.895042,
+        "path_key": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_hearth_model_5d6323dc548404e12d5010b4b32793f6_0_0_105",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHLWYKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 105,
+        "trajectory_id": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_hearth_model_5d6323dc548404e12d5010b4b32793f6_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.887535,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADA8_usd_faucet_model_24c03e4607d9214ca3a2a46728a98b70_0_0_106",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADA8_usd",
+        "source_selection_rank": 106,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADA8_usd_faucet_model_24c03e4607d9214ca3a2a46728a98b70_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.067498,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_dishwasher_model_c08fae470510450d9f3f07bae04c86b3_0_0_107",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 107,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_dishwasher_model_c08fae470510450d9f3f07bae04c86b3_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.489935,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAADY8_usd_chestofdrawers_model_7434427118680313ebf8e9cb10677aec_0_0_108",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+        "source_selection_rank": 108,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd_chestofdrawers_model_7434427118680313ebf8e9cb10677aec_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.871526,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_faucet_model_fd118c225c6662eee085cdc7a598e587_0_0_109",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+        "source_selection_rank": 109,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_faucet_model_fd118c225c6662eee085cdc7a598e587_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.892448,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_washingmachine_model_e34eadd3ccc8f31fe7e04496191a7c0a_0_0_110",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAAAY8_usd",
+        "source_selection_rank": 110,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_washingmachine_model_e34eadd3ccc8f31fe7e04496191a7c0a_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.96934,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADY8_usd_pot_model_59c2dfd762efaaf49392b08a941bb014_0_0_113",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADY8_usd",
+        "source_selection_rank": 113,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADY8_usd_pot_model_59c2dfd762efaaf49392b08a941bb014_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.547388,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACY8_usd_pot_model_0d63fa6fde7dcd50bc7b58e47bf34008_0_0_114",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACY8_usd",
+        "source_selection_rank": 114,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACY8_usd_pot_model_0d63fa6fde7dcd50bc7b58e47bf34008_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.949117,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABA8_usd_pan_model_ff02ae784061480edfe0ba1c55df49f2_0_0_115",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABA8_usd",
+        "source_selection_rank": 115,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABA8_usd_pan_model_ff02ae784061480edfe0ba1c55df49f2_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.92226,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADI8_usd_refrigerator_model_22a233b9a7fd7f2042ac18c2e1f384c1_0_0_117",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADI8_usd",
+        "source_selection_rank": 117,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADI8_usd_refrigerator_model_22a233b9a7fd7f2042ac18c2e1f384c1_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.4,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACI8_usd_picture_model_69d46fb201f33eb8641be88ff801081e_0_0_119",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACI8_usd",
+        "source_selection_rank": 119,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACI8_usd_picture_model_69d46fb201f33eb8641be88ff801081e_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.442256,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_toilet_model_c71d5e1131c23bc83b4219da127d52e0_0_0_120",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd",
+        "source_selection_rank": 120,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_toilet_model_c71d5e1131c23bc83b4219da127d52e0_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.427038,
+        "path_key": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_washingmachine_model_4a0cfe2597342205229af0f622944d09_0_0_121",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHLWYKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 121,
+        "trajectory_id": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_washingmachine_model_4a0cfe2597342205229af0f622944d09_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.426799,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADA8_usd_washingmachine_model_f2ca34fff5e7e78d820c9638b89416a1_0_0_122",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADA8_usd",
+        "source_selection_rank": 122,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADA8_usd_washingmachine_model_f2ca34fff5e7e78d820c9638b89416a1_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.208411,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_oven_model_0a1bf80ef09015401016ad90cb2d2487_0_0_123",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 123,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_oven_model_0a1bf80ef09015401016ad90cb2d2487_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.638195,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_faucet_model_f058424b673765329700a92dd6bb1e84_0_0_126",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAAAY8_usd",
+        "source_selection_rank": 126,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_faucet_model_f058424b673765329700a92dd6bb1e84_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.971182,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_faucet_model_b2e9a9602b62ab03bfddd58113b6773c_0_0_127",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEI8_usd",
+        "source_selection_rank": 127,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_faucet_model_b2e9a9602b62ab03bfddd58113b6773c_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.402166,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_desk_model_c12a9b122a2bcc141913669fab10645a_0_0_128",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABQ8_usd",
+        "source_selection_rank": 128,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_desk_model_c12a9b122a2bcc141913669fab10645a_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 1.125757,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADY8_usd_electriccooker_model_dd7cdf3ba67ff68eff1bea112379ed04_0_0_129",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADY8_usd",
+        "source_selection_rank": 129,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADY8_usd_electriccooker_model_dd7cdf3ba67ff68eff1bea112379ed04_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.342836,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACA8_usd_dishwasher_model_2991148db83892dee23db1ee00f054b1_0_0_132",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACA8_usd",
+        "source_selection_rank": 132,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACA8_usd_dishwasher_model_2991148db83892dee23db1ee00f054b1_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.421748,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_washingmachine_model_aec103dbd6d9d87b32e05aa69f9ea804_0_0_134",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAA8_usd",
+        "source_selection_rank": 134,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_washingmachine_model_aec103dbd6d9d87b32e05aa69f9ea804_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.467473,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACI8_usd_sofa_chair_model_2eb35a9ae3c49844dee3c877ad331fc5_0_0_135",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACI8_usd",
+        "source_selection_rank": 135,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACI8_usd_sofa_chair_model_2eb35a9ae3c49844dee3c877ad331fc5_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.353481,
+        "path_key": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_oven_model_e458aa5c5cb800cccf823a16ac8e425a_0_0_137",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHLWYKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 137,
+        "trajectory_id": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_oven_model_e458aa5c5cb800cccf823a16ac8e425a_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.968042,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADA8_usd_refrigerator_model_cbbeb8535e4b449a21f84ced64213704_0_0_138",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADA8_usd",
+        "source_selection_rank": 138,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADA8_usd_refrigerator_model_cbbeb8535e4b449a21f84ced64213704_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.912981,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_pan_model_ed4256b5d8016d5c0f0463fa7b30a471_0_0_139",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 139,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAI8_usd_pan_model_ed4256b5d8016d5c0f0463fa7b30a471_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.978088,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAADY8_usd_faucet_model_baf45789fdb0af5bf7d2b519d38e5a40_0_0_140",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+        "source_selection_rank": 140,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd_faucet_model_baf45789fdb0af5bf7d2b519d38e5a40_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.412718,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_desk_model_0542101271ebe2ec307478e730dd3a4e_0_0_141",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+        "source_selection_rank": 141,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_desk_model_0542101271ebe2ec307478e730dd3a4e_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.913169,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_toilet_model_c397d415a4404da97d23b17d9055a40f_0_0_144",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABQ8_usd",
+        "source_selection_rank": 144,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_toilet_model_c397d415a4404da97d23b17d9055a40f_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.964459,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADY8_usd_pan_model_37944a2688ce05cd10f02c28a3cfb2c3_0_0_145",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADY8_usd",
+        "source_selection_rank": 145,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADY8_usd_pan_model_37944a2688ce05cd10f02c28a3cfb2c3_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.375053,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACY8_usd_desk_model_cf397d37c39fe6ae5774e649d1c92c8f_0_0_146",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACY8_usd",
+        "source_selection_rank": 146,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACY8_usd_desk_model_cf397d37c39fe6ae5774e649d1c92c8f_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.878184,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABA8_usd_hearth_model_038f678fdb644211b41e0d65441458c6_0_0_147",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABA8_usd",
+        "source_selection_rank": 147,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABA8_usd_hearth_model_038f678fdb644211b41e0d65441458c6_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.426799,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACA8_usd_washingmachine_model_46b3fd08bbaa3798ba0d95b08ad367ea_0_0_148",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACA8_usd",
+        "source_selection_rank": 148,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACA8_usd_washingmachine_model_46b3fd08bbaa3798ba0d95b08ad367ea_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.875654,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADI8_usd_hearth_model_2941aebf1bfb124d514f6dd8b0e0884e_0_0_149",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADI8_usd",
+        "source_selection_rank": 149,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADI8_usd_hearth_model_2941aebf1bfb124d514f6dd8b0e0884e_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.333089,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_toilet_model_ac974753ec7b0ac0082b26915de55a00_0_0_150",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAA8_usd",
+        "source_selection_rank": 150,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_toilet_model_ac974753ec7b0ac0082b26915de55a00_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.368668,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACI8_usd_couch_model_2185fdd32a7cbc84f46a3d41d4a998ce_0_0_151",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACI8_usd",
+        "source_selection_rank": 151,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACI8_usd_couch_model_2185fdd32a7cbc84f46a3d41d4a998ce_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.87436,
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_faucet_model_cd221bd7babdc0abf2d34334e59bc92f_0_0_152",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd",
+        "source_selection_rank": 152,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_faucet_model_cd221bd7babdc0abf2d34334e59bc92f_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.977461,
+        "path_key": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_pot_model_528d08a405ad5bd289e16a9409c5d687_0_0_153",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUHLWYKTKJ5EAABAAAAAAI8_usd",
+        "source_selection_rank": 153,
+        "trajectory_id": "MVUHLWYKTKJ5EAABAAAAAAI8_usd_pot_model_528d08a405ad5bd289e16a9409c5d687_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.525,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAADY8_usd_shoecabinet_model_df99ca1a84482a4ace5705d3cdd15b0b_0_0_156",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+        "source_selection_rank": 156,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd_shoecabinet_model_df99ca1a84482a4ace5705d3cdd15b0b_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.9495,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_oven_model_874497aa690851e03237e7332d35c3fb_0_0_158",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAAAY8_usd",
+        "source_selection_rank": 158,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_oven_model_874497aa690851e03237e7332d35c3fb_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.430273,
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_toilet_model_017aa196ba9b59e3462fa1251719991f_0_0_159",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEI8_usd",
+        "source_selection_rank": 159,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_toilet_model_017aa196ba9b59e3462fa1251719991f_0_0"
+      },
+      {
+        "max_adjacent_z_delta": 0.388591,
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABA8_usd_dishwasher_model_264b9f7bfbe7ed5a3eb72ef69a79c514_0_0_160",
+        "reason": "max_adjacent_z_delta_gt_threshold",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABA8_usd",
+        "source_selection_rank": 160,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABA8_usd_dishwasher_model_264b9f7bfbe7ed5a3eb72ef69a79c514_0_0"
+      }
+    ],
+    "max_reference_z_delta": 0.3,
+    "min_scenes": 10,
+    "ready_only": true,
+    "replacement_episode_count": 21,
+    "replacement_episode_records": [
+      {
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADI8_usd_trashcan_model_69e8e98ed9b9e9677f492700a42ccc5c_0_0_37",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADI8_usd",
+        "source_selection_rank": 37,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADI8_usd_trashcan_model_69e8e98ed9b9e9677f492700a42ccc5c_0_0"
+      },
+      {
+        "path_key": "MV7J6NIKTKJZ2AABAAAAADY8_usd_blanket_model_21daaa3146f69e6b6506cbe630a38bc9_0_0_44",
+        "scan": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+        "source_selection_rank": 44,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd_blanket_model_21daaa3146f69e6b6506cbe630a38bc9_0_0"
+      },
+      {
+        "path_key": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_basket_model_6c68230d67112b1dfd2bd7fa9322c756_0_0_46",
+        "scan": "MVUCSQAKTKJ5EAABAAAAAAY8_usd",
+        "source_selection_rank": 46,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_basket_model_6c68230d67112b1dfd2bd7fa9322c756_0_0"
+      },
+      {
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_basket_model_8aa79df9bdd027234ef70ce985828995_0_0_64",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABQ8_usd",
+        "source_selection_rank": 64,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_basket_model_8aa79df9bdd027234ef70ce985828995_0_0"
+      },
+      {
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_couch_model_7e7bd5e330ae861bfb7e9a077e3007ce_0_0_70",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAA8_usd",
+        "source_selection_rank": 70,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_couch_model_7e7bd5e330ae861bfb7e9a077e3007ce_0_0"
+      },
+      {
+        "path_key": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_tvstand_model_06092a95ba89d5641a4f86752edd3dff_0_0_78",
+        "scan": "MVUCSQAKTKJ5EAABAAAAAAY8_usd",
+        "source_selection_rank": 78,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAAAY8_usd_tvstand_model_06092a95ba89d5641a4f86752edd3dff_0_0"
+      },
+      {
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADY8_usd_toilet_model_9b773fd00bc7a69cb9fd954d0c2a48d9_0_0_81",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADY8_usd",
+        "source_selection_rank": 81,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADY8_usd_toilet_model_9b773fd00bc7a69cb9fd954d0c2a48d9_0_0"
+      },
+      {
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACI8_usd_cup_model_99550e8f57d4ce85f878101119910cca_0_0_87",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACI8_usd",
+        "source_selection_rank": 87,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACI8_usd_cup_model_99550e8f57d4ce85f878101119910cca_0_0"
+      },
+      {
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_nightstand_model_89639fa1f5b5a0e8f64fc634bd0f33c2_0_0_95",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEI8_usd",
+        "source_selection_rank": 95,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_nightstand_model_89639fa1f5b5a0e8f64fc634bd0f33c2_0_0"
+      },
+      {
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACY8_usd_toilet_model_c91b053b0007cd0be1c5e77622151469_0_0_98",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACY8_usd",
+        "source_selection_rank": 98,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACY8_usd_toilet_model_c91b053b0007cd0be1c5e77622151469_0_0"
+      },
+      {
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACI8_usd_tray_model_0e670d9ca896a91367ae5f3c380720b8_0_0_103",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACI8_usd",
+        "source_selection_rank": 103,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACI8_usd_tray_model_0e670d9ca896a91367ae5f3c380720b8_0_0"
+      },
+      {
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_table_model_ca73927300d6ba342beab019ce834d52_0_0_104",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd",
+        "source_selection_rank": 104,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAQ8_usd_table_model_ca73927300d6ba342beab019ce834d52_0_0"
+      },
+      {
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_teatable_model_c2fd7610dd954b82e039b69834b2276b_0_0_111",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEI8_usd",
+        "source_selection_rank": 111,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEI8_usd_teatable_model_c2fd7610dd954b82e039b69834b2276b_0_0"
+      },
+      {
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_trashcan_model_b644bab815f24cecfd5b6ccb96b02a2f_0_0_112",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABQ8_usd",
+        "source_selection_rank": 112,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABQ8_usd_trashcan_model_b644bab815f24cecfd5b6ccb96b02a2f_0_0"
+      },
+      {
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACA8_usd_trashcan_model_be46eb97cf0615e4937ddf3d337c7b91_0_0_116",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACA8_usd",
+        "source_selection_rank": 116,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACA8_usd_trashcan_model_be46eb97cf0615e4937ddf3d337c7b91_0_0"
+      },
+      {
+        "path_key": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_trashcan_model_0300e2035133712822b40dccd1515b56_0_0_118",
+        "scan": "MVUHL5YKTKJ5EAABAAAAAAA8_usd",
+        "source_selection_rank": 118,
+        "trajectory_id": "MVUHL5YKTKJ5EAABAAAAAAA8_usd_trashcan_model_0300e2035133712822b40dccd1515b56_0_0"
+      },
+      {
+        "path_key": "MV7J6NIKTKJZ2AABAAAAADY8_usd_teatable_model_399f06cb7b5055c2996229ea88b37595_0_0_124",
+        "scan": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+        "source_selection_rank": 124,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd_teatable_model_399f06cb7b5055c2996229ea88b37595_0_0"
+      },
+      {
+        "path_key": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_tvstand_model_c0e9857e3d664ede6ad9926dc2584996_0_0_125",
+        "scan": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+        "source_selection_rank": 125,
+        "trajectory_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd_tvstand_model_c0e9857e3d664ede6ad9926dc2584996_0_0"
+      },
+      {
+        "path_key": "MVUCSQAKTKJ5EAABAAAAACY8_usd_trashcan_model_a6ebe82bee648771fe46fc1ed9d076cb_0_0_130",
+        "scan": "MVUCSQAKTKJ5EAABAAAAACY8_usd",
+        "source_selection_rank": 130,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACY8_usd_trashcan_model_a6ebe82bee648771fe46fc1ed9d076cb_0_0"
+      },
+      {
+        "path_key": "MVUCSQAKTKJ5EAABAAAAABA8_usd_toilet_model_7b1df9e16776a9af392053f7b50b4135_0_0_131",
+        "scan": "MVUCSQAKTKJ5EAABAAAAABA8_usd",
+        "source_selection_rank": 131,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAABA8_usd_toilet_model_7b1df9e16776a9af392053f7b50b4135_0_0"
+      },
+      {
+        "path_key": "MVUCSQAKTKJ5EAABAAAAADI8_usd_toilet_model_502af48de13603e7fa2b09f549a8f476_0_0_133",
+        "scan": "MVUCSQAKTKJ5EAABAAAAADI8_usd",
+        "source_selection_rank": 133,
+        "trajectory_id": "MVUCSQAKTKJ5EAABAAAAADI8_usd_toilet_model_502af48de13603e7fa2b09f549a8f476_0_0"
+      }
+    ],
+    "replacement_policy": "continue_existing_selection_order_after_exclusions",
+    "requested_excluded_path_keys": [
+      "MV7J6NIKTKJZ2AABAAAAADY8_usd_tvstand_model_0b7e2a91f26da6b0f1f83c1c7d824399_0_0_6"
+    ],
+    "selected_episode_count": 30,
+    "selected_scene_count": 16,
+    "selection_strategy": "round_robin_scenes",
+    "skipped_scene_count": 14,
+    "skipped_scene_records": [
+      {
+        "blocked_by": [
+          "missing_converted_navigation_usd"
+        ],
+        "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_navigation_noMDL.usd",
+        "converted_navigation_usd_exists": false,
+        "nomdl_scene_split": "home_scenes",
+        "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_navigation.usd",
+        "original_navigation_usd_exists": true,
+        "pair_status": "missing_converted_navigation_usd",
+        "scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+        "source_scene_split": "home_scenes"
+      },
+      {
+        "blocked_by": [
+          "missing_converted_navigation_usd"
+        ],
+        "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_navigation_noMDL.usd",
+        "converted_navigation_usd_exists": false,
+        "nomdl_scene_split": "home_scenes",
+        "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_navigation.usd",
+        "original_navigation_usd_exists": true,
+        "pair_status": "missing_converted_navigation_usd",
+        "scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+        "source_scene_split": "home_scenes"
+      },
+      {
+        "blocked_by": [
+          "missing_converted_navigation_usd"
+        ],
+        "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_navigation_noMDL.usd",
+        "converted_navigation_usd_exists": false,
+        "nomdl_scene_split": "home_scenes",
+        "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_navigation.usd",
+        "original_navigation_usd_exists": true,
+        "pair_status": "missing_converted_navigation_usd",
+        "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+        "source_scene_split": "home_scenes"
+      },
+      {
+        "blocked_by": [
+          "missing_converted_navigation_usd"
+        ],
+        "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAA8_usd/start_result_navigation_noMDL.usd",
+        "converted_navigation_usd_exists": false,
+        "nomdl_scene_split": "home_scenes",
+        "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAA8_usd/start_result_navigation.usd",
+        "original_navigation_usd_exists": true,
+        "pair_status": "missing_converted_navigation_usd",
+        "scene_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd",
+        "source_scene_split": "home_scenes"
+      },
+      {
+        "blocked_by": [
+          "missing_converted_navigation_usd"
+        ],
+        "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAI8_usd/start_result_navigation_noMDL.usd",
+        "converted_navigation_usd_exists": false,
+        "nomdl_scene_split": "home_scenes",
+        "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAI8_usd/start_result_navigation.usd",
+        "original_navigation_usd_exists": true,
+        "pair_status": "missing_converted_navigation_usd",
+        "scene_id": "MVUCSQAKTKJ5EAABAAAAAAI8_usd",
+        "source_scene_split": "home_scenes"
+      },
+      {
+        "blocked_by": [
+          "missing_converted_navigation_usd"
+        ],
+        "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAQ8_usd/start_result_navigation_noMDL.usd",
+        "converted_navigation_usd_exists": false,
+        "nomdl_scene_split": "home_scenes",
+        "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAAQ8_usd/start_result_navigation.usd",
+        "original_navigation_usd_exists": true,
+        "pair_status": "missing_converted_navigation_usd",
+        "scene_id": "MVUCSQAKTKJ5EAABAAAAAAQ8_usd",
+        "source_scene_split": "home_scenes"
+      },
+      {
+        "blocked_by": [
+          "missing_converted_navigation_usd"
+        ],
+        "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABI8_usd/start_result_navigation_noMDL.usd",
+        "converted_navigation_usd_exists": false,
+        "nomdl_scene_split": "home_scenes",
+        "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABI8_usd/start_result_navigation.usd",
+        "original_navigation_usd_exists": true,
+        "pair_status": "missing_converted_navigation_usd",
+        "scene_id": "MVUCSQAKTKJ5EAABAAAAABI8_usd",
+        "source_scene_split": "home_scenes"
+      },
+      {
+        "blocked_by": [
+          "missing_converted_navigation_usd"
+        ],
+        "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd/start_result_navigation_noMDL.usd",
+        "converted_navigation_usd_exists": false,
+        "nomdl_scene_split": "home_scenes",
+        "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAABY8_usd/start_result_navigation.usd",
+        "original_navigation_usd_exists": true,
+        "pair_status": "missing_converted_navigation_usd",
+        "scene_id": "MVUCSQAKTKJ5EAABAAAAABY8_usd",
+        "source_scene_split": "home_scenes"
+      },
+      {
+        "blocked_by": [
+          "missing_converted_navigation_usd"
+        ],
+        "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACQ8_usd/start_result_navigation_noMDL.usd",
+        "converted_navigation_usd_exists": false,
+        "nomdl_scene_split": "home_scenes",
+        "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAACQ8_usd/start_result_navigation.usd",
+        "original_navigation_usd_exists": true,
+        "pair_status": "missing_converted_navigation_usd",
+        "scene_id": "MVUCSQAKTKJ5EAABAAAAACQ8_usd",
+        "source_scene_split": "home_scenes"
+      },
+      {
+        "blocked_by": [
+          "missing_converted_navigation_usd"
+        ],
+        "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADQ8_usd/start_result_navigation_noMDL.usd",
+        "converted_navigation_usd_exists": false,
+        "nomdl_scene_split": "home_scenes",
+        "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAADQ8_usd/start_result_navigation.usd",
+        "original_navigation_usd_exists": true,
+        "pair_status": "missing_converted_navigation_usd",
+        "scene_id": "MVUCSQAKTKJ5EAABAAAAADQ8_usd",
+        "source_scene_split": "home_scenes"
+      },
+      {
+        "blocked_by": [
+          "missing_converted_navigation_usd"
+        ],
+        "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEA8_usd/start_result_navigation_noMDL.usd",
+        "converted_navigation_usd_exists": false,
+        "nomdl_scene_split": "home_scenes",
+        "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEA8_usd/start_result_navigation.usd",
+        "original_navigation_usd_exists": true,
+        "pair_status": "missing_converted_navigation_usd",
+        "scene_id": "MVUCSQAKTKJ5EAABAAAAAEA8_usd",
+        "source_scene_split": "home_scenes"
+      },
+      {
+        "blocked_by": [
+          "missing_converted_navigation_usd"
+        ],
+        "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEI8_usd/start_result_navigation_noMDL.usd",
+        "converted_navigation_usd_exists": false,
+        "nomdl_scene_split": "home_scenes",
+        "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUCSQAKTKJ5EAABAAAAAEI8_usd/start_result_navigation.usd",
+        "original_navigation_usd_exists": true,
+        "pair_status": "missing_converted_navigation_usd",
+        "scene_id": "MVUCSQAKTKJ5EAABAAAAAEI8_usd",
+        "source_scene_split": "home_scenes"
+      },
+      {
+        "blocked_by": [
+          "missing_converted_navigation_usd"
+        ],
+        "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAA8_usd/start_result_navigation_noMDL.usd",
+        "converted_navigation_usd_exists": false,
+        "nomdl_scene_split": "home_scenes",
+        "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAA8_usd/start_result_navigation.usd",
+        "original_navigation_usd_exists": true,
+        "pair_status": "missing_converted_navigation_usd",
+        "scene_id": "MVUHLWYKTKJ5EAABAAAAAAA8_usd",
+        "source_scene_split": "home_scenes"
+      },
+      {
+        "blocked_by": [
+          "missing_converted_navigation_usd"
+        ],
+        "converted_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAQ8_usd/start_result_navigation_noMDL.usd",
+        "converted_navigation_usd_exists": false,
+        "nomdl_scene_split": "home_scenes",
+        "original_navigation_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes/scenes/GRScenes-100/home_scenes/scenes/MVUHLWYKTKJ5EAABAAAAAAQ8_usd/start_result_navigation.usd",
+        "original_navigation_usd_exists": true,
+        "pair_status": "missing_converted_navigation_usd",
+        "scene_id": "MVUHLWYKTKJ5EAABAAAAAAQ8_usd",
+        "source_scene_split": "home_scenes"
+      }
+    ],
+    "supersedes_manifest": {
+      "hash_sha256": "f29d4f81c987638af92e925c5843839a3cca69def5791fd97cd49c6470ae1732",
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_flatfilter_v2_prep_manifest.json"
+    },
+    "unmatched_excluded_path_keys": []
+  },
+  "source": {
+    "grscenes_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes",
+    "nomdl_work_root": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521",
+    "requested_scene_ids": [],
+    "selected_scene_ids": [
+      "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "MV7J6NIKTKJZ2AABAAAAAEI8_usd",
+      "MVUCSQAKTKJ5EAABAAAAAAY8_usd",
+      "MVUCSQAKTKJ5EAABAAAAABA8_usd",
+      "MVUCSQAKTKJ5EAABAAAAABQ8_usd",
+      "MVUCSQAKTKJ5EAABAAAAACA8_usd",
+      "MVUCSQAKTKJ5EAABAAAAACI8_usd",
+      "MVUCSQAKTKJ5EAABAAAAACY8_usd",
+      "MVUCSQAKTKJ5EAABAAAAADA8_usd",
+      "MVUCSQAKTKJ5EAABAAAAADI8_usd",
+      "MVUCSQAKTKJ5EAABAAAAADY8_usd",
+      "MVUHL5YKTKJ5EAABAAAAAAA8_usd",
+      "MVUHL5YKTKJ5EAABAAAAAAI8_usd",
+      "MVUHL5YKTKJ5EAABAAAAAAQ8_usd",
+      "MVUHLWYKTKJ5EAABAAAAAAI8_usd"
+    ],
+    "source_episode_file": "/cpfs/user/zhuzihou/assets/zzh-grscenes/benchmark/sn_episodes.json"
+  },
+  "work_root": "/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260525_pilot30_flatfilter_expanded30"
+}

@@ -65,4 +65,18 @@ aggregate run is incomplete, no selected videos exist yet, and
 13 episodes across six scenes; reaching the 30/100+ ACL gate still requires more
 ready original/no-MDL scene pairs or a separate nonstandard stress protocol.
 
+InternNav expanded30 input update on 2026-05-25: ten additional GRScenes home
+navigation scenes were converted to no-MDL in the scratch tree, raising the
+ready navigation inventory to 16 scene pairs and 38 flat-filter candidate
+episodes. This enabled
+`../../shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_flatfilter_expanded30_prep_manifest.json`,
+a 30-episode / 16-scene split with the known modified tvstand reset-hang path
+excluded and a clean height audit
+`../../shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_flatfilter_expanded30_height_audit.json`.
+This opens the next real-runtime gate, but it is still input evidence only:
+expanded30 SR/SPL/NE/TL results and paper videos have not been generated.
+`../../shared/evidence/raw/internnav_vln_downstream/video_rerun_manifest_flatfilter_partial.json`
+also prepares six selected diagnostic video reruns with `vis_output=True`, but
+the mp4 files do not exist until those selected-only runs are executed.
+
 External status checked on 2026-05-22: the official ACL resolutions page records a July 2025 resolution that the 2027 conference will be branded as `ACL 2027` with no IJCNLP/AFNLP co-branding. No public ACL 2027 CFP, official conference site, city/date page, or Japan confirmation was found in the checked official sources. Japan is recorded here as the user-requested target until a public official source is available. Source: https://www.aclweb.org/adminwiki/index.php/ACL_Resolutions.
