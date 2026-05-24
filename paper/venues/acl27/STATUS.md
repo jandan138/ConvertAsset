@@ -47,4 +47,22 @@ one paired smoke row, and `paired_episode_analysis.json` explicitly reports
 paired episodes across five scenes for pilot-main evidence, with 100+ paired
 episodes across 10+ scenes preferred.
 
+InternNav flat-filter update on 2026-05-24: the corrected flat-filter protocol
+removed the v2-v10 high-z sampling hang class, and the original condition
+completed all 14 selected episodes (`TL=80.5189`, `NE=34.2730`, `OS=0.3571`,
+`SR=0`, `SPL=0`). The modified condition completed 12 episodes, then hit a true
+runtime hang after `Env Reset` on
+`MV7J6NIKTKJZ2AABAAAAADY8_usd_tvstand_model_0b7e2a91f26da6b0f1f83c1c7d824399_0_0_6`.
+Target-subtree audit does not support a broken-target explanation: geometry and
+bbox match the original, no unresolved target references or target-local physics
+authoring errors were found, and the modified target contains UsdPreviewSurface
+rather than residual MDL. The 12 completed paired rows show trajectory/runtime
+differences (`TL` mean delta `-39.1696`, `NE` mean delta `-3.4644`, `OS` mean
+delta `-0.2500`), but this remains diagnostic evidence because the modified
+aggregate run is incomplete, no selected videos exist yet, and
+`paired_flatfilter_partial_episode_analysis.json` reports
+`acl_main_result_ready=false`. A follow-up v2 split excluding the hung path has
+13 episodes across six scenes; reaching the 30/100+ ACL gate still requires more
+ready original/no-MDL scene pairs or a separate nonstandard stress protocol.
+
 External status checked on 2026-05-22: the official ACL resolutions page records a July 2025 resolution that the 2027 conference will be branded as `ACL 2027` with no IJCNLP/AFNLP co-branding. No public ACL 2027 CFP, official conference site, city/date page, or Japan confirmation was found in the checked official sources. Japan is recorded here as the user-requested target until a public official source is available. Source: https://www.aclweb.org/adminwiki/index.php/ACL_Resolutions.

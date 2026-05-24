@@ -143,3 +143,20 @@ current six ready scene pairs contain only 14 InternNav-compatible flat
 episodes after applying the 0.3m `different_height()` z-jump rule. A larger paper batch
 requires more ready no-MDL scene pairs, or a clearly separated high-object stress
 protocol that is not presented as official InternNav-compatible VLN.
+
+## Later Flat-Filter Runtime Note
+
+The flat-filter split removed the v2-v10 high-z hang class, but it did not make
+the modified condition fully complete. Original finished all 14 flat-filter
+episodes; modified finished 12 and then hung after `Env Reset` on the tvstand
+path recorded in:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_flatfilter_modified_runtime_hang_triage.json
+```
+
+That later hang is a different class: its height audit reports
+`would_filter_stairs=false`, and target-subtree inspection does not support a
+broken-target-asset explanation. See
+`2026-05-24-internnav-flatfilter-runtime-result.md` for the current
+classification and diagnostic metrics.

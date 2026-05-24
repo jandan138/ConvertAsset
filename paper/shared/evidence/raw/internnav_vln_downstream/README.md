@@ -23,6 +23,26 @@ Current files:
 - `acl_main_pilot30_flatfilter_height_audit.json`: audit for the flat-filter
   dataset; `would_filter_stairs_count=0`, so no selected episode violates the
   0.3m `different_height()` z-jump gate.
+- `acl_main_pilot30_flatfilter_modified_runtime_hang_triage.json`: watchdog
+  classification for the modified flat-filter run. It marks the tvstand episode
+  `MV7J6NIKTKJZ2AABAAAAADY8_usd_tvstand_model_0b7e2a91f26da6b0f1f83c1c7d824399_0_0_6`
+  as `runtime_hang` after `Env Reset` with no first action or terminal metric.
+- `acl_main_pilot30_flatfilter_modified_runtime_hang_height_audit.json`: height
+  audit for the new hang path; `would_filter_stairs=false`, so this is not the
+  v2-v10 high-z sampling class.
+- `original_flatfilter_episode_metrics.jsonl`: per-episode LMDB metrics for the
+  completed original flat-filter run (`Count=14` in InternNav aggregate logs).
+- `modified_flatfilter_partial_episode_metrics.jsonl`: per-episode LMDB metrics
+  for the modified flat-filter run before it hung (`Count=12` in InternNav
+  aggregate logs). This file is diagnostic only.
+- `paired_flatfilter_partial_episode_analysis.json`: 12-pair diagnostic
+  original/modified analysis. It explicitly reports
+  `acl_main_result_ready=false`.
+- `video_case_manifest_flatfilter_partial.json`: selected qualitative rerun
+  candidates from the 12 completed diagnostic pairs. No mp4 evidence is implied.
+- `acl_main_pilot30_flatfilter_v2_prep_manifest.json`: deterministic follow-up
+  split generated from the modified-runtime hang triage. It excludes the hung
+  tvstand path and contains 13 episodes across six scenes.
 
 Large runtime assets, `fixed.usd` links, generated InternNav configs, and
 `mini.json.gz` live outside git under:
@@ -45,3 +65,12 @@ The flat-filter candidate is ready for runtime smoke but does not satisfy that
 row-count gate yet. It is evidence that the v2-v10 hang class was a sampling
 protocol problem, and that the current ready scene-pair pool is too small after
 the 0.3m `different_height()` z-jump filter.
+
+The first flat-filter runtime attempt refined that conclusion: the original
+condition completed all 14 selected episodes, while the modified condition
+completed 12 and then hung after reset on a tvstand episode. Static target audit
+does not support "target asset is broken" as the cause; the target geometry and
+bbox are identical across original/modified, the modified target has no residual
+MDL, and no target-local unresolved reference or invalid physics authoring was
+found. Treat the 12-pair analysis as runtime-diagnostic evidence only, not a
+paper-level SR/SPL result.

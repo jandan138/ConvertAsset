@@ -324,6 +324,89 @@ paper-level 30/100+ episode batch, expand the ready original/no-MDL scene-pair
 inventory or define a separate, explicitly non-InternNav-standard high-object
 stress set.
 
+## Flat-Filter Runtime Result
+
+The flat-filter split was run through real InternNav / DualVLN after the height
+gate correction. Original completed all 14 episodes:
+
+```text
+/cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_original_acl_main_pilot30_flatfilter/result.json
+```
+
+Aggregate result:
+
+| condition | TL | NE | OS | SR | SPL | Count |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| original | 80.5189 | 34.2730 | 0.3571 | 0.0 | 0.0 | 14 |
+
+The modified run completed 12 episodes, then hit a real reset-time runtime hang
+on:
+
+```text
+MV7J6NIKTKJZ2AABAAAAADY8_usd_tvstand_model_0b7e2a91f26da6b0f1f83c1c7d824399_0_0_6
+```
+
+The watchdog classification is stored in:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_flatfilter_modified_runtime_hang_triage.json
+```
+
+It reports `status=runtime_hang` and
+`reason=reset_without_first_action_or_terminal_metric`: the episode reached
+`Env Reset`, but produced no `now action`, no `Env Step`, no `finish`, and no
+terminal metric. Do not count this as `SR=0` or `SPL=0`.
+
+The same path completed normally in the original run, and a target-subtree USD
+audit found identical target geometry, no unresolved target references, no
+residual target MDL in the modified scene, and no target-local negative
+determinant or bad mass/inertia issue. The current classification is therefore:
+
+```text
+modified scene reset / first-step simulation hang, target/scene-state sensitive
+```
+
+It is not the old broken-sidecar packaging failure, not stale LMDB resume state,
+and not another high-z `different_height()` sampling error. The flat-filter
+height audit for this hang path records `would_filter_stairs=false` and
+`max_adjacent_z_delta=0.231996`.
+
+Diagnostic partial paired evidence was extracted from the 12 completed pairs:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/original_flatfilter_episode_metrics.jsonl
+paper/shared/evidence/raw/internnav_vln_downstream/modified_flatfilter_partial_episode_metrics.jsonl
+paper/shared/evidence/raw/internnav_vln_downstream/paired_flatfilter_partial_episode_analysis.json
+paper/shared/evidence/raw/internnav_vln_downstream/video_case_manifest_flatfilter_partial.json
+```
+
+Partial 12-pair summary:
+
+| metric | original mean | modified mean | modified - original |
+| --- | ---: | ---: | ---: |
+| TL | 87.4767 | 48.3071 | -39.1696 |
+| NE | 36.0452 | 32.5808 | -3.4644 |
+| OS | 0.4167 | 0.1667 | -0.2500 |
+| SR | 0.0 | 0.0 | 0.0 |
+| SPL | 0.0 | 0.0 | 0.0 |
+
+This is useful diagnostic evidence that the original and modified conditions
+produce different embodied behavior and different runtime robustness. It is not
+ACL main-result evidence: `episode_count=12`, the modified aggregate run is
+incomplete, no selected video rerun has been rendered yet, and the analyzer
+reports `acl_main_result_ready=false`.
+
+A deterministic follow-up split excluding the hung modified path is prepared at:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_flatfilter_v2_prep_manifest.json
+/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30_flatfilter_v2
+```
+
+It has 13 episodes across six scenes. This is a clean continuation candidate,
+but it still cannot reach the 30-episode pilot gate until more original/no-MDL
+scene pairs are made ready.
+
 ## Paper Video Workflow
 
 Do not enable video for the full metric batch. Use this storage-bounded flow:
