@@ -432,13 +432,12 @@ failure. The v6 partial run is archived:
 /cpfs/user/zhuzihou/dev/InternNav/data/sample_episodes/convertasset_grscene_sn_original_acl_main_pilot30_v6_invalid_faucet350e_warmup_hang_20260524123005
 ```
 
-`acl_main_pilot30_v7` is the current paper-main candidate split. It supersedes
-v6, keeps 30 episodes, and records six explicit runtime-hang exclusions with
+`acl_main_pilot30_v7` superseded v6, kept 30 episodes, and recorded six explicit runtime-hang exclusions with
 `unmatched_excluded_path_keys=[]`. All six excluded runtime hangs come from
 `MVUCSQAKTKJ5EAABAAAAACA8_usd`, so v7 effectively quarantines that unstable
 scene and keeps five ready scenes. This is still allowed by the current
 `min_scenes=5` claim gate, but the lower scene count must be reported as a
-sampling limitation if v7 becomes the final pilot30 result.
+sampling limitation if this family of pilot30 splits becomes the final result.
 
 v7 deterministic replacements are:
 
@@ -454,6 +453,55 @@ v7 manifest:
 
 ```text
 paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_v7_prep_manifest.json
+```
+
+The clean original v7 run passed the run-shape gate and reached 12 valid
+terminal episodes before exposing another simulator/runtime hang on the v7
+replacement `sofa_chair` episode:
+
+```text
+start eval dataset: convertasset_grscene_sn_original_acl_main_pilot30_v7, total_path: 30
+MVUCSQAKTKJ5EAABAAAAABQ8_usd_sofa_chair_model_d5f1d04da565644d5b370cb39f1ea6bb_0_0_25
+```
+
+Evidence boundary: episode 12 (`clock`) produced a normal terminal
+`not_reach_goal` result and `result.json` reached `Count=12`. The next episode
+entered `WARM UP`, logged `Env Reset time: 65.42s` and `agent step time: 0.0s`,
+then produced no `now action`, no `Env Step`, no `finish`, and no terminal
+metric while the process remained high-CPU. The run log stayed at
+`13:43:54 +0800` and `result.json` stayed at `13:42:48 +0800`, so this is a
+runtime hang, not a navigation failure. The v7 partial run is archived:
+
+```text
+/cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_original_acl_main_pilot30_v7_invalid_sofachair_warmup_hang_20260524135451
+/cpfs/user/zhuzihou/dev/InternNav/data/sample_episodes/convertasset_grscene_sn_original_acl_main_pilot30_v7_invalid_sofachair_warmup_hang_20260524135451
+```
+
+`acl_main_pilot30_v8` is the current paper-main candidate split. It supersedes
+v7, keeps 30 episodes, records seven explicit runtime-hang exclusions, and has
+`unmatched_excluded_path_keys=[]`. v8 removes the unstable v7 `sofa_chair`
+replacement and deterministically continues the ready candidate order.
+
+v8 deterministic replacements are:
+
+```text
+MVUCSQAKTKJ5EAABAAAAADY8_usd_toilet_model_9b773fd00bc7a69cb9fd954d0c2a48d9_0_0_31
+MVUCSQAKTKJ5EAABAAAAACY8_usd_couch_model_676b88959789c12273e483c196b28191_0_0_32
+MVUCSQAKTKJ5EAABAAAAABA8_usd_washingmachine_model_5d9654ff8ea1a4f24fc260cbde4a5cbc_0_0_33
+MV7J6NIKTKJZ2AABAAAAADY8_usd_tvstand_model_0b7e2a91f26da6b0f1f83c1c7d824399_0_0_35
+MVUCSQAKTKJ5EAABAAAAABQ8_usd_washingmachine_model_1d30ef98bc5f6e74a3328cae784ada5e_0_0_36
+```
+
+v8 manifest:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_v8_prep_manifest.json
+```
+
+The clean original v8 run has passed the run-shape gate:
+
+```text
+start eval dataset: convertasset_grscene_sn_original_acl_main_pilot30_v8, total_path: 30
 ```
 
 For paper statistics, include only paired episodes where both original and
@@ -472,9 +520,9 @@ limitations, not silently counted as navigation failures.
 
 ## Next Work
 
-1. Let the clean original v7 pilot30 complete and inspect its final result and
+1. Let the clean original v8 pilot30 complete and inspect its final result and
    logs.
-2. Run the modified v7 pilot30 counterpart from equally clean logs and
+2. Run the modified v8 pilot30 counterpart from equally clean logs and
    `data/sample_episodes` state, with stdout redirected to a log file.
 3. Extract aggregate and per-episode metrics for both conditions.
 4. Run paired analysis and select video cases.
