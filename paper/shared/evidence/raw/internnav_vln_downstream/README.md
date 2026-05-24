@@ -16,6 +16,13 @@ Current files:
   main-result video/aggregate gates are not satisfied.
 - `video_case_manifest.json`: storage-bounded qualitative rerun manifest. It
   currently selects the one smoke episode as `both_failure_divergent`.
+- `acl_main_pilot30_flatfilter_prep_manifest.json`: next InternNav-compatible
+  candidate split after the v2-v10 hang audit. It requested 30 episodes but
+  selected 14 across six ready scenes after applying `--max-reference-z-delta
+  0.3`.
+- `acl_main_pilot30_flatfilter_height_audit.json`: audit for the flat-filter
+  dataset; `would_filter_stairs_count=0`, so no selected episode violates the
+  0.3m `different_height()` z-jump gate.
 
 Large runtime assets, `fixed.usd` links, generated InternNav configs, and
 `mini.json.gz` live outside git under:
@@ -33,3 +40,8 @@ The batch-main-result path now has the expected small-file evidence format, but
 not enough rows. The next evidence gate is at least 30 paired episodes across at
 least five scenes, with 100+ paired episodes across 10+ scenes preferred for a
 strong ACL main-result claim.
+
+The flat-filter candidate is ready for runtime smoke but does not satisfy that
+row-count gate yet. It is evidence that the v2-v10 hang class was a sampling
+protocol problem, and that the current ready scene-pair pool is too small after
+the 0.3m `different_height()` z-jump filter.

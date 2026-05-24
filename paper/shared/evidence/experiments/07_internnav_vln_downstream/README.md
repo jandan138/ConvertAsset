@@ -102,9 +102,17 @@ paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_runtime_hang
 ```
 
 It matched all nine known v2-v10 hang path keys and found that all nine would
-be removed by InternNav's official `filter_stairs=True` height gate. The next
-split should therefore change the sampling protocol instead of advancing by one
-more exclusion.
+be removed by InternNav's `different_height()` z-jump branch used under
+`filter_stairs=True`. The next split should therefore change the sampling
+protocol instead of advancing by one more exclusion.
+
+`prepare_minipair.py --max-reference-z-delta 0.3` applies the same protocol
+gate before selection. Candidate episodes whose generated `reference_path` has
+an adjacent z jump above the threshold are skipped and recorded in the manifest
+under `height_filter_skipped_episode_records`. The generated InternNav runtime
+config still sets `filter_stairs=False`; compatibility is enforced in
+ConvertAsset's manifest preparation step. Skipped-record `path_key` values are
+pre-filter source-selection keys, not final runtime dataset keys.
 
 ## Main-Result Goal
 
@@ -270,6 +278,51 @@ The modified pilot30 counterpart must finish before any paired metric claim is
 made. If a future run stalls, first inspect whether the last scene has complete
 dependency sidecars and whether the Isaac kit log contains unresolved asset
 warnings.
+
+## InternNav-Compatible Flat-Filter Split
+
+The v2-v10 runtime hangs showed that the pilot30 protocol was selecting
+high-object target episodes that InternNav's `different_height()` z-jump branch
+would remove when `filter_stairs=True`. The replacement candidate is:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_flatfilter_prep_manifest.json
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_flatfilter_height_audit.json
+/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30_flatfilter
+```
+
+Generation command:
+
+```bash
+python paper/shared/evidence/experiments/07_internnav_vln_downstream/prepare_minipair.py \
+  --max-episodes 30 \
+  --split-name acl_main_pilot30_flatfilter \
+  --work-root /cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30_flatfilter \
+  --repo-manifest-path paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_flatfilter_prep_manifest.json \
+  --ready-only \
+  --min-scenes 5 \
+  --selection-strategy round_robin_scenes \
+  --max-reference-z-delta 0.3 \
+  --supersedes-manifest-path paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_v11_prep_manifest.json
+```
+
+This split is ready for runtime smoke, but it is not a 30-episode result:
+
+| item | value |
+| --- | ---: |
+| requested max episodes | 30 |
+| selected episodes | 14 |
+| selected scenes | 6 |
+| skipped high-z episodes | 48 |
+| height audit `would_filter_stairs_count` | 0 |
+| max remaining adjacent z delta | 0.2502 |
+
+The important interpretation is that the root problem is now isolated at the
+sampling protocol. With the 0.3m `different_height()` z-jump gate, the current
+six ready scene pairs only provide 14 usable flat episodes. To reach a
+paper-level 30/100+ episode batch, expand the ready original/no-MDL scene-pair
+inventory or define a separate, explicitly non-InternNav-standard high-object
+stress set.
 
 ## Paper Video Workflow
 

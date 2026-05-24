@@ -170,6 +170,7 @@ def advance_from_triage(
         excluded_path_keys=excluded_path_keys,
         exclusion_reason=DEFAULT_EXCLUSION_REASON,
         supersedes_manifest_path=previous_manifest_path,
+        max_reference_z_delta=selection.get("max_reference_z_delta"),
     )
     _validate_manifest_after_prepare(
         manifest,

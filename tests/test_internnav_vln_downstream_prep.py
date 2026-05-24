@@ -584,6 +584,115 @@ def test_prepare_minipair_excludes_internnav_runtime_display_path_key(tmp_path: 
     ]
 
 
+def test_prepare_minipair_filters_reference_paths_by_max_z_delta(tmp_path: Path) -> None:
+    module = load_prep_module()
+    source_root = make_source_root(tmp_path)
+    nomdl_root = tmp_path / "zzh-grscenes_nomdl"
+    write_scene_usd(
+        nomdl_root,
+        "home_scenes",
+        "scene_a_usd",
+        "start_result_navigation_noMDL.usd",
+    )
+    sn_path = source_root / "benchmark/sn_episodes.json"
+    data = json.loads(sn_path.read_text(encoding="utf-8"))
+    data["test"]["scene_a_usd"]["chair/model_hash_0"] = [
+        {
+            "start_point": [1.0, 2.0],
+            "target_point": [3.0, 2.0, 0.9],
+            "distance": 2.5,
+            "path": [[1.0, 2.0], [2.0, 2.0]],
+            "dialogue": [{"role": "human", "content": "Find the chair on the table."}],
+        },
+        {
+            "start_point": [1.0, 3.0],
+            "target_point": [3.0, 3.0, 0.0],
+            "distance": 2.5,
+            "path": [[1.0, 3.0], [2.0, 3.0], [3.0, 3.0]],
+            "dialogue": [{"role": "human", "content": "Find the floor chair."}],
+        },
+    ]
+    sn_path.write_text(json.dumps(data), encoding="utf-8")
+
+    manifest = module.prepare_minipair(
+        source_root=source_root,
+        nomdl_root=nomdl_root,
+        work_root=tmp_path / "internnav_work",
+        repo_manifest_path=tmp_path / "prep_manifest.json",
+        max_episodes=1,
+        split_name="acl_main_flatfilter",
+        link_mode="copy",
+        ready_only=True,
+        max_reference_z_delta=0.3,
+    )
+
+    assert manifest["dataset"]["episode_count"] == 1
+    assert manifest["episode_records"][0]["source_selection_rank"] == 1
+    assert manifest["episode_records"][0]["source_path_key"] == "scene_a_usd_chair_model_hash_0_1_1"
+    assert manifest["episode_records"][0]["trajectory_id"] == "scene_a_usd_chair_model_hash_0_1"
+    assert manifest["selection"]["max_reference_z_delta"] == 0.3
+    assert manifest["selection"]["height_filter_policy"] == "skip_adjacent_z_delta_gt_threshold"
+    assert manifest["selection"]["height_filter_skipped_episode_count"] == 1
+    assert manifest["selection"]["height_filter_skipped_episode_records"] == [
+        {
+            "max_adjacent_z_delta": 0.9,
+            "path_key": "scene_a_usd_chair_model_hash_0_0_0",
+            "reason": "max_adjacent_z_delta_gt_threshold",
+            "scan": "scene_a_usd",
+            "source_selection_rank": 0,
+            "trajectory_id": "scene_a_usd_chair_model_hash_0_0",
+        }
+    ]
+
+
+def test_prepare_minipair_height_filter_uses_strictly_greater_than_threshold(tmp_path: Path) -> None:
+    module = load_prep_module()
+    source_root = make_source_root(tmp_path)
+    nomdl_root = tmp_path / "zzh-grscenes_nomdl"
+    write_scene_usd(
+        nomdl_root,
+        "home_scenes",
+        "scene_a_usd",
+        "start_result_navigation_noMDL.usd",
+    )
+    sn_path = source_root / "benchmark/sn_episodes.json"
+    data = json.loads(sn_path.read_text(encoding="utf-8"))
+    data["test"]["scene_a_usd"]["chair/model_hash_0"] = [
+        {
+            "start_point": [1.0, 2.0],
+            "target_point": [3.0, 2.0, 0.3],
+            "distance": 2.5,
+            "path": [[1.0, 2.0], [2.0, 2.0]],
+            "dialogue": [{"role": "human", "content": "Find the threshold chair."}],
+        },
+        {
+            "start_point": [1.0, 3.0],
+            "target_point": [3.0, 3.0, 0.300001],
+            "distance": 2.5,
+            "path": [[1.0, 3.0], [2.0, 3.0]],
+            "dialogue": [{"role": "human", "content": "Find the too-high chair."}],
+        },
+    ]
+    sn_path.write_text(json.dumps(data), encoding="utf-8")
+
+    manifest = module.prepare_minipair(
+        source_root=source_root,
+        nomdl_root=nomdl_root,
+        work_root=tmp_path / "internnav_work",
+        repo_manifest_path=tmp_path / "prep_manifest.json",
+        max_episodes=2,
+        split_name="acl_main_flatfilter",
+        link_mode="copy",
+        ready_only=True,
+        max_reference_z_delta=0.3,
+    )
+
+    assert manifest["dataset"]["episode_count"] == 1
+    assert manifest["episode_records"][0]["instruction_text"] == "Find the threshold chair."
+    assert manifest["selection"]["height_filter_skipped_episode_count"] == 1
+    assert manifest["selection"]["height_filter_skipped_episode_records"][0]["max_adjacent_z_delta"] == 0.300001
+
+
 def test_collect_results_writes_metric_deltas(tmp_path: Path) -> None:
     module = load_collect_module()
     manifest_path = tmp_path / "prep_manifest.json"

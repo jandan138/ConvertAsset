@@ -134,6 +134,43 @@ def test_advance_from_triage_does_not_duplicate_existing_exclusion(tmp_path: Pat
     assert manifest["selection"]["runtime_triage_source"]["already_requested"] is True
 
 
+def test_advance_from_triage_preserves_previous_height_filter_threshold(tmp_path: Path) -> None:
+    module = load_advance_module()
+    previous_manifest = tmp_path / "acl_main_pilot30_flatfilter_prep_manifest.json"
+    previous = previous_manifest_payload(tmp_path / "work_flatfilter")
+    previous["dataset"]["split"] = "acl_main_pilot30_flatfilter"
+    previous["selection"]["max_reference_z_delta"] = 0.3
+    write_json(previous_manifest, previous)
+    triage_path = tmp_path / "triage.json"
+    write_json(
+        triage_path,
+        {
+            "status": "runtime_hang",
+            "reason": "warmup_reset_without_first_action_or_terminal_metric",
+            "exclude_path_key": "scene_usd_bottle_model_hash_0_0_6",
+        },
+    )
+    calls = []
+
+    def fake_prepare_minipair(**kwargs):
+        calls.append(kwargs)
+        return {
+            "selection": {
+                "requested_excluded_path_keys": kwargs["excluded_path_keys"],
+                "unmatched_excluded_path_keys": [],
+            },
+            "dataset": {"split": kwargs["split_name"], "episode_count": kwargs["max_episodes"]},
+        }
+
+    module.advance_from_triage(
+        previous_manifest_path=previous_manifest,
+        triage_path=triage_path,
+        prepare_func=fake_prepare_minipair,
+    )
+
+    assert calls[0]["max_reference_z_delta"] == 0.3
+
+
 def test_advance_from_triage_rejects_unmatched_excluded_keys(tmp_path: Path) -> None:
     module = load_advance_module()
     previous_manifest = tmp_path / "acl_main_pilot30_v10_prep_manifest.json"

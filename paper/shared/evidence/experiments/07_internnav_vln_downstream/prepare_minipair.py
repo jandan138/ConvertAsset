@@ -144,6 +144,15 @@ def _reference_path(record: dict[str, Any]) -> list[list[float]]:
     return path
 
 
+def _max_adjacent_z_delta(reference_path: list[list[float]]) -> float:
+    if len(reference_path) < 2:
+        return 0.0
+    return max(
+        abs(float(reference_path[index + 1][2]) - float(reference_path[index][2]))
+        for index in range(len(reference_path) - 1)
+    )
+
+
 def _start_rotation_from_path(path: list[list[float]]) -> list[float]:
     if len(path) < 2:
         return [1.0, 0.0, 0.0, 0.0]
@@ -554,7 +563,13 @@ def _episode_path_key(episode: dict[str, Any]) -> str:
     return f"{episode['trajectory_id']}_{episode['episode_id']}"
 
 
-def _selection_record(episode: dict[str, Any], *, source_selection_rank: int, reason: str | None = None) -> dict[str, Any]:
+def _selection_record(
+    episode: dict[str, Any],
+    *,
+    source_selection_rank: int,
+    reason: str | None = None,
+    max_adjacent_z_delta: float | None = None,
+) -> dict[str, Any]:
     record = {
         "path_key": _episode_path_key(episode),
         "scan": episode["scan"],
@@ -563,6 +578,8 @@ def _selection_record(episode: dict[str, Any], *, source_selection_rank: int, re
     }
     if reason is not None:
         record["reason"] = reason
+    if max_adjacent_z_delta is not None:
+        record["max_adjacent_z_delta"] = round(max_adjacent_z_delta, 6)
     return record
 
 
@@ -589,11 +606,13 @@ def _select_records_with_exclusions(
     selection_strategy: str,
     excluded_path_keys: list[str],
     exclusion_reason: str,
+    max_reference_z_delta: float | None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     excluded_path_key_set = set(excluded_path_keys)
     ordered_records = _ordered_records(records, selection_strategy=selection_strategy)
     selected_records: list[dict[str, Any]] = []
     excluded_episode_records: list[dict[str, Any]] = []
+    height_filter_skipped_episode_records: list[dict[str, Any]] = []
     replacement_episode_records: list[dict[str, Any]] = []
     matched_excluded_path_keys: set[str] = set()
 
@@ -615,6 +634,17 @@ def _select_records_with_exclusions(
                 )
             )
             continue
+        max_adjacent_z_delta = _max_adjacent_z_delta(source_episode["reference_path"])
+        if max_reference_z_delta is not None and max_adjacent_z_delta > max_reference_z_delta:
+            height_filter_skipped_episode_records.append(
+                _selection_record(
+                    source_episode,
+                    source_selection_rank=source_selection_rank,
+                    reason="max_adjacent_z_delta_gt_threshold",
+                    max_adjacent_z_delta=max_adjacent_z_delta,
+                )
+            )
+            continue
         if len(selected_records) >= max_episodes:
             continue
         selected_records.append({**record, "_source_selection_rank": source_selection_rank, "_source_path_key": source_path_key})
@@ -632,6 +662,12 @@ def _select_records_with_exclusions(
         "exclusion_reason": exclusion_reason,
         "excluded_episode_count": len(excluded_episode_records),
         "excluded_episode_records": excluded_episode_records,
+        "max_reference_z_delta": max_reference_z_delta,
+        "height_filter_policy": (
+            "skip_adjacent_z_delta_gt_threshold" if max_reference_z_delta is not None else "disabled"
+        ),
+        "height_filter_skipped_episode_count": len(height_filter_skipped_episode_records),
+        "height_filter_skipped_episode_records": height_filter_skipped_episode_records,
         "replacement_policy": "continue_existing_selection_order_after_exclusions",
         "replacement_episode_count": len(replacement_episode_records),
         "replacement_episode_records": replacement_episode_records,
@@ -664,6 +700,7 @@ def prepare_minipair(
     excluded_path_keys: list[str] | None = None,
     exclusion_reason: str = "manual_exclusion",
     supersedes_manifest_path: Path | None = None,
+    max_reference_z_delta: float | None = None,
 ) -> dict[str, Any]:
     source_root = source_root.resolve()
     nomdl_root = nomdl_root.resolve()
@@ -679,6 +716,8 @@ def prepare_minipair(
         raise ValueError("link_mode must be 'symlink' or 'copy'")
     if selection_strategy not in SELECTION_STRATEGIES:
         raise ValueError(f"selection_strategy must be one of: {', '.join(SELECTION_STRATEGIES)}")
+    if max_reference_z_delta is not None and max_reference_z_delta < 0.0:
+        raise ValueError("max_reference_z_delta must be non-negative")
 
     requested_scene_ids = list(scene_ids or [])
     raw_records = _iter_sn_records(source_root)
@@ -705,6 +744,7 @@ def prepare_minipair(
         selection_strategy=selection_strategy,
         excluded_path_keys=excluded_path_keys,
         exclusion_reason=exclusion_reason,
+        max_reference_z_delta=max_reference_z_delta,
     )
     supersedes_manifest = _supersedes_manifest_record(supersedes_manifest_path)
     if supersedes_manifest is not None:
@@ -863,6 +903,12 @@ def _parse_args() -> argparse.Namespace:
         default=None,
         help="Restrict episode selection to this GRScenes scene id. May be repeated.",
     )
+    parser.add_argument(
+        "--max-reference-z-delta",
+        type=float,
+        default=None,
+        help="Skip candidate episodes whose adjacent reference_path z delta exceeds this threshold.",
+    )
     return parser.parse_args()
 
 
@@ -883,6 +929,7 @@ def main() -> int:
         excluded_path_keys=args.excluded_path_keys,
         exclusion_reason=args.exclusion_reason,
         supersedes_manifest_path=args.supersedes_manifest_path,
+        max_reference_z_delta=args.max_reference_z_delta,
     )
     print(json.dumps(manifest["claim_gate"], ensure_ascii=True, sort_keys=True))
     return 0
