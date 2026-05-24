@@ -1,0 +1,22 @@
+{
+  "evidence": {
+    "action_line": null,
+    "env_reset_line": "[2026-05-24 18:31:23,125][INFO] [TIME] Env Reset time: 17.69s",
+    "finish_line": null,
+    "latest_start_line": "[2026-05-24 18:31:23,125][INFO] start sampling trajectory_id: MVUCSQAKTKJ5EAABAAAAACY8_usd_bottle_model_cbb22458417f40df7a44ba2af5e1904f_0_0_6",
+    "saw_action_after_latest_start": false,
+    "saw_env_reset_after_latest_start": true,
+    "saw_finish_after_latest_start": false,
+    "saw_warmup_after_latest_start": true,
+    "warmup_line": "[2026-05-24 18:31:23,125][INFO] env[0]: states switch to WARM UP."
+  },
+  "exclude_path_key": "MVUCSQAKTKJ5EAABAAAAACY8_usd_bottle_model_cbb22458417f40df7a44ba2af5e1904f_0_0_6",
+  "last_finish_index": 12,
+  "last_finish_trajectory_id": "MVUCSQAKTKJ5EAABAAAAACY8_usd_plant_model_45643bf34708e97571c3a5b794cfebae_0_0_11",
+  "reason": "warmup_reset_without_first_action_or_terminal_metric",
+  "result_count": 12,
+  "stale_age_seconds": 616.8328676223755,
+  "stale_seconds": 300,
+  "status": "runtime_hang",
+  "trajectory_id": "MVUCSQAKTKJ5EAABAAAAACY8_usd_bottle_model_cbb22458417f40df7a44ba2af5e1904f_0_0_6"
+}

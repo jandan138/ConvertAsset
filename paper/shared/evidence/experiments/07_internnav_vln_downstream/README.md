@@ -44,6 +44,25 @@ eval. It runs InternNav under `./scripts/isaac_python.sh`, adds the external
 runtime dependency root to `PYTHONPATH`, pins `HF_HOME`, disables Hugging Face
 Xet, and applies the compatibility patches recorded in `prep_manifest.json`.
 
+`runtime_watchdog.py` classifies InternNav progress/common/stdout logs after a
+run stalls or during supervised polling. Its narrow purpose is to detect
+reset/warm-up hangs before the first navigation action:
+
+```bash
+python paper/shared/evidence/experiments/07_internnav_vln_downstream/runtime_watchdog.py \
+  --log-dir /cpfs/user/zhuzihou/dev/InternNav/logs/<task_name> \
+  --result /cpfs/user/zhuzihou/dev/InternNav/logs/<task_name>/result.json \
+  --split-name <split_name>
+```
+
+It only emits `status=runtime_hang` when the latest episode has
+`start sampling`, `WARM UP` / `Env Reset`, no `now action`, no `Env Step`, no
+`finish`, and no advanced terminal metric. The emitted `exclude_path_key` can be
+passed directly to `prepare_minipair.py --exclude-path-key`. Do not use this
+rule for episodes that already produced actions or steps; those are normal
+navigation outcomes even if they later fail with `not_reach_goal` or
+`exceed_total_max_step`.
+
 ## Main-Result Goal
 
 To make this route part of the ACL main result, the goal is:

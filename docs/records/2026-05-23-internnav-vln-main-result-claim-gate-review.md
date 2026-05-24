@@ -47,6 +47,11 @@ benchmark conclusion.
 第一类是资源准备失败，第二类是旧 LMDB 断点污染。它们都不能被写成
 downstream 结论，只能作为工程踩坑和运行门禁记录。
 
+后续 clean split 又暴露了第三类问题：部分 `scene + target object +
+Isaac/InternNav runtime` 组合在 reset/warm-up 阶段无法进入第一步导航动作。
+这类 episode 不是 `SR=0` 或 `not_reach_goal`，而是没有产生 terminal metric
+的 runtime-incompatible artifact。
+
 ## Promotion Criteria
 
 Minimum pilot-main criteria:
@@ -572,10 +577,10 @@ run is archived:
 /cpfs/user/zhuzihou/dev/InternNav/data/sample_episodes/convertasset_grscene_sn_original_acl_main_pilot30_v9_invalid_clock65d_warmup_hang_20260524170300
 ```
 
-`acl_main_pilot30_v10` is the current paper-main candidate split. It supersedes
-v9, keeps 30 episodes, records nine explicit runtime-hang exclusions, and has
-`unmatched_excluded_path_keys=[]`. v10 excludes the clock warm-up hang and
-deterministically continues the ready candidate order.
+`acl_main_pilot30_v10` superseded v9, kept 30 episodes, recorded nine explicit
+runtime-hang exclusions, and had `unmatched_excluded_path_keys=[]`. v10 excluded
+the clock warm-up hang and deterministically continued the ready candidate
+order.
 
 v10 deterministic replacements are:
 
@@ -600,6 +605,44 @@ The v10 claim gate is ready for runtime:
 {"blocked_by": [], "can_run_paired_eval": true, "min_scenes": 5, "selected_scene_count": 5, "status": "ready_for_internnav_runtime"}
 ```
 
+The clean original-side v10 run is not valid paper evidence. It passed the
+run-shape gate (`total_path: 30`) and produced 12 terminal `not_reach_goal`
+episodes, then stalled on:
+
+```text
+MVUCSQAKTKJ5EAABAAAAACY8_usd_bottle_model_cbb22458417f40df7a44ba2af5e1904f_0_0_6
+```
+
+Evidence boundary: `result.json` stayed at `Count=12`; the next episode logged
+`start sampling trajectory_id`, `WARM UP`, `Env Reset time: 17.69s`, and
+`agent step time: 0.0s`, then produced no `now action`, no `Env Step`, no
+`finish`, and no terminal metric. The v10 partial run is archived:
+
+```text
+/cpfs/user/zhuzihou/dev/InternNav/logs/convertasset_grscene_sn_original_acl_main_pilot30_v10_invalid_bottlecbb_warmup_hang_20260524183531
+/cpfs/user/zhuzihou/dev/InternNav/data/sample_episodes/convertasset_grscene_sn_original_acl_main_pilot30_v10_invalid_bottlecbb_warmup_hang_20260524183531
+```
+
+`runtime_watchdog.py` now reproduces this classification as a machine-readable
+postmortem triage:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_v10_runtime_hang_triage.json
+```
+
+Its `exclude_path_key` is the bottle runtime path key above. This should be fed
+back into `prepare_minipair.py --exclude-path-key` instead of manually guessing
+which source episode to replace.
+
+Asset-side interpretation: the logs show the v10 bottle scene segment contained
+many Isaac PhysX warnings for invalid inertia tensors and negative mass. The
+target bottle `model_cbb224...` itself had invalid inertia / negative mass
+warnings, and nearby bottle rigid bodies had `Fail to create IRigidBody` errors
+from non-positive determinant transforms. That is evidence of problematic
+physics/transform metadata in the scene around the bottle episode. It is not
+enough to claim that the bottle USD file alone is corrupt, nor that no-MDL caused
+the issue.
+
 For paper statistics, include only paired episodes where both original and
 modified produce terminal metrics. Runtime hangs are reported as exclusions and
 limitations, not silently counted as navigation failures.
@@ -614,13 +657,23 @@ limitations, not silently counted as navigation failures.
 | runtime hang | reset/warm-up 后无 `now action`、无 `Env Step`、无 `finish`、无 terminal metric；进程仍高 CPU | 无效 episode artifact。按 deterministic policy 排除并替换，记录 exclusion count/rate。 |
 | 任务失败 | `not_reach_goal`；`exceed_total_max_step`；episode 数符合预期且有正常 terminal metrics | 有效 episode outcome。只有 original 和 modified 两侧都完整并配对后再纳入分析。 |
 
+The watchdog boundary is intentionally conservative: it only labels an episode a
+runtime hang before the first action or environment step appears. Once
+`now action` or `Env Step` exists, the episode has entered the navigation loop
+and must be treated as an active/terminal navigation outcome, not excluded by
+this rule. For live supervision, use a stale threshold of several minutes and
+prefer confirming the same state in two polls before killing the run.
+
 ## Next Work
 
-1. Let the clean original v10 pilot30 complete and inspect its final result and
-   logs.
-2. Run the modified v10 pilot30 counterpart from equally clean logs and
-   `data/sample_episodes` state, with stdout redirected to a log file.
-3. Extract aggregate and per-episode metrics for both conditions.
-4. Run paired analysis and select video cases.
-5. Generate selected-only video reruns and side-by-side mp4s.
-6. Update the ACL paper only after the claim gate records real paired results.
+1. Generate the next candidate split from the v10 watchdog `exclude_path_key`,
+   not by manual source-index guessing.
+2. Run the original candidate under the watchdog boundary from clean
+   `logs/<task_name>` and `data/sample_episodes/<task_name>` roots.
+3. Only after original completes, run the modified counterpart from equally
+   clean state.
+4. Extract aggregate and per-episode metrics for both conditions.
+5. Run paired analysis and select video cases.
+6. Generate selected-only video reruns and side-by-side mp4s.
+7. Update the ACL paper only after the claim gate records real paired results,
+   plus exclusion count/rate and the runtime-incompatible limitation.
