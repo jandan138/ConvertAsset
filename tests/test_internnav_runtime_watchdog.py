@@ -176,3 +176,40 @@ def test_triage_groups_duplicate_latest_start_events_across_logs(tmp_path: Path)
     assert triage["status"] == "runtime_hang"
     assert triage["evidence"]["saw_warmup_after_latest_start"] is True
     assert triage["evidence"]["saw_env_reset_after_latest_start"] is True
+
+
+def test_triage_detects_stale_reset_hang_when_warmup_precedes_start_by_millisecond(tmp_path: Path) -> None:
+    module = load_watchdog_module()
+    log_path = tmp_path / "stdout.log"
+    log_path.write_text(
+        "\n".join(
+            [
+                "[2026-05-24 15:17:36,449][INFO] [12/30][step_index:427] finish: "
+                "[trajectory_id:scene_usd_clock_model_hash_0_0_2][result:not_reach_goal]",
+                "[2026-05-24 15:17:55,210][INFO] env[0]: states switch to WARM UP.",
+                "[2026-05-24 15:17:55,211][INFO] start sampling trajectory_id: "
+                "scene_usd_washingmachine_model_hash_0_0_29",
+                "[2026-05-24 15:17:55,211][INFO] [TIME] Env Reset time: 18.78s",
+                "[2026-05-24 15:17:55,211][INFO] [TIME] agent step time: 0.0s",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    result_path = tmp_path / "result.json"
+    write_json(result_path, {"split": {"Count": 12}})
+
+    triage = module.triage_run(
+        log_paths=[log_path],
+        result_path=result_path,
+        now_epoch=1_779_619_500,
+        stale_seconds=300,
+        log_mtime_epoch=1_779_618_683,
+    )
+
+    assert triage["status"] == "runtime_hang"
+    assert triage["reason"] == "reset_without_first_action_or_terminal_metric"
+    assert triage["trajectory_id"] == "scene_usd_washingmachine_model_hash_0_0_29"
+    assert triage["exclude_path_key"] == "scene_usd_washingmachine_model_hash_0_0_29"
+    assert triage["evidence"]["saw_warmup_after_latest_start"] is False
+    assert triage["evidence"]["saw_env_reset_after_latest_start"] is True
+    assert triage["evidence"]["saw_action_after_latest_start"] is False

@@ -84,6 +84,28 @@ The tool is intentionally strict: the generated manifest must have
 watchdog reason under `runtime_triage_source` while using a stable manifest-level
 exclusion reason.
 
+`audit_episode_height_filter.py` checks a generated InternNav dataset against
+the same height-jump rule used by InternNav's `different_height()` filter. Use
+it when a split repeatedly hangs at reset/warm-up:
+
+```bash
+python paper/shared/evidence/experiments/07_internnav_vln_downstream/audit_episode_height_filter.py \
+  --dataset /path/to/<split>.json.gz \
+  --hang-path-key <runtime_trajectory_id_episode_id> \
+  --output paper/shared/evidence/raw/internnav_vln_downstream/<audit>.json
+```
+
+The v2-v10 root-cause audit is recorded at:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_runtime_hang_height_filter_audit.json
+```
+
+It matched all nine known v2-v10 hang path keys and found that all nine would
+be removed by InternNav's official `filter_stairs=True` height gate. The next
+split should therefore change the sampling protocol instead of advancing by one
+more exclusion.
+
 ## Main-Result Goal
 
 To make this route part of the ACL main result, the goal is:

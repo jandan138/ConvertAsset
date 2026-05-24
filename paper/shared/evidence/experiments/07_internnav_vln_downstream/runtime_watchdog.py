@@ -256,10 +256,15 @@ def triage_run(
         or result_count <= last_finish.finish_index
     )
     stale = stale_age_seconds is not None and stale_age_seconds >= stale_seconds
-    if saw_warmup and saw_env_reset and result_not_advanced and stale:
+    if saw_env_reset and result_not_advanced and stale:
+        reason = (
+            "warmup_reset_without_first_action_or_terminal_metric"
+            if saw_warmup
+            else "reset_without_first_action_or_terminal_metric"
+        )
         return _base_triage(
             status="runtime_hang",
-            reason="warmup_reset_without_first_action_or_terminal_metric",
+            reason=reason,
             trajectory_id=trajectory_id,
             exclude_path_key=trajectory_id,
             last_finish=last_finish,

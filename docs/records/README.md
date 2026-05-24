@@ -29,6 +29,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-23 InternNav VLN runtime smoke](2026-05-23-internnav-vln-runtime-smoke.md)
 - [2026-05-23 InternNav VLN main-result scaffold](2026-05-23-internnav-vln-main-result-scaffold.md)
 - [2026-05-23 InternNav VLN main-result claim gate review](2026-05-23-internnav-vln-main-result-claim-gate-review.md)
+- [2026-05-24 InternNav runtime hang root cause](2026-05-24-internnav-runtime-hang-root-cause.md)
 - [2026-05-23 CVPR review status and ACL goals](2026-05-23-cvpr-review-status-and-acl-goals.md)
 - [2026-05-20 OSS dataset restore for GRScenes test0 parallel](2026-05-20-oss-dataset-restore.md)
 - [2026-05-20 ACL GRScenes dataset role correction](2026-05-20-acl-grscenes-dataset-role-correction.md)
