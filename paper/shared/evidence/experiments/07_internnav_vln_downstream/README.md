@@ -63,6 +63,21 @@ rule for episodes that already produced actions or steps; those are normal
 navigation outcomes even if they later fail with `not_reach_goal` or
 `exceed_total_max_step`.
 
+`advance_split_from_triage.py` turns a watchdog `runtime_hang` JSON into the
+next deterministic candidate split. It reads the previous prep manifest,
+validates `status=runtime_hang`, appends the emitted `exclude_path_key`, records
+the triage file hash, and calls `prepare_minipair.py` with the same selection
+policy:
+
+```bash
+python paper/shared/evidence/experiments/07_internnav_vln_downstream/advance_split_from_triage.py \
+  --previous-manifest paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_v10_prep_manifest.json \
+  --triage paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_v10_runtime_hang_triage.json
+```
+
+This is the preferred path for v11+ split creation. Avoid hand-assembling long
+`--exclude-path-key` command lines after a watchdog triage file exists.
+
 ## Main-Result Goal
 
 To make this route part of the ACL main result, the goal is:

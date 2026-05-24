@@ -643,6 +643,32 @@ physics/transform metadata in the scene around the bottle episode. It is not
 enough to claim that the bottle USD file alone is corrupt, nor that no-MDL caused
 the issue.
 
+`advance_split_from_triage.py` now performs that feedback step reproducibly. It
+validates that the watchdog triage has `status=runtime_hang`, appends its
+`exclude_path_key` to the previous manifest's requested exclusions without
+duplicating keys, derives the next versioned split/work-root paths, and records
+the triage file hash in the new manifest.
+
+`acl_main_pilot30_v11` was generated from v10 plus the bottle watchdog triage:
+
+```text
+paper/shared/evidence/raw/internnav_vln_downstream/acl_main_pilot30_v11_prep_manifest.json
+/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30_v11
+```
+
+v11 keeps 30 episodes over five scenes, records ten runtime-hang exclusions, and
+has `unmatched_excluded_path_keys=[]`. The new dataset hash is:
+
+```text
+a0d0ac447c4ad98d4f58225ee6fca9cb431d526214cfe6782b7922a0dcb6a191
+```
+
+Its original-side config is:
+
+```text
+/cpfs/user/zhuzihou/assets/internnav_vln_downstream_work_20260523_pilot30_v11/configs/convertasset_grscene_sn_original_acl_main_pilot30_v11_eval_cfg.py
+```
+
 For paper statistics, include only paired episodes where both original and
 modified produce terminal metrics. Runtime hangs are reported as exclusions and
 limitations, not silently counted as navigation failures.
@@ -666,14 +692,12 @@ prefer confirming the same state in two polls before killing the run.
 
 ## Next Work
 
-1. Generate the next candidate split from the v10 watchdog `exclude_path_key`,
-   not by manual source-index guessing.
-2. Run the original candidate under the watchdog boundary from clean
+1. Run the original v11 candidate under the watchdog boundary from clean
    `logs/<task_name>` and `data/sample_episodes/<task_name>` roots.
-3. Only after original completes, run the modified counterpart from equally
+2. Only after original completes, run the modified counterpart from equally
    clean state.
-4. Extract aggregate and per-episode metrics for both conditions.
-5. Run paired analysis and select video cases.
-6. Generate selected-only video reruns and side-by-side mp4s.
-7. Update the ACL paper only after the claim gate records real paired results,
+3. Extract aggregate and per-episode metrics for both conditions.
+4. Run paired analysis and select video cases.
+5. Generate selected-only video reruns and side-by-side mp4s.
+6. Update the ACL paper only after the claim gate records real paired results,
    plus exclusion count/rate and the runtime-incompatible limitation.
