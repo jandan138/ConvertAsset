@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "status": "supplemental_material_effect_clean_room_visual_review",
+  "generated_at_utc": "2026-05-25T15:57:14Z",
+  "generated_by": "render-visual-reviewer clean-room subagent",
+  "reviewer": {
+    "type": "clean_room_subagent",
+    "agent_path": "019e5fd7-b4a6-7770-8d6c-ad12f77b4bf5",
+    "fork_context": false,
+    "constraints": [
+      "Reviewer received only the supplied render images and task expectations.",
+      "Reviewer did not inspect code, manifests, or repository files.",
+      "Reviewer used anonymous labels A/B/C inside each supplemental case."
+    ]
+  },
+  "summary": {
+    "overall_verdict": "FAIL",
+    "confidence": "high",
+    "image_review_count": 6,
+    "pass_count": 1,
+    "warn_count": 2,
+    "fail_count": 3,
+    "clearcoat_panel_verdict": "FAIL",
+    "procedural_panel_verdict": "FAIL",
+    "ready_for_paper_success_panel": false,
+    "ready_for_failure_case_writeup": true,
+    "ready_for_full_visual_quality_claim": false,
+    "key_finding": "The supplemental stills are useful as failure evidence, but they do not support a successful three-way qualitative comparison panel."
+  },
+  "label_mapping": {
+    "clearcoat": {
+      "A": {
+        "sample_id": "supplemental_clearcoat_omnipbr",
+        "condition": "original_MDL",
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_clearcoat_omnipbr/original_MDL/original_0000.png"
+      },
+      "B": {
+        "sample_id": "supplemental_clearcoat_omnipbr",
+        "condition": "existing_noMDL",
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_clearcoat_omnipbr/existing_noMDL/convertasset_0000.png"
+      },
+      "C": {
+        "sample_id": "supplemental_clearcoat_omnipbr",
+        "condition": "nvidia_asset_converter_preview_or_bake",
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_clearcoat_omnipbr/nvidia_asset_converter_preview_or_bake/nvidia_0000.png"
+      }
+    },
+    "procedural_texture": {
+      "A": {
+        "sample_id": "supplemental_procedural_checker",
+        "condition": "original_MDL",
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_procedural_checker/original_MDL/original_0000.png"
+      },
+      "B": {
+        "sample_id": "supplemental_procedural_checker",
+        "condition": "existing_noMDL",
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_procedural_checker/existing_noMDL/convertasset_0000.png"
+      },
+      "C": {
+        "sample_id": "supplemental_procedural_checker",
+        "condition": "nvidia_asset_converter_preview_or_bake",
+        "image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_procedural_checker/nvidia_asset_converter_preview_or_bake/nvidia_0000.png"
+      }
+    }
+  },
+  "per_image_reviews": [
+    {
+      "id": "Clearcoat A",
+      "effect": "clearcoat",
+      "label": "A",
+      "sample_id": "supplemental_clearcoat_omnipbr",
+      "condition": "original_MDL",
+      "verdict": "WARN",
+      "visible_evidence": "Blue close-up sphere with bright specular highlight; coated/glossy effect is visible.",
+      "main_risk": "Object is cropped extremely tightly and appears faceted, reducing comparison quality."
+    },
+    {
+      "id": "Clearcoat B",
+      "effect": "clearcoat",
+      "label": "B",
+      "sample_id": "supplemental_clearcoat_omnipbr",
+      "condition": "existing_noMDL",
+      "verdict": "WARN",
+      "visible_evidence": "Same close framing as A, but sphere is plain white with little visible material character.",
+      "main_risk": "Possible material fallback or loss of blue/clearcoat appearance."
+    },
+    {
+      "id": "Clearcoat C",
+      "effect": "clearcoat",
+      "label": "C",
+      "sample_id": "supplemental_clearcoat_omnipbr",
+      "condition": "nvidia_asset_converter_preview_or_bake",
+      "verdict": "FAIL",
+      "visible_evidence": "Only grid/axis lines are visible; no sphere/target appears.",
+      "main_risk": "Missing target makes comparison invalid."
+    },
+    {
+      "id": "Procedural A",
+      "effect": "procedural_texture",
+      "label": "A",
+      "sample_id": "supplemental_procedural_checker",
+      "condition": "original_MDL",
+      "verdict": "PASS",
+      "visible_evidence": "Flat target clearly shows dense checker/procedural pattern.",
+      "main_risk": "Pattern is very dense and slightly alias-prone, but identifiable."
+    },
+    {
+      "id": "Procedural B",
+      "effect": "procedural_texture",
+      "label": "B",
+      "sample_id": "supplemental_procedural_checker",
+      "condition": "existing_noMDL",
+      "verdict": "FAIL",
+      "visible_evidence": "Flat target is visible, but appears solid white with no checker pattern.",
+      "main_risk": "Missing procedural texture/material fallback."
+    },
+    {
+      "id": "Procedural C",
+      "effect": "procedural_texture",
+      "label": "C",
+      "sample_id": "supplemental_procedural_checker",
+      "condition": "nvidia_asset_converter_preview_or_bake",
+      "verdict": "FAIL",
+      "visible_evidence": "Flat target is visible, but appears mostly beige/tan with no checker pattern.",
+      "main_risk": "Missing procedural texture or baked result not visibly preserving the pattern."
+    }
+  ],
+  "panel_reviews": [
+    {
+      "effect": "clearcoat",
+      "verdict": "FAIL",
+      "rationale": "Clearcoat C shows only grid/axes and no target object, so the three-way panel is invalid. Clearcoat A/B are visible but tightly cropped."
+    },
+    {
+      "effect": "procedural_texture",
+      "verdict": "FAIL",
+      "rationale": "The procedural camera framing is comparable, but existing_noMDL and NVIDIA conditions visibly lose the checker pattern."
+    }
+  ],
+  "retake_recommendation": [
+    "Retake Clearcoat C with the sphere visible in the same framing as A/B.",
+    "For Clearcoat A/B, pull the camera back slightly so the full sphere silhouette is visible.",
+    "Retake Procedural B/C after confirming the checker/procedural material renders visibly; keep the current camera framing because it is comparable across the procedural set."
+  ],
+  "claim_boundary": {
+    "allowed": [
+      "Use this as clean-room visual QA over the two supplemental missing-bin fixture cases.",
+      "Use it to justify retaking clearcoat framing and investigating procedural texture preservation before success claims.",
+      "Use NVIDIA clearcoat as a selected failure-case example when paired with static-gate and machine-QA evidence."
+    ],
+    "forbidden": [
+      "Do not call the supplemental contact sheet a successful three-way qualitative comparison.",
+      "Do not call this a final material-effect error-rate distribution.",
+      "Do not describe the review as a human annotator study."
+    ]
+  },
+  "source_context": {
+    "review_packet": "Inspect six supplemental material-effect render images as a clean-room human-style visual QA reviewer. Clearcoat A/B/C and procedural A/B/C were anonymous labels mapped back after review.",
+    "source_git_commit": "29e15820f2b05b8b4b4f0fd8fa67f2d8e40cd602"
+  }
+}

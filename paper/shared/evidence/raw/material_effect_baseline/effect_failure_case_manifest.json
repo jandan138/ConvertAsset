@@ -2,10 +2,11 @@
   "schema_version": 1,
   "status": "material_effect_failure_case_manifest",
   "generated_by": "paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py",
-  "generated_at_utc": "2026-05-25T15:17:39.953356Z",
+  "generated_at_utc": "2026-05-25T16:01:44.986318Z",
   "source_manifest": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json",
   "summary": {
     "case_count": 1,
+    "rendered_failure_evidence_count": 1,
     "reason_counts": {
       "static_gate_failed": 1
     }
@@ -20,16 +21,23 @@
       "condition": "nvidia_asset_converter_preview_or_bake",
       "status": "static_gate_failed",
       "reason": "static_gate_failed",
-      "usd_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_supplemental/clearcoat/supplemental_clearcoat_omnipbr_nvidia_usd_to_usd_preview.usd"
+      "usd_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_supplemental/clearcoat/supplemental_clearcoat_omnipbr_nvidia_usd_to_usd_preview.usd",
+      "has_rendered_failure_evidence": true,
+      "rendered_failure_reason": "near_black_render",
+      "rendered_failure_evidence": "Image is near black, which is task-breaking for qualitative inspection.",
+      "rendered_failure_image_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_clearcoat_omnipbr/nvidia_asset_converter_preview_or_bake/nvidia_0000.png",
+      "rendered_failure_source_status": "static_gate_failed"
     }
   ],
   "claim_boundary": {
     "allowed": [
-      "These are selected non-available or static-gate-failed condition cases for follow-up."
+      "These are selected non-available or static-gate-failed condition cases for follow-up.",
+      "Cases with rendered_failure_* fields have linked rendered QA evidence."
     ],
     "forbidden": [
       "Do not treat planned missing NVIDIA outputs as visual failures.",
-      "Do not call this a final error distribution before NVIDIA sample conversion and paired rendering finish."
+      "Do not call this a final error distribution before broader sampling finishes.",
+      "Do not call linked rendered evidence a successful qualitative panel if clean-room visual review failed."
     ]
   }
 }

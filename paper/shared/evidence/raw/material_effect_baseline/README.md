@@ -28,6 +28,10 @@ Current files:
 - `supplemental_qualitative_visual_qa.json`: records machine visual QA over
   the supplemental stills. It flags one rendered failure candidate:
   NVIDIA clearcoat is near-black after the static-gate-failed conversion.
+- `supplemental_clean_room_visual_review.json`: records the clean-room
+  human-style visual QA pass over the six supplemental stills. The overall
+  verdict is `FAIL`, so these stills are failure/retake evidence rather than a
+  success-style qualitative panel.
 - `supplemental_fixtures/`: small repo-resident wrapper USD stages,
   ConvertAsset no-MDL outputs, and ConvertAsset audit/summary sidecars for the
   supplemental material-effect cases.
@@ -47,7 +51,9 @@ Current files:
   the sample conversion runner.
 - `effect_failure_case_manifest.json`: records effect-labeled follow-up cases
   from non-available or static-gate-failed condition rows. Current case count is
-  one after supplemental clearcoat exposes a NVIDIA static-gate failure.
+  one after supplemental clearcoat exposes a NVIDIA static-gate failure; the
+  same row now links to the near-black rendered failure image through
+  `rendered_failure_*` fields.
 - `qualitative_render_manifest.json`: selects four representative expanded30
   cases and records matched original / ConvertAsset / NVIDIA render records for
   the covered effect bins.

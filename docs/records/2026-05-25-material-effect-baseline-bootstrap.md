@@ -32,6 +32,7 @@ MDL fixture.
 - `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_run_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json`
+- `paper/shared/evidence/raw/material_effect_baseline/supplemental_clean_room_visual_review.json`
 - `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/`
 - `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/`
 - `paper/shared/evidence/raw/material_effect_baseline/nvidia_baseline_smoke_manifest.json`
@@ -182,11 +183,16 @@ small repo-resident panel plus a machine visual-QA report.
 | Render command failures | 0 |
 | Machine-QA pass / warn / fail | 5 / 0 / 1 |
 | Rendered failure candidates | 1 |
+| Clean-room visual review pass / warn / fail | 1 / 2 / 3 |
+| Clean-room overall verdict | `FAIL` |
 
 The rendered failure candidate is the same NVIDIA clearcoat condition. Machine
 QA marks its still as `near_black_render`, so the failure has moved from
-static-only evidence to a rendered failure candidate. This still needs human
-visual review before it is used as a final visual-quality claim.
+static-only evidence to a rendered failure candidate. The clean-room visual
+review confirms this is not a success-style supplemental panel: clearcoat
+NVIDIA misses the target object, and both converted procedural conditions lose
+the visible checker pattern. The current result is useful for failure examples
+and retake planning, not for a final visual-quality claim.
 
 ## Validation
 
@@ -288,4 +294,5 @@ near-black rendered failure candidate."
 
 Not allowed yet: "ConvertAsset visually beats NVIDIA baseline", "all requested
 material effects have passed human visual review", or "these counts are a
-final failure-rate distribution."
+final failure-rate distribution." Also not allowed yet: "the supplemental
+clearcoat/procedural contact sheet is paper-ready as a success comparison."

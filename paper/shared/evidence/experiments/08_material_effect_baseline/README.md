@@ -98,6 +98,8 @@ Current table result:
   sample in addition to the 30 GRScenes rows
 - 1 static-gate follow-up case: NVIDIA Asset Converter drops the supplemental
   clearcoat material output (`shader_count=0`, `preview_surface_count=0`)
+  and the case manifest links that row to the supplemental near-black rendered
+  failure image
 
 Qualitative render manifest entry point:
 
@@ -200,6 +202,7 @@ Default supplemental qualitative outputs:
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_run_manifest.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json
+paper/shared/evidence/raw/material_effect_baseline/supplemental_clean_room_visual_review.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/
 paper/shared/figures/fig_material_effect_supplemental_qualitative.png
@@ -214,5 +217,8 @@ Current supplemental qualitative result:
 - 2/2 cases are ready for a contact sheet
 - machine visual QA flags one failure candidate: NVIDIA clearcoat renders
   near-black after the static-gate-failed conversion
-- this is rendered failure evidence, but not an independent human visual
-  review or final error-rate distribution
+- clean-room human-style visual review marks the supplemental panel `FAIL`:
+  clearcoat NVIDIA misses the target, and both converted procedural conditions
+  lose the visible checker pattern
+- this is failure/retake evidence, not a final error-rate distribution or a
+  success-style qualitative figure

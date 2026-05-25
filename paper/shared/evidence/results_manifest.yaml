@@ -177,10 +177,10 @@ results:
       description: "Sample-level NVIDIA Asset Converter run over the five unique selected GRScenes source scenes. All five usd_to_usd_preview conversions succeeded and produced external USD outputs under the normalized research root; this manifest records paths, hashes, sizes, and conversion provenance."
     - id: material_effect_baseline_conversion_manifest
       path: paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json
-      description: "Sample-level condition manifest for the material-effect baseline: 30 selected samples across 5 unique source scenes have static-gated original_MDL, existing_noMDL, and NVIDIA usd_to_usd_preview condition records. Selected covered-bin qualitative renders now exist; missing clearcoat/procedural coverage is still required before final claims."
+      description: "Sample-level condition manifest for the GRScenes material-effect baseline: 30 selected samples across 5 unique source scenes have static-gated original_MDL, existing_noMDL, and NVIDIA usd_to_usd_preview condition records. Clearcoat/procedural coverage is supplied separately by supplemental wrapper manifests."
     - id: material_effect_failure_case_manifest
       path: paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json
-      description: "Effect-labeled follow-up case manifest derived from the baseline and supplemental conversion manifests. Current static-gate case count is one: NVIDIA drops shader material output on the supplemental clearcoat wrapper; visual failure cases still require rendered-evidence review."
+      description: "Effect-labeled follow-up case manifest derived from the baseline, supplemental conversion, and supplemental visual-QA manifests. Current case count is one: NVIDIA drops shader material output on the supplemental clearcoat wrapper, and the same case links to a near-black rendered failure image."
     - id: material_effect_qualitative_render_manifest
       path: paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
       description: "Selected qualitative render manifest for four covered-bin expanded30 cases. It links existing original/no-MDL target-centered renders with matched NVIDIA render records and records that 12/12 selected condition images are ready."
@@ -201,7 +201,10 @@ results:
       description: "Isaac Sim viewport-capture run manifest for the supplemental material-effect stills; current run attempted six renders and produced six ready outputs with zero failed render commands."
     - id: material_effect_supplemental_qualitative_visual_qa
       path: paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json
-      description: "Machine visual-QA summary for supplemental clearcoat/procedural stills. It flags one rendered failure candidate: NVIDIA clearcoat is near-black after static-gate-failed conversion. This does not replace human visual review."
+      description: "Machine visual-QA summary for supplemental clearcoat/procedural stills. It flags one rendered failure candidate: NVIDIA clearcoat is near-black after static-gate-failed conversion; the clean-room visual review records the broader visual verdict."
+    - id: material_effect_supplemental_clean_room_visual_review
+      path: paper/shared/evidence/raw/material_effect_baseline/supplemental_clean_room_visual_review.json
+      description: "Clean-room human-style visual review over the six supplemental clearcoat/procedural stills. Overall verdict is FAIL: clearcoat NVIDIA misses the target, procedural ConvertAsset/NVIDIA lose the checker pattern, and the panel is not ready for a success-style qualitative figure."
     - id: material_effect_supplemental_qualitative_renders
       path: paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/
       description: "Repo-resident supplemental original/noMDL/NVIDIA stills for clearcoat and procedural texture wrappers."

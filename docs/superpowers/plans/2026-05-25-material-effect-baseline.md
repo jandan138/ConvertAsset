@@ -323,6 +323,7 @@ manifest records the clearcoat NVIDIA static-gate failure.
 - Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json`
 - Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_run_manifest.json`
 - Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json`
+- Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_clean_room_visual_review.json`
 - Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/`
 - Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/`
 - Create: `paper/shared/figures/fig_material_effect_supplemental_qualitative.png`
@@ -355,6 +356,8 @@ failure.
 
 Actual: supplemental qualitative tests pass (`6 passed`), render run records
 `attempted=6`, `ready=6`, `failed=0`, contact sheet writes with
-`ready_case_count=2`, and machine QA records 5 PASS / 0 WARN / 1 FAIL. The
-remaining gate is human visual review and paper/rebuttal integration, not
-render generation.
+`ready_case_count=2`, and machine QA records 5 PASS / 0 WARN / 1 FAIL.
+Clean-room human-style visual review then records overall `FAIL` with 1 PASS /
+2 WARN / 3 FAIL across the six images. The remaining gate is retaking or
+investigating the failed supplemental cases and integrating only bounded
+failure/retake evidence into the paper/rebuttal, not render generation.

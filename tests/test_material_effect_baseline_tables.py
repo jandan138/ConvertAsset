@@ -132,6 +132,50 @@ def test_merge_conversion_manifests_adds_supplemental_effect_samples() -> None:
     assert procedural_nvidia["available_count"] == 1
 
 
+def test_build_case_records_attaches_rendered_visual_failure_evidence() -> None:
+    module = load_tables_module()
+    manifest = {
+        "samples": [
+            {
+                "sample_id": "supplemental_clearcoat_omnipbr",
+                "target_category": "supplemental_material_fixture",
+                "target_prim_path": "/World/ClearcoatTarget",
+                "present_effects": ["clearcoat"],
+                "conditions": {
+                    "original_MDL": _condition("available", gate=True, preview=0, active_mdl=1),
+                    "existing_noMDL": _condition("available", gate=True, preview=1, active_mdl=0),
+                    "nvidia_asset_converter_preview_or_bake": {
+                        **_condition("static_gate_failed", gate=False, preview=0, active_mdl=0),
+                        "usd_path": "/external/clearcoat.usd",
+                    },
+                },
+            }
+        ]
+    }
+    visual_qa_manifest = {
+        "failure_cases": [
+            {
+                "sample_id": "supplemental_clearcoat_omnipbr",
+                "condition": "nvidia_asset_converter_preview_or_bake",
+                "reason": "near_black_render",
+                "evidence": "Image is near black.",
+                "image_path": "/repo/clearcoat/nvidia_0000.png",
+                "source_condition_status": "static_gate_failed",
+            }
+        ]
+    }
+
+    cases = module.build_case_records(manifest, visual_qa_manifest=visual_qa_manifest)
+
+    assert len(cases) == 1
+    case = cases[0]
+    assert case["reason"] == "static_gate_failed"
+    assert case["rendered_failure_reason"] == "near_black_render"
+    assert case["rendered_failure_image_path"] == "/repo/clearcoat/nvidia_0000.png"
+    assert case["rendered_failure_evidence"] == "Image is near black."
+    assert case["has_rendered_failure_evidence"] is True
+
+
 def test_write_outputs_creates_csv_tex_and_case_manifest(tmp_path: Path) -> None:
     module = load_tables_module()
     rows = [

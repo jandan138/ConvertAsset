@@ -103,6 +103,16 @@ claims:
       - paper/shared/tables/grscenes_vlm_failure_taxonomy.csv
       - paper/shared/tables/tab_grscenes_vlm_failure_taxonomy.tex
     scope: "Illustrative selected cases only. This is not a final failure-rate distribution and should not be summarized as population-level model performance."
+  - id: material_effect_baseline_risk_profile
+    statement: "The material-effect baseline now covers six effect bins in static manifests across original MDL, ConvertAsset no-MDL, and NVIDIA conditions. ConvertAsset static gates pass the supplemental clearcoat and procedural wrappers; NVIDIA static gates pass procedural texture but fail clearcoat with zero shader output and a linked near-black/missing-target render. A clean-room visual review marks the two supplemental panels FAIL overall, including visible loss of the checker pattern in both converted procedural conditions."
+    sources:
+      - paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json
+      - paper/shared/evidence/raw/material_effect_baseline/supplemental_conversion_manifest.json
+      - paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json
+      - paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json
+      - paper/shared/evidence/raw/material_effect_baseline/supplemental_clean_room_visual_review.json
+      - paper/shared/tables/material_effect_baseline_summary.csv
+    scope: "Selected GRScenes expanded30 material-effect pool plus two supplemental official/sample wrapper fixtures. This supports static readiness, selected failure-case evidence, and retake/investigation priorities; it does not support a final all-effects error-rate distribution, a successful supplemental qualitative panel, or a broad visual-quality win claim."
 review_requirements:
   - "Re-check every numerical statement after AAAI 2027 narrative edits."
   - "Update this file in the same change as any result, table, figure, seed, or claim change."
@@ -113,4 +123,5 @@ review_requirements:
   - "Frame `grscenes_vlm_zoom_stress_pilot` as material-shift stress/protocol-sensitivity evidence unless a future controlled stress benchmark defines bins, sample counts, and final scoring ahead of time."
   - "Treat raw-image coordinate scores in `grscenes_vlm_coordinate_ablation` as diagnostics for unresolved coordinate semantics, not as primary final VLM metrics."
   - "Treat `grscenes_vlm_failure_taxonomy` as selected qualitative examples, not an empirical failure distribution."
+  - "Treat `material_effect_baseline_risk_profile` as selected baseline/risk evidence; do not convert the single supplemental clearcoat NVIDIA failure or the two-case clean-room review into a population-level failure rate."
   - "Do not generate final VLM performance tables from any run whose `canonical_vlm_run_manifest.json` claim gate has `final_benchmark_claimable=false`."

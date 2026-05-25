@@ -153,7 +153,8 @@ supplemental sample instead of zero-sample rows. The follow-up case manifest
 currently has one static-gate failure case: NVIDIA Asset Converter produces a
 clearcoat output USD with zero shader records. The supplemental qualitative
 render/QA pass below now turns that static failure into a rendered failure
-candidate.
+candidate; `effect_failure_case_manifest.json` links the static failure row to
+the near-black rendered image through `rendered_failure_*` fields.
 
 Generated qualitative artifacts:
 
@@ -187,6 +188,7 @@ Generated supplemental qualitative artifacts:
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_run_manifest.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json
+paper/shared/evidence/raw/material_effect_baseline/supplemental_clean_room_visual_review.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/
 paper/shared/figures/fig_material_effect_supplemental_qualitative.png
@@ -202,14 +204,21 @@ Current supplemental qualitative summary:
 | Ready contact-sheet cases | 2 / 2 |
 | Machine-QA pass / warn / fail | 5 / 0 / 1 |
 | Rendered failure candidates | 1 |
+| Clean-room visual review pass / warn / fail | 1 / 2 / 3 |
+| Clean-room overall verdict | `FAIL` |
 
 The rendered failure candidate is NVIDIA clearcoat:
 `supplemental_clearcoat_omnipbr` under
 `nvidia_asset_converter_preview_or_bake`. Machine QA marks the image as
 `near_black_render`, matching the earlier static failure (`shader_count=0`,
-`preview_surface_count=0`). This supports a paper/rebuttal failure example, but
-it still needs human visual review before being used as final visual-quality
-evidence.
+`preview_surface_count=0`). The failure-case manifest now carries this rendered
+evidence directly.
+
+The clean-room human-style visual review confirms that the current supplemental
+panel is not a success-style three-way comparison. It marks the overall panel
+`FAIL`: clearcoat NVIDIA misses the target object, clearcoat original/noMDL are
+tightly cropped, and both converted procedural conditions lose the visible
+checker pattern.
 
 Generated supplemental candidate artifact:
 
@@ -238,19 +247,21 @@ scratch copies:
 | `procedural_texture` | `nvidia_mdl_sdk_tutorials_checker_noise` | NVIDIA MDL USD-converter tutorials using checker/noise functions |
 
 These are now counted in the effect table as supplemental static-gate samples
-and have rendered supplemental panels. The remaining gap is human visual review
-and final paper text integration, not render generation.
+and have rendered supplemental panels. Clean-room visual review is complete for
+this two-case supplemental batch, but the result is a retake/investigation gate
+rather than final paper-ready visual-quality evidence.
 
 ## Next Gate
 
-The next gate is human visual review and paper integration:
+The next gate is retake/investigation and paper integration:
 
-1. Perform a human/clean-room review of the supplemental contact sheet and the
-   individual six condition images.
-2. Decide whether the NVIDIA clearcoat near-black render is a paper/rebuttal
-   failure example or needs a retake.
-3. Integrate the GRScenes covered-bin panel and supplemental missing-bin panel
-   into the paper figure plan.
-4. Keep the claim bounded: current evidence supports condition readiness,
-   supplemental rendered failure discovery, and qualitative examples, not a
-   final all-effects error-rate distribution.
+1. Retake clearcoat with the full sphere visible in all three conditions.
+2. Investigate why the procedural checker disappears in both converted
+   conditions before using it as a preservation example.
+3. Use NVIDIA clearcoat as a selected rebuttal failure example only if the
+   caption states the static-gate and visual-review limits.
+4. Integrate the GRScenes covered-bin panel and supplemental missing-bin panel
+   into the paper figure plan only after the above retakes/investigation.
+5. Keep the claim bounded: current evidence supports condition readiness,
+   supplemental rendered failure discovery, and retake priorities, not a final
+   all-effects error-rate distribution or a visual-quality win claim.

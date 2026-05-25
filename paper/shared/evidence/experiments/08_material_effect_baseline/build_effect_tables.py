@@ -24,6 +24,9 @@ DEFAULT_CASES = (
 DEFAULT_SUPPLEMENTAL_CONVERSION_MANIFEST = (
     PROJECT_ROOT / "paper/shared/evidence/raw/material_effect_baseline/supplemental_conversion_manifest.json"
 )
+DEFAULT_SUPPLEMENTAL_VISUAL_QA_MANIFEST = (
+    PROJECT_ROOT / "paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json"
+)
 
 CONDITION_ORDER = [
     "original_MDL",
@@ -143,35 +146,61 @@ def build_effect_summary_rows(conversion_manifest: dict[str, Any]) -> list[dict[
     return rows
 
 
-def build_case_records(conversion_manifest: dict[str, Any]) -> list[dict[str, Any]]:
+def _visual_failure_lookup(visual_qa_manifest: dict[str, Any] | None = None) -> dict[tuple[str, str], dict[str, Any]]:
+    lookup: dict[tuple[str, str], dict[str, Any]] = {}
+    if not visual_qa_manifest:
+        return lookup
+    for case in visual_qa_manifest.get("failure_cases") or []:
+        sample_id = str(case.get("sample_id") or "")
+        condition = str(case.get("condition") or "")
+        if sample_id and condition:
+            lookup[(sample_id, condition)] = case
+    return lookup
+
+
+def build_case_records(
+    conversion_manifest: dict[str, Any],
+    *,
+    visual_qa_manifest: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
     cases: list[dict[str, Any]] = []
     seen: set[str] = set()
+    visual_failures = _visual_failure_lookup(visual_qa_manifest)
     for sample in conversion_manifest.get("samples", []):
+        sample_id = str(sample.get("sample_id") or "")
         for effect in sample.get("present_effects") or []:
             for condition in CONDITION_ORDER:
                 record = (sample.get("conditions") or {}).get(condition) or {}
                 status = str(record.get("status") or "missing")
                 if status == "available" and record.get("static_gate_passed"):
                     continue
-                case_id = f"{effect}:{sample.get('sample_id')}:{condition}"
+                case_id = f"{effect}:{sample_id}:{condition}"
                 if case_id in seen:
                     continue
                 seen.add(case_id)
-                cases.append(
-                    {
-                        "case_id": case_id,
-                        "effect": effect,
-                        "sample_id": sample.get("sample_id"),
-                        "target_category": sample.get("target_category"),
-                        "target_prim_path": sample.get("target_prim_path"),
-                        "condition": condition,
-                        "status": status,
-                        "reason": status
-                        if status != "available"
-                        else "static_gate_failed",
-                        "usd_path": record.get("usd_path"),
-                    }
-                )
+                case = {
+                    "case_id": case_id,
+                    "effect": effect,
+                    "sample_id": sample.get("sample_id"),
+                    "target_category": sample.get("target_category"),
+                    "target_prim_path": sample.get("target_prim_path"),
+                    "condition": condition,
+                    "status": status,
+                    "reason": status if status != "available" else "static_gate_failed",
+                    "usd_path": record.get("usd_path"),
+                }
+                visual_failure = visual_failures.get((sample_id, condition))
+                if visual_failure:
+                    case.update(
+                        {
+                            "has_rendered_failure_evidence": True,
+                            "rendered_failure_reason": visual_failure.get("reason"),
+                            "rendered_failure_evidence": visual_failure.get("evidence"),
+                            "rendered_failure_image_path": visual_failure.get("image_path"),
+                            "rendered_failure_source_status": visual_failure.get("source_condition_status"),
+                        }
+                    )
+                cases.append(case)
     return cases
 
 
@@ -220,8 +249,11 @@ def write_case_manifest(
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     by_reason: dict[str, int] = defaultdict(int)
+    rendered_failure_count = 0
     for case in cases:
         by_reason[str(case.get("reason"))] += 1
+        if case.get("has_rendered_failure_evidence"):
+            rendered_failure_count += 1
     payload = {
         "schema_version": 1,
         "status": "material_effect_failure_case_manifest",
@@ -230,16 +262,19 @@ def write_case_manifest(
         "source_manifest": source_manifest,
         "summary": {
             "case_count": len(cases),
+            "rendered_failure_evidence_count": rendered_failure_count,
             "reason_counts": dict(sorted(by_reason.items())),
         },
         "cases": cases,
         "claim_boundary": {
             "allowed": [
-                "These are selected non-available or static-gate-failed condition cases for follow-up."
+                "These are selected non-available or static-gate-failed condition cases for follow-up.",
+                "Cases with rendered_failure_* fields have linked rendered QA evidence.",
             ],
             "forbidden": [
                 "Do not treat planned missing NVIDIA outputs as visual failures.",
-                "Do not call this a final error distribution before NVIDIA sample conversion and paired rendering finish.",
+                "Do not call this a final error distribution before broader sampling finishes.",
+                "Do not call linked rendered evidence a successful qualitative panel if clean-room visual review failed.",
             ],
         },
     }
@@ -253,6 +288,11 @@ def parse_args() -> argparse.Namespace:
         "--supplemental-conversion-manifest",
         type=Path,
         default=DEFAULT_SUPPLEMENTAL_CONVERSION_MANIFEST,
+    )
+    parser.add_argument(
+        "--supplemental-visual-qa-manifest",
+        type=Path,
+        default=DEFAULT_SUPPLEMENTAL_VISUAL_QA_MANIFEST,
     )
     parser.add_argument("--csv", type=Path, default=DEFAULT_CSV)
     parser.add_argument("--tex", type=Path, default=DEFAULT_TEX)
@@ -268,9 +308,14 @@ def main() -> int:
         if args.supplemental_conversion_manifest and args.supplemental_conversion_manifest.exists()
         else None
     )
+    supplemental_visual_qa = (
+        _load_json(args.supplemental_visual_qa_manifest)
+        if args.supplemental_visual_qa_manifest and args.supplemental_visual_qa_manifest.exists()
+        else None
+    )
     manifest = merge_conversion_manifests(manifest, supplemental_manifest)
     rows = build_effect_summary_rows(manifest)
-    cases = build_case_records(manifest)
+    cases = build_case_records(manifest, visual_qa_manifest=supplemental_visual_qa)
     write_summary_csv(args.csv, rows)
     write_summary_tex(args.tex, rows)
     write_case_manifest(args.cases, cases, source_manifest=str(args.conversion_manifest))
