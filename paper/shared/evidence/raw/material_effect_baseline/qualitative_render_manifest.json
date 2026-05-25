@@ -1,0 +1,1284 @@
+{
+  "schema_version": 1,
+  "status": "material_effect_qualitative_render_manifest",
+  "generated_by": "paper/shared/evidence/experiments/08_material_effect_baseline/build_qualitative_render_manifest.py",
+  "generated_at_utc": "2026-05-25T14:39:50.458729Z",
+  "generator_git_commit": "391bdc1955b143f35a4bf725a63ec86dde535726",
+  "condition_order": [
+    "original_MDL",
+    "existing_noMDL",
+    "nvidia_asset_converter_preview_or_bake"
+  ],
+  "effect_order": [
+    "clearcoat",
+    "opacity_transparency",
+    "emission",
+    "procedural_texture",
+    "normal_bump",
+    "displacement_height"
+  ],
+  "output_root": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders",
+  "summary": {
+    "selected_case_count": 4,
+    "ready_case_count": 4,
+    "condition_record_count": 12,
+    "ready_image_record_count": 12,
+    "nvidia_render_pending_count": 0,
+    "selected_effect_counts": {
+      "clearcoat": 0,
+      "opacity_transparency": 1,
+      "emission": 4,
+      "procedural_texture": 0,
+      "normal_bump": 4,
+      "displacement_height": 4
+    },
+    "effect_gaps": [
+      "clearcoat",
+      "procedural_texture"
+    ],
+    "ready_for_contact_sheet": true,
+    "ready_for_visual_quality_claim": false,
+    "blockers": [
+      "effect_groups_need_official_sample_or_more_grscenes_assets"
+    ]
+  },
+  "selected_cases": [
+    {
+      "sample_id": "c27086f557d316584264.zoom_018",
+      "pair_id": "c27086f557d316584264.zoom_018",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "target_category": "bottle",
+      "target_id": "c27086f557d316584264",
+      "visual_review": {
+        "pair_id": "c27086f557d316584264.zoom_018",
+        "target_category": "bottle",
+        "verdict": "WARN",
+        "packet_id": "Z16-01",
+        "visible_evidence": "Bottle is centered, upright, and identifiable in both A and B; surrounding objects provide scale/context.",
+        "risk_or_retake": "Conservative adjudication: one reviewer flagged substantial material/color shift in B, while another treated it as minor. Usable for material-shift stress, not for material-fidelity preservation.",
+        "source_visual_review_report": {
+          "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expansion16_visual_review_batch.json",
+          "hash_sha256": "4aab2fd34afa24d3ad4b45fb93f76887a662ca1f9728dc47352932d647d3010d"
+        }
+      },
+      "covered_effects": [
+        "opacity_transparency",
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition_statuses": {
+        "original_MDL": "image_ready",
+        "existing_noMDL": "image_ready",
+        "nvidia_asset_converter_preview_or_bake": "render_ready"
+      }
+    },
+    {
+      "sample_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_category": "clock",
+      "target_id": "f35ef3d86c42446b7ddf",
+      "visual_review": {
+        "pair_id": "f35ef3d86c42446b7ddf.zoom_018",
+        "target_category": "clock",
+        "verdict": "PASS",
+        "packet_id": "Z12",
+        "visible_evidence": "Wall clock is clearly visible on the central wall or pillar in both images; circular rim, hands, and center hub are identifiable with strongly matched viewpoint.",
+        "risk_or_retake": "Fine clock details are thin and slightly soft, and the bright area on the right is blown out, but these issues do not hide the clock.",
+        "source_visual_review_report": {
+          "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "covered_effects": [
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition_statuses": {
+        "original_MDL": "image_ready",
+        "existing_noMDL": "image_ready",
+        "nvidia_asset_converter_preview_or_bake": "render_ready"
+      }
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.zoom_020",
+      "pair_id": "e2ec085d524d5df4455d.zoom_020",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_category": "cup",
+      "target_id": "e2ec085d524d5df4455d",
+      "visual_review": {
+        "pair_id": "e2ec085d524d5df4455d.zoom_020",
+        "target_category": "cup",
+        "verdict": "PASS",
+        "packet_id": "R11-04",
+        "visible_evidence": "Cup is large, centered, identifiable, and the handle/rim/body are visible in both A and B. Framing is useful and views are comparable.",
+        "risk_or_retake": "Minor material differences and B texture streaking, but not enough to block grounding or pair comparison.",
+        "source_visual_review_report": {
+          "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_replacement11_visual_review_batch.json",
+          "hash_sha256": "f3a7c8517d69369898c684da52c4e08140b5b5da48824a493c898741bdd49871"
+        }
+      },
+      "covered_effects": [
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition_statuses": {
+        "original_MDL": "image_ready",
+        "existing_noMDL": "image_ready",
+        "nvidia_asset_converter_preview_or_bake": "render_ready"
+      }
+    },
+    {
+      "sample_id": "47aa36277a54f6ca90cc.zoom_018",
+      "pair_id": "47aa36277a54f6ca90cc.zoom_018",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_category": "backpack",
+      "target_id": "47aa36277a54f6ca90cc",
+      "visual_review": {
+        "pair_id": "47aa36277a54f6ca90cc.zoom_018",
+        "target_category": "backpack",
+        "verdict": "WARN",
+        "packet_id": "Z01",
+        "visible_evidence": "A blue hanging bag-like object is visible below a hat in the central wall area in both images.",
+        "risk_or_retake": "Target reads more like a handbag or purse than a clear backpack; retake from an angle showing straps, back panel, or fuller body shape.",
+        "source_visual_review_report": {
+          "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_visual_review_batch.json",
+          "hash_sha256": "dd36b8f9001b59ad1c7072af0eda2df358f2485aecc285031d3ea1aae52327a4"
+        }
+      },
+      "covered_effects": [
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition_statuses": {
+        "original_MDL": "image_ready",
+        "existing_noMDL": "image_ready",
+        "nvidia_asset_converter_preview_or_bake": "render_ready"
+      }
+    }
+  ],
+  "records": [
+    {
+      "sample_id": "c27086f557d316584264.zoom_018",
+      "pair_id": "c27086f557d316584264.zoom_018",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "target_category": "bottle",
+      "target_id": "c27086f557d316584264",
+      "covered_effects": [
+        "opacity_transparency",
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition": "original_MDL",
+      "status": "image_ready",
+      "usd_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw.usd",
+      "camera": {
+        "view_id": "zoom_018",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          1719.47791,
+          124.76296,
+          88.297218
+        ],
+        "target_world": [
+          1737.091,
+          107.14987,
+          80.2039
+        ],
+        "look_at": [
+          1737.091,
+          107.14987,
+          80.2039
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 135.0,
+        "elevation_deg": 18.0,
+        "distance": 26.190527,
+        "bbox_center": [
+          1737.091,
+          107.14987,
+          80.2039
+        ],
+        "bbox_size_xyz": [
+          4.54982,
+          4.6725,
+          13.006841
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          100.0
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_camera.usd",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "3dbd3b35c89dd99975be9e578fc09dd519bb9a3613ee2babd1c28256df83fd20",
+        "bytes": 269267,
+        "width": 600,
+        "height": 450
+      },
+      "source_record": {
+        "material_condition": "original",
+        "sample_id": "c27086f557d316584264.zoom_018.original"
+      }
+    },
+    {
+      "sample_id": "c27086f557d316584264.zoom_018",
+      "pair_id": "c27086f557d316584264.zoom_018",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "target_category": "bottle",
+      "target_id": "c27086f557d316584264",
+      "covered_effects": [
+        "opacity_transparency",
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition": "existing_noMDL",
+      "status": "image_ready",
+      "usd_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw_noMDL.usd",
+      "camera": {
+        "view_id": "zoom_018",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          1719.47791,
+          124.76296,
+          88.297218
+        ],
+        "target_world": [
+          1737.091,
+          107.14987,
+          80.2039
+        ],
+        "look_at": [
+          1737.091,
+          107.14987,
+          80.2039
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 135.0,
+        "elevation_deg": 18.0,
+        "distance": 26.190527,
+        "bbox_center": [
+          1737.091,
+          107.14987,
+          80.2039
+        ],
+        "bbox_size_xyz": [
+          4.54982,
+          4.6725,
+          13.006841
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          100.0
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_camera.usd",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "1a4c0c971d22fd3a800875d89fca0dbee7bea51be8f783948d3d31853fa50c42",
+        "bytes": 297774,
+        "width": 600,
+        "height": 450
+      },
+      "source_record": {
+        "material_condition": "converted",
+        "sample_id": "c27086f557d316584264.zoom_018.converted"
+      }
+    },
+    {
+      "sample_id": "c27086f557d316584264.zoom_018",
+      "pair_id": "c27086f557d316584264.zoom_018",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "target_category": "bottle",
+      "target_id": "c27086f557d316584264",
+      "covered_effects": [
+        "opacity_transparency",
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition": "nvidia_asset_converter_preview_or_bake",
+      "status": "render_ready",
+      "usd_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "preferred_smoke_attempt": "usd_to_usd_preview",
+      "camera": {
+        "view_id": "zoom_018",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          1719.47791,
+          124.76296,
+          88.297218
+        ],
+        "target_world": [
+          1737.091,
+          107.14987,
+          80.2039
+        ],
+        "look_at": [
+          1737.091,
+          107.14987,
+          80.2039
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 135.0,
+        "elevation_deg": 18.0,
+        "distance": 26.190527,
+        "bbox_center": [
+          1737.091,
+          107.14987,
+          80.2039
+        ],
+        "bbox_size_xyz": [
+          4.54982,
+          4.6725,
+          13.006841
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          100.0
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/nvidia/nvidia_camera.usd",
+      "camera_stage_exists": true,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/nvidia/nvidia_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "86cf92bf07f359216c9573d6e51f13997c3fbb6c87276afa7398d147cce4d4f2",
+        "bytes": 331497,
+        "width": 600,
+        "height": 450
+      },
+      "render_command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/nvidia/nvidia_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/nvidia",
+        "--prefix",
+        "nvidia",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "8",
+        "--headless"
+      ]
+    },
+    {
+      "sample_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_category": "clock",
+      "target_id": "f35ef3d86c42446b7ddf",
+      "covered_effects": [
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition": "original_MDL",
+      "status": "image_ready",
+      "usd_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+      "camera": {
+        "view_id": "zoom_018",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          197.819788,
+          -15.211418,
+          209.516132
+        ],
+        "target_world": [
+          280.0384,
+          -97.43003,
+          171.7362
+        ],
+        "look_at": [
+          280.0384,
+          -97.43003,
+          171.7362
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 135.0,
+        "elevation_deg": 18.0,
+        "distance": 122.25843,
+        "bbox_center": [
+          280.0384,
+          -97.43003,
+          171.7362
+        ],
+        "bbox_size_xyz": [
+          5.038262,
+          44.028601,
+          51.4724
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          326.022479
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_camera.usd",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "f7d56e639479206b61d4db934d735db39d73f21ac781418e37e1c21af51e48d5",
+        "bytes": 315111,
+        "width": 600,
+        "height": 450
+      },
+      "source_record": {
+        "material_condition": "original",
+        "sample_id": "f35ef3d86c42446b7ddf.zoom_018.original"
+      }
+    },
+    {
+      "sample_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_category": "clock",
+      "target_id": "f35ef3d86c42446b7ddf",
+      "covered_effects": [
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition": "existing_noMDL",
+      "status": "image_ready",
+      "usd_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw_noMDL.usd",
+      "camera": {
+        "view_id": "zoom_018",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          197.819788,
+          -15.211418,
+          209.516132
+        ],
+        "target_world": [
+          280.0384,
+          -97.43003,
+          171.7362
+        ],
+        "look_at": [
+          280.0384,
+          -97.43003,
+          171.7362
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 135.0,
+        "elevation_deg": 18.0,
+        "distance": 122.25843,
+        "bbox_center": [
+          280.0384,
+          -97.43003,
+          171.7362
+        ],
+        "bbox_size_xyz": [
+          5.038262,
+          44.028601,
+          51.4724
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          326.022479
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_camera.usd",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "d636ee6e45b5f7927924675c414e9080f4c01746117da13515d2f16573fe71b7",
+        "bytes": 273839,
+        "width": 600,
+        "height": 450
+      },
+      "source_record": {
+        "material_condition": "converted",
+        "sample_id": "f35ef3d86c42446b7ddf.zoom_018.converted"
+      }
+    },
+    {
+      "sample_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_category": "clock",
+      "target_id": "f35ef3d86c42446b7ddf",
+      "covered_effects": [
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition": "nvidia_asset_converter_preview_or_bake",
+      "status": "render_ready",
+      "usd_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "preferred_smoke_attempt": "usd_to_usd_preview",
+      "camera": {
+        "view_id": "zoom_018",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          197.819788,
+          -15.211418,
+          209.516132
+        ],
+        "target_world": [
+          280.0384,
+          -97.43003,
+          171.7362
+        ],
+        "look_at": [
+          280.0384,
+          -97.43003,
+          171.7362
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 135.0,
+        "elevation_deg": 18.0,
+        "distance": 122.25843,
+        "bbox_center": [
+          280.0384,
+          -97.43003,
+          171.7362
+        ],
+        "bbox_size_xyz": [
+          5.038262,
+          44.028601,
+          51.4724
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          326.022479
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/nvidia/nvidia_camera.usd",
+      "camera_stage_exists": true,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/nvidia/nvidia_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "c70e05a4afd7443495df63a310c32acc86d075c223618151b978d3123b911aac",
+        "bytes": 195371,
+        "width": 600,
+        "height": 450
+      },
+      "render_command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/nvidia/nvidia_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/nvidia",
+        "--prefix",
+        "nvidia",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "8",
+        "--headless"
+      ]
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.zoom_020",
+      "pair_id": "e2ec085d524d5df4455d.zoom_020",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_category": "cup",
+      "target_id": "e2ec085d524d5df4455d",
+      "covered_effects": [
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition": "original_MDL",
+      "status": "image_ready",
+      "usd_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+      "camera": {
+        "view_id": "zoom_020",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          -45.443872,
+          -175.645152,
+          97.622814
+        ],
+        "target_world": [
+          -45.443872,
+          -144.73972,
+          87.58103
+        ],
+        "look_at": [
+          -45.443872,
+          -144.73972,
+          87.58103
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 270.0,
+        "elevation_deg": 18.0,
+        "distance": 32.495894,
+        "bbox_center": [
+          -45.443872,
+          -144.73972,
+          87.58103
+        ],
+        "bbox_size_xyz": [
+          12.1816,
+          8.3873,
+          10.3529
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          100.0
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_camera.usd",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "11bfaf499462b6dca52ce2404d0a71a525f79a34400314111a8a546c7b69b02d",
+        "bytes": 163962,
+        "width": 600,
+        "height": 450
+      },
+      "source_record": {
+        "material_condition": "original",
+        "sample_id": "e2ec085d524d5df4455d.zoom_020.original"
+      }
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.zoom_020",
+      "pair_id": "e2ec085d524d5df4455d.zoom_020",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_category": "cup",
+      "target_id": "e2ec085d524d5df4455d",
+      "covered_effects": [
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition": "existing_noMDL",
+      "status": "image_ready",
+      "usd_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw_noMDL.usd",
+      "camera": {
+        "view_id": "zoom_020",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          -45.443872,
+          -175.645152,
+          97.622814
+        ],
+        "target_world": [
+          -45.443872,
+          -144.73972,
+          87.58103
+        ],
+        "look_at": [
+          -45.443872,
+          -144.73972,
+          87.58103
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 270.0,
+        "elevation_deg": 18.0,
+        "distance": 32.495894,
+        "bbox_center": [
+          -45.443872,
+          -144.73972,
+          87.58103
+        ],
+        "bbox_size_xyz": [
+          12.1816,
+          8.3873,
+          10.3529
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          100.0
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_camera.usd",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "8127c734db719a3b744788a847a87475db64f13baab3be73063ccf789c39b945",
+        "bytes": 180098,
+        "width": 600,
+        "height": 450
+      },
+      "source_record": {
+        "material_condition": "converted",
+        "sample_id": "e2ec085d524d5df4455d.zoom_020.converted"
+      }
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.zoom_020",
+      "pair_id": "e2ec085d524d5df4455d.zoom_020",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_category": "cup",
+      "target_id": "e2ec085d524d5df4455d",
+      "covered_effects": [
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition": "nvidia_asset_converter_preview_or_bake",
+      "status": "render_ready",
+      "usd_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "preferred_smoke_attempt": "usd_to_usd_preview",
+      "camera": {
+        "view_id": "zoom_020",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          -45.443872,
+          -175.645152,
+          97.622814
+        ],
+        "target_world": [
+          -45.443872,
+          -144.73972,
+          87.58103
+        ],
+        "look_at": [
+          -45.443872,
+          -144.73972,
+          87.58103
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 270.0,
+        "elevation_deg": 18.0,
+        "distance": 32.495894,
+        "bbox_center": [
+          -45.443872,
+          -144.73972,
+          87.58103
+        ],
+        "bbox_size_xyz": [
+          12.1816,
+          8.3873,
+          10.3529
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          100.0
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/nvidia/nvidia_camera.usd",
+      "camera_stage_exists": true,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/nvidia/nvidia_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "42d584bf633b28a0a24016a6c9e843787905c506f83fe86d66bdffc3bd4dbe97",
+        "bytes": 246460,
+        "width": 600,
+        "height": 450
+      },
+      "render_command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/nvidia/nvidia_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/nvidia",
+        "--prefix",
+        "nvidia",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "8",
+        "--headless"
+      ]
+    },
+    {
+      "sample_id": "47aa36277a54f6ca90cc.zoom_018",
+      "pair_id": "47aa36277a54f6ca90cc.zoom_018",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_category": "backpack",
+      "target_id": "47aa36277a54f6ca90cc",
+      "covered_effects": [
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition": "original_MDL",
+      "status": "image_ready",
+      "usd_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+      "camera": {
+        "view_id": "zoom_018",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          343.366755,
+          -137.154056,
+          239.887079
+        ],
+        "target_world": [
+          487.21646,
+          -281.00376,
+          173.7873
+        ],
+        "look_at": [
+          487.21646,
+          -281.00376,
+          173.7873
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 135.0,
+        "elevation_deg": 18.0,
+        "distance": 213.90338,
+        "bbox_center": [
+          487.21646,
+          -281.00376,
+          173.7873
+        ],
+        "bbox_size_xyz": [
+          18.071823,
+          73.551247,
+          91.571997
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          570.409012
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_camera.usd",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "b2ae2a293c1b7436c2439b60793203d63b9f25895dd60654368ca03fb5ecf248",
+        "bytes": 394900,
+        "width": 600,
+        "height": 450
+      },
+      "source_record": {
+        "material_condition": "original",
+        "sample_id": "47aa36277a54f6ca90cc.zoom_018.original"
+      }
+    },
+    {
+      "sample_id": "47aa36277a54f6ca90cc.zoom_018",
+      "pair_id": "47aa36277a54f6ca90cc.zoom_018",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_category": "backpack",
+      "target_id": "47aa36277a54f6ca90cc",
+      "covered_effects": [
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition": "existing_noMDL",
+      "status": "image_ready",
+      "usd_path": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw_noMDL.usd",
+      "camera": {
+        "view_id": "zoom_018",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          343.366755,
+          -137.154056,
+          239.887079
+        ],
+        "target_world": [
+          487.21646,
+          -281.00376,
+          173.7873
+        ],
+        "look_at": [
+          487.21646,
+          -281.00376,
+          173.7873
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 135.0,
+        "elevation_deg": 18.0,
+        "distance": 213.90338,
+        "bbox_center": [
+          487.21646,
+          -281.00376,
+          173.7873
+        ],
+        "bbox_size_xyz": [
+          18.071823,
+          73.551247,
+          91.571997
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          570.409012
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_camera.usd",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "63b405a7e5b782eed71d5f679dda4de6139c249df2fcd5c9eb31df9686fdd5e6",
+        "bytes": 350264,
+        "width": 600,
+        "height": 450
+      },
+      "source_record": {
+        "material_condition": "converted",
+        "sample_id": "47aa36277a54f6ca90cc.zoom_018.converted"
+      }
+    },
+    {
+      "sample_id": "47aa36277a54f6ca90cc.zoom_018",
+      "pair_id": "47aa36277a54f6ca90cc.zoom_018",
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_category": "backpack",
+      "target_id": "47aa36277a54f6ca90cc",
+      "covered_effects": [
+        "emission",
+        "normal_bump",
+        "displacement_height"
+      ],
+      "condition": "nvidia_asset_converter_preview_or_bake",
+      "status": "render_ready",
+      "usd_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "preferred_smoke_attempt": "usd_to_usd_preview",
+      "camera": {
+        "view_id": "zoom_018",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          343.366755,
+          -137.154056,
+          239.887079
+        ],
+        "target_world": [
+          487.21646,
+          -281.00376,
+          173.7873
+        ],
+        "look_at": [
+          487.21646,
+          -281.00376,
+          173.7873
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 135.0,
+        "elevation_deg": 18.0,
+        "distance": 213.90338,
+        "bbox_center": [
+          487.21646,
+          -281.00376,
+          173.7873
+        ],
+        "bbox_size_xyz": [
+          18.071823,
+          73.551247,
+          91.571997
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          570.409012
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/nvidia/nvidia_camera.usd",
+      "camera_stage_exists": true,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/nvidia/nvidia_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "c48ac7e710569a9f99f07da5fa96f6fba49ba09ce8d2de5eb4ac2ed4d0644e06",
+        "bytes": 375728,
+        "width": 600,
+        "height": 450
+      },
+      "render_command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/nvidia/nvidia_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/nvidia",
+        "--prefix",
+        "nvidia",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "8",
+        "--headless"
+      ]
+    }
+  ],
+  "claim_boundary": {
+    "qualitative_only": true,
+    "full_effect_coverage_requires": [
+      "clearcoat",
+      "procedural_texture"
+    ],
+    "nvidia_visual_comparison_requires": "all selected NVIDIA render records must be render_ready"
+  },
+  "inputs": {
+    "effect_manifest": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/effect_sample_manifest.json",
+      "hash_sha256": "d2d1dfcd046b4972dc5a43ab6b8adec24241be74ac644df95d2cf50f4345d5c2"
+    },
+    "baseline_manifest": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json",
+      "hash_sha256": "0cf8f0d121ba577e54713b3fee27167b41bb3999620c25bf274b0a4c71cc5dcf"
+    },
+    "stress_render_manifest": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_render_manifest.json",
+      "hash_sha256": "191aa213ac78c7fbd2699aa3b0673f52c5d4f1e803aebfb33f13e5973eac4e49"
+    }
+  },
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/08_material_effect_baseline/build_qualitative_render_manifest.py"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/08_material_effect_baseline/build_qualitative_render_manifest.py",
+    "script_hash_sha256": "95bd3d976c92445384b2d9dbe82bcdea1ff75f9d1df04a874b79c4ded4b6fc19",
+    "git_commit": "391bdc1955b143f35a4bf725a63ec86dde535726",
+    "git_status_porcelain": [
+      " M docs/superpowers/plans/2026-05-25-material-effect-baseline.md",
+      "?? 21 untracked files omitted from provenance"
+    ]
+  }
+}

@@ -97,7 +97,44 @@ Current table result:
 - `clearcoat` and `procedural_texture` are explicit zero-sample rows
 - 0 static-gate follow-up cases after NVIDIA sample conversion
 
-Next scripts should add:
+Qualitative render manifest entry point:
 
-- paired render manifest for original / ConvertAsset / NVIDIA;
-- effect-grouped tables and qualitative failure panels.
+```bash
+python paper/shared/evidence/experiments/08_material_effect_baseline/build_qualitative_render_manifest.py
+```
+
+Selected NVIDIA render runner:
+
+```bash
+python paper/shared/evidence/experiments/08_material_effect_baseline/run_qualitative_nvidia_renders.py
+```
+
+Figure entry point:
+
+```bash
+python paper/shared/figures/gen_material_effect_qualitative.py
+```
+
+Default qualitative outputs:
+
+```text
+paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
+paper/shared/evidence/raw/material_effect_baseline/qualitative_camera_stage_authoring_report.json
+paper/shared/evidence/raw/material_effect_baseline/qualitative_nvidia_render_run_manifest.json
+paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/
+paper/shared/figures/fig_material_effect_baseline_qualitative.png
+paper/shared/figures/fig_material_effect_baseline_qualitative.report.json
+```
+
+Current qualitative result:
+
+- 4 selected cases: bottle, clock, cup, and backpack
+- 12/12 selected condition images ready across original MDL, ConvertAsset
+  no-MDL, and NVIDIA
+- selected coverage includes `opacity_transparency`, `emission`,
+  `normal_bump`, and `displacement_height`
+- `clearcoat` and `procedural_texture` remain missing-bin blockers
+
+Next scripts should add official/sample assets for the missing clearcoat and
+procedural-texture bins, then regenerate effect tables and qualitative panels
+with those supplemental cases.

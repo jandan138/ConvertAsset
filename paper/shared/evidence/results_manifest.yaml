@@ -165,10 +165,22 @@ results:
       description: "Sample-level NVIDIA Asset Converter run over the five unique selected GRScenes source scenes. All five usd_to_usd_preview conversions succeeded and produced external USD outputs under the normalized research root; this manifest records paths, hashes, sizes, and conversion provenance."
     - id: material_effect_baseline_conversion_manifest
       path: paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json
-      description: "Sample-level condition manifest for the material-effect baseline: 30 selected samples across 5 unique source scenes have static-gated original_MDL, existing_noMDL, and NVIDIA usd_to_usd_preview condition records. Visual paired renders and missing clearcoat/procedural coverage are still required before final claims."
+      description: "Sample-level condition manifest for the material-effect baseline: 30 selected samples across 5 unique source scenes have static-gated original_MDL, existing_noMDL, and NVIDIA usd_to_usd_preview condition records. Selected covered-bin qualitative renders now exist; missing clearcoat/procedural coverage is still required before final claims."
     - id: material_effect_failure_case_manifest
       path: paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json
-      description: "Effect-labeled follow-up case manifest derived from the baseline conversion manifest. Current static-gate case count is zero after NVIDIA sample conversion; visual failure cases still require paired rendering."
+      description: "Effect-labeled follow-up case manifest derived from the baseline conversion manifest. Current static-gate case count is zero after NVIDIA sample conversion; visual failure cases still require rendered-evidence review."
+    - id: material_effect_qualitative_render_manifest
+      path: paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
+      description: "Selected qualitative render manifest for four covered-bin expanded30 cases. It links existing original/no-MDL target-centered renders with matched NVIDIA render records and records that 12/12 selected condition images are ready."
+    - id: material_effect_qualitative_camera_stage_authoring
+      path: paper/shared/evidence/raw/material_effect_baseline/qualitative_camera_stage_authoring_report.json
+      description: "Camera-stage authoring report for the selected NVIDIA qualitative views; 4/4 camera stages authored with the same target-centered camera settings."
+    - id: material_effect_qualitative_nvidia_render_run
+      path: paper/shared/evidence/raw/material_effect_baseline/qualitative_nvidia_render_run_manifest.json
+      description: "Selected-only NVIDIA qualitative render run manifest. The current run records 4/4 NVIDIA outputs ready and zero failed selected renders."
+    - id: material_effect_qualitative_renders
+      path: paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/
+      description: "Repo-resident selected NVIDIA stills and camera stages for the material-effect qualitative panel."
     - id: grscenes_vlm_gemma4_stress_expanded30_predictions
       path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl
       description: "Canonical root Gemma4 structured-text real-model predictions over the expanded 30-pair material-shift stress manifest."
@@ -388,7 +400,7 @@ results:
       sources:
         - paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json
         - paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json
-      description: "Effect-by-condition material baseline readiness table. It explicitly includes zero-sample clearcoat and procedural_texture rows and shows original/noMDL/NVIDIA static gates passing for covered GRScenes effects; visual paired renders remain pending."
+      description: "Effect-by-condition material baseline readiness table. It explicitly includes zero-sample clearcoat and procedural_texture rows and shows original/noMDL/NVIDIA static gates passing for covered GRScenes effects; selected qualitative renders exist for covered bins, but missing-bin supplementation remains pending."
   provenance:
     experiments: paper/shared/evidence/experiments/
     references: paper/shared/evidence/references/

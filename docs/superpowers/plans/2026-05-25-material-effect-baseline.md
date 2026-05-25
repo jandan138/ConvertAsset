@@ -174,3 +174,52 @@ Actual: NVIDIA sample conversion records `scene_job_count=5`,
 records 30/30 available original/noMDL/NVIDIA condition rows. The remaining
 blocker is missing `clearcoat` and `procedural_texture` coverage, plus paired
 render/qualitative comparison.
+
+### Task 6: Paired Qualitative Render Manifest
+
+**Files:**
+- Create: `tests/test_material_effect_baseline_qualitative.py`
+- Create: `paper/shared/evidence/experiments/08_material_effect_baseline/build_qualitative_render_manifest.py`
+- Create: `paper/shared/figures/gen_material_effect_qualitative.py`
+- Create: `paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json`
+- Create: `paper/shared/figures/fig_material_effect_baseline_qualitative.png`
+- Modify: `paper/shared/evidence/results_manifest.yaml`
+- Modify: `paper/shared/figures/sources.yaml`
+
+- [x] **Step 1: Write failing tests**
+
+Test that the qualitative manifest selects representative cases from the
+covered effect bins, reuses existing expanded30 original/noMDL render images,
+and creates a third NVIDIA render record with the same camera, dimensions, and
+renderer settings.
+
+- [x] **Step 2: Implement manifest builder**
+
+Build records for `original_MDL`, `existing_noMDL`, and
+`nvidia_asset_converter_preview_or_bake`. The first two point to existing
+target-centered renders; the NVIDIA record points to a new camera-stage and
+image path under
+`paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/`.
+
+- [x] **Step 3: Implement figure builder**
+
+Generate a storage-bounded contact sheet only when all selected cases have
+ready original/noMDL/NVIDIA images. If NVIDIA images are still missing, emit a
+clear manifest blocker instead of producing a misleading figure.
+
+- [x] **Step 4: Author and render NVIDIA qualitative views**
+
+Use the existing camera-stage authoring and viewport-capture scripts to render
+only the selected NVIDIA rows. Do not rerender the original/noMDL images unless
+their existing files are missing.
+
+- [x] **Step 5: Verify and document**
+
+Run the qualitative tests, parse generated JSON/YAML, and update the design
+doc/checklist with the exact number of selected cases and remaining missing-bin
+limitations.
+
+Actual: qualitative tests pass, the manifest records 4 selected cases and 12/12
+ready condition images, and
+`fig_material_effect_baseline_qualitative.png` is generated. The remaining
+blocker is still missing `clearcoat` and `procedural_texture` coverage.

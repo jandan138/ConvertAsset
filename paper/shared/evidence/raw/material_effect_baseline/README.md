@@ -20,6 +20,18 @@ Current files:
 - `effect_failure_case_manifest.json`: records effect-labeled follow-up cases
   from non-available or static-gate-failed condition rows. Current case count is
   zero after the NVIDIA static gates pass.
+- `qualitative_render_manifest.json`: selects four representative expanded30
+  cases and records matched original / ConvertAsset / NVIDIA render records for
+  the covered effect bins.
+- `qualitative_camera_stage_authoring_report.json`: records the selected NVIDIA
+  camera-stage authoring run; all four camera stages were authored under
+  `qualitative_renders/`.
+- `qualitative_nvidia_render_run_manifest.json`: records the selected-only
+  NVIDIA render run; all four NVIDIA qualitative PNG outputs are ready.
+- `qualitative_renders/`: small repo-resident NVIDIA stills and camera stages
+  for the selected qualitative comparison cases.
+- `qualitative_render_logs/`: stdout/stderr logs from the selected-only NVIDIA
+  qualitative render commands.
 - `nvidia_baseline_smoke/`: small repo-resident smoke outputs from the NVIDIA
   fixture conversion, kept with the manifest because the total footprint is
   small and directly auditable.

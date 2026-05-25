@@ -95,3 +95,10 @@ figures:
     sources:
       - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_asset_manifest.json
       - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_basic_qa.json
+  - id: fig_material_effect_baseline_qualitative
+    outputs:
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+    generated_by: paper/shared/figures/gen_material_effect_qualitative.py
+    sources:
+      - paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
+      - paper/shared/evidence/raw/material_effect_baseline/qualitative_nvidia_render_run_manifest.json

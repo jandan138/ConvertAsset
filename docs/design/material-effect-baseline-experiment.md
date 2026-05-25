@@ -152,15 +152,43 @@ and `procedural_texture` are explicit zero-sample rows. The follow-up case
 manifest currently has 0 static-gate failure cases after NVIDIA sample
 conversion; this is not a visual-quality result.
 
+Generated qualitative artifacts:
+
+```text
+paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
+paper/shared/evidence/raw/material_effect_baseline/qualitative_camera_stage_authoring_report.json
+paper/shared/evidence/raw/material_effect_baseline/qualitative_nvidia_render_run_manifest.json
+paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/
+paper/shared/figures/fig_material_effect_baseline_qualitative.png
+paper/shared/figures/fig_material_effect_baseline_qualitative.report.json
+```
+
+Current qualitative summary:
+
+| Field | Value |
+|---|---:|
+| Selected qualitative cases | 4 |
+| Ready condition images | 12 / 12 |
+| Selected NVIDIA camera stages authored | 4 / 4 |
+| Selected NVIDIA renders ready | 4 / 4 |
+
+The selected cases cover the effect bins present in GRScenes:
+`opacity_transparency`, `emission`, `normal_bump`, and
+`displacement_height`. They are suitable for bounded qualitative comparison of
+the covered bins, but they still do not close the missing `clearcoat` and
+`procedural_texture` bins.
+
 ## Next Gate
 
-The next gate is paired qualitative rendering and missing-bin supplementation:
+The next gate is missing-bin supplementation:
 
-1. Render matched original / ConvertAsset / NVIDIA views for selected cases.
-2. Build effect-grouped qualitative panels and failure examples from those
-   paired renders.
-3. Add official/sample assets for `clearcoat` and `procedural_texture` before
+1. Add official/sample assets for `clearcoat` and `procedural_texture` before
    any all-effect coverage claim.
+2. Regenerate condition manifests, effect tables, and qualitative panels with
+   those supplemental cases.
+3. Add visual failure examples once render-level inspection identifies concrete
+   failure modes, rather than treating static-gate success as visual success.
 
-No paper claim should compare visual quality against NVIDIA until paired renders,
-effect tables from rendered evidence, and qualitative failure panels exist.
+No paper claim should compare all requested material effects against NVIDIA
+until the missing-bin supplement exists. The current qualitative figure supports
+only a covered-bin visual comparison.

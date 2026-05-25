@@ -1,0 +1,449 @@
+{
+  "schema_version": 1,
+  "status": "camera_stage_authoring_report",
+  "generated_by": "paper/shared/evidence/experiments/06_grscenes_vlm_grounding/author_render_camera_stages.py",
+  "generated_at_utc": "2026-05-25T14:37:29.976205Z",
+  "dry_run": false,
+  "render_manifest_status": "material_effect_qualitative_render_manifest",
+  "summary": {
+    "selected_record_count": 4,
+    "planned_camera_stage_count": 4,
+    "blocked_camera_stage_count": 0,
+    "authored_camera_stage_count": 4,
+    "failed_camera_stage_count": 0,
+    "auto_lights_enabled": true
+  },
+  "jobs": [
+    {
+      "sample_id": "c27086f557d316584264.zoom_018",
+      "pair_id": "c27086f557d316584264.zoom_018",
+      "material_condition": null,
+      "input_usd": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/nvidia/nvidia_camera.usd",
+      "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+      "camera": {
+        "view_id": "zoom_018",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          1719.47791,
+          124.76296,
+          88.297218
+        ],
+        "target_world": [
+          1737.091,
+          107.14987,
+          80.2039
+        ],
+        "look_at": [
+          1737.091,
+          107.14987,
+          80.2039
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 135.0,
+        "elevation_deg": 18.0,
+        "distance": 26.190527,
+        "bbox_center": [
+          1737.091,
+          107.14987,
+          80.2039
+        ],
+        "bbox_size_xyz": [
+          4.54982,
+          4.6725,
+          13.006841
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          100.0
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_transform_rows": [
+        [
+          -0.7071067811865509,
+          -0.707106781186544,
+          0.0,
+          0.0
+        ],
+        [
+          0.21850801870249179,
+          -0.2185080187024939,
+          0.9510565133184369,
+          0.0
+        ],
+        [
+          -0.6724985098590975,
+          0.6724985098591041,
+          0.30901700353633926,
+          0.0
+        ],
+        [
+          1719.47791,
+          124.76296,
+          88.297218,
+          1.0
+        ]
+      ],
+      "render_lighting": {
+        "enabled": true,
+        "dome_light_path": "/World/GRScenesRenderDomeLight",
+        "distant_light_path": "/World/GRScenesRenderDistantLight",
+        "dome_intensity": 1000.0,
+        "distant_intensity": 3000.0,
+        "distant_angle": 1.0,
+        "distant_rotation_xyz": [
+          -45.0,
+          30.0,
+          0.0
+        ]
+      },
+      "overwrite": false,
+      "blocked_by": [],
+      "status": "authored"
+    },
+    {
+      "sample_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_018",
+      "material_condition": null,
+      "input_usd": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/nvidia/nvidia_camera.usd",
+      "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+      "camera": {
+        "view_id": "zoom_018",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          197.819788,
+          -15.211418,
+          209.516132
+        ],
+        "target_world": [
+          280.0384,
+          -97.43003,
+          171.7362
+        ],
+        "look_at": [
+          280.0384,
+          -97.43003,
+          171.7362
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 135.0,
+        "elevation_deg": 18.0,
+        "distance": 122.25843,
+        "bbox_center": [
+          280.0384,
+          -97.43003,
+          171.7362
+        ],
+        "bbox_size_xyz": [
+          5.038262,
+          44.028601,
+          51.4724
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          326.022479
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_transform_rows": [
+        [
+          -0.7071067811865475,
+          -0.7071067811865477,
+          0.0,
+          0.0
+        ],
+        [
+          0.2185080098142962,
+          -0.2185080098142961,
+          0.9510565174026153,
+          0.0
+        ],
+        [
+          -0.6724985127470511,
+          0.6724985127470509,
+          0.30901699096653096,
+          0.0
+        ],
+        [
+          197.819788,
+          -15.211418,
+          209.516132,
+          1.0
+        ]
+      ],
+      "render_lighting": {
+        "enabled": true,
+        "dome_light_path": "/World/GRScenesRenderDomeLight",
+        "distant_light_path": "/World/GRScenesRenderDistantLight",
+        "dome_intensity": 1000.0,
+        "distant_intensity": 3000.0,
+        "distant_angle": 1.0,
+        "distant_rotation_xyz": [
+          -45.0,
+          30.0,
+          0.0
+        ]
+      },
+      "overwrite": false,
+      "blocked_by": [],
+      "status": "authored"
+    },
+    {
+      "sample_id": "e2ec085d524d5df4455d.zoom_020",
+      "pair_id": "e2ec085d524d5df4455d.zoom_020",
+      "material_condition": null,
+      "input_usd": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/nvidia/nvidia_camera.usd",
+      "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+      "camera": {
+        "view_id": "zoom_020",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          -45.443872,
+          -175.645152,
+          97.622814
+        ],
+        "target_world": [
+          -45.443872,
+          -144.73972,
+          87.58103
+        ],
+        "look_at": [
+          -45.443872,
+          -144.73972,
+          87.58103
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 270.0,
+        "elevation_deg": 18.0,
+        "distance": 32.495894,
+        "bbox_center": [
+          -45.443872,
+          -144.73972,
+          87.58103
+        ],
+        "bbox_size_xyz": [
+          12.1816,
+          8.3873,
+          10.3529
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          100.0
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_transform_rows": [
+        [
+          1.0,
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.3090170061381962,
+          0.9510565124730423,
+          0.0
+        ],
+        [
+          -0.0,
+          -0.9510565124730423,
+          0.3090170061381962,
+          0.0
+        ],
+        [
+          -45.443872,
+          -175.645152,
+          97.622814,
+          1.0
+        ]
+      ],
+      "render_lighting": {
+        "enabled": true,
+        "dome_light_path": "/World/GRScenesRenderDomeLight",
+        "distant_light_path": "/World/GRScenesRenderDistantLight",
+        "dome_intensity": 1000.0,
+        "distant_intensity": 3000.0,
+        "distant_angle": 1.0,
+        "distant_rotation_xyz": [
+          -45.0,
+          30.0,
+          0.0
+        ]
+      },
+      "overwrite": false,
+      "blocked_by": [],
+      "status": "authored"
+    },
+    {
+      "sample_id": "47aa36277a54f6ca90cc.zoom_018",
+      "pair_id": "47aa36277a54f6ca90cc.zoom_018",
+      "material_condition": null,
+      "input_usd": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/nvidia/nvidia_camera.usd",
+      "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+      "camera": {
+        "view_id": "zoom_018",
+        "mode": "target_centered_static_orbit_plan",
+        "camera_prim_path": "/World/GRScenesVLMTargetCamera",
+        "position_world": [
+          343.366755,
+          -137.154056,
+          239.887079
+        ],
+        "target_world": [
+          487.21646,
+          -281.00376,
+          173.7873
+        ],
+        "look_at": [
+          487.21646,
+          -281.00376,
+          173.7873
+        ],
+        "up_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "azimuth_deg": 135.0,
+        "elevation_deg": 18.0,
+        "distance": 213.90338,
+        "bbox_center": [
+          487.21646,
+          -281.00376,
+          173.7873
+        ],
+        "bbox_size_xyz": [
+          18.071823,
+          73.551247,
+          91.571997
+        ],
+        "focal_length_mm": 18.0,
+        "horizontal_aperture_mm": 20.955,
+        "vertical_aperture_mm": 15.71625,
+        "fov_h_deg": 60.405943,
+        "aspect": 1.333333,
+        "clipping_range": [
+          0.01,
+          570.409012
+        ],
+        "start_frame": 0,
+        "end_frame": 0,
+        "time_codes_per_second": 24,
+        "projection_matrix": null,
+        "view_matrix": null
+      },
+      "camera_transform_rows": [
+        [
+          -0.7071067787287504,
+          -0.7071067836443445,
+          0.0,
+          0.0
+        ],
+        [
+          0.2185080116159596,
+          -0.21850801009695747,
+          0.9510565169237356,
+          0.0
+        ],
+        [
+          -0.6724985147459358,
+          0.672498510070928,
+          0.3090169924403711,
+          0.0
+        ],
+        [
+          343.366755,
+          -137.154056,
+          239.887079,
+          1.0
+        ]
+      ],
+      "render_lighting": {
+        "enabled": true,
+        "dome_light_path": "/World/GRScenesRenderDomeLight",
+        "distant_light_path": "/World/GRScenesRenderDistantLight",
+        "dome_intensity": 1000.0,
+        "distant_intensity": 3000.0,
+        "distant_angle": 1.0,
+        "distant_rotation_xyz": [
+          -45.0,
+          30.0,
+          0.0
+        ]
+      },
+      "overwrite": false,
+      "blocked_by": [],
+      "status": "authored"
+    }
+  ],
+  "render_manifest": {
+    "path": "paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json",
+    "hash_sha256": "4c260afbf7155e09550ffe7a70a9a42dc82341bdb14b8b640b725192f29c289c"
+  },
+  "target_manifest": null,
+  "generator_provenance": {
+    "command": [
+      "/isaac-sim/kit/python/bin/python3",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/author_render_camera_stages.py",
+      "--render-manifest",
+      "paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json",
+      "--out",
+      "paper/shared/evidence/raw/material_effect_baseline/qualitative_camera_stage_authoring_report.json",
+      "--apply"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/author_render_camera_stages.py",
+    "script_hash_sha256": "3dcb621aa1e13496766ae50ab85b2e746310265c28a5d2f281160911c6b4c3e6",
+    "git_commit": "391bdc1955b143f35a4bf725a63ec86dde535726",
+    "git_status_porcelain": [
+      " M docs/superpowers/plans/2026-05-25-material-effect-baseline.md",
+      "?? 9 untracked files omitted from provenance"
+    ]
+  }
+}

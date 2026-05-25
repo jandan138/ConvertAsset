@@ -13,14 +13,24 @@ MDL fixture.
 - `paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_sample_manifest.py`
 - `paper/shared/evidence/experiments/08_material_effect_baseline/run_nvidia_asset_converter_smoke.py`
 - `paper/shared/evidence/experiments/08_material_effect_baseline/run_nvidia_sample_conversions.py`
+- `paper/shared/evidence/experiments/08_material_effect_baseline/build_qualitative_render_manifest.py`
+- `paper/shared/evidence/experiments/08_material_effect_baseline/run_qualitative_nvidia_renders.py`
 - `paper/shared/evidence/experiments/08_material_effect_baseline/build_baseline_conversion_manifest.py`
 - `paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py`
+- `paper/shared/figures/gen_material_effect_qualitative.py`
 - `paper/shared/evidence/raw/material_effect_baseline/effect_sample_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/nvidia_baseline_smoke_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/nvidia_sample_conversion_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json`
+- `paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json`
+- `paper/shared/evidence/raw/material_effect_baseline/qualitative_camera_stage_authoring_report.json`
+- `paper/shared/evidence/raw/material_effect_baseline/qualitative_nvidia_render_run_manifest.json`
+- `paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/`
+- `paper/shared/evidence/raw/material_effect_baseline/qualitative_render_logs/`
 - `paper/shared/evidence/raw/material_effect_baseline/nvidia_baseline_smoke/`
+- `paper/shared/figures/fig_material_effect_baseline_qualitative.png`
+- `paper/shared/figures/fig_material_effect_baseline_qualitative.report.json`
 - `paper/shared/tables/material_effect_baseline_summary.csv`
 - `paper/shared/tables/tab_material_effect_baseline_summary.tex`
 - `tests/test_material_effect_baseline_manifest.py`
@@ -28,6 +38,7 @@ MDL fixture.
 - `tests/test_material_effect_baseline_nvidia_samples.py`
 - `tests/test_material_effect_baseline_conversion_manifest.py`
 - `tests/test_material_effect_baseline_tables.py`
+- `tests/test_material_effect_baseline_qualitative.py`
 - `docs/design/material-effect-baseline-experiment.md`
 - `paper/shared/evidence/experiments/08_material_effect_baseline/README.md`
 
@@ -102,6 +113,20 @@ conditions. `clearcoat` and `procedural_texture` are zero-sample rows so the
 reviewer-facing gap is visible in the table. The follow-up case manifest now
 has 0 static-gate failure cases; this is not a visual-quality comparison.
 
+The qualitative render manifest then selects four representative expanded30
+cases from the covered effect bins and reuses the existing original/no-MDL
+target-centered images. Four NVIDIA camera stages were authored with the same
+camera settings and rendered through the viewport-capture path. The resulting
+contact sheet is repo-resident and covers bottle, clock, cup, and backpack
+cases across original MDL, ConvertAsset no-MDL, and NVIDIA.
+
+| Field | Count |
+|---|---:|
+| Selected qualitative cases | 4 |
+| Ready condition images | 12 |
+| NVIDIA camera stages authored | 4 |
+| NVIDIA qualitative renders ready | 4 |
+
 ## Validation
 
 Commands run:
@@ -117,6 +142,11 @@ timeout 1800 ./scripts/isaac_python.sh paper/shared/evidence/experiments/08_mate
 timeout 300 ./scripts/isaac_python.sh paper/shared/evidence/experiments/08_material_effect_baseline/build_baseline_conversion_manifest.py
 python -m pytest -q tests/test_material_effect_baseline_tables.py
 python paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py
+python -m pytest -q tests/test_material_effect_baseline_qualitative.py
+python paper/shared/evidence/experiments/08_material_effect_baseline/build_qualitative_render_manifest.py
+timeout 300 ./scripts/isaac_python.sh paper/shared/evidence/experiments/06_grscenes_vlm_grounding/author_render_camera_stages.py --render-manifest paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json --out paper/shared/evidence/raw/material_effect_baseline/qualitative_camera_stage_authoring_report.json --apply
+python paper/shared/evidence/experiments/08_material_effect_baseline/run_qualitative_nvidia_renders.py
+python paper/shared/figures/gen_material_effect_qualitative.py
 ```
 
 Results:
@@ -134,6 +164,13 @@ Results:
   `convertasset_available=30`, `nvidia_available=30`, `nvidia_missing=0`
 - effect table tests: `2 passed`
 - effect tables: `rows=18`, `cases=0`
+- qualitative tests: `7 passed`
+- qualitative render manifest: `selected_case_count=4`, `ready_case_count=4`,
+  `nvidia_render_pending_count=0`
+- qualitative camera stages: `authored_camera_stage_count=4`,
+  `blocked_camera_stage_count=0`
+- qualitative NVIDIA render run: `ready_output_count=4`, `failed_count=0`
+- qualitative figure: `figure_written=true`, `ready_case_count=4`
 
 ## Claim Boundary
 
@@ -143,7 +180,8 @@ USD PreviewSurface baseline route on NVIDIA's official fixture", and "the
 existing original/no-MDL sample conditions are statically gated and ready for
 sample-level NVIDIA conversion", "the NVIDIA sample outputs for the selected
 five scenes are generated and static-gated", and "the current effect table
-quantifies condition readiness by effect bin."
+quantifies condition readiness by effect bin", and "selected covered-bin
+qualitative stills exist for original MDL / ConvertAsset / NVIDIA."
 
 Not allowed yet: "ConvertAsset visually beats NVIDIA baseline", "all requested
 material effects are covered", or "these counts are a final failure-rate
