@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "status": "supplemental_wrapper_stage_manifest",
+  "generated_by": "paper/shared/evidence/experiments/08_material_effect_baseline/author_supplemental_wrapper_stages.py",
+  "generated_at_utc": "2026-05-25T15:11:26.812624Z",
+  "generator_git_commit": "fbea8275c72aca48b6c46bbbba4a0c003a4f9177",
+  "summary": {
+    "wrapper_stage_count": 2,
+    "authored_wrapper_stage_count": 2,
+    "missing_recommended_effects": [],
+    "unsupported_recommendation_count": 0,
+    "ready_for_baseline_conversion": true,
+    "blockers": [
+      "supplemental_baseline_conversions_not_run"
+    ]
+  },
+  "wrappers": [
+    {
+      "wrapper_id": "supplemental_clearcoat_omnipbr",
+      "candidate_id": "isaac_material_library_omnipbr_clearcoat_opacity",
+      "effect": "clearcoat",
+      "source_kind": "official_isaac_sim_material_library_test",
+      "source_usd": "/isaac-sim/extscache/omni.kit.material.library-1.5.15+d02c707b/data/tests/usd/material_binding.usda",
+      "source_mdl_files": [
+        {
+          "path": "/isaac-sim/extscache/omni.kit.material.library-1.5.15+d02c707b/data/tests/mtl/OmniPBR_ClearCoat_Opacity.mdl",
+          "exists": true,
+          "hash_sha256": "1bfecb099e6accb43a204440e7ccefb6daa58fb2f3f4d3a9e70a53c4c1265cce"
+        }
+      ],
+      "wrapper_stage": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr.usda",
+      "wrapper_stage_exists": true,
+      "hash_sha256": "c0306e77fb17569cce949e3e3648e05a05176890e6eb8e6b3a93633fbeddbc68",
+      "material_path": "/World/Looks/OmniPBR_ClearCoat_Opacity",
+      "target_prim_path": "/World/ClearcoatTarget",
+      "wrapper_strategy": "standalone_bound_stage_with_absolute_official_mdl_source_asset",
+      "ready_for_baseline_conversion": true
+    },
+    {
+      "wrapper_id": "supplemental_procedural_checker",
+      "candidate_id": "nvidia_mdl_sdk_tutorials_checker_noise",
+      "effect": "procedural_texture",
+      "source_kind": "official_nvidia_mdl_sdk_example",
+      "source_usd": "/isaac-sim/extscache/omni.mdl.usd_converter-1.0.24+d02c707b/omni/mdl/usd_converter/tests/data/usd/tutorials.usda",
+      "source_mdl_files": [
+        {
+          "path": "/isaac-sim/extscache/omni.mdl.usd_converter-1.0.24+d02c707b/omni/mdl/usd_converter/tests/data/mdl/nvidia/sdk_examples/tutorials.mdl",
+          "exists": true,
+          "hash_sha256": "f0b0f6970cf9eb66c2d98e4b7c9193eceaca3d540761a7cba48eb4bf7255cfba"
+        }
+      ],
+      "wrapper_stage": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker.usda",
+      "wrapper_stage_exists": true,
+      "hash_sha256": "ec036a98eee41ed5dc013f494555ba091d8a4237d2b465d11ff17bed76a26995",
+      "material_path": "/World/Looks/ProceduralChecker",
+      "target_prim_path": "/World/ProceduralTarget",
+      "wrapper_strategy": "standalone_bound_stage_with_absolute_official_mdl_source_asset",
+      "ready_for_baseline_conversion": true
+    }
+  ],
+  "unsupported_recommendations": [],
+  "claim_boundary": {
+    "allowed": [
+      "Repo-resident wrapper stages now bind the selected official/sample MDL sources to renderable targets.",
+      "These wrapper stages can be used as inputs for supplemental original/noMDL/NVIDIA conversion runs."
+    ],
+    "forbidden": [
+      "Do not count these wrappers as completed baseline samples until conversion manifests exist.",
+      "Do not claim visual quality for clearcoat/procedural bins until rendered evidence is reviewed."
+    ]
+  },
+  "inputs": {
+    "candidate_manifest": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_effect_candidate_manifest.json",
+      "hash_sha256": "b2a18de9fc69433a176a10fd9d7748c0a62b0dab8ccf3f4d928de4edd2609b07"
+    }
+  },
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/08_material_effect_baseline/author_supplemental_wrapper_stages.py"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/08_material_effect_baseline/author_supplemental_wrapper_stages.py",
+    "script_hash_sha256": "dcc5174a719d25e60105a7df794f4a29edf558c0952e08aec49b9e531a36cf81",
+    "git_commit": "fbea8275c72aca48b6c46bbbba4a0c003a4f9177",
+    "git_status_porcelain": [
+      "?? 5 untracked files omitted from provenance"
+    ]
+  }
+}

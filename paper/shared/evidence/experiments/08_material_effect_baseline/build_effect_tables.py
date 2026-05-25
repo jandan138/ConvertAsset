@@ -21,6 +21,9 @@ DEFAULT_TEX = PROJECT_ROOT / "paper/shared/tables/tab_material_effect_baseline_s
 DEFAULT_CASES = (
     PROJECT_ROOT / "paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json"
 )
+DEFAULT_SUPPLEMENTAL_CONVERSION_MANIFEST = (
+    PROJECT_ROOT / "paper/shared/evidence/raw/material_effect_baseline/supplemental_conversion_manifest.json"
+)
 
 CONDITION_ORDER = [
     "original_MDL",
@@ -79,6 +82,21 @@ def _status_bucket(status: str) -> str:
     if status in {"available", "static_gate_failed", "planned_output_missing", "missing"}:
         return f"{status}_count"
     return "other_non_available_count"
+
+
+def merge_conversion_manifests(
+    conversion_manifest: dict[str, Any],
+    supplemental_conversion_manifest: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    if not supplemental_conversion_manifest:
+        return conversion_manifest
+    merged = dict(conversion_manifest)
+    merged["samples"] = [
+        *conversion_manifest.get("samples", []),
+        *supplemental_conversion_manifest.get("samples", []),
+    ]
+    merged["supplemental_source_manifest"] = supplemental_conversion_manifest.get("generated_by")
+    return merged
 
 
 def build_effect_summary_rows(conversion_manifest: dict[str, Any]) -> list[dict[str, Any]]:
@@ -231,6 +249,11 @@ def write_case_manifest(
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--conversion-manifest", type=Path, default=DEFAULT_CONVERSION_MANIFEST)
+    parser.add_argument(
+        "--supplemental-conversion-manifest",
+        type=Path,
+        default=DEFAULT_SUPPLEMENTAL_CONVERSION_MANIFEST,
+    )
     parser.add_argument("--csv", type=Path, default=DEFAULT_CSV)
     parser.add_argument("--tex", type=Path, default=DEFAULT_TEX)
     parser.add_argument("--cases", type=Path, default=DEFAULT_CASES)
@@ -240,6 +263,12 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     manifest = _load_json(args.conversion_manifest)
+    supplemental_manifest = (
+        _load_json(args.supplemental_conversion_manifest)
+        if args.supplemental_conversion_manifest and args.supplemental_conversion_manifest.exists()
+        else None
+    )
+    manifest = merge_conversion_manifests(manifest, supplemental_manifest)
     rows = build_effect_summary_rows(manifest)
     cases = build_case_records(manifest)
     write_summary_csv(args.csv, rows)

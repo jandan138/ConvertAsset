@@ -1,0 +1,38 @@
+{
+  "sourceUsd": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr.usda",
+  "outputUsd": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr_noMDL.usda",
+  "resultStrict": true,
+  "reason": "strict-pass",
+  "stats": {
+    "materialsTotal": 1,
+    "materialsConverted": 1,
+    "externalOverridden": 0,
+    "externalDeactivated": 0,
+    "externalSuppressedExtra": null,
+    "externalFinalActive": 0,
+    "forcedBlockedOutputs": 1,
+    "forcedBlockedSamples": [
+      "/World/Looks/OmniPBR_ClearCoat_Opacity::outputs:mdl:surface"
+    ],
+    "materialsWithoutSurface": 0,
+    "autoCreatedSurface": 0
+  },
+  "timings": {
+    "open": 0.015374511480331421,
+    "collect_deps_and_children": 0.0035934336483478546,
+    "export_root_layer": 0.011172235012054443,
+    "convert_strip": 0.00787322036921978,
+    "final_export": 0.010256746783852577,
+    "verify": 0.0010103806853294373
+  },
+  "missingChildren": [],
+  "missingChildrenTruncated": false,
+  "report": {
+    "mdlShadersLocal": [],
+    "mdlShadersExternal": [],
+    "mdlOutputsLocal": [],
+    "mdlOutputsExternal": [],
+    "blockedForcedCount": 1
+  },
+  "statsHash": "e866078386f39ba9"
+}

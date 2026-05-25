@@ -267,3 +267,48 @@ Actual: tests pass and the manifest recommends two source candidates:
 `ready_for_fixture_authoring=true`, but
 `ready_for_baseline_conversion=false` because wrapper scenes and supplemental
 conversions have not been run.
+
+### Task 8: Supplemental Wrapper Stages and Static Gates
+
+**Files:**
+- Create: `tests/test_material_effect_baseline_supplemental_wrappers.py`
+- Create: `tests/test_material_effect_baseline_supplemental_conversion_manifest.py`
+- Create: `paper/shared/evidence/experiments/08_material_effect_baseline/author_supplemental_wrapper_stages.py`
+- Create: `paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_conversion_manifest.py`
+- Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_wrapper_stage_manifest.json`
+- Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_conversion_manifest.json`
+- Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/`
+- Modify: `paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py`
+- Modify: `paper/shared/tables/material_effect_baseline_summary.csv`
+- Modify: `paper/shared/tables/tab_material_effect_baseline_summary.tex`
+- Modify: `paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json`
+
+- [x] **Step 1: Write failing tests**
+
+Test that wrapper authoring creates bound repo-resident USD stages without
+sublayering `/isaac-sim` source USDs, and test that supplemental conversion
+manifests record original/noMDL/NVIDIA static gates plus failure cases.
+
+- [x] **Step 2: Author wrapper stages**
+
+Create standalone wrapper stages for `clearcoat` and `procedural_texture`.
+They bind official/sample MDL source assets to small renderable target prims and
+avoid recursive USD dependencies that would write sidecars under Isaac Sim.
+
+- [x] **Step 3: Run ConvertAsset and NVIDIA static gates**
+
+Run ConvertAsset no-MDL over both wrapper stages and inspect the existing NVIDIA
+supplemental conversion outputs under the normalized external research root.
+
+- [x] **Step 4: Regenerate tables and failure cases**
+
+Merge the supplemental conversion manifest into the effect table builder.
+`clearcoat` and `procedural_texture` now each have one supplemental sample.
+NVIDIA procedural texture passes the static gate; NVIDIA clearcoat fails with
+zero shader records in the converted USD.
+
+Actual: supplemental wrapper tests pass, supplemental conversion tests pass,
+the wrapper manifest records 2 authored stages, the supplemental conversion
+manifest records `convertasset_available_count=2`, `nvidia_available_count=1`,
+and `nvidia_static_gate_failed_count=1`, and the regenerated failure-case
+manifest records the clearcoat NVIDIA static-gate failure.

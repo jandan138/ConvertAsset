@@ -159,7 +159,16 @@ results:
       description: "Material-effect sample-selection manifest linking GRScenes expanded30 stress pairs to MDL files and effect labels. It covers opacity/transparency, emission, normal/bump, and displacement/height in the GRScenes pool, and records clearcoat/procedural texture as missing bins requiring official/sample-asset supplementation before full baseline claims."
     - id: material_effect_supplemental_candidate_manifest
       path: paper/shared/evidence/raw/material_effect_baseline/supplemental_effect_candidate_manifest.json
-      description: "Bounded local official/sample candidate manifest for the missing clearcoat and procedural texture bins. It recommends an Isaac Sim material-library clearcoat source and an NVIDIA MDL SDK tutorial procedural source, but keeps baseline conversion/render claims blocked until wrapper stages and supplemental condition records exist."
+      description: "Bounded local official/sample candidate manifest for the missing clearcoat and procedural texture bins. It recommends an Isaac Sim material-library clearcoat source and an NVIDIA MDL SDK tutorial procedural source; wrapper and condition outcomes are recorded in the supplemental wrapper/conversion manifests."
+    - id: material_effect_supplemental_wrapper_stage_manifest
+      path: paper/shared/evidence/raw/material_effect_baseline/supplemental_wrapper_stage_manifest.json
+      description: "Repo-resident wrapper-stage manifest for supplemental clearcoat and procedural texture fixtures. Both wrappers bind official/sample MDL sources to small renderable targets and are ready for supplemental baseline conversion."
+    - id: material_effect_supplemental_conversion_manifest
+      path: paper/shared/evidence/raw/material_effect_baseline/supplemental_conversion_manifest.json
+      description: "Supplemental original/noMDL/NVIDIA static-gate condition manifest for clearcoat and procedural texture wrappers. ConvertAsset no-MDL passes both wrappers; NVIDIA passes procedural texture but fails clearcoat by producing an output with zero shader records."
+    - id: material_effect_supplemental_fixtures
+      path: paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/
+      description: "Small repo-resident supplemental wrapper USD stages plus ConvertAsset no-MDL outputs and audit sidecars for clearcoat and procedural texture."
     - id: material_effect_nvidia_baseline_smoke
       path: paper/shared/evidence/raw/material_effect_baseline/nvidia_baseline_smoke_manifest.json
       description: "NVIDIA Asset Converter smoke over NVIDIA's official MDL fixture. The installed Isaac Sim converter produced two claimable USD PreviewSurface baseline candidates, usd_to_usd_preview and usd_to_usd_bake_flag, each with 4 PreviewSurface shaders and 0 active MDL source-asset shaders. This gates sample-level baseline conversion but is not itself a ConvertAsset-vs-NVIDIA comparison."
@@ -171,7 +180,7 @@ results:
       description: "Sample-level condition manifest for the material-effect baseline: 30 selected samples across 5 unique source scenes have static-gated original_MDL, existing_noMDL, and NVIDIA usd_to_usd_preview condition records. Selected covered-bin qualitative renders now exist; missing clearcoat/procedural coverage is still required before final claims."
     - id: material_effect_failure_case_manifest
       path: paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json
-      description: "Effect-labeled follow-up case manifest derived from the baseline conversion manifest. Current static-gate case count is zero after NVIDIA sample conversion; visual failure cases still require rendered-evidence review."
+      description: "Effect-labeled follow-up case manifest derived from the baseline and supplemental conversion manifests. Current static-gate case count is one: NVIDIA drops shader material output on the supplemental clearcoat wrapper; visual failure cases still require rendered-evidence review."
     - id: material_effect_qualitative_render_manifest
       path: paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
       description: "Selected qualitative render manifest for four covered-bin expanded30 cases. It links existing original/no-MDL target-centered renders with matched NVIDIA render records and records that 12/12 selected condition images are ready."
@@ -402,8 +411,9 @@ results:
       generated_by: paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py
       sources:
         - paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json
+        - paper/shared/evidence/raw/material_effect_baseline/supplemental_conversion_manifest.json
         - paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json
-      description: "Effect-by-condition material baseline readiness table. It explicitly includes zero-sample clearcoat and procedural_texture rows and shows original/noMDL/NVIDIA static gates passing for covered GRScenes effects; selected qualitative renders exist for covered bins, but missing-bin supplementation remains pending."
+      description: "Effect-by-condition material baseline readiness table. It combines 30 GRScenes selected samples with two supplemental official/sample wrappers, so clearcoat and procedural_texture now each have one static-gated sample. NVIDIA clearcoat is recorded as a static-gate failure; selected qualitative renders still exist only for covered GRScenes bins."
   provenance:
     experiments: paper/shared/evidence/experiments/
     references: paper/shared/evidence/references/

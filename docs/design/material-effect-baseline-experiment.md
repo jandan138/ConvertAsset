@@ -136,8 +136,8 @@ The static gates show all three conditions are now available for the selected
 GRScenes material-effect pool. Original scratch inputs still contain active MDL
 shaders, while both ConvertAsset no-MDL and NVIDIA outputs contain
 `UsdPreviewSurface` and zero active MDL source-asset shaders. The comparison is
-still incomplete because paired renders, visual quality/failure cases, and
-clearcoat/procedural supplemental samples are not finished.
+still incomplete because paired renders and visual quality review are not
+finished for all effect bins.
 
 Generated effect table artifacts:
 
@@ -147,10 +147,12 @@ paper/shared/tables/tab_material_effect_baseline_summary.tex
 paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json
 ```
 
-The current table has 18 rows: six effect bins by three conditions. `clearcoat`
-and `procedural_texture` are explicit zero-sample rows. The follow-up case
-manifest currently has 0 static-gate failure cases after NVIDIA sample
-conversion; this is not a visual-quality result.
+The current table has 18 rows: six effect bins by three conditions. After the
+supplemental wrapper run, `clearcoat` and `procedural_texture` each have one
+supplemental sample instead of zero-sample rows. The follow-up case manifest
+currently has one static-gate failure case: NVIDIA Asset Converter produces a
+clearcoat output USD with zero shader records. This is a concrete baseline
+failure candidate, not yet a render-level visual-quality result.
 
 Generated qualitative artifacts:
 
@@ -175,8 +177,8 @@ Current qualitative summary:
 The selected cases cover the effect bins present in GRScenes:
 `opacity_transparency`, `emission`, `normal_bump`, and
 `displacement_height`. They are suitable for bounded qualitative comparison of
-the covered bins, but they still do not close the missing `clearcoat` and
-`procedural_texture` bins.
+the GRScenes-covered bins, but they still do not render the supplemental
+`clearcoat` and `procedural_texture` cases.
 
 Generated supplemental candidate artifact:
 
@@ -191,8 +193,10 @@ Current supplemental summary:
 | Missing bins checked | 2 |
 | Candidate sources found | 2 |
 | Remaining missing bins without source | 0 |
-| Ready for wrapper-stage authoring | true |
-| Ready for baseline conversion | false |
+| Wrapper stages authored | 2 |
+| ConvertAsset no-MDL static gates passed | 2 / 2 |
+| NVIDIA static gates passed | 1 / 2 |
+| NVIDIA static-gate failure cases | 1 |
 
 The recommended sources are local official/sample assets rather than project
 scratch copies:
@@ -202,22 +206,22 @@ scratch copies:
 | `clearcoat` | `isaac_material_library_omnipbr_clearcoat_opacity` | Isaac Sim `omni.kit.material.library` test material binding + `OmniPBR_ClearCoat_Opacity.mdl` |
 | `procedural_texture` | `nvidia_mdl_sdk_tutorials_checker_noise` | NVIDIA MDL USD-converter tutorials using checker/noise functions |
 
-These are not counted in the effect table yet. Both sources need small bound
-wrapper stages before original/no-MDL/NVIDIA conversion, render, or paper
-figure claims.
+These are now counted in the effect table as supplemental static-gate samples.
+They still need rendered qualitative inspection before any visual-quality or
+all-effects reliability claim.
 
 ## Next Gate
 
-The next gate is supplemental fixture authoring:
+The next gate is supplemental qualitative rendering and failure review:
 
-1. Author small bound wrapper stages for the selected `clearcoat` and
-   `procedural_texture` candidates.
-2. Run original/no-MDL/NVIDIA conversions for those supplemental cases.
-3. Regenerate condition manifests, effect tables, and qualitative panels with
-   those supplemental cases.
+1. Render original/no-MDL/NVIDIA panels for the two supplemental wrapper cases.
+2. Inspect the NVIDIA clearcoat static-gate failure and decide whether it is a
+   paper/rebuttal failure example.
+3. Regenerate qualitative panels with both GRScenes covered-bin cases and
+   supplemental clearcoat/procedural cases.
 4. Add visual failure examples once render-level inspection identifies concrete
    failure modes, rather than treating static-gate success as visual success.
 
 No paper claim should compare all requested material effects against NVIDIA
-until the supplemental candidates become converted, rendered condition rows.
-The current qualitative figure supports only a covered-bin visual comparison.
+until the supplemental cases become rendered condition rows. The current
+qualitative figure supports only a GRScenes covered-bin visual comparison.

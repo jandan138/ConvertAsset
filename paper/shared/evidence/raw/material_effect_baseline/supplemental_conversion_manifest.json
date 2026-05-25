@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "status": "supplemental_conversion_manifest",
+  "generated_by": "paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_conversion_manifest.py",
+  "generated_at_utc": "2026-05-25T15:16:19.418057Z",
+  "generator_git_commit": "fbea8275c72aca48b6c46bbbba4a0c003a4f9177",
+  "summary": {
+    "sample_count": 2,
+    "original_available_count": 2,
+    "convertasset_available_count": 2,
+    "nvidia_available_count": 1,
+    "nvidia_static_gate_failed_count": 1,
+    "failure_case_count": 1,
+    "condition_status_counts": {
+      "original_MDL": {
+        "available": 2
+      },
+      "existing_noMDL": {
+        "available": 2
+      },
+      "nvidia_asset_converter_preview_or_bake": {
+        "available": 1,
+        "static_gate_failed": 1
+      }
+    },
+    "ready_for_effect_table_regeneration": true,
+    "ready_for_full_claim": false,
+    "blockers": [
+      "supplemental_nvidia_static_gate_failed"
+    ]
+  },
+  "samples": [
+    {
+      "sample_id": "supplemental_clearcoat_omnipbr",
+      "source": "supplemental_official_sample_wrapper",
+      "target_category": "supplemental_material_fixture",
+      "present_effects": [
+        "clearcoat"
+      ],
+      "material_path": "/World/Looks/OmniPBR_ClearCoat_Opacity",
+      "target_prim_path": "/World/ClearcoatTarget",
+      "conditions": {
+        "original_MDL": {
+          "condition": "original_MDL",
+          "status": "available",
+          "usd_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr.usda",
+          "exists": true,
+          "hash_sha256": "c0306e77fb17569cce949e3e3648e05a05176890e6eb8e6b3a93633fbeddbc68",
+          "size_bytes": 2235,
+          "static_gate_passed": true,
+          "inspection_status": "ok",
+          "stage_opened": true,
+          "shader_count": 1,
+          "preview_surface_count": 0,
+          "active_mdl_shader_count": 1,
+          "provenance": {
+            "source": "supplemental_wrapper_stage_manifest"
+          }
+        },
+        "existing_noMDL": {
+          "condition": "existing_noMDL",
+          "status": "available",
+          "usd_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr_noMDL.usda",
+          "exists": true,
+          "hash_sha256": "911f4420ccb642499b08828db1b931fd807ee992321e683442568642313ea17f",
+          "size_bytes": 3810,
+          "static_gate_passed": true,
+          "inspection_status": "ok",
+          "stage_opened": true,
+          "shader_count": 6,
+          "preview_surface_count": 1,
+          "active_mdl_shader_count": 0,
+          "provenance": {
+            "source": "ConvertAsset no-mdl CLI",
+            "input_usd": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr.usda"
+          }
+        },
+        "nvidia_asset_converter_preview_or_bake": {
+          "condition": "nvidia_asset_converter_preview_or_bake",
+          "status": "static_gate_failed",
+          "usd_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_supplemental/clearcoat/supplemental_clearcoat_omnipbr_nvidia_usd_to_usd_preview.usd",
+          "exists": true,
+          "hash_sha256": "4fa0f8f8a4813b52c70ce8d5b649554d17ea2db4f3c79913c0fc5478c5556264",
+          "size_bytes": 1559,
+          "static_gate_passed": false,
+          "inspection_status": "ok",
+          "stage_opened": true,
+          "shader_count": 0,
+          "preview_surface_count": 0,
+          "active_mdl_shader_count": 0,
+          "provenance": {
+            "source": "NVIDIA omni.kit.asset_converter",
+            "input_usd": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr.usda",
+            "preferred_route": "usd_to_usd_preview"
+          }
+        }
+      }
+    },
+    {
+      "sample_id": "supplemental_procedural_checker",
+      "source": "supplemental_official_sample_wrapper",
+      "target_category": "supplemental_material_fixture",
+      "present_effects": [
+        "procedural_texture"
+      ],
+      "material_path": "/World/Looks/ProceduralChecker",
+      "target_prim_path": "/World/ProceduralTarget",
+      "conditions": {
+        "original_MDL": {
+          "condition": "original_MDL",
+          "status": "available",
+          "usd_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker.usda",
+          "exists": true,
+          "hash_sha256": "ec036a98eee41ed5dc013f494555ba091d8a4237d2b465d11ff17bed76a26995",
+          "size_bytes": 2565,
+          "static_gate_passed": true,
+          "inspection_status": "ok",
+          "stage_opened": true,
+          "shader_count": 1,
+          "preview_surface_count": 0,
+          "active_mdl_shader_count": 1,
+          "provenance": {
+            "source": "supplemental_wrapper_stage_manifest"
+          }
+        },
+        "existing_noMDL": {
+          "condition": "existing_noMDL",
+          "status": "available",
+          "usd_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker_noMDL.usda",
+          "exists": true,
+          "hash_sha256": "aecb08b3436a0d6fe6e5d0dde89db203b1cc7c2350ce409c43e80a176117c858",
+          "size_bytes": 4269,
+          "static_gate_passed": true,
+          "inspection_status": "ok",
+          "stage_opened": true,
+          "shader_count": 6,
+          "preview_surface_count": 1,
+          "active_mdl_shader_count": 0,
+          "provenance": {
+            "source": "ConvertAsset no-mdl CLI",
+            "input_usd": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker.usda"
+          }
+        },
+        "nvidia_asset_converter_preview_or_bake": {
+          "condition": "nvidia_asset_converter_preview_or_bake",
+          "status": "available",
+          "usd_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_supplemental/procedural_texture/supplemental_procedural_checker_nvidia_usd_to_usd_preview.usd",
+          "exists": true,
+          "hash_sha256": "abf997d3ecc918184487a74de6bd9e4ca61a549a5fa23046c0081d277dbd2ad9",
+          "size_bytes": 2873,
+          "static_gate_passed": true,
+          "inspection_status": "ok",
+          "stage_opened": true,
+          "shader_count": 1,
+          "preview_surface_count": 1,
+          "active_mdl_shader_count": 0,
+          "provenance": {
+            "source": "NVIDIA omni.kit.asset_converter",
+            "input_usd": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker.usda",
+            "preferred_route": "usd_to_usd_preview"
+          }
+        }
+      }
+    }
+  ],
+  "failure_cases": [
+    {
+      "sample_id": "supplemental_clearcoat_omnipbr",
+      "effect": "clearcoat",
+      "condition": "nvidia_asset_converter_preview_or_bake",
+      "status": "static_gate_failed",
+      "reason": "supplemental_condition_static_gate_failed"
+    }
+  ],
+  "claim_boundary": {
+    "allowed": [
+      "This manifest records original, ConvertAsset no-MDL, and NVIDIA condition availability for supplemental clearcoat/procedural wrappers.",
+      "Static-gate failures can seed reviewer-facing failure-case review."
+    ],
+    "forbidden": [
+      "Do not treat static gates as visual quality evidence.",
+      "Do not claim all material effects are reliable until rendered qualitative evidence is reviewed."
+    ]
+  },
+  "inputs": {
+    "wrapper_manifest": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_wrapper_stage_manifest.json",
+      "hash_sha256": "a2797032e5102513ccf76e89ae61f767d6b0545e27bace3b52373963b77cf785"
+    },
+    "nvidia_output_root": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_supplemental"
+  },
+  "generator_provenance": {
+    "command": [
+      "/isaac-sim/kit/python/bin/python3",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_conversion_manifest.py"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_conversion_manifest.py",
+    "script_hash_sha256": "953da50de435e925e511b10530a89bd464ea31761c8039a682ea7880ae5b711a",
+    "git_commit": "fbea8275c72aca48b6c46bbbba4a0c003a4f9177",
+    "git_status_porcelain": [
+      "?? 13 untracked files omitted from provenance"
+    ]
+  }
+}

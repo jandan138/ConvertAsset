@@ -1,0 +1,38 @@
+{
+  "sourceUsd": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker.usda",
+  "outputUsd": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker_noMDL.usda",
+  "resultStrict": true,
+  "reason": "strict-pass",
+  "stats": {
+    "materialsTotal": 1,
+    "materialsConverted": 1,
+    "externalOverridden": 0,
+    "externalDeactivated": 0,
+    "externalSuppressedExtra": null,
+    "externalFinalActive": 0,
+    "forcedBlockedOutputs": 1,
+    "forcedBlockedSamples": [
+      "/World/Looks/ProceduralChecker::outputs:mdl:surface"
+    ],
+    "materialsWithoutSurface": 0,
+    "autoCreatedSurface": 0
+  },
+  "timings": {
+    "open": 0.014938198029994965,
+    "collect_deps_and_children": 0.0030827373266220093,
+    "export_root_layer": 0.023773308843374252,
+    "convert_strip": 0.005917433649301529,
+    "final_export": 0.01603417843580246,
+    "verify": 0.0007278881967067719
+  },
+  "missingChildren": [],
+  "missingChildrenTruncated": false,
+  "report": {
+    "mdlShadersLocal": [],
+    "mdlShadersExternal": [],
+    "mdlOutputsLocal": [],
+    "mdlOutputsExternal": [],
+    "blockedForcedCount": 1
+  },
+  "statsHash": "a547e8e7d0185b31"
+}

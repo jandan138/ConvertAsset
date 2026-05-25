@@ -9,8 +9,18 @@ Current files:
   material files, effect labels, and baseline execution planning metadata.
 - `supplemental_effect_candidate_manifest.json`: records bounded local
   official/sample candidates for the missing `clearcoat` and
-  `procedural_texture` bins. These are source candidates only; wrapper scenes
-  and baseline conversions are still pending.
+  `procedural_texture` bins.
+- `supplemental_wrapper_stage_manifest.json`: records the two repo-resident
+  wrapper stages that bind the selected official/sample MDL sources to small
+  renderable targets.
+- `supplemental_conversion_manifest.json`: records original / ConvertAsset
+  no-MDL / NVIDIA condition availability for the supplemental clearcoat and
+  procedural texture wrappers. Current static gates show ConvertAsset passing
+  both, NVIDIA passing procedural texture, and NVIDIA dropping clearcoat
+  material output.
+- `supplemental_fixtures/`: small repo-resident wrapper USD stages,
+  ConvertAsset no-MDL outputs, and ConvertAsset audit/summary sidecars for the
+  supplemental material-effect cases.
 - `nvidia_baseline_smoke_manifest.json`: records the local Isaac Sim NVIDIA
   Asset Converter smoke over NVIDIA's own MDL fixture. The smoke passed two USD
   PreviewSurface baseline candidates and gates the next sample-level baseline.
@@ -23,7 +33,7 @@ Current files:
   the sample conversion runner.
 - `effect_failure_case_manifest.json`: records effect-labeled follow-up cases
   from non-available or static-gate-failed condition rows. Current case count is
-  zero after the NVIDIA static gates pass.
+  one after supplemental clearcoat exposes a NVIDIA static-gate failure.
 - `qualitative_render_manifest.json`: selects four representative expanded30
   cases and records matched original / ConvertAsset / NVIDIA render records for
   the covered effect bins.
@@ -41,5 +51,6 @@ Current files:
   small and directly auditable.
 
 This directory should not store large raw render frames, uncompressed videos, or
-full scratch USD trees. Large intermediate assets belong under the normalized
-external research root and should be summarized here through manifests.
+full scratch USD trees. Large NVIDIA supplemental conversion outputs remain
+under the normalized external research root and are summarized here through
+manifests.

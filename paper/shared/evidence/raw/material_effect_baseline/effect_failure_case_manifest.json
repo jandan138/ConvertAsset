@@ -2,13 +2,27 @@
   "schema_version": 1,
   "status": "material_effect_failure_case_manifest",
   "generated_by": "paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py",
-  "generated_at_utc": "2026-05-25T14:24:46.591283Z",
+  "generated_at_utc": "2026-05-25T15:17:39.953356Z",
   "source_manifest": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json",
   "summary": {
-    "case_count": 0,
-    "reason_counts": {}
+    "case_count": 1,
+    "reason_counts": {
+      "static_gate_failed": 1
+    }
   },
-  "cases": [],
+  "cases": [
+    {
+      "case_id": "clearcoat:supplemental_clearcoat_omnipbr:nvidia_asset_converter_preview_or_bake",
+      "effect": "clearcoat",
+      "sample_id": "supplemental_clearcoat_omnipbr",
+      "target_category": "supplemental_material_fixture",
+      "target_prim_path": "/World/ClearcoatTarget",
+      "condition": "nvidia_asset_converter_preview_or_bake",
+      "status": "static_gate_failed",
+      "reason": "static_gate_failed",
+      "usd_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_supplemental/clearcoat/supplemental_clearcoat_omnipbr_nvidia_usd_to_usd_preview.usd"
+    }
+  ],
   "claim_boundary": {
     "allowed": [
       "These are selected non-available or static-gate-failed condition cases for follow-up."

@@ -94,8 +94,10 @@ paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.
 Current table result:
 
 - 18 effect-by-condition rows: 6 effect bins x 3 material conditions
-- `clearcoat` and `procedural_texture` are explicit zero-sample rows
-- 0 static-gate follow-up cases after NVIDIA sample conversion
+- `clearcoat` and `procedural_texture` now each have one supplemental wrapper
+  sample in addition to the 30 GRScenes rows
+- 1 static-gate follow-up case: NVIDIA Asset Converter drops the supplemental
+  clearcoat material output (`shader_count=0`, `preview_surface_count=0`)
 
 Qualitative render manifest entry point:
 
@@ -133,7 +135,8 @@ Current qualitative result:
   no-MDL, and NVIDIA
 - selected coverage includes `opacity_transparency`, `emission`,
   `normal_bump`, and `displacement_height`
-- `clearcoat` and `procedural_texture` remain missing-bin blockers
+- `clearcoat` and `procedural_texture` still need rendered qualitative panels;
+  their static wrapper/baseline records now exist
 
 Supplemental missing-bin candidate entry point:
 
@@ -145,6 +148,9 @@ Default supplemental output:
 
 ```text
 paper/shared/evidence/raw/material_effect_baseline/supplemental_effect_candidate_manifest.json
+paper/shared/evidence/raw/material_effect_baseline/supplemental_wrapper_stage_manifest.json
+paper/shared/evidence/raw/material_effect_baseline/supplemental_conversion_manifest.json
+paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/
 ```
 
 Current supplemental result:
@@ -155,10 +161,11 @@ Current supplemental result:
 - `procedural_texture` candidate:
   `nvidia_mdl_sdk_tutorials_checker_noise` from the local NVIDIA MDL SDK
   tutorial assets
-- 2/2 missing effect bins have candidate sources
-- both candidates require small bound wrapper scenes before conversion/render
-  claims
+- 2/2 missing effect bins have candidate sources and repo-resident wrapper
+  stages
+- ConvertAsset no-MDL static gate passes both supplemental wrappers
+- NVIDIA static gate passes procedural texture but fails clearcoat by producing
+  a USD output with zero shader records
 
-Next scripts should author wrapper stages for these candidates, run
-original/no-MDL/NVIDIA conversions over the supplemental cases, then regenerate
-effect tables and qualitative panels with the new rows.
+Next scripts should render original/no-MDL/NVIDIA qualitative panels for the
+supplemental wrappers and inspect the clearcoat failure visually.

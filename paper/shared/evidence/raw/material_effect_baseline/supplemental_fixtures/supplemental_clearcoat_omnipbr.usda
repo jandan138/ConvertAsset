@@ -1,0 +1,62 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "World"
+{
+    def DistantLight "KeyLight"
+    {
+        float angle = 1
+        float intensity = 4500
+        double3 xformOp:rotateXYZ = (315, 0, 30)
+        uniform token[] xformOpOrder = ["xformOp:rotateXYZ"]
+    }
+
+    def Camera "Camera"
+    {
+        double focalLength = 35
+        double2 clippingRange = (0.1, 1000)
+        double3 xformOp:translate = (0, 1.2, 4.5)
+        double3 xformOp:rotateXYZ = (-12, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ"]
+    }
+
+    def Scope "Looks"
+    {
+        def Material "OmniPBR_ClearCoat_Opacity"
+        {
+            token outputs:mdl:surface.connect = </World/Looks/OmniPBR_ClearCoat_Opacity/Shader.outputs:out>
+            token outputs:mdl:displacement.connect = </World/Looks/OmniPBR_ClearCoat_Opacity/Shader.outputs:out>
+            token outputs:mdl:volume.connect = </World/Looks/OmniPBR_ClearCoat_Opacity/Shader.outputs:out>
+
+            def Shader "Shader"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @/isaac-sim/extscache/omni.kit.material.library-1.5.15+d02c707b/data/tests/mtl/OmniPBR_ClearCoat_Opacity.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniPBR_ClearCoat_Opacity"
+                bool inputs:enable_clearcoat = 1
+                color3f inputs:diffuse_tint = (0.16, 0.28, 0.55)
+                float inputs:reflection_roughness_constant = 0.24
+                float inputs:clearcoat_weight = 1
+                float inputs:clearcoat_transparency = 1
+                float inputs:clearcoat_reflection_roughness = 0.02
+                color3f inputs:clearcoat_tint = (1, 1, 1)
+                token outputs:out
+            }
+        }
+    }
+
+    def Sphere "ClearcoatTarget" (
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        float3[] extent = [(-1, -1, -1), (1, 1, 1)]
+        rel material:binding = </World/Looks/OmniPBR_ClearCoat_Opacity>
+        double radius = 1
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+}

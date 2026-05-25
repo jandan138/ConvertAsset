@@ -18,9 +18,14 @@ MDL fixture.
 - `paper/shared/evidence/experiments/08_material_effect_baseline/build_baseline_conversion_manifest.py`
 - `paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py`
 - `paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_effect_candidates.py`
+- `paper/shared/evidence/experiments/08_material_effect_baseline/author_supplemental_wrapper_stages.py`
+- `paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_conversion_manifest.py`
 - `paper/shared/figures/gen_material_effect_qualitative.py`
 - `paper/shared/evidence/raw/material_effect_baseline/effect_sample_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/supplemental_effect_candidate_manifest.json`
+- `paper/shared/evidence/raw/material_effect_baseline/supplemental_wrapper_stage_manifest.json`
+- `paper/shared/evidence/raw/material_effect_baseline/supplemental_conversion_manifest.json`
+- `paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/`
 - `paper/shared/evidence/raw/material_effect_baseline/nvidia_baseline_smoke_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/nvidia_sample_conversion_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json`
@@ -111,9 +116,11 @@ active MDL shaders, while both no-MDL and NVIDIA outputs have
 `UsdPreviewSurface` shaders with zero active MDL source-asset shaders.
 
 The effect table generator emits 18 rows, covering six effect bins by three
-conditions. `clearcoat` and `procedural_texture` are zero-sample rows so the
-reviewer-facing gap is visible in the table. The follow-up case manifest now
-has 0 static-gate failure cases; this is not a visual-quality comparison.
+conditions. After the supplemental wrapper/conversion pass, `clearcoat` and
+`procedural_texture` each have one supplemental static-gated sample. The
+follow-up case manifest now has one static-gate failure case: NVIDIA Asset
+Converter drops material shader output for the supplemental clearcoat wrapper.
+This is not yet a visual-quality comparison.
 
 The qualitative render manifest then selects four representative expanded30
 cases from the covered effect bins and reuses the existing original/no-MDL
@@ -140,9 +147,19 @@ NVIDIA MDL SDK tutorial assets.
 | Candidate sources found | 2 |
 | Remaining missing bins without source | 0 |
 
-Both candidates are source evidence only. They need small bound wrapper stages
-before any condition manifest, effect-table, render, or paper claim counts them
-as covered samples.
+Both candidates were then authored into small repo-resident wrapper stages and
+run through ConvertAsset no-MDL. The NVIDIA supplemental outputs stay under the
+normalized external research root and are summarized through the repo manifest.
+
+| Field | Count |
+|---|---:|
+| Supplemental wrapper stages | 2 |
+| ConvertAsset no-MDL static gates passed | 2 |
+| NVIDIA static gates passed | 1 |
+| NVIDIA static-gate failures | 1 |
+
+The NVIDIA failure is the clearcoat wrapper: the converter writes a USD output,
+but static inspection finds zero shader records and zero PreviewSurface records.
 
 ## Validation
 
@@ -166,6 +183,14 @@ python paper/shared/evidence/experiments/08_material_effect_baseline/run_qualita
 python paper/shared/figures/gen_material_effect_qualitative.py
 python -m pytest -q tests/test_material_effect_baseline_supplemental_candidates.py
 python paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_effect_candidates.py
+python -m pytest -q tests/test_material_effect_baseline_supplemental_wrappers.py
+python paper/shared/evidence/experiments/08_material_effect_baseline/author_supplemental_wrapper_stages.py
+./scripts/isaac_python.sh ./main.py no-mdl paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr.usda
+./scripts/isaac_python.sh ./main.py no-mdl paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker.usda
+python -m pytest -q tests/test_material_effect_baseline_supplemental_conversion_manifest.py
+./scripts/isaac_python.sh paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_conversion_manifest.py
+python -m pytest -q tests/test_material_effect_baseline_tables.py
+python paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py
 ```
 
 Results:
@@ -194,6 +219,14 @@ Results:
 - supplemental candidate manifest: `recommendation_count=2`,
   `remaining_missing_effects=[]`, `ready_for_fixture_authoring=true`,
   `ready_for_baseline_conversion=false`
+- supplemental wrapper tests: `3 passed`
+- supplemental wrapper manifest: `wrapper_stage_count=2`,
+  `ready_for_baseline_conversion=true`
+- supplemental conversion tests: `2 passed`
+- supplemental conversion manifest: `sample_count=2`,
+  `convertasset_available_count=2`, `nvidia_available_count=1`,
+  `nvidia_static_gate_failed_count=1`
+- regenerated effect tables: `rows=18`, `cases=1`
 
 ## Claim Boundary
 
@@ -206,8 +239,11 @@ five scenes are generated and static-gated", and "the current effect table
 quantifies condition readiness by effect bin", and "selected covered-bin
 qualitative stills exist for original MDL / ConvertAsset / NVIDIA", and "local
 official/sample candidate sources have been identified for the missing
-clearcoat/procedural bins."
+clearcoat/procedural bins", and "supplemental clearcoat/procedural wrappers now
+have original/noMDL/NVIDIA static-gate records, including one NVIDIA clearcoat
+static-gate failure."
 
 Not allowed yet: "ConvertAsset visually beats NVIDIA baseline", "all requested
-material effects are covered", "the supplemental candidates are converted
-baseline rows", or "these counts are a final failure-rate distribution."
+material effects are visually covered", "the supplemental clearcoat/procedural
+cases have rendered qualitative panels", or "these counts are a final
+failure-rate distribution."

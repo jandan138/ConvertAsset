@@ -1,0 +1,67 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "World"
+{
+    def DistantLight "KeyLight"
+    {
+        float angle = 1
+        float intensity = 4500
+        double3 xformOp:rotateXYZ = (315, 0, -25)
+        uniform token[] xformOpOrder = ["xformOp:rotateXYZ"]
+    }
+
+    def Camera "Camera"
+    {
+        double focalLength = 35
+        double2 clippingRange = (0.1, 1000)
+        double3 xformOp:translate = (0, 1.4, 4.2)
+        double3 xformOp:rotateXYZ = (-14, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ"]
+    }
+
+    def Scope "Looks"
+    {
+        def Material "ProceduralChecker"
+        {
+            token outputs:mdl:surface.connect = </World/Looks/ProceduralChecker/Shader.outputs:out>
+            token outputs:mdl:displacement.connect = </World/Looks/ProceduralChecker/Shader.outputs:out>
+            token outputs:mdl:volume.connect = </World/Looks/ProceduralChecker/Shader.outputs:out>
+
+            def Shader "Shader"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @/isaac-sim/extscache/omni.mdl.usd_converter-1.0.24+d02c707b/omni/mdl/usd_converter/tests/data/mdl/nvidia/sdk_examples/tutorials.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "example_df"
+                int inputs:add_checker = 1
+                float inputs:checker_scale = 8
+                float inputs:roughness = 0.18
+                float inputs:tex_coord_scale = 12
+                color3f inputs:diffuse_tint = (1, 0.55, 0.28)
+                color3f inputs:glossy_tint = (0.2, 0.45, 1)
+                asset inputs:tex = @/isaac-sim/extscache/omni.mdl.usd_converter-1.0.24+d02c707b/omni/mdl/usd_converter/tests/data/mdl/nvidia/sdk_examples/resources/example.png@
+                token outputs:out
+            }
+        }
+    }
+
+    def Mesh "ProceduralTarget" (
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        float3[] extent = [(-1.2, -0.02, -1.2), (1.2, 0.02, 1.2)]
+        int[] faceVertexCounts = [4]
+        int[] faceVertexIndices = [0, 1, 2, 3]
+        point3f[] points = [(-1.2, 0, -1.2), (1.2, 0, -1.2), (1.2, 0, 1.2), (-1.2, 0, 1.2)]
+        texCoord2f[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1)] (
+            interpolation = "faceVarying"
+        )
+        rel material:binding = </World/Looks/ProceduralChecker>
+        double3 xformOp:rotateXYZ = (18, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:rotateXYZ"]
+    }
+}

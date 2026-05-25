@@ -70,6 +70,68 @@ def test_build_effect_summary_rows_counts_condition_status_by_effect() -> None:
     assert emission_nomdl["available_count"] == 0
 
 
+def test_merge_conversion_manifests_adds_supplemental_effect_samples() -> None:
+    module = load_tables_module()
+    base_manifest = {
+        "samples": [
+            {
+                "sample_id": "cup.zoom_001",
+                "target_category": "cup",
+                "present_effects": ["normal_bump"],
+                "conditions": {
+                    "original_MDL": _condition("available", gate=True, preview=0, active_mdl=1),
+                    "existing_noMDL": _condition("available", gate=True, preview=1, active_mdl=0),
+                    "nvidia_asset_converter_preview_or_bake": _condition(
+                        "available", gate=True, preview=1, active_mdl=0
+                    ),
+                },
+            }
+        ]
+    }
+    supplemental_manifest = {
+        "samples": [
+            {
+                "sample_id": "supplemental_clearcoat_omnipbr",
+                "target_category": "supplemental_material_fixture",
+                "present_effects": ["clearcoat"],
+                "conditions": {
+                    "original_MDL": _condition("available", gate=True, preview=0, active_mdl=1),
+                    "existing_noMDL": _condition("available", gate=True, preview=1, active_mdl=0),
+                    "nvidia_asset_converter_preview_or_bake": _condition(
+                        "static_gate_failed", gate=False, preview=0, active_mdl=0
+                    ),
+                },
+            },
+            {
+                "sample_id": "supplemental_procedural_checker",
+                "target_category": "supplemental_material_fixture",
+                "present_effects": ["procedural_texture"],
+                "conditions": {
+                    "original_MDL": _condition("available", gate=True, preview=0, active_mdl=1),
+                    "existing_noMDL": _condition("available", gate=True, preview=1, active_mdl=0),
+                    "nvidia_asset_converter_preview_or_bake": _condition(
+                        "available", gate=True, preview=1, active_mdl=0
+                    ),
+                },
+            },
+        ]
+    }
+
+    merged = module.merge_conversion_manifests(base_manifest, supplemental_manifest)
+    rows = module.build_effect_summary_rows(merged)
+    by_key = {(row["effect"], row["condition"]): row for row in rows}
+
+    assert by_key[("clearcoat", "original_MDL")]["sample_count"] == 1
+    assert by_key[("clearcoat", "existing_noMDL")]["available_count"] == 1
+    clearcoat_nvidia = by_key[("clearcoat", "nvidia_asset_converter_preview_or_bake")]
+    assert clearcoat_nvidia["sample_count"] == 1
+    assert clearcoat_nvidia["available_count"] == 0
+    assert clearcoat_nvidia["static_gate_failed_count"] == 1
+    procedural_nvidia = by_key[("procedural_texture", "nvidia_asset_converter_preview_or_bake")]
+    assert procedural_nvidia["sample_count"] == 1
+    assert procedural_nvidia["available_count"] == 1
+
+
 def test_write_outputs_creates_csv_tex_and_case_manifest(tmp_path: Path) -> None:
     module = load_tables_module()
     rows = [
