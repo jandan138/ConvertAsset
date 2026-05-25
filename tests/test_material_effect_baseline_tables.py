@@ -105,5 +105,6 @@ def test_write_outputs_creates_csv_tex_and_case_manifest(tmp_path: Path) -> None
     with csv_path.open(newline="", encoding="utf-8") as handle:
         loaded = list(csv.DictReader(handle))
     assert loaded[0]["effect"] == "normal_bump"
+    assert b"\r" not in csv_path.read_bytes()
     assert "normal\\_bump" in tex_path.read_text(encoding="utf-8")
     assert "planned_output_missing" in case_path.read_text(encoding="utf-8")

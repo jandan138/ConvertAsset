@@ -54,10 +54,17 @@ Baseline conversion manifest entry point:
 ./scripts/isaac_python.sh paper/shared/evidence/experiments/08_material_effect_baseline/build_baseline_conversion_manifest.py
 ```
 
+NVIDIA sample conversion entry point:
+
+```bash
+timeout 1800 ./scripts/isaac_python.sh paper/shared/evidence/experiments/08_material_effect_baseline/run_nvidia_sample_conversions.py
+```
+
 Default conversion-manifest output:
 
 ```text
 paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json
+paper/shared/evidence/raw/material_effect_baseline/nvidia_sample_conversion_manifest.json
 ```
 
 Current conversion-manifest result:
@@ -65,8 +72,10 @@ Current conversion-manifest result:
 - 30 samples across 5 unique source scenes
 - 30/30 `original_MDL` condition records are available
 - 30/30 `existing_noMDL` condition records are available
-- 30/30 NVIDIA sample condition records are still `planned_output_missing`
+- 5/5 unique source scenes were converted by NVIDIA Asset Converter
+- 30/30 NVIDIA sample condition records are available and static-gated
 - preferred NVIDIA route: `usd_to_usd_preview`
+- external NVIDIA output footprint: about 4.9 GiB
 
 Effect table entry point:
 
@@ -86,11 +95,9 @@ Current table result:
 
 - 18 effect-by-condition rows: 6 effect bins x 3 material conditions
 - `clearcoat` and `procedural_texture` are explicit zero-sample rows
-- 89 follow-up cases, all from missing NVIDIA sample outputs rather than visual
-  conversion failures
+- 0 static-gate follow-up cases after NVIDIA sample conversion
 
 Next scripts should add:
 
-- sample-level NVIDIA conversion runner;
 - paired render manifest for original / ConvertAsset / NVIDIA;
 - effect-grouped tables and qualitative failure panels.

@@ -110,8 +110,8 @@ python paper/shared/evidence/experiments/08_material_effect_baseline/build_basel
 ```
 
 Actual: manifest exists and refuses broad claims. It records 30/30 available
-`original_MDL`, 30/30 available `existing_noMDL`, and 30/30
-`planned_output_missing` NVIDIA rows.
+`original_MDL`, 30/30 available `existing_noMDL`, and after Task 5, 30/30
+available NVIDIA rows.
 
 ### Task 4: Effect Tables and Qualitative Cases
 
@@ -140,4 +140,37 @@ python paper/shared/evidence/experiments/08_material_effect_baseline/build_effec
 
 Actual: CSV and LaTeX table exist, include zero-sample rows for `clearcoat` and
 `procedural_texture`, and are registered in the paper manifest. The case
-manifest currently records 89 missing-NVIDIA follow-up cases.
+manifest currently records 0 static-gate follow-up cases after Task 5.
+
+### Task 5: Sample-Level NVIDIA Conversion
+
+**Files:**
+- Create: `tests/test_material_effect_baseline_nvidia_samples.py`
+- Create: `paper/shared/evidence/experiments/08_material_effect_baseline/run_nvidia_sample_conversions.py`
+- Create: `paper/shared/evidence/raw/material_effect_baseline/nvidia_sample_conversion_manifest.json`
+- Modify: `paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json`
+- Modify: `paper/shared/tables/material_effect_baseline_summary.csv`
+- Modify: `paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json`
+
+- [x] **Step 1: Write failing tests**
+
+Test that the runner deduplicates 30 sample rows into unique source-scene jobs,
+skips existing outputs unless forced, and writes an auditable conversion
+manifest.
+
+- [x] **Step 2: Implement and run sample conversions**
+
+Run the smoke-validated `usd_to_usd_preview` route over the five unique selected
+source scenes. Store large NVIDIA USD outputs under the external normalized
+research root, not in the repo.
+
+- [x] **Step 3: Regenerate manifests and tables**
+
+Regenerate `baseline_conversion_manifest.json` and
+`material_effect_baseline_summary.csv` after conversion.
+
+Actual: NVIDIA sample conversion records `scene_job_count=5`,
+`successful_scene_count=5`, and `output_exists_count=5`; baseline conversion
+records 30/30 available original/noMDL/NVIDIA condition rows. The remaining
+blocker is missing `clearcoat` and `procedural_texture` coverage, plus paired
+render/qualitative comparison.

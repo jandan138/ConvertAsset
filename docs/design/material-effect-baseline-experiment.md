@@ -27,7 +27,7 @@ Each selected sample should eventually have three material conditions:
 |---|---|---|
 | `original_MDL` | Scratch-materialized source USD with MDL material graph | 30/30 available and static-gated |
 | `existing_noMDL` | ConvertAsset MDL-to-UsdPreviewSurface output | 30/30 available and static-gated |
-| `nvidia_asset_converter_preview_or_bake` | NVIDIA `omni.kit.asset_converter` preview-surface or MDL-bake output | Official-fixture smoke passed; 30/30 sample outputs still missing |
+| `nvidia_asset_converter_preview_or_bake` | NVIDIA `omni.kit.asset_converter` preview-surface or MDL-bake output | 30/30 available and static-gated |
 
 The NVIDIA condition should use the smoke-validated USD routes first:
 `usd_to_usd_preview` and `usd_to_usd_bake_flag`. The glTF route can remain a
@@ -95,6 +95,25 @@ This only proves the installed NVIDIA Asset Converter can produce a USD
 PreviewSurface baseline candidate on NVIDIA's own MDL fixture. It does not yet
 compare ConvertAsset with NVIDIA on the selected GRScenes/material-effect pool.
 
+Generated NVIDIA sample conversion artifact:
+
+```text
+paper/shared/evidence/raw/material_effect_baseline/nvidia_sample_conversion_manifest.json
+```
+
+Sample conversion summary:
+
+| Field | Value |
+|---|---:|
+| Unique source scenes | 5 |
+| Attempted scene conversions | 5 |
+| Successful scene conversions | 5 |
+| External NVIDIA output footprint | ~4.9 GiB |
+
+The full NVIDIA USD outputs are intentionally external under
+`/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/`.
+Only the small manifest is repo-resident.
+
 Generated baseline conversion artifact:
 
 ```text
@@ -109,15 +128,16 @@ Current condition summary:
 | Unique source scenes | 5 |
 | `original_MDL` available | 30 |
 | `existing_noMDL` available | 30 |
-| NVIDIA sample outputs available | 0 |
-| NVIDIA sample outputs missing | 30 |
+| NVIDIA sample outputs available | 30 |
+| NVIDIA sample outputs missing | 0 |
 | Preferred NVIDIA smoke route | `usd_to_usd_preview` |
 
-The static gates show the existing ConvertAsset side of the comparison is ready:
-the original scratch inputs still contain active MDL shaders, while the no-MDL
-outputs contain `UsdPreviewSurface` and zero active MDL source-asset shaders.
-The comparison is still incomplete because NVIDIA sample outputs have not been
-generated.
+The static gates show all three conditions are now available for the selected
+GRScenes material-effect pool. Original scratch inputs still contain active MDL
+shaders, while both ConvertAsset no-MDL and NVIDIA outputs contain
+`UsdPreviewSurface` and zero active MDL source-asset shaders. The comparison is
+still incomplete because paired renders, visual quality/failure cases, and
+clearcoat/procedural supplemental samples are not finished.
 
 Generated effect table artifacts:
 
@@ -129,22 +149,18 @@ paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.
 
 The current table has 18 rows: six effect bins by three conditions. `clearcoat`
 and `procedural_texture` are explicit zero-sample rows. The follow-up case
-manifest has 89 cases, all caused by missing NVIDIA sample outputs; these are
-not visual conversion failures.
+manifest currently has 0 static-gate failure cases after NVIDIA sample
+conversion; this is not a visual-quality result.
 
 ## Next Gate
 
-The next gate is the actual sample-level NVIDIA conversion run:
+The next gate is paired qualitative rendering and missing-bin supplementation:
 
-1. Reuse the five unique source scenes referenced by
-   `baseline_conversion_manifest.json`.
-2. Convert each scratch-materialized source USD with the smoke-validated
-   `usd_to_usd_preview` route into the external NVIDIA output root recorded in
-   the manifest.
-3. Regenerate `baseline_conversion_manifest.json` so NVIDIA rows move from
-   `planned_output_missing` to static-gated available/failed records.
-4. Add official/sample assets for `clearcoat` and `procedural_texture` before
+1. Render matched original / ConvertAsset / NVIDIA views for selected cases.
+2. Build effect-grouped qualitative panels and failure examples from those
+   paired renders.
+3. Add official/sample assets for `clearcoat` and `procedural_texture` before
    any all-effect coverage claim.
 
-No paper claim should compare ConvertAsset against NVIDIA until NVIDIA sample
-outputs, paired renders, effect tables, and qualitative failure panels exist.
+No paper claim should compare visual quality against NVIDIA until paired renders,
+effect tables from rendered evidence, and qualitative failure panels exist.

@@ -184,6 +184,15 @@ def _inspect_cached(
     return dict(cache[key])
 
 
+def _sha256_cached(path: Path | None, cache: dict[str, str | None]) -> str | None:
+    if path is None:
+        return None
+    key = str(path)
+    if key not in cache:
+        cache[key] = _sha256(path)
+    return cache[key]
+
+
 def _static_gate_passed(condition: str, exists: bool, inspection: dict[str, Any]) -> bool:
     if not exists:
         return False
@@ -204,6 +213,7 @@ def _condition_record(
     provenance: dict[str, Any],
     stage_inspector: StageInspector,
     inspection_cache: dict[str, dict[str, Any]],
+    hash_cache: dict[str, str | None],
     status_override: str | None = None,
     preferred_smoke_attempt: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
@@ -233,7 +243,7 @@ def _condition_record(
         "status": status,
         "usd_path": str(usd_path) if usd_path else None,
         "exists": exists,
-        "hash_sha256": _sha256(usd_path) if usd_path else None,
+        "hash_sha256": _sha256_cached(usd_path, hash_cache),
         "static_gate_passed": static_gate_passed,
         "inspection_status": inspection.get("inspection_status"),
         "stage_opened": inspection.get("stage_opened"),
@@ -280,6 +290,7 @@ def build_baseline_conversion_manifest(
     preferred_attempt = _preferred_smoke_attempt(nvidia_smoke_manifest)
     smoke_ready = bool((nvidia_smoke_manifest.get("summary") or {}).get("ready_for_sample_baseline"))
     inspection_cache: dict[str, dict[str, Any]] = {}
+    hash_cache: dict[str, str | None] = {}
     samples: list[dict[str, Any]] = []
     missing_nomdl_scene_ids: list[str] = []
     nvidia_missing_count = 0
@@ -330,6 +341,7 @@ def build_baseline_conversion_manifest(
                 },
                 stage_inspector=stage_inspector,
                 inspection_cache=inspection_cache,
+                hash_cache=hash_cache,
             ),
             CONDITION_CONVERTASSET: _condition_record(
                 condition=CONDITION_CONVERTASSET,
@@ -341,6 +353,7 @@ def build_baseline_conversion_manifest(
                 },
                 stage_inspector=stage_inspector,
                 inspection_cache=inspection_cache,
+                hash_cache=hash_cache,
             ),
             CONDITION_NVIDIA: _condition_record(
                 condition=CONDITION_NVIDIA,
@@ -352,6 +365,7 @@ def build_baseline_conversion_manifest(
                 },
                 stage_inspector=stage_inspector,
                 inspection_cache=inspection_cache,
+                hash_cache=hash_cache,
                 status_override=nvidia_status_override,
                 preferred_smoke_attempt=preferred_attempt,
             ),

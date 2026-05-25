@@ -10,13 +10,16 @@ Current files:
 - `nvidia_baseline_smoke_manifest.json`: records the local Isaac Sim NVIDIA
   Asset Converter smoke over NVIDIA's own MDL fixture. The smoke passed two USD
   PreviewSurface baseline candidates and gates the next sample-level baseline.
+- `nvidia_sample_conversion_manifest.json`: records the sample-level NVIDIA
+  Asset Converter run over five unique selected source scenes. Large converted
+  USD outputs stay under the external normalized research root.
 - `baseline_conversion_manifest.json`: records sample-level condition
   availability and static gates for 30 selected samples. Original MDL and
-  ConvertAsset no-MDL rows are available; NVIDIA sample rows are still planned
-  output paths until the sample conversion runner is executed.
+  ConvertAsset no-MDL rows are available; NVIDIA sample rows are available after
+  the sample conversion runner.
 - `effect_failure_case_manifest.json`: records effect-labeled follow-up cases
-  from non-available or static-gate-failed condition rows. Current cases are
-  planned NVIDIA output gaps, not visual material failures.
+  from non-available or static-gate-failed condition rows. Current case count is
+  zero after the NVIDIA static gates pass.
 - `nvidia_baseline_smoke/`: small repo-resident smoke outputs from the NVIDIA
   fixture conversion, kept with the manifest because the total footprint is
   small and directly auditable.

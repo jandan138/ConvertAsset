@@ -1,0 +1,344 @@
+{
+  "schema_version": 1,
+  "status": "nvidia_sample_conversion_manifest",
+  "generated_by": "paper/shared/evidence/experiments/08_material_effect_baseline/run_nvidia_sample_conversions.py",
+  "generated_at_utc": "2026-05-25T14:17:47.167372Z",
+  "generator_git_commit": "0c9dd97e7c4160b86e11938329fc25c4cb2f1ab4",
+  "summary": {
+    "scene_job_count": 5,
+    "attempted_scene_count": 5,
+    "skipped_scene_count": 0,
+    "reusable_existing_output_count": 0,
+    "successful_scene_count": 5,
+    "failed_scene_count": 0,
+    "output_exists_count": 5,
+    "status_counts": {
+      "success": 5
+    },
+    "ready_for_baseline_manifest_regeneration": true,
+    "blockers": []
+  },
+  "jobs": [
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "sample_ids": [
+        "21dde4a14ca93f539a47.zoom_016",
+        "c27086f557d316584264.zoom_018",
+        "c27086f557d316584264.zoom_019",
+        "32ba3ade1a8e63c981af.zoom_019"
+      ],
+      "sample_count": 4,
+      "present_effects": [
+        "displacement_height",
+        "emission",
+        "normal_bump",
+        "opacity_transparency"
+      ],
+      "input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw.usd",
+      "input_hash_sha256": "eab3d3d0b5f118c1caeff043faeba7c9c787aa4631230a2083628b2da48f5255",
+      "input_size_bytes": 1124196,
+      "output_usd": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "context_flags": {
+        "export_preview_surface": true,
+        "ignore_materials": false,
+        "keep_all_materials": true
+      },
+      "preferred_smoke_attempt": "usd_to_usd_preview",
+      "skip_reason": null
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "sample_ids": [
+        "ef6a4fe9448f672c2ecc.zoom_016",
+        "ef6a4fe9448f672c2ecc.zoom_017",
+        "ef6a4fe9448f672c2ecc.zoom_021"
+      ],
+      "sample_count": 3,
+      "present_effects": [
+        "displacement_height",
+        "emission",
+        "normal_bump"
+      ],
+      "input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw.usd",
+      "input_hash_sha256": "f4889e17c2b08eb564bc0fc1bcde86b04d3909fd20b1ba85157fc42a6e6efcdc",
+      "input_size_bytes": 1021394,
+      "output_usd": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "context_flags": {
+        "export_preview_surface": true,
+        "ignore_materials": false,
+        "keep_all_materials": true
+      },
+      "preferred_smoke_attempt": "usd_to_usd_preview",
+      "skip_reason": null
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "sample_ids": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "47aa36277a54f6ca90cc.zoom_019",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_019",
+        "bb985fd4504a1afe8516.zoom_017",
+        "bb985fd4504a1afe8516.zoom_018",
+        "bb985fd4504a1afe8516.zoom_019",
+        "bb985fd4504a1afe8516.zoom_020",
+        "bb985fd4504a1afe8516.zoom_021",
+        "e2ec085d524d5df4455d.zoom_016",
+        "e2ec085d524d5df4455d.zoom_017",
+        "e2ec085d524d5df4455d.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020",
+        "e2ec085d524d5df4455d.zoom_021"
+      ],
+      "sample_count": 14,
+      "present_effects": [
+        "displacement_height",
+        "emission",
+        "normal_bump",
+        "opacity_transparency"
+      ],
+      "input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+      "input_hash_sha256": "4e17efa37669c939b5896c4da00cb51b82caaa1f03e6a6a3ff2c2cbf2ec1793c",
+      "input_size_bytes": 1013964,
+      "output_usd": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "context_flags": {
+        "export_preview_surface": true,
+        "ignore_materials": false,
+        "keep_all_materials": true
+      },
+      "preferred_smoke_attempt": "usd_to_usd_preview",
+      "skip_reason": null
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "sample_ids": [
+        "c8ee4b66274b05d242c2.zoom_016",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "c8ee4b66274b05d242c2.zoom_020",
+        "c8ee4b66274b05d242c2.zoom_021"
+      ],
+      "sample_count": 4,
+      "present_effects": [
+        "normal_bump"
+      ],
+      "input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
+      "input_hash_sha256": "73107b1887d041b9741445426c5817e99c605ad555ed75406a380be5c0eddada",
+      "input_size_bytes": 1012156,
+      "output_usd": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "context_flags": {
+        "export_preview_surface": true,
+        "ignore_materials": false,
+        "keep_all_materials": true
+      },
+      "preferred_smoke_attempt": "usd_to_usd_preview",
+      "skip_reason": null
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "sample_ids": [
+        "e1cf9f0feb81aa92d8a1.zoom_016",
+        "1e397951c1926c7f0a0b.zoom_016",
+        "1e397951c1926c7f0a0b.zoom_017",
+        "2c2bd8f1c808f5a4b227.zoom_019",
+        "1e397951c1926c7f0a0b.zoom_021"
+      ],
+      "sample_count": 5,
+      "present_effects": [
+        "displacement_height",
+        "emission",
+        "normal_bump"
+      ],
+      "input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
+      "input_hash_sha256": "6d4dc5087994a4d686ea2fa9659ae9d102ac9d5d794befbd14dee4da4080f30b",
+      "input_size_bytes": 1024042,
+      "output_usd": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "context_flags": {
+        "export_preview_surface": true,
+        "ignore_materials": false,
+        "keep_all_materials": true
+      },
+      "preferred_smoke_attempt": "usd_to_usd_preview",
+      "skip_reason": null
+    }
+  ],
+  "attempts": [
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADA8_usd",
+      "sample_ids": [
+        "21dde4a14ca93f539a47.zoom_016",
+        "c27086f557d316584264.zoom_018",
+        "c27086f557d316584264.zoom_019",
+        "32ba3ade1a8e63c981af.zoom_019"
+      ],
+      "sample_count": 4,
+      "present_effects": [
+        "displacement_height",
+        "emission",
+        "normal_bump",
+        "opacity_transparency"
+      ],
+      "input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw.usd",
+      "input_hash_sha256": "eab3d3d0b5f118c1caeff043faeba7c9c787aa4631230a2083628b2da48f5255",
+      "input_size_bytes": 1124196,
+      "output_usd": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADA8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "output_exists": true,
+      "output_hash_sha256": "45bd97277854444e39af3a59baa00e5a3ec0d489f6d013347a0e04ee735e94c8",
+      "output_size_bytes": 1557154893,
+      "context_flags": {
+        "export_preview_surface": true,
+        "ignore_materials": false,
+        "keep_all_materials": true
+      },
+      "preferred_smoke_attempt": "usd_to_usd_preview",
+      "conversion_success": true,
+      "error_message": null,
+      "started_at_utc": "2026-05-25T14:16:10.796243Z",
+      "finished_at_utc": "2026-05-25T14:16:36.596275Z"
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADI8_usd",
+      "sample_ids": [
+        "ef6a4fe9448f672c2ecc.zoom_016",
+        "ef6a4fe9448f672c2ecc.zoom_017",
+        "ef6a4fe9448f672c2ecc.zoom_021"
+      ],
+      "sample_count": 3,
+      "present_effects": [
+        "displacement_height",
+        "emission",
+        "normal_bump"
+      ],
+      "input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw.usd",
+      "input_hash_sha256": "f4889e17c2b08eb564bc0fc1bcde86b04d3909fd20b1ba85157fc42a6e6efcdc",
+      "input_size_bytes": 1021394,
+      "output_usd": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADI8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "output_exists": true,
+      "output_hash_sha256": "154295ab9fcabfd648ba9ea27893353a40b7c23c9a8e5e0411934d83a48cd1f7",
+      "output_size_bytes": 590334990,
+      "context_flags": {
+        "export_preview_surface": true,
+        "ignore_materials": false,
+        "keep_all_materials": true
+      },
+      "preferred_smoke_attempt": "usd_to_usd_preview",
+      "conversion_success": true,
+      "error_message": null,
+      "started_at_utc": "2026-05-25T14:16:40.436224Z",
+      "finished_at_utc": "2026-05-25T14:16:52.181784Z"
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "sample_ids": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "47aa36277a54f6ca90cc.zoom_019",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_019",
+        "bb985fd4504a1afe8516.zoom_017",
+        "bb985fd4504a1afe8516.zoom_018",
+        "bb985fd4504a1afe8516.zoom_019",
+        "bb985fd4504a1afe8516.zoom_020",
+        "bb985fd4504a1afe8516.zoom_021",
+        "e2ec085d524d5df4455d.zoom_016",
+        "e2ec085d524d5df4455d.zoom_017",
+        "e2ec085d524d5df4455d.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020",
+        "e2ec085d524d5df4455d.zoom_021"
+      ],
+      "sample_count": 14,
+      "present_effects": [
+        "displacement_height",
+        "emission",
+        "normal_bump",
+        "opacity_transparency"
+      ],
+      "input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw.usd",
+      "input_hash_sha256": "4e17efa37669c939b5896c4da00cb51b82caaa1f03e6a6a3ff2c2cbf2ec1793c",
+      "input_size_bytes": 1013964,
+      "output_usd": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADQ8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "output_exists": true,
+      "output_hash_sha256": "30e5c6f43f61139dbbe3a9f42022c20a6b37f05f0c0248a975a178cc157e15fe",
+      "output_size_bytes": 1048466905,
+      "context_flags": {
+        "export_preview_surface": true,
+        "ignore_materials": false,
+        "keep_all_materials": true
+      },
+      "preferred_smoke_attempt": "usd_to_usd_preview",
+      "conversion_success": true,
+      "error_message": null,
+      "started_at_utc": "2026-05-25T14:16:53.941709Z",
+      "finished_at_utc": "2026-05-25T14:17:08.096473Z"
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+      "sample_ids": [
+        "c8ee4b66274b05d242c2.zoom_016",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "c8ee4b66274b05d242c2.zoom_020",
+        "c8ee4b66274b05d242c2.zoom_021"
+      ],
+      "sample_count": 4,
+      "present_effects": [
+        "normal_bump"
+      ],
+      "input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw.usd",
+      "input_hash_sha256": "73107b1887d041b9741445426c5817e99c605ad555ed75406a380be5c0eddada",
+      "input_size_bytes": 1012156,
+      "output_usd": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAADY8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "output_exists": true,
+      "output_hash_sha256": "bd7f76d9a58f8af1a53cf420d50714b6aa6504dc62c1a93d4cec813bc82671a5",
+      "output_size_bytes": 982409361,
+      "context_flags": {
+        "export_preview_surface": true,
+        "ignore_materials": false,
+        "keep_all_materials": true
+      },
+      "preferred_smoke_attempt": "usd_to_usd_preview",
+      "conversion_success": true,
+      "error_message": null,
+      "started_at_utc": "2026-05-25T14:17:10.565774Z",
+      "finished_at_utc": "2026-05-25T14:17:24.016959Z"
+    },
+    {
+      "source_scene_id": "MV7J6NIKTKJZ2AABAAAAAEA8_usd",
+      "sample_ids": [
+        "e1cf9f0feb81aa92d8a1.zoom_016",
+        "1e397951c1926c7f0a0b.zoom_016",
+        "1e397951c1926c7f0a0b.zoom_017",
+        "2c2bd8f1c808f5a4b227.zoom_019",
+        "1e397951c1926c7f0a0b.zoom_021"
+      ],
+      "sample_count": 5,
+      "present_effects": [
+        "displacement_height",
+        "emission",
+        "normal_bump"
+      ],
+      "input_usd": "/cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw.usd",
+      "input_hash_sha256": "6d4dc5087994a4d686ea2fa9659ae9d102ac9d5d794befbd14dee4da4080f30b",
+      "input_size_bytes": 1024042,
+      "output_usd": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_samples/MV7J6NIKTKJZ2AABAAAAAEA8_usd/start_result_raw_nvidia_usd_to_usd_preview.usd",
+      "output_exists": true,
+      "output_hash_sha256": "c5293056f87cb570802a7cd77cf5b55bcac6922f73e33fee1208bec45c693879",
+      "output_size_bytes": 1045891419,
+      "context_flags": {
+        "export_preview_surface": true,
+        "ignore_materials": false,
+        "keep_all_materials": true
+      },
+      "preferred_smoke_attempt": "usd_to_usd_preview",
+      "conversion_success": true,
+      "error_message": null,
+      "started_at_utc": "2026-05-25T14:17:26.385576Z",
+      "finished_at_utc": "2026-05-25T14:17:44.719008Z"
+    }
+  ],
+  "claim_boundary": {
+    "allowed": [
+      "This manifest records NVIDIA sample-scene conversion attempts and output paths."
+    ],
+    "forbidden": [
+      "Do not claim material baseline comparison until baseline_conversion_manifest is regenerated and static gates inspect NVIDIA outputs.",
+      "Do not treat converter success alone as render or visual quality success."
+    ]
+  }
+}

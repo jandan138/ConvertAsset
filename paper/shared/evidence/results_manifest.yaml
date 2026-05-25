@@ -160,12 +160,15 @@ results:
     - id: material_effect_nvidia_baseline_smoke
       path: paper/shared/evidence/raw/material_effect_baseline/nvidia_baseline_smoke_manifest.json
       description: "NVIDIA Asset Converter smoke over NVIDIA's official MDL fixture. The installed Isaac Sim converter produced two claimable USD PreviewSurface baseline candidates, usd_to_usd_preview and usd_to_usd_bake_flag, each with 4 PreviewSurface shaders and 0 active MDL source-asset shaders. This gates sample-level baseline conversion but is not itself a ConvertAsset-vs-NVIDIA comparison."
+    - id: material_effect_nvidia_sample_conversion
+      path: paper/shared/evidence/raw/material_effect_baseline/nvidia_sample_conversion_manifest.json
+      description: "Sample-level NVIDIA Asset Converter run over the five unique selected GRScenes source scenes. All five usd_to_usd_preview conversions succeeded and produced external USD outputs under the normalized research root; this manifest records paths, hashes, sizes, and conversion provenance."
     - id: material_effect_baseline_conversion_manifest
       path: paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json
-      description: "Sample-level condition manifest for the material-effect baseline: 30 selected samples across 5 unique source scenes have static-gated original_MDL and existing_noMDL condition records; NVIDIA sample rows are planned_output_missing until the smoke-validated usd_to_usd_preview route is run over the selected scenes. Not a head-to-head baseline result yet."
+      description: "Sample-level condition manifest for the material-effect baseline: 30 selected samples across 5 unique source scenes have static-gated original_MDL, existing_noMDL, and NVIDIA usd_to_usd_preview condition records. Visual paired renders and missing clearcoat/procedural coverage are still required before final claims."
     - id: material_effect_failure_case_manifest
       path: paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json
-      description: "Effect-labeled follow-up case manifest derived from the baseline conversion manifest. Current cases are all planned_output_missing NVIDIA rows, not visual conversion failures; this drives the next sample-level NVIDIA conversion and qualitative rerender pass."
+      description: "Effect-labeled follow-up case manifest derived from the baseline conversion manifest. Current static-gate case count is zero after NVIDIA sample conversion; visual failure cases still require paired rendering."
     - id: grscenes_vlm_gemma4_stress_expanded30_predictions
       path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl
       description: "Canonical root Gemma4 structured-text real-model predictions over the expanded 30-pair material-shift stress manifest."
@@ -385,7 +388,7 @@ results:
       sources:
         - paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json
         - paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json
-      description: "Effect-by-condition material baseline readiness table. It explicitly includes zero-sample clearcoat and procedural_texture rows, shows original/noMDL static gates passing for covered GRScenes effects, and records NVIDIA rows as missing until sample-level baseline conversion runs."
+      description: "Effect-by-condition material baseline readiness table. It explicitly includes zero-sample clearcoat and procedural_texture rows and shows original/noMDL/NVIDIA static gates passing for covered GRScenes effects; visual paired renders remain pending."
   provenance:
     experiments: paper/shared/evidence/experiments/
     references: paper/shared/evidence/references/

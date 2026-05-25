@@ -196,3 +196,77 @@ def test_build_baseline_conversion_manifest_marks_nvidia_available_when_output_p
     nvidia = manifest["samples"][0]["conditions"]["nvidia_asset_converter_preview_or_bake"]
     assert nvidia["status"] == "available"
     assert nvidia["static_gate_passed"] is True
+
+
+def test_build_baseline_conversion_manifest_hashes_duplicate_condition_paths_once(
+    tmp_path: Path,
+) -> None:
+    module = load_conversion_module()
+    source_usd = tmp_path / "source.usd"
+    nomdl_usd = tmp_path / "source_noMDL.usd"
+    nvidia_usd = tmp_path / "nvidia/scene_a_usd/start_result_raw_nvidia_usd_to_usd_preview.usd"
+    for path in [source_usd, nomdl_usd, nvidia_usd]:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("#usda 1.0\n", encoding="utf-8")
+
+    effect_manifest = {
+        "samples": [
+            {
+                "sample_id": "cup.zoom_001",
+                "source_scene_id": "scene_a_usd",
+                "target_category": "cup",
+                "present_effects": ["normal_bump"],
+            },
+            {
+                "sample_id": "cup.zoom_002",
+                "source_scene_id": "scene_a_usd",
+                "target_category": "cup",
+                "present_effects": ["normal_bump"],
+            },
+        ],
+    }
+    run_report = {
+        "jobs": [
+            {
+                "conversion_job_id": "home_scenes:scene_a_usd:start_result_raw.usd",
+                "source_scene_id": "scene_a_usd",
+                "source_usd": str(source_usd),
+                "scratch_input_usd": str(source_usd),
+                "expected_top_output_usd": str(nomdl_usd),
+            }
+        ],
+        "results": [
+            {
+                "conversion_job_id": "home_scenes:scene_a_usd:start_result_raw.usd",
+                "top_output_usd": str(nomdl_usd),
+            }
+        ],
+    }
+
+    calls: list[str] = []
+
+    def fake_sha(path: Path) -> str | None:
+        calls.append(str(path))
+        return "hash"
+
+    module._sha256 = fake_sha
+    manifest = module.build_baseline_conversion_manifest(
+        effect_manifest,
+        run_report,
+        _smoke_manifest(),
+        nvidia_output_root=tmp_path / "nvidia",
+        stage_inspector=lambda _path: {
+            "inspection_status": "ok",
+            "stage_opened": True,
+            "shader_count": 1,
+            "preview_surface_count": 1,
+            "active_mdl_shader_count": 0,
+        },
+        generated_at_utc="2026-05-25T00:00:00Z",
+        generator_git_commit="test",
+    )
+
+    assert manifest["summary"]["sample_count"] == 2
+    assert calls.count(str(source_usd)) == 1
+    assert calls.count(str(nomdl_usd)) == 1
+    assert calls.count(str(nvidia_usd)) == 1

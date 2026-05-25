@@ -48,8 +48,8 @@ Venue-neutral table sources for the ConvertAsset paper live here.
 - `material_effect_baseline_summary.csv`: machine-readable effect-by-condition
   readiness table for the material-effect baseline. It includes zero-sample
   rows for `clearcoat` and `procedural_texture`, static-gated original/no-MDL
-  rows for the covered GRScenes effects, and missing NVIDIA rows until the
-  sample-level baseline conversion is executed.
+  rows for the covered GRScenes effects, and static-gated NVIDIA rows after the
+  sample-level baseline conversion.
 - `tab_material_effect_baseline_summary.tex`: LaTeX table generated from the
   same material-effect readiness CSV.
 
