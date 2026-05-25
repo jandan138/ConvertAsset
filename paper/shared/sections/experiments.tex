@@ -266,6 +266,64 @@ the 24 views come from four assets rather than 24 independent object
 categories, we treat these tests as case-study diagnostics rather than
 population-level significance claims.
 
+\subsection{Material-Effect Baseline Against NVIDIA Asset Converter}
+\label{sec:material_effect_baseline}
+
+We also group the converted assets by MDL material effect and compare
+ConvertAsset with an NVIDIA Asset Converter baseline. The GRScenes material
+manifest links 30 selected stress samples across five unique source scenes.
+Within this pool, normal/bump effects appear in 30 samples, emission and
+displacement/height effects in 26 samples each, and opacity/transparency in
+7 samples. All 30 GRScenes rows have static-gated original MDL, ConvertAsset
+noMDL, and NVIDIA PreviewSurface condition records. Because this real-scene pool
+does not contain clearcoat or procedural-texture cases, we add two bounded
+supplemental wrapper fixtures from local official/sample MDL sources, one for
+each missing bin.
+
+\input{tables/tab_material_effect_risk_matrix}
+
+Table~\ref{tab:material_effect_risk_matrix} is the claim-boundary artifact for
+this baseline. Four GRScenes-covered bins support bounded static and selected
+qualitative evidence across all three conditions. The supplemental clearcoat
+case supports a different claim: it is a selected NVIDIA failure case. The
+NVIDIA converted USD lacks the target prim in the PXR diagnostic, and the
+rendered condition misses the target; ConvertAsset retains a target rendered as
+a PreviewSurface approximation. The procedural-texture wrapper is not a success
+case for either converter: the original MDL fixture contains checker/file
+texture inputs, but both ConvertAsset and NVIDIA converted PreviewSurface
+networks lack checker or base-color texture preservation evidence. We therefore
+use procedural texture as a limitation/investigation case rather than as
+evidence that static gates prove material fidelity.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[height=0.70\textheight]{figures/fig_material_effect_baseline_qualitative.png}
+\caption{Selected material-effect qualitative comparison for the GRScenes-covered
+effect bins. Each row shows original MDL, ConvertAsset noMDL, and NVIDIA
+PreviewSurface baseline renders for a representative target-centered case. The
+panel is used as bounded qualitative evidence for opacity/transparency,
+emission, normal/bump, and displacement/height effects, not as a final
+all-effects visual-quality win claim.}
+\label{fig:material_effect_baseline_qualitative}
+\end{figure*}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.72\textwidth]{figures/fig_material_effect_supplemental_qualitative.png}
+\caption{Supplemental clearcoat and procedural-texture qualitative panel. This
+figure is failure/retake evidence rather than a success panel: the NVIDIA
+clearcoat condition misses the target, and both converted procedural-texture
+conditions lose the visible checker pattern.}
+\label{fig:material_effect_supplemental_qualitative}
+\end{figure*}
+
+Figures~\ref{fig:material_effect_baseline_qualitative}
+and~\ref{fig:material_effect_supplemental_qualitative} show why static gate
+counts alone are not sufficient. The GRScenes-selected cases are useful for
+bounded qualitative comparison on covered bins, while the supplemental cases
+identify exactly where conversion risk remains: target loss for NVIDIA
+clearcoat and procedural texture loss for both converted conditions.
+
 \subsection{GRScenes VLM Grounding Stress Test}
 \label{sec:vlm_grounding_pilot}
 

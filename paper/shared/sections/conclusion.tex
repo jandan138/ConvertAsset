@@ -13,7 +13,12 @@ pairs. These results indicate that the four primary material channels ---
 diffuse albedo, roughness, metallic, and normal --- capture the dominant visual
 appearance of the tested assets, with degradation concentrated in scenes
 featuring complex multi-layer MDL effects such as procedural noise textures and
-specular coatings.
+specular coatings. The effect-level ConvertAsset-vs-NVIDIA matrix makes this
+boundary explicit: the GRScenes-covered opacity/transparency, emission,
+normal/bump, and displacement/height bins support bounded selected qualitative
+claims, while supplemental clearcoat is a selected NVIDIA target-loss failure
+case and procedural texture remains a preservation limitation for both
+converted conditions.
 
 The performance outcome depends strongly on workload. In the single-object
 furniture benchmark, rendering throughput and GPU memory are nearly
@@ -53,8 +58,9 @@ synthetic data practitioners:
     appears low-risk under the tested visual and feature metrics
     (PSNR $>$ 35\,dB, SSIM $>$ 0.99).
     \item Assets with complex multi-layer MDL effects should be validated
-    individually, as conversion quality varies with material complexity (PSNR
-    range: 23--44\,dB across viewpoints).
+    individually, as conversion quality varies with material complexity and the
+    current procedural supplemental case does not preserve checker evidence in
+    either converted condition.
     \item The conversion enables broader toolchain compatibility --- including
     standard USD viewers, web-based visualization, and GLB export --- without
     sacrificing visual quality for most use cases.
@@ -77,7 +83,9 @@ interior under a headless RTX path-tracing setup, and should not yet be
 generalized to all larger, heavily instanced, or materially diverse
 environments. The VLM results are also claim-bounded: the clean pool remains
 below the clean final gate, the stress set is target-centered and category
-imbalanced, and Qwen coordinate semantics are unresolved.
+imbalanced, and Qwen coordinate semantics are unresolved. The material-effect
+matrix is likewise a selected diagnostic, not a population-level failure-rate
+estimate across all MDL material mechanisms.
 
 \paragraph{Future Work.}
 We plan to extend this evaluation along several axes: (1)~scaling to diverse

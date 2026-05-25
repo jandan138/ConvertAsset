@@ -12,7 +12,11 @@ noise textures, specular coatings, and anisotropic reflectance --- where
 per-viewpoint PSNR can drop below 25\,dB and DINOv2 similarity below 0.60. We
 recommend that practitioners validate such materials individually using the
 feature-level metrics introduced here, which are more sensitive to perceptually
-relevant differences than pixel-level metrics alone.
+relevant differences than pixel-level metrics alone. The material-effect
+baseline in Table~\ref{tab:material_effect_risk_matrix} sharpens this guideline:
+covered GRScenes bins support bounded selected qualitative evidence, but
+clearcoat and procedural texture remain explicitly risk-gated rather than
+converted into broad success claims.
 
 \paragraph{The within-simulation rendering gap.}
 Much prior work has focused on the sim-to-real
@@ -110,6 +114,11 @@ practitioners working with Isaac Sim assets:
     \item \textbf{Validate complex materials} using CLIP and DINOv2 cosine
     similarity as quick diagnostic metrics before deploying converted assets in
     training pipelines.
+    \item \textbf{Keep effect-specific claim boundaries.} In our current
+    ConvertAsset-vs-NVIDIA matrix, opacity/transparency, emission, normal/bump,
+    and displacement/height have bounded selected qualitative support; clearcoat
+    is a selected NVIDIA target-loss failure case; procedural texture remains a
+    limitation case for both converted conditions.
     \item \textbf{Use low CLIP similarity as a manual-review trigger.} In this
     dataset, the single pair below 0.85 corresponds to a viewpoint with complex
     specular effects, suggesting that unusually low CLIP similarity merits

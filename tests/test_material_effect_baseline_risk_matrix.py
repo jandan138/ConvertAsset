@@ -225,7 +225,11 @@ def test_write_risk_outputs_creates_csv_tex_and_profile(tmp_path: Path) -> None:
         loaded = list(csv.DictReader(handle))
     assert loaded[0]["effect"] == "clearcoat"
     assert b"\r" not in csv_path.read_bytes()
-    assert "selected\\_nvidia\\_failure" in tex_path.read_text(encoding="utf-8")
+    tex = tex_path.read_text(encoding="utf-8")
+    assert "\\caption{" in tex
+    assert "\\label{tab:material_effect_risk_matrix}" in tex
+    assert "selected NVIDIA failure" in tex
+    assert "selected\\_nvidia\\_failure" not in tex
     profile = json.loads(profile_path.read_text(encoding="utf-8"))
     assert profile["summary"]["effect_count"] == 1
     assert profile["summary"]["selected_nvidia_failure_case_count"] == 1

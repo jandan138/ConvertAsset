@@ -423,3 +423,34 @@ Actual: the matrix records 6 effect rows. Four GRScenes-covered bins are
 `diagnostic_limitation_case`. This is the current best reviewer-facing answer to
 "where is it reliable, where is it risky, and where does NVIDIA fail" without
 overstating the supplemental fixtures as population-level rates.
+
+### Task 12: Paper Claim Integration
+
+**Files:**
+- Modify: `paper/shared/sections/experiments.tex`
+- Modify: `paper/shared/sections/discussion.tex`
+- Modify: `paper/shared/sections/conclusion.tex`
+- Modify: `paper/venues/acl27/sections/limitations.tex`
+- Modify: `paper/venues/acl27/sections/conclusion.tex`
+- Modify: `paper/venues/acl27/STATUS.md`
+- Modify: `paper/EXPERIMENT_CHECKLIST.md`
+
+- [x] **Step 1: Insert material-effect baseline subsection**
+
+Add the risk matrix, selected GRScenes qualitative panel, and supplemental
+failure/limitation panel to `Experiments`, with text that distinguishes bounded
+covered-bin evidence from clearcoat/procedural supplemental risks.
+
+- [x] **Step 2: Update discussion and conclusions**
+
+Carry the claim boundary into practical recommendations, shared conclusion, ACL
+conclusion, and ACL limitations.
+
+- [x] **Step 3: Preserve forbidden claims**
+
+Actual: the shared manuscript now states that four GRScenes-covered bins support
+bounded static/selected qualitative claims, clearcoat is a selected NVIDIA
+target-loss failure, and procedural texture is a limitation because both
+converted conditions lack checker preservation evidence. It still forbids
+all-effects success, population failure-rate, and broad embodied benchmark
+claims.
