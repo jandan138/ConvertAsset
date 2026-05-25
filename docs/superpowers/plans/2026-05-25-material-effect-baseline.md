@@ -88,27 +88,30 @@ Actual: tests pass, and the smoke manifest records
 - Create: `paper/shared/evidence/experiments/08_material_effect_baseline/build_baseline_conversion_manifest.py`
 - Create: `paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json`
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 Test that each sample has `original_MDL`, `existing_noMDL`, and
 `nvidia_asset_converter_preview_or_bake` condition records with status,
 hash/provenance, residual MDL counts, and PreviewSurface counts.
 
-- [ ] **Step 2: Implement manifest builder**
+- [x] **Step 2: Implement manifest builder**
 
 Read `effect_sample_manifest.json` and the NVIDIA smoke result. Emit planned
 or completed conversion records without claiming success for missing NVIDIA
-outputs.
+outputs. The builder prefers the scratch-materialized original USD, not the raw
+source path, so stage inspection uses dependency-complete inputs and avoids
+under-counting shaders from unresolved relative references.
 
-- [ ] **Step 3: Verify**
+- [x] **Step 3: Verify**
 
 ```bash
 python -m pytest -q tests/test_material_effect_baseline_conversion_manifest.py
 python paper/shared/evidence/experiments/08_material_effect_baseline/build_baseline_conversion_manifest.py
 ```
 
-Expected: manifest exists and refuses broad claims until all selected outputs
-exist and pass static gates.
+Actual: manifest exists and refuses broad claims. It records 30/30 available
+`original_MDL`, 30/30 available `existing_noMDL`, and 30/30
+`planned_output_missing` NVIDIA rows.
 
 ### Task 4: Effect Tables and Qualitative Cases
 
@@ -118,21 +121,23 @@ exist and pass static gates.
 - Create: `paper/shared/tables/material_effect_baseline_summary.csv`
 - Create: `paper/shared/tables/tab_material_effect_baseline_summary.tex`
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 Test effect-group aggregation over a synthetic conversion manifest, including
 missing NVIDIA rows and selected failure cases.
 
-- [ ] **Step 2: Implement table builder**
+- [x] **Step 2: Implement table builder**
 
 Aggregate by effect bin, target category, baseline condition, conversion status,
 and claim gate. Emit selected qualitative case IDs but do not copy large media.
 
-- [ ] **Step 3: Verify**
+- [x] **Step 3: Verify**
 
 ```bash
 python -m pytest -q tests/test_material_effect_baseline_tables.py
 python paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py
 ```
 
-Expected: CSV and LaTeX table exist and are registered in the paper manifest.
+Actual: CSV and LaTeX table exist, include zero-sample rows for `clearcoat` and
+`procedural_texture`, and are registered in the paper manifest. The case
+manifest currently records 89 missing-NVIDIA follow-up cases.

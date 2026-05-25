@@ -25,9 +25,9 @@ Each selected sample should eventually have three material conditions:
 
 | Condition | Meaning | Current status |
 |---|---|---|
-| `original_MDL` | Source USD with MDL material graph | Available for GRScenes stress samples |
-| `existing_noMDL` | ConvertAsset MDL-to-UsdPreviewSurface output | Available for GRScenes stress samples |
-| `nvidia_asset_converter_preview_or_bake` | NVIDIA `omni.kit.asset_converter` preview-surface or MDL-bake output | Official-fixture smoke passed; not yet run on samples |
+| `original_MDL` | Scratch-materialized source USD with MDL material graph | 30/30 available and static-gated |
+| `existing_noMDL` | ConvertAsset MDL-to-UsdPreviewSurface output | 30/30 available and static-gated |
+| `nvidia_asset_converter_preview_or_bake` | NVIDIA `omni.kit.asset_converter` preview-surface or MDL-bake output | Official-fixture smoke passed; 30/30 sample outputs still missing |
 
 The NVIDIA condition should use the smoke-validated USD routes first:
 `usd_to_usd_preview` and `usd_to_usd_bake_flag`. The glTF route can remain a
@@ -95,16 +95,56 @@ This only proves the installed NVIDIA Asset Converter can produce a USD
 PreviewSurface baseline candidate on NVIDIA's own MDL fixture. It does not yet
 compare ConvertAsset with NVIDIA on the selected GRScenes/material-effect pool.
 
+Generated baseline conversion artifact:
+
+```text
+paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json
+```
+
+Current condition summary:
+
+| Field | Value |
+|---|---:|
+| Samples | 30 |
+| Unique source scenes | 5 |
+| `original_MDL` available | 30 |
+| `existing_noMDL` available | 30 |
+| NVIDIA sample outputs available | 0 |
+| NVIDIA sample outputs missing | 30 |
+| Preferred NVIDIA smoke route | `usd_to_usd_preview` |
+
+The static gates show the existing ConvertAsset side of the comparison is ready:
+the original scratch inputs still contain active MDL shaders, while the no-MDL
+outputs contain `UsdPreviewSurface` and zero active MDL source-asset shaders.
+The comparison is still incomplete because NVIDIA sample outputs have not been
+generated.
+
+Generated effect table artifacts:
+
+```text
+paper/shared/tables/material_effect_baseline_summary.csv
+paper/shared/tables/tab_material_effect_baseline_summary.tex
+paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json
+```
+
+The current table has 18 rows: six effect bins by three conditions. `clearcoat`
+and `procedural_texture` are explicit zero-sample rows. The follow-up case
+manifest has 89 cases, all caused by missing NVIDIA sample outputs; these are
+not visual conversion failures.
+
 ## Next Gate
 
-The next gate is a sample-level baseline conversion manifest:
+The next gate is the actual sample-level NVIDIA conversion run:
 
-1. Reuse `effect_sample_manifest.json` as the sample list.
-2. Convert each selected source USD with the smoke-validated NVIDIA USD route.
-3. Record original, ConvertAsset no-MDL, and NVIDIA condition records with stage
-   open status, PreviewSurface counts, active MDL counts, hashes, and errors.
+1. Reuse the five unique source scenes referenced by
+   `baseline_conversion_manifest.json`.
+2. Convert each scratch-materialized source USD with the smoke-validated
+   `usd_to_usd_preview` route into the external NVIDIA output root recorded in
+   the manifest.
+3. Regenerate `baseline_conversion_manifest.json` so NVIDIA rows move from
+   `planned_output_missing` to static-gated available/failed records.
 4. Add official/sample assets for `clearcoat` and `procedural_texture` before
    any all-effect coverage claim.
 
-No paper claim should compare ConvertAsset against NVIDIA until the sample-level
-baseline conversion manifest and paired renders exist.
+No paper claim should compare ConvertAsset against NVIDIA until NVIDIA sample
+outputs, paired renders, effect tables, and qualitative failure panels exist.

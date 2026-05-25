@@ -160,6 +160,12 @@ results:
     - id: material_effect_nvidia_baseline_smoke
       path: paper/shared/evidence/raw/material_effect_baseline/nvidia_baseline_smoke_manifest.json
       description: "NVIDIA Asset Converter smoke over NVIDIA's official MDL fixture. The installed Isaac Sim converter produced two claimable USD PreviewSurface baseline candidates, usd_to_usd_preview and usd_to_usd_bake_flag, each with 4 PreviewSurface shaders and 0 active MDL source-asset shaders. This gates sample-level baseline conversion but is not itself a ConvertAsset-vs-NVIDIA comparison."
+    - id: material_effect_baseline_conversion_manifest
+      path: paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json
+      description: "Sample-level condition manifest for the material-effect baseline: 30 selected samples across 5 unique source scenes have static-gated original_MDL and existing_noMDL condition records; NVIDIA sample rows are planned_output_missing until the smoke-validated usd_to_usd_preview route is run over the selected scenes. Not a head-to-head baseline result yet."
+    - id: material_effect_failure_case_manifest
+      path: paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json
+      description: "Effect-labeled follow-up case manifest derived from the baseline conversion manifest. Current cases are all planned_output_missing NVIDIA rows, not visual conversion failures; this drives the next sample-level NVIDIA conversion and qualitative rerender pass."
     - id: grscenes_vlm_gemma4_stress_expanded30_predictions
       path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl
       description: "Canonical root Gemma4 structured-text real-model predictions over the expanded 30-pair material-shift stress manifest."
@@ -371,6 +377,15 @@ results:
         - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_predictions.jsonl
         - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_score_summary.json
       description: "Illustrative appendix failure taxonomy for selected clean-pool and zoom-stress VLM pilot cases; not a final error distribution."
+    - id: material_effect_baseline_summary
+      outputs:
+        - paper/shared/tables/material_effect_baseline_summary.csv
+        - paper/shared/tables/tab_material_effect_baseline_summary.tex
+      generated_by: paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py
+      sources:
+        - paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json
+        - paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json
+      description: "Effect-by-condition material baseline readiness table. It explicitly includes zero-sample clearcoat and procedural_texture rows, shows original/noMDL static gates passing for covered GRScenes effects, and records NVIDIA rows as missing until sample-level baseline conversion runs."
   provenance:
     experiments: paper/shared/evidence/experiments/
     references: paper/shared/evidence/references/

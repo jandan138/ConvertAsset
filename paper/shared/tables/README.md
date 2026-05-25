@@ -45,6 +45,13 @@ Venue-neutral table sources for the ConvertAsset paper live here.
   distribution.
 - `tab_grscenes_vlm_failure_taxonomy.tex`: LaTeX appendix table for the same
   selected failure taxonomy.
+- `material_effect_baseline_summary.csv`: machine-readable effect-by-condition
+  readiness table for the material-effect baseline. It includes zero-sample
+  rows for `clearcoat` and `procedural_texture`, static-gated original/no-MDL
+  rows for the covered GRScenes effects, and missing NVIDIA rows until the
+  sample-level baseline conversion is executed.
+- `tab_material_effect_baseline_summary.tex`: LaTeX table generated from the
+  same material-effect readiness CSV.
 
 Regenerate with:
 
@@ -53,10 +60,11 @@ python paper/shared/tables/gen_vlm_pilot_tables.py
 python paper/shared/tables/gen_vlm_stress_expanded30.py
 python paper/shared/tables/gen_vlm_coordinate_ablation.py
 python paper/shared/tables/gen_vlm_failure_taxonomy.py
+python paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py
 ```
 
-The two newer clean-pool and zoom-stress tables, coordinate ablation, and
-failure taxonomy are registered in
+The two newer clean-pool and zoom-stress tables, coordinate ablation, failure
+taxonomy, and material-effect readiness table are registered in
 `paper/shared/evidence/results_manifest.yaml`.
 
 Most legacy table content remains embedded in `shared/sections/experiments.tex`
