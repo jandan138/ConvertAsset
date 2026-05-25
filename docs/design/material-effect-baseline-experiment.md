@@ -1,6 +1,6 @@
 # Material-Effect Baseline Experiment
 
-> Last updated: 2026-05-25
+> Last updated: 2026-05-26
 
 ## Goal
 
@@ -190,6 +190,9 @@ paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_rend
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_clean_room_visual_review.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_material_preservation_diagnostic.json
+paper/shared/evidence/raw/material_effect_baseline/material_effect_risk_profile.json
+paper/shared/tables/material_effect_risk_matrix.csv
+paper/shared/tables/tab_material_effect_risk_matrix.tex
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/
 paper/shared/figures/fig_material_effect_supplemental_qualitative.png
@@ -210,6 +213,10 @@ Current supplemental qualitative summary:
 | PXR diagnostic pass / warn / fail | 0 / 0 / 2 |
 | Converted procedural checker-loss rows | 2 |
 | NVIDIA target-missing rows | 1 |
+| Risk-matrix rows | 6 |
+| Risk-matrix bounded GRScenes rows | 4 |
+| Risk-matrix selected NVIDIA failure rows | 1 |
+| Risk-matrix procedural limitation rows | 1 |
 
 The rendered failure candidate is NVIDIA clearcoat:
 `supplemental_clearcoat_omnipbr` under
@@ -231,6 +238,14 @@ paper-ready. The procedural original MDL has checker/file-texture inputs, but
 both converted conditions have PreviewSurface networks without a checker or
 base-color texture connection, so static gates alone are insufficient evidence
 for procedural texture preservation.
+
+The risk matrix now turns those findings into paper-usable claim boundaries:
+
+| Effect group | Evidence status | Allowed claim |
+|---|---|---|
+| `opacity_transparency`, `emission`, `normal_bump`, `displacement_height` | GRScenes expanded30 static gates plus selected 4-case qualitative panel | bounded static and selected qualitative evidence only |
+| `clearcoat` | supplemental clean-room/PXR failure evidence | selected NVIDIA failure case; not a population failure rate |
+| `procedural_texture` | supplemental clean-room/PXR failure evidence | limitation/investigation case; no procedural preservation success claim |
 
 Generated supplemental candidate artifact:
 

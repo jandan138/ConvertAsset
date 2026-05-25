@@ -193,6 +193,12 @@ Supplemental PXR preservation diagnostic:
 ./scripts/isaac_python.sh paper/shared/evidence/experiments/08_material_effect_baseline/diagnose_supplemental_material_preservation.py
 ```
 
+Material-effect risk matrix:
+
+```bash
+python paper/shared/evidence/experiments/08_material_effect_baseline/build_material_effect_risk_matrix.py
+```
+
 Supplemental figure entry point:
 
 ```bash
@@ -210,6 +216,9 @@ paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_rend
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_clean_room_visual_review.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_material_preservation_diagnostic.json
+paper/shared/evidence/raw/material_effect_baseline/material_effect_risk_profile.json
+paper/shared/tables/material_effect_risk_matrix.csv
+paper/shared/tables/tab_material_effect_risk_matrix.tex
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/
 paper/shared/figures/fig_material_effect_supplemental_qualitative.png
@@ -230,5 +239,9 @@ Current supplemental qualitative result:
 - PXR static diagnosis records 2/2 supplemental cases as failed: NVIDIA
   clearcoat has no `/World/ClearcoatTarget`, and both converted procedural
   conditions lack checker/base-color texture preservation evidence
+- the risk matrix records 6 effect rows: four GRScenes-covered bins are bounded
+  static/selected-qualitative evidence, clearcoat is a selected NVIDIA failure
+  case, and procedural texture is a limitation case where both converted
+  conditions lose checker preservation
 - this is failure/retake evidence, not a final error-rate distribution or a
   success-style qualitative figure

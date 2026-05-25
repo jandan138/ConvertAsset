@@ -36,6 +36,12 @@ Current files:
   USD-network diagnosis for the two supplemental cases. It confirms NVIDIA
   clearcoat is missing the target prim and both converted procedural conditions
   lack checker/base-color texture preservation evidence.
+- `material_effect_risk_profile.json`: records the effect-level
+  claim-boundary profile derived from the conversion manifests, selected
+  qualitative manifest, clean-room visual review, and PXR diagnostic. It marks
+  four GRScenes-covered bins as bounded static/selected-qualitative evidence,
+  clearcoat as a selected NVIDIA failure case, and procedural texture as a
+  limitation case.
 - `supplemental_fixtures/`: small repo-resident wrapper USD stages,
   ConvertAsset no-MDL outputs, and ConvertAsset audit/summary sidecars for the
   supplemental material-effect cases.

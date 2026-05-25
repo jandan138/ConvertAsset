@@ -46,12 +46,19 @@ Venue-neutral table sources for the ConvertAsset paper live here.
 - `tab_grscenes_vlm_failure_taxonomy.tex`: LaTeX appendix table for the same
   selected failure taxonomy.
 - `material_effect_baseline_summary.csv`: machine-readable effect-by-condition
-  readiness table for the material-effect baseline. It includes zero-sample
-  rows for `clearcoat` and `procedural_texture`, static-gated original/no-MDL
-  rows for the covered GRScenes effects, and static-gated NVIDIA rows after the
-  sample-level baseline conversion.
+  readiness table for the material-effect baseline. It combines 30 GRScenes
+  selected samples with one supplemental `clearcoat` wrapper and one
+  supplemental `procedural_texture` wrapper across original, ConvertAsset, and
+  NVIDIA conditions.
 - `tab_material_effect_baseline_summary.tex`: LaTeX table generated from the
   same material-effect readiness CSV.
+- `material_effect_risk_matrix.csv`: machine-readable effect-level
+  claim-boundary table derived from the material-effect conversion manifests,
+  selected qualitative manifest, supplemental clean-room visual review, and PXR
+  diagnostic. It separates the four bounded GRScenes-covered bins from the
+  selected NVIDIA clearcoat failure and the procedural texture limitation case.
+- `tab_material_effect_risk_matrix.tex`: LaTeX table generated from the same
+  material-effect risk matrix.
 
 Regenerate with:
 
@@ -61,10 +68,12 @@ python paper/shared/tables/gen_vlm_stress_expanded30.py
 python paper/shared/tables/gen_vlm_coordinate_ablation.py
 python paper/shared/tables/gen_vlm_failure_taxonomy.py
 python paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py
+python paper/shared/evidence/experiments/08_material_effect_baseline/build_material_effect_risk_matrix.py
 ```
 
 The two newer clean-pool and zoom-stress tables, coordinate ablation, failure
-taxonomy, and material-effect readiness table are registered in
+taxonomy, material-effect readiness table, and material-effect risk matrix are
+registered in
 `paper/shared/evidence/results_manifest.yaml`.
 
 Most legacy table content remains embedded in `shared/sections/experiments.tex`

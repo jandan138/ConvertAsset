@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "status": "material_effect_risk_profile",
+  "generated_by": "paper/shared/evidence/experiments/08_material_effect_baseline/build_material_effect_risk_matrix.py",
+  "generated_at_utc": "2026-05-25T16:22:09.638420Z",
+  "summary": {
+    "effect_count": 6,
+    "selected_panel_ready_count": 4,
+    "supplemental_visual_fail_count": 2,
+    "selected_nvidia_failure_case_count": 1,
+    "diagnostic_limitation_case_count": 1,
+    "bounded_static_and_selected_qualitative_count": 4
+  },
+  "rows": [
+    {
+      "effect": "clearcoat",
+      "sample_source": "supplemental_official_or_sample_wrapper",
+      "sample_count": 1,
+      "static_gate_summary": "original=1/1, convertasset=1/1, nvidia=0/1",
+      "qualitative_status": "supplemental_visual_fail",
+      "convertasset_risk": "clearcoat_approximated_by_preview_surface; visual_warn:Possible material fallback or loss of blue/clearcoat appearance.",
+      "nvidia_risk": "target_missing",
+      "relative_interpretation": "selected_nvidia_failure_convertasset_target_retained",
+      "claim_allowed": "selected_nvidia_failure_case",
+      "claim_forbidden": "population_failure_rate; success_panel",
+      "evidence_sources": "baseline_conversion_manifest.json; supplemental_conversion_manifest.json; supplemental_clean_room_visual_review.json; supplemental_material_preservation_diagnostic.json"
+    },
+    {
+      "effect": "opacity_transparency",
+      "sample_source": "GRScenes expanded30",
+      "sample_count": 7,
+      "static_gate_summary": "original=7/7, convertasset=7/7, nvidia=7/7",
+      "qualitative_status": "selected_panel_ready",
+      "convertasset_risk": "bounded_visual_review_warn_or_pass",
+      "nvidia_risk": "bounded_visual_review_warn_or_pass",
+      "relative_interpretation": "bounded_three_condition_static_and_qualitative_evidence",
+      "claim_allowed": "bounded_static_and_selected_qualitative",
+      "claim_forbidden": "final_visual_quality_win",
+      "evidence_sources": "baseline_conversion_manifest.json; qualitative_render_manifest.json"
+    },
+    {
+      "effect": "emission",
+      "sample_source": "GRScenes expanded30",
+      "sample_count": 26,
+      "static_gate_summary": "original=26/26, convertasset=26/26, nvidia=26/26",
+      "qualitative_status": "selected_panel_ready",
+      "convertasset_risk": "bounded_visual_review_warn_or_pass",
+      "nvidia_risk": "bounded_visual_review_warn_or_pass",
+      "relative_interpretation": "bounded_three_condition_static_and_qualitative_evidence",
+      "claim_allowed": "bounded_static_and_selected_qualitative",
+      "claim_forbidden": "final_visual_quality_win",
+      "evidence_sources": "baseline_conversion_manifest.json; qualitative_render_manifest.json"
+    },
+    {
+      "effect": "procedural_texture",
+      "sample_source": "supplemental_official_or_sample_wrapper",
+      "sample_count": 1,
+      "static_gate_summary": "original=1/1, convertasset=1/1, nvidia=1/1",
+      "qualitative_status": "supplemental_visual_fail",
+      "convertasset_risk": "checker_not_preserved",
+      "nvidia_risk": "checker_not_preserved",
+      "relative_interpretation": "both_converted_conditions_risky_static_gate_insufficient",
+      "claim_allowed": "diagnostic_limitation_case",
+      "claim_forbidden": "procedural_preservation_success; success_panel; population_failure_rate",
+      "evidence_sources": "baseline_conversion_manifest.json; supplemental_conversion_manifest.json; supplemental_clean_room_visual_review.json; supplemental_material_preservation_diagnostic.json"
+    },
+    {
+      "effect": "normal_bump",
+      "sample_source": "GRScenes expanded30",
+      "sample_count": 30,
+      "static_gate_summary": "original=30/30, convertasset=30/30, nvidia=30/30",
+      "qualitative_status": "selected_panel_ready",
+      "convertasset_risk": "bounded_visual_review_warn_or_pass",
+      "nvidia_risk": "bounded_visual_review_warn_or_pass",
+      "relative_interpretation": "bounded_three_condition_static_and_qualitative_evidence",
+      "claim_allowed": "bounded_static_and_selected_qualitative",
+      "claim_forbidden": "final_visual_quality_win",
+      "evidence_sources": "baseline_conversion_manifest.json; qualitative_render_manifest.json"
+    },
+    {
+      "effect": "displacement_height",
+      "sample_source": "GRScenes expanded30",
+      "sample_count": 26,
+      "static_gate_summary": "original=26/26, convertasset=26/26, nvidia=26/26",
+      "qualitative_status": "selected_panel_ready",
+      "convertasset_risk": "bounded_visual_review_warn_or_pass",
+      "nvidia_risk": "bounded_visual_review_warn_or_pass",
+      "relative_interpretation": "bounded_three_condition_static_and_qualitative_evidence",
+      "claim_allowed": "bounded_static_and_selected_qualitative",
+      "claim_forbidden": "final_visual_quality_win",
+      "evidence_sources": "baseline_conversion_manifest.json; qualitative_render_manifest.json"
+    }
+  ],
+  "claim_boundary": {
+    "allowed": [
+      "Use the matrix to separate static readiness, selected qualitative evidence, and selected failure/limitation evidence by effect bin.",
+      "Use clearcoat as a selected NVIDIA failure case only when paired with the linked static and visual evidence.",
+      "Use procedural texture as a limitation/investigation case until a checker-preserving conversion or baking path exists."
+    ],
+    "forbidden": [
+      "Do not treat the supplemental cases as population-level failure rates.",
+      "Do not call the supplemental contact sheet a successful all-effects qualitative comparison.",
+      "Do not use static-gate pass alone as proof of procedural texture preservation."
+    ]
+  }
+}

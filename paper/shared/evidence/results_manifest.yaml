@@ -208,6 +208,9 @@ results:
     - id: material_effect_supplemental_material_preservation_diagnostic
       path: paper/shared/evidence/raw/material_effect_baseline/supplemental_material_preservation_diagnostic.json
       description: "PXR static USD-network diagnostic for the two supplemental clearcoat/procedural fixtures. It records two failed cases: NVIDIA clearcoat output is missing the target prim, and both ConvertAsset no-MDL and NVIDIA procedural outputs lack checker/base-color texture preservation evidence."
+    - id: material_effect_risk_profile
+      path: paper/shared/evidence/raw/material_effect_baseline/material_effect_risk_profile.json
+      description: "Effect-level claim-boundary matrix derived from the baseline/supplemental manifests, selected qualitative manifest, clean-room visual review, and PXR diagnostic. It marks four GRScenes-covered bins as bounded static/selected-qualitative evidence, NVIDIA clearcoat as a selected failure case, and procedural texture as a limitation case where both converted conditions lose checker preservation evidence."
     - id: material_effect_supplemental_qualitative_renders
       path: paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/
       description: "Repo-resident supplemental original/noMDL/NVIDIA stills for clearcoat and procedural texture wrappers."
@@ -434,6 +437,19 @@ results:
         - paper/shared/evidence/raw/material_effect_baseline/supplemental_conversion_manifest.json
         - paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json
       description: "Effect-by-condition material baseline readiness table. It combines 30 GRScenes selected samples with two supplemental official/sample wrappers, so clearcoat and procedural_texture now each have one static-gated sample. NVIDIA clearcoat is recorded as a static-gate failure; selected qualitative renders still exist only for covered GRScenes bins."
+    - id: material_effect_risk_matrix
+      outputs:
+        - paper/shared/tables/material_effect_risk_matrix.csv
+        - paper/shared/tables/tab_material_effect_risk_matrix.tex
+      generated_by: paper/shared/evidence/experiments/08_material_effect_baseline/build_material_effect_risk_matrix.py
+      sources:
+        - paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json
+        - paper/shared/evidence/raw/material_effect_baseline/supplemental_conversion_manifest.json
+        - paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
+        - paper/shared/evidence/raw/material_effect_baseline/supplemental_clean_room_visual_review.json
+        - paper/shared/evidence/raw/material_effect_baseline/supplemental_material_preservation_diagnostic.json
+        - paper/shared/evidence/raw/material_effect_baseline/material_effect_risk_profile.json
+      description: "Effect-level claim-boundary table separating bounded selected qualitative evidence, selected NVIDIA clearcoat failure evidence, and procedural texture preservation risk. It is for paper/rebuttal claim scoping, not population-level failure rates."
   provenance:
     experiments: paper/shared/evidence/experiments/
     references: paper/shared/evidence/references/

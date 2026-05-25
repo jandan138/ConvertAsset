@@ -390,3 +390,36 @@ Actual: the Isaac/PXR run records 2 failed supplemental cases,
 just camera retake: NVIDIA clearcoat needs a target-containing rerun or bounded
 failure writeup, while procedural texture needs baking/preservation work before
 any success claim.
+
+### Task 11: Effect-Level Risk Matrix
+
+**Files:**
+- Create: `tests/test_material_effect_baseline_risk_matrix.py`
+- Create: `paper/shared/evidence/experiments/08_material_effect_baseline/build_material_effect_risk_matrix.py`
+- Create: `paper/shared/evidence/raw/material_effect_baseline/material_effect_risk_profile.json`
+- Create: `paper/shared/tables/material_effect_risk_matrix.csv`
+- Create: `paper/shared/tables/tab_material_effect_risk_matrix.tex`
+- Modify: `paper/shared/evidence/results_manifest.yaml`
+- Modify: `paper/shared/evidence/claims.yaml`
+- Modify: `docs/design/material-effect-baseline-experiment.md`
+
+- [x] **Step 1: Write failing risk-matrix tests**
+
+Test that covered GRScenes bins, selected NVIDIA clearcoat failure, and
+procedural checker-loss limitation are separated into different claim
+categories.
+
+- [x] **Step 2: Implement matrix builder**
+
+Merge baseline/supplemental conversion manifests with the selected qualitative
+manifest, clean-room visual review, and PXR preservation diagnostic. Emit
+effect-level CSV, LaTeX, and JSON profile artifacts.
+
+- [x] **Step 3: Generate and document**
+
+Actual: the matrix records 6 effect rows. Four GRScenes-covered bins are
+`bounded_static_and_selected_qualitative`; `clearcoat` is a
+`selected_nvidia_failure_case`; `procedural_texture` is a
+`diagnostic_limitation_case`. This is the current best reviewer-facing answer to
+"where is it reliable, where is it risky, and where does NVIDIA fail" without
+overstating the supplemental fixtures as population-level rates.
