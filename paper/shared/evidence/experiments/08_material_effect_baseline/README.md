@@ -187,6 +187,12 @@ Supplemental machine visual QA:
 python paper/shared/evidence/experiments/08_material_effect_baseline/review_supplemental_qualitative_renders.py
 ```
 
+Supplemental PXR preservation diagnostic:
+
+```bash
+./scripts/isaac_python.sh paper/shared/evidence/experiments/08_material_effect_baseline/diagnose_supplemental_material_preservation.py
+```
+
 Supplemental figure entry point:
 
 ```bash
@@ -203,6 +209,7 @@ paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_rend
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_run_manifest.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_clean_room_visual_review.json
+paper/shared/evidence/raw/material_effect_baseline/supplemental_material_preservation_diagnostic.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/
 paper/shared/figures/fig_material_effect_supplemental_qualitative.png
@@ -220,5 +227,8 @@ Current supplemental qualitative result:
 - clean-room human-style visual review marks the supplemental panel `FAIL`:
   clearcoat NVIDIA misses the target, and both converted procedural conditions
   lose the visible checker pattern
+- PXR static diagnosis records 2/2 supplemental cases as failed: NVIDIA
+  clearcoat has no `/World/ClearcoatTarget`, and both converted procedural
+  conditions lack checker/base-color texture preservation evidence
 - this is failure/retake evidence, not a final error-rate distribution or a
   success-style qualitative figure

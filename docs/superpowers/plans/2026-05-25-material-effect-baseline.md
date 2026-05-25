@@ -361,3 +361,32 @@ Clean-room human-style visual review then records overall `FAIL` with 1 PASS /
 2 WARN / 3 FAIL across the six images. The remaining gate is retaking or
 investigating the failed supplemental cases and integrating only bounded
 failure/retake evidence into the paper/rebuttal, not render generation.
+
+### Task 10: Supplemental Static Preservation Diagnostics
+
+**Files:**
+- Create: `tests/test_material_effect_baseline_supplemental_diagnostics.py`
+- Create: `paper/shared/evidence/experiments/08_material_effect_baseline/diagnose_supplemental_material_preservation.py`
+- Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_material_preservation_diagnostic.json`
+- Modify: `paper/shared/evidence/results_manifest.yaml`
+- Modify: `paper/shared/evidence/claims.yaml`
+- Modify: `docs/design/material-effect-baseline-experiment.md`
+
+- [x] **Step 1: Write failing diagnostic test**
+
+Test that the diagnostic flags NVIDIA clearcoat target loss and checker/base
+color texture loss in both converted procedural conditions.
+
+- [x] **Step 2: Implement PXR diagnostic**
+
+Inspect target prim existence, PreviewSurface networks, diffuseColor
+connections, BaseColor texture files, and original MDL checker inputs.
+
+- [x] **Step 3: Generate repo-resident diagnostic manifest**
+
+Actual: the Isaac/PXR run records 2 failed supplemental cases,
+`nvidia_target_missing_count=1`, and
+`converted_procedural_checker_loss_count=2`. This confirms the next gate is not
+just camera retake: NVIDIA clearcoat needs a target-containing rerun or bounded
+failure writeup, while procedural texture needs baking/preservation work before
+any success claim.

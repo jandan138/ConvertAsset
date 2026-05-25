@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "status": "supplemental_material_preservation_diagnostic",
+  "generated_at_utc": "2026-05-25T16:10:16.033493Z",
+  "generated_by": "paper/shared/evidence/experiments/08_material_effect_baseline/diagnose_supplemental_material_preservation.py",
+  "generator_git_commit": "632e0a47a22fe2a05626ad72058198144d0cdb53",
+  "summary": {
+    "case_count": 2,
+    "pass_count": 0,
+    "warn_count": 0,
+    "fail_count": 2,
+    "nvidia_target_missing_count": 1,
+    "converted_procedural_checker_loss_count": 2,
+    "ready_for_success_panel": false,
+    "ready_for_failure_case_writeup": true,
+    "ready_for_full_visual_quality_claim": false,
+    "blockers": [
+      "nvidia_clearcoat_target_missing",
+      "procedural_checker_not_preserved_in_converted_conditions"
+    ]
+  },
+  "cases": [
+    {
+      "sample_id": "supplemental_clearcoat_omnipbr",
+      "effect": "clearcoat",
+      "target_prim_path": "/World/ClearcoatTarget",
+      "case_verdict": "FAIL",
+      "source_checker_authored": false,
+      "conditions": {
+        "original_MDL": {
+          "verdict": "PASS",
+          "diagnostic_reason": "no_static_material_preservation_issue_detected",
+          "retake_action": "none",
+          "source_status": "available",
+          "usd_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr.usda",
+          "inspection": {
+            "inspection_status": "ok",
+            "stage_opened": true,
+            "target_exists": true,
+            "target_prim_type": "Sphere",
+            "target_child_count": 0,
+            "shader_count": 1,
+            "preview_surface_count": 0,
+            "active_mdl_shader_count": 1,
+            "basecolor_texture_file_count": 0,
+            "texture_files": [],
+            "diffuse_color_connected": false,
+            "diffuse_color_value": null,
+            "mdl_checker_enabled": false,
+            "mdl_checker_scale": null,
+            "mdl_texture_inputs": []
+          }
+        },
+        "existing_noMDL": {
+          "verdict": "WARN",
+          "diagnostic_reason": "clearcoat_approximated_by_preview_surface",
+          "retake_action": "review_visual_result_before_success_claim",
+          "source_status": "available",
+          "usd_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr_noMDL.usda",
+          "inspection": {
+            "inspection_status": "ok",
+            "stage_opened": true,
+            "target_exists": true,
+            "target_prim_type": "Sphere",
+            "target_child_count": 0,
+            "shader_count": 6,
+            "preview_surface_count": 1,
+            "active_mdl_shader_count": 0,
+            "basecolor_texture_file_count": 0,
+            "texture_files": [],
+            "diffuse_color_connected": false,
+            "diffuse_color_value": [
+              1.0,
+              1.0,
+              1.0
+            ],
+            "mdl_checker_enabled": false,
+            "mdl_checker_scale": null,
+            "mdl_texture_inputs": []
+          }
+        },
+        "nvidia_asset_converter_preview_or_bake": {
+          "verdict": "FAIL",
+          "diagnostic_reason": "converted_stage_missing_target_prim",
+          "retake_action": "camera_retake_insufficient_rerun_or_treat_as_failure",
+          "source_status": "static_gate_failed",
+          "usd_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_supplemental/clearcoat/supplemental_clearcoat_omnipbr_nvidia_usd_to_usd_preview.usd",
+          "inspection": {
+            "inspection_status": "ok",
+            "stage_opened": true,
+            "target_exists": false,
+            "target_prim_type": null,
+            "target_child_count": 0,
+            "shader_count": 0,
+            "preview_surface_count": 0,
+            "active_mdl_shader_count": 0,
+            "basecolor_texture_file_count": 0,
+            "texture_files": [],
+            "diffuse_color_connected": false,
+            "diffuse_color_value": null,
+            "mdl_checker_enabled": false,
+            "mdl_checker_scale": null,
+            "mdl_texture_inputs": []
+          }
+        }
+      }
+    },
+    {
+      "sample_id": "supplemental_procedural_checker",
+      "effect": "procedural_texture",
+      "target_prim_path": "/World/ProceduralTarget",
+      "case_verdict": "FAIL",
+      "source_checker_authored": true,
+      "conditions": {
+        "original_MDL": {
+          "verdict": "PASS",
+          "diagnostic_reason": "source_checker_authored",
+          "retake_action": "none",
+          "source_status": "available",
+          "usd_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker.usda",
+          "inspection": {
+            "inspection_status": "ok",
+            "stage_opened": true,
+            "target_exists": true,
+            "target_prim_type": "Mesh",
+            "target_child_count": 0,
+            "shader_count": 1,
+            "preview_surface_count": 0,
+            "active_mdl_shader_count": 1,
+            "basecolor_texture_file_count": 0,
+            "texture_files": [],
+            "diffuse_color_connected": false,
+            "diffuse_color_value": null,
+            "mdl_checker_enabled": true,
+            "mdl_checker_scale": 8.0,
+            "mdl_texture_inputs": [
+              "tex"
+            ]
+          }
+        },
+        "existing_noMDL": {
+          "verdict": "FAIL",
+          "diagnostic_reason": "converted_preview_surface_lacks_checker_texture",
+          "retake_action": "investigate_or_bake_procedural_texture_before_success_claim",
+          "source_status": "available",
+          "usd_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker_noMDL.usda",
+          "inspection": {
+            "inspection_status": "ok",
+            "stage_opened": true,
+            "target_exists": true,
+            "target_prim_type": "Mesh",
+            "target_child_count": 0,
+            "shader_count": 6,
+            "preview_surface_count": 1,
+            "active_mdl_shader_count": 0,
+            "basecolor_texture_file_count": 0,
+            "texture_files": [
+              "@resources/example_roughness.png@"
+            ],
+            "diffuse_color_connected": false,
+            "diffuse_color_value": [
+              1.0,
+              1.0,
+              1.0
+            ],
+            "mdl_checker_enabled": false,
+            "mdl_checker_scale": null,
+            "mdl_texture_inputs": []
+          }
+        },
+        "nvidia_asset_converter_preview_or_bake": {
+          "verdict": "FAIL",
+          "diagnostic_reason": "converted_preview_surface_lacks_checker_texture",
+          "retake_action": "investigate_or_bake_procedural_texture_before_success_claim",
+          "source_status": "available",
+          "usd_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_supplemental/procedural_texture/supplemental_procedural_checker_nvidia_usd_to_usd_preview.usd",
+          "inspection": {
+            "inspection_status": "ok",
+            "stage_opened": true,
+            "target_exists": true,
+            "target_prim_type": "Xform",
+            "target_child_count": 1,
+            "shader_count": 1,
+            "preview_surface_count": 1,
+            "active_mdl_shader_count": 0,
+            "basecolor_texture_file_count": 0,
+            "texture_files": [],
+            "diffuse_color_connected": false,
+            "diffuse_color_value": [
+              1.0,
+              0.550000011920929,
+              0.2800000011920929
+            ],
+            "mdl_checker_enabled": false,
+            "mdl_checker_scale": null,
+            "mdl_texture_inputs": []
+          }
+        }
+      }
+    }
+  ],
+  "claim_boundary": {
+    "allowed": [
+      "Use this as static USD-network diagnosis for the two supplemental missing-bin fixtures.",
+      "Use target-missing and checker-loss findings to guide retakes, implementation work, or bounded failure-case writeup."
+    ],
+    "forbidden": [
+      "Do not treat this two-case diagnostic as a population-level material-effect failure rate.",
+      "Do not use a passing static gate alone as proof of visual material preservation."
+    ]
+  },
+  "inputs": {
+    "conversion_manifest": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_conversion_manifest.json",
+      "hash_sha256": "9d027734b063c7e3048314af01f7893597db7c3f952762e45bc9a003515925d5"
+    }
+  },
+  "generator_provenance": {
+    "command": [
+      "/isaac-sim/kit/python/bin/python3",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/08_material_effect_baseline/diagnose_supplemental_material_preservation.py"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/08_material_effect_baseline/diagnose_supplemental_material_preservation.py",
+    "script_hash_sha256": "1124214b6e7bfc6f0955809eca07cda2475650450509e99149f77f362dcdf29c",
+    "git_commit": "632e0a47a22fe2a05626ad72058198144d0cdb53",
+    "git_status_porcelain": [
+      "?? 2 untracked files omitted from provenance"
+    ]
+  }
+}

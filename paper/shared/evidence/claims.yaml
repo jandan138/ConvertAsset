@@ -104,13 +104,14 @@ claims:
       - paper/shared/tables/tab_grscenes_vlm_failure_taxonomy.tex
     scope: "Illustrative selected cases only. This is not a final failure-rate distribution and should not be summarized as population-level model performance."
   - id: material_effect_baseline_risk_profile
-    statement: "The material-effect baseline now covers six effect bins in static manifests across original MDL, ConvertAsset no-MDL, and NVIDIA conditions. ConvertAsset static gates pass the supplemental clearcoat and procedural wrappers; NVIDIA static gates pass procedural texture but fail clearcoat with zero shader output and a linked near-black/missing-target render. A clean-room visual review marks the two supplemental panels FAIL overall, including visible loss of the checker pattern in both converted procedural conditions."
+    statement: "The material-effect baseline now covers six effect bins in static manifests across original MDL, ConvertAsset no-MDL, and NVIDIA conditions. ConvertAsset static gates pass the supplemental clearcoat and procedural wrappers; NVIDIA static gates pass procedural texture but fail clearcoat with zero shader output and a linked near-black/missing-target render. A clean-room visual review and PXR network diagnostic mark the two supplemental panels FAIL overall: NVIDIA clearcoat is missing the target prim, and both converted procedural conditions lack checker/base-color texture preservation evidence."
     sources:
       - paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json
       - paper/shared/evidence/raw/material_effect_baseline/supplemental_conversion_manifest.json
       - paper/shared/evidence/raw/material_effect_baseline/effect_failure_case_manifest.json
       - paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json
       - paper/shared/evidence/raw/material_effect_baseline/supplemental_clean_room_visual_review.json
+      - paper/shared/evidence/raw/material_effect_baseline/supplemental_material_preservation_diagnostic.json
       - paper/shared/tables/material_effect_baseline_summary.csv
     scope: "Selected GRScenes expanded30 material-effect pool plus two supplemental official/sample wrapper fixtures. This supports static readiness, selected failure-case evidence, and retake/investigation priorities; it does not support a final all-effects error-rate distribution, a successful supplemental qualitative panel, or a broad visual-quality win claim."
 review_requirements:

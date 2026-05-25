@@ -42,6 +42,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-25 InternNav official selected qualitative videos](2026-05-25-internnav-official-selected-qualitative-videos.md)
 - [2026-05-25 Research asset layout normalization](2026-05-25-research-asset-layout-normalization.md)
 - [2026-05-25 Material-effect baseline bootstrap](2026-05-25-material-effect-baseline-bootstrap.md)
+- [2026-05-26 Material-effect supplemental diagnostics](2026-05-26-material-effect-supplemental-diagnostics.md)
 - [2026-05-23 CVPR review status and ACL goals](2026-05-23-cvpr-review-status-and-acl-goals.md)
 - [2026-05-20 OSS dataset restore for GRScenes test0 parallel](2026-05-20-oss-dataset-restore.md)
 - [2026-05-20 ACL GRScenes dataset role correction](2026-05-20-acl-grscenes-dataset-role-correction.md)

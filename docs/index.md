@@ -1,6 +1,6 @@
 # ConvertAsset 文档
 
-> 最后更新: 2026-05-25
+> 最后更新: 2026-05-26
 
 ## 快速导航
 
@@ -53,6 +53,7 @@ ConvertAsset 是面向 NVIDIA Isaac Sim / USD 资产的转换与优化工具集�
 - [Research asset layout normalization](records/2026-05-25-research-asset-layout-normalization.md)
 - [Material-effect baseline experiment](design/material-effect-baseline-experiment.md)
 - [Material-effect baseline bootstrap](records/2026-05-25-material-effect-baseline-bootstrap.md)
+- [Material-effect supplemental diagnostics](records/2026-05-26-material-effect-supplemental-diagnostics.md)
 - [GRScenes retake and zoom evidence expansion](records/2026-05-22-grscenes-retake-pass-pool-expansion.md)
 
 ## 结构说明

@@ -205,6 +205,9 @@ results:
     - id: material_effect_supplemental_clean_room_visual_review
       path: paper/shared/evidence/raw/material_effect_baseline/supplemental_clean_room_visual_review.json
       description: "Clean-room human-style visual review over the six supplemental clearcoat/procedural stills. Overall verdict is FAIL: clearcoat NVIDIA misses the target, procedural ConvertAsset/NVIDIA lose the checker pattern, and the panel is not ready for a success-style qualitative figure."
+    - id: material_effect_supplemental_material_preservation_diagnostic
+      path: paper/shared/evidence/raw/material_effect_baseline/supplemental_material_preservation_diagnostic.json
+      description: "PXR static USD-network diagnostic for the two supplemental clearcoat/procedural fixtures. It records two failed cases: NVIDIA clearcoat output is missing the target prim, and both ConvertAsset no-MDL and NVIDIA procedural outputs lack checker/base-color texture preservation evidence."
     - id: material_effect_supplemental_qualitative_renders
       path: paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/
       description: "Repo-resident supplemental original/noMDL/NVIDIA stills for clearcoat and procedural texture wrappers."

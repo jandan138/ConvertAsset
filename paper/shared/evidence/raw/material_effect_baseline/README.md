@@ -32,6 +32,10 @@ Current files:
   human-style visual QA pass over the six supplemental stills. The overall
   verdict is `FAIL`, so these stills are failure/retake evidence rather than a
   success-style qualitative panel.
+- `supplemental_material_preservation_diagnostic.json`: records the PXR static
+  USD-network diagnosis for the two supplemental cases. It confirms NVIDIA
+  clearcoat is missing the target prim and both converted procedural conditions
+  lack checker/base-color texture preservation evidence.
 - `supplemental_fixtures/`: small repo-resident wrapper USD stages,
   ConvertAsset no-MDL outputs, and ConvertAsset audit/summary sidecars for the
   supplemental material-effect cases.

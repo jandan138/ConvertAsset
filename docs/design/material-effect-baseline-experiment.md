@@ -189,6 +189,7 @@ paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_rend
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_run_manifest.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_clean_room_visual_review.json
+paper/shared/evidence/raw/material_effect_baseline/supplemental_material_preservation_diagnostic.json
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/
 paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/
 paper/shared/figures/fig_material_effect_supplemental_qualitative.png
@@ -206,6 +207,9 @@ Current supplemental qualitative summary:
 | Rendered failure candidates | 1 |
 | Clean-room visual review pass / warn / fail | 1 / 2 / 3 |
 | Clean-room overall verdict | `FAIL` |
+| PXR diagnostic pass / warn / fail | 0 / 0 / 2 |
+| Converted procedural checker-loss rows | 2 |
+| NVIDIA target-missing rows | 1 |
 
 The rendered failure candidate is NVIDIA clearcoat:
 `supplemental_clearcoat_omnipbr` under
@@ -219,6 +223,14 @@ panel is not a success-style three-way comparison. It marks the overall panel
 `FAIL`: clearcoat NVIDIA misses the target object, clearcoat original/noMDL are
 tightly cropped, and both converted procedural conditions lose the visible
 checker pattern.
+
+The PXR static preservation diagnostic explains those visual failures without
+relying on image appearance alone. The NVIDIA clearcoat USD has no
+`/World/ClearcoatTarget`, so a camera retake cannot make that condition
+paper-ready. The procedural original MDL has checker/file-texture inputs, but
+both converted conditions have PreviewSurface networks without a checker or
+base-color texture connection, so static gates alone are insufficient evidence
+for procedural texture preservation.
 
 Generated supplemental candidate artifact:
 
@@ -255,9 +267,10 @@ rather than final paper-ready visual-quality evidence.
 
 The next gate is retake/investigation and paper integration:
 
-1. Retake clearcoat with the full sphere visible in all three conditions.
-2. Investigate why the procedural checker disappears in both converted
-   conditions before using it as a preservation example.
+1. Treat NVIDIA clearcoat as a selected conversion failure unless a rerun
+   produces a target-containing USD; camera retake alone is insufficient.
+2. Investigate or implement procedural checker baking/preservation before using
+   either converted procedural condition as a preservation example.
 3. Use NVIDIA clearcoat as a selected rebuttal failure example only if the
    caption states the static-gate and visual-review limits.
 4. Integrate the GRScenes covered-bin panel and supplemental missing-bin panel
