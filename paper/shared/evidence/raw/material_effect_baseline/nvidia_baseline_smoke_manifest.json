@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "status": "nvidia_asset_converter_smoke",
+  "generated_by": "paper/shared/evidence/experiments/08_material_effect_baseline/run_nvidia_asset_converter_smoke.py",
+  "generated_at_utc": "2026-05-25T13:53:11.670858Z",
+  "generator_git_commit": "acb7ee6a3cb743afa6894d1edac727c42f03199a",
+  "fixture_path": "/isaac-sim/extscache/omni.kit.asset_converter-2.8.3+106.5.0.lx64.r.cp310/data/MDL_to_glTF.usd",
+  "summary": {
+    "attempt_count": 3,
+    "successful_attempt_count": 3,
+    "usable_usd_baseline_attempts": [
+      "usd_to_usd_preview",
+      "usd_to_usd_bake_flag"
+    ],
+    "ready_for_sample_baseline": true,
+    "blockers": []
+  },
+  "attempts": [
+    {
+      "name": "usd_to_usd_preview",
+      "input_usd": "/isaac-sim/extscache/omni.kit.asset_converter-2.8.3+106.5.0.lx64.r.cp310/data/MDL_to_glTF.usd",
+      "input_hash_sha256": "7f4b9668180a9feb31be7953bf170a68d9994816a9bb525dfbbfb9cf6f959ebe",
+      "output_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/nvidia_baseline_smoke/MDL_to_glTF_preview.usd",
+      "output_hash_sha256": "578a5f707ed0b25d26a237b45600fd5ec0c4dd8ed4fd2c6e5d93395c3910a1dc",
+      "output_exists": true,
+      "context_flags": {
+        "export_preview_surface": true,
+        "ignore_materials": false,
+        "keep_all_materials": true
+      },
+      "conversion_success": true,
+      "stage_opened": true,
+      "preview_surface_count": 4,
+      "active_mdl_shader_count": 0,
+      "claimable_as_baseline": true,
+      "error_message": null
+    },
+    {
+      "name": "usd_to_usd_bake_flag",
+      "input_usd": "/isaac-sim/extscache/omni.kit.asset_converter-2.8.3+106.5.0.lx64.r.cp310/data/MDL_to_glTF.usd",
+      "input_hash_sha256": "7f4b9668180a9feb31be7953bf170a68d9994816a9bb525dfbbfb9cf6f959ebe",
+      "output_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/nvidia_baseline_smoke/MDL_to_glTF_bake.usd",
+      "output_hash_sha256": "578a5f707ed0b25d26a237b45600fd5ec0c4dd8ed4fd2c6e5d93395c3910a1dc",
+      "output_exists": true,
+      "context_flags": {
+        "bake_mdl_material": true,
+        "export_preview_surface": true,
+        "ignore_materials": false,
+        "keep_all_materials": true
+      },
+      "conversion_success": true,
+      "stage_opened": true,
+      "preview_surface_count": 4,
+      "active_mdl_shader_count": 0,
+      "claimable_as_baseline": true,
+      "error_message": null
+    },
+    {
+      "name": "usd_to_gltf_bake_flag",
+      "input_usd": "/isaac-sim/extscache/omni.kit.asset_converter-2.8.3+106.5.0.lx64.r.cp310/data/MDL_to_glTF.usd",
+      "input_hash_sha256": "7f4b9668180a9feb31be7953bf170a68d9994816a9bb525dfbbfb9cf6f959ebe",
+      "output_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/nvidia_baseline_smoke/MDL_to_glTF_bake.gltf",
+      "output_hash_sha256": "2cd5f52da6b14fb1435055c832d49382de2449777498cf5d76227f10c464b27a",
+      "output_exists": true,
+      "context_flags": {
+        "bake_mdl_material": true,
+        "export_separate_gltf": true,
+        "ignore_materials": false,
+        "keep_all_materials": true
+      },
+      "conversion_success": true,
+      "stage_opened": false,
+      "preview_surface_count": null,
+      "active_mdl_shader_count": null,
+      "claimable_as_baseline": false,
+      "error_message": null
+    }
+  ],
+  "claim_boundary": {
+    "allowed": [
+      "This smoke only validates whether the installed NVIDIA Asset Converter route can produce a USD baseline candidate."
+    ],
+    "forbidden": [
+      "Do not compare ConvertAsset against NVIDIA from this smoke alone.",
+      "Do not run full sample baselines unless ready_for_sample_baseline is true."
+    ]
+  }
+}

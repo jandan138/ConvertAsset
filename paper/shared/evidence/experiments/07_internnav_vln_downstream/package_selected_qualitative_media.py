@@ -20,6 +20,10 @@ DEFAULT_OUTPUT_ROOT = (
     PROJECT_ROOT
     / "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos"
 )
+REGISTERED_FIGURE_OUTPUTS = [
+    "paper/shared/figures/fig_internnav_rollout_0036_0066_main3.png",
+    "paper/shared/figures/fig_internnav_rollout_0036_0066_selected6_supp.png",
+]
 
 
 def _load_json(path: Path) -> Any:

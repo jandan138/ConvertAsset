@@ -86,8 +86,9 @@ qualitative videos。它可以作为 scoped official downstream sanity result，
 GRScenes 多场景统计性主结果；
 InternNav 已补 per-episode extraction / paired analysis / video-case manifest
 scaffold，并且 2026-05-25 已把 flat-filter 输入池扩到 30 episode / 16 scene
-的 expanded30 候选 split；但 expanded30 真实 runtime 还没跑，NVIDIA baseline、
-per-material-effect 分析、论文级视频和完整多 episode
+的 expanded30 候选 split；材料效应线已建立 expanded30 effect sample manifest，
+并用 NVIDIA official fixture 跑通 Asset Converter USD baseline smoke；但
+expanded30 真实 runtime、样本级 NVIDIA comparison、论文级视频和完整多 episode
 embodied batch 仍未闭环。
 
 | 顺序 | 门槛 | 当前状态 | 完成标准 |
@@ -104,8 +105,8 @@ embodied batch 仍未闭环。
 |---|---|---|
 | 实验范围太小 | 🔄 部分缓解 | workshop 的 4 个家具资产没有被完全替换；但 ACL 路线新增 GRScenes 30-pair target-centered material-shift stress set，覆盖 cup、clock、faucet、bottle、backpack 等更多目标类别。仍缺系统材料矩阵。 |
 | “AI Task Performance” 无真实任务 | 🔄 部分修复 | 已从 CLIP/DINOv2 proxy 推进到真实 Gemma4/Qwen2.5-VL image-level VLM grounding，并新增 InternNav/VLN real smoke、official KuJiaLe 3-scene / 99-episode sanity result 和 selected qualitative videos。仍缺 broad GRScenes / 5+ official-scene embodied benchmark。 |
-| 缺 NVIDIA 官方 baseline | ❌ 未修 | 还没有和 MDL Distill/Bake、Asset Converter 做 head-to-head comparison。 |
-| 缺 per-material-effect 分析 | ❌ 未修 | 当前 stress set 能观察 material/color/lighting perturbation，但没有按 clearcoat、anisotropy、procedural texture、transparency、emission、opacity、displacement 等 MDL effect 系统归因。 |
+| 缺 NVIDIA 官方 baseline | 🔄 已启动 | 已用 NVIDIA official `MDL_to_glTF.usd` fixture 跑通 `omni.kit.asset_converter` smoke：`usd_to_usd_preview` 和 `usd_to_usd_bake_flag` 都生成可打开 USD，PreviewSurface=4、active MDL=0。仍未完成样本级 ConvertAsset-vs-NVIDIA head-to-head。 |
+| 缺 per-material-effect 分析 | 🔄 已启动 | 新增 `material_effect_baseline/effect_sample_manifest.json`，把 expanded30 GRScenes stress pair 链到 MDL 文件和 effect 标签：当前覆盖 opacity/transparency、emission、normal/bump、displacement/height；clearcoat 和 procedural texture 仍缺，需要官方/sample asset 补洞。 |
 | general guideline 过度 | ✅ 已收紧 | 现在 claim 绑定到 frozen 30-pair target-centered stress set；clean preservation、broad GRScenes distribution、downstream embodied robustness 都明确不 claim。 |
 | large-scene performance 太窄 | ❌ 未修 | 仍缺多 GRScenes 场景、多重复、variance/CI 的性能实验。 |
 | 自动 recommender / safe-conversion detector | ❌ 未修 | 还没有 material-risk classifier 或 rule-based recommender。 |
@@ -117,8 +118,8 @@ embodied batch 仍未闭环。
 1. **补 baseline / ablation**：center/random point baseline、bbox-center oracle、prompt/coordinate ablation，先把 VLM grounding 证据变成 reviewer 更难打掉的 diagnostic study。
 2. **补 ACL/NLP related work 和 citation audit**：把 synthetic asset conversion 写成 VLM grounding reliability / multimodal evaluation / embodied language data reliability 问题。
 3. **扩大 InternNav/VLN downstream**：官方 InteriorNav / KuJiaLe `val_unseen` 已完成 3 scenes / 99 paired episodes，selected-only videos 已补到 0031 和 0036/0066。下一步若继续加强，应补 100+ episode / 5+ scene 以上的统计 gate，或回到 GRScenes expanded30 runtime；不能把当前 99 episodes 写成 broad embodied benchmark。
-4. **补 NVIDIA baseline 或明确不可比边界**：至少写清 ConvertAsset 与官方工具在 composition-preserving、batch scratch conversion、evidence manifest 方面的不同目标；更好是实际跑一个对比。
-5. **补材料效应归因**：按 MDL effect/material family 标注或自动抽取，解释哪些材质转换最危险。
+4. **补 NVIDIA baseline 或明确不可比边界**：baseline smoke 已通过，下一步是对 selected samples 跑 `usd_to_usd_preview` 或 `usd_to_usd_bake_flag`，并写清 ConvertAsset 与官方工具在 composition-preserving、batch scratch conversion、evidence manifest 方面的不同目标。
+5. **补材料效应归因**：已建立第一版 effect sample manifest；下一步补 clearcoat/procedural 官方样本、sample-level NVIDIA baseline manifest、effect-grouped 表格和失败案例。
 
 当前最短路径：不要继续盲目刷同一类 orbit 视角。第 2 步已经证明两件事：
 clean preservation pool 扩到 15 但还没到 final gate；zoom stress pool 则显示很多目标

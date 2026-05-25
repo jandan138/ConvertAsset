@@ -154,6 +154,12 @@ results:
     - id: grscenes_vlm_stress_run_manifest_expanded30
       path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded30.json
       description: "Expanded material-shift stress VLM input/protocol manifest: 30 PASS/WARN zoom pairs, 60 scoring records, model-run-ready=true, and the manifest-internal stress gate opened after canonical stress predictions/scores; paper claims are bounded to the frozen target-centered stress set."
+    - id: material_effect_baseline_sample_manifest
+      path: paper/shared/evidence/raw/material_effect_baseline/effect_sample_manifest.json
+      description: "Material-effect sample-selection manifest linking GRScenes expanded30 stress pairs to MDL files and effect labels. It covers opacity/transparency, emission, normal/bump, and displacement/height in the GRScenes pool, and records clearcoat/procedural texture as missing bins requiring official/sample-asset supplementation before full baseline claims."
+    - id: material_effect_nvidia_baseline_smoke
+      path: paper/shared/evidence/raw/material_effect_baseline/nvidia_baseline_smoke_manifest.json
+      description: "NVIDIA Asset Converter smoke over NVIDIA's official MDL fixture. The installed Isaac Sim converter produced two claimable USD PreviewSurface baseline candidates, usd_to_usd_preview and usd_to_usd_bake_flag, each with 4 PreviewSurface shaders and 0 active MDL source-asset shaders. This gates sample-level baseline conversion but is not itself a ConvertAsset-vs-NVIDIA comparison."
     - id: grscenes_vlm_gemma4_stress_expanded30_predictions
       path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl
       description: "Canonical root Gemma4 structured-text real-model predictions over the expanded 30-pair material-shift stress manifest."
