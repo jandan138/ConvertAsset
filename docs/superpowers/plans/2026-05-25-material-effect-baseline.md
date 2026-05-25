@@ -312,3 +312,49 @@ the wrapper manifest records 2 authored stages, the supplemental conversion
 manifest records `convertasset_available_count=2`, `nvidia_available_count=1`,
 and `nvidia_static_gate_failed_count=1`, and the regenerated failure-case
 manifest records the clearcoat NVIDIA static-gate failure.
+
+### Task 9: Supplemental Qualitative Renders and Machine QA
+
+**Files:**
+- Create: `tests/test_material_effect_baseline_supplemental_qualitative.py`
+- Create: `paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_qualitative_render_manifest.py`
+- Create: `paper/shared/evidence/experiments/08_material_effect_baseline/run_supplemental_qualitative_renders.py`
+- Create: `paper/shared/evidence/experiments/08_material_effect_baseline/review_supplemental_qualitative_renders.py`
+- Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json`
+- Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_run_manifest.json`
+- Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json`
+- Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/`
+- Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/`
+- Create: `paper/shared/figures/fig_material_effect_supplemental_qualitative.png`
+- Create: `paper/shared/figures/fig_material_effect_supplemental_qualitative.report.json`
+- Modify: `paper/shared/evidence/results_manifest.yaml`
+- Modify: `paper/shared/figures/sources.yaml`
+
+- [x] **Step 1: Write failing tests**
+
+Test that the supplemental qualitative manifest emits 2 cases x 3 conditions,
+uses `/World/Camera` for original/noMDL and `/World/Camera/Camera` for NVIDIA
+converted wrapper outputs, and records static-gate-failed NVIDIA clearcoat rows
+without blocking render generation.
+
+- [x] **Step 2: Implement manifest builder and runner**
+
+Build render records from `supplemental_conversion_manifest.json`, then run the
+six viewport-capture commands into repo-resident PNGs.
+
+- [x] **Step 3: Generate supplemental contact sheet**
+
+Reuse `gen_material_effect_qualitative.py` with the supplemental manifest to
+write `fig_material_effect_supplemental_qualitative.png`.
+
+- [x] **Step 4: Add machine visual QA**
+
+Record nonblank/near-black checks for the six supplemental images. The QA
+report flags NVIDIA clearcoat as `near_black_render`, matching the static
+failure.
+
+Actual: supplemental qualitative tests pass (`6 passed`), render run records
+`attempted=6`, `ready=6`, `failed=0`, contact sheet writes with
+`ready_case_count=2`, and machine QA records 5 PASS / 0 WARN / 1 FAIL. The
+remaining gate is human visual review and paper/rebuttal integration, not
+render generation.

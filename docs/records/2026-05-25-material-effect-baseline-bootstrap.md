@@ -20,12 +20,20 @@ MDL fixture.
 - `paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_effect_candidates.py`
 - `paper/shared/evidence/experiments/08_material_effect_baseline/author_supplemental_wrapper_stages.py`
 - `paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_conversion_manifest.py`
+- `paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_qualitative_render_manifest.py`
+- `paper/shared/evidence/experiments/08_material_effect_baseline/run_supplemental_qualitative_renders.py`
+- `paper/shared/evidence/experiments/08_material_effect_baseline/review_supplemental_qualitative_renders.py`
 - `paper/shared/figures/gen_material_effect_qualitative.py`
 - `paper/shared/evidence/raw/material_effect_baseline/effect_sample_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/supplemental_effect_candidate_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/supplemental_wrapper_stage_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/supplemental_conversion_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/`
+- `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json`
+- `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_run_manifest.json`
+- `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json`
+- `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/`
+- `paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/`
 - `paper/shared/evidence/raw/material_effect_baseline/nvidia_baseline_smoke_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/nvidia_sample_conversion_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json`
@@ -38,6 +46,8 @@ MDL fixture.
 - `paper/shared/evidence/raw/material_effect_baseline/nvidia_baseline_smoke/`
 - `paper/shared/figures/fig_material_effect_baseline_qualitative.png`
 - `paper/shared/figures/fig_material_effect_baseline_qualitative.report.json`
+- `paper/shared/figures/fig_material_effect_supplemental_qualitative.png`
+- `paper/shared/figures/fig_material_effect_supplemental_qualitative.report.json`
 - `paper/shared/tables/material_effect_baseline_summary.csv`
 - `paper/shared/tables/tab_material_effect_baseline_summary.tex`
 - `tests/test_material_effect_baseline_manifest.py`
@@ -161,6 +171,23 @@ normalized external research root and are summarized through the repo manifest.
 The NVIDIA failure is the clearcoat wrapper: the converter writes a USD output,
 but static inspection finds zero shader records and zero PreviewSurface records.
 
+The supplemental qualitative runner then rendered the two missing-bin wrapper
+cases across original MDL, ConvertAsset no-MDL, and NVIDIA. The output is a
+small repo-resident panel plus a machine visual-QA report.
+
+| Field | Count |
+|---|---:|
+| Supplemental qualitative cases | 2 |
+| Supplemental condition renders | 6 |
+| Render command failures | 0 |
+| Machine-QA pass / warn / fail | 5 / 0 / 1 |
+| Rendered failure candidates | 1 |
+
+The rendered failure candidate is the same NVIDIA clearcoat condition. Machine
+QA marks its still as `near_black_render`, so the failure has moved from
+static-only evidence to a rendered failure candidate. This still needs human
+visual review before it is used as a final visual-quality claim.
+
 ## Validation
 
 Commands run:
@@ -191,6 +218,12 @@ python -m pytest -q tests/test_material_effect_baseline_supplemental_conversion_
 ./scripts/isaac_python.sh paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_conversion_manifest.py
 python -m pytest -q tests/test_material_effect_baseline_tables.py
 python paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py
+python -m pytest -q tests/test_material_effect_baseline_supplemental_qualitative.py
+python paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_qualitative_render_manifest.py
+python paper/shared/evidence/experiments/08_material_effect_baseline/run_supplemental_qualitative_renders.py --timeout-seconds 900
+python paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_qualitative_render_manifest.py
+python paper/shared/figures/gen_material_effect_qualitative.py --manifest paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json --out paper/shared/figures/fig_material_effect_supplemental_qualitative.png --report paper/shared/figures/fig_material_effect_supplemental_qualitative.report.json
+python paper/shared/evidence/experiments/08_material_effect_baseline/review_supplemental_qualitative_renders.py
 ```
 
 Results:
@@ -227,6 +260,14 @@ Results:
   `convertasset_available_count=2`, `nvidia_available_count=1`,
   `nvidia_static_gate_failed_count=1`
 - regenerated effect tables: `rows=18`, `cases=1`
+- supplemental qualitative tests: `6 passed`
+- supplemental render manifest: `selected_case_count=2`,
+  `ready_case_count=2`, `render_pending_count=0`
+- supplemental render run: `attempted_count=6`, `ready_output_count=6`,
+  `failed_count=0`
+- supplemental figure: `figure_written=true`, `ready_case_count=2`
+- supplemental machine visual QA: `machine_pass_count=5`,
+  `machine_fail_count=1`, `failure_case_count=1`
 
 ## Claim Boundary
 
@@ -241,9 +282,10 @@ qualitative stills exist for original MDL / ConvertAsset / NVIDIA", and "local
 official/sample candidate sources have been identified for the missing
 clearcoat/procedural bins", and "supplemental clearcoat/procedural wrappers now
 have original/noMDL/NVIDIA static-gate records, including one NVIDIA clearcoat
-static-gate failure."
+static-gate failure", and "supplemental clearcoat/procedural wrappers now have
+rendered original/no-MDL/NVIDIA stills; machine QA flags NVIDIA clearcoat as a
+near-black rendered failure candidate."
 
 Not allowed yet: "ConvertAsset visually beats NVIDIA baseline", "all requested
-material effects are visually covered", "the supplemental clearcoat/procedural
-cases have rendered qualitative panels", or "these counts are a final
-failure-rate distribution."
+material effects have passed human visual review", or "these counts are a
+final failure-rate distribution."

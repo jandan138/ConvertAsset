@@ -193,6 +193,18 @@ results:
     - id: material_effect_qualitative_renders
       path: paper/shared/evidence/raw/material_effect_baseline/qualitative_renders/
       description: "Repo-resident selected NVIDIA stills and camera stages for the material-effect qualitative panel."
+    - id: material_effect_supplemental_qualitative_render_manifest
+      path: paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json
+      description: "Supplemental clearcoat/procedural qualitative render manifest. It records 2/2 ready cases and 6/6 ready original/noMDL/NVIDIA condition images; the NVIDIA clearcoat condition remains a static-gate-failed baseline row."
+    - id: material_effect_supplemental_qualitative_render_run
+      path: paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_run_manifest.json
+      description: "Isaac Sim viewport-capture run manifest for the supplemental material-effect stills; current run attempted six renders and produced six ready outputs with zero failed render commands."
+    - id: material_effect_supplemental_qualitative_visual_qa
+      path: paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json
+      description: "Machine visual-QA summary for supplemental clearcoat/procedural stills. It flags one rendered failure candidate: NVIDIA clearcoat is near-black after static-gate-failed conversion. This does not replace human visual review."
+    - id: material_effect_supplemental_qualitative_renders
+      path: paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/
+      description: "Repo-resident supplemental original/noMDL/NVIDIA stills for clearcoat and procedural texture wrappers."
     - id: grscenes_vlm_gemma4_stress_expanded30_predictions
       path: paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl
       description: "Canonical root Gemma4 structured-text real-model predictions over the expanded 30-pair material-shift stress manifest."
@@ -336,6 +348,8 @@ results:
     - paper/shared/figures/fig_method_pipeline.pdf
     - paper/shared/figures/fig_grscene_qualitative.pdf
     - paper/shared/figures/fig_vlm_grounding_cases.pdf
+    - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+    - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
   tables:
     - id: grscenes_vlm_pass_only_pilot
       outputs:

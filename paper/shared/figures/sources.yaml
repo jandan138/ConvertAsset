@@ -102,3 +102,11 @@ figures:
     sources:
       - paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
       - paper/shared/evidence/raw/material_effect_baseline/qualitative_nvidia_render_run_manifest.json
+  - id: fig_material_effect_supplemental_qualitative
+    outputs:
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+    generated_by: paper/shared/figures/gen_material_effect_qualitative.py
+    sources:
+      - paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json
+      - paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_run_manifest.json
+      - paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json

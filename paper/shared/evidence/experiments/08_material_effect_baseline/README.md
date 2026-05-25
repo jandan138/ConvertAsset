@@ -135,8 +135,8 @@ Current qualitative result:
   no-MDL, and NVIDIA
 - selected coverage includes `opacity_transparency`, `emission`,
   `normal_bump`, and `displacement_height`
-- `clearcoat` and `procedural_texture` still need rendered qualitative panels;
-  their static wrapper/baseline records now exist
+- `clearcoat` and `procedural_texture` are handled by the supplemental
+  qualitative pipeline below
 
 Supplemental missing-bin candidate entry point:
 
@@ -167,5 +167,52 @@ Current supplemental result:
 - NVIDIA static gate passes procedural texture but fails clearcoat by producing
   a USD output with zero shader records
 
-Next scripts should render original/no-MDL/NVIDIA qualitative panels for the
-supplemental wrappers and inspect the clearcoat failure visually.
+Supplemental qualitative render manifest entry point:
+
+```bash
+python paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_qualitative_render_manifest.py
+```
+
+Supplemental render runner:
+
+```bash
+python paper/shared/evidence/experiments/08_material_effect_baseline/run_supplemental_qualitative_renders.py
+```
+
+Supplemental machine visual QA:
+
+```bash
+python paper/shared/evidence/experiments/08_material_effect_baseline/review_supplemental_qualitative_renders.py
+```
+
+Supplemental figure entry point:
+
+```bash
+python paper/shared/figures/gen_material_effect_qualitative.py \
+  --manifest paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json \
+  --out paper/shared/figures/fig_material_effect_supplemental_qualitative.png \
+  --report paper/shared/figures/fig_material_effect_supplemental_qualitative.report.json
+```
+
+Default supplemental qualitative outputs:
+
+```text
+paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json
+paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_run_manifest.json
+paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json
+paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/
+paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/
+paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+paper/shared/figures/fig_material_effect_supplemental_qualitative.report.json
+```
+
+Current supplemental qualitative result:
+
+- 2 supplemental cases: clearcoat and procedural texture
+- 6/6 condition images ready across original MDL, ConvertAsset no-MDL, and
+  NVIDIA
+- 2/2 cases are ready for a contact sheet
+- machine visual QA flags one failure candidate: NVIDIA clearcoat renders
+  near-black after the static-gate-failed conversion
+- this is rendered failure evidence, but not an independent human visual
+  review or final error-rate distribution

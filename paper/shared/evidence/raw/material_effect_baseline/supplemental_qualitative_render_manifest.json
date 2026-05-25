@@ -1,0 +1,530 @@
+{
+  "schema_version": 1,
+  "status": "supplemental_material_effect_qualitative_render_manifest",
+  "generated_by": "paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_qualitative_render_manifest.py",
+  "generated_at_utc": "2026-05-25T15:48:26.420625Z",
+  "generator_git_commit": "32b847d7fd60df573e2626d24150c8c11dc64e8d",
+  "condition_order": [
+    "original_MDL",
+    "existing_noMDL",
+    "nvidia_asset_converter_preview_or_bake"
+  ],
+  "effect_order": [
+    "clearcoat",
+    "procedural_texture"
+  ],
+  "output_root": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders",
+  "renderer_settings": {
+    "image_width": 600,
+    "image_height": 450,
+    "renderer": "RayTracedLighting",
+    "wait_frames": 8
+  },
+  "summary": {
+    "sample_count": 2,
+    "selected_case_count": 2,
+    "condition_record_count": 6,
+    "ready_image_record_count": 6,
+    "ready_case_count": 2,
+    "render_pending_count": 0,
+    "source_missing_count": 0,
+    "nvidia_static_gate_failed_count": 1,
+    "ready_for_contact_sheet": true,
+    "ready_for_visual_review": true,
+    "ready_for_visual_quality_claim": false,
+    "blockers": [
+      "supplemental_nvidia_static_gate_failed"
+    ]
+  },
+  "selected_cases": [
+    {
+      "sample_id": "supplemental_clearcoat_omnipbr",
+      "pair_id": "supplemental_clearcoat_omnipbr",
+      "source_scene_id": "supplemental_official_sample_wrapper",
+      "target_category": "supplemental_material_fixture",
+      "target_id": "/World/ClearcoatTarget",
+      "target_prim_path": "/World/ClearcoatTarget",
+      "visual_review": null,
+      "covered_effects": [
+        "clearcoat"
+      ],
+      "condition_statuses": {
+        "original_MDL": "render_ready",
+        "existing_noMDL": "render_ready",
+        "nvidia_asset_converter_preview_or_bake": "render_ready"
+      }
+    },
+    {
+      "sample_id": "supplemental_procedural_checker",
+      "pair_id": "supplemental_procedural_checker",
+      "source_scene_id": "supplemental_official_sample_wrapper",
+      "target_category": "supplemental_material_fixture",
+      "target_id": "/World/ProceduralTarget",
+      "target_prim_path": "/World/ProceduralTarget",
+      "visual_review": null,
+      "covered_effects": [
+        "procedural_texture"
+      ],
+      "condition_statuses": {
+        "original_MDL": "render_ready",
+        "existing_noMDL": "render_ready",
+        "nvidia_asset_converter_preview_or_bake": "render_ready"
+      }
+    }
+  ],
+  "records": [
+    {
+      "sample_id": "supplemental_clearcoat_omnipbr",
+      "pair_id": "supplemental_clearcoat_omnipbr",
+      "source_scene_id": "supplemental_official_sample_wrapper",
+      "target_category": "supplemental_material_fixture",
+      "target_id": "/World/ClearcoatTarget",
+      "target_prim_path": "/World/ClearcoatTarget",
+      "covered_effects": [
+        "clearcoat"
+      ],
+      "condition": "original_MDL",
+      "status": "render_ready",
+      "source_condition_status": "available",
+      "static_gate_passed": true,
+      "usd_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr.usda",
+      "usd_exists": true,
+      "camera_prim_path": "/World/Camera",
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr.usda",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_clearcoat_omnipbr/original_MDL/original_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "955a3aad0b90954e5ad8816ea4a5ca1d09c05ea6433deea63f644b11ceabe6ad",
+        "bytes": 222943,
+        "width": 600,
+        "height": 450
+      },
+      "render_command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr.usda",
+        "--camera",
+        "/World/Camera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_clearcoat_omnipbr/original_MDL",
+        "--prefix",
+        "original",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "8",
+        "--headless"
+      ],
+      "visual_expectation": {
+        "target": "/World/ClearcoatTarget",
+        "effects": [
+          "clearcoat"
+        ],
+        "same_camera_family": true,
+        "note": "Supplemental wrapper render for material-effect qualitative inspection."
+      }
+    },
+    {
+      "sample_id": "supplemental_clearcoat_omnipbr",
+      "pair_id": "supplemental_clearcoat_omnipbr",
+      "source_scene_id": "supplemental_official_sample_wrapper",
+      "target_category": "supplemental_material_fixture",
+      "target_id": "/World/ClearcoatTarget",
+      "target_prim_path": "/World/ClearcoatTarget",
+      "covered_effects": [
+        "clearcoat"
+      ],
+      "condition": "existing_noMDL",
+      "status": "render_ready",
+      "source_condition_status": "available",
+      "static_gate_passed": true,
+      "usd_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr_noMDL.usda",
+      "usd_exists": true,
+      "camera_prim_path": "/World/Camera",
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr_noMDL.usda",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_clearcoat_omnipbr/existing_noMDL/convertasset_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "639bea46bcce8bf2f47ebb9a7537d9d8f48bfb8beb21572f9c85143e1838d1fa",
+        "bytes": 53413,
+        "width": 600,
+        "height": 450
+      },
+      "render_command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_clearcoat_omnipbr_noMDL.usda",
+        "--camera",
+        "/World/Camera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_clearcoat_omnipbr/existing_noMDL",
+        "--prefix",
+        "convertasset",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "8",
+        "--headless"
+      ],
+      "visual_expectation": {
+        "target": "/World/ClearcoatTarget",
+        "effects": [
+          "clearcoat"
+        ],
+        "same_camera_family": true,
+        "note": "Supplemental wrapper render for material-effect qualitative inspection."
+      }
+    },
+    {
+      "sample_id": "supplemental_clearcoat_omnipbr",
+      "pair_id": "supplemental_clearcoat_omnipbr",
+      "source_scene_id": "supplemental_official_sample_wrapper",
+      "target_category": "supplemental_material_fixture",
+      "target_id": "/World/ClearcoatTarget",
+      "target_prim_path": "/World/ClearcoatTarget",
+      "covered_effects": [
+        "clearcoat"
+      ],
+      "condition": "nvidia_asset_converter_preview_or_bake",
+      "status": "render_ready",
+      "source_condition_status": "static_gate_failed",
+      "static_gate_passed": false,
+      "usd_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_supplemental/clearcoat/supplemental_clearcoat_omnipbr_nvidia_usd_to_usd_preview.usd",
+      "usd_exists": true,
+      "camera_prim_path": "/World/Camera/Camera",
+      "camera_stage_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_supplemental/clearcoat/supplemental_clearcoat_omnipbr_nvidia_usd_to_usd_preview.usd",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_clearcoat_omnipbr/nvidia_asset_converter_preview_or_bake/nvidia_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "2277707e527d2a4f1cb4d8d6f8090e9f3f169576e992625b271f5f238512900b",
+        "bytes": 20170,
+        "width": 600,
+        "height": 450
+      },
+      "render_command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_supplemental/clearcoat/supplemental_clearcoat_omnipbr_nvidia_usd_to_usd_preview.usd",
+        "--camera",
+        "/World/Camera/Camera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_clearcoat_omnipbr/nvidia_asset_converter_preview_or_bake",
+        "--prefix",
+        "nvidia",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "8",
+        "--headless"
+      ],
+      "visual_expectation": {
+        "target": "/World/ClearcoatTarget",
+        "effects": [
+          "clearcoat"
+        ],
+        "same_camera_family": true,
+        "note": "Supplemental wrapper render for material-effect qualitative inspection."
+      }
+    },
+    {
+      "sample_id": "supplemental_procedural_checker",
+      "pair_id": "supplemental_procedural_checker",
+      "source_scene_id": "supplemental_official_sample_wrapper",
+      "target_category": "supplemental_material_fixture",
+      "target_id": "/World/ProceduralTarget",
+      "target_prim_path": "/World/ProceduralTarget",
+      "covered_effects": [
+        "procedural_texture"
+      ],
+      "condition": "original_MDL",
+      "status": "render_ready",
+      "source_condition_status": "available",
+      "static_gate_passed": true,
+      "usd_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker.usda",
+      "usd_exists": true,
+      "camera_prim_path": "/World/Camera",
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker.usda",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_procedural_checker/original_MDL/original_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "808886fbb8254c58711b8ec83b04c61e81a9279a283cfe9e8103973e544f7df1",
+        "bytes": 647204,
+        "width": 600,
+        "height": 450
+      },
+      "render_command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker.usda",
+        "--camera",
+        "/World/Camera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_procedural_checker/original_MDL",
+        "--prefix",
+        "original",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "8",
+        "--headless"
+      ],
+      "visual_expectation": {
+        "target": "/World/ProceduralTarget",
+        "effects": [
+          "procedural_texture"
+        ],
+        "same_camera_family": true,
+        "note": "Supplemental wrapper render for material-effect qualitative inspection."
+      }
+    },
+    {
+      "sample_id": "supplemental_procedural_checker",
+      "pair_id": "supplemental_procedural_checker",
+      "source_scene_id": "supplemental_official_sample_wrapper",
+      "target_category": "supplemental_material_fixture",
+      "target_id": "/World/ProceduralTarget",
+      "target_prim_path": "/World/ProceduralTarget",
+      "covered_effects": [
+        "procedural_texture"
+      ],
+      "condition": "existing_noMDL",
+      "status": "render_ready",
+      "source_condition_status": "available",
+      "static_gate_passed": true,
+      "usd_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker_noMDL.usda",
+      "usd_exists": true,
+      "camera_prim_path": "/World/Camera",
+      "camera_stage_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker_noMDL.usda",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_procedural_checker/existing_noMDL/convertasset_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "3c8c457501189f48a23c4eeadb84c2ab1ba68550d6094d1f95f0fc8dfb4ef0d4",
+        "bytes": 17826,
+        "width": 600,
+        "height": 450
+      },
+      "render_command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_fixtures/supplemental_procedural_checker_noMDL.usda",
+        "--camera",
+        "/World/Camera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_procedural_checker/existing_noMDL",
+        "--prefix",
+        "convertasset",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "8",
+        "--headless"
+      ],
+      "visual_expectation": {
+        "target": "/World/ProceduralTarget",
+        "effects": [
+          "procedural_texture"
+        ],
+        "same_camera_family": true,
+        "note": "Supplemental wrapper render for material-effect qualitative inspection."
+      }
+    },
+    {
+      "sample_id": "supplemental_procedural_checker",
+      "pair_id": "supplemental_procedural_checker",
+      "source_scene_id": "supplemental_official_sample_wrapper",
+      "target_category": "supplemental_material_fixture",
+      "target_id": "/World/ProceduralTarget",
+      "target_prim_path": "/World/ProceduralTarget",
+      "covered_effects": [
+        "procedural_texture"
+      ],
+      "condition": "nvidia_asset_converter_preview_or_bake",
+      "status": "render_ready",
+      "source_condition_status": "available",
+      "static_gate_passed": true,
+      "usd_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_supplemental/procedural_texture/supplemental_procedural_checker_nvidia_usd_to_usd_preview.usd",
+      "usd_exists": true,
+      "camera_prim_path": "/World/Camera/Camera",
+      "camera_stage_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_supplemental/procedural_texture/supplemental_procedural_checker_nvidia_usd_to_usd_preview.usd",
+      "image": {
+        "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_procedural_checker/nvidia_asset_converter_preview_or_bake/nvidia_0000.png",
+        "exists": true,
+        "status": "ready",
+        "hash_sha256": "295f2306efbddea776b0fb95867f61c8d42ab6a4f352e8232b877539cfbacd83",
+        "bytes": 152979,
+        "width": 600,
+        "height": 450
+      },
+      "render_command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/material_effect_baseline/nvidia_asset_converter_supplemental/procedural_texture/supplemental_procedural_checker_nvidia_usd_to_usd_preview.usd",
+        "--camera",
+        "/World/Camera/Camera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_procedural_checker/nvidia_asset_converter_preview_or_bake",
+        "--prefix",
+        "nvidia",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "8",
+        "--headless"
+      ],
+      "visual_expectation": {
+        "target": "/World/ProceduralTarget",
+        "effects": [
+          "procedural_texture"
+        ],
+        "same_camera_family": true,
+        "note": "Supplemental wrapper render for material-effect qualitative inspection."
+      }
+    }
+  ],
+  "claim_boundary": {
+    "allowed": [
+      "Use ready supplemental renders for qualitative failure review and paper/rebuttal panels.",
+      "Use NVIDIA clearcoat as a candidate visual failure only after rendered inspection."
+    ],
+    "forbidden": [
+      "Do not treat a static-gate-failed NVIDIA condition as a broad error-rate estimate.",
+      "Do not claim full material-effect visual quality coverage until supplemental renders are reviewed."
+    ]
+  },
+  "inputs": {
+    "conversion_manifest": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/supplemental_conversion_manifest.json",
+      "hash_sha256": "9d027734b063c7e3048314af01f7893597db7c3f952762e45bc9a003515925d5"
+    }
+  },
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_qualitative_render_manifest.py"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_qualitative_render_manifest.py",
+    "script_hash_sha256": "36850f2e0cb5dc1fd920c1a6241ce8cf6cee409923f83adcbd39757a910a6696",
+    "git_commit": "32b847d7fd60df573e2626d24150c8c11dc64e8d",
+    "git_status_porcelain": [
+      "M  docs/design/material-effect-baseline-experiment.md",
+      "M  docs/records/2026-05-25-material-effect-baseline-bootstrap.md",
+      "M  docs/superpowers/plans/2026-05-25-material-effect-baseline.md",
+      "M  paper/EXPERIMENT_CHECKLIST.md",
+      "M  paper/shared/evidence/experiments/08_material_effect_baseline/README.md",
+      "A  paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_qualitative_render_manifest.py",
+      "A  paper/shared/evidence/experiments/08_material_effect_baseline/review_supplemental_qualitative_renders.py",
+      "AM paper/shared/evidence/experiments/08_material_effect_baseline/run_supplemental_qualitative_renders.py",
+      "M  paper/shared/evidence/raw/material_effect_baseline/README.md",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/supplemental_clearcoat_omnipbr.existing_noMDL.stderr.txt",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/supplemental_clearcoat_omnipbr.existing_noMDL.stdout.txt",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/supplemental_clearcoat_omnipbr.nvidia_asset_converter_preview_or_bake.stderr.txt",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/supplemental_clearcoat_omnipbr.nvidia_asset_converter_preview_or_bake.stdout.txt",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/supplemental_clearcoat_omnipbr.original_MDL.stderr.txt",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/supplemental_clearcoat_omnipbr.original_MDL.stdout.txt",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/supplemental_procedural_checker.existing_noMDL.stderr.txt",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/supplemental_procedural_checker.existing_noMDL.stdout.txt",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/supplemental_procedural_checker.nvidia_asset_converter_preview_or_bake.stderr.txt",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/supplemental_procedural_checker.nvidia_asset_converter_preview_or_bake.stdout.txt",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/supplemental_procedural_checker.original_MDL.stderr.txt",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/supplemental_procedural_checker.original_MDL.stdout.txt",
+      "A  paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_run_manifest.json",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_clearcoat_omnipbr/existing_noMDL/convertasset_0000.png",
+      "A  paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_clearcoat_omnipbr/nvidia_asset_converter_preview_or_bake/nvidia_0000.png",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_clearcoat_omnipbr/original_MDL/original_0000.png",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_procedural_checker/existing_noMDL/convertasset_0000.png",
+      "A  paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_procedural_checker/nvidia_asset_converter_preview_or_bake/nvidia_0000.png",
+      "AM paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/supplemental_procedural_checker/original_MDL/original_0000.png",
+      "A  paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json",
+      "M  paper/shared/evidence/results_manifest.yaml",
+      "A  paper/shared/figures/fig_material_effect_supplemental_qualitative.png",
+      "A  paper/shared/figures/fig_material_effect_supplemental_qualitative.report.json",
+      "M  paper/shared/figures/gen_material_effect_qualitative.py",
+      "M  paper/shared/figures/sources.yaml",
+      "AM tests/test_material_effect_baseline_supplemental_qualitative.py"
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "status": "material_effect_qualitative_figure_report",
+  "generated_at_utc": "2026-05-25T15:48:26.519416Z",
+  "generated_by": "paper/shared/figures/gen_material_effect_qualitative.py",
+  "output": {
+    "path": "paper/shared/figures/fig_material_effect_supplemental_qualitative.png",
+    "exists": true,
+    "hash_sha256": "29501ff76808df01194439182a7fd8b4318d48f97ad27d661c380645cf0884c2",
+    "bytes": 191549
+  },
+  "summary": {
+    "selected_case_count": 2,
+    "ready_case_count": 2,
+    "figure_written": true,
+    "blockers": []
+  },
+  "inputs": {
+    "manifest": {
+      "path": "paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json",
+      "hash_sha256": "4fb89ea95d0101299135a6f3fe59f54055549eab4bafbe5c7d8918e3a58b7e4f"
+    }
+  },
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/figures/gen_material_effect_qualitative.py",
+      "--manifest",
+      "paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json",
+      "--out",
+      "paper/shared/figures/fig_material_effect_supplemental_qualitative.png",
+      "--report",
+      "paper/shared/figures/fig_material_effect_supplemental_qualitative.report.json"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/figures/gen_material_effect_qualitative.py",
+    "script_hash_sha256": "e75bb2ff425f8f36dc50fbbfb81aabcc9062efc6b3bacd65f58aeab1f2123c60",
+    "git_commit": "32b847d7fd60df573e2626d24150c8c11dc64e8d"
+  }
+}

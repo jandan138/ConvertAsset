@@ -18,6 +18,7 @@ from PIL import Image, ImageDraw, ImageFont
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_MANIFEST = PROJECT_ROOT / "paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json"
 DEFAULT_OUTPUT = PROJECT_ROOT / "paper/shared/figures/fig_material_effect_baseline_qualitative.png"
+SUPPLEMENTAL_OUTPUT = PROJECT_ROOT / "paper/shared/figures/fig_material_effect_supplemental_qualitative.png"
 CONDITION_ORDER = [
     "original_MDL",
     "existing_noMDL",

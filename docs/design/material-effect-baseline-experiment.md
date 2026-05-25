@@ -151,8 +151,9 @@ The current table has 18 rows: six effect bins by three conditions. After the
 supplemental wrapper run, `clearcoat` and `procedural_texture` each have one
 supplemental sample instead of zero-sample rows. The follow-up case manifest
 currently has one static-gate failure case: NVIDIA Asset Converter produces a
-clearcoat output USD with zero shader records. This is a concrete baseline
-failure candidate, not yet a render-level visual-quality result.
+clearcoat output USD with zero shader records. The supplemental qualitative
+render/QA pass below now turns that static failure into a rendered failure
+candidate.
 
 Generated qualitative artifacts:
 
@@ -177,8 +178,38 @@ Current qualitative summary:
 The selected cases cover the effect bins present in GRScenes:
 `opacity_transparency`, `emission`, `normal_bump`, and
 `displacement_height`. They are suitable for bounded qualitative comparison of
-the GRScenes-covered bins, but they still do not render the supplemental
+the GRScenes-covered bins. Supplemental panels below cover the missing
 `clearcoat` and `procedural_texture` cases.
+
+Generated supplemental qualitative artifacts:
+
+```text
+paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json
+paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_run_manifest.json
+paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_visual_qa.json
+paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/
+paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_logs/
+paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+paper/shared/figures/fig_material_effect_supplemental_qualitative.report.json
+```
+
+Current supplemental qualitative summary:
+
+| Field | Value |
+|---|---:|
+| Supplemental cases | 2 |
+| Ready condition images | 6 / 6 |
+| Ready contact-sheet cases | 2 / 2 |
+| Machine-QA pass / warn / fail | 5 / 0 / 1 |
+| Rendered failure candidates | 1 |
+
+The rendered failure candidate is NVIDIA clearcoat:
+`supplemental_clearcoat_omnipbr` under
+`nvidia_asset_converter_preview_or_bake`. Machine QA marks the image as
+`near_black_render`, matching the earlier static failure (`shader_count=0`,
+`preview_surface_count=0`). This supports a paper/rebuttal failure example, but
+it still needs human visual review before being used as final visual-quality
+evidence.
 
 Generated supplemental candidate artifact:
 
@@ -206,22 +237,20 @@ scratch copies:
 | `clearcoat` | `isaac_material_library_omnipbr_clearcoat_opacity` | Isaac Sim `omni.kit.material.library` test material binding + `OmniPBR_ClearCoat_Opacity.mdl` |
 | `procedural_texture` | `nvidia_mdl_sdk_tutorials_checker_noise` | NVIDIA MDL USD-converter tutorials using checker/noise functions |
 
-These are now counted in the effect table as supplemental static-gate samples.
-They still need rendered qualitative inspection before any visual-quality or
-all-effects reliability claim.
+These are now counted in the effect table as supplemental static-gate samples
+and have rendered supplemental panels. The remaining gap is human visual review
+and final paper text integration, not render generation.
 
 ## Next Gate
 
-The next gate is supplemental qualitative rendering and failure review:
+The next gate is human visual review and paper integration:
 
-1. Render original/no-MDL/NVIDIA panels for the two supplemental wrapper cases.
-2. Inspect the NVIDIA clearcoat static-gate failure and decide whether it is a
-   paper/rebuttal failure example.
-3. Regenerate qualitative panels with both GRScenes covered-bin cases and
-   supplemental clearcoat/procedural cases.
-4. Add visual failure examples once render-level inspection identifies concrete
-   failure modes, rather than treating static-gate success as visual success.
-
-No paper claim should compare all requested material effects against NVIDIA
-until the supplemental cases become rendered condition rows. The current
-qualitative figure supports only a GRScenes covered-bin visual comparison.
+1. Perform a human/clean-room review of the supplemental contact sheet and the
+   individual six condition images.
+2. Decide whether the NVIDIA clearcoat near-black render is a paper/rebuttal
+   failure example or needs a retake.
+3. Integrate the GRScenes covered-bin panel and supplemental missing-bin panel
+   into the paper figure plan.
+4. Keep the claim bounded: current evidence supports condition readiness,
+   supplemental rendered failure discovery, and qualitative examples, not a
+   final all-effects error-rate distribution.

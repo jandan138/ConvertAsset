@@ -18,9 +18,23 @@ Current files:
   procedural texture wrappers. Current static gates show ConvertAsset passing
   both, NVIDIA passing procedural texture, and NVIDIA dropping clearcoat
   material output.
+- `supplemental_qualitative_render_manifest.json`: records the two
+  supplemental wrapper cases across original MDL, ConvertAsset no-MDL, and
+  NVIDIA render conditions. Current state is 2/2 ready cases and 6/6 ready
+  images.
+- `supplemental_qualitative_render_run_manifest.json`: records the Isaac Sim
+  viewport-capture run for those six supplemental stills; the current run has
+  `attempted=6`, `ready=6`, and `failed=0`.
+- `supplemental_qualitative_visual_qa.json`: records machine visual QA over
+  the supplemental stills. It flags one rendered failure candidate:
+  NVIDIA clearcoat is near-black after the static-gate-failed conversion.
 - `supplemental_fixtures/`: small repo-resident wrapper USD stages,
   ConvertAsset no-MDL outputs, and ConvertAsset audit/summary sidecars for the
   supplemental material-effect cases.
+- `supplemental_qualitative_renders/`: repo-resident supplemental stills for
+  the clearcoat and procedural texture wrappers.
+- `supplemental_qualitative_render_logs/`: stdout/stderr logs from the
+  supplemental viewport-capture commands.
 - `nvidia_baseline_smoke_manifest.json`: records the local Isaac Sim NVIDIA
   Asset Converter smoke over NVIDIA's own MDL fixture. The smoke passed two USD
   PreviewSurface baseline candidates and gates the next sample-level baseline.
