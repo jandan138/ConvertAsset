@@ -116,6 +116,24 @@ claims:
       - paper/shared/tables/material_effect_baseline_summary.csv
       - paper/shared/tables/material_effect_risk_matrix.csv
     scope: "Selected GRScenes expanded30 material-effect pool plus two supplemental official/sample wrapper fixtures. This supports static readiness, selected failure-case evidence, and retake/investigation priorities; it does not support a final all-effects error-rate distribution, a successful supplemental qualitative panel, or a broad visual-quality win claim."
+  - id: reviewer_closure_paired_ci
+    statement: "The reviewer-closure package adds paired bootstrap confidence intervals to the existing VLM and official InternNav evidence. In the expanded30 VLM stress set, Gemma4 normalized-1000 point hits change by +0.0667 with 95% CI [0.0000, 0.1667], while Qwen2.5-VL raw-point diagnostic hits change by -0.1429 with 95% CI [-0.3214, 0.0000]. In the official KuJiaLe InternNav val_unseen run, noMDL-minus-original deltas are SR -0.0404 [-0.1515, 0.0707], SPL -0.0441 [-0.1417, 0.0514], NE -0.0492 [-0.6464, 0.5386], and TL +0.0844 [-0.7366, 0.9304]."
+    sources:
+      - paper/shared/evidence/raw/reviewer_closure_package/reviewer_closure_statistical_summary.json
+      - paper/shared/tables/reviewer_closure_paired_ci.csv
+    scope: "Descriptive paired bootstrap intervals over already-collected frozen evidence pools. The intervals calibrate reviewer-facing uncertainty; they do not establish population-level downstream robustness or a broad benchmark win."
+  - id: vlm_coordinate_baselines
+    statement: "The expanded30 VLM stress set now includes coordinate-only baselines: random seeded pixels, image center, pixel bbox center, and normalized-1000 bbox center. The image-center and pixel-bbox-center baselines both score 30/30 under raw pixel point-in-box because the stress cameras are target-centered, while only the normalized-1000 bbox-center oracle scores 30/30 under the normalized-1000 metric."
+    sources:
+      - paper/shared/evidence/raw/reviewer_closure_package/vlm_coordinate_baseline_summary.json
+      - paper/shared/tables/vlm_coordinate_baselines.csv
+    scope: "Scoring and camera-centering sanity baselines only. These are deterministic coordinate-only baselines, not VLM predictions or task-performance evidence."
+  - id: material_safe_conversion_recommender
+    statement: "The material-effect risk matrix is converted into a lightweight safe-conversion recommender: the four GRScenes-covered bins are bounded-low risk with static and selected visual review gates; clearcoat requires manual review of ConvertAsset approximation and an NVIDIA target-retention gate; procedural texture should be kept as MDL or baked/investigated before claiming preservation."
+    sources:
+      - paper/shared/evidence/raw/reviewer_closure_package/material_safe_conversion_recommender.json
+      - paper/shared/tables/material_safe_conversion_recommender.csv
+    scope: "Rule table derived from selected material-effect evidence. It is not a learned classifier and should not be presented as an automatic general material-risk predictor."
 review_requirements:
   - "Re-check every numerical statement after AAAI 2027 narrative edits."
   - "Update this file in the same change as any result, table, figure, seed, or claim change."
@@ -127,4 +145,7 @@ review_requirements:
   - "Treat raw-image coordinate scores in `grscenes_vlm_coordinate_ablation` as diagnostics for unresolved coordinate semantics, not as primary final VLM metrics."
   - "Treat `grscenes_vlm_failure_taxonomy` as selected qualitative examples, not an empirical failure distribution."
   - "Treat `material_effect_baseline_risk_profile` as selected baseline/risk evidence; do not convert the single supplemental clearcoat NVIDIA failure or the two-case clean-room review into a population-level failure rate."
+  - "Treat `reviewer_closure_paired_ci` as descriptive uncertainty over existing frozen evidence, not a population-level significance result."
+  - "Treat `vlm_coordinate_baselines` as scoring sanity baselines. Image-center success under raw pixels reflects target-centered camera construction, not VLM skill."
+  - "Treat `material_safe_conversion_recommender` as an evidence-gated rule table derived from selected cases, not a learned automatic recommender."
   - "Do not generate final VLM performance tables from any run whose `canonical_vlm_run_manifest.json` claim gate has `final_benchmark_claimable=false`."

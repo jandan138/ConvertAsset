@@ -1,0 +1,20 @@
+\begin{table*}[t]
+\centering
+\caption{Lightweight safe-conversion recommender derived from the material-effect risk matrix. The rules are evidence-gated reviewer-closure guidance, not a learned classifier.}
+\label{tab:material_safe_conversion_recommender}
+\scriptsize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llll}
+\toprule
+\textbf{Effect} & \textbf{Risk} & \textbf{ConvertAsset action} & \textbf{Paper use} \\
+\midrule
+clearcoat & manual\_review\_high & manual\_visual\_review\_of\_preview\_approximation & selected\_failure\_case\_only \\
+opacity\_transparency & bounded\_low & convert\_with\_static\_gate\_and\_selected\_visual\_review & bounded\_evidence\_only \\
+emission & bounded\_low & convert\_with\_static\_gate\_and\_selected\_visual\_review & bounded\_evidence\_only \\
+procedural\_texture & high & keep\_mdl\_or\_bake\_before\_claiming\_preservation & limitation\_or\_investigation\_only \\
+normal\_bump & bounded\_low & convert\_with\_static\_gate\_and\_selected\_visual\_review & bounded\_evidence\_only \\
+displacement\_height & bounded\_low & convert\_with\_static\_gate\_and\_selected\_visual\_review & bounded\_evidence\_only \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}

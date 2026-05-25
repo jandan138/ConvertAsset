@@ -375,6 +375,20 @@ main ACL-facing point: material perturbations interact with VLM prompting and
 coordinate semantics, so downstream grounding reliability cannot be inferred
 from a single visual-fidelity score alone.
 
+\input{tables/tab_reviewer_closure_paired_ci}
+
+Table~\ref{tab:reviewer_closure_paired_ci} adds paired bootstrap confidence
+intervals to the existing reviewer-facing evidence. On the expanded30 VLM
+stress set, Gemma4 has identical answer accuracy across material conditions and
+a small positive converted-minus-original normalized-1000 point delta
+(+0.0667, 95\% CI [0.0000, 0.1667]). Qwen2.5-VL has no paired answer or
+normalized-1000 point delta, but its raw-coordinate diagnostic drops on
+converted renders (-0.1429, 95\% CI [-0.3214, 0.0000]). On the official
+KuJiaLe InternNav \texttt{val\_unseen} sanity run, noMDL-minus-original deltas
+over 99 paired episodes are small and intervals cross zero for SR, SPL, NE, and
+TL. We therefore use these intervals as descriptive uncertainty over the
+current frozen evidence, not as a population-level robustness guarantee.
+
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_vlm_grounding_cases.pdf}
@@ -393,10 +407,12 @@ and material-shift stress-test result. It does not yet establish broad VLM
 robustness or embodied downstream task gains; those require a larger clean
 benchmark or navigation/manipulation transfer evaluation.
 
-We also ran a one-episode InternNav/DualVLN smoke test on the same GRScenes
-intervention route to verify that the paired USDs can drive a real embodied
-navigation stack. Both original and noMDL conditions reached the maximum-step
-termination with SR/SPL equal to zero, but the noMDL condition changed the
-trajectory statistics substantially: TL increased from 64.7729 to 98.2783 and
-NE increased from 8.3585 to 42.1053. We treat this as protocol evidence and a
-registered failure case, not as aggregate navigation performance evidence.
+For embodied downstream evidence, we additionally use the official
+InteriorNav/KuJiaLe \texttt{val\_unseen} route through InternNav/DualVLN. The
+current paired run covers all three local official \texttt{val\_unseen} scenes
+and 99 paired episodes. Combined original/noMDL means are SR 0.5253/0.4848,
+SPL 0.4739/0.4298, NE 3.6798/3.6306, and TL 6.9754/7.0598. This shows that
+ConvertAsset noMDL scenes can be evaluated end-to-end in a real official
+navigation stack, but the effect is scene-dependent and remains scoped to a
+controlled official sanity run rather than a broad embodied-navigation
+benchmark.

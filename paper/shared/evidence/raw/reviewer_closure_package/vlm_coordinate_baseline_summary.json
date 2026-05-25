@@ -1,0 +1,111 @@
+{
+  "baseline_artifacts": {
+    "bbox_center_normalized_1000": {
+      "predictions": "paper/shared/evidence/raw/reviewer_closure_package/vlm_coordinate_baselines/bbox_center_normalized_1000_predictions.jsonl",
+      "score_summary": "paper/shared/evidence/raw/reviewer_closure_package/vlm_coordinate_baselines/bbox_center_normalized_1000_score_summary.json"
+    },
+    "bbox_center_pixel": {
+      "predictions": "paper/shared/evidence/raw/reviewer_closure_package/vlm_coordinate_baselines/bbox_center_pixel_predictions.jsonl",
+      "score_summary": "paper/shared/evidence/raw/reviewer_closure_package/vlm_coordinate_baselines/bbox_center_pixel_score_summary.json"
+    },
+    "image_center_pixel": {
+      "predictions": "paper/shared/evidence/raw/reviewer_closure_package/vlm_coordinate_baselines/image_center_pixel_predictions.jsonl",
+      "score_summary": "paper/shared/evidence/raw/reviewer_closure_package/vlm_coordinate_baselines/image_center_pixel_score_summary.json"
+    },
+    "random_seeded_pixel": {
+      "predictions": "paper/shared/evidence/raw/reviewer_closure_package/vlm_coordinate_baselines/random_seeded_pixel_predictions.jsonl",
+      "score_summary": "paper/shared/evidence/raw/reviewer_closure_package/vlm_coordinate_baselines/random_seeded_pixel_score_summary.json"
+    }
+  },
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/09_reviewer_closure_package/build_reviewer_closure_package.py"
+    ],
+    "generated_at_utc": "2026-05-25T22:53:27.987202Z",
+    "git_commit": "42ab21003d3862819a58fb359e5b6cc05608c1bc",
+    "git_status_porcelain": [
+      " M docs/index.md",
+      " M docs/records/2026-05-26-reviewer-closure-status-and-next-goal.md",
+      " M docs/records/README.md",
+      " M paper/shared/evidence/claims.yaml",
+      " M paper/shared/evidence/results_manifest.yaml",
+      " M paper/shared/evidence/reviews/2026-05-workshop-to-aaai27-revision-roadmap.md",
+      " M paper/shared/sections/appendix.tex",
+      " M paper/shared/sections/discussion.tex",
+      " M paper/shared/sections/experiments.tex",
+      " M paper/shared/tables/README.md",
+      " M paper/venues/acl27/STATUS.md",
+      "?? 21 untracked files omitted from provenance"
+    ],
+    "script_hash_sha256": "17dbd76a00b194613a6692fb9468cf4fd197b2e043a1fbdc7826ab2bcda33b2e",
+    "script_path": "paper/shared/evidence/experiments/09_reviewer_closure_package/build_reviewer_closure_package.py"
+  },
+  "inputs": {
+    "stress_manifest": {
+      "hash_sha256": "ac5a5f9783367e6ea7b39aed2d84953c9b25b6dbbcd5338704c32143574352af",
+      "path": "paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded30.json"
+    }
+  },
+  "rows": [
+    {
+      "baseline_id": "random_seeded_pixel",
+      "claim_boundary": "coordinate_only_baseline_not_vlm_evidence",
+      "coordinate_space": "pixel",
+      "n_records": "60",
+      "norm1000_pair_agreement": "21/30",
+      "norm1000_point_converted": "3/30",
+      "norm1000_point_original": "8/30",
+      "point_policy": "deterministic hash-seeded random in image bounds",
+      "raw_pair_agreement": "23/30",
+      "raw_point_converted": "2/30",
+      "raw_point_original": "5/30"
+    },
+    {
+      "baseline_id": "image_center_pixel",
+      "claim_boundary": "coordinate_only_baseline_not_vlm_evidence",
+      "coordinate_space": "pixel",
+      "n_records": "60",
+      "norm1000_pair_agreement": "30/30",
+      "norm1000_point_converted": "0/30",
+      "norm1000_point_original": "0/30",
+      "point_policy": "image center, no target information",
+      "raw_pair_agreement": "30/30",
+      "raw_point_converted": "30/30",
+      "raw_point_original": "30/30"
+    },
+    {
+      "baseline_id": "bbox_center_pixel",
+      "claim_boundary": "coordinate_only_baseline_not_vlm_evidence",
+      "coordinate_space": "pixel",
+      "n_records": "60",
+      "norm1000_pair_agreement": "30/30",
+      "norm1000_point_converted": "0/30",
+      "norm1000_point_original": "0/30",
+      "point_policy": "oracle projected bbox center in pixel coordinates",
+      "raw_pair_agreement": "30/30",
+      "raw_point_converted": "30/30",
+      "raw_point_original": "30/30"
+    },
+    {
+      "baseline_id": "bbox_center_normalized_1000",
+      "claim_boundary": "coordinate_only_baseline_not_vlm_evidence",
+      "coordinate_space": "normalized_1000",
+      "n_records": "60",
+      "norm1000_pair_agreement": "30/30",
+      "norm1000_point_converted": "30/30",
+      "norm1000_point_original": "30/30",
+      "point_policy": "oracle projected bbox center in normalized-1000 coordinates",
+      "raw_pair_agreement": "30/30",
+      "raw_point_converted": "0/30",
+      "raw_point_original": "0/30"
+    }
+  ],
+  "schema_version": 1,
+  "status": "vlm_coordinate_baseline_summary",
+  "summary": {
+    "baseline_count": 4,
+    "claim_boundary": "coordinate_only_baselines_not_vlm_evidence",
+    "scoring_record_count": 60
+  }
+}

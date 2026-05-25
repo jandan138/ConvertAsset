@@ -211,6 +211,18 @@ results:
     - id: material_effect_risk_profile
       path: paper/shared/evidence/raw/material_effect_baseline/material_effect_risk_profile.json
       description: "Effect-level claim-boundary matrix derived from the baseline/supplemental manifests, selected qualitative manifest, clean-room visual review, and PXR diagnostic. It marks four GRScenes-covered bins as bounded static/selected-qualitative evidence, NVIDIA clearcoat as a selected failure case, and procedural texture as a limitation case where both converted conditions lose checker preservation evidence."
+    - id: reviewer_closure_statistical_summary
+      path: paper/shared/evidence/raw/reviewer_closure_package/reviewer_closure_statistical_summary.json
+      description: "Reviewer-closure paired bootstrap confidence intervals for the existing expanded30 VLM evidence and official KuJiaLe InternNav val_unseen 99-episode evidence. Descriptive CI evidence only; not a population-level robustness guarantee."
+    - id: reviewer_closure_vlm_coordinate_baselines
+      path: paper/shared/evidence/raw/reviewer_closure_package/vlm_coordinate_baseline_summary.json
+      description: "Coordinate-only baselines for the expanded30 VLM stress set: deterministic random pixel, image center, pixel bbox center, and normalized-1000 bbox center. These rows are scoring sanity baselines, not VLM evidence."
+    - id: reviewer_closure_vlm_coordinate_baseline_artifacts
+      path: paper/shared/evidence/raw/reviewer_closure_package/vlm_coordinate_baselines/
+      description: "Per-baseline coordinate-only prediction JSONL and score-summary JSON files used by the reviewer-closure VLM baseline table."
+    - id: material_safe_conversion_recommender
+      path: paper/shared/evidence/raw/reviewer_closure_package/material_safe_conversion_recommender.json
+      description: "Lightweight safe-conversion rule table derived from the material-effect risk matrix. It maps bounded GRScenes-covered bins, clearcoat, and procedural texture to evidence-gated actions; this is not a learned classifier."
     - id: material_effect_supplemental_qualitative_renders
       path: paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/
       description: "Repo-resident supplemental original/noMDL/NVIDIA stills for clearcoat and procedural texture wrappers."
@@ -450,6 +462,35 @@ results:
         - paper/shared/evidence/raw/material_effect_baseline/supplemental_material_preservation_diagnostic.json
         - paper/shared/evidence/raw/material_effect_baseline/material_effect_risk_profile.json
       description: "Effect-level claim-boundary table separating bounded selected qualitative evidence, selected NVIDIA clearcoat failure evidence, and procedural texture preservation risk. It is for paper/rebuttal claim scoping, not population-level failure rates."
+    - id: reviewer_closure_paired_ci
+      outputs:
+        - paper/shared/tables/reviewer_closure_paired_ci.csv
+        - paper/shared/tables/tab_reviewer_closure_paired_ci.tex
+      generated_by: paper/shared/evidence/experiments/09_reviewer_closure_package/build_reviewer_closure_package.py
+      sources:
+        - paper/shared/evidence/raw/reviewer_closure_package/reviewer_closure_statistical_summary.json
+        - paper/shared/evidence/raw/grscene_vlm_grounding/stress_score_summary.json
+        - paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen25_stress_expanded30_structured_score_summary.json
+        - paper/shared/evidence/raw/internnav_vln_downstream/official_val_unseen_99/paired_episode_transitions.json
+      description: "Reviewer-closure paired bootstrap CI table for existing VLM and InternNav evidence. Deltas are converted/noMDL minus original and are descriptive within the current frozen evidence pools."
+    - id: vlm_coordinate_baselines
+      outputs:
+        - paper/shared/tables/vlm_coordinate_baselines.csv
+        - paper/shared/tables/tab_vlm_coordinate_baselines.tex
+      generated_by: paper/shared/evidence/experiments/09_reviewer_closure_package/build_reviewer_closure_package.py
+      sources:
+        - paper/shared/evidence/raw/reviewer_closure_package/vlm_coordinate_baseline_summary.json
+        - paper/shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded30.json
+      description: "Coordinate-only point baselines for the expanded30 stress set. These baselines calibrate point scoring and camera centering; they are not VLM task evidence."
+    - id: material_safe_conversion_recommender
+      outputs:
+        - paper/shared/tables/material_safe_conversion_recommender.csv
+        - paper/shared/tables/tab_material_safe_conversion_recommender.tex
+      generated_by: paper/shared/evidence/experiments/09_reviewer_closure_package/build_reviewer_closure_package.py
+      sources:
+        - paper/shared/evidence/raw/reviewer_closure_package/material_safe_conversion_recommender.json
+        - paper/shared/evidence/raw/material_effect_baseline/material_effect_risk_profile.json
+      description: "Evidence-gated safe-conversion rule table derived from the material-effect risk matrix. It is a reviewer-facing decision-support table, not a learned material classifier."
   provenance:
     experiments: paper/shared/evidence/experiments/
     references: paper/shared/evidence/references/

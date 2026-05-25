@@ -1,0 +1,5 @@
+baseline_id,point_policy,coordinate_space,n_records,raw_point_original,raw_point_converted,norm1000_point_original,norm1000_point_converted,raw_pair_agreement,norm1000_pair_agreement,claim_boundary
+random_seeded_pixel,deterministic hash-seeded random in image bounds,pixel,60,5/30,2/30,8/30,3/30,23/30,21/30,coordinate_only_baseline_not_vlm_evidence
+image_center_pixel,"image center, no target information",pixel,60,30/30,30/30,0/30,0/30,30/30,30/30,coordinate_only_baseline_not_vlm_evidence
+bbox_center_pixel,oracle projected bbox center in pixel coordinates,pixel,60,30/30,30/30,0/30,0/30,30/30,30/30,coordinate_only_baseline_not_vlm_evidence
+bbox_center_normalized_1000,oracle projected bbox center in normalized-1000 coordinates,normalized_1000,60,0/30,0/30,30/30,30/30,30/30,30/30,coordinate_only_baseline_not_vlm_evidence

@@ -1,0 +1,214 @@
+{
+  "claim_boundary": {
+    "allowed": [
+      "paired descriptive deltas with bootstrap confidence intervals"
+    ],
+    "forbidden": [
+      "population-level robustness guarantee",
+      "unscoped benchmark win claim"
+    ]
+  },
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/09_reviewer_closure_package/build_reviewer_closure_package.py"
+    ],
+    "generated_at_utc": "2026-05-25T22:53:27.987202Z",
+    "git_commit": "42ab21003d3862819a58fb359e5b6cc05608c1bc",
+    "git_status_porcelain": [
+      " M docs/index.md",
+      " M docs/records/2026-05-26-reviewer-closure-status-and-next-goal.md",
+      " M docs/records/README.md",
+      " M paper/shared/evidence/claims.yaml",
+      " M paper/shared/evidence/results_manifest.yaml",
+      " M paper/shared/evidence/reviews/2026-05-workshop-to-aaai27-revision-roadmap.md",
+      " M paper/shared/sections/appendix.tex",
+      " M paper/shared/sections/discussion.tex",
+      " M paper/shared/sections/experiments.tex",
+      " M paper/shared/tables/README.md",
+      " M paper/venues/acl27/STATUS.md",
+      "?? 21 untracked files omitted from provenance"
+    ],
+    "script_hash_sha256": "17dbd76a00b194613a6692fb9468cf4fd197b2e043a1fbdc7826ab2bcda33b2e",
+    "script_path": "paper/shared/evidence/experiments/09_reviewer_closure_package/build_reviewer_closure_package.py"
+  },
+  "inputs": {
+    "gemma_score": {
+      "hash_sha256": "0b7929d2c26438beacca69151f9bcb268e810a2364157042931441e719afaa23",
+      "path": "paper/shared/evidence/raw/grscene_vlm_grounding/stress_score_summary.json"
+    },
+    "internnav_transitions": {
+      "hash_sha256": "81c9267382e9de4bb4beddf84f4a3174aafb9f850b34eb868d06f00e25119a5f",
+      "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_val_unseen_99/paired_episode_transitions.json"
+    },
+    "qwen_score": {
+      "hash_sha256": "3d030c0f2f36e6fcf499ee4fb5ed45211d341f3a4ed6e127a1c6a62b0ac9e501",
+      "path": "paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen25_stress_expanded30_structured_score_summary.json"
+    }
+  },
+  "rows": [
+    {
+      "ci95_high": 0.0,
+      "ci95_low": 0.0,
+      "claim_boundary": "paired_bootstrap_ci_descriptive",
+      "converted_mean": 1.0,
+      "dataset": "GRScenes VLM expanded30",
+      "direction": "tie",
+      "evidence_id": "gemma4_expanded30",
+      "mean_delta_converted_minus_original": 0.0,
+      "metric": "Gemma4 Answer accuracy",
+      "metric_id": "answer_accuracy",
+      "n": 30,
+      "original_mean": 1.0
+    },
+    {
+      "ci95_high": 0.1667,
+      "ci95_low": 0.0,
+      "claim_boundary": "paired_bootstrap_ci_descriptive",
+      "converted_mean": 0.9667,
+      "dataset": "GRScenes VLM expanded30",
+      "direction": "converted higher",
+      "evidence_id": "gemma4_expanded30",
+      "mean_delta_converted_minus_original": 0.0667,
+      "metric": "Gemma4 Norm-1000 point hit",
+      "metric_id": "norm1000_point",
+      "n": 30,
+      "original_mean": 0.9
+    },
+    {
+      "ci95_high": 0.0,
+      "ci95_low": 0.0,
+      "claim_boundary": "paired_bootstrap_ci_descriptive",
+      "converted_mean": 0.0333,
+      "dataset": "GRScenes VLM expanded30",
+      "direction": "tie",
+      "evidence_id": "gemma4_expanded30",
+      "mean_delta_converted_minus_original": 0.0,
+      "metric": "Gemma4 Raw point diagnostic",
+      "metric_id": "raw_point",
+      "n": 30,
+      "original_mean": 0.0333
+    },
+    {
+      "ci95_high": 0.12,
+      "ci95_low": -0.12,
+      "claim_boundary": "paired_bootstrap_ci_descriptive",
+      "converted_mean": 0.92,
+      "dataset": "GRScenes VLM expanded30",
+      "direction": "tie",
+      "evidence_id": "qwen25_expanded30",
+      "mean_delta_converted_minus_original": 0.0,
+      "metric": "Qwen2.5-VL Answer accuracy",
+      "metric_id": "answer_accuracy",
+      "n": 25,
+      "original_mean": 0.92
+    },
+    {
+      "ci95_high": 0.1429,
+      "ci95_low": -0.1429,
+      "claim_boundary": "paired_bootstrap_ci_descriptive",
+      "converted_mean": 0.1071,
+      "dataset": "GRScenes VLM expanded30",
+      "direction": "tie",
+      "evidence_id": "qwen25_expanded30",
+      "mean_delta_converted_minus_original": 0.0,
+      "metric": "Qwen2.5-VL Norm-1000 point hit",
+      "metric_id": "norm1000_point",
+      "n": 28,
+      "original_mean": 0.1071
+    },
+    {
+      "ci95_high": 0.0,
+      "ci95_low": -0.3214,
+      "claim_boundary": "paired_bootstrap_ci_descriptive",
+      "converted_mean": 0.6429,
+      "dataset": "GRScenes VLM expanded30",
+      "direction": "converted lower",
+      "evidence_id": "qwen25_expanded30",
+      "mean_delta_converted_minus_original": -0.1429,
+      "metric": "Qwen2.5-VL Raw point diagnostic",
+      "metric_id": "raw_point",
+      "n": 28,
+      "original_mean": 0.7857
+    },
+    {
+      "ci95_high": 0.0707,
+      "ci95_low": -0.1515,
+      "claim_boundary": "paired_bootstrap_ci_descriptive_official_sanity",
+      "converted_mean": 0.4848,
+      "dataset": "Official KuJiaLe InternNav val-unseen",
+      "direction": "noMDL lower",
+      "evidence_id": "internnav_official_val_unseen_99",
+      "mean_delta_converted_minus_original": -0.0404,
+      "metric": "Success rate",
+      "metric_id": "SR",
+      "n": 99,
+      "original_mean": 0.5253
+    },
+    {
+      "ci95_high": 0.0514,
+      "ci95_low": -0.1417,
+      "claim_boundary": "paired_bootstrap_ci_descriptive_official_sanity",
+      "converted_mean": 0.4298,
+      "dataset": "Official KuJiaLe InternNav val-unseen",
+      "direction": "noMDL lower",
+      "evidence_id": "internnav_official_val_unseen_99",
+      "mean_delta_converted_minus_original": -0.0441,
+      "metric": "SPL",
+      "metric_id": "SPL",
+      "n": 99,
+      "original_mean": 0.4739
+    },
+    {
+      "ci95_high": 0.0505,
+      "ci95_low": -0.1515,
+      "claim_boundary": "paired_bootstrap_ci_descriptive_official_sanity",
+      "converted_mean": 0.6162,
+      "dataset": "Official KuJiaLe InternNav val-unseen",
+      "direction": "noMDL lower",
+      "evidence_id": "internnav_official_val_unseen_99",
+      "mean_delta_converted_minus_original": -0.0505,
+      "metric": "Oracle success",
+      "metric_id": "OS",
+      "n": 99,
+      "original_mean": 0.6667
+    },
+    {
+      "ci95_high": 0.5386,
+      "ci95_low": -0.6464,
+      "claim_boundary": "paired_bootstrap_ci_descriptive_official_sanity",
+      "converted_mean": 3.6306,
+      "dataset": "Official KuJiaLe InternNav val-unseen",
+      "direction": "noMDL lower",
+      "evidence_id": "internnav_official_val_unseen_99",
+      "mean_delta_converted_minus_original": -0.0492,
+      "metric": "Navigation error",
+      "metric_id": "NE",
+      "n": 99,
+      "original_mean": 3.6798
+    },
+    {
+      "ci95_high": 0.9304,
+      "ci95_low": -0.7366,
+      "claim_boundary": "paired_bootstrap_ci_descriptive_official_sanity",
+      "converted_mean": 7.0598,
+      "dataset": "Official KuJiaLe InternNav val-unseen",
+      "direction": "noMDL higher",
+      "evidence_id": "internnav_official_val_unseen_99",
+      "mean_delta_converted_minus_original": 0.0844,
+      "metric": "Trajectory length",
+      "metric_id": "TL",
+      "n": 99,
+      "original_mean": 6.9754
+    }
+  ],
+  "schema_version": 1,
+  "status": "reviewer_closure_statistical_summary",
+  "summary": {
+    "bootstrap_rounds": 10000,
+    "bootstrap_seed": 20260526,
+    "internnav_row_count": 5,
+    "row_count": 11,
+    "vlm_row_count": 6
+  }
+}

@@ -59,6 +59,20 @@ Venue-neutral table sources for the ConvertAsset paper live here.
   selected NVIDIA clearcoat failure and the procedural texture limitation case.
 - `tab_material_effect_risk_matrix.tex`: LaTeX table generated from the same
   material-effect risk matrix.
+- `reviewer_closure_paired_ci.csv`: machine-readable paired bootstrap confidence
+  interval table for the existing expanded30 VLM stress evidence and official
+  KuJiaLe InternNav val-unseen evidence.
+- `tab_reviewer_closure_paired_ci.tex`: LaTeX table generated from the same
+  reviewer-closure CI CSV.
+- `vlm_coordinate_baselines.csv`: machine-readable coordinate-only baseline
+  table for random seeded pixels, image center, pixel bbox center, and
+  normalized-1000 bbox center on the expanded30 VLM stress set.
+- `tab_vlm_coordinate_baselines.tex`: LaTeX table generated from the same
+  coordinate-only baseline CSV.
+- `material_safe_conversion_recommender.csv`: machine-readable rule table
+  derived from the material-effect risk matrix.
+- `tab_material_safe_conversion_recommender.tex`: LaTeX table generated from the
+  same safe-conversion recommender CSV.
 
 Regenerate with:
 
@@ -69,11 +83,12 @@ python paper/shared/tables/gen_vlm_coordinate_ablation.py
 python paper/shared/tables/gen_vlm_failure_taxonomy.py
 python paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py
 python paper/shared/evidence/experiments/08_material_effect_baseline/build_material_effect_risk_matrix.py
+python paper/shared/evidence/experiments/09_reviewer_closure_package/build_reviewer_closure_package.py
 ```
 
 The two newer clean-pool and zoom-stress tables, coordinate ablation, failure
-taxonomy, material-effect readiness table, and material-effect risk matrix are
-registered in
+taxonomy, material-effect readiness table, material-effect risk matrix, and
+reviewer-closure package tables are registered in
 `paper/shared/evidence/results_manifest.yaml`.
 
 Most legacy table content remains embedded in `shared/sections/experiments.tex`

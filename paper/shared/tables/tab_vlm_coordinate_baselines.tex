@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\caption{Coordinate-only baselines for the expanded30 VLM grounding stress set. These rows are sanity baselines for point scoring, not VLM evidence.}
+\label{tab:vlm_coordinate_baselines}
+\scriptsize
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llllll}
+\toprule
+\textbf{Baseline} & \textbf{Space} & \textbf{Raw O/C} & \textbf{Norm O/C} & \textbf{Raw agree} & \textbf{Norm agree} \\
+\midrule
+random\_seeded\_pixel & pixel & 5/30 / 2/30 & 8/30 / 3/30 & 23/30 & 21/30 \\
+image\_center\_pixel & pixel & 30/30 / 30/30 & 0/30 / 0/30 & 30/30 & 30/30 \\
+bbox\_center\_pixel & pixel & 30/30 / 30/30 & 0/30 / 0/30 & 30/30 & 30/30 \\
+bbox\_center\_normalized\_1000 & normalized\_1000 & 0/30 / 0/30 & 30/30 / 30/30 & 30/30 & 30/30 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}

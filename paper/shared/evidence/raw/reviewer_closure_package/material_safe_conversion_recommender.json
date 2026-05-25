@@ -1,0 +1,102 @@
+{
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/09_reviewer_closure_package/build_reviewer_closure_package.py"
+    ],
+    "generated_at_utc": "2026-05-25T22:53:27.987202Z",
+    "git_commit": "42ab21003d3862819a58fb359e5b6cc05608c1bc",
+    "git_status_porcelain": [
+      " M docs/index.md",
+      " M docs/records/2026-05-26-reviewer-closure-status-and-next-goal.md",
+      " M docs/records/README.md",
+      " M paper/shared/evidence/claims.yaml",
+      " M paper/shared/evidence/results_manifest.yaml",
+      " M paper/shared/evidence/reviews/2026-05-workshop-to-aaai27-revision-roadmap.md",
+      " M paper/shared/sections/appendix.tex",
+      " M paper/shared/sections/discussion.tex",
+      " M paper/shared/sections/experiments.tex",
+      " M paper/shared/tables/README.md",
+      " M paper/venues/acl27/STATUS.md",
+      "?? 21 untracked files omitted from provenance"
+    ],
+    "script_hash_sha256": "17dbd76a00b194613a6692fb9468cf4fd197b2e043a1fbdc7826ab2bcda33b2e",
+    "script_path": "paper/shared/evidence/experiments/09_reviewer_closure_package/build_reviewer_closure_package.py"
+  },
+  "inputs": {
+    "material_risk_profile": {
+      "hash_sha256": "3715312880dcb34e0bb2cda0012e2a5c21a6716e37bfd552f89b51de19efefa9",
+      "path": "paper/shared/evidence/raw/material_effect_baseline/material_effect_risk_profile.json"
+    }
+  },
+  "rows": [
+    {
+      "convertasset_action": "manual_visual_review_of_preview_approximation",
+      "effect": "clearcoat",
+      "evidence_status": "supplemental_visual_fail",
+      "nvidia_action": "do_not_trust_without_target_retention_gate",
+      "paper_claim_use": "selected_failure_case_only",
+      "review_gate": "target_retention_plus_material_appearance_gate",
+      "risk_level": "manual_review_high",
+      "sample_source": "supplemental_official_or_sample_wrapper"
+    },
+    {
+      "convertasset_action": "convert_with_static_gate_and_selected_visual_review",
+      "effect": "opacity_transparency",
+      "evidence_status": "selected_panel_ready",
+      "nvidia_action": "usable_as_bounded_baseline_with_same_gate",
+      "paper_claim_use": "bounded_evidence_only",
+      "review_gate": "static_gate_plus_selected_qualitative_review",
+      "risk_level": "bounded_low",
+      "sample_source": "GRScenes expanded30"
+    },
+    {
+      "convertasset_action": "convert_with_static_gate_and_selected_visual_review",
+      "effect": "emission",
+      "evidence_status": "selected_panel_ready",
+      "nvidia_action": "usable_as_bounded_baseline_with_same_gate",
+      "paper_claim_use": "bounded_evidence_only",
+      "review_gate": "static_gate_plus_selected_qualitative_review",
+      "risk_level": "bounded_low",
+      "sample_source": "GRScenes expanded30"
+    },
+    {
+      "convertasset_action": "keep_mdl_or_bake_before_claiming_preservation",
+      "effect": "procedural_texture",
+      "evidence_status": "supplemental_visual_fail",
+      "nvidia_action": "keep_mdl_or_bake_before_claiming_preservation",
+      "paper_claim_use": "limitation_or_investigation_only",
+      "review_gate": "procedural_texture_static_and_visual_preservation_audit",
+      "risk_level": "high",
+      "sample_source": "supplemental_official_or_sample_wrapper"
+    },
+    {
+      "convertasset_action": "convert_with_static_gate_and_selected_visual_review",
+      "effect": "normal_bump",
+      "evidence_status": "selected_panel_ready",
+      "nvidia_action": "usable_as_bounded_baseline_with_same_gate",
+      "paper_claim_use": "bounded_evidence_only",
+      "review_gate": "static_gate_plus_selected_qualitative_review",
+      "risk_level": "bounded_low",
+      "sample_source": "GRScenes expanded30"
+    },
+    {
+      "convertasset_action": "convert_with_static_gate_and_selected_visual_review",
+      "effect": "displacement_height",
+      "evidence_status": "selected_panel_ready",
+      "nvidia_action": "usable_as_bounded_baseline_with_same_gate",
+      "paper_claim_use": "bounded_evidence_only",
+      "review_gate": "static_gate_plus_selected_qualitative_review",
+      "risk_level": "bounded_low",
+      "sample_source": "GRScenes expanded30"
+    }
+  ],
+  "schema_version": 1,
+  "status": "material_safe_conversion_recommender",
+  "summary": {
+    "bounded_low_count": 4,
+    "claim_boundary": "rule_table_derived_from_selected_risk_matrix_not_learned_classifier",
+    "high_or_manual_review_count": 2,
+    "rule_count": 6
+  }
+}

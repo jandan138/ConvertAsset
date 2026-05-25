@@ -106,6 +106,16 @@ relevant to dense prediction tasks (e.g., segmentation, depth estimation).
 \paragraph{Practical recommendations.}
 Based on our findings, we offer the following guidelines for synthetic data
 practitioners working with Isaac Sim assets:
+
+\input{tables/tab_material_safe_conversion_recommender}
+
+Table~\ref{tab:material_safe_conversion_recommender} converts the
+material-effect risk matrix into a lightweight rule table. It is intentionally
+not a learned classifier: each action is tied to the selected evidence above.
+The table is useful as reviewer-facing decision support because it separates
+bounded-low covered bins from clearcoat manual-review risk and procedural
+texture preservation risk.
+
 \begin{enumerate}
     \item \textbf{Use conversion as a candidate default only after task-specific
     checks} for assets with standard PBR materials. In our furniture case

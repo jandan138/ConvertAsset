@@ -10,6 +10,16 @@ coordinate convention.
 
 \input{tables/tab_grscenes_vlm_coordinate_ablation}
 
+Table~\ref{tab:vlm_coordinate_baselines} adds deterministic coordinate-only
+baselines for the expanded30 stress set. These rows are not model predictions.
+They show that raw pixel scoring is easy to saturate under target-centered
+camera construction: both the image-center baseline and the pixel bbox-center
+oracle score 30/30 under raw point-in-box. The normalized-1000 bbox-center
+oracle is the corresponding upper bound for the prompt contract used by the
+Gemma4 stress run.
+
+\input{tables/tab_vlm_coordinate_baselines}
+
 Table~\ref{tab:grscenes_vlm_failure_taxonomy} lists representative VLM pilot
 failure modes selected from the checked prediction and score artifacts. The
 rows are illustrative diagnostics rather than a frequency estimate over a final

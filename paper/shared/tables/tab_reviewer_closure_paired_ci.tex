@@ -1,0 +1,22 @@
+\begin{table*}[t]
+\centering
+\caption{Reviewer-closure paired bootstrap confidence intervals for existing VLM and InternNav evidence. Deltas are converted/noMDL minus original MDL and are descriptive within the current frozen evidence pools, not population-level guarantees.}
+\label{tab:reviewer_closure_paired_ci}
+\scriptsize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lllrrrr}
+\toprule
+\textbf{Evidence} & \textbf{Metric} & \textbf{N} & \textbf{Original} & \textbf{Converted} & \textbf{Delta [95\% CI]} & \textbf{Direction} \\
+\midrule
+GRScenes VLM expanded30 & Gemma4 Norm-1000 point hit & 30 & 0.9 & 0.9667 & 0.0667 [0.0, 0.1667] & converted higher \\
+GRScenes VLM expanded30 & Gemma4 Raw point diagnostic & 30 & 0.0333 & 0.0333 & 0.0 [0.0, 0.0] & tie \\
+GRScenes VLM expanded30 & Qwen2.5-VL Norm-1000 point hit & 28 & 0.1071 & 0.1071 & 0.0 [-0.1429, 0.1429] & tie \\
+GRScenes VLM expanded30 & Qwen2.5-VL Raw point diagnostic & 28 & 0.7857 & 0.6429 & -0.1429 [-0.3214, 0.0] & converted lower \\
+Official KuJiaLe InternNav val-unseen & Success rate & 99 & 0.5253 & 0.4848 & -0.0404 [-0.1515, 0.0707] & noMDL lower \\
+Official KuJiaLe InternNav val-unseen & SPL & 99 & 0.4739 & 0.4298 & -0.0441 [-0.1417, 0.0514] & noMDL lower \\
+Official KuJiaLe InternNav val-unseen & Navigation error & 99 & 3.6798 & 3.6306 & -0.0492 [-0.6464, 0.5386] & noMDL lower \\
+Official KuJiaLe InternNav val-unseen & Trajectory length & 99 & 6.9754 & 7.0598 & 0.0844 [-0.7366, 0.9304] & noMDL higher \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}

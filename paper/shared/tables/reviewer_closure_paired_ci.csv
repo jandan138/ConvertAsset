@@ -1,0 +1,12 @@
+dataset,evidence_id,metric_id,metric,n,original_mean,converted_mean,mean_delta_converted_minus_original,ci95_low,ci95_high,direction,claim_boundary
+GRScenes VLM expanded30,gemma4_expanded30,answer_accuracy,Gemma4 Answer accuracy,30,1.0,1.0,0.0,0.0,0.0,tie,paired_bootstrap_ci_descriptive
+GRScenes VLM expanded30,gemma4_expanded30,norm1000_point,Gemma4 Norm-1000 point hit,30,0.9,0.9667,0.0667,0.0,0.1667,converted higher,paired_bootstrap_ci_descriptive
+GRScenes VLM expanded30,gemma4_expanded30,raw_point,Gemma4 Raw point diagnostic,30,0.0333,0.0333,0.0,0.0,0.0,tie,paired_bootstrap_ci_descriptive
+GRScenes VLM expanded30,qwen25_expanded30,answer_accuracy,Qwen2.5-VL Answer accuracy,25,0.92,0.92,0.0,-0.12,0.12,tie,paired_bootstrap_ci_descriptive
+GRScenes VLM expanded30,qwen25_expanded30,norm1000_point,Qwen2.5-VL Norm-1000 point hit,28,0.1071,0.1071,0.0,-0.1429,0.1429,tie,paired_bootstrap_ci_descriptive
+GRScenes VLM expanded30,qwen25_expanded30,raw_point,Qwen2.5-VL Raw point diagnostic,28,0.7857,0.6429,-0.1429,-0.3214,0.0,converted lower,paired_bootstrap_ci_descriptive
+Official KuJiaLe InternNav val-unseen,internnav_official_val_unseen_99,SR,Success rate,99,0.5253,0.4848,-0.0404,-0.1515,0.0707,noMDL lower,paired_bootstrap_ci_descriptive_official_sanity
+Official KuJiaLe InternNav val-unseen,internnav_official_val_unseen_99,SPL,SPL,99,0.4739,0.4298,-0.0441,-0.1417,0.0514,noMDL lower,paired_bootstrap_ci_descriptive_official_sanity
+Official KuJiaLe InternNav val-unseen,internnav_official_val_unseen_99,OS,Oracle success,99,0.6667,0.6162,-0.0505,-0.1515,0.0505,noMDL lower,paired_bootstrap_ci_descriptive_official_sanity
+Official KuJiaLe InternNav val-unseen,internnav_official_val_unseen_99,NE,Navigation error,99,3.6798,3.6306,-0.0492,-0.6464,0.5386,noMDL lower,paired_bootstrap_ci_descriptive_official_sanity
+Official KuJiaLe InternNav val-unseen,internnav_official_val_unseen_99,TL,Trajectory length,99,6.9754,7.0598,0.0844,-0.7366,0.9304,noMDL higher,paired_bootstrap_ci_descriptive_official_sanity

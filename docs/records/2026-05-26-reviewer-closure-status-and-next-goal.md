@@ -95,8 +95,8 @@ This must not be used as a success panel.
 | Missing per-material-effect analysis | Partially fixed | The risk matrix now separates GRScenes-covered bins from selected clearcoat failure and procedural-texture limitation cases. It is not a population error-rate distribution. |
 | Overbroad guideline claims | Addressed in wording | Current manuscript language is claim-bounded and explicitly separates supported evidence from limitations. |
 | Large-scene performance statistics too narrow | Still open | The official InternNav run gives multi-scene downstream metrics, but it does not replace multi-scene/multi-run scene-load or render-performance statistics with variance/CI. |
-| Missing safe-conversion recommender | Open | No material-risk classifier or rule-based recommender has been implemented yet. |
-| Weak statistical support | Partially open | More paired statistics, bootstrap confidence intervals, and point/coordinate baselines would make the paper harder to attack. |
+| Missing safe-conversion recommender | Partially fixed | A rule-based safe-conversion table now maps the selected material-effect risk matrix to evidence-gated actions. A learned material-risk classifier remains open. |
+| Weak statistical support | Partially fixed | The reviewer-closure package adds paired bootstrap confidence intervals for existing VLM/InternNav evidence and coordinate-only VLM baselines. |
 | Title/abstract overpromise | Mostly addressed, final audit needed | Current wording is narrower, but the final submission still needs a full claim-language pass. |
 
 ## What Can Be Written Now
@@ -159,6 +159,24 @@ Suggested concrete success criteria:
   MDL.
 - Paper sections and rebuttal notes cite the exact claim boundary for each
   evidence type.
+
+## Completion Update
+
+This goal was implemented in
+`docs/records/2026-05-26-reviewer-closure-package.md`.
+
+The completed package adds:
+
+- `paper/shared/evidence/raw/reviewer_closure_package/reviewer_closure_statistical_summary.json`
+- `paper/shared/evidence/raw/reviewer_closure_package/vlm_coordinate_baseline_summary.json`
+- `paper/shared/evidence/raw/reviewer_closure_package/material_safe_conversion_recommender.json`
+- `paper/shared/tables/reviewer_closure_paired_ci.csv`
+- `paper/shared/tables/vlm_coordinate_baselines.csv`
+- `paper/shared/tables/material_safe_conversion_recommender.csv`
+
+The remaining gap is not the rule-table recommender requested here; it is a
+future learned or automatic material-risk classifier that generalizes beyond
+the selected material-effect evidence.
 
 ## Verification
 
