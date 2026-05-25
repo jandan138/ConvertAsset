@@ -49,6 +49,36 @@ results:
     - id: internnav_vln_video_case_manifest
       path: paper/shared/evidence/raw/internnav_vln_downstream/video_case_manifest.json
       description: "Storage-bounded video rerun selection manifest; currently selects the one smoke episode as a both-failure divergent qualitative case."
+    - id: internnav_official_kujiale0031_pair
+      path: paper/shared/evidence/raw/internnav_vln_downstream/official_kujiale0031_33/paired_33_summary.json
+      description: "Official public InteriorAgent / KuJiaLe kujiale_0031 33-episode original-vs-noMDL InternNav pair; original SR/SPL 0.5152/0.4793, noMDL SR/SPL 0.5758/0.4955. Scoped single-scene downstream sanity result only."
+    - id: internnav_official_kujiale0031_transitions
+      path: paper/shared/evidence/raw/internnav_vln_downstream/official_kujiale0031_33/paired_episode_transitions.json
+      description: "Per-episode transition manifest for the official KuJiaLe 0031 33-episode pair, including success-to-success, success-to-fail, fail-to-success, and fail-to-fail cases."
+    - id: internnav_official_kujiale0031_video_assets
+      path: paper/shared/evidence/raw/internnav_vln_downstream/official_kujiale0031_33/video_asset_manifest_selected6.json
+      description: "Selected six-case visual rerun asset manifest and QA provenance. Qualitative only; full 33-episode metrics remain authoritative."
+    - id: internnav_official_selected_qualitative_videos
+      path: paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/package_index.json
+      description: "Repo-resident curated selected qualitative InternNav media for official KuJiaLe 0031 and 0036/0066: compressed mp4 rollouts, start/mid/end stills, contact sheets, QA reports, and manifests. Qualitative only; the 99-episode full metric run remains authoritative."
+    - id: internnav_official_kujiale0036_pair
+      path: paper/shared/evidence/raw/internnav_vln_downstream/official_kujiale0036_33/paired_33_summary.json
+      description: "Official public InteriorAgent / KuJiaLe kujiale_0036 33-episode original-vs-noMDL InternNav pair; original SR/SPL 0.8182/0.7002, noMDL SR/SPL 0.6061/0.5503."
+    - id: internnav_official_kujiale0066_pair
+      path: paper/shared/evidence/raw/internnav_vln_downstream/official_kujiale0066_33/paired_33_summary.json
+      description: "Official public InteriorAgent / KuJiaLe kujiale_0066 33-episode original-vs-noMDL InternNav pair; original SR/SPL 0.2424/0.2422, noMDL SR/SPL 0.2727/0.2435."
+    - id: internnav_official_val_unseen_99_pair
+      path: paper/shared/evidence/raw/internnav_vln_downstream/official_val_unseen_99/paired_99_summary.json
+      description: "Combined official KuJiaLe val_unseen 99-episode original-vs-noMDL InternNav pair across kujiale_0031/0036/0066; original/noMDL SR 0.5253/0.4848 and SPL 0.4739/0.4298. Scoped official downstream sanity evidence only."
+    - id: internnav_official_val_unseen_99_per_scene
+      path: paper/shared/evidence/raw/internnav_vln_downstream/official_val_unseen_99/per_scene_aggregate_summary.json
+      description: "Per-scene aggregate metrics and combined paired means for the official KuJiaLe val_unseen 99-episode run."
+    - id: internnav_official_val_unseen_99_transitions
+      path: paper/shared/evidence/raw/internnav_vln_downstream/official_val_unseen_99/paired_episode_transitions.json
+      description: "Per-episode transition table for all 99 official KuJiaLe val_unseen paired trajectories."
+    - id: internnav_official_val_unseen_99_static_gate
+      path: paper/shared/evidence/raw/internnav_vln_downstream/official_val_unseen_99/nomdl_static_gate_0036_0066.json
+      description: "Static USD gate for the newly converted kujiale_0036 and kujiale_0066 noMDL scratch scenes: stages open, active MDL shader/source-asset counts are zero, and PreviewSurface shaders exist."
     - id: grscenes_vlm_target_manifest
       path: paper/shared/evidence/raw/grscene_vlm_grounding/target_manifest.json
       description: "ACL/VLM GRScenes target prim and world-bbox localization provenance for 40 episode records / 23 unique targets; not a model-result file."

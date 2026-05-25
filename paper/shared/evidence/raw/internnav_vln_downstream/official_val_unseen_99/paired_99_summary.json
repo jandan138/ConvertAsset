@@ -1,0 +1,176 @@
+{
+  "claim_gate": {
+    "acl_main_result_ready": false,
+    "has_aggregate_result_json": true,
+    "has_failure_classification": true,
+    "has_paired_episode_metrics": true,
+    "has_video_manifest": false,
+    "pilot_main_ready": false,
+    "row_count_acl_ready": false,
+    "row_count_pilot_ready": false
+  },
+  "episode_count": 99,
+  "failure_pairs": {
+    "original_exceed_total_max_step__modified_exceed_total_max_step": 2,
+    "original_exceed_total_max_step__modified_not_reach_goal": 1,
+    "original_exceed_total_max_step__modified_success": 2,
+    "original_fall__modified_fall": 2,
+    "original_not_reach_goal__modified_exceed_total_max_step": 2,
+    "original_not_reach_goal__modified_not_reach_goal": 27,
+    "original_not_reach_goal__modified_success": 11,
+    "original_success__modified_exceed_total_max_step": 2,
+    "original_success__modified_not_reach_goal": 15,
+    "original_success__modified_success": 35
+  },
+  "legacy_scene_count_note": "scene_count is 0 because official KuJiaLe LMDB path_key values are trajectory ids like 462_462, not GRScenes *_usd keys; use official_scene_count for this run.",
+  "metrics": {
+    "Count": {
+      "cohen_dz": 0.0,
+      "lower_is_better": false,
+      "mean_delta_modified_minus_original": 0.0,
+      "median_delta_modified_minus_original": 0.0,
+      "modified_mean": 1.0,
+      "n": 99,
+      "original_mean": 1.0
+    },
+    "FR": {
+      "cohen_dz": 0.0,
+      "lower_is_better": false,
+      "mean_delta_modified_minus_original": 0.0,
+      "median_delta_modified_minus_original": 0.0,
+      "modified_mean": 0.0202,
+      "n": 99,
+      "original_mean": 0.0202
+    },
+    "NE": {
+      "cohen_dz": -0.0164,
+      "lower_is_better": true,
+      "mean_delta_modified_minus_original": -0.0492,
+      "median_delta_modified_minus_original": 0.0,
+      "modified_mean": 3.6306,
+      "n": 99,
+      "original_mean": 3.6798
+    },
+    "OS": {
+      "cohen_dz": -0.1005,
+      "lower_is_better": false,
+      "mean_delta_modified_minus_original": -0.0505,
+      "median_delta_modified_minus_original": 0.0,
+      "modified_mean": 0.6162,
+      "n": 99,
+      "original_mean": 0.6667
+    },
+    "SPL": {
+      "cohen_dz": -0.0897,
+      "lower_is_better": false,
+      "mean_delta_modified_minus_original": -0.0441,
+      "median_delta_modified_minus_original": 0.0,
+      "modified_mean": 0.4298,
+      "n": 99,
+      "original_mean": 0.4739
+    },
+    "SR": {
+      "cohen_dz": -0.0732,
+      "lower_is_better": false,
+      "mean_delta_modified_minus_original": -0.0404,
+      "median_delta_modified_minus_original": 0.0,
+      "modified_mean": 0.4848,
+      "n": 99,
+      "original_mean": 0.5253
+    },
+    "StR": {
+      "cohen_dz": 0.0,
+      "lower_is_better": false,
+      "mean_delta_modified_minus_original": 0.0,
+      "median_delta_modified_minus_original": 0.0,
+      "modified_mean": 0.0,
+      "n": 99,
+      "original_mean": 0.0
+    },
+    "TL": {
+      "cohen_dz": 0.0197,
+      "lower_is_better": true,
+      "mean_delta_modified_minus_original": 0.0844,
+      "median_delta_modified_minus_original": -0.0006,
+      "modified_mean": 7.0598,
+      "n": 99,
+      "original_mean": 6.9754
+    },
+    "steps": {
+      "cohen_dz": 0.1774,
+      "lower_is_better": true,
+      "mean_delta_modified_minus_original": 41.7475,
+      "median_delta_modified_minus_original": 0.0,
+      "modified_mean": 275.3939,
+      "n": 99,
+      "original_mean": 233.6465
+    }
+  },
+  "official_claim_gate": {
+    "acl_100_episode_gate_ready": false,
+    "broad_grscenes_benchmark_claim_ready": false,
+    "covers_all_local_val_unseen_scenes": true,
+    "five_scene_pilot_gate_ready": false,
+    "metric_runs_video_free": true,
+    "official_scene_count": 3,
+    "official_val_unseen_complete": true,
+    "paired_episode_count": 99,
+    "selected_video_evidence_included": false
+  },
+  "official_episode_count": 99,
+  "official_scene_count": 3,
+  "paired_outcomes": {
+    "Count": {
+      "modified_better": 0,
+      "original_better": 0,
+      "tie": 99
+    },
+    "FR": {
+      "modified_better": 0,
+      "original_better": 0,
+      "tie": 99
+    },
+    "NE": {
+      "modified_better": 49,
+      "original_better": 50,
+      "tie": 0
+    },
+    "OS": {
+      "modified_better": 10,
+      "original_better": 15,
+      "tie": 74
+    },
+    "SPL": {
+      "modified_better": 25,
+      "original_better": 29,
+      "tie": 45
+    },
+    "SR": {
+      "modified_better": 13,
+      "original_better": 17,
+      "tie": 69
+    },
+    "StR": {
+      "modified_better": 0,
+      "original_better": 0,
+      "tie": 99
+    },
+    "TL": {
+      "modified_better": 53,
+      "original_better": 46,
+      "tie": 0
+    },
+    "steps": {
+      "modified_better": 45,
+      "original_better": 45,
+      "tie": 9
+    }
+  },
+  "scene_count": 0,
+  "scene_ids": [
+    "kujiale_0031",
+    "kujiale_0036",
+    "kujiale_0066"
+  ],
+  "schema_version": 1
+}

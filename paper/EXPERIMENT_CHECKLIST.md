@@ -63,7 +63,7 @@ paper/
 | 4c CLIP 零样本检索 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 5 RL 策略迁移 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
 | 6a GRScenes VLM grounding | ✅ | ✅ | 🔄 stress 已完成 / clean 未完成 | ✅ expanded30 stress 表和图已生成 | 🔄 ACL 小节已接入，仍需全文审阅 |
-| 6b InternNav / VL-LN navigation | ✅ prep + wrapper + batch/stat/video scaffold | ✅ one-episode real smoke + flat-filter partial batch diagnostics | 🔄 flat-filter original 14/14 complete; modified 12/14 then reset-time runtime hang; expanded30 30-episode / 16-scene input split prepared, runtime not run yet | 🔄 selected-only video rerun configs generated for six diagnostic cases; no mp4 yet | ✅ smoke paragraph; main-result text pending complete paired batch |
+| 6b InternNav / VL-LN navigation | ✅ prep + wrapper + batch/stat/video scaffold | ✅ one-episode real smoke + flat-filter partial batch diagnostics + official KuJiaLe val-unseen 99 pair | ✅ official KuJiaLe 99/99 original/noMDL pair completed; 🔄 GRScenes expanded30 input still not run | ✅ selected official KuJiaLe 0031 and 0036/0066 visual rerun media migrated into repo with QA/contact sheets | ✅ scoped official downstream sanity evidence; broad embodied benchmark claim still pending |
 | 7 综合讨论 | — | — | — | — | ⬜ |
 
 > 状态：⬜ 未开始 ｜ 🔄 进行中 ｜ ✅ 完成
@@ -77,7 +77,13 @@ canonical 证据闭环，但还没有达到“ACL 主会稳妥投稿终版”。
 VLM grounding 主实验已经成立；CVPR workshop reviewer 的一部分核心质疑已被
 缓解；InternNav 真实 embodied downstream 已有 1-episode smoke，并进一步跑了
 flat-filter 多 episode 诊断批次：original 14/14 完成，modified 12/14 后在
-reset 后第一步模拟前卡住。它证明真实下游路线在工程上已经接入，但还不是统计性主结果；
+reset 后第一步模拟前卡住。随后补跑了一个官方 public InteriorAgent / KuJiaLe
+`kujiale_0031` 受控 33-episode original/noMDL pair：原始场景 `SR=0.5152`,
+`SPL=0.4793`，noMDL 场景 `SR=0.5758`, `SPL=0.4955`，并生成了 selected
+six-case visual rerun QA 和 contact-sheet 图。之后官方 `val_unseen` 路线扩到
+0031/0036/0066 三个场景、99 paired episodes，并补齐了 0036/0066 selected
+qualitative videos。它可以作为 scoped official downstream sanity result，但仍不是
+GRScenes 多场景统计性主结果；
 InternNav 已补 per-episode extraction / paired analysis / video-case manifest
 scaffold，并且 2026-05-25 已把 flat-filter 输入池扩到 30 episode / 16 scene
 的 expanded30 候选 split；但 expanded30 真实 runtime 还没跑，NVIDIA baseline、
@@ -88,7 +94,7 @@ embodied batch 仍未闭环。
 |---|---|---|---|
 | 1 | 全量 no-MDL 数据集 | ✅ 已完成并验证 | `full_nomdl_multi_root_run_report.json` 记录 `dry_run=false`、99 个顶层 raw scene 转换完成，且 `full_nomdl_apply_verification_report.json` 记录 `passed=true`、原始 `/cpfs/user/zhuzihou/assets/zzh-grscenes` 没有 `_noMDL` sidecar 污染 |
 | 2 | 原始/简化成对渲染 | 🔄 部分完成；stress 渲染门槛已过 | 23 个 unique target x 多视角的 original/no-MDL 成对图生成完成，图像哈希、相机、目标 bbox/point 投影全部入账；当前 clean preservation pool 为 15 PASS pair，仍低于 20-pair final gate；zoom material-shift stress 已扩到 exactly 30 个 PASS/WARN pair，`retake_zoom_expanded30_paired_render_summary.json` 记录 30/30 非黑图，`retake_zoom_expanded30_target_projection_qa_report.json` 记录 30/30 projection_ok |
-| 3 | VLM/下游评测 | ✅ expanded30 material-shift stress 已完成；clean-pool 仍是 15-pair pilot；InternNav 1-episode real smoke 已跑通，并有 flat-filter partial batch 诊断；expanded30 InternNav input gate 已打开 | `stress_vlm_run_manifest_expanded30.json` 的 manifest-internal stress gate 已打开，canonical Gemma4 `stress_predictions.jsonl` / `stress_score_summary.json` 已生成，Qwen2.5-VL expanded30 diagnostic 已生成；`internnav_vln_downstream/prep_manifest.json` 和 `internnav_vln_results.json` 已记录 1-scene original/no-MDL VLN mini pair：两边 SR/SPL 都为 0，但 no-MDL TL +33.5054、NE +33.7468；flat-filter original 14/14 完成，modified 12/14 后在 tvstand episode reset 后 hang，12-pair 诊断分析显示 TL/NE/OS 行为差异但 `acl_main_result_ready=false`；`acl_main_pilot30_flatfilter_expanded30_prep_manifest.json` 已准备 30 episode / 16 scene 输入，并通过 height audit，但尚无 expanded30 runtime result；论文 claim 仍限 frozen 30-pair target-centered stress set、one-episode downstream sensitivity smoke、partial runtime diagnostic 和 expanded30 input readiness，不能扩写成 broad embodied benchmark |
+| 3 | VLM/下游评测 | ✅ expanded30 material-shift stress 已完成；clean-pool 仍是 15-pair pilot；InternNav 1-episode real smoke、flat-filter partial batch 诊断、official KuJiaLe val-unseen 99-episode pair 已跑通 | `stress_vlm_run_manifest_expanded30.json` 的 manifest-internal stress gate 已打开，canonical Gemma4 `stress_predictions.jsonl` / `stress_score_summary.json` 已生成，Qwen2.5-VL expanded30 diagnostic 已生成；`internnav_vln_downstream/prep_manifest.json` 和 `internnav_vln_results.json` 已记录 1-scene original/no-MDL VLN mini pair：两边 SR/SPL 都为 0，但 noMDL TL +33.5054、NE +33.7468；flat-filter original 14/14 完成，modified 12/14 后在 tvstand episode reset 后 hang，12-pair 诊断分析显示 TL/NE/OS 行为差异但 `acl_main_result_ready=false`；`official_val_unseen_99/paired_99_summary.json` 记录官方 KuJiaLe 3-scene / 99-episode pair：original/noMDL `SR=0.5253/0.4848`、`SPL=0.4739/0.4298`、`NE=3.6798/3.6306`、`TL=6.9754/7.0598`；`official_selected_qualitative_videos/` 记录 0031 和 0036/0066 selected mp4/still/contact-sheet QA；论文 claim 仍限 frozen 30-pair target-centered stress set、official InteriorNav/KuJiaLe downstream sanity check、partial runtime diagnostic 和 expanded30 input readiness，不能扩写成 broad embodied benchmark |
 | 4 | 图表和结论 | 🔄 expanded30 stress 表和 VLM qualitative figure 已接入；trade-off 结论仍需全文收束 | 质量图、VLM 表、失败案例/定性图、trade-off 结论全部进入 `paper/shared/figures/`、`paper/shared/tables/` 和 `results_manifest.yaml`；当前 expanded30 stress 表可作为 frozen stress-set evidence，clean-pool 15-pair 表、旧 zoom-stress 表、coordinate ablation 和 failure taxonomy 仍是 pilot/protocol diagnostic |
 | 5 | 论文写作与审稿式自查 | ✅ expanded30 ACL wrapper 已闭环；投稿终版仍需下一轮扩展 | `make -C paper acl27` 已通过，Abstract/Intro/Method/Experiments/Discussion/Limitations 已按 expanded30 evidence 收紧，且完成三路 reviewer-style 审阅并修订；下一轮目标是补 ACL/NLP related work、citation audit、baseline/ablation，或明确放弃 downstream claim |
 
@@ -97,7 +103,7 @@ embodied batch 仍未闭环。
 | Reviewer 主题 | 当前状态 | 解释 |
 |---|---|---|
 | 实验范围太小 | 🔄 部分缓解 | workshop 的 4 个家具资产没有被完全替换；但 ACL 路线新增 GRScenes 30-pair target-centered material-shift stress set，覆盖 cup、clock、faucet、bottle、backpack 等更多目标类别。仍缺系统材料矩阵。 |
-| “AI Task Performance” 无真实任务 | 🔄 部分修复 | 已从 CLIP/DINOv2 proxy 推进到真实 Gemma4/Qwen2.5-VL image-level VLM grounding，并新增 1-episode InternNav/VLN real smoke。仍缺多场景/多 episode embodied 统计。 |
+| “AI Task Performance” 无真实任务 | 🔄 部分修复 | 已从 CLIP/DINOv2 proxy 推进到真实 Gemma4/Qwen2.5-VL image-level VLM grounding，并新增 InternNav/VLN real smoke、official KuJiaLe 3-scene / 99-episode sanity result 和 selected qualitative videos。仍缺 broad GRScenes / 5+ official-scene embodied benchmark。 |
 | 缺 NVIDIA 官方 baseline | ❌ 未修 | 还没有和 MDL Distill/Bake、Asset Converter 做 head-to-head comparison。 |
 | 缺 per-material-effect 分析 | ❌ 未修 | 当前 stress set 能观察 material/color/lighting perturbation，但没有按 clearcoat、anisotropy、procedural texture、transparency、emission、opacity、displacement 等 MDL effect 系统归因。 |
 | general guideline 过度 | ✅ 已收紧 | 现在 claim 绑定到 frozen 30-pair target-centered stress set；clean preservation、broad GRScenes distribution、downstream embodied robustness 都明确不 claim。 |
@@ -110,7 +116,7 @@ embodied batch 仍未闭环。
 
 1. **补 baseline / ablation**：center/random point baseline、bbox-center oracle、prompt/coordinate ablation，先把 VLM grounding 证据变成 reviewer 更难打掉的 diagnostic study。
 2. **补 ACL/NLP related work 和 citation audit**：把 synthetic asset conversion 写成 VLM grounding reliability / multimodal evaluation / embodied language data reliability 问题。
-3. **扩大 InternNav/VLN downstream**：当前已有 1-episode smoke、flat-filter 12-pair partial diagnostic，以及可运行的 expanded30 original/modified input configs；下一步是实际运行 expanded30、重新生成 paired analysis，并跑 selected-only video rerun 产出 mp4。若要冲 ACL main，需要完整 modified/original paired batch、aggregate SR/SPL/TL/NE、失败案例分层和精选视频，而不是只写 future work。
+3. **扩大 InternNav/VLN downstream**：官方 InteriorNav / KuJiaLe `val_unseen` 已完成 3 scenes / 99 paired episodes，selected-only videos 已补到 0031 和 0036/0066。下一步若继续加强，应补 100+ episode / 5+ scene 以上的统计 gate，或回到 GRScenes expanded30 runtime；不能把当前 99 episodes 写成 broad embodied benchmark。
 4. **补 NVIDIA baseline 或明确不可比边界**：至少写清 ConvertAsset 与官方工具在 composition-preserving、batch scratch conversion、evidence manifest 方面的不同目标；更好是实际跑一个对比。
 5. **补材料效应归因**：按 MDL effect/material family 标注或自动抽取，解释哪些材质转换最危险。
 

@@ -1,0 +1,1157 @@
+{
+  "qa_summary": {
+    "all_videos_pass_basic_nonblank_check": true,
+    "checks": [
+      "exists",
+      "size_bytes>100000",
+      "opencv_opened",
+      "frame_count>0",
+      "sampled_luma_nonblank",
+      "start_mid_end_stills_written"
+    ],
+    "qa_pass_count": 12,
+    "video_count": 12
+  },
+  "video_records": [
+    {
+      "case_type": "original_only_success",
+      "condition": "original",
+      "duration_seconds_video": 13.5,
+      "failure_reason": {
+        "modified": "not_reach_goal",
+        "original": "success"
+      },
+      "fps_video": 6.0,
+      "frame_count": 81,
+      "full_run_metrics": {
+        "modified": {
+          "NE": 5.032629412058455,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 4.888876484404956,
+          "steps": 620
+        },
+        "original": {
+          "NE": 0.0972223079613407,
+          "OS": 1.0,
+          "SPL": 0.9736484018913381,
+          "SR": 1.0,
+          "TL": 5.835078108364698,
+          "steps": 286
+        }
+      },
+      "group_id": "kujiale0031",
+      "hash_sha256": "6eb85da9bdfdb281039ff5061ea0692d91fbfc0f09f8a90c05c6f6b9660d4c3c",
+      "height": 512,
+      "nonblank_sample_check": true,
+      "opened": true,
+      "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/videos/kujiale0031/original/494_494.mp4",
+      "path_key": "494_494",
+      "qa_pass": true,
+      "sample_frames": [
+        {
+          "frame_index": 0,
+          "label": "start",
+          "max_luma": 255,
+          "mean_luma": 153.157,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 60.739
+        },
+        {
+          "frame_index": 40,
+          "label": "mid",
+          "max_luma": 255,
+          "mean_luma": 148.175,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 50.909
+        },
+        {
+          "frame_index": 80,
+          "label": "end",
+          "max_luma": 254,
+          "mean_luma": 129.343,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 52.813
+        }
+      ],
+      "size_bytes": 1677396,
+      "source_path": "/cpfs/user/zhuzihou/dev/InternNav/logs/official_kujiale0031_original_video_selected6_20260525/video/494_494/494_494.mp4",
+      "still_records": [
+        {
+          "frame_index": 0,
+          "hash_sha256": "233d380d12ca4ac24e13c6ef075b0da8097409f5369b5567c2a79258b869756b",
+          "label": "start",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_494_494_original_start_000000.png",
+          "read_ok": true,
+          "size_bytes": 421703
+        },
+        {
+          "frame_index": 40,
+          "hash_sha256": "9ca9b3a43b0562012e07f466022a37e209042b8d3a02d3fdb16e8dbedab9f76b",
+          "label": "mid",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_494_494_original_mid_000040.png",
+          "read_ok": true,
+          "size_bytes": 490691
+        },
+        {
+          "frame_index": 80,
+          "hash_sha256": "15c5cdb1aff0ca4385190142063391b341a2d85b588825e35cdd3f6d1c0a399b",
+          "label": "end",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_494_494_original_end_000080.png",
+          "read_ok": true,
+          "size_bytes": 352458
+        }
+      ],
+      "width": 1024
+    },
+    {
+      "case_type": "original_only_success",
+      "condition": "nomdl",
+      "duration_seconds_video": 12.833,
+      "failure_reason": {
+        "modified": "not_reach_goal",
+        "original": "success"
+      },
+      "fps_video": 6.0,
+      "frame_count": 77,
+      "full_run_metrics": {
+        "modified": {
+          "NE": 5.032629412058455,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 4.888876484404956,
+          "steps": 620
+        },
+        "original": {
+          "NE": 0.0972223079613407,
+          "OS": 1.0,
+          "SPL": 0.9736484018913381,
+          "SR": 1.0,
+          "TL": 5.835078108364698,
+          "steps": 286
+        }
+      },
+      "group_id": "kujiale0031",
+      "hash_sha256": "8d19f15d7e47f8a5ac2377813d47079d1f84bae97742ae9ac262c5a450c5d87a",
+      "height": 512,
+      "nonblank_sample_check": true,
+      "opened": true,
+      "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/videos/kujiale0031/nomdl/494_494.mp4",
+      "path_key": "494_494",
+      "qa_pass": true,
+      "sample_frames": [
+        {
+          "frame_index": 0,
+          "label": "start",
+          "max_luma": 251,
+          "mean_luma": 154.945,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 59.356
+        },
+        {
+          "frame_index": 38,
+          "label": "mid",
+          "max_luma": 255,
+          "mean_luma": 149.721,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 49.015
+        },
+        {
+          "frame_index": 76,
+          "label": "end",
+          "max_luma": 255,
+          "mean_luma": 134.955,
+          "min_luma": 2,
+          "read_ok": true,
+          "std_luma": 49.078
+        }
+      ],
+      "size_bytes": 1620106,
+      "source_path": "/cpfs/user/zhuzihou/dev/InternNav/logs/official_kujiale0031_nomdl_video_selected6_20260525/video/494_494/494_494.mp4",
+      "still_records": [
+        {
+          "frame_index": 0,
+          "hash_sha256": "dafb9c421b5886767ff987dfd9d6803e002c17a846295aae92a1e157c2bdb926",
+          "label": "start",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_494_494_nomdl_start_000000.png",
+          "read_ok": true,
+          "size_bytes": 420004
+        },
+        {
+          "frame_index": 38,
+          "hash_sha256": "baab1da9d6508289b9e86c59fc69480bd1091e46111c5c6bb53079b7d996cc12",
+          "label": "mid",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_494_494_nomdl_mid_000038.png",
+          "read_ok": true,
+          "size_bytes": 457384
+        },
+        {
+          "frame_index": 76,
+          "hash_sha256": "0ca1e14f9b6ca56e35483a2bb0f03262724fa5e1f9d01c0f1171aed8a5f3b938",
+          "label": "end",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_494_494_nomdl_end_000076.png",
+          "read_ok": true,
+          "size_bytes": 348562
+        }
+      ],
+      "width": 1024
+    },
+    {
+      "case_type": "modified_only_success",
+      "condition": "original",
+      "duration_seconds_video": 10.0,
+      "failure_reason": {
+        "modified": "success",
+        "original": "not_reach_goal"
+      },
+      "fps_video": 6.0,
+      "frame_count": 60,
+      "full_run_metrics": {
+        "modified": {
+          "NE": 2.053533610214381,
+          "OS": 1.0,
+          "SPL": 0.6738066438568636,
+          "SR": 1.0,
+          "TL": 8.564945341123966,
+          "steps": 180
+        },
+        "original": {
+          "NE": 6.1301030928151725,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 6.086711786789373,
+          "steps": 160
+        }
+      },
+      "group_id": "kujiale0031",
+      "hash_sha256": "2e2f5be775f79bd1f4e9286e6acdba17113393875fec5f9e480a972b90b99d63",
+      "height": 512,
+      "nonblank_sample_check": true,
+      "opened": true,
+      "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/videos/kujiale0031/original/479_479.mp4",
+      "path_key": "479_479",
+      "qa_pass": true,
+      "sample_frames": [
+        {
+          "frame_index": 0,
+          "label": "start",
+          "max_luma": 255,
+          "mean_luma": 149.903,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 48.869
+        },
+        {
+          "frame_index": 29,
+          "label": "mid",
+          "max_luma": 255,
+          "mean_luma": 142.147,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 54.069
+        },
+        {
+          "frame_index": 59,
+          "label": "end",
+          "max_luma": 255,
+          "mean_luma": 106.927,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 69.006
+        }
+      ],
+      "size_bytes": 1460322,
+      "source_path": "/cpfs/user/zhuzihou/dev/InternNav/logs/official_kujiale0031_original_video_selected6_20260525/video/479_479/479_479.mp4",
+      "still_records": [
+        {
+          "frame_index": 0,
+          "hash_sha256": "037c399d8e830527ab486e6b6fcdc6ea9ab2eeb6317a764d24fe68892cff07af",
+          "label": "start",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_479_479_original_start_000000.png",
+          "read_ok": true,
+          "size_bytes": 395113
+        },
+        {
+          "frame_index": 29,
+          "hash_sha256": "31df08d5b63388af8a7e30cf4125714c1eac34a85c6c5758f6b26f12a5bf0b9b",
+          "label": "mid",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_479_479_original_mid_000029.png",
+          "read_ok": true,
+          "size_bytes": 547814
+        },
+        {
+          "frame_index": 59,
+          "hash_sha256": "5b766cb893390a3d8eb8dc02077e2dc5e8fed557925ee015e763fd53570a7000",
+          "label": "end",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_479_479_original_end_000059.png",
+          "read_ok": true,
+          "size_bytes": 517630
+        }
+      ],
+      "width": 1024
+    },
+    {
+      "case_type": "modified_only_success",
+      "condition": "nomdl",
+      "duration_seconds_video": 13.333,
+      "failure_reason": {
+        "modified": "success",
+        "original": "not_reach_goal"
+      },
+      "fps_video": 6.0,
+      "frame_count": 80,
+      "full_run_metrics": {
+        "modified": {
+          "NE": 2.053533610214381,
+          "OS": 1.0,
+          "SPL": 0.6738066438568636,
+          "SR": 1.0,
+          "TL": 8.564945341123966,
+          "steps": 180
+        },
+        "original": {
+          "NE": 6.1301030928151725,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 6.086711786789373,
+          "steps": 160
+        }
+      },
+      "group_id": "kujiale0031",
+      "hash_sha256": "01e83d7e4ca218af929e81aeb3ab0f4e75edbd04a21302b56cc9623821143347",
+      "height": 512,
+      "nonblank_sample_check": true,
+      "opened": true,
+      "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/videos/kujiale0031/nomdl/479_479.mp4",
+      "path_key": "479_479",
+      "qa_pass": true,
+      "sample_frames": [
+        {
+          "frame_index": 0,
+          "label": "start",
+          "max_luma": 255,
+          "mean_luma": 150.503,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 48.665
+        },
+        {
+          "frame_index": 39,
+          "label": "mid",
+          "max_luma": 255,
+          "mean_luma": 144.769,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 50.18
+        },
+        {
+          "frame_index": 79,
+          "label": "end",
+          "max_luma": 255,
+          "mean_luma": 171.464,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 53.522
+        }
+      ],
+      "size_bytes": 1775679,
+      "source_path": "/cpfs/user/zhuzihou/dev/InternNav/logs/official_kujiale0031_nomdl_video_selected6_20260525/video/479_479/479_479.mp4",
+      "still_records": [
+        {
+          "frame_index": 0,
+          "hash_sha256": "019f7905cb1935a9253f3531219d5a4887ff0bd0567ccf4b318acb9bcea7d1fd",
+          "label": "start",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_479_479_nomdl_start_000000.png",
+          "read_ok": true,
+          "size_bytes": 392427
+        },
+        {
+          "frame_index": 39,
+          "hash_sha256": "5317c39d3be1b67e89a2967b79e5d219c68682f517fc0c01959558b2dc7255e9",
+          "label": "mid",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_479_479_nomdl_mid_000039.png",
+          "read_ok": true,
+          "size_bytes": 509333
+        },
+        {
+          "frame_index": 79,
+          "hash_sha256": "59ba731a65ff3c6c5bb710defc974c09a17622ca95c34c33a0703c3e984e6910",
+          "label": "end",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_479_479_nomdl_end_000079.png",
+          "read_ok": true,
+          "size_bytes": 518514
+        }
+      ],
+      "width": 1024
+    },
+    {
+      "case_type": "both_failure_divergent",
+      "condition": "original",
+      "duration_seconds_video": 34.667,
+      "failure_reason": {
+        "modified": "exceed_total_max_step",
+        "original": "not_reach_goal"
+      },
+      "fps_video": 6.0,
+      "frame_count": 208,
+      "full_run_metrics": {
+        "modified": {
+          "NE": 7.533529860170703,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 0.07687549850523771,
+          "steps": 1100
+        },
+        "original": {
+          "NE": 6.119648307805766,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 10.566978557251812,
+          "steps": 207
+        }
+      },
+      "group_id": "kujiale0031",
+      "hash_sha256": "b7ff249635b5b1202943f2caa7801ed6e7409e4543235efa32ae5ace0127b04b",
+      "height": 512,
+      "nonblank_sample_check": true,
+      "opened": true,
+      "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/videos/kujiale0031/original/464_464.mp4",
+      "path_key": "464_464",
+      "qa_pass": true,
+      "sample_frames": [
+        {
+          "frame_index": 0,
+          "label": "start",
+          "max_luma": 251,
+          "mean_luma": 99.618,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 71.284
+        },
+        {
+          "frame_index": 103,
+          "label": "mid",
+          "max_luma": 255,
+          "mean_luma": 107.597,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 70.0
+        },
+        {
+          "frame_index": 207,
+          "label": "end",
+          "max_luma": 254,
+          "mean_luma": 128.181,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 62.323
+        }
+      ],
+      "size_bytes": 4734500,
+      "source_path": "/cpfs/user/zhuzihou/dev/InternNav/logs/official_kujiale0031_original_video_selected6_20260525/video/464_464/464_464.mp4",
+      "still_records": [
+        {
+          "frame_index": 0,
+          "hash_sha256": "c67340c49404788daae4760522fd32d99de479f7f2a370cbc1577c19f14c7b3a",
+          "label": "start",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_464_464_original_start_000000.png",
+          "read_ok": true,
+          "size_bytes": 389605
+        },
+        {
+          "frame_index": 103,
+          "hash_sha256": "c959cdceb3b60b739521bca5ed4c61f298777ef07c3c1f59f0d54629e58b54fb",
+          "label": "mid",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_464_464_original_mid_000103.png",
+          "read_ok": true,
+          "size_bytes": 465799
+        },
+        {
+          "frame_index": 207,
+          "hash_sha256": "af5a522415fd61b5a3953d4a265df00c24c24a14f61c471543e20fb21e147a59",
+          "label": "end",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_464_464_original_end_000207.png",
+          "read_ok": true,
+          "size_bytes": 644168
+        }
+      ],
+      "width": 1024
+    },
+    {
+      "case_type": "both_failure_divergent",
+      "condition": "nomdl",
+      "duration_seconds_video": 35.667,
+      "failure_reason": {
+        "modified": "exceed_total_max_step",
+        "original": "not_reach_goal"
+      },
+      "fps_video": 6.0,
+      "frame_count": 214,
+      "full_run_metrics": {
+        "modified": {
+          "NE": 7.533529860170703,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 0.07687549850523771,
+          "steps": 1100
+        },
+        "original": {
+          "NE": 6.119648307805766,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 10.566978557251812,
+          "steps": 207
+        }
+      },
+      "group_id": "kujiale0031",
+      "hash_sha256": "8f2e997eb5e44f5ac823cefb5e347cc660bc0d3724084f145331b2689054353c",
+      "height": 512,
+      "nonblank_sample_check": true,
+      "opened": true,
+      "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/videos/kujiale0031/nomdl/464_464.mp4",
+      "path_key": "464_464",
+      "qa_pass": true,
+      "sample_frames": [
+        {
+          "frame_index": 0,
+          "label": "start",
+          "max_luma": 252,
+          "mean_luma": 100.239,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 71.133
+        },
+        {
+          "frame_index": 106,
+          "label": "mid",
+          "max_luma": 255,
+          "mean_luma": 111.031,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 66.783
+        },
+        {
+          "frame_index": 213,
+          "label": "end",
+          "max_luma": 255,
+          "mean_luma": 168.926,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 55.743
+        }
+      ],
+      "size_bytes": 4826499,
+      "source_path": "/cpfs/user/zhuzihou/dev/InternNav/logs/official_kujiale0031_nomdl_video_selected6_20260525/video/464_464/464_464.mp4",
+      "still_records": [
+        {
+          "frame_index": 0,
+          "hash_sha256": "169d2a77755c62737707835275eb6fd693fe292e17a124343631bac733a0b971",
+          "label": "start",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_464_464_nomdl_start_000000.png",
+          "read_ok": true,
+          "size_bytes": 391922
+        },
+        {
+          "frame_index": 106,
+          "hash_sha256": "35855ad700e2328a3811f7b91f5731801b3045c1e62c2c46d195f94a6addef31",
+          "label": "mid",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_464_464_nomdl_mid_000106.png",
+          "read_ok": true,
+          "size_bytes": 448700
+        },
+        {
+          "frame_index": 213,
+          "hash_sha256": "8ed2d78eaf4bff811b224ad65c7b7257f99ad457d58ce7fe178078a05d4a8986",
+          "label": "end",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_464_464_nomdl_end_000213.png",
+          "read_ok": true,
+          "size_bytes": 509954
+        }
+      ],
+      "width": 1024
+    },
+    {
+      "case_type": "both_success_divergent",
+      "condition": "original",
+      "duration_seconds_video": 20.667,
+      "failure_reason": {
+        "modified": "success",
+        "original": "success"
+      },
+      "fps_video": 6.0,
+      "frame_count": 124,
+      "full_run_metrics": {
+        "modified": {
+          "NE": 2.305314408193761,
+          "OS": 1.0,
+          "SPL": 1.0,
+          "SR": 1.0,
+          "TL": 3.565892294728653,
+          "steps": 149
+        },
+        "original": {
+          "NE": 1.080392535460594,
+          "OS": 1.0,
+          "SPL": 0.8314585046652555,
+          "SR": 1.0,
+          "TL": 7.835228132352736,
+          "steps": 185
+        }
+      },
+      "group_id": "kujiale0031",
+      "hash_sha256": "4c3728d2485855a0c7d70bf1c4c8bce3a3a963757d83e360bf2ef65411e78113",
+      "height": 512,
+      "nonblank_sample_check": true,
+      "opened": true,
+      "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/videos/kujiale0031/original/473_473.mp4",
+      "path_key": "473_473",
+      "qa_pass": true,
+      "sample_frames": [
+        {
+          "frame_index": 0,
+          "label": "start",
+          "max_luma": 255,
+          "mean_luma": 138.378,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 63.169
+        },
+        {
+          "frame_index": 61,
+          "label": "mid",
+          "max_luma": 255,
+          "mean_luma": 134.939,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 60.071
+        },
+        {
+          "frame_index": 123,
+          "label": "end",
+          "max_luma": 252,
+          "mean_luma": 123.52,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 65.27
+        }
+      ],
+      "size_bytes": 2745408,
+      "source_path": "/cpfs/user/zhuzihou/dev/InternNav/logs/official_kujiale0031_original_video_selected6_20260525/video/473_473/473_473.mp4",
+      "still_records": [
+        {
+          "frame_index": 0,
+          "hash_sha256": "9c134bb41ef557abbebcf37d71fc03cf3521da2aa081776f334538c00e9a264e",
+          "label": "start",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_473_473_original_start_000000.png",
+          "read_ok": true,
+          "size_bytes": 375679
+        },
+        {
+          "frame_index": 61,
+          "hash_sha256": "4c39deb37148c59d227f3cf0c2ac802d1994d8563ce3082c36b77113b74122c8",
+          "label": "mid",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_473_473_original_mid_000061.png",
+          "read_ok": true,
+          "size_bytes": 464765
+        },
+        {
+          "frame_index": 123,
+          "hash_sha256": "49d5ed665b95793a65050edf2320ddd18c1df7badb417798c6a73d38e7cce050",
+          "label": "end",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_473_473_original_end_000123.png",
+          "read_ok": true,
+          "size_bytes": 613244
+        }
+      ],
+      "width": 1024
+    },
+    {
+      "case_type": "both_success_divergent",
+      "condition": "nomdl",
+      "duration_seconds_video": 18.667,
+      "failure_reason": {
+        "modified": "success",
+        "original": "success"
+      },
+      "fps_video": 6.0,
+      "frame_count": 112,
+      "full_run_metrics": {
+        "modified": {
+          "NE": 2.305314408193761,
+          "OS": 1.0,
+          "SPL": 1.0,
+          "SR": 1.0,
+          "TL": 3.565892294728653,
+          "steps": 149
+        },
+        "original": {
+          "NE": 1.080392535460594,
+          "OS": 1.0,
+          "SPL": 0.8314585046652555,
+          "SR": 1.0,
+          "TL": 7.835228132352736,
+          "steps": 185
+        }
+      },
+      "group_id": "kujiale0031",
+      "hash_sha256": "6acd530389be2f9df77fc005bf5afda6e36c0167540d7a510c1705f5dbf7cee0",
+      "height": 512,
+      "nonblank_sample_check": true,
+      "opened": true,
+      "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/videos/kujiale0031/nomdl/473_473.mp4",
+      "path_key": "473_473",
+      "qa_pass": true,
+      "sample_frames": [
+        {
+          "frame_index": 0,
+          "label": "start",
+          "max_luma": 255,
+          "mean_luma": 138.1,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 63.27
+        },
+        {
+          "frame_index": 55,
+          "label": "mid",
+          "max_luma": 254,
+          "mean_luma": 144.531,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 52.904
+        },
+        {
+          "frame_index": 111,
+          "label": "end",
+          "max_luma": 255,
+          "mean_luma": 119.444,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 68.159
+        }
+      ],
+      "size_bytes": 2506655,
+      "source_path": "/cpfs/user/zhuzihou/dev/InternNav/logs/official_kujiale0031_nomdl_video_selected6_20260525/video/473_473/473_473.mp4",
+      "still_records": [
+        {
+          "frame_index": 0,
+          "hash_sha256": "595dc06ca65792ede8e65cb1174ead92c33aa0f6ffa9e33163b5341645ab053b",
+          "label": "start",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_473_473_nomdl_start_000000.png",
+          "read_ok": true,
+          "size_bytes": 381106
+        },
+        {
+          "frame_index": 55,
+          "hash_sha256": "06cfa23e16a8921f9210a32851d1507050b7ca9e31b02316e9eaff73cd3e71da",
+          "label": "mid",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_473_473_nomdl_mid_000055.png",
+          "read_ok": true,
+          "size_bytes": 527730
+        },
+        {
+          "frame_index": 111,
+          "hash_sha256": "fb786cf900a9ca041e651bf80ff9699a47601263004e19e4c397d67638df317d",
+          "label": "end",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_473_473_nomdl_end_000111.png",
+          "read_ok": true,
+          "size_bytes": 643095
+        }
+      ],
+      "width": 1024
+    },
+    {
+      "case_type": "both_failure_neutral",
+      "condition": "original",
+      "duration_seconds_video": 10.333,
+      "failure_reason": {
+        "modified": "not_reach_goal",
+        "original": "not_reach_goal"
+      },
+      "fps_video": 6.0,
+      "frame_count": 62,
+      "full_run_metrics": {
+        "modified": {
+          "NE": 7.092961927082823,
+          "OS": 1.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 8.844231923278674,
+          "steps": 191
+        },
+        "original": {
+          "NE": 3.7714838266398676,
+          "OS": 1.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 2.3188923627222464,
+          "steps": 153
+        }
+      },
+      "group_id": "kujiale0031",
+      "hash_sha256": "0d7d8398563a6850ca785ab3da0f7a0649ec8256e25cf5be9932c861340d314a",
+      "height": 512,
+      "nonblank_sample_check": true,
+      "opened": true,
+      "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/videos/kujiale0031/original/493_493.mp4",
+      "path_key": "493_493",
+      "qa_pass": true,
+      "sample_frames": [
+        {
+          "frame_index": 0,
+          "label": "start",
+          "max_luma": 252,
+          "mean_luma": 111.729,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 66.796
+        },
+        {
+          "frame_index": 30,
+          "label": "mid",
+          "max_luma": 255,
+          "mean_luma": 114.027,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 73.019
+        },
+        {
+          "frame_index": 61,
+          "label": "end",
+          "max_luma": 255,
+          "mean_luma": 158.084,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 45.716
+        }
+      ],
+      "size_bytes": 1321368,
+      "source_path": "/cpfs/user/zhuzihou/dev/InternNav/logs/official_kujiale0031_original_video_selected6_20260525/video/493_493/493_493.mp4",
+      "still_records": [
+        {
+          "frame_index": 0,
+          "hash_sha256": "c30d215f1610c0bfba127b0ca395318a6a6e1ff912754f86bc7998192fbd934c",
+          "label": "start",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_493_493_original_start_000000.png",
+          "read_ok": true,
+          "size_bytes": 345154
+        },
+        {
+          "frame_index": 30,
+          "hash_sha256": "423fe3f38176afa00c43361ef5cfc115fb35e3e03844dc91c25f8b3d02aa6d0f",
+          "label": "mid",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_493_493_original_mid_000030.png",
+          "read_ok": true,
+          "size_bytes": 486699
+        },
+        {
+          "frame_index": 61,
+          "hash_sha256": "b4f1b3437b1bfca33bc5cca9da029d421b2746f9638ddaba3d02be0fb99a3364",
+          "label": "end",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_493_493_original_end_000061.png",
+          "read_ok": true,
+          "size_bytes": 484288
+        }
+      ],
+      "width": 1024
+    },
+    {
+      "case_type": "both_failure_neutral",
+      "condition": "nomdl",
+      "duration_seconds_video": 10.667,
+      "failure_reason": {
+        "modified": "not_reach_goal",
+        "original": "not_reach_goal"
+      },
+      "fps_video": 6.0,
+      "frame_count": 64,
+      "full_run_metrics": {
+        "modified": {
+          "NE": 7.092961927082823,
+          "OS": 1.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 8.844231923278674,
+          "steps": 191
+        },
+        "original": {
+          "NE": 3.7714838266398676,
+          "OS": 1.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 2.3188923627222464,
+          "steps": 153
+        }
+      },
+      "group_id": "kujiale0031",
+      "hash_sha256": "39a0003474256e722c9d45cdb804287a7b56a5f755275650422fda80a8c71e59",
+      "height": 512,
+      "nonblank_sample_check": true,
+      "opened": true,
+      "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/videos/kujiale0031/nomdl/493_493.mp4",
+      "path_key": "493_493",
+      "qa_pass": true,
+      "sample_frames": [
+        {
+          "frame_index": 0,
+          "label": "start",
+          "max_luma": 252,
+          "mean_luma": 111.54,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 67.089
+        },
+        {
+          "frame_index": 31,
+          "label": "mid",
+          "max_luma": 255,
+          "mean_luma": 117.563,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 71.563
+        },
+        {
+          "frame_index": 63,
+          "label": "end",
+          "max_luma": 255,
+          "mean_luma": 158.1,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 46.334
+        }
+      ],
+      "size_bytes": 1378489,
+      "source_path": "/cpfs/user/zhuzihou/dev/InternNav/logs/official_kujiale0031_nomdl_video_selected6_20260525/video/493_493/493_493.mp4",
+      "still_records": [
+        {
+          "frame_index": 0,
+          "hash_sha256": "f3776fa232d8f78c7d6c6bcdb19912db50a4cd5318fda3b8b16271bafae667f5",
+          "label": "start",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_493_493_nomdl_start_000000.png",
+          "read_ok": true,
+          "size_bytes": 342191
+        },
+        {
+          "frame_index": 31,
+          "hash_sha256": "c69927b4f1f4febd9c3338710fb42f7fe326f885819c0e55eb6192ca8ac32ca0",
+          "label": "mid",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_493_493_nomdl_mid_000031.png",
+          "read_ok": true,
+          "size_bytes": 509661
+        },
+        {
+          "frame_index": 63,
+          "hash_sha256": "52bddd4f6dbbea5242c187f7b8401da6cc09a13e4a8af089c3bdf18d0a119428",
+          "label": "end",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_493_493_nomdl_end_000063.png",
+          "read_ok": true,
+          "size_bytes": 482533
+        }
+      ],
+      "width": 1024
+    },
+    {
+      "case_type": "both_success_neutral",
+      "condition": "original",
+      "duration_seconds_video": 7.5,
+      "failure_reason": {
+        "modified": "success",
+        "original": "success"
+      },
+      "fps_video": 6.0,
+      "frame_count": 45,
+      "full_run_metrics": {
+        "modified": {
+          "NE": 0.9246203260679273,
+          "OS": 1.0,
+          "SPL": 0.8278626679522448,
+          "SR": 1.0,
+          "TL": 6.819316406113333,
+          "steps": 142
+        },
+        "original": {
+          "NE": 0.04702767177557826,
+          "OS": 1.0,
+          "SPL": 0.9711237683245149,
+          "SR": 1.0,
+          "TL": 5.813324375033716,
+          "steps": 137
+        }
+      },
+      "group_id": "kujiale0031",
+      "hash_sha256": "f855b664d45e35d2d148eb41879c8991e1bba354688d1a020085982290bd5de7",
+      "height": 512,
+      "nonblank_sample_check": true,
+      "opened": true,
+      "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/videos/kujiale0031/original/484_484.mp4",
+      "path_key": "484_484",
+      "qa_pass": true,
+      "sample_frames": [
+        {
+          "frame_index": 0,
+          "label": "start",
+          "max_luma": 255,
+          "mean_luma": 118.183,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 60.264
+        },
+        {
+          "frame_index": 22,
+          "label": "mid",
+          "max_luma": 255,
+          "mean_luma": 135.097,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 67.22
+        },
+        {
+          "frame_index": 44,
+          "label": "end",
+          "max_luma": 252,
+          "mean_luma": 176.216,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 52.643
+        }
+      ],
+      "size_bytes": 1064795,
+      "source_path": "/cpfs/user/zhuzihou/dev/InternNav/logs/official_kujiale0031_original_video_selected6_20260525/video/484_484/484_484.mp4",
+      "still_records": [
+        {
+          "frame_index": 0,
+          "hash_sha256": "a5506b1ecc3821b30503ae5466693a92df2d62d7cde8216e52f02b35ff4010d7",
+          "label": "start",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_484_484_original_start_000000.png",
+          "read_ok": true,
+          "size_bytes": 401221
+        },
+        {
+          "frame_index": 22,
+          "hash_sha256": "6b489e19b258eab2f9b8f922bc81123250b46a5140389b7f3378de6f79664072",
+          "label": "mid",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_484_484_original_mid_000022.png",
+          "read_ok": true,
+          "size_bytes": 587022
+        },
+        {
+          "frame_index": 44,
+          "hash_sha256": "aee9709b2f1e6d515800d6d8f5c49ea94dfd036c103987836c9350e8a977710b",
+          "label": "end",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_484_484_original_end_000044.png",
+          "read_ok": true,
+          "size_bytes": 505369
+        }
+      ],
+      "width": 1024
+    },
+    {
+      "case_type": "both_success_neutral",
+      "condition": "nomdl",
+      "duration_seconds_video": 7.167,
+      "failure_reason": {
+        "modified": "success",
+        "original": "success"
+      },
+      "fps_video": 6.0,
+      "frame_count": 43,
+      "full_run_metrics": {
+        "modified": {
+          "NE": 0.9246203260679273,
+          "OS": 1.0,
+          "SPL": 0.8278626679522448,
+          "SR": 1.0,
+          "TL": 6.819316406113333,
+          "steps": 142
+        },
+        "original": {
+          "NE": 0.04702767177557826,
+          "OS": 1.0,
+          "SPL": 0.9711237683245149,
+          "SR": 1.0,
+          "TL": 5.813324375033716,
+          "steps": 137
+        }
+      },
+      "group_id": "kujiale0031",
+      "hash_sha256": "58266e7669751096c02004044ee7ef5f94d0345b49531c13a3b8d82bda32d0ab",
+      "height": 512,
+      "nonblank_sample_check": true,
+      "opened": true,
+      "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/videos/kujiale0031/nomdl/484_484.mp4",
+      "path_key": "484_484",
+      "qa_pass": true,
+      "sample_frames": [
+        {
+          "frame_index": 0,
+          "label": "start",
+          "max_luma": 255,
+          "mean_luma": 118.815,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 60.05
+        },
+        {
+          "frame_index": 21,
+          "label": "mid",
+          "max_luma": 255,
+          "mean_luma": 138.027,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 67.359
+        },
+        {
+          "frame_index": 42,
+          "label": "end",
+          "max_luma": 252,
+          "mean_luma": 173.645,
+          "min_luma": 0,
+          "read_ok": true,
+          "std_luma": 55.344
+        }
+      ],
+      "size_bytes": 1021842,
+      "source_path": "/cpfs/user/zhuzihou/dev/InternNav/logs/official_kujiale0031_nomdl_video_selected6_20260525/video/484_484/484_484.mp4",
+      "still_records": [
+        {
+          "frame_index": 0,
+          "hash_sha256": "3aa5748c85b839138938a0f0d7f9157ed6b0e8eb2a475f6f783f14b8d17fd79a",
+          "label": "start",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_484_484_nomdl_start_000000.png",
+          "read_ok": true,
+          "size_bytes": 401153
+        },
+        {
+          "frame_index": 21,
+          "hash_sha256": "bff1d2ccb6a7d42d62cdce57fe07cec1a5d0c1831a845adab2f86f7188473a8e",
+          "label": "mid",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_484_484_nomdl_mid_000021.png",
+          "read_ok": true,
+          "size_bytes": 623820
+        },
+        {
+          "frame_index": 42,
+          "hash_sha256": "aa634d45379206a8a997d840c32718844d6a25442b1f777ccbf951b64c7b3dcd",
+          "label": "end",
+          "path": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_484_484_nomdl_end_000042.png",
+          "read_ok": true,
+          "size_bytes": 438376
+        }
+      ],
+      "width": 1024
+    }
+  ]
+}

@@ -57,3 +57,41 @@ figures:
       - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/gemma4_zoom_stress_score_summary.json
       - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_predictions.jsonl
       - paper/shared/evidence/raw/grscene_vlm_grounding/zoom_stress_probes/qwen25_zoom_stress_structured_score_summary.json
+  - id: fig_internnav_downstream_panel
+    outputs:
+      - paper/shared/figures/fig_internnav_downstream_panel.png
+    generated_by: external_selected_rerun_asset_builder
+    sources:
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_kujiale0031_33/paired_33_summary.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_kujiale0031_33/paired_episode_transitions.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_kujiale0031_33/video_asset_manifest_selected6.json
+  - id: fig_internnav_rollout_stills
+    outputs:
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+    generated_by: external_selected_rerun_asset_builder
+    sources:
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_kujiale0031_33/video_asset_manifest_selected6.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_kujiale0031_33/video_basic_qa_selected6.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0031_video_asset_manifest.json
+  - id: fig_internnav_rollout_selected6_supp
+    outputs:
+      - paper/shared/figures/fig_internnav_rollout_selected6_supp.png
+    generated_by: external_selected_rerun_asset_builder
+    sources:
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_kujiale0031_33/video_asset_manifest_selected6.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_kujiale0031_33/video_basic_qa_selected6.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0031_video_asset_manifest.json
+  - id: fig_internnav_rollout_0036_0066_main3
+    outputs:
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3.png
+    generated_by: paper/shared/evidence/experiments/07_internnav_vln_downstream/package_selected_qualitative_media.py
+    sources:
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_asset_manifest.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_basic_qa.json
+  - id: fig_internnav_rollout_0036_0066_selected6_supp
+    outputs:
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_selected6_supp.png
+    generated_by: paper/shared/evidence/experiments/07_internnav_vln_downstream/package_selected_qualitative_media.py
+    sources:
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_asset_manifest.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_basic_qa.json

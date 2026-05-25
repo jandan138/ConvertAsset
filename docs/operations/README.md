@@ -7,6 +7,8 @@ Runbooks, CLI usage, build instructions, troubleshooting, and agent collaboratio
 - [Project setup](../setup.md)
 - [Isaac Python wrapper](isaac-python-wrapper.md)
 - [Tools overview](tools.md)
+- [Research asset layout](research-asset-layout.md)
+- [InternNav official evidence runbook](internnav-official-evidence-runbook.md)
 - [Inspect material](inspect-material.md)
 - [Orbit CLI camera pose](orbit-cli-camera-pose.md)
 

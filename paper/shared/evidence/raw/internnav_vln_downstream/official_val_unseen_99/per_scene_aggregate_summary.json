@@ -1,0 +1,164 @@
+{
+  "condition_names": {
+    "nomdl": "ConvertAsset noMDL",
+    "original": "official original MDL"
+  },
+  "episode_count": 99,
+  "overall_paired_means": {
+    "FR": {
+      "delta_nomdl_minus_original": 0.0,
+      "lower_is_better": false,
+      "nomdl_mean": 0.0202,
+      "original_mean": 0.0202
+    },
+    "NE": {
+      "delta_nomdl_minus_original": -0.0492,
+      "lower_is_better": true,
+      "nomdl_mean": 3.6306,
+      "original_mean": 3.6798
+    },
+    "OS": {
+      "delta_nomdl_minus_original": -0.0505,
+      "lower_is_better": false,
+      "nomdl_mean": 0.6162,
+      "original_mean": 0.6667
+    },
+    "SPL": {
+      "delta_nomdl_minus_original": -0.0441,
+      "lower_is_better": false,
+      "nomdl_mean": 0.4298,
+      "original_mean": 0.4739
+    },
+    "SR": {
+      "delta_nomdl_minus_original": -0.0404,
+      "lower_is_better": false,
+      "nomdl_mean": 0.4848,
+      "original_mean": 0.5253
+    },
+    "StR": {
+      "delta_nomdl_minus_original": 0.0,
+      "lower_is_better": false,
+      "nomdl_mean": 0.0,
+      "original_mean": 0.0
+    },
+    "TL": {
+      "delta_nomdl_minus_original": 0.0844,
+      "lower_is_better": true,
+      "nomdl_mean": 7.0598,
+      "original_mean": 6.9754
+    },
+    "steps": {
+      "delta_nomdl_minus_original": 41.7475,
+      "lower_is_better": true,
+      "nomdl_mean": 275.3939,
+      "original_mean": 233.6465
+    }
+  },
+  "per_scene": {
+    "kujiale_0031": {
+      "delta_nomdl_minus_original": {
+        "FR": 0.0,
+        "NE": 0.0371,
+        "OS": -0.0303,
+        "SPL": 0.0162,
+        "SR": 0.0606,
+        "StR": 0.0,
+        "TL": -0.292
+      },
+      "episode_count": 33,
+      "nomdl": {
+        "Count": 33,
+        "FR": 0.0,
+        "NE": 3.1024,
+        "OS": 0.7879,
+        "SPL": 0.4955,
+        "SR": 0.5758,
+        "StR": 0.0,
+        "TL": 5.805
+      },
+      "original": {
+        "Count": 33,
+        "FR": 0.0,
+        "NE": 3.0653,
+        "OS": 0.8182,
+        "SPL": 0.4793,
+        "SR": 0.5152,
+        "StR": 0.0,
+        "TL": 6.097
+      },
+      "split_data_type": "val_unseen_kujiale0031_33"
+    },
+    "kujiale_0036": {
+      "delta_nomdl_minus_original": {
+        "FR": 0.0,
+        "NE": 0.7535,
+        "OS": -0.1515,
+        "SPL": -0.1499,
+        "SR": -0.2121,
+        "StR": 0.0,
+        "TL": -1.1268
+      },
+      "episode_count": 33,
+      "nomdl": {
+        "Count": 33,
+        "FR": 0.0606,
+        "NE": 2.8459,
+        "OS": 0.697,
+        "SPL": 0.5503,
+        "SR": 0.6061,
+        "StR": 0.0,
+        "TL": 6.7922
+      },
+      "original": {
+        "Count": 33,
+        "FR": 0.0606,
+        "NE": 2.0924,
+        "OS": 0.8485,
+        "SPL": 0.7002,
+        "SR": 0.8182,
+        "StR": 0.0,
+        "TL": 7.919
+      },
+      "split_data_type": "val_unseen_kujiale0036_33"
+    },
+    "kujiale_0066": {
+      "delta_nomdl_minus_original": {
+        "FR": 0.0,
+        "NE": -0.9381,
+        "OS": 0.0303,
+        "SPL": 0.0013,
+        "SR": 0.0303,
+        "StR": 0.0,
+        "TL": 1.6721
+      },
+      "episode_count": 33,
+      "nomdl": {
+        "Count": 33,
+        "FR": 0.0,
+        "NE": 4.9436,
+        "OS": 0.3636,
+        "SPL": 0.2435,
+        "SR": 0.2727,
+        "StR": 0.0,
+        "TL": 8.5823
+      },
+      "original": {
+        "Count": 33,
+        "FR": 0.0,
+        "NE": 5.8817,
+        "OS": 0.3333,
+        "SPL": 0.2422,
+        "SR": 0.2424,
+        "StR": 0.0,
+        "TL": 6.9102
+      },
+      "split_data_type": "val_unseen_kujiale0066_33"
+    }
+  },
+  "scene_order": [
+    "kujiale_0031",
+    "kujiale_0036",
+    "kujiale_0066"
+  ],
+  "schema_version": 1
+}

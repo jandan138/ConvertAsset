@@ -12,6 +12,16 @@ Venue fit: current content is still a synthetic-data and simulation paper. To ma
 
 Selected ACL experiment route: use the original GRScenes-100 benchmark package under `/cpfs/user/zhuzihou/assets/zzh-grscenes` with ConvertAsset's MDL-to-UsdPreviewSurface intervention, then evaluate PIO-style VLM grounding prompts over matched original/converted renders. The first episode-backed pilot should sample from the 30 home scenes covered by `mm_episodes.json` / `sn_episodes.json`; commercial scenes are metadata-driven stress tests unless a future episode source is added, and the full 99-scene pool is a later expansion target. ACL claims must cite the official GRUtopia/GRScenes and InternNav/DualVLN sources; the restored test0 mirror is only an engineering validation dataset. Treat InternNav / VL-LN as the downstream navigation extension after the grounding pilot is reproducible. See `../../shared/evidence/references/acl_vlm_benchmark_selection.md` and `../../shared/evidence/experiments/06_grscenes_vlm_grounding/`.
 
+Asset layout update on 2026-05-25: ConvertAsset external research assets now
+use `/cpfs/user/zhuzihou/assets/convertasset_research` as the canonical root.
+The old `/cpfs/user/zhuzihou/assets/zzh-grscenes`,
+`internnav_official_*`, `internnav_vln_downstream_work_*`, and runtime-deps
+paths are retained as symlinks for historical manifests. New InternNav official
+`val_unseen` expansion runs should write under
+`/cpfs/user/zhuzihou/assets/convertasset_research/experiments/internnav/official/internnav_official_val_unseen_20260525`.
+See `../../../docs/operations/research-asset-layout.md` and
+`../../../docs/records/2026-05-25-research-asset-layout-normalization.md`.
+
 Current experiment state on 2026-05-23: source selection, target localization, paired render planning, full scratch no-MDL conversion, render-smoke execution, projection QA, blind visual QA, and real-model VLM probes are implemented. `source_manifest.json` fixes 5 episode-backed home scenes, 5 commercial stress scenes, and 40 selected episode records. `target_manifest.json` resolves all 40 selected episode-backed records to USD prim paths and world-space bboxes using original GRScenes scene USDs read-only; these records collapse to 23 unique spatial targets because some `mm` and `sn` episodes refer to the same object. `render_manifest.json` plans 4 target-centered views per unique target, giving 92 original/converted view pairs and 184 material-condition render jobs. The scratch no-MDL route has converted 99 top-level raw scenes and verification records `passed=true`, while the original `/cpfs/user/zhuzihou/assets/zzh-grscenes` source tree remains free of `_noMDL` sidecar pollution.
 
 GRScenes VLM evidence now has one frozen expanded stress set and one pilot clean branch. The clean branch has a 15-pair visual-QA PASS pool under `../../shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/`: Gemma4 structured-text over 15 original/converted pairs produced 30/30 parsed rows, answer accuracy 15/15 original and 15/15 converted, normalized-1000 point-in-bbox 8/15 original and 6/15 converted, normalized-1000 pair hit agreement 11/15, and 5/15 both-hit pairs. The matching Qwen2.5-VL structured-text run produced 30 parsed rows but only 23/30 scorable answer strings, answer accuracy 8/11 original and 9/12 converted, raw point-in-bbox 5/14 original and 5/15 converted, and normalized-1000 point-in-bbox 0/14 original and 0/15 converted. This branch remains below the clean final gate.
@@ -78,5 +88,37 @@ expanded30 SR/SPL/NE/TL results and paper videos have not been generated.
 `../../shared/evidence/raw/internnav_vln_downstream/video_rerun_manifest_flatfilter_partial.json`
 also prepares six selected diagnostic video reruns with `vis_output=True`, but
 the mp4 files do not exist until those selected-only runs are executed.
+
+Official KuJiaLe downstream sanity update on 2026-05-25: a separate controlled
+pair on public InteriorAgent / KuJiaLe `kujiale_0031` completed the same 33
+official episodes for original MDL and ConvertAsset noMDL scenes. Repository
+evidence is under
+`../../shared/evidence/raw/internnav_vln_downstream/official_kujiale0031_33/`.
+Original aggregate metrics are `SR=0.5152`, `SPL=0.4793`; noMDL aggregate
+metrics are `SR=0.5758`, `SPL=0.4955`. The selected six-case video rerun has
+basic nonblank QA and contact-sheet figures, but it remains qualitative only
+because selected-rerun outcomes can differ from the full metric run. This is a
+scoped single-official-scene downstream sanity result, not a broad GRScenes
+or R2R/MP3D benchmark claim.
+
+Official val-unseen completion on 2026-05-25: the local InteriorAgent_Nav
+`val_unseen` split contains 99 episodes across exactly three official KuJiaLe
+scenes, and all three now have paired original/noMDL InternNav metrics.
+Repository evidence is under
+`../../shared/evidence/raw/internnav_vln_downstream/official_val_unseen_99/`.
+Combined paired means are original/noMDL `SR=0.5253/0.4848`,
+`SPL=0.4739/0.4298`, `NE=3.6798/3.6306`, and `TL=6.9754/7.0598`. This is a
+controlled official InteriorNav / KuJiaLe downstream sanity result. It still
+does not justify a broad GRScenes, R2R, MP3D, or all-InteriorNav embodied
+benchmark claim. See
+`../../../docs/records/2026-05-25-internnav-official-val-unseen-99-results.md`.
+
+Selected qualitative video update on 2026-05-25: the 0031 selected videos and
+new 0036/0066 selected videos are now repo-resident under
+`../../shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/`.
+The package keeps compressed mp4s, start/mid/end stills, contact sheets, QA,
+and manifests; raw InternNav frame directories remain outside git. This closes
+the immediate rebuttal/figure need for selected official KuJiaLe videos, but it
+does not change the quantitative claim boundary.
 
 External status checked on 2026-05-22: the official ACL resolutions page records a July 2025 resolution that the 2027 conference will be branded as `ACL 2027` with no IJCNLP/AFNLP co-branding. No public ACL 2027 CFP, official conference site, city/date page, or Japan confirmation was found in the checked official sources. Japan is recorded here as the user-requested target until a public official source is available. Source: https://www.aclweb.org/adminwiki/index.php/ACL_Resolutions.

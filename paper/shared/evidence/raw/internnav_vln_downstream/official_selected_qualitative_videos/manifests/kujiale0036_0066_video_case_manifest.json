@@ -1,0 +1,219 @@
+{
+  "case_quota": {
+    "candidate_count": 66,
+    "max_cases": 6,
+    "selected_count": 6
+  },
+  "schema_version": 1,
+  "selected_cases": [
+    {
+      "case_type": "original_only_success",
+      "divergence_score": 10.8273,
+      "failure_reason": {
+        "modified": "not_reach_goal",
+        "original": "success"
+      },
+      "metrics": {
+        "modified": {
+          "NE": 10.652700129763218,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 4.568621891432116,
+          "steps": 173
+        },
+        "original": {
+          "NE": 0.7507878466168183,
+          "OS": 1.0,
+          "SPL": 0.9931056014873431,
+          "SR": 1.0,
+          "TL": 13.822794198295881,
+          "steps": 211
+        }
+      },
+      "path_key": "898_898",
+      "recommended_config_overrides": {
+        "agent.model_settings.vis_debug": false,
+        "eval_settings.vis_output": true
+      },
+      "rerun_profile": "video_selected_only",
+      "scene_id": "kujiale_0066",
+      "split_data_type": "val_unseen_kujiale0036_0066_video_selected6"
+    },
+    {
+      "case_type": "modified_only_success",
+      "divergence_score": 9.9832,
+      "failure_reason": {
+        "modified": "success",
+        "original": "exceed_total_max_step"
+      },
+      "metrics": {
+        "modified": {
+          "NE": 0.17572182945075882,
+          "OS": 1.0,
+          "SPL": 0.4887325689287703,
+          "SR": 1.0,
+          "TL": 19.65127855151385,
+          "steps": 640
+        },
+        "original": {
+          "NE": 8.281710400325474,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 0.879282014258659,
+          "steps": 1100
+        }
+      },
+      "path_key": "919_919",
+      "recommended_config_overrides": {
+        "agent.model_settings.vis_debug": false,
+        "eval_settings.vis_output": true
+      },
+      "rerun_profile": "video_selected_only",
+      "scene_id": "kujiale_0066",
+      "split_data_type": "val_unseen_kujiale0036_0066_video_selected6"
+    },
+    {
+      "case_type": "both_failure_divergent",
+      "divergence_score": 7.2842,
+      "failure_reason": {
+        "modified": "not_reach_goal",
+        "original": "not_reach_goal"
+      },
+      "metrics": {
+        "modified": {
+          "NE": 4.311292774540671,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 9.31665566140526,
+          "steps": 190
+        },
+        "original": {
+          "NE": 11.020256130311322,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 3.5640902114763184,
+          "steps": 142
+        }
+      },
+      "path_key": "895_895",
+      "recommended_config_overrides": {
+        "agent.model_settings.vis_debug": false,
+        "eval_settings.vis_output": true
+      },
+      "rerun_profile": "video_selected_only",
+      "scene_id": "kujiale_0066",
+      "split_data_type": "val_unseen_kujiale0036_0066_video_selected6"
+    },
+    {
+      "case_type": "both_success_divergent",
+      "divergence_score": 0.6845,
+      "failure_reason": {
+        "modified": "success",
+        "original": "success"
+      },
+      "metrics": {
+        "modified": {
+          "NE": 0.6497664230060879,
+          "OS": 1.0,
+          "SPL": 0.9276501790742794,
+          "SR": 1.0,
+          "TL": 8.3450371318181,
+          "steps": 176
+        },
+        "original": {
+          "NE": 0.5135104596371167,
+          "OS": 1.0,
+          "SPL": 0.5598524583522586,
+          "SR": 1.0,
+          "TL": 13.82734874916235,
+          "steps": 222
+        }
+      },
+      "path_key": "597_597",
+      "recommended_config_overrides": {
+        "agent.model_settings.vis_debug": false,
+        "eval_settings.vis_output": true
+      },
+      "rerun_profile": "video_selected_only",
+      "scene_id": "kujiale_0036",
+      "split_data_type": "val_unseen_kujiale0036_0066_video_selected6"
+    },
+    {
+      "case_type": "both_failure_neutral",
+      "divergence_score": 5.0619,
+      "failure_reason": {
+        "modified": "not_reach_goal",
+        "original": "not_reach_goal"
+      },
+      "metrics": {
+        "modified": {
+          "NE": 6.267485456469422,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 15.133240951828169,
+          "steps": 247
+        },
+        "original": {
+          "NE": 10.629712620559866,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 8.136129462782034,
+          "steps": 233
+        }
+      },
+      "path_key": "891_891",
+      "recommended_config_overrides": {
+        "agent.model_settings.vis_debug": false,
+        "eval_settings.vis_output": true
+      },
+      "rerun_profile": "video_selected_only",
+      "scene_id": "kujiale_0066",
+      "split_data_type": "val_unseen_kujiale0036_0066_video_selected6"
+    },
+    {
+      "case_type": "both_success_neutral",
+      "divergence_score": 0.7671,
+      "failure_reason": {
+        "modified": "success",
+        "original": "success"
+      },
+      "metrics": {
+        "modified": {
+          "NE": 1.5065982274064258,
+          "OS": 1.0,
+          "SPL": 1.0,
+          "SR": 1.0,
+          "TL": 7.827260691076669,
+          "steps": 176
+        },
+        "original": {
+          "NE": 0.7894951245004888,
+          "OS": 1.0,
+          "SPL": 1.0,
+          "SR": 1.0,
+          "TL": 8.327138486162141,
+          "steps": 179
+        }
+      },
+      "path_key": "598_598",
+      "recommended_config_overrides": {
+        "agent.model_settings.vis_debug": false,
+        "eval_settings.vis_output": true
+      },
+      "rerun_profile": "video_selected_only",
+      "scene_id": "kujiale_0036",
+      "split_data_type": "val_unseen_kujiale0036_0066_video_selected6"
+    }
+  ],
+  "storage_policy": {
+    "keep_compressed_mp4_not_raw_frames": true,
+    "metric_runs_keep_video_disabled": true,
+    "rerun_only_selected_cases_with_video": true
+  }
+}

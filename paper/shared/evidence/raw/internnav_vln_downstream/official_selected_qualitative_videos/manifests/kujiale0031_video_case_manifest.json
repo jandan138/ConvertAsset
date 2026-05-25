@@ -1,0 +1,207 @@
+{
+  "case_quota": {
+    "candidate_count": 33,
+    "max_cases": 6,
+    "selected_count": 6
+  },
+  "schema_version": 1,
+  "selected_cases": [
+    {
+      "case_type": "original_only_success",
+      "divergence_score": 5.03,
+      "failure_reason": {
+        "modified": "not_reach_goal",
+        "original": "success"
+      },
+      "metrics": {
+        "modified": {
+          "NE": 5.032629412058455,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 4.888876484404956,
+          "steps": 620
+        },
+        "original": {
+          "NE": 0.0972223079613407,
+          "OS": 1.0,
+          "SPL": 0.9736484018913381,
+          "SR": 1.0,
+          "TL": 5.835078108364698,
+          "steps": 286
+        }
+      },
+      "path_key": "494_494",
+      "recommended_config_overrides": {
+        "agent.model_settings.vis_debug": false,
+        "eval_settings.vis_output": true
+      },
+      "rerun_profile": "video_selected_only"
+    },
+    {
+      "case_type": "modified_only_success",
+      "divergence_score": 4.3244,
+      "failure_reason": {
+        "modified": "success",
+        "original": "not_reach_goal"
+      },
+      "metrics": {
+        "modified": {
+          "NE": 2.053533610214381,
+          "OS": 1.0,
+          "SPL": 0.6738066438568636,
+          "SR": 1.0,
+          "TL": 8.564945341123966,
+          "steps": 180
+        },
+        "original": {
+          "NE": 6.1301030928151725,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 6.086711786789373,
+          "steps": 160
+        }
+      },
+      "path_key": "479_479",
+      "recommended_config_overrides": {
+        "agent.model_settings.vis_debug": false,
+        "eval_settings.vis_output": true
+      },
+      "rerun_profile": "video_selected_only"
+    },
+    {
+      "case_type": "both_failure_divergent",
+      "divergence_score": 2.4629,
+      "failure_reason": {
+        "modified": "exceed_total_max_step",
+        "original": "not_reach_goal"
+      },
+      "metrics": {
+        "modified": {
+          "NE": 7.533529860170703,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 0.07687549850523771,
+          "steps": 1100
+        },
+        "original": {
+          "NE": 6.119648307805766,
+          "OS": 0.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 10.566978557251812,
+          "steps": 207
+        }
+      },
+      "path_key": "464_464",
+      "recommended_config_overrides": {
+        "agent.model_settings.vis_debug": false,
+        "eval_settings.vis_output": true
+      },
+      "rerun_profile": "video_selected_only"
+    },
+    {
+      "case_type": "both_success_divergent",
+      "divergence_score": 1.6519,
+      "failure_reason": {
+        "modified": "success",
+        "original": "success"
+      },
+      "metrics": {
+        "modified": {
+          "NE": 2.305314408193761,
+          "OS": 1.0,
+          "SPL": 1.0,
+          "SR": 1.0,
+          "TL": 3.565892294728653,
+          "steps": 149
+        },
+        "original": {
+          "NE": 1.080392535460594,
+          "OS": 1.0,
+          "SPL": 0.8314585046652555,
+          "SR": 1.0,
+          "TL": 7.835228132352736,
+          "steps": 185
+        }
+      },
+      "path_key": "473_473",
+      "recommended_config_overrides": {
+        "agent.model_settings.vis_debug": false,
+        "eval_settings.vis_output": true
+      },
+      "rerun_profile": "video_selected_only"
+    },
+    {
+      "case_type": "both_failure_neutral",
+      "divergence_score": 3.974,
+      "failure_reason": {
+        "modified": "not_reach_goal",
+        "original": "not_reach_goal"
+      },
+      "metrics": {
+        "modified": {
+          "NE": 7.092961927082823,
+          "OS": 1.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 8.844231923278674,
+          "steps": 191
+        },
+        "original": {
+          "NE": 3.7714838266398676,
+          "OS": 1.0,
+          "SPL": 0.0,
+          "SR": 0.0,
+          "TL": 2.3188923627222464,
+          "steps": 153
+        }
+      },
+      "path_key": "493_493",
+      "recommended_config_overrides": {
+        "agent.model_settings.vis_debug": false,
+        "eval_settings.vis_output": true
+      },
+      "rerun_profile": "video_selected_only"
+    },
+    {
+      "case_type": "both_success_neutral",
+      "divergence_score": 0.9782,
+      "failure_reason": {
+        "modified": "success",
+        "original": "success"
+      },
+      "metrics": {
+        "modified": {
+          "NE": 0.9246203260679273,
+          "OS": 1.0,
+          "SPL": 0.8278626679522448,
+          "SR": 1.0,
+          "TL": 6.819316406113333,
+          "steps": 142
+        },
+        "original": {
+          "NE": 0.04702767177557826,
+          "OS": 1.0,
+          "SPL": 0.9711237683245149,
+          "SR": 1.0,
+          "TL": 5.813324375033716,
+          "steps": 137
+        }
+      },
+      "path_key": "484_484",
+      "recommended_config_overrides": {
+        "agent.model_settings.vis_debug": false,
+        "eval_settings.vis_output": true
+      },
+      "rerun_profile": "video_selected_only"
+    }
+  ],
+  "storage_policy": {
+    "keep_compressed_mp4_not_raw_frames": true,
+    "metric_runs_keep_video_disabled": true,
+    "rerun_only_selected_cases_with_video": true
+  }
+}

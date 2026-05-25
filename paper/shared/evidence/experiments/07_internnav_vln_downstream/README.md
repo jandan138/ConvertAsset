@@ -192,6 +192,10 @@ needed for a larger ACL main-result benchmark:
 - `select_video_cases.py` chooses a small, storage-bounded set of cases for
   later video reruns. Metric batch runs should keep `vis_output=False`; selected
   video reruns should set `eval_settings.vis_output=True`.
+- `package_selected_qualitative_media.py` copies completed selected rerun mp4s
+  into the repo-normalized evidence media directory, extracts start/mid/end
+  stills, builds paired contact sheets, and writes QA/asset manifests. It keeps
+  raw InternNav `frames/` directories out of git.
 
 The actual mini smoke LMDBs were extracted into:
 

@@ -1,0 +1,155 @@
+{
+  "claim_gate": {
+    "acl_main_result_ready": false,
+    "has_aggregate_result_json": true,
+    "has_failure_classification": true,
+    "has_paired_episode_metrics": true,
+    "has_video_manifest": false,
+    "pilot_main_ready": false,
+    "row_count_acl_ready": false,
+    "row_count_pilot_ready": false
+  },
+  "episode_count": 33,
+  "failure_pairs": {
+    "original_exceed_total_max_step__modified_exceed_total_max_step": 2,
+    "original_exceed_total_max_step__modified_not_reach_goal": 1,
+    "original_exceed_total_max_step__modified_success": 2,
+    "original_not_reach_goal__modified_exceed_total_max_step": 1,
+    "original_not_reach_goal__modified_not_reach_goal": 15,
+    "original_not_reach_goal__modified_success": 4,
+    "original_success__modified_not_reach_goal": 5,
+    "original_success__modified_success": 3
+  },
+  "metrics": {
+    "Count": {
+      "cohen_dz": 0.0,
+      "lower_is_better": false,
+      "mean_delta_modified_minus_original": 0.0,
+      "median_delta_modified_minus_original": 0.0,
+      "modified_mean": 1.0,
+      "n": 33,
+      "original_mean": 1.0
+    },
+    "FR": {
+      "cohen_dz": 0.0,
+      "lower_is_better": false,
+      "mean_delta_modified_minus_original": 0.0,
+      "median_delta_modified_minus_original": 0.0,
+      "modified_mean": 0.0,
+      "n": 33,
+      "original_mean": 0.0
+    },
+    "NE": {
+      "cohen_dz": -0.2449,
+      "lower_is_better": true,
+      "mean_delta_modified_minus_original": -0.9381,
+      "median_delta_modified_minus_original": -0.098,
+      "modified_mean": 4.9436,
+      "n": 33,
+      "original_mean": 5.8817
+    },
+    "OS": {
+      "cohen_dz": 0.0518,
+      "lower_is_better": false,
+      "mean_delta_modified_minus_original": 0.0303,
+      "median_delta_modified_minus_original": 0.0,
+      "modified_mean": 0.3636,
+      "n": 33,
+      "original_mean": 0.3333
+    },
+    "SPL": {
+      "cohen_dz": 0.0023,
+      "lower_is_better": false,
+      "mean_delta_modified_minus_original": 0.0012,
+      "median_delta_modified_minus_original": 0.0,
+      "modified_mean": 0.2435,
+      "n": 33,
+      "original_mean": 0.2422
+    },
+    "SR": {
+      "cohen_dz": 0.0518,
+      "lower_is_better": false,
+      "mean_delta_modified_minus_original": 0.0303,
+      "median_delta_modified_minus_original": 0.0,
+      "modified_mean": 0.2727,
+      "n": 33,
+      "original_mean": 0.2424
+    },
+    "StR": {
+      "cohen_dz": 0.0,
+      "lower_is_better": false,
+      "mean_delta_modified_minus_original": 0.0,
+      "median_delta_modified_minus_original": 0.0,
+      "modified_mean": 0.0,
+      "n": 33,
+      "original_mean": 0.0
+    },
+    "TL": {
+      "cohen_dz": 0.2949,
+      "lower_is_better": true,
+      "mean_delta_modified_minus_original": 1.6721,
+      "median_delta_modified_minus_original": 1.2607,
+      "modified_mean": 8.5823,
+      "n": 33,
+      "original_mean": 6.9102
+    },
+    "steps": {
+      "cohen_dz": -0.0051,
+      "lower_is_better": true,
+      "mean_delta_modified_minus_original": -1.3636,
+      "median_delta_modified_minus_original": -1.0,
+      "modified_mean": 359.6364,
+      "n": 33,
+      "original_mean": 361.0
+    }
+  },
+  "paired_outcomes": {
+    "Count": {
+      "modified_better": 0,
+      "original_better": 0,
+      "tie": 33
+    },
+    "FR": {
+      "modified_better": 0,
+      "original_better": 0,
+      "tie": 33
+    },
+    "NE": {
+      "modified_better": 19,
+      "original_better": 14,
+      "tie": 0
+    },
+    "OS": {
+      "modified_better": 6,
+      "original_better": 5,
+      "tie": 22
+    },
+    "SPL": {
+      "modified_better": 6,
+      "original_better": 5,
+      "tie": 22
+    },
+    "SR": {
+      "modified_better": 6,
+      "original_better": 5,
+      "tie": 22
+    },
+    "StR": {
+      "modified_better": 0,
+      "original_better": 0,
+      "tie": 33
+    },
+    "TL": {
+      "modified_better": 14,
+      "original_better": 19,
+      "tie": 0
+    },
+    "steps": {
+      "modified_better": 17,
+      "original_better": 14,
+      "tie": 2
+    }
+  },
+  "scene_count": 0,
+  "schema_version": 1
+}
