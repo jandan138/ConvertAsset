@@ -127,38 +127,42 @@ The manuscript should not say:
 
 ## Recommended Next Goal
 
+The previous recommended goal, the reviewer-closure package, is now complete.
 The next major goal should be:
 
 ```text
-Build a paper-ready reviewer-closure package: add paired statistical summaries
-and confidence intervals for the existing VLM/InternNav evidence, add simple
-point/coordinate baselines for the VLM grounding protocol, and turn the
-material-effect risk matrix into a lightweight safe-conversion recommender or
-rule table.
+Build a submission-readiness closure pass: add multi-scene, multi-run
+scene-load/render-performance statistics with variance or confidence intervals
+on official or releaseable scenes, then run a final claim-language and citation
+audit for the target paper route.
 ```
 
-Why this goal is the right next step:
+Why this is now the right next step:
 
-1. It closes the most visible remaining reviewer gaps without launching another
-   large raw-data campaign first.
-2. It converts the current material-effect risk matrix from "diagnostic table"
-   into a practical decision-support contribution.
-3. It strengthens the ACL/ARR framing by giving the VLM grounding protocol
-   proper baselines and statistical uncertainty.
-4. It keeps claims scoped: the output is a reviewer-closure package, not a
-   broad all-task benchmark claim.
+1. The reviewer-closure package already added paired CIs, coordinate baselines,
+   and the rule-based material-risk table.
+2. The largest remaining concrete reviewer gap is performance breadth: current
+   scene-load/render timing evidence is narrower than the downstream InternNav
+   and VLM evidence and lacks multi-scene variance.
+3. This is lower risk than forcing a broad GRScenes embodied-navigation claim:
+   official KuJiaLe / InteriorAgent scenes can support a cleaner, releaseable
+   performance protocol.
+4. A learned material-risk classifier remains future work; it is not required
+   before submission unless the paper claims automatic risk prediction.
 
 Suggested concrete success criteria:
 
-- VLM grounding includes random-point, image-center, bbox-center, and target-
-  center baselines where applicable.
-- VLM and InternNav summaries include paired deltas and bootstrap confidence
-  intervals.
-- A rule-based material-risk table maps observed MDL effects to recommended
-  actions: safe-ish conversion, manual visual review, bake/investigate, or keep
-  MDL.
-- Paper sections and rebuttal notes cite the exact claim boundary for each
-  evidence type.
+- Select three to five official or releaseable scenes that already have clean
+  original/noMDL pairs; prefer official KuJiaLe / InteriorAgent routes over
+  ad-hoc GRScenes embodied-navigation claims.
+- For each scene, run repeated scene-load and render timing measurements for
+  original MDL, ConvertAsset noMDL, and the NVIDIA baseline where available.
+- Report means, standard deviations, confidence intervals, failure counts, and
+  any unsupported material-effect bins.
+- Add the resulting table, manifest entries, and claim-boundary notes to the
+  shared paper evidence package.
+- Run a final paper audit that removes unsupported broad claims and checks
+  citations/provenance for ACL/ARR or the chosen target venue.
 
 ## Completion Update
 
