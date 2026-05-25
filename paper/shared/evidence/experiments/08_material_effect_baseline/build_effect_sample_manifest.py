@@ -111,7 +111,7 @@ def detect_material_effects(mdl_paths: list[Path]) -> dict[str, dict[str, Any]]:
         lowered = text.lower()
         name = path.name
 
-        if re.search(r"\b(clearcoat|clear_coat|coat_roughness|coat_weight)\b", lowered):
+        if re.search(r"\b(clearcoat|clear_coat|clearcoat_weight|coat_roughness|coat_weight)\b", lowered):
             _add_evidence(effects, "clearcoat", f"{name}: clearcoat/coating token")
 
         opacity_values = _float_literals(r"\b(?:float\s+)?(?:texmap_)?opacity\b\s*[:=]\s*([0-9.]+)\s*f?", text)

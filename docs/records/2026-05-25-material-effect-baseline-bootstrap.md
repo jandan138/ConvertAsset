@@ -17,8 +17,10 @@ MDL fixture.
 - `paper/shared/evidence/experiments/08_material_effect_baseline/run_qualitative_nvidia_renders.py`
 - `paper/shared/evidence/experiments/08_material_effect_baseline/build_baseline_conversion_manifest.py`
 - `paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py`
+- `paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_effect_candidates.py`
 - `paper/shared/figures/gen_material_effect_qualitative.py`
 - `paper/shared/evidence/raw/material_effect_baseline/effect_sample_manifest.json`
+- `paper/shared/evidence/raw/material_effect_baseline/supplemental_effect_candidate_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/nvidia_baseline_smoke_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/nvidia_sample_conversion_manifest.json`
 - `paper/shared/evidence/raw/material_effect_baseline/baseline_conversion_manifest.json`
@@ -127,6 +129,21 @@ cases across original MDL, ConvertAsset no-MDL, and NVIDIA.
 | NVIDIA camera stages authored | 4 |
 | NVIDIA qualitative renders ready | 4 |
 
+The supplemental candidate manifest then checks bounded local official/sample
+roots for the missing effect bins. It finds a clearcoat source in the local
+Isaac Sim material-library tests and a procedural-texture source in the local
+NVIDIA MDL SDK tutorial assets.
+
+| Field | Count |
+|---|---:|
+| Missing bins checked | 2 |
+| Candidate sources found | 2 |
+| Remaining missing bins without source | 0 |
+
+Both candidates are source evidence only. They need small bound wrapper stages
+before any condition manifest, effect-table, render, or paper claim counts them
+as covered samples.
+
 ## Validation
 
 Commands run:
@@ -147,6 +164,8 @@ python paper/shared/evidence/experiments/08_material_effect_baseline/build_quali
 timeout 300 ./scripts/isaac_python.sh paper/shared/evidence/experiments/06_grscenes_vlm_grounding/author_render_camera_stages.py --render-manifest paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json --out paper/shared/evidence/raw/material_effect_baseline/qualitative_camera_stage_authoring_report.json --apply
 python paper/shared/evidence/experiments/08_material_effect_baseline/run_qualitative_nvidia_renders.py
 python paper/shared/figures/gen_material_effect_qualitative.py
+python -m pytest -q tests/test_material_effect_baseline_supplemental_candidates.py
+python paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_effect_candidates.py
 ```
 
 Results:
@@ -171,6 +190,10 @@ Results:
   `blocked_camera_stage_count=0`
 - qualitative NVIDIA render run: `ready_output_count=4`, `failed_count=0`
 - qualitative figure: `figure_written=true`, `ready_case_count=4`
+- supplemental candidate tests: `3 passed`
+- supplemental candidate manifest: `recommendation_count=2`,
+  `remaining_missing_effects=[]`, `ready_for_fixture_authoring=true`,
+  `ready_for_baseline_conversion=false`
 
 ## Claim Boundary
 
@@ -181,8 +204,10 @@ existing original/no-MDL sample conditions are statically gated and ready for
 sample-level NVIDIA conversion", "the NVIDIA sample outputs for the selected
 five scenes are generated and static-gated", and "the current effect table
 quantifies condition readiness by effect bin", and "selected covered-bin
-qualitative stills exist for original MDL / ConvertAsset / NVIDIA."
+qualitative stills exist for original MDL / ConvertAsset / NVIDIA", and "local
+official/sample candidate sources have been identified for the missing
+clearcoat/procedural bins."
 
 Not allowed yet: "ConvertAsset visually beats NVIDIA baseline", "all requested
-material effects are covered", or "these counts are a final failure-rate
-distribution."
+material effects are covered", "the supplemental candidates are converted
+baseline rows", or "these counts are a final failure-rate distribution."

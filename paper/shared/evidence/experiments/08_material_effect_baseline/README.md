@@ -135,6 +135,30 @@ Current qualitative result:
   `normal_bump`, and `displacement_height`
 - `clearcoat` and `procedural_texture` remain missing-bin blockers
 
-Next scripts should add official/sample assets for the missing clearcoat and
-procedural-texture bins, then regenerate effect tables and qualitative panels
-with those supplemental cases.
+Supplemental missing-bin candidate entry point:
+
+```bash
+python paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_effect_candidates.py
+```
+
+Default supplemental output:
+
+```text
+paper/shared/evidence/raw/material_effect_baseline/supplemental_effect_candidate_manifest.json
+```
+
+Current supplemental result:
+
+- `clearcoat` candidate:
+  `isaac_material_library_omnipbr_clearcoat_opacity` from the local Isaac Sim
+  material-library test assets
+- `procedural_texture` candidate:
+  `nvidia_mdl_sdk_tutorials_checker_noise` from the local NVIDIA MDL SDK
+  tutorial assets
+- 2/2 missing effect bins have candidate sources
+- both candidates require small bound wrapper scenes before conversion/render
+  claims
+
+Next scripts should author wrapper stages for these candidates, run
+original/no-MDL/NVIDIA conversions over the supplemental cases, then regenerate
+effect tables and qualitative panels with the new rows.

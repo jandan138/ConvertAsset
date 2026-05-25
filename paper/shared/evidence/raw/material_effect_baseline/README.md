@@ -7,6 +7,10 @@ Current files:
 
 - `effect_sample_manifest.json`: links GRScenes expanded30 stress pairs to MDL
   material files, effect labels, and baseline execution planning metadata.
+- `supplemental_effect_candidate_manifest.json`: records bounded local
+  official/sample candidates for the missing `clearcoat` and
+  `procedural_texture` bins. These are source candidates only; wrapper scenes
+  and baseline conversions are still pending.
 - `nvidia_baseline_smoke_manifest.json`: records the local Isaac Sim NVIDIA
   Asset Converter smoke over NVIDIA's own MDL fixture. The smoke passed two USD
   PreviewSurface baseline candidates and gates the next sample-level baseline.

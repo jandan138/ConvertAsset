@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "status": "supplemental_effect_candidate_manifest",
+  "generated_by": "paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_effect_candidates.py",
+  "generated_at_utc": "2026-05-25T15:01:48.611762Z",
+  "generator_git_commit": "8c8cd598e73bcd7cd2059f30fb15fcb682b3042b",
+  "effect_order": [
+    "clearcoat",
+    "opacity_transparency",
+    "emission",
+    "procedural_texture",
+    "normal_bump",
+    "displacement_height"
+  ],
+  "summary": {
+    "missing_effects": [
+      "clearcoat",
+      "procedural_texture"
+    ],
+    "candidate_count": 2,
+    "recommendation_count": 2,
+    "covered_missing_effects": [
+      "clearcoat",
+      "procedural_texture"
+    ],
+    "remaining_missing_effects": [],
+    "ready_for_fixture_authoring": true,
+    "ready_for_baseline_conversion": false,
+    "blockers": [
+      "supplemental_wrapper_scenes_not_authored",
+      "supplemental_baseline_conversions_not_run"
+    ]
+  },
+  "recommendations": [
+    {
+      "effect": "clearcoat",
+      "candidate_id": "isaac_material_library_omnipbr_clearcoat_opacity",
+      "source_kind": "official_isaac_sim_material_library_test",
+      "source_usd": "/isaac-sim/extscache/omni.kit.material.library-1.5.15+d02c707b/data/tests/usd/material_binding.usda",
+      "wrapper_required": true
+    },
+    {
+      "effect": "procedural_texture",
+      "candidate_id": "nvidia_mdl_sdk_tutorials_checker_noise",
+      "source_kind": "official_nvidia_mdl_sdk_example",
+      "source_usd": "/isaac-sim/extscache/omni.mdl.usd_converter-1.0.24+d02c707b/omni/mdl/usd_converter/tests/data/usd/tutorials.usda",
+      "wrapper_required": true
+    }
+  ],
+  "candidates": [
+    {
+      "candidate_id": "isaac_material_library_omnipbr_clearcoat_opacity",
+      "source_rank": 10,
+      "source_kind": "official_isaac_sim_material_library_test",
+      "source_usd": "/isaac-sim/extscache/omni.kit.material.library-1.5.15+d02c707b/data/tests/usd/material_binding.usda",
+      "source_usd_exists": true,
+      "source_usd_hash_sha256": "efc55cdd4eb0976f01313f415c9f7ef31f85a52ff59597ab868857f365f91585",
+      "wrapper_required": true,
+      "wrapper_reason": "USD defines clearcoat MDL materials, but the test cube is not bound to the clearcoat material.",
+      "notes": "Use as source MDL/material library evidence; author a small bound wrapper before conversion/render claims.",
+      "present_effects": [
+        "clearcoat",
+        "opacity_transparency",
+        "emission",
+        "normal_bump"
+      ],
+      "matching_missing_effects": [
+        "clearcoat"
+      ],
+      "effects": {
+        "clearcoat": {
+          "present": true,
+          "label": "clearcoat / coating",
+          "evidence": [
+            "OmniPBR_ClearCoat_Opacity.mdl: clearcoat/coating token"
+          ]
+        },
+        "opacity_transparency": {
+          "present": true,
+          "label": "opacity / transparency / refraction",
+          "evidence": [
+            "OmniPBR_ClearCoat_Opacity.mdl: translucent/refraction token"
+          ]
+        },
+        "emission": {
+          "present": true,
+          "label": "emission / self illumination",
+          "evidence": [
+            "OmniPBR_ClearCoat_Opacity.mdl: emissive shader input"
+          ]
+        },
+        "procedural_texture": {
+          "present": false,
+          "label": "procedural texture",
+          "evidence": []
+        },
+        "normal_bump": {
+          "present": true,
+          "label": "normal / bump",
+          "evidence": [
+            "OmniPBR_ClearCoat_Opacity.mdl: normal/bump token"
+          ]
+        },
+        "displacement_height": {
+          "present": false,
+          "label": "displacement / height",
+          "evidence": []
+        }
+      },
+      "mdl_files": [
+        {
+          "path": "/isaac-sim/extscache/omni.kit.material.library-1.5.15+d02c707b/data/tests/mtl/OmniPBR_ClearCoat_Opacity.mdl",
+          "name": "OmniPBR_ClearCoat_Opacity.mdl",
+          "exists": true,
+          "hash_sha256": "1bfecb099e6accb43a204440e7ccefb6daa58fb2f3f4d3a9e70a53c4c1265cce"
+        }
+      ]
+    },
+    {
+      "candidate_id": "nvidia_mdl_sdk_tutorials_checker_noise",
+      "source_rank": 20,
+      "source_kind": "official_nvidia_mdl_sdk_example",
+      "source_usd": "/isaac-sim/extscache/omni.mdl.usd_converter-1.0.24+d02c707b/omni/mdl/usd_converter/tests/data/usd/tutorials.usda",
+      "source_usd_exists": true,
+      "source_usd_hash_sha256": "da68d642d8e8822ad7c700ae69c2946cb74fcb43a70df3581fee486decce4d62",
+      "wrapper_required": true,
+      "wrapper_reason": "USD exposes shader/material definitions from the tutorial module, but no renderable bound object is selected yet.",
+      "notes": "Use the tutorial checker/noise MDL functions as procedural-texture source evidence; author a bound wrapper stage next.",
+      "present_effects": [
+        "procedural_texture"
+      ],
+      "matching_missing_effects": [
+        "procedural_texture"
+      ],
+      "effects": {
+        "clearcoat": {
+          "present": false,
+          "label": "clearcoat / coating",
+          "evidence": []
+        },
+        "opacity_transparency": {
+          "present": false,
+          "label": "opacity / transparency / refraction",
+          "evidence": []
+        },
+        "emission": {
+          "present": false,
+          "label": "emission / self illumination",
+          "evidence": []
+        },
+        "procedural_texture": {
+          "present": true,
+          "label": "procedural texture",
+          "evidence": [
+            "tutorials.mdl: procedural function token"
+          ]
+        },
+        "normal_bump": {
+          "present": false,
+          "label": "normal / bump",
+          "evidence": []
+        },
+        "displacement_height": {
+          "present": false,
+          "label": "displacement / height",
+          "evidence": []
+        }
+      },
+      "mdl_files": [
+        {
+          "path": "/isaac-sim/extscache/omni.mdl.usd_converter-1.0.24+d02c707b/omni/mdl/usd_converter/tests/data/mdl/nvidia/sdk_examples/tutorials.mdl",
+          "name": "tutorials.mdl",
+          "exists": true,
+          "hash_sha256": "f0b0f6970cf9eb66c2d98e4b7c9193eceaca3d540761a7cba48eb4bf7255cfba"
+        }
+      ]
+    }
+  ],
+  "claim_boundary": {
+    "allowed": [
+      "This manifest identifies local official/sample sources that can fill missing material-effect bins.",
+      "It can guide wrapper-stage authoring for supplemental baseline runs."
+    ],
+    "forbidden": [
+      "Do not count these candidates as covered baseline samples until wrapper scenes are authored.",
+      "Do not update effect-table sample counts until original/noMDL/NVIDIA condition records exist."
+    ]
+  },
+  "inputs": {
+    "effect_manifest": {
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/effect_sample_manifest.json",
+      "hash_sha256": "d2d1dfcd046b4972dc5a43ab6b8adec24241be74ac644df95d2cf50f4345d5c2"
+    }
+  },
+  "generator_provenance": {
+    "command": [
+      "/usr/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_effect_candidates.py"
+    ],
+    "script_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_effect_candidates.py",
+    "script_hash_sha256": "ce880b27794a96803ee67606c000431727d6e21a5666407bec4f7bf57ea40acb",
+    "git_commit": "8c8cd598e73bcd7cd2059f30fb15fcb682b3042b",
+    "git_status_porcelain": [
+      " M docs/design/material-effect-baseline-experiment.md",
+      " M docs/records/2026-05-25-material-effect-baseline-bootstrap.md",
+      " M docs/superpowers/plans/2026-05-25-material-effect-baseline.md",
+      " M paper/EXPERIMENT_CHECKLIST.md",
+      " M paper/shared/evidence/experiments/08_material_effect_baseline/README.md",
+      " M paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_sample_manifest.py",
+      " M paper/shared/evidence/raw/material_effect_baseline/README.md",
+      " M paper/shared/evidence/results_manifest.yaml",
+      "?? 3 untracked files omitted from provenance"
+    ]
+  }
+}

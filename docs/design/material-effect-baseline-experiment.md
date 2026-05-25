@@ -178,17 +178,46 @@ The selected cases cover the effect bins present in GRScenes:
 the covered bins, but they still do not close the missing `clearcoat` and
 `procedural_texture` bins.
 
+Generated supplemental candidate artifact:
+
+```text
+paper/shared/evidence/raw/material_effect_baseline/supplemental_effect_candidate_manifest.json
+```
+
+Current supplemental summary:
+
+| Field | Value |
+|---|---:|
+| Missing bins checked | 2 |
+| Candidate sources found | 2 |
+| Remaining missing bins without source | 0 |
+| Ready for wrapper-stage authoring | true |
+| Ready for baseline conversion | false |
+
+The recommended sources are local official/sample assets rather than project
+scratch copies:
+
+| Effect | Candidate | Source |
+|---|---|---|
+| `clearcoat` | `isaac_material_library_omnipbr_clearcoat_opacity` | Isaac Sim `omni.kit.material.library` test material binding + `OmniPBR_ClearCoat_Opacity.mdl` |
+| `procedural_texture` | `nvidia_mdl_sdk_tutorials_checker_noise` | NVIDIA MDL USD-converter tutorials using checker/noise functions |
+
+These are not counted in the effect table yet. Both sources need small bound
+wrapper stages before original/no-MDL/NVIDIA conversion, render, or paper
+figure claims.
+
 ## Next Gate
 
-The next gate is missing-bin supplementation:
+The next gate is supplemental fixture authoring:
 
-1. Add official/sample assets for `clearcoat` and `procedural_texture` before
-   any all-effect coverage claim.
-2. Regenerate condition manifests, effect tables, and qualitative panels with
+1. Author small bound wrapper stages for the selected `clearcoat` and
+   `procedural_texture` candidates.
+2. Run original/no-MDL/NVIDIA conversions for those supplemental cases.
+3. Regenerate condition manifests, effect tables, and qualitative panels with
    those supplemental cases.
-3. Add visual failure examples once render-level inspection identifies concrete
+4. Add visual failure examples once render-level inspection identifies concrete
    failure modes, rather than treating static-gate success as visual success.
 
 No paper claim should compare all requested material effects against NVIDIA
-until the missing-bin supplement exists. The current qualitative figure supports
-only a covered-bin visual comparison.
+until the supplemental candidates become converted, rendered condition rows.
+The current qualitative figure supports only a covered-bin visual comparison.

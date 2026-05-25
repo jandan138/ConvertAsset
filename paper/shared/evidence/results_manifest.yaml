@@ -157,6 +157,9 @@ results:
     - id: material_effect_baseline_sample_manifest
       path: paper/shared/evidence/raw/material_effect_baseline/effect_sample_manifest.json
       description: "Material-effect sample-selection manifest linking GRScenes expanded30 stress pairs to MDL files and effect labels. It covers opacity/transparency, emission, normal/bump, and displacement/height in the GRScenes pool, and records clearcoat/procedural texture as missing bins requiring official/sample-asset supplementation before full baseline claims."
+    - id: material_effect_supplemental_candidate_manifest
+      path: paper/shared/evidence/raw/material_effect_baseline/supplemental_effect_candidate_manifest.json
+      description: "Bounded local official/sample candidate manifest for the missing clearcoat and procedural texture bins. It recommends an Isaac Sim material-library clearcoat source and an NVIDIA MDL SDK tutorial procedural source, but keeps baseline conversion/render claims blocked until wrapper stages and supplemental condition records exist."
     - id: material_effect_nvidia_baseline_smoke
       path: paper/shared/evidence/raw/material_effect_baseline/nvidia_baseline_smoke_manifest.json
       description: "NVIDIA Asset Converter smoke over NVIDIA's official MDL fixture. The installed Isaac Sim converter produced two claimable USD PreviewSurface baseline candidates, usd_to_usd_preview and usd_to_usd_bake_flag, each with 4 PreviewSurface shaders and 0 active MDL source-asset shaders. This gates sample-level baseline conversion but is not itself a ConvertAsset-vs-NVIDIA comparison."

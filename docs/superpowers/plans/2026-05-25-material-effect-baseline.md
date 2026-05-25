@@ -223,3 +223,47 @@ Actual: qualitative tests pass, the manifest records 4 selected cases and 12/12
 ready condition images, and
 `fig_material_effect_baseline_qualitative.png` is generated. The remaining
 blocker is still missing `clearcoat` and `procedural_texture` coverage.
+
+### Task 7: Missing-Bin Supplemental Candidate Manifest
+
+**Files:**
+- Create: `tests/test_material_effect_baseline_supplemental_candidates.py`
+- Create: `paper/shared/evidence/experiments/08_material_effect_baseline/build_supplemental_effect_candidates.py`
+- Create: `paper/shared/evidence/raw/material_effect_baseline/supplemental_effect_candidate_manifest.json`
+- Modify: `paper/shared/evidence/experiments/08_material_effect_baseline/README.md`
+- Modify: `paper/shared/evidence/raw/material_effect_baseline/README.md`
+- Modify: `paper/shared/evidence/results_manifest.yaml`
+
+- [x] **Step 1: Write failing tests**
+
+Test that a candidate manifest reads the current effect gaps, detects effect
+tokens from candidate MDL files, and recommends one candidate for each missing
+effect without claiming that wrapper scenes or baseline conversions already
+exist.
+
+- [x] **Step 2: Implement candidate scanner**
+
+Scan bounded local Isaac Sim/sample roots first. Prefer official Isaac Sim
+material-library and NVIDIA MDL SDK examples over ad hoc project scratch
+copies. Record source USD paths, MDL paths, hashes, effect evidence, and whether
+the candidate is directly renderable or needs a small wrapper stage.
+
+- [x] **Step 3: Generate real candidate manifest**
+
+Generate
+`paper/shared/evidence/raw/material_effect_baseline/supplemental_effect_candidate_manifest.json`
+from the current `effect_sample_manifest.json`. The expected result is that
+`clearcoat` and `procedural_texture` have candidate sources, but baseline table
+counts remain unchanged until wrapper stages and conversions are run.
+
+- [x] **Step 4: Verify and document**
+
+Run the supplemental-candidate tests, parse the new JSON/YAML, and update the
+design/checklist docs with the exact candidate sources and remaining work.
+
+Actual: tests pass and the manifest recommends two source candidates:
+`isaac_material_library_omnipbr_clearcoat_opacity` for `clearcoat` and
+`nvidia_mdl_sdk_tutorials_checker_noise` for `procedural_texture`.
+`ready_for_fixture_authoring=true`, but
+`ready_for_baseline_conversion=false` because wrapper scenes and supplemental
+conversions have not been run.
