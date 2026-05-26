@@ -1,37 +1,76 @@
 {
+  "approved_claim_language": [
+    "We add repeated official KuJiaLe / InteriorAgent load/render measurements across three local val_unseen scenes, with 18/18 successful original/noMDL fresh-process runs and bootstrap confidence intervals.",
+    "On these official scenes, original MDL and ConvertAsset noMDL warmed-ready intervals overlap; this is loadability/stability evidence, not a speedup claim.",
+    "Selected official KuJiaLe videos are qualitative evidence for paper and rebuttal inspection; full 99-episode InternNav metrics remain the quantitative navigation evidence.",
+    "NVIDIA official-scene performance is not compared until official-scene NVIDIA converted USDs exist and pass smoke gates."
+  ],
+  "audited_paths": [
+    "paper/shared/sections/abstract.tex",
+    "paper/shared/sections/experiments.tex",
+    "paper/shared/sections/discussion.tex",
+    "paper/shared/sections/conclusion.tex",
+    "paper/shared/evidence/claims.yaml",
+    "paper/shared/evidence/results_manifest.yaml",
+    "paper/venues/acl27/STATUS.md",
+    "paper/venues/acl27/sections/conclusion.tex",
+    "paper/venues/acl27/sections/limitations.tex",
+    "paper/EXPERIMENT_CHECKLIST.md",
+    "docs/records/2026-05-26-official-scene-submission-closure-package.md"
+  ],
   "checks": [
     {
+      "finding": "The official-scene package is scoped to local official KuJiaLe / InteriorAgent val_unseen scenes kujiale_0031, kujiale_0036, and kujiale_0066. The manuscript wording does not promote this to broad GRScenes, R2R, MP3D, or all-InteriorNav coverage.",
       "id": "official_scene_scope",
-      "rule": "Say official KuJiaLe / InteriorAgent scenes, not broad GRScenes/R2R/MP3D benchmark.",
-      "status": "pending_final_audit"
+      "status": "passed"
     },
     {
+      "finding": "The package contains 18/18 successful required fresh-process performance rows: three scenes x original MDL and ConvertAsset noMDL x three runs. Claim language says official-scene ready-time intervals overlap and does not claim an official-scene noMDL speedup.",
       "id": "performance_scope",
-      "rule": "Only claim multi-scene performance after official-scene repeated runs exist.",
-      "status": "pending_performance_runs"
+      "status": "passed"
     },
     {
+      "finding": "Selected qualitative rollout videos/stills/contact sheets remain marked as qualitative/rebuttal evidence only. Quantitative navigation metrics remain tied to the full 99-episode official val_unseen run.",
       "id": "video_scope",
-      "rule": "Use selected videos as qualitative evidence only; full metric runs remain authoritative.",
-      "status": "ready_with_boundary"
+      "status": "passed"
     },
     {
+      "finding": "NVIDIA is included for the material-effect baseline where evidence exists, but official-scene NVIDIA performance is explicitly omitted until matching official-scene converted USDs exist and pass smoke gates.",
       "id": "nvidia_scope",
-      "rule": "Do not imply an official-scene NVIDIA baseline unless those converted scenes are generated and benchmarked.",
-      "status": "pending_or_not_available"
+      "status": "passed"
     },
     {
+      "finding": "The material-effect language keeps four covered GRScenes bins as bounded static plus selected qualitative evidence, clearcoat as a selected NVIDIA target-loss failure case, and procedural texture as a limitation/investigation case.",
       "id": "material_effect_scope",
-      "rule": "Keep clearcoat selected-failure and procedural-texture limitation language.",
-      "status": "ready_with_boundary"
+      "status": "passed"
     },
     {
+      "finding": "GRScenes/GRUtopia and InternNav/DualVLN citation keys are present in paper/shared/references.bib, and the shared experiments section cites InternNav/DualVLN for the official KuJiaLe downstream route.",
       "id": "citation_provenance",
-      "rule": "Verify official InternNav / InteriorAgent / KuJiaLe provenance and target venue citations.",
-      "status": "pending_final_audit"
+      "status": "passed"
     }
   ],
-  "claim_audit_complete": false,
-  "claim_boundary": "audit_checklist_not_final_submission_approval",
-  "schema_version": 1
+  "claim_audit_complete": true,
+  "claim_boundary": "final_audit_decision_loaded",
+  "disallowed_claim_language": [
+    "ConvertAsset is faster on official KuJiaLe scenes.",
+    "The selected videos prove quantitative navigation robustness.",
+    "This completes a broad embodied-navigation benchmark across GRScenes, R2R, MP3D, or all InteriorNav scenes.",
+    "NVIDIA official-scene performance has been compared."
+  ],
+  "schema_version": 1,
+  "source_verification": [
+    {
+      "external_source": "https://arxiv.org/abs/2407.10943",
+      "finding": "Verified as the GRUtopia / GRScenes source used for GRScenes provenance.",
+      "id": "grutopia_grscenes",
+      "local_bib_key": "Wang2024GRUtopia"
+    },
+    {
+      "external_source": "https://openreview.net/forum?id=GK4rznYwhn",
+      "finding": "Verified as the ICLR 2026 DualVLN / InternNav source for the navigation stack citation.",
+      "id": "internnav_dualvln",
+      "local_bib_key": "Wei2026Ground"
+    }
+  ]
 }

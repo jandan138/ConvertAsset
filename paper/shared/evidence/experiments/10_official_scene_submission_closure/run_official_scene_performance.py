@@ -177,9 +177,9 @@ def _run_once(args: argparse.Namespace) -> int:
         result["error"] = f"{type(exc).__name__}: {exc}"
     finally:
         result["script_wall_s"] = round(time.perf_counter() - t_script0, 4)
+        print(RESULT_PREFIX + json.dumps(result, sort_keys=True), flush=True)
         if simulation_app is not None:
             simulation_app.close()
-    print(RESULT_PREFIX + json.dumps(result, sort_keys=True), flush=True)
     return 0 if result["status"] == "success" else 1
 
 
@@ -224,22 +224,26 @@ def _invoke_once(task: dict[str, Any], *, warmup_updates: int) -> dict[str, Any]
     return result
 
 
+def write_result_rows(output_csv: Path, rows: list[dict[str, Any]]) -> None:
+    output_csv.parent.mkdir(parents=True, exist_ok=True)
+    with output_csv.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=FIELDNAMES, lineterminator="\n")
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({name: row.get(name, "") for name in FIELDNAMES})
+
+
 def _run_batch(args: argparse.Namespace) -> int:
     plan = load_json(Path(args.plan))
     tasks = build_batch_tasks(plan, runs=args.runs, include_optional=args.include_optional)
     output_csv = Path(args.output_csv)
-    output_csv.parent.mkdir(parents=True, exist_ok=True)
 
     rows = []
     for task in tasks:
         print(f"{task['scene_id']} {task['condition']} run={task['run_id']}", flush=True)
         rows.append(_invoke_once(task, warmup_updates=args.warmup_updates))
 
-    with output_csv.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=FIELDNAMES)
-        writer.writeheader()
-        for row in rows:
-            writer.writerow({name: row.get(name, "") for name in FIELDNAMES})
+    write_result_rows(output_csv, rows)
     success_count = sum(1 for row in rows if row.get("status") == "success")
     failure_count = len(rows) - success_count
     print(f"Wrote {len(rows)} rows to {output_csv} ({success_count} success, {failure_count} failed)")

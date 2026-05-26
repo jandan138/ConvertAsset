@@ -1,6 +1,12 @@
 import csv
 import importlib.util
+import json
+import sys
+import types
+from argparse import Namespace
 from pathlib import Path
+
+import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -161,6 +167,36 @@ def test_performance_summary_counts_failures_and_ci() -> None:
     assert summary["performance_complete"] is False
 
 
+def test_performance_summary_includes_condition_aggregates() -> None:
+    module = load_module()
+    rows = []
+    for scene_id, base in (("kujiale_0031", 1.0), ("kujiale_0036", 2.0)):
+        for condition in ("original_mdl", "convertasset_nomdl"):
+            for run_id in range(1, 4):
+                rows.append(
+                    {
+                        "scene_id": scene_id,
+                        "condition": condition,
+                        "run_id": str(run_id),
+                        "status": "success",
+                        "open_ready_s": str(base + run_id),
+                        "warmup_s": "10.0",
+                        "total_ready_s": str(base + run_id + 10),
+                        "gpu_memory_mb": "4000",
+                        "warmup_updates": "30",
+                    }
+                )
+
+    summary = module.summarize_performance_rows(rows, planned_scene_count=2, ci_rounds=200)
+    aggregate = {row["condition"]: row for row in summary["condition_summary_rows"]}
+
+    assert summary["performance_complete"] is True
+    assert aggregate["original_mdl"]["scene_count"] == 2
+    assert aggregate["original_mdl"]["success_count"] == 6
+    assert aggregate["original_mdl"]["failure_count"] == 0
+    assert aggregate["convertasset_nomdl"]["complete_for_condition"] is True
+
+
 def test_completion_gates_require_performance_video_and_claim_audit() -> None:
     module = load_module()
     gates = module.build_completion_gates(
@@ -226,6 +262,78 @@ def test_write_status_table(tmp_path: Path) -> None:
     assert "official-scene submission closure" in tex.lower()
 
 
+def test_write_performance_summary_table_includes_failure_counts(tmp_path: Path) -> None:
+    module = load_module()
+    performance_summary = {
+        "condition_summary_rows": [
+            {
+                "condition": "original_mdl",
+                "scene_count": 3,
+                "success_count": 9,
+                "failure_count": 0,
+                "total_ready_s_mean": 13.9471,
+                "total_ready_s_ci95_low": 10.0,
+                "total_ready_s_ci95_high": 18.0,
+                "warmup_fps_mean": 2.3647,
+                "warmup_fps_ci95_low": 1.6,
+                "warmup_fps_ci95_high": 2.9,
+                "gpu_memory_mb_mean": 3807.0,
+                "gpu_memory_mb_ci95_low": 3700.0,
+                "gpu_memory_mb_ci95_high": 3900.0,
+            }
+        ],
+        "rows": [],
+    }
+    csv_path = tmp_path / "perf.csv"
+    tex_path = tmp_path / "perf.tex"
+
+    module.write_performance_summary_table(csv_path, tex_path, performance_summary)
+
+    assert b"\r" not in csv_path.read_bytes()
+    loaded = list(csv.DictReader(csv_path.read_text(encoding="utf-8").splitlines()))
+    assert loaded[0]["row_type"] == "aggregate"
+    assert loaded[0]["failure_count"] == "0"
+    tex = tex_path.read_text(encoding="utf-8")
+    assert "\\label{tab:official_scene_performance_summary}" in tex
+
+
+def test_claim_audit_decision_marks_audit_complete() -> None:
+    module = load_module()
+    required_ids = [
+        "official_scene_scope",
+        "performance_scope",
+        "video_scope",
+        "nvidia_scope",
+        "material_effect_scope",
+        "citation_provenance",
+    ]
+    audit = module.build_claim_audit_checklist(
+        claim_audit_decision={
+            "claim_audit_complete": True,
+            "checks": [{"id": check_id, "status": "passed"} for check_id in required_ids],
+        }
+    )
+
+    assert audit["claim_audit_complete"] is True
+    assert {check["status"] for check in audit["checks"]} == {"passed"}
+
+
+def test_claim_audit_decision_requires_all_required_checks() -> None:
+    module = load_module()
+    audit = module.build_claim_audit_checklist(
+        claim_audit_decision={
+            "claim_audit_complete": True,
+            "checks": [
+                {"id": "official_scene_scope", "status": "passed"},
+                {"id": "performance_scope", "status": "passed"},
+            ],
+        }
+    )
+
+    assert audit["claim_audit_complete"] is False
+    assert audit["claim_boundary"] == "audit_decision_present_but_not_complete"
+
+
 def test_runner_builds_required_condition_tasks_and_skips_unavailable_nvidia() -> None:
     runner = load_runner()
     plan = {
@@ -250,3 +358,87 @@ def test_runner_builds_required_condition_tasks_and_skips_unavailable_nvidia() -
         ("convertasset_nomdl", 2),
     ]
     assert all(task["scene_id"] == "kujiale_0031" for task in tasks)
+
+
+def test_runner_writes_lf_csv(tmp_path: Path) -> None:
+    runner = load_runner()
+    output_csv = tmp_path / "runs.csv"
+
+    runner.write_result_rows(
+        output_csv,
+        [
+            {
+                "scene_id": "kujiale_0031",
+                "condition": "original_mdl",
+                "run_id": 1,
+                "status": "success",
+            }
+        ],
+    )
+
+    assert b"\r" not in output_csv.read_bytes()
+    loaded = list(csv.DictReader(output_csv.read_text(encoding="utf-8").splitlines()))
+    assert loaded[0]["status"] == "success"
+
+
+def test_runner_prints_result_json_before_simulation_close_can_exit(monkeypatch, capsys) -> None:
+    runner = load_runner()
+
+    class FakeSimulationApp:
+        def __init__(self, config):
+            self.config = config
+
+        def update(self):
+            return None
+
+        def close(self):
+            raise SystemExit(0)
+
+    class FakeContext:
+        def open_stage(self, stage):
+            self.stage = stage
+
+        def is_standby(self):
+            return False
+
+        def is_stage_loading(self):
+            return False
+
+        def close_stage(self):
+            return None
+
+    app_module = types.ModuleType("omni.kit.app")
+    app_module.get_app = lambda: FakeSimulationApp({})
+    usd_module = types.ModuleType("omni.usd")
+    usd_module.get_context = lambda: FakeContext()
+    kit_module = types.ModuleType("omni.kit")
+    kit_module.app = app_module
+    omni_module = types.ModuleType("omni")
+    omni_module.kit = kit_module
+    omni_module.usd = usd_module
+    isaacsim_module = types.ModuleType("isaacsim")
+    isaacsim_module.SimulationApp = FakeSimulationApp
+
+    monkeypatch.setitem(sys.modules, "isaacsim", isaacsim_module)
+    monkeypatch.setitem(sys.modules, "omni", omni_module)
+    monkeypatch.setitem(sys.modules, "omni.kit", kit_module)
+    monkeypatch.setitem(sys.modules, "omni.kit.app", app_module)
+    monkeypatch.setitem(sys.modules, "omni.usd", usd_module)
+    monkeypatch.setattr(runner, "_gpu_memory_mb", lambda: 123)
+
+    args = Namespace(
+        scene_id="kujiale_0031",
+        condition="original_mdl",
+        run_id=1,
+        stage="/tmp/scene.usda",
+        warmup_updates=1,
+    )
+
+    with pytest.raises(SystemExit):
+        runner._run_once(args)
+
+    captured = capsys.readouterr()
+    result_line = next(line for line in captured.out.splitlines() if line.startswith(runner.RESULT_PREFIX))
+    result = json.loads(result_line[len(runner.RESULT_PREFIX) :])
+    assert result["status"] == "success"
+    assert result["scene_id"] == "kujiale_0031"

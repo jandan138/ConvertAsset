@@ -225,16 +225,22 @@ results:
       description: "Lightweight safe-conversion rule table derived from the material-effect risk matrix. It maps bounded GRScenes-covered bins, clearcoat, and procedural texture to evidence-gated actions; this is not a learned classifier."
     - id: official_scene_submission_closure_summary
       path: paper/shared/evidence/raw/official_scene_submission_closure/official_scene_submission_closure_summary.json
-      description: "Official KuJiaLe / InteriorAgent submission-closure status package. It records the current official-scene scope and selected video package as ready, while multi-run performance statistics and final claim/citation audit remain missing."
+      description: "Official KuJiaLe / InteriorAgent submission-closure package. It records three official scenes, selected qualitative videos, repeated original/noMDL performance statistics, failure counts, and final claim/citation audit status."
     - id: official_scene_performance_plan
       path: paper/shared/evidence/raw/official_scene_submission_closure/official_scene_performance_plan.json
       description: "Performance-run plan for the official-scene submission-closure package: three KuJiaLe scenes, required original MDL and ConvertAsset noMDL conditions, and optional NVIDIA baseline only after official-scene NVIDIA conversions are generated."
+    - id: official_scene_performance_runs
+      path: paper/shared/evidence/raw/official_scene_submission_closure/official_scene_performance_runs.csv
+      description: "Raw repeated official-scene load/render benchmark rows: three KuJiaLe scenes, original MDL and ConvertAsset noMDL, three fresh-process runs per scene/condition, with status/error fields for failure accounting."
     - id: official_scene_video_evidence_summary
       path: paper/shared/evidence/raw/official_scene_submission_closure/official_scene_video_evidence_summary.json
       description: "Summary of the existing repo-resident selected qualitative InternNav video package: 24 QA-passing mp4 rollouts, 76 png still/contact-sheet assets, and qualitative-only claim boundary."
     - id: official_scene_claim_audit_checklist
       path: paper/shared/evidence/raw/official_scene_submission_closure/official_scene_claim_audit_checklist.json
-      description: "Final claim-language and citation/provenance audit checklist for the official-scene submission-closure goal. Current checklist is not complete."
+      description: "Final claim-language and citation/provenance audit checklist for the official-scene submission-closure goal, generated from the manual audit decision artifact when present."
+    - id: official_scene_claim_audit_decision
+      path: paper/shared/evidence/raw/official_scene_submission_closure/official_scene_claim_audit_decision.json
+      description: "Manual final audit decision for the official-scene submission-closure package: audited manuscript/status paths, allowed and disallowed claim language, NVIDIA boundary, and citation/provenance checks."
     - id: material_effect_supplemental_qualitative_renders
       path: paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/
       description: "Repo-resident supplemental original/noMDL/NVIDIA stills for clearcoat and procedural texture wrappers."
@@ -514,7 +520,16 @@ results:
         - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_video_evidence_summary.json
         - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_claim_audit_checklist.json
         - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/package_index.json
-      description: "Status table for the official KuJiaLe / InteriorAgent submission-closure package. It is a gate table, not a completed performance-result table until official-scene repeated performance rows exist."
+      description: "Gate/status table for the official KuJiaLe / InteriorAgent submission-closure package."
+    - id: official_scene_performance_summary
+      outputs:
+        - paper/shared/tables/official_scene_performance_summary.csv
+        - paper/shared/tables/tab_official_scene_performance_summary.tex
+      generated_by: paper/shared/evidence/experiments/10_official_scene_submission_closure/build_submission_closure_package.py
+      sources:
+        - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_performance_runs.csv
+        - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_submission_closure_summary.json
+      description: "Paper-ready official KuJiaLe / InteriorAgent performance summary with aggregate and per-scene ready time, FPS, success counts, failure counts, and bootstrap confidence intervals."
   provenance:
     experiments: paper/shared/evidence/experiments/
     references: paper/shared/evidence/references/

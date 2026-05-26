@@ -94,10 +94,10 @@ This must not be used as a success panel.
 | Missing NVIDIA official-tool baseline | Partially fixed | NVIDIA Asset Converter is now compared through smoke-validated USD routes and the main `usd_to_usd_preview` route on GRScenes-selected samples. Full MDL distill/bake population statistics are still not claimed. |
 | Missing per-material-effect analysis | Partially fixed | The risk matrix now separates GRScenes-covered bins from selected clearcoat failure and procedural-texture limitation cases. It is not a population error-rate distribution. |
 | Overbroad guideline claims | Addressed in wording | Current manuscript language is claim-bounded and explicitly separates supported evidence from limitations. |
-| Large-scene performance statistics too narrow | Still open | The official InternNav run gives multi-scene downstream metrics, but it does not replace multi-scene/multi-run scene-load or render-performance statistics with variance/CI. |
+| Large-scene performance statistics too narrow | Partially fixed | The official-scene closure package now adds 18/18 successful fresh-process load/render runs across three official KuJiaLe scenes with bootstrap CIs and failure counts. It is original/noMDL only; NVIDIA official-scene baseline remains unavailable. |
 | Missing safe-conversion recommender | Partially fixed | A rule-based safe-conversion table now maps the selected material-effect risk matrix to evidence-gated actions. A learned material-risk classifier remains open. |
 | Weak statistical support | Partially fixed | The reviewer-closure package adds paired bootstrap confidence intervals for existing VLM/InternNav evidence and coordinate-only VLM baselines. |
-| Title/abstract overpromise | Mostly addressed, final audit needed | Current wording is narrower, but the final submission still needs a full claim-language pass. |
+| Title/abstract overpromise | Addressed for this closure pass | The official-scene audit decision records approved/disallowed language and keeps the claim at loadability/stability with overlapping ready-time intervals. |
 
 ## What Can Be Written Now
 
@@ -115,6 +115,9 @@ The manuscript can now say:
 - ConvertAsset noMDL has been evaluated in a real official InternNav /
   InteriorNav route over 99 paired `val_unseen` episodes, with small aggregate
   differences but scene-dependent behavior.
+- Official KuJiaLe scene-load/render timing now has repeated original/noMDL
+  measurements across `0031`, `0036`, and `0066`: 18/18 required runs succeeded,
+  and ready-time intervals overlap.
 
 The manuscript should not say:
 
@@ -124,6 +127,8 @@ The manuscript should not say:
 - The material-effect table is a population-level error-rate estimate.
 - The official InternNav 99-episode result proves all-scene downstream
   robustness.
+- ConvertAsset is faster on official KuJiaLe scene-load/render performance.
+- NVIDIA official-scene performance has been compared.
 
 ## Recommended Next Goal
 
@@ -182,9 +187,9 @@ The remaining gap is not the rule-table recommender requested here; it is a
 future learned or automatic material-risk classifier that generalizes beyond
 the selected material-effect evidence.
 
-## Next Goal Start Update
+## Next Goal Completion Update
 
-The follow-up official-scene submission-closure package was started in
+The follow-up official-scene submission-closure package is recorded in
 `docs/records/2026-05-26-official-scene-submission-closure-package.md`.
 
 Current gate status:
@@ -192,8 +197,12 @@ Current gate status:
 - official KuJiaLe / InteriorAgent scene scope: ready for `0031`, `0036`, and
   `0066`;
 - selected qualitative videos/stills/contact sheets: ready;
-- multi-run load/render performance statistics: still missing;
-- final claim-language and citation/provenance audit: still missing.
+- multi-run load/render performance statistics: ready for required
+  original/noMDL conditions with 18/18 successful rows;
+- final claim-language and citation/provenance audit: ready via
+  `official_scene_claim_audit_decision.json`;
+- NVIDIA official-scene baseline: not available until matching NVIDIA converted
+  official scenes are generated and smoke-gated.
 
 ## Verification
 

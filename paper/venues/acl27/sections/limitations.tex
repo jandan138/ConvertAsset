@@ -17,11 +17,15 @@ models. The material-effect baseline is also claim-bounded: the current matrix
 uses 30 GRScenes samples for four covered effect bins and two supplemental
 fixtures for clearcoat and procedural texture. It supports selected qualitative
 and failure-case interpretation, but it is not a material-effect error-rate
-distribution. The added InternNav/DualVLN~\cite{Wei2026Ground} smoke run is a
-one-episode protocol check: it shows that paired original/noMDL USDs can produce
-real embodied metrics and a trajectory-shift failure case, but both conditions
-failed the episode and the sample size is too small for success-rate claims. The
-current pipeline also depends on Isaac Sim and USD assets whose licenses,
-material graphs, and renderer settings may differ across datasets, so any
-general guidelines should be validated on a larger and more heterogeneous scene
-corpus.
+distribution. The added InternNav/DualVLN~\cite{Wei2026Ground} route is a
+scoped official-route sanity check rather than a broad embodied benchmark: the
+current official KuJiaLe \texttt{val\_unseen} evidence covers three local scenes
+and 99 paired episodes, but it should not be promoted to all-InteriorNav,
+R2R/MP3D, manipulation, or broad GRScenes robustness. The selected rollout
+videos are qualitative evidence only. The official-scene load/render benchmark
+also remains claim-bounded: original MDL and noMDL both complete all 18 required
+fresh-process runs, but their warmed-ready intervals overlap, and no NVIDIA
+official-scene baseline is available yet. The current pipeline also depends on
+Isaac Sim and USD assets whose licenses, material graphs, and renderer settings
+may differ across datasets, so any general guidelines should be validated on a
+larger and more heterogeneous scene corpus.

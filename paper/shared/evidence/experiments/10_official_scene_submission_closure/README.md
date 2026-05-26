@@ -24,11 +24,13 @@ The current builder output records:
 
 - official scene scope: ready;
 - selected qualitative video package: ready;
-- multi-run official-scene performance statistics: missing;
-- final claim/citation audit: missing.
+- multi-run official-scene performance statistics: ready after 18/18 successful
+  required fresh-process runs;
+- final claim/citation audit: driven by
+  `official_scene_claim_audit_decision.json`.
 
-This means the package is started and auditable, but the overall submission
-closure goal is not complete.
+NVIDIA official-scene performance remains out of scope until matching
+official-scene NVIDIA converted USDs are generated and smoke-gated.
 
 ## Build The Status Package
 
@@ -47,6 +49,8 @@ paper/shared/evidence/raw/official_scene_submission_closure/official_scene_video
 paper/shared/evidence/raw/official_scene_submission_closure/official_scene_claim_audit_checklist.json
 paper/shared/tables/official_scene_submission_closure_status.csv
 paper/shared/tables/tab_official_scene_submission_closure_status.tex
+paper/shared/tables/official_scene_performance_summary.csv
+paper/shared/tables/tab_official_scene_performance_summary.tex
 ```
 
 ## Run Official-Scene Performance
@@ -65,6 +69,12 @@ This writes:
 ```text
 paper/shared/evidence/raw/official_scene_submission_closure/official_scene_performance_runs.csv
 ```
+
+The current recorded run has 18 success rows and 0 failures across
+`kujiale_0031`, `kujiale_0036`, and `kujiale_0066`. Aggregated warmed-ready
+time is comparable between original MDL and ConvertAsset noMDL, so this package
+supports official-scene loadability/stability evidence rather than an
+official-scene speedup claim.
 
 Then rebuild the package:
 

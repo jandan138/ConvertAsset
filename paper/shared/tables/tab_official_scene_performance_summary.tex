@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllrrr}
+\toprule
+Scope & Condition & Ready time (s) & Success & Failure & FPS \\
+\midrule
+all official scenes & original\_mdl & 13.95 [11.64, 16.28] & 9 & 0 & 2.36 [2.01, 2.70] \\
+all official scenes & convertasset\_nomdl & 14.12 [12.31, 16.24] & 9 & 0 & 2.42 [2.08, 2.73] \\
+kujiale\_0031 & original\_mdl & 11.24 [10.86, 11.62] & 3 & 0 & 2.82 [2.75, 2.89] \\
+kujiale\_0031 & convertasset\_nomdl & 11.45 [10.87, 12.14] & 3 & 0 & 2.92 [2.74, 3.07] \\
+kujiale\_0036 & original\_mdl & 18.73 [17.94, 19.92] & 3 & 0 & 1.66 [1.57, 1.72] \\
+kujiale\_0036 & convertasset\_nomdl & 18.42 [17.96, 19.21] & 3 & 0 & 1.75 [1.68, 1.80] \\
+kujiale\_0066 & original\_mdl & 11.87 [11.77, 11.99] & 3 & 0 & 2.61 [2.59, 2.64] \\
+kujiale\_0066 & convertasset\_nomdl & 12.49 [12.19, 12.86] & 3 & 0 & 2.58 [2.52, 2.66] \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Official KuJiaLe / InteriorAgent scene load/render performance. Each required condition uses three fresh-process runs per scene; intervals are bootstrap 95\% confidence intervals over the recorded runs. NVIDIA official-scene baseline is omitted until official-scene converted USDs exist and pass smoke gates.}
+\label{tab:official_scene_performance_summary}
+\end{table}

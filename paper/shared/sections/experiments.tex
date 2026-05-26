@@ -172,6 +172,23 @@ UsdPreviewSurface & $11.94 \pm 0.93$ & $13.70 \pm 1.01$ & $5259.0 \pm 83.1$ \\
 }
 \end{table}
 
+To separate this single GRScenes startup result from a broader scene-level
+claim, we also run the same fresh-process, 30-update protocol on the three
+official InteriorAgent / KuJiaLe \texttt{val\_unseen} scenes used by the
+InternNav route. Table~\ref{tab:official_scene_performance_summary} reports
+three repeated runs for each required condition: original MDL and ConvertAsset
+noMDL. All 18 required runs complete successfully. Aggregated across scenes,
+ready time is comparable between original MDL and noMDL
+(13.95\,s, 95\% CI [11.64, 16.28] vs.\ 14.12\,s, 95\% CI [12.31, 16.24]), and
+warm-up FPS is likewise close (2.36 vs.\ 2.42). This official-scene result
+therefore supports a narrower conclusion than the GRScenes startup table: the
+conversion is loadable and stable across multiple official navigation scenes,
+but the measured ready-time intervals overlap and should not be described as
+an official-scene speedup. We omit an NVIDIA official-scene performance row
+until smoke-gated NVIDIA conversions of the same official scenes exist.
+
+\input{tables/tab_official_scene_performance_summary}
+
 Figure~\ref{fig:grscene_qualitative} provides a qualitative companion to the
 GRScenes startup benchmark. Across two representative approximately matched
 views, the converted noMDL scene remains broadly similar to the MDL scene at
@@ -408,7 +425,8 @@ robustness or embodied downstream task gains; those require a larger clean
 benchmark or navigation/manipulation transfer evaluation.
 
 For embodied downstream evidence, we additionally use the official
-InteriorNav/KuJiaLe \texttt{val\_unseen} route through InternNav/DualVLN. The
+InteriorNav/KuJiaLe \texttt{val\_unseen} route through
+InternNav/DualVLN~\cite{Wei2026Ground}. The
 current paired run covers all three local official \texttt{val\_unseen} scenes
 and 99 paired episodes. Combined original/noMDL means are SR 0.5253/0.4848,
 SPL 0.4739/0.4298, NE 3.6798/3.6306, and TL 6.9754/7.0598. This shows that

@@ -32,8 +32,11 @@ DEFAULT_SUMMARY_JSON = OUTPUT_ROOT / "official_scene_submission_closure_summary.
 DEFAULT_PERFORMANCE_PLAN_JSON = OUTPUT_ROOT / "official_scene_performance_plan.json"
 DEFAULT_VIDEO_SUMMARY_JSON = OUTPUT_ROOT / "official_scene_video_evidence_summary.json"
 DEFAULT_CLAIM_AUDIT_JSON = OUTPUT_ROOT / "official_scene_claim_audit_checklist.json"
+DEFAULT_CLAIM_AUDIT_DECISION_JSON = OUTPUT_ROOT / "official_scene_claim_audit_decision.json"
 DEFAULT_STATUS_CSV = TABLE_ROOT / "official_scene_submission_closure_status.csv"
 DEFAULT_STATUS_TEX = TABLE_ROOT / "tab_official_scene_submission_closure_status.tex"
+DEFAULT_PERFORMANCE_SUMMARY_CSV = TABLE_ROOT / "official_scene_performance_summary.csv"
+DEFAULT_PERFORMANCE_SUMMARY_TEX = TABLE_ROOT / "tab_official_scene_performance_summary.tex"
 
 DEFAULT_SCENE_PATHS = {
     "kujiale_0031": {
@@ -73,6 +76,14 @@ DEFAULT_SCENE_PATHS = {
 }
 
 REQUIRED_PERFORMANCE_CONDITIONS = ("original_mdl", "convertasset_nomdl")
+REQUIRED_CLAIM_AUDIT_IDS = (
+    "official_scene_scope",
+    "performance_scope",
+    "video_scope",
+    "nvidia_scope",
+    "material_effect_scope",
+    "citation_provenance",
+)
 
 
 def load_json(path: Path, *, default: Any | None = None) -> Any:
@@ -240,6 +251,41 @@ def _metric_stats(values: list[float], *, ci_rounds: int, seed: int) -> dict[str
     }
 
 
+def _performance_metric_values(success_rows: list[dict[str, Any]]) -> dict[str, list[float]]:
+    warmup_fps_values = []
+    for row in success_rows:
+        warmup_s = _float_or_none(row.get("warmup_s"))
+        warmup_updates = _float_or_none(row.get("warmup_updates"))
+        if warmup_s and warmup_updates:
+            warmup_fps_values.append(warmup_updates / warmup_s)
+
+    metric_values = {
+        "open_ready_s": [_float_or_none(row.get("open_ready_s")) for row in success_rows],
+        "warmup_s": [_float_or_none(row.get("warmup_s")) for row in success_rows],
+        "total_ready_s": [_float_or_none(row.get("total_ready_s")) for row in success_rows],
+        "gpu_memory_mb": [_float_or_none(row.get("gpu_memory_mb")) for row in success_rows],
+        "warmup_fps": warmup_fps_values,
+    }
+    return {
+        metric: [value for value in values if value is not None]
+        for metric, values in metric_values.items()
+    }
+
+
+def _add_metric_stats(output: dict[str, Any], success_rows: list[dict[str, Any]], *, ci_rounds: int, seed: int) -> None:
+    for metric, values in _performance_metric_values(success_rows).items():
+        stats = _metric_stats(values, ci_rounds=ci_rounds, seed=seed)
+        output[f"{metric}_mean"] = stats["mean"]
+        output[f"{metric}_std"] = stats["std"]
+        output[f"{metric}_ci95_low"] = stats["ci95_low"]
+        output[f"{metric}_ci95_high"] = stats["ci95_high"]
+
+
+def _condition_sort_key(condition: str) -> tuple[int, str]:
+    order = {name: index for index, name in enumerate(REQUIRED_PERFORMANCE_CONDITIONS)}
+    return (order.get(condition, len(order)), condition)
+
+
 def summarize_performance_rows(
     rows: list[dict[str, Any]],
     *,
@@ -249,39 +295,26 @@ def summarize_performance_rows(
 ) -> dict[str, Any]:
     grouped: dict[tuple[str, str], list[dict[str, Any]]] = {}
     failures: dict[tuple[str, str], int] = {}
+    condition_grouped: dict[str, list[dict[str, Any]]] = {}
+    condition_failures: dict[str, int] = {}
+    condition_scenes: dict[str, set[str]] = {}
     for row in rows:
         key = (str(row.get("scene_id", "")), str(row.get("condition", "")))
         if not key[0] or not key[1]:
             continue
+        condition_scenes.setdefault(key[1], set()).add(key[0])
         if row.get("status") == "success":
             grouped.setdefault(key, []).append(row)
+            condition_grouped.setdefault(key[1], []).append(row)
         else:
             failures[key] = failures.get(key, 0) + 1
+            condition_failures[key[1]] = condition_failures.get(key[1], 0) + 1
 
-    keys = sorted(set(grouped) | set(failures))
+    keys = sorted(set(grouped) | set(failures), key=lambda key: (key[0], _condition_sort_key(key[1])))
     summary_rows = []
     for index, key in enumerate(keys):
         scene_id, condition = key
         success_rows = grouped.get(key, [])
-        warmup_fps_values = []
-        for row in success_rows:
-            warmup_s = _float_or_none(row.get("warmup_s"))
-            warmup_updates = _float_or_none(row.get("warmup_updates"))
-            if warmup_s and warmup_updates:
-                warmup_fps_values.append(warmup_updates / warmup_s)
-
-        metric_values = {
-            "open_ready_s": [_float_or_none(row.get("open_ready_s")) for row in success_rows],
-            "warmup_s": [_float_or_none(row.get("warmup_s")) for row in success_rows],
-            "total_ready_s": [_float_or_none(row.get("total_ready_s")) for row in success_rows],
-            "gpu_memory_mb": [_float_or_none(row.get("gpu_memory_mb")) for row in success_rows],
-            "warmup_fps": warmup_fps_values,
-        }
-        metric_values = {
-            metric: [value for value in values if value is not None]
-            for metric, values in metric_values.items()
-        }
-
         output: dict[str, Any] = {
             "scene_id": scene_id,
             "condition": condition,
@@ -290,13 +323,24 @@ def summarize_performance_rows(
             "min_successful_runs_required": min_successful_runs,
             "complete_for_condition": len(success_rows) >= min_successful_runs,
         }
-        for metric, values in metric_values.items():
-            stats = _metric_stats(values, ci_rounds=ci_rounds, seed=20260526 + index)
-            output[f"{metric}_mean"] = stats["mean"]
-            output[f"{metric}_std"] = stats["std"]
-            output[f"{metric}_ci95_low"] = stats["ci95_low"]
-            output[f"{metric}_ci95_high"] = stats["ci95_high"]
+        _add_metric_stats(output, success_rows, ci_rounds=ci_rounds, seed=20260526 + index)
         summary_rows.append(output)
+
+    condition_summary_rows = []
+    conditions = sorted(set(condition_grouped) | set(condition_failures), key=_condition_sort_key)
+    for index, condition in enumerate(conditions):
+        success_rows = condition_grouped.get(condition, [])
+        required_runs = (planned_scene_count or len(condition_scenes.get(condition, set()))) * min_successful_runs
+        output = {
+            "condition": condition,
+            "scene_count": len(condition_scenes.get(condition, set())),
+            "success_count": len(success_rows),
+            "failure_count": condition_failures.get(condition, 0),
+            "min_successful_runs_required": required_runs,
+            "complete_for_condition": len(success_rows) >= required_runs and required_runs > 0,
+        }
+        _add_metric_stats(output, success_rows, ci_rounds=ci_rounds, seed=20261526 + index)
+        condition_summary_rows.append(output)
 
     covered_required = {
         (row["scene_id"], row["condition"])
@@ -312,11 +356,31 @@ def summarize_performance_rows(
         "planned_scene_count": planned_scene_count,
         "required_condition_count": required_count,
         "complete_required_condition_count": len(covered_required),
+        "condition_summary_rows": condition_summary_rows,
         "rows": summary_rows,
     }
 
 
-def build_claim_audit_checklist() -> dict[str, Any]:
+def build_claim_audit_checklist(claim_audit_decision: dict[str, Any] | None = None) -> dict[str, Any]:
+    if claim_audit_decision:
+        checks = claim_audit_decision.get("checks", [])
+        present_ids = {check.get("id") for check in checks}
+        complete = (
+            bool(claim_audit_decision.get("claim_audit_complete"))
+            and set(REQUIRED_CLAIM_AUDIT_IDS).issubset(present_ids)
+            and all(check.get("status") == "passed" for check in checks)
+        )
+        return {
+            "schema_version": 1,
+            "claim_audit_complete": complete,
+            "checks": checks,
+            "audited_paths": claim_audit_decision.get("audited_paths", []),
+            "source_verification": claim_audit_decision.get("source_verification", []),
+            "approved_claim_language": claim_audit_decision.get("approved_claim_language", []),
+            "disallowed_claim_language": claim_audit_decision.get("disallowed_claim_language", []),
+            "claim_boundary": "final_audit_decision_loaded" if complete else "audit_decision_present_but_not_complete",
+        }
+
     checks = [
         {
             "id": "official_scene_scope",
@@ -394,9 +458,17 @@ def build_status_rows(
     }
     boundary_by_requirement = {
         "official_scene_scope": "official KuJiaLe / InteriorAgent only",
-        "multi_run_performance_statistics": "requires repeated official-scene runs before paper claim",
+        "multi_run_performance_statistics": (
+            "official original/noMDL repeated rows; NVIDIA official-scene baseline unavailable"
+            if gates.get("multi_run_performance_statistics") == "ready"
+            else "requires repeated official-scene runs before paper claim"
+        ),
         "selected_video_package": "selected qualitative only; full metric runs authoritative",
-        "final_claim_citation_audit": "not complete until title/abstract/body/citations are checked",
+        "final_claim_citation_audit": (
+            "complete via official_scene_claim_audit_decision.json"
+            if gates.get("final_claim_citation_audit") == "ready"
+            else "not complete until title/abstract/body/citations are checked"
+        ),
     }
     return [
         {
@@ -459,11 +531,106 @@ def write_status_table(csv_path: Path, tex_path: Path, rows: list[dict[str, Any]
     tex_path.write_text("\n".join(lines), encoding="utf-8")
 
 
+def _format_ci(row: dict[str, Any], metric: str, *, precision: int = 2) -> str:
+    mean_value = row.get(f"{metric}_mean")
+    low = row.get(f"{metric}_ci95_low")
+    high = row.get(f"{metric}_ci95_high")
+    if mean_value is None or low is None or high is None:
+        return "NA"
+    return f"{float(mean_value):.{precision}f} [{float(low):.{precision}f}, {float(high):.{precision}f}]"
+
+
+def write_performance_summary_table(csv_path: Path, tex_path: Path, performance_summary: dict[str, Any]) -> None:
+    csv_path.parent.mkdir(parents=True, exist_ok=True)
+    fieldnames = [
+        "row_type",
+        "scene_id",
+        "condition",
+        "scene_count",
+        "success_count",
+        "failure_count",
+        "total_ready_s",
+        "warmup_fps",
+        "gpu_memory_mb",
+    ]
+    rows = []
+    for row in performance_summary.get("condition_summary_rows", []):
+        rows.append(
+            {
+                "row_type": "aggregate",
+                "scene_id": "all_official_scenes",
+                "condition": row.get("condition"),
+                "scene_count": row.get("scene_count"),
+                "success_count": row.get("success_count"),
+                "failure_count": row.get("failure_count"),
+                "total_ready_s": _format_ci(row, "total_ready_s"),
+                "warmup_fps": _format_ci(row, "warmup_fps"),
+                "gpu_memory_mb": _format_ci(row, "gpu_memory_mb", precision=0),
+            }
+        )
+    for row in performance_summary.get("rows", []):
+        rows.append(
+            {
+                "row_type": "per_scene",
+                "scene_id": row.get("scene_id"),
+                "condition": row.get("condition"),
+                "scene_count": 1,
+                "success_count": row.get("success_count"),
+                "failure_count": row.get("failure_count"),
+                "total_ready_s": _format_ci(row, "total_ready_s"),
+                "warmup_fps": _format_ci(row, "warmup_fps"),
+                "gpu_memory_mb": _format_ci(row, "gpu_memory_mb", precision=0),
+            }
+        )
+
+    with csv_path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
+
+    tex_path.parent.mkdir(parents=True, exist_ok=True)
+    lines = [
+        "\\begin{table}[t]",
+        "\\centering",
+        "\\small",
+        "\\resizebox{\\linewidth}{!}{%",
+        "\\begin{tabular}{lllrrr}",
+        "\\toprule",
+        "Scope & Condition & Ready time (s) & Success & Failure & FPS \\\\",
+        "\\midrule",
+    ]
+    for row in rows:
+        scope = row["scene_id"] if row["row_type"] == "per_scene" else "all official scenes"
+        lines.append(
+            f"{_latex_escape(scope)} & {_latex_escape(row['condition'])} & "
+            f"{_latex_escape(row['total_ready_s'])} & {_latex_escape(row['success_count'])} & "
+            f"{_latex_escape(row['failure_count'])} & {_latex_escape(row['warmup_fps'])} \\\\"
+        )
+    lines.extend(
+        [
+            "\\bottomrule",
+            "\\end{tabular}%",
+            "}",
+            "\\caption{Official KuJiaLe / InteriorAgent scene load/render performance. Each required condition uses three fresh-process runs per scene; intervals are bootstrap 95\\% confidence intervals over the recorded runs. NVIDIA official-scene baseline is omitted until official-scene converted USDs exist and pass smoke gates.}",
+            "\\label{tab:official_scene_performance_summary}",
+            "\\end{table}",
+            "",
+        ]
+    )
+    tex_path.write_text("\n".join(lines), encoding="utf-8")
+
+
 def build_package(args: argparse.Namespace) -> dict[str, Any]:
     per_scene_summary = load_json(Path(args.per_scene_summary))
     static_gate = load_json(Path(args.static_gate_0036_0066), default={"results": []})
     video_package_index = load_json(Path(args.video_package_index), default={})
     performance_csv = Path(args.performance_csv)
+    claim_audit_decision_path = Path(args.claim_audit_decision_json)
+    claim_audit_decision = (
+        load_json(claim_audit_decision_path, default={})
+        if claim_audit_decision_path.exists()
+        else None
+    )
 
     scene_inventory = build_scene_inventory(
         per_scene_summary=per_scene_summary,
@@ -476,7 +643,7 @@ def build_package(args: argparse.Namespace) -> dict[str, Any]:
         min_successful_runs=args.min_successful_runs,
         planned_scene_count=len(scene_inventory),
     )
-    claim_audit = build_claim_audit_checklist()
+    claim_audit = build_claim_audit_checklist(claim_audit_decision=claim_audit_decision)
     gates = build_completion_gates(
         scene_inventory=scene_inventory,
         performance_summary=performance_summary,
@@ -497,6 +664,8 @@ def build_package(args: argparse.Namespace) -> dict[str, Any]:
         "optional_conditions": ["nvidia_baseline"],
         "runs_per_scene_condition": args.min_successful_runs,
         "performance_csv": repo_path(performance_csv),
+        "performance_summary_csv": repo_path(Path(args.performance_summary_csv)),
+        "performance_summary_tex": repo_path(Path(args.performance_summary_tex)),
         "nvidia_baseline_policy": "include only if official-scene NVIDIA conversions are generated and smoke-gated",
     }
     summary = {
@@ -509,6 +678,8 @@ def build_package(args: argparse.Namespace) -> dict[str, Any]:
         "completion_gates": gates,
         "status_table": repo_path(Path(args.status_csv)),
         "status_tex": repo_path(Path(args.status_tex)),
+        "performance_summary_table": repo_path(Path(args.performance_summary_csv)),
+        "performance_summary_tex": repo_path(Path(args.performance_summary_tex)),
     }
 
     write_json(Path(args.performance_plan_json), performance_plan)
@@ -516,6 +687,7 @@ def build_package(args: argparse.Namespace) -> dict[str, Any]:
     write_json(Path(args.claim_audit_json), claim_audit)
     write_json(Path(args.summary_json), summary)
     write_status_table(Path(args.status_csv), Path(args.status_tex), status_rows)
+    write_performance_summary_table(Path(args.performance_summary_csv), Path(args.performance_summary_tex), performance_summary)
     return summary
 
 
@@ -529,8 +701,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--performance-plan-json", default=str(DEFAULT_PERFORMANCE_PLAN_JSON))
     parser.add_argument("--video-summary-json", default=str(DEFAULT_VIDEO_SUMMARY_JSON))
     parser.add_argument("--claim-audit-json", default=str(DEFAULT_CLAIM_AUDIT_JSON))
+    parser.add_argument("--claim-audit-decision-json", default=str(DEFAULT_CLAIM_AUDIT_DECISION_JSON))
     parser.add_argument("--status-csv", default=str(DEFAULT_STATUS_CSV))
     parser.add_argument("--status-tex", default=str(DEFAULT_STATUS_TEX))
+    parser.add_argument("--performance-summary-csv", default=str(DEFAULT_PERFORMANCE_SUMMARY_CSV))
+    parser.add_argument("--performance-summary-tex", default=str(DEFAULT_PERFORMANCE_SUMMARY_TEX))
     parser.add_argument("--min-successful-runs", type=int, default=3)
     return parser.parse_args()
 

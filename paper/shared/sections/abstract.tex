@@ -13,7 +13,10 @@ similarity 0.925, DINOv2 cosine similarity 0.872). In a headless single-object b
 first-load latency variability but yields highly similar steady-state FPS and
 GPU memory usage; in a supplemental single-scene GRScenes startup benchmark, the
 converted scene reaches a fully warmed ready-to-render state 3.8$\times$
-faster and uses roughly 200\,MB less GPU memory. We
+faster and uses roughly 200\,MB less GPU memory, while a repeated three-scene
+official KuJiaLe benchmark shows comparable warmed ready time for original MDL
+and noMDL scenes (13.95\,s vs.\ 14.12\,s, with 18/18 successful fresh-process
+runs). We
 further add a GRScenes vision-language grounding route over matched
 original/converted renders, separating a 15-pair clean visual-QA pilot from a
 frozen 30-pair target-centered material-shift stress set; these results expose

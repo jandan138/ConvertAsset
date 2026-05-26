@@ -27,10 +27,15 @@ first-load latency variability for the converted assets. In a supplemental
 whole-scene benchmark on a large GRScenes commercial interior, however, noMDL
 reduces time to a fully warmed ready-to-render state from
 $52.02 \pm 2.69$\,s to $13.70 \pm 1.01$\,s and lowers post-load GPU memory by
-about 199\,MB. The practical conclusion is therefore two-part: conversion does
+about 199\,MB. A repeated three-scene official KuJiaLe benchmark gives a more
+conservative companion result: all 18 required fresh-process original/noMDL
+runs succeed, but the aggregate warmed-ready intervals overlap
+(13.95\,s [11.64, 16.28] for original MDL and 14.12\,s [12.31, 16.24] for
+noMDL). The practical conclusion is therefore two-part: conversion does
 not buy much steady-state rendering throughput for shallow single-object scenes,
-but it can substantially improve startup behavior once scene scale and material
-complexity are high.
+it can substantially improve startup behavior in some large composed scenes,
+and official navigation scenes should be benchmarked directly rather than
+assumed to inherit that speedup.
 
 Feature-level evaluation confirms that semantic content is well preserved:
 CLIP embeddings achieve a mean cosine similarity of 0.925 across matched pairs,
@@ -75,13 +80,13 @@ library, all belonging to the same furniture category. While these assets span
 a range of material complexity, further validation on diverse object categories
 (e.g., transparent or translucent materials, highly specular metals, organic
 surfaces) is needed to establish broader generalizability. Additionally, our
-performance benchmarks use single-object scenes; the efficiency impact of
-material simplification beyond the one GRScenes commercial-interior startup
-benchmark remains an open question. Our performance claims are therefore
-limited to four single-object furniture scenes plus one GRScenes commercial
-interior under a headless RTX path-tracing setup, and should not yet be
-generalized to all larger, heavily instanced, or materially diverse
-environments. The VLM results are also claim-bounded: the clean pool remains
+performance benchmarks still cover a limited set of scene families: four
+single-object furniture scenes, one GRScenes commercial interior, and three
+official KuJiaLe navigation scenes under a headless RTX path-tracing setup.
+They should not yet be generalized to all larger, heavily instanced, or
+materially diverse environments, and the NVIDIA official-scene performance
+baseline remains unavailable until matching converted official scenes are
+generated and smoke-gated. The VLM results are also claim-bounded: the clean pool remains
 below the clean final gate, the stress set is target-centered and category
 imbalanced, and Qwen coordinate semantics are unresolved. The material-effect
 matrix is likewise a selected diagnostic, not a population-level failure-rate

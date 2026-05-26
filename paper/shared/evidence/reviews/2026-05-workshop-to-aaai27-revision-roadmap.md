@@ -56,9 +56,10 @@ Current interpretation:
   frozen stress set and marking clean preservation, broad GRScenes robustness,
   and multi-episode embodied downstream transfer as open.
 - NVIDIA official-tool baselines, per-MDL-effect degradation analysis, paired
-  uncertainty summaries, and a rule-based safe-conversion table are now present.
-  A learned automatic recommender and multi-scene/multi-run scene-load or
-  render-performance statistics remain open.
+  uncertainty summaries, a rule-based safe-conversion table, and repeated
+  official KuJiaLe scene-load/render statistics are now present. A learned
+  automatic recommender and NVIDIA official-scene performance baseline remain
+  open.
 
 Updated status by reviewer theme:
 
@@ -69,7 +70,7 @@ Updated status by reviewer theme:
 | P1-3 | Partially fixed | NVIDIA Asset Converter is now represented through smoke-validated USD routes and selected GRScenes/supplemental baseline manifests; full distill/bake population statistics are not claimed. |
 | P1-4 | Partially fixed | The material-effect risk matrix separates covered GRScenes bins from selected clearcoat failure and procedural-texture limitation cases. |
 | P1-5 | Addressed for ACL wording | Claims now stay evidence-bounded to the frozen target-centered stress set. |
-| P1-6 | Open | Large-scene performance is still not multi-scene/multi-run with variance or confidence intervals. |
+| P1-6 | Partially fixed | Official KuJiaLe scene-load/render statistics now cover three scenes and 18/18 successful original/noMDL fresh-process runs with bootstrap CIs and failure counts. NVIDIA official-scene baseline remains unavailable. |
 | P2-1 | Partially fixed | A rule-based safe-conversion table now maps selected material effects to gated actions; a learned classifier remains open. |
 | P2-2 | Partially addressed | ACL framing shifts novelty toward benchmark protocol and VLM reliability under material perturbation, but official-tool comparison is still needed for a stronger engineering novelty defense. |
 | P2-3 | Partially fixed | CLIP/DINOv2 are now diagnostics; VLM grounding is the main ACL evidence. |

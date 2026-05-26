@@ -11,8 +11,9 @@ goal:
   evidence package;
 - finish the final claim-language and citation/provenance audit.
 
-This record does not mark the goal complete. It records the current package
-scaffold and the remaining execution gates.
+This record now covers the completed original/noMDL official-scene closure pass.
+It does not add an NVIDIA official-scene baseline; that remains out of scope
+until matching official-scene NVIDIA converted USDs exist and pass smoke gates.
 
 ## Current Evidence
 
@@ -39,8 +40,8 @@ Current package gates:
 | --- | --- |
 | official scene scope | `ready` |
 | selected video package | `ready` |
-| multi-run performance statistics | `missing` |
-| final claim/citation audit | `missing` |
+| multi-run performance statistics | `ready` |
+| final claim/citation audit | `ready` |
 
 ## Added Package Files
 
@@ -57,13 +58,16 @@ paper/shared/evidence/raw/official_scene_submission_closure/official_scene_submi
 paper/shared/evidence/raw/official_scene_submission_closure/official_scene_performance_plan.json
 paper/shared/evidence/raw/official_scene_submission_closure/official_scene_video_evidence_summary.json
 paper/shared/evidence/raw/official_scene_submission_closure/official_scene_claim_audit_checklist.json
+paper/shared/evidence/raw/official_scene_submission_closure/official_scene_claim_audit_decision.json
 paper/shared/tables/official_scene_submission_closure_status.csv
 paper/shared/tables/tab_official_scene_submission_closure_status.tex
+paper/shared/tables/official_scene_performance_summary.csv
+paper/shared/tables/tab_official_scene_performance_summary.tex
 ```
 
-## Next Execution Gate
+## Performance Result
 
-Run the official-scene performance benchmark:
+Executed the official-scene performance benchmark:
 
 ```bash
 python paper/shared/evidence/experiments/10_official_scene_submission_closure/run_official_scene_performance.py \
@@ -72,23 +76,22 @@ python paper/shared/evidence/experiments/10_official_scene_submission_closure/ru
   --warmup-updates 30
 ```
 
-Then rebuild the package:
+Result:
+
+| Condition | Scenes | Successful runs | Failed runs | Aggregate ready time |
+| --- | ---: | ---: | ---: | --- |
+| original MDL | `3` | `9` | `0` | `13.95` s, 95% CI `[11.64, 16.28]` |
+| ConvertAsset noMDL | `3` | `9` | `0` | `14.12` s, 95% CI `[12.31, 16.24]` |
+
+This supports official-scene loadability/stability evidence with repeated runs
+and failure counts. It does **not** support an official-scene noMDL speedup
+claim because the ready-time intervals overlap.
+
+Rebuilt the package:
 
 ```bash
 python paper/shared/evidence/experiments/10_official_scene_submission_closure/build_submission_closure_package.py
 ```
-
-The required successful run count is `3` fresh-process runs for each of:
-
-- `kujiale_0031` original MDL;
-- `kujiale_0031` ConvertAsset noMDL;
-- `kujiale_0036` original MDL;
-- `kujiale_0036` ConvertAsset noMDL;
-- `kujiale_0066` original MDL;
-- `kujiale_0066` ConvertAsset noMDL.
-
-That is `18` required successful performance rows before the performance gate
-can be marked ready.
 
 The NVIDIA baseline is deliberately marked `not_available` for this official
 scene performance package until official-scene NVIDIA converted USDs are
@@ -101,8 +104,11 @@ Allowed after the package is complete:
 
 ```text
 We add multi-scene, repeated official KuJiaLe / InteriorAgent load/render
-performance statistics, with selected qualitative rollout videos attached for
-paper and rebuttal inspection.
+performance statistics for original MDL and ConvertAsset noMDL scenes, with
+failure counts, bootstrap confidence intervals, and selected qualitative
+rollout videos attached for paper and rebuttal inspection. On these scenes,
+ready-time intervals overlap, so the claim is stability/loadability rather than
+speedup.
 ```
 
 Not allowed:
@@ -120,13 +126,13 @@ NVIDIA converted scenes exist.
 Executed:
 
 ```bash
-python -m pytest -q tests/test_official_scene_submission_closure.py
+python -m pytest -q tests/test_official_scene_submission_closure.py tests/test_paper_layout.py
 python paper/shared/evidence/experiments/10_official_scene_submission_closure/build_submission_closure_package.py
 ```
 
 Results:
 
-- `6 passed`;
-- package builder wrote the current status artifacts;
-- `submission_closure_complete=false`, as expected before performance runs and
-  final claim/citation audit.
+- official benchmark wrote `18` rows with `18` success and `0` failures;
+- package builder wrote the updated status and performance tables;
+- `submission_closure_complete=true` after loading
+  `official_scene_claim_audit_decision.json`.

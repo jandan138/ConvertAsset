@@ -17,6 +17,13 @@ claims:
     sources:
       - paper/shared/evidence/raw/perf_benchmark_grscene.csv
     scope: "Single-scene GRScenes startup benchmark retained from the CVPR workshop draft."
+  - id: official_scene_performance_summary
+    statement: "In the official KuJiaLe / InteriorAgent scene benchmark, all 18 required fresh-process original/noMDL load-render runs succeeded. Aggregated warmed-ready time is comparable: original MDL 13.95 s with 95% CI [11.64, 16.28] and ConvertAsset noMDL 14.12 s with 95% CI [12.31, 16.24]; warm-up FPS is 2.36 vs. 2.42."
+    sources:
+      - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_performance_runs.csv
+      - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_submission_closure_summary.json
+      - paper/shared/tables/official_scene_performance_summary.csv
+    scope: "Three local official KuJiaLe / InteriorAgent val_unseen scenes, original MDL and ConvertAsset noMDL only, three fresh-process runs per scene/condition. This is not an NVIDIA official-scene comparison and not a broad all-InteriorNav performance benchmark."
   - id: grscenes_vlm_gemma4_pass_only_pilot
     statement: "In a four-pair visual-QA PASS-only GRScenes pilot, local Gemma4 answered the target category correctly for all original and converted renders; under normalized-1000 coordinate scoring, point-in-box accuracy was 4/4 for original renders and 3/4 for converted renders."
     sources:
@@ -148,5 +155,5 @@ review_requirements:
   - "Treat `reviewer_closure_paired_ci` as descriptive uncertainty over existing frozen evidence, not a population-level significance result."
   - "Treat `vlm_coordinate_baselines` as scoring sanity baselines. Image-center success under raw pixels reflects target-centered camera construction, not VLM skill."
   - "Treat `material_safe_conversion_recommender` as an evidence-gated rule table derived from selected cases, not a learned automatic recommender."
-  - "Treat `official_scene_submission_closure_status` as a gate/status table until `official_scene_performance_runs.csv` exists with the required repeated official-scene runs and the final claim/citation audit is marked complete."
+  - "Treat `official_scene_performance_summary` as scoped official KuJiaLe scene-load/render evidence: it supports successful repeated original/noMDL official-scene measurement with overlapping ready-time intervals, not an official-scene speedup or NVIDIA comparison."
   - "Do not generate final VLM performance tables from any run whose `canonical_vlm_run_manifest.json` claim gate has `final_benchmark_claimable=false`."

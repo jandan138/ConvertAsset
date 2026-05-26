@@ -43,8 +43,12 @@ state drops from 52.0\,s to 13.7\,s, and post-load GPU memory decreases by
 roughly 200\,MB. The fact that this gap emerges primarily during the post-open warm-up phase
 rather than the raw \texttt{open\_stage} call suggests that material
 initialization and early-frame settling dominate startup cost once scene scale
-and shader complexity become substantial. The clearest general benefit in this
-study remains interoperability: UsdPreviewSurface materials are supported by
+and shader complexity become substantial. However, the repeated official
+KuJiaLe scene benchmark does not reproduce the same speedup: original MDL and
+noMDL have overlapping warmed-ready confidence intervals across the three
+official scenes. We therefore treat performance as scene-family dependent
+rather than as a universal consequence of noMDL conversion. The clearest
+general benefit in this study remains interoperability: UsdPreviewSurface materials are supported by
 standard USD viewers, web-based 3D platforms, and the glTF/GLB export path,
 none of which can interpret NVIDIA's proprietary MDL shaders. Our results
 quantify the visual cost of this interoperability gain: a mean LPIPS increase

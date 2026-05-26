@@ -78,6 +78,11 @@ Venue-neutral table sources for the ConvertAsset paper live here.
   records the current video, performance, and final claim-audit gates.
 - `tab_official_scene_submission_closure_status.tex`: LaTeX table generated
   from the same official-scene closure status CSV.
+- `official_scene_performance_summary.csv`: machine-readable official
+  KuJiaLe / InteriorAgent repeated performance summary with aggregate and
+  per-scene success/failure counts, ready-time CIs, FPS CIs, and GPU-memory CIs.
+- `tab_official_scene_performance_summary.tex`: LaTeX table generated from the
+  same official-scene performance summary CSV.
 
 Regenerate with:
 
