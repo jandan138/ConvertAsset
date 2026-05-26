@@ -49,51 +49,54 @@ bibliography without undefined citations.
 ## Permanent-Identifier Status
 
 ACLPUB formatting guidance says references should include DOI where possible,
-or ACL Anthology links as a second resort. The local `.bib` is not yet fully
-submission-normalized under that standard.
+or ACL Anthology links as a second resort. The current `.bib` now includes DOI
+or URL metadata for every key cited by the ACL wrapper. A few entries still need
+final proceedings-level confirmation, but the previous build-clean-only state
+has been upgraded to source-linked citation metadata.
 
 | Key | Current local identifier status | Submission action |
 | --- | --- | --- |
-| `Anderson2018Vision` | DOI present. | Keep; verify proceedings name before final. |
-| `Qi2020REVERIE` | DOI present. | Keep; verify proceedings name before final. |
+| `Anderson2018Vision` | DOI and CVF URL present. | Keep; verify proceedings name before final. |
+| `Qi2020REVERIE` | DOI and CVF URL present. | Keep; verify proceedings name before final. |
 | `Mittal2023Orbit` | DOI present. | Keep. |
-| `Wang2024GRUtopia` | arXiv DOI present. | Verify whether an archival venue exists before final. |
-| `Chen2023Shikra` | arXiv-only local entry, no DOI/URL field. | Add arXiv DOI or URL if retained. |
-| `You2024Ferret` | ICLR entry, no OpenReview/DOI/URL field. | Add OpenReview URL or DOI-equivalent metadata. |
-| `Wei2026Ground` | ICLR 2026 entry, no OpenReview/DOI/URL field. | Verify final ICLR metadata and add URL. |
-| `Mittal2025Isaac` | arXiv-only local entry, no DOI/URL field. | Verify arXiv metadata and add DOI/URL. |
-| `Ng2023SynTable` | arXiv-only local entry, no DOI/URL field. | Add arXiv DOI or URL if retained. |
-| `Singh2025Synthetica` | IROS entry, no DOI/URL field. | Verify final proceedings metadata and add DOI if available. |
-| `Savva2019Habitat` | ICCV entry, no DOI/URL field. | Add DOI or official proceedings URL if available. |
-| `Kolve2017AI2THOR` | arXiv-only local entry, no DOI/URL field. | Add arXiv DOI or URL if retained. |
-| `Gan2021ThreeDWorld` | NeurIPS entry, no DOI/URL field. | Add OpenReview/proceedings URL if available. |
-| `Tobin2017Domain` | IROS entry, no DOI/URL field. | Add DOI if available. |
-| `Tremblay2018Training` | CVPRW entry, no DOI/URL field. | Add DOI or proceedings URL if available. |
-| `Zakharov2022Photo` | ECCV entry, no DOI/URL field. | Add DOI/proceedings URL if available. |
-| `Wang2004Image` | Journal entry, no DOI field. | Add DOI. |
-| `Zhang2018Unreasonable` | CVPR entry, no DOI field. | Add DOI or official CVF URL. |
-| `Radford2021Learning` | ICML/PMLR entry, no URL field. | Add PMLR URL. |
-| `Oquab2023DINOv2` | TMLR entry, no URL field. | Add OpenReview/TMLR URL. |
+| `Wang2024GRUtopia` | arXiv DOI and URL present. | Verify whether an archival venue exists before final. |
+| `Chen2023Shikra` | arXiv DOI and URL present. | Keep unless an archival version appears. |
+| `You2024Ferret` | ICLR/OpenReview URL present. | Keep; add DOI only if ICLR/CrossRef metadata appears. |
+| `Wei2026Ground` | ICLR/OpenReview URL present. | Keep; verify final ICLR metadata before submission. |
+| `Mittal2025Isaac` | arXiv DOI and URL present. | Keep unless an archival version appears. |
+| `Ng2023SynTable` | arXiv DOI and URL present. | Keep unless an archival version appears. |
+| `Singh2025Synthetica` | arXiv URL present for the formal IROS entry. | Verify final IEEE DOI if available. |
+| `Savva2019Habitat` | DOI and CVF URL present. | Keep. |
+| `Kolve2017AI2THOR` | arXiv DOI and URL present. | Keep unless an archival version appears. |
+| `Gan2021ThreeDWorld` | NeurIPS Datasets and Benchmarks URL present. | Keep. |
+| `Tobin2017Domain` | DOI and arXiv URL present. | Keep. |
+| `Tremblay2018Training` | DOI and CVF URL present. | Keep. |
+| `Zakharov2022Photo` | ECVA URL and arXiv DOI present. | Verify final Springer/ECCV DOI if desired. |
+| `Wang2004Image` | DOI present. | Keep. |
+| `Zhang2018Unreasonable` | DOI and CVF URL present. | Keep. |
+| `Radford2021Learning` | PMLR URL present. | Keep. |
+| `Oquab2023DINOv2` | TMLR/OpenReview URL present. | Keep. |
 
 ## Artifact Provenance Status
 
 | Artifact family | Cited / described in manuscript | Current provenance status | Follow-up |
 | --- | --- | --- | --- |
-| GRUtopia / GRScenes | Cited via `Wang2024GRUtopia`; evidence under `paper/shared/evidence/raw/grscene_vlm_grounding/`. | Scientific source cited; local asset mirror paths and scratch/noMDL conversion manifests are documented. | Add explicit license/access note in final supplement/checklist. |
-| InternNav / DualVLN | Cited via `Wei2026Ground`; evidence under `paper/shared/evidence/raw/internnav_vln_downstream/official_val_unseen_99/`. | Scientific source cited; local official KuJiaLe route documented. | Verify final paper URL/metadata and dataset/access terms. |
-| InteriorAgent / KuJiaLe official scenes | Described as official KuJiaLe `val_unseen` evidence. | Local evidence exists, but manuscript bibliography does not yet contain a separate InteriorAgent/KuJiaLe dataset citation if one is required. | Add official citation/license entry if available. |
+| GRUtopia / GRScenes | Cited via `Wang2024GRUtopia`; evidence under `paper/shared/evidence/raw/grscene_vlm_grounding/`. | Scientific source cited; local asset mirror paths and scratch/noMDL conversion manifests are documented; public project/package pages checked this turn report MIT for GRUtopia code and CC BY-NC-SA 4.0 for open GRScenes. | Confirm exact dataset terms for final upload package. |
+| InternNav / DualVLN | Cited via `Wei2026Ground`; evidence under `paper/shared/evidence/raw/internnav_vln_downstream/official_val_unseen_99/`. | Scientific source and OpenReview URL cited; public repository pages checked this turn report MIT for InternNav code, CC BY-NC-SA 4.0 for open InternData-N1 data, and inherited licenses for other datasets. | Verify separate InteriorAgent/KuJiaLe terms. |
+| InteriorAgent / KuJiaLe official scenes | Described as official KuJiaLe `val_unseen` evidence. | Local evidence exists and the public Hugging Face dataset page lists `interioragent-terms-of-use`; full terms text still needs final review. | Add official citation/license entry if available. |
 | NVIDIA / Isaac Sim / USD / MDL | Method and related work reference Isaac/Orbit/Isaac Lab; repo docs cover MDL-to-UsdPreviewSurface conversion. | Simulation/framework provenance is partially covered. | Add official software/version citation and license note in supplement/checklist. |
-| VLM systems used in probes | Results mention Gemma4 and Qwen2.5-VL. | Experimental outputs are recorded, but model/provider citations are not yet fully bibliography-normalized. | Add model citations/version/source fields before final submission. |
+| VLM systems used in probes | Results mention Gemma4 and Qwen2.5-VL. | Qwen2.5-VL and Google Gemma4 model-card license/source pages checked; Gemma4 local quantized checkpoint still needs exact public model ID/commit matching. | Add model citations/version/source fields before final submission. |
 | Selected qualitative rollout videos | Evidence package exists under `official_selected_qualitative_videos/`. | Videos are qualitative only and not used as quantitative evidence. | Include only as supplemental/figure support; anonymize packaged paths. |
 
 ## Current Claim-Safety Result
 
-The current bibliography is build-clean but not yet final-submission clean.
-This is enough for manuscript iteration and local PDF generation, but not enough
-to mark the ACL/ARR goal complete. The final submission gate should require:
+The current bibliography is build-clean and now source-linked for all ACL
+wrapper citations. The remaining final-submission risks are artifact/model
+provenance and final-venue policy, not undefined citations. The final submission
+gate should require:
 
 1. No undefined citations in a clean build.
-2. Every cited scientific artifact has DOI, ACL Anthology URL, OpenReview/PMLR
+2. Every cited scientific artifact keeps DOI, ACL Anthology URL, OpenReview/PMLR
    URL, arXiv DOI/URL, or an explicit reason why no permanent identifier exists.
 3. Every dataset/software artifact used in experiments has citation, access
    route, license/terms note, and intended-use note in the paper, appendix, or

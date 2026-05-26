@@ -74,6 +74,14 @@ generic long-paper budget in this check, but the goal is not complete until the
 final target call is public and the citation/provenance and Responsible NLP
 checklist gaps are closed.
 
+Citation/provenance closure update on 2026-05-26: all 20 current ACL-wrapper
+citation keys now carry DOI and/or URL metadata in `paper/shared/references.bib`.
+`RESPONSIBLE_NLP_CHECKLIST_DRAFT.md` and `ARTIFACT_PROVENANCE_DRAFT.md` provide
+the first upload-oriented checklist/provenance packet. Remaining gaps are final
+target-call verification, exact Gemma4 public model ID/commit matching,
+InteriorAgent/KuJiaLe license/citation confirmation, and concise compute/runtime
+version reporting for the final ARR checklist.
+
 InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now has a real
 one-episode embodied downstream smoke run for scene
 `MV7J6NIKTKJZ2AABAAAAADY8_usd`. The prep manifest is

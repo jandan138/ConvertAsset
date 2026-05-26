@@ -39,6 +39,10 @@ submission-readiness checklist, not a new experiment.
   `SUBMISSION_READINESS_AUDIT.md`
 - Citation and provenance audit:
   `CITATION_PROVENANCE_AUDIT.md`
+- Responsible NLP checklist draft:
+  `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md`
+- Artifact provenance draft:
+  `ARTIFACT_PROVENANCE_DRAFT.md`
 - Current public search found EACL 2027, not an Annual ACL 2027 CFP/site:
   https://2027.eacl.org/
 - Existing Annual ACL 2027 target should therefore remain an ACL/ARR candidate

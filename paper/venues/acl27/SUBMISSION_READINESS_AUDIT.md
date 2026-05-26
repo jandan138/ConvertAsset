@@ -18,6 +18,9 @@ the source of truth and treats public ACL/ARR pages as external policy inputs.
 | ARR Responsible NLP Checklist PDF | https://aclrollingreview.org/static/responsibleNLPresearch.pdf | Checklist questions and requirement to provide section numbers or justifications. |
 | ARR checklist-as-appendix update | https://aclrollingreview.org/responsible-nlp-checklist-appendices | Accepted *ACL papers should expect public checklist appendices. |
 | EACL 2027 official site | https://2027.eacl.org/ | Confirms EACL 2027 is public and has an ARR deadline; it is not Annual ACL 2027. |
+| GRUtopia package/project pages | https://pypi.org/project/grutopia/ and https://github.com/InternRobotics/InternUtopia | Public source/license context for GRUtopia/GRScenes. |
+| InternNav repository | https://github.com/InternRobotics/InternNav | Public source/license context for InternNav/InternData-N1. |
+| Qwen2.5-VL-7B-Instruct model card | https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct | Public source/license context for Qwen diagnostic model. |
 
 Public search on 2026-05-26 found EACL 2027, generic ACLPUB, and ARR policy
 pages, but did not find an official public Annual ACL 2027 CFP, author kit,
@@ -52,7 +55,7 @@ ACL/ARR-candidate ready, not yet Annual-ACL-2027-final ready.
 | Author-identifying links | No `http://` or `https://` links found in `main.tex`, ACL sections, or shared appendix text. | Low risk |
 | Non-anonymous repository/service links in supplement | Not fully audited for every bundled supplemental artifact. | Follow-up |
 | Responsible NLP checklist weak answers | Draft section mapping below exists, but final OpenReview/checklist fields still need human completion. | Follow-up |
-| Reference permanent identifiers | `CITATION_PROVENANCE_AUDIT.md` identifies entries lacking DOI/URL/ACL Anthology metadata. | Follow-up |
+| Reference permanent identifiers | `CITATION_PROVENANCE_AUDIT.md` now records DOI/URL metadata for all 20 currently cited ACL-wrapper keys. | Low risk, with final proceedings metadata check |
 | Annual ACL 2027 official details | Public Annual ACL 2027 CFP/site not found. | External blocker |
 
 ## Draft Responsible NLP Checklist Map
@@ -66,14 +69,14 @@ ARR checklist.
 | A2 potential risks | Yes | `Ethical Considerations`, `Limitations` |
 | A3 abstract/introduction summarize claims | Yes | `Abstract`, `Introduction`, `CLAIM_AUDIT.md` |
 | B scientific artifacts used/created | Yes | GRScenes/GRUtopia, InternNav/DualVLN, Isaac/UsdPreviewSurface evidence described in `Related Work`, `Method`, `Results`; raw evidence under `paper/shared/evidence/` |
-| B1 cite artifact creators | Partially yes | Manuscript cites GRUtopia/GRScenes and InternNav/DualVLN; final artifact-license/source audit still needed. |
-| B2 licenses / terms | Not complete | `Ethical Considerations` notes license compatibility, but final submission needs explicit artifact-license details. |
-| B3 intended use | Partially yes | `Method`, `Results`, `Limitations` define research/evaluation use and claim boundaries. |
+| B1 cite artifact creators | Yes, with final dataset/model cleanup | Manuscript cites GRUtopia/GRScenes and InternNav/DualVLN; `CITATION_PROVENANCE_AUDIT.md` tracks remaining InteriorAgent/KuJiaLe and model-card cleanup. |
+| B2 licenses / terms | Partially complete | `Ethical Considerations` notes license compatibility; `ARTIFACT_PROVENANCE_DRAFT.md` records current public license context and flags remaining final checks. |
+| B3 intended use | Yes, with final license confirmation | `Method`, `Results`, `Limitations`, and `ARTIFACT_PROVENANCE_DRAFT.md` define research/evaluation use and claim boundaries. |
 | B4 personally identifying/offensive content | Likely N/A / needs justification | Current work uses synthetic 3D assets and VLM/InternNav outputs, not human-subject text. Final checklist should justify this. |
 | B5 artifact documentation | Partially yes | Evidence manifests and docs exist, but final paper/supplement should expose the artifact inventory clearly. |
 | B6 data statistics/splits | Yes for main evidence | Results tables report GRScenes 15/30 and InternNav 99; supplement contains manifests. |
 | C computational experiments | Yes | VLM probes, image metrics, material baselines, InternNav sanity runs. |
-| C1 compute budget/infrastructure | Not complete | Need final compute/GPU/Isaac Sim environment summary. |
+| C1 compute budget/infrastructure | Partially complete | Run manifests record commands/backends; final checklist needs concise GPU/CPU/runtime summary. |
 | C2 setup/hyperparameters | Partially yes | Method and experiment manifests cover protocols; final appendix should summarize model prompts/settings. |
 | C3 descriptive statistics | Yes for main claims | Results tables include counts, paired means, and closure CIs. |
 | C4 packages/implementation settings | Partially yes | Repo scripts and manifests exist; final appendix should summarize software versions and package settings. |
@@ -89,8 +92,8 @@ ARR checklist.
    InteriorAgent/KuJiaLe, InternNav/DualVLN, Isaac Sim, VLM APIs/models, and any
    generated qualitative videos.
 3. Fill the Responsible NLP checklist with section numbers and justifications,
-   especially B2, C1, C2, C4, and E1.
-4. Resolve the bibliography permanent-identifier gaps recorded in
-   `CITATION_PROVENANCE_AUDIT.md`.
+   using `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md` as the starting point.
+4. Re-check bibliography permanent identifiers after any new citations are
+   added; current ACL-wrapper citations now have DOI or URL metadata.
 5. Perform a final anonymization audit over the PDF, supplemental paths,
    metadata, and any archive packaged for upload.
