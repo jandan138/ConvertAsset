@@ -1,14 +1,14 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Vision-language models are increasingly evaluated in simulated 3D environments
-where agents must connect language to objects, viewpoints, and actions. These
-evaluations often assume that the rendered scene is a stable substrate. In
-practice, however, synthetic-scene assets are frequently converted across
-material systems before they can be rendered at scale, distributed, exported to
-other viewers, or reused by downstream robotics stacks. A seemingly engineering
-level conversion can therefore become a hidden intervention in the benchmark
-itself.
+Vision-language and embodied-language models are increasingly evaluated in
+simulated 3D environments where agents must connect text to objects,
+viewpoints, and actions. These evaluations often treat the rendered scene as a
+stable substrate. In practice, however, scene assets are frequently converted
+across material systems before they can be rendered at scale, distributed,
+exported to other viewers, or reused by downstream robotics stacks. A seemingly
+engineering-level conversion can therefore become a hidden intervention in the
+benchmark itself.
 
 We study this problem in NVIDIA Isaac Sim, where photorealistic assets commonly
 use Material Definition Language (MDL) shaders while portable USD and glTF-style
@@ -23,10 +23,11 @@ representation changes.
 This paper treats material conversion as a controlled within-simulation
 perturbation. We ask: \emph{when synthetic-scene assets are converted for
 toolchain compatibility, what evidence is needed before using the converted
-renders for language-grounding claims?} The answer matters for embodied-AI
-benchmarks such as GRScenes~\cite{Wang2024GRUtopia}, where downstream
-experiments may combine large USD scenes, object-level goals, VLM prompting,
-and navigation frameworks such as InternNav/DualVLN~\cite{Wei2026Ground}.
+renders or scenes for language-grounding and embodied-data claims?} The answer
+matters for embodied-language benchmarks such as
+GRScenes~\cite{Wang2024GRUtopia}, where downstream experiments may combine
+large USD scenes, object-level goals, VLM prompting, and navigation frameworks
+such as InternNav/DualVLN~\cite{Wei2026Ground}.
 
 Our current evidence base has two layers. First, we quantify the conversion on
 four Isaac Sim furniture assets with paired visual quality, rendering
@@ -37,16 +38,17 @@ Second, we build a GRScenes VLM grounding route using a read-only benchmark
 source tree, a scratch no-MDL conversion, matched original/converted renders,
 target projection, blind visual QA, and local Gemma4/Qwen2.5-VL probes.
 
-The VLM results are intentionally separated by claim boundary. A 15-pair clean
-visual-QA pool remains a pilot preservation control: answer-level recognition
-can be stable for one backend, while point grounding remains sensitive to the
-coordinate contract. A larger frozen 30-pair stress pool asks a different
-question: when the target remains visible but material, color, or lighting
-changes are apparent, does a VLM still answer and point consistently? Gemma4 is
-stable under the normalized-1000 stress protocol, while Qwen2.5-VL exposes a
-different raw-coordinate preference. These two pools must not be conflated. The
-clean pool is a preservation control; the expanded stress pool is a
-material-perturbation stress set.
+The VLM and embodied results are intentionally separated by claim boundary. A
+15-pair clean visual-QA pool remains a pilot preservation control:
+answer-level recognition can be stable for one backend, while point grounding
+remains sensitive to the coordinate contract. A larger frozen 30-pair stress
+pool asks a different question: when the target remains visible but material,
+color, or lighting changes are apparent, does a VLM still answer and point
+consistently? Gemma4 is stable under the normalized-1000 stress protocol, while
+Qwen2.5-VL exposes a different raw-coordinate preference. Separately, a
+99-episode official KuJiaLe InternNav run checks whether converted scenes remain
+usable in a real navigation stack, without promoting the result to a broad
+embodied benchmark.
 
 We make four contributions:
 \begin{enumerate}
@@ -61,8 +63,9 @@ We make four contributions:
     pilot and a frozen 30-pair target-centered material-shift stress set,
     showing that answer accuracy, point grounding, and coordinate compliance
     can diverge across model backends.
-    \item We argue that VLM grounding claims require stricter gates than image
-    fidelity: clean preservation pools, material-shift stress pools,
-    coordinate-frame ablations, parser coverage, and explicit claim registries
-    should be reported separately.
+    \item We attach material-effect and embodied-data sanity evidence to the
+    same claim registry: a selected NVIDIA-baseline material audit, a
+    99-episode official KuJiaLe InternNav sanity run, and repeated official
+    scene load/render stability checks. These support bounded reliability
+    claims, not broad embodied-benchmark or speedup claims.
 \end{enumerate}

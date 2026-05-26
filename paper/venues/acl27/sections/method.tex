@@ -1,0 +1,64 @@
+\section{Method}
+\label{sec:methodology}
+
+\subsection{Material Conversion as the Intervention}
+\label{sec:conversion_intervention}
+
+The intervention is MDL-to-UsdPreviewSurface conversion inside the same USD
+scene family. ConvertAsset starts from a root USD file, recursively discovers
+referenced layers, payloads, variants, and clips, and writes sibling
+\texttt{*\_noMDL.usd} assets rather than flattening the scene. Composition arcs
+are rewritten to point to converted siblings, while the original source tree is
+kept read-only for benchmark provenance.
+
+Within each processed USD file, MDL-driven materials are replaced with
+UsdPreviewSurface networks using the channels that can be represented
+portably: base color, roughness, metallic, and normal. Texture inputs are
+resolved relative to their declaring layer when possible; otherwise constant
+fallbacks are used. This representation deliberately cannot encode every MDL
+effect. Clearcoat, procedural textures, displacement, opacity, emission, and
+other specialized material mechanisms therefore become risk categories that
+must be audited rather than assumed preserved.
+
+\subsection{Evidence Gates}
+\label{sec:evidence_gates}
+
+We organize the evaluation as four evidence gates. The first gate measures
+paired proxy similarity on four Isaac Sim furniture assets: PSNR, SSIM, LPIPS,
+CLIP similarity, DINOv2 similarity, and headless load/render behavior. This
+gate checks that the conversion can preserve obvious visual structure in a
+controlled single-object setting.
+
+The second gate is the ACL-facing VLM grounding protocol on GRScenes. We use
+the original GRScenes tree as the source condition, materialize noMDL
+counterparts in a scratch workspace, render matched target-centered views, and
+project target bounding boxes into each image. Visual QA separates clean
+PASS-only pairs from target-visible PASS/WARN material-shift pairs. Local VLM
+backends are prompted to return a target-category answer and a point location.
+We score answer match, point-in-box under normalized-1000 coordinates, and a
+raw pixel-space diagnostic because coordinate semantics proved model-dependent.
+
+The third gate audits material mechanisms and the NVIDIA baseline. For the
+selected GRScenes material-effect pool, we compare original MDL, ConvertAsset
+noMDL, and NVIDIA Asset Converter PreviewSurface outputs when all three
+conditions pass static gates. For missing material bins, we use bounded
+supplemental wrapper fixtures, but only as selected failure or limitation
+evidence.
+
+The fourth gate checks embodied-data usability. We run the official
+InteriorAgent / KuJiaLe \texttt{val\_unseen} route through
+InternNav/DualVLN~\cite{Wei2026Ground} on matched original and noMDL scenes,
+and separately measure repeated official-scene load/render stability. These
+runs are treated as scoped sanity evidence: they show that the converted scenes
+can be exercised by a real embodied stack, but they are not broad navigation
+benchmark evidence.
+
+\subsection{Claim Registry}
+\label{sec:claim_registry}
+
+Every major result is tied to a manifest, table, or claim entry under
+\texttt{paper/shared/evidence}. The registry records not only the supported
+claim, but also its scope and forbidden promotion. This is part of the method:
+we use conversion as a controlled perturbation, then prevent proxy metrics,
+selected videos, or single-scene results from being promoted into broader
+robustness claims.

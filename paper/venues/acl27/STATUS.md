@@ -4,11 +4,26 @@ Template provenance: ACL 2027 conference-specific files are not published in thi
 
 Readiness: candidate-target scaffold for the user-requested Annual ACL 2027 Japan route.
 
-Local section overrides: `sections/abstract.tex`, `sections/intro.tex`, and `sections/conclusion.tex` reframe the shared evidence around VLM grounding protocol reliability under material perturbations. The ACL wrapper still inputs the shared related work, method, experiments, and discussion sections directly. It also adds ACL-required local compliance sections for limitations and ethical considerations.
+Local section overrides: `sections/abstract.tex`, `sections/intro.tex`,
+`sections/related.tex`, `sections/method.tex`, `sections/results.tex`,
+`sections/discussion.tex`, and `sections/conclusion.tex` now reframe the shared
+evidence around VLM grounding protocol reliability and embodied-data reliability
+under 3D material perturbations. The ACL wrapper still uses shared evidence,
+tables, figures, bibliography, and appendix assets, but no longer inputs the
+shared related/method/experiments/discussion sections directly.
 
-Known missing checks: official ACL 2027 CFP, official city/date confirmation in a public ACL 2027 site, ACL 2027 submission deadline, ARR cycle mapping, final page-limit policy, Responsible NLP Checklist requirements, anonymity policy, AI-use disclosure policy, official style-file provenance, DOI/ACL Anthology citation audit, and full shared-section rewrite toward computational linguistics.
+Known missing checks: official Annual ACL 2027 CFP, official city/date
+confirmation in a public Annual ACL 2027 site, Annual ACL 2027 submission
+deadline, ARR cycle mapping, final page-limit policy, Responsible NLP Checklist
+requirements, anonymity policy, AI-use disclosure policy, and final DOI/ACL
+Anthology citation audit.
 
-Venue fit: current content is still a synthetic-data and simulation paper. To make this viable for ACL, the main story should shift toward multimodal language grounding, vision-language model evaluation, embodied/agent data generation, and data-conversion reliability for NLP/VLM benchmarks. Without that pivot, AAAI remains the stronger general AI target.
+Venue fit: the current ACL wrapper has pivoted away from a pure
+synthetic-data/simulation-tool paper. The active story is now multimodal
+language grounding reliability and embodied-data reliability under material
+conversion. AAAI remains a possible broader AI/simulation route, but the ACL
+version should be judged by whether the VLM/grounding framing and related work
+are convincing, not by whether it proves broad embodied benchmark robustness.
 
 Selected ACL experiment route: use the original GRScenes-100 benchmark package under `/cpfs/user/zhuzihou/assets/zzh-grscenes` with ConvertAsset's MDL-to-UsdPreviewSurface intervention, then evaluate PIO-style VLM grounding prompts over matched original/converted renders. The first episode-backed pilot should sample from the 30 home scenes covered by `mm_episodes.json` / `sn_episodes.json`; commercial scenes are metadata-driven stress tests unless a future episode source is added, and the full 99-scene pool is a later expansion target. ACL claims must cite the official GRUtopia/GRScenes and InternNav/DualVLN sources; the restored test0 mirror is only an engineering validation dataset. Treat InternNav / VL-LN as the downstream navigation extension after the grounding pilot is reproducible. See `../../shared/evidence/references/acl_vlm_benchmark_selection.md` and `../../shared/evidence/experiments/06_grscenes_vlm_grounding/`.
 
@@ -30,7 +45,26 @@ The material-shift stress set now uses `../../shared/evidence/raw/grscene_vlm_gr
 
 CVPR workshop reviewer carry-over status on 2026-05-26: the expanded30 VLM grounding route addresses the most dangerous "proxy-only AI task" weakness at the image-level grounding layer, and the official KuJiaLe `val_unseen` route now adds scoped InternNav downstream sanity evidence over 99 paired episodes. This still does not mean manipulation, broad GRScenes embodied validation, or all-scene downstream robustness has been introduced. Reviewer concerns about overbroad guidelines have been addressed by narrowing the claim to frozen evidence pools. NVIDIA official-tool baseline and per-MDL-effect analysis are represented by the material-effect condition manifests, selected qualitative/failure panels, PXR diagnostic, and risk matrix in the shared manuscript: four GRScenes-covered bins have bounded selected qualitative support, clearcoat is a selected NVIDIA target-loss failure case, and procedural texture is a preservation limitation. The reviewer-closure package now adds paired bootstrap CIs, coordinate-only VLM baselines, and a rule-based safe-conversion table. The official-scene submission-closure package adds multi-scene/multi-run original/noMDL load-render statistics across the 0031/0036/0066 KuJiaLe scenes: 18/18 required runs succeeded, with overlapping original/noMDL ready-time intervals. A learned automatic recommender and NVIDIA official-scene performance baseline remain open.
 
-Near-term ACL target: a defensible ACL/ARR draft should present the current work as a VLM grounding reliability diagnostic under 3D material perturbations plus scoped official InternNav downstream sanity evidence, not as a completed embodied benchmark paper. The official-scene closure pass now has performance, video, and claim-audit gates closed for original/noMDL official KuJiaLe scenes; its allowed claim is loadability/stability with overlapping ready-time intervals, not speedup. Remaining ACL-main work is ACL/VLM related-work expansion, venue/citation integrity for the final target, and any optional NVIDIA official-scene conversion/smoke gate if a three-way official-scene performance comparison is desired. A learned material-risk classifier remains future work unless the submission claims automatic risk prediction beyond the current rule table.
+Near-term ACL target: the defensible ACL/ARR draft presents the current work as
+a VLM grounding reliability diagnostic under 3D material perturbations plus
+scoped official InternNav downstream sanity evidence, not as a completed
+embodied benchmark paper. The official-scene closure pass now has performance,
+video, and claim-audit gates closed for original/noMDL official KuJiaLe scenes;
+its allowed claim is loadability/stability with overlapping ready-time
+intervals, not speedup. The ACL wrapper now includes local related work,
+method, results, and discussion sections. Remaining ACL-main work is final
+venue/citation integrity against the chosen public call and any optional NVIDIA
+official-scene conversion/smoke gate if a three-way official-scene performance
+comparison is desired. A learned material-risk classifier remains future work
+unless the submission claims automatic risk prediction beyond the current rule
+table.
+
+ACL/ARR closure update on 2026-05-26: the ACL manuscript wrapper now has an
+explicit claim audit in `CLAIM_AUDIT.md`. Current public source check found the
+generic official ACL style files at `acl-org/acl-style-files` and the ACLPUB
+style guide, while public search surfaced EACL 2027 rather than an Annual ACL
+2027 CFP/site. Treat the wrapper as an ACL/ARR candidate until the official
+Annual ACL 2027 call, page limits, checklist, and author kit are public.
 
 InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now has a real
 one-episode embodied downstream smoke run for scene

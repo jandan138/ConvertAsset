@@ -1,36 +1,30 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-This paper reframes synthetic-scene material conversion as a benchmark
-reliability problem for vision-language grounding. On the four single-object
-Isaac Sim assets retained from the workshop study, MDL-to-UsdPreviewSurface
-conversion preserves high paired visual fidelity and strong CLIP/DINOv2 feature
-similarity. On the GRScenes route, however, the pilot VLM probes show why those
-metrics are not enough for language-grounding claims: answer recognition, point
-grounding, coordinate interpretation, and visible material shifts can separate
-from pixel-level similarity.
+This paper reframes synthetic-scene material conversion as a reliability
+problem for vision-language grounding and embodied data. ConvertAsset makes the
+material intervention controlled: the original USD composition is preserved,
+and matched noMDL scenes can be compared against the source condition. The
+evidence then shows why proxy visual fidelity is only the first gate. Even when
+paired renders have high PSNR, SSIM, LPIPS, CLIP, and DINOv2 similarity, VLM
+answer recognition, point grounding, parser coverage, coordinate
+interpretation, and visible material shifts can diverge.
 
-The practical outcome is a claim discipline, plus one frozen material-shift
-stress set. Clean visual-QA pools and material-shift stress pools should be
-reported separately. Coordinate contracts should be frozen before model
-scoring. Raw-image coordinate rescoring should remain diagnostic when the prompt
-asks for normalized coordinates. Failure cases should be registered as
-qualitative evidence unless their sampling rule supports distributional
-statistics. The effect-level ConvertAsset-vs-NVIDIA matrix applies the same
-discipline to material mechanisms: covered GRScenes bins can support bounded
-selected qualitative claims, clearcoat is currently a selected NVIDIA
-target-loss failure, and procedural texture remains an explicit preservation
-limitation. Under that discipline, material conversion becomes useful not only
-for portability, but also as a controlled stressor for testing whether VLM
-grounding evaluations are robust to rendering-pipeline changes.
+The practical outcome is a claim discipline, plus a frozen 30-pair
+material-shift stress set. Clean visual-QA pools and material-shift stress
+pools are reported separately. Coordinate contracts are frozen before model
+scoring. Raw-image coordinate rescoring remains diagnostic when the prompt asks
+for normalized coordinates. The effect-level ConvertAsset-vs-NVIDIA matrix
+applies the same discipline to material mechanisms: covered GRScenes bins can
+support bounded selected qualitative claims, clearcoat is a selected NVIDIA
+target-loss case, and procedural texture remains an explicit preservation
+limitation.
 
-The current ACL version is therefore a stress-protocol paper rather than a
-completed embodied benchmark paper. The official KuJiaLe InternNav route now
-adds 99 paired episodes across three local official scenes, and the
-official-scene performance closure adds 18/18 successful original/noMDL
-fresh-process load/render runs with overlapping ready-time intervals. These
-results make the evidence stronger than a smoke test, but they remain scoped
-sanity evidence rather than broad downstream robustness or official-scene
-speedup evidence. The next step is to close the clean preservation branch and
-scale navigation or manipulation runs before making broader embodied-agent
-claims.
+The official KuJiaLe InternNav route adds 99 paired episodes across three local
+official scenes, and the official-scene performance closure adds 18/18
+successful original/noMDL fresh-process load/render runs with overlapping
+ready-time intervals. These results make the evidence stronger than an image
+proxy, but they remain scoped sanity evidence. The ACL claim is therefore
+precise: material conversion should be treated as a controlled perturbation in
+VLM and embodied-data evaluation, and downstream robustness claims should be
+made only after the corresponding evidence gate has been passed.

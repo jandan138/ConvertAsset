@@ -1,24 +1,24 @@
 \begin{abstract}
 Synthetic 3D scenes are increasingly used to evaluate vision-language and
 embodied agents, but the assets used in those scenes often undergo material
-conversion before they can be rendered or shared across toolchains. This paper
-studies MDL-to-UsdPreviewSurface conversion as a controlled within-simulation
-perturbation for vision-language grounding evaluation. We first quantify the
-conversion on four Isaac Sim assets using paired image quality, rendering, and
-feature-similarity metrics, finding high visual fidelity (mean PSNR
-35.52\,dB, SSIM 0.990, LPIPS 0.020) and strong CLIP/DINOv2 similarity. We then
-extend the route to GRScenes by converting a scratch copy of the benchmark
-scenes and running matched original/converted VLM grounding probes. The
-clean-preservation branch remains pilot-scale at 15 visually accepted pairs,
-while a frozen 30-pair target-centered material-shift stress set now has canonical Gemma4
-predictions and scores: answer accuracy is 30/30 for both material conditions
-and normalized-1000 point hits are 27/30 on original renders versus 29/30 on
-converted renders. A Qwen2.5-VL diagnostic over the same manifest exposes a
-different coordinate preference, with stronger raw pixel-space point scores
-than normalized-1000 scores. The main result is therefore methodological:
-visual fidelity alone is not sufficient evidence that a converted synthetic
-scene preserves language-grounding behavior. VLM grounding evaluations should
-separate clean preservation pools from material-shift stress pools, freeze
-coordinate contracts, and register claim boundaries before reporting downstream
-robustness.
+conversion before they can be rendered, shared, or reused by downstream
+toolchains. We study MDL-to-UsdPreviewSurface conversion as a controlled
+within-simulation perturbation for vision-language grounding and embodied-data
+reliability. ConvertAsset preserves USD composition while replacing MDL shader
+networks with PreviewSurface approximations, allowing matched original and
+converted scene evidence. On four Isaac Sim assets, paired proxy metrics show
+high visual fidelity (PSNR 35.52\,dB, SSIM 0.990, LPIPS 0.020) and strong
+CLIP/DINOv2 similarity, but these proxies do not determine grounding behavior.
+We therefore extend the evaluation to GRScenes: a 15-pair clean visual-QA pool
+acts as a pilot preservation control, while a frozen 30-pair target-centered
+material-shift stress set tests VLM answer and point consistency. Gemma4
+preserves 30/30 target-category answers in both material conditions and scores
+27/30 versus 29/30 normalized-1000 point hits; Qwen2.5-VL exposes a different
+coordinate preference, scoring better in raw pixel space than under the
+requested normalized-coordinate contract. We further attach a selected
+NVIDIA-baseline material-effect audit and a scoped official InternNav sanity
+run over 99 paired KuJiaLe episodes. The resulting contribution is a
+claim-bounded ACL protocol: visual similarity, VLM grounding, material-effect
+risk, and embodied-data sanity should be reported as separate gates before
+converted synthetic scenes are used for downstream robustness claims.
 \end{abstract}
