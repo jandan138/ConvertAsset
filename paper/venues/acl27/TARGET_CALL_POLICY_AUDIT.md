@@ -13,6 +13,15 @@ change: EACL 2027 is still the concrete public 2027 ACL-family ARR route, and
 Annual ACL 2027 still lacks an official public CFP/author kit in checked
 sources.
 
+Current-gate policy refresh on 2026-05-26: official ARR Dates, ARR Authors,
+ARR Common Submission Problems, ACLPUB formatting/review-version pages, EACL
+2027 home, and the EACL 2027 main-paper page were reopened again after the
+latest pushed pre-upload gate pass. The policy state is still unchanged:
+EACL 2027 is the only concrete public 2027 ACL-family ARR route found; Annual
+ACL 2027 still has no official CFP/author kit in checked official search
+results; the current repository packet remains a generic ACL/ARR candidate
+packet until authors choose a route and the final target policy is locked.
+
 ## Current Target Status
 
 | Candidate route | Official status checked | What this means for this repo |
@@ -27,6 +36,9 @@ The latest refresh checked the same policy-critical public pages:
 
 - ARR Dates and Venues still lists EACL 2027 with final ARR submission date
   August 3, 2026 and commitment date October 11, 2026.
+- ARR Dates still lists the August 2026 review cycle as August 3, 2026
+  submission with later review-cycle dates marked TBA, so the route is public
+  but not yet a complete cycle-level timetable.
 - The EACL 2027 main-paper page still says the comprehensive Call for Papers
   and detailed timetable are being finalized, while listing August 3, 2026 AoE
   as the long/short paper ARR submission deadline.
@@ -37,6 +49,11 @@ The latest refresh checked the same policy-critical public pages:
 - ARR common-submission guidance still makes author order, OpenReview profiles,
   and reviewer-registration duties human gates that cannot be closed by the
   repository.
+- ARR author/common-problem guidance still requires the paper to be in ARR
+  scope, all authors to complete OpenReview/reviewer-registration duties, the
+  paper not to be under archival review elsewhere, the author list/order to be
+  final, and the preprint-status/checklist fields to be completed in the
+  official form.
 - Public search found ACL 2026 and older Annual ACL pages, but did not expose
   an official Annual ACL 2027 CFP, author kit, city/date page, commitment
   deadline, or conference-specific supplement policy.

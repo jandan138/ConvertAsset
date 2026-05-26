@@ -167,6 +167,12 @@ clean ACL build, LaTeX log scan, five-file packet staging, private-token scan,
 acknowledgment scan, `pdfinfo`, `pdf_profile`, and `pdftotext_sections`. The
 staged PDF remained 12 A4 pages, PDF 1.5, and 306187 bytes.
 
+Target-policy refresh after current-commit gate on 2026-05-26: official ARR,
+EACL, and ACLPUB pages were reopened again. The route state is unchanged:
+EACL 2027 via ARR remains the concrete public route with August 3, 2026 AoE as
+the ARR submission deadline, the full EACL CFP/timetable is still forthcoming,
+and official search still did not find an Annual ACL 2027 CFP or author kit.
+
 Reference web-trail update on 2026-05-26:
 `paper/shared/evidence/references/verification_report.md` now contains a
 20/20 ACL-wrapper reference-existence web-trail addendum. The pass also

@@ -26,6 +26,13 @@ scientific claims or add experiments.
   concrete public route; Annual ACL 2027 still lacks an official public CFP or
   author kit in checked sources; author order, OpenReview profiles, and
   reviewer-registration confirmation remain human-only submission gates.
+- A further refresh after the latest pushed pre-upload gate pass reopened
+  official ARR Dates, ARR Authors, ARR Common Submission Problems, ACLPUB
+  formatting/review-version pages, EACL 2027 home, and the EACL 2027
+  main-paper page. The state remained unchanged: EACL 2027 via ARR is public
+  with an August 3, 2026 AoE ARR deadline, the full EACL CFP/timetable remains
+  forthcoming, and official search still did not find Annual ACL 2027
+  venue-specific submission materials.
 
 ## Changes
 

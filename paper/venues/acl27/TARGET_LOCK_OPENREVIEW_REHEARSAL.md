@@ -20,6 +20,12 @@ EACL 2027 via ARR and keep a final policy-refresh gate for the complete CFP. If
 the authors specifically require Annual ACL 2027, keep the paper in candidate
 mode until official Annual ACL information appears.
 
+Policy refresh after the latest pushed pre-upload gate on 2026-05-26 found the
+same route state. ARR/EACL still support EACL 2027 via ARR with an August 3,
+2026 AoE submission deadline, while the EACL main-paper page still says the
+full CFP and detailed timetable are forthcoming. Official search still did not
+find an Annual ACL 2027 CFP or author kit.
+
 ## Repository Readiness For OpenReview
 
 | OpenReview / ARR item | Current local evidence | Status |
