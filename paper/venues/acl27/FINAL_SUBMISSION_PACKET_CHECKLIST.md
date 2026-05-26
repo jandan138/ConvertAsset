@@ -38,11 +38,23 @@ format until the final target call publishes conference-specific instructions.
 | Author/OpenReview human gates | `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md`. | Blank template exists. Fill only a private ignored copy, not the tracked template and not the review packet. |
 | Responsible NLP checklist | `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md`; `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`. | OpenReview copy-ready packet now exists with current PDF section/page anchors; final form copy and any target-call wording remain human-gated. |
 | Supplemental anonymization | `SUBMISSION_STAGING_AUDIT.md`; `paper/venues/acl27/scripts/stage_submission_packet.py`. | Minimal PDF-first staging smoke passed for the ignored local packet; final archive and optional media still need pre-upload re-scan. |
+| Consolidated pre-upload gate | `scripts/run_preupload_gate.py`; `tests/test_acl_preupload_gate.py`; `SUBMISSION_STAGING_AUDIT.md`. | Repository-side rehearsal command passes on the current candidate state: claim/metadata gates, 18 focused tests, clean PDF build, LaTeX log scan, five-file packet staging, private-token scan, acknowledgment scan, `pdfinfo`, and `pdftotext` markers. |
 | Target-call lock | `TARGET_CALL_POLICY_AUDIT.md`; `TARGET_LOCK_OPENREVIEW_REHEARSAL.md`. | EACL 2027 is a public ARR-family route with August 3, 2026 ARR deadline, but its full CFP is still forthcoming. Annual ACL 2027 CFP/author kit remains unavailable in checked official sources. Author route/profile/reviewer-registration/preprint decisions remain human-gated. |
 
 ## Candidate Staging Command
 
-The current minimal staging command is:
+The primary repository-side rehearsal command is:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+It wraps the local automated gate: claim-boundary check, OpenReview metadata
+consistency check, focused ACL pytest suite, clean ACL PDF rebuild, final LaTeX
+log scan, candidate packet staging, exact packet inventory, private-token scan,
+acknowledgment scan, `pdfinfo`, and `pdftotext` section/title checks.
+
+For a narrower staging-only smoke, the underlying commands are:
 
 ```bash
 python paper/venues/acl27/scripts/check_claim_boundaries.py

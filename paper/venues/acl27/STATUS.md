@@ -342,3 +342,17 @@ robustness, official-scene speedup, NVIDIA official-scene performance,
 population failure-rate, procedural-texture success, and learned-classifier
 claims. Guardrailed statements such as `does not establish`, `rather than
 speedup`, `selected`, `scoped`, and `limitation` remain allowed.
+
+Consolidated pre-upload gate update on 2026-05-26:
+`scripts/run_preupload_gate.py` and `tests/test_acl_preupload_gate.py` now make
+the local repository-side pre-upload rehearsal one command. The gate runs the
+claim-boundary checker, metadata consistency checker, focused ACL pytest suite,
+clean ACL PDF build, final LaTeX log scan, candidate packet staging, exact
+packet inventory check, private-token scan, acknowledgment scan, `pdfinfo`, and
+`pdftotext` title/header/section checks. The first full run passed on the
+current ACL/ARR candidate: 18 focused tests passed, the rebuilt staged PDF is
+11 A4 pages, the staged packet contains exactly the five safe files, and both
+private-token and acknowledgment scans had no matches. This does not close the
+human/external gates: target route lock, official policy refresh, private
+author worksheet, official OpenReview form copy, and final author/legal
+decisions still remain.

@@ -112,8 +112,20 @@ Do not commit the filled author worksheet. Use
 Run these on the exact final state:
 
 ```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+This command is the preferred local final-gate rehearsal. It wraps the clean
+build, focused tests, claim-boundary check, metadata consistency check, packet
+staging, packet inventory check, anonymization scan, acknowledgment scan,
+`pdfinfo`, and `pdftotext` checks.
+
+If the runner needs to be expanded or debugged manually, its component commands
+are:
+
+```bash
 make -C paper clean-acl27 && make -C paper acl27
-python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py tests/test_acl_metadata_consistency.py tests/test_acl_claim_boundaries.py
+python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py tests/test_acl_metadata_consistency.py tests/test_acl_claim_boundaries.py tests/test_acl_preupload_gate.py
 python paper/venues/acl27/scripts/check_metadata_consistency.py
 python paper/venues/acl27/scripts/check_claim_boundaries.py
 python paper/venues/acl27/scripts/stage_submission_packet.py --force
