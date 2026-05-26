@@ -44,6 +44,7 @@ EACL-2027-route plausible, but not Annual-ACL-2027-final ready.
 | Review long-paper page budget | Latest build is 11 PDF pages total; main content ends at conclusion on page 7, limitations begins on page 7, references begin on page 8. Generic ACLPUB long-paper review limit is 8 content pages excluding references, limitations, and ethical considerations. | Pass for generic ARR/ACLPUB long paper |
 | Bibliography resolution | Latest `make -C paper clean-acl27 && make -C paper acl27` resolves citations and writes `build/main.pdf`. | Pass |
 | Claim boundary | `CLAIM_AUDIT.md` forbids broad embodied benchmark, speedup, NVIDIA official-scene performance, and population NVIDIA failure-rate claims. | Pass |
+| Citation context / data integrity delta | `FINAL_INTEGRITY_DELTA_AUDIT.md` checks all current citation-bearing sentences, main numerical claims, forbidden-claim search results, and sampled exact-phrase originality searches. | Pass for current source; rerun after any manuscript, bibliography, target, or packet change |
 | Supplement self-contained status | Main paper contains the core evidence and scope boundaries; appendices/supplement add detail. `FINAL_SUBMISSION_PACKET_CHECKLIST.md` defines the upload boundary and `SUBMISSION_STAGING_AUDIT.md` records the first minimal PDF-first staging smoke. | Candidate staging smoke pass; final human read and any archive/media scan still required |
 | Official Annual ACL 2027 policy | No public Annual ACL 2027 CFP/author kit found in checked sources. | External blocker |
 | EACL 2027 route | Official EACL 2027 site and ARR Dates page list August 3, 2026 as the ARR paper deadline; EACL page says the complete CFP is still forthcoming. | Concrete public route exists; final venue-specific upload wording still pending |
@@ -99,8 +100,10 @@ ARR checklist.
    unless authors approve a separate terms/anonymization path.
 3. Copy the `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` answers into the official
    OpenReview form after one final PDF rebuild and target-call check.
-4. Re-check bibliography permanent identifiers after any new citations are
-   added; current ACL-wrapper citations now have DOI or URL metadata.
+4. Re-check bibliography permanent identifiers and rerun
+   `FINAL_INTEGRITY_DELTA_AUDIT.md` after any new citations, manuscript edits,
+   target changes, or packet changes; current ACL-wrapper citations now have
+   DOI or URL metadata and current-source citation/data checks.
 5. Re-run `stage_submission_packet.py` and the anonymization scans in
    `FINAL_SUBMISSION_PACKET_CHECKLIST.md` immediately before upload, especially
    if any source, bibliography, checklist, or supplemental media changes are

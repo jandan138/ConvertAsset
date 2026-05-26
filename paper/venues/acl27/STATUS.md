@@ -151,6 +151,19 @@ fabricated-reference risk for the ACL wrapper, while final citation-context,
 data-claim, and originality checks still remain part of the pre-upload
 integrity gate.
 
+Final-integrity delta update on 2026-05-26:
+`FINAL_INTEGRITY_DELTA_AUDIT.md` now checks the current ACL wrapper's
+citation-bearing sentences, main numerical claims, forbidden-claim wording, and
+sampled exact-phrase originality searches. No manuscript edit was required:
+citation contexts match the verified sources, the main data claims match local
+CSV/JSON evidence after rounding, and the current text negates rather than
+makes broad benchmark, speedup, NVIDIA official-scene performance, population
+failure-rate, procedural-texture success, selected-video-as-quantitative, or
+learned-classifier claims. This narrows the remaining blockers to target-route
+lock, official OpenReview form copy, author/runtime/AI-assistance confirmation,
+optional media legal decision, and rerunning build/staging/integrity scans
+after any future change.
+
 InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now has a real
 one-episode embodied downstream smoke run for scene
 `MV7J6NIKTKJZ2AABAAAAADY8_usd`. The prep manifest is

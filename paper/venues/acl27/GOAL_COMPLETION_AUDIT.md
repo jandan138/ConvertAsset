@@ -30,7 +30,7 @@ edits.
 | Avoid unsupported broad embodied-benchmark, speedup, and NVIDIA official-scene claims. | `CLAIM_AUDIT.md`, `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, and the current ACL sections. | Satisfied for the current candidate draft; re-check after any edits. |
 | Make all major paper claims traceable to existing evidence. | `CLAIM_AUDIT.md`, `paper/shared/evidence/claims.yaml`, GRScenes, material-effect, InternNav, and official-scene evidence manifests. | Satisfied at candidate level. |
 | Expand ACL/VLM-related framing rather than presenting only a simulation-tool paper. | ACL-local `related`, `method`, `results`, and `discussion` sections cite VLM grounding, embodied AI environments, domain randomization, and vision-language navigation sources. | Satisfied at candidate level. |
-| Check citation and artifact provenance for the current ACL wrapper. | `CITATION_PROVENANCE_AUDIT.md`, `paper/shared/evidence/references/verification_report.md`, `MODEL_AND_ASSET_LICENSE_AUDIT.md`, `ARTIFACT_PROVENANCE_DRAFT.md`, and `paper/shared/references.bib`. | Current 20-reference web-trail existence audit is complete; final citation-context/data/originality pass still required after edits. |
+| Check citation and artifact provenance for the current ACL wrapper. | `CITATION_PROVENANCE_AUDIT.md`, `FINAL_INTEGRITY_DELTA_AUDIT.md`, `paper/shared/evidence/references/verification_report.md`, `MODEL_AND_ASSET_LICENSE_AUDIT.md`, `ARTIFACT_PROVENANCE_DRAFT.md`, and `paper/shared/references.bib`. | Current 20-reference web-trail existence audit and current-source citation-context/data/originality-smoke delta are complete; rerun after any manuscript, bibliography, target, or packet change. |
 | Produce a clean ACL-format PDF. | `make -C paper clean-acl27 && make -C paper acl27`; `pdfinfo` on `build/main.pdf` reported 11 A4 pages. | Satisfied for the current candidate build; rerun immediately before upload. |
 | Prepare a minimal anonymous submission packet. | `paper/submissions/acl27_arr_candidate_20260526/` contains `main.pdf`, an OpenReview checklist copy source, `supplemental/README.md`, and `supplemental/manifest.json`. | Candidate staging smoke pass. |
 | Keep optional media and raw assets out of the safe upload boundary. | `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, `MODEL_AND_ASSET_LICENSE_AUDIT.md`, and staging manifest exclude raw scenes, scratch USD, InternNav raw frames/logs/LMDBs, local checkpoints, and selected videos. | Satisfied for the safe packet; any future media inclusion is a separate author/legal decision. |
@@ -82,10 +82,11 @@ Do not claim:
 4. **Media/legal decision**: keep InteriorAgent / KuJiaLe scene-derived videos
    excluded unless authors explicitly approve a separate terms/anonymization
    path.
-5. **Final integrity pass**: after any manuscript or bibliography changes,
-   rerun a full citation/data/claim integrity check. The current ACL wrapper now
-   has a 20/20 reference-existence web trail, but final citation-context,
-   data-claim, and originality checks still belong to the pre-upload pass.
+5. **Final integrity pass**: `FINAL_INTEGRITY_DELTA_AUDIT.md` now records a
+   current-source citation-context, data-claim, forbidden-claim, and
+   originality-smoke pass. Rerun it after any manuscript, bibliography, target,
+   or packet change, and do not treat it as a substitute for the venue's own
+   plagiarism screening.
 6. **Pre-upload rebuild and scans**: rerun clean PDF build, candidate staging,
    anonymization scans, `pdfinfo`, and `pdftotext` checks on the exact upload
    directory.
