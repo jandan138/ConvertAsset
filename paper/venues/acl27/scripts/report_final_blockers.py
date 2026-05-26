@@ -24,6 +24,111 @@ FINAL_NEXT_ACTIONS = (
     "Copy the final metadata/checklist text into the real OpenReview form.",
     "Run check_author_gate.py and run_preupload_gate.py on the exact upload state.",
 )
+HUMAN_BLOCKER_HANDOFFS = {
+    "private_author_gate_missing": {
+        "required_action": (
+            "Create the ignored private copy "
+            "paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md."
+        ),
+        "worksheet_fields": [],
+        "copy_sources": [
+            "OPENREVIEW_AUTHOR_GATE_WORKSHEET.md",
+            "OPENREVIEW_AUTHOR_GATE_FILLING_GUIDE.md",
+        ],
+        "done_when": "check_author_gate.py passes on the ignored private copy.",
+    },
+    "private_author_gate_incomplete": {
+        "required_action": (
+            "Complete or correct the ignored private author-gate worksheet."
+        ),
+        "worksheet_fields": [],
+        "copy_sources": [
+            "OPENREVIEW_AUTHOR_GATE_WORKSHEET.md",
+            "OPENREVIEW_AUTHOR_GATE_FILLING_GUIDE.md",
+        ],
+        "done_when": (
+            "check_author_gate.py reports ok=true without printing private values; "
+            "use its missing_fields, todo_fields, and invalid_fields names."
+        ),
+    },
+    "target_route_author_confirmation_pending": {
+        "required_action": (
+            "Choose the final ACL-family route and record the route/policy rows "
+            "in the private worksheet."
+        ),
+        "worksheet_fields": [
+            "Selected route",
+            "Final policy refresh date",
+            "Target deadline",
+            "Commitment venue if ARR-reviewed",
+        ],
+        "copy_sources": [
+            "TARGET_CALL_POLICY_AUDIT.md",
+            "TARGET_LOCK_OPENREVIEW_REHEARSAL.md",
+            "OPENREVIEW_METADATA_PACKET.md",
+        ],
+        "done_when": "route rows are positively filled and final decision is upload.",
+    },
+    "official_openreview_form_copy_pending": {
+        "required_action": (
+            "Copy final title, abstract, area, keywords, and Responsible NLP "
+            "answers into the official OpenReview form."
+        ),
+        "worksheet_fields": [
+            "Title approved",
+            "Abstract approved and under current venue limit",
+            "Primary ARR area approved",
+            "Secondary area / keywords approved",
+            "Responsible NLP checklist copied into OpenReview",
+        ],
+        "copy_sources": [
+            "OPENREVIEW_METADATA_PACKET.md",
+            "OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md",
+        ],
+        "done_when": (
+            "OpenReview form-copy rows are positively approved/copied in the "
+            "private worksheet."
+        ),
+    },
+    "author_runtime_ai_media_approval_pending": {
+        "required_action": (
+            "Record final author, runtime, AI-assistance, license, media, scan, "
+            "and upload decisions in the private worksheet."
+        ),
+        "worksheet_fields": [
+            "Final author list and order",
+            "Corresponding author / submitter",
+            "OpenReview profile complete for each author",
+            "Reviewer-registration commitment",
+            "All authors notified of reviewer-duty sanctions",
+            "Author contribution / authorship approval",
+            "Dual submission status",
+            "Prior ARR/OpenReview submission link",
+            "Explanation of revisions needed",
+            "Preprint status answer",
+            "Public repository or project links",
+            "Runtime / compute wording approved",
+            "AI-assistance wording approved",
+            "Model and asset license wording approved",
+            "Optional media decision",
+            "Undefined citation/reference scan",
+            "Local path / username / private-link scan",
+            "Acknowledgment scan",
+            "Limitations / Ethical Considerations / References text scan",
+            "Final decision: upload / do not upload",
+        ],
+        "copy_sources": [
+            "COMPUTE_RUNTIME_SUMMARY_DRAFT.md",
+            "MODEL_AND_ASSET_LICENSE_AUDIT.md",
+            "ARTIFACT_PROVENANCE_DRAFT.md",
+            "OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md",
+            "FINAL_SUBMISSION_PACKET_CHECKLIST.md",
+        ],
+        "done_when": (
+            "all listed private rows use positive approval/pass/upload semantics."
+        ),
+    },
+}
 
 
 def default_repo_root() -> Path:
@@ -111,6 +216,14 @@ def author_gate_blockers(
     return ["private_author_gate_incomplete"]
 
 
+def human_blocker_details(human_blockers: list[str]) -> dict[str, object]:
+    return {
+        blocker: HUMAN_BLOCKER_HANDOFFS[blocker]
+        for blocker in human_blockers
+        if blocker in HUMAN_BLOCKER_HANDOFFS
+    }
+
+
 def build_final_blocker_report(
     paper_root: Path,
     *,
@@ -147,6 +260,7 @@ def build_final_blocker_report(
         "status": status,
         "repo_blockers": repo_blockers,
         "human_blockers": human_blockers,
+        "human_blocker_details": human_blocker_details(human_blockers),
         "required_commands": list(REQUIRED_COMMANDS),
         "next_actions": list(FINAL_NEXT_ACTIONS),
         "privacy": {

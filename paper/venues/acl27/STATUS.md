@@ -500,6 +500,16 @@ profiles, or final decision `do not upload`. The report exposes only
 `invalid_fields` names and still does not print private values. The focused ACL
 pytest suite now covers 48 tests.
 
+Final blocker handoff detail update on 2026-05-26:
+`scripts/report_final_blockers.py` now includes `human_blocker_details` for
+each active human blocker. The details map blocker ids to the required action,
+private worksheet field names, tracked copy-source files, and done condition.
+This makes the final OpenReview handoff field-level without printing private
+author values. When a complete ignored private worksheet clears the human
+blockers, `human_blocker_details` is empty. The consolidated pre-upload gate
+passes with 49 focused ACL tests and the staged PDF remains 12 A4 pages, PDF
+1.5, and 306187 bytes.
+
 OpenReview checklist gate update on 2026-05-26:
 `scripts/check_openreview_checklist.py` and
 `tests/test_acl_openreview_checklist.py` now guard

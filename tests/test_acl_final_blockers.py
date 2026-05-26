@@ -72,6 +72,28 @@ def test_current_repo_reports_human_blockers_without_private_values() -> None:
     assert "private filled list" not in str(report)
 
 
+def test_current_repo_reports_structured_human_handoff_details() -> None:
+    module = load_module()
+
+    report = module.build_final_blocker_report(ROOT / "paper", repo_root=ROOT)
+
+    details = report["human_blocker_details"]
+    assert set(report["human_blockers"]) == set(details)
+    assert "Selected route" in details[
+        "target_route_author_confirmation_pending"
+    ]["worksheet_fields"]
+    assert "OPENREVIEW_METADATA_PACKET.md" in details[
+        "official_openreview_form_copy_pending"
+    ]["copy_sources"]
+    assert "Runtime / compute wording approved" in details[
+        "author_runtime_ai_media_approval_pending"
+    ]["worksheet_fields"]
+    assert "OPENREVIEW_AUTHOR_GATE_FILLED.local.md" in details[
+        "private_author_gate_missing"
+    ]["required_action"]
+    assert "private filled list" not in str(report)
+
+
 def test_completed_author_gate_removes_private_author_blocker(tmp_path: Path) -> None:
     module = load_module()
     paper_root = tmp_path / "paper"
@@ -115,6 +137,7 @@ def test_completed_author_gate_can_clear_all_human_blockers(
     assert report["upload_ready"] is True
     assert report["status"] == "upload_ready"
     assert report["human_blockers"] == []
+    assert report["human_blocker_details"] == {}
 
 
 def test_repo_evidence_gap_is_repo_blocker(tmp_path: Path) -> None:

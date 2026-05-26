@@ -42,6 +42,10 @@ worksheet is complete, because the route, OpenReview form-copy,
 runtime/AI/media, and final upload decision fields are recorded in that private
 copy. Before the authors create and fill `OPENREVIEW_AUTHOR_GATE_FILLED.local.md`,
 `check_author_gate.py` is expected to exit nonzero.
+When blockers remain, `report_final_blockers.py` includes
+`human_blocker_details` with only blocker ids, required actions, worksheet field
+names, copy-source files, and done conditions. It does not print private
+worksheet values.
 
 For high-risk rows, do not write vague placeholders such as `filled`. Use
 positive wording such as `approved`, `confirmed`, `copied`, `excluded by
