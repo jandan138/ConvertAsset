@@ -60,6 +60,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-26 ACL target policy refresh after current gate](2026-05-26-acl-target-policy-refresh-current-gate.md)
 - [2026-05-26 ACL target policy refresh after final-blocker handoff](2026-05-26-acl-target-policy-refresh-after-final-blocker-handoff.md)
 - [2026-05-26 ACL goal completion audit](2026-05-26-acl-goal-completion-audit.md)
+- [2026-05-26 ACL goal-completion report](2026-05-26-acl-goal-completion-report.md)
 - [2026-05-26 ACL reference web-trail audit](2026-05-26-acl-reference-web-trail-audit.md)
 - [2026-05-26 ACL final integrity delta audit](2026-05-26-acl-final-integrity-delta-audit.md)
 - [2026-05-26 ACL target lock and OpenReview rehearsal](2026-05-26-acl-target-lock-openreview-rehearsal.md)

@@ -150,6 +150,20 @@ exact upload packet is rebuilt and anonymization-scanned. The next large goal
 should therefore be target lock plus final integrity/upload gate, not more
 unbounded experiment collection.
 
+Goal-completion reporter update on 2026-05-26:
+`scripts/report_goal_completion.py` now turns that audit into a machine-readable
+status report. It checks claim boundaries, evidence numbers, citation
+inventory, OpenReview copy sources, target policy, the final-integrity
+fingerprint, and the final blocker report without printing private author
+values. The current report is `status=candidate_ready_human_blocked`:
+`repo_static_ready=true`, `candidate_ready_for_human_gate=true`,
+`repo_requirement_failures=[]`, and `final_goal_complete=false` because the
+private author/OpenReview route, form-copy, runtime/AI/media, and fresh
+pre-upload gates remain unresolved. The reporter is part of the consolidated
+pre-upload gate, but it is not a substitute for `run_preupload_gate.py`. The
+refreshed full pre-upload gate passes with 55 focused ACL tests, a 12-page A4
+PDF 1.5 staged packet, and 306187 bytes for `main.pdf`.
+
 Goal-completion refresh after pre-upload automation on 2026-05-26: the current
 candidate is now guarded by `run_preupload_gate.py`, which includes
 claim-boundary, OpenReview metadata, citation inventory, evidence-number,

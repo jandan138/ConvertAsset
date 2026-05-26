@@ -538,6 +538,37 @@ and `pdftotext_sections`. The final blocker report remained
 `status=human_blocked` with `repo_blockers=[]`; the staged PDF remained 12 A4
 pages, PDF 1.5, and 306187 bytes.
 
+## Refresh After Goal-Completion Reporter
+
+After adding `report_goal_completion.py`, the consolidated runner now executes
+a machine-readable goal-completion report after the final blocker report and
+before focused pytest/build/staging. The reporter is intentionally lighter than
+the full gate and reports the current state as
+`candidate_ready_human_blocked`, not complete:
+
+```text
+repo_static_ready=true
+candidate_ready_for_human_gate=true
+repo_requirement_failures=[]
+final_goal_complete=false
+```
+
+The full consolidated gate was rerun from the current repository state on
+2026-05-26:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Result: pass. The runner completed claim-boundary, target-policy consistency,
+OpenReview metadata consistency, OpenReview checklist copy-readiness,
+citation-inventory, evidence-number, final-integrity fingerprint, final blocker
+report, goal-completion report, 55-test focused pytest, clean ACL build, final
+LaTeX log scan, candidate packet staging, exact packet inventory, adjacent
+checksum-sidecar validation, private-token scan, acknowledgment scan,
+`pdfinfo`, `pdf_profile`, and `pdftotext_sections`. The staged PDF remained 12
+A4 pages, PDF 1.5, and 306187 bytes.
+
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 
 After adding the consolidated runner and later adding the evidence-number

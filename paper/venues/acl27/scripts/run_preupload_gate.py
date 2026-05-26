@@ -123,6 +123,13 @@ def build_preupload_plan(repo_root: Path) -> list[dict[str, object]]:
             ],
         },
         {
+            "id": "goal_completion_report",
+            "command": [
+                sys.executable,
+                "paper/venues/acl27/scripts/report_goal_completion.py",
+            ],
+        },
+        {
             "id": "focused_pytest",
             "command": [
                 sys.executable,
@@ -142,6 +149,7 @@ def build_preupload_plan(repo_root: Path) -> list[dict[str, object]]:
                 "tests/test_acl_evidence_numbers.py",
                 "tests/test_acl_author_gate.py",
                 "tests/test_acl_author_gate_init.py",
+                "tests/test_acl_goal_completion_report.py",
                 "tests/test_acl_preupload_gate.py",
             ],
         },

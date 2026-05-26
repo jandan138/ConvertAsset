@@ -114,7 +114,10 @@ This goal is done only when all of the following are true:
 13. Any optional media is either explicitly excluded or legally approved and
    separately scanned.
 14. `report_final_blockers.py` reports no repo blockers and no human blockers.
-15. `STATUS.md`, `SUBMISSION_READINESS_AUDIT.md`,
+15. `report_goal_completion.py --preupload-gate-passed` reports
+    `final_goal_complete=true` only after the exact-state pre-upload gate has
+    passed and all human blockers have cleared.
+16. `STATUS.md`, `SUBMISSION_READINESS_AUDIT.md`,
     `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, and
     `TARGET_LOCK_OPENREVIEW_REHEARSAL.md` are updated with the final result.
 
@@ -127,19 +130,24 @@ Run these on the exact final state:
 
 ```bash
 python paper/venues/acl27/scripts/check_author_gate.py
+python paper/venues/acl27/scripts/report_goal_completion.py
 python paper/venues/acl27/scripts/run_preupload_gate.py
+python paper/venues/acl27/scripts/report_goal_completion.py --preupload-gate-passed
 ```
 
 The author-gate checker is the final private-human gate and requires
 `paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md`; it is expected to
-fail until the authors fill that ignored local file. `run_preupload_gate.py` is
-the preferred repository-side final-gate rehearsal. It wraps the clean build,
+fail until the authors fill that ignored local file. `report_goal_completion.py`
+is the machine-readable completion audit; it should not be run with
+`--preupload-gate-passed` unless `run_preupload_gate.py` has just passed on the
+same exact working tree. `run_preupload_gate.py` is the preferred
+repository-side final-gate rehearsal. It wraps the clean build,
 focused tests, claim-boundary check, target-policy consistency check,
 metadata consistency check,
 OpenReview checklist copy-readiness check, citation-inventory check,
 evidence-number consistency check, packet staging, final-integrity source
-fingerprint check, final blocker report, packet inventory check, anonymization
-scan, acknowledgment scan, `pdfinfo`, PDF profile guard,
+fingerprint check, final blocker report, goal-completion report, packet
+inventory check, anonymization scan, acknowledgment scan, `pdfinfo`, PDF profile guard,
 packet checksum-sidecar validation, and `pdftotext` checks.
 
 If the runner needs to be expanded or debugged manually, its component commands

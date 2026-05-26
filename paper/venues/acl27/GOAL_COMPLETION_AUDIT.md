@@ -72,6 +72,15 @@ sources, and the repository remains candidate-ready rather than final-upload
 complete until authors lock the route and complete the private OpenReview
 author gate.
 
+Machine-readable goal report: `scripts/report_goal_completion.py` now provides
+a JSON status view over this audit. The current output is
+`status=candidate_ready_human_blocked`, with `repo_static_ready=true`,
+`candidate_ready_for_human_gate=true`, `repo_requirement_failures=[]`, and
+`final_goal_complete=false`. Its satisfied static requirements are claim
+boundaries, evidence numbers, citation inventory, OpenReview copy sources,
+target policy, and final-integrity fingerprint; its remaining requirement is
+`final_upload_clearance`, currently `human_blocked`.
+
 ## Requirement Map
 
 | Active goal requirement | Current evidence | Status |
@@ -87,6 +96,7 @@ author gate.
 | Keep optional media and raw assets out of the safe upload boundary. | `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, `MODEL_AND_ASSET_LICENSE_AUDIT.md`, and staging manifest exclude raw scenes, scratch USD, InternNav raw frames/logs/LMDBs, local checkpoints, and selected videos. | Satisfied for the safe packet; any future media inclusion is a separate author/legal decision. |
 | Keep human-only OpenReview fields out of the anonymous packet. | `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md` is a tracked blank template; filled local copies match `.gitignore` and are excluded from the staged packet. `scripts/check_author_gate.py` validates the filled private copy without printing private values. `scripts/report_final_blockers.py` reports missing/incomplete human gates with `human_blocker_details` field names and copy-source files, but without private values. | Satisfied for the current repository and candidate packet; final author copy remains private/human-gated and must pass the checker after authors fill it. |
 | Keep target-policy notes candidate-safe. | `TARGET_CALL_POLICY_AUDIT.md`, `TARGET_LOCK_OPENREVIEW_REHEARSAL.md`, `scripts/check_target_policy.py`, and `tests/test_acl_target_policy.py`. | Satisfied for current notes: EACL 2027 via ARR is recorded as the public route, Annual ACL 2027 is not marked final-ready, and official policy URLs/key route markers are present. |
+| Keep goal-completion status machine-readable. | `scripts/report_goal_completion.py`, `tests/test_acl_goal_completion_report.py`, and `scripts/run_preupload_gate.py`. | Current JSON report separates static repo readiness from final upload completion: repo static checks pass, but the final goal remains incomplete because human blockers and a fresh exact-state pre-upload gate remain. |
 | Verify final ACL-family venue policy. | `TARGET_CALL_POLICY_AUDIT.md` and `TARGET_LOCK_OPENREVIEW_REHEARSAL.md`; EACL 2027 official pages and ARR dates are public, while Annual ACL 2027 official CFP/author kit is not available in checked official sources. | Not final-complete. Requires author target decision, OpenReview author/profile/reviewer-registration readiness, and final call check. |
 
 ## Evidence That Can Be Written

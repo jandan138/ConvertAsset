@@ -34,6 +34,7 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
         "evidence_numbers",
         "integrity_fingerprint",
         "final_blocker_report",
+        "goal_completion_report",
         "focused_pytest",
         "clean_acl_build",
         "latex_log_scan",
@@ -53,6 +54,7 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
     assert step_ids.index("citation_inventory") < step_ids.index("stage_packet")
     assert step_ids.index("evidence_numbers") < step_ids.index("stage_packet")
     assert step_ids.index("integrity_fingerprint") < step_ids.index("stage_packet")
+    assert step_ids.index("goal_completion_report") < step_ids.index("stage_packet")
     assert "tests/test_acl_citation_inventory.py" in focused_pytest_step["command"]
     assert "tests/test_acl_target_policy.py" in focused_pytest_step["command"]
     assert "tests/test_acl_integrity_fingerprint.py" in focused_pytest_step["command"]
@@ -61,6 +63,9 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
     assert "tests/test_acl_author_gate.py" in focused_pytest_step["command"]
     assert "tests/test_acl_author_gate_init.py" in focused_pytest_step["command"]
     assert "tests/test_acl_openreview_upload_runbook.py" in focused_pytest_step[
+        "command"
+    ]
+    assert "tests/test_acl_goal_completion_report.py" in focused_pytest_step[
         "command"
     ]
 
