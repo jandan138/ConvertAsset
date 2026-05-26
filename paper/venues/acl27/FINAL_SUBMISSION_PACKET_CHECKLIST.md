@@ -31,6 +31,7 @@ format until the final target call publishes conference-specific instructions.
 | Clean PDF build | `make -C paper clean-acl27 && make -C paper acl27`. | Must be rerun immediately before upload. |
 | Page/format sanity | `SUBMISSION_READINESS_AUDIT.md`; ACLPUB generic formatting check. | Candidate-ready under generic ACL long-paper budget; final venue-specific policy still external. |
 | Citation DOI/URL metadata | `CITATION_PROVENANCE_AUDIT.md`; `paper/shared/references.bib`. | Ready for current citation set; re-check after any new citation. |
+| Claim-boundary guard | `CLAIM_AUDIT.md`; `scripts/check_claim_boundaries.py`; `tests/test_acl_claim_boundaries.py`. | Automated check passes for the current ACL text and catches unguarded broad embodied robustness, official-scene speedup, NVIDIA official-scene performance, procedural-texture success, and related unsupported claims. |
 | Artifact provenance | `ARTIFACT_PROVENANCE_DRAFT.md`; `MODEL_AND_ASSET_LICENSE_AUDIT.md`. | Candidate-ready: Gemma4/Qwen public IDs are recorded, GRScenes license is recorded, and InteriorAgent terms set a no-optional-media safe boundary. Final author/legal review still applies. |
 | Compute/runtime summary | `COMPUTE_RUNTIME_SUMMARY_DRAFT.md`. | Candidate-ready; final author confirmation of the checked host/runtime is still needed. |
 | OpenReview metadata | `OPENREVIEW_METADATA_PACKET.md`; `scripts/check_metadata_consistency.py`; `tests/test_acl_metadata_consistency.py`. | Title and 189-word abstract are copy-ready and now have an automated drift check against `main.tex` and `sections/abstract.tex`; recommended primary ARR area is `Multimodality and Language Grounding to Vision, Robotics and Beyond`, with `Resources and Evaluation` as secondary fit. |
@@ -44,6 +45,7 @@ format until the final target call publishes conference-specific instructions.
 The current minimal staging command is:
 
 ```bash
+python paper/venues/acl27/scripts/check_claim_boundaries.py
 python paper/venues/acl27/scripts/check_metadata_consistency.py
 python paper/venues/acl27/scripts/stage_submission_packet.py --force
 ```

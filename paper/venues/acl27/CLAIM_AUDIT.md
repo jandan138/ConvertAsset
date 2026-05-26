@@ -5,6 +5,12 @@ Checked: 2026-05-26.
 This audit maps the ACL-facing manuscript claims to existing evidence. It is a
 submission-readiness checklist, not a new experiment.
 
+Automated guard: `scripts/check_claim_boundaries.py` and
+`tests/test_acl_claim_boundaries.py` now scan the ACL sections, shared appendix,
+and OpenReview metadata source for unguarded broad embodied, speedup, NVIDIA
+official-scene, population-failure-rate, procedural-texture-success, and
+learned-classifier claims. Guardrailed/negated statements remain allowed.
+
 ## Supported Claims
 
 | Claim | Manuscript use | Evidence |
@@ -63,3 +69,5 @@ submission-readiness checklist, not a new experiment.
 - Re-check official page limit, anonymity, Responsible NLP Checklist, AI-use
   disclosure, and supplemental policy against the final target call.
 - Re-run citation/provenance checks after any bibliography additions.
+- Re-run `python paper/venues/acl27/scripts/check_claim_boundaries.py` after
+  any manuscript, appendix, or OpenReview metadata edit.

@@ -1,0 +1,174 @@
+#!/usr/bin/env python3
+"""Check ACL manuscript text for unsupported broad claims."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+from typing import NamedTuple
+from typing import Mapping
+
+
+GUARDRAIL_RE = re.compile(
+    r"\b("
+    r"not|no|never|without|cannot|does\s+not|do\s+not|should\s+not|"
+    r"rather\s+than|instead\s+of|only|scoped|selected|bounded|"
+    r"limitation|limited|sanity|not\s+yet|not\s+available|not\s+generated|"
+    r"excluded|qualitative|not\s+quantitative|do\s+not\s+report|overclaim(?:ing)?"
+    r")\b",
+    re.IGNORECASE,
+)
+
+
+class ClaimBoundaryRule(NamedTuple):
+    rule_id: str
+    description: str
+    pattern: re.Pattern[str]
+
+
+RULES = (
+    ClaimBoundaryRule(
+        "broad_embodied_robustness",
+        "Broad embodied-navigation robustness must be negated or scoped.",
+        re.compile(
+            r"\b(broad\s+(?:embodied(?:-navigation)?|grscenes|downstream)[^.?!;]*"
+            r"robust(?:ness)?|establish(?:es|ed)?\s+broad\s+"
+            r"embodied(?:-navigation)?\s+robustness)\b",
+            re.IGNORECASE,
+        ),
+    ),
+    ClaimBoundaryRule(
+        "broad_benchmark",
+        "Broad benchmark claims must be negated or scoped.",
+        re.compile(r"\bbroad[^.?!;]*benchmark\b", re.IGNORECASE),
+    ),
+    ClaimBoundaryRule(
+        "all_scene_robustness",
+        "All-scene, R2R/MP3D, or manipulation robustness must be negated.",
+        re.compile(
+            r"\b(all-?(?:GRScenes|InteriorNav)|R2R/MP3D|MP3D|manipulation)\b",
+            re.IGNORECASE,
+        ),
+    ),
+    ClaimBoundaryRule(
+        "official_scene_speedup",
+        "Official-scene speedup claims are unsupported.",
+        re.compile(
+            r"\b(official-scene[^.?!;]*speedup|noMDL[^.?!;]*speedup|"
+            r"always\s+faster|faster\s+than)\b",
+            re.IGNORECASE,
+        ),
+    ),
+    ClaimBoundaryRule(
+        "nvidia_official_scene_performance",
+        "NVIDIA official-scene performance comparison is not available.",
+        re.compile(
+            r"\bNVIDIA\s+official-scene[^.?!;]*(?:performance|baseline|comparison|row)\b",
+            re.IGNORECASE,
+        ),
+    ),
+    ClaimBoundaryRule(
+        "population_failure_rate",
+        "Selected NVIDIA cases cannot be a population failure rate.",
+        re.compile(r"\bpopulation[^.?!;]*failure\s+rate\b", re.IGNORECASE),
+    ),
+    ClaimBoundaryRule(
+        "procedural_texture_success",
+        "Procedural texture preservation success is unsupported.",
+        re.compile(
+            r"\bprocedural\s+texture[^.?!;]*(?:preserv|success|successful)\b",
+            re.IGNORECASE,
+        ),
+    ),
+    ClaimBoundaryRule(
+        "learned_classifier",
+        "A learned automatic classifier claim is unsupported.",
+        re.compile(
+            r"\b(?:learned|automatic)[^.?!;]*(?:classifier|recommender)\b",
+            re.IGNORECASE,
+        ),
+    ),
+)
+
+
+def strip_latex(text: str) -> str:
+    text = re.sub(r"(?m)%.*$", "", text)
+    text = text.replace(r"\_", "_").replace(r"\,", " ")
+    text = re.sub(r"\\cite\w*(?:\[[^\]]*\])*\{[^}]*\}", " ", text)
+    text = re.sub(r"\\ref\{[^}]*\}", " ", text)
+    text = re.sub(r"\\label\{[^}]*\}", " ", text)
+    text = re.sub(r"\\input\{[^}]*\}", " ", text)
+    text = re.sub(r"\\(?:begin|end)\{[^}]*\}", " ", text)
+    text = re.sub(r"\\[a-zA-Z]+(?:\[[^\]]*\])?(?:\{([^{}]*)\})?", r"\1", text)
+    text = text.replace("{", "").replace("}", "")
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def split_claim_windows(text: str) -> list[str]:
+    plain = strip_latex(text)
+    pieces = re.split(r"(?<=[.?!])\s+|\n+", plain)
+    return [piece.strip() for piece in pieces if piece.strip()]
+
+
+def is_guardrailed(window: str) -> bool:
+    return bool(GUARDRAIL_RE.search(window))
+
+
+def find_claim_boundary_violations(text_by_path: Mapping[str, str]) -> list[dict[str, str]]:
+    violations: list[dict[str, str]] = []
+    for path, text in sorted(text_by_path.items()):
+        for window in split_claim_windows(text):
+            for rule in RULES:
+                if rule.pattern.search(window) and not is_guardrailed(window):
+                    violations.append(
+                        {
+                            "path": path,
+                            "rule_id": rule.rule_id,
+                            "description": rule.description,
+                            "text": window,
+                        }
+                    )
+    return violations
+
+
+def load_acl_claim_texts(paper_root: Path) -> dict[str, str]:
+    venue_root = paper_root / "venues" / "acl27"
+    paths = sorted((venue_root / "sections").glob("*.tex"))
+    paths.append(paper_root / "shared" / "sections" / "appendix.tex")
+    paths.append(venue_root / "OPENREVIEW_METADATA_PACKET.md")
+    return {
+        str(path.relative_to(paper_root)): path.read_text(encoding="utf-8")
+        for path in paths
+    }
+
+
+def check_claim_boundaries(paper_root: Path) -> dict[str, object]:
+    text_by_path = load_acl_claim_texts(paper_root)
+    violations = find_claim_boundary_violations(text_by_path)
+    return {
+        "ok": not violations,
+        "checked_files": sorted(text_by_path),
+        "violations": violations,
+    }
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--paper-root",
+        type=Path,
+        default=Path(__file__).resolve().parents[3],
+        help="Path to the paper root directory.",
+    )
+    args = parser.parse_args(argv)
+
+    report = check_claim_boundaries(args.paper_root)
+    print(json.dumps(report, indent=2, ensure_ascii=False))
+    return 0 if report["ok"] else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

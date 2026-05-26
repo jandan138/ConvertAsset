@@ -332,3 +332,13 @@ in `sections/abstract.tex`, and the fenced title/abstract fields in
 `OPENREVIEW_METADATA_PACKET.md`, and verifies that the abstract remains under
 200 words before staging. This makes OpenReview metadata drift an automated
 pre-upload failure rather than a manual-only checklist item.
+
+Claim-boundary automation update on 2026-05-26:
+`scripts/check_claim_boundaries.py` and `tests/test_acl_claim_boundaries.py`
+now guard the highest-risk ACL claims. The checker scans the ACL sections,
+shared appendix, and OpenReview metadata source for unguarded broad embodied
+robustness, broad benchmark, all-GRScenes/all-InteriorNav/R2R/MP3D/manipulation
+robustness, official-scene speedup, NVIDIA official-scene performance,
+population failure-rate, procedural-texture success, and learned-classifier
+claims. Guardrailed statements such as `does not establish`, `rather than
+speedup`, `selected`, `scoped`, and `limitation` remain allowed.
