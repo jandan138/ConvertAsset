@@ -81,6 +81,13 @@ def build_preupload_plan(repo_root: Path) -> list[dict[str, object]]:
             ],
         },
         {
+            "id": "openreview_checklist",
+            "command": [
+                sys.executable,
+                "paper/venues/acl27/scripts/check_openreview_checklist.py",
+            ],
+        },
+        {
             "id": "citation_inventory",
             "command": [
                 sys.executable,
@@ -118,6 +125,7 @@ def build_preupload_plan(repo_root: Path) -> list[dict[str, object]]:
                 "tests/test_acl_submission_staging.py",
                 "tests/test_paper_layout.py",
                 "tests/test_acl_metadata_consistency.py",
+                "tests/test_acl_openreview_checklist.py",
                 "tests/test_acl_claim_boundaries.py",
                 "tests/test_acl_citation_inventory.py",
                 "tests/test_acl_integrity_fingerprint.py",

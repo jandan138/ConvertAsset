@@ -69,6 +69,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-26 ACL reviewer-risk audit](2026-05-26-acl-reviewer-risk-audit.md)
 - [2026-05-26 ACL first-page fit hardening](2026-05-26-acl-first-page-fit-hardening.md)
 - [2026-05-26 ACL metadata consistency check](2026-05-26-acl-metadata-consistency-check.md)
+- [2026-05-26 ACL OpenReview checklist gate](2026-05-26-acl-openreview-checklist-gate.md)
 - [2026-05-26 ACL claim-boundary check](2026-05-26-acl-claim-boundary-check.md)
 - [2026-05-26 ACL citation-inventory check](2026-05-26-acl-citation-inventory-check.md)
 - [2026-05-26 ACL pre-upload gate runner](2026-05-26-acl-preupload-gate-runner.md)

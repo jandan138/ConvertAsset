@@ -307,6 +307,31 @@ human-only blockers. The rebuilt staged PDF is still 12 A4 pages, PDF 1.5, and
 306187 bytes. The staged packet still contains exactly the five safe files plus
 the adjacent ignored checksum sidecar outside the packet.
 
+## Refresh After OpenReview Checklist Gate
+
+After adding the OpenReview Responsible NLP checklist copy-readiness gate, the
+consolidated runner was executed again from the current repository state on
+2026-05-26:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Result: pass. The runner completed claim-boundary, OpenReview metadata
+consistency, OpenReview checklist copy-readiness, citation-inventory,
+evidence-number, final-integrity fingerprint, final blocker report, 41-test
+focused pytest, clean ACL build, final LaTeX log scan, candidate packet
+staging, exact packet inventory, adjacent checksum-sidecar validation,
+private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and
+`pdftotext_sections`.
+
+The checklist report validated 17 expected ARR checklist questions, official
+policy URLs, current PDF anchors, no placeholder text, no bare yes/no/N/A
+answers, and anonymous-review AI-assistance wording. The rebuilt staged PDF is
+still 12 A4 pages, PDF 1.5, and 306187 bytes. The staged packet still contains
+exactly the five safe files plus the adjacent ignored checksum sidecar outside
+the packet.
+
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 
 After adding the consolidated runner and later adding the evidence-number

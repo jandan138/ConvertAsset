@@ -483,3 +483,15 @@ copy, and author/runtime/AI/media approval. `run_preupload_gate.py` now prints
 this report before focused tests/build/staging, and the focused ACL pytest suite
 now covers 37 tests after adding `tests/test_acl_final_blockers.py`. This is an
 upload handoff aid, not upload authorization.
+
+OpenReview checklist gate update on 2026-05-26:
+`scripts/check_openreview_checklist.py` and
+`tests/test_acl_openreview_checklist.py` now guard
+`OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` as the copy source for the ARR /
+OpenReview Responsible NLP checklist. The checker requires the expected 17
+checklist questions, official policy URLs, current PDF anchors, no placeholder
+text, no bare yes/no/N/A answers, and anonymous-review AI-assistance wording.
+`run_preupload_gate.py` now runs this check after metadata consistency and
+before citation/evidence/build/staging, and the focused ACL pytest suite now
+covers 41 tests. This still does not copy the answers into the real OpenReview
+form; final form copy remains a human gate.

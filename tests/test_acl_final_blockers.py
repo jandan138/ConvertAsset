@@ -74,3 +74,30 @@ def test_repo_evidence_gap_is_repo_blocker(tmp_path: Path) -> None:
     assert report["status"] == "repo_blocked"
     assert "preupload_runner_missing" in report["repo_blockers"]
     assert "integrity_fingerprint_missing_or_stale" in report["repo_blockers"]
+
+
+def test_openreview_checklist_gap_is_repo_blocker(tmp_path: Path) -> None:
+    module = load_module()
+    paper_root = tmp_path / "paper"
+    venue_root = paper_root / "venues/acl27"
+    venue_root.mkdir(parents=True)
+    for name in (
+        "OPENREVIEW_METADATA_PACKET.md",
+        "FINAL_SUBMISSION_PACKET_CHECKLIST.md",
+        "TARGET_LOCK_OPENREVIEW_REHEARSAL.md",
+    ):
+        (venue_root / name).write_text("placeholder\n", encoding="utf-8")
+    (venue_root / "OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md").write_text(
+        "TODO: incomplete checklist\n",
+        encoding="utf-8",
+    )
+
+    report = module.build_final_blocker_report(
+        paper_root,
+        repo_root=tmp_path,
+        check_git=False,
+        check_repo_evidence=True,
+    )
+
+    assert report["status"] == "repo_blocked"
+    assert "openreview_checklist_missing_or_incomplete" in report["repo_blockers"]

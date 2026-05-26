@@ -26,20 +26,21 @@ edits.
 Latest refresh: after the OpenReview author-gate worksheet, first-page
 ACL-fit hardening, consolidated pre-upload runner, evidence-number checker,
 evidence-gate table, citation-inventory checker, final-integrity source
-fingerprint checker, final blocker report, and packet-checksum sidecar were
-added, the candidate was rebuilt and restaged on 2026-05-26. The current
+fingerprint checker, OpenReview checklist copy-readiness checker, final blocker
+report, and packet-checksum sidecar were added, the candidate was rebuilt and
+restaged on 2026-05-26. The current
 evidence is recorded in `SUBMISSION_STAGING_AUDIT.md`,
 `docs/records/2026-05-26-acl-preupload-rehearsal-refresh.md`,
 `docs/records/2026-05-26-acl-first-page-fit-hardening.md`,
 `docs/records/2026-05-26-acl-preupload-gate-runner.md`, and
 `docs/records/2026-05-26-acl-evidence-number-check.md`: the consolidated
-pre-upload gate passed claim-boundary, metadata, citation-inventory,
-evidence-number, final-integrity fingerprint, final blocker report, focused
-pytest, clean build, LaTeX log, staging, inventory, packet checksum,
+pre-upload gate passed claim-boundary, metadata, checklist copy-readiness,
+citation-inventory, evidence-number, final-integrity fingerprint, final blocker
+report, focused pytest, clean build, LaTeX log, staging, inventory, packet checksum,
 anonymization, acknowledgment, `pdfinfo`, `pdf_profile`, and `pdftotext`
-checks. The focused pytest step now passes 37 tests after adding the
-citation-inventory, private author-gate, final-integrity fingerprint, final
-blocker-report, and packet-checksum tests, the
+checks. The focused pytest step now passes 41 tests after adding the
+citation-inventory, private author-gate, final-integrity fingerprint,
+OpenReview checklist, final blocker-report, and packet-checksum tests, the
 refreshed abstract is 189 words by the conservative tokenizer, the clean ACL
 build produces a 12-page A4 PDF, and the staged packet still contains only the
 safe five-file boundary with an adjacent checksum sidecar outside the packet.
@@ -68,6 +69,7 @@ human/external check before upload.
 | Make all major paper claims traceable to existing evidence. | `CLAIM_AUDIT.md`, Table `tab:acl_evidence_gate_registry`, `paper/shared/evidence/claims.yaml`, GRScenes, material-effect, InternNav, and official-scene evidence manifests. | Satisfied at candidate level. |
 | Expand ACL/VLM-related framing rather than presenting only a simulation-tool paper. | ACL-local `related`, `method`, `results`, and `discussion` sections cite VLM grounding, embodied AI environments, domain randomization, and vision-language navigation sources. | Satisfied at candidate level. |
 | Check citation and artifact provenance for the current ACL wrapper. | `CITATION_PROVENANCE_AUDIT.md`, `FINAL_INTEGRITY_DELTA_AUDIT.md`, `FINAL_INTEGRITY_SOURCE_FINGERPRINT.json`, `paper/shared/evidence/references/verification_report.md`, `MODEL_AND_ASSET_LICENSE_AUDIT.md`, `ARTIFACT_PROVENANCE_DRAFT.md`, `paper/shared/references.bib`, `scripts/check_citation_inventory.py`, `scripts/check_integrity_fingerprint.py`, and `scripts/check_evidence_numbers.py`. | Current 20-reference web-trail existence audit, current-source citation-context/data/originality-smoke delta, automated citation-inventory drift check, automated final-integrity source freshness check, and automated evidence-number check are complete; rerun after any manuscript, bibliography, target, evidence, OpenReview-copy, or packet change. |
+| Keep OpenReview checklist copy source complete. | `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`, `scripts/check_openreview_checklist.py`, and `tests/test_acl_openreview_checklist.py`. | Current copy source covers the expected 17 ARR checklist questions, official policy inputs, current PDF anchors, no placeholder text, no bare yes/no/N/A answers, and anonymous-review AI-assistance wording. Final copy into OpenReview remains human-gated. |
 | Produce a clean ACL-format PDF. | Latest consolidated gate ran `make -C paper clean-acl27 acl27`; `pdfinfo` reported 12 pages, A4 page size, PDF 1.5, and 306187 bytes, and the PDF profile guard now enforces that candidate shape. | Satisfied for the current candidate build; rerun immediately before upload. |
 | Prepare a minimal anonymous submission packet. | Latest consolidated gate regenerated `paper/submissions/acl27_arr_candidate_20260526/` with exactly `main.pdf`, OpenReview metadata/checklist copy sources, `supplemental/README.md`, and `supplemental/manifest.json`, wrote the adjacent local checksum sidecar `paper/submissions/acl27_arr_candidate_20260526.sha256`, then passed packet-inventory, checksum, private-token, and acknowledgment scans. | Candidate staging smoke pass. |
 | Keep optional media and raw assets out of the safe upload boundary. | `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, `MODEL_AND_ASSET_LICENSE_AUDIT.md`, and staging manifest exclude raw scenes, scratch USD, InternNav raw frames/logs/LMDBs, local checkpoints, and selected videos. | Satisfied for the safe packet; any future media inclusion is a separate author/legal decision. |

@@ -53,6 +53,11 @@ def integrity_fingerprint_module():
     return load_script_module(script, "acl_integrity_fingerprint")
 
 
+def openreview_checklist_module():
+    script = Path(__file__).with_name("check_openreview_checklist.py")
+    return load_script_module(script, "acl_openreview_checklist")
+
+
 def repo_evidence_blockers(paper_root: Path, repo_root: Path) -> list[str]:
     blockers: list[str] = []
     if not (repo_root / "paper/venues/acl27/scripts/run_preupload_gate.py").is_file():
@@ -61,6 +66,14 @@ def repo_evidence_blockers(paper_root: Path, repo_root: Path) -> list[str]:
         integrity_fingerprint_module().check_fingerprint(paper_root)
     except Exception:
         blockers.append("integrity_fingerprint_missing_or_stale")
+    try:
+        checklist_report = openreview_checklist_module().check_openreview_checklist(
+            paper_root
+        )
+        if not checklist_report["ok"]:
+            blockers.append("openreview_checklist_missing_or_incomplete")
+    except Exception:
+        blockers.append("openreview_checklist_missing_or_incomplete")
     for relpath in (
         "venues/acl27/OPENREVIEW_METADATA_PACKET.md",
         "venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md",

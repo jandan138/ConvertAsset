@@ -28,6 +28,7 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
     assert step_ids == [
         "claim_boundaries",
         "metadata_consistency",
+        "openreview_checklist",
         "citation_inventory",
         "evidence_numbers",
         "integrity_fingerprint",
@@ -46,12 +47,14 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
     ]
     assert step_ids.index("claim_boundaries") < step_ids.index("stage_packet")
     assert step_ids.index("metadata_consistency") < step_ids.index("stage_packet")
+    assert step_ids.index("openreview_checklist") < step_ids.index("stage_packet")
     assert step_ids.index("citation_inventory") < step_ids.index("stage_packet")
     assert step_ids.index("evidence_numbers") < step_ids.index("stage_packet")
     assert step_ids.index("integrity_fingerprint") < step_ids.index("stage_packet")
     assert "tests/test_acl_citation_inventory.py" in focused_pytest_step["command"]
     assert "tests/test_acl_integrity_fingerprint.py" in focused_pytest_step["command"]
     assert "tests/test_acl_final_blockers.py" in focused_pytest_step["command"]
+    assert "tests/test_acl_openreview_checklist.py" in focused_pytest_step["command"]
     assert "tests/test_acl_author_gate.py" in focused_pytest_step["command"]
 
 
