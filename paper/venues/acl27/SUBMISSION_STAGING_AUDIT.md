@@ -168,6 +168,26 @@ reported 12 pages, A4 page size, PDF 1.5, and 306187 bytes; the staged packet
 still contained exactly the five safe files and passed the private-token and
 acknowledgment scans.
 
+## Refresh After Gate-Status Documentation Sync
+
+After synchronizing the active ACL status/checklist documents to the current
+`pdf_profile` gate vocabulary, the full consolidated gate was rerun from a
+clean `main` checkout on 2026-05-26:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Result: pass. The runner completed claim-boundary, OpenReview metadata
+consistency, evidence-number consistency, 23-test focused pytest, clean ACL
+build, final LaTeX log scan, candidate packet staging, inventory, local
+path/private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and
+`pdftotext_sections`. `pdfinfo` reported 12 pages, A4 page size, PDF 1.5, and
+306187 bytes. The staged packet still contained exactly the five safe files:
+`main.pdf`, `openreview/METADATA.md`,
+`openreview/RESPONSIBLE_NLP_CHECKLIST.md`, `supplemental/README.md`, and
+`supplemental/manifest.json`.
+
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 
 After adding the consolidated runner and later adding the evidence-number

@@ -160,6 +160,13 @@ covers 23 tests, and the current PDF profile guard enforces the 12-page A4/PDF
 not close target-route, official OpenReview, private author,
 runtime/AI-assistance, or media/legal gates.
 
+Current-commit gate refresh on 2026-05-26: after the gate-status documentation
+sync, `run_preupload_gate.py` was rerun from a clean `main` checkout. The pass
+completed claim-boundary, metadata, evidence-number, 23-test focused pytest,
+clean ACL build, LaTeX log scan, five-file packet staging, private-token scan,
+acknowledgment scan, `pdfinfo`, `pdf_profile`, and `pdftotext_sections`. The
+staged PDF remained 12 A4 pages, PDF 1.5, and 306187 bytes.
+
 Reference web-trail update on 2026-05-26:
 `paper/shared/evidence/references/verification_report.md` now contains a
 20/20 ACL-wrapper reference-existence web-trail addendum. The pass also
