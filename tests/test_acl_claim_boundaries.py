@@ -63,3 +63,27 @@ def test_guardrailed_forbidden_topics_are_allowed() -> None:
 
     assert violations == []
 
+
+def test_unsafe_qualitative_figure_is_rejected_from_acl_main_text() -> None:
+    module = load_module()
+
+    violations = module.find_unsafe_figure_violations(
+        {"sections/results.tex": r"\includegraphics{figures/fig_vlm_grounding_cases.pdf}"}
+    )
+
+    assert violations == [
+        {
+            "path": "sections/results.tex",
+            "rule_id": "unsafe_vlm_grounding_qualitative_panel",
+            "description": "The current VLM grounding qualitative panel is not final-upload safe.",
+            "figure": "fig_vlm_grounding_cases",
+        }
+    ]
+
+
+def test_current_acl_manuscript_excludes_unsafe_qualitative_figure() -> None:
+    module = load_module()
+
+    report = module.check_claim_boundaries(PAPER)
+
+    assert report["unsafe_figure_violations"] == []

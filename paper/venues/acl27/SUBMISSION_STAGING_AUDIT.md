@@ -580,6 +580,30 @@ the final blocker report correctly remains `status=human_blocked` because route,
 author, OpenReview form-copy, approval, optional-media, and final upload rows
 remain human decisions.
 
+## Refresh After Qualitative VLM Panel Exclusion
+
+After the render-log audit showed that the ACL qualitative VLM panel still lacks
+clean original-condition render provenance, the ACL main paper stopped including
+`fig_vlm_grounding_cases`. The claim-boundary checker now rejects reintroducing
+that unsafe panel before clean render/overlay provenance exists.
+
+The full consolidated gate was rerun from the current repository state on
+2026-05-26:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Result: pass. The runner completed claim-boundary, target-policy consistency,
+OpenReview metadata consistency, OpenReview checklist copy-readiness,
+citation-inventory, evidence-number, final-integrity fingerprint, final blocker
+report, goal-completion report, 63-test focused pytest, clean ACL build, final
+LaTeX log scan, candidate packet staging, exact packet inventory, adjacent
+checksum-sidecar validation, private-token scan, acknowledgment scan,
+`pdfinfo`, `pdf_profile`, and `pdftotext_sections`. The final blocker report
+remained `status=human_blocked` with `repo_blockers=[]`; the staged PDF is now
+11 A4 pages, PDF 1.5, and 215253 bytes.
+
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 
 After adding the consolidated runner and later adding the evidence-number

@@ -21,6 +21,7 @@ REQUIRED_URLS = (
     "https://aclrollingreview.org/authorchecklist",
     "https://acl-org.github.io/ACLPUB/formatting.html",
     "https://acl-org.github.io/ACLPUB/review-version.html",
+    "https://www.aclweb.org/adminwiki/index.php/ACL_Resolutions",
     "https://2027.eacl.org/",
     "https://2027.eacl.org/calls/papers/",
 )
@@ -33,6 +34,7 @@ REQUIRED_MARKERS = (
     "comprehensive CFP",
     "detailed timetable",
     "Annual ACL 2027",
+    "2027 ACL Conference Branding",
     "No public official Annual ACL 2027 CFP",
     "not an Annual-ACL-final packet",
     "OpenReview",

@@ -55,16 +55,10 @@ positive converted-minus-original normalized-point delta, while the Qwen raw
 point diagnostic decreases on converted renders. These are descriptive
 intervals over frozen evidence pools, not population-level guarantees.
 
-\begin{figure*}[t]
-\centering
-\includegraphics[width=\textwidth]{figures/fig_vlm_grounding_cases.pdf}
-\caption{Representative GRScenes VLM grounding cases. Each row pairs an
-original MDL render with its noMDL counterpart and overlays the projected
-target box and model point prediction. The figure illustrates why answer
-accuracy, point grounding, and coordinate-frame compliance must be audited
-separately.}
-\label{fig:vlm_grounding_cases}
-\end{figure*}
+We therefore keep the ACL main evidence tabular and metric-auditable: selected
+qualitative grounding panels are treated as internal inspection artifacts until
+their render logs and VLM overlay provenance are clean for the exact images used
+in the paper.
 
 \subsection{Material Effects and NVIDIA Baseline Boundaries}
 \label{sec:material_effect_baseline}

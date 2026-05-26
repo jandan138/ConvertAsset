@@ -45,7 +45,21 @@ Current experiment state on 2026-05-23: source selection, target localization, p
 
 GRScenes VLM evidence now has one frozen expanded stress set and one pilot clean branch. The clean branch has a 15-pair visual-QA PASS pool under `../../shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/`: Gemma4 structured-text over 15 original/converted pairs produced 30/30 parsed rows, answer accuracy 15/15 original and 15/15 converted, normalized-1000 point-in-bbox 8/15 original and 6/15 converted, normalized-1000 pair hit agreement 11/15, and 5/15 both-hit pairs. The matching Qwen2.5-VL structured-text run produced 30 parsed rows but only 23/30 scorable answer strings, answer accuracy 8/11 original and 9/12 converted, raw point-in-bbox 5/14 original and 5/15 converted, and normalized-1000 point-in-bbox 0/14 original and 0/15 converted. This branch remains below the clean final gate.
 
-The material-shift stress set now uses `../../shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded30.json`: 30 target-visible PASS/WARN zoom pairs, 60 scoring records, and matched Gemma4/Qwen metadata hashes against the same manifest file. This is a frozen target-centered stress set, not a broad GRScenes distribution. The canonical Gemma4 root files are `stress_predictions.jsonl` and `stress_score_summary.json`: answer accuracy is 30/30 original and 30/30 converted, normalized-1000 point hits are 27/30 original and 29/30 converted, normalized-1000 hit-status agreement is 28/30, and both-hit pairs are 27/30. The matching Qwen2.5-VL expanded30 diagnostic under `stress_expanded30_probes/` has 55/60 scorable answer rows, answer hits 27/29 original and 24/26 converted, raw point hits 22/29 original and 19/29 converted, and normalized-1000 point hits 3/29 for both material conditions. The old 14-pair `zoom_stress_probes/` remain pilot/protocol history, not root canonical evidence. The shared manuscript now includes the expanded30 stress table and an updated qualitative grounding-case figure.
+The material-shift stress set now uses `../../shared/evidence/raw/grscene_vlm_grounding/stress_vlm_run_manifest_expanded30.json`: 30 target-visible PASS/WARN zoom pairs, 60 scoring records, and matched Gemma4/Qwen metadata hashes against the same manifest file. This is a frozen target-centered stress set, not a broad GRScenes distribution. The canonical Gemma4 root files are `stress_predictions.jsonl` and `stress_score_summary.json`: answer accuracy is 30/30 original and 30/30 converted, normalized-1000 point hits are 27/30 original and 29/30 converted, normalized-1000 hit-status agreement is 28/30, and both-hit pairs are 27/30. The matching Qwen2.5-VL expanded30 diagnostic under `stress_expanded30_probes/` has 55/60 scorable answer rows, answer hits 27/29 original and 24/26 converted, raw point hits 22/29 original and 19/29 converted, and normalized-1000 point hits 3/29 for both material conditions. The old 14-pair `zoom_stress_probes/` remain pilot/protocol history, not root canonical evidence. The ACL main results section now keeps this evidence tabular rather than relying on selected qualitative grounding panels.
+
+Qualitative grounding-panel QA update on 2026-05-26: the previously included
+VLM grounding panel had abnormal red materials in the "Original MDL render"
+columns. The scratch repair pass rewrote 1,566 generated MDL files, repaired
+23,141 GRScenes pointer entries, and added 51 missing `Materials` symlinks for
+render-log-referenced model instances without intentionally modifying the
+official source tree. This removed the checked MDL-resolution error terms for
+the first selected pair, but the repaired original-condition headless viewport
+capture timed out at 1800 seconds, while a direct converted capture probe for
+the same view succeeded. The ACL main paper therefore no longer includes
+`fig_vlm_grounding_cases`, and `check_claim_boundaries.py` now rejects that
+unsafe panel if it is reintroduced before clean render/overlay provenance is
+available. See
+`../../../docs/records/2026-05-26-acl-fig1-red-material-root-cause.md`.
 
 CVPR workshop reviewer carry-over status on 2026-05-26: the expanded30 VLM grounding route addresses the most dangerous "proxy-only AI task" weakness at the image-level grounding layer, and the official KuJiaLe `val_unseen` route now adds scoped InternNav downstream sanity evidence over 99 paired episodes. This still does not mean manipulation, broad GRScenes embodied validation, or all-scene downstream robustness has been introduced. Reviewer concerns about overbroad guidelines have been addressed by narrowing the claim to frozen evidence pools. NVIDIA official-tool baseline and per-MDL-effect analysis are represented by the material-effect condition manifests, selected qualitative/failure panels, PXR diagnostic, and risk matrix in the shared manuscript: four GRScenes-covered bins have bounded selected qualitative support, clearcoat is a selected NVIDIA target-loss failure case, and procedural texture is a preservation limitation. The reviewer-closure package now adds paired bootstrap CIs, coordinate-only VLM baselines, and a rule-based safe-conversion table. The official-scene submission-closure package adds multi-scene/multi-run original/noMDL load-render statistics across the 0031/0036/0066 KuJiaLe scenes: 18/18 required runs succeeded, with overlapping original/noMDL ready-time intervals. A learned automatic recommender and NVIDIA official-scene performance baseline remain open.
 
@@ -158,11 +172,12 @@ fingerprint, and the final blocker report without printing private author
 values. The current report is `status=candidate_ready_human_blocked`:
 `repo_static_ready=true`, `candidate_ready_for_human_gate=true`,
 `repo_requirement_failures=[]`, and `final_goal_complete=false` because the
-private author/OpenReview route, form-copy, runtime/AI/media, and fresh
-pre-upload gates remain unresolved. The reporter is part of the consolidated
-pre-upload gate, but it is not a substitute for `run_preupload_gate.py`. The
-refreshed full pre-upload gate passes with 60 focused ACL tests, a 12-page A4
-PDF 1.5 staged packet, and 306187 bytes for `main.pdf`.
+private author/OpenReview route, form-copy, runtime/AI/media, and final upload
+decision remain unresolved. The reporter is part of the consolidated
+pre-upload gate, but it is not a substitute for `run_preupload_gate.py`. After
+removing the unsafe qualitative VLM panel from the ACL main paper, the refreshed
+full pre-upload gate passes with 63 focused ACL tests, an 11-page A4 PDF 1.5
+staged packet, and 215253 bytes for `main.pdf`.
 
 Private author-gate status update on 2026-05-26:
 `scripts/report_final_blockers.py` and `scripts/report_goal_completion.py` now
@@ -269,6 +284,16 @@ After the protected target-policy source files changed, the final-integrity
 fingerprint was refreshed and the full consolidated pre-upload gate passed
 again with 53 focused ACL tests, 41 fingerprinted sources, a 12-page A4 PDF
 1.5 staged packet, and 306187 bytes for `main.pdf`.
+
+Target-policy refresh after private author-gate status on 2026-05-26:
+official ARR, EACL, ACLPUB, and ACL Resolutions pages were reopened after the
+private author-gate status handoff was added. The route state is unchanged:
+EACL 2027 via ARR remains the concrete public route, the EACL complete CFP and
+detailed timetable are still forthcoming, and Annual ACL 2027 still lacks a
+checked official CFP/author kit. `scripts/check_target_policy.py` now also
+requires the ACL Resolutions URL and `2027 ACL Conference Branding` marker so
+the repository records that ACL 2027 branding exists without promoting the
+packet to Annual-ACL-final.
 
 Reference web-trail update on 2026-05-26:
 `paper/shared/evidence/references/verification_report.md` now contains a

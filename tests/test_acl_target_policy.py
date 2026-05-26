@@ -65,3 +65,20 @@ def test_missing_eacl_deadline_marker_is_rejected(tmp_path: Path) -> None:
 
     assert report["ok"] is False
     assert "August 3, 2026" in report["missing_required_markers"]
+
+
+def test_missing_acl2027_branding_resolution_marker_is_rejected(
+    tmp_path: Path,
+) -> None:
+    module = load_module()
+    venue_root = tmp_path / "venues/acl27"
+    venue_root.mkdir(parents=True)
+    for name in ("TARGET_CALL_POLICY_AUDIT.md", "TARGET_LOCK_OPENREVIEW_REHEARSAL.md"):
+        text = (PAPER / "venues/acl27" / name).read_text(encoding="utf-8")
+        text = text.replace("2027 ACL Conference Branding", "BRANDING REMOVED")
+        (venue_root / name).write_text(text, encoding="utf-8")
+
+    report = module.check_target_policy(tmp_path)
+
+    assert report["ok"] is False
+    assert "2027 ACL Conference Branding" in report["missing_required_markers"]

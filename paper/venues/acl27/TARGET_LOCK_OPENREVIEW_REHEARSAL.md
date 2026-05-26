@@ -35,6 +35,17 @@ CFP and detailed timetable are being finalized. Official search still did not
 find an Annual ACL 2027 CFP, author kit, city/date page, commitment deadline,
 or conference-specific supplement policy.
 
+Policy refresh after the private author-gate status report on 2026-05-26 found
+the same route state again. ARR Dates still lists EACL 2027 with final ARR
+submission date August 3, 2026 and commitment date October 11, 2026; EACL still
+lists Athens, Greece, March 9-14, 2027 and the August 3, 2026 ARR deadline; the
+EACL main-paper page still says the comprehensive CFP and detailed timetable
+are being finalized. The ACL Resolutions page records `2027 ACL Conference
+Branding` and says the 2027 ACL conference will be branded as ACL 2027 with no
+co-branding with IJCLP/AFNLP, but that source is not an Annual ACL 2027 CFP,
+author kit, OpenReview form, commitment deadline, or conference-specific
+supplement policy.
+
 ## Repository Readiness For OpenReview
 
 | OpenReview / ARR item | Current local evidence | Status |
@@ -43,7 +54,7 @@ or conference-specific supplement policy.
 | Title, abstract, track, and keywords | `paper/venues/acl27/OPENREVIEW_METADATA_PACKET.md`; staged as `openreview/METADATA.md`. | Copy-ready source; final OpenReview fields remain author-gated. |
 | Responsible NLP checklist answers | `paper/venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`. | Copy-ready source, not yet entered into official OpenReview. |
 | Limitations and Ethical Considerations | PDF text scan finds both before references. | Ready for rehearsal. |
-| Page format | `pdfinfo` reports A4; current PDF is 12 pages total after the evidence-gate table refresh, with main text still ending before references. | Ready under generic ACLPUB policy; final venue-specific check still required. |
+| Page format | `pdfinfo` reports A4; current PDF is 11 pages total after excluding the unsafe qualitative VLM panel, with main text still ending before references. | Ready under generic ACLPUB policy; final venue-specific check still required. |
 | Bibliography and citation existence | `paper/shared/evidence/references/verification_report.md` and `CITATION_PROVENANCE_AUDIT.md`. | Current 20-reference web trail complete. |
 | Citation-context/data/originality delta | `FINAL_INTEGRITY_DELTA_AUDIT.md`. | Current-source pass complete; rerun after any edit. |
 | Safe packet boundary | `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, `SUBMISSION_STAGING_AUDIT.md`, and `stage_submission_packet.py`. | Minimal PDF-first packet ready; selected media remains excluded by default. |
@@ -112,5 +123,6 @@ local checkpoints, or non-anonymous repository links.
 - `https://aclrollingreview.org/authorchecklist`
 - `https://acl-org.github.io/ACLPUB/formatting.html`
 - `https://acl-org.github.io/ACLPUB/review-version.html`
+- `https://www.aclweb.org/adminwiki/index.php/ACL_Resolutions`
 - `https://2027.eacl.org/`
 - `https://2027.eacl.org/calls/papers/`

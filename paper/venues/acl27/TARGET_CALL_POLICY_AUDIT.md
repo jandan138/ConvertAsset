@@ -34,6 +34,20 @@ says the comprehensive CFP and detailed timetable are forthcoming. Official
 search still did not find an Annual ACL 2027 CFP, author kit, city/date page,
 commitment deadline, or conference-specific supplement policy.
 
+Private-author-gate status policy refresh on 2026-05-26: official ARR Dates,
+ARR Authors, ARR author checklist, ACLPUB formatting/review-version pages,
+EACL 2027 home, EACL 2027 main-paper page, and ACL Resolutions were reopened
+after the private author-gate status report was added. The route state is still
+unchanged. ARR Dates still lists EACL 2027 with final ARR submission date
+August 3, 2026 and commitment date October 11, 2026; EACL still lists Athens,
+Greece, March 9-14, 2027 and the August 3, 2026 ARR deadline; the EACL
+main-paper page still says the comprehensive CFP and detailed timetable are
+being finalized. The ACL Resolutions page records "2027 ACL Conference
+Branding" and says the 2027 ACL conference will be branded as ACL 2027 with no
+co-branding with IJCLP/AFNLP, but it is not a CFP, author kit, deadline page,
+OpenReview form, or supplement policy. No public official Annual ACL 2027 CFP
+was found in the checked official sources.
+
 ## Current Target Status
 
 | Candidate route | Official status checked | What this means for this repo |
@@ -72,6 +86,9 @@ The latest refresh checked the same policy-critical public pages:
 - The refresh after the final-blocker command handoff found the same state:
   EACL 2027 remains the concrete public route; Annual ACL 2027 remains
   unavailable as a final public target in checked official sources.
+- The refresh after the private author-gate status report added ACL
+  Resolutions as a checked source. That page confirms the `2027 ACL Conference Branding`
+  resolution, not an Annual ACL 2027 CFP or author kit.
 
 ## Policy Facts To Carry Forward
 
@@ -108,5 +125,6 @@ submit through the currently public EACL 2027 ARR route or wait for Annual ACL
 - `https://aclrollingreview.org/responsible-nlp-checklist-appendices`
 - `https://acl-org.github.io/ACLPUB/formatting.html`
 - `https://acl-org.github.io/ACLPUB/review-version.html`
+- `https://www.aclweb.org/adminwiki/index.php/ACL_Resolutions`
 - `https://2027.eacl.org/`
 - `https://2027.eacl.org/calls/papers/`

@@ -94,6 +94,16 @@ RULES = (
 )
 
 
+UNSAFE_FIGURES = (
+    {
+        "rule_id": "unsafe_vlm_grounding_qualitative_panel",
+        "description": "The current VLM grounding qualitative panel is not final-upload safe.",
+        "figure": "fig_vlm_grounding_cases",
+        "pattern": re.compile(r"figures/fig_vlm_grounding_cases\.(?:pdf|png)", re.IGNORECASE),
+    },
+)
+
+
 def strip_latex(text: str) -> str:
     text = re.sub(r"(?m)%.*$", "", text)
     text = text.replace(r"\_", "_").replace(r"\,", " ")
@@ -134,6 +144,22 @@ def find_claim_boundary_violations(text_by_path: Mapping[str, str]) -> list[dict
     return violations
 
 
+def find_unsafe_figure_violations(text_by_path: Mapping[str, str]) -> list[dict[str, str]]:
+    violations: list[dict[str, str]] = []
+    for path, text in sorted(text_by_path.items()):
+        for figure in UNSAFE_FIGURES:
+            if figure["pattern"].search(text):
+                violations.append(
+                    {
+                        "path": path,
+                        "rule_id": str(figure["rule_id"]),
+                        "description": str(figure["description"]),
+                        "figure": str(figure["figure"]),
+                    }
+                )
+    return violations
+
+
 def load_acl_claim_texts(paper_root: Path) -> dict[str, str]:
     venue_root = paper_root / "venues" / "acl27"
     paths = sorted((venue_root / "sections").glob("*.tex"))
@@ -148,10 +174,12 @@ def load_acl_claim_texts(paper_root: Path) -> dict[str, str]:
 def check_claim_boundaries(paper_root: Path) -> dict[str, object]:
     text_by_path = load_acl_claim_texts(paper_root)
     violations = find_claim_boundary_violations(text_by_path)
+    unsafe_figure_violations = find_unsafe_figure_violations(text_by_path)
     return {
-        "ok": not violations,
+        "ok": not violations and not unsafe_figure_violations,
         "checked_files": sorted(text_by_path),
         "violations": violations,
+        "unsafe_figure_violations": unsafe_figure_violations,
     }
 
 
