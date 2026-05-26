@@ -68,6 +68,7 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
     assert "tests/test_acl_goal_completion_report.py" in focused_pytest_step[
         "command"
     ]
+    assert "tests/test_acl_author_gate_prefill.py" in focused_pytest_step["command"]
 
 
 def test_packet_inventory_rejects_extra_files(tmp_path: Path) -> None:

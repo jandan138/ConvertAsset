@@ -114,7 +114,8 @@ def test_incomplete_private_author_gate_reports_completion_handoff(
 
     assert report["status"] == "human_blocked"
     assert "private_author_gate_incomplete" in report["human_blockers"]
-    assert "Complete or correct" in report["next_actions"][0]
+    assert "prefill_author_gate.py --apply" in report["next_actions"][0]
+    assert "complete or correct" in report["next_actions"][0]
     assert "init_author_gate.py" not in report["next_actions"][0]
 
 

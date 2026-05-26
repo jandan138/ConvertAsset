@@ -149,6 +149,7 @@ def build_preupload_plan(repo_root: Path) -> list[dict[str, object]]:
                 "tests/test_acl_evidence_numbers.py",
                 "tests/test_acl_author_gate.py",
                 "tests/test_acl_author_gate_init.py",
+                "tests/test_acl_author_gate_prefill.py",
                 "tests/test_acl_goal_completion_report.py",
                 "tests/test_acl_preupload_gate.py",
             ],

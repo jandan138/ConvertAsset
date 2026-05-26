@@ -26,8 +26,9 @@ MISSING_AUTHOR_GATE_NEXT_ACTION = (
     )
 )
 INCOMPLETE_AUTHOR_GATE_NEXT_ACTION = (
-    "Complete or correct "
-    "paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md, then run "
+    "Run python paper/venues/acl27/scripts/prefill_author_gate.py --apply for "
+    "repo-verifiable rows, then complete or correct "
+    "paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md and run "
     "check_author_gate.py."
 )
 FINAL_ROUTE_NEXT_ACTION = (

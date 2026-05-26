@@ -12,11 +12,15 @@ For a real submission, create the ignored local copy with the safe initializer:
 ```bash
 python paper/venues/acl27/scripts/init_author_gate.py
 git check-ignore -v paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md
+python paper/venues/acl27/scripts/prefill_author_gate.py --apply
 ```
 
 The initializer refuses to overwrite an existing private worksheet and reports
 only path/status metadata. The filled copy is ignored by `.gitignore` and must
 not be uploaded as review supplemental material.
+The prefill helper only fills repo-verifiable final pre-upload evidence rows;
+it leaves all author, route, approval, optional-media, and final-upload
+decisions for the private human gate.
 
 When filling high-risk rows, use explicit positive wording such as `approved`,
 `confirmed`, `copied`, `excluded by default`, `pass`, `clean`, or final decision

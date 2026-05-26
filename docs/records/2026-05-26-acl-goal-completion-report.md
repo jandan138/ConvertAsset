@@ -88,7 +88,7 @@ Results: the targeted suite passed 9 tests; the goal-completion reporter
 returned `status=candidate_ready_human_blocked`, `repo_static_ready=true`,
 `candidate_ready_for_human_gate=true`, `repo_requirement_failures=[]`, and
 `final_goal_complete=false`; the 41-source final-integrity fingerprint passed;
-and the consolidated pre-upload gate passed with 57 focused ACL tests, a
+and the consolidated pre-upload gate passed with 59 focused ACL tests, a
 12-page A4 PDF 1.5 staged packet, and 306187 bytes for `main.pdf`.
 
 Follow-up TDD check:
@@ -100,5 +100,5 @@ python -m pytest -q tests/test_acl_final_blockers.py tests/test_acl_goal_complet
 It first failed on the incomplete-private-worksheet case because
 `next_actions[0]` still pointed at `init_author_gate.py`; after making next
 actions blocker-aware, the targeted suite passed 11 tests. The consolidated
-pre-upload gate was rerun afterward and passed with 57 focused ACL tests plus
+pre-upload gate was rerun afterward and passed with 59 focused ACL tests plus
 the same 12-page A4 PDF 1.5 staged packet size.

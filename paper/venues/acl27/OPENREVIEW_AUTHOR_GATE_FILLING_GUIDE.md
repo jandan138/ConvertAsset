@@ -31,6 +31,22 @@ the initializer cannot be run, manually copy the blank template to the same
 If `git check-ignore` does not report an ignore rule, stop before filling the
 file.
 
+After the local copy exists, prefill the repository-verifiable final evidence
+rows:
+
+```bash
+python paper/venues/acl27/scripts/prefill_author_gate.py --apply
+```
+
+This command only fills final pre-upload evidence that the repository can prove
+from the staged packet and gate output: clean build command, PDF profile,
+citation/reference scan, staging path, staged file list, private-token scan,
+acknowledgment scan, and ordered PDF section scan. It does not fill author
+names, route choice, OpenReview profile readiness, form-copy approval,
+runtime/AI/license approvals, optional media decision, or final upload decision.
+The command reports only changed field names and never prints private worksheet
+values.
+
 After the private copy is filled, validate it with:
 
 ```bash

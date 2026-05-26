@@ -563,11 +563,20 @@ python paper/venues/acl27/scripts/run_preupload_gate.py
 Result: pass. The runner completed claim-boundary, target-policy consistency,
 OpenReview metadata consistency, OpenReview checklist copy-readiness,
 citation-inventory, evidence-number, final-integrity fingerprint, final blocker
-report, goal-completion report, 57-test focused pytest, clean ACL build, final
+report, goal-completion report, 59-test focused pytest, clean ACL build, final
 LaTeX log scan, candidate packet staging, exact packet inventory, adjacent
 checksum-sidecar validation, private-token scan, acknowledgment scan,
 `pdfinfo`, `pdf_profile`, and `pdftotext_sections`. The staged PDF remained 12
 A4 pages, PDF 1.5, and 306187 bytes.
+
+After adding `prefill_author_gate.py`, the full gate was rerun again. The
+focused pytest suite now includes `tests/test_acl_author_gate_prefill.py`, and
+the final blocker handoff recommends the prefill helper before manual
+completion of `OPENREVIEW_AUTHOR_GATE_FILLED.local.md`. The local ignored
+worksheet was prefilled for the eight repo-verifiable final-evidence rows, but
+the final blocker report correctly remains `status=human_blocked` because route,
+author, OpenReview form-copy, approval, optional-media, and final upload rows
+remain human decisions.
 
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 

@@ -161,8 +161,18 @@ values. The current report is `status=candidate_ready_human_blocked`:
 private author/OpenReview route, form-copy, runtime/AI/media, and fresh
 pre-upload gates remain unresolved. The reporter is part of the consolidated
 pre-upload gate, but it is not a substitute for `run_preupload_gate.py`. The
-refreshed full pre-upload gate passes with 57 focused ACL tests, a 12-page A4
+refreshed full pre-upload gate passes with 59 focused ACL tests, a 12-page A4
 PDF 1.5 staged packet, and 306187 bytes for `main.pdf`.
+
+Author-gate prefill update on 2026-05-26: `scripts/prefill_author_gate.py`
+fills only repo-verifiable rows in the ignored private worksheet: clean
+pre-upload command evidence, PDF profile, citation/reference scan, staging path,
+staged file list, private-token scan, acknowledgment scan, and ordered PDF
+section scan. It does not fill author names, route selection, OpenReview profile
+readiness, form-copy approval, runtime/AI/license approvals, optional-media
+decision, or the final upload decision. The local ignored worksheet has been
+prefilled for those eight evidence rows and still fails `check_author_gate.py`
+until the remaining human rows are approved.
 
 Goal-completion refresh after pre-upload automation on 2026-05-26: the current
 candidate is now guarded by `run_preupload_gate.py`, which includes
