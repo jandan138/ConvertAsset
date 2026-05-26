@@ -71,6 +71,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-26 ACL claim-boundary check](2026-05-26-acl-claim-boundary-check.md)
 - [2026-05-26 ACL pre-upload gate runner](2026-05-26-acl-preupload-gate-runner.md)
 - [2026-05-26 ACL evidence-number check](2026-05-26-acl-evidence-number-check.md)
+- [2026-05-26 ACL author-gate filling guide](2026-05-26-acl-author-gate-filling-guide.md)
 - [2026-05-23 CVPR review status and ACL goals](2026-05-23-cvpr-review-status-and-acl-goals.md)
 - [2026-05-20 OSS dataset restore for GRScenes test0 parallel](2026-05-20-oss-dataset-restore.md)
 - [2026-05-20 ACL GRScenes dataset role correction](2026-05-20-acl-grscenes-dataset-role-correction.md)

@@ -216,6 +216,14 @@ and final pre-upload evidence. The filled copy should be
 `OPENREVIEW_AUTHOR_GATE_FILLED.local.md`, which is ignored by `.gitignore` and
 must not enter the anonymous review packet.
 
+OpenReview author-gate filling guide update on 2026-05-26:
+`OPENREVIEW_AUTHOR_GATE_FILLING_GUIDE.md` now gives the concrete fill order for
+the private author worksheet: route decision, author/OpenReview readiness,
+submission-history fields, form-copy approvals, optional media decision, final
+pre-upload evidence, privacy checks, and stop conditions. This does not fill
+the private worksheet for the authors; it makes the remaining human gate
+auditable without committing author identities or OpenReview IDs.
+
 Pre-upload rehearsal refresh on 2026-05-26:
 After adding the author-gate worksheet, the current ACL/ARR candidate was
 re-tested and restaged. `tests/test_acl_submission_staging.py` plus

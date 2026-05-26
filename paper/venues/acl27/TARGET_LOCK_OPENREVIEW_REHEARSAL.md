@@ -62,24 +62,17 @@ Use `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md` as the blank template for these
 decisions. Fill a private ignored copy named
 `OPENREVIEW_AUTHOR_GATE_FILLED.local.md`; do not commit real author names,
 OpenReview IDs, email addresses, or private submission-history links.
+Use `OPENREVIEW_AUTHOR_GATE_FILLING_GUIDE.md` for the exact fill order,
+privacy checks, and stop conditions.
 
 ## Upload Rehearsal Checklist
 
 Run this only after the route and author decisions above are known, and rerun
-it after any future manuscript, bibliography, checklist, or packet change.
+it after any future manuscript, bibliography, checklist, or packet change. The
+preferred command is now the consolidated repository-side gate:
 
 ```bash
-make -C paper clean-acl27 && make -C paper acl27
-python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py
-python paper/venues/acl27/scripts/stage_submission_packet.py --force
-rg -n "/cpfs|/home/|/root/|zhuzihou|jandan138|github.com/jandan138|ConvertAsset.git" \
-  paper/submissions/acl27_arr_candidate_20260526
-rg -n "Acknowledg|thanks|Acknowledgment" \
-  paper/submissions/acl27_arr_candidate_20260526
-find paper/submissions/acl27_arr_candidate_20260526 -type f -print | sort
-pdfinfo paper/submissions/acl27_arr_candidate_20260526/main.pdf
-pdftotext paper/submissions/acl27_arr_candidate_20260526/main.pdf - | \
-  rg -n "Anonymous ACL submission|Limitations|Ethical Considerations|References"
+python paper/venues/acl27/scripts/run_preupload_gate.py
 ```
 
 Expected packet contents:
