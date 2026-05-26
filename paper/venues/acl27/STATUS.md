@@ -89,6 +89,18 @@ defines the upload boundary and anonymization scans. The next large target is a
 concrete ARR upload staging directory/archive plus final model/license/terms
 confirmation, not more unbounded experiment collection.
 
+Submission-staging smoke update on 2026-05-26:
+`scripts/stage_submission_packet.py` now generates the ignored local candidate
+packet `paper/submissions/acl27_arr_candidate_20260526/` from the built ACL PDF.
+The smoke packet contains only `main.pdf`, `supplemental/README.md`, and
+`supplemental/manifest.json`; selected videos and raw/scratch/model artifacts
+remain excluded. `SUBMISSION_STAGING_AUDIT.md` records the first scan pass:
+the staged directory had no local path, username, private-repo, or
+acknowledgment matches; `pdfinfo` reported 11 A4 pages; `pdftotext` found the
+anonymous header, `Limitations`, `Ethical Considerations`, and `References`.
+This closes the minimal PDF-first staging gate, but not the final target-call,
+model identity, artifact-terms, or optional media redistribution gates.
+
 InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now has a real
 one-episode embodied downstream smoke run for scene
 `MV7J6NIKTKJZ2AABAAAAADY8_usd`. The prep manifest is

@@ -53,6 +53,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-26 ACL/ARR submission readiness audit](2026-05-26-acl-arr-submission-readiness-audit.md)
 - [2026-05-26 ACL citation and provenance closure](2026-05-26-acl-citation-provenance-closure.md)
 - [2026-05-26 ACL final packet closure pass](2026-05-26-acl-final-packet-closure-pass.md)
+- [2026-05-26 ACL/ARR submission staging smoke](2026-05-26-acl-submission-staging-smoke.md)
 - [2026-05-23 CVPR review status and ACL goals](2026-05-23-cvpr-review-status-and-acl-goals.md)
 - [2026-05-20 OSS dataset restore for GRScenes test0 parallel](2026-05-20-oss-dataset-restore.md)
 - [2026-05-20 ACL GRScenes dataset role correction](2026-05-20-acl-grscenes-dataset-role-correction.md)

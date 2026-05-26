@@ -33,8 +33,28 @@ format until the final target call publishes conference-specific instructions.
 | Artifact provenance | `ARTIFACT_PROVENANCE_DRAFT.md`. | Partially ready; InteriorAgent/KuJiaLe full terms and Gemma4 public checkpoint match remain open. |
 | Compute/runtime summary | `COMPUTE_RUNTIME_SUMMARY_DRAFT.md`. | Draft ready; final author confirmation and public checkpoint IDs needed. |
 | Responsible NLP checklist | `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md`. | Draft ready; final OpenReview fields and exact section/page/line references needed. |
-| Supplemental anonymization | This checklist. | Not complete until a concrete upload directory/archive exists and passes the scans below. |
+| Supplemental anonymization | `SUBMISSION_STAGING_AUDIT.md`; `paper/venues/acl27/scripts/stage_submission_packet.py`. | Minimal PDF-first staging smoke passed for the ignored local packet; final archive and optional media still need pre-upload re-scan. |
 | Annual ACL 2027 call | Public search on 2026-05-26 found ARR/ACLPUB and EACL 2027 pages, not Annual ACL 2027 CFP/author kit. | External blocker for Annual-ACL-2027-final readiness. |
+
+## Candidate Staging Command
+
+The current minimal staging command is:
+
+```bash
+python paper/venues/acl27/scripts/stage_submission_packet.py --force
+```
+
+It creates an ignored local packet at
+`paper/submissions/acl27_arr_candidate_20260526/` containing only:
+
+- `main.pdf`
+- `supplemental/README.md`
+- `supplemental/manifest.json`
+
+The script currently refuses `--include-media`; selected qualitative videos stay
+out of the review packet until license, terms-of-use, and anonymization checks
+are complete. See `SUBMISSION_STAGING_AUDIT.md` for the 2026-05-26 smoke
+results.
 
 ## Anonymization Scan Commands
 

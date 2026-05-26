@@ -39,7 +39,7 @@ ACL/ARR-candidate ready, not yet Annual-ACL-2027-final ready.
 | Review long-paper page budget | Latest build is 11 PDF pages total; main content ends at conclusion on page 7, limitations begins on page 7, references begin on page 8. Generic ACLPUB long-paper review limit is 8 content pages excluding references, limitations, and ethical considerations. | Pass for generic ARR/ACLPUB long paper |
 | Bibliography resolution | Latest `make -C paper clean-acl27 && make -C paper acl27` resolves citations and writes `build/main.pdf`. | Pass |
 | Claim boundary | `CLAIM_AUDIT.md` forbids broad embodied benchmark, speedup, NVIDIA official-scene performance, and population NVIDIA failure-rate claims. | Pass |
-| Supplement self-contained status | Main paper contains the core evidence and scope boundaries; appendices/supplement add detail. `FINAL_SUBMISSION_PACKET_CHECKLIST.md` now defines the upload boundary. | Needs final human read and archive scan |
+| Supplement self-contained status | Main paper contains the core evidence and scope boundaries; appendices/supplement add detail. `FINAL_SUBMISSION_PACKET_CHECKLIST.md` defines the upload boundary and `SUBMISSION_STAGING_AUDIT.md` records the first minimal PDF-first staging smoke. | Candidate staging smoke pass; final human read and any archive/media scan still required |
 | Official Annual ACL 2027 policy | No public Annual ACL 2027 CFP/author kit found in checked sources. | External blocker |
 
 ## ARR Desk-Rejection Risk Checklist
@@ -53,7 +53,7 @@ ACL/ARR-candidate ready, not yet Annual-ACL-2027-final ready.
 | Ethical considerations placement | Present before references. | Low risk |
 | Acknowledgments in review PDF | No acknowledgments section in `main.tex` or sections. | Low risk |
 | Author-identifying links | No `http://` or `https://` links found in `main.tex`, ACL sections, or shared appendix text. | Low risk |
-| Non-anonymous repository/service links in supplement | `FINAL_SUBMISSION_PACKET_CHECKLIST.md` defines required `rg` scans, but no concrete upload archive has been assembled and scanned yet. | Follow-up |
+| Non-anonymous repository/service links in supplement | The ignored local packet `paper/submissions/acl27_arr_candidate_20260526/` was assembled by `stage_submission_packet.py` and scanned; no local path, username, private-repo, or acknowledgment matches were found in the staged directory. | Low risk for the minimal PDF-first packet; re-run before upload and after any media/source additions |
 | Responsible NLP checklist weak answers | Draft section mapping and compute/runtime summary now exist, but final OpenReview/checklist fields still need human completion and section/page/line references. | Follow-up |
 | Reference permanent identifiers | `CITATION_PROVENANCE_AUDIT.md` now records DOI/URL metadata for all 20 currently cited ACL-wrapper keys. | Low risk, with final proceedings metadata check |
 | Annual ACL 2027 official details | Public Annual ACL 2027 CFP/site not found. | External blocker |
@@ -95,6 +95,7 @@ ARR checklist.
    using `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md` as the starting point.
 4. Re-check bibliography permanent identifiers after any new citations are
    added; current ACL-wrapper citations now have DOI or URL metadata.
-5. Assemble a concrete upload staging directory and run the anonymization scans
-   in `FINAL_SUBMISSION_PACKET_CHECKLIST.md` over the PDF, supplemental paths,
-   metadata, and any archive packaged for upload.
+5. Re-run `stage_submission_packet.py` and the anonymization scans in
+   `FINAL_SUBMISSION_PACKET_CHECKLIST.md` immediately before upload, especially
+   if any source, bibliography, checklist, or supplemental media changes are
+   made after the 2026-05-26 staging smoke.
