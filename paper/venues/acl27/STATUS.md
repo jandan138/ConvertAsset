@@ -66,6 +66,14 @@ style guide, while public search surfaced EACL 2027 rather than an Annual ACL
 2027 CFP/site. Treat the wrapper as an ACL/ARR candidate until the official
 Annual ACL 2027 call, page limits, checklist, and author kit are public.
 
+Submission-readiness audit update on 2026-05-26: `SUBMISSION_READINESS_AUDIT.md`
+now maps the current wrapper against public ARR/ACLPUB policy sources, and
+`CITATION_PROVENANCE_AUDIT.md` lists all 20 ACL-wrapper citation keys plus the
+remaining DOI/URL/provenance gaps. The local ACL PDF is compatible with the
+generic long-paper budget in this check, but the goal is not complete until the
+final target call is public and the citation/provenance and Responsible NLP
+checklist gaps are closed.
+
 InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now has a real
 one-episode embodied downstream smoke run for scene
 `MV7J6NIKTKJZ2AABAAAAADY8_usd`. The prep manifest is

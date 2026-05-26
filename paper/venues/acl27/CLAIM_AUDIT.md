@@ -35,6 +35,10 @@ submission-readiness checklist, not a new experiment.
   https://github.com/acl-org/acl-style-files
 - ACLPUB style-guide entry checked:
   https://acl-org.github.io/ACLPUB/style.html
+- Submission-readiness policy audit:
+  `SUBMISSION_READINESS_AUDIT.md`
+- Citation and provenance audit:
+  `CITATION_PROVENANCE_AUDIT.md`
 - Current public search found EACL 2027, not an Annual ACL 2027 CFP/site:
   https://2027.eacl.org/
 - Existing Annual ACL 2027 target should therefore remain an ACL/ARR candidate
