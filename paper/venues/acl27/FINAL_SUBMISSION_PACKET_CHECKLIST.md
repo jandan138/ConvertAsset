@@ -39,7 +39,7 @@ format until the final target call publishes conference-specific instructions.
 | Author/OpenReview human gates | `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md`; `OPENREVIEW_AUTHOR_GATE_FILLING_GUIDE.md`. | Blank template and fill-order guide exist. Fill only a private ignored copy, not the tracked template and not the review packet. |
 | Responsible NLP checklist | `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md`; `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`. | OpenReview copy-ready packet now exists with current PDF section/page anchors; final form copy and any target-call wording remain human-gated. |
 | Supplemental anonymization | `SUBMISSION_STAGING_AUDIT.md`; `paper/venues/acl27/scripts/stage_submission_packet.py`. | Minimal PDF-first staging smoke passed for the ignored local packet; final archive and optional media still need pre-upload re-scan. |
-| Consolidated pre-upload gate | `scripts/run_preupload_gate.py`; `tests/test_acl_preupload_gate.py`; `SUBMISSION_STAGING_AUDIT.md`. | Repository-side rehearsal command passes on the current candidate state: claim/metadata/evidence-number gates, 20 focused tests, clean PDF build, LaTeX log scan, five-file packet staging, private-token scan, acknowledgment scan, `pdfinfo`, and `pdftotext` markers. |
+| Consolidated pre-upload gate | `scripts/run_preupload_gate.py`; `tests/test_acl_preupload_gate.py`; `SUBMISSION_STAGING_AUDIT.md`. | Repository-side rehearsal command passes on the current candidate state: claim/metadata/evidence-number gates, 23 focused tests, clean PDF build, LaTeX log scan, five-file packet staging, private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and ordered `pdftotext` markers. The current profile guard enforces a 12-page cap, A4 page size, and PDF 1.5 for this candidate packet. |
 | Target-call lock | `TARGET_CALL_POLICY_AUDIT.md`; `TARGET_LOCK_OPENREVIEW_REHEARSAL.md`. | EACL 2027 is a public ARR-family route with August 3, 2026 ARR deadline, but its full CFP is still forthcoming. Annual ACL 2027 CFP/author kit remains unavailable in checked official sources. Author route/profile/reviewer-registration/preprint decisions remain human-gated. |
 
 ## Candidate Staging Command
@@ -53,8 +53,8 @@ python paper/venues/acl27/scripts/run_preupload_gate.py
 It wraps the local automated gate: claim-boundary check, OpenReview metadata
 consistency check, evidence-number consistency check, focused ACL pytest suite,
 clean ACL PDF rebuild, final LaTeX log scan, candidate packet staging, exact
-packet inventory, private-token scan, acknowledgment scan, `pdfinfo`, and
-`pdftotext` section/title checks.
+packet inventory, private-token scan, acknowledgment scan, `pdfinfo`,
+`pdf_profile`, and `pdftotext` section/title checks.
 
 For a narrower staging-only smoke, the underlying commands are:
 
@@ -99,6 +99,9 @@ Expected result:
 - No local absolute paths, usernames, private repository URLs, or raw checkpoint
   paths in uploadable text/metadata.
 - Review PDF uses anonymous author block and has no acknowledgments.
+- Review PDF remains within the current candidate profile: at most 12 pages,
+  A4 page size, and PDF 1.5. Update the profile cap only after a final
+  venue-policy review.
 - `Limitations` and `Ethical Considerations` appear before `References`.
 - Supplemental media is excluded unless a separate author/legal media path is
   approved; any future media must be described as selected qualitative evidence,

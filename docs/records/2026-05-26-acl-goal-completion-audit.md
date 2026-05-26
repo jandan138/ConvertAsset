@@ -39,12 +39,13 @@ completion audit was refreshed against the latest full gate evidence:
 - The runner passed claim-boundary, OpenReview metadata consistency,
   evidence-number consistency, focused pytest, clean ACL build, LaTeX log,
   packet staging, inventory, local/private-token scan, acknowledgment scan,
-  `pdfinfo`, and `pdftotext` checks on the current candidate.
-- The focused pytest step now passes 20 tests across staging, layout, metadata,
+  `pdfinfo`, `pdf_profile`, and `pdftotext` checks on the current candidate.
+- The focused pytest step now passes 23 tests across staging, layout, metadata,
   claim-boundary, evidence-number, and pre-upload runner checks.
 - The abstract remains under the ACLPUB 200-word guidance by the repository
   tokenizer.
-- The clean build produces an 11-page A4 review PDF.
+- The clean build produces a 12-page A4 review PDF under the current candidate
+  profile guard.
 - The staged packet remains the safe five-file boundary: anonymous PDF,
   OpenReview metadata source, OpenReview checklist source, supplemental README,
   and manifest.

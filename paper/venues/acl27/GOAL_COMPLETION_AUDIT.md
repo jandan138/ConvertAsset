@@ -33,10 +33,10 @@ and evidence-gate table were added, the candidate was rebuilt and restaged on
 `docs/records/2026-05-26-acl-evidence-number-check.md`: the consolidated
 pre-upload gate passed claim-boundary, metadata, evidence-number, focused
 pytest, clean build, LaTeX log, staging, inventory, anonymization,
-acknowledgment, `pdfinfo`, and `pdftotext` checks. The focused pytest step now
-passes 20 tests, the refreshed abstract is 189 words by the conservative
-tokenizer, the clean ACL build produces a 12-page A4 PDF, and the staged packet
-still contains only the safe five-file boundary.
+acknowledgment, `pdfinfo`, `pdf_profile`, and `pdftotext` checks. The focused
+pytest step now passes 23 tests, the refreshed abstract is 189 words by the
+conservative tokenizer, the clean ACL build produces a 12-page A4 PDF, and the
+staged packet still contains only the safe five-file boundary.
 
 Evidence-gate table refresh: the ACL method now includes
 Table `tab:acl_evidence_gate_registry`, which makes the proxy, VLM grounding,
@@ -125,8 +125,8 @@ Do not claim:
    or packet change, and do not treat it as a substitute for the venue's own
    plagiarism screening.
 6. **Pre-upload rebuild and scans**: rerun clean PDF build, candidate staging,
-   anonymization scans, `pdfinfo`, and `pdftotext` checks on the exact upload
-   directory.
+   anonymization scans, `pdfinfo`, `pdf_profile`, and `pdftotext` checks on
+   the exact upload directory.
 
 ## Recommended Next Large Goal
 

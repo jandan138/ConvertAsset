@@ -154,10 +154,11 @@ Goal-completion refresh after pre-upload automation on 2026-05-26: the current
 candidate is now guarded by `run_preupload_gate.py`, which includes
 claim-boundary, OpenReview metadata, evidence-number, focused pytest, clean
 build, LaTeX log, staging, inventory, anonymization, acknowledgment,
-`pdfinfo`, and `pdftotext` checks. The focused suite now covers 20 tests. This
-strengthens repository-side readiness but still does not close target-route,
-official OpenReview, private author, runtime/AI-assistance, or media/legal
-gates.
+`pdfinfo`, `pdf_profile`, and ordered `pdftotext` checks. The focused suite now
+covers 23 tests, and the current PDF profile guard enforces the 12-page A4/PDF
+1.5 candidate shape. This strengthens repository-side readiness but still does
+not close target-route, official OpenReview, private author,
+runtime/AI-assistance, or media/legal gates.
 
 Reference web-trail update on 2026-05-26:
 `paper/shared/evidence/references/verification_report.md` now contains a

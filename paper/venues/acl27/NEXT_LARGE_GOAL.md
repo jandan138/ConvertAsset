@@ -92,15 +92,17 @@ This goal is done only when all of the following are true:
    `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md`.
 5. The PDF is rebuilt from a clean state.
 6. The final log has no unresolved citations or references.
-7. The claim-boundary checker passes over the final ACL manuscript and
+7. The PDF profile guard passes on the final staged PDF, or any cap change is
+   deliberately made after official venue-policy review.
+8. The claim-boundary checker passes over the final ACL manuscript and
    OpenReview metadata source.
-8. The final staged packet contains only the safe upload boundary.
-9. Anonymization scans over the exact staged packet pass.
-10. Responsible NLP checklist and metadata copy sources match the final PDF;
+9. The final staged packet contains only the safe upload boundary.
+10. Anonymization scans over the exact staged packet pass.
+11. Responsible NLP checklist and metadata copy sources match the final PDF;
    `check_metadata_consistency.py` passes before staging.
-11. Any optional media is either explicitly excluded or legally approved and
+12. Any optional media is either explicitly excluded or legally approved and
    separately scanned.
-12. `STATUS.md`, `SUBMISSION_READINESS_AUDIT.md`,
+13. `STATUS.md`, `SUBMISSION_READINESS_AUDIT.md`,
     `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, and
     `TARGET_LOCK_OPENREVIEW_REHEARSAL.md` are updated with the final result.
 
@@ -118,7 +120,8 @@ python paper/venues/acl27/scripts/run_preupload_gate.py
 This command is the preferred local final-gate rehearsal. It wraps the clean
 build, focused tests, claim-boundary check, metadata consistency check,
 evidence-number consistency check, packet staging, packet inventory check,
-anonymization scan, acknowledgment scan, `pdfinfo`, and `pdftotext` checks.
+anonymization scan, acknowledgment scan, `pdfinfo`, PDF profile guard, and
+`pdftotext` checks.
 
 If the runner needs to be expanded or debugged manually, its component commands
 are:
@@ -138,6 +141,10 @@ pdfinfo paper/submissions/acl27_arr_candidate_20260526/main.pdf
 pdftotext paper/submissions/acl27_arr_candidate_20260526/main.pdf - | \
   rg -n "Anonymous ACL submission|Limitations|Ethical Considerations|References"
 ```
+
+Manual fallback must also confirm that `pdfinfo` reports no more than 12 pages,
+A4 page size, and PDF version 1.5 for the current candidate profile unless the
+final venue policy justifies updating `PDF_MAX_TOTAL_PAGES`.
 
 Expected staged files:
 
