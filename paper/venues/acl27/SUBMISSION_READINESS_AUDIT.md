@@ -57,6 +57,7 @@ OpenReview profiles, and reviewer-registration confirmation as human gates.
 | Citation context / data integrity delta | `FINAL_INTEGRITY_DELTA_AUDIT.md` checks all current citation-bearing sentences, main numerical claims, forbidden-claim search results, and sampled exact-phrase originality searches. | Pass for current source; rerun after any manuscript, bibliography, target, or packet change |
 | Automated citation inventory | `scripts/check_citation_inventory.py` parses ACL citations, `paper/shared/references.bib`, and the 2026-05-26 web-trail addendum. | Pass for current source: 20 cited keys, no missing BibTeX entry, no cited key without DOI/URL, and exact web-trail coverage; included in `run_preupload_gate.py` |
 | Automated evidence-number consistency | `scripts/check_evidence_numbers.py` recomputes the ACL-facing proxy, GRScenes VLM, InternNav, official-scene, and coordinate-baseline numbers from local CSV/JSON evidence and checks manuscript/OpenReview markers. | Pass for current source; included in `run_preupload_gate.py` |
+| Automated final-integrity source freshness | `scripts/check_integrity_fingerprint.py` validates `FINAL_INTEGRITY_SOURCE_FINGERPRINT.json` against 41 current manuscript, bibliography, policy, OpenReview-copy, reference web-trail, table, and evidence CSV/JSON sources. | Pass for current source; included in `run_preupload_gate.py` before PDF build/staging |
 | Packet checksum sidecar | `stage_submission_packet.py` writes `paper/submissions/acl27_arr_candidate_20260526.sha256`; `run_preupload_gate.py` validates it. | Pass for current staged packet: the anonymous packet remains five files, and the adjacent ignored sidecar records/verifies their SHA-256 digests |
 | Supplement self-contained status | Main paper contains the core evidence and scope boundaries; appendices/supplement add detail. `FINAL_SUBMISSION_PACKET_CHECKLIST.md` defines the upload boundary and `SUBMISSION_STAGING_AUDIT.md` records the first minimal PDF-first staging smoke. | Candidate staging smoke pass; final human read and any archive/media scan still required |
 | Official Annual ACL 2027 policy | No public Annual ACL 2027 CFP/author kit found in checked sources. | External blocker |
@@ -114,10 +115,12 @@ ARR checklist.
    unless authors approve a separate terms/anonymization path.
 3. Copy the `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` answers into the official
    OpenReview form after one final PDF rebuild and target-call check.
-4. Re-check bibliography permanent identifiers, rerun `check_citation_inventory.py`, and rerun
-   `FINAL_INTEGRITY_DELTA_AUDIT.md` after any new citations, manuscript edits,
-   target changes, or packet changes; current ACL-wrapper citations now have
-   DOI or URL metadata and current-source citation/data checks.
+4. Re-check bibliography permanent identifiers, rerun `check_citation_inventory.py`,
+   rerun `FINAL_INTEGRITY_DELTA_AUDIT.md`, and refresh
+   `FINAL_INTEGRITY_SOURCE_FINGERPRINT.json` after any new citations,
+   manuscript edits, target changes, evidence changes, OpenReview-copy changes,
+   or packet changes; current ACL-wrapper citations now have DOI or URL
+   metadata and current-source citation/data checks.
 5. Re-run the consolidated `run_preupload_gate.py` immediately before upload,
    especially if any source, bibliography, checklist, evidence table, or
    supplemental media changes are made after the 2026-05-26 staging smoke.

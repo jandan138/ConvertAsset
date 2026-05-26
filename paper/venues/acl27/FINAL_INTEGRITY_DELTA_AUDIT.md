@@ -5,10 +5,16 @@ Checked: 2026-05-26.
 This audit is a current-manuscript integrity delta pass after the 20-reference
 web-trail audit. It covers the exact ACL wrapper sources under
 `paper/venues/acl27/sections/*.tex` plus `paper/shared/sections/appendix.tex`.
+It is now paired with `FINAL_INTEGRITY_SOURCE_FINGERPRINT.json`, which records
+the current SHA-256 fingerprint for the ACL manuscript, bibliography, policy,
+OpenReview copy sources, key evidence tables, and reference web-trail sources
+used by this audit.
 
 It does not replace the final human upload step: if the manuscript,
 bibliography, target venue, checklist wording, or supplemental packet changes,
-rerun this audit and the staging scans on the exact upload artifact.
+rerun this audit, refresh the fingerprint with
+`check_integrity_fingerprint.py --write`, and rerun the staging scans on the
+exact upload artifact.
 
 ## Scope
 
@@ -19,6 +25,7 @@ rerun this audit and the staging scans on the exact upload artifact.
 | Claim boundary | Strong/forbidden wording search covered broad benchmark, speedup, NVIDIA official-scene performance, population failure rate, procedural-texture success, learned classifier, R2R/MP3D, and manipulation claims. | Pass; no manuscript edit required. |
 | Originality smoke | Exact-phrase web searches sampled distinctive manuscript sentences across abstract, introduction, method, results, discussion, conclusion, limitations, and appendix. | No copied-source finding in this smoke pass. |
 | Venue policy freshness | Official ARR/EACL/ACLPUB pages were reopened on 2026-05-26. | Annual ACL 2027 remains unavailable; EACL 2027 is the public ACL-family ARR route. |
+| Source freshness fingerprint | `FINAL_INTEGRITY_SOURCE_FINGERPRINT.json` covers 41 current source files, including ACL LaTeX, shared appendix/tables, `references.bib`, OpenReview copy sources, target-policy notes, reference web-trail, and key CSV/JSON evidence. | Pass for current source; `run_preupload_gate.py` now fails before staging if these sources drift. |
 
 ## Citation Context Findings
 
@@ -104,6 +111,8 @@ rg -n "[0-9]+(\\.[0-9]+)?(%|/|--| paired| scenes| episodes| runs| pages| targets
 python - <<'PY'
 # recomputed proxy metric means from image_quality.csv and feature_similarity.csv
 PY
+python paper/venues/acl27/scripts/check_integrity_fingerprint.py --write
+python paper/venues/acl27/scripts/check_integrity_fingerprint.py
 ```
 
 ## Remaining Gates
@@ -117,6 +126,7 @@ This pass narrows the remaining goal blockers to:
 3. Obtain final author confirmation for runtime/AI-assistance wording and keep
    optional InteriorAgent / KuJiaLe scene-derived media excluded unless an
    explicit legal/anonymization path is approved.
-4. Rerun this integrity delta, clean PDF build, staging command, and
-   anonymization scans after any future manuscript, bibliography, target, or
-   packet change.
+4. Rerun this integrity delta, refresh
+   `FINAL_INTEGRITY_SOURCE_FINGERPRINT.json`, clean PDF build, staging command,
+   and anonymization scans after any future manuscript, bibliography, target,
+   evidence, OpenReview-copy, or packet change.

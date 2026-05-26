@@ -1,0 +1,213 @@
+{
+  "purpose": "Guards the ACL final-integrity delta audit against stale manuscript, bibliography, policy, and evidence sources.",
+  "schema_version": 1,
+  "source_count": 41,
+  "source_root": "paper",
+  "sources": [
+    {
+      "path": "shared/evidence/raw/feature_similarity.csv",
+      "sha256": "78a2f9f863f4822e7fc6b4246ac60bec634a083ae2c1ccb748f9bbe8be729e76",
+      "size_bytes": 1183
+    },
+    {
+      "path": "shared/evidence/raw/image_quality.csv",
+      "sha256": "adf8945a9c02208401b6cbaf1b220ece26315606478e82c42f0199d5b55554cc",
+      "size_bytes": 1365
+    },
+    {
+      "path": "shared/evidence/raw/internnav_vln_downstream/official_val_unseen_99/paired_99_summary.json",
+      "sha256": "0d4691e15bad72128289a05aa35cd66547f6c821c0aab9414d8aa529f3d1cde0",
+      "size_bytes": 4892
+    },
+    {
+      "path": "shared/evidence/raw/official_scene_submission_closure/official_scene_submission_closure_summary.json",
+      "sha256": "a4bf65181aa5ddea4837b4523ca881f8bcd1e1b2aaaf989c95c636d6299e9aa9",
+      "size_bytes": 16494
+    },
+    {
+      "path": "shared/evidence/references/verification_report.md",
+      "sha256": "903d4efab16fd090b26f1e62ea4d389d2b74f00f8bda83944dd3752271007520",
+      "size_bytes": 12947
+    },
+    {
+      "path": "shared/references.bib",
+      "sha256": "81c30c01745e209a80713d64e0228c34f987cd15343b03054fb2ae296d60f52c",
+      "size_bytes": 16018
+    },
+    {
+      "path": "shared/sections/appendix.tex",
+      "sha256": "f4bbffc5ecfd0900386aa7604aabdc5968462c87cc6d40d410928c8776e7d0ad",
+      "size_bytes": 1279
+    },
+    {
+      "path": "shared/tables/grscenes_vlm_clean_pool_pass15.csv",
+      "sha256": "f41e14bb203b0aa55336ea36fe242844782b2a9a522dddc959b607b5945c0016",
+      "size_bytes": 1317
+    },
+    {
+      "path": "shared/tables/grscenes_vlm_stress_expanded30.csv",
+      "sha256": "9c34ff4a79837b095174abb2731bc1a6ea8fdd64419e358c3e9fe98bcbd7cd91",
+      "size_bytes": 1059
+    },
+    {
+      "path": "shared/tables/material_effect_risk_matrix.csv",
+      "sha256": "b8125b76d62f2ef59d837818e719da22de617ad3db3235ab7a5394c29205b64d",
+      "size_bytes": 2692
+    },
+    {
+      "path": "shared/tables/official_scene_performance_summary.csv",
+      "sha256": "127b0394077c1b204fd470bfe86d0a0859cad83f621233f8658023a656b98204",
+      "size_bytes": 985
+    },
+    {
+      "path": "shared/tables/reviewer_closure_paired_ci.csv",
+      "sha256": "e520773bc7634c00fa3313ebe862617799eae4254ecb9ab3b8b9f4e9042cce04",
+      "size_bytes": 2014
+    },
+    {
+      "path": "shared/tables/tab_acl_evidence_gate_registry.tex",
+      "sha256": "5dc797c19bae2c1fb306cf17d74c1165bb922313bbb56b10a88b74672fb0e986",
+      "size_bytes": 1819
+    },
+    {
+      "path": "shared/tables/tab_grscenes_vlm_clean_pool_pass15.tex",
+      "sha256": "adfb6322390df4b1617c080678da9ec8b047cdf86a648fccd069effeedf20b89",
+      "size_bytes": 1097
+    },
+    {
+      "path": "shared/tables/tab_grscenes_vlm_coordinate_ablation.tex",
+      "sha256": "e56671d4822944d3aae6f178d5f9bc5086832c28c1729d69a9f0cc865c2b7429",
+      "size_bytes": 1431
+    },
+    {
+      "path": "shared/tables/tab_grscenes_vlm_failure_taxonomy.tex",
+      "sha256": "83250075ab755355a54b11f59311688b23ec95b15987ee336b0992b254d9ee51",
+      "size_bytes": 2504
+    },
+    {
+      "path": "shared/tables/tab_grscenes_vlm_pass_only_pilot.tex",
+      "sha256": "b5cf91aa678e6800dd51c415f3e8f120f12489f7b57a1fc749f39c2470899220",
+      "size_bytes": 1244
+    },
+    {
+      "path": "shared/tables/tab_grscenes_vlm_stress_expanded30.tex",
+      "sha256": "0b69262a1d40f247c5b6123603aa2ca56e94ca1653579a95f6ce675ec106d138",
+      "size_bytes": 1001
+    },
+    {
+      "path": "shared/tables/tab_grscenes_vlm_zoom_stress.tex",
+      "sha256": "a15effed1885aa86db115783b6d12aac16ed6e53de50e8950313b3ae71ccb88e",
+      "size_bytes": 1116
+    },
+    {
+      "path": "shared/tables/tab_material_effect_baseline_summary.tex",
+      "sha256": "7bdf5b5d2ed4583cac885a8bbcb493074a0fb98a8cfd22841ddb8dae611430dd",
+      "size_bytes": 1318
+    },
+    {
+      "path": "shared/tables/tab_material_effect_risk_matrix.tex",
+      "sha256": "13c9b87e53aa2e57cab0dda4aa13afa7d007a7cc056abdf2bbf466a614fc7458",
+      "size_bytes": 1333
+    },
+    {
+      "path": "shared/tables/tab_material_safe_conversion_recommender.tex",
+      "sha256": "421eb88e6b37bfcbbbddf24c36678d057a43652aaa5a7fa6911d825c624a44a4",
+      "size_bytes": 1193
+    },
+    {
+      "path": "shared/tables/tab_official_scene_performance_summary.tex",
+      "sha256": "175c0aa95445749111c707067360a69ffcd436350e4d09936dda58e531ed33e8",
+      "size_bytes": 1284
+    },
+    {
+      "path": "shared/tables/tab_official_scene_submission_closure_status.tex",
+      "sha256": "afebcdb0cea531e3ce44662d2868dcecfd0dbc5567ab2e84fe2d699dc1467e8b",
+      "size_bytes": 1243
+    },
+    {
+      "path": "shared/tables/tab_reviewer_closure_paired_ci.tex",
+      "sha256": "ae2280ba7d7ba40d211eb9b3e37c8554861402ca1f874c457b14f780880e0da5",
+      "size_bytes": 1526
+    },
+    {
+      "path": "shared/tables/tab_vlm_coordinate_baselines.tex",
+      "sha256": "c5a5036c67982fcb953c67c6949a85dcf31bd5196bff99fa01906a2f49851061",
+      "size_bytes": 789
+    },
+    {
+      "path": "shared/tables/vlm_coordinate_baselines.csv",
+      "sha256": "e0abea0acd1a22504f7dc4cb64a53913e4d0483e891ff3132d0ab41ae7dbd17d",
+      "size_bytes": 828
+    },
+    {
+      "path": "venues/acl27/OPENREVIEW_METADATA_PACKET.md",
+      "sha256": "3785e020f23940451902124c1a120613bd8bc16040e599e5723d4ef41a5323d1",
+      "size_bytes": 4625
+    },
+    {
+      "path": "venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md",
+      "sha256": "924632010a30bb739298659bbea5105c173bac0c7945b5bd1beceb0dbc8435ec",
+      "size_bytes": 10084
+    },
+    {
+      "path": "venues/acl27/TARGET_CALL_POLICY_AUDIT.md",
+      "sha256": "5c92fdc66f569f4e712175a1c51ae58a5a2d7dd52ebf1403029e41ed57743e16",
+      "size_bytes": 5904
+    },
+    {
+      "path": "venues/acl27/TARGET_LOCK_OPENREVIEW_REHEARSAL.md",
+      "sha256": "8fbd186e5021e1a6d5aaff194086bc16d006e53c2e4b0032aba1a48db8aacb12",
+      "size_bytes": 6585
+    },
+    {
+      "path": "venues/acl27/main.tex",
+      "sha256": "6b9f83ae351a058d2d1854ee66db3da032f071689f838dcf1299c1ac32c9cb1a",
+      "size_bytes": 884
+    },
+    {
+      "path": "venues/acl27/sections/abstract.tex",
+      "sha256": "68a25fd98ec079587f47a81c5ca605d8cea90615a574c4cfee5840ea563c2074",
+      "size_bytes": 1484
+    },
+    {
+      "path": "venues/acl27/sections/conclusion.tex",
+      "sha256": "5230b1b21c9792385ab16792fce6241cdfa73c2d38ec3207d4d90ee7a65e39f8",
+      "size_bytes": 1841
+    },
+    {
+      "path": "venues/acl27/sections/discussion.tex",
+      "sha256": "c31acfdd2546740b524d44e6570d94ebd4517c4bb8bf6e9b6857fa577df4ece9",
+      "size_bytes": 2689
+    },
+    {
+      "path": "venues/acl27/sections/ethical-considerations.tex",
+      "sha256": "4ff1dc8c5e7603b47d6674a6cdcce0a90d78b58bcd6a20f0625daf0f04b1a9fc",
+      "size_bytes": 754
+    },
+    {
+      "path": "venues/acl27/sections/intro.tex",
+      "sha256": "5cda101e2b63465acb16db5fb9dffc0a4366bf7aa77ca4ed3c0e9aebd17abdbc",
+      "size_bytes": 4326
+    },
+    {
+      "path": "venues/acl27/sections/limitations.tex",
+      "sha256": "a980e3cbe02200d578a9cfab8930571b61c271a57c7dfbd08f9d8aaba9262847",
+      "size_bytes": 2223
+    },
+    {
+      "path": "venues/acl27/sections/method.tex",
+      "sha256": "b54b38db598e477432b6e0f7b697e4e8b194e5cf88228c0f7d89f98393de6637",
+      "size_bytes": 3570
+    },
+    {
+      "path": "venues/acl27/sections/related.tex",
+      "sha256": "94835d34fe3c416eefebd0f17e0f4cfa35f7ee0b5632762f15779c99555a8f8e",
+      "size_bytes": 3325
+    },
+    {
+      "path": "venues/acl27/sections/results.tex",
+      "sha256": "ffdd22d9cc73ccd9336dc2e850ab4d431462ccbdb3b004eed949580a7d45195b",
+      "size_bytes": 5588
+    }
+  ]
+}

@@ -36,10 +36,11 @@ format until the final target call publishes conference-specific instructions.
 | Compute/runtime summary | `COMPUTE_RUNTIME_SUMMARY_DRAFT.md`. | Candidate-ready; final author confirmation of the checked host/runtime is still needed. |
 | OpenReview metadata | `OPENREVIEW_METADATA_PACKET.md`; `scripts/check_metadata_consistency.py`; `tests/test_acl_metadata_consistency.py`. | Title and 189-word abstract are copy-ready and now have an automated drift check against `main.tex` and `sections/abstract.tex`; recommended primary ARR area is `Multimodality and Language Grounding to Vision, Robotics and Beyond`, with `Resources and Evaluation` as secondary fit. |
 | Evidence-number consistency | `scripts/check_evidence_numbers.py`; `tests/test_acl_evidence_numbers.py`; `FINAL_INTEGRITY_DELTA_AUDIT.md`. | Automated checker reads local evidence CSV/JSON artifacts and verifies the ACL manuscript/OpenReview metadata still contain the matching proxy, VLM, InternNav, official-scene, and coordinate-baseline numbers. |
+| Final-integrity source freshness | `FINAL_INTEGRITY_SOURCE_FINGERPRINT.json`; `scripts/check_integrity_fingerprint.py`; `tests/test_acl_integrity_fingerprint.py`. | Automated checker validates 41 current manuscript, bibliography, policy, OpenReview-copy, reference web-trail, table, and CSV/JSON evidence sources before staging. If any source changes, refresh the human integrity audit and rewrite the fingerprint before upload. |
 | Author/OpenReview human gates | `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md`; `OPENREVIEW_AUTHOR_GATE_FILLING_GUIDE.md`; `scripts/check_author_gate.py`; `tests/test_acl_author_gate.py`. | Blank template, fill-order guide, and private worksheet checker exist. Fill only a private ignored copy, not the tracked template and not the review packet. The checker is expected to fail until `OPENREVIEW_AUTHOR_GATE_FILLED.local.md` exists and required fields are filled. |
 | Responsible NLP checklist | `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md`; `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`. | OpenReview copy-ready packet now exists with current PDF section/page anchors; final form copy and any target-call wording remain human-gated. |
 | Supplemental anonymization | `SUBMISSION_STAGING_AUDIT.md`; `paper/venues/acl27/scripts/stage_submission_packet.py`. | Minimal PDF-first staging smoke passed for the ignored local packet; final archive and optional media still need pre-upload re-scan. |
-| Consolidated pre-upload gate | `scripts/run_preupload_gate.py`; `tests/test_acl_preupload_gate.py`; `tests/test_acl_author_gate.py`; `tests/test_acl_citation_inventory.py`; `SUBMISSION_STAGING_AUDIT.md`. | Repository-side rehearsal command passes on the current candidate state: claim/metadata/citation-inventory/evidence-number gates, 31 focused tests, clean PDF build, LaTeX log scan, five-file packet staging, adjacent checksum-sidecar validation, private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and ordered `pdftotext` markers. The current profile guard enforces a 12-page cap, A4 page size, and PDF 1.5 for this candidate packet. |
+| Consolidated pre-upload gate | `scripts/run_preupload_gate.py`; `tests/test_acl_preupload_gate.py`; `tests/test_acl_author_gate.py`; `tests/test_acl_citation_inventory.py`; `tests/test_acl_integrity_fingerprint.py`; `SUBMISSION_STAGING_AUDIT.md`. | Repository-side rehearsal command passes on the current candidate state: claim/metadata/citation-inventory/evidence-number/fingerprint gates, 34 focused tests, clean PDF build, LaTeX log scan, five-file packet staging, adjacent checksum-sidecar validation, private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and ordered `pdftotext` markers. The current profile guard enforces a 12-page cap, A4 page size, and PDF 1.5 for this candidate packet. |
 | Target-call lock | `TARGET_CALL_POLICY_AUDIT.md`; `TARGET_LOCK_OPENREVIEW_REHEARSAL.md`. | EACL 2027 is a public ARR-family route with August 3, 2026 ARR deadline, but its full CFP is still forthcoming. Annual ACL 2027 CFP/author kit remains unavailable in checked official sources. Author route/profile/reviewer-registration/preprint decisions remain human-gated. |
 
 ## Candidate Staging Command
@@ -52,7 +53,7 @@ python paper/venues/acl27/scripts/run_preupload_gate.py
 
 It wraps the local automated gate: claim-boundary check, OpenReview metadata
 consistency check, citation-inventory check, evidence-number consistency check,
-focused ACL pytest suite, clean ACL PDF rebuild, final LaTeX log scan,
+final-integrity source fingerprint check, focused ACL pytest suite, clean ACL PDF rebuild, final LaTeX log scan,
 candidate packet staging, exact packet inventory, adjacent checksum-sidecar
 validation, private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`,
 and `pdftotext` section/title checks.
@@ -64,6 +65,7 @@ python paper/venues/acl27/scripts/check_claim_boundaries.py
 python paper/venues/acl27/scripts/check_metadata_consistency.py
 python paper/venues/acl27/scripts/check_citation_inventory.py
 python paper/venues/acl27/scripts/check_evidence_numbers.py
+python paper/venues/acl27/scripts/check_integrity_fingerprint.py
 python paper/venues/acl27/scripts/stage_submission_packet.py --force
 ```
 

@@ -262,6 +262,26 @@ scans. The refreshed full gate on 2026-05-26 passed with 31 focused tests, the
 same five packet files, a valid checksum sidecar, a 12-page A4 PDF 1.5, and
 306187 bytes.
 
+## Refresh After Final-Integrity Fingerprint Gate
+
+After adding the source-freshness fingerprint for the final integrity audit,
+the consolidated runner was executed again from the current repository state on
+2026-05-26:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Result: pass. The runner completed claim-boundary, OpenReview metadata
+consistency, citation-inventory, evidence-number, final-integrity fingerprint,
+34-test focused pytest, clean ACL build, final LaTeX log scan, candidate packet
+staging, exact packet inventory, adjacent checksum-sidecar validation,
+private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and
+`pdftotext_sections`. The fingerprint check validated 41 current source files
+before build/staging. The rebuilt staged PDF is still 12 A4 pages, PDF 1.5,
+and 306187 bytes, and the staged packet still contains exactly the five safe
+files plus the adjacent ignored checksum sidecar outside the packet.
+
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 
 After adding the consolidated runner and later adding the evidence-number

@@ -97,14 +97,17 @@ This goal is done only when all of the following are true:
    deliberately made after official venue-policy review.
 8. The claim-boundary checker passes over the final ACL manuscript and
    OpenReview metadata source.
-9. The final staged packet contains only the safe upload boundary, and the
+9. `FINAL_INTEGRITY_SOURCE_FINGERPRINT.json` matches the exact manuscript,
+   bibliography, target-policy, OpenReview-copy, reference web-trail, table,
+   and evidence sources used by the final integrity audit.
+10. The final staged packet contains only the safe upload boundary, and the
    adjacent local checksum sidecar validates those staged files.
-10. Anonymization scans over the exact staged packet pass.
-11. Responsible NLP checklist and metadata copy sources match the final PDF;
+11. Anonymization scans over the exact staged packet pass.
+12. Responsible NLP checklist and metadata copy sources match the final PDF;
    `check_metadata_consistency.py` passes before staging.
-12. Any optional media is either explicitly excluded or legally approved and
+13. Any optional media is either explicitly excluded or legally approved and
    separately scanned.
-13. `STATUS.md`, `SUBMISSION_READINESS_AUDIT.md`,
+14. `STATUS.md`, `SUBMISSION_READINESS_AUDIT.md`,
     `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, and
     `TARGET_LOCK_OPENREVIEW_REHEARSAL.md` are updated with the final result.
 
@@ -126,8 +129,9 @@ fail until the authors fill that ignored local file. `run_preupload_gate.py` is
 the preferred repository-side final-gate rehearsal. It wraps the clean build,
 focused tests, claim-boundary check, metadata consistency check,
 citation-inventory check, evidence-number consistency check, packet staging,
-packet inventory check, anonymization scan, acknowledgment scan, `pdfinfo`, PDF
-profile guard, packet checksum-sidecar validation, and `pdftotext` checks.
+final-integrity source fingerprint check, packet inventory check,
+anonymization scan, acknowledgment scan, `pdfinfo`, PDF profile guard, packet
+checksum-sidecar validation, and `pdftotext` checks.
 
 If the runner needs to be expanded or debugged manually, its component commands
 are:
@@ -139,6 +143,7 @@ python paper/venues/acl27/scripts/check_metadata_consistency.py
 python paper/venues/acl27/scripts/check_claim_boundaries.py
 python paper/venues/acl27/scripts/check_citation_inventory.py
 python paper/venues/acl27/scripts/check_evidence_numbers.py
+python paper/venues/acl27/scripts/check_integrity_fingerprint.py
 python paper/venues/acl27/scripts/check_author_gate.py
 python paper/venues/acl27/scripts/stage_submission_packet.py --force
 rg -n "/cpfs|/home/|/root|zhuzihou|jandan138|github.com/jandan138|ConvertAsset.git" \

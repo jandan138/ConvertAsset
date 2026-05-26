@@ -153,10 +153,11 @@ unbounded experiment collection.
 Goal-completion refresh after pre-upload automation on 2026-05-26: the current
 candidate is now guarded by `run_preupload_gate.py`, which includes
 claim-boundary, OpenReview metadata, citation inventory, evidence-number,
-focused pytest, clean build, LaTeX log, staging, inventory, packet checksum,
-anonymization, acknowledgment, `pdfinfo`, `pdf_profile`, and ordered
-`pdftotext` checks. The focused suite now covers 31 tests after adding
-citation-inventory, author-gate, and packet-checksum tests, and the current PDF
+final-integrity source fingerprint, focused pytest, clean build, LaTeX log,
+staging, inventory, packet checksum, anonymization, acknowledgment, `pdfinfo`,
+`pdf_profile`, and ordered `pdftotext` checks. The focused suite now covers 34
+tests after adding citation-inventory, author-gate, final-integrity
+fingerprint, and packet-checksum tests, and the current PDF
 profile guard enforces the 12-page A4/PDF 1.5 candidate shape. This strengthens
 repository-side readiness but still does not close target-route, official
 OpenReview, private author, runtime/AI-assistance, or media/legal gates.
@@ -191,7 +192,7 @@ Packet-checksum sidecar update on 2026-05-26:
 sidecar records SHA-256 digests for the five safe packet files without adding a
 sixth file to the anonymous review packet. `run_preupload_gate.py` now validates
 that sidecar immediately after the exact packet-inventory check. The refreshed
-full gate passes with 31 focused tests, the same five-file packet boundary,
+full gate at that stage passed with 31 focused tests, the same five-file packet boundary,
 12 A4 PDF pages, PDF 1.5, and 306187 bytes.
 
 Target-policy refresh after current-commit gate on 2026-05-26: official ARR,
@@ -412,17 +413,18 @@ Consolidated pre-upload gate update on 2026-05-26:
 `scripts/run_preupload_gate.py` and `tests/test_acl_preupload_gate.py` now make
 the local repository-side pre-upload rehearsal one command. The gate runs the
 claim-boundary checker, metadata consistency checker, citation-inventory
-checker, evidence-number checker, focused ACL pytest suite, clean ACL PDF build,
-final LaTeX log scan, candidate packet staging, exact packet inventory check,
-packet-checksum sidecar check, private-token scan, acknowledgment scan,
-`pdfinfo`, PDF profile guard, and `pdftotext` title/header/section-order
-checks. The full run now passes on the current ACL/ARR candidate: 31 focused
-tests passed, the rebuilt staged PDF is 12 A4 pages after the evidence-gate
-table refresh, the staged packet contains exactly the five safe files, the
-adjacent checksum sidecar validates those five files, and both private-token and
-acknowledgment scans had no matches. This does not close the human/external
-gates: target route lock, official policy refresh, private author worksheet,
-official OpenReview form copy, and final author/legal decisions still remain.
+checker, evidence-number checker, final-integrity source fingerprint checker,
+focused ACL pytest suite, clean ACL PDF build, final LaTeX log scan, candidate
+packet staging, exact packet inventory check, packet-checksum sidecar check,
+private-token scan, acknowledgment scan, `pdfinfo`, PDF profile guard, and
+`pdftotext` title/header/section-order checks. The full run now passes on the
+current ACL/ARR candidate: 34 focused tests passed, the rebuilt staged PDF is
+12 A4 pages after the evidence-gate table refresh, the staged packet contains
+exactly the five safe files, the adjacent checksum sidecar validates those five
+files, and both private-token and acknowledgment scans had no matches. This does
+not close the human/external gates: target route lock, official policy refresh,
+private author worksheet, official OpenReview form copy, and final author/legal
+decisions still remain.
 
 Evidence-number consistency update on 2026-05-26:
 `scripts/check_evidence_numbers.py` and `tests/test_acl_evidence_numbers.py`
@@ -459,3 +461,15 @@ unreviewed drift above 12 total pages, non-A4 page size, PDF versions other than
 1.5, or a PDF text order where `References` appears before `Limitations` and
 `Ethical Considerations`. This is a candidate-profile guard for the current
 ACL/ARR packet, not a replacement for final selected-venue page-limit policy.
+
+Final-integrity source fingerprint update on 2026-05-26:
+`scripts/check_integrity_fingerprint.py` now validates
+`FINAL_INTEGRITY_SOURCE_FINGERPRINT.json`, a 41-source SHA-256 fingerprint over
+the ACL manuscript, shared appendix and tables, bibliography, OpenReview copy
+sources, target-policy notes, reference web-trail, and key CSV/JSON evidence.
+`run_preupload_gate.py` now runs this check after citation/evidence-number
+checks and before focused pytest, clean build, and packet staging. The focused
+ACL pytest suite now covers 34 tests after adding
+`tests/test_acl_integrity_fingerprint.py`. This does not replace the human
+final-integrity delta audit; it makes source drift visible so the audit cannot
+quietly lag behind a changed manuscript or evidence file.
