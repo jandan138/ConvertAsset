@@ -153,14 +153,13 @@ unbounded experiment collection.
 Goal-completion refresh after pre-upload automation on 2026-05-26: the current
 candidate is now guarded by `run_preupload_gate.py`, which includes
 claim-boundary, OpenReview metadata, citation inventory, evidence-number,
-focused pytest, clean build, LaTeX log, staging, inventory, anonymization, acknowledgment,
-`pdfinfo`, `pdf_profile`, and ordered `pdftotext` checks. The focused suite now
-covers 30 tests after adding citation-inventory and author-gate checker tests,
-and the current
-PDF profile guard enforces the 12-page A4/PDF
-1.5 candidate shape. This strengthens repository-side readiness but still does
-not close target-route, official OpenReview, private author,
-runtime/AI-assistance, or media/legal gates.
+focused pytest, clean build, LaTeX log, staging, inventory, packet checksum,
+anonymization, acknowledgment, `pdfinfo`, `pdf_profile`, and ordered
+`pdftotext` checks. The focused suite now covers 31 tests after adding
+citation-inventory, author-gate, and packet-checksum tests, and the current PDF
+profile guard enforces the 12-page A4/PDF 1.5 candidate shape. This strengthens
+repository-side readiness but still does not close target-route, official
+OpenReview, private author, runtime/AI-assistance, or media/legal gates.
 
 Current-commit gate refresh on 2026-05-26: after the gate-status documentation
 sync, `run_preupload_gate.py` was rerun from a clean `main` checkout. The pass
@@ -185,6 +184,15 @@ The current pass covers 20 unique cited keys, with no missing BibTeX entries,
 no cited key lacking DOI/URL metadata, no missing web-trail key, and no uncited
 web-trail key. The checker is part of `run_preupload_gate.py` and has focused
 tests in `tests/test_acl_citation_inventory.py`.
+
+Packet-checksum sidecar update on 2026-05-26:
+`scripts/stage_submission_packet.py` now writes the ignored adjacent sidecar
+`paper/submissions/acl27_arr_candidate_20260526.sha256` after staging. The
+sidecar records SHA-256 digests for the five safe packet files without adding a
+sixth file to the anonymous review packet. `run_preupload_gate.py` now validates
+that sidecar immediately after the exact packet-inventory check. The refreshed
+full gate passes with 31 focused tests, the same five-file packet boundary,
+12 A4 PDF pages, PDF 1.5, and 306187 bytes.
 
 Target-policy refresh after current-commit gate on 2026-05-26: official ARR,
 EACL, and ACLPUB pages were reopened again. The route state is unchanged:
@@ -406,15 +414,15 @@ the local repository-side pre-upload rehearsal one command. The gate runs the
 claim-boundary checker, metadata consistency checker, citation-inventory
 checker, evidence-number checker, focused ACL pytest suite, clean ACL PDF build,
 final LaTeX log scan, candidate packet staging, exact packet inventory check,
-private-token scan, acknowledgment scan, `pdfinfo`, PDF profile guard, and `pdftotext`
-title/header/section-order checks. The full run now passes on the current
-ACL/ARR candidate: 30 focused tests
-passed, the rebuilt staged PDF is 12 A4 pages after the evidence-gate table
-refresh, the staged packet contains
-exactly the five safe files, and both private-token and acknowledgment scans
-had no matches. This does not close the human/external gates: target route
-lock, official policy refresh, private author worksheet, official OpenReview
-form copy, and final author/legal decisions still remain.
+packet-checksum sidecar check, private-token scan, acknowledgment scan,
+`pdfinfo`, PDF profile guard, and `pdftotext` title/header/section-order
+checks. The full run now passes on the current ACL/ARR candidate: 31 focused
+tests passed, the rebuilt staged PDF is 12 A4 pages after the evidence-gate
+table refresh, the staged packet contains exactly the five safe files, the
+adjacent checksum sidecar validates those five files, and both private-token and
+acknowledgment scans had no matches. This does not close the human/external
+gates: target route lock, official policy refresh, private author worksheet,
+official OpenReview form copy, and final author/legal decisions still remain.
 
 Evidence-number consistency update on 2026-05-26:
 `scripts/check_evidence_numbers.py` and `tests/test_acl_evidence_numbers.py`

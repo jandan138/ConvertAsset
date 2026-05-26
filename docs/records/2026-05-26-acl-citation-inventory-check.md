@@ -65,7 +65,9 @@ Current citation inventory result:
 - no uncited web-trail key.
 
 The full consolidated pre-upload gate now includes citation-inventory
-consistency and the focused ACL pytest suite now contains 30 tests.
+consistency. At the time of this change the focused ACL pytest suite contained
+30 tests; a later packet-checksum sidecar gate moved the current focused-suite
+count to 31 tests.
 
 ## Remaining Gate
 

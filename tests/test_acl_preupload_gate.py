@@ -1,4 +1,5 @@
 import importlib.util
+import hashlib
 from pathlib import Path
 
 import pytest
@@ -34,6 +35,7 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
         "latex_log_scan",
         "stage_packet",
         "packet_inventory",
+        "packet_checksum_sidecar",
         "packet_private_scan",
         "packet_acknowledgment_scan",
         "pdfinfo",
@@ -60,6 +62,37 @@ def test_packet_inventory_rejects_extra_files(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="unexpected"):
         module.check_packet_inventory(packet_root)
+
+
+def test_packet_checksum_sidecar_must_match_expected_files(tmp_path: Path) -> None:
+    module = load_module()
+    packet_root = tmp_path / "packet"
+    checksums = {}
+    for relative in module.EXPECTED_PACKET_FILES:
+        path = packet_root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(f"content for {relative}", encoding="utf-8")
+        checksums[relative] = hashlib.sha256(path.read_bytes()).hexdigest()
+    checksum_path = packet_root.with_name(packet_root.name + ".sha256")
+    checksum_path.write_text(
+        "\n".join(f"{checksums[relative]}  {relative}" for relative in sorted(checksums))
+        + "\n",
+        encoding="utf-8",
+    )
+
+    module.check_packet_checksum_sidecar(packet_root)
+
+    checksum_path.write_text(
+        "\n".join(
+            f"{'0' * 64 if relative == 'main.pdf' else checksums[relative]}  {relative}"
+            for relative in sorted(checksums)
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="checksum mismatch"):
+        module.check_packet_checksum_sidecar(packet_root)
 
 
 def test_text_scan_detects_private_tokens(tmp_path: Path) -> None:

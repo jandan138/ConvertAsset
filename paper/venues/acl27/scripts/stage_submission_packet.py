@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 from datetime import datetime, timezone
@@ -140,6 +141,33 @@ def assert_text_sanitized(path: Path) -> None:
         raise ValueError(f"{path} contains forbidden token(s): {', '.join(leaked)}")
 
 
+def packet_checksum_path(out_dir: Path) -> Path:
+    return out_dir.with_name(out_dir.name + ".sha256")
+
+
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def write_checksum_sidecar(out_dir: Path, manifest: dict[str, Any]) -> Path:
+    lines = []
+    for item in sorted(manifest["files"], key=lambda record: record["path"]):
+        relative_path = Path(item["path"])
+        if relative_path.is_absolute() or ".." in relative_path.parts:
+            raise ValueError(f"Refusing unsafe packet path in manifest: {item['path']}")
+        staged_path = out_dir / relative_path
+        lines.append(f"{file_sha256(staged_path)}  {item['path']}")
+
+    checksum_path = packet_checksum_path(out_dir)
+    checksum_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    assert_text_sanitized(checksum_path)
+    return checksum_path
+
+
 def prepare_output_dir(out_dir: Path, *, force: bool) -> None:
     if out_dir.exists():
         if not force:
@@ -196,6 +224,7 @@ def stage_submission_packet(
     assert_text_sanitized(checklist_staged)
     assert_text_sanitized(metadata_staged)
     assert_text_sanitized(manifest_path)
+    write_checksum_sidecar(out_dir, manifest)
     return manifest
 
 
@@ -232,7 +261,16 @@ def main() -> int:
         include_media=args.include_media,
         force=args.force,
     )
-    print(json.dumps({"out_dir": str(args.out_dir), "packet_id": manifest["packet_id"]}, indent=2))
+    print(
+        json.dumps(
+            {
+                "out_dir": str(args.out_dir),
+                "packet_id": manifest["packet_id"],
+                "checksum_path": str(packet_checksum_path(args.out_dir)),
+            },
+            indent=2,
+        )
+    )
     return 0
 
 

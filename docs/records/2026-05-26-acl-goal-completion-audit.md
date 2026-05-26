@@ -38,19 +38,20 @@ completion audit was refreshed against the latest full gate evidence:
   repository-side rehearsal command.
 - The runner passed claim-boundary, OpenReview metadata consistency,
   citation-inventory consistency, evidence-number consistency, focused pytest,
-  clean ACL build, LaTeX log, packet staging, inventory, local/private-token
-  scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and `pdftotext` checks
-  on the current candidate.
-- The focused pytest step now passes 30 tests across staging, layout, metadata,
-  claim-boundary, citation-inventory, evidence-number, private author-gate, and
-  pre-upload runner checks.
+  clean ACL build, LaTeX log, packet staging, inventory, packet checksum,
+  local/private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and
+  `pdftotext` checks on the current candidate.
+- The focused pytest step now passes 31 tests across staging, layout, metadata,
+  claim-boundary, citation-inventory, evidence-number, private author-gate,
+  packet-checksum, and pre-upload runner checks.
 - The abstract remains under the ACLPUB 200-word guidance by the repository
   tokenizer.
 - The clean build produces a 12-page A4 review PDF under the current candidate
   profile guard.
 - The staged packet remains the safe five-file boundary: anonymous PDF,
   OpenReview metadata source, OpenReview checklist source, supplemental README,
-  and manifest.
+  and manifest. The adjacent ignored checksum sidecar validates those five
+  packet files without becoming part of the upload packet.
 
 This refresh strengthens the candidate-readiness evidence but does not close
 the human gates: route lock, official OpenReview form copy, private author-gate

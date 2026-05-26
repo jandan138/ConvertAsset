@@ -233,15 +233,34 @@ python paper/venues/acl27/scripts/run_preupload_gate.py
 
 Result: pass. The runner completed claim-boundary, OpenReview metadata
 consistency, citation-inventory consistency, evidence-number consistency,
-30-test focused pytest, clean ACL build, final LaTeX log scan, candidate packet
-staging, inventory, local path/private-token scan, acknowledgment scan,
-`pdfinfo`, `pdf_profile`, and `pdftotext_sections`. The citation-inventory
-report covered 20 unique cited keys with no missing BibTeX entry, no cited key
-without DOI/URL, no missing web-trail key, and no uncited web-trail key.
-`pdfinfo` reported 12 pages, A4 page size, PDF 1.5, and 306187 bytes. The
-staged packet still contained exactly the five safe files: `main.pdf`,
-`openreview/METADATA.md`, `openreview/RESPONSIBLE_NLP_CHECKLIST.md`,
-`supplemental/README.md`, and `supplemental/manifest.json`.
+31-test focused pytest, clean ACL build, final LaTeX log scan, candidate packet
+staging, inventory, adjacent checksum-sidecar validation,
+local path/private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`,
+and `pdftotext_sections`. The citation-inventory report covered 20 unique cited
+keys with no missing BibTeX entry, no cited key without DOI/URL, no missing
+web-trail key, and no uncited web-trail key. `pdfinfo` reported 12 pages, A4
+page size, PDF 1.5, and 306187 bytes. The staged packet still contained exactly
+the five safe files: `main.pdf`, `openreview/METADATA.md`,
+`openreview/RESPONSIBLE_NLP_CHECKLIST.md`, `supplemental/README.md`, and
+`supplemental/manifest.json`.
+
+## Refresh After Packet Checksum Sidecar
+
+After adding the adjacent checksum sidecar, the staging script still keeps the
+anonymous review packet at the same five-file boundary. It now also writes the
+ignored local sidecar:
+
+```text
+paper/submissions/acl27_arr_candidate_20260526.sha256
+```
+
+That sidecar is outside `paper/submissions/acl27_arr_candidate_20260526/`, so it
+is not part of the upload packet. It records SHA-256 digests for exactly the five
+staged files. `run_preupload_gate.py` validates the sidecar immediately after
+the exact packet-inventory check and before private-token and acknowledgment
+scans. The refreshed full gate on 2026-05-26 passed with 31 focused tests, the
+same five packet files, a valid checksum sidecar, a 12-page A4 PDF 1.5, and
+306187 bytes.
 
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 

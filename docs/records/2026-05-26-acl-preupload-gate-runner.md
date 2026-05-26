@@ -99,15 +99,24 @@ Considerations`, and `References` appear in that order.
 This is a repository-side candidate guard, not a substitute for the final
 selected-venue policy check.
 
+Later packet-integrity refresh:
+
+The runner now also includes citation-inventory, evidence-number, and packet
+checksum-sidecar checks before the final private-token/PDF scans. The packet
+directory still contains exactly the same five safe files, while the adjacent
+ignored sidecar `paper/submissions/acl27_arr_candidate_20260526.sha256`
+records SHA-256 digests for those files and is validated by the runner.
+
 Current rerun after this refresh:
 
 ```bash
 python paper/venues/acl27/scripts/run_preupload_gate.py
 ```
 
-Passed. The focused pytest step now covers 23 tests, the clean staged PDF is 12
-A4 pages / PDF 1.5 / 306187 bytes, the new `pdf_profile` step completed, and
-the staged packet still contains exactly the five safe files.
+Passed. The focused pytest step now covers 31 tests, the clean staged PDF is 12
+A4 pages / PDF 1.5 / 306187 bytes, `pdf_profile` completed, the
+`packet_checksum_sidecar` step completed, and the staged packet still contains
+exactly the five safe files.
 
 ## Submission Impact
 

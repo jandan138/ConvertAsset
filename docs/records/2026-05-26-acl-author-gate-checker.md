@@ -73,7 +73,8 @@ The full consolidated pre-upload gate passes with the author-gate unit tests in
 the focused suite. At the time of this author-gate change, the focused suite
 contained 27 tests and the staged ACL candidate remained a 12-page A4 PDF 1.5
 packet with exactly five safe files. A later citation-inventory gate moved the
-current focused-suite count to 30 tests.
+focused-suite count to 30 tests, and a later packet-checksum sidecar gate moved
+the current focused-suite count to 31 tests.
 
 ## Remaining Gate
 

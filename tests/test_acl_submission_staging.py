@@ -1,5 +1,7 @@
 import importlib.util
+import hashlib
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -55,6 +57,20 @@ def read_packet_texts(packet_root: Path) -> str:
     return "\n".join(texts)
 
 
+def read_checksum_sidecar(packet_root: Path) -> dict[str, str]:
+    checksum_path = packet_root.with_name(packet_root.name + ".sha256")
+    checksums: dict[str, str] = {}
+    for line in checksum_path.read_text(encoding="utf-8").splitlines():
+        match = re.fullmatch(r"([0-9a-f]{64})  (.+)", line)
+        assert match, f"malformed checksum line: {line}"
+        checksums[match.group(2)] = match.group(1)
+    return checksums
+
+
+def sha256_file(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def test_stage_submission_packet_builds_sanitized_minimal_packet(tmp_path: Path) -> None:
     module = load_module()
     paper_root = make_fake_paper_root(tmp_path)
@@ -73,6 +89,7 @@ def test_stage_submission_packet_builds_sanitized_minimal_packet(tmp_path: Path)
     assert (out_dir / "openreview/METADATA.md").exists()
     assert (out_dir / "supplemental/README.md").exists()
     assert (out_dir / "supplemental/manifest.json").exists()
+    assert not (out_dir / "packet_checksums.sha256").exists()
     assert manifest["packet_id"] == "acl27_arr_candidate_test"
     assert manifest["include_media"] is False
     assert (
@@ -91,6 +108,17 @@ def test_stage_submission_packet_builds_sanitized_minimal_packet(tmp_path: Path)
     ]
     assert not (out_dir / "raw").exists()
     assert not list(out_dir.rglob("*.mp4"))
+
+    checksums = read_checksum_sidecar(out_dir)
+    assert sorted(checksums) == [
+        "main.pdf",
+        "openreview/METADATA.md",
+        "openreview/RESPONSIBLE_NLP_CHECKLIST.md",
+        "supplemental/README.md",
+        "supplemental/manifest.json",
+    ]
+    for relative_path, expected_digest in checksums.items():
+        assert sha256_file(out_dir / relative_path) == expected_digest
 
     combined_text = read_packet_texts(out_dir)
     for token in FORBIDDEN_TOKENS:

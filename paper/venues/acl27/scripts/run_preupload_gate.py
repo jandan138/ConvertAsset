@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -133,6 +134,11 @@ def build_preupload_plan(repo_root: Path) -> list[dict[str, object]]:
             "path": packet_root,
         },
         {
+            "id": "packet_checksum_sidecar",
+            "function": "check_packet_checksum_sidecar",
+            "path": packet_root,
+        },
+        {
             "id": "packet_private_scan",
             "function": "scan_private_tokens",
             "path": packet_root,
@@ -189,6 +195,58 @@ def check_packet_inventory(packet_root: Path) -> None:
         raise ValueError(
             f"packet inventory mismatch: missing={missing}, unexpected={unexpected}"
         )
+
+
+def packet_checksum_path(packet_root: Path) -> Path:
+    return packet_root.with_name(packet_root.name + ".sha256")
+
+
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def parse_checksum_sidecar(checksum_path: Path) -> dict[str, str]:
+    checksums: dict[str, str] = {}
+    for line_number, raw_line in enumerate(
+        checksum_path.read_text(encoding="utf-8").splitlines(),
+        start=1,
+    ):
+        match = re.fullmatch(r"([0-9a-f]{64})  (.+)", raw_line)
+        if not match:
+            raise ValueError(f"malformed checksum line {line_number}: {raw_line}")
+        relative_path = Path(match.group(2))
+        if relative_path.is_absolute() or ".." in relative_path.parts:
+            raise ValueError(f"unsafe checksum path on line {line_number}: {raw_line}")
+        checksums[match.group(2)] = match.group(1)
+    return checksums
+
+
+def check_packet_checksum_sidecar(packet_root: Path) -> None:
+    checksum_path = packet_checksum_path(packet_root)
+    if not checksum_path.exists():
+        raise ValueError(f"missing packet checksum sidecar: {checksum_path}")
+
+    checksums = parse_checksum_sidecar(checksum_path)
+    expected = sorted(EXPECTED_PACKET_FILES)
+    actual = sorted(checksums)
+    missing = sorted(set(expected) - set(actual))
+    unexpected = sorted(set(actual) - set(expected))
+    if missing or unexpected:
+        raise ValueError(
+            f"packet checksum inventory mismatch: missing={missing}, unexpected={unexpected}"
+        )
+
+    mismatches = []
+    for relative_path in expected:
+        digest = file_sha256(packet_root / relative_path)
+        if digest != checksums[relative_path]:
+            mismatches.append(relative_path)
+    if mismatches:
+        raise ValueError(f"packet checksum mismatch: {mismatches}")
 
 
 def iter_text_files(root: Path):
@@ -300,6 +358,8 @@ def run_function_step(step: dict[str, object]) -> None:
         check_latex_log(path)
     elif function == "check_packet_inventory":
         check_packet_inventory(path)
+    elif function == "check_packet_checksum_sidecar":
+        check_packet_checksum_sidecar(path)
     elif function == "scan_private_tokens":
         scan_text_forbidden_tokens(path, tokens=PRIVATE_TOKENS, label="private token")
     elif function == "scan_acknowledgment_tokens":

@@ -97,7 +97,8 @@ This goal is done only when all of the following are true:
    deliberately made after official venue-policy review.
 8. The claim-boundary checker passes over the final ACL manuscript and
    OpenReview metadata source.
-9. The final staged packet contains only the safe upload boundary.
+9. The final staged packet contains only the safe upload boundary, and the
+   adjacent local checksum sidecar validates those staged files.
 10. Anonymization scans over the exact staged packet pass.
 11. Responsible NLP checklist and metadata copy sources match the final PDF;
    `check_metadata_consistency.py` passes before staging.
@@ -126,7 +127,7 @@ the preferred repository-side final-gate rehearsal. It wraps the clean build,
 focused tests, claim-boundary check, metadata consistency check,
 citation-inventory check, evidence-number consistency check, packet staging,
 packet inventory check, anonymization scan, acknowledgment scan, `pdfinfo`, PDF
-profile guard, and `pdftotext` checks.
+profile guard, packet checksum-sidecar validation, and `pdftotext` checks.
 
 If the runner needs to be expanded or debugged manually, its component commands
 are:
