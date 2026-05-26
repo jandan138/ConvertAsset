@@ -58,7 +58,7 @@ require and here is what happens on a bounded GRScenes/InternNav case study."
 | --- | --- | --- | --- |
 | ACL fit | "This looks like graphics/simulation tooling, not NLP." | The ACL wrapper now frames the work around VLM grounding, coordinate contracts, and embodied-language data reliability. | Keep title, abstract, introduction, and contributions centered on language grounding. Avoid tool-first wording in the first page. |
 | Scope too small | "15 clean pairs, 30 stress pairs, and 99 InternNav episodes may be too narrow." | Claims are bounded to frozen evidence pools; `CLAIM_AUDIT.md` forbids broad benchmark wording. | Present the work as a diagnostic protocol and case study, not as a population benchmark. Do not add larger claims without larger evidence. |
-| Evidence feels heterogeneous | "Proxy metrics, VLM probes, NVIDIA cases, InternNav, and load/render timing may feel like separate projects." | `sections/method.tex` already organizes the method as evidence gates. | If there is room, add or preserve a concise evidence-gate table/figure that maps each claim to its gate. In text, repeatedly tie every result back to the same claim registry. |
+| Evidence feels heterogeneous | "Proxy metrics, VLM probes, NVIDIA cases, InternNav, and load/render timing may feel like separate projects." | `sections/method.tex` now organizes the method as evidence gates and includes Table `tab:acl_evidence_gate_registry`, which maps each stream to supported and forbidden claims. | Preserve the table and keep every result tied back to the same claim registry after any edit. |
 | NVIDIA baseline over-read | "The selected NVIDIA baseline could be treated as an unfair or cherry-picked comparison." | Current text limits it to selected material-effect bins and one selected clearcoat failure. | Keep all NVIDIA claims selected and material-effect scoped. Do not claim population failure rate or official-scene NVIDIA performance. |
 | Coordinate scoring confusion | "Qwen's raw-vs-normalized behavior may look like a prompt artifact." | Discussion already frames this as a coordinate-contract finding, not a model ranking. | Keep parser coverage, raw coordinate, and normalized-1000 scoring separated. Avoid saying one VLM is generally better. |
 | Embodied claim overreach | "InternNav results are too small for a navigation benchmark." | Results say CIs cross zero and use official KuJiaLe only as downstream sanity evidence. | Keep InternNav as scoped sanity evidence. Do not promote it to broad embodied robustness. |
@@ -79,6 +79,8 @@ The current packet already has the pieces needed for an ACL-family candidate:
 - OpenReview metadata source and Responsible NLP checklist source.
 - Author-gate worksheet for private human-only fields.
 - Clean build/staging rehearsal with an anonymous five-file packet.
+- Compact evidence-gate table in the ACL method section tying each evidence
+  stream to its allowed and forbidden claim boundary.
 - Current route evidence for EACL 2027 via ARR and a documented blocker for
   Annual ACL 2027 finalization.
 
@@ -108,8 +110,6 @@ handle.
 
 Reasonable optional additions:
 
-- a compact evidence-gate table or figure if the current narrative feels
-  fragmented;
 - selected qualitative videos or panels for rebuttal/appendix explanation,
   kept qualitative and outside the default safe packet;
 - a larger official InternNav run only if the authors want to claim broader

@@ -1,0 +1,17 @@
+\begin{table*}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{0.15\textwidth}p{0.30\textwidth}p{0.24\textwidth}p{0.22\textwidth}}
+\toprule
+Gate & Evidence used & Claim supported & Forbidden promotion \\
+\midrule
+Proxy similarity & Four Isaac Sim assets; 24 matched render pairs; PSNR, SSIM, LPIPS, CLIP, DINOv2, and load/render diagnostics. & Converted assets pass a visual and feature-screening gate. & Task preservation, broad robustness, or speedup. \\
+VLM grounding & GRScenes 15-pair clean pilot and frozen 30-pair target-centered stress set with answer, point-in-box, and coordinate scoring. & Material perturbation can be evaluated as bounded answer and point-grounding evidence. & Population-level GRScenes benchmark claims or general VLM rankings. \\
+Material mechanisms & Selected opacity/transparency, emission, normal/bump, and displacement/height bins, plus clearcoat and procedural supplemental cases; original/noMDL/NVIDIA conditions are separated. & Covered bins have selected static and qualitative support; clearcoat and procedural texture remain scoped failure or limitation cases. & NVIDIA population failure rates, official-scene NVIDIA performance, or procedural-texture success. \\
+Embodied-data sanity & Official KuJiaLe InternNav 99 paired episodes over three scenes plus official-scene load/render stability. & Converted scenes can enter the selected official downstream stack and load/render repeatedly. & Broad embodied-navigation robustness, all-scene preservation, or noMDL speedup. \\
+\bottomrule
+\end{tabular}
+\caption{Evidence-gate registry for the ACL/ARR claim boundary. Each gate lists the evidence that may be used, the claim it supports, and the promotion that remains forbidden without new evidence.}
+\label{tab:acl_evidence_gate_registry}
+\end{table*}

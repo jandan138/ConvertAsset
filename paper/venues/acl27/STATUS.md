@@ -375,7 +375,8 @@ focused ACL pytest suite, clean ACL PDF build, final LaTeX log scan, candidate
 packet staging, exact packet inventory check, private-token scan,
 acknowledgment scan, `pdfinfo`, and `pdftotext` title/header/section checks.
 The full run now passes on the current ACL/ARR candidate: 20 focused tests
-passed, the rebuilt staged PDF is 11 A4 pages, the staged packet contains
+passed, the rebuilt staged PDF is 12 A4 pages after the evidence-gate table
+refresh, the staged packet contains
 exactly the five safe files, and both private-token and acknowledgment scans
 had no matches. This does not close the human/external gates: target route
 lock, official policy refresh, private author worksheet, official OpenReview
@@ -390,3 +391,13 @@ and appendix coordinate baselines, then verifies that the ACL manuscript and
 OpenReview metadata source still contain matching numbers. This converts the
 manual data-claim table in `FINAL_INTEGRITY_DELTA_AUDIT.md` into an automated
 pre-upload gate.
+
+Evidence-gate table update on 2026-05-26: the ACL method now includes
+Table `tab:acl_evidence_gate_registry`, a compact registry mapping proxy
+similarity, GRScenes VLM grounding, material-mechanism/NVIDIA evidence, and
+InternNav/official-scene sanity checks to their allowed claims and forbidden
+promotions. This addresses the reviewer-risk concern that the evidence streams
+could look heterogeneous, without adding new experiments or widening the claim
+boundary. The consolidated pre-upload gate was rerun after this edit and
+passed; `pdfinfo` reports a 12-page A4 staged PDF, PDF 1.5, 306187 bytes, and
+the anonymous staged packet still has exactly the five safe files.

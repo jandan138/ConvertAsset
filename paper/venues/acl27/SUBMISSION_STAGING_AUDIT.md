@@ -115,11 +115,37 @@ build and staging smoke was rerun from the current repository state on
 | `pdfinfo` | Pass; 11 pages, A4 page size, PDF version 1.5, file size 299433 bytes. |
 | `pdftotext` title/section scan | Pass; new title plus anonymous header, `Limitations`, `Ethical Considerations`, and `References` were found. |
 
-## Refresh Via Consolidated Pre-Upload Gate
+## Refresh After Evidence-Gate Table
+
+After adding Table `tab:acl_evidence_gate_registry` to the ACL method section,
+the consolidated pre-upload gate was rerun from the current repository state on
+2026-05-26:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+| Check | Result |
+| --- | --- |
+| Claim-boundary checker | Pass; no unsupported broad embodied, official-scene speedup, NVIDIA official-scene performance, procedural-texture success, selected-video-as-quantitative, or learned-classifier claim was found. |
+| OpenReview metadata consistency | Pass; title and 189-word abstract match the LaTeX sources and remain under the 200-word abstract guidance. |
+| Evidence-number consistency | Pass; local CSV/JSON evidence produced the current proxy, VLM, InternNav, official-scene, and coordinate-baseline snapshot, and manuscript/OpenReview text markers matched with no violations. |
+| Focused pytest gate | Pass; 20 tests passed across staging, layout, metadata, claim-boundary, evidence-number, and pre-upload runner checks. |
+| Clean ACL build | Pass; `make -C paper clean-acl27 acl27` rebuilt the PDF. |
+| Final LaTeX log scan | Pass; no unresolved citation/reference or missing bibliography markers were found. |
+| Candidate packet staging | Pass; regenerated `paper/submissions/acl27_arr_candidate_20260526/`. |
+| Staged file inventory | Pass; still exactly `main.pdf`, `openreview/METADATA.md`, `openreview/RESPONSIBLE_NLP_CHECKLIST.md`, `supplemental/README.md`, and `supplemental/manifest.json`. |
+| Local path / username / private-repo scan | Pass; no matches. |
+| Acknowledgment scan | Pass; no matches. |
+| `pdfinfo` | Pass; 12 pages, A4 page size, PDF version 1.5, file size 306187 bytes. |
+| `pdftotext` title/header/section scan | Pass; found the ACL title, anonymous header, `Limitations`, `Ethical Considerations`, and `References`. |
+
+## Earlier Refresh Via Consolidated Pre-Upload Gate
 
 After adding the consolidated runner and later adding the evidence-number
-checker, the full repository-side pre-upload gate was executed from the current
-repository state on 2026-05-26:
+checker, the full repository-side pre-upload gate was executed from the
+then-current repository state on 2026-05-26, before the evidence-gate table
+refresh:
 
 ```bash
 python paper/venues/acl27/scripts/run_preupload_gate.py

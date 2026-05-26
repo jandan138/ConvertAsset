@@ -28,7 +28,7 @@ mode until official Annual ACL information appears.
 | Title, abstract, track, and keywords | `paper/venues/acl27/OPENREVIEW_METADATA_PACKET.md`; staged as `openreview/METADATA.md`. | Copy-ready source; final OpenReview fields remain author-gated. |
 | Responsible NLP checklist answers | `paper/venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`. | Copy-ready source, not yet entered into official OpenReview. |
 | Limitations and Ethical Considerations | PDF text scan finds both before references. | Ready for rehearsal. |
-| Page format | `pdfinfo` reports A4; current PDF is 11 pages total and within generic long-paper review budget before references. | Ready under generic ACLPUB policy; final venue-specific check still required. |
+| Page format | `pdfinfo` reports A4; current PDF is 12 pages total after the evidence-gate table refresh, with main text still ending before references. | Ready under generic ACLPUB policy; final venue-specific check still required. |
 | Bibliography and citation existence | `paper/shared/evidence/references/verification_report.md` and `CITATION_PROVENANCE_AUDIT.md`. | Current 20-reference web trail complete. |
 | Citation-context/data/originality delta | `FINAL_INTEGRITY_DELTA_AUDIT.md`. | Current-source pass complete; rerun after any edit. |
 | Safe packet boundary | `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, `SUBMISSION_STAGING_AUDIT.md`, and `stage_submission_packet.py`. | Minimal PDF-first packet ready; selected media remains excluded by default. |

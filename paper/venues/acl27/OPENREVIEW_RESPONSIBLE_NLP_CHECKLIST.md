@@ -33,11 +33,11 @@ These anchors are from `paper/venues/acl27/build/main.pdf` built on
 | Abstract | page 1; `sections/abstract.tex` lines 1-24 |
 | Introduction / main claims | pages 1-2; `sections/intro.tex` lines 1-71 |
 | Related Work / artifact citations | pages 2-3; `sections/related.tex` lines 1-53 |
-| Method / evidence gates | pages 3-4; `sections/method.tex` lines 1-64 |
+| Method / evidence gates | pages 3-5; `sections/method.tex` lines 1-68 |
 | Results / reported statistics | pages 4-7; `sections/results.tex` lines 1-109 |
-| Discussion / claim boundaries | pages 5-7; `sections/discussion.tex` lines 1-46 |
-| Conclusion / scoped claim | page 7; `sections/conclusion.tex` lines 1-30 |
-| Limitations | pages 7-8; `sections/limitations.tex` lines 1-31 |
+| Discussion / claim boundaries | pages 5-6; `sections/discussion.tex` lines 1-46 |
+| Conclusion / scoped claim | page 6; `sections/conclusion.tex` lines 1-30 |
+| Limitations | page 8; `sections/limitations.tex` lines 1-31 |
 | Ethical Considerations | page 8; `sections/ethical-considerations.tex` lines 1-12 |
 | References | starts on page 8 |
 
@@ -47,7 +47,7 @@ These anchors are from `paper/venues/acl27/build/main.pdf` built on
 
 **A1. Did you discuss the limitations of your work?**
 
-Yes. See `Limitations`, pages 7-8. The section states that the evidence is
+Yes. See `Limitations`, page 8. The section states that the evidence is
 narrow, separates the 15-pair clean pilot from the frozen 30-pair stress set,
 marks selected videos as qualitative only, limits the 99-episode InternNav
 evidence to three official KuJiaLe scenes, and forbids promotion to broad
@@ -95,7 +95,7 @@ media unless the relevant terms allow it.
 **B3. Did you discuss intended use and compatibility with original access
 conditions?**
 
-Yes, with final license confirmation still required. `Method`, pages 3-4,
+Yes, with final license confirmation still required. `Method`, pages 3-5,
 frames the work as research/evaluation of material-conversion reliability.
 `Results`, `Discussion`, `Limitations`, and `Ethical Considerations` restrict
 the interpretation to evidence gates and do not claim commercial deployment,
@@ -139,7 +139,7 @@ submitted runs.
 
 **C2. Did you discuss experimental setup and hyperparameters?**
 
-Yes, with final appendix consolidation recommended. `Method`, pages 3-4, and
+Yes, with final appendix consolidation recommended. `Method`, pages 3-5, and
 `Results`, pages 4-7, describe original/noMDL conditions, frozen render and
 projection manifests, visual-QA split, normalized-1000 coordinate prompting,
 raw-coordinate diagnostics, structured-text VLM output, selected material-effect
