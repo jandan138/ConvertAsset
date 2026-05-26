@@ -117,8 +117,9 @@ build and staging smoke was rerun from the current repository state on
 
 ## Refresh Via Consolidated Pre-Upload Gate
 
-After adding the consolidated runner, the full repository-side pre-upload gate
-was executed from the current repository state on 2026-05-26:
+After adding the consolidated runner and later adding the evidence-number
+checker, the full repository-side pre-upload gate was executed from the current
+repository state on 2026-05-26:
 
 ```bash
 python paper/venues/acl27/scripts/run_preupload_gate.py
@@ -128,7 +129,8 @@ python paper/venues/acl27/scripts/run_preupload_gate.py
 | --- | --- |
 | Claim-boundary checker | Pass; no unsupported broad embodied, official-scene speedup, NVIDIA official-scene performance, procedural-texture success, selected-video-as-quantitative, or learned-classifier claim was found. |
 | OpenReview metadata consistency | Pass; title and 189-word abstract match the LaTeX sources and remain under the 200-word abstract guidance. |
-| Focused pytest gate | Pass; 18 tests passed across staging, layout, metadata, claim-boundary, and pre-upload runner checks. |
+| Evidence-number consistency | Pass; local CSV/JSON evidence produced the current proxy, VLM, InternNav, official-scene, and coordinate-baseline snapshot, and manuscript/OpenReview text markers matched with no violations. |
+| Focused pytest gate | Pass; 20 tests passed across staging, layout, metadata, claim-boundary, evidence-number, and pre-upload runner checks. |
 | Clean ACL build | Pass; `make -C paper clean-acl27 acl27` rebuilt the PDF. |
 | Final LaTeX log scan | Pass; no unresolved citation/reference or missing bibliography markers were found. |
 | Candidate packet staging | Pass; regenerated `paper/submissions/acl27_arr_candidate_20260526/`. |

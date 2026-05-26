@@ -26,6 +26,7 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
     assert step_ids == [
         "claim_boundaries",
         "metadata_consistency",
+        "evidence_numbers",
         "focused_pytest",
         "clean_acl_build",
         "latex_log_scan",
@@ -38,6 +39,7 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
     ]
     assert step_ids.index("claim_boundaries") < step_ids.index("stage_packet")
     assert step_ids.index("metadata_consistency") < step_ids.index("stage_packet")
+    assert step_ids.index("evidence_numbers") < step_ids.index("stage_packet")
 
 
 def test_packet_inventory_rejects_extra_files(tmp_path: Path) -> None:

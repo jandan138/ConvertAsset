@@ -21,15 +21,16 @@ The runner executes these steps in order:
 
 1. `check_claim_boundaries.py`
 2. `check_metadata_consistency.py`
-3. focused ACL pytest suite
-4. clean ACL PDF rebuild
-5. final LaTeX log unresolved citation/reference scan
-6. candidate packet staging
-7. exact packet file inventory check
-8. private local path / username / repository token scan
-9. acknowledgment token scan
-10. `pdfinfo` over the staged PDF
-11. `pdftotext` title, anonymous-header, limitation, ethics, and reference scan
+3. `check_evidence_numbers.py`
+4. focused ACL pytest suite
+5. clean ACL PDF rebuild
+6. final LaTeX log unresolved citation/reference scan
+7. candidate packet staging
+8. exact packet file inventory check
+9. private local path / username / repository token scan
+10. acknowledgment token scan
+11. `pdfinfo` over the staged PDF
+12. `pdftotext` title, anonymous-header, limitation, ethics, and reference scan
 
 The expected staged packet remains exactly:
 
@@ -77,12 +78,12 @@ Full rehearsal:
 python paper/venues/acl27/scripts/run_preupload_gate.py
 ```
 
-Passed all runner steps. The focused pytest step passed 18 tests, the clean ACL
-build wrote an 11-page A4 PDF, the staged packet contained only the five
-expected files, the local-path/private-token scan had no matches, the
-acknowledgment scan had no matches, and `pdftotext` found the required title,
-anonymous header, `Limitations`, `Ethical Considerations`, and `References`
-markers.
+Passed all runner steps after the evidence-number gate was added. The focused
+pytest step passed 20 tests, the clean ACL build wrote an 11-page A4 PDF, the
+staged packet contained only the five expected files, the local-path/private-token
+scan had no matches, the acknowledgment scan had no matches, and `pdftotext`
+found the required title, anonymous header, `Limitations`, `Ethical
+Considerations`, and `References` markers.
 
 ## Submission Impact
 
