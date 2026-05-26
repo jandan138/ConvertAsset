@@ -14,9 +14,11 @@ shared related/method/experiments/discussion sections directly.
 
 Known missing checks: official Annual ACL 2027 CFP, official city/date
 confirmation in a public Annual ACL 2027 site, Annual ACL 2027 submission
-deadline, ARR cycle mapping, final page-limit policy, Responsible NLP Checklist
-requirements, anonymity policy, AI-use disclosure policy, and final DOI/ACL
-Anthology citation audit.
+deadline, final Annual ACL page-limit policy, Annual ACL Responsible NLP
+Checklist requirements, Annual ACL anonymity policy, Annual ACL AI-use
+disclosure policy, and final DOI/ACL Anthology citation audit. EACL 2027 is now
+a public alternative ACL-family route with an ARR deadline, but its complete CFP
+is still forthcoming.
 
 Venue fit: the current ACL wrapper has pivoted away from a pure
 synthetic-data/simulation-tool paper. The active story is now multimodal
@@ -62,9 +64,11 @@ table.
 ACL/ARR closure update on 2026-05-26: the ACL manuscript wrapper now has an
 explicit claim audit in `CLAIM_AUDIT.md`. Current public source check found the
 generic official ACL style files at `acl-org/acl-style-files` and the ACLPUB
-style guide, while public search surfaced EACL 2027 rather than an Annual ACL
-2027 CFP/site. Treat the wrapper as an ACL/ARR candidate until the official
-Annual ACL 2027 call, page limits, checklist, and author kit are public.
+style guide. A later target-call check found EACL 2027's official site and
+main-paper call page with an August 3, 2026 ARR deadline, while Annual ACL 2027
+still has no public official CFP/site in checked sources. Treat the wrapper as
+an ACL/ARR candidate until the authors choose EACL 2027 or the official Annual
+ACL 2027 call, page limits, checklist, and author kit are public.
 
 Submission-readiness audit update on 2026-05-26: `SUBMISSION_READINESS_AUDIT.md`
 now maps the current wrapper against public ARR/ACLPUB policy sources, and
@@ -101,8 +105,9 @@ had no local path, username, private-repo, or acknowledgment matches; `pdfinfo`
 reported 11 A4 pages; `pdftotext` found the anonymous header, `Limitations`,
 `Ethical Considerations`, and `References`. `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`
 now gives copy-ready checklist answers with current PDF anchors. This closes
-the minimal PDF/form-source staging gate, but not the final target-call, model
-identity, artifact-terms, or optional media redistribution gates.
+the minimal PDF/form-source staging gate, but not the final selected-venue
+policy lock, final OpenReview form copy, author/runtime confirmation, or
+optional media redistribution gates.
 
 Model/asset license closure update on 2026-05-26:
 `MODEL_AND_ASSET_LICENSE_AUDIT.md` now records the ACL-facing public provenance
@@ -116,6 +121,15 @@ the checked terms prohibit redistributing data or modified data, so the safe
 ACL packet excludes optional selected scene-derived videos/media by default.
 This closes the model-public-ID gate and converts the media question into a
 clear author/legal decision rather than an experiment blocker.
+
+Target-call policy update on 2026-05-26:
+`TARGET_CALL_POLICY_AUDIT.md` now records the current venue lock state. Annual
+ACL 2027 remains unavailable as a final public target in checked official
+sources. EACL 2027 is public and ARR Dates lists it with final ARR submission
+date August 3, 2026 and commitment date October 11, 2026; the EACL main-paper
+call page still says the comprehensive CFP and detailed timetable are being
+finalized. The practical next decision is whether to retarget to EACL 2027 via
+ARR or wait for Annual ACL 2027.
 
 InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now has a real
 one-episode embodied downstream smoke run for scene

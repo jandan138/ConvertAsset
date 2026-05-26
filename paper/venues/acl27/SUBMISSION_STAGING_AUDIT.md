@@ -55,7 +55,7 @@ a final media supplement.
 
 | Check | Result |
 | --- | --- |
-| `make -C paper acl27` | Pass; `build/main.pdf` was up to date. |
+| `make -C paper clean-acl27 && make -C paper acl27` | Pass; clean rebuild wrote `build/main.pdf`. |
 | `python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py tests/test_reviewer_closure_package.py tests/test_official_scene_submission_closure.py` | Pass; 29 tests passed; staging tests require the OpenReview checklist form source. |
 | Staged file inventory | Pass; the PDF, OpenReview checklist source, supplemental README, and supplemental manifest were present. |
 | Local path / username / private-repo scan over staged directory | Pass; no matches. |
@@ -68,15 +68,16 @@ The staged manifest records
 and `include_media=false`. It also records
 `openreview/RESPONSIBLE_NLP_CHECKLIST.md` as an
 `openreview_responsible_nlp_form_source` file. The manifest's remaining gates
-are now final target-call policy, final author/runtime confirmation, optional
-selected-media legal approval, and final OpenReview form completion.
+are now final selected-venue policy lock, final author/runtime confirmation,
+optional selected-media legal approval, and final OpenReview form completion.
 
 ## Remaining Gates
 
 - Re-run the staging command and scans immediately before any real ARR or ACL
   upload.
-- Complete final target-call policy checks once the selected Annual ACL or ARR
-  instructions are public.
+- Lock the selected venue policy: Annual ACL 2027 remains unavailable in checked
+  official sources, while EACL 2027 is public but its complete CFP is still
+  forthcoming.
 - Confirm final author/runtime details and keep optional scene-derived media
   out unless a separate terms/anonymization path is approved.
 - Fill the final OpenReview Responsible NLP checklist with section, page, or

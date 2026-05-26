@@ -117,7 +117,7 @@ def build_manifest(packet_id: str, *, include_media: bool) -> dict[str, Any]:
             "selected qualitative videos",
         ],
         "remaining_gates": [
-            "final Annual ACL or ARR target-call policy check",
+            "final selected venue policy lock",
             "final author confirmation of compute/runtime details",
             "optional selected-media redistribution legal review",
             "final OpenReview Responsible NLP checklist field completion",

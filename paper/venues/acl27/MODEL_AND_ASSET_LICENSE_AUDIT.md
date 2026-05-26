@@ -60,9 +60,9 @@ These hashes support local auditability without uploading checkpoint files.
 
 ## Still Human-Gated
 
-- Final venue policy: Annual ACL 2027 public CFP/author kit was not available
-  in the latest local readiness check. Re-check the exact target call before
-  upload.
+- Final venue policy: Annual ACL 2027 public CFP/author kit remains unavailable
+  in checked official sources, while EACL 2027 is public but its full CFP is
+  still forthcoming. Lock the selected venue before upload.
 - Final OpenReview form: copy the checklist answers into the official form and
   refresh page anchors after the final PDF build.
 - Final author/legal review: confirm whether any scene-derived images or videos

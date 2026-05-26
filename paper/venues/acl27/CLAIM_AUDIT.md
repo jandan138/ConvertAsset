@@ -47,10 +47,14 @@ submission-readiness checklist, not a new experiment.
   `COMPUTE_RUNTIME_SUMMARY_DRAFT.md`
 - Final submission packet checklist:
   `FINAL_SUBMISSION_PACKET_CHECKLIST.md`
-- Current public search found EACL 2027, not an Annual ACL 2027 CFP/site:
+- Current public search found a live EACL 2027 site and main-paper call page
+  with August 3, 2026 ARR deadline, but the page says the complete CFP is still
+  forthcoming:
   https://2027.eacl.org/
+  https://2027.eacl.org/calls/papers/
 - Existing Annual ACL 2027 target should therefore remain an ACL/ARR candidate
-  wrapper until the official Annual ACL 2027 call and author kit are public.
+  wrapper until the official Annual ACL 2027 call and author kit are public, or
+  until the authors explicitly retarget to EACL 2027 via ARR.
 
 ## Remaining Human Checks Before Submission
 

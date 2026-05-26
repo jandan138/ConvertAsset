@@ -17,17 +17,20 @@ the source of truth and treats public ACL/ARR pages as external policy inputs.
 | ACLPUB Detailed Style Guide | https://acl-org.github.io/ACLPUB/style.html | Detailed publication-chair formatting checks. |
 | ARR Responsible NLP Checklist PDF | https://aclrollingreview.org/static/responsibleNLPresearch.pdf | Checklist questions and requirement to provide section numbers or justifications. |
 | ARR checklist-as-appendix update | https://aclrollingreview.org/responsible-nlp-checklist-appendices | Accepted *ACL papers should expect public checklist appendices. |
-| EACL 2027 official site | https://2027.eacl.org/ | Confirms EACL 2027 is public and has an ARR deadline; it is not Annual ACL 2027. |
+| ARR Dates and Venues | https://aclrollingreview.org/dates | Current ARR cycle dates and participating venues; lists EACL 2027 with final ARR submission date August 3, 2026 and commitment date October 11, 2026. |
+| EACL 2027 official site | https://2027.eacl.org/ | Confirms EACL 2027 is public, Athens, March 9-14, 2027, and has an ARR deadline of August 3, 2026; it is not Annual ACL 2027. |
+| EACL 2027 main-paper call | https://2027.eacl.org/calls/papers/ | Confirms the EACL 2027 main-paper route and deadline while noting that the comprehensive CFP and detailed timetable are still being finalized. |
 | GRUtopia package/project pages | https://pypi.org/project/grutopia/ and https://github.com/InternRobotics/InternUtopia | Public source/license context for GRUtopia/GRScenes. |
 | InternNav repository | https://github.com/InternRobotics/InternNav | Public source/license context for InternNav/InternData-N1. |
 | Gemma4 Unsloth model card/API | https://huggingface.co/unsloth/gemma-4-E4B-it-unsloth-bnb-4bit | Public source/license context for the primary Gemma4 VLM; checked revision `9746c23553347b443ebdc1caba1d41b52223d0c8`. |
 | Qwen2.5-VL-7B-Instruct model card | https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct | Public source/license context for Qwen diagnostic model. |
 | InteriorAgent dataset card and terms | https://huggingface.co/datasets/spatialverse/InteriorAgent | Public source/terms context for the official KuJiaLe scenes used in the 99-episode downstream sanity run. |
 
-Public search on 2026-05-26 found EACL 2027, generic ACLPUB, and ARR policy
-pages, but did not find an official public Annual ACL 2027 CFP, author kit,
-city/date page, or commitment deadline. Therefore this wrapper is
-ACL/ARR-candidate ready, not yet Annual-ACL-2027-final ready.
+Public search on 2026-05-26 found generic ACLPUB and ARR policy pages and now
+confirms EACL 2027 as a concrete public 2027 ACL-family ARR route. Public search
+still did not find an official Annual ACL 2027 CFP, author kit, city/date page,
+or commitment deadline. Therefore this wrapper is ACL/ARR-candidate ready and
+EACL-2027-route plausible, but not Annual-ACL-2027-final ready.
 
 ## Current Manuscript State
 
@@ -43,6 +46,7 @@ ACL/ARR-candidate ready, not yet Annual-ACL-2027-final ready.
 | Claim boundary | `CLAIM_AUDIT.md` forbids broad embodied benchmark, speedup, NVIDIA official-scene performance, and population NVIDIA failure-rate claims. | Pass |
 | Supplement self-contained status | Main paper contains the core evidence and scope boundaries; appendices/supplement add detail. `FINAL_SUBMISSION_PACKET_CHECKLIST.md` defines the upload boundary and `SUBMISSION_STAGING_AUDIT.md` records the first minimal PDF-first staging smoke. | Candidate staging smoke pass; final human read and any archive/media scan still required |
 | Official Annual ACL 2027 policy | No public Annual ACL 2027 CFP/author kit found in checked sources. | External blocker |
+| EACL 2027 route | Official EACL 2027 site and ARR Dates page list August 3, 2026 as the ARR paper deadline; EACL page says the complete CFP is still forthcoming. | Concrete public route exists; final venue-specific upload wording still pending |
 
 ## ARR Desk-Rejection Risk Checklist
 
@@ -58,7 +62,8 @@ ACL/ARR-candidate ready, not yet Annual-ACL-2027-final ready.
 | Non-anonymous repository/service links in supplement | The ignored local packet `paper/submissions/acl27_arr_candidate_20260526/` was assembled by `stage_submission_packet.py` and scanned; no local path, username, private-repo, or acknowledgment matches were found in the staged directory. | Low risk for the minimal PDF-first packet; re-run before upload and after any media/source additions |
 | Responsible NLP checklist weak answers | `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` now provides copy-ready answers with current PDF section/page anchors and remaining human gates. | Lower risk; final OpenReview copy, target-call wording, and author/legal confirmation for optional media still required |
 | Reference permanent identifiers | `CITATION_PROVENANCE_AUDIT.md` now records DOI/URL metadata for all 20 currently cited ACL-wrapper keys. | Low risk, with final proceedings metadata check |
-| Annual ACL 2027 official details | Public Annual ACL 2027 CFP/site not found. | External blocker |
+| Annual ACL 2027 official details | Public Annual ACL 2027 CFP/site not found. | External blocker if the authors insist on Annual ACL 2027 |
+| EACL 2027 official details | EACL 2027 site and ARR dates are public, but the full CFP is still forthcoming. | Lower risk if authors accept EACL 2027 as the active target |
 
 ## Draft Responsible NLP Checklist Map
 
@@ -87,9 +92,9 @@ ARR checklist.
 
 ## Remaining Before Submission
 
-1. Re-check the final target call once Annual ACL 2027 or the selected
-   ACL-family venue publishes its official CFP, author kit, commitment deadline,
-   and supplemental policy.
+1. Lock the target route: either wait for Annual ACL 2027's official CFP/author
+   kit, or retarget the current ACL/ARR candidate packet to the currently public
+   EACL 2027 ARR route after the complete EACL CFP appears.
 2. Keep optional InteriorAgent/KuJiaLe scene-derived media out of the packet
    unless authors approve a separate terms/anonymization path.
 3. Copy the `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` answers into the official

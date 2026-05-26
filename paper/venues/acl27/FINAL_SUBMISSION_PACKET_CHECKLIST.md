@@ -34,7 +34,7 @@ format until the final target call publishes conference-specific instructions.
 | Compute/runtime summary | `COMPUTE_RUNTIME_SUMMARY_DRAFT.md`. | Candidate-ready; final author confirmation of the checked host/runtime is still needed. |
 | Responsible NLP checklist | `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md`; `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`. | OpenReview copy-ready packet now exists with current PDF section/page anchors; final form copy and any target-call wording remain human-gated. |
 | Supplemental anonymization | `SUBMISSION_STAGING_AUDIT.md`; `paper/venues/acl27/scripts/stage_submission_packet.py`. | Minimal PDF-first staging smoke passed for the ignored local packet; final archive and optional media still need pre-upload re-scan. |
-| Annual ACL 2027 call | Public search on 2026-05-26 found ARR/ACLPUB and EACL 2027 pages, not Annual ACL 2027 CFP/author kit. | External blocker for Annual-ACL-2027-final readiness. |
+| Target-call lock | `TARGET_CALL_POLICY_AUDIT.md`. | EACL 2027 is a public ARR-family route with August 3, 2026 ARR deadline, but its full CFP is still forthcoming. Annual ACL 2027 CFP/author kit remains unavailable in checked official sources. |
 
 ## Candidate Staging Command
 

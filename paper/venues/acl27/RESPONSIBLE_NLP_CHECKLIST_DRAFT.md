@@ -10,8 +10,8 @@ replace section-title references with final section/page/line references.
 For the current ACL-facing PDF, use
 `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` as the copy-ready OpenReview form
 source. It adds current PDF page anchors, source-section line anchors, and the
-remaining human gates for model IDs, licenses, target-call wording, and optional
-media redistribution.
+remaining human gates for selected-venue policy, final OpenReview copy,
+author/runtime confirmation, and optional media redistribution.
 
 ## A. For Every Submission
 
