@@ -463,7 +463,9 @@ After adding `init_author_gate.py`, the private author worksheet creation path
 was moved from a manual copy into a guarded local initializer. The initializer
 creates `OPENREVIEW_AUTHOR_GATE_FILLED.local.md` from the blank template,
 refuses to overwrite an existing private file, verifies the path is git-ignored,
-and reports only path/status metadata.
+and reports only path/status metadata. The blank worksheet, filling guide, and
+OpenReview upload runbook now all point to the initializer as the preferred
+first author-side action.
 
 The OpenReview upload runbook and filling guide now point authors to:
 
@@ -481,7 +483,7 @@ python paper/venues/acl27/scripts/run_preupload_gate.py
 Result: pass. The runner completed claim-boundary, target-policy consistency,
 OpenReview metadata consistency, OpenReview checklist copy-readiness,
 citation-inventory, evidence-number, final-integrity fingerprint, final blocker
-report, 52-test focused pytest including
+report, 53-test focused pytest including
 `tests/test_acl_author_gate_init.py`, clean ACL build, final LaTeX log scan,
 candidate packet staging, exact packet inventory, adjacent checksum-sidecar
 validation, private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`,

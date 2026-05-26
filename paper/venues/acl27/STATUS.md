@@ -183,11 +183,12 @@ Author-gate initializer update on 2026-05-26:
 from the blank tracked template, refuses to overwrite an existing private
 worksheet, verifies the path is git-ignored, and reports only path/status
 metadata. The OpenReview upload runbook and filling guide now prefer this
-initializer over a manual copy. The focused pre-upload pytest suite includes
-`tests/test_acl_author_gate_init.py`; this is a repository-side safety check
-and still does not fill or validate private author values. The refreshed full
-pre-upload gate passes with 52 focused ACL tests, a 12-page A4 PDF 1.5 staged
-packet, and 306187 bytes for `main.pdf`.
+initializer over a manual copy, and the blank worksheet now points to the same
+initializer as the first author-side action. The focused pre-upload pytest
+suite includes `tests/test_acl_author_gate_init.py`; this is a repository-side
+safety check and still does not fill or validate private author values. The
+refreshed full pre-upload gate passes with 53 focused ACL tests, a 12-page A4
+PDF 1.5 staged packet, and 306187 bytes for `main.pdf`.
 
 Citation-inventory gate update on 2026-05-26:
 `scripts/check_citation_inventory.py` now checks the ACL wrapper's cited keys

@@ -22,6 +22,8 @@ decision fields.
 - Updated `OPENREVIEW_UPLOAD_RUNBOOK.md` and
   `OPENREVIEW_AUTHOR_GATE_FILLING_GUIDE.md` to prefer the initializer before
   any private worksheet filling.
+- Updated `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md` itself so the first instruction
+  authors see also starts from the initializer instead of a manual copy.
 - Updated ACL status, final packet checklist, staging audit, and docs indexes.
 
 ## Behavior
@@ -67,8 +69,9 @@ python -m pytest -q tests/test_acl_author_gate_init.py tests/test_acl_final_bloc
 python paper/venues/acl27/scripts/run_preupload_gate.py
 ```
 
-Actual result: the targeted suite passed 17 tests, and the consolidated
-pre-upload gate passed with 52 focused ACL tests. The staged candidate PDF
+Actual result: the targeted suite passed 17 tests before the worksheet-handoff
+consistency guard was added. After adding that guard, the consolidated
+pre-upload gate passed with 53 focused ACL tests. The staged candidate PDF
 remained 12 A4 pages, PDF 1.5, and 306187 bytes.
 
 The consolidated gate remains a repository-side rehearsal. The real

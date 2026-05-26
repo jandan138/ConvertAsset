@@ -7,15 +7,16 @@ must be resolved before a real ARR/OpenReview submission. Do not put real author
 names, OpenReview profile IDs, email addresses, or private submission history
 into the committed template.
 
-For a real submission, make a local ignored copy:
+For a real submission, create the ignored local copy with the safe initializer:
 
 ```bash
-cp paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_WORKSHEET.md \
-  paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md
+python paper/venues/acl27/scripts/init_author_gate.py
+git check-ignore -v paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md
 ```
 
-The filled copy is ignored by `.gitignore` and must not be uploaded as review
-supplemental material.
+The initializer refuses to overwrite an existing private worksheet and reports
+only path/status metadata. The filled copy is ignored by `.gitignore` and must
+not be uploaded as review supplemental material.
 
 When filling high-risk rows, use explicit positive wording such as `approved`,
 `confirmed`, `copied`, `excluded by default`, `pass`, `clean`, or final decision

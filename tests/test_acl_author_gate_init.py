@@ -7,6 +7,8 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "paper/venues/acl27/scripts/init_author_gate.py"
 TEMPLATE = ROOT / "paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_WORKSHEET.md"
+FILLING_GUIDE = ROOT / "paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLING_GUIDE.md"
+UPLOAD_RUNBOOK = ROOT / "paper/venues/acl27/OPENREVIEW_UPLOAD_RUNBOOK.md"
 
 
 def load_module():
@@ -60,3 +62,10 @@ def test_init_author_gate_refuses_to_overwrite_existing_private_copy(
         )
 
     assert worksheet.read_text(encoding="utf-8") == "private local value\n"
+
+
+def test_current_author_handoff_docs_prefer_initializer_over_manual_copy() -> None:
+    for path in (TEMPLATE, FILLING_GUIDE, UPLOAD_RUNBOOK):
+        text = path.read_text(encoding="utf-8")
+        assert "python paper/venues/acl27/scripts/init_author_gate.py" in text
+        assert "cp paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_WORKSHEET.md" not in text

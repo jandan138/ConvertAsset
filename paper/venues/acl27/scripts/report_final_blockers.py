@@ -19,7 +19,10 @@ HUMAN_PENDING_UNTIL_AUTHOR_GATE_COMPLETE = (
     "author_runtime_ai_media_approval_pending",
 )
 FINAL_NEXT_ACTIONS = (
-    "Create and fill paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md.",
+    (
+        "Run init_author_gate.py to create and then fill "
+        "paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md."
+    ),
     "Choose EACL 2027 via ARR now, or wait for Annual ACL 2027 official policy.",
     "Copy the final metadata/checklist text into the real OpenReview form.",
     "Run check_author_gate.py and run_preupload_gate.py on the exact upload state.",

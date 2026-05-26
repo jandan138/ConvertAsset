@@ -15,16 +15,18 @@ final pre-upload evidence.
 
 ## Privacy Boundary
 
-The tracked worksheet is a template only. It explicitly instructs authors to
-create a private local copy:
+The tracked worksheet is a template only. It now instructs authors to create a
+private local copy with the safe initializer:
 
 ```bash
-cp paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_WORKSHEET.md \
-  paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md
+python paper/venues/acl27/scripts/init_author_gate.py
+git check-ignore -v paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md
 ```
 
-The filled local copy is ignored by `.gitignore`; it must not be uploaded as
-review supplemental material and should not be committed.
+The initializer refuses to overwrite an existing private worksheet and reports
+only path/status metadata. The filled local copy is ignored by `.gitignore`; it
+must not be uploaded as review supplemental material and should not be
+committed.
 
 ## Why This Matters
 

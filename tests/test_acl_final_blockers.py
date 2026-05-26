@@ -69,6 +69,7 @@ def test_current_repo_reports_human_blockers_without_private_values() -> None:
         "required_commands"
     ]
     assert "OPENREVIEW_AUTHOR_GATE_FILLED.local.md" in report["next_actions"][0]
+    assert "init_author_gate.py" in report["next_actions"][0]
     assert "private filled list" not in str(report)
 
 

@@ -39,11 +39,12 @@ checklist copy-readiness, citation-inventory, evidence-number, final-integrity
 fingerprint, final blocker report, focused pytest, clean build, LaTeX log,
 staging, inventory, packet checksum,
 anonymization, acknowledgment, `pdfinfo`, `pdf_profile`, and `pdftotext`
-checks. The focused pytest step now passes 50 tests after adding the
+checks. The focused pytest step now passes 53 tests after adding the
 citation-inventory, private author-gate, target-policy, final-integrity
 fingerprint, OpenReview checklist, final blocker-report, final blocker
 clearance, private author-gate semantic, final blocker handoff-detail, and
-OpenReview upload runbook tests, and packet-checksum tests, the
+OpenReview upload runbook tests, packet-checksum tests, and author-gate
+initializer handoff checks, the
 refreshed abstract is 189 words by the conservative tokenizer, the clean ACL
 build produces a 12-page A4 PDF, and the staged packet still contains only the
 safe five-file boundary with an adjacent checksum sidecar outside the packet.
