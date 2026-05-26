@@ -131,14 +131,17 @@ Fill the private worksheet in this order.
 
 6. **Final pre-upload evidence**
 
-   Run the repository-side final rehearsal:
+   Run the repository-side final rehearsal, then refresh the repo-verifiable
+   evidence rows in the private worksheet:
 
    ```bash
-   python paper/venues/acl27/scripts/check_author_gate.py
    python paper/venues/acl27/scripts/run_preupload_gate.py
+   python paper/venues/acl27/scripts/prefill_author_gate.py --apply --overwrite
+   python paper/venues/acl27/scripts/check_author_gate.py
+   python paper/venues/acl27/scripts/report_final_blockers.py
    ```
 
-   Then copy the final evidence into the private worksheet:
+   The prefill command updates the final evidence rows:
 
    - command and timestamp;
    - PDF page count and page size;
@@ -146,8 +149,9 @@ Fill the private worksheet in this order.
    - staged file list;
    - local path / private-token scan result;
    - acknowledgment scan result;
-   - title/header/Limitations/Ethical Considerations/References text scan;
-   - final upload / do-not-upload decision.
+   - title/header/Limitations/Ethical Considerations/References text scan.
+
+   Authors still manually record the final upload / do-not-upload decision.
 
 ## Final Privacy Checks
 

@@ -8,7 +8,8 @@ The ACL/ARR candidate already had a guarded private author-gate initializer,
 checker, final blocker report, and OpenReview upload runbook. The runbook told
 authors to initialize the ignored private worksheet before checking it, but the
 machine-readable final blocker report only listed the checker and consolidated
-pre-upload gate under `required_commands`.
+pre-upload gate under `required_commands`. A later prefill-sync pass added the
+repo-verifiable prefill helper to the same command list.
 
 ## Change
 
@@ -17,6 +18,7 @@ pre-upload gate under `required_commands`.
 
 ```bash
 python paper/venues/acl27/scripts/init_author_gate.py
+python paper/venues/acl27/scripts/prefill_author_gate.py --apply
 python paper/venues/acl27/scripts/check_author_gate.py
 python paper/venues/acl27/scripts/run_preupload_gate.py
 ```
@@ -27,9 +29,9 @@ python paper/venues/acl27/scripts/run_preupload_gate.py
 ## Boundary
 
 This is a handoff/reporting fix. The consolidated repository-side gate does not
-execute `init_author_gate.py`, because that command creates an ignored private
-local worksheet. The author worksheet remains outside git and outside the
-review packet.
+execute `init_author_gate.py` or `prefill_author_gate.py`, because those
+commands touch the ignored private local worksheet. The author worksheet remains
+outside git and outside the review packet.
 
 The active ACL/ARR package remains `human_blocked`, not repo-blocked: authors
 still need to choose the final route, fill the official OpenReview form, fill

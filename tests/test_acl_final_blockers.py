@@ -64,6 +64,9 @@ def test_current_repo_reports_without_private_values() -> None:
     assert "python paper/venues/acl27/scripts/init_author_gate.py" in report[
         "required_commands"
     ]
+    assert "python paper/venues/acl27/scripts/prefill_author_gate.py --apply" in report[
+        "required_commands"
+    ]
     assert "python paper/venues/acl27/scripts/check_author_gate.py" in report[
         "required_commands"
     ]

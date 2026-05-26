@@ -11,6 +11,7 @@ from pathlib import Path
 
 REQUIRED_COMMANDS = (
     "python paper/venues/acl27/scripts/init_author_gate.py",
+    "python paper/venues/acl27/scripts/prefill_author_gate.py --apply",
     "python paper/venues/acl27/scripts/check_author_gate.py",
     "python paper/venues/acl27/scripts/run_preupload_gate.py",
 )

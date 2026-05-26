@@ -21,7 +21,7 @@ repo_blockers=[]
 
 The active human blockers are:
 
-- `private_author_gate_missing`
+- `private_author_gate_missing` or `private_author_gate_incomplete`
 - `target_route_author_confirmation_pending`
 - `official_openreview_form_copy_pending`
 - `author_runtime_ai_media_approval_pending`
@@ -42,6 +42,7 @@ Create the ignored local copy with the safe initializer:
 ```bash
 python paper/venues/acl27/scripts/init_author_gate.py
 git check-ignore -v paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md
+python paper/venues/acl27/scripts/prefill_author_gate.py --apply
 ```
 
 Stop if the file is not ignored.
@@ -52,6 +53,17 @@ the manual fallback is to copy
 `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md` to
 `OPENREVIEW_AUTHOR_GATE_FILLED.local.md`, then run the same `git check-ignore`
 command before filling anything.
+
+The prefill command fills only repository-verifiable final evidence rows in the
+ignored local worksheet. It leaves author names, route selection, OpenReview
+profile readiness, form-copy approval, runtime/AI/license approvals, optional
+media decision, and final upload decision for the authors. If the staged packet
+or PDF has been rebuilt after a previous prefill, refresh those evidence rows
+with:
+
+```bash
+python paper/venues/acl27/scripts/prefill_author_gate.py --apply --overwrite
+```
 
 Fill only the local ignored file. Do not edit the tracked blank template with
 real author information.
@@ -143,10 +155,15 @@ redistribution, and anonymization approval.
 Run these commands on the exact state intended for upload:
 
 ```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+python paper/venues/acl27/scripts/prefill_author_gate.py --apply --overwrite
 python paper/venues/acl27/scripts/check_author_gate.py
 python paper/venues/acl27/scripts/report_final_blockers.py
-python paper/venues/acl27/scripts/run_preupload_gate.py
 ```
+
+After this sequence, rerun `run_preupload_gate.py` only if a tracked manuscript,
+OpenReview copy-source, evidence, policy, or staging source changed. Editing the
+ignored private worksheet alone does not change the review packet.
 
 Expected upload-ready repository result:
 

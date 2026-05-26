@@ -90,6 +90,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-26 ACL OpenReview upload runbook](2026-05-26-acl-openreview-upload-runbook.md)
 - [2026-05-26 ACL author-gate initializer](2026-05-26-acl-author-gate-initializer.md)
 - [2026-05-26 ACL author-gate prefill](2026-05-26-acl-author-gate-prefill.md)
+- [2026-05-26 ACL OpenReview runbook prefill sync](2026-05-26-acl-openreview-runbook-prefill-sync.md)
 - [2026-05-26 ACL final-blocker required commands](2026-05-26-acl-final-blocker-required-commands.md)
 - [2026-05-26 ACL current-commit pre-upload gate](2026-05-26-acl-current-commit-preupload-gate.md)
 - [2026-05-23 CVPR review status and ACL goals](2026-05-23-cvpr-review-status-and-acl-goals.md)

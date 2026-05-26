@@ -581,6 +581,16 @@ includes this test in its focused pytest step; the consolidated gate passes
 with 50 focused ACL tests and the staged PDF remains 12 A4 pages, PDF 1.5, and
 306187 bytes.
 
+OpenReview runbook prefill sync on 2026-05-26:
+the upload runbook and final blocker report now include the repo-verifiable
+prefill helper in the author handoff. The current blocker surface covers both
+`private_author_gate_missing` and `private_author_gate_incomplete`; the final
+exact-packet sequence is `run_preupload_gate.py`, then
+`prefill_author_gate.py --apply --overwrite`, then `check_author_gate.py` and
+`report_final_blockers.py`. This keeps staged packet evidence synchronized with
+the ignored private worksheet without making the repository fill author, route,
+OpenReview profile, approval, optional-media, or final-upload decisions.
+
 OpenReview checklist gate update on 2026-05-26:
 `scripts/check_openreview_checklist.py` and
 `tests/test_acl_openreview_checklist.py` now guard
