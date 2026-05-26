@@ -73,6 +73,11 @@ Venue-neutral table sources for the ConvertAsset paper live here.
   derived from the material-effect risk matrix.
 - `tab_material_safe_conversion_recommender.tex`: LaTeX table generated from the
   same safe-conversion recommender CSV.
+- `official_scene_submission_closure_status.csv`: machine-readable status table
+  for the official KuJiaLe / InteriorAgent submission-closure package. It
+  records the current video, performance, and final claim-audit gates.
+- `tab_official_scene_submission_closure_status.tex`: LaTeX table generated
+  from the same official-scene closure status CSV.
 
 Regenerate with:
 
@@ -84,11 +89,12 @@ python paper/shared/tables/gen_vlm_failure_taxonomy.py
 python paper/shared/evidence/experiments/08_material_effect_baseline/build_effect_tables.py
 python paper/shared/evidence/experiments/08_material_effect_baseline/build_material_effect_risk_matrix.py
 python paper/shared/evidence/experiments/09_reviewer_closure_package/build_reviewer_closure_package.py
+python paper/shared/evidence/experiments/10_official_scene_submission_closure/build_submission_closure_package.py
 ```
 
 The two newer clean-pool and zoom-stress tables, coordinate ablation, failure
 taxonomy, material-effect readiness table, material-effect risk matrix, and
-reviewer-closure package tables are registered in
+reviewer-closure and official-scene submission-closure package tables are registered in
 `paper/shared/evidence/results_manifest.yaml`.
 
 Most legacy table content remains embedded in `shared/sections/experiments.tex`

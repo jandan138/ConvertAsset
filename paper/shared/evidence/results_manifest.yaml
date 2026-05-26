@@ -223,6 +223,18 @@ results:
     - id: material_safe_conversion_recommender
       path: paper/shared/evidence/raw/reviewer_closure_package/material_safe_conversion_recommender.json
       description: "Lightweight safe-conversion rule table derived from the material-effect risk matrix. It maps bounded GRScenes-covered bins, clearcoat, and procedural texture to evidence-gated actions; this is not a learned classifier."
+    - id: official_scene_submission_closure_summary
+      path: paper/shared/evidence/raw/official_scene_submission_closure/official_scene_submission_closure_summary.json
+      description: "Official KuJiaLe / InteriorAgent submission-closure status package. It records the current official-scene scope and selected video package as ready, while multi-run performance statistics and final claim/citation audit remain missing."
+    - id: official_scene_performance_plan
+      path: paper/shared/evidence/raw/official_scene_submission_closure/official_scene_performance_plan.json
+      description: "Performance-run plan for the official-scene submission-closure package: three KuJiaLe scenes, required original MDL and ConvertAsset noMDL conditions, and optional NVIDIA baseline only after official-scene NVIDIA conversions are generated."
+    - id: official_scene_video_evidence_summary
+      path: paper/shared/evidence/raw/official_scene_submission_closure/official_scene_video_evidence_summary.json
+      description: "Summary of the existing repo-resident selected qualitative InternNav video package: 24 QA-passing mp4 rollouts, 76 png still/contact-sheet assets, and qualitative-only claim boundary."
+    - id: official_scene_claim_audit_checklist
+      path: paper/shared/evidence/raw/official_scene_submission_closure/official_scene_claim_audit_checklist.json
+      description: "Final claim-language and citation/provenance audit checklist for the official-scene submission-closure goal. Current checklist is not complete."
     - id: material_effect_supplemental_qualitative_renders
       path: paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_renders/
       description: "Repo-resident supplemental original/noMDL/NVIDIA stills for clearcoat and procedural texture wrappers."
@@ -491,6 +503,18 @@ results:
         - paper/shared/evidence/raw/reviewer_closure_package/material_safe_conversion_recommender.json
         - paper/shared/evidence/raw/material_effect_baseline/material_effect_risk_profile.json
       description: "Evidence-gated safe-conversion rule table derived from the material-effect risk matrix. It is a reviewer-facing decision-support table, not a learned material classifier."
+    - id: official_scene_submission_closure_status
+      outputs:
+        - paper/shared/tables/official_scene_submission_closure_status.csv
+        - paper/shared/tables/tab_official_scene_submission_closure_status.tex
+      generated_by: paper/shared/evidence/experiments/10_official_scene_submission_closure/build_submission_closure_package.py
+      sources:
+        - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_submission_closure_summary.json
+        - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_performance_plan.json
+        - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_video_evidence_summary.json
+        - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_claim_audit_checklist.json
+        - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/package_index.json
+      description: "Status table for the official KuJiaLe / InteriorAgent submission-closure package. It is a gate table, not a completed performance-result table until official-scene repeated performance rows exist."
   provenance:
     experiments: paper/shared/evidence/experiments/
     references: paper/shared/evidence/references/

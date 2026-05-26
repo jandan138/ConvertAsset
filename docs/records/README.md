@@ -47,6 +47,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-26 Material-effect paper claim integration](2026-05-26-material-effect-paper-claim-integration.md)
 - [2026-05-26 Reviewer closure status and next goal](2026-05-26-reviewer-closure-status-and-next-goal.md)
 - [2026-05-26 Reviewer closure package](2026-05-26-reviewer-closure-package.md)
+- [2026-05-26 Official-scene submission closure package](2026-05-26-official-scene-submission-closure-package.md)
 - [2026-05-23 CVPR review status and ACL goals](2026-05-23-cvpr-review-status-and-acl-goals.md)
 - [2026-05-20 OSS dataset restore for GRScenes test0 parallel](2026-05-20-oss-dataset-restore.md)
 - [2026-05-20 ACL GRScenes dataset role correction](2026-05-20-acl-grscenes-dataset-role-correction.md)

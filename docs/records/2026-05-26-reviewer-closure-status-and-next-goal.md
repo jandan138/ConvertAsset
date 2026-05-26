@@ -182,6 +182,19 @@ The remaining gap is not the rule-table recommender requested here; it is a
 future learned or automatic material-risk classifier that generalizes beyond
 the selected material-effect evidence.
 
+## Next Goal Start Update
+
+The follow-up official-scene submission-closure package was started in
+`docs/records/2026-05-26-official-scene-submission-closure-package.md`.
+
+Current gate status:
+
+- official KuJiaLe / InteriorAgent scene scope: ready for `0031`, `0036`, and
+  `0066`;
+- selected qualitative videos/stills/contact sheets: ready;
+- multi-run load/render performance statistics: still missing;
+- final claim-language and citation/provenance audit: still missing.
+
 ## Verification
 
 This is a docs-only status update. The expected verification is:

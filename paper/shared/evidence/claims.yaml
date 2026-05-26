@@ -148,4 +148,5 @@ review_requirements:
   - "Treat `reviewer_closure_paired_ci` as descriptive uncertainty over existing frozen evidence, not a population-level significance result."
   - "Treat `vlm_coordinate_baselines` as scoring sanity baselines. Image-center success under raw pixels reflects target-centered camera construction, not VLM skill."
   - "Treat `material_safe_conversion_recommender` as an evidence-gated rule table derived from selected cases, not a learned automatic recommender."
+  - "Treat `official_scene_submission_closure_status` as a gate/status table until `official_scene_performance_runs.csv` exists with the required repeated official-scene runs and the final claim/citation audit is marked complete."
   - "Do not generate final VLM performance tables from any run whose `canonical_vlm_run_manifest.json` claim gate has `final_benchmark_claimable=false`."

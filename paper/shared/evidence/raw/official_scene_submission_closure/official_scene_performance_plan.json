@@ -1,0 +1,81 @@
+{
+  "nvidia_baseline_policy": "include only if official-scene NVIDIA conversions are generated and smoke-gated",
+  "optional_conditions": [
+    "nvidia_baseline"
+  ],
+  "performance_csv": "paper/shared/evidence/raw/official_scene_submission_closure/official_scene_performance_runs.csv",
+  "required_conditions": [
+    "original_mdl",
+    "convertasset_nomdl"
+  ],
+  "runs_per_scene_condition": 3,
+  "scene_inventory": [
+    {
+      "conditions": {
+        "convertasset_nomdl": {
+          "path_exists": true,
+          "stage_path": "/cpfs/user/zhuzihou/assets/internnav_official_nomdl_pair_20260525/scene_data_nomdl/kujiale_0031/kujiale_0031.usda",
+          "static_gate_pass": true,
+          "status": "planned"
+        },
+        "nvidia_baseline": {
+          "reason": "no_official_scene_nvidia_conversion_yet",
+          "status": "not_available"
+        },
+        "original_mdl": {
+          "path_exists": true,
+          "stage_path": "/cpfs/user/zhuzihou/assets/internnav_official_sanity_20260525/interiornav_data/scene_data/kujiale_0031/kujiale_0031.usda",
+          "status": "planned"
+        }
+      },
+      "episode_count": 33,
+      "scene_family": "official_kujiale_interioragent",
+      "scene_id": "kujiale_0031"
+    },
+    {
+      "conditions": {
+        "convertasset_nomdl": {
+          "path_exists": true,
+          "stage_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/internnav/official/internnav_official_val_unseen_20260525/scene_data_nomdl/kujiale_0036/kujiale_0036.usda",
+          "static_gate_pass": true,
+          "status": "planned"
+        },
+        "nvidia_baseline": {
+          "reason": "no_official_scene_nvidia_conversion_yet",
+          "status": "not_available"
+        },
+        "original_mdl": {
+          "path_exists": true,
+          "stage_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/internnav/official/internnav_official_val_unseen_20260525/interiornav_data/scene_data/kujiale_0036/kujiale_0036.usda",
+          "status": "planned"
+        }
+      },
+      "episode_count": 33,
+      "scene_family": "official_kujiale_interioragent",
+      "scene_id": "kujiale_0036"
+    },
+    {
+      "conditions": {
+        "convertasset_nomdl": {
+          "path_exists": true,
+          "stage_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/internnav/official/internnav_official_val_unseen_20260525/scene_data_nomdl/kujiale_0066/kujiale_0066.usda",
+          "static_gate_pass": true,
+          "status": "planned"
+        },
+        "nvidia_baseline": {
+          "reason": "no_official_scene_nvidia_conversion_yet",
+          "status": "not_available"
+        },
+        "original_mdl": {
+          "path_exists": true,
+          "stage_path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/internnav/official/internnav_official_val_unseen_20260525/interiornav_data/scene_data/kujiale_0066/kujiale_0066.usda",
+          "status": "planned"
+        }
+      },
+      "episode_count": 33,
+      "scene_family": "official_kujiale_interioragent",
+      "scene_id": "kujiale_0066"
+    }
+  ],
+  "schema_version": 1
+}

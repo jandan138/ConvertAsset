@@ -1,0 +1,37 @@
+{
+  "checks": [
+    {
+      "id": "official_scene_scope",
+      "rule": "Say official KuJiaLe / InteriorAgent scenes, not broad GRScenes/R2R/MP3D benchmark.",
+      "status": "pending_final_audit"
+    },
+    {
+      "id": "performance_scope",
+      "rule": "Only claim multi-scene performance after official-scene repeated runs exist.",
+      "status": "pending_performance_runs"
+    },
+    {
+      "id": "video_scope",
+      "rule": "Use selected videos as qualitative evidence only; full metric runs remain authoritative.",
+      "status": "ready_with_boundary"
+    },
+    {
+      "id": "nvidia_scope",
+      "rule": "Do not imply an official-scene NVIDIA baseline unless those converted scenes are generated and benchmarked.",
+      "status": "pending_or_not_available"
+    },
+    {
+      "id": "material_effect_scope",
+      "rule": "Keep clearcoat selected-failure and procedural-texture limitation language.",
+      "status": "ready_with_boundary"
+    },
+    {
+      "id": "citation_provenance",
+      "rule": "Verify official InternNav / InteriorAgent / KuJiaLe provenance and target venue citations.",
+      "status": "pending_final_audit"
+    }
+  ],
+  "claim_audit_complete": false,
+  "claim_boundary": "audit_checklist_not_final_submission_approval",
+  "schema_version": 1
+}

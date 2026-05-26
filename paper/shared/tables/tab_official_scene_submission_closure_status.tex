@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\small
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llll}
+\toprule
+Requirement & Status & Evidence & Claim boundary \\
+\midrule
+official\_scene\_scope & ready & paper/shared/evidence/raw/official\_scene\_submission\_closure/official\_scene\_performance\_plan.json & official KuJiaLe / InteriorAgent only \\
+multi\_run\_performance\_statistics & missing & paper/shared/evidence/raw/official\_scene\_submission\_closure/official\_scene\_performance\_runs.csv & requires repeated official-scene runs before paper claim \\
+selected\_video\_package & ready & paper/shared/evidence/raw/internnav\_vln\_downstream/official\_selected\_qualitative\_videos/package\_index.json & selected qualitative only; full metric runs authoritative \\
+final\_claim\_citation\_audit & missing & paper/shared/evidence/raw/official\_scene\_submission\_closure/official\_scene\_claim\_audit\_checklist.json & not complete until title/abstract/body/citations are checked \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Official-scene submission closure status. The package tracks the official KuJiaLe / InteriorAgent performance, video, and final claim-audit gates.}
+\label{tab:official_scene_submission_closure_status}
+\end{table}
