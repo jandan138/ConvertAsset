@@ -73,20 +73,24 @@ NVIDIA failure rate.
 
 **B1. Did you cite the creators of artifacts you used?**
 
-Yes, with final model-card cleanup before upload. `Related Work`, pages 2-3,
+Yes, with final author wording review before upload. `Related Work`, pages 2-3,
 cites GRUtopia/GRScenes, InternNav/DualVLN, Habitat, AI2-THOR, TDW, Isaac/Orbit
 / Isaac Lab, CLIP, DINOv2, Shikra, Ferret, and related synthetic-data systems.
 `CITATION_PROVENANCE_AUDIT.md` tracks DOI/URL metadata for current manuscript
-citations and remaining model/provider citation cleanup.
+citations, and `MODEL_AND_ASSET_LICENSE_AUDIT.md` records checked public model
+and dataset identifiers.
 
 **B2. Did you discuss license or terms for use/distribution?**
 
-Partially yes; final human terms review remains required before upload.
-`Ethical Considerations`, page 8, requires asset provenance and license
-compatibility. `ARTIFACT_PROVENANCE_DRAFT.md` records current artifact terms
-status. The submission packet must not redistribute raw source scenes, scratch
-USD trees, local checkpoints, raw InternNav outputs, or selected videos unless
-the relevant terms allow it.
+Mostly yes; final author/legal review remains required before upload. `Ethical
+Considerations`, page 8, requires asset provenance and license compatibility.
+`ARTIFACT_PROVENANCE_DRAFT.md` and `MODEL_AND_ASSET_LICENSE_AUDIT.md` record the
+checked terms: GRScenes metadata is CC BY-NC-SA 4.0; InternNav code is MIT;
+InteriorAgent uses custom terms that prohibit redistributing data or modified
+data; Qwen2.5-VL and the checked Unsloth Gemma4 metadata report Apache-2.0. The
+submission packet must not redistribute raw source scenes, scratch USD trees,
+local checkpoints, raw InternNav outputs, or optional selected scene-derived
+media unless the relevant terms allow it.
 
 **B3. Did you discuss intended use and compatibility with original access
 conditions?**
@@ -126,12 +130,12 @@ scenes, paired confidence intervals, and 18/18 official-scene load/render runs.
 
 **C1. Did you report model parameters, compute budget, and infrastructure?**
 
-Partially yes; final public checkpoint identifiers are still required.
+Mostly yes; final author confirmation is still required.
 `COMPUTE_RUNTIME_SUMMARY_DRAFT.md` records the checked GPU host, Isaac Sim/USD
-runtime, VLM environments, InternNav checkout, and official-scene runtime
-evidence. Before upload, replace local model/checkpoint references with public
-model IDs, hashes or commits where available, and final author confirmation of
-the experiment host.
+runtime, VLM environments, InternNav checkout, official-scene runtime evidence,
+and public model IDs/revisions for the checked Gemma4 and Qwen2.5-VL runs.
+Before upload, authors should confirm that the checked host/runtime matches the
+submitted runs.
 
 **C2. Did you discuss experimental setup and hyperparameters?**
 
@@ -153,12 +157,12 @@ diagnostic evidence rather than population-level estimates.
 
 **C4. Did you report packages/implementation/settings used?**
 
-Partially yes; final public identifiers should be copied into the submission
-form. `COMPUTE_RUNTIME_SUMMARY_DRAFT.md` records Isaac Sim, USD/PXR, Python,
-Torch, Transformers, Unsloth, Accelerate, BitsAndBytes, Pillow, Qwen utility,
-InternNav, and NVIDIA Asset Converter evidence. Repository scripts and manifests
-document commands and local output hashes, but local paths and checkpoints must
-stay out of the upload packet.
+Mostly yes; final OpenReview copy remains. `COMPUTE_RUNTIME_SUMMARY_DRAFT.md`
+records Isaac Sim, USD/PXR, Python, Torch, Transformers, Unsloth, Accelerate,
+BitsAndBytes, Pillow, Qwen utility, InternNav, NVIDIA Asset Converter evidence,
+and public VLM identifiers. Repository scripts and manifests document commands
+and local output hashes, but local paths and checkpoints must stay out of the
+upload packet.
 
 ### D. Human Annotators Or Subjects
 
@@ -199,9 +203,7 @@ acknowledgment/disclosure text according to the final ACL-family instructions.
 - Re-check the selected ARR or ACL-family checklist instructions immediately
   before submission.
 - Replace draft section/page anchors if the PDF changes.
-- Confirm final public model IDs, checkpoint hashes/commits, and licenses for
-  Gemma-family and Qwen VLMs.
-- Confirm InteriorAgent / KuJiaLe terms before redistributing any selected
-  videos or scene-derived media.
+- Confirm final author/legal approval for any optional InteriorAgent / KuJiaLe
+  scene-derived media beyond the manuscript PDF; the safe packet excludes it.
 - Copy these answers into the official OpenReview form; this Markdown file is
   only a local staging aid.

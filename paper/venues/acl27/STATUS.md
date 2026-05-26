@@ -77,10 +77,11 @@ checklist gaps are closed.
 Citation/provenance closure update on 2026-05-26: all 20 current ACL-wrapper
 citation keys now carry DOI and/or URL metadata in `paper/shared/references.bib`.
 `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md` and `ARTIFACT_PROVENANCE_DRAFT.md` provide
-the first upload-oriented checklist/provenance packet. Remaining gaps are final
-target-call verification, exact Gemma4 public model ID/commit matching,
-InteriorAgent/KuJiaLe license/citation confirmation, and concise compute/runtime
-version reporting for the final ARR checklist.
+the first upload-oriented checklist/provenance packet. The later
+`MODEL_AND_ASSET_LICENSE_AUDIT.md` closes the Gemma4/Qwen public-ID gate and
+turns InteriorAgent/KuJiaLe media redistribution into a no-optional-media safe
+boundary. Remaining gaps are final target-call verification, final OpenReview
+form copy, author/runtime confirmation, and any optional media legal approval.
 
 Final-packet closure update on 2026-05-26: `COMPUTE_RUNTIME_SUMMARY_DRAFT.md`
 now records the checked local GPU, Isaac Sim/USD, Gemma4, Qwen2.5-VL, InternNav,
@@ -102,6 +103,19 @@ reported 11 A4 pages; `pdftotext` found the anonymous header, `Limitations`,
 now gives copy-ready checklist answers with current PDF anchors. This closes
 the minimal PDF/form-source staging gate, but not the final target-call, model
 identity, artifact-terms, or optional media redistribution gates.
+
+Model/asset license closure update on 2026-05-26:
+`MODEL_AND_ASSET_LICENSE_AUDIT.md` now records the ACL-facing public provenance
+closure. The primary Gemma4 VLM is pinned to
+`unsloth/gemma-4-E4B-it-unsloth-bnb-4bit` revision
+`9746c23553347b443ebdc1caba1d41b52223d0c8`; the Qwen diagnostic VLM is pinned
+to `Qwen/Qwen2.5-VL-7B-Instruct`, checked public `main` revision
+`cc594898137f460bfe9f0759e9844b3ce807cfb5`. GRScenes metadata is recorded as
+CC BY-NC-SA 4.0. InteriorAgent / KuJiaLe is no longer an unknown-terms gate:
+the checked terms prohibit redistributing data or modified data, so the safe
+ACL packet excludes optional selected scene-derived videos/media by default.
+This closes the model-public-ID gate and converts the media question into a
+clear author/legal decision rather than an experiment blocker.
 
 InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now has a real
 one-episode embodied downstream smoke run for scene

@@ -68,7 +68,10 @@ def test_stage_submission_packet_builds_sanitized_minimal_packet(tmp_path: Path)
     assert (out_dir / "supplemental/manifest.json").exists()
     assert manifest["packet_id"] == "acl27_arr_candidate_test"
     assert manifest["include_media"] is False
-    assert manifest["claim_boundary"] == "selected_media_excluded_pending_license_and_anonymization_review"
+    assert (
+        manifest["claim_boundary"]
+        == "selected_media_excluded_by_default_pending_explicit_media_approval"
+    )
     assert "raw source scenes" in manifest["excluded_materials"]
     assert "local model checkpoints" in manifest["excluded_materials"]
     assert "selected qualitative videos" in manifest["excluded_materials"]

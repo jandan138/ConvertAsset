@@ -46,16 +46,17 @@ Excluded:
 - Local model checkpoints.
 - Selected qualitative videos.
 
-Selected qualitative media is still excluded pending license, terms-of-use, and
-anonymization review. This candidate packet therefore supports a safe PDF-first
-ARR upload smoke, not a final media supplement.
+Selected qualitative media is still excluded because InteriorAgent / KuJiaLe
+scene-derived media needs explicit author/legal approval before redistribution.
+This candidate packet therefore supports a safe PDF-first ARR upload smoke, not
+a final media supplement.
 
 ## Scan Results
 
 | Check | Result |
 | --- | --- |
 | `make -C paper acl27` | Pass; `build/main.pdf` was up to date. |
-| `python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py` | Pass; 11 tests passed; staging tests require the OpenReview checklist form source. |
+| `python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py tests/test_reviewer_closure_package.py tests/test_official_scene_submission_closure.py` | Pass; 29 tests passed; staging tests require the OpenReview checklist form source. |
 | Staged file inventory | Pass; the PDF, OpenReview checklist source, supplemental README, and supplemental manifest were present. |
 | Local path / username / private-repo scan over staged directory | Pass; no matches. |
 | Acknowledgment scan over staged directory | Pass; no matches. |
@@ -63,10 +64,12 @@ ARR upload smoke, not a final media supplement.
 | `pdftotext` section scan | Pass; anonymous header plus `Limitations`, `Ethical Considerations`, and `References` were found. |
 
 The staged manifest records
-`claim_boundary=selected_media_excluded_pending_license_and_anonymization_review`
+`claim_boundary=selected_media_excluded_by_default_pending_explicit_media_approval`
 and `include_media=false`. It also records
 `openreview/RESPONSIBLE_NLP_CHECKLIST.md` as an
-`openreview_responsible_nlp_form_source` file.
+`openreview_responsible_nlp_form_source` file. The manifest's remaining gates
+are now final target-call policy, final author/runtime confirmation, optional
+selected-media legal approval, and final OpenReview form completion.
 
 ## Remaining Gates
 
@@ -74,8 +77,8 @@ and `include_media=false`. It also records
   upload.
 - Complete final target-call policy checks once the selected Annual ACL or ARR
   instructions are public.
-- Confirm the exact public Gemma-family checkpoint ID/hash and artifact terms
-  for InteriorAgent / KuJiaLe.
+- Confirm final author/runtime details and keep optional scene-derived media
+  out unless a separate terms/anonymization path is approved.
 - Fill the final OpenReview Responsible NLP checklist with section, page, or
   line references.
 - Add selected qualitative videos only after an explicit license,

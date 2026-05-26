@@ -20,7 +20,9 @@ the source of truth and treats public ACL/ARR pages as external policy inputs.
 | EACL 2027 official site | https://2027.eacl.org/ | Confirms EACL 2027 is public and has an ARR deadline; it is not Annual ACL 2027. |
 | GRUtopia package/project pages | https://pypi.org/project/grutopia/ and https://github.com/InternRobotics/InternUtopia | Public source/license context for GRUtopia/GRScenes. |
 | InternNav repository | https://github.com/InternRobotics/InternNav | Public source/license context for InternNav/InternData-N1. |
+| Gemma4 Unsloth model card/API | https://huggingface.co/unsloth/gemma-4-E4B-it-unsloth-bnb-4bit | Public source/license context for the primary Gemma4 VLM; checked revision `9746c23553347b443ebdc1caba1d41b52223d0c8`. |
 | Qwen2.5-VL-7B-Instruct model card | https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct | Public source/license context for Qwen diagnostic model. |
+| InteriorAgent dataset card and terms | https://huggingface.co/datasets/spatialverse/InteriorAgent | Public source/terms context for the official KuJiaLe scenes used in the 99-episode downstream sanity run. |
 
 Public search on 2026-05-26 found EACL 2027, generic ACLPUB, and ARR policy
 pages, but did not find an official public Annual ACL 2027 CFP, author kit,
@@ -54,7 +56,7 @@ ACL/ARR-candidate ready, not yet Annual-ACL-2027-final ready.
 | Acknowledgments in review PDF | No acknowledgments section in `main.tex` or sections. | Low risk |
 | Author-identifying links | No `http://` or `https://` links found in `main.tex`, ACL sections, or shared appendix text. | Low risk |
 | Non-anonymous repository/service links in supplement | The ignored local packet `paper/submissions/acl27_arr_candidate_20260526/` was assembled by `stage_submission_packet.py` and scanned; no local path, username, private-repo, or acknowledgment matches were found in the staged directory. | Low risk for the minimal PDF-first packet; re-run before upload and after any media/source additions |
-| Responsible NLP checklist weak answers | `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` now provides copy-ready answers with current PDF section/page anchors and remaining human gates. | Lower risk; final OpenReview copy, target-call wording, and model/license confirmations still required |
+| Responsible NLP checklist weak answers | `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` now provides copy-ready answers with current PDF section/page anchors and remaining human gates. | Lower risk; final OpenReview copy, target-call wording, and author/legal confirmation for optional media still required |
 | Reference permanent identifiers | `CITATION_PROVENANCE_AUDIT.md` now records DOI/URL metadata for all 20 currently cited ACL-wrapper keys. | Low risk, with final proceedings metadata check |
 | Annual ACL 2027 official details | Public Annual ACL 2027 CFP/site not found. | External blocker |
 
@@ -69,17 +71,17 @@ ARR checklist.
 | A2 potential risks | Yes | `Ethical Considerations`, `Limitations` |
 | A3 abstract/introduction summarize claims | Yes | `Abstract`, `Introduction`, `CLAIM_AUDIT.md` |
 | B scientific artifacts used/created | Yes | GRScenes/GRUtopia, InternNav/DualVLN, Isaac/UsdPreviewSurface evidence described in `Related Work`, `Method`, `Results`; raw evidence under `paper/shared/evidence/` |
-| B1 cite artifact creators | Yes, with final dataset/model cleanup | Manuscript cites GRUtopia/GRScenes and InternNav/DualVLN; `CITATION_PROVENANCE_AUDIT.md` tracks remaining InteriorAgent/KuJiaLe and model-card cleanup. |
-| B2 licenses / terms | Partially complete | `Ethical Considerations` notes license compatibility; `ARTIFACT_PROVENANCE_DRAFT.md` records current public license context and flags remaining final checks. |
+| B1 cite artifact creators | Yes, with final wording review | Manuscript cites GRUtopia/GRScenes and InternNav/DualVLN; `CITATION_PROVENANCE_AUDIT.md` and `MODEL_AND_ASSET_LICENSE_AUDIT.md` track model-card and InteriorAgent/KuJiaLe cleanup. |
+| B2 licenses / terms | Mostly complete | `Ethical Considerations` notes license compatibility; `ARTIFACT_PROVENANCE_DRAFT.md` and `MODEL_AND_ASSET_LICENSE_AUDIT.md` record public model IDs/licenses, GRScenes terms, and InteriorAgent no-optional-media upload boundary. |
 | B3 intended use | Yes, with final license confirmation | `Method`, `Results`, `Limitations`, and `ARTIFACT_PROVENANCE_DRAFT.md` define research/evaluation use and claim boundaries. |
 | B4 personally identifying/offensive content | Likely N/A / needs justification | Current work uses synthetic 3D assets and VLM/InternNav outputs, not human-subject text. Final checklist should justify this. |
 | B5 artifact documentation | Partially yes | Evidence manifests and docs exist, but final paper/supplement should expose the artifact inventory clearly. |
 | B6 data statistics/splits | Yes for main evidence | Results tables report GRScenes 15/30 and InternNav 99; supplement contains manifests. |
 | C computational experiments | Yes | VLM probes, image metrics, material baselines, InternNav sanity runs. |
-| C1 compute budget/infrastructure | Partially complete | Run manifests record commands/backends, and `COMPUTE_RUNTIME_SUMMARY_DRAFT.md` now gives the concise GPU/Isaac/VLM/runtime summary. Final checklist needs author confirmation and public checkpoint IDs. |
+| C1 compute budget/infrastructure | Mostly complete | Run manifests record commands/backends, and `COMPUTE_RUNTIME_SUMMARY_DRAFT.md` now gives the concise GPU/Isaac/VLM/runtime summary plus public Gemma4/Qwen IDs. Final checklist needs author confirmation of the checked host/runtime. |
 | C2 setup/hyperparameters | Partially yes | Method, experiment manifests, and `COMPUTE_RUNTIME_SUMMARY_DRAFT.md` cover protocols, prompt coordinate frame, structured output, `max_new_tokens=64`, and Qwen eager attention. Final appendix should summarize renderer settings and checkpoint hashes. |
 | C3 descriptive statistics | Yes for main claims | Results tables include counts, paired means, and closure CIs. |
-| C4 packages/implementation settings | Partially yes | Repo scripts and manifests exist, and `COMPUTE_RUNTIME_SUMMARY_DRAFT.md` now summarizes checked Isaac/Gemma4/Qwen/InternNav versions. Final appendix should replace local paths with public model IDs and hashes. |
+| C4 packages/implementation settings | Mostly yes | Repo scripts and manifests exist, and `COMPUTE_RUNTIME_SUMMARY_DRAFT.md` now summarizes checked Isaac/Gemma4/Qwen/InternNav versions and public VLM identifiers. Local paths and checkpoints remain excluded from upload. |
 | D human annotators/subjects | No | No human subjects or crowdworker annotations were used in the current evidence package. Visual QA was internal protocol evidence, not a human-subject study. |
 | E AI assistants | Yes | This project used AI coding/writing assistance; final checklist or acknowledgments-after-acceptance should disclose according to ACL policy. |
 
@@ -88,9 +90,8 @@ ARR checklist.
 1. Re-check the final target call once Annual ACL 2027 or the selected
    ACL-family venue publishes its official CFP, author kit, commitment deadline,
    and supplemental policy.
-2. Complete the artifact-license/source audit for GRScenes/GRUtopia,
-   InteriorAgent/KuJiaLe, InternNav/DualVLN, Isaac Sim, VLM APIs/models, and any
-   generated qualitative videos.
+2. Keep optional InteriorAgent/KuJiaLe scene-derived media out of the packet
+   unless authors approve a separate terms/anonymization path.
 3. Copy the `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` answers into the official
    OpenReview form after one final PDF rebuild and target-call check.
 4. Re-check bibliography permanent identifiers after any new citations are

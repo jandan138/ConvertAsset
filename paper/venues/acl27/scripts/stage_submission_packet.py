@@ -36,8 +36,9 @@ def utc_timestamp() -> str:
 
 def packet_readme(packet_id: str, *, include_media: bool) -> str:
     media_status = (
-        "Selected qualitative media is excluded from this candidate packet pending "
-        "license, terms-of-use, and anonymization review."
+        "Selected qualitative media is excluded from this candidate packet because "
+        "InteriorAgent / KuJiaLe scene-derived media needs explicit author/legal "
+        "approval before redistribution."
         if not include_media
         else "Selected qualitative media was explicitly requested for inclusion."
     )
@@ -85,7 +86,7 @@ def build_manifest(packet_id: str, *, include_media: bool) -> dict[str, Any]:
         "packet_id": packet_id,
         "generated_at_utc": utc_timestamp(),
         "include_media": include_media,
-        "claim_boundary": "selected_media_excluded_pending_license_and_anonymization_review"
+        "claim_boundary": "selected_media_excluded_by_default_pending_explicit_media_approval"
         if not include_media
         else "selected_media_included_after_explicit_license_and_anonymization_review",
         "files": [
@@ -117,9 +118,8 @@ def build_manifest(packet_id: str, *, include_media: bool) -> dict[str, Any]:
         ],
         "remaining_gates": [
             "final Annual ACL or ARR target-call policy check",
-            "exact public Gemma-family checkpoint ID and hash confirmation",
-            "InteriorAgent and KuJiaLe terms-of-use confirmation",
-            "optional selected-media redistribution review",
+            "final author confirmation of compute/runtime details",
+            "optional selected-media redistribution legal review",
             "final OpenReview Responsible NLP checklist field completion",
         ],
     }
@@ -152,7 +152,7 @@ def stage_submission_packet(
     if include_media:
         raise ValueError(
             "Selected media staging is intentionally disabled until license, "
-            "terms-of-use, and anonymization review are complete."
+            "terms-of-use, legal approval, and anonymization review are complete."
         )
 
     paper_root = Path(paper_root)
