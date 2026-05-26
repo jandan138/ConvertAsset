@@ -101,6 +101,8 @@ Set the next goal as:
 > Lock the ACL-family submission route and complete the final integrity/upload
 > gate for the current ACL/ARR candidate packet.
 
+The executable handoff is now recorded in `NEXT_LARGE_GOAL.md`.
+
 Practical interpretation:
 
 - If the authors want an actionable 2027 ACL-family deadline now, retarget and

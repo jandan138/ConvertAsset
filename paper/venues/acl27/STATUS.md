@@ -2,7 +2,9 @@
 
 Template provenance: ACL 2027 conference-specific files are not published in this repo. The wrapper now vendors the generic official *ACL style files `acl.sty` and `acl_natbib.bst` from `acl-org/acl-style-files` so local compile checks can run until the ACL 2027 author kit or conference-specific instructions are published. Provenance checked on 2026-05-23: ACLPUB's formatting page points authors to `https://github.com/acl-org/acl-style-files`.
 
-Readiness: candidate-target scaffold for the user-requested Annual ACL 2027 Japan route.
+Readiness: ACL/ARR candidate packet. It is route-ready for a final rehearsal,
+but not final-upload complete until the authors lock EACL 2027 via ARR or wait
+for the official Annual ACL 2027 call.
 
 Local section overrides: `sections/abstract.tex`, `sections/intro.tex`,
 `sections/related.tex`, `sections/method.tex`, `sections/results.tex`,
@@ -181,6 +183,13 @@ area, and keyword material. The ACL abstract was shortened from the extracted
 guidance while preserving the same evidence numbers and claim boundary. The
 staging script now includes the metadata source as `openreview/METADATA.md` in
 the ignored local candidate packet.
+
+Next-large-goal update on 2026-05-26:
+`NEXT_LARGE_GOAL.md` now fixes the next executable goal as route lock plus
+final integrity/upload gate. It explicitly uses official InternNav / KuJiaLe as
+the embodied sanity route, keeps GRScenes as the VLM grounding stress evidence,
+and treats selected qualitative videos as optional figure/rebuttal evidence
+that stays out of the default safe upload packet unless separately approved.
 
 InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now has a real
 one-episode embodied downstream smoke run for scene

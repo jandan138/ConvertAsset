@@ -62,6 +62,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-26 ACL final integrity delta audit](2026-05-26-acl-final-integrity-delta-audit.md)
 - [2026-05-26 ACL target lock and OpenReview rehearsal](2026-05-26-acl-target-lock-openreview-rehearsal.md)
 - [2026-05-26 ACL OpenReview metadata packet](2026-05-26-acl-openreview-metadata-packet.md)
+- [2026-05-26 ACL next large goal](2026-05-26-acl-next-large-goal.md)
 - [2026-05-23 CVPR review status and ACL goals](2026-05-23-cvpr-review-status-and-acl-goals.md)
 - [2026-05-20 OSS dataset restore for GRScenes test0 parallel](2026-05-20-oss-dataset-restore.md)
 - [2026-05-20 ACL GRScenes dataset role correction](2026-05-20-acl-grscenes-dataset-role-correction.md)
