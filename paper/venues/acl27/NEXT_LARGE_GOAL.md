@@ -89,7 +89,8 @@ This goal is done only when all of the following are true:
 4. Author list/order, OpenReview profiles, reviewer-registration commitment,
    dual-submission/resubmission status, preprint status, runtime wording, and
    AI-assistance wording are recorded in a private local copy of
-   `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md`.
+   `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md`, and
+   `check_author_gate.py` passes on that private copy.
 5. The PDF is rebuilt from a clean state.
 6. The final log has no unresolved citations or references.
 7. The PDF profile guard passes on the final staged PDF, or any cap change is
@@ -114,11 +115,15 @@ Do not commit the filled author worksheet. Use
 Run these on the exact final state:
 
 ```bash
+python paper/venues/acl27/scripts/check_author_gate.py
 python paper/venues/acl27/scripts/run_preupload_gate.py
 ```
 
-This command is the preferred local final-gate rehearsal. It wraps the clean
-build, focused tests, claim-boundary check, metadata consistency check,
+The author-gate checker is the final private-human gate and requires
+`paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md`; it is expected to
+fail until the authors fill that ignored local file. `run_preupload_gate.py` is
+the preferred repository-side final-gate rehearsal. It wraps the clean build,
+focused tests, claim-boundary check, metadata consistency check,
 evidence-number consistency check, packet staging, packet inventory check,
 anonymization scan, acknowledgment scan, `pdfinfo`, PDF profile guard, and
 `pdftotext` checks.
@@ -128,10 +133,11 @@ are:
 
 ```bash
 make -C paper clean-acl27 && make -C paper acl27
-python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py tests/test_acl_metadata_consistency.py tests/test_acl_claim_boundaries.py tests/test_acl_evidence_numbers.py tests/test_acl_preupload_gate.py
+python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py tests/test_acl_metadata_consistency.py tests/test_acl_claim_boundaries.py tests/test_acl_evidence_numbers.py tests/test_acl_author_gate.py tests/test_acl_preupload_gate.py
 python paper/venues/acl27/scripts/check_metadata_consistency.py
 python paper/venues/acl27/scripts/check_claim_boundaries.py
 python paper/venues/acl27/scripts/check_evidence_numbers.py
+python paper/venues/acl27/scripts/check_author_gate.py
 python paper/venues/acl27/scripts/stage_submission_packet.py --force
 rg -n "/cpfs|/home/|/root|zhuzihou|jandan138|github.com/jandan138|ConvertAsset.git" \
   paper/submissions/acl27_arr_candidate_20260526

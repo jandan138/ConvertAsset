@@ -22,6 +22,7 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
 
     plan = module.build_preupload_plan(ROOT)
     step_ids = [step["id"] for step in plan]
+    focused_pytest_step = next(step for step in plan if step["id"] == "focused_pytest")
 
     assert step_ids == [
         "claim_boundaries",
@@ -41,6 +42,7 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
     assert step_ids.index("claim_boundaries") < step_ids.index("stage_packet")
     assert step_ids.index("metadata_consistency") < step_ids.index("stage_packet")
     assert step_ids.index("evidence_numbers") < step_ids.index("stage_packet")
+    assert "tests/test_acl_author_gate.py" in focused_pytest_step["command"]
 
 
 def test_packet_inventory_rejects_extra_files(tmp_path: Path) -> None:

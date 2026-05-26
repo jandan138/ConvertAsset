@@ -68,6 +68,10 @@ Default decision for the safe review packet:
 Exclude selected scene-derived videos and raw media from the review upload.
 ```
 
+| Gate | Fill in local copy |
+| --- | --- |
+| Optional media decision | TODO: excluded by default / approved separate media path |
+
 Only change that decision if all of the following are true in the local copy:
 
 - author/legal approval is recorded;

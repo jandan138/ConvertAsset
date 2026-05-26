@@ -188,6 +188,32 @@ path/private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and
 `openreview/RESPONSIBLE_NLP_CHECKLIST.md`, `supplemental/README.md`, and
 `supplemental/manifest.json`.
 
+## Refresh After Author-Gate Checker
+
+After adding `check_author_gate.py` and its focused tests, the private
+author-gate logic was kept separate from the default anonymous packet gate:
+`run_preupload_gate.py` includes the author-gate unit tests, but it does not
+require the private `OPENREVIEW_AUTHOR_GATE_FILLED.local.md` file to exist.
+That private checker is a final human-upload gate and is expected to fail until
+the authors create and fill the ignored local worksheet.
+
+The full consolidated gate was rerun from the current repository state on
+2026-05-26:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Result: pass. The runner completed claim-boundary, OpenReview metadata
+consistency, evidence-number consistency, 27-test focused pytest, clean ACL
+build, final LaTeX log scan, candidate packet staging, inventory, local
+path/private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and
+`pdftotext_sections`. `pdfinfo` reported 12 pages, A4 page size, PDF 1.5, and
+306187 bytes. The staged packet still contained exactly the five safe files:
+`main.pdf`, `openreview/METADATA.md`,
+`openreview/RESPONSIBLE_NLP_CHECKLIST.md`, `supplemental/README.md`, and
+`supplemental/manifest.json`.
+
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 
 After adding the consolidated runner and later adding the evidence-number

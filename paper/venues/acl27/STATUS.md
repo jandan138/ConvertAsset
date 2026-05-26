@@ -155,7 +155,8 @@ candidate is now guarded by `run_preupload_gate.py`, which includes
 claim-boundary, OpenReview metadata, evidence-number, focused pytest, clean
 build, LaTeX log, staging, inventory, anonymization, acknowledgment,
 `pdfinfo`, `pdf_profile`, and ordered `pdftotext` checks. The focused suite now
-covers 23 tests, and the current PDF profile guard enforces the 12-page A4/PDF
+covers 27 tests after adding the author-gate checker tests, and the current
+PDF profile guard enforces the 12-page A4/PDF
 1.5 candidate shape. This strengthens repository-side readiness but still does
 not close target-route, official OpenReview, private author,
 runtime/AI-assistance, or media/legal gates.
@@ -166,6 +167,15 @@ completed claim-boundary, metadata, evidence-number, 23-test focused pytest,
 clean ACL build, LaTeX log scan, five-file packet staging, private-token scan,
 acknowledgment scan, `pdfinfo`, `pdf_profile`, and `pdftotext_sections`. The
 staged PDF remained 12 A4 pages, PDF 1.5, and 306187 bytes.
+
+Author-gate checker update on 2026-05-26:
+`scripts/check_author_gate.py` now validates the ignored private author
+worksheet after the authors fill it. It checks required field names,
+TODO/TBD/UNKNOWN/UNDECIDED values, and git ignored/untracked status while
+reporting only field names and booleans, not private author values. The focused
+pre-upload pytest suite includes `tests/test_acl_author_gate.py`; the checker
+itself is expected to fail until
+`OPENREVIEW_AUTHOR_GATE_FILLED.local.md` exists and is filled locally.
 
 Target-policy refresh after current-commit gate on 2026-05-26: official ARR,
 EACL, and ACLPUB pages were reopened again. The route state is unchanged:
@@ -389,7 +399,7 @@ focused ACL pytest suite, clean ACL PDF build, final LaTeX log scan, candidate
 packet staging, exact packet inventory check, private-token scan,
 acknowledgment scan, `pdfinfo`, PDF profile guard, and `pdftotext`
 title/header/section-order checks. The full run now passes on the current
-ACL/ARR candidate: 23 focused tests
+ACL/ARR candidate: 27 focused tests
 passed, the rebuilt staged PDF is 12 A4 pages after the evidence-gate table
 refresh, the staged packet contains
 exactly the five safe files, and both private-token and acknowledgment scans

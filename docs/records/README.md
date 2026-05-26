@@ -73,6 +73,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-26 ACL pre-upload gate runner](2026-05-26-acl-preupload-gate-runner.md)
 - [2026-05-26 ACL evidence-number check](2026-05-26-acl-evidence-number-check.md)
 - [2026-05-26 ACL author-gate filling guide](2026-05-26-acl-author-gate-filling-guide.md)
+- [2026-05-26 ACL author-gate checker](2026-05-26-acl-author-gate-checker.md)
 - [2026-05-26 ACL evidence-gate table](2026-05-26-acl-evidence-gate-table.md)
 - [2026-05-26 ACL PDF profile gate](2026-05-26-acl-pdf-profile-gate.md)
 - [2026-05-26 ACL current-commit pre-upload gate](2026-05-26-acl-current-commit-preupload-gate.md)

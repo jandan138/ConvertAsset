@@ -26,6 +26,18 @@ Expected result: `.gitignore` ignores
 If `git check-ignore` does not report an ignore rule, stop before filling the
 file.
 
+After the private copy is filled, validate it with:
+
+```bash
+python paper/venues/acl27/scripts/check_author_gate.py
+```
+
+Expected result after filling: the command exits 0 and prints a JSON status
+report. The report lists field names, missing fields, TODO fields, and git
+ignore/tracked status; it does not print the private field values. Before the
+authors create and fill `OPENREVIEW_AUTHOR_GATE_FILLED.local.md`, this command
+is expected to exit nonzero.
+
 ## Fill Order
 
 Fill the private worksheet in this order.
@@ -86,6 +98,7 @@ Fill the private worksheet in this order.
    Run the repository-side final rehearsal:
 
    ```bash
+   python paper/venues/acl27/scripts/check_author_gate.py
    python paper/venues/acl27/scripts/run_preupload_gate.py
    ```
 
@@ -107,6 +120,7 @@ Before upload or commit, run:
 ```bash
 git status --short
 git status --short --ignored paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md
+python paper/venues/acl27/scripts/check_author_gate.py
 python paper/venues/acl27/scripts/run_preupload_gate.py
 ```
 
@@ -114,6 +128,8 @@ Expected result:
 
 - the filled local worksheet is ignored, not staged;
 - the tracked repository has no private author data;
+- the private author worksheet has no missing required field and no TODO/TBD
+  value;
 - the staged packet still contains only:
 
 ```text
@@ -138,6 +154,7 @@ Stop before upload if any of these are true:
 - reviewer-registration commitment is not confirmed;
 - dual-submission or resubmission status is unclear;
 - runtime, AI-assistance, license, or optional-media wording is not approved;
+- `check_author_gate.py` fails after the private worksheet is filled;
 - `run_preupload_gate.py` fails;
 - `git status` shows the filled local worksheet as staged or unignored;
 - the staged packet contains raw scenes, converted USD trees, selected videos,

@@ -40,8 +40,9 @@ completion audit was refreshed against the latest full gate evidence:
   evidence-number consistency, focused pytest, clean ACL build, LaTeX log,
   packet staging, inventory, local/private-token scan, acknowledgment scan,
   `pdfinfo`, `pdf_profile`, and `pdftotext` checks on the current candidate.
-- The focused pytest step now passes 23 tests across staging, layout, metadata,
-  claim-boundary, evidence-number, and pre-upload runner checks.
+- The focused pytest step now passes 27 tests across staging, layout, metadata,
+  claim-boundary, evidence-number, private author-gate, and pre-upload runner
+  checks.
 - The abstract remains under the ACLPUB 200-word guidance by the repository
   tokenizer.
 - The clean build produces a 12-page A4 review PDF under the current candidate
@@ -52,9 +53,9 @@ completion audit was refreshed against the latest full gate evidence:
 
 This refresh strengthens the candidate-readiness evidence but does not close
 the human gates: route lock, official OpenReview form copy, private author-gate
-worksheet completion, optional media/legal decision, author/runtime and
-AI-assistance confirmation, and final integrity rerun remain required before a
-real upload.
+worksheet completion, `check_author_gate.py` pass on the filled ignored
+worksheet, optional media/legal decision, author/runtime and AI-assistance
+confirmation, and final integrity rerun remain required before a real upload.
 
 ## Next Goal Wording
 
