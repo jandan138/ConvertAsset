@@ -4,9 +4,10 @@ Checked: 2026-05-26.
 
 This audit covers citations used by the ACL wrapper in
 `paper/venues/acl27/sections/*.tex` plus `paper/shared/sections/appendix.tex`.
-It is narrower than a full bibliography cleanup: it verifies local citation
-resolution and identifies permanent-identifier/provenance gaps before final
-ARR/ACL submission.
+It verifies local citation resolution, permanent identifiers, and the
+2026-05-26 web-trail existence check for the current 20-reference ACL wrapper.
+It is still narrower than a final full-submission integrity pass because it
+does not re-check every citation context, data claim, or originality sample.
 
 ## Local Citation Resolution
 
@@ -50,9 +51,11 @@ bibliography without undefined citations.
 
 ACLPUB formatting guidance says references should include DOI where possible,
 or ACL Anthology links as a second resort. The current `.bib` now includes DOI
-or URL metadata for every key cited by the ACL wrapper. A few entries still need
-final proceedings-level confirmation, but the previous build-clean-only state
-has been upgraded to source-linked citation metadata.
+or URL metadata for every key cited by the ACL wrapper. The 2026-05-26
+web-trail pass verified all 20 current ACL-wrapper references against arXiv,
+CVF, OpenReview, PMLR, NeurIPS, ETH Research Collection, CiNii/Crossref-backed
+records, J-GLOBAL, Springer, ECVA, DBLP, or DOI redirects, depending on the
+reference.
 
 | Key | Current local identifier status | Submission action |
 | --- | --- | --- |
@@ -65,13 +68,13 @@ has been upgraded to source-linked citation metadata.
 | `Wei2026Ground` | ICLR/OpenReview URL present. | Keep; verify final ICLR metadata before submission. |
 | `Mittal2025Isaac` | arXiv DOI and URL present. | Keep unless an archival version appears. |
 | `Ng2023SynTable` | arXiv DOI and URL present. | Keep unless an archival version appears. |
-| `Singh2025Synthetica` | arXiv URL present for the formal IROS entry. | Verify final IEEE DOI if available. |
+| `Singh2025Synthetica` | Formal IROS DOI and arXiv URL present. | Keep; DOI resolved to IEEE document `11247126` in the 2026-05-26 check. |
 | `Savva2019Habitat` | DOI and CVF URL present. | Keep. |
 | `Kolve2017AI2THOR` | arXiv DOI and URL present. | Keep unless an archival version appears. |
 | `Gan2021ThreeDWorld` | NeurIPS Datasets and Benchmarks URL present. | Keep. |
 | `Tobin2017Domain` | DOI and arXiv URL present. | Keep. |
 | `Tremblay2018Training` | DOI and CVF URL present. | Keep. |
-| `Zakharov2022Photo` | ECVA URL and arXiv DOI present. | Verify final Springer/ECCV DOI if desired. |
+| `Zakharov2022Photo` | Springer ECCV DOI and ECVA URL present. | Keep. |
 | `Wang2004Image` | DOI present. | Keep. |
 | `Zhang2018Unreasonable` | DOI and CVF URL present. | Keep. |
 | `Radford2021Learning` | PMLR URL present. | Keep. |
@@ -90,10 +93,11 @@ has been upgraded to source-linked citation metadata.
 
 ## Current Claim-Safety Result
 
-The current bibliography is build-clean and now source-linked for all ACL
-wrapper citations. The remaining final-submission risks are artifact/model
-provenance and final-venue policy, not undefined citations. The final submission
-gate should require:
+The current bibliography is build-clean, source-linked, and web-trail verified
+for all 20 current ACL-wrapper references. The remaining final-submission risks
+are citation-context/data/originality checking after any edits, artifact/model
+provenance, and final-venue policy, not fabricated or undefined references in
+the current ACL wrapper. The final submission gate should require:
 
 1. No undefined citations in a clean build.
 2. Every cited scientific artifact keeps DOI, ACL Anthology URL, OpenReview/PMLR
@@ -103,3 +107,5 @@ gate should require:
    Responsible NLP checklist.
 4. Any author-identifying local paths are removed or anonymized from uploadable
    supplemental artifacts.
+5. A final citation-context/data/originality pass is rerun after any manuscript
+   or bibliography change.

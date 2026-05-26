@@ -4,6 +4,40 @@ Verified against online sources on 2026-03-06 for the then-current
 [`paper/shared/references.bib`](paper/shared/references.bib). The 2026-05-22
 addendum below verifies references added for the ACL/VLM route.
 
+## 2026-05-26 ACL WRAPPER WEB-TRAIL ADDENDUM
+
+Scope: the 20 unique keys cited by `paper/venues/acl27/sections/*.tex` plus
+`paper/shared/sections/appendix.tex`. All 20 are `VERIFIED` for existence
+against an authoritative source URL. This addendum verifies reference existence
+and core bibliographic fields; it does not replace the final pre-upload
+citation-context, data-claim, and originality audit.
+
+| Key | Verdict | Source checked | Confirmed fields / action |
+|---|---|---|---|
+| `Anderson2018Vision` | `VERIFIED` | https://openaccess.thecvf.com/content_cvpr_2018/html/Anderson_Vision-and-Language_Navigation_Interpreting_CVPR_2018_paper.html | CVF confirms title, authors, CVPR 2018, pages 3674--3683. |
+| `Chen2023Shikra` | `VERIFIED` | https://arxiv.org/abs/2306.15195 | arXiv confirms title, six authors, 2023 submission/revision, and arXiv DOI. |
+| `Gan2021ThreeDWorld` | `VERIFIED` | https://datasets-benchmarks-proceedings.neurips.cc/paper/2021/hash/735b90b4568125ed6c3f678819b6e058-Abstract-round1.html | NeurIPS Datasets and Benchmarks confirms title, authors, and NeurIPS Datasets and Benchmarks 2021 venue. |
+| `Kolve2017AI2THOR` | `VERIFIED` | https://arxiv.org/abs/1712.05474 | arXiv confirms title, authors, 2017 first submission, and arXiv DOI. |
+| `Mittal2023Orbit` | `VERIFIED` | https://www.research-collection.ethz.ch/entities/publication/7a761b20-030c-4ded-849c-278aa1878ad9 | ETH record confirms RA-L 8(6), pages 3740--3747, DOI `10.1109/LRA.2023.3270034`, and publication status. |
+| `Mittal2025Isaac` | `VERIFIED` | https://arxiv.org/abs/2511.04831 | arXiv confirms title, 2025 submission, arXiv DOI, and current arXiv-only status. |
+| `Ng2023SynTable` | `VERIFIED` | https://arxiv.org/abs/2307.07333 | arXiv confirms title, authors, 2023 first submission, 2025 camera-ready revision note, and arXiv DOI. |
+| `Oquab2023DINOv2` | `VERIFIED` | https://openreview.net/forum?id=a68SUt6zFt | OpenReview confirms title, authors, TMLR acceptance, 2024 publication status, and CC BY license. |
+| `Qi2020REVERIE` | `VERIFIED` | https://openaccess.thecvf.com/content_CVPR_2020/html/Qi_REVERIE_Remote_Embodied_Visual_Referring_Expression_in_Real_Indoor_Environments_CVPR_2020_paper.html | CVF confirms title, authors, CVPR 2020, pages 9982--9991. |
+| `Radford2021Learning` | `VERIFIED` | https://proceedings.mlr.press/v139/radford21a.html | PMLR confirms title, authors, ICML 2021, PMLR 139, pages 8748--8763. |
+| `Savva2019Habitat` | `VERIFIED` | https://openaccess.thecvf.com/content_ICCV_2019/html/Savva_Habitat_A_Platform_for_Embodied_AI_Research_ICCV_2019_paper.html | CVF confirms title, authors, ICCV 2019, pages 9339--9347. |
+| `Singh2025Synthetica` | `VERIFIED` | https://jglobal.jst.go.jp/en/detail?JGLOBAL_ID=202602291905385347 and DOI redirect check for `10.1109/IROS60139.2025.11247126` | J-GLOBAL confirms IROS 2025, pages 7810--7817; DOI resolves to IEEE document `11247126`. Added DOI to BibTeX. |
+| `Tobin2017Domain` | `VERIFIED` | https://cir.nii.ac.jp/crid/1363388846286990336 | CiNii/Crossref-backed record confirms IROS 2017, DOI `10.1109/IROS.2017.8202133`, and pages 23--30. Added pages to BibTeX. |
+| `Tremblay2018Training` | `VERIFIED` | https://dblp.dagstuhl.de/rec/conf/cvpr/TremblayPABJATC18.html | DBLP confirms CVPR Workshops 2018, DOI `10.1109/CVPRW.2018.00143`, and pages 969--977. Added pages to BibTeX. |
+| `Wang2004Image` | `VERIFIED` | https://cir.nii.ac.jp/crid/1362544421171045120?lang=en | CiNii/Crossref-backed record confirms IEEE TIP 13(4), pages 600--612, 2004, and DOI `10.1109/TIP.2003.819861`. |
+| `Wang2024GRUtopia` | `VERIFIED` | https://arxiv.org/abs/2407.10943 | arXiv confirms title, authors, 2024 submission, GRScenes/GRBench context, and arXiv DOI. |
+| `Wei2026Ground` | `VERIFIED` | https://openreview.net/forum?id=GK4rznYwhn | OpenReview confirms title, authors, ICLR 2026 poster, and CC BY license. |
+| `You2024Ferret` | `VERIFIED` | https://openreview.net/forum?id=2msbbX3ydD | OpenReview confirms title, authors, ICLR 2024 spotlight, and grounding/referring scope. |
+| `Zakharov2022Photo` | `VERIFIED` | https://link.springer.com/book/10.1007/978-3-031-19806-9 and https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136850306.pdf | Springer confirms ECCV 2022 Part XXV pages 310--327 and DOI `10.1007/978-3-031-19806-9_18`; ECVA PDF confirms title/authors. Updated BibTeX DOI/pages. |
+| `Zhang2018Unreasonable` | `VERIFIED` | https://openaccess.thecvf.com/content_cvpr_2018/html/Zhang_The_Unreasonable_Effectiveness_CVPR_2018_paper.html | CVF confirms title, authors, CVPR 2018, pages 586--595. |
+
+Outcome: 20/20 current ACL-wrapper references have a concrete web-trail source
+and no fabricated-reference finding in this pass.
+
 ## 2026-05-22 ADDENDUM
 
 | Key | Title | 判定 | Canonical source URL | 一句话理由 |

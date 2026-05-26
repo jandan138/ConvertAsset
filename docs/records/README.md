@@ -58,6 +58,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-26 ACL model and asset license closure](2026-05-26-acl-model-asset-license-closure.md)
 - [2026-05-26 ACL target call policy audit](2026-05-26-acl-target-call-policy-audit.md)
 - [2026-05-26 ACL goal completion audit](2026-05-26-acl-goal-completion-audit.md)
+- [2026-05-26 ACL reference web-trail audit](2026-05-26-acl-reference-web-trail-audit.md)
 - [2026-05-23 CVPR review status and ACL goals](2026-05-23-cvpr-review-status-and-acl-goals.md)
 - [2026-05-20 OSS dataset restore for GRScenes test0 parallel](2026-05-20-oss-dataset-restore.md)
 - [2026-05-20 ACL GRScenes dataset role correction](2026-05-20-acl-grscenes-dataset-role-correction.md)

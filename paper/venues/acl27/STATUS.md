@@ -141,6 +141,16 @@ exact upload packet is rebuilt and anonymization-scanned. The next large goal
 should therefore be target lock plus final integrity/upload gate, not more
 unbounded experiment collection.
 
+Reference web-trail update on 2026-05-26:
+`paper/shared/evidence/references/verification_report.md` now contains a
+20/20 ACL-wrapper reference-existence web-trail addendum. The pass also
+normalized `paper/shared/references.bib` by adding the Synthetica IROS DOI,
+Tobin and Tremblay proceedings pages, and the formal Springer ECCV DOI/pages
+for Photo-realistic Neural Domain Randomization. This closes the current
+fabricated-reference risk for the ACL wrapper, while final citation-context,
+data-claim, and originality checks still remain part of the pre-upload
+integrity gate.
+
 InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now has a real
 one-episode embodied downstream smoke run for scene
 `MV7J6NIKTKJZ2AABAAAAADY8_usd`. The prep manifest is
