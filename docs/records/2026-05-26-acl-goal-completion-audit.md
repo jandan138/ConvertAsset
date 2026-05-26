@@ -30,26 +30,30 @@ status pass, not a new experiment run.
 
 ## Refresh On 2026-05-26
 
-After the OpenReview author-gate worksheet was added, the completion audit was
-refreshed against the latest pre-upload rehearsal evidence:
+After the OpenReview author-gate worksheet, first-page ACL-fit hardening,
+consolidated pre-upload runner, and evidence-number checker were added, the
+completion audit was refreshed against the latest full gate evidence:
 
-- `python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py`
-  passed 11 tests.
-- The abstract remained under the ACLPUB 200-word guidance by the current
+- `python paper/venues/acl27/scripts/run_preupload_gate.py` is now the primary
+  repository-side rehearsal command.
+- The runner passed claim-boundary, OpenReview metadata consistency,
+  evidence-number consistency, focused pytest, clean ACL build, LaTeX log,
+  packet staging, inventory, local/private-token scan, acknowledgment scan,
+  `pdfinfo`, and `pdftotext` checks on the current candidate.
+- The focused pytest step now passes 20 tests across staging, layout, metadata,
+  claim-boundary, evidence-number, and pre-upload runner checks.
+- The abstract remains under the ACLPUB 200-word guidance by the repository
   tokenizer.
-- `make -C paper clean-acl27 && make -C paper acl27` rebuilt the 11-page A4
-  review PDF.
-- The final LaTeX log had no unresolved citation/reference matches.
-- `stage_submission_packet.py --force` regenerated a five-file safe packet with
-  the anonymous PDF, OpenReview metadata source, OpenReview checklist source,
-  supplemental README, and manifest.
-- Local path/private identifier and acknowledgment scans over the staged packet
-  had no matches.
+- The clean build produces an 11-page A4 review PDF.
+- The staged packet remains the safe five-file boundary: anonymous PDF,
+  OpenReview metadata source, OpenReview checklist source, supplemental README,
+  and manifest.
 
 This refresh strengthens the candidate-readiness evidence but does not close
 the human gates: route lock, official OpenReview form copy, private author-gate
-worksheet completion, optional media/legal decision, and final integrity rerun
-remain required before a real upload.
+worksheet completion, optional media/legal decision, author/runtime and
+AI-assistance confirmation, and final integrity rerun remain required before a
+real upload.
 
 ## Next Goal Wording
 
@@ -66,8 +70,6 @@ author kit are public.
 ## Verification To Run After This Pass
 
 ```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
 git diff --check
-python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py tests/test_reviewer_closure_package.py tests/test_official_scene_submission_closure.py
-make -C paper acl27
-python paper/venues/acl27/scripts/stage_submission_packet.py --force
 ```

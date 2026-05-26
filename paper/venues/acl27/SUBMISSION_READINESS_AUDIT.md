@@ -32,6 +32,15 @@ still did not find an official Annual ACL 2027 CFP, author kit, city/date page,
 or commitment deadline. Therefore this wrapper is ACL/ARR-candidate ready and
 EACL-2027-route plausible, but not Annual-ACL-2027-final ready.
 
+Latest refresh on 2026-05-26 reopened the policy-critical pages after the
+pre-upload runner and evidence-number checker were added. ARR Dates still lists
+EACL 2027 with final ARR submission date August 3, 2026 and commitment date
+October 11, 2026; the EACL main-paper page still lists August 3, 2026 AoE while
+stating that the full CFP and detailed timetable are forthcoming. ACLPUB still
+states the generic 8-content-page long-paper review budget plus unlimited
+references, and ARR common-submission guidance still leaves author order,
+OpenReview profiles, and reviewer-registration confirmation as human gates.
+
 ## Current Manuscript State
 
 | Gate | Evidence | Status |
@@ -46,6 +55,7 @@ EACL-2027-route plausible, but not Annual-ACL-2027-final ready.
 | Bibliography resolution | Latest `make -C paper clean-acl27 && make -C paper acl27` resolves citations and writes `build/main.pdf`. | Pass |
 | Claim boundary | `CLAIM_AUDIT.md` forbids broad embodied benchmark, speedup, NVIDIA official-scene performance, and population NVIDIA failure-rate claims. | Pass |
 | Citation context / data integrity delta | `FINAL_INTEGRITY_DELTA_AUDIT.md` checks all current citation-bearing sentences, main numerical claims, forbidden-claim search results, and sampled exact-phrase originality searches. | Pass for current source; rerun after any manuscript, bibliography, target, or packet change |
+| Automated evidence-number consistency | `scripts/check_evidence_numbers.py` recomputes the ACL-facing proxy, GRScenes VLM, InternNav, official-scene, and coordinate-baseline numbers from local CSV/JSON evidence and checks manuscript/OpenReview markers. | Pass for current source; included in `run_preupload_gate.py` |
 | Supplement self-contained status | Main paper contains the core evidence and scope boundaries; appendices/supplement add detail. `FINAL_SUBMISSION_PACKET_CHECKLIST.md` defines the upload boundary and `SUBMISSION_STAGING_AUDIT.md` records the first minimal PDF-first staging smoke. | Candidate staging smoke pass; final human read and any archive/media scan still required |
 | Official Annual ACL 2027 policy | No public Annual ACL 2027 CFP/author kit found in checked sources. | External blocker |
 | EACL 2027 route | Official EACL 2027 site and ARR Dates page list August 3, 2026 as the ARR paper deadline; EACL page says the complete CFP is still forthcoming. | Concrete public route exists; final venue-specific upload wording still pending |
@@ -106,7 +116,6 @@ ARR checklist.
    `FINAL_INTEGRITY_DELTA_AUDIT.md` after any new citations, manuscript edits,
    target changes, or packet changes; current ACL-wrapper citations now have
    DOI or URL metadata and current-source citation/data checks.
-5. Re-run `stage_submission_packet.py` and the anonymization scans in
-   `FINAL_SUBMISSION_PACKET_CHECKLIST.md` immediately before upload, especially
-   if any source, bibliography, checklist, or supplemental media changes are
-   made after the 2026-05-26 staging smoke.
+5. Re-run the consolidated `run_preupload_gate.py` immediately before upload,
+   especially if any source, bibliography, checklist, evidence table, or
+   supplemental media changes are made after the 2026-05-26 staging smoke.

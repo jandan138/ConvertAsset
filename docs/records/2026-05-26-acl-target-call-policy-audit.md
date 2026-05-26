@@ -21,6 +21,11 @@ scientific claims or add experiments.
 - The EACL 2027 main-paper call page still says the full CFP and detailed
   timetable are being finalized, so this is not a complete venue-specific
   final-upload lock yet.
+- A later refresh after the pre-upload automation pass reopened ARR, EACL, and
+  ACLPUB pages and found the same route state: EACL 2027 via ARR is the
+  concrete public route; Annual ACL 2027 still lacks an official public CFP or
+  author kit in checked sources; author order, OpenReview profiles, and
+  reviewer-registration confirmation remain human-only submission gates.
 
 ## Changes
 

@@ -133,6 +133,13 @@ call page still says the comprehensive CFP and detailed timetable are being
 finalized. The practical next decision is whether to retarget to EACL 2027 via
 ARR or wait for Annual ACL 2027.
 
+Target-call refresh after pre-upload automation on 2026-05-26: official ARR,
+EACL, and ACLPUB pages were reopened after the evidence-number gate was added.
+The policy state is unchanged: EACL 2027 via ARR is the concrete public
+ACL-family route, Annual ACL 2027 remains unavailable as a final public target,
+and author order/OpenReview profile/reviewer-registration fields remain
+human-only gates.
+
 Goal-completion audit update on 2026-05-26: `GOAL_COMPLETION_AUDIT.md` maps
 the active ACL/ARR objective to concrete evidence and remaining gates. Verdict:
 the package is candidate-ready for target lock and final submission rehearsal,
@@ -142,6 +149,15 @@ decisions are confirmed, a final citation/data integrity pass runs, and the
 exact upload packet is rebuilt and anonymization-scanned. The next large goal
 should therefore be target lock plus final integrity/upload gate, not more
 unbounded experiment collection.
+
+Goal-completion refresh after pre-upload automation on 2026-05-26: the current
+candidate is now guarded by `run_preupload_gate.py`, which includes
+claim-boundary, OpenReview metadata, evidence-number, focused pytest, clean
+build, LaTeX log, staging, inventory, anonymization, acknowledgment,
+`pdfinfo`, and `pdftotext` checks. The focused suite now covers 20 tests. This
+strengthens repository-side readiness but still does not close target-route,
+official OpenReview, private author, runtime/AI-assistance, or media/legal
+gates.
 
 Reference web-trail update on 2026-05-26:
 `paper/shared/evidence/references/verification_report.md` now contains a
