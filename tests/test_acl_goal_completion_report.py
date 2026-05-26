@@ -36,6 +36,10 @@ def test_current_repo_reports_static_candidate_ready_but_not_complete() -> None:
     assert "python paper/venues/acl27/scripts/run_preupload_gate.py" in report[
         "required_commands"
     ]
+    assert any(
+        "prefill_author_gate.py --apply --overwrite" in action
+        for action in report["next_actions"]
+    )
     assert "private filled list" not in str(report)
 
     requirements = {item["id"]: item for item in report["requirements"]}

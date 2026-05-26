@@ -591,6 +591,13 @@ exact-packet sequence is `run_preupload_gate.py`, then
 the ignored private worksheet without making the repository fill author, route,
 OpenReview profile, approval, optional-media, or final-upload decisions.
 
+Final next-action sequence update on 2026-05-26: `report_final_blockers.py`
+now emits that same exact-packet sequence in `next_actions`, and
+`report_goal_completion.py` forwards it. This keeps the machine-readable final
+handoff aligned with `OPENREVIEW_UPLOAD_RUNBOOK.md`; it does not clear the
+remaining human-only route, OpenReview form-copy, author, approval, media, or
+final-upload gates.
+
 OpenReview checklist gate update on 2026-05-26:
 `scripts/check_openreview_checklist.py` and
 `tests/test_acl_openreview_checklist.py` now guard

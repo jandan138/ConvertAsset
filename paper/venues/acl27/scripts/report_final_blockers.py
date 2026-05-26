@@ -39,7 +39,9 @@ OPENREVIEW_COPY_NEXT_ACTION = (
     "Copy the final metadata/checklist text into the real OpenReview form."
 )
 FINAL_GATE_NEXT_ACTION = (
-    "Run check_author_gate.py and run_preupload_gate.py on the exact upload state."
+    "Run run_preupload_gate.py, then "
+    "prefill_author_gate.py --apply --overwrite, then check_author_gate.py and "
+    "report_final_blockers.py on the exact upload state."
 )
 HUMAN_BLOCKER_HANDOFFS = {
     "private_author_gate_missing": {

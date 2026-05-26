@@ -120,6 +120,13 @@ def test_incomplete_private_author_gate_reports_completion_handoff(
     assert "prefill_author_gate.py --apply" in report["next_actions"][0]
     assert "complete or correct" in report["next_actions"][0]
     assert "init_author_gate.py" not in report["next_actions"][0]
+    assert any(
+        "prefill_author_gate.py --apply --overwrite" in action
+        and "run_preupload_gate.py" in action
+        and "check_author_gate.py" in action
+        and "report_final_blockers.py" in action
+        for action in report["next_actions"]
+    )
 
 
 def test_current_repo_reports_structured_human_handoff_details() -> None:
