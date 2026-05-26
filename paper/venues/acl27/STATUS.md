@@ -161,7 +161,7 @@ values. The current report is `status=candidate_ready_human_blocked`:
 private author/OpenReview route, form-copy, runtime/AI/media, and fresh
 pre-upload gates remain unresolved. The reporter is part of the consolidated
 pre-upload gate, but it is not a substitute for `run_preupload_gate.py`. The
-refreshed full pre-upload gate passes with 55 focused ACL tests, a 12-page A4
+refreshed full pre-upload gate passes with 57 focused ACL tests, a 12-page A4
 PDF 1.5 staged packet, and 306187 bytes for `main.pdf`.
 
 Goal-completion refresh after pre-upload automation on 2026-05-26: the current

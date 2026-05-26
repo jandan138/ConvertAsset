@@ -19,14 +19,25 @@ HUMAN_PENDING_UNTIL_AUTHOR_GATE_COMPLETE = (
     "official_openreview_form_copy_pending",
     "author_runtime_ai_media_approval_pending",
 )
-FINAL_NEXT_ACTIONS = (
+MISSING_AUTHOR_GATE_NEXT_ACTION = (
     (
         "Run init_author_gate.py to create and then fill "
         "paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md."
-    ),
-    "Choose EACL 2027 via ARR now, or wait for Annual ACL 2027 official policy.",
-    "Copy the final metadata/checklist text into the real OpenReview form.",
-    "Run check_author_gate.py and run_preupload_gate.py on the exact upload state.",
+    )
+)
+INCOMPLETE_AUTHOR_GATE_NEXT_ACTION = (
+    "Complete or correct "
+    "paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md, then run "
+    "check_author_gate.py."
+)
+FINAL_ROUTE_NEXT_ACTION = (
+    "Choose EACL 2027 via ARR now, or wait for Annual ACL 2027 official policy."
+)
+OPENREVIEW_COPY_NEXT_ACTION = (
+    "Copy the final metadata/checklist text into the real OpenReview form."
+)
+FINAL_GATE_NEXT_ACTION = (
+    "Run check_author_gate.py and run_preupload_gate.py on the exact upload state."
 )
 HUMAN_BLOCKER_HANDOFFS = {
     "private_author_gate_missing": {
@@ -229,6 +240,20 @@ def human_blocker_details(human_blockers: list[str]) -> dict[str, object]:
     }
 
 
+def next_actions_for(human_blockers: list[str]) -> list[str]:
+    actions: list[str] = []
+    if "private_author_gate_missing" in human_blockers:
+        actions.append(MISSING_AUTHOR_GATE_NEXT_ACTION)
+    elif "private_author_gate_incomplete" in human_blockers:
+        actions.append(INCOMPLETE_AUTHOR_GATE_NEXT_ACTION)
+    if "target_route_author_confirmation_pending" in human_blockers:
+        actions.append(FINAL_ROUTE_NEXT_ACTION)
+    if "official_openreview_form_copy_pending" in human_blockers:
+        actions.append(OPENREVIEW_COPY_NEXT_ACTION)
+    actions.append(FINAL_GATE_NEXT_ACTION)
+    return actions
+
+
 def build_final_blocker_report(
     paper_root: Path,
     *,
@@ -267,7 +292,7 @@ def build_final_blocker_report(
         "human_blockers": human_blockers,
         "human_blocker_details": human_blocker_details(human_blockers),
         "required_commands": list(REQUIRED_COMMANDS),
-        "next_actions": list(FINAL_NEXT_ACTIONS),
+        "next_actions": next_actions_for(human_blockers),
         "privacy": {
             "prints_private_author_values": False,
             "filled_author_worksheet_tracked": False,

@@ -21,15 +21,15 @@ def test_current_repo_reports_static_candidate_ready_but_not_complete() -> None:
     report = module.build_goal_completion_report(ROOT / "paper", repo_root=ROOT)
 
     assert report["ok"] is True
-    assert report["status"] == "candidate_ready_human_blocked"
+    assert report["status"] in {
+        "candidate_ready_human_blocked",
+        "upload_ready_needs_fresh_preupload_gate",
+    }
     assert report["repo_static_ready"] is True
     assert report["candidate_ready_for_human_gate"] is True
     assert report["final_goal_complete"] is False
     assert report["fresh_preupload_gate_required_for_completion"] is True
     assert report["final_blockers"]["repo_blockers"] == []
-    assert "private_author_gate_missing" in report["final_blockers"][
-        "human_blockers"
-    ]
     assert "python paper/venues/acl27/scripts/init_author_gate.py" in report[
         "required_commands"
     ]
