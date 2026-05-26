@@ -65,6 +65,9 @@ def test_current_repo_reports_human_blockers_without_private_values() -> None:
     assert "private_author_gate_missing" in report["human_blockers"]
     assert "official_openreview_form_copy_pending" in report["human_blockers"]
     assert "target_route_author_confirmation_pending" in report["human_blockers"]
+    assert "python paper/venues/acl27/scripts/init_author_gate.py" in report[
+        "required_commands"
+    ]
     assert "python paper/venues/acl27/scripts/check_author_gate.py" in report[
         "required_commands"
     ]

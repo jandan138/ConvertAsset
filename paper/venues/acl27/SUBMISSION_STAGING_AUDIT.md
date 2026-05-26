@@ -496,6 +496,23 @@ initializer only creates the ignored local copy; it does not fill private
 author, route, OpenReview, runtime, AI-assistance, license, media, scan, or
 upload-decision values.
 
+## Refresh After Final-Blocker Required Commands
+
+After aligning `report_final_blockers.py` with the author-side runbook, the
+report's `required_commands` list now gives the complete final handoff order:
+
+```bash
+python paper/venues/acl27/scripts/init_author_gate.py
+python paper/venues/acl27/scripts/check_author_gate.py
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+This is a reporting change, not an automated packet-staging behavior change.
+The consolidated pre-upload gate still does not run `init_author_gate.py`;
+private author worksheet creation and filling remain explicit local author
+actions. The refreshed focused tests and full gate passed with 53 focused ACL
+tests, a 12-page A4 PDF 1.5 staged packet, and 306187 bytes.
+
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 
 After adding the consolidated runner and later adding the evidence-number

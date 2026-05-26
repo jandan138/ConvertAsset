@@ -190,6 +190,16 @@ safety check and still does not fill or validate private author values. The
 refreshed full pre-upload gate passes with 53 focused ACL tests, a 12-page A4
 PDF 1.5 staged packet, and 306187 bytes for `main.pdf`.
 
+Final-blocker command handoff update on 2026-05-26:
+`scripts/report_final_blockers.py` now lists the author-side commands in the
+same order as the runbook: initialize the ignored private worksheet, check the
+filled private worksheet, then run the repository-side pre-upload gate. This is
+a reporting/handoff change only; `run_preupload_gate.py` still does not execute
+`init_author_gate.py`, so the automated repository gate does not create or fill
+private author data. The current real report therefore remains
+`status=human_blocked` with `repo_blockers=[]` until the authors complete the
+ignored local worksheet and OpenReview decisions.
+
 Citation-inventory gate update on 2026-05-26:
 `scripts/check_citation_inventory.py` now checks the ACL wrapper's cited keys
 against `paper/shared/references.bib` and the 2026-05-26 web-trail addendum.
