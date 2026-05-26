@@ -31,6 +31,7 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
         "citation_inventory",
         "evidence_numbers",
         "integrity_fingerprint",
+        "final_blocker_report",
         "focused_pytest",
         "clean_acl_build",
         "latex_log_scan",
@@ -50,6 +51,7 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
     assert step_ids.index("integrity_fingerprint") < step_ids.index("stage_packet")
     assert "tests/test_acl_citation_inventory.py" in focused_pytest_step["command"]
     assert "tests/test_acl_integrity_fingerprint.py" in focused_pytest_step["command"]
+    assert "tests/test_acl_final_blockers.py" in focused_pytest_step["command"]
     assert "tests/test_acl_author_gate.py" in focused_pytest_step["command"]
 
 

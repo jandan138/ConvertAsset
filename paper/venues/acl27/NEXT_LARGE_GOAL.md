@@ -107,7 +107,8 @@ This goal is done only when all of the following are true:
    `check_metadata_consistency.py` passes before staging.
 13. Any optional media is either explicitly excluded or legally approved and
    separately scanned.
-14. `STATUS.md`, `SUBMISSION_READINESS_AUDIT.md`,
+14. `report_final_blockers.py` reports no repo blockers and no human blockers.
+15. `STATUS.md`, `SUBMISSION_READINESS_AUDIT.md`,
     `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, and
     `TARGET_LOCK_OPENREVIEW_REHEARSAL.md` are updated with the final result.
 
@@ -129,7 +130,7 @@ fail until the authors fill that ignored local file. `run_preupload_gate.py` is
 the preferred repository-side final-gate rehearsal. It wraps the clean build,
 focused tests, claim-boundary check, metadata consistency check,
 citation-inventory check, evidence-number consistency check, packet staging,
-final-integrity source fingerprint check, packet inventory check,
+final-integrity source fingerprint check, final blocker report, packet inventory check,
 anonymization scan, acknowledgment scan, `pdfinfo`, PDF profile guard, packet
 checksum-sidecar validation, and `pdftotext` checks.
 
@@ -144,6 +145,7 @@ python paper/venues/acl27/scripts/check_claim_boundaries.py
 python paper/venues/acl27/scripts/check_citation_inventory.py
 python paper/venues/acl27/scripts/check_evidence_numbers.py
 python paper/venues/acl27/scripts/check_integrity_fingerprint.py
+python paper/venues/acl27/scripts/report_final_blockers.py
 python paper/venues/acl27/scripts/check_author_gate.py
 python paper/venues/acl27/scripts/stage_submission_packet.py --force
 rg -n "/cpfs|/home/|/root|zhuzihou|jandan138|github.com/jandan138|ConvertAsset.git" \

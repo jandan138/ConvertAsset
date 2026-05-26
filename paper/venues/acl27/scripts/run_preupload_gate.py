@@ -102,6 +102,13 @@ def build_preupload_plan(repo_root: Path) -> list[dict[str, object]]:
             ],
         },
         {
+            "id": "final_blocker_report",
+            "command": [
+                sys.executable,
+                "paper/venues/acl27/scripts/report_final_blockers.py",
+            ],
+        },
+        {
             "id": "focused_pytest",
             "command": [
                 sys.executable,
@@ -114,6 +121,7 @@ def build_preupload_plan(repo_root: Path) -> list[dict[str, object]]:
                 "tests/test_acl_claim_boundaries.py",
                 "tests/test_acl_citation_inventory.py",
                 "tests/test_acl_integrity_fingerprint.py",
+                "tests/test_acl_final_blockers.py",
                 "tests/test_acl_evidence_numbers.py",
                 "tests/test_acl_author_gate.py",
                 "tests/test_acl_preupload_gate.py",

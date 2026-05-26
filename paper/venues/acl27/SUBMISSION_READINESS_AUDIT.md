@@ -58,6 +58,7 @@ OpenReview profiles, and reviewer-registration confirmation as human gates.
 | Automated citation inventory | `scripts/check_citation_inventory.py` parses ACL citations, `paper/shared/references.bib`, and the 2026-05-26 web-trail addendum. | Pass for current source: 20 cited keys, no missing BibTeX entry, no cited key without DOI/URL, and exact web-trail coverage; included in `run_preupload_gate.py` |
 | Automated evidence-number consistency | `scripts/check_evidence_numbers.py` recomputes the ACL-facing proxy, GRScenes VLM, InternNav, official-scene, and coordinate-baseline numbers from local CSV/JSON evidence and checks manuscript/OpenReview markers. | Pass for current source; included in `run_preupload_gate.py` |
 | Automated final-integrity source freshness | `scripts/check_integrity_fingerprint.py` validates `FINAL_INTEGRITY_SOURCE_FINGERPRINT.json` against 41 current manuscript, bibliography, policy, OpenReview-copy, reference web-trail, table, and evidence CSV/JSON sources. | Pass for current source; included in `run_preupload_gate.py` before PDF build/staging |
+| Final blocker report | `scripts/report_final_blockers.py` separates repo blockers from human-only upload blockers without printing private author values. | Current report is `status=human_blocked`, `repo_blockers=[]`, with private author worksheet, target-route confirmation, OpenReview form copy, and author/runtime/AI/media approval still pending |
 | Packet checksum sidecar | `stage_submission_packet.py` writes `paper/submissions/acl27_arr_candidate_20260526.sha256`; `run_preupload_gate.py` validates it. | Pass for current staged packet: the anonymous packet remains five files, and the adjacent ignored sidecar records/verifies their SHA-256 digests |
 | Supplement self-contained status | Main paper contains the core evidence and scope boundaries; appendices/supplement add detail. `FINAL_SUBMISSION_PACKET_CHECKLIST.md` defines the upload boundary and `SUBMISSION_STAGING_AUDIT.md` records the first minimal PDF-first staging smoke. | Candidate staging smoke pass; final human read and any archive/media scan still required |
 | Official Annual ACL 2027 policy | No public Annual ACL 2027 CFP/author kit found in checked sources. | External blocker |
@@ -124,3 +125,5 @@ ARR checklist.
 5. Re-run the consolidated `run_preupload_gate.py` immediately before upload,
    especially if any source, bibliography, checklist, evidence table, or
    supplemental media changes are made after the 2026-05-26 staging smoke.
+6. Use `report_final_blockers.py` as the handoff checklist: it should have no
+   repo blockers and no human blockers before any real upload decision.

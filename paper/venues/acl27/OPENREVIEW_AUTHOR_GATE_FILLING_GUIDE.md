@@ -30,13 +30,17 @@ After the private copy is filled, validate it with:
 
 ```bash
 python paper/venues/acl27/scripts/check_author_gate.py
+python paper/venues/acl27/scripts/report_final_blockers.py
 ```
 
 Expected result after filling: the command exits 0 and prints a JSON status
-report. The report lists field names, missing fields, TODO fields, and git
-ignore/tracked status; it does not print the private field values. Before the
-authors create and fill `OPENREVIEW_AUTHOR_GATE_FILLED.local.md`, this command
-is expected to exit nonzero.
+report. `check_author_gate.py` lists field names, missing fields, TODO fields,
+and git ignore/tracked status; it does not print the private field values.
+`report_final_blockers.py` should no longer list private author-gate blockers
+after the worksheet is complete, but it can still list route, OpenReview form,
+runtime/AI, or media decisions until those are explicitly recorded. Before the
+authors create and fill `OPENREVIEW_AUTHOR_GATE_FILLED.local.md`,
+`check_author_gate.py` is expected to exit nonzero.
 
 ## Fill Order
 
@@ -121,6 +125,7 @@ Before upload or commit, run:
 git status --short
 git status --short --ignored paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md
 python paper/venues/acl27/scripts/check_author_gate.py
+python paper/venues/acl27/scripts/report_final_blockers.py
 python paper/venues/acl27/scripts/run_preupload_gate.py
 ```
 

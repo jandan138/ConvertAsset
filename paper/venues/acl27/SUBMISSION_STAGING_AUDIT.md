@@ -282,6 +282,31 @@ before build/staging. The rebuilt staged PDF is still 12 A4 pages, PDF 1.5,
 and 306187 bytes, and the staged packet still contains exactly the five safe
 files plus the adjacent ignored checksum sidecar outside the packet.
 
+## Refresh After Final Blocker Report Gate
+
+After adding the privacy-preserving final upload blocker report, the
+consolidated runner was executed again from the current repository state on
+2026-05-26:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Result: pass. The runner completed claim-boundary, OpenReview metadata
+consistency, citation-inventory, evidence-number, final-integrity fingerprint,
+final blocker report, 37-test focused pytest, clean ACL build, final LaTeX log
+scan, candidate packet staging, exact packet inventory, adjacent
+checksum-sidecar validation, private-token scan, acknowledgment scan,
+`pdfinfo`, `pdf_profile`, and `pdftotext_sections`.
+
+The blocker report itself is an upload handoff aid rather than an upload
+authorization. Its current status is `human_blocked`: `repo_blockers=[]`, while
+the missing private author worksheet, target-route author confirmation,
+official OpenReview form copy, and author/runtime/AI/media approval remain
+human-only blockers. The rebuilt staged PDF is still 12 A4 pages, PDF 1.5, and
+306187 bytes. The staged packet still contains exactly the five safe files plus
+the adjacent ignored checksum sidecar outside the packet.
+
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 
 After adding the consolidated runner and later adding the evidence-number

@@ -473,3 +473,13 @@ ACL pytest suite now covers 34 tests after adding
 `tests/test_acl_integrity_fingerprint.py`. This does not replace the human
 final-integrity delta audit; it makes source drift visible so the audit cannot
 quietly lag behind a changed manuscript or evidence file.
+
+Final blocker report update on 2026-05-26:
+`scripts/report_final_blockers.py` now prints a privacy-preserving final upload
+blocker report. The current report has `repo_blockers=[]` and
+`status=human_blocked`; the remaining human blockers are the missing private
+author worksheet, target-route author confirmation, official OpenReview form
+copy, and author/runtime/AI/media approval. `run_preupload_gate.py` now prints
+this report before focused tests/build/staging, and the focused ACL pytest suite
+now covers 37 tests after adding `tests/test_acl_final_blockers.py`. This is an
+upload handoff aid, not upload authorization.
