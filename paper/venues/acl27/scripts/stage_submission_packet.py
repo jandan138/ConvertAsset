@@ -15,6 +15,8 @@ DEFAULT_PACKET_ID = "acl27_arr_candidate_20260526"
 DEFAULT_RELATIVE_OUT_DIR = Path("submissions") / DEFAULT_PACKET_ID
 OPENREVIEW_CHECKLIST_SOURCE = Path("venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md")
 OPENREVIEW_CHECKLIST_STAGED = Path("openreview/RESPONSIBLE_NLP_CHECKLIST.md")
+OPENREVIEW_METADATA_SOURCE = Path("venues/acl27/OPENREVIEW_METADATA_PACKET.md")
+OPENREVIEW_METADATA_STAGED = Path("openreview/METADATA.md")
 FORBIDDEN_TOKENS = (
     "/cpfs",
     "/home/",
@@ -56,6 +58,8 @@ runtime logs.
 - `main.pdf`: anonymous manuscript PDF built from the ACL-facing wrapper.
 - `openreview/RESPONSIBLE_NLP_CHECKLIST.md`: copy-ready source material for
   the ARR/OpenReview checklist fields.
+- `openreview/METADATA.md`: copy-ready title, abstract, track, and keyword
+  source material for the ARR/OpenReview metadata fields.
 - `manifest.json`: upload inventory and claim boundary for this candidate
   packet.
 
@@ -97,6 +101,10 @@ def build_manifest(packet_id: str, *, include_media: bool) -> dict[str, Any]:
             {
                 "path": str(OPENREVIEW_CHECKLIST_STAGED),
                 "role": "openreview_responsible_nlp_form_source",
+            },
+            {
+                "path": str(OPENREVIEW_METADATA_STAGED),
+                "role": "openreview_metadata_form_source",
             },
             {
                 "path": "supplemental/README.md",
@@ -159,15 +167,20 @@ def stage_submission_packet(
     out_dir = Path(out_dir)
     source_pdf = paper_root / "venues/acl27/build/main.pdf"
     checklist_source = paper_root / OPENREVIEW_CHECKLIST_SOURCE
+    metadata_source = paper_root / OPENREVIEW_METADATA_SOURCE
     if not source_pdf.exists():
         raise FileNotFoundError(f"Missing ACL PDF; build it first: {source_pdf}")
     if not checklist_source.exists():
         raise FileNotFoundError(f"Missing OpenReview checklist packet: {checklist_source}")
+    if not metadata_source.exists():
+        raise FileNotFoundError(f"Missing OpenReview metadata packet: {metadata_source}")
 
     prepare_output_dir(out_dir, force=force)
     shutil.copy2(source_pdf, out_dir / "main.pdf")
     checklist_staged = out_dir / OPENREVIEW_CHECKLIST_STAGED
     shutil.copy2(checklist_source, checklist_staged)
+    metadata_staged = out_dir / OPENREVIEW_METADATA_STAGED
+    shutil.copy2(metadata_source, metadata_staged)
 
     readme_path = out_dir / "supplemental/README.md"
     readme_path.write_text(packet_readme(packet_id, include_media=include_media), encoding="utf-8")
@@ -181,6 +194,7 @@ def stage_submission_packet(
 
     assert_text_sanitized(readme_path)
     assert_text_sanitized(checklist_staged)
+    assert_text_sanitized(metadata_staged)
     assert_text_sanitized(manifest_path)
     return manifest
 

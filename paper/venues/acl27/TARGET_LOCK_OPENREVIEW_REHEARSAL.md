@@ -25,6 +25,7 @@ mode until official Annual ACL information appears.
 | OpenReview / ARR item | Current local evidence | Status |
 | --- | --- | --- |
 | Anonymous PDF | `paper/venues/acl27/build/main.pdf`; staged as `paper/submissions/acl27_arr_candidate_20260526/main.pdf`. | Ready for rehearsal; rebuild immediately before upload. |
+| Title, abstract, track, and keywords | `paper/venues/acl27/OPENREVIEW_METADATA_PACKET.md`; staged as `openreview/METADATA.md`. | Copy-ready source; final OpenReview fields remain author-gated. |
 | Responsible NLP checklist answers | `paper/venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`. | Copy-ready source, not yet entered into official OpenReview. |
 | Limitations and Ethical Considerations | PDF text scan finds both before references. | Ready for rehearsal. |
 | Page format | `pdfinfo` reports A4; current PDF is 11 pages total and within generic long-paper review budget before references. | Ready under generic ACLPUB policy; final venue-specific check still required. |
@@ -80,15 +81,16 @@ Expected packet contents:
 
 ```text
 main.pdf
+openreview/METADATA.md
 openreview/RESPONSIBLE_NLP_CHECKLIST.md
 supplemental/README.md
 supplemental/manifest.json
 ```
 
-The `openreview/` file is a copy source for the form, not a required supplement
-unless the final venue explicitly asks for it. Do not upload selected videos,
-raw scenes, scratch USD trees, raw InternNav outputs, LMDBs, local checkpoints,
-or non-anonymous repository links.
+The `openreview/` files are copy sources for form fields, not required
+supplements unless the final venue explicitly asks for them. Do not upload
+selected videos, raw scenes, scratch USD trees, raw InternNav outputs, LMDBs,
+local checkpoints, or non-anonymous repository links.
 
 ## Sources
 

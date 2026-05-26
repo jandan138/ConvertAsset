@@ -174,6 +174,14 @@ route, author list/order, OpenReview profiles, reviewer-registration
 commitment, dual-submission or resubmission status, preprint status,
 runtime/AI-assistance wording, and optional media exclusion or legal approval.
 
+OpenReview metadata update on 2026-05-26:
+`OPENREVIEW_METADATA_PACKET.md` now provides copy-ready title, abstract, ARR
+area, and keyword material. The ACL abstract was shortened from the extracted
+218-word version to 184 plain-text words to satisfy ACLPUB abstract-length
+guidance while preserving the same evidence numbers and claim boundary. The
+staging script now includes the metadata source as `openreview/METADATA.md` in
+the ignored local candidate packet.
+
 InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now has a real
 one-episode embodied downstream smoke run for scene
 `MV7J6NIKTKJZ2AABAAAAADY8_usd`. The prep manifest is

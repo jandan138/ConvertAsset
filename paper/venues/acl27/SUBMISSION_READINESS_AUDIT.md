@@ -40,6 +40,7 @@ EACL-2027-route plausible, but not Annual-ACL-2027-final ready.
 | Anonymous review wrapper | `main.tex` uses `\author{Anonymous ACL 2027 Submission}` and no acknowledgments section. | Pass for local review draft |
 | Limitations section present | `sections/limitations.tex`; PDF text places `Limitations` after conclusion and before references. | Pass |
 | Ethical considerations present | `sections/ethical-considerations.tex`; PDF text places it before references. | Pass |
+| Abstract length | `OPENREVIEW_METADATA_PACKET.md` and `sections/abstract.tex`; current plain-text abstract is 184 words. | Pass under ACLPUB 200-word guidance |
 | Page size | `pdfinfo paper/venues/acl27/build/main.pdf` reports A4 `595.276 x 841.89 pts`. | Pass |
 | Review long-paper page budget | Latest build is 11 PDF pages total; main content ends at conclusion on page 7, limitations begins on page 7, references begin on page 8. Generic ACLPUB long-paper review limit is 8 content pages excluding references, limitations, and ethical considerations. | Pass for generic ARR/ACLPUB long paper |
 | Bibliography resolution | Latest `make -C paper clean-acl27 && make -C paper acl27` resolves citations and writes `build/main.pdf`. | Pass |
@@ -62,6 +63,7 @@ EACL-2027-route plausible, but not Annual-ACL-2027-final ready.
 | Author-identifying links | No `http://` or `https://` links found in `main.tex`, ACL sections, or shared appendix text. | Low risk |
 | Non-anonymous repository/service links in supplement | The ignored local packet `paper/submissions/acl27_arr_candidate_20260526/` was assembled by `stage_submission_packet.py` and scanned; no local path, username, private-repo, or acknowledgment matches were found in the staged directory. | Low risk for the minimal PDF-first packet; re-run before upload and after any media/source additions |
 | Responsible NLP checklist weak answers | `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` now provides copy-ready answers with current PDF section/page anchors and remaining human gates. | Lower risk; final OpenReview copy, target-call wording, and author/legal confirmation for optional media still required |
+| OpenReview metadata drift | `OPENREVIEW_METADATA_PACKET.md` now provides title, abstract, ARR area, and keyword copy source; staging copies it to `openreview/METADATA.md`. | Lower risk; re-check after PDF or target change |
 | Reference permanent identifiers | `CITATION_PROVENANCE_AUDIT.md` now records DOI/URL metadata for all 20 currently cited ACL-wrapper keys. | Low risk, with final proceedings metadata check |
 | Annual ACL 2027 official details | Public Annual ACL 2027 CFP/site not found. | External blocker if the authors insist on Annual ACL 2027 |
 | EACL 2027 official details | EACL 2027 site and ARR dates are public, but the full CFP is still forthcoming. | Lower risk if authors accept EACL 2027 as the active target |

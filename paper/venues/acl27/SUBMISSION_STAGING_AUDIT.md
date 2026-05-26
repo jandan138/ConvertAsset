@@ -20,6 +20,7 @@ The command writes the default candidate packet under
 
 ```text
 paper/submissions/acl27_arr_candidate_20260526/main.pdf
+paper/submissions/acl27_arr_candidate_20260526/openreview/METADATA.md
 paper/submissions/acl27_arr_candidate_20260526/openreview/RESPONSIBLE_NLP_CHECKLIST.md
 paper/submissions/acl27_arr_candidate_20260526/supplemental/README.md
 paper/submissions/acl27_arr_candidate_20260526/supplemental/manifest.json
@@ -33,6 +34,8 @@ does not enter the tracked repository.
 Included:
 
 - `main.pdf`: anonymous ACL-facing review manuscript.
+- `openreview/METADATA.md`: copy-ready title, abstract, ARR area, and keyword
+  source material for OpenReview metadata fields.
 - `openreview/RESPONSIBLE_NLP_CHECKLIST.md`: copy-ready source material for
   ARR/OpenReview Responsible NLP checklist fields.
 - `supplemental/README.md`: human-readable upload boundary and claim guardrail.
@@ -57,7 +60,7 @@ a final media supplement.
 | --- | --- |
 | `make -C paper clean-acl27 && make -C paper acl27` | Pass; clean rebuild wrote `build/main.pdf`. |
 | `python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py tests/test_reviewer_closure_package.py tests/test_official_scene_submission_closure.py` | Pass; 29 tests passed; staging tests require the OpenReview checklist form source. |
-| Staged file inventory | Pass; the PDF, OpenReview checklist source, supplemental README, and supplemental manifest were present. |
+| Staged file inventory | Pass; the PDF, OpenReview metadata source, OpenReview checklist source, supplemental README, and supplemental manifest were present. |
 | Local path / username / private-repo scan over staged directory | Pass; no matches. |
 | Acknowledgment scan over staged directory | Pass; no matches. |
 | `pdfinfo` | Pass; 11 pages, A4 page size, PDF version 1.5. |
@@ -66,6 +69,7 @@ a final media supplement.
 The staged manifest records
 `claim_boundary=selected_media_excluded_by_default_pending_explicit_media_approval`
 and `include_media=false`. It also records
+`openreview/METADATA.md` as an `openreview_metadata_form_source` file and
 `openreview/RESPONSIBLE_NLP_CHECKLIST.md` as an
 `openreview_responsible_nlp_form_source` file. The manifest's remaining gates
 are now final selected-venue policy lock, final author/runtime confirmation,

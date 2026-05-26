@@ -14,6 +14,7 @@ format until the final target call publishes conference-specific instructions.
 | ACL LaTeX source | Usually no, unless requested | Keep source repo-side for reproducibility; upload source only if the submission system requires it and after path/anonymization audit. |
 | Bibliography | Yes, embedded in PDF/source package if source is requested | `paper/shared/references.bib` currently has DOI and/or URL metadata for all ACL-wrapper cited keys. |
 | Main figures/tables | Yes, in PDF | Current ACL wrapper uses local ACL sections and shared figures/tables. Verify all captions remain claim-bounded. |
+| OpenReview metadata | Yes, OpenReview form | Use `OPENREVIEW_METADATA_PACKET.md` for title, abstract, ARR area, and keyword copy source. Re-check if the PDF changes. |
 | Responsible NLP checklist | Yes, OpenReview form / required appendix if requested | Use `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md`, `ARTIFACT_PROVENANCE_DRAFT.md`, `MODEL_AND_ASSET_LICENSE_AUDIT.md`, and `COMPUTE_RUNTIME_SUMMARY_DRAFT.md` as source material. Replace section-title references with final PDF section/page/line references. |
 | Supplemental stills/contact sheets/videos | No by default | Selected qualitative media is useful internally for figures/rebuttal, but InteriorAgent / KuJiaLe terms make optional scene-derived media a separate author/legal decision. Treat all videos as qualitative inspection evidence only. |
 | Raw source scenes | No | GRScenes, InteriorAgent/KuJiaLe, and other source assets may carry separate terms; do not redistribute raw scene trees. |
@@ -32,6 +33,7 @@ format until the final target call publishes conference-specific instructions.
 | Citation DOI/URL metadata | `CITATION_PROVENANCE_AUDIT.md`; `paper/shared/references.bib`. | Ready for current citation set; re-check after any new citation. |
 | Artifact provenance | `ARTIFACT_PROVENANCE_DRAFT.md`; `MODEL_AND_ASSET_LICENSE_AUDIT.md`. | Candidate-ready: Gemma4/Qwen public IDs are recorded, GRScenes license is recorded, and InteriorAgent terms set a no-optional-media safe boundary. Final author/legal review still applies. |
 | Compute/runtime summary | `COMPUTE_RUNTIME_SUMMARY_DRAFT.md`. | Candidate-ready; final author confirmation of the checked host/runtime is still needed. |
+| OpenReview metadata | `OPENREVIEW_METADATA_PACKET.md`. | Title and 184-word abstract are copy-ready; recommended primary ARR area is `Multimodality and Language Grounding to Vision, Robotics and Beyond`, with `Resources and Evaluation` as secondary fit. |
 | Responsible NLP checklist | `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md`; `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`. | OpenReview copy-ready packet now exists with current PDF section/page anchors; final form copy and any target-call wording remain human-gated. |
 | Supplemental anonymization | `SUBMISSION_STAGING_AUDIT.md`; `paper/venues/acl27/scripts/stage_submission_packet.py`. | Minimal PDF-first staging smoke passed for the ignored local packet; final archive and optional media still need pre-upload re-scan. |
 | Target-call lock | `TARGET_CALL_POLICY_AUDIT.md`; `TARGET_LOCK_OPENREVIEW_REHEARSAL.md`. | EACL 2027 is a public ARR-family route with August 3, 2026 ARR deadline, but its full CFP is still forthcoming. Annual ACL 2027 CFP/author kit remains unavailable in checked official sources. Author route/profile/reviewer-registration/preprint decisions remain human-gated. |
@@ -48,12 +50,13 @@ It creates an ignored local packet at
 `paper/submissions/acl27_arr_candidate_20260526/` containing only:
 
 - `main.pdf`
+- `openreview/METADATA.md`
 - `openreview/RESPONSIBLE_NLP_CHECKLIST.md`
 - `supplemental/README.md`
 - `supplemental/manifest.json`
 
-The `openreview/` file is a local copy source for the submission form, not a
-paper supplement to upload unless the final venue explicitly requests it. The
+The `openreview/` files are local copy sources for submission form fields, not
+paper supplements to upload unless the final venue explicitly requests them. The
 script currently refuses `--include-media`; selected qualitative videos stay out
 of the review packet because InteriorAgent / KuJiaLe terms make optional
 scene-derived media a separate author/legal decision. See
