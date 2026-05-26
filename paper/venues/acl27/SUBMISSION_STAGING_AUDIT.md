@@ -75,6 +75,27 @@ and `include_media=false`. It also records
 are now final selected-venue policy lock, final author/runtime confirmation,
 optional selected-media legal approval, and final OpenReview form completion.
 
+## Refresh After Author-Gate Worksheet
+
+After adding `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md`, the staging smoke was rerun
+from the current repository state on 2026-05-26.
+
+| Check | Result |
+| --- | --- |
+| `python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py` | Pass; 11 tests passed. |
+| Abstract count | Pass; 183 tokens by the current conservative metadata tokenizer, still under the ACLPUB 200-word guidance. |
+| `make -C paper clean-acl27 && make -C paper acl27` | Pass; clean rebuild wrote `venues/acl27/build/main.pdf`. |
+| Final `main.log` undefined citation/reference scan | Pass; no matches. |
+| `stage_submission_packet.py --force` | Pass; regenerated the default candidate packet. |
+| Staged file inventory | Pass; still exactly `main.pdf`, `openreview/METADATA.md`, `openreview/RESPONSIBLE_NLP_CHECKLIST.md`, `supplemental/README.md`, and `supplemental/manifest.json`. |
+| Local path / username / private-repo scan | Pass; no matches. |
+| Acknowledgment scan | Pass; no matches. |
+| `pdfinfo` | Pass; 11 pages, A4 page size, PDF version 1.5, file size 299407 bytes. |
+| `pdftotext` section scan | Pass; anonymous header plus `Limitations`, `Ethical Considerations`, and `References` were found. |
+
+The author-gate worksheet stays repository-side only. Filled local copies are
+ignored by `.gitignore` and are not part of the staged packet.
+
 ## Remaining Gates
 
 - Re-run the staging command and scans immediately before any real ARR or ACL

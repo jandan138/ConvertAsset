@@ -200,6 +200,18 @@ and final pre-upload evidence. The filled copy should be
 `OPENREVIEW_AUTHOR_GATE_FILLED.local.md`, which is ignored by `.gitignore` and
 must not enter the anonymous review packet.
 
+Pre-upload rehearsal refresh on 2026-05-26:
+After adding the author-gate worksheet, the current ACL/ARR candidate was
+re-tested and restaged. `tests/test_acl_submission_staging.py` plus
+`tests/test_paper_layout.py` passed 11/11 tests; the abstract count remained
+under 200 words; `make -C paper clean-acl27 && make -C paper acl27` rebuilt the
+11-page A4 PDF; the final log had no unresolved citation/reference matches; the
+staged packet still contained only the anonymous PDF, OpenReview metadata,
+OpenReview checklist, supplemental README, and manifest; local path/private
+identifier and acknowledgment scans had no matches. See
+`SUBMISSION_STAGING_AUDIT.md` and
+`docs/records/2026-05-26-acl-preupload-rehearsal-refresh.md`.
+
 InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now has a real
 one-episode embodied downstream smoke run for scene
 `MV7J6NIKTKJZ2AABAAAAADY8_usd`. The prep manifest is
