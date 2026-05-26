@@ -20,6 +20,11 @@ main risk is that a candidate paper that is scientifically bounded could still
 fail as a submission because the route, form fields, author duties, final
 integrity pass, or upload packet are not locked.
 
+For ACL specifically, the next goal is also a reviewer-risk hardening goal. The
+paper should read as a VLM grounding and embodied-data reliability paper under
+3D material perturbations, not as a standalone asset-conversion tool paper. The
+reviewer-facing risk audit is recorded in `ACL_REVIEWER_RISK_AUDIT.md`.
+
 ## Target Route
 
 Use the current paper as an ACL/ARR review packet until the authors lock the
@@ -78,18 +83,21 @@ This goal is done only when all of the following are true:
 1. The selected route is recorded: EACL 2027 via ARR, or Annual ACL 2027 after
    the official Annual ACL call exists.
 2. The final target policy has been refreshed against official pages.
-3. Author list/order, OpenReview profiles, reviewer-registration commitment,
+3. The first-page story has been checked against the reviewer-risk audit:
+   title/abstract/introduction/contributions read as language-grounding
+   reliability, not as a tool-only paper.
+4. Author list/order, OpenReview profiles, reviewer-registration commitment,
    dual-submission/resubmission status, preprint status, runtime wording, and
    AI-assistance wording are recorded in a private local copy of
    `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md`.
-4. The PDF is rebuilt from a clean state.
-5. The final log has no unresolved citations or references.
-6. The final staged packet contains only the safe upload boundary.
-7. Anonymization scans over the exact staged packet pass.
-8. Responsible NLP checklist and metadata copy sources match the final PDF.
-9. Any optional media is either explicitly excluded or legally approved and
+5. The PDF is rebuilt from a clean state.
+6. The final log has no unresolved citations or references.
+7. The final staged packet contains only the safe upload boundary.
+8. Anonymization scans over the exact staged packet pass.
+9. Responsible NLP checklist and metadata copy sources match the final PDF.
+10. Any optional media is either explicitly excluded or legally approved and
    separately scanned.
-10. `STATUS.md`, `SUBMISSION_READINESS_AUDIT.md`,
+11. `STATUS.md`, `SUBMISSION_READINESS_AUDIT.md`,
     `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, and
     `TARGET_LOCK_OPENREVIEW_REHEARSAL.md` are updated with the final result.
 

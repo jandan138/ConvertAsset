@@ -302,3 +302,15 @@ the immediate rebuttal/figure need for selected official KuJiaLe videos, but it
 does not change the quantitative claim boundary.
 
 External status checked on 2026-05-22: the official ACL resolutions page records a July 2025 resolution that the 2027 conference will be branded as `ACL 2027` with no IJCNLP/AFNLP co-branding. No public ACL 2027 CFP, official conference site, city/date page, or Japan confirmation was found in the checked official sources. Japan is recorded here as the user-requested target until a public official source is available. Source: https://www.aclweb.org/adminwiki/index.php/ACL_Resolutions.
+
+ACL reviewer-risk update on 2026-05-26: `ACL_REVIEWER_RISK_AUDIT.md` now
+records the submission-facing interpretation of the next large goal. The
+actionable ACL-family route remains EACL 2027 via ARR because ARR Dates and the
+EACL 2027 main-paper page list the August 3, 2026 ARR deadline, while Annual
+ACL 2027 still lacks a checked public CFP/author kit. The next goal is not more
+unbounded experiments by default. It is route lock, reviewer-risk hardening,
+and final integrity/upload gating: keep the first page centered on VLM
+grounding and embodied-data reliability under 3D material perturbations, keep
+InternNav scoped as downstream sanity evidence, keep NVIDIA claims selected and
+material-effect bounded, exclude optional scene-derived media by default, and
+rerun the exact upload-packet scans after any final edit.
