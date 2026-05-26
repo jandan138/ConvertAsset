@@ -30,7 +30,10 @@ The runner executes these steps in order:
 9. private local path / username / repository token scan
 10. acknowledgment token scan
 11. `pdfinfo` over the staged PDF
-12. `pdftotext` title, anonymous-header, limitation, ethics, and reference scan
+12. PDF profile guard for current candidate shape: at most 12 pages, A4 page
+    size, and PDF 1.5
+13. `pdftotext` title, anonymous-header, limitation, ethics, and reference scan
+    with `Limitations`, `Ethical Considerations`, and `References` in order
 
 The expected staged packet remains exactly:
 
@@ -84,6 +87,27 @@ staged packet contained only the five expected files, the local-path/private-tok
 scan had no matches, the acknowledgment scan had no matches, and `pdftotext`
 found the required title, anonymous header, `Limitations`, `Ethical
 Considerations`, and `References` markers.
+
+PDF profile refresh:
+
+The runner now includes a `pdf_profile` step after `pdfinfo`. It parses the
+staged PDF profile and rejects silent drift from the current ACL/ARR candidate
+shape: more than 12 total pages, non-A4 page size, or a PDF version other than
+1.5. The `pdftotext` step also checks that `Limitations`, `Ethical
+Considerations`, and `References` appear in that order.
+
+This is a repository-side candidate guard, not a substitute for the final
+selected-venue policy check.
+
+Current rerun after this refresh:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Passed. The focused pytest step now covers 23 tests, the clean staged PDF is 12
+A4 pages / PDF 1.5 / 306187 bytes, the new `pdf_profile` step completed, and
+the staged packet still contains exactly the five safe files.
 
 ## Submission Impact
 

@@ -138,7 +138,35 @@ python paper/venues/acl27/scripts/run_preupload_gate.py
 | Local path / username / private-repo scan | Pass; no matches. |
 | Acknowledgment scan | Pass; no matches. |
 | `pdfinfo` | Pass; 12 pages, A4 page size, PDF version 1.5, file size 306187 bytes. |
+| PDF profile guard | Pass; staged PDF is within the current candidate cap of 12 total pages, uses A4, and is PDF 1.5. |
 | `pdftotext` title/header/section scan | Pass; found the ACL title, anonymous header, `Limitations`, `Ethical Considerations`, and `References`. |
+
+## Refresh After PDF Profile Gate
+
+After adding the explicit PDF profile guard to `run_preupload_gate.py`, the
+focused runner tests were rerun from the current repository state on
+2026-05-26:
+
+```bash
+python -m pytest -q tests/test_acl_preupload_gate.py
+```
+
+Result: 6 tests passed. The new tests cover the `pdf_profile` plan step, the
+current 12-page A4/PDF 1.5 candidate profile, rejection of unreviewed page
+growth, and section-order rejection when `References` appears before
+`Limitations` and `Ethical Considerations`.
+
+The full consolidated gate was then rerun:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Result: pass. The completed step list now includes `pdf_profile` between
+`pdfinfo` and `pdftotext_sections`; the focused suite passed 23 tests; `pdfinfo`
+reported 12 pages, A4 page size, PDF 1.5, and 306187 bytes; the staged packet
+still contained exactly the five safe files and passed the private-token and
+acknowledgment scans.
 
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 

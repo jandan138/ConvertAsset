@@ -35,6 +35,7 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
         "packet_private_scan",
         "packet_acknowledgment_scan",
         "pdfinfo",
+        "pdf_profile",
         "pdftotext_sections",
     ]
     assert step_ids.index("claim_boundaries") < step_ids.index("stage_packet")
@@ -69,3 +70,47 @@ def test_text_scan_detects_private_tokens(tmp_path: Path) -> None:
             tokens=module.PRIVATE_TOKENS,
             label="private token",
         )
+
+
+def test_pdf_profile_accepts_current_acl_candidate_shape() -> None:
+    module = load_module()
+    pdfinfo_output = """
+Pages:           12
+Page size:       595.276 x 841.89 pts (A4)
+PDF version:     1.5
+"""
+
+    profile = module.parse_pdfinfo_output(pdfinfo_output)
+
+    assert profile["pages"] == 12
+    assert profile["page_size_label"] == "A4"
+    module.validate_pdf_profile(profile)
+
+
+def test_pdf_profile_rejects_unreviewed_page_growth() -> None:
+    module = load_module()
+
+    with pytest.raises(ValueError, match="page count"):
+        module.validate_pdf_profile(
+            {
+                "pages": module.PDF_MAX_TOTAL_PAGES + 1,
+                "page_size_label": "A4",
+                "pdf_version": "1.5",
+            }
+        )
+
+
+def test_pdf_text_markers_must_preserve_section_order() -> None:
+    module = load_module()
+    out_of_order_text = "\n".join(
+        [
+            "Material Conversion as a Controlled Perturbation",
+            "Anonymous ACL submission",
+            "References",
+            "Limitations",
+            "Ethical Considerations",
+        ]
+    )
+
+    with pytest.raises(ValueError, match="out of order"):
+        module.validate_pdf_text_markers(out_of_order_text)

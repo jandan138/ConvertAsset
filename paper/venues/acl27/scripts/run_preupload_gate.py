@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -39,9 +40,17 @@ LATEX_UNRESOLVED_PATTERNS = (
     "Reference `",
     "No file main.bbl",
 )
+PDF_MAX_TOTAL_PAGES = 12
+PDF_REQUIRED_PAGE_SIZE_LABEL = "A4"
+PDF_REQUIRED_VERSION = "1.5"
 PDF_REQUIRED_TEXT = (
     "Material Conversion as a Controlled Perturbation",
     "Anonymous ACL submission",
+    "Limitations",
+    "Ethical Considerations",
+    "References",
+)
+PDF_ORDERED_SECTION_TEXT = (
     "Limitations",
     "Ethical Considerations",
     "References",
@@ -129,6 +138,11 @@ def build_preupload_plan(repo_root: Path) -> list[dict[str, object]]:
             "command": ["pdfinfo", str(packet_root / "main.pdf")],
         },
         {
+            "id": "pdf_profile",
+            "function": "check_pdf_profile",
+            "path": packet_root / "main.pdf",
+        },
+        {
             "id": "pdftotext_sections",
             "function": "check_pdf_text",
             "path": packet_root / "main.pdf",
@@ -193,6 +207,70 @@ def scan_text_forbidden_tokens(
         raise ValueError("; ".join(violations))
 
 
+def parse_pdfinfo_output(output: str) -> dict[str, object]:
+    profile: dict[str, object] = {}
+    for line in output.splitlines():
+        if line.startswith("Pages:"):
+            profile["pages"] = int(line.split(":", 1)[1].strip())
+        elif line.startswith("Page size:"):
+            match = re.search(r"\(([^)]+)\)", line)
+            profile["page_size_label"] = match.group(1) if match else ""
+        elif line.startswith("PDF version:"):
+            profile["pdf_version"] = line.split(":", 1)[1].strip()
+    missing = [
+        key
+        for key in ("pages", "page_size_label", "pdf_version")
+        if key not in profile
+    ]
+    if missing:
+        raise ValueError(f"pdfinfo output is missing field(s): {missing}")
+    return profile
+
+
+def validate_pdf_profile(profile: dict[str, object]) -> None:
+    pages = int(profile["pages"])
+    page_size_label = str(profile["page_size_label"])
+    pdf_version = str(profile["pdf_version"])
+
+    if pages > PDF_MAX_TOTAL_PAGES:
+        raise ValueError(
+            f"PDF page count {pages} exceeds current candidate cap "
+            f"{PDF_MAX_TOTAL_PAGES}"
+        )
+    if page_size_label != PDF_REQUIRED_PAGE_SIZE_LABEL:
+        raise ValueError(
+            f"PDF page size {page_size_label!r} is not "
+            f"{PDF_REQUIRED_PAGE_SIZE_LABEL!r}"
+        )
+    if pdf_version != PDF_REQUIRED_VERSION:
+        raise ValueError(
+            f"PDF version {pdf_version!r} is not {PDF_REQUIRED_VERSION!r}"
+        )
+
+
+def check_pdf_profile(pdf_path: Path) -> None:
+    result = subprocess.run(
+        ["pdfinfo", str(pdf_path)],
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+    )
+    validate_pdf_profile(parse_pdfinfo_output(result.stdout))
+
+
+def validate_pdf_text_markers(text: str) -> None:
+    missing = [token for token in PDF_REQUIRED_TEXT if token not in text]
+    if missing:
+        raise ValueError(f"PDF text is missing required marker(s): {missing}")
+
+    positions = [text.index(token) for token in PDF_ORDERED_SECTION_TEXT]
+    if positions != sorted(positions):
+        raise ValueError(
+            "PDF section markers are out of order: "
+            + " -> ".join(PDF_ORDERED_SECTION_TEXT)
+        )
+
+
 def check_pdf_text(pdf_path: Path) -> None:
     result = subprocess.run(
         ["pdftotext", str(pdf_path), "-"],
@@ -200,9 +278,10 @@ def check_pdf_text(pdf_path: Path) -> None:
         text=True,
         stdout=subprocess.PIPE,
     )
-    missing = [token for token in PDF_REQUIRED_TEXT if token not in result.stdout]
-    if missing:
-        raise ValueError(f"{pdf_path} is missing required PDF text marker(s): {missing}")
+    try:
+        validate_pdf_text_markers(result.stdout)
+    except ValueError as exc:
+        raise ValueError(f"{pdf_path}: {exc}") from exc
 
 
 def run_function_step(step: dict[str, object]) -> None:
@@ -216,6 +295,8 @@ def run_function_step(step: dict[str, object]) -> None:
         scan_text_forbidden_tokens(path, tokens=PRIVATE_TOKENS, label="private token")
     elif function == "scan_acknowledgment_tokens":
         scan_text_forbidden_tokens(path, tokens=ACK_TOKENS, label="acknowledgment token")
+    elif function == "check_pdf_profile":
+        check_pdf_profile(path)
     elif function == "check_pdf_text":
         check_pdf_text(path)
     else:

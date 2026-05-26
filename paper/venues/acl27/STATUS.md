@@ -373,8 +373,9 @@ the local repository-side pre-upload rehearsal one command. The gate runs the
 claim-boundary checker, metadata consistency checker, evidence-number checker,
 focused ACL pytest suite, clean ACL PDF build, final LaTeX log scan, candidate
 packet staging, exact packet inventory check, private-token scan,
-acknowledgment scan, `pdfinfo`, and `pdftotext` title/header/section checks.
-The full run now passes on the current ACL/ARR candidate: 20 focused tests
+acknowledgment scan, `pdfinfo`, PDF profile guard, and `pdftotext`
+title/header/section-order checks. The full run now passes on the current
+ACL/ARR candidate: 23 focused tests
 passed, the rebuilt staged PDF is 12 A4 pages after the evidence-gate table
 refresh, the staged packet contains
 exactly the five safe files, and both private-token and acknowledgment scans
@@ -401,3 +402,10 @@ could look heterogeneous, without adding new experiments or widening the claim
 boundary. The consolidated pre-upload gate was rerun after this edit and
 passed; `pdfinfo` reports a 12-page A4 staged PDF, PDF 1.5, 306187 bytes, and
 the anonymous staged packet still has exactly the five safe files.
+
+PDF profile guard update on 2026-05-26: `run_preupload_gate.py` now turns the
+current staged PDF shape into an explicit local gate. The runner rejects
+unreviewed drift above 12 total pages, non-A4 page size, PDF versions other than
+1.5, or a PDF text order where `References` appears before `Limitations` and
+`Ethical Considerations`. This is a candidate-profile guard for the current
+ACL/ARR packet, not a replacement for final selected-venue page-limit policy.
