@@ -58,6 +58,11 @@ def openreview_checklist_module():
     return load_script_module(script, "acl_openreview_checklist")
 
 
+def target_policy_module():
+    script = Path(__file__).with_name("check_target_policy.py")
+    return load_script_module(script, "acl_target_policy")
+
+
 def repo_evidence_blockers(paper_root: Path, repo_root: Path) -> list[str]:
     blockers: list[str] = []
     if not (repo_root / "paper/venues/acl27/scripts/run_preupload_gate.py").is_file():
@@ -74,6 +79,12 @@ def repo_evidence_blockers(paper_root: Path, repo_root: Path) -> list[str]:
             blockers.append("openreview_checklist_missing_or_incomplete")
     except Exception:
         blockers.append("openreview_checklist_missing_or_incomplete")
+    try:
+        target_policy_report = target_policy_module().check_target_policy(paper_root)
+        if not target_policy_report["ok"]:
+            blockers.append("target_policy_missing_or_unsafe")
+    except Exception:
+        blockers.append("target_policy_missing_or_unsafe")
     for relpath in (
         "venues/acl27/OPENREVIEW_METADATA_PACKET.md",
         "venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md",

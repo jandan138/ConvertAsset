@@ -83,6 +83,8 @@ This goal is done only when all of the following are true:
 1. The selected route is recorded: EACL 2027 via ARR, or Annual ACL 2027 after
    the official Annual ACL call exists.
 2. The final target policy has been refreshed against official pages.
+   `check_target_policy.py` must pass and must not report Annual ACL 2027 as
+   final-ready before an official Annual ACL call exists.
 3. The first-page story has been checked against the reviewer-risk audit:
    title/abstract/introduction/contributions read as language-grounding
    reliability, not as a tool-only paper.
@@ -129,7 +131,8 @@ The author-gate checker is the final private-human gate and requires
 `paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md`; it is expected to
 fail until the authors fill that ignored local file. `run_preupload_gate.py` is
 the preferred repository-side final-gate rehearsal. It wraps the clean build,
-focused tests, claim-boundary check, metadata consistency check,
+focused tests, claim-boundary check, target-policy consistency check,
+metadata consistency check,
 OpenReview checklist copy-readiness check, citation-inventory check,
 evidence-number consistency check, packet staging, final-integrity source
 fingerprint check, final blocker report, packet inventory check, anonymization
@@ -143,6 +146,7 @@ are:
 make -C paper clean-acl27 && make -C paper acl27
 python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py tests/test_acl_metadata_consistency.py tests/test_acl_openreview_checklist.py tests/test_acl_claim_boundaries.py tests/test_acl_citation_inventory.py tests/test_acl_integrity_fingerprint.py tests/test_acl_final_blockers.py tests/test_acl_evidence_numbers.py tests/test_acl_author_gate.py tests/test_acl_preupload_gate.py
 python paper/venues/acl27/scripts/check_metadata_consistency.py
+python paper/venues/acl27/scripts/check_target_policy.py
 python paper/venues/acl27/scripts/check_openreview_checklist.py
 python paper/venues/acl27/scripts/check_claim_boundaries.py
 python paper/venues/acl27/scripts/check_citation_inventory.py

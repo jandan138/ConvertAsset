@@ -26,21 +26,22 @@ edits.
 Latest refresh: after the OpenReview author-gate worksheet, first-page
 ACL-fit hardening, consolidated pre-upload runner, evidence-number checker,
 evidence-gate table, citation-inventory checker, final-integrity source
-fingerprint checker, OpenReview checklist copy-readiness checker, final blocker
-report, and packet-checksum sidecar were added, the candidate was rebuilt and
-restaged on 2026-05-26. The current
+fingerprint checker, target-policy consistency checker, OpenReview checklist
+copy-readiness checker, final blocker report, and packet-checksum sidecar were
+added, the candidate was rebuilt and restaged on 2026-05-26. The current
 evidence is recorded in `SUBMISSION_STAGING_AUDIT.md`,
 `docs/records/2026-05-26-acl-preupload-rehearsal-refresh.md`,
 `docs/records/2026-05-26-acl-first-page-fit-hardening.md`,
 `docs/records/2026-05-26-acl-preupload-gate-runner.md`, and
 `docs/records/2026-05-26-acl-evidence-number-check.md`: the consolidated
-pre-upload gate passed claim-boundary, metadata, checklist copy-readiness,
-citation-inventory, evidence-number, final-integrity fingerprint, final blocker
-report, focused pytest, clean build, LaTeX log, staging, inventory, packet checksum,
+pre-upload gate passed claim-boundary, target-policy consistency, metadata,
+checklist copy-readiness, citation-inventory, evidence-number, final-integrity
+fingerprint, final blocker report, focused pytest, clean build, LaTeX log,
+staging, inventory, packet checksum,
 anonymization, acknowledgment, `pdfinfo`, `pdf_profile`, and `pdftotext`
-checks. The focused pytest step now passes 41 tests after adding the
-citation-inventory, private author-gate, final-integrity fingerprint,
-OpenReview checklist, final blocker-report, and packet-checksum tests, the
+checks. The focused pytest step now passes 45 tests after adding the
+citation-inventory, private author-gate, target-policy, final-integrity
+fingerprint, OpenReview checklist, final blocker-report, and packet-checksum tests, the
 refreshed abstract is 189 words by the conservative tokenizer, the clean ACL
 build produces a 12-page A4 PDF, and the staged packet still contains only the
 safe five-file boundary with an adjacent checksum sidecar outside the packet.
@@ -74,6 +75,7 @@ human/external check before upload.
 | Prepare a minimal anonymous submission packet. | Latest consolidated gate regenerated `paper/submissions/acl27_arr_candidate_20260526/` with exactly `main.pdf`, OpenReview metadata/checklist copy sources, `supplemental/README.md`, and `supplemental/manifest.json`, wrote the adjacent local checksum sidecar `paper/submissions/acl27_arr_candidate_20260526.sha256`, then passed packet-inventory, checksum, private-token, and acknowledgment scans. | Candidate staging smoke pass. |
 | Keep optional media and raw assets out of the safe upload boundary. | `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, `MODEL_AND_ASSET_LICENSE_AUDIT.md`, and staging manifest exclude raw scenes, scratch USD, InternNav raw frames/logs/LMDBs, local checkpoints, and selected videos. | Satisfied for the safe packet; any future media inclusion is a separate author/legal decision. |
 | Keep human-only OpenReview fields out of the anonymous packet. | `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md` is a tracked blank template; filled local copies match `.gitignore` and are excluded from the staged packet. `scripts/check_author_gate.py` validates the filled private copy without printing private values. `scripts/report_final_blockers.py` reports missing/incomplete human gates without printing private values. | Satisfied for the current repository and candidate packet; final author copy remains private/human-gated and must pass the checker after authors fill it. |
+| Keep target-policy notes candidate-safe. | `TARGET_CALL_POLICY_AUDIT.md`, `TARGET_LOCK_OPENREVIEW_REHEARSAL.md`, `scripts/check_target_policy.py`, and `tests/test_acl_target_policy.py`. | Satisfied for current notes: EACL 2027 via ARR is recorded as the public route, Annual ACL 2027 is not marked final-ready, and official policy URLs/key route markers are present. |
 | Verify final ACL-family venue policy. | `TARGET_CALL_POLICY_AUDIT.md` and `TARGET_LOCK_OPENREVIEW_REHEARSAL.md`; EACL 2027 official pages and ARR dates are public, while Annual ACL 2027 official CFP/author kit is not available in checked official sources. | Not final-complete. Requires author target decision, OpenReview author/profile/reviewer-registration readiness, and final call check. |
 
 ## Evidence That Can Be Written

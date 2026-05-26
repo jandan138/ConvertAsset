@@ -30,6 +30,7 @@ format until the final target call publishes conference-specific instructions.
 | ACL story and claim boundary | `CLAIM_AUDIT.md`; ACL local sections. | Ready for candidate ARR draft. |
 | Clean PDF build | `make -C paper clean-acl27 && make -C paper acl27`. | Must be rerun immediately before upload. |
 | Page/format sanity | `SUBMISSION_READINESS_AUDIT.md`; ACLPUB generic formatting check. | Candidate-ready under generic ACL long-paper budget; final venue-specific policy still external. |
+| Target-policy consistency | `TARGET_CALL_POLICY_AUDIT.md`; `TARGET_LOCK_OPENREVIEW_REHEARSAL.md`; `scripts/check_target_policy.py`; `tests/test_acl_target_policy.py`. | Automated check keeps the packet in ACL/ARR candidate mode, records EACL 2027 as the current public ARR route, and rejects unsupported Annual ACL 2027 final-ready wording. |
 | Citation inventory / DOI/URL metadata | `CITATION_PROVENANCE_AUDIT.md`; `paper/shared/references.bib`; `scripts/check_citation_inventory.py`; `tests/test_acl_citation_inventory.py`. | Automated check passes for the current ACL citation set: 20 unique cited keys, no missing BibTeX entries, no cited key without DOI/URL, and exact coverage by the 2026-05-26 web-trail addendum. Re-check after any new citation. |
 | Claim-boundary guard | `CLAIM_AUDIT.md`; `scripts/check_claim_boundaries.py`; `tests/test_acl_claim_boundaries.py`. | Automated check passes for the current ACL text and catches unguarded broad embodied robustness, official-scene speedup, NVIDIA official-scene performance, procedural-texture success, and related unsupported claims. |
 | Artifact provenance | `ARTIFACT_PROVENANCE_DRAFT.md`; `MODEL_AND_ASSET_LICENSE_AUDIT.md`. | Candidate-ready: Gemma4/Qwen public IDs are recorded, GRScenes license is recorded, and InteriorAgent terms set a no-optional-media safe boundary. Final author/legal review still applies. |
@@ -42,7 +43,7 @@ format until the final target call publishes conference-specific instructions.
 | Author/OpenReview human gates | `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md`; `OPENREVIEW_AUTHOR_GATE_FILLING_GUIDE.md`; `scripts/check_author_gate.py`; `tests/test_acl_author_gate.py`. | Blank template, fill-order guide, and private worksheet checker exist. Fill only a private ignored copy, not the tracked template and not the review packet. The checker is expected to fail until `OPENREVIEW_AUTHOR_GATE_FILLED.local.md` exists and required fields are filled. |
 | Responsible NLP checklist | `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md`; `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`; `scripts/check_openreview_checklist.py`. | OpenReview copy-ready packet now exists with current PDF section/page anchors and automated copy-readiness checks; final form copy and any target-call wording remain human-gated. |
 | Supplemental anonymization | `SUBMISSION_STAGING_AUDIT.md`; `paper/venues/acl27/scripts/stage_submission_packet.py`. | Minimal PDF-first staging smoke passed for the ignored local packet; final archive and optional media still need pre-upload re-scan. |
-| Consolidated pre-upload gate | `scripts/run_preupload_gate.py`; `tests/test_acl_preupload_gate.py`; `tests/test_acl_author_gate.py`; `tests/test_acl_citation_inventory.py`; `tests/test_acl_integrity_fingerprint.py`; `tests/test_acl_final_blockers.py`; `tests/test_acl_openreview_checklist.py`; `SUBMISSION_STAGING_AUDIT.md`. | Repository-side rehearsal command passes on the current candidate state: claim/metadata/checklist/citation-inventory/evidence-number/fingerprint gates, final blocker report, 41 focused tests, clean PDF build, LaTeX log scan, five-file packet staging, adjacent checksum-sidecar validation, private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and ordered `pdftotext` markers. The current profile guard enforces a 12-page cap, A4 page size, and PDF 1.5 for this candidate packet. |
+| Consolidated pre-upload gate | `scripts/run_preupload_gate.py`; `tests/test_acl_preupload_gate.py`; `tests/test_acl_author_gate.py`; `tests/test_acl_target_policy.py`; `tests/test_acl_citation_inventory.py`; `tests/test_acl_integrity_fingerprint.py`; `tests/test_acl_final_blockers.py`; `tests/test_acl_openreview_checklist.py`; `SUBMISSION_STAGING_AUDIT.md`. | Repository-side rehearsal command passes on the current candidate state: claim/target-policy/metadata/checklist/citation-inventory/evidence-number/fingerprint gates, final blocker report, focused tests, clean PDF build, LaTeX log scan, five-file packet staging, adjacent checksum-sidecar validation, private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and ordered `pdftotext` markers. The current profile guard enforces a 12-page cap, A4 page size, and PDF 1.5 for this candidate packet. |
 | Target-call lock | `TARGET_CALL_POLICY_AUDIT.md`; `TARGET_LOCK_OPENREVIEW_REHEARSAL.md`. | EACL 2027 is a public ARR-family route with August 3, 2026 ARR deadline, but its full CFP is still forthcoming. Annual ACL 2027 CFP/author kit remains unavailable in checked official sources. Author route/profile/reviewer-registration/preprint decisions remain human-gated. |
 
 ## Candidate Staging Command
@@ -53,8 +54,8 @@ The primary repository-side rehearsal command is:
 python paper/venues/acl27/scripts/run_preupload_gate.py
 ```
 
-It wraps the local automated gate: claim-boundary check, OpenReview metadata
-consistency check, OpenReview checklist copy-readiness check,
+It wraps the local automated gate: claim-boundary check, target-policy
+consistency check, OpenReview metadata consistency check, OpenReview checklist copy-readiness check,
 citation-inventory check, evidence-number consistency check,
 final-integrity source fingerprint check, final blocker report, focused ACL
 pytest suite, clean ACL PDF rebuild, final LaTeX log scan,
@@ -66,6 +67,7 @@ For a narrower staging-only smoke, the underlying commands are:
 
 ```bash
 python paper/venues/acl27/scripts/check_claim_boundaries.py
+python paper/venues/acl27/scripts/check_target_policy.py
 python paper/venues/acl27/scripts/check_metadata_consistency.py
 python paper/venues/acl27/scripts/check_openreview_checklist.py
 python paper/venues/acl27/scripts/check_citation_inventory.py

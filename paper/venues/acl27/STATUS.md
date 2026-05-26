@@ -495,3 +495,14 @@ text, no bare yes/no/N/A answers, and anonymous-review AI-assistance wording.
 before citation/evidence/build/staging, and the focused ACL pytest suite now
 covers 41 tests. This still does not copy the answers into the real OpenReview
 form; final form copy remains a human gate.
+
+Target-policy gate update on 2026-05-26:
+`scripts/check_target_policy.py` and `tests/test_acl_target_policy.py` now guard
+the ACL/ARR route notes. The checker keeps the packet in candidate mode by
+requiring the EACL 2027 ARR route markers, official policy URLs, and the
+Annual-ACL-not-final boundary, while rejecting unsupported Annual ACL 2027
+final-ready wording. `run_preupload_gate.py` now runs this check before
+metadata/checklist/citation/evidence/build/staging, and
+`report_final_blockers.py` reports unsafe or missing target-policy notes as a
+repo blocker. The focused ACL pytest suite now covers 45 tests. This still
+does not choose the route for the authors.

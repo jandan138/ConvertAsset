@@ -101,3 +101,31 @@ def test_openreview_checklist_gap_is_repo_blocker(tmp_path: Path) -> None:
 
     assert report["status"] == "repo_blocked"
     assert "openreview_checklist_missing_or_incomplete" in report["repo_blockers"]
+
+
+def test_target_policy_gap_is_repo_blocker(tmp_path: Path) -> None:
+    module = load_module()
+    paper_root = tmp_path / "paper"
+    venue_root = paper_root / "venues/acl27"
+    venue_root.mkdir(parents=True)
+    for name in (
+        "OPENREVIEW_METADATA_PACKET.md",
+        "OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md",
+        "FINAL_SUBMISSION_PACKET_CHECKLIST.md",
+        "TARGET_LOCK_OPENREVIEW_REHEARSAL.md",
+    ):
+        (venue_root / name).write_text("placeholder\n", encoding="utf-8")
+    (venue_root / "TARGET_CALL_POLICY_AUDIT.md").write_text(
+        "This packet is Annual ACL 2027 final-ready.\n",
+        encoding="utf-8",
+    )
+
+    report = module.build_final_blocker_report(
+        paper_root,
+        repo_root=tmp_path,
+        check_git=False,
+        check_repo_evidence=True,
+    )
+
+    assert report["status"] == "repo_blocked"
+    assert "target_policy_missing_or_unsafe" in report["repo_blockers"]

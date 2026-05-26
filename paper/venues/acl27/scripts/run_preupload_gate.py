@@ -74,6 +74,13 @@ def build_preupload_plan(repo_root: Path) -> list[dict[str, object]]:
             ],
         },
         {
+            "id": "target_policy",
+            "command": [
+                sys.executable,
+                "paper/venues/acl27/scripts/check_target_policy.py",
+            ],
+        },
+        {
             "id": "metadata_consistency",
             "command": [
                 sys.executable,
@@ -124,6 +131,7 @@ def build_preupload_plan(repo_root: Path) -> list[dict[str, object]]:
                 "-q",
                 "tests/test_acl_submission_staging.py",
                 "tests/test_paper_layout.py",
+                "tests/test_acl_target_policy.py",
                 "tests/test_acl_metadata_consistency.py",
                 "tests/test_acl_openreview_checklist.py",
                 "tests/test_acl_claim_boundaries.py",

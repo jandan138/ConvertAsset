@@ -319,7 +319,7 @@ python paper/venues/acl27/scripts/run_preupload_gate.py
 
 Result: pass. The runner completed claim-boundary, OpenReview metadata
 consistency, OpenReview checklist copy-readiness, citation-inventory,
-evidence-number, final-integrity fingerprint, final blocker report, 41-test
+evidence-number, final-integrity fingerprint, final blocker report, 45-test
 focused pytest, clean ACL build, final LaTeX log scan, candidate packet
 staging, exact packet inventory, adjacent checksum-sidecar validation,
 private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and
@@ -331,6 +331,31 @@ answers, and anonymous-review AI-assistance wording. The rebuilt staged PDF is
 still 12 A4 pages, PDF 1.5, and 306187 bytes. The staged packet still contains
 exactly the five safe files plus the adjacent ignored checksum sidecar outside
 the packet.
+
+## Refresh After Target-Policy Gate
+
+After adding the ACL/ARR target-policy consistency gate, the consolidated
+runner was executed again from the current repository state on 2026-05-26:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Result: pass. The runner completed claim-boundary, target-policy consistency,
+OpenReview metadata consistency, OpenReview checklist copy-readiness,
+citation-inventory, evidence-number, final-integrity fingerprint, final blocker
+report, 45-test focused pytest, clean ACL build, final LaTeX log scan, candidate packet
+staging, exact packet inventory, adjacent checksum-sidecar validation,
+private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and
+`pdftotext_sections`.
+
+The target-policy report validated that the notes remain an ACL/ARR candidate
+packet: `route_status=acl_arr_candidate`, `annual_acl_final_ready=false`,
+`eacl_arr_public_route=true`, no missing official URLs, no missing required
+route markers, and no unsupported Annual ACL 2027 final-ready wording. The
+rebuilt staged PDF is still 12 A4 pages, PDF 1.5, and 306187 bytes. The staged
+packet still contains exactly the five safe files plus the adjacent ignored
+checksum sidecar outside the packet.
 
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 
