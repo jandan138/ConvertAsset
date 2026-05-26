@@ -67,6 +67,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-26 ACL pre-upload rehearsal refresh](2026-05-26-acl-preupload-rehearsal-refresh.md)
 - [2026-05-26 ACL reviewer-risk audit](2026-05-26-acl-reviewer-risk-audit.md)
 - [2026-05-26 ACL first-page fit hardening](2026-05-26-acl-first-page-fit-hardening.md)
+- [2026-05-26 ACL metadata consistency check](2026-05-26-acl-metadata-consistency-check.md)
 - [2026-05-23 CVPR review status and ACL goals](2026-05-23-cvpr-review-status-and-acl-goals.md)
 - [2026-05-20 OSS dataset restore for GRScenes test0 parallel](2026-05-20-oss-dataset-restore.md)
 - [2026-05-20 ACL GRScenes dataset role correction](2026-05-20-acl-grscenes-dataset-role-correction.md)

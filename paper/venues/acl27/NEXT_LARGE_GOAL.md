@@ -94,7 +94,8 @@ This goal is done only when all of the following are true:
 6. The final log has no unresolved citations or references.
 7. The final staged packet contains only the safe upload boundary.
 8. Anonymization scans over the exact staged packet pass.
-9. Responsible NLP checklist and metadata copy sources match the final PDF.
+9. Responsible NLP checklist and metadata copy sources match the final PDF;
+   `check_metadata_consistency.py` passes before staging.
 10. Any optional media is either explicitly excluded or legally approved and
    separately scanned.
 11. `STATUS.md`, `SUBMISSION_READINESS_AUDIT.md`,
@@ -110,7 +111,8 @@ Run these on the exact final state:
 
 ```bash
 make -C paper clean-acl27 && make -C paper acl27
-python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py
+python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py tests/test_acl_metadata_consistency.py
+python paper/venues/acl27/scripts/check_metadata_consistency.py
 python paper/venues/acl27/scripts/stage_submission_packet.py --force
 rg -n "/cpfs|/home/|/root|zhuzihou|jandan138|github.com/jandan138|ConvertAsset.git" \
   paper/submissions/acl27_arr_candidate_20260526

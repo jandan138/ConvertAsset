@@ -323,3 +323,12 @@ OpenReview metadata packet was updated to the same title and refreshed
 189-word abstract. The intent is to make the first screen read as VLM grounding
 and embodied-data reliability work under a controlled material perturbation,
 while keeping the same evidence numbers and claim boundary.
+
+OpenReview metadata consistency update on 2026-05-26:
+`scripts/check_metadata_consistency.py` and
+`tests/test_acl_metadata_consistency.py` now guard the ACL title/abstract copy
+source. The checker compares the LaTeX title in `main.tex`, the source abstract
+in `sections/abstract.tex`, and the fenced title/abstract fields in
+`OPENREVIEW_METADATA_PACKET.md`, and verifies that the abstract remains under
+200 words before staging. This makes OpenReview metadata drift an automated
+pre-upload failure rather than a manual-only checklist item.
