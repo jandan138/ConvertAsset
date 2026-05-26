@@ -17,6 +17,7 @@ def test_openreview_upload_runbook_covers_final_handoff_surface() -> None:
         "OPENREVIEW_AUTHOR_GATE_FILLED.local.md",
         "OPENREVIEW_METADATA_PACKET.md",
         "OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md",
+        "python paper/venues/acl27/scripts/init_author_gate.py",
         "python paper/venues/acl27/scripts/check_author_gate.py",
         "python paper/venues/acl27/scripts/run_preupload_gate.py",
         "Do not upload",

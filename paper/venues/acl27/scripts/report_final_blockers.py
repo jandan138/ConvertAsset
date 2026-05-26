@@ -27,7 +27,8 @@ FINAL_NEXT_ACTIONS = (
 HUMAN_BLOCKER_HANDOFFS = {
     "private_author_gate_missing": {
         "required_action": (
-            "Create the ignored private copy "
+            "Run python paper/venues/acl27/scripts/init_author_gate.py to create "
+            "the ignored private copy "
             "paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md."
         ),
         "worksheet_fields": [],

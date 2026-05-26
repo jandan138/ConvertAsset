@@ -457,6 +457,43 @@ worksheet, route lock, metadata/checklist copy, author/runtime/AI/license/media
 approval, final gates, and stop conditions. The rebuilt staged PDF is still 12
 A4 pages, PDF 1.5, and 306187 bytes.
 
+## Refresh After Author-Gate Initializer
+
+After adding `init_author_gate.py`, the private author worksheet creation path
+was moved from a manual copy into a guarded local initializer. The initializer
+creates `OPENREVIEW_AUTHOR_GATE_FILLED.local.md` from the blank template,
+refuses to overwrite an existing private file, verifies the path is git-ignored,
+and reports only path/status metadata.
+
+The OpenReview upload runbook and filling guide now point authors to:
+
+```bash
+python paper/venues/acl27/scripts/init_author_gate.py
+```
+
+The full consolidated gate was rerun from the current repository state on
+2026-05-26:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Result: pass. The runner completed claim-boundary, target-policy consistency,
+OpenReview metadata consistency, OpenReview checklist copy-readiness,
+citation-inventory, evidence-number, final-integrity fingerprint, final blocker
+report, 52-test focused pytest including
+`tests/test_acl_author_gate_init.py`, clean ACL build, final LaTeX log scan,
+candidate packet staging, exact packet inventory, adjacent checksum-sidecar
+validation, private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`,
+and `pdftotext_sections`. `pdfinfo` reported 12 pages, A4 page size, PDF 1.5,
+and 306187 bytes.
+
+The real repository report remains `status=human_blocked` with
+`repo_blockers=[]` because the private author worksheet is not filled. The
+initializer only creates the ignored local copy; it does not fill private
+author, route, OpenReview, runtime, AI-assistance, license, media, scan, or
+upload-decision values.
+
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 
 After adding the consolidated runner and later adding the evidence-number

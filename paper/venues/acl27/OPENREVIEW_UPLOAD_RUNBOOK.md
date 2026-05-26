@@ -37,15 +37,21 @@ tracked copy-source files, and done conditions without printing private values.
 
 ## Step 1: Create The Private Worksheet
 
-Create the ignored local copy:
+Create the ignored local copy with the safe initializer:
 
 ```bash
-cp paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_WORKSHEET.md \
-  paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md
+python paper/venues/acl27/scripts/init_author_gate.py
 git check-ignore -v paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md
 ```
 
 Stop if the file is not ignored.
+
+The initializer refuses to overwrite an existing private worksheet and prints
+only path/status metadata, not worksheet values. If the script is unavailable,
+the manual fallback is to copy
+`OPENREVIEW_AUTHOR_GATE_WORKSHEET.md` to
+`OPENREVIEW_AUTHOR_GATE_FILLED.local.md`, then run the same `git check-ignore`
+command before filling anything.
 
 Fill only the local ignored file. Do not edit the tracked blank template with
 real author information.

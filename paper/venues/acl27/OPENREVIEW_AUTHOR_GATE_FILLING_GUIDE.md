@@ -12,16 +12,21 @@ blank worksheet.
 ## Safety Boundary
 
 Do not edit the tracked worksheet with real author data. Create the ignored
-local copy:
+local copy with the initializer:
 
 ```bash
-cp paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_WORKSHEET.md \
-  paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md
+python paper/venues/acl27/scripts/init_author_gate.py
 git check-ignore -v paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md
 ```
 
 Expected result: `.gitignore` ignores
 `paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md`.
+
+The initializer refuses to overwrite an existing private worksheet. It reports
+only the worksheet path, template path, git-ignore status, and creation status;
+it does not print author names, emails, OpenReview IDs, or worksheet values. If
+the initializer cannot be run, manually copy the blank template to the same
+`.local.md` path and run `git check-ignore` before filling anything.
 
 If `git check-ignore` does not report an ignore rule, stop before filling the
 file.

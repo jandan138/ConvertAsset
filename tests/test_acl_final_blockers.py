@@ -91,6 +91,9 @@ def test_current_repo_reports_structured_human_handoff_details() -> None:
     assert "OPENREVIEW_AUTHOR_GATE_FILLED.local.md" in details[
         "private_author_gate_missing"
     ]["required_action"]
+    assert "init_author_gate.py" in details[
+        "private_author_gate_missing"
+    ]["required_action"]
     assert "private filled list" not in str(report)
 
 
