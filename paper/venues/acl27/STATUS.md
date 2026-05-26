@@ -164,6 +164,16 @@ lock, official OpenReview form copy, author/runtime/AI-assistance confirmation,
 optional media legal decision, and rerunning build/staging/integrity scans
 after any future change.
 
+Target-lock rehearsal update on 2026-05-26:
+`TARGET_LOCK_OPENREVIEW_REHEARSAL.md` now separates repository-ready artifacts
+from author-only OpenReview decisions. The practical route state is unchanged:
+EACL 2027 via ARR is the concrete public ACL-family path if the authors want a
+2027 target now, while Annual ACL 2027 remains unavailable as a final public
+target in checked official sources. The remaining human decisions are target
+route, author list/order, OpenReview profiles, reviewer-registration
+commitment, dual-submission or resubmission status, preprint status,
+runtime/AI-assistance wording, and optional media exclusion or legal approval.
+
 InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now has a real
 one-episode embodied downstream smoke run for scene
 `MV7J6NIKTKJZ2AABAAAAADY8_usd`. The prep manifest is

@@ -203,6 +203,9 @@ acknowledgment/disclosure text according to the final ACL-family instructions.
 - Re-check the selected ARR or ACL-family checklist instructions immediately
   before submission.
 - Replace draft section/page anchors if the PDF changes.
+- Confirm the final target route, author list/order, OpenReview profiles,
+  reviewer-registration commitment, dual-submission/resubmission status, and
+  OpenReview preprint-status answer.
 - Confirm final author/legal approval for any optional InteriorAgent / KuJiaLe
   scene-derived media beyond the manuscript PDF; the safe packet excludes it.
 - Copy these answers into the official OpenReview form; this Markdown file is

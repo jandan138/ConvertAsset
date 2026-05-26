@@ -34,7 +34,7 @@ edits.
 | Produce a clean ACL-format PDF. | `make -C paper clean-acl27 && make -C paper acl27`; `pdfinfo` on `build/main.pdf` reported 11 A4 pages. | Satisfied for the current candidate build; rerun immediately before upload. |
 | Prepare a minimal anonymous submission packet. | `paper/submissions/acl27_arr_candidate_20260526/` contains `main.pdf`, an OpenReview checklist copy source, `supplemental/README.md`, and `supplemental/manifest.json`. | Candidate staging smoke pass. |
 | Keep optional media and raw assets out of the safe upload boundary. | `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, `MODEL_AND_ASSET_LICENSE_AUDIT.md`, and staging manifest exclude raw scenes, scratch USD, InternNav raw frames/logs/LMDBs, local checkpoints, and selected videos. | Satisfied for the safe packet; any future media inclusion is a separate author/legal decision. |
-| Verify final ACL-family venue policy. | `TARGET_CALL_POLICY_AUDIT.md`; EACL 2027 official pages and ARR dates are public, while Annual ACL 2027 official CFP/author kit is not available in checked official sources. | Not final-complete. Requires author target decision and final call check. |
+| Verify final ACL-family venue policy. | `TARGET_CALL_POLICY_AUDIT.md` and `TARGET_LOCK_OPENREVIEW_REHEARSAL.md`; EACL 2027 official pages and ARR dates are public, while Annual ACL 2027 official CFP/author kit is not available in checked official sources. | Not final-complete. Requires author target decision, OpenReview author/profile/reviewer-registration readiness, and final call check. |
 
 ## Evidence That Can Be Written
 
@@ -75,8 +75,11 @@ Do not claim:
 1. **Target lock**: choose whether to submit through the currently public EACL
    2027 ARR route, or wait until Annual ACL 2027 publishes its official CFP,
    author kit, page limits, checklist wording, and supplemental policy.
-2. **Final OpenReview form**: copy `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`
-   into the official form after the final target and PDF are locked.
+2. **Final OpenReview form and author duties**: copy
+   `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` into the official form after the
+   final target and PDF are locked; confirm author list/order, OpenReview
+   profiles, reviewer-registration commitment, dual-submission/resubmission
+   status, and preprint status.
 3. **Author/runtime confirmation**: confirm checked compute/runtime details and
    AI-assistance disclosure wording before upload.
 4. **Media/legal decision**: keep InteriorAgent / KuJiaLe scene-derived videos
