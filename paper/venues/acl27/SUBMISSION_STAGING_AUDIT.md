@@ -565,7 +565,7 @@ python paper/venues/acl27/scripts/run_preupload_gate.py
 Result: pass. The runner completed claim-boundary, target-policy consistency,
 OpenReview metadata consistency, OpenReview checklist copy-readiness,
 citation-inventory, evidence-number, final-integrity fingerprint, final blocker
-report, goal-completion report, 59-test focused pytest, clean ACL build, final
+report, goal-completion report, 60-test focused pytest, clean ACL build, final
 LaTeX log scan, candidate packet staging, exact packet inventory, adjacent
 checksum-sidecar validation, private-token scan, acknowledgment scan,
 `pdfinfo`, `pdf_profile`, and `pdftotext_sections`. The staged PDF remained 12

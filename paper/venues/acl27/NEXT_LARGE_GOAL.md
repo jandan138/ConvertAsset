@@ -114,6 +114,9 @@ This goal is done only when all of the following are true:
 13. Any optional media is either explicitly excluded or legally approved and
    separately scanned.
 14. `report_final_blockers.py` reports no repo blockers and no human blockers.
+    Use its `private_author_gate_status` field while clearing the gate: it
+    should expose only missing/TODO/invalid field names and counts, never
+    filled author worksheet values.
 15. `report_goal_completion.py --preupload-gate-passed` reports
     `final_goal_complete=true` only after the exact-state pre-upload gate has
     passed and all human blockers have cleared.

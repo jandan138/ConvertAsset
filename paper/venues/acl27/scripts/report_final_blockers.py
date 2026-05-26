@@ -221,19 +221,57 @@ def repo_evidence_blockers(paper_root: Path, repo_root: Path) -> list[str]:
     return blockers
 
 
-def author_gate_blockers(
+def author_gate_report(
     paper_root: Path, repo_root: Path, *, check_git: bool
-) -> list[str]:
-    report = author_gate_module().check_author_gate(
+) -> dict[str, object]:
+    return author_gate_module().check_author_gate(
         paper_root,
         repo_root=repo_root,
         check_git=check_git,
     )
+
+
+def author_gate_blockers_from_report(report: dict[str, object]) -> list[str]:
     if report["ok"]:
         return []
     if report["missing_private_worksheet"]:
         return ["private_author_gate_missing"]
     return ["private_author_gate_incomplete"]
+
+
+def author_gate_blockers(
+    paper_root: Path, repo_root: Path, *, check_git: bool
+) -> list[str]:
+    report = author_gate_report(
+        paper_root,
+        check_git=check_git,
+        repo_root=repo_root,
+    )
+    return author_gate_blockers_from_report(report)
+
+
+def safe_author_gate_status(report: dict[str, object]) -> dict[str, object]:
+    """Return author-gate status metadata without private worksheet values."""
+    missing_fields = list(report.get("missing_fields") or [])
+    todo_fields = list(report.get("todo_fields") or [])
+    invalid_fields = list(report.get("invalid_fields") or [])
+    checked_fields = list(report.get("checked_fields") or [])
+    return {
+        "ok": bool(report.get("ok")),
+        "private_worksheet": report.get("private_worksheet"),
+        "missing_private_worksheet": bool(report.get("missing_private_worksheet")),
+        "checked_field_count": len(checked_fields),
+        "missing_fields": missing_fields,
+        "missing_field_count": len(missing_fields),
+        "todo_fields": todo_fields,
+        "todo_field_count": len(todo_fields),
+        "invalid_fields": invalid_fields,
+        "invalid_field_count": len(invalid_fields),
+        "git_ignored": report.get("git_ignored"),
+        "git_tracked": report.get("git_tracked"),
+        "message": report.get("message", ""),
+        "prints_private_author_values": False,
+    }
 
 
 def human_blocker_details(human_blockers: list[str]) -> dict[str, object]:
@@ -271,11 +309,12 @@ def build_final_blocker_report(
     repo_blockers = (
         repo_evidence_blockers(paper_root, repo_root) if check_repo_evidence else []
     )
-    human_blockers = author_gate_blockers(
+    private_author_gate_report = author_gate_report(
         paper_root,
         repo_root,
         check_git=check_git,
     )
+    human_blockers = author_gate_blockers_from_report(private_author_gate_report)
     if human_blockers:
         human_blockers.extend(HUMAN_PENDING_UNTIL_AUTHOR_GATE_COMPLETE)
     human_blockers = sorted(set(human_blockers))
@@ -295,6 +334,9 @@ def build_final_blocker_report(
         "repo_blockers": repo_blockers,
         "human_blockers": human_blockers,
         "human_blocker_details": human_blocker_details(human_blockers),
+        "private_author_gate_status": safe_author_gate_status(
+            private_author_gate_report
+        ),
         "required_commands": list(REQUIRED_COMMANDS),
         "next_actions": next_actions_for(human_blockers),
         "privacy": {

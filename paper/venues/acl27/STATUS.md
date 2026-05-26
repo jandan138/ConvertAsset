@@ -161,8 +161,18 @@ values. The current report is `status=candidate_ready_human_blocked`:
 private author/OpenReview route, form-copy, runtime/AI/media, and fresh
 pre-upload gates remain unresolved. The reporter is part of the consolidated
 pre-upload gate, but it is not a substitute for `run_preupload_gate.py`. The
-refreshed full pre-upload gate passes with 59 focused ACL tests, a 12-page A4
+refreshed full pre-upload gate passes with 60 focused ACL tests, a 12-page A4
 PDF 1.5 staged packet, and 306187 bytes for `main.pdf`.
+
+Private author-gate status update on 2026-05-26:
+`scripts/report_final_blockers.py` and `scripts/report_goal_completion.py` now
+surface `private_author_gate_status`, a value-free summary of the ignored
+private worksheet check. It reports missing/TODO/invalid worksheet field names,
+counts, git ignored/tracked booleans, and `prints_private_author_values=false`
+without printing author names, OpenReview IDs, emails, private links, or filled
+worksheet values. This makes the current human blocker easier to clear while
+preserving the safe repository boundary: the filled worksheet remains local and
+ignored.
 
 Author-gate prefill update on 2026-05-26: `scripts/prefill_author_gate.py`
 fills only repo-verifiable rows in the ignored private worksheet: clean

@@ -209,6 +209,9 @@ def build_goal_completion_report(
             "repo_blockers": final_blockers["repo_blockers"],
             "human_blockers": final_blockers["human_blockers"],
             "human_blocker_details": final_blockers["human_blocker_details"],
+            "private_author_gate_status": final_blockers[
+                "private_author_gate_status"
+            ],
         },
         "required_commands": final_blockers["required_commands"],
         "next_actions": final_blockers["next_actions"],

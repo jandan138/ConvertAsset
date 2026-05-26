@@ -129,6 +129,43 @@ def test_incomplete_private_author_gate_reports_completion_handoff(
     )
 
 
+def test_private_author_gate_status_reports_safe_field_names_only(
+    tmp_path: Path,
+) -> None:
+    module = load_module()
+    paper_root = tmp_path / "paper"
+    worksheet = paper_root / "venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md"
+    worksheet.parent.mkdir(parents=True)
+    rows = complete_private_rows(
+        module,
+        {
+            "Final author list and order": "private filled list",
+            "Title approved": "TODO",
+            "Runtime / compute wording approved": "not approved",
+        },
+    )
+    worksheet.write_text("\n".join(rows) + "\n", encoding="utf-8")
+
+    report = module.build_final_blocker_report(
+        paper_root,
+        repo_root=tmp_path,
+        check_git=False,
+        check_repo_evidence=False,
+    )
+
+    status = report["private_author_gate_status"]
+    assert status["ok"] is False
+    assert status["missing_private_worksheet"] is False
+    assert status["prints_private_author_values"] is False
+    assert status["missing_field_count"] == 0
+    assert "Title approved" in status["todo_fields"]
+    assert status["todo_field_count"] == len(status["todo_fields"])
+    assert "Runtime / compute wording approved" in status["invalid_fields"]
+    assert status["invalid_field_count"] == len(status["invalid_fields"])
+    assert "private filled list" not in str(status)
+    assert "private filled list" not in str(report)
+
+
 def test_current_repo_reports_structured_human_handoff_details() -> None:
     module = load_module()
 

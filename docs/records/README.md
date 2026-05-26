@@ -94,6 +94,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-26 ACL final next-action sequence](2026-05-26-acl-final-next-action-sequence.md)
 - [2026-05-26 ACL final-blocker required commands](2026-05-26-acl-final-blocker-required-commands.md)
 - [2026-05-26 ACL current-commit pre-upload gate](2026-05-26-acl-current-commit-preupload-gate.md)
+- [2026-05-26 ACL private author-gate status](2026-05-26-acl-private-author-gate-status.md)
 - [2026-05-23 CVPR review status and ACL goals](2026-05-23-cvpr-review-status-and-acl-goals.md)
 - [2026-05-20 OSS dataset restore for GRScenes test0 parallel](2026-05-20-oss-dataset-restore.md)
 - [2026-05-20 ACL GRScenes dataset role correction](2026-05-20-acl-grscenes-dataset-role-correction.md)

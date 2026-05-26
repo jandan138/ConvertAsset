@@ -41,6 +41,10 @@ def test_current_repo_reports_static_candidate_ready_but_not_complete() -> None:
         for action in report["next_actions"]
     )
     assert "private filled list" not in str(report)
+    assert "private_author_gate_status" in report["final_blockers"]
+    assert report["final_blockers"]["private_author_gate_status"][
+        "prints_private_author_values"
+    ] is False
 
     requirements = {item["id"]: item for item in report["requirements"]}
     assert requirements["claim_boundaries"]["status"] == "satisfied"
