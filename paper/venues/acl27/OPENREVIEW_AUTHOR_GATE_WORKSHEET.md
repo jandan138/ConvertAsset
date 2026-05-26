@@ -17,6 +17,11 @@ cp paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_WORKSHEET.md \
 The filled copy is ignored by `.gitignore` and must not be uploaded as review
 supplemental material.
 
+When filling high-risk rows, use explicit positive wording such as `approved`,
+`confirmed`, `copied`, `excluded by default`, `pass`, `clean`, or final decision
+`upload`. Values such as `do not upload`, `failed`, `not approved`, `not
+confirmed`, or `not complete` intentionally keep `check_author_gate.py` failing.
+
 ## Route Decision
 
 | Field | Fill in local copy | Notes |

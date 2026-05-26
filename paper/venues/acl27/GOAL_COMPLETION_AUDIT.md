@@ -39,13 +39,13 @@ checklist copy-readiness, citation-inventory, evidence-number, final-integrity
 fingerprint, final blocker report, focused pytest, clean build, LaTeX log,
 staging, inventory, packet checksum,
 anonymization, acknowledgment, `pdfinfo`, `pdf_profile`, and `pdftotext`
-checks. The focused pytest step now passes 46 tests after adding the
+checks. The focused pytest step now passes 48 tests after adding the
 citation-inventory, private author-gate, target-policy, final-integrity
 fingerprint, OpenReview checklist, final blocker-report, final blocker
-clearance, and packet-checksum tests, the refreshed abstract is 189 words by
-the conservative tokenizer, the clean ACL build produces a 12-page A4 PDF, and
-the staged packet still contains only the safe five-file boundary with an
-adjacent checksum sidecar outside the packet.
+clearance, private author-gate semantic, and packet-checksum tests, the
+refreshed abstract is 189 words by the conservative tokenizer, the clean ACL
+build produces a 12-page A4 PDF, and the staged packet still contains only the
+safe five-file boundary with an adjacent checksum sidecar outside the packet.
 
 Evidence-gate table refresh: the ACL method now includes
 Table `tab:acl_evidence_gate_registry`, which makes the proxy, VLM grounding,
@@ -142,7 +142,8 @@ Do not claim:
    worksheet, target-route confirmation, official OpenReview form copy, and
    author/runtime/AI/media approval remain pending. The report can now clear
    those human blockers once the ignored private worksheet is complete, without
-   printing private author values.
+   printing private author values. `check_author_gate.py` now also rejects
+   semantically unsafe private values such as failed scans or `do not upload`.
 7. **Pre-upload rebuild and scans**: rerun clean PDF build, candidate staging,
    anonymization scans, `pdfinfo`, `pdf_profile`, and `pdftotext` checks on
    the exact upload directory.

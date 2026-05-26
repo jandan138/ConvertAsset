@@ -493,6 +493,13 @@ does not exist, but a complete private worksheet can make the report return
 continues to avoid printing private author values. The focused ACL pytest suite
 now covers 46 tests.
 
+Private author-gate semantic update on 2026-05-26:
+`scripts/check_author_gate.py` now rejects filled but unsafe private decisions,
+including failed final scans, negative approval wording, incomplete OpenReview
+profiles, or final decision `do not upload`. The report exposes only
+`invalid_fields` names and still does not print private values. The focused ACL
+pytest suite now covers 48 tests.
+
 OpenReview checklist gate update on 2026-05-26:
 `scripts/check_openreview_checklist.py` and
 `tests/test_acl_openreview_checklist.py` now guard

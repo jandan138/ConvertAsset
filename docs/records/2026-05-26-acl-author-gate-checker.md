@@ -35,12 +35,16 @@ It verifies:
 - required author/OpenReview/final-evidence fields are present;
 - required field values are not blank and do not contain
   `TODO`, `TBD`, `UNKNOWN`, or `UNDECIDED`;
+- high-risk private decisions have positive semantics: OpenReview profile
+  readiness, reviewer-registration commitment, authorship approval, approvals,
+  final scans, optional-media decision, and final upload decision cannot be
+  cleared by negative or failed wording;
 - the private worksheet is ignored by git;
 - the private worksheet is not tracked by git.
 
-The JSON report lists field names and status booleans only. It does not print
-private worksheet values, author names, emails, OpenReview IDs, or submission
-history.
+The JSON report lists field names, status booleans, and `invalid_fields` only.
+It does not print private worksheet values, author names, emails, OpenReview
+IDs, or submission history.
 
 `run_preupload_gate.py` deliberately does not require the private worksheet to
 exist. The repository-side anonymous packet gate can still pass before the

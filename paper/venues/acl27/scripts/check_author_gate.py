@@ -47,6 +47,58 @@ REQUIRED_FIELDS = [
     "Final decision: upload / do not upload",
 ]
 TODO_MARKERS = ("TODO", "TBD", "UNKNOWN", "UNDECIDED")
+SEMANTIC_FIELD_RULES = {
+    "OpenReview profile complete for each author": ("complete", "confirmed", "yes"),
+    "Reviewer-registration commitment": ("confirmed", "yes"),
+    "All authors notified of reviewer-duty sanctions": ("notified", "confirmed", "yes"),
+    "Author contribution / authorship approval": ("approved", "confirmed", "yes"),
+    "Dual submission status": (
+        "no concurrent",
+        "not under concurrent",
+        "clear",
+        "none",
+    ),
+    "Title approved": ("approved", "confirmed", "yes"),
+    "Abstract approved and under current venue limit": (
+        "approved",
+        "confirmed",
+        "under",
+        "yes",
+    ),
+    "Primary ARR area approved": ("approved", "confirmed", "yes"),
+    "Secondary area / keywords approved": ("approved", "confirmed", "yes"),
+    "Responsible NLP checklist copied into OpenReview": (
+        "copied",
+        "complete",
+        "confirmed",
+        "yes",
+    ),
+    "Runtime / compute wording approved": ("approved", "confirmed", "yes"),
+    "AI-assistance wording approved": ("approved", "confirmed", "yes"),
+    "Model and asset license wording approved": ("approved", "confirmed", "yes"),
+    "Optional media decision": ("excluded", "approved separate media", "approved"),
+    "Undefined citation/reference scan": ("pass", "clean", "no unresolved"),
+    "Local path / username / private-link scan": ("pass", "clean", "no leak"),
+    "Acknowledgment scan": ("pass", "clean", "no acknowledgment"),
+    "Limitations / Ethical Considerations / References text scan": (
+        "pass",
+        "clean",
+        "ordered",
+        "present",
+    ),
+}
+FINAL_DECISION_FIELD = "Final decision: upload / do not upload"
+NEGATIVE_SEMANTIC_MARKERS = (
+    "do not upload",
+    "not approved",
+    "not confirmed",
+    "not copied",
+    "not complete",
+    "missing",
+    "failed",
+    "fail:",
+    "acknowledgment present",
+)
 
 
 def default_paper_root() -> Path:
@@ -72,6 +124,25 @@ def value_is_filled(value: str) -> bool:
         return False
     upper = normalized.upper()
     return not any(marker in upper for marker in TODO_MARKERS)
+
+
+def value_matches_positive_rule(value: str, markers: tuple[str, ...]) -> bool:
+    lowered = value.strip().lower()
+    if any(marker in lowered for marker in NEGATIVE_SEMANTIC_MARKERS):
+        return False
+    return any(marker in lowered for marker in markers)
+
+
+def find_invalid_semantic_fields(fields: dict[str, str]) -> list[str]:
+    invalid_fields: list[str] = []
+    for field, markers in SEMANTIC_FIELD_RULES.items():
+        if field in fields and not value_matches_positive_rule(fields[field], markers):
+            invalid_fields.append(field)
+    if FINAL_DECISION_FIELD in fields:
+        final_decision = fields[FINAL_DECISION_FIELD].strip().lower()
+        if "upload" not in final_decision or "do not upload" in final_decision:
+            invalid_fields.append(FINAL_DECISION_FIELD)
+    return invalid_fields
 
 
 def git_path_is_ignored(repo_root: Path, path: Path) -> bool:
@@ -111,6 +182,7 @@ def check_author_gate(
         "checked_fields": [],
         "missing_fields": [],
         "todo_fields": [],
+        "invalid_fields": [],
         "git_ignored": None,
         "git_tracked": None,
         "message": "",
@@ -128,9 +200,11 @@ def check_author_gate(
         for field in REQUIRED_FIELDS
         if field in fields and not value_is_filled(fields[field])
     ]
+    invalid_fields = find_invalid_semantic_fields(fields)
     report["checked_fields"] = REQUIRED_FIELDS
     report["missing_fields"] = missing_fields
     report["todo_fields"] = todo_fields
+    report["invalid_fields"] = invalid_fields
 
     git_ignored = True
     git_tracked = False
@@ -143,7 +217,13 @@ def check_author_gate(
         report["git_ignored"] = git_ignored
         report["git_tracked"] = git_tracked
 
-    ok = not missing_fields and not todo_fields and git_ignored and not git_tracked
+    ok = (
+        not missing_fields
+        and not todo_fields
+        and not invalid_fields
+        and git_ignored
+        and not git_tracked
+    )
     report["ok"] = ok
     if ok:
         report["message"] = "private author gate worksheet is complete"

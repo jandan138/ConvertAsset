@@ -35,12 +35,19 @@ python paper/venues/acl27/scripts/report_final_blockers.py
 
 Expected result after filling: the command exits 0 and prints a JSON status
 report. `check_author_gate.py` lists field names, missing fields, TODO fields,
-and git ignore/tracked status; it does not print the private field values.
+semantically invalid fields, and git ignore/tracked status; it does not print
+the private field values.
 `report_final_blockers.py` should no longer list human blockers after the
 worksheet is complete, because the route, OpenReview form-copy,
 runtime/AI/media, and final upload decision fields are recorded in that private
 copy. Before the authors create and fill `OPENREVIEW_AUTHOR_GATE_FILLED.local.md`,
 `check_author_gate.py` is expected to exit nonzero.
+
+For high-risk rows, do not write vague placeholders such as `filled`. Use
+positive wording such as `approved`, `confirmed`, `copied`, `excluded by
+default`, `pass: no leaks`, or final decision `upload`. Values such as `do not
+upload`, `failed`, `not approved`, `not confirmed`, or `not complete` keep the
+private gate incomplete.
 
 ## Fill Order
 

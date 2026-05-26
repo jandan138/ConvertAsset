@@ -92,7 +92,10 @@ This goal is done only when all of the following are true:
    dual-submission/resubmission status, preprint status, runtime wording, and
    AI-assistance wording are recorded in a private local copy of
    `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md`, and
-   `check_author_gate.py` passes on that private copy.
+   `check_author_gate.py` passes on that private copy. The filled rows must use
+   positive approval/pass/upload semantics; failed scans, negative approvals,
+   incomplete OpenReview profile wording, or `do not upload` keep the gate
+   incomplete.
 5. The PDF is rebuilt from a clean state.
 6. The final log has no unresolved citations or references.
 7. The PDF profile guard passes on the final staged PDF, or any cap change is

@@ -15,6 +15,45 @@ def load_module():
     return module
 
 
+def complete_private_rows(module, overrides: dict[str, str] | None = None) -> list[str]:
+    values = {
+        field: "confirmed"
+        for field in module.author_gate_module().REQUIRED_FIELDS
+    }
+    values.update(
+        {
+            "Selected route": "EACL 2027 via ARR",
+            "OpenReview profile complete for each author": "all profiles complete",
+            "Reviewer-registration commitment": "confirmed by all authors",
+            "All authors notified of reviewer-duty sanctions": "notified and confirmed",
+            "Author contribution / authorship approval": "approved by all authors",
+            "Dual submission status": "no concurrent archival submission",
+            "Title approved": "approved",
+            "Abstract approved and under current venue limit": "approved under limit",
+            "Primary ARR area approved": "approved",
+            "Secondary area / keywords approved": "approved",
+            "Responsible NLP checklist copied into OpenReview": "copied into OpenReview",
+            "Runtime / compute wording approved": "approved",
+            "AI-assistance wording approved": "approved",
+            "Model and asset license wording approved": "approved",
+            "Optional media decision": "excluded by default",
+            "Undefined citation/reference scan": "pass: no unresolved citations",
+            "Local path / username / private-link scan": "pass: no leaks",
+            "Acknowledgment scan": "pass: no acknowledgments",
+            "Limitations / Ethical Considerations / References text scan": "pass: ordered",
+            "Final decision: upload / do not upload": "upload",
+        }
+    )
+    if overrides:
+        values.update(overrides)
+    rows = ["| Field | Fill in local copy |", "| --- | --- |"]
+    rows.extend(
+        f"| {field} | {values[field]} |"
+        for field in module.author_gate_module().REQUIRED_FIELDS
+    )
+    return rows
+
+
 def test_current_repo_reports_human_blockers_without_private_values() -> None:
     module = load_module()
 
@@ -38,12 +77,10 @@ def test_completed_author_gate_removes_private_author_blocker(tmp_path: Path) ->
     paper_root = tmp_path / "paper"
     worksheet = paper_root / "venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md"
     worksheet.parent.mkdir(parents=True)
-    rows = ["| Field | Fill in local copy |", "| --- | --- |"]
-    for field in module.author_gate_module().REQUIRED_FIELDS:
-        value = "filled"
-        if field == "Final author list and order":
-            value = "private filled list"
-        rows.append(f"| {field} | {value} |")
+    rows = complete_private_rows(
+        module,
+        {"Final author list and order": "private filled list"},
+    )
     worksheet.write_text("\n".join(rows) + "\n", encoding="utf-8")
 
     report = module.build_final_blocker_report(
@@ -65,9 +102,7 @@ def test_completed_author_gate_can_clear_all_human_blockers(
     paper_root = tmp_path / "paper"
     worksheet = paper_root / "venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md"
     worksheet.parent.mkdir(parents=True)
-    rows = ["| Field | Fill in local copy |", "| --- | --- |"]
-    for field in module.author_gate_module().REQUIRED_FIELDS:
-        rows.append(f"| {field} | filled |")
+    rows = complete_private_rows(module)
     worksheet.write_text("\n".join(rows) + "\n", encoding="utf-8")
 
     report = module.build_final_blocker_report(
