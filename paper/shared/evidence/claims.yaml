@@ -13,10 +13,10 @@ claims:
       - paper/shared/evidence/raw/dino_embeddings.npz
     scope: "Matched MDL and UsdPreviewSurface render pairs from the current evidence set."
   - id: grscene_startup
-    statement: "The supplemental GRScenes benchmark reaches a fully warmed ready-to-render state 3.8x faster and uses roughly 200 MB less GPU memory after conversion."
+    statement: "A legacy single-scene GRScenes startup diagnostic found a faster fully warmed ready-to-render time and lower GPU memory after conversion, but this is not an ACL/ARR main claim."
     sources:
       - paper/shared/evidence/raw/perf_benchmark_grscene.csv
-    scope: "Single-scene GRScenes startup benchmark retained from the CVPR workshop draft."
+    scope: "Single-scene GRScenes startup benchmark retained from the CVPR workshop draft. For the ACL/ARR wrapper, use only as legacy diagnostic context if needed; do not use it to claim official-scene speedup, broad scene-level speedup, or NVIDIA official-scene performance."
   - id: official_scene_performance_summary
     statement: "In the official KuJiaLe / InteriorAgent scene benchmark, all 18 required fresh-process original/noMDL load-render runs succeeded. Aggregated warmed-ready time is comparable: original MDL 13.95 s with 95% CI [11.64, 16.28] and ConvertAsset noMDL 14.12 s with 95% CI [12.31, 16.24]; warm-up FPS is 2.36 vs. 2.42."
     sources:

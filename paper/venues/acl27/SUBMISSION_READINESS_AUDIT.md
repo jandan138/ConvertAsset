@@ -39,7 +39,7 @@ ACL/ARR-candidate ready, not yet Annual-ACL-2027-final ready.
 | Review long-paper page budget | Latest build is 11 PDF pages total; main content ends at conclusion on page 7, limitations begins on page 7, references begin on page 8. Generic ACLPUB long-paper review limit is 8 content pages excluding references, limitations, and ethical considerations. | Pass for generic ARR/ACLPUB long paper |
 | Bibliography resolution | Latest `make -C paper clean-acl27 && make -C paper acl27` resolves citations and writes `build/main.pdf`. | Pass |
 | Claim boundary | `CLAIM_AUDIT.md` forbids broad embodied benchmark, speedup, NVIDIA official-scene performance, and population NVIDIA failure-rate claims. | Pass |
-| Supplement self-contained status | Main paper contains the core evidence and scope boundaries; appendices/supplement add detail. | Needs final human read |
+| Supplement self-contained status | Main paper contains the core evidence and scope boundaries; appendices/supplement add detail. `FINAL_SUBMISSION_PACKET_CHECKLIST.md` now defines the upload boundary. | Needs final human read and archive scan |
 | Official Annual ACL 2027 policy | No public Annual ACL 2027 CFP/author kit found in checked sources. | External blocker |
 
 ## ARR Desk-Rejection Risk Checklist
@@ -53,8 +53,8 @@ ACL/ARR-candidate ready, not yet Annual-ACL-2027-final ready.
 | Ethical considerations placement | Present before references. | Low risk |
 | Acknowledgments in review PDF | No acknowledgments section in `main.tex` or sections. | Low risk |
 | Author-identifying links | No `http://` or `https://` links found in `main.tex`, ACL sections, or shared appendix text. | Low risk |
-| Non-anonymous repository/service links in supplement | Not fully audited for every bundled supplemental artifact. | Follow-up |
-| Responsible NLP checklist weak answers | Draft section mapping below exists, but final OpenReview/checklist fields still need human completion. | Follow-up |
+| Non-anonymous repository/service links in supplement | `FINAL_SUBMISSION_PACKET_CHECKLIST.md` defines required `rg` scans, but no concrete upload archive has been assembled and scanned yet. | Follow-up |
+| Responsible NLP checklist weak answers | Draft section mapping and compute/runtime summary now exist, but final OpenReview/checklist fields still need human completion and section/page/line references. | Follow-up |
 | Reference permanent identifiers | `CITATION_PROVENANCE_AUDIT.md` now records DOI/URL metadata for all 20 currently cited ACL-wrapper keys. | Low risk, with final proceedings metadata check |
 | Annual ACL 2027 official details | Public Annual ACL 2027 CFP/site not found. | External blocker |
 
@@ -76,10 +76,10 @@ ARR checklist.
 | B5 artifact documentation | Partially yes | Evidence manifests and docs exist, but final paper/supplement should expose the artifact inventory clearly. |
 | B6 data statistics/splits | Yes for main evidence | Results tables report GRScenes 15/30 and InternNav 99; supplement contains manifests. |
 | C computational experiments | Yes | VLM probes, image metrics, material baselines, InternNav sanity runs. |
-| C1 compute budget/infrastructure | Partially complete | Run manifests record commands/backends; final checklist needs concise GPU/CPU/runtime summary. |
-| C2 setup/hyperparameters | Partially yes | Method and experiment manifests cover protocols; final appendix should summarize model prompts/settings. |
+| C1 compute budget/infrastructure | Partially complete | Run manifests record commands/backends, and `COMPUTE_RUNTIME_SUMMARY_DRAFT.md` now gives the concise GPU/Isaac/VLM/runtime summary. Final checklist needs author confirmation and public checkpoint IDs. |
+| C2 setup/hyperparameters | Partially yes | Method, experiment manifests, and `COMPUTE_RUNTIME_SUMMARY_DRAFT.md` cover protocols, prompt coordinate frame, structured output, `max_new_tokens=64`, and Qwen eager attention. Final appendix should summarize renderer settings and checkpoint hashes. |
 | C3 descriptive statistics | Yes for main claims | Results tables include counts, paired means, and closure CIs. |
-| C4 packages/implementation settings | Partially yes | Repo scripts and manifests exist; final appendix should summarize software versions and package settings. |
+| C4 packages/implementation settings | Partially yes | Repo scripts and manifests exist, and `COMPUTE_RUNTIME_SUMMARY_DRAFT.md` now summarizes checked Isaac/Gemma4/Qwen/InternNav versions. Final appendix should replace local paths with public model IDs and hashes. |
 | D human annotators/subjects | No | No human subjects or crowdworker annotations were used in the current evidence package. Visual QA was internal protocol evidence, not a human-subject study. |
 | E AI assistants | Yes | This project used AI coding/writing assistance; final checklist or acknowledgments-after-acceptance should disclose according to ACL policy. |
 
@@ -95,5 +95,6 @@ ARR checklist.
    using `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md` as the starting point.
 4. Re-check bibliography permanent identifiers after any new citations are
    added; current ACL-wrapper citations now have DOI or URL metadata.
-5. Perform a final anonymization audit over the PDF, supplemental paths,
+5. Assemble a concrete upload staging directory and run the anonymization scans
+   in `FINAL_SUBMISSION_PACKET_CHECKLIST.md` over the PDF, supplemental paths,
    metadata, and any archive packaged for upload.

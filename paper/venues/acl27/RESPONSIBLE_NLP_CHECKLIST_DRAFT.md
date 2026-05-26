@@ -34,10 +34,10 @@ The work runs computational experiments.
 
 | Item | Draft answer | Section / justification |
 | --- | --- | --- |
-| C1. Did you report model parameters, compute budget, and infrastructure? | Partially complete | The repository records local VLM backend/checkpoint paths and Isaac/InternNav run manifests. The final checklist must summarize GPU/CPU infrastructure, Isaac Sim version, VLM model sizes, and approximate GPU-hours/runtime. |
-| C2. Did you discuss experimental setup and hyperparameters? | Partially complete | `Method`, `Results`, and raw manifests specify original/noMDL conditions, frozen render/projection manifests, normalized-1000 prompt contract, structured-text VLM output, selected material-effect bins, and official KuJiaLe episode splits. Final appendix should summarize model decoding/generation settings and renderer settings in one place. |
+| C1. Did you report model parameters, compute budget, and infrastructure? | Partially complete with draft summary | The repository records local VLM backend/checkpoint paths and Isaac/InternNav run manifests. `COMPUTE_RUNTIME_SUMMARY_DRAFT.md` now summarizes GPU, Isaac Sim, VLM environment, and official-scene runtime evidence; final checklist still needs author confirmation and public checkpoint identifiers. |
+| C2. Did you discuss experimental setup and hyperparameters? | Partially complete with draft summary | `Method`, `Results`, raw manifests, and `COMPUTE_RUNTIME_SUMMARY_DRAFT.md` specify original/noMDL conditions, frozen render/projection manifests, normalized-1000 prompt contract, structured-text VLM output, `max_new_tokens=64`, Qwen eager attention, selected material-effect bins, and official KuJiaLe episode splits. Final appendix should consolidate renderer settings and any checkpoint hashes. |
 | C3. Did you report descriptive statistics and clarify max/mean/single-run status? | Yes | `Results` and shared tables report paired counts, means, stress-set hit counts, paired bootstrap CIs, and 18/18 load/render closure runs. Selected videos are explicitly qualitative only. |
-| C4. Did you report packages/implementation/settings used? | Partially complete | The repository provides scripts under `paper/shared/evidence/experiments/`, ConvertAsset code, and run manifests. Final submission should include software versions for Isaac Sim, USD/PXR, InternNav, PyTorch/Transformers, and VLM local checkpoints. |
+| C4. Did you report packages/implementation/settings used? | Partially complete with draft summary | The repository provides scripts under `paper/shared/evidence/experiments/`, ConvertAsset code, run manifests, and `COMPUTE_RUNTIME_SUMMARY_DRAFT.md` package/version probes for Isaac, Gemma4, Qwen2.5-VL, and InternNav. Final submission should replace local paths with public/anonymized model IDs and checkpoint hashes. |
 
 ## D. Human Annotators Or Subjects
 
@@ -56,5 +56,7 @@ The work runs computational experiments.
 ## Finalization Notes
 
 Before upload, replace this draft with the official checklist form answers and
-add exact section/page/line references from the final PDF. Do not answer with
-bare yes/no strings; ARR guidance expects section numbers or justifications.
+add exact section/page/line references from the final PDF. Use
+`FINAL_SUBMISSION_PACKET_CHECKLIST.md` for the upload-boundary and anonymization
+gate. Do not answer with bare yes/no strings; ARR guidance expects section
+numbers or justifications.

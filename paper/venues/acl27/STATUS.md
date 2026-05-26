@@ -82,6 +82,13 @@ target-call verification, exact Gemma4 public model ID/commit matching,
 InteriorAgent/KuJiaLe license/citation confirmation, and concise compute/runtime
 version reporting for the final ARR checklist.
 
+Final-packet closure update on 2026-05-26: `COMPUTE_RUNTIME_SUMMARY_DRAFT.md`
+now records the checked local GPU, Isaac Sim/USD, Gemma4, Qwen2.5-VL, InternNav,
+and official-scene runtime evidence for ARR C1/C2/C4 answers. `FINAL_SUBMISSION_PACKET_CHECKLIST.md`
+defines the upload boundary and anonymization scans. The next large target is a
+concrete ARR upload staging directory/archive plus final model/license/terms
+confirmation, not more unbounded experiment collection.
+
 InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now has a real
 one-episode embodied downstream smoke run for scene
 `MV7J6NIKTKJZ2AABAAAAADY8_usd`. The prep manifest is

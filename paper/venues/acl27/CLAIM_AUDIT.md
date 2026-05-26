@@ -43,6 +43,10 @@ submission-readiness checklist, not a new experiment.
   `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md`
 - Artifact provenance draft:
   `ARTIFACT_PROVENANCE_DRAFT.md`
+- Compute/runtime summary draft:
+  `COMPUTE_RUNTIME_SUMMARY_DRAFT.md`
+- Final submission packet checklist:
+  `FINAL_SUBMISSION_PACKET_CHECKLIST.md`
 - Current public search found EACL 2027, not an Annual ACL 2027 CFP/site:
   https://2027.eacl.org/
 - Existing Annual ACL 2027 target should therefore remain an ACL/ARR candidate
