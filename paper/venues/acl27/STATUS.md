@@ -510,6 +510,18 @@ blockers, `human_blocker_details` is empty. The consolidated pre-upload gate
 passes with 49 focused ACL tests and the staged PDF remains 12 A4 pages, PDF
 1.5, and 306187 bytes.
 
+OpenReview upload runbook update on 2026-05-26:
+`OPENREVIEW_UPLOAD_RUNBOOK.md` now provides the final human-facing upload path:
+create the ignored private worksheet, lock the route, copy metadata/checklist
+fields into OpenReview, record author/runtime/AI/license/media decisions, run
+`check_author_gate.py`, `report_final_blockers.py`, and
+`run_preupload_gate.py`, and stop on any blocker or privacy leak. The focused
+runbook test guards the four active human blocker ids, copy sources, final gate
+commands, and `Do not upload` stop condition. `run_preupload_gate.py` now
+includes this test in its focused pytest step; the consolidated gate passes
+with 50 focused ACL tests and the staged PDF remains 12 A4 pages, PDF 1.5, and
+306187 bytes.
+
 OpenReview checklist gate update on 2026-05-26:
 `scripts/check_openreview_checklist.py` and
 `tests/test_acl_openreview_checklist.py` now guard

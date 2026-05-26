@@ -431,6 +431,32 @@ details now point each human blocker to required actions, worksheet field names,
 tracked copy-source files, and done conditions without printing private values.
 The rebuilt staged PDF is still 12 A4 pages, PDF 1.5, and 306187 bytes.
 
+## Refresh After OpenReview Upload Runbook
+
+After adding `OPENREVIEW_UPLOAD_RUNBOOK.md` and including its coverage test in
+the consolidated focused pytest step, the runner was executed again from the
+current repository state on 2026-05-26:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Result: pass. The runner completed claim-boundary, target-policy consistency,
+OpenReview metadata consistency, OpenReview checklist copy-readiness,
+citation-inventory, evidence-number, final-integrity fingerprint, final blocker
+report, 50-test focused pytest including
+`tests/test_acl_openreview_upload_runbook.py`, clean ACL build, final LaTeX log
+scan, candidate packet staging, exact packet inventory, adjacent
+checksum-sidecar validation, private-token scan, acknowledgment scan,
+`pdfinfo`, `pdf_profile`, and `pdftotext_sections`.
+
+The current real repository report remains `status=human_blocked` with
+`repo_blockers=[]` because the private author worksheet is not filled. The
+upload runbook narrows the last-mile OpenReview operation to the private
+worksheet, route lock, metadata/checklist copy, author/runtime/AI/license/media
+approval, final gates, and stop conditions. The rebuilt staged PDF is still 12
+A4 pages, PDF 1.5, and 306187 bytes.
+
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 
 After adding the consolidated runner and later adding the evidence-number
