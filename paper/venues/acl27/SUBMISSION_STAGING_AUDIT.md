@@ -214,6 +214,35 @@ path/private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and
 `openreview/RESPONSIBLE_NLP_CHECKLIST.md`, `supplemental/README.md`, and
 `supplemental/manifest.json`.
 
+## Refresh After Citation-Inventory Checker
+
+After adding `check_citation_inventory.py`, the repository-side gate now checks
+the ACL wrapper's citation inventory before rebuilding and staging. The checker
+parses ACL section citations plus the shared appendix, verifies that every
+cited key exists in `paper/shared/references.bib`, requires each cited entry to
+carry DOI or URL metadata, and checks exact key coverage against the 2026-05-26
+web-trail addendum in
+`paper/shared/evidence/references/verification_report.md`.
+
+The full consolidated gate was rerun from the current repository state on
+2026-05-26:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Result: pass. The runner completed claim-boundary, OpenReview metadata
+consistency, citation-inventory consistency, evidence-number consistency,
+30-test focused pytest, clean ACL build, final LaTeX log scan, candidate packet
+staging, inventory, local path/private-token scan, acknowledgment scan,
+`pdfinfo`, `pdf_profile`, and `pdftotext_sections`. The citation-inventory
+report covered 20 unique cited keys with no missing BibTeX entry, no cited key
+without DOI/URL, no missing web-trail key, and no uncited web-trail key.
+`pdfinfo` reported 12 pages, A4 page size, PDF 1.5, and 306187 bytes. The
+staged packet still contained exactly the five safe files: `main.pdf`,
+`openreview/METADATA.md`, `openreview/RESPONSIBLE_NLP_CHECKLIST.md`,
+`supplemental/README.md`, and `supplemental/manifest.json`.
+
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 
 After adding the consolidated runner and later adding the evidence-number

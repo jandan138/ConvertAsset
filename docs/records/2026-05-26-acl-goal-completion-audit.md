@@ -31,18 +31,19 @@ status pass, not a new experiment run.
 ## Refresh On 2026-05-26
 
 After the OpenReview author-gate worksheet, first-page ACL-fit hardening,
-consolidated pre-upload runner, and evidence-number checker were added, the
+consolidated pre-upload runner, citation-inventory checker, and evidence-number checker were added, the
 completion audit was refreshed against the latest full gate evidence:
 
 - `python paper/venues/acl27/scripts/run_preupload_gate.py` is now the primary
   repository-side rehearsal command.
 - The runner passed claim-boundary, OpenReview metadata consistency,
-  evidence-number consistency, focused pytest, clean ACL build, LaTeX log,
-  packet staging, inventory, local/private-token scan, acknowledgment scan,
-  `pdfinfo`, `pdf_profile`, and `pdftotext` checks on the current candidate.
-- The focused pytest step now passes 27 tests across staging, layout, metadata,
-  claim-boundary, evidence-number, private author-gate, and pre-upload runner
-  checks.
+  citation-inventory consistency, evidence-number consistency, focused pytest,
+  clean ACL build, LaTeX log, packet staging, inventory, local/private-token
+  scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and `pdftotext` checks
+  on the current candidate.
+- The focused pytest step now passes 30 tests across staging, layout, metadata,
+  claim-boundary, citation-inventory, evidence-number, private author-gate, and
+  pre-upload runner checks.
 - The abstract remains under the ACLPUB 200-word guidance by the repository
   tokenizer.
 - The clean build produces a 12-page A4 review PDF under the current candidate

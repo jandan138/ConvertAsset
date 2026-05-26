@@ -55,6 +55,7 @@ OpenReview profiles, and reviewer-registration confirmation as human gates.
 | Bibliography resolution | Latest `make -C paper clean-acl27 && make -C paper acl27` resolves citations and writes `build/main.pdf`. | Pass |
 | Claim boundary | `CLAIM_AUDIT.md` forbids broad embodied benchmark, speedup, NVIDIA official-scene performance, and population NVIDIA failure-rate claims. | Pass |
 | Citation context / data integrity delta | `FINAL_INTEGRITY_DELTA_AUDIT.md` checks all current citation-bearing sentences, main numerical claims, forbidden-claim search results, and sampled exact-phrase originality searches. | Pass for current source; rerun after any manuscript, bibliography, target, or packet change |
+| Automated citation inventory | `scripts/check_citation_inventory.py` parses ACL citations, `paper/shared/references.bib`, and the 2026-05-26 web-trail addendum. | Pass for current source: 20 cited keys, no missing BibTeX entry, no cited key without DOI/URL, and exact web-trail coverage; included in `run_preupload_gate.py` |
 | Automated evidence-number consistency | `scripts/check_evidence_numbers.py` recomputes the ACL-facing proxy, GRScenes VLM, InternNav, official-scene, and coordinate-baseline numbers from local CSV/JSON evidence and checks manuscript/OpenReview markers. | Pass for current source; included in `run_preupload_gate.py` |
 | Supplement self-contained status | Main paper contains the core evidence and scope boundaries; appendices/supplement add detail. `FINAL_SUBMISSION_PACKET_CHECKLIST.md` defines the upload boundary and `SUBMISSION_STAGING_AUDIT.md` records the first minimal PDF-first staging smoke. | Candidate staging smoke pass; final human read and any archive/media scan still required |
 | Official Annual ACL 2027 policy | No public Annual ACL 2027 CFP/author kit found in checked sources. | External blocker |
@@ -112,7 +113,7 @@ ARR checklist.
    unless authors approve a separate terms/anonymization path.
 3. Copy the `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` answers into the official
    OpenReview form after one final PDF rebuild and target-call check.
-4. Re-check bibliography permanent identifiers and rerun
+4. Re-check bibliography permanent identifiers, rerun `check_citation_inventory.py`, and rerun
    `FINAL_INTEGRITY_DELTA_AUDIT.md` after any new citations, manuscript edits,
    target changes, or packet changes; current ACL-wrapper citations now have
    DOI or URL metadata and current-source citation/data checks.

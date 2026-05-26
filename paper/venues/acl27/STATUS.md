@@ -152,10 +152,11 @@ unbounded experiment collection.
 
 Goal-completion refresh after pre-upload automation on 2026-05-26: the current
 candidate is now guarded by `run_preupload_gate.py`, which includes
-claim-boundary, OpenReview metadata, evidence-number, focused pytest, clean
-build, LaTeX log, staging, inventory, anonymization, acknowledgment,
+claim-boundary, OpenReview metadata, citation inventory, evidence-number,
+focused pytest, clean build, LaTeX log, staging, inventory, anonymization, acknowledgment,
 `pdfinfo`, `pdf_profile`, and ordered `pdftotext` checks. The focused suite now
-covers 27 tests after adding the author-gate checker tests, and the current
+covers 30 tests after adding citation-inventory and author-gate checker tests,
+and the current
 PDF profile guard enforces the 12-page A4/PDF
 1.5 candidate shape. This strengthens repository-side readiness but still does
 not close target-route, official OpenReview, private author,
@@ -176,6 +177,14 @@ reporting only field names and booleans, not private author values. The focused
 pre-upload pytest suite includes `tests/test_acl_author_gate.py`; the checker
 itself is expected to fail until
 `OPENREVIEW_AUTHOR_GATE_FILLED.local.md` exists and is filled locally.
+
+Citation-inventory gate update on 2026-05-26:
+`scripts/check_citation_inventory.py` now checks the ACL wrapper's cited keys
+against `paper/shared/references.bib` and the 2026-05-26 web-trail addendum.
+The current pass covers 20 unique cited keys, with no missing BibTeX entries,
+no cited key lacking DOI/URL metadata, no missing web-trail key, and no uncited
+web-trail key. The checker is part of `run_preupload_gate.py` and has focused
+tests in `tests/test_acl_citation_inventory.py`.
 
 Target-policy refresh after current-commit gate on 2026-05-26: official ARR,
 EACL, and ACLPUB pages were reopened again. The route state is unchanged:
@@ -394,12 +403,12 @@ speedup`, `selected`, `scoped`, and `limitation` remain allowed.
 Consolidated pre-upload gate update on 2026-05-26:
 `scripts/run_preupload_gate.py` and `tests/test_acl_preupload_gate.py` now make
 the local repository-side pre-upload rehearsal one command. The gate runs the
-claim-boundary checker, metadata consistency checker, evidence-number checker,
-focused ACL pytest suite, clean ACL PDF build, final LaTeX log scan, candidate
-packet staging, exact packet inventory check, private-token scan,
-acknowledgment scan, `pdfinfo`, PDF profile guard, and `pdftotext`
+claim-boundary checker, metadata consistency checker, citation-inventory
+checker, evidence-number checker, focused ACL pytest suite, clean ACL PDF build,
+final LaTeX log scan, candidate packet staging, exact packet inventory check,
+private-token scan, acknowledgment scan, `pdfinfo`, PDF profile guard, and `pdftotext`
 title/header/section-order checks. The full run now passes on the current
-ACL/ARR candidate: 27 focused tests
+ACL/ARR candidate: 30 focused tests
 passed, the rebuilt staged PDF is 12 A4 pages after the evidence-gate table
 refresh, the staged packet contains
 exactly the five safe files, and both private-token and acknowledgment scans
@@ -416,6 +425,15 @@ and appendix coordinate baselines, then verifies that the ACL manuscript and
 OpenReview metadata source still contain matching numbers. This converts the
 manual data-claim table in `FINAL_INTEGRITY_DELTA_AUDIT.md` into an automated
 pre-upload gate.
+
+Citation-inventory consistency update on 2026-05-26:
+`scripts/check_citation_inventory.py` and `tests/test_acl_citation_inventory.py`
+now guard the ACL wrapper's citation inventory before PDF rebuild/staging. The
+checker parses citations from ACL section sources plus the shared appendix,
+parses `paper/shared/references.bib`, and compares the cited keys with the
+current 2026-05-26 web-trail addendum. This turns the reference-existence
+web-trail into an automated drift check; it does not replace citation-context
+or originality review.
 
 Evidence-gate table update on 2026-05-26: the ACL method now includes
 Table `tab:acl_evidence_gate_registry`, a compact registry mapping proxy

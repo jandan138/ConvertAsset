@@ -70,8 +70,10 @@ Expected local author-gate status before authors fill private data:
 `OPENREVIEW_AUTHOR_GATE_FILLED.local.md`.
 
 The full consolidated pre-upload gate passes with the author-gate unit tests in
-the focused suite. The focused suite now contains 27 tests, and the staged ACL
-candidate remains a 12-page A4 PDF 1.5 packet with exactly five safe files.
+the focused suite. At the time of this author-gate change, the focused suite
+contained 27 tests and the staged ACL candidate remained a 12-page A4 PDF 1.5
+packet with exactly five safe files. A later citation-inventory gate moved the
+current focused-suite count to 30 tests.
 
 ## Remaining Gate
 
