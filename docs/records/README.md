@@ -82,6 +82,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-26 ACL packet checksum sidecar](2026-05-26-acl-packet-checksum-sidecar.md)
 - [2026-05-26 ACL final-integrity fingerprint gate](2026-05-26-acl-integrity-fingerprint-gate.md)
 - [2026-05-26 ACL final blocker report](2026-05-26-acl-final-blocker-report.md)
+- [2026-05-26 ACL final blocker clearance gate](2026-05-26-acl-final-blocker-clearance-gate.md)
 - [2026-05-26 ACL current-commit pre-upload gate](2026-05-26-acl-current-commit-preupload-gate.md)
 - [2026-05-23 CVPR review status and ACL goals](2026-05-23-cvpr-review-status-and-acl-goals.md)
 - [2026-05-20 OSS dataset restore for GRScenes test0 parallel](2026-05-20-oss-dataset-restore.md)

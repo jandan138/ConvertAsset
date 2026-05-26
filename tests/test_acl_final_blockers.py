@@ -58,6 +58,30 @@ def test_completed_author_gate_removes_private_author_blocker(tmp_path: Path) ->
     assert "private filled list" not in str(report)
 
 
+def test_completed_author_gate_can_clear_all_human_blockers(
+    tmp_path: Path,
+) -> None:
+    module = load_module()
+    paper_root = tmp_path / "paper"
+    worksheet = paper_root / "venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md"
+    worksheet.parent.mkdir(parents=True)
+    rows = ["| Field | Fill in local copy |", "| --- | --- |"]
+    for field in module.author_gate_module().REQUIRED_FIELDS:
+        rows.append(f"| {field} | filled |")
+    worksheet.write_text("\n".join(rows) + "\n", encoding="utf-8")
+
+    report = module.build_final_blocker_report(
+        paper_root,
+        repo_root=tmp_path,
+        check_git=False,
+        check_repo_evidence=False,
+    )
+
+    assert report["upload_ready"] is True
+    assert report["status"] == "upload_ready"
+    assert report["human_blockers"] == []
+
+
 def test_repo_evidence_gap_is_repo_blocker(tmp_path: Path) -> None:
     module = load_module()
     paper_root = tmp_path / "paper"

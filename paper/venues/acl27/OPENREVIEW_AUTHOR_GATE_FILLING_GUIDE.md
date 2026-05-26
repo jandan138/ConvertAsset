@@ -36,10 +36,10 @@ python paper/venues/acl27/scripts/report_final_blockers.py
 Expected result after filling: the command exits 0 and prints a JSON status
 report. `check_author_gate.py` lists field names, missing fields, TODO fields,
 and git ignore/tracked status; it does not print the private field values.
-`report_final_blockers.py` should no longer list private author-gate blockers
-after the worksheet is complete, but it can still list route, OpenReview form,
-runtime/AI, or media decisions until those are explicitly recorded. Before the
-authors create and fill `OPENREVIEW_AUTHOR_GATE_FILLED.local.md`,
+`report_final_blockers.py` should no longer list human blockers after the
+worksheet is complete, because the route, OpenReview form-copy,
+runtime/AI/media, and final upload decision fields are recorded in that private
+copy. Before the authors create and fill `OPENREVIEW_AUTHOR_GATE_FILLED.local.md`,
 `check_author_gate.py` is expected to exit nonzero.
 
 ## Fill Order

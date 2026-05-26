@@ -484,6 +484,15 @@ this report before focused tests/build/staging, and the focused ACL pytest suite
 now covers 37 tests after adding `tests/test_acl_final_blockers.py`. This is an
 upload handoff aid, not upload authorization.
 
+Final blocker clearance update on 2026-05-26:
+`scripts/report_final_blockers.py` can now clear the human blockers once
+`OPENREVIEW_AUTHOR_GATE_FILLED.local.md` is complete and ignored. The current
+repository still reports `status=human_blocked` because the private worksheet
+does not exist, but a complete private worksheet can make the report return
+`status=upload_ready` when repo evidence blockers are also clear. The report
+continues to avoid printing private author values. The focused ACL pytest suite
+now covers 46 tests.
+
 OpenReview checklist gate update on 2026-05-26:
 `scripts/check_openreview_checklist.py` and
 `tests/test_acl_openreview_checklist.py` now guard

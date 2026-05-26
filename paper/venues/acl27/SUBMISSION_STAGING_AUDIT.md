@@ -319,7 +319,7 @@ python paper/venues/acl27/scripts/run_preupload_gate.py
 
 Result: pass. The runner completed claim-boundary, OpenReview metadata
 consistency, OpenReview checklist copy-readiness, citation-inventory,
-evidence-number, final-integrity fingerprint, final blocker report, 45-test
+evidence-number, final-integrity fingerprint, final blocker report, 41-test
 focused pytest, clean ACL build, final LaTeX log scan, candidate packet
 staging, exact packet inventory, adjacent checksum-sidecar validation,
 private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`, and
@@ -356,6 +356,31 @@ route markers, and no unsupported Annual ACL 2027 final-ready wording. The
 rebuilt staged PDF is still 12 A4 pages, PDF 1.5, and 306187 bytes. The staged
 packet still contains exactly the five safe files plus the adjacent ignored
 checksum sidecar outside the packet.
+
+## Refresh After Final-Blocker Clearance Gate
+
+After making the final blocker report clearable by a complete private author
+worksheet, the consolidated runner was executed again from the current
+repository state on 2026-05-26:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Result: pass. The runner completed claim-boundary, target-policy consistency,
+OpenReview metadata consistency, OpenReview checklist copy-readiness,
+citation-inventory, evidence-number, final-integrity fingerprint, final blocker
+report, 46-test focused pytest, clean ACL build, final LaTeX log scan,
+candidate packet staging, exact packet inventory, adjacent checksum-sidecar
+validation, private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`,
+and `pdftotext_sections`.
+
+The current real repository report remains `status=human_blocked` with
+`repo_blockers=[]` because the private author worksheet is not filled. A
+complete ignored private worksheet can now clear the human blockers without
+printing private values. The rebuilt staged PDF is still 12 A4 pages, PDF 1.5,
+and 306187 bytes. The staged packet still contains exactly the five safe files
+plus the adjacent ignored checksum sidecar outside the packet.
 
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 

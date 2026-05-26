@@ -13,7 +13,7 @@ REQUIRED_COMMANDS = (
     "python paper/venues/acl27/scripts/check_author_gate.py",
     "python paper/venues/acl27/scripts/run_preupload_gate.py",
 )
-HUMAN_ALWAYS_PENDING = (
+HUMAN_PENDING_UNTIL_AUTHOR_GATE_COMPLETE = (
     "target_route_author_confirmation_pending",
     "official_openreview_form_copy_pending",
     "author_runtime_ai_media_approval_pending",
@@ -129,7 +129,8 @@ def build_final_blocker_report(
         repo_root,
         check_git=check_git,
     )
-    human_blockers.extend(HUMAN_ALWAYS_PENDING)
+    if human_blockers:
+        human_blockers.extend(HUMAN_PENDING_UNTIL_AUTHOR_GATE_COMPLETE)
     human_blockers = sorted(set(human_blockers))
 
     upload_ready = not repo_blockers and not human_blockers
