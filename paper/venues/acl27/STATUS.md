@@ -191,6 +191,15 @@ the embodied sanity route, keeps GRScenes as the VLM grounding stress evidence,
 and treats selected qualitative videos as optional figure/rebuttal evidence
 that stays out of the default safe upload packet unless separately approved.
 
+OpenReview author-gate update on 2026-05-26:
+`OPENREVIEW_AUTHOR_GATE_WORKSHEET.md` now provides the blank template for the
+human-only submission fields: route choice, author list/order, OpenReview
+profiles, reviewer-registration commitment, dual-submission/resubmission,
+preprint status, runtime and AI-assistance approval, optional media decision,
+and final pre-upload evidence. The filled copy should be
+`OPENREVIEW_AUTHOR_GATE_FILLED.local.md`, which is ignored by `.gitignore` and
+must not enter the anonymous review packet.
+
 InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now has a real
 one-episode embodied downstream smoke run for scene
 `MV7J6NIKTKJZ2AABAAAAADY8_usd`. The prep manifest is

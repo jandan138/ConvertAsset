@@ -58,6 +58,11 @@ These fields cannot be completed by repository evidence alone:
    scene-derived media excluded unless a separate legal/anonymization path is
    explicitly approved.
 
+Use `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md` as the blank template for these
+decisions. Fill a private ignored copy named
+`OPENREVIEW_AUTHOR_GATE_FILLED.local.md`; do not commit real author names,
+OpenReview IDs, email addresses, or private submission-history links.
+
 ## Upload Rehearsal Checklist
 
 Run this only after the route and author decisions above are known, and rerun

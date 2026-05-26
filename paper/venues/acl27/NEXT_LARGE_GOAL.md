@@ -80,7 +80,8 @@ This goal is done only when all of the following are true:
 2. The final target policy has been refreshed against official pages.
 3. Author list/order, OpenReview profiles, reviewer-registration commitment,
    dual-submission/resubmission status, preprint status, runtime wording, and
-   AI-assistance wording are recorded.
+   AI-assistance wording are recorded in a private local copy of
+   `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md`.
 4. The PDF is rebuilt from a clean state.
 5. The final log has no unresolved citations or references.
 6. The final staged packet contains only the safe upload boundary.
@@ -91,6 +92,9 @@ This goal is done only when all of the following are true:
 10. `STATUS.md`, `SUBMISSION_READINESS_AUDIT.md`,
     `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, and
     `TARGET_LOCK_OPENREVIEW_REHEARSAL.md` are updated with the final result.
+
+Do not commit the filled author worksheet. Use
+`OPENREVIEW_AUTHOR_GATE_FILLED.local.md`, which is ignored by `.gitignore`.
 
 ## Minimum Commands For The Final Gate
 
