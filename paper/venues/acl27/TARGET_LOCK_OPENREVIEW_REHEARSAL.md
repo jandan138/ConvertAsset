@@ -26,6 +26,15 @@ same route state. ARR/EACL still support EACL 2027 via ARR with an August 3,
 full CFP and detailed timetable are forthcoming. Official search still did not
 find an Annual ACL 2027 CFP or author kit.
 
+Policy refresh after the final blocker command handoff on 2026-05-26 found the
+same route state again. ARR Dates still lists EACL 2027 with final ARR
+submission date August 3, 2026 and commitment date October 11, 2026; the EACL
+2027 home page still lists Athens, Greece, March 9-14, 2027 and the August 3,
+2026 AoE ARR deadline; the EACL main-paper page still says the comprehensive
+CFP and detailed timetable are being finalized. Official search still did not
+find an Annual ACL 2027 CFP, author kit, city/date page, commitment deadline,
+or conference-specific supplement policy.
+
 ## Repository Readiness For OpenReview
 
 | OpenReview / ARR item | Current local evidence | Status |

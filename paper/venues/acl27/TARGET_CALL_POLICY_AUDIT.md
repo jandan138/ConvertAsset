@@ -22,6 +22,18 @@ ACL 2027 still has no official CFP/author kit in checked official search
 results; the current repository packet remains a generic ACL/ARR candidate
 packet until authors choose a route and the final target policy is locked.
 
+Final-blocker handoff policy refresh on 2026-05-26: official ARR Dates,
+ARR Authors, ARR Common Submission Problems, ACLPUB formatting/review-version
+pages, EACL 2027 home, and the EACL 2027 main-paper page were reopened after
+the final blocker report began listing the author-gate initializer command.
+The route state is unchanged. ARR Dates still lists EACL 2027 with final ARR
+submission date August 3, 2026 and commitment date October 11, 2026; the EACL
+site still lists Athens, Greece, March 9-14, 2027 and August 3, 2026 AoE as
+the long/short paper ARR submission deadline; the EACL main-paper page still
+says the comprehensive CFP and detailed timetable are forthcoming. Official
+search still did not find an Annual ACL 2027 CFP, author kit, city/date page,
+commitment deadline, or conference-specific supplement policy.
+
 ## Current Target Status
 
 | Candidate route | Official status checked | What this means for this repo |
@@ -57,6 +69,9 @@ The latest refresh checked the same policy-critical public pages:
 - Public search found ACL 2026 and older Annual ACL pages, but did not expose
   an official Annual ACL 2027 CFP, author kit, city/date page, commitment
   deadline, or conference-specific supplement policy.
+- The refresh after the final-blocker command handoff found the same state:
+  EACL 2027 remains the concrete public route; Annual ACL 2027 remains
+  unavailable as a final public target in checked official sources.
 
 ## Policy Facts To Carry Forward
 

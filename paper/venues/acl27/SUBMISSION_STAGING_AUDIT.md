@@ -513,6 +513,31 @@ private author worksheet creation and filling remain explicit local author
 actions. The refreshed focused tests and full gate passed with 53 focused ACL
 tests, a 12-page A4 PDF 1.5 staged packet, and 306187 bytes.
 
+## Refresh After Target-Policy Source Refresh
+
+After reopening the official ARR, EACL, and ACLPUB target-policy sources, the
+route state remained unchanged: EACL 2027 via ARR is still the concrete public
+2027 ACL-family route, while Annual ACL 2027 still lacks an official CFP/author
+kit in checked official sources. Updating
+`TARGET_CALL_POLICY_AUDIT.md` and `TARGET_LOCK_OPENREVIEW_REHEARSAL.md`
+changed protected final-integrity sources, so the 41-source fingerprint was
+refreshed before rerunning the consolidated gate.
+
+```bash
+python paper/venues/acl27/scripts/check_integrity_fingerprint.py --write
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Result: pass. The runner completed claim-boundary, target-policy consistency,
+OpenReview metadata consistency, OpenReview checklist copy-readiness,
+citation-inventory, evidence-number, final-integrity fingerprint, final blocker
+report, 53-test focused pytest, clean ACL build, final LaTeX log scan,
+candidate packet staging, exact packet inventory, adjacent checksum-sidecar
+validation, private-token scan, acknowledgment scan, `pdfinfo`, `pdf_profile`,
+and `pdftotext_sections`. The final blocker report remained
+`status=human_blocked` with `repo_blockers=[]`; the staged PDF remained 12 A4
+pages, PDF 1.5, and 306187 bytes.
+
 ## Earlier Refresh Via Consolidated Pre-Upload Gate
 
 After adding the consolidated runner and later adding the evidence-number

@@ -223,6 +223,19 @@ EACL 2027 via ARR remains the concrete public route with August 3, 2026 AoE as
 the ARR submission deadline, the full EACL CFP/timetable is still forthcoming,
 and official search still did not find an Annual ACL 2027 CFP or author kit.
 
+Target-policy refresh after final-blocker command handoff on 2026-05-26:
+official ARR, EACL, and ACLPUB pages were reopened after the final blocker
+report began listing the author-gate initializer command. The route state is
+still unchanged: EACL 2027 via ARR remains the concrete public 2027 ACL-family
+route with August 3, 2026 AoE as the ARR submission deadline and October 11,
+2026 as the commitment date; the EACL full CFP/timetable is still forthcoming;
+official search still did not find an Annual ACL 2027 CFP, author kit,
+city/date page, commitment deadline, or conference-specific supplement policy.
+After the protected target-policy source files changed, the final-integrity
+fingerprint was refreshed and the full consolidated pre-upload gate passed
+again with 53 focused ACL tests, 41 fingerprinted sources, a 12-page A4 PDF
+1.5 staged packet, and 306187 bytes for `main.pdf`.
+
 Reference web-trail update on 2026-05-26:
 `paper/shared/evidence/references/verification_report.md` now contains a
 20/20 ACL-wrapper reference-existence web-trail addendum. The pass also

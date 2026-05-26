@@ -64,6 +64,14 @@ or section-order drift where `References` appears before `Limitations` and
 the final selected venue's official page-limit policy still needs a fresh
 human/external check before upload.
 
+Target-policy refresh after final-blocker command handoff: official ARR, EACL,
+and ACLPUB pages were reopened again on 2026-05-26. The target state is
+unchanged: EACL 2027 via ARR is the concrete public 2027 ACL-family route,
+Annual ACL 2027 still has no official CFP/author kit in checked official
+sources, and the repository remains candidate-ready rather than final-upload
+complete until authors lock the route and complete the private OpenReview
+author gate.
+
 ## Requirement Map
 
 | Active goal requirement | Current evidence | Status |
