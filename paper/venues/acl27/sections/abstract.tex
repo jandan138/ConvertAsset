@@ -4,8 +4,8 @@ embodied agents, yet their assets often undergo material conversion before
 rendering, sharing, or reuse in downstream toolchains. We study
 MDL-to-UsdPreviewSurface conversion as a controlled within-simulation
 perturbation for vision-language grounding and embodied-data reliability.
-ConvertAsset preserves USD composition while replacing MDL shader networks
-with PreviewSurface approximations, enabling matched original/converted
+A composition-preserving conversion path replaces MDL shader networks with
+PreviewSurface approximations while keeping matched original/converted USD
 evidence. On four Isaac Sim assets, proxy metrics remain high (PSNR
 35.52\,dB, SSIM 0.990, LPIPS 0.020, CLIP 0.925, DINOv2 0.872), but these
 proxies do not determine grounding behavior. We therefore evaluate GRScenes

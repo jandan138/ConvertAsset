@@ -40,7 +40,7 @@ EACL-2027-route plausible, but not Annual-ACL-2027-final ready.
 | Anonymous review wrapper | `main.tex` uses `\author{Anonymous ACL 2027 Submission}` and no acknowledgments section. | Pass for local review draft |
 | Limitations section present | `sections/limitations.tex`; PDF text places `Limitations` after conclusion and before references. | Pass |
 | Ethical considerations present | `sections/ethical-considerations.tex`; PDF text places it before references. | Pass |
-| Abstract length | `OPENREVIEW_METADATA_PACKET.md` and `sections/abstract.tex`; current plain-text abstract is 184 words. | Pass under ACLPUB 200-word guidance |
+| Abstract length | `OPENREVIEW_METADATA_PACKET.md` and `sections/abstract.tex`; current plain-text abstract is 189 words by the repository's conservative tokenizer. | Pass under ACLPUB 200-word guidance |
 | Page size | `pdfinfo paper/venues/acl27/build/main.pdf` reports A4 `595.276 x 841.89 pts`. | Pass |
 | Review long-paper page budget | Latest build is 11 PDF pages total; main content ends at conclusion on page 7, limitations begins on page 7, references begin on page 8. Generic ACLPUB long-paper review limit is 8 content pages excluding references, limitations, and ethical considerations. | Pass for generic ARR/ACLPUB long paper |
 | Bibliography resolution | Latest `make -C paper clean-acl27 && make -C paper acl27` resolves citations and writes `build/main.pdf`. | Pass |

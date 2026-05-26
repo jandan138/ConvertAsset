@@ -9,23 +9,24 @@ update.
 
 ## Title
 
-Material Perturbations in Synthetic Scenes for Vision-Language Grounding
-Evaluation
+Material Conversion as a Controlled Perturbation for Vision-Language Grounding
+in Synthetic 3D Scenes
 
 Plain-text metadata title:
 
 ```text
-Material Perturbations in Synthetic Scenes for Vision-Language Grounding Evaluation
+Material Conversion as a Controlled Perturbation for Vision-Language Grounding in Synthetic 3D Scenes
 ```
 
 ## Abstract
 
-The PDF abstract was shortened on 2026-05-26 to satisfy the ACLPUB guidance
-that abstracts should be no longer than 200 words. Current plain-text count:
-184 words.
+The PDF abstract was refreshed on 2026-05-26 to satisfy the ACLPUB guidance
+that abstracts should be no longer than 200 words while keeping the first-page
+story focused on language grounding rather than a tool-first framing. Current
+plain-text count by the repository's conservative tokenizer: 189 words.
 
 ```text
-Synthetic 3D scenes are increasingly used to evaluate vision-language and embodied agents, yet their assets often undergo material conversion before rendering, sharing, or reuse in downstream toolchains. We study MDL-to-UsdPreviewSurface conversion as a controlled within-simulation perturbation for vision-language grounding and embodied-data reliability. ConvertAsset preserves USD composition while replacing MDL shader networks with PreviewSurface approximations, enabling matched original/converted evidence. On four Isaac Sim assets, proxy metrics remain high (PSNR 35.52 dB, SSIM 0.990, LPIPS 0.020, CLIP 0.925, DINOv2 0.872), but these proxies do not determine grounding behavior. We therefore evaluate GRScenes with a 15-pair clean visual-QA pilot and a frozen 30-pair target-centered material-shift stress set. Gemma4 preserves 30/30 target-category answers in both material conditions and scores 27/30 versus 29/30 normalized-1000 point hits; Qwen2.5-VL exposes a different coordinate preference, scoring better in raw pixel space than under the requested normalized-coordinate contract. We further add a selected NVIDIA-baseline material-effect audit and a scoped 99-episode official InternNav sanity run. The result is a claim-bounded ACL protocol: visual similarity, grounding, material-effect risk, and embodied-data sanity should be reported as separate gates before converted synthetic scenes support downstream robustness claims.
+Synthetic 3D scenes are increasingly used to evaluate vision-language and embodied agents, yet their assets often undergo material conversion before rendering, sharing, or reuse in downstream toolchains. We study MDL-to-UsdPreviewSurface conversion as a controlled within-simulation perturbation for vision-language grounding and embodied-data reliability. A composition-preserving conversion path replaces MDL shader networks with PreviewSurface approximations while keeping matched original/converted USD evidence. On four Isaac Sim assets, proxy metrics remain high (PSNR 35.52 dB, SSIM 0.990, LPIPS 0.020, CLIP 0.925, DINOv2 0.872), but these proxies do not determine grounding behavior. We therefore evaluate GRScenes with a 15-pair clean visual-QA pilot and a frozen 30-pair target-centered material-shift stress set. Gemma4 preserves 30/30 target-category answers in both material conditions and scores 27/30 versus 29/30 normalized-1000 point hits; Qwen2.5-VL exposes a different coordinate preference, scoring better in raw pixel space than under the requested normalized-coordinate contract. We further add a selected NVIDIA-baseline material-effect audit and a scoped 99-episode official InternNav sanity run. The result is a claim-bounded ACL protocol: visual similarity, grounding, material-effect risk, and embodied-data sanity should be reported as separate gates before converted synthetic scenes support downstream robustness claims.
 ```
 
 ## ARR Track Recommendation

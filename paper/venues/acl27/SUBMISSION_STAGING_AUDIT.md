@@ -96,6 +96,25 @@ from the current repository state on 2026-05-26.
 The author-gate worksheet stays repository-side only. Filled local copies are
 ignored by `.gitignore` and are not part of the staged packet.
 
+## Refresh After First-Page ACL-Fit Hardening
+
+After the title and abstract were refreshed to reduce tool-first wording, the
+build and staging smoke was rerun from the current repository state on
+2026-05-26.
+
+| Check | Result |
+| --- | --- |
+| Abstract count | Pass; 189 words by the repository's conservative plain-text tokenizer, still under the ACLPUB 200-word guidance. |
+| `python -m pytest -q tests/test_paper_layout.py tests/test_acl_submission_staging.py` | Pass; 11 tests passed. |
+| `make -C paper clean-acl27 && make -C paper acl27` | Pass; clean rebuild wrote `venues/acl27/build/main.pdf`. |
+| Final `main.log` undefined citation/reference scan | Pass; no matches. |
+| `stage_submission_packet.py --force` | Pass; regenerated the default candidate packet. |
+| Staged file inventory | Pass; still exactly `main.pdf`, `openreview/METADATA.md`, `openreview/RESPONSIBLE_NLP_CHECKLIST.md`, `supplemental/README.md`, and `supplemental/manifest.json`. |
+| Local path / username / private-repo scan | Pass; no matches. |
+| Acknowledgment scan | Pass; no matches. |
+| `pdfinfo` | Pass; 11 pages, A4 page size, PDF version 1.5, file size 299433 bytes. |
+| `pdftotext` title/section scan | Pass; new title plus anonymous header, `Limitations`, `Ethical Considerations`, and `References` were found. |
+
 ## Remaining Gates
 
 - Re-run the staging command and scans immediately before any real ARR or ACL

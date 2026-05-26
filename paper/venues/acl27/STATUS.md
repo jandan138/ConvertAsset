@@ -179,8 +179,8 @@ runtime/AI-assistance wording, and optional media exclusion or legal approval.
 OpenReview metadata update on 2026-05-26:
 `OPENREVIEW_METADATA_PACKET.md` now provides copy-ready title, abstract, ARR
 area, and keyword material. The ACL abstract was shortened from the extracted
-218-word version to 184 plain-text words to satisfy ACLPUB abstract-length
-guidance while preserving the same evidence numbers and claim boundary. The
+218-word version to an under-200-word plain-text version to satisfy ACLPUB
+abstract-length guidance while preserving the same evidence numbers and claim boundary. The
 staging script now includes the metadata source as `openreview/METADATA.md` in
 the ignored local candidate packet.
 
@@ -314,3 +314,12 @@ grounding and embodied-data reliability under 3D material perturbations, keep
 InternNav scoped as downstream sanity evidence, keep NVIDIA claims selected and
 material-effect bounded, exclude optional scene-derived media by default, and
 rerun the exact upload-packet scans after any final edit.
+
+First-page ACL-fit refresh on 2026-05-26: the ACL title now reads `Material
+Conversion as a Controlled Perturbation for Vision-Language Grounding in
+Synthetic 3D Scenes`, and the abstract removes the tool-first ConvertAsset
+sentence in favor of a composition-preserving conversion-path description. The
+OpenReview metadata packet was updated to the same title and refreshed
+189-word abstract. The intent is to make the first screen read as VLM grounding
+and embodied-data reliability work under a controlled material perturbation,
+while keeping the same evidence numbers and claim boundary.

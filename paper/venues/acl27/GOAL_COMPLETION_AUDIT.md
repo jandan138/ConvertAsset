@@ -25,11 +25,13 @@ edits.
 
 Latest refresh: after the OpenReview author-gate worksheet was added, the
 candidate was rebuilt and restaged on 2026-05-26. The current evidence is
-recorded in `SUBMISSION_STAGING_AUDIT.md` and
-`docs/records/2026-05-26-acl-preupload-rehearsal-refresh.md`: 11 focused tests
-passed, the abstract remained under 200 words, the clean ACL build produced an
-11-page A4 PDF, the final log had no unresolved citation/reference matches,
-and the staged packet still contained only the safe five-file boundary.
+recorded in `SUBMISSION_STAGING_AUDIT.md`,
+`docs/records/2026-05-26-acl-preupload-rehearsal-refresh.md`, and
+`docs/records/2026-05-26-acl-first-page-fit-hardening.md`: 11 focused tests
+passed, the refreshed abstract is 189 words by the conservative tokenizer, the
+clean ACL build produced an 11-page A4 PDF, the final log had no unresolved
+citation/reference matches, and the staged packet still contained only the safe
+five-file boundary.
 
 ## Requirement Map
 
@@ -40,7 +42,7 @@ and the staged packet still contained only the safe five-file boundary.
 | Make all major paper claims traceable to existing evidence. | `CLAIM_AUDIT.md`, `paper/shared/evidence/claims.yaml`, GRScenes, material-effect, InternNav, and official-scene evidence manifests. | Satisfied at candidate level. |
 | Expand ACL/VLM-related framing rather than presenting only a simulation-tool paper. | ACL-local `related`, `method`, `results`, and `discussion` sections cite VLM grounding, embodied AI environments, domain randomization, and vision-language navigation sources. | Satisfied at candidate level. |
 | Check citation and artifact provenance for the current ACL wrapper. | `CITATION_PROVENANCE_AUDIT.md`, `FINAL_INTEGRITY_DELTA_AUDIT.md`, `paper/shared/evidence/references/verification_report.md`, `MODEL_AND_ASSET_LICENSE_AUDIT.md`, `ARTIFACT_PROVENANCE_DRAFT.md`, and `paper/shared/references.bib`. | Current 20-reference web-trail existence audit and current-source citation-context/data/originality-smoke delta are complete; rerun after any manuscript, bibliography, target, or packet change. |
-| Produce a clean ACL-format PDF. | Latest refresh ran `make -C paper clean-acl27 && make -C paper acl27`; `pdfinfo` reported 11 pages, A4 page size, PDF 1.5, and 299407 bytes. | Satisfied for the current candidate build; rerun immediately before upload. |
+| Produce a clean ACL-format PDF. | Latest refresh ran `make -C paper clean-acl27 && make -C paper acl27`; `pdfinfo` reported 11 pages, A4 page size, PDF 1.5, and 299433 bytes. | Satisfied for the current candidate build; rerun immediately before upload. |
 | Prepare a minimal anonymous submission packet. | Latest refresh regenerated `paper/submissions/acl27_arr_candidate_20260526/` with exactly `main.pdf`, OpenReview metadata/checklist copy sources, `supplemental/README.md`, and `supplemental/manifest.json`. | Candidate staging smoke pass. |
 | Keep optional media and raw assets out of the safe upload boundary. | `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, `MODEL_AND_ASSET_LICENSE_AUDIT.md`, and staging manifest exclude raw scenes, scratch USD, InternNav raw frames/logs/LMDBs, local checkpoints, and selected videos. | Satisfied for the safe packet; any future media inclusion is a separate author/legal decision. |
 | Keep human-only OpenReview fields out of the anonymous packet. | `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md` is a tracked blank template; filled local copies match `.gitignore` and are excluded from the staged packet. | Satisfied for the current repository and candidate packet; final author copy remains private/human-gated. |
