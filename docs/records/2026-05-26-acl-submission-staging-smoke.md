@@ -15,11 +15,15 @@ scratch assets, local checkpoints, raw InternNav outputs, or selected videos.
   `paper/submissions/acl27_arr_candidate_20260526/`.
 - Added `paper/venues/acl27/SUBMISSION_STAGING_AUDIT.md` as the tracked audit
   record for this smoke pass.
+- Added `paper/venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` as the
+  copy-ready source for ARR/OpenReview Responsible NLP checklist fields, and
+  staged it under `openreview/RESPONSIBLE_NLP_CHECKLIST.md`.
 
 ## Design Decisions
 
-- The default packet is PDF-first: `main.pdf`, supplemental README, and
-  supplemental manifest only.
+- The default packet is PDF/form-source first: `main.pdf`, the OpenReview
+  Responsible NLP checklist source, supplemental README, and supplemental
+  manifest.
 - Selected qualitative videos are deliberately refused by the staging script
   until license, terms-of-use, and anonymization review are complete.
 - The manifest records the upload boundary explicitly, including excluded raw
@@ -48,8 +52,8 @@ Results:
 - The staging test then passed with 3 tests.
 - The combined staging/layout test passed with 11 tests.
 - The ACL PDF build target was up to date.
-- The staged packet contained only the PDF, supplemental README, and
-  supplemental manifest.
+- The staged packet contained the PDF, OpenReview checklist source,
+  supplemental README, and supplemental manifest.
 - Local path / username / private-repo scans and acknowledgment scans over the
   staged directory returned no matches.
 - `pdfinfo` reported 11 pages and A4 page size.

@@ -7,6 +7,12 @@ Checklist. It is not a replacement for the OpenReview form. Final submission
 still requires the authors to copy the answers into the official checklist and
 replace section-title references with final section/page/line references.
 
+For the current ACL-facing PDF, use
+`OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` as the copy-ready OpenReview form
+source. It adds current PDF page anchors, source-section line anchors, and the
+remaining human gates for model IDs, licenses, target-call wording, and optional
+media redistribution.
+
 ## A. For Every Submission
 
 | Item | Draft answer | Section / justification |

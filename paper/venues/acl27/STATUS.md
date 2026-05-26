@@ -92,14 +92,16 @@ confirmation, not more unbounded experiment collection.
 Submission-staging smoke update on 2026-05-26:
 `scripts/stage_submission_packet.py` now generates the ignored local candidate
 packet `paper/submissions/acl27_arr_candidate_20260526/` from the built ACL PDF.
-The smoke packet contains only `main.pdf`, `supplemental/README.md`, and
-`supplemental/manifest.json`; selected videos and raw/scratch/model artifacts
-remain excluded. `SUBMISSION_STAGING_AUDIT.md` records the first scan pass:
-the staged directory had no local path, username, private-repo, or
-acknowledgment matches; `pdfinfo` reported 11 A4 pages; `pdftotext` found the
-anonymous header, `Limitations`, `Ethical Considerations`, and `References`.
-This closes the minimal PDF-first staging gate, but not the final target-call,
-model identity, artifact-terms, or optional media redistribution gates.
+The smoke packet contains `main.pdf`, an OpenReview Responsible NLP checklist
+copy source, `supplemental/README.md`, and `supplemental/manifest.json`;
+selected videos and raw/scratch/model artifacts remain excluded.
+`SUBMISSION_STAGING_AUDIT.md` records the first scan pass: the staged directory
+had no local path, username, private-repo, or acknowledgment matches; `pdfinfo`
+reported 11 A4 pages; `pdftotext` found the anonymous header, `Limitations`,
+`Ethical Considerations`, and `References`. `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`
+now gives copy-ready checklist answers with current PDF anchors. This closes
+the minimal PDF/form-source staging gate, but not the final target-call, model
+identity, artifact-terms, or optional media redistribution gates.
 
 InternNav/VL-LN bridge status on 2026-05-23: ConvertAsset now has a real
 one-episode embodied downstream smoke run for scene

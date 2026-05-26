@@ -20,6 +20,7 @@ The command writes the default candidate packet under
 
 ```text
 paper/submissions/acl27_arr_candidate_20260526/main.pdf
+paper/submissions/acl27_arr_candidate_20260526/openreview/RESPONSIBLE_NLP_CHECKLIST.md
 paper/submissions/acl27_arr_candidate_20260526/supplemental/README.md
 paper/submissions/acl27_arr_candidate_20260526/supplemental/manifest.json
 ```
@@ -32,6 +33,8 @@ does not enter the tracked repository.
 Included:
 
 - `main.pdf`: anonymous ACL-facing review manuscript.
+- `openreview/RESPONSIBLE_NLP_CHECKLIST.md`: copy-ready source material for
+  ARR/OpenReview Responsible NLP checklist fields.
 - `supplemental/README.md`: human-readable upload boundary and claim guardrail.
 - `supplemental/manifest.json`: machine-readable local staging manifest.
 
@@ -52,8 +55,8 @@ ARR upload smoke, not a final media supplement.
 | Check | Result |
 | --- | --- |
 | `make -C paper acl27` | Pass; `build/main.pdf` was up to date. |
-| `python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py` | Pass; 11 tests passed. |
-| Staged file inventory | Pass; exactly the PDF, supplemental README, and supplemental manifest were present. |
+| `python -m pytest -q tests/test_acl_submission_staging.py tests/test_paper_layout.py` | Pass; 11 tests passed; staging tests require the OpenReview checklist form source. |
+| Staged file inventory | Pass; the PDF, OpenReview checklist source, supplemental README, and supplemental manifest were present. |
 | Local path / username / private-repo scan over staged directory | Pass; no matches. |
 | Acknowledgment scan over staged directory | Pass; no matches. |
 | `pdfinfo` | Pass; 11 pages, A4 page size, PDF version 1.5. |
@@ -61,7 +64,9 @@ ARR upload smoke, not a final media supplement.
 
 The staged manifest records
 `claim_boundary=selected_media_excluded_pending_license_and_anonymization_review`
-and `include_media=false`.
+and `include_media=false`. It also records
+`openreview/RESPONSIBLE_NLP_CHECKLIST.md` as an
+`openreview_responsible_nlp_form_source` file.
 
 ## Remaining Gates
 

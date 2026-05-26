@@ -32,6 +32,12 @@ def make_fake_paper_root(tmp_path: Path) -> Path:
     pdf_path = paper_root / "venues/acl27/build/main.pdf"
     pdf_path.parent.mkdir(parents=True)
     pdf_path.write_bytes(b"%PDF-1.7\n% fake anonymous pdf\n")
+    checklist_path = paper_root / "venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md"
+    checklist_path.write_text(
+        "# OpenReview Responsible NLP Checklist\n\n"
+        "Copy these answers into the official ARR/OpenReview form.\n",
+        encoding="utf-8",
+    )
     return paper_root
 
 
@@ -57,6 +63,7 @@ def test_stage_submission_packet_builds_sanitized_minimal_packet(tmp_path: Path)
     )
 
     assert (out_dir / "main.pdf").read_bytes() == b"%PDF-1.7\n% fake anonymous pdf\n"
+    assert (out_dir / "openreview/RESPONSIBLE_NLP_CHECKLIST.md").exists()
     assert (out_dir / "supplemental/README.md").exists()
     assert (out_dir / "supplemental/manifest.json").exists()
     assert manifest["packet_id"] == "acl27_arr_candidate_test"
@@ -67,6 +74,7 @@ def test_stage_submission_packet_builds_sanitized_minimal_packet(tmp_path: Path)
     assert "selected qualitative videos" in manifest["excluded_materials"]
     assert sorted(item["path"] for item in manifest["files"]) == [
         "main.pdf",
+        "openreview/RESPONSIBLE_NLP_CHECKLIST.md",
         "supplemental/README.md",
         "supplemental/manifest.json",
     ]

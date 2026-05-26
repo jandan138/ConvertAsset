@@ -54,7 +54,7 @@ ACL/ARR-candidate ready, not yet Annual-ACL-2027-final ready.
 | Acknowledgments in review PDF | No acknowledgments section in `main.tex` or sections. | Low risk |
 | Author-identifying links | No `http://` or `https://` links found in `main.tex`, ACL sections, or shared appendix text. | Low risk |
 | Non-anonymous repository/service links in supplement | The ignored local packet `paper/submissions/acl27_arr_candidate_20260526/` was assembled by `stage_submission_packet.py` and scanned; no local path, username, private-repo, or acknowledgment matches were found in the staged directory. | Low risk for the minimal PDF-first packet; re-run before upload and after any media/source additions |
-| Responsible NLP checklist weak answers | Draft section mapping and compute/runtime summary now exist, but final OpenReview/checklist fields still need human completion and section/page/line references. | Follow-up |
+| Responsible NLP checklist weak answers | `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` now provides copy-ready answers with current PDF section/page anchors and remaining human gates. | Lower risk; final OpenReview copy, target-call wording, and model/license confirmations still required |
 | Reference permanent identifiers | `CITATION_PROVENANCE_AUDIT.md` now records DOI/URL metadata for all 20 currently cited ACL-wrapper keys. | Low risk, with final proceedings metadata check |
 | Annual ACL 2027 official details | Public Annual ACL 2027 CFP/site not found. | External blocker |
 
@@ -91,8 +91,8 @@ ARR checklist.
 2. Complete the artifact-license/source audit for GRScenes/GRUtopia,
    InteriorAgent/KuJiaLe, InternNav/DualVLN, Isaac Sim, VLM APIs/models, and any
    generated qualitative videos.
-3. Fill the Responsible NLP checklist with section numbers and justifications,
-   using `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md` as the starting point.
+3. Copy the `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` answers into the official
+   OpenReview form after one final PDF rebuild and target-call check.
 4. Re-check bibliography permanent identifiers after any new citations are
    added; current ACL-wrapper citations now have DOI or URL metadata.
 5. Re-run `stage_submission_packet.py` and the anonymization scans in

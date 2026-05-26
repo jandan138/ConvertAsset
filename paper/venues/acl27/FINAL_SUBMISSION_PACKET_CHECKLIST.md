@@ -32,7 +32,7 @@ format until the final target call publishes conference-specific instructions.
 | Citation DOI/URL metadata | `CITATION_PROVENANCE_AUDIT.md`; `paper/shared/references.bib`. | Ready for current citation set; re-check after any new citation. |
 | Artifact provenance | `ARTIFACT_PROVENANCE_DRAFT.md`. | Partially ready; InteriorAgent/KuJiaLe full terms and Gemma4 public checkpoint match remain open. |
 | Compute/runtime summary | `COMPUTE_RUNTIME_SUMMARY_DRAFT.md`. | Draft ready; final author confirmation and public checkpoint IDs needed. |
-| Responsible NLP checklist | `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md`. | Draft ready; final OpenReview fields and exact section/page/line references needed. |
+| Responsible NLP checklist | `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md`; `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`. | OpenReview copy-ready packet now exists with current PDF section/page anchors; final form copy and any target-call wording remain human-gated. |
 | Supplemental anonymization | `SUBMISSION_STAGING_AUDIT.md`; `paper/venues/acl27/scripts/stage_submission_packet.py`. | Minimal PDF-first staging smoke passed for the ignored local packet; final archive and optional media still need pre-upload re-scan. |
 | Annual ACL 2027 call | Public search on 2026-05-26 found ARR/ACLPUB and EACL 2027 pages, not Annual ACL 2027 CFP/author kit. | External blocker for Annual-ACL-2027-final readiness. |
 
@@ -48,13 +48,15 @@ It creates an ignored local packet at
 `paper/submissions/acl27_arr_candidate_20260526/` containing only:
 
 - `main.pdf`
+- `openreview/RESPONSIBLE_NLP_CHECKLIST.md`
 - `supplemental/README.md`
 - `supplemental/manifest.json`
 
-The script currently refuses `--include-media`; selected qualitative videos stay
-out of the review packet until license, terms-of-use, and anonymization checks
-are complete. See `SUBMISSION_STAGING_AUDIT.md` for the 2026-05-26 smoke
-results.
+The `openreview/` file is a local copy source for the submission form, not a
+paper supplement to upload unless the final venue explicitly requests it. The
+script currently refuses `--include-media`; selected qualitative videos stay out
+of the review packet until license, terms-of-use, and anonymization checks are
+complete. See `SUBMISSION_STAGING_AUDIT.md` for the 2026-05-26 smoke results.
 
 ## Anonymization Scan Commands
 
