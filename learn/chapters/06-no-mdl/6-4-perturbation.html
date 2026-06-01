@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>论文视角：conversion as controlled perturbation — ConvertAsset Learning Guide</title>
+  <meta name="description" content="将 no-MDL 转换视为受控的仿真内扰动，论文 proxy 指标（PSNR / SSIM / LPIPS / CLIP / DINOv2）的意义与局限。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="6-4">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART II · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>论文视角：conversion as controlled perturbation</h1>
+
+        <p class="lead">从工程角度，no-MDL 转换是一个"让资产变得可移植"的基础设施步骤，看似无关紧要。ConvertAsset 论文（投稿 ACL27）换了一个研究角度：把这个转换视为一种<strong>受控的仿真内扰动</strong>（<span class="term term-accent">controlled within-simulation perturbation</span>），系统地研究它对下游 language grounding 任务的影响。高 proxy 相似度（PSNR / SSIM 等）不等于下游任务无影响——这是论文的核心主张。</p>
+
+        <h2 id="framing">问题框架：perturbation 视角</h2>
+
+        <p>论文的出发点是：合成 3D benchmark 越来越多地用渲染的 USD 场景来评测视觉语言和具身智能 Agent，而这些场景在发布时往往需要做材质转换（MDL → UsdPreviewSurface）以满足 portability 需求。这个转换<strong>通常被当作中性的基础设施操作</strong>（neutral infrastructure），不去研究它是否改变了评测结论。</p>
+
+        <p>ConvertAsset 论文的贡献在于：对这个"中性假设"提出质疑，把转换建模为一种扰动，并设计多层证据门（<span class="term">evidence gates</span>）来量化其影响。</p>
+
+        <h2 id="proxy-metrics">Proxy 相似度指标</h2>
+
+        <p>论文对四个 Isaac Sim 资产测量了转换前后的渲染图像相似度（同场景、同光照、同相机），proxy 指标如下：</p>
+
+        <div style="overflow-x:auto;margin:1.5rem 0;">
+          <table style="border-collapse:collapse;width:100%;font-size:0.9em;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--c-border,#e5e7eb);">
+                <th style="text-align:left;padding:0.5em 1em;">指标</th>
+                <th style="text-align:center;padding:0.5em 1em;">值</th>
+                <th style="text-align:left;padding:0.5em 1em;">含义</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--c-border,#e5e7eb);">
+                <td style="padding:0.5em 1em;"><span class="term">PSNR</span></td>
+                <td style="text-align:center;padding:0.5em 1em;font-weight:600;">35.52 dB</td>
+                <td style="padding:0.5em 1em;">像素级均方误差；&gt;30 dB 通常认为图像质量"好"</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--c-border,#e5e7eb);">
+                <td style="padding:0.5em 1em;"><span class="term">SSIM</span></td>
+                <td style="text-align:center;padding:0.5em 1em;font-weight:600;">0.990</td>
+                <td style="padding:0.5em 1em;">结构相似度；接近 1.0 表示结构高度一致</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--c-border,#e5e7eb);">
+                <td style="padding:0.5em 1em;"><span class="term">LPIPS</span></td>
+                <td style="text-align:center;padding:0.5em 1em;font-weight:600;">0.020</td>
+                <td style="padding:0.5em 1em;">感知相似度（越低越好）；0.02 极小</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--c-border,#e5e7eb);">
+                <td style="padding:0.5em 1em;"><span class="term">CLIP</span> cosine</td>
+                <td style="text-align:center;padding:0.5em 1em;font-weight:600;">0.925</td>
+                <td style="padding:0.5em 1em;">语义特征余弦相似度；高值说明语义表征接近</td>
+              </tr>
+              <tr>
+                <td style="padding:0.5em 1em;"><span class="term">DINOv2</span> cosine</td>
+                <td style="text-align:center;padding:0.5em 1em;font-weight:600;">0.872</td>
+                <td style="padding:0.5em 1em;">视觉特征相似度；中高水平</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>这些数字乍看非常好——PSNR 35 dB，SSIM 0.99，图像几乎看不出差异。这意味着什么？</p>
+
+        <h2 id="proxy-insufficient">Proxy 指标的局限：充分条件 vs 必要条件</h2>
+
+        <div class="callout warn">
+          <span class="ttl">论文核心主张</span>
+          <strong>proxy fidelity alone is insufficient for downstream grounding claims.</strong>
+          高 proxy 相似度是必要条件（similarity is necessary），但不是充分条件（not sufficient）。即使 PSNR 35 dB，材质转换仍然可能改变：光泽高光的位置与亮度、金属质感的感知（金属 vs 非金属误判）、颜色的轻微偏移——这些细微变化可能在特定 grounding 问题下影响 VLM 的回答。
+        </div>
+
+        <p>论文的实验设计因此分为多个证据门：</p>
+
+        <ol>
+          <li><strong>视觉相似度门</strong>：PSNR / SSIM / LPIPS / CLIP / DINOv2（proxy 指标，已通过）。</li>
+          <li><strong>Language grounding 门</strong>：用 Gemma4 和 Qwen2.5-VL 在 GRScenes 数据集上做 15-pair 视觉 QA，对比原始场景与转换后场景的答对率。实验结果：Gemma4 在两种条件下均保持 30/30 target category 答对；Qwen2.5-VL 暴露出在坐标系下的偏好差异（raw-coordinate preference）。</li>
+          <li><strong>Material-effect 风险门</strong>：针对材质本身作为 grounding target 的场景，额外进行 NVIDIA baseline 材质影响审计。</li>
+          <li><strong>Embodied stack 可用性门</strong>：99-episode 的 InternNav sanity run，检查转换后的场景是否影响导航任务的可用性。</li>
+        </ol>
+
+        <div class="callout">
+          <span class="ttl">为什么需要 composition-preserving 转换</span>
+          论文能够做"配对实验"（原始 vs 转换后完全相同的场景结构、相机位置、光照），正是因为 ConvertAsset 的非打平设计保留了 USD 组合结构——只换材质，不改几何、不改层次、不改变体。这让对照实验有效，排除了其他变量干扰。
+        </div>
+
+        <h2 id="evidence-gate-protocol">Evidence-gate protocol</h2>
+
+        <p>论文提出的 <span class="term">evidence-gate protocol</span> 是一个通用框架：任何将合成场景材质转换用于下游任务的工作，都应该分别报告以下四个维度的证据，而不是用单一的 proxy 指标代替全部：</p>
+
+        <ul>
+          <li>视觉相似度（PSNR / SSIM / LPIPS / CLIP / DINOv2）</li>
+          <li>Grounding 性能（VQA / 标注一致性）</li>
+          <li>材质影响风险（当材质本身是任务的语义目标时）</li>
+          <li>Embodied stack 可用性（导航 / 操作任务的功能完整性）</li>
+        </ul>
+
+        <div class="callout recap">
+          <span class="ttl">小结</span>
+          no-MDL 转换在 proxy 指标上表现优秀（PSNR 35.52 dB，SSIM 0.990，LPIPS 0.020），但这不足以保证下游任务不受影响。论文的贡献是给出了一套有界（claim-bounded）的评测协议，让"材质转换对 VLM 评测有多大影响"这个问题第一次得到系统回答。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

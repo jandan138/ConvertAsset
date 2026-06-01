@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>为什么 renderer-bound — ConvertAsset Learning Guide</title>
+  <meta name="description" content="MDL 为何与特定渲染器绑定：从 MDL SDK 的 JIT 编译机制到 portability 困境。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="5-3">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART II · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>为什么 renderer-bound</h1>
+
+        <p class="lead">MDL 的设计理念是"渲染器无关"（renderer-agnostic）——声明式材质结构只描述物理属性，不依赖任何具体的渲染算法。然而在实践中，MDL 是显著的 <span class="term term-accent">renderer-bound</span>（渲染器绑定）：没有集成 <span class="term">MDL SDK</span> 的渲染器根本无法消费它。理解这个矛盾，是理解 ConvertAsset 存在理由的前提。</p>
+
+        <h2 id="sdk-dependency">MDL SDK 依赖链</h2>
+
+        <p>MDL 文件不是自解释的着色代码。要让渲染器"理解"一个 <code>.mdl</code>，需要完整的处理链：</p>
+
+        <ol>
+          <li><strong>解析（parsing）</strong>——<span class="term">MDL SDK</span> 的词法器/语法器把 MDL 文本解析为内部 AST。</li>
+          <li><strong>链接（linking）</strong>——解析 <code>import</code> 语句，把所有依赖的模块（包括 NVIDIA 标准库 <code>::df</code>、<code>::tex</code> 等）链接进来。</li>
+          <li><strong>编译（compilation）</strong>——MDL SDK 通过 LLVM / PTX 后端进行 JIT 编译，把材质函数编译成能在目标硬件（CUDA / CPU）上运行的代码。</li>
+          <li><strong>运行时求值</strong>——在光线追踪时，每个 shading point 都调用编译好的 BSDF evaluate / sample 函数。</li>
+        </ol>
+
+        <p>这条链路完全依赖 NVIDIA 的 MDL SDK（一个闭源的 C++ 库）。任何一个环节缺失，材质就无法渲染。这就是 <span class="term">renderer-bound</span> 的根本原因：不是 MDL 语言设计的问题，而是<strong>执行基础设施</strong>的问题。</p>
+
+        <div class="callout warn">
+          <span class="ttl">与 GLSL / OSL 的对比</span>
+          GLSL 和 Metal Shading Language 是 GPU 驱动直接支持的着色语言；OSL 虽然也需要编译，但有 Intel / Blender / Arnold 等多方开源实现。MDL 的主要实现仅 NVIDIA 官方的 MDL SDK，事实上是供应商锁定（vendor lock-in）。
+        </div>
+
+        <h2 id="usd-problem">MDL 在 USD 里的表达方式</h2>
+
+        <p>在 NVIDIA Omniverse / Isaac Sim 中，USD 材质通过 <span class="term">UsdShade</span> 网络表达。一个使用 MDL 的材质 Prim 看起来像这样：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">mdl_in_usd.usda</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">def Material "M_Wood" {
+    # MDL shader prim
+    def Shader "MDLShader" {
+        uniform token info:implementationSource = "sourceAsset"
+        uniform asset info:mdl:sourceAsset = @OmniPBR.mdl@
+        uniform token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+
+        # MDL 参数（通过 inputs: 前缀传递）
+        float inputs:reflection_roughness_constant = 0.4
+        color inputs:diffuse_color_constant = (0.6, 0.45, 0.3)
+        asset inputs:diffuse_texture = @textures/wood_basecolor.png@
+    }
+
+    # MDL 的 outputs 连接
+    token outputs:mdl:surface.connect = </M_Wood/MDLShader.outputs:out>
+    token outputs:mdl:volume.connect  = </M_Wood/MDLShader.outputs:out>
+}</code></pre>
+        </div>
+
+        <p>注意 <code>outputs:mdl:surface</code> 这个端口——它是 MDL 专属的，任何不支持 MDL 的工具（如标准 usdview、Blender USD importer、Web viewer）都会忽略它，导致材质完全失效或显示为默认灰色。</p>
+
+        <h2 id="portability-gap">portability 缺口</h2>
+
+        <p>对比之下，<span class="term">UsdPreviewSurface</span> 的端口是 <code>outputs:surface</code>（无 <code>mdl:</code> 前缀），这是 USD 标准的 <span class="term">portability</span> 表达，被几乎所有 USD-aware 工具支持：</p>
+
+        <!-- SVG 示意图：两种 outputs 的对比 -->
+        <figure style="margin:2rem 0;text-align:center;">
+          <svg viewBox="0 0 540 160" xmlns="http://www.w3.org/2000/svg" style="max-width:540px;width:100%;font-family:inherit;font-size:12px;">
+            <!-- MDL 侧 -->
+            <rect x="10" y="30" width="240" height="100" rx="8" fill="var(--c-warn-faint,#fff7e6)" stroke="var(--c-warn,#f59e0b)" stroke-width="1.5"/>
+            <text x="130" y="52" text-anchor="middle" font-weight="600" fill="var(--c-fg,#1a1a2e)">MDL Shader</text>
+            <text x="130" y="72" text-anchor="middle" fill="var(--c-muted,#6b7280)">outputs:mdl:surface</text>
+            <text x="130" y="90" text-anchor="middle" fill="var(--c-muted,#6b7280)">outputs:mdl:volume</text>
+            <text x="130" y="116" text-anchor="middle" fill="var(--c-warn,#d97706)" font-style="italic">仅 MDL SDK 渲染器可用</text>
+
+            <!-- UsdPreviewSurface 侧 -->
+            <rect x="290" y="30" width="240" height="100" rx="8" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.5"/>
+            <text x="410" y="52" text-anchor="middle" font-weight="600" fill="var(--c-fg,#1a1a2e)">UsdPreviewSurface</text>
+            <text x="410" y="72" text-anchor="middle" fill="var(--c-muted,#6b7280)">outputs:surface</text>
+            <text x="410" y="116" text-anchor="middle" fill="var(--c-accent,#3a7bfa)" font-style="italic">USD 标准，通用可读</text>
+
+            <!-- 箭头 -->
+            <line x1="255" y1="80" x2="285" y2="80" stroke="var(--c-muted,#9ca3af)" stroke-width="1.5" marker-end="url(#arr)"/>
+            <text x="270" y="74" text-anchor="middle" font-size="10" fill="var(--c-muted,#9ca3af)">no-MDL</text>
+            <defs>
+              <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="var(--c-muted,#9ca3af)"/>
+              </marker>
+            </defs>
+          </svg>
+          <figcaption style="font-size:0.82em;color:var(--c-muted,#6b7280);margin-top:0.4em;">no-MDL 转换把 mdl: 端口替换为通用的 outputs:surface</figcaption>
+        </figure>
+
+        <div class="callout recap">
+          <span class="ttl">为什么这很重要</span>
+          在机器人仿真场景中，资产既要在 Isaac Sim（支持 MDL / RTX）里高保真渲染，也要能被下游的 Web viewer、VLM 标注工具、GLB 出口管线等非 NVIDIA 工具消费。<span class="term">portability</span> 是刚需，而非锦上添花——这正是第 6 章 no-MDL 转换的出发点。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

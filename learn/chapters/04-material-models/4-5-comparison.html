@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>三者对照与互转 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="Disney principled BRDF、UsdPreviewSurface、glTF pbrMetallicRoughness 三者参数对照表与互转规则。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="4-5">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART III · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>三者对照与互转</h1>
+
+        <p class="lead">前四节分别介绍了 <span class="term">Disney principled BRDF</span>、<span class="term">UsdPreviewSurface</span>、<span class="term">glTF pbrMetallicRoughness</span>。这一节把三者的参数对应关系整理成一张对照表，并讨论转换时的精度损失与注意事项——这正是 ConvertAsset pipeline 中的核心问题之一。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          材质互转本质上是两个参数空间之间的映射。由于三个格式的设计目标不同（电影 vs 互换 vs 运行时），参数集的「交集」比你想象的要小——理解哪些参数有损、哪些无损，是做好 pipeline 的关键。
+        </div>
+
+        <h2 id="param-table">参数对照表</h2>
+
+        <table style="width:100%;border-collapse:collapse;font-size:0.88em;margin:1rem 0">
+          <thead>
+            <tr style="border-bottom:2px solid var(--accent)">
+              <th style="padding:0.35rem 0.6rem;text-align:left">概念</th>
+              <th style="padding:0.35rem 0.6rem;text-align:left">Disney principled</th>
+              <th style="padding:0.35rem 0.6rem;text-align:left">UsdPreviewSurface</th>
+              <th style="padding:0.35rem 0.6rem;text-align:left">glTF pbrMetallicRoughness</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)">
+              <td style="padding:0.35rem 0.6rem">表面颜色 / albedo</td>
+              <td style="padding:0.35rem 0.6rem"><code>baseColor</code></td>
+              <td style="padding:0.35rem 0.6rem"><code>diffuseColor</code></td>
+              <td style="padding:0.35rem 0.6rem"><code>baseColorFactor</code> / <code>baseColorTexture</code></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)">
+              <td style="padding:0.35rem 0.6rem">金属度</td>
+              <td style="padding:0.35rem 0.6rem"><code>metallic</code></td>
+              <td style="padding:0.35rem 0.6rem"><code>metallic</code>（metalness workflow）</td>
+              <td style="padding:0.35rem 0.6rem"><code>metallicFactor</code> / metallicRoughnessTexture.B</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)">
+              <td style="padding:0.35rem 0.6rem">粗糙度</td>
+              <td style="padding:0.35rem 0.6rem"><code>roughness</code></td>
+              <td style="padding:0.35rem 0.6rem"><code>roughness</code></td>
+              <td style="padding:0.35rem 0.6rem"><code>roughnessFactor</code> / metallicRoughnessTexture.G</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)">
+              <td style="padding:0.35rem 0.6rem">清漆层强度</td>
+              <td style="padding:0.35rem 0.6rem"><code>clearcoat</code></td>
+              <td style="padding:0.35rem 0.6rem"><code>clearcoat</code></td>
+              <td style="padding:0.35rem 0.6rem">需扩展 <code>KHR_materials_clearcoat</code></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)">
+              <td style="padding:0.35rem 0.6rem">清漆粗糙度</td>
+              <td style="padding:0.35rem 0.6rem"><code>clearcoatGloss</code>（1-roughness）</td>
+              <td style="padding:0.35rem 0.6rem"><code>clearcoatRoughness</code></td>
+              <td style="padding:0.35rem 0.6rem"><code>KHR_materials_clearcoat.clearcoatRoughnessFactor</code></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)">
+              <td style="padding:0.35rem 0.6rem">折射率 / F0 来源</td>
+              <td style="padding:0.35rem 0.6rem"><code>specular</code>（映射到 IOR）</td>
+              <td style="padding:0.35rem 0.6rem"><code>ior</code>（默认 1.5 → F0=0.04）</td>
+              <td style="padding:0.35rem 0.6rem">固定 F0=0.04（dielectric），无 IOR 暴露</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)">
+              <td style="padding:0.35rem 0.6rem">法线贴图</td>
+              <td style="padding:0.35rem 0.6rem">—（外部 shader 参数）</td>
+              <td style="padding:0.35rem 0.6rem"><code>normal</code>（tangent space）</td>
+              <td style="padding:0.35rem 0.6rem"><code>normalTexture</code>（tangent space）</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)">
+              <td style="padding:0.35rem 0.6rem">AO / occlusion</td>
+              <td style="padding:0.35rem 0.6rem">—</td>
+              <td style="padding:0.35rem 0.6rem"><code>occlusion</code></td>
+              <td style="padding:0.35rem 0.6rem"><code>occlusionTexture</code>（R 通道）</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)">
+              <td style="padding:0.35rem 0.6rem">各向异性</td>
+              <td style="padding:0.35rem 0.6rem"><code>anisotropic</code></td>
+              <td style="padding:0.35rem 0.6rem">不支持</td>
+              <td style="padding:0.35rem 0.6rem">需扩展 <code>KHR_materials_anisotropy</code></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)">
+              <td style="padding:0.35rem 0.6rem">布料光泽（sheen）</td>
+              <td style="padding:0.35rem 0.6rem"><code>sheen</code>, <code>sheenTint</code></td>
+              <td style="padding:0.35rem 0.6rem">不支持</td>
+              <td style="padding:0.35rem 0.6rem">需扩展 <code>KHR_materials_sheen</code></td>
+            </tr>
+            <tr>
+              <td style="padding:0.35rem 0.6rem">次表面散射</td>
+              <td style="padding:0.35rem 0.6rem"><code>subsurface</code></td>
+              <td style="padding:0.35rem 0.6rem">不支持</td>
+              <td style="padding:0.35rem 0.6rem">不支持（核心规范）</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 id="conversion-rules">互转规则与精度损失</h2>
+
+        <h3>Disney → UsdPreviewSurface</h3>
+        <p>大多数核心参数可以直接映射：</p>
+        <ul>
+          <li><code>baseColor</code> → <code>diffuseColor</code>（直接）</li>
+          <li><code>metallic</code> → <code>metallic</code>（直接）</li>
+          <li><code>roughness</code> → <code>roughness</code>（直接，两者都用 \(\alpha = r^2\)）</li>
+          <li><code>clearcoat</code> → <code>clearcoat</code>；注意方向：Disney 的 <code>clearcoatGloss</code> 是光泽度（glossiness），需取反得到 UsdPreviewSurface 的 <code>clearcoatRoughness = 1 - clearcoatGloss</code>。</li>
+          <li><code>specular</code>（Disney，[0,1]）→ UsdPreviewSurface <code>ior</code>：Disney 的 specular 映射到 IOR [1.0, 1.8]，逆映射公式：\(\text{ior} = \frac{1 + \sqrt{\text{specular} \times 0.08}}{1 - \sqrt{\text{specular} \times 0.08}}\)（近似）。</li>
+          <li><strong>损失</strong>：<code>anisotropic</code>、<code>sheen</code>、<code>subsurface</code>、<code>specularTint</code> 均无对应参数，转换后丢失。</li>
+        </ul>
+
+        <h3>UsdPreviewSurface → glTF</h3>
+        <p>这是 ConvertAsset <code>export-glb</code> 子命令做的核心工作：</p>
+
+        <div class="math-block">
+          $$ \text{baseColorFactor} = \text{diffuseColor} \quad(\text{linear RGB}) $$
+        </div>
+        <div class="math-block">
+          $$ \text{metallicFactor} = \text{metallic}, \quad \text{roughnessFactor} = \text{roughness} $$
+        </div>
+
+        <p>注意颜色空间：UsdPreviewSurface 的 diffuseColor 是 <strong>线性</strong>（linear）值，而 glTF 的 baseColorFactor 也是线性——但 <code>baseColorTexture</code> 纹理是 sRGB 编码。因此从 USD 导出时，如果纹理本身是 sRGB，不需要转换；如果是线性，需要转成 sRGB 才能正确存储在 glTF 纹理里。</p>
+
+        <ul>
+          <li><code>clearcoat</code> / <code>clearcoatRoughness</code> → 需要 <code>KHR_materials_clearcoat</code> 扩展，否则丢失。</li>
+          <li><code>ior</code> → glTF 核心规范不暴露 IOR，需要 <code>KHR_materials_ior</code> 扩展。</li>
+          <li><code>opacity</code> → glTF <code>material.alphaMode</code>（OPAQUE / MASK / BLEND）+ <code>baseColorFactor.a</code>。</li>
+        </ul>
+
+        <h2 id="loss-summary">损失总结与处理策略</h2>
+
+        <div class="callout warn">
+          <span class="ttl">ConvertAsset 的取舍</span>
+          ConvertAsset 目前的 <code>export-glb</code> 只转换核心 4 参数（baseColor / metallic / roughness / normal），clearcoat 和 IOR 暂不输出扩展。这是有意的设计取舍：优先保证广泛兼容性（所有 glTF 2.0 渲染器均支持核心规范），而非完整保真。
+        </div>
+
+        <p>三者转换的「无损区间」（core-to-core 无精度损失）：</p>
+        <ul>
+          <li>baseColor / albedo（linear RGB）</li>
+          <li>metallic（[0,1]）</li>
+          <li>roughness（[0,1]，roughness² 重映射由 renderer 内部处理，传递时不需要平方）</li>
+          <li>normal map（切线空间，linear）</li>
+          <li>occlusion（R 通道，linear）</li>
+        </ul>
+
+        <p>需要扩展或有精度损失的参数：clearcoat、IOR、anisotropy、sheen、subsurface——这些在从 Disney BRDF 下游到 glTF 的过程中或丢失、或降级处理。</p>
+
+        <div class="callout recap">
+          <span class="ttl">第 4 章小结</span>
+          三种格式共享同一套 Cook-Torrance + GGX 数学；差别在于参数化方式和支持的特效范围。从 Disney（最完整）→ UsdPreviewSurface（生产互换）→ glTF（运行时交付）是一条逐步取交集的简化路径，每一步都有明确的损失清单。这种损失在 ConvertAsset 的论文语境里被称为「controlled perturbation」——受控扰动，是可以量化和评估的。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

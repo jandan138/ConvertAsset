@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>path / reference 重写 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="ConvertAsset 如何递归收集和重写 USD 组合关系中的路径，生成 *_noMDL 兄弟文件树。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="6-3">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART II · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>path / reference 重写</h1>
+
+        <p class="lead">仅转换材质网络还不够——一个 USD 场景通常是多文件的：顶层 USD 通过 references / payloads / sublayers 引用子 USD，子 USD 再引用更深的文件。如果只把顶层材质换掉，子文件里的 MDL 仍然存在，渲染结果不变。<code>references.py</code> 与 <code>processor.py</code> 共同解决这个问题：递归处理整个文件树，并用 <span class="term">*_noMDL 后缀</span>重写所有组合关系路径。</p>
+
+        <h2 id="non-flatten">非打平策略（non-flatten composition-preserving）</h2>
+
+        <p>最简单的做法是把整个场景"打平"（flatten）成一个单层 USDA，然后一次性替换所有材质。ConvertAsset 故意<strong>不这样做</strong>，原因：</p>
+
+        <ul>
+          <li>打平会失去所有 variant sets、reference / payload 结构——资产失去了可编辑性和 LOD / streaming 能力。</li>
+          <li>打平会内联所有子文件的内容，输出文件可能几十倍膨胀。</li>
+          <li>打平破坏了 USD 的组合哲学（"non-destructive opinion layering"）。</li>
+        </ul>
+
+        <p>取而代之，<code>Processor</code> 为每个 USD 文件生成一个<strong>兄弟</strong> <code>*_noMDL.usd</code>，内容是 root layer 的副本（仅 root layer，不内联子内容），然后把其中的路径引用改写为指向对应的 <code>*_noMDL.usd</code>，再执行材质转换。</p>
+
+        <h2 id="collect">路径收集：_collect_asset_paths</h2>
+
+        <p><code>references.py</code> 中的 <code>_collect_asset_paths(stage)</code> 扫描 Stage，收集六种类型的资产路径条目，每条返回六元组 <code>(kind, holder, layer_dir, assetPath, prim_path, extra)</code>：</p>
+
+        <ul>
+          <li><code>"sublayer"</code>——root layer 的 <code>subLayerPaths</code>。</li>
+          <li><code>"reference"</code>——prim 上的 <code>references</code> metadata ListOp 中的每个 <code>Sdf.Reference</code>。</li>
+          <li><code>"payload"</code>——prim 上的 <code>payloads</code> / <code>payload</code> ListOp 中的每个 <code>Sdf.Payload</code>。</li>
+          <li><code>"variant_ref"</code> / <code>"variant_payload"</code>——进入每个 variant 编辑上下文后，variant 内的 references/payloads。</li>
+          <li><code>"clip_asset"</code> / <code>"clip_manifest"</code>——valueClips 中的 <code>clipAssetPaths</code> 和 <code>manifestAssetPath</code>。</li>
+        </ul>
+
+        <div class="callout">
+          <span class="ttl">layer_dir 锚点规则</span>
+          每条路径条目携带其所在 layer 的目录（<code>layer_dir</code>）。改写时，相对路径先以 <code>layer_dir</code> 为锚点绝对化，找到对应的 <code>*_noMDL.usd</code> 目标路径，再转回相对于各自 layer 的相对路径写回。这保持了工程的相对引用习惯，避免把所有路径写死为绝对路径。
+        </div>
+
+        <h2 id="rewrite">路径改写：_rewrite_assets_in_stage</h2>
+
+        <p><code>_rewrite_assets_in_stage(stage, mapping)</code> 把 <code>mapping</code>（<code>src_abs → dst_abs</code>）应用到 Stage 上，逐类型改写：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">references.py — 改写 sublayers（示意）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">from pxr import Usd, Sdf
+import os
+
+def _rewrite_assets_in_stage(stage: Usd.Stage, mapping: dict):
+    layer = stage.GetRootLayer()
+    ldir  = os.path.dirname(layer.realPath or layer.identifier)
+
+    # 1) sublayers
+    new_subs = []
+    for sl in layer.subLayerPaths:
+        abs_sl = _resolve(ldir, sl)
+        if abs_sl in mapping:
+            new_subs.append(_relpath(ldir, mapping[abs_sl]))
+        else:
+            new_subs.append(sl)
+    layer.subLayerPaths = new_subs
+
+    # 2) prim references / payloads（通过 Sdf.ChangeBlock 批量更新）
+    with Sdf.ChangeBlock():
+        for spec in _iter_prim_specs(layer):
+            _rewrite_refs(spec, mapping, ldir)
+            _rewrite_payloads(spec, mapping, ldir)
+            _rewrite_variants(spec, mapping, ldir)
+            _rewrite_clips(spec, mapping, ldir)</code></pre>
+        </div>
+
+        <h2 id="processor-flow">Processor 的递归流程</h2>
+
+        <p><code>Processor.process(src_usd_abs)</code> 是整个系统的调度核心，执行如下流程：</p>
+
+        <!-- 流程示意 SVG -->
+        <figure style="margin:2rem 0;text-align:center;">
+          <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;width:100%;font-family:inherit;font-size:12px;">
+            <defs>
+              <marker id="down" markerWidth="6" markerHeight="6" refX="3" refY="6" orient="auto">
+                <path d="M0,0 L3,6 L6,0 Z" fill="var(--c-muted,#9ca3af)"/>
+              </marker>
+            </defs>
+            <!-- boxes -->
+            <rect x="60" y="10"  width="280" height="36" rx="6" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.2"/>
+            <text x="200" y="33" text-anchor="middle" fill="var(--c-fg,#1a1a2e)">① 规范路径 / 防重复 / 环检测</text>
+
+            <rect x="60" y="60"  width="280" height="36" rx="6" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.2"/>
+            <text x="200" y="83" text-anchor="middle" fill="var(--c-fg,#1a1a2e)">② 打开源 Stage，收集依赖路径</text>
+
+            <rect x="60" y="110" width="280" height="36" rx="6" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.2"/>
+            <text x="200" y="133" text-anchor="middle" fill="var(--c-fg,#1a1a2e)">③ 递归处理所有子 USD（depth-first）</text>
+
+            <rect x="60" y="160" width="280" height="36" rx="6" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.2"/>
+            <text x="200" y="183" text-anchor="middle" fill="var(--c-fg,#1a1a2e)">④ 导出 root layer → *_noMDL.usd</text>
+
+            <rect x="60" y="210" width="280" height="36" rx="6" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.2"/>
+            <text x="200" y="233" text-anchor="middle" fill="var(--c-fg,#1a1a2e)">⑤ 重写路径（_rewrite_assets_in_stage）</text>
+
+            <rect x="60" y="260" width="280" height="36" rx="6" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.2"/>
+            <text x="200" y="283" text-anchor="middle" fill="var(--c-fg,#1a1a2e)">⑥ 转换材质 / 剥离 MDL</text>
+
+            <rect x="60" y="310" width="280" height="36" rx="6" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.2"/>
+            <text x="200" y="333" text-anchor="middle" fill="var(--c-fg,#1a1a2e)">⑦ 保存 + verify_no_mdl + 记录结果</text>
+
+            <!-- arrows -->
+            <line x1="200" y1="46"  x2="200" y2="58"  stroke="var(--c-muted,#9ca3af)" stroke-width="1.2" marker-end="url(#down)"/>
+            <line x1="200" y1="96"  x2="200" y2="108" stroke="var(--c-muted,#9ca3af)" stroke-width="1.2" marker-end="url(#down)"/>
+            <line x1="200" y1="146" x2="200" y2="158" stroke="var(--c-muted,#9ca3af)" stroke-width="1.2" marker-end="url(#down)"/>
+            <line x1="200" y1="196" x2="200" y2="208" stroke="var(--c-muted,#9ca3af)" stroke-width="1.2" marker-end="url(#down)"/>
+            <line x1="200" y1="246" x2="200" y2="258" stroke="var(--c-muted,#9ca3af)" stroke-width="1.2" marker-end="url(#down)"/>
+            <line x1="200" y1="296" x2="200" y2="308" stroke="var(--c-muted,#9ca3af)" stroke-width="1.2" marker-end="url(#down)"/>
+          </svg>
+          <figcaption style="font-size:0.82em;color:var(--c-muted,#6b7280);margin-top:0.4em;">Processor.process() 的七步流程（每个 USD 文件执行一次）</figcaption>
+        </figure>
+
+        <h2 id="cycle-dedup">去重与环检测</h2>
+
+        <p><code>Processor</code> 维护两个成员：</p>
+
+        <ul>
+          <li><code>self.done: dict[str, str]</code>——已处理的"源绝对路径 → *_noMDL 绝对路径"映射。同一文件第二次被引用时直接复用结果，不重复处理。</li>
+          <li><code>self.in_stack: set[str]</code>——当前递归栈中的路径集合。若某文件在处理过程中又被自己间接引用（循环引用），则检测到并打印 <code>[WARN] cyclic reference?</code>，返回已知结果（或路径本身），防止无限递归。</li>
+        </ul>
+
+        <div class="callout recap">
+          <span class="ttl">小结</span>
+          path / reference 重写的本质是：在不打平 USD 组合结构的前提下，把"原始文件树"映射为一棵结构同构的"_noMDL 文件树"，每个节点只更新自己的路径引用和材质网络，子节点由递归处理。这保证了 variant sets、references、payloads 等组合关系的完整性。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

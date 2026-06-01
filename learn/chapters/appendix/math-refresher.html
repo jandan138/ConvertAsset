@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Math refresher — ConvertAsset Learning Guide</title>
+  <meta name="description" content="向量、点积、矩阵、齐次坐标、线性方程组求解——支撑本书渲染与几何内容的数学速查。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="app-math">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">附录 · Appendix</div>
+        <h1>Math refresher</h1>
+
+        <p class="lead">这一页快速回顾本书用到的数学基础：向量运算、点积与叉积、矩阵乘法、齐次坐标和线性方程组求解。每个概念给出公式和在渲染 / 几何中的直接用途。</p>
+
+        <h2 id="vectors">向量 · Vectors</h2>
+        <p>$n$ 维实向量 $\mathbf{v} \in \mathbb{R}^n$ 是一组有序实数。本书主要用 3D 向量 $\mathbf{v} = (v_x, v_y, v_z)^T$。</p>
+
+        <p><strong>长度（模长）</strong>：</p>
+        <div class="math-block">
+          $$ \lVert \mathbf{v} \rVert = \sqrt{v_x^2 + v_y^2 + v_z^2} $$
+        </div>
+
+        <p><strong>单位化（归一化）</strong>：</p>
+        <div class="math-block">
+          $$ \hat{\mathbf{v}} = \frac{\mathbf{v}}{\lVert \mathbf{v} \rVert} $$
+        </div>
+        <p>归一化向量在渲染中极为常见：法线 $\mathbf{n}$、光线方向 $\mathbf{l}$、视线方向 $\mathbf{v}$ 都必须是单位向量才能使 BRDF 计算正确。</p>
+
+        <h2 id="dot-cross">点积与叉积 · Dot &amp; Cross Product</h2>
+
+        <h3>点积（内积）</h3>
+        <div class="math-block">
+          $$ \mathbf{a} \cdot \mathbf{b} = a_x b_x + a_y b_y + a_z b_z = \lVert\mathbf{a}\rVert\lVert\mathbf{b}\rVert\cos\theta $$
+        </div>
+        <p>在渲染中的关键用途：</p>
+        <ul>
+          <li>$\mathbf{n} \cdot \mathbf{l}$：漫反射因子（朗伯余弦定律）</li>
+          <li>$\mathbf{v} \cdot \mathbf{h}$：Schlick Fresnel 项的输入</li>
+          <li>$(1 - \mathbf{v}\cdot\mathbf{h})^5$：Fresnel 近似的核心计算</li>
+        </ul>
+        <div class="callout recap">
+          <span class="ttl">Cook-Torrance 里全是点积</span>
+          Cook-Torrance BRDF 的每一项（D、F、G）都是用法线、视线、光线和半程向量的点积组合出来的：$n\cdot h$、$n\cdot v$、$n\cdot l$、$v\cdot h$。
+        </div>
+
+        <h3>叉积</h3>
+        <div class="math-block">
+          $$ \mathbf{a} \times \mathbf{b} = \begin{pmatrix} a_y b_z - a_z b_y \\ a_z b_x - a_x b_z \\ a_x b_y - a_y b_x \end{pmatrix} $$
+        </div>
+        <p>叉积结果垂直于 $\mathbf{a}$ 和 $\mathbf{b}$ 所在平面，长度为 $\lVert\mathbf{a}\rVert\lVert\mathbf{b}\rVert\sin\theta$。在相机取景中，叉积用来构建相机的右轴和上轴：</p>
+        <div class="math-block">
+          $$ \text{right} = \text{normalize}(\mathbf{forward} \times \mathbf{up\_world}) $$
+        </div>
+        <p>这正是 <code>camera/fit.py</code> 和 <code>camera/orbit.py</code> 中构建相机坐标系的方式。</p>
+
+        <h2 id="matrices">矩阵 · Matrices</h2>
+        <p>$m \times n$ 矩阵 $\mathbf{M}$ 是 $m$ 行 $n$ 列的实数数组。本书主要用 $3\times3$ 和 $4\times4$ 矩阵。</p>
+
+        <h3>矩阵乘法</h3>
+        <div class="math-block">
+          $$ [\mathbf{AB}]_{ij} = \sum_{k=1}^{n} A_{ik} B_{kj} $$
+        </div>
+        <p>矩阵乘法不满足交换律（$\mathbf{AB} \neq \mathbf{BA}$），但满足结合律。在相机变换链中：模型变换 $\mathbf{M}$，视图变换 $\mathbf{V}$，投影变换 $\mathbf{P}$——最终变换矩阵为 $\mathbf{PVM}$，从右向左依次应用。</p>
+
+        <h3>旋转矩阵</h3>
+        <p>绕 $z$ 轴旋转 $\theta$ 的 $3\times3$ 旋转矩阵：</p>
+        <div class="math-block">
+          $$ R_z(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{pmatrix} $$
+        </div>
+        <p><strong>Rodrigues 旋转公式</strong>（绕任意单位轴 $\hat{\mathbf{k}}$ 旋转 $\theta$）：</p>
+        <div class="math-block">
+          $$ \mathbf{v}' = \mathbf{v}\cos\theta + (\hat{\mathbf{k}}\times\mathbf{v})\sin\theta + \hat{\mathbf{k}}(\hat{\mathbf{k}}\cdot\mathbf{v})(1-\cos\theta) $$
+        </div>
+        <p>这正是 <code>camera/orbit.py</code> 中 <code>_rotate_vec</code> 和 <code>camera/fit.py</code> 中 <code>_rotate_vec_around_axis</code> 的实现。</p>
+
+        <h2 id="homogeneous">齐次坐标 · Homogeneous Coordinates</h2>
+        <p>将 3D 点 $(x,y,z)$ 扩展为 4D 齐次坐标 $(x,y,z,w)$，$w=1$ 表示点，$w=0$ 表示方向向量。好处是平移、旋转、缩放都可以用 $4\times4$ 矩阵统一表示：</p>
+        <div class="math-block">
+          $$ \mathbf{T}(t_x,t_y,t_z) = \begin{pmatrix} 1 & 0 & 0 & t_x \\ 0 & 1 & 0 & t_y \\ 0 & 0 & 1 & t_z \\ 0 & 0 & 0 & 1 \end{pmatrix} $$
+        </div>
+        <p>从齐次坐标还原 3D 坐标：$(x,y,z) = (X/W, Y/W, Z/W)$。这在投影变换（perspective divide）中出现。</p>
+        <p>USD 的 <code>Gf.Matrix4d</code> 使用行主序（row-major）存储，变换以行向量 $\mathbf{p}\mathbf{M}$ 的形式应用（与列主序的 $\mathbf{M}\mathbf{p}$ 相反）——读代码时要注意这一约定。</p>
+
+        <h2 id="linear-solve">线性方程组求解 · Linear System</h2>
+        <p>QEM 的最优坍缩位置通过对误差函数求导并令其为零，得到线性方程组 $\mathbf{Av} = \mathbf{b}$：</p>
+        <div class="math-block">
+          $$ \begin{pmatrix} q_{11} & q_{12} & q_{13} \\ q_{12} & q_{22} & q_{23} \\ q_{13} & q_{23} & q_{33} \end{pmatrix} \begin{pmatrix} x \\ y \\ z \end{pmatrix} = \begin{pmatrix} -q_{14} \\ -q_{24} \\ -q_{34} \end{pmatrix} $$
+        </div>
+        <p>如果 $\mathbf{A}$ 可逆，最优位置 $\mathbf{v}^* = \mathbf{A}^{-1}\mathbf{b}$；如果奇异（determinant 为零），退化为在边上做线性搜索或取端点中的最优值。</p>
+
+        <div class="callout">
+          <span class="ttl">NumPy 求解</span>
+          在 Python 中，用 <code>numpy.linalg.solve(A, b)</code> 求解 $\mathbf{Ax} = \mathbf{b}$，用 <code>numpy.linalg.det(A)</code> 判断矩阵是否可逆（det 不为 0 则可逆）。
+        </div>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">qem_solve.py</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">import numpy as np
+
+# Q 是 4×4 quadric 矩阵（4 个平面的二次型之和）
+def optimal_position(Q):
+    A = Q[:3, :3]           # 左上 3×3 子矩阵
+    b = -Q[:3, 3]           # 右列取反
+    if abs(np.linalg.det(A)) < 1e-10:
+        return None          # 奇异矩阵，退化处理
+    return np.linalg.solve(A, b)</code></pre>
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

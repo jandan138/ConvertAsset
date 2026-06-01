@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>metallic-roughness vs specular workflow — ConvertAsset Learning Guide</title>
+  <meta name="description" content="对比 metallic-roughness workflow 与 specular workflow：参数语义、F0 的计算方式、各自的优缺点与适用场景。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="4-1">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART III · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>metallic-roughness vs specular workflow</h1>
+
+        <p class="lead">PBR 材质有两种主流「工作流」（<span class="term">workflow</span>）：<span class="term term-accent">metallic-roughness workflow</span> 和 <span class="term term-accent">specular workflow</span>（也叫 specular-glossiness）。它们本质上描述同一套物理——都基于 Fresnel、microfacet、GGX——但暴露给艺术家的参数不同，对 <span class="term">F0</span>（法向入射反射率）的计算方式也不同。理解两者的区别，是读懂 <span class="term">UsdPreviewSurface</span>、<span class="term">glTF</span>、<span class="term">Disney principled BRDF</span> 的前提。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          第 3 章讲 Fresnel 时提到：F0（垂直入射时的反射率）对非金属约为 0.04，对金属则等于 albedo 颜色。这正是 metallic workflow 的核心规则。这一节我们把这条规则变成完整的参数化工作流。
+        </div>
+
+        <h2 id="metallic-workflow">metallic-roughness workflow</h2>
+
+        <p>由 Epic Games（UE4）推广，被 glTF 2.0 和 UsdPreviewSurface 采纳。艺术家指定三个参数：</p>
+
+        <ul>
+          <li><strong>baseColor（albedo）</strong>：表面颜色。对非金属，它是漫反射颜色；对金属，它直接成为 F0（镜面反射颜色）。</li>
+          <li><strong>metallic</strong>：金属度，\([0, 1]\)。0 = 完全非金属（dielectric），1 = 完全金属（conductor）。</li>
+          <li><strong>roughness</strong>：表面粗糙度，\([0, 1]\)，如前所述经 \(\alpha = \text{roughness}^2\) 喂进 GGX。</li>
+        </ul>
+
+        <p>F0 的计算规则（shader 内部）：</p>
+        <div class="math-block">
+          $$ F_0 = \text{mix}\bigl(\underbrace{0.04}_{\text{dielectric default}},\; \text{baseColor},\; \text{metallic}\bigr) $$
+        </div>
+
+        <p>diffuse 颜色也同时受 metallic 影响：</p>
+        <div class="math-block">
+          $$ \text{diffuseColor} = \text{baseColor} \times (1 - \text{metallic}) $$
+        </div>
+
+        <p>即金属没有漫反射（diffuse = 0），非金属则以 baseColor 作为漫反射颜色，而其 F0 固定为 0.04（约 4% 反射率，代表大多数电介质）。</p>
+
+        <div class="callout">
+          <span class="ttl">为什么 0.04</span>
+          常见非金属（塑料、木材、皮肤）的 <span class="term">IOR</span> 约在 1.4–1.6 之间，对应的法向入射反射率 \(F_0 = \left(\frac{n-1}{n+1}\right)^2 \approx 0.04\)。少数非金属（钻石 \(\approx 0.17\)）更高，但 0.04 是实用的默认值。
+        </div>
+
+        <h2 id="specular-workflow">specular workflow</h2>
+
+        <p>由 Allegorithmic（Substance Painter）、某些 DCC 工具和 UsdPreviewSurface 的 <code>useSpecularWorkflow=1</code> 模式支持。艺术家直接指定：</p>
+
+        <ul>
+          <li><strong>diffuseColor</strong>：漫反射颜色（不含金属度逻辑）。</li>
+          <li><strong>specularColor（F0）</strong>：直接给出 F0 颜色，艺术家完全控制镜面反射颜色。</li>
+          <li><strong>roughness / glossiness</strong>：粗糙度（或光泽度）。</li>
+        </ul>
+
+        <p>specular workflow 的 F0 不需要任何计算——艺术家直接设置 specularColor，意味着可以创造出 metallic workflow 无法表达的材质（比如彩色非金属高光，或 diffuse 与 specular 颜色完全独立的「不现实」材质）。</p>
+
+        <h2 id="comparison">两种工作流对比</h2>
+
+        <table style="width:100%;border-collapse:collapse;font-size:0.92em;margin:1rem 0">
+          <thead>
+            <tr style="border-bottom:2px solid var(--accent)">
+              <th style="text-align:left;padding:0.4rem 0.6rem">特性</th>
+              <th style="text-align:left;padding:0.4rem 0.6rem">metallic-roughness</th>
+              <th style="text-align:left;padding:0.4rem 0.6rem">specular workflow</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)">
+              <td style="padding:0.4rem 0.6rem">参数数量</td>
+              <td style="padding:0.4rem 0.6rem">较少（baseColor + metallic + roughness）</td>
+              <td style="padding:0.4rem 0.6rem">较多（diffuseColor + specularColor + roughness）</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)">
+              <td style="padding:0.4rem 0.6rem">物理约束</td>
+              <td style="padding:0.4rem 0.6rem">自动防止「不合理材质」</td>
+              <td style="padding:0.4rem 0.6rem">灵活，但容易创造能量超出 1 的材质</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)">
+              <td style="padding:0.4rem 0.6rem">纹理通道</td>
+              <td style="padding:0.4rem 0.6rem">紧凑（metallic 可打包进同一张图的单通道）</td>
+              <td style="padding:0.4rem 0.6rem">需要额外的 RGB specular 纹理</td>
+            </tr>
+            <tr>
+              <td style="padding:0.4rem 0.6rem">采用格式</td>
+              <td style="padding:0.4rem 0.6rem">glTF 2.0、UsdPreviewSurface（默认）、UE4</td>
+              <td style="padding:0.4rem 0.6rem">UsdPreviewSurface（<code>useSpecularWorkflow=1</code>）、Substance</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 id="ior-connection">IOR 与 F0 的关系</h2>
+
+        <p>当 metallic = 0（纯非金属），UsdPreviewSurface 允许通过 <span class="term">IOR</span> 参数直接推导 F0，而不用硬编码 0.04：</p>
+
+        <div class="math-block">
+          $$ F_0 = \left(\frac{1 - \text{ior}}{1 + \text{ior}}\right)^2 $$
+        </div>
+
+        <p>默认 ior = 1.5 → \(F_0 = (0.5/2.5)^2 = 0.04\)，与「0.04 dielectric 默认」完美对应。提高 ior（如玻璃 1.5、宝石 2.4）会得到更高的 F0，产生更强的镜面反射。</p>
+
+        <div class="callout recap">
+          <span class="ttl">接下来</span>
+          接下来的三节分别深挖三个具体格式的参数：<a href="4-2-usdpreviewsurface.html">4.2 UsdPreviewSurface</a>（两种 workflow 都支持）、<a href="4-3-gltf-pbr.html">4.3 glTF metallic-roughness</a>（仅 metallic workflow）、<a href="4-4-disney-principled.html">4.4 Disney principled uber-shader</a>（最完整的参数集）。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

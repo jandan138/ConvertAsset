@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>mesh 数据：points / faceVertexIndices / counts — ConvertAsset Learning Guide</title>
+  <meta name="description" content="USD 网格的三大核心属性：顶点坐标 points、面顶点索引 faceVertexIndices 与每面顶点数 faceVertexCounts。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="7-1">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART III · 几何与优化 · Geometry &amp; Optimization</div>
+        <h1>mesh 数据：points / faceVertexIndices / counts</h1>
+
+        <p class="lead">在 GAMES101 里，一个三角网格就是一张顶点表加一张三角形索引表。USD 把同样的想法包进了三个核心属性——<span class="term term-accent">points</span>、<span class="term term-accent">faceVertexIndices</span> 和 <span class="term term-accent">faceVertexCounts</span>——并为此设计了一套比 OBJ 更灵活的索引方案，支持混合多边形（quad、ngon 混三角）而无需预先三角化。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          你已经熟悉三角网格的"顶点数组 + 索引数组"表示。OBJ 文件用 <code>v</code> 行存坐标、<code>f</code> 行存索引。USD 的 <span class="term">UsdGeom.Mesh</span> 做了同样的事，只是把"每个面有几个顶点"单独分离成一条 <span class="term">faceVertexCounts</span> 属性，从而支持混合多边形。
+        </div>
+
+        <h2 id="points">points：顶点坐标数组</h2>
+        <p><span class="term">points</span> 是一个 <code>Vec3f[]</code> 数组，存储网格的所有顶点世界局部坐标 \((x, y, z)\)。它是 <span class="term">UsdGeom.Mesh</span> 上最基础的几何属性，索引从 0 开始，与 <span class="term">faceVertexIndices</span> 配合使用。</p>
+        <p>在 pxr Python API 里，读取非常直接：</p>
+        <div class="code">
+          <div class="code-head"><span class="fname">read_points.py</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">from pxr import Usd, UsdGeom
+
+stage = Usd.Stage.Open("scene.usda")
+prim  = stage.GetPrimAtPath("/World/Mesh")
+mesh  = UsdGeom.Mesh(prim)
+
+# points 是 Vt.Vec3fArray，支持 len() 与下标
+pts = mesh.GetPointsAttr().Get()
+print(f"顶点数: {len(pts)}")
+print(f"第0个顶点: {pts[0]}")   # (x, y, z)</code></pre>
+        </div>
+
+        <h2 id="topology">faceVertexIndices &amp; faceVertexCounts：面拓扑</h2>
+        <p>USD 用两个属性共同描述面拓扑：</p>
+        <ul>
+          <li><span class="term term-accent">faceVertexCounts</span>：长度等于面数，第 \(i\) 个值表示第 \(i\) 个面有几个顶点（三角形为 3，四边形为 4，……）。</li>
+          <li><span class="term term-accent">faceVertexIndices</span>：把所有面的顶点索引首尾拼接成一个平坦数组；遍历时按 <span class="term">faceVertexCounts</span> 逐段切割。</li>
+        </ul>
+
+        <p>对一个由两个三角形组成的简单平面，USDA 长这样：</p>
+        <div class="code">
+          <div class="code-head"><span class="fname">plane.usda</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">def Mesh "Plane" {
+    point3f[] points = [
+        (0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)
+    ]
+    int[] faceVertexCounts  = [3, 3]
+    int[] faceVertexIndices = [0, 1, 2,
+                               0, 2, 3]
+}</code></pre>
+        </div>
+
+        <p>如果把两个三角形换成一个四边形：</p>
+        <div class="code">
+          <div class="code-head"><span class="fname">plane_quad.usda</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">def Mesh "Plane" {
+    point3f[] points = [
+        (0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)
+    ]
+    int[] faceVertexCounts  = [4]
+    int[] faceVertexIndices = [0, 1, 2, 3]
+}</code></pre>
+        </div>
+
+        <p>这就是 USD 和 OBJ 的关键区别：USD <strong>原生支持混合多边形</strong>，不强制三角化。但 <span class="term">GLB</span>（glTF 2.0 的二进制容器）要求纯三角，所以在导出流程里需要先运行三角化或 <span class="term">mesh simplification</span>。</p>
+
+        <h2 id="code-traverse">遍历三角面示例</h2>
+        <p>ConvertAsset 的 <code>mesh/simplify.py</code> 有一个典型的遍历模式——先读 <span class="term">faceVertexCounts</span> 确认是否为纯三角，再用 <span class="term">faceVertexIndices</span> 重建三角列表：</p>
+        <div class="code">
+          <div class="code-head"><span class="fname">mesh/simplify.py（节选）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">def _tri_faces_from_topology(counts, indices):
+    """将 faceVertexCounts + faceVertexIndices 展开为三角面列表 (a, b, c)"""
+    faces = []
+    it = iter(indices)
+    for c in counts:
+        c = int(c)
+        if c != 3:
+            raise ValueError("Non-triangle face encountered")
+        a = int(next(it))
+        b = int(next(it))
+        cidx = int(next(it))
+        faces.append((a, b, cidx))
+    return faces</code></pre>
+        </div>
+
+        <h2 id="inline-diagram">可视化：三个属性的对应关系</h2>
+        <p>下图展示了一个 5 顶点、3 三角形网格中三个属性的索引对应关系：</p>
+
+        <!-- 内联 SVG 示意图 -->
+        <svg viewBox="0 0 560 180" style="width:100%;max-width:560px;display:block;margin:1.2rem auto 0.4rem;font-family:inherit;" aria-label="points / faceVertexCounts / faceVertexIndices 对应示意">
+          <!-- points 盒 -->
+          <rect x="10" y="20" width="130" height="140" rx="6" fill="none" stroke="var(--c-border,#d0d5de)" stroke-width="1.5"/>
+          <text x="75" y="14" text-anchor="middle" font-size="11" fill="var(--c-text-muted,#667)">points[ ]</text>
+          <g font-size="11" fill="var(--c-text,#222)">
+            <text x="20" y="45">[0] (0,0,0)</text>
+            <text x="20" y="65">[1] (1,0,0)</text>
+            <text x="20" y="85">[2] (1,1,0)</text>
+            <text x="20" y="105">[3] (0,1,0)</text>
+            <text x="20" y="125">[4] (0.5,2,0)</text>
+          </g>
+          <!-- faceVertexCounts 盒 -->
+          <rect x="180" y="20" width="130" height="100" rx="6" fill="none" stroke="var(--c-border,#d0d5de)" stroke-width="1.5"/>
+          <text x="245" y="14" text-anchor="middle" font-size="11" fill="var(--c-text-muted,#667)">faceVertexCounts[ ]</text>
+          <g font-size="11" fill="var(--c-text,#222)">
+            <text x="190" y="45">[0] 3</text>
+            <text x="190" y="65">[1] 3</text>
+            <text x="190" y="85">[2] 3</text>
+          </g>
+          <!-- faceVertexIndices 盒 -->
+          <rect x="350" y="20" width="160" height="140" rx="6" fill="none" stroke="var(--c-border,#d0d5de)" stroke-width="1.5"/>
+          <text x="430" y="14" text-anchor="middle" font-size="11" fill="var(--c-text-muted,#667)">faceVertexIndices[ ]</text>
+          <g font-size="11" fill="var(--c-text,#222)">
+            <text x="362" y="45">[0..2] 0, 1, 2  ← face 0</text>
+            <text x="362" y="65">[3..5] 0, 2, 3  ← face 1</text>
+            <text x="362" y="85">[6..8] 0, 3, 4  ← face 2</text>
+          </g>
+          <!-- 箭头 counts → indices -->
+          <line x1="310" y1="53" x2="348" y2="53" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="310" y1="73" x2="348" y2="73" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="310" y1="93" x2="348" y2="93" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <defs>
+            <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="var(--c-accent,#4f8ef7)"/>
+            </marker>
+          </defs>
+        </svg>
+
+        <div class="callout">
+          <span class="ttl">关键约束</span>
+          <span class="term">GLB</span> 导出前必须保证所有 <span class="term">faceVertexCounts</span> 等于 3（纯三角）。ConvertAsset 的 mesh simplification 步骤就起到这个作用——既减面，又顺手把网格标准化为纯三角，为后续 GLB 写入打好基础。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

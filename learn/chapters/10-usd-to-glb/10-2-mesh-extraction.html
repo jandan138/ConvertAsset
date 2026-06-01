@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>mesh 提取与 face-varying UV flattening — ConvertAsset Learning Guide</title>
+  <meta name="description" content="UsdMeshExtractor 如何从 UsdGeom.Mesh 提取几何数据，以及为何 glTF 要求 face-varying UV 必须展平。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="10-2">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART IV · 资产交换与交付 · Asset Interchange</div>
+        <h1>mesh 提取与 face-varying UV flattening</h1>
+
+        <p class="lead">USD 允许纹理坐标（<span class="term">UV / st primvar</span>）以"面变化"（<span class="term term-accent">face-varying</span>）方式存储——同一个顶点在不同面上可以有不同的 UV 值。glTF 却只支持"每顶点一个 UV"（<span class="term">per-vertex UV</span>）。填补这个语义鸿沟需要把 mesh 展平（<span class="term">vertex splitting</span>）。这正是 <code>glb/usd_mesh.py</code> 里最核心的工作。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          GAMES101 里的 mesh 以"顶点数组 + 索引数组"的形式表达，每个顶点有唯一的位置和唯一的 UV。USD 为了节省存储，允许多个面角（<span class="term">face corner</span>）共享同一个顶点位置，但拥有不同的 UV——这就是 face-varying。glTF 要求回到 GAMES101 的那种"展开"表示。
+        </div>
+
+        <h2 id="extraction-flow">提取流程：四步</h2>
+        <p><code>UsdMeshExtractor.extract_mesh_data(usd_mesh)</code> 依次完成：</p>
+        <ol>
+          <li><strong>拓扑检查</strong>：读取 <code>faceVertexCounts</code>，若存在任何非三角形面则跳过该 mesh（GLB 要求三角化）。</li>
+          <li><strong>提取 points</strong>：<code>GetPointsAttr().Get()</code>，转为 <code>numpy (N, 3) float32</code>。</li>
+          <li><strong>提取 normals</strong>：仅处理顶点法线（数量与 points 相同），否则置 <code>None</code>。</li>
+          <li><strong>提取 st primvar</strong>：检测 UV 的 <span class="term">interpolation</span>（插值方式），决定是直接使用还是需要展平。</li>
+        </ol>
+
+        <h2 id="face-varying">face-varying UV flattening 原理</h2>
+        <p>USD 里 UV 的插值方式有三种主要情形：</p>
+        <ul>
+          <li><code>vertex</code>：每个顶点一个 UV，glTF 原生支持，直接传递。</li>
+          <li><code>faceVarying</code>：每个"面角"一个 UV，即每个三角形的每个角（共 <code>3×面数</code> 个值）——glTF 不支持，必须展平。</li>
+          <li><code>uniform</code>、<code>constant</code>：整面或全局一个值，相对少见。</li>
+        </ul>
+
+        <p>展平算法（<span class="term">mesh flattening</span>）：</p>
+
+        <div style="overflow-x:auto; margin:1.5rem 0;">
+          <svg viewBox="0 0 640 200" width="640" height="200" style="max-width:100%; font-family:var(--font-mono,monospace); font-size:12px;">
+            <!-- before -->
+            <rect x="10" y="20" width="280" height="160" rx="6" fill="none" stroke="var(--accent,#5b8dd9)" stroke-width="1.2"/>
+            <text x="150" y="14" text-anchor="middle" fill="currentColor" font-weight="bold" font-size="13">USD face-varying</text>
+            <text x="20" y="50" fill="currentColor">points[4]:  P0 P1 P2 P3</text>
+            <text x="20" y="75" fill="currentColor">faceVertexIndices[6]: 0 1 2  1 3 2</text>
+            <text x="20" y="100" fill="currentColor">st (faceVarying)[6]:  UV0 UV1 UV2</text>
+            <text x="20" y="118" fill="currentColor">                      UV3 UV4 UV5</text>
+            <text x="20" y="148" fill="currentColor" font-size="11" opacity=".7">同一顶点 P1 在左三角形 → UV1</text>
+            <text x="20" y="165" fill="currentColor" font-size="11" opacity=".7">同一顶点 P1 在右三角形 → UV3</text>
+
+            <!-- arrow -->
+            <text x="305" y="105" fill="var(--accent,#5b8dd9)" font-size="22">→</text>
+
+            <!-- after -->
+            <rect x="335" y="20" width="280" height="160" rx="6" fill="none" stroke="#2a9d6e" stroke-width="1.2"/>
+            <text x="475" y="14" text-anchor="middle" fill="currentColor" font-weight="bold" font-size="13">展平后（glTF 兼容）</text>
+            <text x="345" y="50" fill="currentColor">points[6]:  P0 P1 P2 P1' P3 P2'</text>
+            <text x="345" y="75" fill="currentColor">indices[6]:  0  1  2   3  4   5</text>
+            <text x="345" y="100" fill="currentColor">st[6]:  UV0 UV1 UV2 UV3 UV4 UV5</text>
+            <text x="345" y="132" fill="currentColor" font-size="11" opacity=".7">P1 被拆分为 P1（UV1）和 P1'（UV3）</text>
+            <text x="345" y="150" fill="currentColor" font-size="11" opacity=".7">索引变为简单的 0..N-1 序列</text>
+          </svg>
+        </div>
+
+        <p>代码中，展平逻辑如下：先把 <code>points_np</code> 按索引重排（<code>points_np = points_np[indices_np]</code>），使"新位置数组"的第 <em>i</em> 个元素对应面角 <em>i</em> 所用的空间点；再以同样方式重排法线和 UV；最后把 <code>indices_np</code> 替换为 <code>arange(len(indices_np))</code>——即简单的 0, 1, 2, … 序列，每个面角都变成了独立顶点。</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">glb/usd_mesh.py — face-varying 展平核心</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">if needs_flattening:
+    # 新顶点数 = 所有面角数（3 × 面数）
+    points_np = points_np[indices_np]      # 按面角展开位置
+    if normals_np is not None:
+        normals_np = normals_np[indices_np]  # 同步展开法线
+
+    if uv_indices is not None and len(uv_indices) == len(indices_np):
+        uvs_np = uv_data[uv_indices]       # 用 UV 索引映射
+    else:
+        uvs_np = uv_data                   # 直接对应面角
+
+    # 新索引 = [0, 1, 2, 3, …]，每个面角独立
+    indices_np = np.arange(len(indices_np), dtype=np.uint32)</code></pre>
+        </div>
+
+        <h2 id="tradeoff">代价与取舍</h2>
+        <p>展平会增加顶点数。在极端情况（完全 face-varying、无共享 UV 的 mesh）下，顶点数会从 <em>V</em> 膨胀到 <em>3F</em>（<em>F</em> 为面数）。对于典型的有机模型，膨胀比通常在 1.5–2× 之间。这是为了获得 glTF 兼容性而付出的代价——好在顶点属性数据（position、normal、UV）本身已是 float32，后续 GlbWriter 会按 4 字节对齐写入，不会引入额外浪费。</p>
+
+        <div class="callout">
+          <span class="ttl">知识点</span>
+          面变化 UV 在 DCC 工具（Blender、Maya）里非常普遍，因为它允许把一个顶点的两条边缝开接缝（<span class="term">seam</span>）。如果 ConvertAsset 不做这一步展平，导出的 GLB 在渲染器里看起来 UV 会错乱。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

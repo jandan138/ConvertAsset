@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>认识 case study：ConvertAsset 与它的论文问题 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="介绍 ConvertAsset 工具的架构、CLI 用法与核心研究问题：材质转换对 AI grounding 的影响。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="0-3">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART 00 · 导论 · Orientation</div>
+        <h1>认识 case study：ConvertAsset 与它的论文问题</h1>
+
+        <p class="lead">ConvertAsset 是一个运行在 Isaac Sim Python 环境里的命令行工具，做三件事：把 MDL 材质转换成 UsdPreviewSurface（<span class="term">no-mdl</span>）、用 QEM 简化 mesh（<span class="term">mesh-simplify</span>）、导出 GLB（<span class="term">export-glb</span>）。它的研究问题是：<strong>这些「必要的格式化简」是否会改变下游 AI 模型对资产的理解？</strong>这节把工具本身走一遍，然后解释为什么这个问题值得研究。</p>
+
+        <h2 id="cli-tour">CLI 快速浏览</h2>
+
+        <p>所有命令都通过 Isaac Sim 的 Python wrapper 执行。ConvertAsset 的核心 subcommand 如下：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">terminal</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python"># wrapper 自动探测 Isaac Sim 安装位置
+./scripts/isaac_python.sh ./main.py &lt;subcommand&gt; [args]
+
+# 1) MDL → UsdPreviewSurface（最常用，也是默认子命令）
+./scripts/isaac_python.sh ./main.py no-mdl /path/to/scene.usd
+
+# 2) mesh 简化（--ratio 控制保留比例）
+./scripts/isaac_python.sh ./main.py mesh-simplify /path/to/scene.usd \
+    --backend py --ratio 0.5 --apply --out /output.usd
+
+# 3) 导出 GLB
+./scripts/isaac_python.sh ./main.py export-glb /path/to/scene_noMDL.usd \
+    --out /output.glb
+
+# 4) 一键完整 pipeline（no-mdl + mesh-simplify + export-glb）
+./scripts/isaac_python.sh ./main.py usd-to-glb /path/to/scene.usd \
+    --out /output.glb</code></pre>
+        </div>
+
+        <h2 id="architecture">架构：三个关键设计决策</h2>
+
+        <p>ConvertAsset 的代码组织反映了三个有意识的工程决策，本书后续章节会逐一深入：</p>
+
+        <h3>决策 1：composition-preserving（不 flatten）</h3>
+        <p><span class="term">no-mdl</span> 转换采用<strong>非扁平化</strong>策略：对每个 USD 文件独立处理，生成一个同目录的 <code>*_noMDL.usd</code> 兄弟文件，保留全部 <span class="term">composition arcs</span>（references / payloads / variants / sublayers），只改写 assetPath 指向新文件、转换材质节点。</p>
+
+        <p>这与「先 flatten 再处理」的方案相比，保留了资产结构的可审计性：你仍然可以在 <span class="term">usdview</span> 里展开层叠结构，逐级查看哪一层的意见最终生效。实现这一策略的核心是 <code>Processor</code> 类：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">convert_asset/no_mdl/processor.py（节选）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">class Processor:
+    """递归处理 USD，生成对应的 *_noMDL.usd。
+
+    成员：
+    - done: dict[str, str]
+        已处理过的"源绝对路径 -> 目标 *_noMDL 绝对路径"映射，用于去重和最终汇总。
+    - in_stack: set[str]
+        当前递归栈中的源路径集合，用于检测环状引用，避免无限递归。
+    """
+    def __init__(self):
+        self.done = {}       # src_abs -> dst_abs（去重）
+        self.in_stack = set()  # 环检测
+
+    def process(self, src_usd_abs: str, _is_root_call: bool = True) -> str:
+        # 快速返回：已处理过直接复用结果
+        if src_usd_abs in self.done:
+            return self.done[src_usd_abs]
+        # 环检测：若在递归栈中，提示并返回已有结果
+        if src_usd_abs in self.in_stack:
+            print("[WARN] cyclic reference? already in stack:", src_usd_abs)
+            return self.done.get(src_usd_abs, src_usd_abs)
+        self.in_stack.add(src_usd_abs)
+        # ... 递归处理所有子 USD，然后处理当前文件 ...</code></pre>
+        </div>
+
+        <div class="callout recap">
+          <span class="ttl">两个集合各司其职</span>
+          <code>done</code>（dict）防止重复处理同一文件——一个 asset 被多个场景引用时，只处理一次。<code>in_stack</code>（set）检测循环引用（A 引用 B，B 又引用 A 的情况），防止无限递归。两者协作构成了整个工具的安全保障。
+        </div>
+
+        <h3>决策 2：lazy imports（懒加载 pxr）</h3>
+        <p><code>pxr</code>（USD Python 绑定）是 Isaac Sim 提供的重量级依赖，在普通 Python 环境里无法 <code>pip install</code>。ConvertAsset 的所有模块把 <code>from pxr import ...</code> 放在函数体内部，不放在文件顶层。这样：①测试用的 mock 可以在 import 时注入；②工具能在 pxr 不可用的环境下加载 CLI 帮助，而不立即崩溃。</p>
+
+        <h3>决策 3：多 backend mesh simplification</h3>
+        <p>mesh simplification 支持三种 backend：</p>
+        <ul>
+          <li><span class="term">py</span>：纯 Python QEM 实现，无需编译，速度较慢。</li>
+          <li><span class="term">cpp</span>：调用编译后的 C++ 可执行文件（subprocess），速度快。</li>
+          <li><span class="term">cpp-uv</span>：pybind11 原地调用，速度最快，且保留 UV。</li>
+        </ul>
+        <p>C++ backend 是可选的；工具在没有 C++ 编译环境时用纯 Python 完整运行。</p>
+
+        <h2 id="paper-question">论文问题：conversion as controlled perturbation</h2>
+
+        <p>整个工具背后有一个严肃的研究问题：</p>
+
+        <div class="callout">
+          <span class="ttl">核心研究问题</span>
+          MDL → UsdPreviewSurface 的材质转换，以及 high-poly → low-poly 的 mesh 简化，必然引入外观差异（<span class="term">controlled perturbation</span>）。这些差异是否会影响下游 VLM 模型的 visual grounding 能力？换句话说：<strong>资产转换对 AI「看」这个资产的方式，影响有多大？</strong>
+        </div>
+
+        <p>这个问题的研究框架是：</p>
+
+        <ol>
+          <li>用同一个资产，分别渲染「原始 MDL」版本和「转换后 UsdPreviewSurface」版本。</li>
+          <li>用 PSNR / SSIM / LPIPS 等<strong>感知度量</strong>量化外观差异。</li>
+          <li>用 CLIP / DINOv2 等<strong>语义特征</strong>量化 AI 视觉表示的差异。</li>
+          <li>在 VLN（Vision-Language Navigation）任务上测试：不同版本渲染出的场景，AI 完成导航任务的成功率差多少？</li>
+        </ol>
+
+        <p>这种「把工程必要性与研究可量化性对齐」的设计，正是本书用 ConvertAsset 作为 case study 的原因——它不只是一个好用的工具，它还是一个有清晰 evidence gate 的科学实验框架。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          你在 GAMES101 里用 PSNR 来衡量图像压缩质量——ConvertAsset 用完全相同的度量来衡量材质转换引入的外观偏差。唯一的区别是：这里的「参考图」是 MDL 渲染结果，「测试图」是 UsdPreviewSurface 渲染结果，而不是原图与压缩图。
+        </div>
+
+        <h2 id="how-book-uses-it">本书如何使用 ConvertAsset</h2>
+
+        <p>本书把 ConvertAsset 作为贯穿全书的 <strong>case study</strong>，在每个重要知识点上通过它的真实代码来验证理论：</p>
+
+        <ul>
+          <li><strong>第 2 章（Composition）</strong>：为什么 <code>Processor</code> 不 flatten，而是保留 composition arcs？</li>
+          <li><strong>第 5 章（MDL）</strong>：MDL 是什么，为什么它「renderer-bound」，为什么需要转换？</li>
+          <li><strong>第 6 章（no-MDL 算法）</strong>：材质节点网络如何逐属性翻译为 UsdPreviewSurface？</li>
+          <li><strong>第 8 章（QEM）</strong>：Quadric Error Metric 推导，以及 UV 保持的工程细节。</li>
+          <li><strong>第 10 章（USD→GLB pipeline）</strong>：face-varying UV 展平，glTF binary 写出。</li>
+        </ul>
+
+        <p>你不需要现在就跑通代码。只需要建立这样一个 mental model：ConvertAsset 是一棵真实的树，本书每一章都在它的某个分支上停下来，用理论解释那里发生了什么。</p>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          第 1 章进入 <a href="../01-usd-foundations/1-1-why-interchange.html">USD foundations</a>——从「为什么需要 interchange format」开始，建立你对 USD 的第一个正确概念模型。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

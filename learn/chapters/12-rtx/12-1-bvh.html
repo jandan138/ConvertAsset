@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BVH：加速结构 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="BVH（Bounding Volume Hierarchy）的构建原理、层次结构、与光线求交的递归遍历算法，以及为什么它是实时 ray tracing 的基础。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="12-1">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART V · 渲染硬件与实时 · Rendering Hardware</div>
+        <h1>BVH：加速结构</h1>
+
+        <p class="lead"><span class="term term-accent">BVH</span>（Bounding Volume Hierarchy，包围体层次结构）是现代 ray tracing 的心脏。没有 BVH，每条光线都要与场景里所有三角形求交，复杂度 $O(N)$；有了 BVH，每条光线的求交复杂度降到 $O(\log N)$。理解 BVH 的构建和遍历，是理解 RT Core 为什么能存在的前提。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          GAMES101 第 13-14 讲讲到 BVH 和 KD-Tree 作为 ray tracing 的加速结构。BVH 在 production 里更常用，因为它在动态场景（物体移动时只需更新物体对应的子树，而不是重建整棵树）和 GPU 上更易实现。
+        </div>
+
+        <h2 id="bvh-structure">BVH 的结构</h2>
+        <p>BVH 是一棵二叉树，每个节点存储一个 <span class="term">AABB</span>（Axis-Aligned Bounding Box，轴对齐包围盒）：</p>
+        <ul>
+          <li><strong>叶节点</strong>：包含一小组三角形（通常 1–8 个），以及这组三角形的 AABB。</li>
+          <li><strong>内节点</strong>：包含两个子节点 AABB 的并集，不直接存三角形。</li>
+          <li><strong>根节点</strong>：包含整个场景所有几何的 AABB。</li>
+        </ul>
+
+        <div style="overflow-x:auto; margin:1.5rem 0;">
+          <svg viewBox="0 0 560 260" width="560" height="260" style="max-width:100%; font-family:var(--font-mono,monospace); font-size:12px;">
+            <text x="280" y="18" text-anchor="middle" fill="currentColor" font-weight="bold" font-size="13">BVH 层次结构（示意）</text>
+            <!-- root -->
+            <rect x="200" y="28" width="160" height="40" rx="5" fill="var(--accent,#5b8dd9)" opacity=".2" stroke="var(--accent,#5b8dd9)" stroke-width="1.5"/>
+            <text x="280" y="48" text-anchor="middle" fill="currentColor" font-weight="bold">Root AABB</text>
+            <text x="280" y="62" text-anchor="middle" fill="currentColor" font-size="10">覆盖整个场景</text>
+            <!-- level 1 -->
+            <line x1="240" y1="68" x2="160" y2="108" stroke="var(--fg2,#888)" stroke-width="1"/>
+            <line x1="320" y1="68" x2="400" y2="108" stroke="var(--fg2,#888)" stroke-width="1"/>
+            <rect x="80" y="108" width="160" height="40" rx="5" fill="var(--accent,#5b8dd9)" opacity=".15" stroke="var(--accent,#5b8dd9)" stroke-width="1"/>
+            <text x="160" y="128" text-anchor="middle" fill="currentColor">AABB_L</text>
+            <text x="160" y="142" text-anchor="middle" fill="currentColor" font-size="10">左子场景</text>
+            <rect x="320" y="108" width="160" height="40" rx="5" fill="var(--accent,#5b8dd9)" opacity=".15" stroke="var(--accent,#5b8dd9)" stroke-width="1"/>
+            <text x="400" y="128" text-anchor="middle" fill="currentColor">AABB_R</text>
+            <text x="400" y="142" text-anchor="middle" fill="currentColor" font-size="10">右子场景</text>
+            <!-- level 2 left -->
+            <line x1="120" y1="148" x2="60" y2="188" stroke="var(--fg2,#888)" stroke-width="1"/>
+            <line x1="200" y1="148" x2="200" y2="188" stroke="var(--fg2,#888)" stroke-width="1"/>
+            <rect x="20" y="188" width="80" height="35" rx="5" fill="#2a9d6e" opacity=".2" stroke="#2a9d6e" stroke-width="1"/>
+            <text x="60" y="205" text-anchor="middle" fill="currentColor" font-size="11">leaf</text>
+            <text x="60" y="217" text-anchor="middle" fill="currentColor" font-size="9">▲▲▲</text>
+            <rect x="160" y="188" width="80" height="35" rx="5" fill="#2a9d6e" opacity=".2" stroke="#2a9d6e" stroke-width="1"/>
+            <text x="200" y="205" text-anchor="middle" fill="currentColor" font-size="11">leaf</text>
+            <text x="200" y="217" text-anchor="middle" fill="currentColor" font-size="9">▲▲</text>
+            <!-- level 2 right -->
+            <line x1="360" y1="148" x2="360" y2="188" stroke="var(--fg2,#888)" stroke-width="1"/>
+            <line x1="440" y1="148" x2="490" y2="188" stroke="var(--fg2,#888)" stroke-width="1"/>
+            <rect x="320" y="188" width="80" height="35" rx="5" fill="#2a9d6e" opacity=".2" stroke="#2a9d6e" stroke-width="1"/>
+            <text x="360" y="205" text-anchor="middle" fill="currentColor" font-size="11">leaf</text>
+            <text x="360" y="217" text-anchor="middle" fill="currentColor" font-size="9">▲▲▲</text>
+            <rect x="450" y="188" width="80" height="35" rx="5" fill="#2a9d6e" opacity=".2" stroke="#2a9d6e" stroke-width="1"/>
+            <text x="490" y="205" text-anchor="middle" fill="currentColor" font-size="11">leaf</text>
+            <text x="490" y="217" text-anchor="middle" fill="currentColor" font-size="9">▲</text>
+          </svg>
+        </div>
+
+        <h2 id="ray-bvh-traversal">光线-BVH 遍历算法</h2>
+        <p>对每条光线，遍历算法如下：</p>
+        <ol>
+          <li>从根节点开始，测试光线与根 AABB 是否相交（ray-box test）。</li>
+          <li>若相交，递归测试两个子节点的 AABB（从距离近的子节点开始，可以更早剪枝）。</li>
+          <li>若到达叶节点，对叶节点内的每个三角形执行精确的 ray-triangle intersection test。</li>
+          <li>记录最近的命中三角形；若没有命中，光线继续传播（或返回背景色）。</li>
+        </ol>
+
+        <p>关键剪枝规则：若光线与一个内节点的 AABB <strong>不相交</strong>，则该子树内所有三角形都可以跳过，不需要测试。这就是 BVH 把 $O(N)$ 降到 $O(\log N)$ 的原因。</p>
+
+        <h2 id="two-test-types">两种相交测试</h2>
+        <p>BVH 遍历涉及两类几何测试，RT Core 为每种都设置了专用单元：</p>
+        <ul>
+          <li><span class="term">ray-box intersection</span>（光线-包围盒，AABB 测试）：数学上是 3 个轴的区间求交，计算量小但调用次数极多（每层 BVH 都要做）。</li>
+          <li><span class="term">ray-triangle intersection</span>（Möller–Trumbore 算法）：计算量较大，只在到达叶节点时才触发。</li>
+        </ul>
+
+        <h2 id="bvh-build-and-refit">BVH 构建与更新</h2>
+        <p>BVH 由驱动程序（driver）在 CPU 侧或 GPU 上预先构建，存入显存。对于静态场景，BVH 只需构建一次；对于动态场景（物体移动、变形），可以做<span class="term">BVH refit</span>——只更新叶节点和受影响的祖先节点，而不重建整棵树，以换取性能。Turing 白皮书明确提到 "Functions such as BVH building and refitting are handled by the driver"。</p>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          12-2 讲 RT Core 内部的两个专用单元——<span class="term">box-test unit</span> 和 <span class="term">triangle-test unit</span>——是怎样从 SM 上卸载 BVH 遍历工作的。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

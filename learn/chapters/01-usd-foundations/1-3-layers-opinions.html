@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Layer 与 opinion — ConvertAsset Learning Guide</title>
+  <meta name="description" content="USD Layer 是文件抽象，opinion 是任何层对任何属性的声明。理解 Layer Stack 与 opinion 合并，是理解 USD 非破坏性编辑的钥匙。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="1-3">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART I · 场景表示 · Scene Representation</div>
+        <h1>Layer 与 opinion</h1>
+
+        <p class="lead"><span class="term term-accent">Layer</span> 是 USD 的文件抽象——一个 Layer 对应一个物理文件（或内存中的匿名层），存储着若干 Prim 的若干属性值（以及 composition arc 的声明）。一个 Prim 的最终属性值，来自多个 Layer 里对它发表的 <span class="term term-accent">opinion</span> 按强度规则合并的结果。这就是 USD 非破坏性编辑的底层机制。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          想象你在 Photoshop 里有多个图层：每一层可以覆盖下面的颜色，上面的层「更强」。USD Layer 的工作方式类似，区别是「被覆盖的对象」不是像素，而是「某个 Prim 的某个属性的值」。而且 USD 的层叠规则比 Photoshop 更复杂——它不只有简单的上下叠加，还有 reference / payload / variant 等多种 composition arc。
+        </div>
+
+        <h2 id="layer">Layer：USD 的文件单元</h2>
+
+        <p>每一个 <code>.usd</code>/<code>.usda</code>/<code>.usdc</code> 文件就是一个 <span class="term">SdfLayer</span>（Sdf = Scene Description Foundation）。Layer 里存放的是<strong>原始数据</strong>：未经 composition 的 Prim 声明和属性值。</p>
+
+        <p>同一个 Stage 可能由数十个甚至数百个 Layer 组成：</p>
+        <ul>
+          <li>一个 <strong>root layer</strong>（你打开 Stage 时指定的文件）</li>
+          <li>root layer 通过 <span class="term">subLayers</span> 引入的多个 sublayer</li>
+          <li>各 Prim 通过 <span class="term">reference</span> / <span class="term">payload</span> 引入的外部 layer</li>
+        </ul>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">scene.usda（root layer）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">#usda 1.0
+(
+    # subLayers：在这个 root layer 之下叠加两个 layer
+    # sublayer 比 root layer 弱（root 的 opinion 优先）
+    subLayers = [
+        @./lighting.usda@,    # 灯光师的层（较弱）
+        @./animation.usda@    # 动画师的层（最弱）
+    ]
+)
+
+# 在 root layer 里 override Table 的位置
+over "World" {
+    over "Table" {
+        double3 xformOp:translate = (0, 0.5, 0)  # 这是一个 opinion
+    }
+}</code></pre>
+        </div>
+
+        <h2 id="opinion">Opinion：一个 Layer 对一个属性的声明</h2>
+
+        <p><span class="term term-accent">Opinion</span> 是 USD 里最基本的数据单元：「<strong>某个 Layer 对某个 Prim 的某个属性，声明了某个值</strong>」。</p>
+
+        <p>一个属性可以在多个 Layer 里都有 opinion。Stage 的合成引擎按照 <span class="term">strength ordering</span>（强度规则）决定哪个 opinion 生效：</p>
+
+        <ul>
+          <li>强度更高的 Layer 的 opinion，覆盖强度更低的。</li>
+          <li>如果强度最高的 Layer 没有对某个属性发表 opinion，则用下一层的。</li>
+          <li>如果没有任何 Layer 对该属性有 opinion，则使用 schema 的默认值（如果有的话）。</li>
+        </ul>
+
+        <div class="callout recap">
+          <span class="ttl">从 Photoshop 类比到 USD 的区别</span>
+          Photoshop 的层覆盖是像素级的全图覆盖。USD opinion 的覆盖是属性级的细粒度覆盖：灯光师可以覆盖 /World/Table 的 <code>visibility</code> 属性，但不会影响同一个 Prim 的 <code>points</code>（顶点）属性——这两个属性来自不同的 Layer，各自按强度规则独立计算。
+        </div>
+
+        <h2 id="layer-stack">Layer Stack 与 composition</h2>
+
+        <p><span class="term">Layer Stack</span> = root layer + 它的所有 subLayers（递归包含），按强度从强到弱排列。Stage 打开后，composition 引擎把所有 Layer 合并成一个统一的 scenegraph。</p>
+
+        <p>简单情况：两个 sublayer 和 root 组成一个 Layer Stack。</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">layer_stack_demo.py</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">from pxr import Usd, Sdf
+
+# 创建三个 layer，模拟三人协作
+base   = Sdf.Layer.CreateAnonymous(".usda")  # 建模师（最弱）
+anim   = Sdf.Layer.CreateAnonymous(".usda")  # 动画师
+shot   = Sdf.Layer.CreateAnonymous(".usda")  # 镜头（最强）
+
+# 在 base layer 定义 mesh 及其颜色
+base_spec = Sdf.PrimSpec(base, "Chair", Sdf.SpecifierDef, "Mesh")
+col_attr = Sdf.AttributeSpec(base_spec, "primvars:displayColor",
+                              Sdf.ValueTypeNames.Color3fArray)
+col_attr.default = [(0.6, 0.4, 0.2)]  # 棕色
+
+# 在 shot layer 覆盖颜色为红色（demo override）
+shot_spec = Sdf.PrimSpec(shot, "Chair", Sdf.SpecifierOver)
+over_attr = Sdf.AttributeSpec(shot_spec, "primvars:displayColor",
+                               Sdf.ValueTypeNames.Color3fArray)
+over_attr.default = [(0.9, 0.1, 0.1)]  # 红色（强层覆盖）
+
+# 把三层叠成 Stage
+shot.subLayerPaths = [anim.identifier, base.identifier]
+stage = Usd.Stage.Open(shot)
+
+prim = stage.GetPrimAtPath("/Chair")
+# 最终合成值 = shot layer 的 opinion（最强）
+attr = prim.GetAttribute("primvars:displayColor")
+print(attr.Get())  # [(0.9, 0.1, 0.1)] — 红色胜出</code></pre>
+        </div>
+
+        <h2 id="nomdl-layer">ConvertAsset 里的 Layer 操作</h2>
+
+        <p>ConvertAsset 的 no-MDL 转换核心操作正是对 Layer 的直接导出与改写：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">processor.py（关键步骤）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python"># 关键：直接导出 root layer（不 flatten）
+# GetRootLayer() 返回 SdfLayer，Export 写出物理文件
+root_layer = stage.GetRootLayer()
+root_layer.Export(dst_usd_abs)
+
+# 然后打开新 stage，在新 layer 上改写路径与材质
+dst_stage = Usd.Stage.Open(dst_usd_abs)
+_rewrite_assets_in_stage(dst_stage, mapping)      # 改写 assetPath
+convert_and_strip_mdl_in_this_file_only(dst_stage)  # 转换材质
+
+# 再次导出，保存改写结果
+dst_stage.GetRootLayer().Export(dst_usd_abs)</code></pre>
+        </div>
+
+        <p>这里的关键是 <code>GetRootLayer().Export()</code>：它只导出<strong>当前 Layer 自己的数据</strong>，不会把 sublayer / reference 的内容内联进去。这就是「composition-preserving」的机制——composition arcs 的声明（<code>references = @./chair.usd@</code>）保留在新文件里，只是路径被改写为 <code>@./chair_noMDL.usd@</code>。</p>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          <a href="1-4-usdview-pxr.html">1.4 — usdview 与 pxr Python 速览</a> 教你如何用工具直接观察 Stage 的合成结果，并快速上手 pxr API 的常用模式。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

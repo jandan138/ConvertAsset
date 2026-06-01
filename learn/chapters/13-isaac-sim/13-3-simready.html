@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SimReady assets 与为什么要转换 / 简化 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="NVIDIA SimReady 资产标准，以及 ConvertAsset 对 MDL 转换和网格简化需求的技术动因。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="13-3">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART VI · 仿真与具身智能 · Simulation &amp; Embodied AI</div>
+        <h1>SimReady assets 与为什么要转换 / 简化</h1>
+
+        <p class="lead"><span class="term term-accent">SimReady</span> 是 NVIDIA 为仿真生产资产制定的一套规范：几何、物理、材质全部用 USD 表达，并附带正确的 pivot、单位、碰撞代理和 LOD 层级。然而现实中的资产往往并不符合所有要求——材质用了 <span class="term">MDL</span>，网格面数过多，路径是绝对路径。ConvertAsset 正是为了弥合这个差距而存在的。</p>
+
+        <h2 id="simready">什么是 SimReady</h2>
+        <p>NVIDIA <span class="term term-accent">SimReady</span> 标准要求资产满足以下条件：</p>
+        <ul>
+          <li><strong>几何</strong>：有碰撞代理网格（通常是简化的凸包或 convex decomposition），坐标轴原点在底面中心，单位为米，面法线向外。</li>
+          <li><strong>物理</strong>：附加 <code>PhysicsRigidBodyAPI</code> / <code>PhysicsCollisionAPI</code>，标注质量和摩擦系数。</li>
+          <li><strong>材质</strong>：使用 <span class="term">MDL</span> 或 <span class="term">UsdPreviewSurface</span>，纹理路径可解析。</li>
+          <li><strong>LOD</strong>：提供多个细节等级，渲染网格与碰撞网格分离。</li>
+          <li><strong>USD 结构</strong>：使用 references / variants 做变体管理，不要把所有内容都 flatten 到单一 Layer。</li>
+        </ul>
+
+        <svg viewBox="0 0 640 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:640px;display:block;margin:1.5rem auto">
+          <rect x="10" y="20" width="290" height="120" rx="8" fill="#1a2a3a" stroke="#4a90d9" stroke-width="1.5"/>
+          <text x="155" y="46" text-anchor="middle" fill="#90c8f0" font-size="13" font-weight="600">SimReady 理想资产</text>
+          <text x="155" y="68" text-anchor="middle" fill="#aaa" font-size="11">✓ USD references + variants</text>
+          <text x="155" y="84" text-anchor="middle" fill="#aaa" font-size="11">✓ MDL / UsdPreviewSurface</text>
+          <text x="155" y="100" text-anchor="middle" fill="#aaa" font-size="11">✓ 碰撞代理 + PhysX API</text>
+          <text x="155" y="116" text-anchor="middle" fill="#aaa" font-size="11">✓ 合理面数 + 正确 pivot</text>
+          <rect x="340" y="20" width="290" height="120" rx="8" fill="#3a1a1a" stroke="#d94a4a" stroke-width="1.5"/>
+          <text x="485" y="46" text-anchor="middle" fill="#f0c8c8" font-size="13" font-weight="600">现实资产常见问题</text>
+          <text x="485" y="68" text-anchor="middle" fill="#aaa" font-size="11">✗ MDL 依赖 RTX renderer</text>
+          <text x="485" y="84" text-anchor="middle" fill="#aaa" font-size="11">✗ 百万面数 → 仿真卡顿</text>
+          <text x="485" y="100" text-anchor="middle" fill="#aaa" font-size="11">✗ 绝对路径 / 缺失纹理</text>
+          <text x="485" y="116" text-anchor="middle" fill="#aaa" font-size="11">✗ 无碰撞代理</text>
+        </svg>
+
+        <h2 id="why-convert">为什么要做 MDL → UsdPreviewSurface 转换</h2>
+        <p>NVIDIA 官方资产库（如 <em>Assets.nvidia.com</em>）大量使用 <span class="term">MDL</span> 材质，这些材质在 Omniverse RTX 渲染器下效果绝佳。但问题是：</p>
+        <ol>
+          <li><strong>可移植性（portability）</strong>：将资产导出为 <span class="term">GLB</span> 时，glTF 格式不认识 MDL；Web 端、移动端、Blender、Unity 都无法正确显示材质。</li>
+          <li><strong>合成数据稳定性</strong>：当用 Python 批量处理场景时，MDL 解析器如果遇到路径缺失或版本不匹配，会静默失败或输出错误颜色。<span class="term">UsdPreviewSurface</span> 作为 OpenUSD 官方规范，具有更好的跨工具保证。</li>
+          <li><strong>下游任务兼容</strong>：具身 AI 研究中，VLN / VLM 管线通常通过 Web 渲染器或 Three.js 展示场景，这些工具依赖 <span class="term">glTF metallic-roughness</span>（即 UsdPreviewSurface 的映射目标）。</li>
+        </ol>
+
+        <div class="callout">
+          <span class="ttl">composition-preserving 的关键决策</span>
+          ConvertAsset 的 <code>no-mdl</code> 转换是<strong>非破坏性</strong>的：它为每个 USD 文件生成一个 <code>*_noMDL.usd</code> 兄弟文件，保留原有的 references / variants / sublayers，只把材质网络替换为 UsdPreviewSurface。这样原始资产完整保留，可以随时对比。
+        </div>
+
+        <h2 id="why-simplify">为什么要做网格简化</h2>
+        <p>建模师为了视觉精确度往往制作高面数网格，一件家具可能有 50 万到 200 万个三角形。在仿真场景中这带来两个问题：</p>
+        <ul>
+          <li><strong>碰撞检测代价</strong>：PhysX 使用 <span class="term">convex decomposition</span> 做碰撞，碰撞代理的面数与仿真步时间成正比。高精度碰撞网格会让 PhysX 步长拉长，实时性下降。</li>
+          <li><strong>渲染 batching</strong>：在合成数据批量生成时（<span class="term">Replicator</span> / <code>thumbnails</code> 命令），场景里可能同时存在数十件家具。如果每件都是百万面，GPU 显存会迅速耗尽。</li>
+        </ul>
+        <p>ConvertAsset 使用 <span class="term term-accent">QEM</span>（Quadric Error Metrics，第 8 章）算法，在控制视觉误差的前提下把面数压缩到目标比例（如 <code>--ratio 0.5</code> 缩减到原来的 50%）。三个 backend——纯 Python（<code>py</code>）、C++ 可执行（<code>cpp</code>）、pybind11 C++（<code>cpp-uv</code>）——适用于不同规模和 UV 保持需求。</p>
+
+        <div class="callout recap">
+          <span class="ttl">ConvertAsset 的完整流水线</span>
+          一个典型的 SimReady 准备流程：<br/>
+          1. <code>no-mdl</code>：MDL → UsdPreviewSurface，生成 <code>*_noMDL.usd</code><br/>
+          2. <code>mesh-simplify</code>：QEM 简化，生成 <code>*_simplified.usd</code><br/>
+          3. <code>export-glb</code>：USD → GLB，生成交付格式<br/>
+          4. <code>render-single</code>：本地 Isaac Sim 出图，生成缩略图 / 合成数据
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LOD 是什么，为什么要简化 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="Level of Detail（LOD）的概念、为什么 production pipeline 需要网格简化，以及 ConvertAsset mesh-simplify 子命令的动机。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="8-1">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART III · 几何与优化 · Geometry &amp; Optimization</div>
+        <h1>LOD 是什么，为什么要简化</h1>
+
+        <p class="lead">一个高保真的 CAD 导出模型可能有几百万个三角形——它在离屏幕 50 厘米的特写里需要那么多细节，但放到机器人仿真场景里作为背景物体时，10000 个三角形就足够了，而且能让渲染帧率提升 20 倍。<span class="term term-accent">Level of Detail</span>（<span class="term">LOD</span>）就是这个思路的工程化：根据观察距离或重要性，自动在多个精度级别之间切换。网格简化（<span class="term">mesh simplification</span>）是生成低 LOD 的核心手段。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          你在作业里可能渲染过 bunny（~70K 三角）或 armadillo（~170K 三角），并发现帧率随面数线性下降。LOD 的想法本质上是：在视觉感知允许的误差范围内，用最少的三角形换取最大的性能收益。
+        </div>
+
+        <h2 id="why-lod">LOD 的价值</h2>
+        <p>在实时渲染与仿真场景里，<span class="term">LOD</span> 带来的收益体现在三个维度：</p>
+        <ul>
+          <li><strong>渲染性能：</strong>GPU 顶点着色器处理的三角数减少，drawcall 的输入带宽降低，帧率提升。</li>
+          <li><strong>物理模拟：</strong>Isaac Sim 的 PhysX 对 collision mesh 面数高度敏感；高面数碰撞体会让每步仿真的 BVH 遍历代价暴涨。</li>
+          <li><strong>文件尺寸：</strong>GLB 是运行时交付格式，网格数据直接影响加载时间和内存占用。</li>
+        </ul>
+
+        <h2 id="lod-types">LOD 的种类</h2>
+        <p>业界常见 LOD 策略有三类：</p>
+
+        <table style="width:100%;border-collapse:collapse;font-size:0.93rem;margin:1rem 0;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--c-border,#d0d5de);text-align:left;">
+              <th style="padding:6px 10px;">类型</th>
+              <th style="padding:6px 10px;">生成方式</th>
+              <th style="padding:6px 10px;">适用场景</th>
+            </tr>
+          </thead>
+          <tbody style="font-size:0.9rem;">
+            <tr style="border-bottom:1px solid var(--c-border,#d0d5de);">
+              <td style="padding:6px 10px;">离散 LOD</td>
+              <td style="padding:6px 10px;">预生成多个精度版本，运行时切换</td>
+              <td style="padding:6px 10px;">游戏引擎（UE / Unity）</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c-border,#d0d5de);">
+              <td style="padding:6px 10px;">连续 LOD</td>
+              <td style="padding:6px 10px;">Progressive Mesh，实时流式增减三角</td>
+              <td style="padding:6px 10px;">WebGL 流式加载</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 10px;">几何着色器 LOD</td>
+              <td style="padding:6px 10px;">GPU 端细分 / 简化（如 Nanite）</td>
+              <td style="padding:6px 10px;">现代高端实时渲染</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>ConvertAsset 用的是最朴素也最通用的<strong>离散 LOD</strong>：用 <span class="term">mesh-simplify</span> 子命令生成一个固定比率的低精度版本，一次性写入 USD，然后导出 GLB。</p>
+
+        <h2 id="convertatset-motivation">ConvertAsset 里的动机</h2>
+        <p>ConvertAsset 的 Isaac Sim 仿真场景里，资产来自 CAD 导出，面数动辄 100K–2M。仿真器需要快速加载、实时 RTX 渲染、PhysX 碰撞检测同步进行，高面数资产会让 GPU 过载、仿真帧率跌破实时阈值。<span class="term">mesh-simplify</span> 子命令以 <code>--ratio 0.5</code> 或更低的比率把面数压缩，同时保持视觉质量。关键挑战是：<strong>如何在大幅减面的同时保持 UV 坐标正确性？</strong>这正是第 8 章要回答的问题。</p>
+
+        <!-- 内联 SVG：LOD 层级示意 -->
+        <svg viewBox="0 0 520 110" style="width:100%;max-width:520px;display:block;margin:1.2rem auto 0.5rem;" aria-label="LOD 层级示意">
+          <defs>
+            <marker id="arr8" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="var(--c-accent,#4f8ef7)"/>
+            </marker>
+          </defs>
+          <!-- LOD 0 最高精度 -->
+          <rect x="10" y="20" width="100" height="70" rx="6" fill="none" stroke="var(--c-border,#d0d5de)" stroke-width="1.5"/>
+          <text x="60" y="48" text-anchor="middle" font-size="12" fill="var(--c-text,#333)">LOD 0</text>
+          <text x="60" y="64" text-anchor="middle" font-size="10" fill="var(--c-text-muted,#667)">1M 三角</text>
+          <text x="60" y="80" text-anchor="middle" font-size="10" fill="var(--c-text-muted,#667)">近距离</text>
+          <line x1="112" y1="55" x2="148" y2="55" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.5" marker-end="url(#arr8)"/>
+          <!-- LOD 1 -->
+          <rect x="150" y="22" width="100" height="66" rx="6" fill="none" stroke="var(--c-border,#d0d5de)" stroke-width="1.5"/>
+          <text x="200" y="50" text-anchor="middle" font-size="12" fill="var(--c-text,#333)">LOD 1</text>
+          <text x="200" y="66" text-anchor="middle" font-size="10" fill="var(--c-text-muted,#667)">100K 三角</text>
+          <text x="200" y="80" text-anchor="middle" font-size="10" fill="var(--c-text-muted,#667)">中距离</text>
+          <line x1="252" y1="55" x2="288" y2="55" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.5" marker-end="url(#arr8)"/>
+          <!-- LOD 2 最低精度 -->
+          <rect x="290" y="26" width="100" height="58" rx="6" fill="none" stroke="var(--c-border,#d0d5de)" stroke-width="1.5"/>
+          <text x="340" y="52" text-anchor="middle" font-size="12" fill="var(--c-text,#333)">LOD 2</text>
+          <text x="340" y="68" text-anchor="middle" font-size="10" fill="var(--c-text-muted,#667)">10K 三角</text>
+          <text x="340" y="80" text-anchor="middle" font-size="10" fill="var(--c-text-muted,#667)">远距离</text>
+          <!-- mesh-simplify 标注 -->
+          <text x="420" y="50" font-size="11" fill="var(--c-accent,#4f8ef7)">mesh-simplify</text>
+          <text x="420" y="64" font-size="10" fill="var(--c-text-muted,#667)">--ratio 0.1</text>
+        </svg>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          8-2 介绍 QEM 的基本操作——<span class="term">edge collapse</span> 与 <span class="term">vertex pair contraction</span>；8-3、8-4 完成完整的数学推导；8-5 是 ConvertAsset 三个 backend 的代码解读。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

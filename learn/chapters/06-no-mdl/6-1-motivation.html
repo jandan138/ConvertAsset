@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>转换动机：portability vs fidelity — ConvertAsset Learning Guide</title>
+  <meta name="description" content="为什么要做 no-MDL 转换？portability 与 fidelity 的根本张力，以及 ConvertAsset 的动机。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="6-1">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART II · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>转换动机：portability vs fidelity</h1>
+
+        <p class="lead">一个 Isaac Sim 仿真场景里的机器人和家具，往往拥有精心制作的 <span class="term">MDL</span> 材质——它们在 RTX 渲染器下看起来逼真，物理上忠实。然而一旦需要把这个场景导出成 GLB 给 Web viewer 看，或者让 VLM（视觉语言模型）处理渲染图，MDL 材质就成了障碍：工具看不懂它，资产变成一片灰。<span class="term term-accent">portability</span> 与 <span class="term term-accent">fidelity</span> 的张力，是 ConvertAsset 整个项目的出发点。</p>
+
+        <h2 id="the-tension">portability 与 fidelity 的根本张力</h2>
+
+        <p>这个张力可以用一句话概括：<strong>越忠实物理现实的材质表示，越难做到跨工具可用</strong>。</p>
+
+        <ul>
+          <li><strong>高 fidelity 路径</strong>：MDL + RTX 渲染器。BSDF 组合层次完整，次表面散射、各向异性光泽、精确 Fresnel 全部保留。代价：只能在 NVIDIA 生态里渲染，其他工具完全看不懂。</li>
+          <li><strong>高 portability 路径</strong>：UsdPreviewSurface / glTF metallic-roughness。几乎所有 USD-aware 工具、Web 引擎、VLM 输入管线都支持。代价：被降维到 Cook-Torrance metallic-roughness 参数化，复杂 MDL 效果无法精确表达。</li>
+        </ul>
+
+        <div class="callout">
+          <span class="ttl">Isaac Sim 场景的典型材质结构</span>
+          Isaac Sim 内置的 SimReady 资产一般同时包含两个材质端口：<code>outputs:mdl:surface</code>（MDL 路径）和 <code>outputs:surface</code>（UsdPreviewSurface 路径）。理想情况下两者并存，工具按能力选择。但现实中大量资产<strong>只有 MDL 路径</strong>，导致非 NVIDIA 工具看到的是空白材质。no-MDL 转换就是补上缺失的那半边。
+        </div>
+
+        <h2 id="renderer-bound-recap">MDL 的 renderer-bound 问题回顾</h2>
+
+        <p>MDL 的执行完全依赖 NVIDIA <span class="term">MDL SDK</span>（一个 C++ 闭源库）。没有集成这个 SDK 的渲染器或工具无法消费 MDL 材质。具体影响：</p>
+
+        <ul>
+          <li>标准 <code>usdview</code>（OpenGL/Vulkan 模式）——显示为默认灰色。</li>
+          <li>Blender USD importer——忽略 <code>outputs:mdl:surface</code>，材质失效。</li>
+          <li>Web-based USD viewer / Three.js——不支持 MDL，材质缺失。</li>
+          <li>GLB 导出（<code>export-glb</code> 子命令）——只能读 UsdPreviewSurface，没有它就导出全灰 GLB。</li>
+          <li>VLM 渲染图采集（用于 grounding 评测）——如果用不支持 MDL 的渲染器渲染，材质全灰，与真实场景的视觉分布差异很大。</li>
+        </ul>
+
+        <h2 id="what-no-mdl-does">no-MDL 转换做什么</h2>
+
+        <p>ConvertAsset 的 <code>no-mdl</code> 子命令（入口：<code>convert_asset/no_mdl/processor.py</code>）做的事情是：</p>
+
+        <ol>
+          <li>对每一个 USD 文件，在同目录生成一个 <code>*_noMDL.usd</code> 兄弟文件（<code>SUFFIX = "_noMDL"</code>）。</li>
+          <li>在新文件里，把每个 Material 的 MDL Shader 网络<strong>替换</strong>为 UsdPreviewSurface 网络（尽量复用贴图和参数）。</li>
+          <li>重写所有 references / payloads / sublayers 的路径，让它们指向对应的 <code>*_noMDL.usd</code>。</li>
+          <li><strong>不 flatten</strong>——USD 的组合结构（layers / variants / references）完整保留，只改路径和材质网络。</li>
+        </ol>
+
+        <div class="callout warn">
+          <span class="ttl">什么是"合理近似"</span>
+          no-MDL 转换的输出并不等于 MDL 的精确复现。它是一个有损近似（lossy approximation），目标是"在 portability 工具链下视觉上合理，下游任务可用"——而不是"数值上等价"。后续 6-4 节会从论文视角讨论这个近似的量化边界。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

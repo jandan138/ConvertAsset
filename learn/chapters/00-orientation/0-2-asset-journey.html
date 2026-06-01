@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>production asset pipeline 全景：the asset journey — ConvertAsset Learning Guide</title>
+  <meta name="description" content="从 USD 资产创作到 GLB 导出再到 AI 训练，端到端走完一次 production asset journey。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="0-2">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART 00 · 导论 · Orientation</div>
+        <h1>production asset pipeline 全景：the asset journey</h1>
+
+        <p class="lead">一个 3D 资产从建模师的工作站出发，到最终被 AI agent 在仿真环境里「看见」，要经历六个阶段。每个阶段都有格式转换、有信息损失、有工程取舍。ConvertAsset 聚焦在中间三个阶段：<span class="term">no-MDL conversion</span>、<span class="term">mesh simplification</span>、<span class="term">GLB export</span>。这一节把全链路走一遍，让你看清每个环节在做什么，以及为什么需要做。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          你在 GAMES101 里看到的场景通常是「一个 OBJ + 一张纹理贴图」。Production 资产的起点是一个复杂的 <span class="term">USD Stage</span>，里面有数百个互相引用的文件、多套材质库、数个 <span class="term">variant set</span>。但最终它也要变成「顶点 + 三角形 + 材质参数」——你在 GAMES101 里处理的那种格式。整个 journey 就是在做这个「从复杂组合到运行时格式」的化简。
+        </div>
+
+        <h2 id="stages">六个阶段一览</h2>
+
+        <!-- SVG 流程图 -->
+        <svg viewBox="0 0 760 110" xmlns="http://www.w3.org/2000/svg"
+             style="width:100%;max-width:760px;display:block;margin:1.5rem auto;font-family:inherit">
+          <defs>
+            <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="var(--accent,#5b5bd6)"/>
+            </marker>
+          </defs>
+          <!-- boxes -->
+          <rect x="2"   y="30" width="96"  height="40" rx="6" fill="var(--panel,#f7f7fb)" stroke="var(--accent,#5b5bd6)" stroke-width="1.5"/>
+          <rect x="118" y="30" width="96"  height="40" rx="6" fill="var(--panel,#f7f7fb)" stroke="var(--accent,#5b5bd6)" stroke-width="1.5"/>
+          <rect x="234" y="30" width="96"  height="40" rx="6" fill="var(--accent,#5b5bd6)" stroke="none"/>
+          <rect x="350" y="30" width="96"  height="40" rx="6" fill="var(--accent,#5b5bd6)" stroke="none"/>
+          <rect x="466" y="30" width="96"  height="40" rx="6" fill="var(--accent,#5b5bd6)" stroke="none"/>
+          <rect x="582" y="30" width="96"  height="40" rx="6" fill="var(--panel,#f7f7fb)" stroke="var(--accent,#5b5bd6)" stroke-width="1.5"/>
+          <!-- arrows -->
+          <line x1="98"  y1="50" x2="116"  y2="50" stroke="var(--accent,#5b5bd6)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="214" y1="50" x2="232"  y2="50" stroke="var(--accent,#5b5bd6)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="330" y1="50" x2="348"  y2="50" stroke="var(--accent,#5b5bd6)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="446" y1="50" x2="464"  y2="50" stroke="var(--accent,#5b5bd6)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="562" y1="50" x2="580"  y2="50" stroke="var(--accent,#5b5bd6)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <!-- labels in boxes -->
+          <text x="50"  y="47" text-anchor="middle" font-size="11" fill="var(--ink,#16161d)">Authored</text>
+          <text x="50"  y="61" text-anchor="middle" font-size="11" fill="var(--ink,#16161d)">USD</text>
+          <text x="166" y="47" text-anchor="middle" font-size="11" fill="var(--ink,#16161d)">no-MDL</text>
+          <text x="166" y="61" text-anchor="middle" font-size="11" fill="var(--ink,#16161d)">convert</text>
+          <text x="282" y="47" text-anchor="middle" font-size="11" fill="#fff">mesh</text>
+          <text x="282" y="61" text-anchor="middle" font-size="11" fill="#fff">simplify</text>
+          <text x="398" y="47" text-anchor="middle" font-size="11" fill="#fff">export</text>
+          <text x="398" y="61" text-anchor="middle" font-size="11" fill="#fff">GLB</text>
+          <text x="514" y="47" text-anchor="middle" font-size="11" fill="#fff">render /</text>
+          <text x="514" y="61" text-anchor="middle" font-size="11" fill="#fff">Isaac Sim</text>
+          <text x="630" y="47" text-anchor="middle" font-size="11" fill="var(--ink,#16161d)">downstream</text>
+          <text x="630" y="61" text-anchor="middle" font-size="11" fill="var(--ink,#16161d)">AI</text>
+          <!-- stage legend -->
+          <text x="234" y="20" font-size="10" fill="var(--accent,#5b5bd6)">← ConvertAsset 覆盖范围 →</text>
+        </svg>
+
+        <p>深色框是 ConvertAsset 直接处理的三个阶段；白框是上游输入和下游消费者。</p>
+
+        <h2 id="each-stage">每个阶段在做什么</h2>
+
+        <h3>① Authored USD（上游输入）</h3>
+        <p>资产作者（可能是 NVIDIA 的 SimReady 资产库，也可能是工作室自制）在 Omniverse Composer 或 Maya/Houdini 的 USD 插件里创作资产。输出是一组互相引用的 <span class="term">USD</span> 文件（<code>.usd</code>/<code>.usda</code>/<code>.usdc</code>）。材质描述用 <span class="term">MDL</span>（NVIDIA Material Definition Language）——这是 Omniverse / Isaac Sim 的 native 材质格式，渲染效果出色，但只有 NVIDIA 渲染器理解它。</p>
+
+        <h3>② no-MDL conversion（ConvertAsset 第一步）</h3>
+        <p>MDL 材质无法直接在非 NVIDIA 渲染器里使用，也无法导出为 glTF。<span class="term">no-MDL conversion</span> 把 MDL 节点网络翻译成 <span class="term">UsdPreviewSurface</span>——USD 标准的、跨渲染器可移植的 PBR 材质描述。整个过程保持 USD composition 结构不变，只修改材质节点，并把所有文件路径重写为新的 <code>*_noMDL.usd</code> 兄弟文件。</p>
+
+        <h3>③ mesh simplification（ConvertAsset 第二步）</h3>
+        <p>高细节（high-poly）mesh 用于渲染出图是合理的，但送进仿真引擎或 AI 模型时往往过重。<span class="term">mesh simplification</span> 用 <span class="term">QEM</span>（Quadric Error Metric）算法在给定错误容限内缩减三角形数量，同时尽量保持 UV 坐标和外观。ConvertAsset 提供三种 backend：纯 Python（<code>py</code>）、C++ 子进程（<code>cpp</code>）、pybind11 原地调用（<code>cpp-uv</code>）。</p>
+
+        <h3>④ export GLB（ConvertAsset 第三步）</h3>
+        <p>把经过材质转换与简化的 USD 导出为 <span class="term">GLB</span>（binary glTF 2.0）。GLB 是游戏引擎与 web viewer 的通用格式：单文件、包含 mesh 二进制数据与 PBR 材质参数、体积小、加载快。这一步需要把 USD face-varying UV 展平成 glTF 要求的 per-vertex UV。</p>
+
+        <h3>⑤ render / Isaac Sim</h3>
+        <p>GLB（或直接用 noMDL USD）被送进 NVIDIA Isaac Sim，用 RTX 渲染器出图。Isaac Sim 同时提供物理仿真（PhysX）和 RTX 光追渲染，是机器人学与具身 AI 的主流仿真平台。</p>
+
+        <h3>⑥ downstream AI（下游消费者）</h3>
+        <p>渲染图像作为训练数据送进 VLM（Vision-Language Model）/ VLN（Vision-Language Navigation）任务。此时材质转换引入的外观差异（<span class="term">controlled perturbation</span>）是否影响 AI grounding 能力，正是本书 case study 的核心研究问题。</p>
+
+        <h2 id="data-formats">数据格式的演变</h2>
+
+        <p>理解整条 pipeline 的关键是跟踪「数据在每个阶段是什么格式、损失了什么」：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">asset_journey_formats.txt</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python"># 各阶段的数据格式与关键特性
+阶段 1: Authored USD
+  格式: .usd / .usda / .usdc (+ 嵌套引用的子 USD)
+  材质: MDL（NVIDIA 私有，高保真度）
+  mesh: 高多边形，face-varying UV，subdivision surface
+  组合: 完整 composition arcs（sublayers / references / payloads / variants）
+
+阶段 2: noMDL USD (*_noMDL.usd)
+  格式: .usd（与原始文件同目录，sibling）
+  材质: UsdPreviewSurface（跨渲染器标准 PBR）
+  mesh: 不变（仅路径改写）
+  组合: 保持原始 composition 结构
+
+阶段 3: simplified USD
+  格式: .usd（--out 指定路径）
+  材质: UsdPreviewSurface（不变）
+  mesh: 简化后三角形数减少（ratio 可配置）
+
+阶段 4: GLB (*_noMDL.glb)
+  格式: .glb (binary glTF 2.0，单文件)
+  材质: glTF metallic-roughness（PBR 参数内嵌）
+  mesh: 三角形 + per-vertex UV（face-varying 已展平）
+  组合: 扁平化（无 USD composition，所有数据内联）</code></pre>
+        </div>
+
+        <div class="callout warn">
+          <span class="ttl">glTF 要求扁平化</span>
+          glTF 不支持 USD 的 composition arcs。export-glb 步骤会把 USD 的层叠结构完全展平（flatten）——这是一次有损的、不可逆的操作。因此本书的 case study 特别强调：<strong>在 USD 阶段（no-MDL、mesh-simplify）都应保持 composition 结构</strong>，只有最终交付给不理解 USD 的消费者时才做 flatten。
+        </div>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          下一节 <a href="0-3-meet-convertasset.html">0.3 — 认识 ConvertAsset 与它的论文问题</a>，我们会看 ConvertAsset 的 CLI，并理解它的核心研究问题是什么。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

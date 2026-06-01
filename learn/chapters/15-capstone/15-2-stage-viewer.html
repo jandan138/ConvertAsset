@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>在 viewer 里逐阶段看 asset — ConvertAsset Learning Guide</title>
+  <meta name="description" content="用 usdview 和 inspect 子命令在流水线各阶段观察资产的变化：原始 MDL → noMDL → 简化网格 → GLB。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="15-2">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART VII · 综合 · Capstone</div>
+        <h1>在 viewer 里逐阶段看 asset</h1>
+
+        <p class="lead">代码跑完了，但你怎么知道每一步是否真的做对了？这一节介绍用 <span class="term">usdview</span>、<span class="term">inspect</span> 子命令和浏览器端 <span class="term">GLB viewer</span> 在流水线的每个阶段停下来观察资产，建立"眼见为实"的直觉。</p>
+
+        <h2 id="stage1-original">阶段 1：原始 USD（MDL 材质）</h2>
+        <p>用 <span class="term">usdview</span> 打开原始 USD，在 Layer Stack 面板里可以看到材质 Layer 引用，在 Prim 属性面板里可以看到 <code>info:id = "OmniPBR"</code> 或其他 MDL 着色器 ID。</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">usdview 打开原始 USD</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python"># usdview 由 Isaac Sim 安装提供
+./scripts/isaac_python.sh -m usdview /data/assets/chair/chair.usd</code></pre>
+        </div>
+
+        <p>在 usdview 中，展开 <code>/Looks</code> 下的材质 Prim，找到 <code>Shader</code> 节点，属性面板会显示 <code>info:id</code> = MDL 着色器名称（如 <code>OmniPBR</code>、<code>OmniGlass</code>），以及 <code>inputs:*</code> 参数。</p>
+
+        <p>同样可以用 <code>inspect</code> 子命令在命令行里检查 MDL 网络：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">inspect MDL 材质</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">./scripts/isaac_python.sh ./main.py inspect \
+    /data/assets/chair/chair.usd \
+    mdl \
+    /Looks/Material_Wood</code></pre>
+        </div>
+
+        <h2 id="stage2-nomdl">阶段 2：noMDL USD（UsdPreviewSurface）</h2>
+        <p>no-mdl 转换后，打开 <code>*_noMDL.usd</code>，同样的材质 Prim 现在应该显示 <code>info:id = "UsdPreviewSurface"</code>，并有 <code>inputs:diffuseColor</code>、<code>inputs:metallic</code>、<code>inputs:roughness</code> 等标准参数。</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">inspect noMDL 材质</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">./scripts/isaac_python.sh ./main.py inspect \
+    /data/assets/chair/chair_noMDL.usd \
+    usdpreview \
+    /Looks/Material_Wood
+
+# 预期输出（示例）：
+# Material: /Looks/Material_Wood
+#   Shader: UsdPreviewSurface
+#   inputs:diffuseColor = (0.45, 0.32, 0.18)
+#   inputs:metallic = 0.0
+#   inputs:roughness = 0.65
+#   inputs:normal = /Looks/Material_Wood/NormalMap (texture)</code></pre>
+        </div>
+
+        <p>在 usdview 中并排打开 original 和 noMDL，视觉对比要点：</p>
+        <ul>
+          <li><strong>高光分布</strong>：MDL 的 clearcoat 高光会消失，变成 Cook-Torrance roughness 高光。</li>
+          <li><strong>颜色保真</strong>：漫反射颜色应该大致一致（ConvertAsset 从 MDL 参数映射 diffuseColor）。</li>
+          <li><strong>纹理连接</strong>：贴图路径应该被重写为相对路径（指向 noMDL 目录）。</li>
+        </ul>
+
+        <svg viewBox="0 0 640 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:640px;display:block;margin:1.5rem auto">
+          <defs><marker id="b2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#888"/></marker></defs>
+          <rect x="10" y="20" width="130" height="80" rx="8" fill="#1a2a3a" stroke="#4a90d9" stroke-width="1.5"/>
+          <text x="75" y="58" text-anchor="middle" fill="#acf" font-size="12" font-weight="600">chair.usd</text>
+          <text x="75" y="76" text-anchor="middle" fill="#888" font-size="10">MDL / OmniPBR</text>
+          <path d="M140 60 L175 60" stroke="#888" stroke-width="1.5" marker-end="url(#b2)"/>
+          <rect x="175" y="20" width="120" height="80" rx="8" fill="#1a3a1a" stroke="#4ad94a" stroke-width="1.5"/>
+          <text x="235" y="58" text-anchor="middle" fill="#9fe" font-size="12" font-weight="600">_noMDL.usd</text>
+          <text x="235" y="76" text-anchor="middle" fill="#888" font-size="10">UsdPreviewSurface</text>
+          <path d="M295 60 L330 60" stroke="#888" stroke-width="1.5" marker-end="url(#b2)"/>
+          <rect x="330" y="20" width="130" height="80" rx="8" fill="#2a2a1a" stroke="#d9d94a" stroke-width="1.5"/>
+          <text x="395" y="50" text-anchor="middle" fill="#ffe" font-size="12" font-weight="600">_simplified.usd</text>
+          <text x="395" y="68" text-anchor="middle" fill="#888" font-size="10">面数 ÷2 / UV 保持</text>
+          <text x="395" y="84" text-anchor="middle" fill="#888" font-size="10">usdview 可见 mesh</text>
+          <path d="M460 60 L495 60" stroke="#888" stroke-width="1.5" marker-end="url(#b2)"/>
+          <rect x="495" y="20" width="130" height="80" rx="8" fill="#1a1a3a" stroke="#9a4ad9" stroke-width="1.5"/>
+          <text x="560" y="58" text-anchor="middle" fill="#caf" font-size="12" font-weight="600">chair.glb</text>
+          <text x="560" y="76" text-anchor="middle" fill="#888" font-size="10">glTF viewer</text>
+        </svg>
+
+        <h2 id="stage3-glb">阶段 3：GLB — 用浏览器 viewer 查看</h2>
+        <p>GLB 是 glTF 2.0 的二进制格式，可以直接在以下 viewer 中打开：</p>
+        <ul>
+          <li><strong>glTF Viewer（online）</strong>：<a href="https://gltf-viewer.donmccurdy.com/" target="_blank">gltf-viewer.donmccurdy.com</a>，拖拽上传即可。</li>
+          <li><strong>Khronos Sample Viewer</strong>：<a href="https://github.khronos.org/glTF-Sample-Viewer-Release/" target="_blank">github.khronos.org</a>，支持多种光照环境和 PBR 参数调试。</li>
+          <li><strong>Blender</strong>：File → Import → glTF 2.0 / GLB，导入后在材质面板看 metallic-roughness 参数是否正确映射。</li>
+        </ul>
+        <p>重点核查项：</p>
+        <ul>
+          <li>几何正确（face count 符合简化比例，no holes / flipped normals）。</li>
+          <li>纹理正确（贴图内嵌在 GLB 里，texcoord 正确，UV 无撕裂）。</li>
+          <li>材质参数合理（metallic 0 or 1，roughness 0–1，不出现纯黑 / 纯白异常）。</li>
+        </ul>
+
+        <div class="callout warn">
+          <span class="ttl">常见问题排查</span>
+          <strong>材质全黑</strong>：inspect 检查 noMDL 的 diffuseColor 是否为 (0,0,0)，或检查 MDL 转换是否没有找到对应纹理。<br/>
+          <strong>UV 撕裂</strong>：face-varying UV 的 flattening（第 10 章）可能在某些边上产生接缝，用 <code>mesh-simplify</code> 的 <code>cpp-uv</code> backend 可以改善。<br/>
+          <strong>几何异常</strong>：usdview 里展开 Mesh Prim 查看 <code>faceVertexCounts</code> 是否全为 3（三角化），QEM 只支持纯三角网格。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

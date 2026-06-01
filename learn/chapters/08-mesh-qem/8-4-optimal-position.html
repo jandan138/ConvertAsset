@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>最优 contraction 位置求解 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="QEM 最优坍塌位置：对 v^T Q v 关于 v 求偏导置零，化为 4×4 线性方程组，用高斯消元求解；病态时回退到端点中点。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="8-4">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART III · 几何与优化 · Geometry &amp; Optimization</div>
+        <h1>最优 contraction 位置求解</h1>
+
+        <p class="lead">给定合并后的 quadric \(\bar{Q} = Q_1 + Q_2\)，我们要找到一个点 \(\bar{v}\) 使得误差 \(\mathcal{E}(\bar{v}) = (\bar{v}^h)^T \bar{Q} \bar{v}^h\) 最小。因为 \(\mathcal{E}\) 是 \(\bar{v}\) 坐标的二次函数，最小值点满足梯度为零——这等价于解一个 4×4（实际 3×3）线性方程组。当方程组病态时，退回到端点中点作为安全回退。</p>
+
+        <h2 id="gradient">对误差函数求梯度</h2>
+        <p>把 \(\bar{v}^h = (x, y, z, 1)^T\) 代入 \(\mathcal{E} = (\bar{v}^h)^T \bar{Q} \bar{v}^h\)，对 \(x, y, z\) 分别求偏导并令其等于零：</p>
+        <div class="math-block">
+          $$ \frac{\partial \mathcal{E}}{\partial x} = \frac{\partial \mathcal{E}}{\partial y} = \frac{\partial \mathcal{E}}{\partial z} = 0 $$
+        </div>
+        <p>这等价于（利用 \(\bar{Q}\) 的对称性）：</p>
+        <div class="math-block">
+          $$ \begin{pmatrix} q_{11} & q_{12} & q_{13} \\ q_{12} & q_{22} & q_{23} \\ q_{13} & q_{23} & q_{33} \end{pmatrix}
+          \begin{pmatrix} x \\ y \\ z \end{pmatrix}
+          = -\begin{pmatrix} q_{14} \\ q_{24} \\ q_{34} \end{pmatrix} $$
+        </div>
+        <p>即 \(A \bar{x} = b\)，其中 \(A\) 是 \(\bar{Q}\) 的左上 3×3 子矩阵，\(b = -(q_{14}, q_{24}, q_{34})^T\)。注意第 4 行等式 \(0 \cdot x + 0 \cdot y + 0 \cdot z + 1 = 1\) 恒成立，因此只需解 3×3 系统。</p>
+
+        <h2 id="linear-solve">高斯消元（带部分选主元）</h2>
+        <p>ConvertAsset 的 <code>mesh/simplify.py</code> 用带部分选主元（<span class="term">partial pivoting</span>）的高斯消元法求解这个 3×3 系统，当主元 \(< 10^{-12}\) 时判定矩阵奇异并返回 <code>None</code>：</p>
+        <div class="code">
+          <div class="code-head"><span class="fname">mesh/simplify.py（solve3 + optimal_position_cost）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">def optimal_position_cost(Q, pu, pv):
+    """求合并代价最小的位置（解 3x3 方程组或回退到中点）"""
+    A = [[Q[0],Q[1],Q[2]],
+         [Q[4],Q[5],Q[6]],
+         [Q[8],Q[9],Q[10]]]
+    b = [-Q[3], -Q[7], -Q[11]]
+    x = solve3(A, b)          # 高斯消元
+    if x is None:             # 矩阵病态 → 退化到端点中点
+        x = [(pu[0]+pv[0])*0.5,
+             (pu[1]+pv[1])*0.5,
+             (pu[2]+pv[2])*0.5]
+    vx, vy, vz = x
+    v4 = [vx, vy, vz, 1.0]
+    cost = quadric_eval(Q, v4)   # v^T Q v
+    return (vx, vy, vz), float(cost)
+
+def quadric_eval(Q, v4):
+    """计算 v^T Q v（4×4 Q，4-vector v）"""
+    Qv = [sum(Q[i*4+j]*v4[j] for j in range(4)) for i in range(4)]
+    return sum(v4[i]*Qv[i] for i in range(4))</code></pre>
+        </div>
+
+        <h2 id="fallback">回退策略：候选位置的比较</h2>
+        <p>当 \(A\) 奇异时，Garland &amp; Heckbert 建议在三个候选位置（\(v_1\)、\(v_2\)、中点）中选代价最小的。ConvertAsset 简化为直接用中点——这是一个工程取舍：实现简单，对绝大多数普通网格效果差异可忽略。</p>
+
+        <h2 id="cost-formula">坍塌代价的直观理解</h2>
+        <p>坍塌代价 \(\mathcal{E}(\bar{v}) = (\bar{v}^h)^T \bar{Q} \bar{v}^h\) 的量纲是"平方距离之和"——近似于新顶点离原始曲面所有相邻平面的平均平方距离。代价越大，坍塌越会引起视觉上可见的误差。优先队列每次弹出代价最小的坍塌，就是贪心地保留几何误差最小的操作。</p>
+
+        <!-- 内联 SVG：等误差面（quadric surface） -->
+        <svg viewBox="0 0 400 160" style="width:100%;max-width:400px;display:block;margin:1.2rem auto 0.5rem;" aria-label="quadric 等误差面示意">
+          <text x="200" y="14" text-anchor="middle" font-size="11" fill="var(--c-text-muted,#667)">等误差面 E(v) = ε（椭球）</text>
+          <!-- 椭球轮廓 -->
+          <ellipse cx="200" cy="90" rx="90" ry="55" fill="rgba(79,142,247,0.07)" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.5"/>
+          <ellipse cx="200" cy="90" rx="60" ry="35" fill="rgba(79,142,247,0.07)" stroke="var(--c-accent,#4f8ef7)" stroke-width="1" stroke-dasharray="4,3"/>
+          <ellipse cx="200" cy="90" rx="30" ry="16" fill="rgba(79,142,247,0.10)" stroke="var(--c-accent,#4f8ef7)" stroke-width="1" stroke-dasharray="2,2"/>
+          <!-- 最小值点 v* -->
+          <circle cx="200" cy="90" r="5" fill="var(--c-accent,#4f8ef7)"/>
+          <text x="210" y="87" font-size="10" fill="var(--c-accent,#4f8ef7)">v̄（最优位置）</text>
+          <text x="100" y="155" font-size="10" fill="var(--c-text-muted,#667)">外层 ε 大（高误差），内层 ε 小（低误差）</text>
+        </svg>
+
+        <div class="callout recap">
+          <span class="ttl">小结</span>
+          最优坍塌位置 = 解 3×3 线性方程组（来自对 \(v^T Q v\) 求偏导置零）。实现要点：带部分选主元的高斯消元 + 病态时中点回退。ConvertAsset 的 <code>solve3</code> 函数完整实现了这个过程，是整个 QEM 流程里最"数学"的部分。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

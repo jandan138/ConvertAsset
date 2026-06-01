@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>从 rasterization 回顾到硬件 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="从 GAMES101 的软件光栅化出发，理解 GPU 如何将同一流水线用专用硬件实现，以及 rasterization 与 z-buffer 在 GPU 上的对应关系。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="11-1">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART V · 渲染硬件与实时 · Rendering Hardware</div>
+        <h1>从 rasterization 回顾到硬件</h1>
+
+        <p class="lead">GAMES101 告诉你什么是 <span class="term">rasterization</span>、<span class="term">z-buffer</span>，以及它们与 <span class="term">ray tracing</span> 之间的根本差异。但软件实现和硬件实现之间隔着一道巨大的鸿沟——现代 GPU 的 <span class="term term-accent">Streaming Multiprocessor</span>（SM）架构正是这道鸿沟的工程答案。本章带你从课堂 renderer 走到 NVIDIA Turing/Ampere 芯片，理解每块硬件对应流水线的哪个阶段。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          你在 GAMES101 里写过的光栅化 pipeline：vertex transform → triangle setup → rasterization → z-test → fragment shading → framebuffer。这条流水线在 GPU 里几乎一比一地对应：vertex shader → PolyMorph / raster engine → SM（fragment shader） → ROP（render output processor）→ frame buffer。
+        </div>
+
+        <h2 id="raster-review">软件光栅化回顾</h2>
+        <p>光栅化算法的核心是：对每个三角形，找出其覆盖的像素，然后对每个覆盖像素做深度测试（<span class="term">z-buffer test</span>）并着色。这是一个"逐三角形"的操作，天然适合并行——不同三角形、不同像素完全独立，可以同时处理。</p>
+
+        <p><span class="term">z-buffer</span> 的精妙在于它把"可见性"变成了一个局部判断：不需要预排序，每个像素维护一个当前最近深度值，后来的片段做一次比较即可判断是否可见。这极大地简化了硬件实现。</p>
+
+        <h2 id="raster-vs-rt">rasterization vs ray tracing：两种根本不同的范式</h2>
+        <p>GAMES101 里讲得很清楚：<span class="term">rasterization</span> 是"以三角形为主体，问覆盖了哪些像素"；<span class="term">ray tracing</span> 是"以像素为主体，向场景发射光线，问打到了哪个三角形"。</p>
+
+        <p>两者的本质区别在于<strong>光线与几何的查询方向</strong>：</p>
+        <ul>
+          <li>光栅化：$O(\text{triangles})$，每个三角形扫描它的包围盒，局部内存访问友好。</li>
+          <li>光线追踪：每条光线需要查询<em>整个场景</em>的几何，随机访问全局数据结构（<span class="term">BVH</span>），内存访问模式不规则。</li>
+        </ul>
+
+        <p>正是这个差异决定了为什么 rasterization 在 GPU 上"自然地快"，而 ray tracing 在没有专用硬件时"天然地慢"——第 11-4 节会详细解释这一点。</p>
+
+        <h2 id="gpu-as-rasterizer">GPU 作为硬件光栅化器</h2>
+        <p>现代 GPU 把上述软件 pipeline 的每个阶段都用专用或可编程硬件来实现：</p>
+
+        <div style="overflow-x:auto; margin:1.5rem 0;">
+          <svg viewBox="0 0 640 200" width="640" height="200" style="max-width:100%; font-family:var(--font-mono,monospace); font-size:12px;">
+            <!-- pipeline stages -->
+            <defs>
+              <marker id="arr3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="var(--fg2,#888)"/>
+              </marker>
+            </defs>
+            <!-- stage boxes -->
+            <rect x="5" y="70" width="90" height="60" rx="4" fill="var(--accent,#5b8dd9)" opacity=".2" stroke="var(--accent,#5b8dd9)" stroke-width="1.2"/>
+            <text x="50" y="93" text-anchor="middle" fill="currentColor" font-size="11">Vertex</text>
+            <text x="50" y="108" text-anchor="middle" fill="currentColor" font-size="11">Shader</text>
+            <text x="50" y="123" text-anchor="middle" fill="currentColor" font-size="9" opacity=".7">SM（可编程）</text>
+
+            <line x1="95" y1="100" x2="115" y2="100" stroke="var(--fg2,#888)" marker-end="url(#arr3)"/>
+
+            <rect x="120" y="70" width="90" height="60" rx="4" fill="#888" opacity=".15" stroke="#888" stroke-width="1"/>
+            <text x="165" y="93" text-anchor="middle" fill="currentColor" font-size="11">Triangle</text>
+            <text x="165" y="108" text-anchor="middle" fill="currentColor" font-size="11">Setup</text>
+            <text x="165" y="123" text-anchor="middle" fill="currentColor" font-size="9" opacity=".7">PolyMorph Engine</text>
+
+            <line x1="210" y1="100" x2="230" y2="100" stroke="var(--fg2,#888)" marker-end="url(#arr3)"/>
+
+            <rect x="235" y="70" width="90" height="60" rx="4" fill="#888" opacity=".15" stroke="#888" stroke-width="1"/>
+            <text x="280" y="93" text-anchor="middle" fill="currentColor" font-size="11">Raster</text>
+            <text x="280" y="108" text-anchor="middle" fill="currentColor" font-size="11">Engine</text>
+            <text x="280" y="123" text-anchor="middle" fill="currentColor" font-size="9" opacity=".7">专用固定硬件</text>
+
+            <line x1="325" y1="100" x2="345" y2="100" stroke="var(--fg2,#888)" marker-end="url(#arr3)"/>
+
+            <rect x="350" y="70" width="90" height="60" rx="4" fill="var(--accent,#5b8dd9)" opacity=".2" stroke="var(--accent,#5b8dd9)" stroke-width="1.2"/>
+            <text x="395" y="93" text-anchor="middle" fill="currentColor" font-size="11">Fragment</text>
+            <text x="395" y="108" text-anchor="middle" fill="currentColor" font-size="11">Shader</text>
+            <text x="395" y="123" text-anchor="middle" fill="currentColor" font-size="9" opacity=".7">SM（可编程）</text>
+
+            <line x1="440" y1="100" x2="460" y2="100" stroke="var(--fg2,#888)" marker-end="url(#arr3)"/>
+
+            <rect x="465" y="70" width="90" height="60" rx="4" fill="#2a9d6e" opacity=".15" stroke="#2a9d6e" stroke-width="1"/>
+            <text x="510" y="93" text-anchor="middle" fill="currentColor" font-size="11">ROP</text>
+            <text x="510" y="108" text-anchor="middle" fill="currentColor" font-size="11">(z-test + blend)</text>
+            <text x="510" y="123" text-anchor="middle" fill="currentColor" font-size="9" opacity=".7">专用固定硬件</text>
+
+            <line x1="555" y1="100" x2="575" y2="100" stroke="var(--fg2,#888)" marker-end="url(#arr3)"/>
+            <rect x="580" y="80" width="50" height="40" rx="4" fill="#d97b2a" opacity=".2" stroke="#d97b2a" stroke-width="1"/>
+            <text x="605" y="103" text-anchor="middle" fill="currentColor" font-size="11">Frame</text>
+            <text x="605" y="115" text-anchor="middle" fill="currentColor" font-size="10">Buffer</text>
+
+            <text x="320" y="20" text-anchor="middle" fill="currentColor" font-weight="bold" font-size="13">GPU 渲染管线（软件 → 硬件对照）</text>
+            <text x="50" y="168" text-anchor="middle" fill="currentColor" font-size="9" opacity=".6">可编程</text>
+            <text x="165" y="168" text-anchor="middle" fill="currentColor" font-size="9" opacity=".6">固定功能</text>
+            <text x="280" y="168" text-anchor="middle" fill="currentColor" font-size="9" opacity=".6">固定功能</text>
+            <text x="395" y="168" text-anchor="middle" fill="currentColor" font-size="9" opacity=".6">可编程</text>
+            <text x="510" y="168" text-anchor="middle" fill="currentColor" font-size="9" opacity=".6">固定功能</text>
+          </svg>
+        </div>
+
+        <p>可编程阶段（Vertex Shader、Fragment Shader）在 <span class="term">SM</span>（Streaming Multiprocessor）上运行——这是 GPU 最核心的处理单元，下一节会详细介绍它的内部结构。固定功能阶段（<span class="term">Raster Engine</span>、<span class="term">ROP</span>）做的事情对所有应用几乎相同，用专用硬件实现可以做到极高的吞吐量和功耗效率。</p>
+
+        <h2 id="why-parallel">为什么光栅化天然适合 GPU</h2>
+        <p>每个像素的 fragment shading 完全独立——不同像素之间不需要通信，没有数据依赖。这使得 GPU 可以用数千个 <span class="term">CUDA core</span> 同时处理数千个 fragment，实现接近线性的吞吐量提升。Turing TU102 有 4608 个 CUDA core，意味着理论上能同时执行 4608 个 fragment 着色器线程。</p>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          11-2 深入 SM 内部：<span class="term">CUDA core</span>、<span class="term">warp</span>、<span class="term">SIMT</span> 执行模型；11-3 讲 rasterization pipeline 的每个阶段在 GPU 硬件上的具体实现；11-4 解释 ray tracing 为什么在没有专用硬件时比 rasterization 慢 10 倍以上。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

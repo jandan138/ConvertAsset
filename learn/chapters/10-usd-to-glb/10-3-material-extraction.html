@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>material / texture 提取 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="UsdMaterialExtractor 如何遍历 Shader Graph 提取 UsdPreviewSurface 参数，texture_utils 如何打包 metallic-roughness 通道。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="10-3">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART IV · 资产交换与交付 · Asset Interchange</div>
+        <h1>material / texture 提取</h1>
+
+        <p class="lead">USD 用 <span class="term">Shader Graph</span>（着色器节点网络）表达材质；glTF 用 <span class="term">pbrMetallicRoughness</span> JSON 对象加纹理引用表达材质。两套系统的语义几乎一一对应，但 glTF 有一个独特要求：<span class="term">metallic</span> 和 <span class="term">roughness</span> 必须打包到同一张图片的不同通道（<span class="term">channel packing</span>）。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          GAMES101 里你写的 shader 直接在代码里 <code>sample(texture, uv)</code>。USD 把这个"代码"变成了数据：一张 Shader Graph，节点之间用连线（connection）表达数据流。提取材质就是遍历这张图，找到 <span class="term">UsdPreviewSurface</span> 节点和它连接的 <span class="term">UsdUVTexture</span> 节点。
+        </div>
+
+        <h2 id="binding-api">三步查找材质</h2>
+        <p><code>UsdMaterialExtractor.extract_material_data(usd_mesh)</code> 的工作分三步：</p>
+
+        <ol>
+          <li>
+            <strong>查找绑定</strong>：用 <code>UsdShade.MaterialBindingAPI(usd_mesh).ComputeBoundMaterial()</code> 找到与该 Mesh Prim 绑定的 <span class="term">UsdShade.Material</span>。
+          </li>
+          <li>
+            <strong>定位着色器</strong>：在 Material Prim 下遍历所有子 Prim，找到 <code>info:id = "UsdPreviewSurface"</code> 的 Shader Prim。
+          </li>
+          <li>
+            <strong>提取输入</strong>：读取 <code>diffuseColor</code>、<code>roughness</code>、<code>metallic</code> 的数值；对每个输入追踪连线（<code>GetConnectedSource</code>），若连接到 <span class="term">UsdUVTexture</span> 节点则读取其 <code>inputs:file</code> 属性获取贴图路径。
+          </li>
+        </ol>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">glb/usd_material.py — 查找 UsdPreviewSurface</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">for child in Usd.PrimRange(mat.GetPrim()):
+    if child.GetTypeName() == "Shader":
+        sh = UsdShade.Shader(child)
+        if sh.GetIdAttr().Get() == "UsdPreviewSurface":
+            shader = sh
+            break</code></pre>
+        </div>
+
+        <h2 id="texture-path">贴图路径解析</h2>
+        <p>USD 里的纹理路径存在 <code>inputs:file</code> 属性中，类型是 <span class="term">Sdf.AssetPath</span>，其 <code>.path</code> 字段存储的可能是相对路径。代码在拿到路径后，会检查是否为绝对路径；如不是，则相对于当前 Stage 的 root layer 目录解析为绝对路径，确保在写入 GLB 时能读到文件字节。</p>
+
+        <h2 id="channel-packing">Metallic-Roughness Channel Packing</h2>
+        <p>glTF 规范要求 <span class="term">metallicRoughnessTexture</span> 的通道布局如下：</p>
+        <ul>
+          <li><strong>B 通道（蓝）</strong>：metallic</li>
+          <li><strong>G 通道（绿）</strong>：roughness</li>
+          <li>R 通道：未使用（通常为 0 或 1）</li>
+        </ul>
+
+        <p><code>texture_utils.py</code> 里的 <code>pack_metallic_roughness(metal_path, rough_path)</code> 函数负责把两张独立的灰度图读入，将 metallic 写入蓝通道、roughness 写入绿通道，打包成一张 RGB PNG，返回字节流。这个过程在 <code>converter.py</code> 里用组合键缓存（<code>key = f"MR_{metal_path}_{rough_path}"</code>），避免同场景多 mesh 重复打包。</p>
+
+        <div style="overflow-x:auto; margin:1.5rem 0;">
+          <svg viewBox="0 0 500 160" width="500" height="160" style="max-width:100%; font-family:var(--font-mono,monospace); font-size:12px;">
+            <!-- metallic -->
+            <rect x="10" y="40" width="100" height="80" rx="4" fill="#444"/>
+            <rect x="10" y="40" width="100" height="80" rx="4" fill="url(#grad_metal)" opacity=".7"/>
+            <text x="60" y="30" text-anchor="middle" fill="currentColor" font-size="11">metallic.png</text>
+            <text x="60" y="145" text-anchor="middle" fill="currentColor" font-size="11" opacity=".7">gray → B channel</text>
+
+            <!-- roughness -->
+            <rect x="160" y="40" width="100" height="80" rx="4" fill="#666"/>
+            <rect x="160" y="40" width="100" height="80" rx="4" fill="url(#grad_rough)" opacity=".7"/>
+            <text x="210" y="30" text-anchor="middle" fill="currentColor" font-size="11">roughness.png</text>
+            <text x="210" y="145" text-anchor="middle" fill="currentColor" font-size="11" opacity=".7">gray → G channel</text>
+
+            <text x="285" y="85" fill="var(--accent,#5b8dd9)" font-size="20">→</text>
+
+            <!-- packed -->
+            <rect x="315" y="40" width="100" height="80" rx="4" fill="none" stroke="var(--accent,#5b8dd9)" stroke-width="1.5"/>
+            <rect x="315" y="40" width="34" height="80" rx="3" fill="#0044bb" opacity=".5"/>
+            <rect x="349" y="40" width="33" height="80" fill="#00aa44" opacity=".5"/>
+            <rect x="382" y="40" width="33" height="80" rx="3" fill="#cc2200" opacity=".3"/>
+            <text x="332" y="85" fill="#88aaff" font-size="11" text-anchor="middle">B</text>
+            <text x="366" y="85" fill="#88ffaa" font-size="11" text-anchor="middle">G</text>
+            <text x="399" y="85" fill="#ff9988" font-size="11" text-anchor="middle">R</text>
+            <text x="365" y="30" text-anchor="middle" fill="currentColor" font-size="11">packed MR.png</text>
+
+            <defs>
+              <linearGradient id="grad_metal" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#111"/>
+                <stop offset="100%" stop-color="#eee"/>
+              </linearGradient>
+              <linearGradient id="grad_rough" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#555"/>
+                <stop offset="100%" stop-color="#ccc"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <h2 id="fallback">默认值与容错</h2>
+        <p>当 USD 材质没有设置某个参数时（如没有 <code>diffuseColor</code> 输入），代码给出合理的默认值：</p>
+        <ul>
+          <li><code>diffuseColor</code> → <code>(1.0, 1.0, 1.0, 1.0)</code>（白色、不透明）</li>
+          <li><code>roughness</code> → <code>0.5</code></li>
+          <li><code>metallic</code> → <code>0.0</code></li>
+        </ul>
+        <p>这样即使输入 USD 材质不完整，导出的 GLB 也能正常显示（以默认 PBR 参数渲染），而不会崩溃。</p>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          10-4 讲 GlbWriter 怎样把上面提取出来的所有数据——geometry、material、image——按照 glTF 规范打包成二进制的 <code>.glb</code> 文件。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

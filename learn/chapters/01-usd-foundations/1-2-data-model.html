@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>data model：Stage / Prim / Property — ConvertAsset Learning Guide</title>
+  <meta name="description" content="USD 核心数据模型详解：Stage 是合成 scenegraph，Prim 是节点，Property（Attribute / Relationship）是数据容器。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="1-2">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART I · 场景表示 · Scene Representation</div>
+        <h1>data model：Stage / Prim / Property</h1>
+
+        <p class="lead">USD 的数据模型由三个概念构成：<span class="term term-accent">Stage</span> 是运行时的合成场景图（scenegraph），<span class="term term-accent">Prim</span> 是场景图中的节点，<span class="term term-accent">Property</span>（分为 Attribute 和 Relationship）是节点上的数据。理解这三者的关系，就掌握了「如何用 pxr Python API 读写 USD」的基础。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          你在 GAMES101 里建过 scene graph 节点树：每个节点有 transform、可能有 mesh、有子节点。USD 的 <span class="term">Stage</span> 是同样的树形结构，但它活在多个文件里，并通过 <span class="term">composition</span> 合并成一个统一的视图。<span class="term">Prim</span> 对应你的「节点」，<span class="term">Attribute</span> 对应节点上的数据字段。
+        </div>
+
+        <h2 id="stage">Stage：合成场景图</h2>
+
+        <p><span class="term term-accent">Stage</span> 是 USD 最顶层的运行时对象。它不直接存储数据——它是对一组 <span class="term">Layer</span> 的合成视图（composed view）。</p>
+
+        <p>你可以把 Stage 理解成：「把所有相关的 Layer 叠加在一起，按 <span class="term">composition arc</span> 规则合并，最终呈现出来的那棵树。」Stage 提供了遍历 Prim、读写属性、解析路径的 API。</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">open_stage.py</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">from pxr import Usd, UsdGeom
+
+# 打开一个 USD 文件，得到 Stage
+stage = Usd.Stage.Open("/path/to/scene.usd")
+
+# Stage 提供根 Prim（PseudoRoot）和 defaultPrim
+default_prim = stage.GetDefaultPrim()
+print("defaultPrim:", default_prim.GetPath())  # e.g., /World
+
+# 遍历所有 Prim
+for prim in stage.Traverse():
+    print(prim.GetPath(), prim.GetTypeName())</code></pre>
+        </div>
+
+        <p>Stage 的几个关键性质：</p>
+        <ul>
+          <li>Stage 是<strong>只读合成</strong>：你可以通过 Stage API 读取 composed 值，也可以向 Stage 的 <span class="term">edit target</span>（当前可编辑层）写入 opinion。</li>
+          <li>打开 Stage 不会把所有数据加载到内存——USD 支持 <span class="term">payload</span> 延迟加载（第 2 章详述）。</li>
+          <li>Stage 有一个 <span class="term">pseudoRoot</span> Prim（路径 <code>/</code>），它的子节点是场景根。</li>
+        </ul>
+
+        <h2 id="prim">Prim：场景节点</h2>
+
+        <p><span class="term term-accent">Prim</span>（"primitive" 的缩写）是 USD 场景层次中的基本节点。每个 Prim 有：</p>
+
+        <ul>
+          <li><strong>路径</strong>（<span class="term">SdfPath</span>）：唯一标识符，如 <code>/World/Room/Table</code>，用 <code>/</code> 分隔层级。</li>
+          <li><strong>类型名</strong>（<span class="term">typeName</span>）：如 <code>Mesh</code>、<code>Xform</code>、<code>Material</code>、<code>Shader</code>。类型名决定哪些 schema API 可以使用。</li>
+          <li><strong>子 Prim</strong>（children）：构成树形层次。</li>
+          <li><strong>Properties</strong>：挂在这个 Prim 上的所有属性和关系。</li>
+          <li><strong>Metadata</strong>：如 <code>active</code>（是否激活）、<code>kind</code>（model/assembly/component）、<code>apiSchemas</code>。</li>
+        </ul>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">prim_ops.py</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">from pxr import Usd, UsdGeom, Sdf
+
+stage = Usd.Stage.CreateNew("scene.usda")
+
+# Define 一个 Xform Prim（变换节点）
+xform = UsdGeom.Xform.Define(stage, "/World")
+
+# Define 一个 Mesh Prim
+mesh = UsdGeom.Mesh.Define(stage, "/World/Cube")
+
+# 访问 Prim
+prim = stage.GetPrimAtPath("/World/Cube")
+print("type:", prim.GetTypeName())         # Mesh
+print("path:", prim.GetPath())             # /World/Cube
+print("is valid:", prim.IsValid())         # True
+print("children:", list(prim.GetChildren()))  # []
+
+# Prim 可以被 deactivate（非破坏性「删除」）
+prim.SetActive(False)
+print("active:", prim.IsActive())          # False</code></pre>
+        </div>
+
+        <div class="callout recap">
+          <span class="ttl">Prim 路径是 USD 的「命名空间」</span>
+          USD 没有 GUID，靠路径（namespace path）识别所有对象。这意味着：如果建模师重命名了一个 Prim，所有引用这条路径的 override 就会失效（"fall off"）。USD 文档坦承这是它最大的工程取舍：路径可读性和可调试性 vs GUID 带来的稳定性。
+        </div>
+
+        <h2 id="property">Property：Attribute 与 Relationship</h2>
+
+        <p><span class="term term-accent">Property</span> 是挂在 Prim 上的数据容器，分两种：</p>
+
+        <h3>Attribute（属性）</h3>
+        <p><span class="term">Attribute</span> 持有<strong>有类型的值</strong>，可以随时间变化（time-sampled）。例如：</p>
+        <ul>
+          <li><code>points</code>（VtArray&lt;GfVec3f&gt;）：mesh 顶点坐标</li>
+          <li><code>faceVertexCounts</code>（VtArray&lt;int&gt;）：每个面有几条边</li>
+          <li><code>primvars:st</code>（TexCoord2fArray）：UV 坐标</li>
+          <li><code>inputs:roughness</code>（float）：材质粗糙度</li>
+          <li><code>xformOp:translate</code>（double3）：位移</li>
+        </ul>
+
+        <h3>Relationship（关系）</h3>
+        <p><span class="term">Relationship</span> 是「指向其他 Prim 或 Property 的指针」，可以有多个目标。最常见的用法是材质绑定：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">attribute_relationship.py</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">from pxr import Usd, UsdGeom, UsdShade, Sdf
+
+stage = Usd.Stage.CreateNew("mat_bind.usda")
+
+# 创建 mesh 和 material
+mesh = UsdGeom.Mesh.Define(stage, "/World/Cube")
+mat  = UsdShade.Material.Define(stage, "/Looks/Metal")
+
+# 读写 Attribute
+pts_attr = mesh.GetPointsAttr()
+pts_attr.Set([(0,0,0),(1,0,0),(1,1,0),(0,1,0)])
+
+# 时间采样：Attribute 可以在不同帧有不同值
+pts_attr.Set([(0,0,0),(1,0,0.5),(1,1,0),(0,1,0)], time=1.0)
+pts_attr.Set([(0,0,0),(1,0,1.0),(1,1,0),(0,1,0)], time=2.0)
+
+# Relationship：把 material 绑定到 mesh（内部用 Relationship）
+UsdShade.MaterialBindingAPI(mesh.GetPrim()).Bind(mat)
+
+# 读取 Relationship 的目标
+rel = mesh.GetPrim().GetRelationship("material:binding")
+print("targets:", rel.GetTargets())  # [Sdf.Path('/Looks/Metal')]</code></pre>
+        </div>
+
+        <div class="callout">
+          <span class="ttl">Property 命名空间</span>
+          USD Property 的名字里可以有 <code>:</code>，这不是路径分隔符，而是<strong>命名空间前缀</strong>。例如 <code>inputs:roughness</code> 表示「inputs 命名空间下的 roughness 属性」；<code>primvars:st</code> 是「primvars 命名空间下的 st 坐标」。这是 USD 约定，不同 schema 有不同前缀。
+        </div>
+
+        <h2 id="schema">Schema：给 Prim 加语义</h2>
+
+        <p>光有 Prim + Property 还不够——你需要知道「什么 Prim 应该有什么属性」。这就是 <span class="term">schema</span> 的作用：schema 定义了一组「这类 Prim 应该有的 API」。</p>
+
+        <ul>
+          <li><span class="term">UsdGeom.Mesh</span> 给你 <code>GetPointsAttr()</code>、<code>GetFaceVertexCountsAttr()</code> 等 mesh 专属 API。</li>
+          <li><span class="term">UsdShade.Material</span> 给你 <code>CreateSurfaceOutput()</code>、<code>GetInputs()</code> 等材质 API。</li>
+          <li><span class="term">UsdShade.Shader</span> 给你 <code>CreateIdAttr()</code>（指定 shader 类型）、<code>CreateInput()</code> 等 API。</li>
+        </ul>
+
+        <p>Schema 就是「提供了一套便捷 API 的 Prim 包装器」。你永远可以用底层 Prim API 直接操作属性，但用 schema API 更安全、更有语义。</p>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          <a href="1-3-layers-opinions.html">1.3 — Layer 与 opinion</a> 进入 USD 的文件抽象——Layer——和其中最核心的概念：opinion（谁对一个属性说了什么值）。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

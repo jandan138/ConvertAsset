@@ -1,0 +1,49 @@
+name: Deploy Learning Site
+
+# ConvertAsset Learning Guide 是零构建的 static HTML（learn/），
+# 直接把 learn/ 作为 Pages artifact 上传，无需 Node/Astro 构建。
+# 部署地址: https://jandan138.github.io/ConvertAsset/
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/deploy-learning-site.yml
+      - learn/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+      contents: read
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload learn/ as Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: learn
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

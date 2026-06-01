@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>composition arcs 总览 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="USD 六种 composition arc 一览：subLayers、references、payloads、VariantSets、inherits、specializes，以及它们各自解决的问题。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="2-1">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART I · 场景表示 · Scene Representation</div>
+        <h1>composition arcs 总览</h1>
+
+        <p class="lead">USD 的 <span class="term term-accent">composition arc</span> 是「把多个 Layer / Prim 组合在一起」的机制。USD 提供六种 composition arc，每一种解决一类不同的场景描述需求：从「多人协作同一资产」（subLayers）到「把 chair.usd 放进 room.usd」（references），到「按需加载大型资产」（payloads），到「切换材质变体」（VariantSets）。理解这六种 arc，就理解了 USD 的组合能力。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          在 GAMES101 里，你的 scene graph 是「树」，父节点包含子节点。USD 的场景图也是树，但 USD 允许一个 Prim 的内容来自另一个文件（reference / payload），允许一个 Prim 继承另一个 Prim 的属性（inherits），允许在一个文件里叠加多个 override 层（subLayers）。这些「跨文件的指针关系」就是 composition arcs。
+        </div>
+
+        <h2 id="six-arcs">六种 composition arc</h2>
+
+        <!-- 六种 arc 的直观表格 -->
+        <div class="code">
+          <div class="code-head"><span class="fname">arcs_summary.txt</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">Arc          | 作用对象     | 解决什么问题                       | 强度
+-------------|-------------|-----------------------------------|------
+subLayers    | Stage 级     | 多人协作同一场景；override 层叠      | 由位置决定（越前越强）
+references   | Prim 级      | 把外部 asset 组合进场景             | LIVERPS 里的 R
+payloads     | Prim 级      | 同 reference，但可延迟加载           | LIVERPS 里的 P（弱于 R）
+VariantSets  | Prim 级      | 在一个 asset 里封装多个变体          | LIVERPS 里的 V
+inherits     | Prim 级      | 类继承：让一批 Prim 共享 base 数据   | LIVERPS 里的 I
+specializes  | Prim 级      | 特化：base 的增量改写始终跟随 base   | 最弱（比 sublayers 还弱）</code></pre>
+        </div>
+
+        <h2 id="sublayers">subLayers：协作覆盖</h2>
+
+        <p><span class="term">subLayers</span> 是 Stage 级别的 arc：在 root layer 的 metadata 里声明一组 sublayer 文件路径，组成一个有序的 <span class="term">Layer Stack</span>。列表里越靠前的 sublayer 强度越高（覆盖后面的）。</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">shot.usda</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">#usda 1.0
+(
+    subLayers = [
+        @./shot_lighting.usda@,   # 灯光覆盖层（较强）
+        @./shot_anim.usda@,       # 动画层
+        @./layout_base.usda@      # 布局 base 层（最弱）
+    ]
+)</code></pre>
+        </div>
+
+        <p>subLayers 类似 Photoshop 图层：灯光师可以在 <code>shot_lighting.usda</code> 里覆盖任何 Prim 的属性，不需要改动 base 文件。</p>
+
+        <h2 id="references">references：资产组合</h2>
+
+        <p><span class="term">references</span> 是把一个外部 USD 文件的某个 Prim 树，「挂载」到当前场景的某个 Prim 下。这是 production pipeline 里使用最多的 arc——场景里每一个家具、道具、角色通常都是独立的 asset，通过 reference 组合进来。</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">room.usda</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">#usda 1.0
+def Xform "Room" {
+    def Xform "Table" (
+        # 把 table.usd 的 defaultPrim 挂载到 /Room/Table
+        references = @./assets/table.usd@
+    ) {
+        # 可以 override 引入内容的属性
+        double3 xformOp:translate = (0, 0, 1.5)
+    }
+
+    def Xform "Chair" (
+        # 引用同一个 chair.usd，但放在不同位置
+        references = @./assets/chair.usd@
+    ) {
+        double3 xformOp:translate = (1.0, 0, 0)
+        double3 xformOp:rotateXYZ = (0, 90, 0)
+    }
+}</code></pre>
+        </div>
+
+        <p>ConvertAsset 在 <code>_collect_asset_paths()</code> 里会扫描所有 reference 路径，递归处理每一个被 reference 的 USD 文件，保证整棵引用树都被转换。</p>
+
+        <h2 id="payloads">payloads：延迟加载</h2>
+
+        <p><span class="term">payloads</span> 在语义上与 references 相同，区别是：payload 的数据可以<strong>不在打开 Stage 时立即加载</strong>——你可以先打开 Stage、看到 Prim 层次，然后按需 load 特定的 payload。这对大型场景（数 GB 的 USD）非常重要：你可以先加载所有 Prim 的元数据，只在实际需要某个道具的 mesh 时才把它 load 进内存。</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">payload_demo.py</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">from pxr import Usd
+
+# 打开 Stage 时不加载任何 payload
+stage = Usd.Stage.Open("city.usd",
+    load=Usd.Stage.LoadNone)  # 只加载元数据
+
+# 此时可以遍历 Prim 层次（只有骨架，没有 mesh 数据）
+for prim in stage.Traverse():
+    print(prim.GetPath())   # 能看到路径
+
+# 按需 load 特定子树
+stage.Load("/City/Downtown")   # 只加载 downtown 区域的 payload
+mesh_data = stage.GetPrimAtPath(
+    "/City/Downtown/Building_A/Mesh").GetAttribute("points").Get()</code></pre>
+        </div>
+
+        <h2 id="variantsets">VariantSets：内置变体</h2>
+
+        <p><span class="term">VariantSets</span> 让一个 asset 内部封装多个变体，消费者可以在更强的层里切换变体选择，而不需要修改 asset 文件本身。</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">chair_with_variants.usda</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">#usda 1.0
+def Mesh "Chair" (
+    variants = {
+        string material = "wood"   # 当前选中的变体
+    }
+    prepend variantSets = "material"
+) {
+    variantSet "material" = {
+        "wood" {
+            # 木纹材质版本的属性
+        }
+        "metal" {
+            # 金属材质版本的属性
+        }
+        "fabric" {
+            # 布料材质版本的属性
+        }
+    }
+}</code></pre>
+        </div>
+
+        <h2 id="inherits-specializes">inherits 与 specializes：类继承关系</h2>
+
+        <p><span class="term">inherits</span> 和 <span class="term">specializes</span> 是两种「派生关系」arc：</p>
+
+        <ul>
+          <li><strong>inherits</strong>：让 derived Prim 获得 base Prim 上的所有改动——适合「一批 Prim 共享同一类属性，想一次性修改」的场景（类似面向对象的继承）。</li>
+          <li><strong>specializes</strong>：和 inherits 类似，但 specializes 的强度最低——base 的 opinion 在 specializes 里永远比 derived 自己的 opinion 弱，适合「derived 是 base 的一个永远的特化版本」的语义。</li>
+        </ul>
+
+        <div class="callout warn">
+          <span class="ttl">实践中 inherits / specializes 使用较少</span>
+          在 production asset pipeline 里，subLayers + references + payloads + VariantSets 覆盖了绝大多数需求。inherits 和 specializes 更多用于复杂的 schema 继承场景。ConvertAsset 目前不需要处理它们，但 <code>_collect_asset_paths()</code> 仍然扫描 VariantSet 内部的 references，保证变体里的资产也被递归处理。
+        </div>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          <a href="2-2-liverps.html">2.2 — LIVERPS strength ordering</a> 解释当多个 arc 产生 opinion 冲突时，USD 如何决定谁赢——这是理解 composition 合并结果的核心。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

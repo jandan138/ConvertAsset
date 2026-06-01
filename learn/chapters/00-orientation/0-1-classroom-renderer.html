@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>你的 GAMES101 渲染器到哪为止 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="梳理 GAMES101 课堂渲染器的覆盖范围，厘清它与 production pipeline 的边界。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="0-1">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART 00 · 导论 · Orientation</div>
+        <h1>你的 GAMES101 渲染器到哪为止</h1>
+
+        <p class="lead">GAMES101 教会你渲染的底层逻辑：从光栅化到路径追踪，从 <span class="term">Blinn-Phong</span> 到 <span class="term">Cook-Torrance</span>。这些知识是真实的，扎实的。但课程结束时，你手里有一个「单文件软件渲染器」——而工业界每天处理的是成千上万个互相引用的资产文件、材质库与动画层。这一节帮你画出课堂渲染器的边界，再看清边界外面是什么。</p>
+
+        <h2 id="what-games101-covers">GAMES101 覆盖了什么</h2>
+
+        <p>如果你认真完成了 GAMES101，你的代码里已经有这些能力：</p>
+
+        <ul>
+          <li><strong>几何处理</strong>：从 OBJ 文件读顶点与三角形，应用 <span class="term">model / view / projection</span> 变换，得到屏幕坐标。</li>
+          <li><strong>光栅化</strong>：<span class="term">rasterization</span> 扫描线填充，<span class="term">z-buffer</span> 深度测试，<span class="term">bilinear</span> 纹理过滤，mipmap。</li>
+          <li><strong>着色模型</strong>：<span class="term">Blinn-Phong</span> local illumination；BRDF 概念；基于 <span class="term">microfacet</span> 理论的 Cook-Torrance specular；粗糙度与金属度参数。</li>
+          <li><strong>全局光照</strong>：<span class="term">path tracing</span> 基础，<span class="term">Monte Carlo</span> 积分，<span class="term">Russian Roulette</span> 终止。</li>
+          <li><strong>场景表示</strong>：一个 <span class="term">scene graph</span> 节点树（通常是手写的、固定的），每个节点含 transform 和 mesh。</li>
+        </ul>
+
+        <div class="callout recap">
+          <span class="ttl">你已经有的最重要的东西</span>
+          对渲染方程（<span class="term">rendering equation</span>）的直觉：光如何在物体表面弹射、能量如何守恒。这是理解 production material 系统（PBR、MDL、UsdPreviewSurface）的底层基础，本书会反复回来用它。
+        </div>
+
+        <h2 id="where-it-stops">边界在哪里</h2>
+
+        <p>GAMES101 渲染器有意简化了若干工程复杂度，在真实 production 中这些恰恰是最难的部分：</p>
+
+        <h3>场景表示：一个文件 vs 数千个互引文件</h3>
+        <p>GAMES101 通常从单个 OBJ/FBX 加载整个场景。而 production 的场景是一张有向图：一个「主场景文件」引用「环境文件」，环境文件引用「家具文件」，家具文件引用「材质库文件」……每一层都可能有 <span class="term">variant</span>（金色版 / 木纹版），每一层都可能被多个项目复用。你的 OBJ loader 对此一无所知。</p>
+
+        <h3>材质系统：硬编码 vs 声明式节点网络</h3>
+        <p>GAMES101 里你用 C++ 或 Python 把着色公式硬编码在 shader 里。Production 资产的材质是<strong>数据</strong>，以节点网络的形式写在文件里（<span class="term">MDL</span>、<span class="term">UsdPreviewSurface</span>、glTF metallic-roughness）。渲染引擎读取这些数据，动态编译或解释。这带来了可移植性——但也带来了「不同渲染器用不同材质格式」的兼容性地狱。</p>
+
+        <h3>规模与协作：单机 vs 工作室</h3>
+        <p>你的渲染器是一个人写的单体程序。Production pipeline 里，建模师、材质师、动画师各自工作在同一资产的不同文件层上，互不覆盖，最后由合成系统合并。这需要一套精确的「谁的意见更强」规则。</p>
+
+        <h3>交付格式：内部格式 vs 通用 interchange</h3>
+        <p>你的渲染器只需要读自己写的格式。但 production pipeline 末端要把资产交给游戏引擎（Unity / Unreal）、仿真平台（Isaac Sim）、AI 训练框架——每一个都有自己偏好的格式。<span class="term">USD</span> 和 <span class="term">glTF</span> 是两个最重要的 interchange 标准。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          你在 GAMES101 里写过 scene graph（节点树 + transform）。USD 的 <span class="term">Stage</span> 本质上也是一个 scene graph，只是它活在多个文件里，支持非破坏性覆盖与层叠。从你熟悉的「节点树」出发，沿着「如果这棵树可以跨文件、跨版本非破坏性编辑，会怎么设计」这条线思考，你就在向 USD 靠近。
+        </div>
+
+        <h2 id="mental-model">建立新的 mental model</h2>
+
+        <p>本书不打算推翻 GAMES101 教给你的东西——光栅化、BRDF、路径追踪都是真实且必要的知识。本书做的事情是<strong>在你已有的知识体系上，搭一层新的脚手架</strong>：</p>
+
+        <ul>
+          <li>用 <span class="term term-accent">USD</span> 替换「单文件场景」——学会读懂 <span class="term">Stage / Prim / Layer / Composition</span>。</li>
+          <li>用 <span class="term term-accent">UsdPreviewSurface</span> 和 <span class="term term-accent">glTF metallic-roughness</span> 替换「硬编码 BRDF」——理解声明式材质节点网络。</li>
+          <li>用 <span class="term term-accent">asset pipeline</span> 替换「单体渲染器」——理解 MDL → UsdPreviewSurface 转换、mesh simplification、GLB 导出的全链路。</li>
+        </ul>
+
+        <p>下一节（<a href="0-2-asset-journey.html">0.2 production asset pipeline 全景</a>）会把这条链路完整地走一遍；之后的章节逐层深入每个组件的原理。</p>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          进入 <a href="0-2-asset-journey.html">0.2 — production asset pipeline 全景：the asset journey</a>，看一个真实的 3D 资产从建模到 AI 训练全程要经历哪些阶段。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

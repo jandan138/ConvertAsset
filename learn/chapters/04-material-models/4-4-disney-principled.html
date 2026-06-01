@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Disney principled "uber-shader" — ConvertAsset Learning Guide</title>
+  <meta name="description" content="Disney principled BRDF 的五大原则、11 个参数及其物理含义，以及它如何影响 glTF、UsdPreviewSurface 等工业标准。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="4-4">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗주题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART III · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>Disney principled "uber-shader"</h1>
+
+        <p class="lead">2012 年，Brent Burley（Walt Disney Animation Studios）在 SIGGRAPH 发表了《Physically Based Shading at Disney》，提出了后来被称为 <span class="term term-accent">Disney principled BRDF</span> 的材质模型。它不是最物理准确的，但它是设计最「艺术家友好」的：五条设计原则约束下的 11 个直觉参数，覆盖从塑料到金属、从皮肤到清漆的几乎所有材质——glTF、UsdPreviewSurface、Blender Principled BSDF 都受到它的直接影响。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          在 GAMES101 里你见过 Cook-Torrance 的 D/F/G 三项和 roughness。Disney BRDF 也用同一套 microfacet 框架，但在此之上增加了更丰富的参数层，以及一套「如何暴露给艺术家」的哲学。
+        </div>
+
+        <h2 id="five-principles">五大设计原则</h2>
+
+        <p>Disney 团队在制定材质模型之前，先确定了这五条指导原则，每一条都有明确的工程含义：</p>
+
+        <ol>
+          <li><strong>使用直觉参数，而非物理参数。</strong> 艺术家调 roughness 滑块，不应该去想 GGX 的 \(\alpha\)；调 metallic 时不应该计算 IOR。参数名称和意义要一眼就懂。</li>
+          <li><strong>参数数量尽可能少。</strong> 「参数爆炸」是 ad-hoc 材质系统的噩梦。Disney 通过观察 MERL 100 真实材质数据库，找到了覆盖大多数材质所需的最小参数集。</li>
+          <li><strong>参数在 [0, 1] 范围内有意义。</strong> 这使得参数可以安全地被纹理映射驱动、在材质之间插值，以及被艺术家直觉地「从零调到一」。</li>
+          <li><strong>参数可以超出 [0, 1] 以达到特殊效果。</strong> 完全物理正确但过于受限的模型不实用——艺术家有时需要「过曝」的 clearcoat 或「高于真实」的 specular。</li>
+          <li><strong>任意参数组合都应该稳健且可信。</strong> 不应该存在「死亡参数组合」——某个参数值的组合让表面变成全黑或全白能量爆炸。</li>
+        </ol>
+
+        <h2 id="parameters">11 个参数详解</h2>
+
+        <p>Disney BRDF 有 1 个颜色参数和 10 个标量参数：</p>
+
+        <ul>
+          <li><strong>baseColor</strong>：表面颜色（RGBA），漫反射颜色或金属的 F0。</li>
+          <li><strong>subsurface</strong>：次表面散射近似程度（0 = Lambertian，1 = 近似 Hanrahan-Krueger SSS）。</li>
+          <li><strong>metallic</strong>：金属度（0 = 电介质，1 = 导体）。metallic = 1 时 diffuse 归零，F0 = baseColor。</li>
+          <li><strong>specular</strong>：入射高光强度（代替 IOR），0 → 0.08 线性映射到 IOR [1.0, 1.8]，默认 0.5 对应 IOR 1.5。</li>
+          <li><strong>specularTint</strong>：让镜面反射颜色向 baseColor 偏移（0 = 白色高光，1 = tinted 高光）。</li>
+          <li><strong>roughness</strong>：表面粗糙度，控制 diffuse 和 specular 的宽度，经 \(\alpha = \text{roughness}^2\) 映射。</li>
+          <li><strong>anisotropic</strong>：各向异性程度（0 = 各向同性，1 = 最大各向异性）。改变高光长宽比。</li>
+          <li><strong>sheen</strong>：边缘光泽，主要用于布料（cloth）的额外掠射反射。</li>
+          <li><strong>sheenTint</strong>：sheen 向 baseColor 偏移程度。</li>
+          <li><strong>clearcoat</strong>：第二高光叶的强度（模拟清漆层）。</li>
+          <li><strong>clearcoatGloss</strong>：clearcoat 层的光泽度（0 = satin，1 = gloss）。</li>
+        </ul>
+
+        <h2 id="diffuse-model">diffuse 模型的改进</h2>
+
+        <p>Disney 没有用纯 Lambertian。他们基于 MERL 数据发现真实材质的漫反射在掠射角下会有明显的边缘效应——粗糙表面有边缘<em>增亮</em>，光滑表面有边缘<em>变暗</em>。Disney diffuse（Burley diffuse）通过修改 Schlick Fresnel 近似建模了这一现象：</p>
+
+        <div class="math-block">
+          $$ f_d = \frac{\text{baseColor}}{\pi} \bigl(1 + (F_{D90}-1)(1-\cos\theta_l)^5\bigr)\bigl(1 + (F_{D90}-1)(1-\cos\theta_v)^5\bigr) $$
+        </div>
+        <div class="math-block">
+          $$ F_{D90} = 0.5 + 2\,\text{roughness}\,\cos^2\theta_d $$
+        </div>
+
+        <p>当 roughness → 0 时 \(F_{D90} \approx 0.5\)，掠射边缘变暗（真实光滑表面）；roughness → 1 时 \(F_{D90} \approx 2.5\)，边缘增亮（真实粗糙表面如磨砂）。</p>
+
+        <h2 id="gtr-ndf">GTR NDF 与 clearcoat</h2>
+
+        <p>Disney 还提出了 <span class="term">GTR（Generalized Trowbridge-Reitz）</span> 分布，这是 GGX（\(\gamma=2\)）的推广：</p>
+
+        <div class="math-block">
+          $$ D_\text{GTR}(\theta_h) = \frac{c}{(\alpha^2\cos^2\theta_h + \sin^2\theta_h)^\gamma} $$
+        </div>
+
+        <p>\(\gamma=2\) 退化为标准 GGX；\(\gamma=1\) 拖尾更长，用于 clearcoat 层（固定 IOR 1.5，对应 UsdPreviewSurface 的 clearcoat 和 clearcoatRoughness）。</p>
+
+        <div class="callout recap">
+          <span class="ttl">影响力</span>
+          Disney principled BRDF 发布后，迅速成为 DCC 和引擎的默认材质模型：Blender Cycles 的「Principled BSDF」几乎原样采用了这套参数；UsdPreviewSurface 保留了 baseColor / metallic / roughness / clearcoat；glTF pbrMetallicRoughness 是它的运行时子集。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

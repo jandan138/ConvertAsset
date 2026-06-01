@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>writer：拼出 GLB — ConvertAsset Learning Guide</title>
+  <meta name="description" content="GlbWriter 如何用纯 Python（struct + json）构建 accessor、bufferView、buffer，输出符合规范的 .glb 二进制文件。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="10-4">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART IV · 资产交换与交付 · Asset Interchange</div>
+        <h1>writer：拼出 GLB</h1>
+
+        <p class="lead"><code>glb/writer.py</code> 里的 <span class="term">GlbWriter</span> 不依赖任何第三方 glTF 库——它用 Python 内置的 <code>struct</code> 和 <code>json</code> 模块从零构建二进制文件。理解它的工作原理，等于深度理解了第 9 章 GLB 格式规范的所有细节。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          在 GAMES101 的光栅化 pipeline 里，framebuffer 是一块连续的字节数组。GLB 的 BIN 块与此类似：一块连续内存，里面依次存放顶点位置、法线、UV、索引、图片字节，通过 <span class="term">bufferView</span>（偏移+长度）和 <span class="term">accessor</span>（类型+count）来寻址。
+        </div>
+
+        <h2 id="state">GlbWriter 的内部状态</h2>
+        <p>GlbWriter 维护两组数据：</p>
+        <ul>
+          <li><strong>JSON 结构列表</strong>：<code>self.nodes</code>、<code>self.meshes</code>、<code>self.materials</code>、<code>self.accessors</code>、<code>self.buffer_views</code>、<code>self.textures</code>、<code>self.images</code>、<code>self.samplers</code>、<code>self.scenes</code></li>
+          <li><strong>二进制缓冲区</strong>：<code>self.buffer_data</code>（一个 <code>bytearray</code>），所有 numpy 数组和图片字节都追加到这里</li>
+        </ul>
+
+        <h2 id="accessor-pipeline">添加 geometry 数据的管道</h2>
+        <p>每次调用 <code>add_mesh</code> 时，内部会对 positions、normals、uvs、indices 各自调用 <code>_add_accessor</code>：</p>
+        <ol>
+          <li><strong>对齐</strong>：调用 <code>_align_buffer(4)</code>，用 <code>\x00</code> 填充到 4 字节对齐（glTF 规范要求）。</li>
+          <li><strong>追加数据</strong>：把 numpy 数组的 <code>.tobytes()</code> 追加到 <code>buffer_data</code>。</li>
+          <li><strong>创建 bufferView</strong>：记录 <code>{buffer: 0, byteOffset, byteLength}</code>。</li>
+          <li><strong>创建 accessor</strong>：记录 <code>{bufferView, componentType, count, type}</code>，位置数据还需要 <code>min / max</code> 包围盒。</li>
+        </ol>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">glb/writer.py — _add_accessor（精简）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">def _add_accessor(self, data_np, component_type, count, type_str, ...):
+    self._align_buffer(4)          # 4 字节对齐
+    offset = len(self.buffer_data)
+    self.buffer_data.extend(data_np.tobytes())
+
+    bv = {"buffer": 0, "byteOffset": offset, "byteLength": len(data_np.tobytes())}
+    self.buffer_views.append(bv)
+
+    acc = {"bufferView": bv_idx, "componentType": component_type,
+           "count": count, "type": type_str}
+    self.accessors.append(acc)
+    return acc_idx</code></pre>
+        </div>
+
+        <h2 id="glb-write">write() 的 GLB 二进制布局</h2>
+        <p><code>write(path)</code> 方法最终把所有数据写成 GLB 格式：</p>
+
+        <div style="overflow-x:auto; margin:1.5rem 0;">
+          <svg viewBox="0 0 640 120" width="640" height="120" style="max-width:100%; font-family:var(--font-mono,monospace); font-size:11px;">
+            <!-- GLB Header -->
+            <rect x="5" y="20" width="100" height="80" rx="4" fill="var(--accent,#5b8dd9)" opacity=".25" stroke="var(--accent,#5b8dd9)" stroke-width="1.2"/>
+            <text x="55" y="50" text-anchor="middle" fill="currentColor" font-weight="bold">GLB Header</text>
+            <text x="55" y="67" text-anchor="middle" fill="currentColor" font-size="10">magic: "glTF"</text>
+            <text x="55" y="82" text-anchor="middle" fill="currentColor" font-size="10">version: 2</text>
+            <text x="55" y="95" text-anchor="middle" fill="currentColor" font-size="10">total length</text>
+            <text x="55" y="113" text-anchor="middle" fill="currentColor" font-size="9" opacity=".7">12 bytes</text>
+
+            <!-- JSON Chunk -->
+            <rect x="115" y="20" width="230" height="80" rx="4" fill="#2a9d6e" opacity=".18" stroke="#2a9d6e" stroke-width="1.2"/>
+            <text x="230" y="50" text-anchor="middle" fill="currentColor" font-weight="bold">Chunk 0 — JSON</text>
+            <text x="230" y="67" text-anchor="middle" fill="currentColor" font-size="10">type: 0x4E4F534A ("JSON")</text>
+            <text x="230" y="82" text-anchor="middle" fill="currentColor" font-size="10">gltf dict（含 scenes/nodes/</text>
+            <text x="230" y="95" text-anchor="middle" fill="currentColor" font-size="10">meshes/accessors/…）</text>
+            <text x="230" y="113" text-anchor="middle" fill="currentColor" font-size="9" opacity=".7">4 字节对齐（空格填充）</text>
+
+            <!-- BIN Chunk -->
+            <rect x="355" y="20" width="275" height="80" rx="4" fill="#d97b2a" opacity=".18" stroke="#d97b2a" stroke-width="1.2"/>
+            <text x="492" y="50" text-anchor="middle" fill="currentColor" font-weight="bold">Chunk 1 — BIN\0</text>
+            <text x="492" y="67" text-anchor="middle" fill="currentColor" font-size="10">type: 0x004E4942 ("BIN\0")</text>
+            <text x="492" y="82" text-anchor="middle" fill="currentColor" font-size="10">顶点 / 法线 / UV / 索引 / 图片字节</text>
+            <text x="492" y="113" text-anchor="middle" fill="currentColor" font-size="9" opacity=".7">4 字节对齐（\x00 填充）</text>
+          </svg>
+        </div>
+
+        <p>关键代码片段：</p>
+        <div class="code">
+          <div class="code-head"><span class="fname">glb/writer.py — write()</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">json_bytes = json.dumps(gltf, separators=(',', ':')).encode('utf-8')
+# JSON 块 4 字节对齐用空格填充
+json_bytes += b' ' * ((4 - len(json_bytes) % 4) % 4)
+# BIN 块 4 字节对齐用 \x00 填充
+self.buffer_data.extend(b'\x00' * ((4 - len(self.buffer_data) % 4) % 4))
+
+with open(path, 'wb') as f:
+    f.write(struct.pack('<I', 0x46546C67))   # magic 'glTF'
+    f.write(struct.pack('<I', 2))             # version
+    f.write(struct.pack('<I', total_len))     # total length
+    # JSON chunk
+    f.write(struct.pack('<I', len(json_bytes)))
+    f.write(struct.pack('<I', 0x4E4F534A))   # 'JSON'
+    f.write(json_bytes)
+    # BIN chunk
+    f.write(struct.pack('<I', len(self.buffer_data)))
+    f.write(struct.pack('<I', 0x004E4942))   # 'BIN\0'
+    f.write(self.buffer_data)</code></pre>
+        </div>
+
+        <h2 id="material-dedup">材质去重</h2>
+        <p>GlbWriter 还维护一个 <code>_material_cache</code>：以 <code>(base_color, metallic, roughness, bc_tex, mr_tex, norm_tex)</code> 元组为键，避免同场景中参数完全相同的材质被重复写入。这是一个简单但实用的优化，减少最终 JSON 块中的 <code>materials</code> 数组长度。</p>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          10-5 从整个仓库的设计哲学角度，讲循环检测（<span class="term">cycle detection</span>）、去重（<span class="term">dedup</span>）和懒加载（<span class="term">lazy import</span>）这三个贯穿全局的设计决策。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

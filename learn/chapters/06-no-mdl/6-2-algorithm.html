@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>算法：MDL 网络 → UsdPreviewSurface — ConvertAsset Learning Guide</title>
+  <meta name="description" content="ConvertAsset no-MDL 转换的核心算法：从 MDL Shader 参数提取到 UsdPreviewSurface 网络构建。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="6-2">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART II · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>算法：MDL 网络 → UsdPreviewSurface</h1>
+
+        <p class="lead">no-MDL 转换的核心是一套"读取—映射—构建—清理"的四步算法，实现在 <code>convert_asset/no_mdl/materials.py</code> 与 <code>convert.py</code> 中。它不依赖 MDL SDK，而是直接在 USD Shader prim 的 <code>inputs:</code> 上读取参数，配合可选的 <code>.mdl</code> 文件文本解析，然后手工搭建 <span class="term">UsdPreviewSurface</span> 网络。</p>
+
+        <h2 id="step1-find">第一步：定位 MDL Shader</h2>
+
+        <p><code>find_mdl_shader(mat)</code> 函数在一个 Material Prim 下遍历所有子 Prim，找到 <code>info:implementationSource = "sourceAsset"</code> 且 <code>info:mdl:sourceAsset</code> 存在的 Shader prim。这就是 MDL 着色器的位置。</p>
+
+        <p>查找逻辑优先 <code>MATERIAL_ROOT_HINTS = ("/Root/Looks", "/World/Looks")</code> 指定的路径前缀，找不到才扫描整个 Stage（<code>ALWAYS_SCAN_ALL_MATERIALS = True</code>）。</p>
+
+        <h2 id="step2-extract">第二步：提取参数</h2>
+
+        <p>参数提取是两条并行路径，取最终有效值：</p>
+
+        <ol>
+          <li>
+            <strong>USD inputs 直读</strong>——直接访问 Shader prim 的 <code>inputs:diffuse_color_constant</code>、<code>inputs:reflection_roughness_constant</code>、<code>inputs:metallic_constant</code> 等字段。这对 OmniPBR / OmniSurface 系 MDL 效果最好，因为它们有规范的 input 命名。
+          </li>
+          <li>
+            <strong>MDL 文件文本解析</strong>（<code>mdl_parse.py</code>）——当 USD inputs 读不到值时，回退到解析 <code>.mdl</code> 源文件文本。<code>parse_mdl_text()</code> 用正则表达式提取 <code>diffuse: color(r,g,b)</code>、<code>roughness: 0.4</code>、<code>metallic: 0.0</code> 等 key-value 形式，以及文件中引用的贴图路径（匹配 <code>.png</code>、<code>.exr</code> 等扩展名的字符串字面量）。
+          </li>
+        </ol>
+
+        <p>贴图提取由 <code>copy_textures()</code> 完成，它通过 USD input 连接关系（如 <code>inputs:diffuse_texture.connect = ...</code>）或 MDL 文本中的文件名启发式匹配来确定 BaseColor / Roughness / Metallic / Normal 四个通道对应的贴图路径。</p>
+
+        <h2 id="step3-build">第三步：构建 UsdPreviewSurface 网络</h2>
+
+        <p><code>ensure_preview(stage, mat)</code> 在 Material 下方建立固定布局的 PreviewSurface 网络：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">ensure_preview 构建的网络结构（伪代码）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">def ensure_preview(stage, mat):
+    # 在 /Looks/MyMat/PreviewNetwork/ 下建立 Scope
+    scope = stage.DefinePrim(f"{mat_path}/PreviewNetwork", "Scope")
+
+    # PreviewSurface 节点
+    prev = UsdShade.Shader.Define(stage, f"{scope_path}/PreviewSurface")
+    prev.CreateIdAttr("UsdPreviewSurface")
+
+    # PrimvarReader —— 读取 UV set "st"
+    uvr = UsdShade.Shader.Define(stage, f"{scope_path}/Primvar_st")
+    uvr.CreateIdAttr("UsdPrimvarReader_float2")
+    uvr.CreateInput("varname", Sdf.ValueTypeNames.Token).Set("st")
+
+    # 四个 UsdUVTexture 节点（BaseColor / Roughness / Metallic / Normal）
+    for tag in ("BaseColor", "Roughness", "Metallic", "Normal"):
+        tex = UsdShade.Shader.Define(stage, f"{scope_path}/Tex_{tag}")
+        tex.CreateIdAttr("UsdUVTexture")
+        tex.CreateInput("st", Sdf.ValueTypeNames.Float2).ConnectToSource(uv_out)
+        tex.CreateInput("wrapS", Sdf.ValueTypeNames.Token).Set("repeat")
+        tex.CreateInput("wrapT", Sdf.ValueTypeNames.Token).Set("repeat")
+
+    # Material 的 outputs:surface 连接到 PreviewSurface.outputs:surface
+    mat.CreateSurfaceOutput().ConnectToSource(prev_api, "surface")</code></pre>
+        </div>
+
+        <p>随后 <code>connect_preview()</code> 把提取到的贴图路径写入对应 UsdUVTexture 节点的 <code>inputs:file</code>，并建立连接；如果某通道无贴图，则直接在 PreviewSurface 上写入常量值（BaseColor 默认 0.18 灰，Roughness 默认 0.5，Metallic 默认 0.0）。</p>
+
+        <div class="callout">
+          <span class="ttl">Roughness / Gloss 互转</span>
+          部分 MDL 材质（如某些布料类）用 <em>glossiness</em>（光泽度 = 1 − roughness）来表达粗糙度。<code>materials.py</code> 检测到 gloss 贴图后，会在 UsdUVTexture 上设置 <code>inputs:scale = (−1, −1, −1, −1)</code> 和 <code>inputs:bias = (1, 1, 1, 1)</code>，实现反转，直接连到 <code>PreviewSurface.inputs:roughness</code>。
+        </div>
+
+        <h2 id="step4-cleanup">第四步：移除 MDL 残留</h2>
+
+        <p>构建好 PreviewSurface 之后，需要清理所有 MDL 相关节点，否则验证失败：</p>
+
+        <ul>
+          <li><code>remove_material_mdl_outputs(stage)</code>——遍历所有 Material Prim，删除 <code>outputs:mdl:surface</code>、<code>outputs:mdl:volume</code> 等 MDL 连接端口（用 <code>Usd.Attribute.Block()</code> 断开连接）。</li>
+          <li><code>remove_all_mdl_shaders(stage)</code>——删除所有 <code>info:implementationSource = "sourceAsset"</code> 且带 <code>info:mdl:</code> 前缀的 Shader prim（<code>stage.RemovePrim()</code>）。</li>
+          <li>最终由 <code>verify_no_mdl(stage)</code> 检查是否有残留。</li>
+        </ul>
+
+        <div class="callout warn">
+          <span class="ttl">外部引用的 MDL（External MDL）</span>
+          如果 MDL Shader 定义在被引用的子 USD 文件里（不在当前 root layer），直接 RemovePrim 无效——那个 Shader prim 是由外部文件"贡献"的，在当前 layer 操作不到。这时 ConvertAsset 会：① 对外部 MDL Shader 调用 <code>SetActive(False)</code> 使其失活（<code>DEACTIVATE_EXTERNAL_MDL_SHADERS = True</code>）；② 额外一轮 <code>RemovePrim</code> 扫描（<code>CLEAN_DELETE_EXTERNAL_MDL_SHADERS = True</code>）；③ 若配置允许，视为"external-only-pass"通过（<code>ALLOW_EXTERNAL_ONLY_PASS = True</code>）。
+        </div>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">convert.py — 主转换入口</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">from pxr import Usd, UsdShade
+
+def convert_and_strip_mdl_in_this_file_only(stage: Usd.Stage) -> dict:
+    """对 stage（已是 *_noMDL.usd 的副本）执行材质转换。"""
+    from .materials import (
+        find_mdl_shader, ensure_preview, copy_textures,
+        connect_preview, remove_material_mdl_outputs,
+        remove_all_mdl_shaders
+    )
+    stats = {"total": 0, "preview": 0}
+
+    for prim in stage.Traverse():
+        if not prim.IsA(UsdShade.Material):
+            continue
+        mat = UsdShade.Material(prim)
+        stats["total"] += 1
+        mdl_shader = find_mdl_shader(mat)
+        if not mdl_shader:
+            continue
+
+        # 搭建骨架
+        preview = ensure_preview(stage, mat)
+        # 提取 & 连接贴图/常量
+        filled, has_c, c_rgb, bc_tex = copy_textures(stage, mdl_shader, mat)
+        connect_preview(stage, mat, filled, has_c, c_rgb, bc_tex)
+        stats["preview"] += 1
+
+    # 统一清理 MDL outputs 和 Shader prims
+    remove_material_mdl_outputs(stage)
+    remove_all_mdl_shaders(stage)
+    return stats</code></pre>
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>before / after 实测 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="no-MDL 转换前后：哪些信息被保留，哪些被近似或丢失，以及如何通过 CLI 验证转换结果。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="6-5">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART II · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>before / after 实测</h1>
+
+        <p class="lead">理论讲完了，这一节看实际效果：no-MDL 转换到底保留了什么，丢失了什么，以及怎样用 ConvertAsset 的 CLI 跑一遍并验证结果。理解这张"得失清单"，是判断一个资产是否适合 no-MDL 工作流的重要参考。</p>
+
+        <h2 id="preserved">转换中保留的内容</h2>
+
+        <p>ConvertAsset 的非打平设计保证了以下内容在转换后<strong>完整保留</strong>：</p>
+
+        <ul>
+          <li><strong>几何结构</strong>：所有 Mesh prim、points / faceVertexIndices / counts / normals / UV (st) 完全不变。</li>
+          <li><strong>USD 组合关系</strong>：references、payloads、sublayers、variant sets、clips 的结构和顺序不变，仅路径后缀改为 <code>_noMDL</code>。</li>
+          <li><strong>场景层次</strong>：Xform 层次、material:binding 关系、light prims、camera prims 均不变。</li>
+          <li><strong>BaseColor 贴图</strong>：如果 MDL Shader 有 <code>inputs:diffuse_texture</code> 连接，会被复制到 UsdPreviewSurface 的 <code>inputs:diffuseColor</code> UsdUVTexture 节点。这是视觉保真度最高的通道。</li>
+          <li><strong>Roughness / Metallic 贴图或常量</strong>：OmniPBR 系 MDL 的标准参数会被正确提取和映射。</li>
+          <li><strong>Normal 贴图</strong>：如果 MDL Shader 上有 normal map 输入，会连接到 PreviewSurface 的 <code>inputs:normal</code>。</li>
+        </ul>
+
+        <h2 id="lost">转换中近似或丢失的内容</h2>
+
+        <div class="callout warn">
+          <span class="ttl">有损近似（lossy）</span>
+          no-MDL 转换是有损的。以下内容无法精确映射：
+        </div>
+
+        <ul>
+          <li><strong>复杂 BSDF 组合</strong>：多层 <code>fresnel_layer</code> + <code>weighted_layer</code> 构成的分层材质（如车漆、多层涂层）——UsdPreviewSurface 只有单层 metallic-roughness 模型，无法表达层间 Fresnel 权重变化。</li>
+          <li><strong>各向异性光泽（anisotropic glossy）</strong>：MDL 的 <code>simple_glossy_bsdf</code> 支持 <code>roughness_u</code> / <code>roughness_v</code> 各向异性，UsdPreviewSurface 只有单一 roughness 标量。</li>
+          <li><strong>次表面散射（SSS）</strong>：通过 VDF + BSDF 组合实现的皮肤/玉石效果完全丢失，降级为不透明漫反射。</li>
+          <li><strong>各向同性体积（volume）</strong>：<code>material_volume</code> 的吸收系数和散射系数无对应 UsdPreviewSurface 字段。</li>
+          <li><strong>程序化纹理</strong>：MDL 里由过程式函数生成的纹理（噪声、渐变、棋盘格等）——转换器不执行函数，只能用常量或不连接该通道。</li>
+          <li><strong>自发光细节</strong>：MDL EDF 中精细的方向性发光分布（<code>spot_edf</code>、<code>measured_edf</code>）——近似为 UsdPreviewSurface 的 <code>emissiveColor</code> 常量或贴图。</li>
+          <li><strong>Opacity / cutout</strong>：MDL 的 <code>geometry.cutout_opacity</code> 目前仅做简单映射，不支持透明贴图的全通道混合。</li>
+        </ul>
+
+        <h2 id="cli">CLI 操作实测</h2>
+
+        <p>用 ConvertAsset 做 no-MDL 转换只需一条命令：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">shell</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python"># 基本用法：处理一个 USD，在同目录生成 *_noMDL.usd
+./scripts/isaac_python.sh ./main.py no-mdl /path/to/scene.usd
+
+# 输出示例（PRINT_DIAGNOSTICS_LEVEL=1）：
+# [DONE] scene.usd -> scene_noMDL.usd | mats 12/15 noMDL=True (external-only-pass)
+
+# 验证 PreviewSurface 结构
+./scripts/isaac_python.sh ./main.py inspect /path/to/scene_noMDL.usd usdpreview /Looks/MyMaterial</code></pre>
+        </div>
+
+        <p>转换完成后，<code>Processor</code> 会输出一行日志：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">日志含义解读</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">[DONE] scene.usd -> scene_noMDL.usd | mats 12/15 noMDL=True (external-only-pass)
+#                                              ↑  ↑                ↑
+#                                      已转换  总数   reason 说明符
+
+# reason 可能取值：
+# "strict-pass"          — 所有 MDL 全部清除
+# "external-only-pass"   — root 层清除，外部引用残留 MDL（ALLOW_EXTERNAL_ONLY_PASS=True）
+# "strict-fail"          — 仍有 MDL 残留（需人工排查）</code></pre>
+        </div>
+
+        <h2 id="summary-audit">Summary 与 Audit 文件</h2>
+
+        <p>当 <code>WRITE_SUMMARY_TXT = True</code>（默认开启）时，同目录还会生成 <code>scene_noMDL_summary.txt</code>，记录转换统计、缺失子文件列表、递归映射概览等信息，便于排查问题。<code>WRITE_AUDIT_JSON = True</code> 时额外生成结构化 JSON，用于程序化后处理和趋势分析。</p>
+
+        <div class="callout">
+          <span class="ttl">关键配置开关</span>
+          <ul>
+            <li><code>SUFFIX = "_noMDL"</code>——输出文件后缀，可按需修改。</li>
+            <li><code>OVERRIDE_EXTERNAL_MDL_PREVIEW = True</code>——在当前 layer 对外部材质创建 override + PreviewSurface，显著改善顶层查看视觉（但增加当前 layer 体积）。</li>
+            <li><code>ALLOW_EXTERNAL_ONLY_PASS = True</code>——root 层已清除时即判成功，避免因无法处理的外部引用一直 fail。</li>
+            <li><code>DIAGNOSTIC_LEVEL = 2</code>（即 <code>PRINT_DIAGNOSTICS_LEVEL</code>）——控制终端日志详细程度：0=极简，1=关键信息，2=全部 DIAG 输出。</li>
+          </ul>
+        </div>
+
+        <div class="callout recap">
+          <span class="ttl">第 6 章总结</span>
+          no-MDL 转换是 ConvertAsset 的核心工作流：把 <span class="term">renderer-bound</span> 的 MDL 材质近似转换为 <span class="term">portability</span> 友好的 UsdPreviewSurface，同时保留 USD 的完整组合结构。算法分四步（定位→提取→构建→清理），通过递归处理整个文件树并重写 <code>*_noMDL</code> 路径完成。论文从 perturbation 视角量化了这个转换的影响边界：proxy 指标高（PSNR 35.52 dB，SSIM 0.990），但 proxy 忠诚度不等同于下游 grounding 任务的无影响——需要四层证据门分别验证。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

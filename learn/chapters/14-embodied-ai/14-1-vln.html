@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VLN 任务是什么 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="Vision-Language Navigation（视觉语言导航）任务的定义、典型 benchmark 和仿真环境与现实迁移的挑战。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="14-1">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART VI · 仿真与具身智能 · Simulation &amp; Embodied AI</div>
+        <h1>VLN 任务是什么</h1>
+
+        <p class="lead"><span class="term term-accent">VLN</span>（Vision-Language Navigation，视觉语言导航）是具身 AI 领域的经典任务：给定自然语言指令（如"走到厨房，找到红色烤箱旁边的椅子"），让 agent 在 3D 室内环境里自主导航到目标位置。它把计算机视觉、自然语言理解和序列决策三个领域紧密耦合在一起。</p>
+
+        <h2 id="task-definition">VLN 任务定义</h2>
+        <p>一个标准的 VLN episode 由以下要素组成：</p>
+        <ul>
+          <li><strong>环境</strong>：3D 室内场景，通常表示为可导航图（navigation graph）或连续空间（continuous environment）。</li>
+          <li><strong>指令</strong>：自然语言描述的导航路径，通常由人工标注，包含地标、方向、动作序列。</li>
+          <li><strong>观测</strong>：agent 在当前位置的 360° 全景图（panorama）或 egocentric 视图，即 agent 的"眼睛"所看到的 <span class="term">RGB</span> 图像。</li>
+          <li><strong>动作空间</strong>：离散（选择下一个 viewpoint 节点）或连续（速度向量）。</li>
+          <li><strong>成功判据</strong>：agent 停在距目标 $d$ 米以内（通常 $d = 3$ 米），用 <span class="term">Success Rate (SR)</span> 和 <span class="term">SPL</span>（Success weighted by Path Length）衡量。</li>
+        </ul>
+
+        <svg viewBox="0 0 640 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:640px;display:block;margin:1.5rem auto">
+          <rect x="10" y="10" width="620" height="140" rx="10" fill="#0e1a2a" stroke="#4a90d9" stroke-width="1.5"/>
+          <circle cx="80" cy="80" r="18" fill="#1a4a2a" stroke="#4ad94a" stroke-width="2"/>
+          <text x="80" y="85" text-anchor="middle" fill="#9fe" font-size="11">Robot</text>
+          <path d="M98 80 L160 80" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ar)"/>
+          <defs><marker id="ar" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#888"/></marker></defs>
+          <rect x="160" y="55" width="100" height="50" rx="6" fill="#1a2a4a" stroke="#4a8ad9" stroke-width="1.5"/>
+          <text x="210" y="78" text-anchor="middle" fill="#acf" font-size="11">RGB View</text>
+          <text x="210" y="96" text-anchor="middle" fill="#888" font-size="10">ego / panorama</text>
+          <path d="M260 80 L320 80" stroke="#888" stroke-width="1.5" marker-end="url(#ar)"/>
+          <rect x="320" y="55" width="120" height="50" rx="6" fill="#2a1a4a" stroke="#8a4ad9" stroke-width="1.5"/>
+          <text x="380" y="78" text-anchor="middle" fill="#caf" font-size="11">VLM Policy</text>
+          <text x="380" y="96" text-anchor="middle" fill="#888" font-size="10">语言指令 + 视觉</text>
+          <path d="M440 80 L510 80" stroke="#888" stroke-width="1.5" marker-end="url(#ar)"/>
+          <rect x="510" y="55" width="110" height="50" rx="6" fill="#3a1a1a" stroke="#d94a4a" stroke-width="1.5"/>
+          <text x="565" y="78" text-anchor="middle" fill="#fca" font-size="11">Action</text>
+          <text x="565" y="96" text-anchor="middle" fill="#888" font-size="10">前进 / 转向 / STOP</text>
+          <text x="320" y="145" text-anchor="middle" fill="#aaa" font-size="11">指令："Go to the kitchen, stop near the red oven."</text>
+        </svg>
+
+        <h2 id="benchmarks">典型 benchmark</h2>
+        <p>VLN 领域最常引用的 benchmark 按发布年代列举如下：</p>
+        <ul>
+          <li><strong>R2R</strong>（Room-to-Room，2018）：Matterport3D 扫描场景，离散导航图，成为领域标准基准。</li>
+          <li><strong>REVERIE</strong>（2020）：在 R2R 基础上增加物体定位，要求 agent 同时导航并定位目标物体。</li>
+          <li><strong>VLNVerse</strong>（2024）：把多个 VLN 任务（R2R / CVDN / ScanQA 等）统一到一个 framework，并支持 Isaac Sim 仿真场景。</li>
+          <li><strong>InternNav / InteriorAgent</strong>：基于 NVIDIA Isaac Sim 的室内导航 benchmark，使用 KuJiaLe（酷家乐）场景，支持 MDL / UsdPreviewSurface 材质切换，是 ConvertAsset 论文使用的具身仿真平台。</li>
+        </ul>
+
+        <div class="callout">
+          <span class="ttl">ConvertAsset 与 InternNav 的关系</span>
+          ConvertAsset 的论文在 InternNav 的官方 KuJiaLe 场景上运行了 99 episode（val_unseen 集）的 sanity run，对比 original MDL 和转换后 noMDL 的 SR / SPL / NE / TL。结果显示，<span class="term">noMDL 与 original 的差异在统计误差范围内</span>（详见 14-4 节 evidence-gate 分析）。
+        </div>
+
+        <h2 id="sim2real">仿真与真实世界的迁移</h2>
+        <p>VLN 研究面临的核心挑战之一是 <span class="term">sim-to-real gap</span>：在仿真环境（如 Isaac Sim 渲染的场景）训练的策略，在真实机器人上部署时性能会下降。影响因素包括：</p>
+        <ul>
+          <li><strong>视觉保真度</strong>：仿真场景的材质、光照与现实的差距（<span class="term">domain gap</span>）。材质转换对视觉保真度的影响是 ConvertAsset 定量研究的核心。</li>
+          <li><strong>物理保真度</strong>：摩擦、碰撞响应的差异影响运动控制策略。</li>
+          <li><strong>语言 grounding</strong>：室内场景里的物体外观（颜色、材质）是语言指令的关键线索。如果材质转换改变了物体的视觉特征，VLM 对指令的解析可能出错——这正是 14-5 节讨论的 <span class="term term-accent">material-effect risk</span>。</li>
+        </ul>
+
+        <div class="callout recap">
+          <span class="ttl">SPL 公式</span>
+          SPL（Success weighted by Path Length）定义为：
+          $$ \text{SPL} = \frac{1}{N} \sum_{i=1}^{N} S_i \cdot \frac{l_i}{\max(p_i, l_i)} $$
+          其中 $S_i \in \{0,1\}$ 是是否成功，$l_i$ 是最短路径长度，$p_i$ 是实际走过的路径长度。SPL 惩罚绕路，奖励高效导航。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

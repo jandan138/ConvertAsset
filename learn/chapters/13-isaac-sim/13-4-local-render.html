@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>单资产本地出图（render / camera） — ConvertAsset Learning Guide</title>
+  <meta name="description" content="ConvertAsset render-single 子命令的实现原理：bbox 计算、orbit 相机取景、路径追踪出图流程。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="13-4">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART VI · 仿真与具身智能 · Simulation &amp; Embodied AI</div>
+        <h1>单资产本地出图（render / camera）</h1>
+
+        <p class="lead">ConvertAsset 的 <code>render-single</code> 子命令在本地 Isaac Sim 环境中对单个 USD 资产进行多视角出图，无需任何外部渲染服务。核心挑战是：如何在不知道资产朝向和尺寸的情况下，自动计算出"好看"的相机位置？答案是 <span class="term term-accent">bbox 驱动的 orbit 相机取景</span>。</p>
+
+        <h2 id="pipeline">出图流程总览</h2>
+        <p>整个流程分为六步，对应 <code>convert_asset/render/single.py</code> 的 <code>run_render_single</code> 函数：</p>
+
+        <svg viewBox="0 0 660 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:660px;display:block;margin:1.5rem auto">
+          <defs>
+            <marker id="a2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+              <path d="M0,0 L0,7 L7,3.5 Z" fill="#888"/>
+            </marker>
+          </defs>
+          <g>
+            <rect x="5" y="25" width="90" height="40" rx="6" fill="#1a2a3a" stroke="#4a90d9" stroke-width="1.5"/>
+            <text x="50" y="50" text-anchor="middle" fill="#cde" font-size="11">SimulationApp</text>
+            <text x="50" y="63" text-anchor="middle" fill="#888" font-size="10">启动 Isaac</text>
+          </g>
+          <path d="M95 45 L115 45" stroke="#888" stroke-width="1.5" marker-end="url(#a2)"/>
+          <g>
+            <rect x="115" y="25" width="90" height="40" rx="6" fill="#1a3a1a" stroke="#4ad94a" stroke-width="1.5"/>
+            <text x="160" y="50" text-anchor="middle" fill="#cec" font-size="11">World + Stage</text>
+            <text x="160" y="63" text-anchor="middle" fill="#888" font-size="10">载入 USD</text>
+          </g>
+          <path d="M205 45 L225 45" stroke="#888" stroke-width="1.5" marker-end="url(#a2)"/>
+          <g>
+            <rect x="225" y="25" width="90" height="40" rx="6" fill="#3a2a1a" stroke="#d9a44a" stroke-width="1.5"/>
+            <text x="270" y="50" text-anchor="middle" fill="#eed" font-size="11">bbox 计算</text>
+            <text x="270" y="63" text-anchor="middle" fill="#888" font-size="10">中心 + 半径</text>
+          </g>
+          <path d="M315 45 L335 45" stroke="#888" stroke-width="1.5" marker-end="url(#a2)"/>
+          <g>
+            <rect x="335" y="25" width="90" height="40" rx="6" fill="#1a1a3a" stroke="#4a4ad9" stroke-width="1.5"/>
+            <text x="380" y="50" text-anchor="middle" fill="#cce" font-size="11">Camera 取景</text>
+            <text x="380" y="63" text-anchor="middle" fill="#888" font-size="10">orbit 均匀分布</text>
+          </g>
+          <path d="M425 45 L445 45" stroke="#888" stroke-width="1.5" marker-end="url(#a2)"/>
+          <g>
+            <rect x="445" y="25" width="90" height="40" rx="6" fill="#3a1a3a" stroke="#d94ad9" stroke-width="1.5"/>
+            <text x="490" y="50" text-anchor="middle" fill="#ece" font-size="11">Warmup + 渲染</text>
+            <text x="490" y="63" text-anchor="middle" fill="#888" font-size="10">PathTracing</text>
+          </g>
+          <path d="M535 45 L555 45" stroke="#888" stroke-width="1.5" marker-end="url(#a2)"/>
+          <g>
+            <rect x="555" y="25" width="95" height="40" rx="6" fill="#1a3a2a" stroke="#4ad9a4" stroke-width="1.5"/>
+            <text x="602" y="50" text-anchor="middle" fill="#cee" font-size="11">RGBA → PNG</text>
+            <text x="602" y="63" text-anchor="middle" fill="#888" font-size="10">alpha composite</text>
+          </g>
+        </svg>
+
+        <h2 id="bbox">bbox 计算与双策略验证</h2>
+        <p>自动相机取景的核心是计算资产的<strong>世界空间包围盒（bounding box）</strong>。但 USD 资产的 <code>extent</code> 属性并不总是可靠——有时 extent 没有被更新，或者因为坐标变换而与实际网格偏离。</p>
+        <p><code>_compute_bbox</code> 函数采用双策略验证：</p>
+        <ol>
+          <li><strong>authored bbox</strong>（<code>UsdGeom.BBoxCache</code>）：从 Prim 的 <code>extent</code> 属性读取，快速但可能不准。</li>
+          <li><strong>mesh point bbox</strong>（<code>_mesh_point_bbox</code>）：遍历所有可见的 <code>UsdGeom.Mesh</code>，读取 <code>points</code>，用当前世界变换矩阵转换到世界空间后求 AABB，慢但精确。</li>
+        </ol>
+        <p>两个 bbox 通过 <code>_choose_bbox</code> 裁定：如果 authored bbox 的对角线比 mesh bbox 的 5 倍还大（<code>extent_fallback_ratio=5.0</code>），说明 extent 属性已经过时，使用 mesh bbox；如果中心偏移超过 mesh 对角线的 1 倍（<code>center_offset_threshold=1.0</code>），同样切换到 mesh bbox。</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">render/single.py — _choose_bbox（节选）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">authored_diagonal = np.linalg.norm(authored_bbox[1] - authored_bbox[0])
+mesh_diagonal = np.linalg.norm(mesh_bbox[1] - mesh_bbox[0])
+
+# authored bbox 比 mesh bbox 大 5 倍以上 → 说明 extent 过时
+if authored_diagonal / mesh_diagonal >= extent_fallback_ratio:
+    return mesh_bbox, "mesh_extent_ratio"
+
+# 中心偏移超过 mesh 对角线 → authored bbox 位置错误
+center_offset_ratio = np.linalg.norm(authored_center - mesh_center) / mesh_diagonal
+if center_offset_ratio >= center_offset_threshold:
+    return mesh_bbox, "mesh_center_offset"
+
+return authored_bbox, "authored"</code></pre>
+        </div>
+
+        <h2 id="orbit-camera">orbit 相机取景算法</h2>
+        <p>确定了 bbox 中心和半径后，<code>_set_camera_look_at</code> 将相机放置在以中心为原点、半径为 <code>distance</code> 的球面上，均匀分布 <code>sample_number</code> 个方位角（<span class="term">azimuth</span>），固定仰角（<span class="term">elevation</span>，默认 35°）：</p>
+
+        <div class="math-block">
+          $$ \text{azimuth}_i = \text{azimuth\_offset} + i \times \frac{360°}{N}, \quad i = 0, 1, \ldots, N-1 $$
+        </div>
+
+        <p>相机的空间位置由球坐标转笛卡尔坐标给出：</p>
+        <div class="math-block">
+          $$ \begin{pmatrix} x \\ y \\ z \end{pmatrix} = \text{target} + d \begin{pmatrix} \cos\theta_\text{elev} \cos\theta_\text{azim} \\ \cos\theta_\text{elev} \sin\theta_\text{azim} \\ \sin\theta_\text{elev} \end{pmatrix} $$
+        </div>
+
+        <p>朝向（orientation）通过 <span class="term">scipy</span> 的 Rodrigues 旋转给出，最终设置到 <code>omni.isaac.sensor.Camera</code> 的 <code>world_pose</code>。</p>
+
+        <p>更完整的 orbit 相机动画功能（含多垂直角度步、继承现有相机内参）在 <code>camera/orbit.py</code> 的 <code>OrbitParams</code> / <code>create_orbit_camera_animation_and_export</code> 实现；单帧取景拟合则在 <code>camera/fit.py</code> 的 <code>FitParams</code> / <code>fit_camera_and_export</code> 实现，支持继承场景现有相机的视角并用 <span class="term">Rodrigues</span> 旋转做俯仰微调。</p>
+
+        <h2 id="invoke">调用示例</h2>
+        <div class="code">
+          <div class="code-head"><span class="fname">CLI 用法</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python"># 最简调用：对 chair.usd 从 4 个均匀方位角出图，512×512，PathTracing 渲染
+./scripts/isaac_python.sh ./main.py render-single \
+    /data/assets/chair.usd \
+    --out /data/renders \
+    --views 4 \
+    --width 512 --height 512 \
+    --elevation 35 \
+    --renderer PathTracing
+
+# 输出：/data/renders/chair/chair_0.png ... chair_3.png
+# naming-style=view 时输出：front.png left.png back.png right.png</code></pre>
+        </div>
+
+        <div class="callout">
+          <span class="ttl">HDRI 环境光</span>
+          <code>_find_builtin_hdri</code> 会自动搜索 Isaac Sim 安装目录下的 <code>photo_studio_01_4k.hdr</code>（<code>omni.kit.widget.material_preview</code> 扩展提供），如果找到，自动配置 <span class="term">DomeLight</span> 并开启透明背景合成（<code>/rtx/post/backgroundZeroAlpha</code>）；找不到时退回灰色 DomeLight。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

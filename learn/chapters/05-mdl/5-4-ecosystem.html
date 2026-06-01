@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>vMaterials 与 MDL SDK 生态 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="NVIDIA vMaterials 材质库、MDL SDK、Omniverse 生态，以及 MDL 在 Isaac Sim 资产里的实际地位。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="5-4">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART II · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>vMaterials 与 MDL SDK 生态</h1>
+
+        <p class="lead">MDL 并非孤立存在。NVIDIA 围绕它建立了一个完整的生态：用于运行时集成的 <span class="term term-accent">MDL SDK</span>、提供数千种物理材质的 <span class="term term-accent">vMaterials</span> 库、以及 Omniverse / Isaac Sim 平台内的一系列配套工具。了解这个生态，能帮助你理解为什么现实中的 Isaac Sim 资产充满了 MDL 材质，以及转换工作面对的实际复杂度。</p>
+
+        <h2 id="vmaterials">vMaterials：MDL 材质库</h2>
+
+        <p><span class="term">vMaterials</span> 是 NVIDIA 官方发布的物理材质库，包含金属、塑料、木材、皮革、织物、玻璃等数百种（累计超过 1000+）真实感材质，每一种都以 <code>.mdl</code> 文件的形式提供。这些材质的特点：</p>
+
+        <ul>
+          <li>基于真实测量数据（反射曲线、SVBRDF）构建，物理精度高。</li>
+          <li>大量使用 MDL 的 BSDF 组合算子——例如车漆会用多层 <code>fresnel_layer</code> + <code>backscattering_glossy_reflection_bsdf</code>，普通的 Cook-Torrance 参数根本无法精确表达。</li>
+          <li>配套高分辨率 PBR 纹理包（diffuse / normal / roughness / metallic / AO 等）。</li>
+        </ul>
+
+        <div class="callout">
+          <span class="ttl">对 ConvertAsset 的影响</span>
+          Isaac Sim 内置的 SimReady 资产普遍使用 vMaterials 系材质——即 <code>OmniPBR.mdl</code>、<code>OmniGlass.mdl</code>、<code>OmniSurface.mdl</code> 等 Omniverse MDL 扩展。当你用 <code>./scripts/isaac_python.sh ./main.py no-mdl</code> 处理这些资产时，<code>no_mdl/materials.py</code> 需要从这些 MDL 的 inputs 里提取 BaseColor / Roughness 等参数，近似映射到 UsdPreviewSurface。
+        </div>
+
+        <h2 id="mdl-sdk">MDL SDK：运行时集成</h2>
+
+        <p><span class="term">MDL SDK</span> 是 NVIDIA 提供的 C++ 库，提供：</p>
+
+        <ul>
+          <li><strong>编译与 JIT</strong>：把 MDL 材质编译为 LLVM IR / CUDA PTX，可以在 GPU 上求值 BSDF。</li>
+          <li><strong>参数访问</strong>：通过反射机制列举材质的 inputs（类型、名称、默认值、注解），这是工具链提取参数的基础。</li>
+          <li><strong>Distilling API</strong>：将任意 MDL 材质"蒸馏"（distill）为指定的目标模型（如 <code>ue4</code> 或 <code>transmissive_pbr</code>），自动折叠 BSDF 树，得到近似的高层参数——这正是 no-MDL 转换的理论基础之一。</li>
+        </ul>
+
+        <div class="callout warn">
+          <span class="ttl">ConvertAsset 的实际策略</span>
+          ConvertAsset 当前<strong>不依赖 MDL SDK</strong>。它通过直接解析 USD Shader prim 的 <code>inputs:</code> 字段（以及可选的 <code>.mdl</code> 文件文本），静态提取 BaseColor / Roughness / Metallic / Normal 等参数，然后手工构建 UsdPreviewSurface 网络。这个策略的优点是无需集成 MDL SDK（降低依赖复杂度）；代价是对复杂 BSDF 组合材质的近似精度有限，<code>mdl_parse.py</code> 通过正则表达式提取参数。
+        </div>
+
+        <h2 id="omniverse-position">MDL 在 Omniverse 生态中的地位</h2>
+
+        <p>在 Omniverse 架构中，MDL 扮演了材质的"黄金标准"：</p>
+
+        <ul>
+          <li><strong>Isaac Sim</strong>：默认使用 OmniPBR / OmniSurface MDL，配合 RTX 渲染器实现高保真仿真渲染。</li>
+          <li><strong>Omniverse Create / Composer</strong>：材质编辑器的底层就是 MDL 节点图，导出时自动生成 <code>.mdl</code> 文件。</li>
+          <li><strong>USD 材质绑定</strong>：每个 Mesh Prim 通过 <code>material:binding</code> 关系绑定到一个 Material Prim，Material Prim 同时持有 <code>outputs:mdl:surface</code>（MDL 路径）和 <code>outputs:surface</code>（UsdPreviewSurface 路径）。理想情况下两者并存，提供 portability；但很多资产只有 MDL 路径。</li>
+        </ul>
+
+        <!-- 生态链 SVG -->
+        <figure style="margin:2rem 0;text-align:center;">
+          <svg viewBox="0 0 560 130" xmlns="http://www.w3.org/2000/svg" style="max-width:560px;width:100%;font-family:inherit;font-size:12px;">
+            <rect x="10"  y="40" width="120" height="50" rx="6" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.2"/>
+            <text x="70" y="63"  text-anchor="middle" font-weight="600" fill="var(--c-fg,#1a1a2e)">vMaterials</text>
+            <text x="70" y="80"  text-anchor="middle" fill="var(--c-muted,#6b7280)">.mdl 库</text>
+            <line x1="130" y1="65" x2="160" y2="65" stroke="var(--c-muted,#9ca3af)" stroke-width="1.2" marker-end="url(#arr2)"/>
+
+            <rect x="160" y="40" width="120" height="50" rx="6" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.2"/>
+            <text x="220" y="63" text-anchor="middle" font-weight="600" fill="var(--c-fg,#1a1a2e)">MDL SDK</text>
+            <text x="220" y="80" text-anchor="middle" fill="var(--c-muted,#6b7280)">编译 / Distilling</text>
+            <line x1="280" y1="65" x2="310" y2="65" stroke="var(--c-muted,#9ca3af)" stroke-width="1.2" marker-end="url(#arr2)"/>
+
+            <rect x="310" y="40" width="120" height="50" rx="6" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.2"/>
+            <text x="370" y="63" text-anchor="middle" font-weight="600" fill="var(--c-fg,#1a1a2e)">Isaac Sim</text>
+            <text x="370" y="80" text-anchor="middle" fill="var(--c-muted,#6b7280)">RTX 渲染</text>
+            <line x1="430" y1="65" x2="460" y2="65" stroke="var(--c-muted,#9ca3af)" stroke-width="1.2" marker-end="url(#arr2)"/>
+
+            <rect x="460" y="40" width="90" height="50" rx="6" fill="var(--c-warn-faint,#fff7e6)" stroke="var(--c-warn,#f59e0b)" stroke-width="1.2"/>
+            <text x="505" y="63" text-anchor="middle" font-weight="600" fill="var(--c-fg,#1a1a2e)">其他工具</text>
+            <text x="505" y="80" text-anchor="middle" fill="var(--c-warn,#d97706)">❌ MDL</text>
+
+            <defs>
+              <marker id="arr2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="var(--c-muted,#9ca3af)"/>
+              </marker>
+            </defs>
+          </svg>
+          <figcaption style="font-size:0.82em;color:var(--c-muted,#6b7280);margin-top:0.4em;">MDL 生态链在 NVIDIA 工具链内闭环；跨出去则遇到 portability 墙</figcaption>
+        </figure>
+
+        <div class="callout recap">
+          <span class="ttl">第 5 章小结</span>
+          MDL 是一个设计精良的材质语言：声明式物理接口 + 过程式函数 + 完备的 BSDF/EDF/VDF 体系 + 模块化库（vMaterials）。但它的执行依赖 MDL SDK，形成事实上的 <span class="term">renderer-bound</span> 约束。这个约束催生了第 6 章的 no-MDL 转换——在保留 USD 组合结构的前提下，把 MDL 材质网络近似映射到 UsdPreviewSurface，换取 <span class="term">portability</span>。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

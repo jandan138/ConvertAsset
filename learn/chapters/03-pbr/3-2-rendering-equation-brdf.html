@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>rendering equation 与 BRDF 复习 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="深入理解 rendering equation 与 BRDF 的物理定义，从辐射度量学角度建立 PBR 的数学基础。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="3-2">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART III · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>rendering equation 与 BRDF 复习</h1>
+
+        <p class="lead">PBR 的数学骨架是 <span class="term term-accent">rendering equation</span>（渲染方程）和它的核心函数 <span class="term term-accent">BRDF</span>（bidirectional reflectance distribution function）。理解这两个概念，你才能真正看懂 Cook-Torrance 公式里每一项的物理含义，以及为什么 GGX、Schlick、Smith 这些名字会反复出现。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          GAMES101 介绍过 rendering equation 的概念，但更多是作为「路径追踪的起点」出现。这里我们从辐射度量学（<span class="term">radiometry</span>）出发，把公式里的每一个符号都赋予明确的物理意义，然后把 <span class="term">BRDF</span> 的两条物理约束讲清楚。
+        </div>
+
+        <h2 id="radiometry">辐射度量学速览</h2>
+
+        <p>渲染里的「光」需要量化。<span class="term">radiometry</span>（辐射度量学）提供了一套严格的量：</p>
+
+        <ul>
+          <li><strong>Radiant flux \(\Phi\)</strong>：辐射通量，单位 Watts，代表光源的总发射功率。</li>
+          <li><strong>Solid angle \(\omega\)</strong>：立体角，单位 sr（steradians），描述方向「有多宽」——把某个方向范围投影到单位球上的面积。</li>
+          <li><strong>Radiance \(L\)</strong>：辐亮度，单位 W·sr⁻¹·m⁻²，描述某一方向上单位面积、单位立体角内的光能量密度。它是渲染里最常用的量。</li>
+        </ul>
+
+        <div class="math-block">
+          $$ L = \frac{d^2\Phi}{dA\, d\omega\, \cos\theta} $$
+        </div>
+
+        <p>其中 \(\cos\theta\) 是光线与表面法线的夹角余弦——这正对应 Lambert 漫反射里的 \(n\cdot l\) 项。</p>
+
+        <h2 id="rendering-equation">rendering equation</h2>
+
+        <p>Kajiya 1986 年提出的 <span class="term">rendering equation</span>（也叫 reflectance equation）描述了表面一点 \(p\) 在方向 \(\omega_o\) 上的出射辐亮度：</p>
+
+        <div class="math-block">
+          $$ L_o(p,\,\omega_o) = \int_\Omega f_r(p,\,\omega_i,\,\omega_o)\; L_i(p,\,\omega_i)\; (n\cdot\omega_i)\; d\omega_i $$
+        </div>
+
+        <p>逐项解读：</p>
+        <ul>
+          <li>\(L_o(p, \omega_o)\)：我们想计算的量——点 \(p\) 向 \(\omega_o\)（相机方向）出射的辐亮度。</li>
+          <li>积分域 \(\Omega\)：以法线 \(n\) 为轴的半球，代表所有可能的入射方向。</li>
+          <li>\(L_i(p, \omega_i)\)：从方向 \(\omega_i\) 入射的辐亮度，可以来自直接光源或其他表面的反射。</li>
+          <li>\(n \cdot \omega_i\)：Lambert 余弦因子，入射越垂直贡献越大。</li>
+          <li>\(f_r(p, \omega_i, \omega_o)\)：<span class="term term-accent">BRDF</span>，描述这个表面如何把 \(\omega_i\) 的入射光「分配」到 \(\omega_o\) 方向。</li>
+        </ul>
+
+        <div class="callout">
+          <span class="ttl">为什么积分算不出来</span>
+          半球上有无数个入射方向，对 \(L_i\) 积分没有解析解（因为 \(L_i\) 本身又是另一个点的 \(L_o\)，这是一个递归方程）。实时渲染用近似——只考虑有限数量的直接光，或用 <span class="term">IBL（image-based lighting）</span> 预计算。
+        </div>
+
+        <h2 id="brdf">BRDF 的定义与约束</h2>
+
+        <p><span class="term">BRDF</span>（bidirectional reflectance distribution function）的定义是：</p>
+
+        <div class="math-block">
+          $$ f_r(\omega_i, \omega_o) = \frac{dL_o(\omega_o)}{dE_i(\omega_i)} = \frac{dL_o(\omega_o)}{L_i(\omega_i)\,(n\cdot\omega_i)\,d\omega_i} $$
+        </div>
+
+        <p>直觉：「入射一点点能量 \(dE_i\)，在出射方向 \(\omega_o\) 上能看到多少辐亮度 \(dL_o\)？」单位是 sr⁻¹。</p>
+
+        <p>物理可信的 BRDF 必须满足两条约束：</p>
+
+        <p><strong>① Helmholtz 互易性（reciprocity）</strong>：交换入射和出射方向，结果不变。</p>
+        <div class="math-block">
+          $$ f_r(\omega_i, \omega_o) = f_r(\omega_o, \omega_i) $$
+        </div>
+
+        <p><strong>② 能量守恒（energy conservation）</strong>：对任意入射方向，反射出去的总能量不超过入射能量。</p>
+        <div class="math-block">
+          $$ \int_\Omega f_r(\omega_i, \omega_o)\,(n\cdot\omega_o)\,d\omega_o \;\leq\; 1 \quad \forall\, \omega_i $$
+        </div>
+
+        <p>Blinn-Phong 不满足第②条，因为它的 \(k_d + k_s\) 没有约束。<span class="term">Cook-Torrance</span> BRDF 通过把 Fresnel 项 \(F\) 作为 diffuse/specular 的分配权重，严格保持了这个约束。</p>
+
+        <h2 id="brdf-decomposition">diffuse + specular 的分解</h2>
+
+        <p>大多数实时 PBR 把 BRDF 写成漫反射和镜面反射两部分之和：</p>
+
+        <div class="math-block">
+          $$ f_r = k_d\, f_\text{lambert} + f_\text{specular} $$
+        </div>
+
+        <p>其中 <span class="term">Lambertian diffuse</span> 非常简单：</p>
+        <div class="math-block">
+          $$ f_\text{lambert} = \frac{c}{\pi} $$
+        </div>
+        <p>\(c\) 是 <span class="term">albedo</span>（漫反射颜色），除以 \(\pi\) 是归一化因子（确保半球积分为 1）。关键是权重 \(k_d = 1 - k_s\)，而 \(k_s\) 正是 Fresnel 项——入射光有多少比例被反射走，就有多少比例不再进入表面发生漫反射，两者之和为 1，自然守恒。</p>
+
+        <div class="callout recap">
+          <span class="ttl">衔接下一节</span>
+          现在我们有了 rendering equation 的框架，下一节 <a href="3-3-microfacet.html">3.3 microfacet model 与 energy conservation</a> 会解释 specular BRDF 的 \(f_\text{specular}\) 是怎么从微观几何（microfacet）推导出来的，以及 D / F / G 三项各自负责什么。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

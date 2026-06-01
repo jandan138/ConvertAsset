@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>case：为什么 ConvertAsset 选择 composition-preserving — ConvertAsset Learning Guide</title>
+  <meta name="description" content="深入 ConvertAsset Processor 的设计：为什么选择 non-flatten 策略，cycle detection 与 dedup 如何保证正确性。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="2-5">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART I · 场景表示 · Scene Representation</div>
+        <h1>case：为什么 ConvertAsset 选择 composition-preserving</h1>
+
+        <p class="lead">把一个有 MDL 材质的 USD 场景转换成 UsdPreviewSurface，最简单的实现是「<span class="term">flatten</span>」：把整个 composition 解析后一次性写成一个单层 USD 文件，然后替换材质。但 ConvertAsset 没有这样做——它选择了更复杂的 <span class="term">composition-preserving</span> 路径，逐文件递归处理，保留所有 composition arc。这个设计决策背后有什么考量？代码里是怎么实现的？</p>
+
+        <h2 id="flatten-vs-preserve">Flatten 的代价</h2>
+
+        <p>USD 提供 <code>stage.Flatten()</code> API：把所有 Layer 的 opinion 合并计算，输出成一个单文件「快照」。这样做有几个代价：</p>
+
+        <ul>
+          <li><strong>丢失 composition 结构</strong>：references / payloads / variant sets 全部消失，变成一坨平铺的 Prim 数据。flatten 后无法再切换 variant，无法再 override 单个 sublayer。</li>
+          <li><strong>文件膨胀</strong>：原本「chair.usd 被 10 个场景 reference」只需存一份 chair 的数据；flatten 后每个场景都有一份 chair 的完整数据。</li>
+          <li><strong>可调试性下降</strong>：flatten 后你看不到「这个属性的值来自哪个 Layer，是哪个 variant 决定的」；调试材质问题失去了上下文。</li>
+          <li><strong>不可逆</strong>：flatten 是单向操作，无法从 flatten 结果反推原始 composition 结构。</li>
+        </ul>
+
+        <div class="callout warn">
+          <span class="ttl">对 Isaac Sim / Omniverse pipeline 尤为关键</span>
+          Isaac Sim 场景通常有多层引用：顶层 scene.usd → room.usd → furniture.usd → material_library.usd。如果 flatten 处理，场景里每一件家具的材质数据都会被内联一份。一个包含 100 件家具的房间，flatten 后文件大小可能从几 MB 暴增到几百 MB，且无法再单独更新 material_library。
+        </div>
+
+        <h2 id="processor-design">Processor 的设计</h2>
+
+        <p>ConvertAsset 用 <code>Processor</code> 类实现 composition-preserving 转换。它的核心思路是：</p>
+
+        <ol>
+          <li>对当前 USD 文件，扫描所有 composition arc 里引用的子 USD 路径。</li>
+          <li><strong>先递归处理所有子文件</strong>，得到「子文件原路径 → 子文件 noMDL 路径」的映射 <code>mapping</code>。</li>
+          <li>导出当前文件的 root layer（不含子文件内容）为 <code>*_noMDL.usd</code>。</li>
+          <li>在新文件上把所有 assetPath 按 <code>mapping</code> 改写（<code>chair.usd</code> → <code>chair_noMDL.usd</code>）。</li>
+          <li>仅在当前文件上做材质转换（不涉及子文件）。</li>
+        </ol>
+
+        <p>关键点：步骤 3 导出的是 <strong>root layer 本身</strong>（通过 <code>GetRootLayer().Export()</code>），不是 flatten 后的内容。所有子文件的内容仍然通过 composition arc 间接引入，只是路径改写了。</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">processor.py（核心流程）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">def process(self, src_usd_abs: str, _is_root_call: bool = True) -> str:
+    # 1. 规范化路径
+    src_usd_abs = _to_posix(os.path.abspath(src_usd_abs))
+
+    # 2. 去重：已处理过直接返回
+    if src_usd_abs in self.done:
+        return self.done[src_usd_abs]
+
+    # 3. 环检测：防止 A→B→A 这样的循环引用导致无限递归
+    if src_usd_abs in self.in_stack:
+        print("[WARN] cyclic reference? already in stack:", src_usd_abs)
+        return self.done.get(src_usd_abs, src_usd_abs)
+    self.in_stack.add(src_usd_abs)
+
+    # 4. 打开源 Stage
+    stage = Usd.Stage.Open(src_usd_abs)
+
+    # 5. 收集所有子 USD 路径（references / payloads / sublayers / variants / clips）
+    deps = _collect_asset_paths(stage)
+    child_abs_paths = set()  # 用 set 去重，同一子文件可被多处引用
+    for kind, holder, layer_dir, assetPath, prim_path, extra in deps:
+        abs_child = _resolve(layer_dir, assetPath)
+        if ext in (".usd", ".usda", ".usdc", ".usdz"):
+            child_abs_paths.add(abs_child)
+
+    # 6. 先递归处理所有子文件，建立 mapping
+    mapping = {}
+    for child in sorted(child_abs_paths):
+        if os.path.exists(child):
+            dst_child = self.process(child, _is_root_call=False)
+            mapping[child] = dst_child
+
+    # 7. 导出当前 root layer（不 flatten！）为 *_noMDL.usd
+    dst_usd_abs = _sibling_noMDL_path(src_usd_abs)
+    stage.GetRootLayer().Export(dst_usd_abs)  # 只导出当前 layer 自己的数据
+
+    # 8. 打开新文件，改写 assetPath + 转换材质
+    dst_stage = Usd.Stage.Open(dst_usd_abs)
+    _rewrite_assets_in_stage(dst_stage, mapping)           # 路径改写
+    convert_and_strip_mdl_in_this_file_only(dst_stage)     # 材质转换
+
+    # 9. 保存
+    dst_stage.GetRootLayer().Export(dst_usd_abs)
+
+    # 10. 记录结果、出栈
+    self.done[src_usd_abs] = dst_usd_abs
+    self.in_stack.remove(src_usd_abs)
+    return dst_usd_abs</code></pre>
+        </div>
+
+        <h2 id="two-safety-mechanisms">两个安全机制：done 与 in_stack</h2>
+
+        <p>Processor 有两个成员变量，各自解决一个问题：</p>
+
+        <h3><code>done: dict[str, str]</code> — 去重</h3>
+
+        <p>production USD 场景里，同一个 asset 文件往往被多处引用：同一张椅子放在同一个房间的 10 个位置，或者同一份材质库被 50 个场景引用。</p>
+
+        <p>如果没有 <code>done</code>，Processor 会对 <code>chair.usd</code> 处理 10 次，生成 10 次（幂等的，但完全浪费时间）。有了 <code>done</code>，第一次处理完后把 <code>chair.usd → chair_noMDL.usd</code> 记录在 <code>done</code> 里，后续 9 次都直接返回缓存结果。</p>
+
+        <!-- 示意图：多引用去重 -->
+        <svg viewBox="0 0 480 120" xmlns="http://www.w3.org/2000/svg"
+             style="width:100%;max-width:480px;display:block;margin:1.5rem auto;font-family:inherit">
+          <rect x="170" y="5"  width="140" height="34" rx="5" fill="var(--panel,#f7f7fb)" stroke="var(--accent,#5b5bd6)" stroke-width="1.5"/>
+          <text x="240" y="27" text-anchor="middle" font-size="12" fill="var(--ink,#16161d)">room.usd</text>
+          <rect x="20"  y="75" width="100" height="34" rx="5" fill="var(--panel,#f7f7fb)" stroke="var(--accent,#5b5bd6)" stroke-width="1.5"/>
+          <text x="70"  y="97" text-anchor="middle" font-size="11" fill="var(--ink,#16161d)">chair.usd</text>
+          <rect x="180" y="75" width="120" height="34" rx="5" fill="var(--panel,#f7f7fb)" stroke="var(--accent,#5b5bd6)" stroke-width="1.5"/>
+          <text x="240" y="97" text-anchor="middle" font-size="11" fill="var(--ink,#16161d)">chair.usd ×3</text>
+          <rect x="360" y="75" width="100" height="34" rx="5" fill="var(--panel,#f7f7fb)" stroke="var(--accent,#5b5bd6)" stroke-width="1.5"/>
+          <text x="410" y="97" text-anchor="middle" font-size="11" fill="var(--ink,#16161d)">table.usd</text>
+          <!-- arrows -->
+          <line x1="200" y1="39" x2="70"  y2="75" stroke="var(--accent,#5b5bd6)" stroke-width="1.2"/>
+          <line x1="240" y1="39" x2="240" y2="75" stroke="var(--accent,#5b5bd6)" stroke-width="1.2"/>
+          <line x1="280" y1="39" x2="410" y2="75" stroke="var(--accent,#5b5bd6)" stroke-width="1.2"/>
+          <text x="125" y="66" font-size="9" fill="var(--accent,#5b5bd6)">done 缓存命中 →</text>
+        </svg>
+
+        <h3><code>in_stack: set[str]</code> — 环检测</h3>
+
+        <p>USD 技术上允许循环引用（A 引用 B，B 又引用 A），虽然这通常是错误，但如果 Processor 不处理，就会无限递归直到栈溢出。</p>
+
+        <p><code>in_stack</code> 在进入每个文件时入栈（<code>add</code>），处理完成后出栈（<code>remove</code>）。在处理某个文件的过程中，如果递归路径再次遇到同一个文件，说明检测到了循环——发出 <code>[WARN]</code> 并返回已有结果（或原路径），打断循环。</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">cycle_detection.py（演示）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python"># 假设 scene.usd 引用 room.usd，room.usd 又（错误地）引用 scene.usd
+# 调用栈：
+#   process("scene.usd")
+#     in_stack = {"scene.usd"}
+#     → process("room.usd")
+#         in_stack = {"scene.usd", "room.usd"}
+#         → process("scene.usd")  ← 在 in_stack 里！
+#             [WARN] cyclic reference? already in stack: scene.usd
+#             return done.get("scene.usd", "scene.usd")  ← 打断循环
+#         in_stack = {"scene.usd"}
+#     in_stack = {}
+# 处理完成，没有无限递归</code></pre>
+        </div>
+
+        <h2 id="why-it-matters">为什么这对 production pipeline 重要</h2>
+
+        <p>Composition-preserving 策略在 ConvertAsset 的使用场景里有三个直接价值：</p>
+
+        <ol>
+          <li><strong>可审计性</strong>：转换后的 <code>*_noMDL.usd</code> 仍然可以在 usdview 里展开，逐层查看 composition 结构，验证每一个材质转换是否正确。如果 flatten，整棵层叠树就变成不透明的扁平数据。</li>
+          <li><strong>增量更新</strong>：如果只有某一个子 USD 文件的材质需要重新转换，只需要重新处理那一个文件，其他文件的 <code>*_noMDL</code> 版本仍然有效。flatten 策略下整个场景需要重新处理。</li>
+          <li><strong>保持 variant 功能</strong>：noMDL 版本的场景仍然支持 variant 切换，下游用户可以在更强的 Layer 里切换椅子颜色、桌子材质——不会因为 flatten 而丢失这个能力。</li>
+        </ol>
+
+        <div class="callout recap">
+          <span class="ttl">本章总结</span>
+          你现在理解了为什么 ConvertAsset 需要递归处理整棵 USD 引用树（composition arc 把场景分布在多个文件里），为什么 <code>done</code> 和 <code>in_stack</code> 是必要的（去重 + 环检测），以及为什么用 <code>GetRootLayer().Export()</code> 而不是 <code>stage.Flatten()</code>（保持 composition 结构的可审计性与可维护性）。这些设计决策直接来自本章讲解的 USD composition 机制。
+        </div>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          第 3 章进入材质世界：<a href="../03-pbr/3-1-blinn-phong-recap.html">3.1 — 回顾 Blinn-Phong 与它的不足</a>，开始理解为什么 production 要用 PBR，以及 MDL 和 UsdPreviewSurface 背后的物理模型。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

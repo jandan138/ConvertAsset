@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>二进制解剖实操 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="逐步解剖 ConvertAsset 输出的 GLB：xxd 验证 magic、JSON chunk 解读、BIN chunk 的 accessor 字节范围，以及与 usd_mesh.py / writer.py 的对应关系。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="9-5">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART IV · 资产交换与交付 · Asset Interchange</div>
+        <h1>二进制解剖实操</h1>
+
+        <p class="lead">理论说了那么多，不如亲手打开一个 GLB 文件用 <code>xxd</code> 和 Python 验证一遍。本节以 ConvertAsset 导出的一个简单资产为例，逐字节对照 9-3 的格式描述，再把每个 <span class="term">accessor</span> 的字节范围与 <code>glb/usd_mesh.py</code> + <code>glb/writer.py</code> 的代码路径对应起来。</p>
+
+        <h2 id="xxd-check">step 1：xxd 验证 magic 与版本</h2>
+        <p>生成一个 GLB 之后，用 <code>xxd</code> 查看前 12 字节：</p>
+        <div class="code">
+          <div class="code-head"><span class="fname">shell</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">./scripts/isaac_python.sh ./main.py export-glb scene_noMDL.usd --out out.glb
+
+xxd out.glb | head -2</code></pre>
+        </div>
+        <p>典型输出（小端）：</p>
+        <div class="code">
+          <div class="code-head"><span class="fname">xxd 输出</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">00000000: 676c 5446 0200 0000 a842 0400 ...  glTF....
+          ^^^^^^^^^^^^^^ ^^^^^^^^^^^^ ^^^^
+          magic="glTF"   version=2   length=0x000442a8</code></pre>
+        </div>
+        <p><code>67 6c 54 46</code> = ASCII "glTF"（注意小端存储下字节序与 <code>0x46546C67</code> 的字节排列）；接下来 4 字节 little-endian 读出 = 2 = version 2；再 4 字节是整个文件长度。</p>
+
+        <h2 id="json-chunk">step 2：解析 JSON chunk</h2>
+        <p>偏移 12 字节开始是 JSON chunk 的 8 字节元数据：chunkLength（4B）+ chunkType（4B = <code>0x4E4F534A</code>）。</p>
+        <div class="code">
+          <div class="code-head"><span class="fname">parse_glb_header.py</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">import struct, json
+
+with open("out.glb", "rb") as f:
+    magic, version, length = struct.unpack_from("<III", f.read(12))
+    assert magic == 0x46546C67, f"Not a GLB: magic={magic:#x}"
+    assert version == 2
+
+    json_len, json_type = struct.unpack_from("<II", f.read(8))
+    assert json_type == 0x4E4F534A, "First chunk must be JSON"
+
+    json_bytes = f.read(json_len)
+    gltf = json.loads(json_bytes.rstrip(b" "))   # 去除对齐填充的空格
+
+print("accessors count:", len(gltf["accessors"]))
+print("bufferViews count:", len(gltf["bufferViews"]))
+for i, acc in enumerate(gltf["accessors"]):
+    print(f"  acc[{i}]: type={acc['type']}, count={acc['count']}, "
+          f"componentType={acc['componentType']}")</code></pre>
+        </div>
+
+        <h2 id="accessor-layout">step 3：accessor 字节范围对应关系</h2>
+        <p>ConvertAsset 的 <code>glb/writer.py</code> 按照如下顺序把数据打包进 BIN chunk（以一个简单网格为例）：</p>
+        <ol>
+          <li><strong>POSITION accessor</strong>：float32 × 3 × N_verts 字节（顶点坐标）</li>
+          <li><strong>NORMAL accessor</strong>（若有）：float32 × 3 × N_verts 字节</li>
+          <li><strong>TEXCOORD_0 accessor</strong>（若有 UV）：float32 × 2 × N_verts 字节</li>
+          <li><strong>indices accessor</strong>：uint16 或 uint32 × N_indices 字节（根据顶点数选择类型）</li>
+        </ol>
+
+        <p>所有块之间必须 4 字节对齐。下表是一个实际 3000 顶点、9000 面（三角）网格的典型布局：</p>
+
+        <table style="width:100%;border-collapse:collapse;font-size:0.90rem;margin:1rem 0;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--c-border,#d0d5de);text-align:left;">
+              <th style="padding:6px 10px;">accessor</th>
+              <th style="padding:6px 10px;">byteOffset（BIN内）</th>
+              <th style="padding:6px 10px;">byteLength</th>
+              <th style="padding:6px 10px;">计算</th>
+            </tr>
+          </thead>
+          <tbody style="font-size:0.88rem;">
+            <tr style="border-bottom:1px solid var(--c-border,#d0d5de);">
+              <td style="padding:6px 10px;">POSITION</td>
+              <td style="padding:6px 10px;">0</td>
+              <td style="padding:6px 10px;">36000</td>
+              <td style="padding:6px 10px;">3000 × 3 × 4</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c-border,#d0d5de);">
+              <td style="padding:6px 10px;">NORMAL</td>
+              <td style="padding:6px 10px;">36000</td>
+              <td style="padding:6px 10px;">36000</td>
+              <td style="padding:6px 10px;">3000 × 3 × 4</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c-border,#d0d5de);">
+              <td style="padding:6px 10px;">TEXCOORD_0</td>
+              <td style="padding:6px 10px;">72000</td>
+              <td style="padding:6px 10px;">24000</td>
+              <td style="padding:6px 10px;">3000 × 2 × 4</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 10px;">indices</td>
+              <td style="padding:6px 10px;">96000</td>
+              <td style="padding:6px 10px;">54000</td>
+              <td style="padding:6px 10px;">9000 × 3 × 2（uint16，顶点数&lt;65536）</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 id="usd-to-glb-link">数据流：usd_mesh.py → writer.py → GLB</h2>
+        <p>综合前面各节，ConvertAsset 的 USD→GLB 数据流如下：</p>
+        <ol>
+          <li><code>glb/usd_mesh.py</code>：从 <span class="term">UsdGeom.Mesh</span> 提取 points / normals / UV（faceVarying UV 在此展平）→ numpy arrays。</li>
+          <li><code>glb/usd_material.py</code>：从 <span class="term">UsdPreviewSurface</span> 提取 base color / metallic / roughness / textures。</li>
+          <li><code>glb/converter.py</code>：遍历 Stage 所有 Mesh，调用上述两个模块，组装 glTF JSON 字典。</li>
+          <li><code>glb/writer.py</code>：序列化 JSON + 打包 BIN → 写出 GLB header + chunks。</li>
+        </ol>
+
+        <!-- 内联 SVG：完整数据流 -->
+        <svg viewBox="0 0 540 80" style="width:100%;max-width:540px;display:block;margin:1.2rem auto 0.5rem;" aria-label="USD 到 GLB 完整数据流">
+          <defs>
+            <marker id="arr95" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+              <path d="M0,0 L5,2.5 L0,5 Z" fill="var(--c-accent,#4f8ef7)"/>
+            </marker>
+          </defs>
+          <rect x="5" y="20" width="90" height="40" rx="4" fill="rgba(79,142,247,0.1)" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.2"/>
+          <text x="50" y="38" text-anchor="middle" font-size="10" fill="var(--c-accent,#4f8ef7)">USD Mesh</text>
+          <text x="50" y="52" text-anchor="middle" font-size="9" fill="var(--c-text-muted,#667)">usd_mesh.py</text>
+          <line x1="97" y1="40" x2="115" y2="40" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.2" marker-end="url(#arr95)"/>
+          <rect x="118" y="20" width="90" height="40" rx="4" fill="rgba(79,142,247,0.1)" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.2"/>
+          <text x="163" y="38" text-anchor="middle" font-size="10" fill="var(--c-accent,#4f8ef7)">USD Material</text>
+          <text x="163" y="52" text-anchor="middle" font-size="9" fill="var(--c-text-muted,#667)">usd_material.py</text>
+          <line x1="210" y1="40" x2="228" y2="40" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.2" marker-end="url(#arr95)"/>
+          <rect x="231" y="20" width="85" height="40" rx="4" fill="rgba(224,123,84,0.1)" stroke="#e07b54" stroke-width="1.2"/>
+          <text x="274" y="38" text-anchor="middle" font-size="10" fill="#e07b54">converter.py</text>
+          <text x="274" y="52" text-anchor="middle" font-size="9" fill="var(--c-text-muted,#667)">JSON build</text>
+          <line x1="318" y1="40" x2="336" y2="40" stroke="#e07b54" stroke-width="1.2" marker-end="url(#arr95)"/>
+          <rect x="339" y="20" width="85" height="40" rx="4" fill="rgba(100,180,100,0.1)" stroke="#4a9" stroke-width="1.2"/>
+          <text x="382" y="38" text-anchor="middle" font-size="10" fill="#4a9">writer.py</text>
+          <text x="382" y="52" text-anchor="middle" font-size="9" fill="var(--c-text-muted,#667)">GLB write</text>
+          <line x1="426" y1="40" x2="444" y2="40" stroke="#4a9" stroke-width="1.2" marker-end="url(#arr95)"/>
+          <rect x="447" y="20" width="85" height="40" rx="4" fill="rgba(100,180,100,0.12)" stroke="#4a9" stroke-width="1.5"/>
+          <text x="490" y="38" text-anchor="middle" font-size="11" fill="#4a9">output.glb</text>
+          <text x="490" y="52" text-anchor="middle" font-size="9" fill="var(--c-text-muted,#667)">JSON+BIN</text>
+        </svg>
+
+        <div class="callout recap">
+          <span class="ttl">总结</span>
+          解剖一个真实 GLB：magic "glTF" 在文件头 0 字节，JSON chunk 紧跟其后，BIN chunk 里存着 float32 顶点和 uint16/32 索引。ConvertAsset 的 writer.py 是这套格式的简洁实现——不到 200 行 Python，无第三方依赖，生成完全符合 glTF 2.0 规范的 GLB。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

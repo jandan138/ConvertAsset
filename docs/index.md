@@ -11,6 +11,7 @@
 - **[InternNav official evidence runbook](operations/internnav-official-evidence-runbook.md)** - official KuJiaLe downstream evidence 的运行、同步和 claim 边界
 - **[过程记录](records/README.md)** - 变更日志、实现记录、审计与路线记录
 - **[参考资料](reference/README.md)** - USD、UsdShade、MDL 与材质背景知识
+- **[Learning Guide](../learn/README.md)** - `learn/` 下的交互式 HTML 电子书（GAMES101 → production USD asset pipeline）；bootstrap 记录见 [records/2026-06-01-learn-guide-bootstrap.md](records/2026-06-01-learn-guide-bootstrap.md)
 - **[Superpowers 内部流程](superpowers/README.md)** - 本次设计/计划流程产物
 - **[归档材料](../archive/README.md)** - 旧索引、legacy 文档、论文/提交相关历史材料
 

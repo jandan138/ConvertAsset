@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>usdview 与 pxr Python 速览 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="usdview 的核心操作与 pxr Python API 的常用模式：遍历 Prim、读写 Attribute、查看 composition 堆栈。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="1-4">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART I · 场景表示 · Scene Representation</div>
+        <h1>usdview 与 pxr Python 速览</h1>
+
+        <p class="lead"><span class="term term-accent">usdview</span> 是 USD 官方自带的场景查看器与调试工具，也是理解 composition 结果的「真相窗口」——它直接调用同一套 Stage 合成引擎，你看到的就是代码里 <code>stage.Traverse()</code> 遍历到的结果。<span class="term term-accent">pxr</span> 是 USD 的 Python 绑定，是 ConvertAsset 全部代码的核心依赖。这一节给出在实际工作中最高频的用法。</p>
+
+        <h2 id="usdview">usdview：场景调试利器</h2>
+
+        <p>usdview 随 Isaac Sim（和 USD 官方发行包）一起安装。启动方式：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">terminal</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python"># 在 Isaac Sim 环境里
+usdview /path/to/scene.usd
+
+# 或者通过 Isaac Sim python wrapper
+./scripts/isaac_python.sh -c "
+from pxr import Usd
+stage = Usd.Stage.Open('/path/to/scene.usd')
+for p in stage.Traverse():
+    print(p.GetPath(), p.GetTypeName())
+"</code></pre>
+        </div>
+
+        <p>usdview 的三个最有用的面板：</p>
+
+        <ul>
+          <li><strong>Prim Browser（左侧树）</strong>：显示 composed Stage 里的 Prim 层次。点击 Prim 可以在右侧看它的所有 Properties 和每个 Property 上有哪些 opinion（来自哪个 Layer，值是什么）。</li>
+          <li><strong>Layer Stack</strong>（菜单 View → Layer Stack）：显示当前 Stage 由哪些 Layer 组成，sublayer / reference 的嵌套关系一目了然。</li>
+          <li><strong>Composition 面板</strong>（选中 Prim 后，右键 → Composition）：显示这个 Prim 的 <span class="term">composition arc</span> 图——是被 subLayered 进来的，还是 referenced，还是 inherited？</li>
+        </ul>
+
+        <div class="callout recap">
+          <span class="ttl">ConvertAsset 调试时的最高频操作</span>
+          转换完成后，用 usdview 打开 <code>*_noMDL.usd</code>，在 Layer Stack 面板验证「所有 sublayer / reference 路径是否已更新为 <code>*_noMDL</code>」；在 Prim Browser 里展开材质 Prim，确认 MDL shader 节点已被 UsdPreviewSurface 节点替换。
+        </div>
+
+        <h2 id="pxr-patterns">pxr Python 高频用法模式</h2>
+
+        <p>以下是 ConvertAsset 代码里反复出现的 pxr 模式，也是你在 USD 工作中最常用的操作：</p>
+
+        <h3>打开 Stage 与遍历</h3>
+        <div class="code">
+          <div class="code-head"><span class="fname">traverse.py</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">from pxr import Usd, UsdGeom, UsdShade
+
+stage = Usd.Stage.Open("scene.usd")
+
+# 遍历所有 Prim（深度优先，包含 inactive 的 Prim 不在此列表）
+for prim in stage.Traverse():
+    print(prim.GetPath(), prim.GetTypeName())
+
+# 只遍历某个子树
+world = stage.GetPrimAtPath("/World")
+for prim in stage.Traverse(world.GetPath()):
+    print(prim.GetPath())
+
+# 遍历时过滤类型
+for prim in stage.Traverse():
+    if prim.IsA(UsdGeom.Mesh):
+        mesh = UsdGeom.Mesh(prim)
+        pts = mesh.GetPointsAttr().Get()
+        print(f"{prim.GetPath()}: {len(pts)} points")</code></pre>
+        </div>
+
+        <h3>读写 Attribute</h3>
+        <div class="code">
+          <div class="code-head"><span class="fname">attributes.py</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">from pxr import Usd, UsdShade, Sdf, Gf
+
+stage = Usd.Stage.Open("mat.usd")
+
+# 找到 shader prim 并读取属性
+shader_prim = stage.GetPrimAtPath("/Looks/Mat/PBRShader")
+shader = UsdShade.Shader(shader_prim)
+
+# 通过 schema API 读（推荐）
+roughness_input = shader.GetInput("roughness")
+if roughness_input:
+    val = roughness_input.Get()
+    print("roughness:", val)
+
+# 通过底层 Attribute API 写
+rough_attr = shader_prim.GetAttribute("inputs:roughness")
+if rough_attr:
+    rough_attr.Set(0.3)
+else:
+    # 如果属性不存在，先创建
+    new_attr = shader_prim.CreateAttribute(
+        "inputs:roughness", Sdf.ValueTypeNames.Float
+    )
+    new_attr.Set(0.3)</code></pre>
+        </div>
+
+        <h3>检查 composition arc 与 Layer Stack</h3>
+        <div class="code">
+          <div class="code-head"><span class="fname">composition_inspect.py</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">from pxr import Usd
+
+stage = Usd.Stage.Open("scene.usd")
+
+# 查看 root layer
+root_layer = stage.GetRootLayer()
+print("root layer:", root_layer.identifier)
+print("sublayers:", root_layer.subLayerPaths)
+
+# 查看所有 Layer（包括 referenced）
+all_layers = stage.GetLayerStack()
+for layer in all_layers:
+    print("layer:", layer.identifier)
+
+# 查看某个 Prim 的 composition arc query
+prim = stage.GetPrimAtPath("/World/Chair")
+query = Usd.PrimCompositionQuery(prim)
+for arc in query.GetCompositionArcs():
+    print("arc type:", arc.GetArcType(),
+          "target:", arc.GetTargetNode().layerStack.identifier)</code></pre>
+        </div>
+
+        <h3>在 Stage 上创建/修改内容</h3>
+        <div class="code">
+          <div class="code-head"><span class="fname">author_stage.py</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">from pxr import Usd, UsdGeom, UsdShade, Sdf
+
+# 创建新 Stage
+stage = Usd.Stage.CreateNew("output.usda")
+
+# 设置 defaultPrim（GLB 导出需要）
+xform = UsdGeom.Xform.Define(stage, "/Root")
+stage.SetDefaultPrim(xform.GetPrim())
+
+# 设置 up 轴（Y-up for glTF，Z-up 是 USD 默认）
+UsdGeom.SetStageUpAxis(stage, UsdGeom.Tokens.y)
+
+# 保存
+stage.GetRootLayer().Save()
+# 或者导出到指定路径
+stage.GetRootLayer().Export("/output/path/output.usda")</code></pre>
+        </div>
+
+        <h2 id="lazy-import">ConvertAsset 的 lazy import 模式</h2>
+
+        <p>ConvertAsset 的所有模块都把 <code>from pxr import ...</code> 放在函数内部，而不是文件顶层。这是一个工程约定：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">convert_asset/no_mdl/materials.py（模式示意）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">def build_preview_surface(stage, material_path):
+    # pxr 在函数体内导入——懒加载
+    from pxr import UsdShade, Sdf  # type: ignore  # pxr provided at runtime
+
+    mat = UsdShade.Material.Define(stage, material_path)
+    shader = UsdShade.Shader.Define(stage, material_path + "/PBRShader")
+    shader.CreateIdAttr("UsdPreviewSurface")
+    # ...</code></pre>
+        </div>
+
+        <p>这样设计的好处：CLI 的 <code>--help</code> 在没有 Isaac Sim 环境的机器上也能运行（不会因为 <code>import pxr</code> 失败而崩溃）；同时也方便测试时用 mock 替换 pxr。</p>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          第 2 章进入 <a href="../02-usd-composition/2-1-arcs-overview.html">Composition 与 LIVERPS</a>——USD 最有深度也最重要的机制：composition arcs 如何把多个 Layer / 文件组合成一个一致的场景，以及强度顺序（LIVERPS）如何裁定 opinion 冲突。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

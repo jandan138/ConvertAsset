@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>论文的 evidence-gate protocol — ConvertAsset Learning Guide</title>
+  <meta name="description" content="ConvertAsset 论文提出的四门 evidence-gate 协议：视觉相似度、grounding、material-effect risk、具身栈可用性，必须独立通过才能支持下游 robustness 主张。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="14-4">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART VI · 仿真与具身智能 · Simulation &amp; Embodied AI</div>
+        <h1>论文的 evidence-gate protocol</h1>
+
+        <p class="lead">视觉相似度指标（PSNR、SSIM、LPIPS 等）再高，也只说明"图像像"，而不能证明"下游任务不受影响"。ConvertAsset 论文因此提出 <span class="term term-accent">evidence-gate protocol</span>（证据门控协议）：<span class="term">视觉相似度</span>、<span class="term">grounding</span>、<span class="term">material-effect risk</span>、<span class="term">具身栈可用性</span>这四个 gate 必须作为<strong>独立证据</strong>分别报告，不能用其中任何一个替代其他三个。</p>
+
+        <h2 id="why-gates">为什么需要 evidence gate</h2>
+        <p>传统的转换质量评测只看像素相似度（PSNR / SSIM），默认"像素相似 → 下游任务等价"。这个假设在以下情形下会失效：</p>
+        <ul>
+          <li>VLM 对颜色语义非常敏感（如"红色沙发"），即使 PSNR 很高，如果转换把暗红色变成了偏棕色，grounding 结果可能改变。</li>
+          <li>材质类型（如 clearcoat、procedural texture）的语义可能对 VLM 的物体识别有影响，但 SSIM 感知不到。</li>
+          <li>具身导航的路径长度和成功率取决于场景的<strong>可导航性</strong>（navigation feasibility），而不仅仅是视觉外观。</li>
+        </ul>
+        <p>论文直接从 abstract 提出："proxy fidelity alone is insufficient for downstream grounding claims"（代理保真度不足以支撑下游 grounding 主张）。四个 gate 的设计正是将这一认识形式化为可操作的评测清单。</p>
+
+        <h2 id="four-gates">四个独立 gate</h2>
+
+        <p>下面的交互面板展示了四个 gate 的决策流（由 lead 负责接线）：</p>
+
+        <div class="lab">
+          <div class="lab-head">
+            <div class="lab-tag">互动 · Interactive</div>
+            <div class="lab-title">Evidence-gate 决策流</div>
+          </div>
+          <div class="lab-body"><div id="gates-mount"></div></div>
+          <!-- WIDGET: wired by lead -->
+          <div class="lab-note">四个 gate 必须独立通过，不能跳过或用其他 gate 替代。点击各 gate 查看当前 ConvertAsset 论文的证据状态。</div>
+        </div>
+
+        <p>四个 gate 的定义如下：</p>
+
+        <h3>Gate 1 · 视觉相似度（Visual Similarity）</h3>
+        <p>衡量转换后渲染与原始渲染的像素和特征相似度。ConvertAsset 的结果：PSNR 35.52 dB、SSIM 0.990、LPIPS 0.020、CLIP 0.925、DINOv2 0.872——<strong>此 gate 通过</strong>。但注意，通过 Gate 1 只是必要条件，不是充分条件。</p>
+
+        <h3>Gate 2 · Grounding（语言定位）</h3>
+        <p>在 GRScenes 配对渲染上，评测 VLM 的目标类别识别和坐标定位能力。ConvertAsset 当前状态：<strong>pilot 阶段</strong>（15 对 clean pool + 30 对 stress set），尚未达到 final benchmark 规模（<code>final_benchmark_claimable=false</code>）。Gemma4 在两种材质条件下答案一致性高，Qwen2.5-VL 暴露了坐标协议敏感性。</p>
+
+        <h3>Gate 3 · Material-effect risk（材质效果风险）</h3>
+        <p>针对材质类型逐一评估转换的近似损失和对 grounding 的潜在影响。ConvertAsset 的 risk matrix 涵盖六个 bin（见 14-5 节），其中 clearcoat 和 procedural texture 是需要人工审核的风险类型。</p>
+
+        <h3>Gate 4 · 具身栈可用性（Embodied-stack Usability）</h3>
+        <p>在真实 VLN 评测平台（InternNav / InteriorAgent，官方 KuJiaLe 场景）上运行完整 episode。ConvertAsset 的结果：99 episode val_unseen sanity run，noMDL 与 original 的 SR / SPL / NE / TL 差异在统计误差范围内（paired bootstrap CI 与 0 重叠）——<strong>此 gate 通过</strong>（在当前测试范围内）。</p>
+
+        <div class="callout">
+          <span class="ttl">Gate 状态汇总</span>
+          Gate 1 视觉相似度：✓ 通过（高 PSNR / SSIM / CLIP）<br/>
+          Gate 2 Grounding：⚠ pilot 阶段，未最终定论<br/>
+          Gate 3 Material-effect risk：⚠ 部分材质类型需人工审核<br/>
+          Gate 4 具身栈：✓ 通过（官方场景 SR/SPL 统计等价）
+        </div>
+
+        <h2 id="claim-boundary">claim 边界矩阵</h2>
+        <p>evidence-gate protocol 的另一个设计目标是防止过度 claim。论文明确区分了：</p>
+        <ul>
+          <li>可以主张（claimable）："在当前 4 件资产 / 6 视角的范围内，视觉代理保真度高"——已有量化证据。</li>
+          <li>不可主张：用视觉相似度推断"对所有具身任务无影响"——超出现有证据范围。</li>
+          <li>需要额外证据：grounding accuracy 和 navigation success rate 的全面对比——还在 pilot 阶段。</li>
+        </ul>
+        <p>这种"claim 边界意识"是科学严谨性的体现：我们知道自己测了什么，也知道自己<em>没有</em>测什么。</p>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script src="../../widgets/evidence-gates.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

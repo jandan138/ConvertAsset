@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ConvertAsset Learning Guide</title>
+  <meta name="description" content="From GAMES101 to a Production USD Asset Pipeline — an interactive learning guide." />
+  <link rel="stylesheet" href="assets/css/book.css" />
+</head>
+<body data-root="">
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="mark">◆</span>
+      <span class="name">ConvertAsset</span>
+    </a>
+    <span class="spacer"></span>
+    <nav class="topnav">
+      <a href="chapters/00-orientation/0-1-classroom-renderer.html">Guide</a>
+      <a id="repo-link" href="#" target="_blank" rel="noopener">Repo</a>
+    </nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+
+  <main class="landing">
+    <section class="hero">
+      <div>
+        <h1>From GAMES101 to a<br />Production USD Asset Pipeline</h1>
+        <p class="sub">一本交互式 learning guide：从你已经会的 classroom renderer，走到真实世界的 3D-asset &amp; real-time rendering 生产管线，并以 <strong>ConvertAsset</strong> 与它的论文作为贯穿全书的 case study。</p>
+        <a class="btn-primary" href="chapters/00-orientation/0-1-classroom-renderer.html">开始阅读 · Start reading →</a>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="journey">
+          <div class="stage">
+            <div class="glyph">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3">
+                <path d="M20 4 L34 12 V28 L20 36 L6 28 V12 Z"/><path d="M6 12 L20 20 L34 12 M20 20 V36"/>
+              </svg>
+            </div>3D Mesh
+          </div>
+          <div class="arrow">→</div>
+          <div class="stage">
+            <div class="glyph">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3">
+                <circle cx="14" cy="16" r="8"/><circle cx="26" cy="24" r="8"/>
+              </svg>
+            </div>Materials
+          </div>
+          <div class="arrow">→</div>
+          <div class="stage">
+            <div class="glyph">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3">
+                <path d="M20 6 L32 14 V26 L20 34 L8 26 V14 Z"/><path d="M8 14 L20 22 L32 14"/>
+              </svg>
+            </div>Simplify
+          </div>
+          <div class="arrow">→</div>
+          <div class="stage">
+            <div class="glyph">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3">
+                <rect x="9" y="9" width="22" height="22" rx="3"/><text x="20" y="24" font-size="9" text-anchor="middle" fill="currentColor" stroke="none" font-family="monospace">glb</text>
+              </svg>
+            </div>.glb
+          </div>
+          <div class="arrow">→</div>
+          <div class="stage">
+            <div class="glyph">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3">
+                <circle cx="20" cy="13" r="6"/><path d="M11 34 V27 a9 9 0 0 1 18 0 V34"/>
+              </svg>
+            </div>Render
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="toc-grid" aria-label="目录"></section>
+  </main>
+
+  <script src="content.js"></script>
+  <script src="assets/js/book.js"></script>
+  <script>
+    (function () {
+      var r = document.getElementById("repo-link");
+      if (r && window.BOOK && window.BOOK.repoUrl) r.href = window.BOOK.repoUrl;
+    })();
+  </script>
+</body>
+</html>

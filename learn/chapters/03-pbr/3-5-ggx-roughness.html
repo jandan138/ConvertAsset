@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GGX (Trowbridge-Reitz) 与 roughness — ConvertAsset Learning Guide</title>
+  <meta name="description" content="深入 GGX/Trowbridge-Reitz NDF 的形状、长尾特性，以及 roughness² 感知线性重映射的原理与实践。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="3-5">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART III · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>GGX (Trowbridge-Reitz) 与 roughness</h1>
+
+        <p class="lead"><span class="term term-accent">GGX</span>（即 <span class="term">Trowbridge-Reitz</span> 分布）是当今实时和离线渲染里最主流的 <span class="term">NDF（normal distribution function）</span>。它的核心优势在于「长尾」（<span class="term">long tail</span>）——比 Beckmann 等经典分布更好地拟合真实材质数据，尤其是金属的发光高光拖尾。同样重要的是 <span class="term">roughness²</span> 重映射：让艺术家调整 roughness 滑块时，视觉变化更「均匀」。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          上一节（3.4）给出了 GGX NDF 的完整公式 \(D_\text{GGX}(h) = \alpha^2 / [\pi((n\cdot h)^2(\alpha^2-1)+1)^2]\)。这里我们深入理解它的形状、与 Beckmann 的对比，以及为什么要做 \(\alpha = \text{roughness}^2\) 这一步重映射。
+        </div>
+
+        <h2 id="ggx-shape">GGX 的形状：为什么叫「长尾」</h2>
+
+        <p><span class="term">NDF</span> 描述了微表面法线 \(m\) 的概率密度——法线朝向越接近 half vector \(h\)，高光越亮。不同 NDF 的区别主要体现在高光「峰」的锐度和远离峰值后的「尾部」衰减速率。</p>
+
+        <p>对比三种常见 NDF：</p>
+        <ul>
+          <li><strong>Phong / Blinn-Phong NDF</strong>：用 \((n\cdot h)^p\) 近似，高光峰值锐，尾部指数衰减，衰减极快。</li>
+          <li><strong>Beckmann NDF</strong>：基于高斯分布的坡度统计，衰减比 Phong 慢，但仍不够真实。</li>
+          <li><strong>GGX（Trowbridge-Reitz）</strong>：分母是 \(((n\cdot h)^2(\alpha^2-1)+1)^2\) 的平方，衰减最慢，产生明显的「发光拖尾」。</li>
+        </ul>
+
+        <p>Disney 对 MERL 100 真实材质数据库的拟合研究（2012）发现：几乎所有真实材质（尤其是抛光金属）的高光尾部都比 Beckmann 更宽。GGX 能更好地匹配这些数据，这是它取代 Beckmann 成为 UE4、Unity、glTF、UsdPreviewSurface 默认选择的根本原因。</p>
+
+        <h2 id="ggx-formula">GGX NDF 公式详解</h2>
+
+        <div class="math-block">
+          $$ D_\text{GGX}(h) = \frac{\alpha^2}{\pi\,\bigl((n\cdot h)^2\,(\alpha^2 - 1) + 1\bigr)^2} $$
+        </div>
+
+        <p>其中 \(\alpha\) 是 GGX 的内部粗糙度参数（不是直接暴露给艺术家的 roughness）。当 \(\alpha \to 0\)：分布收缩为 Dirac delta，表面完全光滑（镜面）；当 \(\alpha \to 1\)：分布完全均匀，表面完全漫射。</p>
+
+        <p>关键性质：NDF 必须在半球上归一化，即 \(\int_\Omega D(h)\cos\theta_h\,d\omega = 1\)。GGX 有解析形式的归一化常数（分母里的 \(\pi\)），这使得它既物理正确又易于高效实现。</p>
+
+        <h2 id="roughness-remap">roughness² 重映射：感知线性</h2>
+
+        <p>PBR 管线（UsdPreviewSurface、glTF、Disney BRDF）暴露给艺术家的参数是 <span class="term">roughness</span> \(\in [0, 1]\)，但喂进 GGX 公式的是 \(\alpha\)。标准做法是：</p>
+
+        <div class="math-block">
+          $$ \alpha = \text{roughness}^2 $$
+        </div>
+
+        <p>为什么不直接用 \(\alpha = \text{roughness}\)？直觉如下：</p>
+
+        <ul>
+          <li>当 roughness 从 0.0 线性增加到 1.0 时，视觉上大多数有趣的变化集中在低端（0.0 → 0.3 之间高光快速扩散）。如果直接令 \(\alpha = \text{roughness}\)，滑块低端区间占据了大量「视觉变化空间」，中高端则变化平缓，不直觉。</li>
+          <li>平方映射把这个感知曲线「拉直」了：在整个 \([0,1]\) 区间内，roughness 滑块移动相同距离对应大致相同的视觉变化量。</li>
+          <li>Disney 在 2012 年 BRDF 研究中明确推荐此映射，称其使「roughness 从粗糙到光滑的插值更为直觉」。</li>
+        </ul>
+
+        <div class="callout warn">
+          <span class="ttl">实现时的常见坑</span>
+          许多 shader 代码和 UsdPreviewSurface 规范都强调：roughness 在进入 D 项和 G 项之前必须先平方得到 \(\alpha\)，然后才能代入 GGX 公式。忘记这步会让低 roughness 的材质看起来比预期粗糙得多。
+        </div>
+
+        <h2 id="smith-g">Smith G 与 roughness 的关系</h2>
+
+        <p>geometry 项 G 同样依赖 \(\alpha\)。Smith 方法将 shadowing 和 masking 分别处理，再相乘：</p>
+
+        <div class="math-block">
+          $$ G(l, v, h) = G_\text{sub}(n, v, k) \cdot G_\text{sub}(n, l, k) $$
+        </div>
+
+        <p>其中 Schlick-GGX 近似：</p>
+        <div class="math-block">
+          $$ G_\text{sub}(n, x, k) = \frac{n\cdot x}{(n\cdot x)(1-k) + k}, \qquad k_\text{direct} = \frac{(\alpha+1)^2}{8} $$
+        </div>
+
+        <p>注意这里的 \(k\) 用的是直接光版本，基于 \(\alpha = \text{roughness}^2\)。当 roughness = 0 时 \(k \approx 1/8\)，G 接近 1（几乎无遮挡）；当 roughness = 1 时 \(k = 0.5\)，G 明显小于 1（严重遮挡）——这正确地模拟了粗糙表面微结构导致的能量损失。</p>
+
+        <h2 id="in-usdshade">在 UsdShade 中指定 roughness</h2>
+
+        <p>ConvertAsset 的 no-MDL 转换流程把材质落到 <span class="term">UsdPreviewSurface</span>。roughness 参数直接对应 MDL 中的粗糙度输入，转换时按照 spec 规定不做额外的平方——平方由 renderer 在 shader 内部完成。</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">set_roughness.py</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">from pxr import UsdShade, Sdf
+
+# roughness 直接设为艺术家友好的感知线性值 [0,1]
+# renderer 内部会做 alpha = roughness^2 再喂进 GGX
+shader.CreateInput("roughness", Sdf.ValueTypeNames.Float).Set(0.35)
+
+# 低 roughness → 接近镜面（sharp highlight）
+# 高 roughness → 漫射高光（wide, dim highlight）
+shader.CreateInput("roughness", Sdf.ValueTypeNames.Float).Set(0.85)</code></pre>
+        </div>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          第 4 章把 GGX roughness、metallic、Fresnel 这套理论对应到三个具体的 production 格式：<a href="../04-material-models/4-1-workflows.html">4.1 metallic vs specular workflow</a>、<a href="../04-material-models/4-2-usdpreviewsurface.html">4.2 UsdPreviewSurface</a>、<a href="../04-material-models/4-3-gltf-pbr.html">4.3 glTF metallic-roughness</a>。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

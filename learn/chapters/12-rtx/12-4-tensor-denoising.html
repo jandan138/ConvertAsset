@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tensor Core 与 denoising / DLSS — ConvertAsset Learning Guide</title>
+  <meta name="description" content="Turing Tensor Core 的矩阵运算能力，如何驱动 AI denoising（少量 ray 样本 → 清晰图像）和 DLSS（低分辨率渲染 → 高质量超分）。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="12-4">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART V · 渲染硬件与实时 · Rendering Hardware</div>
+        <h1>Tensor Core 与 denoising / DLSS</h1>
+
+        <p class="lead">RT Core 解决了 BVH 遍历太慢的问题；但即使有 RT Core，实时帧预算内每像素只能发射少量光线（通常 1–4 条），结果图像充满噪点（<span class="term">noise</span>）。<span class="term term-accent">Tensor Core</span> 通过 AI <span class="term">denoising</span> 把稀疏噪点图像恢复成清晰图像；<span class="term">DLSS</span>（Deep Learning Super-Sampling）则用 AI 超分把低分辨率渲染结果放大到输出分辨率，进一步节省算力。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          GAMES101 里 path tracing 每像素需要数百至数千 spp（samples per pixel）才能收敛，消除噪点。实时 ray tracing 每像素只有 1–4 spp——这在数学上是欠采样（undersampling）。AI denoising 用神经网络的"先验知识"在欠采样图像上重建高质量结果，本质上是一个空间重建（spatial reconstruction）问题。
+        </div>
+
+        <h2 id="tensor-core-arch">Tensor Core 结构</h2>
+        <p>Tensor Core 是专门为矩阵乘法（GEMM）优化的执行单元，是深度学习训练和推理的关键算力来源。Turing SM 每个处理块有 2 个 Tensor Core，每个 SM 共 8 个，TU102 全 GPU 共 576 个 Tensor Core。</p>
+
+        <p>Turing Tensor Core 支持 FP16 矩阵运算（with FP16 or FP32 accumulation）以及专为推理优化的 <span class="term">INT8</span> 和 <span class="term">INT4</span> 精度。峰值性能（RTX 2080 Ti Founders Edition）：</p>
+        <ul>
+          <li>FP16 Tensor TFLOPS with FP16 accumulate：<strong>113.8 TFLOPS</strong></li>
+          <li>INT8 Tensor TOPS：<strong>227.7 TOPS</strong></li>
+          <li>INT4 Tensor TOPS：<strong>455.4 TOPS</strong></li>
+        </ul>
+
+        <p>与同代 CUDA core（14.2 TFLOPS FP32）相比，Tensor Core 在矩阵操作上的吞吐是普通算力的约 <strong>8×</strong>——但只能做矩阵乘法这一种操作。</p>
+
+        <h2 id="denoising">AI Denoising</h2>
+        <p>每帧 ray tracing 只生成 1 spp 的图像（噪点极多）。AI denoising 流程：</p>
+        <ol>
+          <li>输入：当前帧的噪点 ray tracing 结果 + G-buffer（法线、深度、材质）</li>
+          <li>在 Tensor Core 上运行一个轻量 CNN（卷积神经网络），识别噪点并重建干净图像</li>
+          <li>可选：利用上一帧结果做时域累积（<span class="term">temporal accumulation</span>），进一步提升稳定性</li>
+        </ol>
+
+        <p>效果：1 spp 的 ray tracing 图像经 AI denoising 后，质量接近 16–64 spp 的结果。这使得实时帧预算内（16 ms at 60 fps）可以得到视觉上可接受的 ray traced 效果。</p>
+
+        <h2 id="dlss">DLSS（Deep Learning Super-Sampling）</h2>
+        <p><span class="term">DLSS</span> 是 Tensor Core 的另一个关键应用。其工作流程：</p>
+        <ol>
+          <li>以低于目标分辨率渲染（例如 1440p 目标，但以 960p 渲染）</li>
+          <li>使用一个在 64x 超采样"地面真值"图像上训练的深度神经网络，将低分辨率帧结合运动向量和历史帧推断出高分辨率结果</li>
+          <li>输出质量接近目标分辨率的 TAA（Temporal Anti-Aliasing）效果，但仅用约一半的 shading 工作</li>
+        </ol>
+
+        <p>Turing 白皮书数据（Figure 22）：RTX 2080 Ti + 4K DLSS 的帧率是 GTX 1080 Ti（Pascal）+ 4K TAA 的约 <strong>2×</strong>。这意味着不仅 ray tracing 得到了加速，整体渲染性能也因 DLSS 大幅提升。</p>
+
+        <div style="overflow-x:auto; margin:1.5rem 0;">
+          <svg viewBox="0 0 620 160" width="620" height="160" style="max-width:100%; font-family:var(--font-mono,monospace); font-size:12px;">
+            <text x="310" y="18" text-anchor="middle" fill="currentColor" font-weight="bold" font-size="13">DLSS 工作流程</text>
+            <defs>
+              <marker id="arr6" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="var(--fg2,#888)"/>
+              </marker>
+            </defs>
+
+            <rect x="10" y="50" width="120" height="60" rx="5" fill="var(--accent,#5b8dd9)" opacity=".2" stroke="var(--accent,#5b8dd9)" stroke-width="1.2"/>
+            <text x="70" y="76" text-anchor="middle" fill="currentColor">低分辨率渲染</text>
+            <text x="70" y="93" text-anchor="middle" fill="currentColor" font-size="10">（更少着色工作）</text>
+
+            <line x1="130" y1="80" x2="165" y2="80" stroke="var(--fg2,#888)" marker-end="url(#arr6)"/>
+
+            <rect x="170" y="50" width="130" height="60" rx="5" fill="#d97b2a" opacity=".15" stroke="#d97b2a" stroke-width="1.2"/>
+            <text x="235" y="73" text-anchor="middle" fill="currentColor">运动向量</text>
+            <text x="235" y="88" text-anchor="middle" fill="currentColor">+ 历史帧</text>
+            <text x="235" y="103" text-anchor="middle" fill="currentColor" font-size="10">时域信息</text>
+
+            <line x1="300" y1="80" x2="335" y2="80" stroke="var(--fg2,#888)" marker-end="url(#arr6)"/>
+
+            <rect x="340" y="40" width="140" height="80" rx="5" fill="#888" opacity=".12" stroke="#888" stroke-width="1.5"/>
+            <text x="410" y="66" text-anchor="middle" fill="currentColor" font-weight="bold">DLSS DNN</text>
+            <text x="410" y="83" text-anchor="middle" fill="currentColor" font-size="11">Tensor Core</text>
+            <text x="410" y="98" text-anchor="middle" fill="currentColor" font-size="11">运行推理</text>
+            <text x="410" y="112" text-anchor="middle" fill="currentColor" font-size="10">（FP16 / INT8）</text>
+
+            <line x1="480" y1="80" x2="515" y2="80" stroke="var(--fg2,#888)" marker-end="url(#arr6)"/>
+
+            <rect x="520" y="50" width="90" height="60" rx="5" fill="#2a9d6e" opacity=".2" stroke="#2a9d6e" stroke-width="1.2"/>
+            <text x="565" y="76" text-anchor="middle" fill="currentColor">高分辨率</text>
+            <text x="565" y="93" text-anchor="middle" fill="currentColor">输出帧</text>
+          </svg>
+        </div>
+
+        <h2 id="three-cores-together">三类核心协作</h2>
+        <p>Turing RTX 的核心价值在于三类处理单元的协作：</p>
+        <ul>
+          <li><strong>CUDA Core</strong>：负责 vertex / fragment shading（可编程、通用）</li>
+          <li><strong>RT Core</strong>：负责 BVH traversal + ray-triangle intersection（固定功能、专用）</li>
+          <li><strong>Tensor Core</strong>：负责 AI denoising + DLSS（矩阵运算专用）</li>
+        </ul>
+        <p>三者并发执行，互不干扰，使整帧渲染既快速（rasterization）又高质量（ray tracing）又清晰（AI denoising）。</p>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          12-5 讲 Turing → Ampere 的代际演进：第二代 RT Core 如何在 triangle-test 吞吐上翻倍，以及 Ampere 新增的 RT Core + compute 并发执行能力。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

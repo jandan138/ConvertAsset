@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Glossary 中英术语表 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="ConvertAsset Learning Guide 全书关键术语的中英双语对照释义。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <style>
+    .glossary-table { width: 100%; border-collapse: collapse; font-size: 0.93em; margin: 1.5rem 0; }
+    .glossary-table th { text-align: left; padding: 0.55rem 0.75rem; border-bottom: 2px solid var(--border, #333); font-weight: 600; color: var(--fg-muted, #888); }
+    .glossary-table td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border, #252525); vertical-align: top; }
+    .glossary-table tr:hover td { background: var(--hover-bg, #1a2030); }
+    .glossary-table td:first-child { font-weight: 600; color: var(--accent, #4a90d9); white-space: nowrap; }
+    .glossary-table td:nth-child(2) { color: var(--fg-muted, #aaa); white-space: nowrap; }
+    .glossary-section { margin-top: 2.5rem; }
+    .glossary-section h2 { font-size: 1.1em; color: var(--fg-muted, #888); border-bottom: 1px solid var(--border, #333); padding-bottom: 0.4rem; margin-bottom: 0.8rem; }
+  </style>
+</head>
+<body data-root="../../" data-section-id="app-glossary">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">附录 · Appendix</div>
+        <h1>Glossary 中英术语表</h1>
+
+        <p class="lead">本表收录全书约 40 个核心术语，按主题分组排列。每条目提供英文术语（可作为搜索关键词）和中文释义。</p>
+
+        <div class="glossary-section">
+          <h2 id="scene-representation">场景表示 · Scene Representation</h2>
+          <table class="glossary-table">
+            <thead><tr><th>中文</th><th>English</th><th>释义</th></tr></thead>
+            <tbody>
+              <tr><td>场景描述语言</td><td>USD / OpenUSD</td><td>Universal Scene Description，Pixar 开发的开放场景格式，是 Omniverse 的核心数据模型。</td></tr>
+              <tr><td>舞台</td><td>Stage</td><td>USD 合成后的完整场景视图，由一组 Layer 的 opinion 叠加而成。</td></tr>
+              <tr><td>原语 / 节点</td><td>Prim</td><td>场景图中的最小命名单元，可携带 Schema 类型（Mesh、Material 等）。</td></tr>
+              <tr><td>层</td><td>Layer</td><td>USD 的单个磁盘文件（.usda / .usdc / .usd），携带一组 opinion，多个 Layer 叠加合成 Stage。</td></tr>
+              <tr><td>意见</td><td>Opinion</td><td>某个 Layer 对特定 Prim 属性的赋值，最终由 LIVRPS 规则裁定生效值。</td></tr>
+              <tr><td>组合弧</td><td>Composition Arc</td><td>USD 的层次引用机制，包括 Reference、Payload、Inherit、Variant、Specialize 五种。</td></tr>
+              <tr><td>变体集</td><td>Variant Set</td><td>一组可切换的场景替代方案（如不同颜色的椅子），通过 Variant Arc 在同一 Stage 里按需激活。</td></tr>
+              <tr><td>有效负载</td><td>Payload</td><td>延迟加载的 Composition Arc，只有在明确"激活 Payload"时才会加载目标 Layer，适合大场景。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="glossary-section">
+          <h2 id="materials">材质与外观 · Materials</h2>
+          <table class="glossary-table">
+            <thead><tr><th>中文</th><th>English</th><th>释义</th></tr></thead>
+            <tbody>
+              <tr><td>基于物理的渲染</td><td>PBR</td><td>Physically Based Rendering，遵循能量守恒和微表面理论的渲染模型。</td></tr>
+              <tr><td>双向反射分布函数</td><td>BRDF</td><td>Bidirectional Reflectance Distribution Function，描述光从方向 $l$ 入射、方向 $v$ 出射时的能量分配比例。</td></tr>
+              <tr><td>微表面模型</td><td>Microfacet Model</td><td>把表面看作无数微型完美镜面的统计模型，Cook-Torrance BRDF 基于此推导。</td></tr>
+              <tr><td>法线分布函数</td><td>NDF / D</td><td>Normal Distribution Function，描述微表面法线与半程向量对齐的概率，GGX 是常用选择。</td></tr>
+              <tr><td>菲涅耳项</td><td>Fresnel / F</td><td>掠射角下反射增强的效应，Schlick 近似：$F = F_0 + (1-F_0)(1-v\cdot h)^5$。</td></tr>
+              <tr><td>几何项</td><td>Geometry / G</td><td>微表面间相互遮挡 / 阴影导致的能量损失，越粗糙越大。</td></tr>
+              <tr><td>金属度工作流</td><td>Metallic-roughness Workflow</td><td>用 metallic (0=dielectric, 1=conductor) 和 roughness 两个参数控制 PBR 材质的主流工作流。</td></tr>
+              <tr><td>USD 预览表面</td><td>UsdPreviewSurface</td><td>OpenUSD 官方规范的跨工具 PBR 材质模型，参数包括 diffuseColor、metallic、roughness、normal 等。</td></tr>
+              <tr><td>材质定义语言</td><td>MDL</td><td>Material Definition Language，NVIDIA 的声明式 + 过程式材质系统，renderer-bound，支持完整 BSDF。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="glossary-section">
+          <h2 id="geometry">几何与优化 · Geometry</h2>
+          <table class="glossary-table">
+            <thead><tr><th>中文</th><th>English</th><th>释义</th></tr></thead>
+            <tbody>
+              <tr><td>主变量</td><td>Primvar</td><td>USD 中附属于 Prim 的数组型数据（UV、法线、颜色等），支持不同插值模式。</td></tr>
+              <tr><td>面变化插值</td><td>Face-varying</td><td>每个面的每个顶点各自独立的插值模式，允许不连续 UV（接缝），比顶点插值精度更高。</td></tr>
+              <tr><td>细节层次</td><td>LOD</td><td>Level of Detail，同一资产在不同距离下切换不同精度的几何体，降低渲染和物理计算开销。</td></tr>
+              <tr><td>二次误差度量</td><td>QEM</td><td>Quadric Error Metrics，Garland &amp; Heckbert 1997 年提出的网格简化算法，用二次型矩阵量化边坍缩误差。</td></tr>
+              <tr><td>边坍缩</td><td>Edge Collapse</td><td>QEM 的基本操作：将一条边的两个端点合并为一个顶点，减少面数。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="glossary-section">
+          <h2 id="interchange">资产交换 · Asset Interchange</h2>
+          <table class="glossary-table">
+            <thead><tr><th>中文</th><th>English</th><th>Relief</th></tr></thead>
+            <tbody>
+              <tr><td>二进制 glTF</td><td>GLB</td><td>GL Transmission Format 的二进制容器，把 JSON 元数据、几何 buffer、纹理全部打包成单文件。</td></tr>
+              <tr><td>访问器</td><td>Accessor</td><td>glTF 数据模型中描述如何从 BufferView 读取具体数据类型（vec3、mat4 等）的结构。</td></tr>
+              <tr><td>缓冲视图</td><td>BufferView</td><td>glTF 中对 Buffer 的切片引用，描述偏移量和字节长度。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="glossary-section">
+          <h2 id="hardware">渲染硬件 · Rendering Hardware</h2>
+          <table class="glossary-table">
+            <thead><tr><th>中文</th><th>English</th><th>释义</th></tr></thead>
+            <tbody>
+              <tr><td>流式多处理器</td><td>SM</td><td>Streaming Multiprocessor，GPU 的基本计算单元，包含 CUDA Cores、Tensor Cores、RT Cores。</td></tr>
+              <tr><td>线程束</td><td>Warp</td><td>NVIDIA GPU 上 32 个线程组成的 SIMT 执行单元，所有线程同时执行同一条指令。</td></tr>
+              <tr><td>单指令多线程</td><td>SIMT</td><td>Single Instruction Multiple Threads，GPU 的并行执行模型，与 CPU 的 SIMD 相似但线程数更多。</td></tr>
+              <tr><td>层次包围盒</td><td>BVH</td><td>Bounding Volume Hierarchy，光线追踪的加速结构，将三角形层次组织成 AABB 树，由 RT Core 硬件加速。</td></tr>
+              <tr><td>实时光追核心</td><td>RT Core</td><td>Turing / Ampere GPU 中专用的 BVH 遍历 + 光线三角形求交硬件单元。</td></tr>
+              <tr><td>张量核心</td><td>Tensor Core</td><td>专用于矩阵乘加运算的硬件单元，用于 AI 推理、降噪（DLSS）等任务。</td></tr>
+              <tr><td>深度学习超级采样</td><td>DLSS</td><td>Deep Learning Super Sampling，用 Tensor Core 训练的 AI 上采样网络，在低分辨率渲染后推断高分辨率图像。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="glossary-section">
+          <h2 id="simulation-ai">仿真与 AI · Simulation &amp; AI</h2>
+          <table class="glossary-table">
+            <thead><tr><th>中文</th><th>English</th><th>释义</th></tr></thead>
+            <tbody>
+              <tr><td>全宇宙平台</td><td>Omniverse</td><td>NVIDIA 的实时 3D 协作与仿真平台，以 USD 为核心数据模型。</td></tr>
+              <tr><td>仿真就绪资产</td><td>SimReady</td><td>NVIDIA 对仿真资产的标准：正确 pivot、物理 API、碰撞代理、合理 LOD，完全用 USD 表达。</td></tr>
+              <tr><td>物理引擎</td><td>PhysX</td><td>NVIDIA 的实时物理仿真引擎，集成在 Isaac Sim 中，通过 USD Physics Schema 接受物理属性。</td></tr>
+              <tr><td>合成数据</td><td>Synthetic Data</td><td>在仿真环境中生成的训练 / 测试数据，可大规模生产，用于减少对真实数据的依赖。</td></tr>
+              <tr><td>复制器</td><td>Replicator</td><td>Isaac Sim / Omniverse 的合成数据生成框架，支持随机化场景、材质、光照和相机。</td></tr>
+              <tr><td>视觉语言导航</td><td>VLN</td><td>Vision-Language Navigation，根据自然语言指令在 3D 环境中自主导航到目标位置的具身 AI 任务。</td></tr>
+              <tr><td>视觉语言模型</td><td>VLM</td><td>Vision-Language Model，同时处理图像和文本的大模型，具备 grounding 能力。</td></tr>
+              <tr><td>语言定位</td><td>Grounding</td><td>将自然语言指代表达映射到图像中具体空间区域（坐标或 bbox）的能力。</td></tr>
+              <tr><td>仿真到真实迁移</td><td>Sim-to-Real</td><td>在仿真环境训练的策略迁移到真实机器人时的性能差距及弥合方法。</td></tr>
+              <tr><td>接地房间场景</td><td>GRScenes</td><td>Grounded Room Scenes，为 VLN grounding 研究设计的室内场景数据集，支持配对材质渲染对比。</td></tr>
+              <tr><td>证据门控协议</td><td>Evidence-gate Protocol</td><td>ConvertAsset 论文提出的四门评测框架：视觉相似度、grounding、material-effect risk、具身栈可用性，必须独立通过。</td></tr>
+              <tr><td>材质效果风险</td><td>Material-effect Risk</td><td>MDL 近似损失对 VLM grounding 的潜在影响，按材质类型分级（低 / 中 / 高）。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="glossary-section">
+          <h2 id="metrics">评测指标 · Metrics</h2>
+          <table class="glossary-table">
+            <thead><tr><th>中文</th><th>English</th><th>释义</th></tr></thead>
+            <tbody>
+              <tr><td>峰值信噪比</td><td>PSNR</td><td>Peak Signal-to-Noise Ratio，像素均方误差转换的 dB 值，越高越好。ConvertAsset 结果：35.52 dB。</td></tr>
+              <tr><td>结构相似度</td><td>SSIM</td><td>Structural Similarity Index，同时衡量亮度、对比度和结构，1 为完美。ConvertAsset 结果：0.990。</td></tr>
+              <tr><td>感知图像块相似度</td><td>LPIPS</td><td>Learned Perceptual Image Patch Similarity，用 CNN 特征层计算，0 为完全相同，越低越好。ConvertAsset 结果：0.020。</td></tr>
+              <tr><td>CLIP 余弦相似度</td><td>CLIP Similarity</td><td>OpenAI CLIP 图像嵌入的余弦相似度，衡量语义层面的相似性，1 为完全相同。ConvertAsset 结果：0.925。</td></tr>
+              <tr><td>DINOv2 相似度</td><td>DINOv2 Similarity</td><td>Meta DINOv2 图像嵌入的余弦相似度，对纹理细节更敏感，1 为完全相同。ConvertAsset 结果：0.872。</td></tr>
+              <tr><td>导航成功率</td><td>SR</td><td>Success Rate，VLN 中 agent 停在目标 $d$ 米内的 episode 比例。</td></tr>
+              <tr><td>路径长度加权成功率</td><td>SPL</td><td>Success weighted by Path Length，惩罚绕路的导航成功率指标。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

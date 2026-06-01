@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RT Core：traversal + ray-triangle intersection — ConvertAsset Learning Guide</title>
+  <meta name="description" content="Turing RT Core 的内部两个专用单元：box-test unit 和 triangle-test unit，如何卸载 SM 的 BVH 遍历工作，以及 10x 加速数据来源。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="12-2">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART V · 渲染硬件与实时 · Rendering Hardware</div>
+        <h1>RT Core：traversal + ray-triangle intersection</h1>
+
+        <p class="lead">Turing 的 <span class="term term-accent">RT Core</span> 是世界上第一个专用的实时光线追踪硬件加速器。每个 SM 内嵌一个 RT Core，它接收 SM 发出的"光线探针"，自主完成全部 <span class="term">BVH traversal</span> 与 <span class="term">ray-triangle intersection</span> 工作，然后向 SM 返回命中或未命中的结果。SM 在 RT Core 工作期间可以同时执行其他 shader 任务。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          GAMES101 里的 ray tracing 代码需要递归地遍历 BVH，调用 ray-box 和 ray-triangle 测试函数。RT Core 把这整段代码变成了一个硬件状态机：SM 只需"启动一条光线"，RT Core 负责所有的 BVH 遍历循环和几何测试，最后返回结果。
+        </div>
+
+        <!-- BVH traversal 可视化 widget -->
+        <div class="lab">
+          <div class="lab-head">
+            <div class="lab-tag">互动 · Interactive</div>
+            <div class="lab-title">BVH traversal 可视化</div>
+          </div>
+          <div class="lab-body">
+            <div id="bvh-mount"></div><!-- WIDGET: wired by lead -->
+          </div>
+          <div class="lab-note">选择一条光线，观察它如何从根节点逐层测试包围盒，最终命中或跳过各子树。</div>
+        </div>
+
+        <h2 id="two-units">RT Core 内部：两个专用单元</h2>
+        <p>Turing 白皮书明确描述 RT Core 包含两个专用子单元：</p>
+        <ul>
+          <li>
+            <strong>Box-test unit（包围盒测试单元）</strong>：专门执行 <span class="term">ray-AABB intersection</span>——即判断光线是否与轴对齐包围盒相交。这在 BVH 的每一层都要调用，是遍历中最频繁的操作。用硬件实现可以在数个时钟周期内完成，比 SM 用 shader 代码做要快数十倍，且不占用 CUDA core 的指令槽。
+          </li>
+          <li>
+            <strong>Triangle-test unit（三角形测试单元）</strong>：在到达叶节点后，执行精确的 <span class="term">ray-triangle intersection</span>（通常基于 Möller–Trumbore 算法）。它接收叶节点内的三角形数据，返回 hit 与否、重心坐标和命中距离 $t$。
+          </li>
+        </ul>
+
+        <div style="overflow-x:auto; margin:1.5rem 0;">
+          <svg viewBox="0 0 620 240" width="620" height="240" style="max-width:100%; font-family:var(--font-mono,monospace); font-size:12px;">
+            <text x="310" y="18" text-anchor="middle" fill="currentColor" font-weight="bold" font-size="13">SM → RT Core → SM 工作流</text>
+            <!-- SM left -->
+            <rect x="10" y="40" width="120" height="160" rx="6" fill="var(--accent,#5b8dd9)" opacity=".18" stroke="var(--accent,#5b8dd9)" stroke-width="1.5"/>
+            <text x="70" y="70" text-anchor="middle" fill="currentColor" font-weight="bold">SM</text>
+            <text x="70" y="90" text-anchor="middle" fill="currentColor" font-size="11">shader 代码</text>
+            <text x="70" y="108" text-anchor="middle" fill="currentColor" font-size="11">1. 发出光线</text>
+            <text x="70" y="124" text-anchor="middle" fill="currentColor" font-size="11">（traceRay()）</text>
+            <text x="70" y="148" text-anchor="middle" fill="currentColor" font-size="11">…其他 shader</text>
+            <text x="70" y="164" text-anchor="middle" fill="currentColor" font-size="11">工作并发执行</text>
+            <text x="70" y="188" text-anchor="middle" fill="currentColor" font-size="11">2. 接收 hit/no-hit</text>
+
+            <!-- arrow to RT Core -->
+            <line x1="130" y1="100" x2="200" y2="100" stroke="var(--accent,#5b8dd9)" stroke-width="2" marker-end="url(#arr4)"/>
+            <text x="165" y="92" text-anchor="middle" fill="var(--accent,#5b8dd9)" font-size="10">光线探针</text>
+
+            <!-- RT Core -->
+            <rect x="205" y="40" width="210" height="160" rx="6" fill="#d97b2a" opacity=".18" stroke="#d97b2a" stroke-width="1.5"/>
+            <text x="310" y="65" text-anchor="middle" fill="currentColor" font-weight="bold">RT Core</text>
+            <!-- box test unit -->
+            <rect x="215" y="78" width="185" height="45" rx="4" fill="#d97b2a" opacity=".25" stroke="#d97b2a" stroke-width="1"/>
+            <text x="308" y="97" text-anchor="middle" fill="currentColor" font-size="11">Box-test Unit</text>
+            <text x="308" y="113" text-anchor="middle" fill="currentColor" font-size="10">ray-AABB 测试（BVH 遍历）</text>
+            <!-- triangle test unit -->
+            <rect x="215" y="132" width="185" height="45" rx="4" fill="#d97b2a" opacity=".25" stroke="#d97b2a" stroke-width="1"/>
+            <text x="308" y="151" text-anchor="middle" fill="currentColor" font-size="11">Triangle-test Unit</text>
+            <text x="308" y="167" text-anchor="middle" fill="currentColor" font-size="10">ray-triangle intersection</text>
+
+            <!-- arrow back to SM -->
+            <line x1="415" y1="170" x2="485" y2="170" stroke="#2a9d6e" stroke-width="2" marker-end="url(#arr4g)"/>
+            <text x="450" y="162" text-anchor="middle" fill="#2a9d6e" font-size="10">hit / no-hit</text>
+
+            <!-- SM right -->
+            <rect x="490" y="40" width="120" height="160" rx="6" fill="var(--accent,#5b8dd9)" opacity=".18" stroke="var(--accent,#5b8dd9)" stroke-width="1.5"/>
+            <text x="550" y="70" text-anchor="middle" fill="currentColor" font-weight="bold">SM 继续</text>
+            <text x="550" y="90" text-anchor="middle" fill="currentColor" font-size="11">根据 hit 信息</text>
+            <text x="550" y="108" text-anchor="middle" fill="currentColor" font-size="11">执行 closest-hit /</text>
+            <text x="550" y="124" text-anchor="middle" fill="currentColor" font-size="11">miss shader</text>
+
+            <defs>
+              <marker id="arr4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="var(--accent,#5b8dd9)"/>
+              </marker>
+              <marker id="arr4g" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#2a9d6e"/>
+              </marker>
+            </defs>
+          </svg>
+        </div>
+
+        <h2 id="offload-benefit">卸载 SM 的收益</h2>
+        <p>RT Core 完成 BVH 遍历时，SM 不需要执行任何指令——RT Core 是完全异步的。这有两重好处：</p>
+        <ol>
+          <li><strong>释放 SM 指令槽</strong>：每条光线不再消耗数千条 SM 指令，SM 可以用这些算力做 vertex / fragment / compute shading。</li>
+          <li><strong>消除 SIMT 分歧惩罚</strong>：不同光线的 BVH 遍历路径分歧（divergence）现在在 RT Core 内部处理，不会拖累整个 warp。</li>
+        </ol>
+
+        <h2 id="performance-data">性能数据（来自 Turing 白皮书）</h2>
+        <p>Turing 白皮书 Appendix D 和 RT Core 章节记录：</p>
+        <ul>
+          <li>Pascal（无 RT Core）：约 <strong>1.1 Giga Rays/sec</strong>（纯软件 BVH 遍历，消耗约 10 TFLOPS 算力）。</li>
+          <li>Turing TU102 RTX（有 RT Core）：<strong>10 Giga Rays/sec</strong>（RT Core 加速，约 10× 提升）。</li>
+        </ul>
+        <p>这 10× 提升的来源：一是 box-test 和 triangle-test 的硬件加速本身，二是 SM 不再被 BVH 遍历占用，可以处理更多 shading 工作，整体吞吐大幅提升。</p>
+
+        <div class="callout">
+          <span class="ttl">API 侧</span>
+          应用开发者通过 <span class="term">DXR</span>（DirectX Raytracing）、<span class="term">NVIDIA OptiX</span>、或 <span class="term">Vulkan ray tracing</span> API 调用 RT Core。API 使用 <code>TraceRay()</code>（DXR）/ <code>rtTrace()</code>（OptiX）等调用；驱动程序负责 BVH 构建和数据布局，RT Core 负责执行遍历。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script src="../../widgets/bvh-traversal.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

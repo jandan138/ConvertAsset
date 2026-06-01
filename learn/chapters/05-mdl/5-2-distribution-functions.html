@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>distribution functions 与 material struct — ConvertAsset Learning Guide</title>
+  <meta name="description" content="MDL 的 BSDF / EDF / VDF 分布函数体系，以及它们在 material struct 中的组织方式。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="5-2">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART II · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>distribution functions 与 material struct</h1>
+
+        <p class="lead">MDL 的物理接口围绕三类<span class="term term-accent">distribution function</span>（分布函数）组织：描述表面散射的 <span class="term">BSDF</span>（Bidirectional Scattering Distribution Function）、描述自发光的 <span class="term">EDF</span>（Emissive Distribution Function）、以及描述体积散射的 <span class="term">VDF</span>（Volume Distribution Function）。这一节从这三类函数出发，理解 MDL 材质的物理语义，以及它们为何比 Cook-Torrance 参数更"底层"。</p>
+
+        <h2 id="bsdf">BSDF：表面散射分布</h2>
+
+        <p><span class="term">BSDF</span> 是 MDL 材质最核心的部分，它直接对应渲染方程里的 $f_r$。MDL 提供了一套<strong>基元 BSDF</strong>（elemental BSDFs）作为构建块，常用的包括：</p>
+
+        <ul>
+          <li><code>diffuse_reflection_bsdf</code>——基于 Oren-Nayar 模型的漫反射（也涵盖纯 Lambertian）。</li>
+          <li><code>diffuse_transmission_bsdf</code>——Lambertian 透射分量。</li>
+          <li><code>specular_bsdf</code>——完全镜面反射或折射（控制 IOR），用于玻璃、镜面。</li>
+          <li><code>simple_glossy_bsdf</code>——光泽反射/透射（参数化的粗糙度）。</li>
+          <li><code>backscattering_glossy_reflection_bsdf</code>——支持后向散射的光泽反射，常用于布料。</li>
+          <li><code>measured_bsdf</code>——基于测量数据的各向异性 BSDF（BTF 文件）。</li>
+        </ul>
+
+        <p>这些基元之间可以通过<strong>组合算子</strong>（combiners）叠加，形成复杂的多层材质：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">layered_material.mdl</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">// 用 weighted_layer 把漫反射底层 + 光泽顶层叠加
+// Fresnel 项由 fresnel_layer 自动计算
+material layered_metal(
+    color base = color(0.8, 0.6, 0.2),
+    float roughness = 0.2,
+    float ior_val = 1.5
+) = material(
+    surface: material_surface(
+        scattering: df::fresnel_layer(
+            ior: ior_val,
+            layer: df::simple_glossy_bsdf(
+                roughness_u: roughness,
+                tint: color(1.0)
+            ),
+            base: df::diffuse_reflection_bsdf(tint: base)
+        )
+    )
+);</code></pre>
+        </div>
+
+        <div class="callout">
+          <span class="ttl">组合算子</span>
+          MDL 提供 <code>weighted_layer</code>（权重混合）、<code>fresnel_layer</code>（Fresnel 自动权重）、<code>custom_curve_layer</code>（自定义曲线权重）、以及 <code>color_custom_curve_layer</code>。这让复杂的分层材质（如带涂层的车漆）可以用组合方式表达，而不是硬编码一个着色器。
+        </div>
+
+        <h2 id="edf-vdf">EDF 与 VDF：发光与体积</h2>
+
+        <p><span class="term">EDF</span>（发光分布函数）统一了光源与发光材质的表达——MDL 里没有特殊的"光源类型"，光源就是发光的几何体：</p>
+
+        <ul>
+          <li><code>diffuse_edf</code>——各方向均匀发光（Lambertian 光源）。</li>
+          <li><code>spot_edf</code>——余弦分布的点状发光（聚光灯）。</li>
+          <li><code>measured_edf</code>——从 IES 光度测量文件读取的任意光分布。</li>
+        </ul>
+
+        <p><span class="term">VDF</span>（体积分布函数）描述光在体积内部的散射与吸收，与 BSDF 配合可以表达玉石、皮肤（SSS）、烟雾等效果：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">volume_material.mdl</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">// 有吸收 + 各向异性散射的体积材质
+material jade_like() = material(
+    surface: material_surface(
+        scattering: df::specular_bsdf(mode: scatter_transmit)
+    ),
+    ior: color(1.5),
+    volume: material_volume(
+        scattering: df::anisotropic_vdf(directional_bias: 0.2),
+        absorption_coefficient: color(0.02, 0.4, 0.3),
+        scattering_coefficient: color(0.5, 0.3, 0.1)
+    )
+);</code></pre>
+        </div>
+
+        <h2 id="vs-usdpreviewsurface">与 UsdPreviewSurface 的对比</h2>
+
+        <p>学完 MDL 的 <span class="term">distribution function</span> 体系，回头看 <span class="term">UsdPreviewSurface</span> 就能理解它的位置：UsdPreviewSurface 是一个<strong>高层参数化封装</strong>——它把底层的 Cook-Torrance specular、Lambertian diffuse、Fresnel 等组合成一个固定的 metallic-roughness 接口，更易于艺术家使用，但灵活性远不如 MDL 的 BSDF 组合体系。</p>
+
+        <!-- 简单的对比 SVG 示意图 -->
+        <figure style="margin:2rem 0; text-align:center;">
+          <svg viewBox="0 0 520 200" xmlns="http://www.w3.org/2000/svg" style="max-width:520px;width:100%;font-family:inherit;">
+            <rect x="10"  y="60" width="220" height="80" rx="8" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.5"/>
+            <text x="120" y="96"  text-anchor="middle" font-size="13" fill="var(--c-fg,#1a1a2e)" font-weight="600">UsdPreviewSurface</text>
+            <text x="120" y="114" text-anchor="middle" font-size="11" fill="var(--c-muted,#6b7280)">diffuseColor / metallic</text>
+            <text x="120" y="130" text-anchor="middle" font-size="11" fill="var(--c-muted,#6b7280)">roughness / normal …</text>
+
+            <rect x="290" y="20" width="220" height="36" rx="6" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.2"/>
+            <text x="400" y="43" text-anchor="middle" font-size="12" fill="var(--c-fg,#1a1a2e)">diffuse_reflection_bsdf</text>
+
+            <rect x="290" y="66" width="220" height="36" rx="6" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.2"/>
+            <text x="400" y="89" text-anchor="middle" font-size="12" fill="var(--c-fg,#1a1a2e)">simple_glossy_bsdf</text>
+
+            <rect x="290" y="112" width="220" height="36" rx="6" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.2"/>
+            <text x="400" y="135" text-anchor="middle" font-size="12" fill="var(--c-fg,#1a1a2e)">fresnel_layer + …</text>
+
+            <rect x="290" y="158" width="220" height="36" rx="6" fill="var(--c-accent-faint,#e8f3ff)" stroke="var(--c-accent,#3a7bfa)" stroke-width="1.2"/>
+            <text x="400" y="181" text-anchor="middle" font-size="12" fill="var(--c-fg,#1a1a2e)">measured_bsdf</text>
+
+            <text x="270" y="106" text-anchor="middle" font-size="22" fill="var(--c-muted,#9ca3af)">⊂</text>
+            <text x="120" y="180" text-anchor="middle" font-size="11" fill="var(--c-muted,#6b7280)" font-style="italic">高层参数化封装</text>
+            <text x="400" y="10"  text-anchor="middle" font-size="11" fill="var(--c-muted,#6b7280)" font-style="italic">MDL 基元 BSDF 集合（部分）</text>
+          </svg>
+          <figcaption style="font-size:0.82em;color:var(--c-muted,#6b7280);margin-top:0.4em;">UsdPreviewSurface 是 MDL BSDF 空间的一个子集封装</figcaption>
+        </figure>
+
+        <div class="callout recap">
+          <span class="ttl">小结</span>
+          MDL 的 BSDF / EDF / VDF 体系是物理材质的"完备语言"；UsdPreviewSurface 是这个空间里一个参数化的点。no-MDL 转换的难点正是：从完备语言中的一个任意点，近似到那个固定的参数化封装——不可避免会有信息损失。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

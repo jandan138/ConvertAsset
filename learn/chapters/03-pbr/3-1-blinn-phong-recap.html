@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>回顾 Blinn-Phong 与它的不足 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="回顾 Blinn-Phong 光照模型，分析它在能量守恒与物理准确性上的不足，为 PBR 做铺垫。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="3-1">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART III · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>回顾 Blinn-Phong 与它的不足</h1>
+
+        <p class="lead">在 GAMES101 里，你用 <span class="term">Blinn-Phong</span> 模型把光照分成 ambient、diffuse 和 specular 三部分。它计算简单，视觉上够用，但一旦你开始关心材质的<strong>物理可信度</strong>，它的问题就无处遁形。这一节我们重温这个模型，理解它「好看但不物理」的根本原因，为后续学习 <span class="term term-accent">physically based rendering (PBR)</span> 做铺垫。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          Blinn-Phong 是 GAMES101 光照章节的核心模型。你写过 \(L = k_a I_a + k_d (I/r^2) \max(0, n\cdot l) + k_s (I/r^2) \max(0, n\cdot h)^p\)，其中高光指数 \(p\) 控制高光的「锐度」。这里我们重新审视这套数学，找出它违背物理的地方。
+        </div>
+
+        <h2 id="model-review">模型结构回顾</h2>
+        <p><span class="term">Blinn-Phong</span> 把反射分成三个独立的部分叠加：</p>
+        <ul>
+          <li><strong>Ambient（环境光）</strong>：一个常数项，代表所有间接光照的近似，与方向无关。</li>
+          <li><strong>Diffuse（漫反射）</strong>：基于 <span class="term">Lambert cosine law</span>，\(k_d \cdot \max(0, n \cdot l)\)，光线越垂直越亮。</li>
+          <li><strong>Specular（高光）</strong>：用 <span class="term">half vector</span> \(h = \frac{l+v}{\|l+v\|}\) 代替原始 Phong 中的反射向量，写成 \(k_s \cdot \max(0, n \cdot h)^p\)。Blinn 的改进让计算更稳定，高光拖尾也更接近真实。</li>
+        </ul>
+
+        <div class="math-block">
+          $$ L = \underbrace{k_a I_a}_{\text{ambient}} + \underbrace{k_d \frac{I}{r^2} \max(0,\, n\cdot l)}_{\text{diffuse}} + \underbrace{k_s \frac{I}{r^2} \max(0,\, n\cdot h)^p}_{\text{specular}} $$
+        </div>
+
+        <p>参数 \(p\)（<span class="term">shininess</span>）越大，高光越集中；\(k_d, k_s\) 分别控制漫反射和高光的颜色/强度。这套公式在 GAMES101 时代非常流行，GPU 早期的固定管线也硬编码了它。</p>
+
+        <h2 id="energy-problem">核心问题：能量不守恒</h2>
+
+        <p>物理上，出射光能量不能超过入射光能量——这叫做 <span class="term term-accent">energy conservation</span>（能量守恒）。Blinn-Phong 在这一点上<strong>有根本性的缺陷</strong>：</p>
+
+        <p><strong>问题一：diffuse + specular 之和可以超过 1。</strong> \(k_d\) 和 \(k_s\) 是独立参数，没有任何约束阻止 \(k_d + k_s > 1\)。在物理上，漫反射和镜面反射的比例应该互补：反射（specular）越强，进入介质内部发生漫反射的光就越少。Blinn-Phong 完全忽略了这种权衡。</p>
+
+        <p><strong>问题二：高光亮度与粗糙度无关。</strong> 真实材质中，粗糙表面的高光更大、更暗；光滑表面的高光更小、更亮——总能量应该守恒。但 Blinn-Phong 里改变 \(p\) 只改变高光的「宽窄」，不改变总亮度，粗糙表面会白白发出多余的能量。</p>
+
+        <div class="callout warn">
+          <span class="ttl">为什么这很重要</span>
+          能量不守恒导致材质在不同光照环境下表现不一致：点光源下看起来合理的材质，放在 <span class="term">IBL（image-based lighting）</span> 下可能过曝；而换个视角，金属和塑料的区别也消失了。这就是为什么 PBR 流水线要用 <span class="term">Cook-Torrance BRDF</span> 代替 Blinn-Phong。
+        </div>
+
+        <h2 id="other-limits">其他不足</h2>
+
+        <p><strong>没有区分金属与非金属。</strong> 真实世界里，<span class="term">dielectric</span>（电介质，如塑料、木材）的高光是白色的，因为镜面反射不改变颜色；而 <span class="term">conductor</span>（导体，如金、铜）的高光带有材质本身的颜色，因为它们吸收部分波长。Blinn-Phong 对两者一视同仁，都用 \(k_s\) 颜色。</p>
+
+        <p><strong>没有 <span class="term">Fresnel</span> 效应。</strong> 真实材质在掠射角（grazing angle）下反射会显著增强——你在桌面斜视时看到的强烈反光就是 Fresnel 效应。Blinn-Phong 里不存在这种随视角变化的现象。</p>
+
+        <p><strong>高光形状不符合测量数据。</strong> 对比真实材质的 <span class="term">BRDF</span> 测量数据（如 MERL 100 数据库），Blinn-Phong 的 \((n\cdot h)^p\) 高光拖尾衰减太快，无法复现许多材质（尤其是金属）的「发光」长尾效果。</p>
+
+        <div class="callout recap">
+          <span class="ttl">小结</span>
+          Blinn-Phong 的三个致命缺陷：① diffuse + specular 不守恒；② 粗糙度与总亮度脱钩；③ 无 Fresnel、无金属/非金属区分。下一节我们引入 <span class="term">rendering equation</span> 和 <span class="term">BRDF</span> 的严格定义，为 Cook-Torrance 铺路。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

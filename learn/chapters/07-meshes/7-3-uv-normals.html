@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UV (st) 与 normals — ConvertAsset Learning Guide</title>
+  <meta name="description" content="USD 网格里的 UV 坐标（primvars:st）与法线（normals）的约定、典型问题和 ConvertAsset 读取方式。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="7-3">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART III · 几何与优化 · Geometry &amp; Optimization</div>
+        <h1>UV (st) 与 normals</h1>
+
+        <p class="lead">USD 网格上的 <span class="term term-accent">UV</span> 坐标存在名为 <code>primvars:st</code> 的 primvar 里；<span class="term term-accent">normals</span> 则是 <span class="term">UsdGeom.Mesh</span> 的一个独立属性。两者都可以用不同的 <span class="term">interpolation</span> 模式存储，但各自有惯例，也各自有坑。理解这些细节，是后续 GLB 导出不丢 UV / 法线的基础。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          在 GAMES101 的纹理映射（<span class="term">texture mapping</span>）章节里，你把 UV 坐标绑定到顶点，再用重心坐标插值。这对应 <span class="term">vertex</span> 插值。但现实资产中，UV 缝合线（seam）要求同一顶点在不同面上有不同 UV——这就需要 <span class="term">faceVarying</span>。
+        </div>
+
+        <h2 id="uv-st">UV：primvars:st</h2>
+        <p>USD 的 UV 坐标没有硬编码的属性名；行业惯例是用 <span class="term">primvars:st</span>（来自 RenderMan 的命名传统，\(s\) = 水平，\(t\) = 垂直）。ConvertAsset 的所有读写代码都以 <code>"st"</code> 作为 primvar 名称查询。</p>
+
+        <p>典型的 faceVarying UV 在 USDA 里长这样：</p>
+        <div class="code">
+          <div class="code-head"><span class="fname">uv_example.usda</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">def Mesh "Box" {
+    texCoord2f[] primvars:st = [
+        (0,0), (1,0), (1,1), (0,1),   # 底面 UV
+        (0,0), (1,0), (1,1), (0,1),   # 侧面 UV（可能完全相同，但角点独立）
+        # ...更多面角点...
+    ]
+    uniform token primvars:st:interpolation = "faceVarying"
+}</code></pre>
+        </div>
+
+        <p>UV 坐标的 \(v\) 轴方向：USD（与 OpenGL）约定左下为 \((0,0)\)，而 glTF / DirectX 约定左上为 \((0,0)\)。导出 GLB 时需要对 \(v\) 做翻转：\(v' = 1 - v\)。ConvertAsset 的 <code>glb/usd_mesh.py</code> 目前直接传递，具体翻转由材质采样器的 wrap 模式处理。</p>
+
+        <h2 id="normals">normals：法线</h2>
+        <p><span class="term">normals</span> 是 <span class="term">UsdGeom.Mesh</span> 上的一个标准属性（<em>不是</em> primvar），存储各顶点或面角的法线向量。常见插值模式：</p>
+        <ul>
+          <li><strong>vertex</strong>：每个顶点一条法线（平滑阴影），数量 = <code>len(points)</code>。</li>
+          <li><strong>faceVarying</strong>：每个面角一条法线（硬边 / 折痕），数量 = ∑ <code>faceVertexCounts</code>。</li>
+          <li><strong>uniform</strong>：每个面一条法线（faceted，平面阴影）。</li>
+        </ul>
+
+        <p>ConvertAsset 的 <code>glb/usd_mesh.py</code> 当前只读取 <strong>vertex</strong> 法线（条目数与 points 相等时），其他模式的法线暂时忽略：</p>
+        <div class="code">
+          <div class="code-head"><span class="fname">glb/usd_mesh.py（节选）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python"># 仅处理顶点法线：数量与顶点数一致的情况
+normals = usd_mesh.GetNormalsAttr().Get()
+if normals and len(normals) == len(points):
+    normals_np = np.array(normals, dtype=np.float32)
+else:
+    normals_np = None   # faceVarying 或 uniform 法线暂不处理</code></pre>
+        </div>
+
+        <h2 id="uv-flattening-preview">faceVarying UV 的"顶点分裂"预览</h2>
+        <p>当 <span class="term">st</span> 的插值为 <span class="term">faceVarying</span> 时，不同面上同一顶点可能有不同 UV（缝合线处）。glTF 要求每个顶点只能有一个 UV，所以必须"分裂"顶点——把共享位置但 UV 不同的面角点变成独立顶点。</p>
+
+        <!-- 内联 SVG：vertex UV vs faceVarying UV -->
+        <svg viewBox="0 0 520 160" style="width:100%;max-width:520px;display:block;margin:1.2rem auto 0.5rem;" aria-label="vertex UV 与 faceVarying UV 对比">
+          <!-- 左：vertex UV -->
+          <text x="110" y="14" text-anchor="middle" font-size="11" fill="var(--c-text-muted,#667)">vertex UV（可直接用）</text>
+          <!-- 两个三角形共享顶点 v2 -->
+          <polygon points="10,130 110,40 210,130" fill="none" stroke="var(--c-border,#ccc)" stroke-width="1.5"/>
+          <circle cx="10" cy="130" r="6" fill="var(--c-accent,#4f8ef7)"/>
+          <circle cx="110" cy="40" r="6" fill="var(--c-accent,#4f8ef7)"/>
+          <circle cx="210" cy="130" r="6" fill="var(--c-accent,#4f8ef7)"/>
+          <text x="2" y="148" font-size="10" fill="var(--c-text,#333)">(0,0)</text>
+          <text x="96" y="36" font-size="10" fill="var(--c-text,#333)">(0.5,1)</text>
+          <text x="196" y="148" font-size="10" fill="var(--c-text,#333)">(1,0)</text>
+
+          <!-- 右：faceVarying UV -->
+          <text x="400" y="14" text-anchor="middle" font-size="11" fill="var(--c-text-muted,#667)">faceVarying UV（需分裂）</text>
+          <polygon points="300,130 360,40 420,130" fill="none" stroke="var(--c-border,#ccc)" stroke-width="1.5"/>
+          <polygon points="300,130 420,130 480,40" fill="none" stroke="var(--c-border,#ccc)" stroke-width="1.5"/>
+          <!-- v2 有两个不同 UV -->
+          <circle cx="420" cy="130" r="5" fill="#e07b54" opacity="0.9"/>
+          <circle cx="420" cy="130" r="9" fill="none" stroke="#e07b54" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <text x="422" y="126" font-size="9" fill="#e07b54">UV=?</text>
+          <text x="385" y="148" font-size="9" fill="#666">(1,0) 或 (0,0)?</text>
+        </svg>
+        <p style="font-size:0.88rem;color:var(--c-text-muted,#667);text-align:center;margin-top:0;">橙色顶点在两个面上 UV 不同 → 必须分裂为两个独立顶点</p>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          7-4 会专门深挖 faceVarying 的展平算法；9-5 展示 ConvertAsset 如何在实际 GLB 导出时处理这个问题。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

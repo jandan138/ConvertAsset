@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>case：simplify.py 三个 backend 与 UV 保持 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="ConvertAsset 网格简化的三个 backend（py / cpp / cpp-uv）架构解读，以及 face-varying UV 在坍塌过程中如何被追踪保持。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="8-5">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART III · 几何与优化 · Geometry &amp; Optimization</div>
+        <h1>case：simplify.py 三个 backend 与 UV 保持</h1>
+
+        <p class="lead">ConvertAsset 提供三种网格简化 <span class="term">backend</span>，从纯 Python 到 C++ pybind11，覆盖"开箱即用"到"生产性能"的需求谱系。最关键的工程挑战是：在几何拓扑被改写的同时，如何保持 <span class="term">face-varying UV</span> 的正确对应——ConvertAsset 用"面级 UV 三元组随面存活"的方案解决了这个问题。</p>
+
+        <h2 id="three-backends">三个 backend 概览</h2>
+
+        <table style="width:100%;border-collapse:collapse;font-size:0.92rem;margin:1rem 0;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--c-border,#d0d5de);text-align:left;">
+              <th style="padding:6px 10px;">Backend</th>
+              <th style="padding:6px 10px;">CLI 参数</th>
+              <th style="padding:6px 10px;">核心文件</th>
+              <th style="padding:6px 10px;">UV 保持</th>
+              <th style="padding:6px 10px;">适用场景</th>
+            </tr>
+          </thead>
+          <tbody style="font-size:0.88rem;">
+            <tr style="border-bottom:1px solid var(--c-border,#d0d5de);">
+              <td style="padding:6px 10px;"><span class="term term-accent">py</span></td>
+              <td style="padding:6px 10px;"><code>--backend py</code></td>
+              <td style="padding:6px 10px;"><code>mesh/simplify.py</code></td>
+              <td style="padding:6px 10px;">✓（qem_simplify_ex）</td>
+              <td style="padding:6px 10px;">无编译依赖，小中型网格</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c-border,#d0d5de);">
+              <td style="padding:6px 10px;"><span class="term">cpp</span></td>
+              <td style="padding:6px 10px;"><code>--backend cpp</code></td>
+              <td style="padding:6px 10px;"><code>mesh/backend_cpp.py</code> + 外部可执行</td>
+              <td style="padding:6px 10px;">✗（OBJ 不含 UV）</td>
+              <td style="padding:6px 10px;">大网格、无需 UV 精度</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 10px;"><span class="term">cpp-uv</span></td>
+              <td style="padding:6px 10px;"><code>--backend cpp-uv</code></td>
+              <td style="padding:6px 10px;"><code>mesh/backend_cpp.py</code> + pybind11</td>
+              <td style="padding:6px 10px;">✓（内存传递 UV triplets）</td>
+              <td style="padding:6px 10px;">生产性能 + UV 精度</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 id="py-backend">py backend：qem_simplify_ex</h2>
+        <p>纯 Python backend 的核心是 <code>qem_simplify_ex</code> 函数，相比基础版 <code>qem_simplify</code> 多了一个 <code>face_uvs</code> 参数——每个三角形对应一个 <strong>UV 三元组</strong>（6 个浮点：\(u_0,v_0,u_1,v_1,u_2,v_2\)）：</p>
+        <div class="code">
+          <div class="code-head"><span class="fname">mesh/simplify.py（qem_simplify_ex 核心）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">def qem_simplify_ex(verts, faces, target_faces,
+                    face_uvs=None, ...):
+    """QEM 简化 + face-varying UV 同步追踪"""
+    F = [list(f) for f in faces]          # 可变三角面副本
+    f_alive = [True] * len(F)             # 面存活标记
+    # ...（初始化 quadric、堆等）...
+
+    # 主坍塌循环
+    while faces_current > faces_target and heap:
+        cost, _, u, v, pos = heapq.heappop(heap)
+        # ...（执行坍塌，更新 F[fi]）...
+        for fi, f in enumerate(F):
+            if not f_alive[fi]: continue
+            # 把 v 替换为 u，若三顶点重复则面退化
+            a,b,c = f
+            if a==v: a=u
+            if b==v: b=u
+            if c==v: c=u
+            if len({a,b,c}) < 3:
+                f_alive[fi] = False   # 面退化
+                faces_current -= 1
+            else:
+                F[fi] = [a,b,c]
+
+    # 压缩阶段：只保留存活的面和对应 UV
+    new_face_uvs = []
+    for fi, alive in enumerate(f_alive):
+        if not alive: continue
+        a,b,c = F[fi]
+        if a in index_map and b in index_map and c in index_map:
+            new_faces.append((index_map[a],index_map[b],index_map[c]))
+            if face_uvs is not None:
+                new_face_uvs.append(face_uvs[fi])  # UV 与面一一对应</code></pre>
+        </div>
+        <p><strong>关键设计</strong>：UV 三元组与面索引 <code>fi</code> 严格绑定——面退化时 UV 自动丢弃，面存活时 UV 随面保留。坍塌操作<strong>不修改 UV 值</strong>，只影响哪些面存活。这保证了 UV 语义的正确性（每个三角的角点 UV 不因顶点位置移动而改变）。</p>
+
+        <h2 id="cpp-backend">cpp backend：临时 OBJ 文件路径</h2>
+        <p><code>simplify_mesh_with_cpp</code> 把 USD mesh 提取为 OBJ，调用外部 <code>meshqem</code> 可执行文件，再读回 OBJ 写入 USD：</p>
+        <div class="code">
+          <div class="code-head"><span class="fname">mesh/backend_cpp.py（节选）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">def simplify_mesh_with_cpp(prim, exe_path, ratio=None, ...):
+    points, faces = extract_tri_mesh_from_prim(prim)
+    with tempfile.TemporaryDirectory() as td:
+        inp = os.path.join(td, "in.obj")
+        out = os.path.join(td, "out.obj")
+        write_obj_tri(inp, points, faces)          # 只写几何，无 UV
+        run_meshqem_executable(exe_path, inp, out, ...)
+        new_pts, new_faces = read_obj_tri(out)
+        if apply:
+            mesh.GetPointsAttr().Set(new_pts)
+            # ...（写回 faceVertexCounts / Indices）...</code></pre>
+        </div>
+        <p>这条路径<strong>不传递 UV</strong>：OBJ 格式理论上支持 UV，但 meshqem 的 OBJ 接口只处理几何。适合只需减面、不关心 UV 精度的场景（如碰撞网格）。</p>
+
+        <h2 id="cpp-uv-backend">cpp-uv backend：pybind11 内存传递</h2>
+        <p><code>simplify_mesh_with_cpp_uv</code> 通过 pybind11 模块 <code>meshqem_py</code> 直接在 Python 与 C++ 之间传递顶点、面和 UV 三元组，避免磁盘 I/O：</p>
+        <div class="code">
+          <div class="code-head"><span class="fname">mesh/backend_cpp.py（cpp-uv 路径）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">def simplify_mesh_with_cpp_uv(prim, ratio=None, ...):
+    if meshqem_py is None:
+        raise RuntimeError("meshqem_py binding not available")
+    points, faces = extract_tri_mesh_from_prim(prim)
+    face_uv_triplets = extract_facevarying_uv_triplets(prim)
+
+    # 直接调用 C++ 函数，内存传递
+    new_verts, new_faces, new_face_uvs = meshqem_py.simplify_with_uv(
+        points, faces, face_uv_triplets, ratio, ...)
+
+    if apply:
+        mesh.GetPointsAttr().Set(new_verts)
+        # 写回拓扑...
+        if new_face_uvs is not None:
+            _write_facevarying_uv(mesh, new_face_uvs, name="st")</code></pre>
+        </div>
+
+        <h2 id="backend-arch-diagram">架构图：三 backend 共享的数据流</h2>
+        <!-- 内联 SVG -->
+        <svg viewBox="0 0 560 130" style="width:100%;max-width:560px;display:block;margin:1.2rem auto 0.5rem;" aria-label="三 backend 架构图">
+          <defs>
+            <marker id="arr85" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="var(--c-accent,#4f8ef7)"/>
+            </marker>
+          </defs>
+          <!-- USD Input -->
+          <rect x="10" y="40" width="100" height="50" rx="6" fill="none" stroke="var(--c-border,#d0d5de)" stroke-width="1.5"/>
+          <text x="60" y="63" text-anchor="middle" font-size="11" fill="var(--c-text,#333)">USD Mesh</text>
+          <text x="60" y="80" text-anchor="middle" font-size="10" fill="var(--c-text-muted,#667)">points + UV</text>
+          <line x1="112" y1="65" x2="145" y2="65" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.5" marker-end="url(#arr85)"/>
+          <!-- 三路 backend -->
+          <rect x="148" y="15" width="105" height="40" rx="5" fill="rgba(79,142,247,0.08)" stroke="var(--c-accent,#4f8ef7)" stroke-width="1"/>
+          <text x="200" y="33" text-anchor="middle" font-size="10" fill="var(--c-accent,#4f8ef7)">py</text>
+          <text x="200" y="47" text-anchor="middle" font-size="9" fill="var(--c-text-muted,#667)">qem_simplify_ex</text>
+          <rect x="148" y="60" width="105" height="40" rx="5" fill="rgba(224,123,84,0.08)" stroke="#e07b54" stroke-width="1"/>
+          <text x="200" y="78" text-anchor="middle" font-size="10" fill="#e07b54">cpp</text>
+          <text x="200" y="92" text-anchor="middle" font-size="9" fill="var(--c-text-muted,#667)">OBJ + 可执行</text>
+          <rect x="148" y="105" width="105" height="15" rx="5" fill="rgba(100,180,100,0.08)" stroke="#4a9" stroke-width="1"/>
+          <text x="200" y="116" text-anchor="middle" font-size="10" fill="#4a9">cpp-uv (pybind11)</text>
+          <!-- 汇合 -->
+          <line x1="255" y1="35" x2="330" y2="65" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.2" marker-end="url(#arr85)"/>
+          <line x1="255" y1="80" x2="330" y2="75" stroke="#e07b54" stroke-width="1.2" marker-end="url(#arr85)"/>
+          <line x1="255" y1="112" x2="330" y2="85" stroke="#4a9" stroke-width="1.2" marker-end="url(#arr85)"/>
+          <!-- USD Output -->
+          <rect x="333" y="40" width="100" height="50" rx="6" fill="none" stroke="var(--c-border,#d0d5de)" stroke-width="1.5"/>
+          <text x="383" y="63" text-anchor="middle" font-size="11" fill="var(--c-text,#333)">USD Mesh</text>
+          <text x="383" y="80" text-anchor="middle" font-size="10" fill="var(--c-text-muted,#667)">简化后</text>
+          <!-- Export -->
+          <line x1="435" y1="65" x2="460" y2="65" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.5" marker-end="url(#arr85)"/>
+          <rect x="462" y="40" width="85" height="50" rx="6" fill="rgba(79,142,247,0.06)" stroke="var(--c-accent,#4f8ef7)" stroke-width="1"/>
+          <text x="505" y="63" text-anchor="middle" font-size="11" fill="var(--c-accent,#4f8ef7)">Export</text>
+          <text x="505" y="78" text-anchor="middle" font-size="10" fill="var(--c-text-muted,#667)">_noMDL.usd</text>
+        </svg>
+
+        <div class="callout recap">
+          <span class="ttl">工程小结</span>
+          <strong>py backend</strong> 是默认路径，开箱即用，UV 正确，适合中小型网格或调试。<strong>cpp backend</strong> 速度最快但丢失 UV，用于碰撞体生成。<strong>cpp-uv</strong> 是生产推荐——C++ 速度 + UV 完整性，需要先编译 pybind11 扩展。三条路径共享同一套 USD 读写接口，仅"计算核"不同。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

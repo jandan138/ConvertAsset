@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ray tracing 为什么贵 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="分析 ray tracing 的计算瓶颈：BVH 遍历的随机内存访问、warp divergence、与光栅化的本质差异，以及为什么需要专用 RT Core 硬件。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="11-4">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART V · 渲染硬件与实时 · Rendering Hardware</div>
+        <h1>ray tracing 为什么贵</h1>
+
+        <p class="lead">GAMES101 里 <span class="term">Whitted-style ray tracing</span> 和 <span class="term">path tracing</span> 都是正确的、物理准确的渲染方式——但在实时游戏里，它们在 GPU 上运行极慢。本节分析三个根本原因：<span class="term">BVH traversal</span> 的随机内存访问、<span class="term">warp divergence</span>、以及 SM 被"霸占"去做纯控制流工作。正是这些痛点催生了 Turing 的 <span class="term term-accent">RT Core</span>。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          在 GAMES101 里，你用 <span class="term">BVH</span>（Bounding Volume Hierarchy）把场景分层包围，让每条光线的相交测试从 $O(\text{三角形数量})$ 降到 $O(\log N)$。但即使是 $O(\log N)$，在 GPU 上做这件事也有严重的性能问题。
+        </div>
+
+        <h2 id="bvh-random-access">问题 1：BVH 遍历 = 随机内存访问</h2>
+        <p>光栅化是"以三角形为主体"：一个三角形覆盖的像素是连续的，相邻 fragment 访问的纹理坐标也接近，缓存命中率高。</p>
+
+        <p>Ray tracing 是"以光线为主体"：每条光线从当前相机出发，经过一次反射后可能指向场景的任意方向，指向的物体在内存中可能与邻近像素的光线完全不同。这导致 BVH 节点和三角形数据的访问<strong>完全随机</strong>，L1/L2 缓存命中率极低，每次内存访问都可能需要等待数百个时钟周期。</p>
+
+        <h2 id="warp-divergence">问题 2：warp divergence</h2>
+        <p><span class="term">SIMT</span> 要求一个 warp 的 32 个线程执行同一条指令。但不同光线在 BVH 里会走不同的分支路径（某条光线命中左子树，另一条命中右子树）。这种<strong>控制流分歧</strong>（<span class="term">warp divergence</span>）导致 warp 中一半线程在等待另一半执行——有效利用率降低一半甚至更多。</p>
+
+        <p>对比光栅化：同一批 fragment（来自同一个三角形的相邻像素）执行完全相同的 shader 指令序列，divergence 极少。</p>
+
+        <h2 id="instruction-cost">问题 3：BVH 遍历消耗大量 SM 指令槽</h2>
+        <p>在没有专用硬件的情况下，BVH 遍历和 ray-box、ray-triangle 相交测试必须由 SM 的 CUDA core 执行。Turing 白皮书指出：软件 ray tracing 每条光线需要<strong>数千条指令</strong>（thousands of instruction slots）来遍历 BVH、测试各级包围盒，直到最终命中三角形。</p>
+
+        <p>Pascal GPU（无 RT Core）做 ray tracing 时，10 TFLOPS 的算力中很大一部分都在跑 BVH 遍历，留给 shading 的资源极少，仅能达到约 1.1 Giga Rays/sec（Turing 白皮书数据）。</p>
+
+        <h2 id="cost-summary">三个问题汇总</h2>
+
+        <div style="overflow-x:auto; margin:1.5rem 0;">
+          <svg viewBox="0 0 640 180" width="640" height="180" style="max-width:100%; font-family:var(--font-mono,monospace); font-size:12px;">
+            <text x="320" y="18" text-anchor="middle" fill="currentColor" font-weight="bold" font-size="13">软件 Ray Tracing 在 GPU SM 上的三大瓶颈</text>
+            <!-- box 1 -->
+            <rect x="10" y="30" width="185" height="130" rx="5" fill="#cc2200" opacity=".12" stroke="#cc2200" stroke-width="1.2"/>
+            <text x="103" y="55" text-anchor="middle" fill="currentColor" font-weight="bold">随机内存访问</text>
+            <text x="103" y="75" text-anchor="middle" fill="currentColor" font-size="11">BVH 节点 / 三角形散布</text>
+            <text x="103" y="92" text-anchor="middle" fill="currentColor" font-size="11">于内存各处</text>
+            <text x="103" y="112" text-anchor="middle" fill="currentColor" font-size="11">→ L1/L2 缓存失效</text>
+            <text x="103" y="128" text-anchor="middle" fill="currentColor" font-size="11">→ 等待数百 cycle</text>
+            <!-- box 2 -->
+            <rect x="225" y="30" width="185" height="130" rx="5" fill="#cc2200" opacity=".12" stroke="#cc2200" stroke-width="1.2"/>
+            <text x="318" y="55" text-anchor="middle" fill="currentColor" font-weight="bold">warp divergence</text>
+            <text x="318" y="75" text-anchor="middle" fill="currentColor" font-size="11">不同光线走不同</text>
+            <text x="318" y="92" text-anchor="middle" fill="currentColor" font-size="11">BVH 分支路径</text>
+            <text x="318" y="112" text-anchor="middle" fill="currentColor" font-size="11">→ warp 利用率</text>
+            <text x="318" y="128" text-anchor="middle" fill="currentColor" font-size="11">降低 50%+</text>
+            <!-- box 3 -->
+            <rect x="440" y="30" width="185" height="130" rx="5" fill="#cc2200" opacity=".12" stroke="#cc2200" stroke-width="1.2"/>
+            <text x="532" y="55" text-anchor="middle" fill="currentColor" font-weight="bold">SM 指令槽耗尽</text>
+            <text x="532" y="75" text-anchor="middle" fill="currentColor" font-size="11">BVH 遍历需要数千</text>
+            <text x="532" y="92" text-anchor="middle" fill="currentColor" font-size="11">条 shader 指令</text>
+            <text x="532" y="112" text-anchor="middle" fill="currentColor" font-size="11">→ shading 资源</text>
+            <text x="532" y="128" text-anchor="middle" fill="currentColor" font-size="11">被大量占用</text>
+          </svg>
+        </div>
+
+        <h2 id="solution-preview">解法预告：RT Core</h2>
+        <p>NVIDIA 的解决方案是把 BVH 遍历和 ray-triangle intersection 从 SM 卸载到一个专用的固定功能单元——<span class="term term-accent">RT Core</span>。RT Core 在遍历 BVH 时，SM 可以同时执行其他 vertex / fragment / compute 工作，两者并发。这样就把 ray tracing 里最耗 SM 的部分从关键路径上移除了。</p>
+
+        <p>Turing 白皮书数据：有了 RT Core，Turing 的 ray tracing 速度比 Pascal（纯软件）提升 <strong>10 倍</strong>，达到 10 Giga Rays/sec。</p>
+
+        <div class="callout">
+          <span class="ttl">接下来</span>
+          第 12 章专门讲 <span class="term">RT Core</span>：12-1 讲 BVH 加速结构；12-2 讲 RT Core 内部的 box-test 单元和 triangle-test 单元；12-3 讲 rasterization + RT 的混合管线设计；12-4 讲 Tensor Core 与 denoising / DLSS；12-5 讲 Turing → Ampere 的硬件演进。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

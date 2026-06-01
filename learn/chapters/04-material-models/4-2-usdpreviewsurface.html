@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UsdPreviewSurface 参数详解 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="UsdPreviewSurface 全参数详解：diffuseColor、metallic、roughness、clearcoat、ior、opacity、normal、occlusion，以及两种 workflow 的切换。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="4-2">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART III · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>UsdPreviewSurface 参数详解</h1>
+
+        <p class="lead"><span class="term term-accent">UsdPreviewSurface</span> 是 Pixar 为 USD 设计的通用预览着色器（node id：<code>UsdPreviewSurface</code>），目标是在 DCC 工具、实时引擎和离线渲染器之间实现可靠的材质交换。它同时支持 <span class="term">metalness workflow</span> 和 <span class="term">specular workflow</span>，通过 <code>useSpecularWorkflow</code> 参数切换。ConvertAsset 的 no-MDL 转换流程正是把 MDL 材质落到这个格式。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          你在 GAMES101 里直接操作 shader 代码。UsdPreviewSurface 把 shader 参数抽象成了 USD 属性（attribute），可以连接纹理网络（UsdUVTexture）或直接设置标量值——本质上是同一套 Cook-Torrance PBR，只是换了个声明式的接口。
+        </div>
+
+        <h2 id="core-params">核心参数一览</h2>
+
+        <p>以下参数在 metalness workflow（<code>useSpecularWorkflow=0</code>）下均有效：</p>
+
+        <table style="width:100%;border-collapse:collapse;font-size:0.91em;margin:1rem 0">
+          <thead>
+            <tr style="border-bottom:2px solid var(--accent)">
+              <th style="padding:0.35rem 0.6rem;text-align:left">参数</th>
+              <th style="padding:0.35rem 0.6rem;text-align:left">类型</th>
+              <th style="padding:0.35rem 0.6rem;text-align:left">默认值</th>
+              <th style="padding:0.35rem 0.6rem;text-align:left">含义</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)"><td style="padding:0.35rem 0.6rem"><code>diffuseColor</code></td><td style="padding:0.35rem 0.6rem">color3f</td><td style="padding:0.35rem 0.6rem">(0.18, 0.18, 0.18)</td><td style="padding:0.35rem 0.6rem">metalness 下为 albedo；specular 下为漫反射颜色</td></tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)"><td style="padding:0.35rem 0.6rem"><code>metallic</code></td><td style="padding:0.35rem 0.6rem">float</td><td style="padding:0.35rem 0.6rem">0.0</td><td style="padding:0.35rem 0.6rem">金属度，0=电介质，1=导体；仅 metalness workflow</td></tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)"><td style="padding:0.35rem 0.6rem"><code>roughness</code></td><td style="padding:0.35rem 0.6rem">float</td><td style="padding:0.35rem 0.6rem">0.5</td><td style="padding:0.35rem 0.6rem">GGX 粗糙度（renderer 内部做 \(\alpha = r^2\)）</td></tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)"><td style="padding:0.35rem 0.6rem"><code>specularColor</code></td><td style="padding:0.35rem 0.6rem">color3f</td><td style="padding:0.35rem 0.6rem">(0.0, 0.0, 0.0)</td><td style="padding:0.35rem 0.6rem">specular workflow 下的 F0；metalness 下忽略</td></tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)"><td style="padding:0.35rem 0.6rem"><code>ior</code></td><td style="padding:0.35rem 0.6rem">float</td><td style="padding:0.35rem 0.6rem">1.5</td><td style="padding:0.35rem 0.6rem">折射率；metalness=0 时推导 F0；影响透明与 clearcoat</td></tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)"><td style="padding:0.35rem 0.6rem"><code>clearcoat</code></td><td style="padding:0.35rem 0.6rem">float</td><td style="padding:0.35rem 0.6rem">0.0</td><td style="padding:0.35rem 0.6rem">第二高光叶（白色）强度，模拟清漆层</td></tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)"><td style="padding:0.35rem 0.6rem"><code>clearcoatRoughness</code></td><td style="padding:0.35rem 0.6rem">float</td><td style="padding:0.35rem 0.6rem">0.01</td><td style="padding:0.35rem 0.6rem">清漆层的 GGX 粗糙度</td></tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)"><td style="padding:0.35rem 0.6rem"><code>opacity</code></td><td style="padding:0.35rem 0.6rem">float</td><td style="padding:0.35rem 0.6rem">1.0</td><td style="padding:0.35rem 0.6rem">透明度；0 = 全透明，1 = 不透明</td></tr>
+            <tr style="border-bottom:1px solid var(--border,#e0e0e0)"><td style="padding:0.35rem 0.6rem"><code>normal</code></td><td style="padding:0.35rem 0.6rem">normal3f</td><td style="padding:0.35rem 0.6rem">(0,0,1)</td><td style="padding:0.35rem 0.6rem">切线空间法线贴图，\([-1,1]^3\)；需 scale/bias 转换</td></tr>
+            <tr><td style="padding:0.35rem 0.6rem"><code>occlusion</code></td><td style="padding:0.35rem 0.6rem">float</td><td style="padding:0.35rem 0.6rem">1.0</td><td style="padding:0.35rem 0.6rem">AO（环境遮挡）；0=完全遮挡，1=完全不遮挡</td></tr>
+          </tbody>
+        </table>
+
+        <h2 id="workflow-switch">useSpecularWorkflow 切换</h2>
+
+        <p><code>useSpecularWorkflow</code> 是一个整数开关（0 或 1），只能是 <code>connectability = "interfaceOnly"</code>（不能连纹理）：</p>
+
+        <ul>
+          <li><strong>0（默认，metalness workflow）</strong>：<code>metallic</code> 参数生效；F0 由 <code>metallic</code> 与 0.04 混合计算；<code>specularColor</code> 被忽略。</li>
+          <li><strong>1（specular workflow）</strong>：<code>specularColor</code> 直接作为 F0；<code>metallic</code> 被忽略。</li>
+        </ul>
+
+        <div class="math-block">
+          $$ \text{F0} = \begin{cases} \text{mix}(0.04,\; \text{diffuseColor},\; \text{metallic}) & \text{useSpecularWorkflow}=0 \\ \text{specularColor} & \text{useSpecularWorkflow}=1 \end{cases} $$
+        </div>
+
+        <h2 id="code-examples">pxr 代码示例</h2>
+
+        <p>以下示例展示如何用 <span class="term">pxr</span> Python 绑定创建一个带完整参数的 UsdPreviewSurface 节点：</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">create_preview_surface.py</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">from pxr import Usd, UsdShade, Sdf
+
+stage = Usd.Stage.CreateNew("material.usda")
+mat = UsdShade.Material.Define(stage, "/Looks/CarPaint")
+shader = UsdShade.Shader.Define(stage, "/Looks/CarPaint/Surface")
+shader.CreateIdAttr("UsdPreviewSurface")
+
+# metalness workflow（默认）
+shader.CreateInput("useSpecularWorkflow", Sdf.ValueTypeNames.Int).Set(0)
+
+# 深红色车漆
+shader.CreateInput("diffuseColor",  Sdf.ValueTypeNames.Color3f).Set((0.6, 0.05, 0.05))
+shader.CreateInput("metallic",      Sdf.ValueTypeNames.Float).Set(0.0)
+shader.CreateInput("roughness",     Sdf.ValueTypeNames.Float).Set(0.25)
+
+# 清漆层（汽车漆特有）
+shader.CreateInput("clearcoat",          Sdf.ValueTypeNames.Float).Set(0.9)
+shader.CreateInput("clearcoatRoughness", Sdf.ValueTypeNames.Float).Set(0.02)
+
+# 法线与 AO
+shader.CreateInput("normal",    Sdf.ValueTypeNames.Normal3f).Set((0.0, 0.0, 1.0))
+shader.CreateInput("occlusion", Sdf.ValueTypeNames.Float).Set(1.0)
+
+# 连接到 Material 的 surface 输出
+mat.CreateSurfaceOutput().ConnectToSource(
+    shader.ConnectableAPI(), "surface"
+)</code></pre>
+        </div>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">specular_workflow_example.py</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">from pxr import UsdShade, Sdf
+
+# specular workflow：直接指定 F0 颜色（适合金属质感的 tinted specular）
+shader.CreateInput("useSpecularWorkflow", Sdf.ValueTypeNames.Int).Set(1)
+shader.CreateInput("diffuseColor",  Sdf.ValueTypeNames.Color3f).Set((0.01, 0.01, 0.01))
+# F0 for gold：(1.00, 0.71, 0.29) in linear
+shader.CreateInput("specularColor", Sdf.ValueTypeNames.Color3f).Set((1.0, 0.71, 0.29))
+shader.CreateInput("roughness",     Sdf.ValueTypeNames.Float).Set(0.15)</code></pre>
+        </div>
+
+        <h2 id="normal-map-note">法线贴图的注意事项</h2>
+
+        <p>UsdPreviewSurface 要求 <code>normal</code> 输入是切线空间（<span class="term">tangent space</span>）法线，范围 \([-1, 1]^3\)。通过 <code>UsdUVTexture</code> 读取 8-bit 法线贴图时，需要设置 <code>scale = (2, 2, 2, 1)</code> 和 <code>bias = (-1, -1, -1, 0)</code> 完成 \([0,255] \to [-1,1]\) 转换。同时必须把 <code>sourceColorSpace</code> 设为 <code>raw</code>（不做 sRGB 解码），否则法线方向会错误。</p>
+
+        <div class="callout recap">
+          <span class="ttl">ConvertAsset 的实践</span>
+          ConvertAsset 在 no-MDL 转换时，把 MDL 材质的各个输入（albedo、roughness、metallic、normal 纹理）逐一映射到 UsdPreviewSurface 对应参数。<code>no_mdl/materials.py</code> 就是做这件事的模块。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

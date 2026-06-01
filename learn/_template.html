@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SECTION_TITLE — ConvertAsset Learning Guide</title>
+  <meta name="description" content="ONE_LINE_DESCRIPTION" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX（页面有公式时保留） -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <!-- 仅当页面用到 three.js widget 时，取消注释下面的 import map -->
+  <!--
+  <script type="importmap">
+  { "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }}
+  </script>
+  -->
+</head>
+<body data-root="../../" data-section-id="SECTION_ID">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART_EYEBROW</div>
+        <h1>SECTION_TITLE</h1>
+
+        <p class="lead">LEAD_PARAGRAPH</p>
+
+        <!-- 至少 3 个带 id 的 h2，便于右栏 On this page 与 scroll-spy -->
+        <h2 id="s1">小节标题一</h2>
+        <p>正文……行内术语用 <span class="term">term</span> / <span class="term term-accent">key concept</span>。</p>
+
+        <!-- 可选：桥接 GAMES101 -->
+        <!-- <div class="bridge"><span class="ttl">From GAMES101</span> ……</div> -->
+
+        <!-- 可选：公式 -->
+        <!-- <div class="math-block">$$ E = mc^2 $$</div> -->
+
+        <!-- 可选：代码 -->
+        <!-- <div class="code"><div class="code-head"><span class="fname">file.py</span><button class="copy">copy</button></div>
+        <pre><code data-lang="python">print("hello")</code></pre></div> -->
+
+        <!-- 可选：交互件挂载点（需在 head 打开 import map + 页面底部加 widget script）
+        <div class="lab">
+          <div class="lab-head"><div class="lab-tag">互动 · Interactive</div><div class="lab-title">WIDGET_TITLE</div></div>
+          <div class="lab-body"><div id="WIDGET_MOUNT"></div></div>
+          <div class="lab-note">操作说明……</div>
+        </div> -->
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <!-- 若有 widget： <script type="module" src="../../widgets/WIDGET.js"></script> -->
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

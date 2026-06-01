@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>metrics：PSNR / SSIM / LPIPS / CLIP / DINOv2 — ConvertAsset Learning Guide</title>
+  <meta name="description" content="像素级与语义特征级视觉相似度指标详解，以及 ConvertAsset 论文在四件资产上的实测结果：PSNR 35.52 dB、SSIM 0.990、LPIPS 0.020、CLIP 0.925、DINOv2 0.872。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="14-3">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART VI · 仿真与具身智能 · Simulation &amp; Embodied AI</div>
+        <h1>metrics：PSNR / SSIM / LPIPS / CLIP / DINOv2</h1>
+
+        <p class="lead">评估材质转换对视觉保真度的影响，需要跨越两个维度：<strong>像素级相似度</strong>（原始图像有多像）和<strong>语义特征相似度</strong>（高层特征有多接近）。ConvertAsset 论文在四件 Isaac Sim 家具资产上，从六个匹配视角对比 original MDL 和 noMDL 渲染，得到五个量化指标：<span class="term">PSNR</span> 35.52 dB、<span class="term">SSIM</span> 0.990、<span class="term">LPIPS</span> 0.020、<span class="term">CLIP</span> 0.925、<span class="term">DINOv2</span> 0.872。</p>
+
+        <h2 id="pixel-metrics">像素级指标：PSNR / SSIM / LPIPS</h2>
+
+        <h3>PSNR（Peak Signal-to-Noise Ratio）</h3>
+        <p><span class="term">PSNR</span> 是最基础的像素级失真度量，定义为：</p>
+        <div class="math-block">
+          $$ \text{PSNR} = 10 \log_{10} \frac{\text{MAX}^2}{\text{MSE}} \quad \text{(dB)} $$
+        </div>
+        <p>其中 $\text{MAX} = 255$（8-bit 图像），$\text{MSE} = \frac{1}{HW}\sum_{i,j}(I_1 - I_2)^2$ 是均方误差。PSNR 越高说明两张图越接近。ConvertAsset 测量结果 <strong>35.52 dB</strong> 对应的 MSE 为：</p>
+        <div class="math-block">
+          $$ \text{MSE} = 255^2 \times 10^{-35.52/10} \approx 181.8 $$
+        </div>
+        <p>从人类感知角度，&gt;30 dB 通常被认为是"高质量近似"，35 dB 以上几乎难以察觉差异。</p>
+
+        <div class="callout recap">
+          <span class="ttl">PSNR 的局限</span>
+          PSNR 是像素级度量，对整体亮度偏移非常敏感，但对人眼不敏感的结构改变却可能给出低分。这是为什么需要补充 SSIM 和感知指标 LPIPS。
+        </div>
+
+        <h3>SSIM（Structural Similarity Index Measure）</h3>
+        <p><span class="term">SSIM</span> 同时衡量亮度（luminance）、对比度（contrast）和结构（structure）三方面的相似性：</p>
+        <div class="math-block">
+          $$ \text{SSIM}(x, y) = \frac{(2\mu_x\mu_y + C_1)(2\sigma_{xy} + C_2)}{(\mu_x^2 + \mu_y^2 + C_1)(\sigma_x^2 + \sigma_y^2 + C_2)} $$
+        </div>
+        <p>取值范围 \(-1\) 到 1，越接近 1 越好。ConvertAsset 结果 <strong>0.990</strong> 说明转换后的渲染在结构层面与原始几乎完全一致——对 grounding 任务中"识别物体形状和轮廓"的影响极小。</p>
+
+        <h3>LPIPS（Learned Perceptual Image Patch Similarity）</h3>
+        <p><span class="term">LPIPS</span> 使用预训练 CNN（VGG / AlexNet）的中间特征层来衡量感知相似度，更接近人类视觉判断：</p>
+        <div class="math-block">
+          $$ \text{LPIPS}(x, y) = \sum_l \frac{1}{H_l W_l} \sum_{h,w} \lVert w_l \odot (\hat\phi_l^x - \hat\phi_l^y) \rVert_2^2 $$
+        </div>
+        <p>取值范围 0 到 1，<strong>越小越好</strong>（0 表示完全相同）。ConvertAsset 结果 <strong>0.020</strong> 是一个非常低的值，意味着两组渲染在感知特征层面差异微小。</p>
+
+        <h2 id="semantic-metrics">语义特征指标：CLIP / DINOv2</h2>
+
+        <h3>CLIP 余弦相似度</h3>
+        <p><span class="term">CLIP</span>（Contrastive Language-Image Pre-Training，OpenAI）通过对比学习将图像和文本映射到同一嵌入空间。用 CLIP 的图像编码器分别编码两张图，计算余弦相似度：</p>
+        <div class="math-block">
+          $$ \text{CLIP-sim}(I_1, I_2) = \frac{\phi_\text{CLIP}(I_1) \cdot \phi_\text{CLIP}(I_2)}{\lVert\phi_\text{CLIP}(I_1)\rVert \lVert\phi_\text{CLIP}(I_2)\rVert} $$
+        </div>
+        <p>CLIP 特征对语义类别高度敏感：同一类别物体的相似度通常 &gt;0.9，跨类别会降至 0.7 以下。ConvertAsset 结果 <strong>0.925</strong> 说明转换后的场景在语义层面（"这是什么物体？"）保持一致，VLM 的目标类别识别不受影响。</p>
+
+        <h3>DINOv2 余弦相似度</h3>
+        <p><span class="term">DINOv2</span>（Meta AI）通过自监督蒸馏学习，提取更细粒度的视觉特征，对纹理和局部结构敏感，常用于细粒度视觉相似度评估。ConvertAsset 结果 <strong>0.872</strong> 略低于 CLIP，反映出 DINOv2 对材质细节差异更敏感——材质转换确实引入了可感知的纹理变化，但仍在高相似度区间。</p>
+
+        <h2 id="results">五个指标的解读</h2>
+        <p>综合来看，五个指标的结论是一致的：</p>
+
+        <svg viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:640px;display:block;margin:1.5rem auto">
+          <rect x="10" y="10" width="620" height="180" rx="8" fill="#0e1420" stroke="#333" stroke-width="1.5"/>
+          <text x="320" y="38" text-anchor="middle" fill="#ddd" font-size="14" font-weight="600">MDL vs noMDL 视觉相似度（4 件资产，6 视角）</text>
+          <g>
+            <text x="80" y="70" text-anchor="middle" fill="#888" font-size="11">PSNR</text>
+            <rect x="130" y="58" width="420" height="14" rx="4" fill="#1a2a1a"/>
+            <rect x="130" y="58" width="394" height="14" rx="4" fill="#4ad94a"/>
+            <text x="560" y="70" text-anchor="start" fill="#90f090" font-size="11">35.52 dB</text>
+          </g>
+          <g>
+            <text x="80" y="96" text-anchor="middle" fill="#888" font-size="11">SSIM</text>
+            <rect x="130" y="84" width="420" height="14" rx="4" fill="#1a2a1a"/>
+            <rect x="130" y="84" width="415.8" height="14" rx="4" fill="#4ad9d9"/>
+            <text x="560" y="96" text-anchor="start" fill="#90f0f0" font-size="11">0.990</text>
+          </g>
+          <g>
+            <text x="80" y="122" text-anchor="middle" fill="#888" font-size="11">LPIPS ↓</text>
+            <rect x="130" y="110" width="420" height="14" rx="4" fill="#1a2a1a"/>
+            <rect x="130" y="110" width="8.4" height="14" rx="4" fill="#d9d94a"/>
+            <text x="560" y="122" text-anchor="start" fill="#f0f090" font-size="11">0.020 (低=好)</text>
+          </g>
+          <g>
+            <text x="80" y="148" text-anchor="middle" fill="#888" font-size="11">CLIP</text>
+            <rect x="130" y="136" width="420" height="14" rx="4" fill="#1a2a1a"/>
+            <rect x="130" y="136" width="388.5" height="14" rx="4" fill="#4a90d9"/>
+            <text x="560" y="148" text-anchor="start" fill="#90c8f0" font-size="11">0.925</text>
+          </g>
+          <g>
+            <text x="80" y="174" text-anchor="middle" fill="#888" font-size="11">DINOv2</text>
+            <rect x="130" y="162" width="420" height="14" rx="4" fill="#1a2a1a"/>
+            <rect x="130" y="162" width="366.24" height="14" rx="4" fill="#9a4ad9"/>
+            <text x="560" y="174" text-anchor="start" fill="#c8a0f0" font-size="11">0.872</text>
+          </g>
+        </svg>
+
+        <p>像素级（PSNR 35.52 dB、SSIM 0.990、LPIPS 0.020）和语义级（CLIP 0.925、DINOv2 0.872）都说明，<strong>proxy 相似度（代理视觉保真度）很高</strong>——但正如论文指出的，proxy 相似度高并不等于下游 grounding 任务不受影响。这正是 evidence-gate protocol 存在的原因（下节详述）。</p>
+
+        <div class="callout">
+          <span class="ttl">数据来源</span>
+          上述数字来自 <code>paper/shared/evidence/claims.yaml</code> 中的 <code>visual_quality_mean</code> 和 <code>semantic_similarity_mean</code> 两条 claim，数据源为 <code>paper/shared/evidence/raw/image_quality.csv</code> 和 <code>feature_similarity.csv</code>。范围：四件 chest-of-drawers 资产，六个匹配视角。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

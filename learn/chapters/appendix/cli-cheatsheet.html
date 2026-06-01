@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CLI cheat-sheet — ConvertAsset Learning Guide</title>
+  <meta name="description" content="ConvertAsset 所有 CLI 子命令的速查手册，包含真实参数和用法示例。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="app-cli">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">附录 · Appendix</div>
+        <h1>CLI cheat-sheet</h1>
+
+        <p class="lead">所有命令都通过 <code>./scripts/isaac_python.sh ./main.py &lt;subcommand&gt; [args]</code> 调用。<code>isaac_python.sh</code> 负责设置 Isaac Sim 的 Python 环境，然后执行 <code>main.py</code>。默认子命令（无子命令时）为 <code>no-mdl</code>。</p>
+
+        <h2 id="no-mdl">no-mdl — MDL → UsdPreviewSurface</h2>
+        <p>递归处理 USD 文件树，为每个文件生成 <code>*_noMDL.usd</code> 兄弟文件，材质网络替换为 UsdPreviewSurface。</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">no-mdl</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python"># 基本用法
+./scripts/isaac_python.sh ./main.py no-mdl /path/to/scene.usd
+
+# 只写 noMDL USD，跳过 summary / audit 文件
+./scripts/isaac_python.sh ./main.py no-mdl /path/to/scene.usd --only-new-usd
+
+# 纹理路径写为绝对路径（legacy 行为）
+./scripts/isaac_python.sh ./main.py no-mdl /path/to/scene.usd \
+    --resolve-textures-to-absolute</code></pre>
+        </div>
+
+        <h2 id="mesh-faces">mesh-faces — 统计网格面数</h2>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">mesh-faces</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">./scripts/isaac_python.sh ./main.py mesh-faces /path/to/scene.usd
+# 输出：Total render mesh faces: 847392</code></pre>
+        </div>
+
+        <h2 id="mesh-simplify">mesh-simplify — QEM 网格简化</h2>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">mesh-simplify</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python"># 干跑（不写文件），查看简化效果
+./scripts/isaac_python.sh ./main.py mesh-simplify \
+    /path/to/scene.usd --ratio 0.5 --backend py
+
+# 实际简化并写出
+./scripts/isaac_python.sh ./main.py mesh-simplify \
+    /path/to/scene.usd \
+    --ratio 0.5 \
+    --backend py \
+    --apply \
+    --out /path/to/scene_simplified.usd \
+    --progress
+
+# 用目标面数代替比例
+./scripts/isaac_python.sh ./main.py mesh-simplify \
+    /path/to/scene.usd \
+    --target-faces 100000 \
+    --backend py --apply --out /path/to/out.usd
+
+# C++ pybind11 backend（需先编译）
+./scripts/isaac_python.sh ./main.py mesh-simplify \
+    /path/to/scene.usd --ratio 0.5 --backend cpp-uv \
+    --apply --out /path/to/out.usd</code></pre>
+        </div>
+
+        <div class="callout">
+          <span class="ttl">backend 选项</span>
+          <code>py</code>：纯 Python，无需编译，适合快速上手。<br/>
+          <code>cpp</code>：调用原生 C++ 可执行文件（<code>native/meshqem/build/meshqem</code>）。<br/>
+          <code>cpp-uv</code>：pybind11 in-process C++ backend，性能最佳，UV 保持最准，需先编译 <code>native/meshqem</code>。
+        </div>
+
+        <h2 id="inspect">inspect — 检查材质网络</h2>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">inspect</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python"># 查看 MDL 着色器网络
+./scripts/isaac_python.sh ./main.py inspect \
+    /path/to/scene.usd mdl /Looks/MaterialName
+
+# 查看 UsdPreviewSurface 网络
+./scripts/isaac_python.sh ./main.py inspect \
+    /path/to/scene_noMDL.usd usdpreview /Looks/MaterialName</code></pre>
+        </div>
+
+        <h2 id="export-glb">export-glb — USD → GLB</h2>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">export-glb</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python"># 推荐输入：*_noMDL.usd（MDL 已转换）
+./scripts/isaac_python.sh ./main.py export-glb \
+    /path/to/scene_noMDL.usd \
+    --out /path/to/output.glb</code></pre>
+        </div>
+
+        <h2 id="usd-to-glb">usd-to-glb — 一步到位流水线</h2>
+        <p>自动执行：<code>no-mdl</code> → 生成中间 <code>*_noMDL.usd</code> → <code>export-glb</code> → 删除中间文件。</p>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">usd-to-glb</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">./scripts/isaac_python.sh ./main.py usd-to-glb \
+    /path/to/scene.usd \
+    --out /path/to/output.glb
+
+# 保留中间 *_noMDL.usd 文件
+./scripts/isaac_python.sh ./main.py usd-to-glb \
+    /path/to/scene.usd \
+    --out /path/to/output.glb \
+    --keep-intermediate</code></pre>
+        </div>
+
+        <h2 id="render-single">render-single — 本地 Isaac Sim 出图</h2>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">render-single</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python"># 4 视角 512×512 默认出图
+./scripts/isaac_python.sh ./main.py render-single \
+    /path/to/asset.usd \
+    --out /path/to/renders
+
+# 完整参数示例
+./scripts/isaac_python.sh ./main.py render-single \
+    /path/to/asset.usd \
+    --out /path/to/renders \
+    --width 1024 --height 1024 \
+    --views 4 \
+    --elevation 35 \
+    --azimuth-offset 0 \
+    --focal-mm 18 \
+    --warmup-steps 100 \
+    --render-steps 16 \
+    --renderer PathTracing \
+    --naming-style view \
+    --background-color 40,40,40 \
+    --overwrite</code></pre>
+        </div>
+
+        <h2 id="thumbnails">thumbnails — 场景实例批量出图</h2>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">thumbnails</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python">./scripts/isaac_python.sh ./main.py thumbnails \
+    /path/to/scene.usd \
+    --out /path/to/thumbnails \
+    --width 600 --height 450 \
+    --views 6 \
+    --warmup-steps 1000 \
+    --render-steps 8 \
+    --focal-mm 9</code></pre>
+        </div>
+
+        <h2 id="export-mdl">export-mdl-materials — 导出 MDL 材质</h2>
+
+        <div class="code">
+          <div class="code-head"><span class="fname">export-mdl-materials</span><button class="copy">copy</button></div>
+          <pre><code data-lang="python"># 以 UsdPreviewSurface 模式导出（附球形预览场景）
+./scripts/isaac_python.sh ./main.py export-mdl-materials \
+    /path/to/scene.usd \
+    --out-dir-name exported_materials \
+    --mode preview \
+    --emit-ball</code></pre>
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

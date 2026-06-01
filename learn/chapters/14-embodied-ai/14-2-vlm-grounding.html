@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VLM grounding 与 GRScenes — ConvertAsset Learning Guide</title>
+  <meta name="description" content="Vision-Language Model（VLM）的语言 grounding 能力，以及 GRScenes 数据集在具身 AI 评测中的角色。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="14-2">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART VI · 仿真与具身智能 · Simulation &amp; Embodied AI</div>
+        <h1>VLM grounding 与 GRScenes</h1>
+
+        <p class="lead"><span class="term term-accent">VLM</span>（Vision-Language Model，视觉语言模型）不仅能理解图像，还能将语言描述与图像中的具体区域对应——这种能力叫做 <span class="term term-accent">grounding</span>（语言定位）。ConvertAsset 的论文使用 <span class="term term-accent">GRScenes</span> 数据集，通过视觉问答（visual QA）协议来评测材质转换对 grounding 能力的影响。</p>
+
+        <h2 id="vlm-grounding">什么是 VLM grounding</h2>
+        <p><span class="term">Grounding</span> 是指 VLM 将自然语言中的指代表达（referential expression）映射到图像中的空间区域（像素坐标或 bounding box）的能力。例如：</p>
+        <ul>
+          <li>给定图像 + 指令"红色沙发右边的桌子"，grounding 模型需要输出桌子在图中的位置坐标。</li>
+          <li>在 VLN 中，agent 在每个视角看到场景图像，用 grounding 能力来定位指令中提到的地标（landmark），从而决定朝哪个方向走。</li>
+        </ul>
+        <p>主流 VLM（如 <span class="term">Gemma4</span>、<span class="term">Qwen2.5-VL</span>）通过 visual token + language token 联合编码，在预训练时已经见过大量图文对，因此具备一定的 grounding 泛化能力。但这种能力对输入图像的视觉特征（颜色、材质、光照）是敏感的。</p>
+
+        <div class="callout">
+          <span class="ttl">Grounding 的两种输出形式</span>
+          1. <strong>类别答案</strong>：回答"这是什么？"（目标类别）。<br/>
+          2. <strong>坐标点</strong>：回答"它在哪里？"（像素坐标或归一化坐标）。<br/>
+          ConvertAsset 论文的视觉 QA 协议同时评测这两项，并且区分了 raw pixel 坐标和 normalized-1000 坐标两种计分方式。
+        </div>
+
+        <h2 id="grscenes">GRScenes 数据集</h2>
+        <p><span class="term term-accent">GRScenes</span>（Grounded Room Scenes）是一个为 VLN grounding 研究设计的室内场景数据集，其特点是：</p>
+        <ul>
+          <li><strong>目标中心相机</strong>（target-centered camera）：每个场景图像都以目标物体为视角中心，camera rig 围绕目标拍摄，确保目标在图像内可见。</li>
+          <li><strong>配对材质渲染</strong>：同一场景同时提供 original MDL 渲染和 UsdPreviewSurface（noMDL）渲染，构成<strong>配对比较</strong>（paired comparison）基础。</li>
+          <li><strong>视觉 QA 标注</strong>：每张图附带目标类别标签和目标在图中的 2D 投影坐标，用于量化 VLM 的 grounding 精度。</li>
+        </ul>
+        <p>ConvertAsset 论文在 GRScenes 上做了多轮 pilot 实验，包括：</p>
+        <ul>
+          <li><strong>15 对干净视觉 QA 池</strong>（clean visual-QA pilot）：评测 Gemma4 和 Qwen2.5-VL 在原始 vs 转换场景下的答案一致性。</li>
+          <li><strong>30 对材质偏移压力集</strong>（material-shift stress set）：目标居中的 zoom-in 视图，专门放大材质变化的视觉冲击。</li>
+        </ul>
+
+        <svg viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:640px;display:block;margin:1.5rem auto">
+          <rect x="10" y="10" width="290" height="160" rx="8" fill="#1a2a1a" stroke="#4ad94a" stroke-width="1.5"/>
+          <text x="155" y="38" text-anchor="middle" fill="#a0f0a0" font-size="13" font-weight="600">Original MDL 渲染</text>
+          <rect x="30" y="50" width="250" height="90" rx="6" fill="#0e1a0e" stroke="#2a6a2a" stroke-width="1"/>
+          <text x="155" y="100" text-anchor="middle" fill="#888" font-size="11">photo-realistic MDL 材质</text>
+          <text x="155" y="118" text-anchor="middle" fill="#888" font-size="11">复杂 BSDF · 过程纹理</text>
+          <text x="155" y="155" text-anchor="middle" fill="#aaa" font-size="10">VLM 答案: ✓ 目标类别正确</text>
+          <rect x="340" y="10" width="290" height="160" rx="8" fill="#1a1a2a" stroke="#4a4ad9" stroke-width="1.5"/>
+          <text x="485" y="38" text-anchor="middle" fill="#a0a0f0" font-size="13" font-weight="600">noMDL UsdPreviewSurface 渲染</text>
+          <rect x="360" y="50" width="250" height="90" rx="6" fill="#0e0e1a" stroke="#2a2a6a" stroke-width="1"/>
+          <text x="485" y="100" text-anchor="middle" fill="#888" font-size="11">Cook-Torrance PBR 近似</text>
+          <text x="485" y="118" text-anchor="middle" fill="#888" font-size="11">metallic + roughness 参数</text>
+          <text x="485" y="155" text-anchor="middle" fill="#aaa" font-size="10">VLM 答案: ? 是否仍正确？</text>
+        </svg>
+
+        <h2 id="qa-protocol">视觉问答协议</h2>
+        <p>ConvertAsset 论文采用的视觉 QA 协议包含两个问题：</p>
+        <ol>
+          <li><strong>类别问题</strong>：图中主要目标是什么类别？（答案匹配目标类别标签）</li>
+          <li><strong>坐标问题</strong>：请给出目标在图中的位置（normalized-1000 坐标）。</li>
+        </ol>
+        <p>坐标评分分两种：</p>
+        <ul>
+          <li><span class="term">Raw pixel point-in-box</span>：VLM 输出原始像素坐标，判断是否落在 target bbox 内。</li>
+          <li><span class="term">Normalized-1000 point-in-box</span>：VLM 输出 0–1000 范围的归一化坐标（prompt 要求），判断缩放后是否落在 bbox 内。</li>
+        </ul>
+        <p>实验发现 <span class="term">Gemma4</span> 在两种坐标协议下表现稳定，而 <span class="term">Qwen2.5-VL</span> 对 raw pixel 和 normalized-1000 的语义理解存在差异——这种<strong>坐标协议敏感性</strong>本身成为了一个值得记录的协议设计发现。</p>
+
+        <div class="callout warn">
+          <span class="ttl">pilot 状态说明</span>
+          GRScenes 的所有实验结果目前处于 <strong>pilot 阶段</strong>（<code>final_benchmark_claimable=false</code>），不能作为最终 benchmark 结论引用。它们的价值在于建立评测协议、验证方法可行性，为后续扩大规模的正式 benchmark 铺路。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

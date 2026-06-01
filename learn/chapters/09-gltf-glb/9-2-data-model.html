@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>scene / node / mesh / accessor / bufferView / buffer — ConvertAsset Learning Guide</title>
+  <meta name="description" content="glTF 2.0 数据模型的六层结构：场景树（scene/node/mesh）与二进制存储（accessor/bufferView/buffer）。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="9-2">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART IV · 资产交换与交付 · Asset Interchange</div>
+        <h1>scene / node / mesh / accessor / bufferView / buffer</h1>
+
+        <p class="lead">glTF 的数据模型由两层构成：<strong>场景树</strong>（<span class="term">scene</span> → <span class="term">node</span> → <span class="term">mesh</span>）描述"什么东西在哪里"；<strong>二进制存储栈</strong>（<span class="term">accessor</span> → <span class="term">bufferView</span> → <span class="term">buffer</span>）描述"数据怎么存"。理解这六层，就能理解 ConvertAsset 的 <code>glb/writer.py</code> 是怎么把 USD 数据打包进 GLB 的。</p>
+
+        <h2 id="scene-tree">场景树：scene / node / mesh</h2>
+
+        <p><span class="term term-accent">scene</span> 是 glTF 文件的顶层入口，包含一组根 <span class="term">node</span> 的索引列表。</p>
+        <p><span class="term term-accent">node</span> 是场景图的基本单元，携带变换（<code>translation</code> / <code>rotation</code> / <code>scale</code> 或 4×4 <code>matrix</code>），并可引用一个 <span class="term">mesh</span>、一个摄像机、或一个蒙皮（skin）。Node 可以有子节点，组成树形层级。</p>
+        <p><span class="term term-accent">mesh</span> 是几何体的容器，由一组 <span class="term">primitives</span> 组成。每个 primitive 对应一个绘制调用：</p>
+        <div class="code">
+          <div class="code-head"><span class="fname">mesh_primitive.json（示意）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="json">{
+  "primitives": [{
+    "attributes": {
+      "POSITION":   0,   // accessor 索引
+      "NORMAL":     1,
+      "TEXCOORD_0": 2
+    },
+    "indices":   3,      // accessor 索引
+    "material":  0,
+    "mode":      4       // 4 = TRIANGLES
+  }]
+}</code></pre>
+        </div>
+
+        <h2 id="binary-stack">二进制存储栈：accessor / bufferView / buffer</h2>
+
+        <p>glTF 把所有数值数据（顶点坐标、UV、法线、索引……）存进二进制块，通过三层间接寻址访问：</p>
+
+        <table style="width:100%;border-collapse:collapse;font-size:0.92rem;margin:1rem 0;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--c-border,#d0d5de);text-align:left;">
+              <th style="padding:6px 10px;">层</th>
+              <th style="padding:6px 10px;">描述什么</th>
+              <th style="padding:6px 10px;">关键字段</th>
+            </tr>
+          </thead>
+          <tbody style="font-size:0.88rem;">
+            <tr style="border-bottom:1px solid var(--c-border,#d0d5de);">
+              <td style="padding:6px 10px;"><span class="term term-accent">buffer</span></td>
+              <td style="padding:6px 10px;">原始二进制 blob（可以是 Base64 内嵌或外链 .bin 文件）</td>
+              <td style="padding:6px 10px;"><code>byteLength</code>, <code>uri</code></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c-border,#d0d5de);">
+              <td style="padding:6px 10px;"><span class="term term-accent">bufferView</span></td>
+              <td style="padding:6px 10px;">buffer 里的一个连续字节范围（"切片"），可设 <code>target</code> 提示 GPU 绑定目标</td>
+              <td style="padding:6px 10px;"><code>buffer</code>, <code>byteOffset</code>, <code>byteLength</code>, <code>target</code></td>
+            </tr>
+            <tr>
+              <td style="padding:6px 10px;"><span class="term term-accent">accessor</span></td>
+              <td style="padding:6px 10px;">如何解读 bufferView 里的字节：类型（VEC3/SCALAR…）、分量类型（float/ushort…）、元素数量</td>
+              <td style="padding:6px 10px;"><code>bufferView</code>, <code>byteOffset</code>, <code>componentType</code>, <code>type</code>, <code>count</code>, <code>min</code>, <code>max</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>比如，1000 个顶点的 POSITION accessor 对应 12000 字节（1000 × 3 × 4 字节 / float），在 bufferView 里偏移到某个字节范围，bufferView 再指向某个 buffer blob。</p>
+
+        <h2 id="json-example">完整小例子</h2>
+        <div class="code">
+          <div class="code-head"><span class="fname">triangle.gltf（最小 glTF）</span><button class="copy">copy</button></div>
+          <pre><code data-lang="json">{
+  "scene": 0,
+  "scenes": [{ "nodes": [0] }],
+  "nodes":  [{ "mesh": 0 }],
+  "meshes": [{
+    "primitives": [{
+      "attributes": { "POSITION": 0 },
+      "indices": 1
+    }]
+  }],
+  "accessors": [
+    {
+      "bufferView": 0, "componentType": 5126,
+      "count": 3, "type": "VEC3",
+      "min": [-0.5,-0.5,0], "max": [0.5,0.5,0]
+    },
+    {
+      "bufferView": 1, "componentType": 5123,
+      "count": 3, "type": "SCALAR"
+    }
+  ],
+  "bufferViews": [
+    { "buffer": 0, "byteOffset": 0,  "byteLength": 36, "target": 34962 },
+    { "buffer": 0, "byteOffset": 36, "byteLength": 6,  "target": 34963 }
+  ],
+  "buffers": [{ "byteLength": 44, "uri": "triangle.bin" }]
+}</code></pre>
+        </div>
+
+        <p>这里 <code>componentType: 5126</code> = <code>GL_FLOAT</code>，<code>5123</code> = <code>GL_UNSIGNED_SHORT</code>；<code>target: 34962</code> = <code>ARRAY_BUFFER</code>（顶点缓冲），<code>34963</code> = <code>ELEMENT_ARRAY_BUFFER</code>（索引缓冲）。这些常数直接来自 OpenGL ES 2.0 规范。</p>
+
+        <!-- 内联 SVG：六层结构层次图 -->
+        <svg viewBox="0 0 500 170" style="width:100%;max-width:500px;display:block;margin:1.2rem auto 0.5rem;" aria-label="glTF 六层结构">
+          <defs>
+            <marker id="arr92" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+              <path d="M0,0 L5,2.5 L0,5 Z" fill="var(--c-text-muted,#888)"/>
+            </marker>
+          </defs>
+          <!-- 场景树 -->
+          <rect x="10" y="10" width="80" height="30" rx="4" fill="rgba(79,142,247,0.12)" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.2"/>
+          <text x="50" y="30" text-anchor="middle" font-size="11" fill="var(--c-accent,#4f8ef7)">scene</text>
+          <line x1="50" y1="40" x2="50" y2="56" stroke="var(--c-text-muted,#aaa)" stroke-width="1" marker-end="url(#arr92)"/>
+          <rect x="10" y="58" width="80" height="30" rx="4" fill="rgba(79,142,247,0.10)" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.2"/>
+          <text x="50" y="78" text-anchor="middle" font-size="11" fill="var(--c-accent,#4f8ef7)">node</text>
+          <line x1="50" y1="88" x2="50" y2="104" stroke="var(--c-text-muted,#aaa)" stroke-width="1" marker-end="url(#arr92)"/>
+          <rect x="10" y="106" width="80" height="30" rx="4" fill="rgba(79,142,247,0.08)" stroke="var(--c-accent,#4f8ef7)" stroke-width="1.2"/>
+          <text x="50" y="126" text-anchor="middle" font-size="11" fill="var(--c-accent,#4f8ef7)">mesh</text>
+          <!-- 分隔线 -->
+          <line x1="130" y1="15" x2="130" y2="155" stroke="var(--c-border,#ddd)" stroke-width="1" stroke-dasharray="4,3"/>
+          <!-- 存储栈 -->
+          <rect x="150" y="10" width="100" height="30" rx="4" fill="rgba(224,123,84,0.12)" stroke="#e07b54" stroke-width="1.2"/>
+          <text x="200" y="30" text-anchor="middle" font-size="11" fill="#e07b54">accessor</text>
+          <line x1="200" y1="40" x2="200" y2="56" stroke="var(--c-text-muted,#aaa)" stroke-width="1" marker-end="url(#arr92)"/>
+          <rect x="150" y="58" width="100" height="30" rx="4" fill="rgba(224,123,84,0.10)" stroke="#e07b54" stroke-width="1.2"/>
+          <text x="200" y="78" text-anchor="middle" font-size="11" fill="#e07b54">bufferView</text>
+          <line x1="200" y1="88" x2="200" y2="104" stroke="var(--c-text-muted,#aaa)" stroke-width="1" marker-end="url(#arr92)"/>
+          <rect x="150" y="106" width="100" height="30" rx="4" fill="rgba(224,123,84,0.08)" stroke="#e07b54" stroke-width="1.2"/>
+          <text x="200" y="126" text-anchor="middle" font-size="11" fill="#e07b54">buffer</text>
+          <!-- mesh → accessor 的连接 -->
+          <line x1="92" y1="121" x2="148" y2="25" stroke="var(--c-text-muted,#bbb)" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arr92)"/>
+          <!-- buffer raw 说明 -->
+          <rect x="300" y="100" width="170" height="50" rx="4" fill="rgba(100,180,100,0.08)" stroke="#4a9" stroke-width="1"/>
+          <text x="385" y="118" text-anchor="middle" font-size="10" fill="#4a9">Raw binary blob</text>
+          <text x="385" y="132" text-anchor="middle" font-size="10" fill="var(--c-text-muted,#667)">float32[N×3] 顶点坐标</text>
+          <text x="385" y="144" text-anchor="middle" font-size="10" fill="var(--c-text-muted,#667)">uint16[M] 索引……</text>
+          <line x1="252" y1="121" x2="298" y2="121" stroke="#4a9" stroke-width="1" marker-end="url(#arr92)"/>
+        </svg>
+
+        <div class="callout recap">
+          <span class="ttl">小结</span>
+          glTF 的六层结构把"逻辑描述"（scene/node/mesh）和"物理存储"（accessor/bufferView/buffer）分离。引擎加载时只需把 buffer 直接 DMA 到 GPU，非常高效。9-3 讲 GLB 如何把 JSON 和 buffer 打包进一个二进制文件。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>

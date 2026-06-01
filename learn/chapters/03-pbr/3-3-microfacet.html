@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>microfacet model 与 energy conservation — ConvertAsset Learning Guide</title>
+  <meta name="description" content="微表面（microfacet）理论：把粗糙表面建模为无数微镜，推导出 Cook-Torrance specular BRDF 的结构。" />
+  <link rel="stylesheet" href="../../assets/css/book.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+</head>
+<body data-root="../../" data-section-id="3-3">
+  <header class="topbar">
+    <button class="menu-btn" aria-label="目录">☰</button>
+    <a class="brand" href="../../index.html"><span class="mark">◆</span><span class="name">ConvertAsset</span></a>
+    <span class="spacer"></span>
+    <nav class="topnav"><a href="../../index.html">目录</a></nav>
+    <button class="theme-toggle" aria-label="切换明暗主题" title="明暗主题"></button>
+  </header>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+
+  <div class="layout">
+    <aside class="sidebar"><a class="toc-home" href="../../index.html">ConvertAsset Learning Guide</a><nav class="toc"></nav></aside>
+
+    <main class="main">
+      <article class="reading">
+        <div class="eyebrow">PART III · 材质与外观 · Materials &amp; Appearance</div>
+        <h1>microfacet model 与 energy conservation</h1>
+
+        <p class="lead"><span class="term term-accent">microfacet model</span> 是现代 PBR 的物理基础。它把任何真实表面在微观尺度上想象成无数个完美镜面小片（<span class="term">microfacets</span>），这些小片的朝向分布决定了高光的形状和亮度——粗糙表面的小片朝向更杂乱，高光更宽更暗；光滑表面的小片接近平行，高光更窄更亮，且总能量守恒。</p>
+
+        <div class="bridge">
+          <span class="ttl">From GAMES101</span>
+          GAMES101 光照章节提到过「表面微观粗糙度」的概念。这里我们把它系统化：用 <span class="term">NDF（normal distribution function）</span> 量化微表面法线的统计分布，用 <span class="term">G（geometry term）</span> 描述微表面之间的互遮挡，推导出 <span class="term">Cook-Torrance specular BRDF</span> 的完整结构。
+        </div>
+
+        <h2 id="microfacet-intuition">微表面的直觉</h2>
+
+        <p>在微观尺度上，没有任何表面是完全光滑的。<span class="term">microfacet model</span> 的基本假设是：</p>
+        <ul>
+          <li>表面由无数个极小的、完全平滑的镜面小片（microfacets）组成。</li>
+          <li>每个小片足够小，肉眼无法分辨；渲染时我们只关心这些小片法线的<strong>统计分布</strong>。</li>
+          <li>表面的 <span class="term">roughness</span>（粗糙度）参数控制这个分布的「散布程度」。</li>
+        </ul>
+
+        <!-- 内联 SVG：microfacet 示意图 -->
+        <svg viewBox="0 0 480 160" xmlns="http://www.w3.org/2000/svg"
+             style="width:100%;max-width:480px;display:block;margin:1.5rem auto;border-radius:8px;background:var(--panel)">
+          <!-- 光滑表面（左侧） -->
+          <text x="60" y="22" text-anchor="middle" font-size="12" fill="var(--ink)" opacity="0.7">smooth</text>
+          <!-- 近乎平行的小片 -->
+          <line x1="10"  y1="80" x2="35"  y2="75" stroke="var(--accent)" stroke-width="2.5"/>
+          <line x1="35"  y1="75" x2="60"  y2="78" stroke="var(--accent)" stroke-width="2.5"/>
+          <line x1="60"  y1="78" x2="85"  y2="74" stroke="var(--accent)" stroke-width="2.5"/>
+          <line x1="85"  y1="74" x2="110" y2="77" stroke="var(--accent)" stroke-width="2.5"/>
+          <!-- 法线（几乎竖直） -->
+          <line x1="57" y1="78" x2="57" y2="46" stroke="var(--interactive)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <polygon points="57,42 54,50 60,50" fill="var(--interactive)"/>
+          <!-- 高光小圆 -->
+          <ellipse cx="57" cy="130" rx="8" ry="8" fill="var(--accent)" opacity="0.85"/>
+          <text x="57" y="154" text-anchor="middle" font-size="11" fill="var(--ink)" opacity="0.7">sharp highlight</text>
+
+          <!-- 分隔线 -->
+          <line x1="240" y1="0" x2="240" y2="160" stroke="var(--ink)" stroke-width="0.5" opacity="0.2"/>
+
+          <!-- 粗糙表面（右侧） -->
+          <text x="360" y="22" text-anchor="middle" font-size="12" fill="var(--ink)" opacity="0.7">rough</text>
+          <!-- 朝向散乱的小片 -->
+          <line x1="260" y1="90" x2="285" y2="68" stroke="var(--accent)" stroke-width="2.5"/>
+          <line x1="285" y1="68" x2="310" y2="85" stroke="var(--accent)" stroke-width="2.5"/>
+          <line x1="310" y1="85" x2="335" y2="62" stroke="var(--accent)" stroke-width="2.5"/>
+          <line x1="335" y1="62" x2="360" y2="82" stroke="var(--accent)" stroke-width="2.5"/>
+          <line x1="360" y1="82" x2="385" y2="70" stroke="var(--accent)" stroke-width="2.5"/>
+          <line x1="385" y1="70" x2="410" y2="88" stroke="var(--accent)" stroke-width="2.5"/>
+          <!-- 法线（朝向各不相同） -->
+          <line x1="295" y1="74" x2="278" y2="46" stroke="var(--interactive)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <polygon points="278,42 275,51 281,51" fill="var(--interactive)"/>
+          <line x1="347" y1="70" x2="367" y2="44" stroke="var(--interactive)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <polygon points="367,40 364,49 370,49" fill="var(--interactive)"/>
+          <!-- 宽高光椭圆 -->
+          <ellipse cx="335" cy="130" rx="30" ry="8" fill="var(--accent)" opacity="0.45"/>
+          <text x="335" y="154" text-anchor="middle" font-size="11" fill="var(--ink)" opacity="0.7">wide, dim highlight</text>
+        </svg>
+
+        <p>上图示意：光滑表面的 microfacet 法线几乎一致，高光集中而亮；粗糙表面的法线朝向分散，高光宽而暗。两种情况下，高光携带的总能量相同（<span class="term">energy conservation</span>）。</p>
+
+        <h2 id="brdf-structure">Cook-Torrance specular BRDF 结构</h2>
+
+        <p>把 microfacet 推导代入 BRDF 框架，得到 <span class="term term-accent">Cook-Torrance specular BRDF</span>：</p>
+
+        <div class="math-block">
+          $$ f_\text{specular} = \frac{D(h)\; F(v,h)\; G(l,v,h)}{4\,(n\cdot v)(n\cdot l)} $$
+        </div>
+
+        <p>三个函数各自对应微表面的不同物理现象：</p>
+
+        <ul>
+          <li><span class="term term-accent">D — Normal Distribution Function (NDF)</span>：有多少比例的 microfacets 法线恰好对齐到 half vector \(h = \frac{l+v}{\|l+v\|}\)？D 决定高光的形状与集中度。</li>
+          <li><span class="term term-accent">F — Fresnel term</span>：在给定视角下，有多少比例的光被镜面反射（而非折射进入材质内部）？掠射角下这个比例接近 1（所有光被反射）。</li>
+          <li><span class="term term-accent">G — Geometry / shadowing-masking term</span>：microfacets 之间会相互遮挡——某些小片在光的入射方向被遮住（<em>shadowing</em>），另一些在出射方向被遮住（<em>masking</em>）。G 描述这两种遮挡导致的能量损失。</li>
+        </ul>
+
+        <p>分母 \(4(n\cdot v)(n\cdot l)\) 是 microfacet 推导中产生的归一化因子，使 BRDF 在积分意义上满足能量守恒。</p>
+
+        <h2 id="energy-conservation">能量守恒机制</h2>
+
+        <p>Cook-Torrance 如何保持能量守恒？关键在于把 Fresnel 项 \(F\) 作为 specular/diffuse 的分配权重。回忆上一节的全 BRDF：</p>
+
+        <div class="math-block">
+          $$ f_r = \underbrace{(1-F)}_{\displaystyle k_d} \cdot \frac{c}{\pi} + \frac{D\,F\,G}{4(n\cdot v)(n\cdot l)} $$
+        </div>
+
+        <p>注意：</p>
+        <ul>
+          <li>Fresnel 项 \(F\) 已经内含在 specular 分子里，所以 specular BRDF 隐式地携带了反射权重 \(k_s = F\)。</li>
+          <li>diffuse 的权重显式地写成 \(k_d = 1 - F\)，两者之和为 1，自然守恒。</li>
+          <li>对于 <strong>金属（conductor）</strong>：\(F \approx 1\)，几乎所有光被反射，\(k_d \approx 0\)，即金属没有漫反射颜色。</li>
+          <li>对于 <strong>非金属（dielectric）</strong>：法向入射时 \(F \approx 0.04\)，大部分光折射进入材质，呈现 albedo 颜色。</li>
+        </ul>
+
+        <div class="callout recap">
+          <span class="ttl">接下来</span>
+          结构讲清楚了，但 D、F、G 分别用哪个具体公式？下一节 <a href="3-4-cook-torrance.html">3.4 Cook-Torrance：D · F · G</a> 给出业界标准答案：<span class="term">GGX</span> NDF、<span class="term">Schlick Fresnel</span>、<span class="term">Smith</span> geometry；3.5 节进一步深挖 GGX 的形状与 roughness² 的映射。
+        </div>
+
+        <nav class="prevnext" aria-label="上一节 / 下一节"></nav>
+      </article>
+    </main>
+
+    <aside class="rail"><h4>On this page</h4><ul></ul></aside>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="../../content.js"></script>
+  <script src="../../assets/js/book.js"></script>
+  <script defer>
+    window.addEventListener("load", function () {
+      if (typeof window.renderMathInElement === "function") {
+        window.renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>
