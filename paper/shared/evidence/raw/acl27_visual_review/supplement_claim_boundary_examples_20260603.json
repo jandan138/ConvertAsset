@@ -1,0 +1,64 @@
+{
+  "record_id": "supplement_claim_boundary_examples_20260603",
+  "date_utc": "2026-06-03",
+  "scope": "ACL 2027 supplement claim-boundary examples visual iteration",
+  "motivation": {
+    "target_page_before": "page 5 was a low-density overview page containing only the 'What This Supplement Does Not Prove' text block",
+    "before_active_fraction_120dpi": 0.0254,
+    "goal_alignment": "Add more registered render evidence and reduce the sparse text-only appearance without changing the evidence boundary."
+  },
+  "inputs": {
+    "imagegen_layout_reference": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_01032ee89cab32b6016a1f031415fc819ba9a0213aed5d1c50.png",
+    "deterministic_output": "paper/shared/figures/fig_supplement_claim_boundary_examples.png",
+    "supplement_pdf": "paper/venues/acl27/build/supplement.pdf",
+    "rendered_pdf_page": "tmp/acl27_claim_boundary_review/page-05.png"
+  },
+  "hashes_sha256": {
+    "imagegen_layout_reference": "e66f5989a3ac63cafcd7cc3d0a2123dd0dd97a70a11e9e2cfc4793ad0b76ece1",
+    "deterministic_output": "8443b3b3ab0714d22331f01b7faffb58b0f65a3c128aef1f4d38138cfe483114",
+    "supplement_pdf_after_build": "19b042d78c4bd3fe1f5f9e5c95f6ffcf0b61ea21d792d8b527796a19858d4cd6",
+    "rendered_pdf_page": "c54102941b2e682e5f8d55e6c2524e92693404e202e6dcbbf884211f01640a63"
+  },
+  "source_figure_metrics": {
+    "paper/shared/figures/fig_supplement_claim_boundary_examples.png": {
+      "size": "1800x1620",
+      "active_fraction": 0.246279,
+      "red_fraction": 0.000089
+    }
+  },
+  "pdf_profile": {
+    "page_count": 42,
+    "page_size": "A4",
+    "creation_date": "Wed Jun 3 00:36:35 2026 CST",
+    "file_size_bytes": 25931195
+  },
+  "pdf_render_metrics": {
+    "page_5_after_120dpi": {
+      "active_fraction": 0.130543,
+      "red_fraction": 0.000024
+    },
+    "page_5_after_170dpi": {
+      "size": "1406x1988",
+      "active_fraction": 0.120483,
+      "red_fraction": 0.00003
+    }
+  },
+  "local_visual_review": {
+    "skill": "render-visual-reviewer",
+    "independent_subagent": false,
+    "verdict": "PASS_WITH_SMALL_TEXT_RISK",
+    "notes": "The rendered page now has a clear render-first claim-boundary strip below the overview text. The figure is not clipped, captions do not overlap, and the rows connect real render evidence to bounded claims. Residual risk: some in-figure text remains small, but the page is substantially less sparse than the original text-only page."
+  },
+  "verification": {
+    "targeted_red": "python -m pytest -q tests/test_paper_layout.py -k \"claim_boundary_examples\" failed before implementation: 2 failed, 49 deselected.",
+    "targeted_green": "python -m pytest -q tests/test_paper_layout.py -k \"claim_boundary_examples\" passed after implementation: 2 passed, 49 deselected.",
+    "full_layout": "python -m pytest -q tests/test_paper_layout.py passed: 51 passed.",
+    "build": "make -C paper acl27-supplement passed and produced a 42-page A4 supplement.",
+    "pdf_text_scan": "pdftotext found the new Figure S2 caption and did not find old red-material caption tokens, fig_vlm_grounding_cases, author-identifying tokens, or local path tokens in the PDF text scan."
+  },
+  "claim_boundary": {
+    "paper_use": "visual reading guide in the overview section",
+    "not_new_evidence": true,
+    "notes": "The figure reuses tracked render panels and does not introduce a new metric, VLM run, material experiment, or navigation run."
+  }
+}

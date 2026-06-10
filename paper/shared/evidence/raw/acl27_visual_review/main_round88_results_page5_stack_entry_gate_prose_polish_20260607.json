@@ -1,0 +1,105 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 88,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main Results page-5 stack-entry gate prose polish",
+  "before_pdf_sha256": "6ffb25f266907b729be2c5ab6f9898da1ef2eedddfed6388b4f7ed5e28b16ab5",
+  "after_pdf_sha256": "999b351fbae6a5ae5b74cc0037c70731f80ce016ec8ac8d7d70b945afa5d71e6",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round88_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round88_after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "rendered_after_screenshots": [
+      "tmp/acl_main_visual_iter_20260607_round88_after/page-05.png"
+    ],
+    "before_page5_png_sha256": "3b7f76476581ee91ff78afa816c876bb36587f37768ca2b35345c610c1943132",
+    "after_page5_png_sha256": "1cb444ec1ea618279e4f3af8e49ba435dec930ab914157f5bac4f83940e175a9",
+    "before_page5_text_sha256": "9e19deec1931bf7700f4444053807495ad4079479df47011e44fda1ed7f1cccb",
+    "after_page5_text_sha256": "568e6f6f769e9bd2c591e34a2d8099a3902b647e8ebe6453647dacea54561f6a",
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round88_after/page"
+  },
+  "defect": {
+    "pages": [
+      5
+    ],
+    "class": "results stack-entry prose",
+    "before_text_matches": [
+      "page 5 line 316: This is a sanity gate, not a benchmark",
+      "page 5 line 326: end-to-end. It is a sanity result, not a broad"
+    ],
+    "reader_effect": "The paragraph repeated sanity gate/result in a colloquial way even though the intended claim boundary was a narrow stack-entry check."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/results.tex",
+      "summary": "Changed the opening embodied-stack boundary to stack-entry gate."
+    },
+    {
+      "path": "paper/venues/acl27/sections/results.tex",
+      "summary": "Changed the later sanity-result boundary to entry evidence."
+    }
+  ],
+  "rejected_iterations": [
+    {
+      "summary": "The first rewrite introduced visible page-5 linebreak hyphenation: bench- / mark."
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "Page 5 shows This stack-entry gate is not a benchmark result and It is entry evidence without body-text linebreak hyphenation.",
+    "full_scan_result": "The enhanced after scan reports only the existing explicit human-subject wording and normal reference-column hyphenation on pages 9-10.",
+    "visual_result": "The page-5 Embodied-Data Sanity paragraph and adjacent figure/caption remain visually stable.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 13.47s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Results prose only. No metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "Reference pages retain normal reference-column hyphenation; the existing explicit human-subject wording remains."
+}

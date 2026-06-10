@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-05-28",
+  "review_type": "local_pure_visual_full_pdf_review",
+  "independent_subagent_used": false,
+  "note": "Reviewed locally with the render-visual-reviewer rubric. The multi-agent tool policy in this environment permits spawning only when the user explicitly asks for sub-agents, so this is a local pure-visual review rather than an independent delegated review.",
+  "artifact": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "staged_path": "paper/submissions/acl27_arr_candidate_20260526/main.pdf",
+    "sha256": "59636b2dbd5b43f90c49ddcf72649a018005790254f26558724f1c15fd2cb6b7",
+    "size_bytes": 4066538,
+    "page_count": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "pdf_version": "1.5",
+    "created": "Thu May 28 23:22:53 2026 CST"
+  },
+  "rendered_pages": {
+    "dpi": 150,
+    "path_root": "/tmp/convertasset_acl27_current_visual_review_2322",
+    "contact_sheet_sha256": "54071ded4baf34679d4bb373252fda445e22d749724ac3cef0b0de1d78cbbf70",
+    "page_sha256": {
+      "page_01": "811e00d49062b29a37e823b0752332e92abd13a31fb6aa69ad37474dbd1be237",
+      "page_02": "5badba8aa60021957cbc93b3213b56abeacab9db6a941548ba460fada1fe56a8",
+      "page_03": "81c529239237590110d9ef622e628af25ac92ad75596e02d3efc05631eb85513",
+      "page_04": "6d0f441253495cbfe4b6f840e61beef769db4b8b47114da4c93b6138137b243f",
+      "page_05": "acb5907c11d810cd7a7e38be1b6067c0e2a9426a481a1ff0da9482cc15c8190c",
+      "page_06": "cf86b4eb1160c220ec709d4989495c8572c06010b25678f2aef3538b244155bc",
+      "page_07": "c0f91dd609523c4a692c89c1d4fd762d2c5ce5b89839df29313ae7dd14aae2a4",
+      "page_08": "38571a7a42c0c5dcb027e599075f9b15a225ab8b372e543261c74f1385b8cc9b",
+      "page_09": "42182707553e5942830c17ee0ec1c14fc8baf15eda2abec11a2550a8e53df915",
+      "page_10": "8468c8f9d64962c92b3d638d2a262ed46028ad28dde66e3ee619e18c12eac7a8",
+      "page_11": "6fccbc83e487342299139715ace15743271ac580b8545b10e2dcddc9c48c3e64"
+    }
+  },
+  "figure_sources": {
+    "figure_1": {
+      "path": "paper/shared/figures/fig_acl_method_chain_imagegen_v18.png",
+      "review": "paper/shared/evidence/raw/acl27_visual_review/figure1_imagegen_v18_visual_review_20260528.json"
+    },
+    "figure_2": {
+      "path": "paper/shared/figures/fig_render_scene_evidence_wide.png",
+      "review": "paper/shared/evidence/raw/acl27_visual_review/figure2_visual_first_layout_review_20260528.json"
+    },
+    "figure_3": {
+      "path": "paper/shared/figures/fig_material_effect_baseline_qualitative.png",
+      "sha256": "e0cea32c186661ce2efcf736fd7fb0f714f7d78b411364b029374e0e473e187a",
+      "review": "paper/shared/evidence/raw/acl27_visual_review/material_effect_main_figure_visual_review_20260528.json"
+    },
+    "figure_4": {
+      "path": "paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png",
+      "sha256": "818525fcc0a5fd0b4e692ddd9d2738e673eb3b70a2b2dd90895cab7dd0d51a6e",
+      "review": "paper/shared/evidence/raw/acl27_visual_review/figure4_label_readability_review_20260528.json"
+    }
+  },
+  "overall_verdict": "PASS_WITH_MINOR_QUALITATIVE_CAVEATS",
+  "page_review": [
+    {
+      "page": 1,
+      "verdict": "PASS",
+      "visible_evidence": "Title, anonymous author line, abstract, and opening introduction fit without visible overlap or clipping.",
+      "main_risk": "No figure on this page; visual strength depends on later evidence figures."
+    },
+    {
+      "page": 2,
+      "verdict": "PASS",
+      "visible_evidence": "Figure 1 v18 is readable at page scale: the four stages, VLM Checks title, Target: box label, and SR/SPL/NE tiles are visible; the caption clearly marks it as a schematic evidence-chain roadmap.",
+      "main_risk": "The image is AI-generated schematic art, so claims must remain tied to real render/tables/log evidence."
+    },
+    {
+      "page": 3,
+      "verdict": "PASS",
+      "visible_evidence": "Related Work and Method opening are dense but stable; no obvious page-level overlap, clipped columns, or raw LaTeX artifacts.",
+      "main_risk": "Text-heavy page with no visual anchor."
+    },
+    {
+      "page": 4,
+      "verdict": "PASS",
+      "visible_evidence": "Method and Evidence Gates sections fit with clean column flow and no visible float collision.",
+      "main_risk": "Evidence-gate explanation is mostly textual."
+    },
+    {
+      "page": 5,
+      "verdict": "PASS",
+      "visible_evidence": "Table 1, VLM grounding results, and claim-boundary transition fit without visible overlap.",
+      "main_risk": "Small table text is typical ACL dense-table size."
+    },
+    {
+      "page": 6,
+      "verdict": "PASS_WITH_CAVEAT",
+      "visible_evidence": "Figure 2 uses real render evidence and remains visually aligned; Table 2 and Section 4.4 fit below it. The proxy and scene render pairs are comparable enough for orientation.",
+      "main_risk": "The top proxy row is a cropped detail rather than a full-object view; the caption discloses that boundary."
+    },
+    {
+      "page": 7,
+      "verdict": "PASS_WITH_CAVEAT",
+      "visible_evidence": "Tables 3-6 and the official-scene stability paragraph fit the page; no visible table/caption overlap.",
+      "main_risk": "The page is dense, so the tables should remain treated as numeric claim artifacts rather than visual storytelling."
+    },
+    {
+      "page": 8,
+      "verdict": "PASS",
+      "visible_evidence": "Figure 3 material-effect panel is readable enough at page scale and shows Original MDL, ConvertAsset, and NVIDIA columns without the historical red material fallback; its caption bounds the claim to selected qualitative evidence.",
+      "main_risk": "Selected visual evidence only; not a population-level NVIDIA failure-rate estimate."
+    },
+    {
+      "page": 9,
+      "verdict": "PASS_WITH_CAVEAT",
+      "visible_evidence": "Figure 4 InternNav path panel is visible, caption stays attached, and Limitations/Ethical Considerations begin cleanly below; the widened left label column makes case IDs and SR O/N labels easier to scan while purple executed paths and green reference paths remain distinguishable.",
+      "main_risk": "In-panel still details remain small because the figure preserves three selected cases across original/noMDL start/end columns; the caption and main text still carry the claim boundary."
+    },
+    {
+      "page": 10,
+      "verdict": "PASS",
+      "visible_evidence": "References flow across columns without visible clipping or missing bibliography chunks.",
+      "main_risk": "Reference text is dense but normal for ACL."
+    },
+    {
+      "page": 11,
+      "verdict": "PASS",
+      "visible_evidence": "Final reference page is short but clean; no dangling figure, raw marker, or overflow visible.",
+      "main_risk": "None beyond normal final-page whitespace."
+    }
+  ],
+  "blocking_visual_failures": [],
+  "minor_caveats": [
+    "Figure 2 top proxy row is cropped by design.",
+    "Figure 4 path-panel labels are improved but still auxiliary at page scale; the selected stills and caption carry the visual explanation.",
+    "This was a local visual review, not an independent delegated review."
+  ],
+  "claim_boundary": [
+    "Figure 1 is schematic roadmap art only.",
+    "Figure 2, Figure 3, and Figure 4 orient readers visually but do not replace the frozen tables, manifests, render logs, and claim-boundary gates.",
+    "Figure 3 supports selected covered-bin qualitative inspection only.",
+    "Figure 4 supports selected qualitative path inspection only; quantitative InternNav claims remain tied to the 99-episode paired run."
+  ],
+  "follow_up": [
+    "Do not regenerate Figure 1 unless a new candidate has a specific visual advantage over v18 and passes text-accuracy review.",
+    "After the Figure 4 label polish, the next useful visual improvement would be optional appendix/supplement packaging rather than another main-paper figure replacement."
+  ]
+}

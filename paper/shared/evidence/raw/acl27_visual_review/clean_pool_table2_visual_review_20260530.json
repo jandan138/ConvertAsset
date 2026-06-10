@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "review_id": "acl27_clean_pool_table2_visual_review_20260530",
+  "created_utc": "2026-05-30T13:03:48Z",
+  "review_mode": "local_render_visual_review",
+  "independent_subagent": false,
+  "reason_independent_subagent_not_used": "Subagent delegation was not explicitly requested in this turn; review followed the render-visual-reviewer packet locally.",
+  "pdf": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "staged_path": "paper/submissions/acl27_arr_candidate_20260526/main.pdf",
+    "sha256": "d03af3b4554951ccb51c3a224a8fbbd12fb517180dd36bad5672f0fb07006793",
+    "pages": 11,
+    "size_bytes": 4087616
+  },
+  "rendered_page": {
+    "page_number": 6,
+    "temporary_path": "/tmp/convertasset_acl27_table_review_20260530_final/page-06.png",
+    "sha256": "105c81f364f14a9c5483fd8435143027db65ba3865825d1a1f0bb17f764bf3b5",
+    "dpi": 150
+  },
+  "expectation": "Figure 2 and Table 2 should be readable at page scale without overlap, clipping, overfull artifacts, or a stray table-note label.",
+  "verdict": "PASS",
+  "visible_evidence": [
+    "Figure 2 remains visible and non-overlapping.",
+    "Table 2 uses readable columns for Probe, Rows, Answer, Raw point, Norm-1000 point, and Boundary.",
+    "The notes line is below the table instead of floating at the right edge.",
+    "No visible clipping or text overlap appears on the rendered page."
+  ],
+  "limitations": [
+    "This is a local visual review, not an independently spawned clean-room reviewer.",
+    "The review checks page-scale readability only; it does not revalidate the underlying VLM metrics."
+  ]
+}

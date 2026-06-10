@@ -1,0 +1,72 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 73,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main page 3 related-work proxy paragraph linebreak polish",
+  "before_pdf_sha256": "fcf4f1e4363ecbac03837effacf8d3d536562572c19b4f2f4318b29e6f5a1236",
+  "after_pdf_sha256": "e73eca612d34dc4bee9436565ce528e1849ea80105561f7dd92c81363726cc8a",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round73_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round73_after",
+    "pages_scanned_initial": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    "pages_scanned_after": [2, 3, 4],
+    "rendered_after_screenshot": "tmp/acl_main_visual_iter_20260607_round73_after/page-03.png",
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 2 -l 4 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round73_after/page"
+  },
+  "defect": {
+    "page": 3,
+    "class": "body text linebreak and related-work story polish",
+    "before_text_matches": [
+      "page 3 line 156: and DINOv2 ... are use-",
+      "page 3 line 161: parser coverage, coordinate frames, and ob-",
+      "page 3 line 163: a model. We therefore treat proxy similar-",
+      "page 3 line 164: ity as an entry gate, then keep answer consis-",
+      "page 3 line 165: tency, point-in-box scoring, coordinate abla-"
+    ],
+    "reader_effect": "The Related Work bridge from proxy metrics to task evidence was semantically right but visually choppy, with a cluster of body-word splits just before the Method opener."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/related.tex",
+      "summary": "Rewrote the proxy-metrics paragraph into shorter ACL-style sentences."
+    },
+    {
+      "path": "paper/venues/acl27/sections/related.tex",
+      "summary": "Preserved the evidence boundary: SSIM/LPIPS/CLIP/DINOv2 remain proxy checks, while answer stability, point hits, frame checks, material-risk bins, and embodied stack checks remain separate claim gates."
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "Pages 2-4 show no remaining page-3 target-cluster splits after the accepted rewrite; page 2 retains unrelated literal compound breaks from earlier content.",
+    "visual_result": "Page 3 Related Work and Method remain stable; the proxy paragraph reads as a compact bridge into the four-gate method.",
+    "page_count": 11
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 14.50s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Related Work prose and linebreak polish only. No metric values, evidence pools, figures, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "The full-page scan still reports unrelated page-2 literal compound breaks and normal reference-column hyphenation; this round intentionally scoped to the page-3 proxy paragraph cluster."
+}

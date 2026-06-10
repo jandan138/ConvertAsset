@@ -1,0 +1,97 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 91,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main Discussion page-8 entry-evidence terminology polish",
+  "before_pdf_sha256": "c4a7e550b14a0f7a9ee3b9fc63bb824bcf00da694fa31cf26de4bb895557e602",
+  "after_pdf_sha256": "2ad195a00c2acb3f7981655d43897264bb88d94f4f383bd5da6cdcfc319f6c02",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round91_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round91_after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "rendered_after_screenshots": [
+      "tmp/acl_main_visual_iter_20260607_round91_after/page-08.png"
+    ],
+    "before_page8_png_sha256": "01be24482b982861ed16477ef19a5ad26d74043cc3af0874d046d87128b6cb86",
+    "after_page8_png_sha256": "f83a35df458d1dc5b93ffa249f21c155f7c6a83ff8faa1b3d83f8d5087c03e28",
+    "before_page8_text_sha256": "0557d9b095e2e76d1917445331cbba620d79ef8e07ff36043e12d6d777c384b2",
+    "after_page8_text_sha256": "2fa2b1cb8b963ba2b90846b9e04abeca5987dd75ed3a3a0ec5050c94ac5c4326",
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round91_after/page"
+  },
+  "defect": {
+    "pages": [
+      8
+    ],
+    "class": "discussion stack-entry terminology",
+    "before_text_matches": [
+      "page 8 line 365: three official scenes; it is a stack check, not",
+      "page 8 line 366: broad navigation evidence."
+    ],
+    "reader_effect": "The Discussion boundary used a loose stack-check label after the abstract, Results, Related Work, and Limitations had converged on entry-evidence terminology."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/discussion.tex",
+      "summary": "Changed the KuJiaLe Discussion boundary from stack check to entry evidence."
+    }
+  ],
+  "rejected_iterations": [],
+  "after_evidence": {
+    "targeted_scan_result": "Page 8 shows it gives entry evidence, not broad navigation evidence; the target stack-check phrase is gone.",
+    "full_scan_result": "The enhanced after scan reports only the existing explicit human-subject wording and normal reference-column hyphenation on pages 9-10.",
+    "visual_result": "The page-8 Discussion, Conclusion, and Limitations transition remains visually stable.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 14.23s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Discussion prose only. No metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "Reference pages retain normal reference-column hyphenation; the existing explicit human-subject wording remains."
+}

@@ -406,23 +406,13 @@ over 99 paired episodes are small and intervals cross zero for SR, SPL, NE, and
 TL. We therefore use these intervals as descriptive uncertainty over the
 current frozen evidence, not as a population-level robustness guarantee.
 
-\begin{figure*}[t]
-\centering
-\includegraphics[width=\textwidth]{figures/fig_vlm_grounding_cases.pdf}
-\caption{Qualitative GRScenes VLM grounding cases sampled from the clean pilot
-and the expanded material-shift stress set. Each row shows an original MDL render and its converted
-noMDL counterpart with the projected target box and model point prediction.
-The panels illustrate the main diagnostic pattern: some pairs preserve both
-answer and point grounding, while other pairs expose coordinate or material
-shift sensitivity.}
-\label{fig:vlm_grounding_cases}
-\end{figure*}
-
-Figure~\ref{fig:vlm_grounding_cases} visualizes representative success and
-disagreement cases. The current evidence is therefore strongest as a protocol
-and material-shift stress-test result. It does not yet establish broad VLM
-robustness or embodied downstream task gains; those require a larger clean
-benchmark or navigation/manipulation transfer evaluation.
+The qualitative VLM evidence is kept table-first in this manuscript. We do not
+use the earlier selected point-overlay panel because those original-condition
+diagnostic renders were produced before the GRScenes MDL import repair. The
+current evidence is therefore strongest as a protocol and material-shift
+stress-test result. It does not yet establish broad VLM robustness or embodied
+downstream task gains; those require a larger clean benchmark or
+navigation/manipulation transfer evaluation.
 
 For embodied downstream evidence, we additionally use the official
 InteriorNav/KuJiaLe \texttt{val\_unseen} route through

@@ -1,0 +1,89 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "artifact_sha256": "fcb67ada780a1b053e05ea991d197258b36349babc9601725b2a4c850824122a",
+  "audit_date": "2026-06-05",
+  "audit_name": "acl_main_page_top_prose_cleanup_round11",
+  "page_count": 11,
+  "page_size": "A4",
+  "scope": [
+    "main PDF page-top continuation cleanup",
+    "Related Work prose polish",
+    "Results clean-pool interpretation prose polish",
+    "rendered Figure 1-4 page-level regression scan"
+  ],
+  "input_symptoms": [
+    {
+      "page": 3,
+      "before": "page began with 'ture rather than as an experimental interven-' and 'tion.'"
+    },
+    {
+      "page": 5,
+      "before": "page began with the tail of the clean-pool table interpretation sentence"
+    }
+  ],
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/related.tex",
+      "summary": "Shortened the Related Work opener so the conversion-step motivation closes before the page break."
+    },
+    {
+      "path": "paper/venues/acl27/sections/results.tex",
+      "summary": "Rewrote the clean-pool interpretation as answer stability versus point-grounding stability and moved the Qwen interpretation into a complete page-start sentence."
+    }
+  ],
+  "evidence_root": "tmp/acl_main_visual_iter_20260605_round11_page_tops",
+  "final_rendered_pages": "tmp/acl_main_visual_iter_20260605_round11_page_tops/pages_180_after5",
+  "final_text_layout": "tmp/acl_main_visual_iter_20260605_round11_page_tops/text/after5_layout.txt",
+  "final_contact_sheets": [
+    "tmp/acl_main_visual_iter_20260605_round11_page_tops/contact_sheets_after5/main_pages_01_04_after5.png",
+    "tmp/acl_main_visual_iter_20260605_round11_page_tops/contact_sheets_after5/main_pages_05_08_after5.png",
+    "tmp/acl_main_visual_iter_20260605_round11_page_tops/contact_sheets_after5/main_pages_09_11_after5.png"
+  ],
+  "final_page_checks": [
+    {
+      "page": 3,
+      "result": "starts with complete Related Work heading; no old intervention/infrastructure fragment"
+    },
+    {
+      "page": 5,
+      "result": "starts with complete Qwen2.5-VL sentence; no ing/VL/parser-stable orphan"
+    },
+    {
+      "page": 6,
+      "result": "Figure 3 remains complete with caption below the image"
+    },
+    {
+      "page": 10,
+      "result": "Figure 4 remains complete and separated from prose/references"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "pass"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "pass"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "pass"
+    },
+    {
+      "command": "python -m pytest -q tests/test_acl_claim_boundaries.py tests/test_acl_preupload_gate.py",
+      "result": "pass: 26 passed"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k 'acl_intro or acl_method or acl_main or results'",
+      "result": "pass: 5 passed, 80 deselected"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|lineno Warning\" paper/venues/acl27/build/main.log",
+      "result": "pass: no matches"
+    }
+  ],
+  "blocking_defects_found_after_fix": [],
+  "residual_risk": "Targeted round only; global ACL prose and full-paper final completion remain active work.",
+  "verdict": "pass_targeted_page_top_cleanup"
+}

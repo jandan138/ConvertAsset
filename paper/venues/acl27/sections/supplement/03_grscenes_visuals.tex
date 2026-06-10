@@ -1,0 +1,93 @@
+\clearpage
+\onecolumn
+\section{GRScenes Additional Visual and Diagnostic Evidence}
+\label{sec:supp-grscenes-visuals}
+
+This appendix collects extra GRScenes diagnostics for the checked clean pool
+and frozen stress set. These rows help explain prompt and scoring behavior
+around the main-paper result.
+
+\begin{center}
+\includegraphics[width=\textwidth,height=0.84\textheight,keepaspectratio]{figures/fig_supplement_grscenes_vlm_visual_guide.png}
+{\captionsetup{hypcap=false}
+\captionof{figure}{GRScenes VLM diagnostic overview. The page links post-repair target
+box renders, matched GRScenes scene context, viewpoint or material-context
+crops, and the normalized-1000 scoring format to the selected diagnostic
+tables below. The route diagram summarizes how the page is organized.}}
+\label{fig:supp-grscenes-vlm-visual-guide}
+\end{center}
+
+\clearpage
+
+\begin{center}
+\includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/fig_supplement_grscenes_diagnostic_case_atlas.png}
+{\captionsetup{hypcap=false}
+\captionof{figure}{GRScenes diagnostic case atlas. The bands use real
+original/converted target-view render pairs as visual anchors for the selected
+failure taxonomy, PASS-only pilot, and zoom material-shift stress tables. The
+atlas provides qualitative table-reading support for the reported diagnostics.}}
+\label{fig:supp-grscenes-diagnostic-case-atlas}
+\end{center}
+
+\clearpage
+
+\begin{center}
+\includegraphics[width=\textwidth,height=0.80\textheight,keepaspectratio]{figures/fig_supplement_grscenes_vlm_stress_render_strip.png}
+{\captionsetup{hypcap=false}
+\captionof{figure}{GRScenes VLM stress render strip. The four large cards use
+original-MDL and noMDL target-view render pairs that anchor the
+PASS-only and zoom-stress tables. The prompt/point/score panel summarizes the
+scoring setup.}}
+\label{fig:supp-grscenes-vlm-stress-render-strip}
+\end{center}
+
+\clearpage
+
+\input{tables/tab_grscenes_vlm_failure_taxonomy}
+
+\begin{center}
+\includegraphics[width=\textwidth,height=0.56\textheight,keepaspectratio]{figures/fig_supplement_grscenes_failure_taxonomy_table_companion.png}
+{\captionsetup{hypcap=false}
+\captionof{figure}{GRScenes failure-taxonomy table companion. Selected
+original/noMDL render pairs make selected table rows visually inspectable. The
+diagram explains the row inspection flow.}}
+\label{fig:supp-grscenes-failure-taxonomy-table-companion}
+\end{center}
+
+\clearpage
+
+\input{tables/tab_grscenes_vlm_pass_only_pilot}
+
+\begin{center}
+\includegraphics[width=\textwidth,height=0.50\textheight,keepaspectratio]{figures/fig_supplement_grscenes_pass_only_table_companion.png}
+{\captionsetup{hypcap=false}
+\captionof{figure}{GRScenes PASS-only table companion. Selected
+original/noMDL render pairs anchor the bottle, cup, and faucet pilot rows
+before the later clean-pool table. The diagram explains the row inspection flow.}}
+\label{fig:supp-grscenes-pass-only-table-companion}
+\end{center}
+
+The PASS-only pilot was the early preservation check. It is smaller than the
+clean-pool table in the main paper and is retained here as a provenance bridge:
+it shows how the protocol moved from a small visually safe set to the larger
+clean pool and then to the frozen material-shift stress set.
+
+\clearpage
+
+\input{tables/tab_grscenes_vlm_zoom_stress}
+
+\begin{center}
+\includegraphics[width=\textwidth,height=0.56\textheight,keepaspectratio]{figures/fig_supplement_grscenes_zoom_stress_table_companion.png}
+{\captionsetup{hypcap=false}
+\captionof{figure}{GRScenes zoom-stress table companion. Selected
+original/noMDL render pairs show the visible material, color, and lighting
+stress context for the table rows, and the zoom-level audit strip
+separates target-visible zoom views from table measurements. The diagram explains
+the row inspection flow.}}
+\label{fig:supp-grscenes-zoom-stress-table-companion}
+\end{center}
+
+The zoom-stress views differ from clean preservation examples. They make the
+target visible under material, color, or lighting shifts so that point behavior
+can be inspected; material-mechanism coverage remains limited to the audited
+cases.

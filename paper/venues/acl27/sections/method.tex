@@ -1,68 +1,55 @@
 \section{Method}
 \label{sec:methodology}
 
-\subsection{Material Conversion as the Intervention}
+The method separates the conversion step from the measurements that follow it.
+Conversion is the intervention; the evaluation then asks task-proximal questions
+about proxy match, VLM grounding, material mechanisms, and stack use.
+
+\subsection{Conversion as Intervention}
 \label{sec:conversion_intervention}
 
-The intervention is MDL-to-UsdPreviewSurface conversion inside the same USD
-scene family. ConvertAsset starts from a root USD file, recursively discovers
-referenced layers, payloads, variants, and clips, and writes sibling
-\texttt{*\_noMDL.usd} assets rather than flattening the scene. Composition arcs
-are rewritten to point to converted siblings, while the original source tree is
-kept read-only for benchmark provenance.
+The intervention stays within the same USD scene family. From a root USD file,
+the tool discovers referenced layers, payloads, variants, and clips, then
+writes sibling \texttt{\_noMDL} assets. Composition arcs stay intact and point
+to those siblings; source files do not change.
 
-Within each processed USD file, MDL-driven materials are replaced with
-UsdPreviewSurface networks using the channels that can be represented
-portably: base color, roughness, metallic, and normal. Texture inputs are
-resolved relative to their declaring layer when possible; otherwise constant
-fallbacks are used. This representation deliberately cannot encode every MDL
-effect. Clearcoat, procedural textures, displacement, opacity, emission, and
-other specialized material mechanisms therefore become risk categories that
-must be audited rather than assumed preserved.
+Each processed file swaps MDL shaders for PreviewSurface. The rewrite covers
+base color, roughness, metal, normal maps, and texture links. Existing paths
+stay in their declaring layer; missing paths use fixed values. The rewrite
+covers a practical subset of MDL; clearcoat, displacement, opacity, and
+emission stay audit risks.
 
-\subsection{Evidence Gates}
-\label{sec:evidence_gates}
+\subsection{Evaluation Checks}
+\label{sec:evaluation_checks}
 
-We organize the evaluation as four evidence gates. The first gate measures
-paired proxy similarity on four Isaac Sim furniture assets: PSNR, SSIM, LPIPS,
-CLIP similarity, DINOv2 similarity, and headless load/render behavior. This
-gate checks that the conversion can preserve obvious visual structure in a
-controlled single-object setting.
+The first check screens four assets
+from Isaac Sim with PSNR, SSIM, LPIPS, CLIP, \mbox{DINOv2}, and headless
+load/render checks. It checks whether conversion keeps the main structure in one
+controlled object case.
 
-The second gate is the ACL-facing VLM grounding protocol on GRScenes. We use
-the original GRScenes tree as the source condition, materialize noMDL
-counterparts in a scratch workspace, render matched target-centered views, and
-project target bounding boxes into each image. Visual QA separates clean
-PASS-only pairs from target-visible PASS/WARN material-shift pairs. Local VLM
-backends are prompted to return a target-category answer and a point location.
-We score answer match, point-in-box under normalized-1000 coordinates, and a
-raw pixel-space diagnostic because coordinate semantics proved model-dependent.
+The second check is the VLM grounding protocol on GRScenes. The original GRScenes tree is
+the source condition; noMDL counterparts are materialized in a scratch workspace
+and paired with matched target-centered views and 2D target boxes. QA separates
+clean PASS pairs from PASS/WARN pairs where the target is visible and materials
+shift. Two local VLM probes share the schema: Gemma4 is primary;
+\mbox{Qwen2.5-VL} is a second probe. We record label agreement,
+normalized-1000 point hits, and raw pixel point hits. The raw pixel check marks
+probe-specific coordinate use. The probes test fixed prompt-and-coordinate
+behavior under two local backends.
 
-The third gate audits material mechanisms and the NVIDIA baseline. For the
-selected GRScenes material-effect pool, we compare original MDL, ConvertAsset
-noMDL, and NVIDIA Asset Converter PreviewSurface outputs when all three
-conditions pass static gates. For missing material bins, we use bounded
-supplemental wrapper fixtures, but only as selected failure or limitation
-evidence.
+The third check maps visible shifts to material bins with a selected baseline check. A
+GRScenes row is used only when all three outputs are present: source MDL,
+\mbox{ConvertAsset} noMDL, and NVIDIA PreviewSurface. Converted files must
+contain zero active MDL, and the target must render. This check covers
+selected bins; full semantic coverage remains open. Gaps stay as wrapper cases
+for failures or known gaps.
 
-The fourth gate checks embodied-data usability. We run the official
-InteriorAgent / KuJiaLe \texttt{val\_unseen} route through
-InternNav/DualVLN~\cite{Wei2026Ground} on matched original and noMDL scenes,
-and separately measure repeated official-scene load/render stability. These
-runs are treated as scoped sanity evidence: they show that the converted scenes
-can be exercised by a real embodied stack, but they are not broad navigation
-benchmark evidence.
-Table~\ref{tab:acl_evidence_gate_registry} summarizes the allowed claim
-boundary for each gate.
+The fourth check tests stack entry through the \mbox{KuJiaLe} route, which supplies
+matched original/noMDL scenes for InternNav and
+\mbox{DualVLN}~\cite{Wei2026Ground}; a separate check repeats official-scene
+load/render trials. The result is limited to stack entry: converted scenes load
+and run in the selected stack under the tested route.
+Table~\ref{tab:acl_evidence_gate_registry} summarizes what each check uses and
+what remains outside the experiment.
 
 \input{tables/tab_acl_evidence_gate_registry}
-
-\subsection{Claim Registry}
-\label{sec:claim_registry}
-
-Every major result is tied to a manifest, table, or claim entry under
-\texttt{paper/shared/evidence}. The registry records not only the supported
-claim, but also its scope and forbidden promotion. This is part of the method:
-we use conversion as a controlled perturbation, then prevent proxy metrics,
-selected videos, or single-scene results from being promoted into broader
-robustness claims.

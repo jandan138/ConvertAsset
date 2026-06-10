@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-05-28",
+  "review_type": "local_pure_visual_intro_evidence_gate_polish",
+  "note": "Reviewed locally with the render-visual-reviewer rubric. This is not an independent subagent review because this turn did not explicitly authorize multi-agent delegation.",
+  "artifact": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "4f04c57047e395e2afc86e0adbd247fcf257a9e730e03e0c34a4846521d62250",
+    "size_bytes": 3010017,
+    "page_count": 10,
+    "created": "2026-05-28 13:47:21 CST",
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "pdf_version": "1.5",
+    "staged_packet_status": "refreshed_after_preupload_gate",
+    "staged_sha256_after_refresh": "4f04c57047e395e2afc86e0adbd247fcf257a9e730e03e0c34a4846521d62250",
+    "build_and_staged_pdf_identical": true
+  },
+  "imagegen_status": {
+    "new_generation_this_pass": false,
+    "retained_asset": "paper/shared/figures/fig_acl_method_chain_imagegen_v16.png",
+    "retained_asset_sha256": "3859ea26536da733c0a2a57937661566e4a1291d1909886f18829ef35af392d3",
+    "reason": "The accepted low-text v16 schematic remains readable at page scale; this pass only changed introduction text and layout."
+  },
+  "rendered_pages": {
+    "dpi": 160,
+    "path_root": "tmp/acl27_postgate_visual_review_20260528_1347",
+    "focused_pages": [
+      {
+        "page": 1,
+        "path": "tmp/acl27_postgate_visual_review_20260528_1347/page-01.png",
+        "sha256": "27c6ae6e1d6a2bae7993ec20a3567d63776dc6fd2e140133e3ad45d22aecf010"
+      },
+      {
+        "page": 2,
+        "path": "tmp/acl27_postgate_visual_review_20260528_1347/page-02.png",
+        "sha256": "6875884bb4f0ac0630152088d6f7f16fe8e50bfc19f19f46cb30461a2bb3a3dc"
+      },
+      {
+        "page": 6,
+        "path": "tmp/acl27_postgate_visual_review_20260528_1347/page-06.png",
+        "sha256": "2a987cd831bf5e011ee73322eb51098d0ad627a8d544a9d5410c3de51bd46874"
+      },
+      {
+        "page": 9,
+        "path": "tmp/acl27_postgate_visual_review_20260528_1347/page-09.png",
+        "sha256": "07addca488c106c092a0dfbad564d5947e79d32e4f4f5c58e5fcf1db8fbae847"
+      }
+    ]
+  },
+  "verdict": "PASS_FOR_CURRENT_BUILD_REVIEW",
+  "findings": [
+    "Page 1 keeps the title, abstract, and introduction readable without overlap.",
+    "Page 2 keeps Figure 1 at top of page; the v16 imagegen schematic is readable and captioned as a roadmap rather than empirical evidence.",
+    "Page 6 keeps Figure 2 attached to its caption and table context; the pale proxy crop remains suitable only as orientation evidence.",
+    "Page 9 keeps Figure 3 as the selected InternNav rollout panel; colored strokes are purple/green navigation overlays and not red material fallback.",
+    "No blank page, figure/caption detachment, or obvious table overlap was visible in the focused pages."
+  ],
+  "remaining_boundary": [
+    "This visual review is aligned with the post-gate build and staged packet.",
+    "Final upload remains human-gated by target route lock, OpenReview form copy, runtime/AI/media approvals, and final upload decision.",
+    "No new image-generation output was introduced in this pass."
+  ]
+}

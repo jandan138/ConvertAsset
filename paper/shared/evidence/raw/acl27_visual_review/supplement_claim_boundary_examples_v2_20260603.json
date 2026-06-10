@@ -1,0 +1,115 @@
+{
+  "record_id": "supplement_claim_boundary_examples_v2_20260603",
+  "date_utc": "2026-06-03",
+  "scope": "ACL 2027 supplement page 5 claim-boundary examples v2 visual iteration",
+  "motivation": {
+    "target_page_before": "page 5 still had a small centered claim-boundary examples figure with too much unused lower-page area",
+    "previous_page_5_active_fraction_90dpi_thresholded": 0.112731282,
+    "goal_alignment": "Add more registered render material and a bounded generated schematic without introducing a new experimental claim."
+  },
+  "measurement": {
+    "active_fraction_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks",
+    "red_pixel_fraction_definition": "RGB pixels where R > 180, G < 80, and B < 80"
+  },
+  "claim_boundary": {
+    "paper_use": "visual reading guide for the overview claim-boundary page",
+    "not_new_evidence": true,
+    "boundary_statement": "Exposition only; not experimental evidence.",
+    "notes": "The v2 figure reuses tracked render panels and registered paper figures. The AI-generated gate is not a metric, VLM run, material experiment, navigation run, benchmark result, or evidence source."
+  },
+  "ai_slots": {
+    "claim_boundary_gate": {
+      "path": "paper/shared/figures/ai_slots/fig_supplement_claim_boundary_examples_gate_ai_slot.png",
+      "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_06402de728edacb9016a1fd472c7088197a8de7e8be98e4448.png",
+      "sha256": "95738fbd20e60beeb081d96038f322b220ff8e6e10946b5a1f99a1d23f0fcfb8",
+      "size_px": [1672, 941],
+      "bytes": 1042966,
+      "active_fraction_thresholded": 0.133073209,
+      "red_pixel_fraction": 0.0,
+      "role": "AI-generated claim-boundary gate schematic only; critical labels and claim statements are deterministic text or LaTeX."
+    }
+  },
+  "final_figure": {
+    "path": "paper/shared/figures/fig_supplement_claim_boundary_examples.png",
+    "sha256": "84bd07e27c2a9920dca6b88d009803a38daed19d7b1895e7f54c670c83fe78cf",
+    "size_px": [1800, 2070],
+    "bytes": 1059955,
+    "active_fraction_thresholded": 0.264567096,
+    "red_pixel_fraction": 0.000061728,
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_claim_boundary_examples.yaml",
+    "registered_real_sources_added_this_iteration": [
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png",
+      "paper/shared/figures/supplement/internnav_selected6_case04.png",
+      "paper/shared/figures/supplement/internnav_0036_0066_case04.png"
+    ],
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "The standalone v2 figure has four existing claim-boundary rows plus a bottom cross-gate render audit strip. The lower strip adds proxy, VLM, material, and navigation render/still tiles and separates the generated gate from evidence-bearing material."
+  },
+  "pdf_review": {
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_sha256": "8ad3be3856ab0eca98598ccda4be71bc70a8fce25f80f94d6711b4f8144e6a54",
+    "page_number": 5,
+    "page_render_140dpi": "tmp/acl_supplement_claim_boundary_examples_v2_review_20260603/page-05.png",
+    "page_render_140dpi_sha256": "76a23424ff356787b8c438d82ef2f85a85051a609cb97acf367c9da8ef0fc7c4",
+    "page_render_140dpi_size_px": [1158, 1638],
+    "page_active_fraction_140dpi_thresholded": 0.141810646,
+    "page_red_pixel_fraction_140dpi": 0.000024779,
+    "page_render_90dpi": "tmp/acl_supplement_claim_boundary_examples_v2_review_20260603/page90-05.png",
+    "page_render_90dpi_sha256": "b4d1662a725825009a2f62b5c9e26c9c4985dd5dc229f0541d15d7e582e1027c",
+    "page_render_90dpi_size_px": [745, 1053],
+    "page_active_fraction_90dpi_thresholded": 0.153370683,
+    "previous_page_active_fraction_90dpi_thresholded": 0.112731282,
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "Rendered page 5 now uses most of the page for a larger claim-boundary figure. The new bottom audit strip is visible, the caption is below the figure, and no clipping or caption collision is visible. Some bottom whitespace remains after the caption, but the page is substantially less sparse than the previous centered figure."
+  },
+  "tests": [
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k \"claim_boundary_examples\"",
+      "result": "RED before implementation: missing AI disclosure and missing registered source set; GREEN after implementation: 2 passed in 0.86s"
+    },
+    {
+      "command": "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+      "result": "completed; regenerated fig_supplement_claim_boundary_examples.png with the v2 cross-gate audit strip"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "74 passed in 13.15s"
+    },
+    {
+      "command": "make -C paper acl27-supplement",
+      "result": "exit 0; paper/venues/acl27/build/supplement.pdf was up-to-date and contains 45 pages"
+    },
+    {
+      "command": "pdftoppm -f 5 -l 5 -r 140 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_claim_boundary_examples_v2_review_20260603/page",
+      "result": "completed; page-05.png regenerated for local visual review"
+    },
+    {
+      "command": "pdftoppm -f 5 -l 5 -r 90 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_claim_boundary_examples_v2_review_20260603/page90",
+      "result": "completed; page90-05.png regenerated for density comparison against the pre-v2 page"
+    },
+    {
+      "command": "pdftotext -f 5 -l 5 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_claim_boundary_examples_v2_review_20260603/page-05.txt",
+      "result": "required claim-boundary caption text present; local-path and forbidden stronger-claim tokens absent in the rendered page text scan"
+    },
+    {
+      "command": "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_claim_boundary_examples_v2_20260603.json",
+      "result": "exit 0"
+    },
+    {
+      "command": "git diff --check -- docs/records/README.md paper/shared/figures/gen_supplement_task_media_atlases.py paper/shared/figures/sources.yaml paper/venues/acl27/sections/supplement/00_overview.tex tests/test_paper_layout.py",
+      "result": "exit 0; no whitespace errors"
+    },
+    {
+      "command": "direct trailing-whitespace scan over the new docs, JSON, manifest, LaTeX, generator, source registry, and layout test files",
+      "result": "no trailing whitespace and no missing final newline"
+    }
+  ],
+  "review_mode": {
+    "skill": "render-visual-reviewer",
+    "independent_subagent_review": false,
+    "reason": "Local pure visual review was used because the available subagent tool requires explicit user delegation permission."
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "round": 29,
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "target_pdf": "paper/venues/acl27/build/main.pdf",
+  "target_area": {
+    "pages": [5, 6],
+    "source": "paper/venues/acl27/sections/results.tex",
+    "lines_after_change": "83-107",
+    "description": "Results Section 4.3 bridge from VLM stress evidence to material-effect mechanisms and static-gate claim boundary"
+  },
+  "change_summary": [
+    "Changed the Section 4.3 opener from a generic audit transition to a mechanistic question: when evidence moves, which material channel moved it.",
+    "Kept the NVIDIA baseline comparison bounded to material bins with provenance rather than expanding the claim.",
+    "Compacted the static-gate boundary sentence so page 5 ends at a complete sentence and page 6 begins cleanly with Section 4.4."
+  ],
+  "visual_review": {
+    "before_render_dir": "tmp/acl_main_visual_iter_20260606_round29_current",
+    "after_render_dir": "tmp/acl_main_visual_iter_20260606_round29_after",
+    "before_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round29_current/contact_sheet.png",
+      "sha256": "c9294a23c0d8ca8fcf0f627130ff88d833fb1a1abb0feba45a5ed5b3afc0cbd7"
+    },
+    "after_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round29_after/contact_sheet.png",
+      "sha256": "5ef51681a8c0da555ce90fb2c12aa72b74ea4158528696e7d65dc05c31f792df"
+    },
+    "focus_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round29_after/focus_p5_p6_after.png",
+      "sha256": "7078bce1e0057c476565809891bc59057966bf0f07668dcfa1b23b96be307b38",
+      "pages": [5, 6]
+    },
+    "focus_before_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round29_after/focus_before_after_p5_p6.png",
+      "sha256": "5931041e70b8c6b85abcb1cb1992f777770411ebf2f67b8154dc5420668d1a24",
+      "pages": [5, 6]
+    },
+    "observations": [
+      "The first draft removed the page-5 large interword gap but introduced an awkward page-break hyphenation across 'selected-bin interpretation'.",
+      "The final wording ends the static-gate paragraph on page 5 with 'selected bins, not population-level rates.'",
+      "Page 6 now begins directly with Section 4.4; Figure 3 and its caption remain stable."
+    ]
+  },
+  "pdf_identity": {
+    "before_sha256": "367c40a1bbdd5272e3ef15305511ec8d2141d63a66b8d4fdf7ff43a64b92b85d",
+    "after_sha256": "03d3c18ca425a40c13c088c9d015b5ec553bea6e68f84a98a2280712613702aa",
+    "after_pdfinfo": {
+      "creation_date": "Sat Jun 6 12:29:03 2026 CST",
+      "mod_date": "Sat Jun 6 12:29:03 2026 CST",
+      "pages": 11,
+      "page_size": "595.276 x 841.89 pts (A4)",
+      "file_size_bytes": 5188829,
+      "pdf_version": "1.5"
+    }
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "pass",
+      "evidence": "Exit 0; acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "pass",
+      "evidence": "No matches."
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "pass",
+      "evidence": "102 passed in 13.75s."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "pass",
+      "evidence": "ok=true; violations=[], unsafe_figure_violations=[], venue_wrapper_violations=[]"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "pass",
+      "evidence": "ok=true; title and abstract match metadata; abstract_word_count=169"
+    },
+    {
+      "command": "pdftotext paper/venues/acl27/build/main.pdf tmp/acl_main_visual_iter_20260606_round29_after/main.txt",
+      "result": "pass",
+      "evidence": "PDF text contains 'mechanistic question', 'material channel moved it', 'bounded provenance', and 'selected bins, not population-level rates'."
+    }
+  ],
+  "workspace_note": "The repository had unrelated pre-existing modified paper and table files before this round. This evidence record only claims the round29 Section 4.3 bridge/static-gate wording polish plus the new record/evidence files."
+}

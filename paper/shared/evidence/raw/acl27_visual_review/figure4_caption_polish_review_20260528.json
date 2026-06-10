@@ -1,0 +1,49 @@
+{
+  "status": "pass",
+  "review_type": "local_visual_review",
+  "independent_review": false,
+  "reviewed_at_utc": "2026-05-28T08:55:00Z",
+  "inputs": {
+    "pdf": {
+      "path": "paper/venues/acl27/build/main.pdf",
+      "sha256": "3edb09ae2e1652d88bf3ad3e479a383c3a18b31338d1f52c2790dfe54d40c4b7",
+      "pages": 11,
+      "bytes": 3625276,
+      "creation_date": "Thu May 28 16:50:59 2026 CST"
+    },
+    "rendered_page": {
+      "page": 9,
+      "path": "/tmp/convertasset_acl27_fig4_caption_polish/page-09.png",
+      "sha256": "67566ff56fa342707a7173e91fb46ebf71bca8a8f77e4df55a076c7cae30679a",
+      "dpi": 150
+    },
+    "source": {
+      "path": "paper/venues/acl27/sections/limitations.tex",
+      "caption_opening": "Selected InternNav path panel."
+    }
+  },
+  "checks": [
+    {
+      "id": "caption_opening",
+      "verdict": "pass",
+      "evidence": "The Figure 4 caption now starts with a short non-hyphenated phrase: Selected InternNav path panel."
+    },
+    {
+      "id": "pdftotext_linebreak",
+      "verdict": "pass",
+      "evidence": "pdftotext no longer emits the awkward Figure 4 caption break 'roll- / out panel'."
+    },
+    {
+      "id": "claim_boundary",
+      "verdict": "pass",
+      "evidence": "The caption still states that quantitative embodied-data claims remain tied to the 99-episode paired run and official-scene load/render checks."
+    },
+    {
+      "id": "page_flow",
+      "verdict": "pass",
+      "evidence": "Page 9 keeps Limitations, Figure 4, Ethical Considerations, and the AI-assistance disclosure visible without overlap."
+    }
+  ],
+  "conclusion": "The Figure 4 caption polish improves page-9 scanability without changing evidence, images, or claim scope.",
+  "retake_or_followup": "No image generation or figure retake was needed. The existing selected official InternNav render panel remains the empirical visual artifact."
+}

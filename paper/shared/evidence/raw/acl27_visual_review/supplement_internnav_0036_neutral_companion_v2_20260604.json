@@ -1,0 +1,90 @@
+{
+  "review_id": "supplement_internnav_0036_neutral_companion_v2_20260604",
+  "date": "2026-06-04",
+  "target_pdf": "paper/venues/acl27/build/supplement.pdf",
+  "target_page": 36,
+  "figure_id": "fig_supplement_internnav_0036_neutral_companion",
+  "change_summary": "Replaced the third 0036/0066 neutral case-pair page with a page-shaped companion board that adds registered rollout context and reflows case 891_891 and case 598_598 into dense start/mid/end render grids.",
+  "standalone_figure": {
+    "path": "paper/shared/figures/fig_supplement_internnav_0036_neutral_companion.png",
+    "sha256": "145f1da445ce19b3df1e92d28be82a394fe406c587d3cf5bc7d0d874ba04f8a5",
+    "size_px": [1500, 1680],
+    "active238_fraction": 0.596095238,
+    "active245_fraction": 0.621576587,
+    "red_pixel_fraction": 0.001498016
+  },
+  "latex_allocation": {
+    "before": "two separate suppcasepair panels on an isolated float page",
+    "after": "single includegraphics block at width=\\textwidth,height=0.78\\textheight,keepaspectratio"
+  },
+  "pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "e876bb5430ca86eb754badee537f4154b975f9d06e746da8884b676a314286e2",
+    "pages": 45,
+    "page_size": "A4"
+  },
+  "page_renders": [
+    {
+      "page": 35,
+      "dpi": 144,
+      "path": "tmp/acl_supplement_page36_internnav_0036_neutral_v2_final_20260604/page-35.png",
+      "sha256": "3a55e6e4240e46d9659938ecc2ea3b609f6740d6fc2f687a9532c32fa099238e",
+      "size_px": [1191, 1684],
+      "active238_fraction": 0.189802378,
+      "active245_fraction": 0.211606845,
+      "red_pixel_fraction": 0.000577869
+    },
+    {
+      "page": 36,
+      "dpi": 144,
+      "path": "tmp/acl_supplement_page36_internnav_0036_neutral_v2_final_20260604/page-36.png",
+      "sha256": "dc2222eeab879e8ff0862a7c010de0568d844a72919780e0a9bd9cd0f77aa62e",
+      "size_px": [1191, 1684],
+      "active238_fraction": 0.286049269,
+      "active245_fraction": 0.298634254,
+      "red_pixel_fraction": 0.000695039
+    },
+    {
+      "page": 37,
+      "dpi": 144,
+      "path": "tmp/acl_supplement_page36_internnav_0036_neutral_v2_final_20260604/page-37.png",
+      "sha256": "38bc9f9840a4d24aa59129ed6c907cf99d069498248f8a78f78ff61d91657678",
+      "size_px": [1191, 1684],
+      "active238_fraction": 0.161369615,
+      "active245_fraction": 0.167901183,
+      "red_pixel_fraction": 0.00025877
+    },
+    {
+      "page": 36,
+      "dpi": 90,
+      "path": "tmp/acl_supplement_page36_internnav_0036_neutral_v2_final_90dpi_20260604/page-36.png",
+      "sha256": "0c159a40a686a8e5c15426ef9cdd7c56e0f3065ded9be4abd3d7c73dc442e726",
+      "size_px": [745, 1053],
+      "active238_fraction": 0.297929215,
+      "active245_fraction": 0.31033608,
+      "red_pixel_fraction": 0.000694723,
+      "previous_round18_active245_fraction": 0.144668158,
+      "intermediate_horizontal_active245_fraction": 0.191632727,
+      "delta_from_round18_active245_fraction": 0.165667922,
+      "delta_from_horizontal_active245_fraction": 0.118703353
+    }
+  ],
+  "visual_review": {
+    "independent_subagent_review": false,
+    "reviewer": "local Codex visual review using render-visual-reviewer protocol",
+    "verdict": "PASS",
+    "evidence": [
+      "Page 36 is no longer a sparse pair of small horizontal strips; the page-shaped board fills the main visual area.",
+      "The registered rollout context band and both neutral case grids are visible without clipping.",
+      "Caption and page number do not collide with the figure, and pages 35 and 37 keep their expected content."
+    ],
+    "risk": "The context band is a compressed overview of registered 0036/0066 rows; it is a navigation-evidence reading aid, not a new metric or full episode result."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'internnav_0036_neutral_companion'",
+    "latexmk -g -cd -pdf -outdir=build -interaction=nonstopmode -halt-on-error supplement.tex",
+    "pdftoppm -f 35 -l 37 -png -r 144 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page36_internnav_0036_neutral_v2_final_20260604/page",
+    "pdftoppm -f 36 -l 36 -png -r 90 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page36_internnav_0036_neutral_v2_final_90dpi_20260604/page",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf"
+  ]
+}

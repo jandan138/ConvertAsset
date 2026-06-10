@@ -1,0 +1,122 @@
+{
+  "record_id": "supplement_grounding_derivation_companion_v4_20260603",
+  "date_utc": "2026-06-03",
+  "scope": "ACL 2027 supplement page 13 grounding-derivation companion v4 render-density iteration",
+  "motivation": {
+    "target_pages": [
+      13,
+      14,
+      15
+    ],
+    "target_page_before": "Round 11 density audit still ranked page 13 as the lowest non-reference page after the proxy-metric v3 pass.",
+    "round11_page13_active245_fraction_90dpi": 0.134736802,
+    "goal_alignment": "Add more registered render material to the derivation spread while preserving the AI-slot exposition boundary and avoiding page-flow regressions on pages 14-15."
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks",
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, used for sparse-page raster review",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90"
+  },
+  "claim_boundary": {
+    "paper_use": "visual reading guide for the point-in-box and normalized-1000 coordinate derivations",
+    "not_new_evidence": true,
+    "boundary_statement": "Exposition only; not experimental evidence.",
+    "notes": "The v3 AI-generated metric-contract gate is not a metric, model prediction, benchmark row, VLM output, or new experimental result. Evidence-bearing panels remain registered original/noMDL GRScenes target-view renders and deterministic protocol overlays."
+  },
+  "ai_slots": {
+    "metric_contract_gate_v3": {
+      "path": "paper/shared/figures/ai_slots/fig_supplement_metric_contract_gate_v3_ai_slot.png",
+      "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_041386b68e8da9df016a203a8b2af88196b5e547da6cedeeb7.png",
+      "sha256": "663c9ec67c94757357c9e5e3ed9d309cba56d5a9c6b4b89ec9bd2a3112041f38",
+      "size_px": [
+        1774,
+        887
+      ],
+      "bytes": 1112573,
+      "layout_guard_active_fraction": 0.233599697,
+      "active245_fraction": 0.250532876,
+      "red_pixel_fraction": 0.0,
+      "role": "AI-generated metric-contract schematic only; deterministic figure code draws critical labels, boundary text, and all evidence-source annotations."
+    }
+  },
+  "final_figure": {
+    "path": "paper/shared/figures/fig_supplement_grounding_derivation_companion.png",
+    "sha256": "73b43a29a50e37bf99390ddfbefe5ad9257e4ed9830b616006f60b053257554f",
+    "size_px": [
+      1800,
+      1320
+    ],
+    "bytes": 1184003,
+    "layout_guard_active_fraction": 0.466649832,
+    "active245_fraction": 0.473994529,
+    "red_pixel_fraction": 0.00629798,
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_grounding_derivation_companion.yaml",
+    "registered_real_sources_added_in_v4": [
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_0000.png"
+    ],
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "The standalone v4 figure adds a third target close-up scorer wall with six registered target crops while retaining the existing formula-to-render and coordinate-conversion render walls. The AI schematic is isolated in the deterministic metric-gate card and the boundary text remains visible."
+  },
+  "pdf_review": {
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_sha256": "5b170f349bbd1d61cc45006b820d99ae9566f1a369e688d32f480cffbce352c5",
+    "pdf_bytes": 43210874,
+    "page_count": 45,
+    "page_size": "A4",
+    "review_window": [
+      13,
+      15
+    ],
+    "page13_render_90dpi": "tmp/acl_supplement_pages13_15_grounding_v4_20260603/page-13.png",
+    "page13_render_90dpi_sha256": "318ead2f05625ece0235629d8836821b852d5aa2b24b50901bf2241c1a1d7fa7",
+    "page13_active245_fraction_90dpi_before": 0.134736802,
+    "page13_active245_fraction_90dpi_after": 0.16693627,
+    "page13_active245_delta": 0.032199468,
+    "page13_layout_guard_active_fraction_90dpi_after": 0.16208468,
+    "page14_render_90dpi": "tmp/acl_supplement_pages13_15_grounding_v4_20260603/page-14.png",
+    "page14_render_90dpi_sha256": "ede2fff1c11dbdcc045da58b16627696af2c3ffbf777bbee1a661caeb5decea7",
+    "page14_active245_fraction_90dpi_before": 0.13547869,
+    "page14_active245_fraction_90dpi_after": 0.140447555,
+    "page14_active245_delta": 0.004968865,
+    "page15_render_90dpi": "tmp/acl_supplement_pages13_15_grounding_v4_20260603/page-15.png",
+    "page15_render_90dpi_sha256": "0aafb3162ee91baef27a678f70567d4842029d638b5efb4075e6ea599b074175",
+    "page15_active245_fraction_90dpi_before": 0.136022996,
+    "page15_active245_fraction_90dpi_after": 0.138870724,
+    "page15_active245_delta": 0.002847728,
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "Rendered page 13 is denser and still coherent: no clipping, no caption collision, and the close-up scorer wall remains visible at PDF scale. Pages 14 and 15 remain readable and did not regress structurally."
+  },
+  "tests": [
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k 'derivations_have_render_companions or derivation_companions_are_registered_and_dense'",
+      "result": "RED first for missing target close-up scorer wall and v3 slot registration; GREEN after implementation: 2 passed, 72 deselected."
+    },
+    {
+      "command": "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+      "result": "completed; regenerated fig_supplement_grounding_derivation_companion.png at 1800x1320."
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "74 passed."
+    },
+    {
+      "command": "make -C paper acl27-supplement",
+      "result": "completed; paper/venues/acl27/build/supplement.pdf contains 45 A4 pages."
+    },
+    {
+      "command": "pdftoppm -f 13 -l 15 -r 90 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_pages13_15_grounding_v4_20260603/page",
+      "result": "completed; pages 13-15 regenerated for local visual and density review."
+    }
+  ],
+  "review_mode": {
+    "skill": "render-visual-reviewer",
+    "independent_subagent_review": false,
+    "reason": "Local pure visual review was used; no separate clean-room subagent was dispatched because independent delegation was not requested."
+  },
+  "residual_risk": "This pass improves the page 13-15 derivation cluster but does not complete the broader supplement-wide aesthetic objective; the density audit should be refreshed to select the next low-density non-reference target."
+}

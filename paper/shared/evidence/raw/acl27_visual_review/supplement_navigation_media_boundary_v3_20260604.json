@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-06-04",
+  "figure_id": "fig_supplement_navigation_media_boundary_strip",
+  "paper_page": 37,
+  "claim_boundary": "Exposition only for the AI slot; registered stills and route overlays remain qualitative media support and do not define a new navigation metric.",
+  "change_summary": [
+    "Recomposed the navigation media boundary figure as a 2000x2240 page-fitting board.",
+    "Replaced the v2 AI media-package gate with a v3 slot generated with explicit anti-cropping and edge-padding constraints.",
+    "Post-processed only the generated slot whitespace using crop box [70, 150, 1630, 820] plus a 64 px safety border; visible slot objects remain contained.",
+    "Kept the v3 AI slot in a contain/letterbox placement and changed downstream media-boundary reuse from cover to contain.",
+    "Raised the ACL supplement include height from 0.66 to 0.74 textheight and added deterministic mini evidence rows to the bottom boundary cards."
+  ],
+  "asset_paths": {
+    "source_generated_slot": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_003b7a9c95bbe04d016a2123c6175c819a87db0eb3eeb01f8b.png",
+    "project_slot": "paper/shared/figures/ai_slots/fig_supplement_navigation_media_package_v3_ai_slot.png",
+    "manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_navigation_media_boundary_strip.yaml",
+    "composed_figure": "paper/shared/figures/fig_supplement_navigation_media_boundary_strip.png",
+    "latex_section": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+    "pdf": "paper/venues/acl27/build/supplement.pdf"
+  },
+  "rendered_review_paths": {
+    "page36_160dpi": "tmp/acl_supplement_page37_navigation_media_boundary_v3_20260604/page-36.png",
+    "page37_160dpi": "tmp/acl_supplement_page37_navigation_media_boundary_v3_20260604/page-37.png",
+    "page38_160dpi": "tmp/acl_supplement_page37_navigation_media_boundary_v3_20260604/page-38.png",
+    "page37_90dpi": "tmp/acl_supplement_page37_navigation_media_boundary_v3_90dpi_20260604/page-37.png",
+    "page37_bottom_gate_cards_crop": "tmp/acl_supplement_page37_navigation_media_boundary_v3_20260604/crops/page37_bottom_gate_cards.png",
+    "page37_caption_area_crop": "tmp/acl_supplement_page37_navigation_media_boundary_v3_20260604/crops/page37_caption_area.png",
+    "standalone_bottom_gate_cards_crop": "tmp/acl_supplement_page37_navigation_media_boundary_v3_20260604/crops/standalone_bottom_gate_cards.png"
+  },
+  "metrics": {
+    "old_page37_90dpi": {
+      "source": "tmp/acl_supplement_full_density_review_20260604_round39/pages/page-37.png",
+      "active238": 0.1767401543687897,
+      "active245": 0.1836325742366011,
+      "red_fallback": 0.0001899335232668566
+    },
+    "new_page37_90dpi": {
+      "active238": 0.21653441429727782,
+      "active245": 0.22492208264020344,
+      "red_fallback": 0.00023709822367540487
+    },
+    "page37_delta": {
+      "active238": 0.03979425992848812,
+      "active245": 0.04128950840360233
+    },
+    "new_full_document_rank": {
+      "density_rank_path": "tmp/acl_supplement_full_density_review_20260604_round40/density_rank.json",
+      "metric": "active245 ascending",
+      "page37_rank": 31,
+      "page_count": 45
+    },
+    "standalone_composed_figure": {
+      "size": [2000, 2240],
+      "aspect": 0.8928571428571429,
+      "active238": 0.3630808035714286,
+      "active245": 0.37942366071428574,
+      "red_fallback": 0.0008013392857142858
+    },
+    "project_slot": {
+      "size": [1688, 798],
+      "aspect": 2.1152882205513786,
+      "active238": 0.13102290679304898,
+      "active245": 0.14347480074594068,
+      "red_fallback": 0.00029323902172492843
+    }
+  },
+  "hashes_sha256": {
+    "project_slot": "2a146b3a1dde82f015672ca67353e16feac4f140892b38b622c29a0a2d54a6c7",
+    "composed_figure": "f128d38355b95b7df6bcdcd88811dbdd02c29eb3699f352af5d0c66cb2aa34c0",
+    "page37_160dpi": "57e13e0d71a5931d634afc32f257cc4b450e15b88318137ac9e116fc78c426b5",
+    "page37_90dpi": "e73b4a6d096ecf899b1e1c01bb9acf57d204ab217f2fb347640e639794315dd2"
+  },
+  "visual_review": {
+    "mode": "Local pure visual review following render-visual-reviewer protocol. An independent subagent was not spawned because this environment's subagent tool requires explicit user authorization for delegation.",
+    "verdict": "PASS",
+    "raw_slot": "PASS: v3 project slot has no visible object clipped by the image boundary after whitespace trim and safety border.",
+    "composed_figure": "PASS: standalone figure has contained title bars, route/still panels, AI slot, deterministic mini rows, and footer boundary text.",
+    "pdf_page": "PASS: page 37 has no figure clipping, caption collision, or spill into pages 36 or 38. Dense bottom crop remains readable at the rendered paper scale.",
+    "residual_risk": "Some route case thumbnails intentionally contain white bands from the registered source contact sheets; these are source-media artifacts, not composer clipping."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'navigation_media_boundary_strip'",
+    "python -m pytest -q tests/test_paper_layout.py -k 'navigation_media_boundary_strip or acl_supplement_uses_visual_pages'",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "make -C paper acl27-supplement",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf | rg '^Pages:'",
+    "pdftoppm -png -r 160 -f 36 -l 38 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page37_navigation_media_boundary_v3_20260604/page",
+    "pdftoppm -png -r 90 -f 37 -l 37 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page37_navigation_media_boundary_v3_90dpi_20260604/page",
+    "pdftoppm -png -r 90 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_full_density_review_20260604_round40/pages/page"
+  ]
+}

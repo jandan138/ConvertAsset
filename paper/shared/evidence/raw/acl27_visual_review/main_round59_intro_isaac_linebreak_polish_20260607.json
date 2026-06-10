@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 59,
+  "date": "2026-06-07",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/intro.tex"
+  ],
+  "docs_record": "docs/records/2026-06-07-acl-main-intro-isaac-linebreak-polish.md",
+  "issue": {
+    "page": 1,
+    "location": "Introduction opening and gate-chain paragraph",
+    "before_problem": [
+      "The Isaac Sim setup split 'concrete' as 'con- / crete'.",
+      "The framework phrase split 'InternNav' as 'Intern- / Nav'.",
+      "The gate-chain prose split conversion-related wording, including 'no-MDL con- / version'.",
+      "Follow-on page-1 wording also exposed splits such as 'preserva- / tion', 'preser- / vation', and 'usabil- / ity'."
+    ],
+    "rejected_intermediate_problems": [
+      "A short gate-chain rewrite removed some target splits but introduced 'vis- / ible', 'com- / pares', and 'ref- / erence'.",
+      "A numbered-gate rewrite introduced 'Sec- / ond' and 'un- / der'.",
+      "Adding the MDL expansion first produced 'Material Definition Lan- / guage' and then 'Defi- / nition'.",
+      "The accepted version protects only 'Definition' with an mbox and keeps the rest of the paragraph in normal justified body text."
+    ]
+  },
+  "change_summary": {
+    "intro_tex_lines": "4-49",
+    "summary": "Rewrote the page-1 Introduction setup and gate-chain paragraph with shorter ACL-style sentences, restored an MDL expansion, protected 'Definition' from a bad linebreak, and kept the evidence boundary as four separate gates.",
+    "claim_scope_changed": false,
+    "mdl_expansion_preserved": true,
+    "final_mdl_expansion": "NVIDIA's MDL shaders (Material Definition Language)"
+  },
+  "pdf": {
+    "before_sha256": "e2a6d65204fa5970202aca1ff2afae8a0113fa902ab520aca707f59f16a21721",
+    "after_sha256": "df89b3fe95422ca1a1b3a0e93721087ddd97cbb19cb6e78ac108fba9c28bdae4",
+    "after_pages": 11,
+    "after_file_size_bytes": 5186946,
+    "after_creation_date": "Sun Jun 7 05:14:51 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260607_round59_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round59_after",
+    "before": {
+      "contact_sheet_png_sha256": "0ed320f7e1a104b547515d2d2970f546d46e238aa8168bae1850ad758defa7b2",
+      "full_txt_sha256": "c53cd13564ba42e676c23cfba1130a6fa72c060dc183e1ded4dca430acabcec0",
+      "page1_txt_sha256": "5922b1f0cb0f0b578d23fc09718c81854defdb74c0da66385ff6a850ca817c44",
+      "page1_png_sha256": "a34e5be1e9674a9ffdee9a9661195021a84adfdff483593e9d20249b2f91d4ec",
+      "page1_intro_right_png_sha256": "74c8623f80fa5bfb7bc4e8a72ae1541b394c2c160bd81788346bc6acc48d5c6b"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "22abf68b033d17b4195b453aa5678a774cc6fb2896809aaa57c2acba53f256d1",
+      "full_txt_sha256": "53757c708f7188743f91612c8b835473a6173c1944ad06ded794ab1c504c91c6",
+      "page1_txt_sha256": "e879ae1e607c72dc0d499653bbd05254394430c8ac318103ea0a706381b8679f",
+      "page1_png_sha256": "0364cb6bd472aa03d2e3e52e8554e82f60f4dad787b3d0c64a5727c3c8c3072a",
+      "page1_intro_focus_png_sha256": "b816ac3291d975d9f05960dd94dec2b77feb29ae9ca10ad0ff6b228587e46f08",
+      "page1_intro_right_png_sha256": "be82640298e1a139faf01e629281df0346432b56d10ab87cdffa034c71056353"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260607_round59_after/page1_intro_focus_latest.png",
+      "tmp/acl_main_visual_iter_20260607_round59_after/contact_sheet_latest.png"
+    ],
+    "observations": [
+      "The final page-1 text layer removes the targeted Introduction splits around concrete, InternNav, conversion, visible, compares, reference, second, under, material, audit, and Definition.",
+      "The final first-page prose preserves the MDL expansion as 'Material Definition Language' without splitting 'Definition'.",
+      "The final gate-chain paragraph remains a bounded evidence summary rather than a broad conversion or embodied-benchmark claim.",
+      "The final contact sheet remains 11 pages with no obvious float, table, or blank-page regression."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "bash -c 'if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf \"no blocker matches\\n\"; fi'",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "104 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 168"
+    }
+  ]
+}

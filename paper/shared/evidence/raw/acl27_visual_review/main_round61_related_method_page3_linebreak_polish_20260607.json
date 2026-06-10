@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 61,
+  "date": "2026-06-07",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/related.tex",
+    "paper/venues/acl27/sections/method.tex"
+  ],
+  "docs_record": "docs/records/2026-06-07-acl-main-related-method-page3-linebreak-polish.md",
+  "issue": {
+    "page": 3,
+    "location": "Related Work left column and Method opener",
+    "before_problem": [
+      "Related Work split 'original' as 'orig- / inal'.",
+      "Related Work split stale 'InteriorNav' wording as 'Inte- / riorNav'.",
+      "Related Work split 'Synthetic-data' as 'Synthetic- / data'.",
+      "Related Work split 'Synthetica' as 'Syn- / thetica'.",
+      "Related Work split 'representation' as 'representa- / tion'.",
+      "The Method opener split 'intervention', 'material', and 'usability'."
+    ],
+    "rejected_intermediate_problems": [
+      "A first synthetic-rendering rewrite removed the original target cluster but introduced 'ge- / ometry'.",
+      "A shorter paragraph introduced 'Do- / main', 'detec- / tors', and 're- / mains'.",
+      "A PreviewSurface wording pass introduced 'Sys- / tems', 'UsdPreview- / Surface', 'al- / lows', and 'compa- / rable'.",
+      "The accepted version uses shorter terms and keeps the paragraph's evidence boundary unchanged."
+    ]
+  },
+  "change_summary": {
+    "related_tex_lines": "24-39",
+    "method_tex_lines": "4-7",
+    "summary": "Removed stale InteriorNav wording, shortened the synthetic-rendering related-work paragraph, and recast the Method opener as a concise gate bridge while preserving citations and claim scope.",
+    "claim_scope_changed": false,
+    "stale_scope_wording_removed": [
+      "InteriorNav"
+    ]
+  },
+  "pdf": {
+    "before_sha256": "e33bd93d9dbed3c60a156eb2931cc24d048e0da7d1e05ed2a07198bbf38a7e82",
+    "after_sha256": "d7219ef76e9da3bd6956592b5d54f73798001ea44152ed870060a531f764a5d2",
+    "after_pages": 11,
+    "after_file_size_bytes": 5186427,
+    "after_creation_date": "Sun Jun 7 05:54:46 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260607_round61_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round61_after",
+    "before": {
+      "contact_sheet_png_sha256": "af313a02a9ff0c8cfb8be1c2a4a09d1140569c77cfaebf91e34fec13acb7ca15",
+      "full_txt_sha256": "6c79d266b43a42c8b6f8faeefe838bd0f080eb7e1f5ce22ed49a8774acd67f11",
+      "page3_txt_sha256": "52c87b613e99d8fc17c6783896dc20e6b978f2aaf150321306106af5753be499",
+      "page3_png_sha256": "3f89e3a61c6fe2433841edf03a3edbfa01d78add24d97fb60d9b387253ad9308",
+      "page3_left_png_sha256": "449c50d8046f117bd892b79764b540fd0905f307608edbe7205580072972ea1f"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "66e6a714da8e97e8fad79b2e3bf341f80a26041e50cb704f01602dd86e7d9e7e",
+      "full_txt_sha256": "afb7cfffbf9a51741f03c14893a29d969240ddb60bd5edfd1be2032b5cb021e0",
+      "page3_txt_sha256": "7de0982aa4f071632376a3b3c0d21cb4da1c528f5f46fee0b7933a87763c838f",
+      "page3_png_sha256": "0a73b65eb6c836dda8776ca1c63a05ffba9f7331e71aa12df125cca5075e6dec",
+      "page3_left_png_sha256": "a381ed473680b7e090336edc32b639caa95d1975b6b0b5171b868a918afd4e56"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260607_round61_after/page3_left.png",
+      "tmp/acl_main_visual_iter_20260607_round61_after/contact_sheet.png"
+    ],
+    "observations": [
+      "The final page-3 left crop removes the targeted Related Work splits around original, InteriorNav, Synthetic-data, Synthetica, representation, intervention, material, and usability.",
+      "The Method opener now reads as a concise bridge into evidence gates rather than a long abstract sentence.",
+      "The final Related Work wording keeps the KuJiaLe/InternNav evidence scoped as a sanity check, not a broad navigation claim.",
+      "The final contact sheet remains 11 pages with no obvious float, table, or blank-page regression."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "bash -c 'if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf \"no blocker matches\\n\"; fi'",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "104 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 168"
+    }
+  ]
+}

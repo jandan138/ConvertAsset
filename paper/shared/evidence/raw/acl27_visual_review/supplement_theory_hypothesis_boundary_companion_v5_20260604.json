@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_theory_hypothesis_boundary_companion_v5_20260604",
+  "date_utc": "2026-06-04",
+  "target": "ACL27 supplement page 41 theory hypothesis-boundary companion v5",
+  "independent_subagent_review": false,
+  "reason_independent_review_not_used": "Subagent spawning is restricted to explicit user requests in this environment; review followed the render-visual-reviewer checklist locally.",
+  "inputs": {
+    "standalone_figure": "paper/shared/figures/fig_supplement_theory_hypothesis_boundary_companion.png",
+    "source_ai_slot": "paper/shared/figures/ai_slots/fig_supplement_theory_hypothesis_boundary_v5_ai_slot.png",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0d4f9f9952bf8635016a2096037a148199a8027c2a734048d9.png",
+    "generator": "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_theory_hypothesis_boundary_companion.yaml",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_review_pages_144dpi": [
+      "tmp/acl_supplement_page41_theory_hypothesis_v5_final_20260604/page-40.png",
+      "tmp/acl_supplement_page41_theory_hypothesis_v5_final_20260604/page-41.png",
+      "tmp/acl_supplement_page41_theory_hypothesis_v5_final_20260604/page-42.png"
+    ],
+    "pdf_review_page_90dpi": "tmp/acl_supplement_page41_theory_hypothesis_v5_final_90dpi_20260604/page-41.png",
+    "pdf_review_crops": [
+      "tmp/acl_supplement_page41_theory_hypothesis_v5_final_20260604/crops/page41_figure_region.png",
+      "tmp/acl_supplement_page41_theory_hypothesis_v5_final_20260604/crops/page41_caption_region.png",
+      "tmp/acl_supplement_page41_theory_hypothesis_v5_final_20260604/crops/page41_lens_region.png"
+    ]
+  },
+  "hashes": {
+    "source_ai_slot_sha256": "d66340daea1dcbda42ffd8530803fcdb1d948715d7e154ab2a9938bf7c8240a3",
+    "standalone_figure_sha256": "0426c594a5f6debaa6cc56c45da800e78a77f32e427162656448bb95c97868c2",
+    "pdf_sha256": "e67b03f36772a59acda98a9f38f877dd640162a8754ee6c4253cfefbd034cd2d",
+    "page41_render_90dpi_sha256": "b1eb37dc1870354bdf5ddc2b5aa88692b6bb65e5d3a05ff52c231b25aab585c6"
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks.",
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, matching the sparse-page density audit.",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90."
+  },
+  "metrics": {
+    "source_ai_slot_size_px": [
+      1672,
+      941
+    ],
+    "source_ai_slot_layout_guard_active238": 0.29566556,
+    "source_ai_slot_layout_guard_active245": 0.324537039,
+    "source_ai_slot_red_pixel_fraction": 0.000197032,
+    "standalone_previous_v4_size_px": [
+      920,
+      1500
+    ],
+    "standalone_current_size_px": [
+      920,
+      1540
+    ],
+    "standalone_previous_v4_layout_guard_active238": 0.489833333,
+    "standalone_current_layout_guard_active238": 0.446494212,
+    "standalone_current_layout_guard_active245": 0.457092038,
+    "standalone_current_red_pixel_fraction": 0.000264681,
+    "previous_round25_page41_active245_90dpi": 0.147281337,
+    "current_page41_active245_90dpi": 0.148213159,
+    "page41_active245_delta": 0.000931822,
+    "current_page40_active245_144dpi": 0.175798397,
+    "current_page41_active245_144dpi": 0.126713415,
+    "current_page42_active245_144dpi": 0.165861938,
+    "pdf_page_count": 45
+  },
+  "layout_iterations": [
+    {
+      "attempt": "1740px standalone with 0.46 textheight include",
+      "result": "Rejected: supplement rebuilt to 46 pages."
+    },
+    {
+      "attempt": "1740px standalone with 0.44 and 0.42 textheight includes plus compact caption",
+      "result": "Rejected: supplement still rebuilt to 46 pages."
+    },
+    {
+      "attempt": "1540px standalone with 0.40 textheight include",
+      "result": "Accepted: supplement stayed at 45 pages and page 41 active245 improved slightly over round25."
+    }
+  ],
+  "visual_review": {
+    "overall_verdict": "PASS_WITH_LIMITS",
+    "standalone_figure": "PASS: the v5 companion adds a generated hypothesis-boundary lens slot and a compact cross-hypothesis render audit strip while preserving the material, coordinate, embodied-stack, and selected-failure render lanes.",
+    "pdf_page_41": "PASS_WITH_LIMITS: the rendered page is still visually text-heavy, but the companion is denser than the accepted v4 page allocation, remains contained in the right column, and does not create a blank spill page.",
+    "neighbor_pages": "PASS: page 40 remains the theory failure-mode map and page 42 starts the reproducibility media manifest; no float displacement was observed in the accepted 45-page build.",
+    "claim_boundary": "PASS: the caption states that the v5 AI-generated hypothesis-boundary schematic is only for exposition and is not a new experiment, causal proof, or population rate."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'theory_has_hypothesis_boundary_companion or theory_hypothesis_boundary_companion_is_registered_and_dense'",
+    "make -C paper acl27-supplement",
+    "pdftoppm -r 144 -png -f 40 -l 42 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page41_theory_hypothesis_v5_final_20260604/page",
+    "pdftoppm -r 90 -png -f 41 -l 41 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page41_theory_hypothesis_v5_final_90dpi_20260604/page"
+  ]
+}

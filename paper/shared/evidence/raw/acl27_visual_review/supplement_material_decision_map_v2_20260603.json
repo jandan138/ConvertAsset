@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "record_id": "supplement_material_decision_map_v2_20260603",
+  "generated_at_utc": "2026-06-03T01:48:25Z",
+  "status": "pass",
+  "claim_boundary": "Figure layout and page-level visual-review evidence only; not a new material benchmark, converter ranking, or material-mechanism result.",
+  "changed_page": {
+    "venue": "acl27",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "page": 28,
+    "section": "paper/venues/acl27/sections/supplement/04_material_effects.tex",
+    "figure": "paper/shared/figures/fig_supplement_material_decision_map.png"
+  },
+  "figure_stats": {
+    "path": "paper/shared/figures/fig_supplement_material_decision_map.png",
+    "width_px": 1800,
+    "height_px": 1940,
+    "sha256": "cb80ce63892b31c91d3a3fdcdbb9d2c08429aee48afb12cebc97ee3cbd61b17c",
+    "active238_fraction": 0.260117984,
+    "active245_fraction": 0.29830441,
+    "red_fallback_fraction": 0.000023769
+  },
+  "ai_slot": {
+    "path": "paper/shared/figures/ai_slots/fig_supplement_material_decision_gate_ai_slot.png",
+    "width_px": 1672,
+    "height_px": 941,
+    "sha256": "fce66ff930e337bfe015e75aa01053c95e87b3a14f7f078e3ad3fa824adbd468",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_015f66b72ebfac12016a1f8474170c81939ac35023d982ec16.png",
+    "source_generated_image_sha256": "fce66ff930e337bfe015e75aa01053c95e87b3a14f7f078e3ad3fa824adbd468",
+    "manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_material_decision_map.yaml",
+    "manifest_sha256": "147817eaddf6781da104b41f35beb7f06b7aa247b299dde7f9c6d4ec0a6a1e27",
+    "claim_boundary": "Exposition only; not experimental evidence."
+  },
+  "registered_render_evidence": [
+    "paper/shared/figures/fig_material_effect_baseline_qualitative.png",
+    "paper/shared/figures/fig_material_effect_supplemental_qualitative.png",
+    "paper/shared/evidence/raw/material_effect_baseline/material_effect_risk_profile.json",
+    "paper/shared/evidence/raw/reviewer_closure_package/material_safe_conversion_recommender.json",
+    "paper/shared/tables/material_effect_risk_matrix.csv",
+    "paper/shared/tables/material_safe_conversion_recommender.csv"
+  ],
+  "pdf_page_renders": [
+    {
+      "path": "tmp/acl_supplement_material_decision_map_v2_review_20260603/page-28.png",
+      "page": 28,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active245_fraction": 0.156651399,
+      "active238_fraction": 0.139537348,
+      "red180_fraction": 0.0,
+      "sha256": "67cc2c8eb4ca6c142c495bf26a95532ef34eda4128273414dec33d6283c70339"
+    },
+    {
+      "path": "tmp/acl_supplement_material_decision_map_v2_review_20260603/page-29.png",
+      "page": 29,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active245_fraction": 0.143401743,
+      "active238_fraction": 0.13758828,
+      "red180_fraction": 0.000438105,
+      "sha256": "61a3a36f06b0051428e6e38e0a54214ca0573364d6e9932f2ef5bbf11ea88453"
+    }
+  ],
+  "previous_page28_active245_fraction": 0.106611,
+  "visual_review": {
+    "mode": "local_render_visual_reviewer",
+    "independent_subagent": false,
+    "subagent_note": "The user requested repeated use of visual-review skill, not explicit subagent dispatch; local visual review was used.",
+    "verdict": "PASS",
+    "evidence": "Page 28 keeps the material decision map and caption on one page. The figure is less sparse than the prior audit because the three registered-render lanes use larger fitted crops and the former text-only footer is replaced by an exposition-only material-decision gate. Page 29 starts the navigation supplement cleanly."
+  },
+  "build": {
+    "command": "make -C paper acl27-supplement",
+    "pdf_pages": 44,
+    "pdf_sha256": "7cf8515bf8b2e88fef333a5691123ca9d97b031453432526d715ffbe0f641692",
+    "pdf_size_bytes": 36310832
+  }
+}

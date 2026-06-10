@@ -1,6 +1,6 @@
 # ACL/ARR Target Lock And OpenReview Rehearsal
 
-Checked: 2026-05-26.
+Checked: 2026-05-30.
 
 This packet turns the remaining ACL/ARR readiness work into an executable
 author-decision checklist. It does not choose the target for the authors. It
@@ -46,6 +46,23 @@ co-branding with IJCLP/AFNLP, but that source is not an Annual ACL 2027 CFP,
 author kit, OpenReview form, commitment deadline, or conference-specific
 supplement policy.
 
+Policy refresh after the 2026-05-28 last-mile upload handoff found the same
+route state. ARR Dates still lists EACL 2027 with final ARR submission date
+August 3, 2026 and commitment date October 11, 2026, while the August 2026
+reviewing-cycle row still has later cycle dates marked TBA. The EACL 2027 home
+page still lists Athens, Greece, March 9-14, 2027 and an August 3, 2026 ARR
+deadline; the EACL main-paper page still says the comprehensive CFP and
+detailed timetable are being finalized. No public official Annual ACL 2027 CFP
+or author kit was found in the checked official sources.
+
+Policy refresh on 2026-05-30 found the same route state. ARR Dates still lists
+EACL 2027 with final ARR submission date August 3, 2026 and commitment date
+October 11, 2026. The EACL 2027 home page still lists Athens, Greece,
+March 9-14, 2027 and the August 3, 2026 ARR deadline; the EACL main-paper page
+still says the comprehensive CFP and detailed timetable are being finalized.
+Official searches still did not find a public Annual ACL 2027 CFP, author kit,
+city/date page, commitment deadline, or conference-specific supplement policy.
+
 ## Repository Readiness For OpenReview
 
 | OpenReview / ARR item | Current local evidence | Status |
@@ -54,7 +71,7 @@ supplement policy.
 | Title, abstract, track, and keywords | `paper/venues/acl27/OPENREVIEW_METADATA_PACKET.md`; staged as `openreview/METADATA.md`. | Copy-ready source; final OpenReview fields remain author-gated. |
 | Responsible NLP checklist answers | `paper/venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`. | Copy-ready source, not yet entered into official OpenReview. |
 | Limitations and Ethical Considerations | PDF text scan finds both before references. | Ready for rehearsal. |
-| Page format | `pdfinfo` reports A4; current PDF is 11 pages total after excluding the unsafe qualitative VLM panel, with main text still ending before references. | Ready under generic ACLPUB policy; final venue-specific check still required. |
+| Page format | `pdfinfo` reports A4; current PDF is 11 pages total after the v18 figure pass, single-column Fig.3 layout, and page-8 ragged-bottom spacing fix, with references starting after Limitations/Ethical Considerations. | Ready under the repository's 12-page candidate cap; final venue-specific check still required. |
 | Bibliography and citation existence | `paper/shared/evidence/references/verification_report.md` and `CITATION_PROVENANCE_AUDIT.md`. | Current 20-reference web trail complete. |
 | Citation-context/data/originality delta | `FINAL_INTEGRITY_DELTA_AUDIT.md`. | Current-source pass complete; rerun after any edit. |
 | Safe packet boundary | `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, `SUBMISSION_STAGING_AUDIT.md`, and `stage_submission_packet.py`. | Minimal PDF-first packet ready; selected media remains excluded by default. |

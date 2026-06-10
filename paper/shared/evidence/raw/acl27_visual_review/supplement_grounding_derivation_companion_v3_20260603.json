@@ -1,0 +1,152 @@
+{
+  "record_id": "supplement_grounding_derivation_companion_v3_20260603",
+  "date_utc": "2026-06-03",
+  "scope": "ACL 2027 supplement page 13 grounding-derivation companion v3 visual iteration",
+  "motivation": {
+    "target_pages": [
+      13,
+      15
+    ],
+    "target_page_before": "After the v2 pass, page 13 still had a compact grounding companion and remained visually thin in the full supplement density audit.",
+    "round6_page13_active245_fraction_90dpi": 0.115002836,
+    "v2_page13_active245_fraction_90dpi": 0.115241209,
+    "goal_alignment": "Add more registered render material to the derivation spread while keeping AI-generated schematic content exposition-only and avoiding figure-only or caption-only spill pages."
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks",
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, used for sparse-page raster review",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90"
+  },
+  "claim_boundary": {
+    "paper_use": "visual reading guide for the point-in-box and normalized-1000 coordinate derivations",
+    "not_new_evidence": true,
+    "boundary_statement": "Exposition only; not experimental evidence.",
+    "notes": "The v2 AI-generated metric-contract gate is not a metric, model prediction, benchmark row, VLM output, or new experimental result. Evidence-bearing panels remain the registered original/noMDL GRScenes target-view render pairs and deterministic protocol overlays."
+  },
+  "ai_slots": {
+    "metric_contract_gate_v2": {
+      "path": "paper/shared/figures/ai_slots/fig_supplement_metric_contract_gate_v2_ai_slot.png",
+      "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_05331546a7ff8eef016a2000dbcba881969521c32b92f65e11.png",
+      "sha256": "9c336c746b1234eae7abb81bb1d3c17892ca27344bfba4cc12556a14f0e490fe",
+      "size_px": [
+        1692,
+        930
+      ],
+      "bytes": 1005143,
+      "layout_guard_active_fraction": 0.08944114,
+      "active245_fraction": 0.09616157,
+      "red_pixel_fraction": 0.000429599,
+      "role": "AI-generated metric-contract schematic only; deterministic figure code draws critical labels, boundary text, and all evidence-source annotations."
+    }
+  },
+  "final_figure": {
+    "path": "paper/shared/figures/fig_supplement_grounding_derivation_companion.png",
+    "sha256": "96d097cd26ca01bbd16ec9ba7ba6f3ad2179464cfcbb810c35a28708cd65cbab",
+    "size_px": [
+      1800,
+      1040
+    ],
+    "bytes": 823174,
+    "layout_guard_active_fraction": 0.421898504,
+    "active245_fraction": 0.42631891,
+    "red_pixel_fraction": 0.000013889,
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_grounding_derivation_companion.yaml",
+    "registered_real_sources_added_in_v3": [
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/converted/converted_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/converted/converted_0000.png"
+    ],
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "The standalone v3 figure adds a denser registered coordinate-conversion render wall below the formula-to-render audit strip. The zoom-019 tiles are desaturated to avoid red fallback-like surfaces while preserving the registered render-pair role."
+  },
+  "pdf_review": {
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_sha256": "395c68a8284e9a8dcacfa7200c06cc9f2fd9fe9eb850619afeea402fae4c0349",
+    "page_count": 45,
+    "page_size": "A4",
+    "review_window": [
+      12,
+      16
+    ],
+    "page13_render_140dpi": "tmp/acl_supplement_page13_grounding_derivation_v2/page-13.png",
+    "page13_render_140dpi_sha256": "af21154831db07897b29388118d6caec6b740fe5c4af81b11f188915d2265421",
+    "page13_render_90dpi": "tmp/acl_supplement_page13_grounding_derivation_v2/page90-13.png",
+    "page13_render_90dpi_sha256": "ce5f2b60769298fe4aa0641a069a0c7e9183a41ef318be55d3d50733aca50de4",
+    "page13_active245_fraction_90dpi": 0.134736802,
+    "page13_layout_guard_active_fraction_90dpi": 0.13057866,
+    "page14_active245_fraction_90dpi": 0.052717388,
+    "page15_active245_fraction_90dpi": 0.21879832,
+    "page16_active245_fraction_90dpi": 0.166217327,
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "Rendered page 13 keeps C.3-C.6 text, the larger grounding companion, caption, and the start of the grounding equations on one page. Page 15 closes with the navigation companion and metric-boundary bridge; the previous caption-only spill page is gone. Page 16 is the next supplement section rather than a derivation spill.",
+    "residual_risk": "Page 14 remains formula-only and low density by the active-pixel audit, but it is a continuous derivation text page rather than a stranded figure or caption page."
+  },
+  "layout_iterations": [
+    {
+      "change": "Moved the grounding companion before the Point-in-Box Grounding subsection and removed the hard clearpage that followed it.",
+      "result": "Selected: page 13 now carries the larger render companion in context; page 13 active245 rises to 0.134736802 at 90 dpi."
+    },
+    {
+      "change": "Shrank the downstream metric-boundary bridge include width to 0.86 textwidth.",
+      "result": "Selected: the supplement returns to 45 A4 pages and the metric-boundary caption no longer spills to a near-empty page."
+    }
+  ],
+  "review_artifacts": {
+    "page12_16_renders_140dpi": "tmp/acl_supplement_page13_grounding_derivation_v2/page-12.png through page-16.png",
+    "page12_16_renders_90dpi": "tmp/acl_supplement_page13_grounding_derivation_v2/page90-12.png through page90-16.png",
+    "standalone_figure": "paper/shared/figures/fig_supplement_grounding_derivation_companion.png",
+    "source_ai_slot": "paper/shared/figures/ai_slots/fig_supplement_metric_contract_gate_v2_ai_slot.png"
+  },
+  "tests": [
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k 'derivation_companions or derivations_have_render_companions'",
+      "result": "RED first for missing v3 source/order expectations; GREEN after implementation: 2 passed, 72 deselected."
+    },
+    {
+      "command": "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+      "result": "completed; regenerated fig_supplement_grounding_derivation_companion.png from the v3 composer."
+    },
+    {
+      "command": "make -C paper acl27-supplement",
+      "result": "completed during layout review; paper/venues/acl27/build/supplement.pdf contains 45 A4 pages."
+    },
+    {
+      "command": "pdftoppm -f 12 -l 16 -r 140 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page13_grounding_derivation_v2/page",
+      "result": "completed; pages 12-16 regenerated for local visual review."
+    },
+    {
+      "command": "pdftoppm -f 12 -l 16 -r 90 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page13_grounding_derivation_v2/page90",
+      "result": "completed; pages 12-16 regenerated for density review."
+    },
+    {
+      "command": "python paper/shared/figures/gen_supplement_task_media_atlases.py && python -m pytest -q tests/test_paper_layout.py && make -C paper acl27-supplement",
+      "result": "fresh final verification completed; figure generator regenerated supplement figures, tests reported 74 passed, and make built paper/venues/acl27/build/supplement.pdf."
+    },
+    {
+      "command": "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_grounding_derivation_companion_v3_20260603.json",
+      "result": "exit 0"
+    },
+    {
+      "command": "pdftotext -f 13 -l 13 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_grounding_derivation_v3_final_20260603/page13.txt",
+      "result": "normalized text scan found the required grounding companion, coordinate-conversion render wall, AI exposition boundary, and no-new-metrics boundary phrases; local-path and author-name leakage checks passed."
+    },
+    {
+      "command": "pdfinfo paper/venues/acl27/build/supplement.pdf",
+      "result": "Pages: 45; Page size: 595.276 x 841.89 pts (A4)."
+    },
+    {
+      "command": "git diff --check -- tests/test_paper_layout.py paper/shared/figures/gen_supplement_task_media_atlases.py paper/shared/figures/sources.yaml paper/shared/figures/ai_slot_manifests/fig_supplement_grounding_derivation_companion.yaml paper/venues/acl27/sections/supplement/01_derivations.tex docs/records/README.md",
+      "result": "exit 0; no whitespace errors in tracked touched files."
+    },
+    {
+      "command": "direct final-newline and trailing-whitespace scan over the new v3 doc, v3 evidence JSON, and touched text files",
+      "result": "exit 0; all scanned files end with a final newline and have no trailing whitespace."
+    }
+  ],
+  "review_mode": {
+    "skill": "render-visual-reviewer",
+    "independent_subagent_review": false,
+    "reason": "Local pure visual review was used; no separate clean-room subagent was dispatched because the available subagent tool requires an explicit user request for delegation."
+  }
+}

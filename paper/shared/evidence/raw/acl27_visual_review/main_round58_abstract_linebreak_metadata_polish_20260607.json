@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 58,
+  "date": "2026-06-07",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/abstract.tex",
+    "paper/venues/acl27/OPENREVIEW_METADATA_PACKET.md"
+  ],
+  "docs_record": "docs/records/2026-06-07-acl-main-abstract-linebreak-metadata-polish.md",
+  "issue": {
+    "page": 1,
+    "location": "Abstract",
+    "before_problem": [
+      "The abstract split 'vision-language' as 'vision- / language'.",
+      "The abstract split 'PreviewSurface' as 'Pre- / viewSurface'.",
+      "The abstract split 'NVIDIA-baseline' as 'NVIDIA- / baseline'.",
+      "The abstract split '99-episode' as '99- / episode'.",
+      "The abstract split 'define' as 'de- / fine'."
+    ],
+    "rejected_intermediate_problems": [
+      "A short-prose pass removed the target splits but introduced replacement splits such as 'con- / version', 'DI- / NOv2', 'pre- / serves', and 'In- / ternNav'.",
+      "A no-hyphenation pass removed splits but produced visibly stretched justified spacing and broke metadata extraction by leaving '=10000=10000' in the plain-text abstract.",
+      "The accepted local setting uses ragged-right abstract text without numeric TeX penalty commands, so metadata extraction remains clean."
+    ]
+  },
+  "change_summary": {
+    "abstract_tex_lines": "1-19",
+    "metadata_packet_lines": "28-35",
+    "summary": "Rewrote the abstract with shorter ACL-style prose, protected selected model/system names, used a local ragged-right abstract setting to avoid first-page abstract hyphenation, and synchronized the OpenReview metadata packet.",
+    "final_wording_required_phrase": "scores 27/30 original versus 29/30 converted normalized-1000 point hits",
+    "abstract_word_count": 168,
+    "claim_scope_changed": false
+  },
+  "pdf": {
+    "before_sha256": "82e1d7f60d5b4222ee878d15ae6ed44f2420a9715b3493be4783bc8ce68ea382",
+    "after_sha256": "e2a6d65204fa5970202aca1ff2afae8a0113fa902ab520aca707f59f16a21721",
+    "after_pages": 11,
+    "after_file_size_bytes": 5187548,
+    "after_creation_date": "Sun Jun 7 04:23:00 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260607_round58_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round58_after",
+    "before": {
+      "contact_sheet_png_sha256": "d0d76a60d66049caa94b5659e2d6f0a71398bf4af60bddf6e24f08cd49c7d50b",
+      "full_txt_sha256": "8e9b9148d84a08ad858d1ebda301afdb9f7927566858d7640f93f82f299e0098",
+      "page1_txt_sha256": "7ee45a9cf215a3c35d8933de51bc63c63ef1b6bed5f75f0354b136db9985d1b8",
+      "page1_png_sha256": "6cc20c0f003abf0281b2c37e693531dbf799c6009c4530bb7ac887eef5607836",
+      "page1_abstract_png_sha256": "6094747e70d8321355e069bdbe3f7da927c7cd636f715282dd100766d2834c86"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "0ed320f7e1a104b547515d2d2970f546d46e238aa8168bae1850ad758defa7b2",
+      "full_txt_sha256": "c53cd13564ba42e676c23cfba1130a6fa72c060dc183e1ded4dca430acabcec0",
+      "page1_txt_sha256": "5922b1f0cb0f0b578d23fc09718c81854defdb74c0da66385ff6a850ca817c44",
+      "page1_png_sha256": "a34e5be1e9674a9ffdee9a9661195021a84adfdff483593e9d20249b2f91d4ec",
+      "page1_abstract_png_sha256": "88c0ae168bd66e8bb23107868ba69e306c2226fbe1d1780d152ba04ae633f247"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260607_round58_after/page1_abstract.png",
+      "tmp/acl_main_visual_iter_20260607_round58_after/contact_sheet.png"
+    ],
+    "observations": [
+      "The final page-1 text layer removes the targeted abstract splits: 'vision- / language', 'Pre- / viewSurface', 'NVIDIA- / baseline', '99- / episode', and 'de- / fine'.",
+      "The final abstract keeps the required 'converted normalized-1000 point hits' phrase without breaking it in the rendered text layer.",
+      "The accepted ragged-right abstract setting leaves a slightly uneven right edge but avoids both visible abstract hyphenation and the wide spacing produced by numeric no-hyphenation penalties.",
+      "The final contact sheet remains 11 pages with no obvious float, table, or blank-page regression."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "bash -c 'if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf \"no blocker matches\\n\"; fi'",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "104 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 168"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "review_id": "main_round21_evidence_gate_companion_public_wording_20260606",
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "artifact": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "43a9dac47c417e2c59b536cc36f3f7e6c6d71788ae8a6314f68d229e83ab15c0",
+    "pages": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "bytes": 5189160,
+    "created": "Sat Jun 6 11:13:12 2026 CST"
+  },
+  "scope": [
+    "paper/shared/tables/tab_acl_evidence_gate_registry.tex",
+    "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "paper/shared/figures/fig_supplement_evidence_gate_registry_companion.png",
+    "tests/test_paper_layout.py"
+  ],
+  "visual_artifacts": {
+    "before_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round21_current/contact_sheets/main_pages_01_11_current.png",
+    "before_page7": "tmp/acl_main_visual_iter_20260606_round21_current/pages_180/main-07.png",
+    "before_layout_text": "tmp/acl_main_visual_iter_20260606_round21_current/text/main_layout.txt",
+    "after_page7": "tmp/acl_main_visual_iter_20260606_round21_after/pages_180/main-07.png",
+    "after_focus_pages7_8": "tmp/acl_main_visual_iter_20260606_round21_after/contact_sheets/main_pages_07_08_after_focus.png",
+    "after_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round21_after/contact_sheets/main_pages_01_11_after.png",
+    "after_layout_text": "tmp/acl_main_visual_iter_20260606_round21_after/text/main_layout.txt"
+  },
+  "visual_findings": [
+    "The round-21 full contact sheet showed no hard crop, missing page, or float displacement; the selected target was page 7, where Table 1 combines the evidence-gate registry with its companion panel.",
+    "The pre-edit caption exposed internal production wording: 'AI-generated reader-gate v3 schematic used only for exposition'.",
+    "The companion image also contained a small PDF-visible label, 'AI schematic, exposition only', inside the Reader gate card.",
+    "The accepted caption keeps the stable evidence-gate registry companion name but describes the panel by its reader-facing role: an interpretive index that does not add a new experiment, metric, VLM run, or navigation run.",
+    "The accepted image label reads 'interpretive schematic' instead of the internal production wording.",
+    "The after page-7 render keeps Table 1, the companion panel, and the caption on the same page; the page-7/page-8 focus sheet shows no downstream drift into the dense result tables."
+  ],
+  "change_summary": [
+    "Rewrote the Table 1 caption to remove reviewer-facing AI-production wording while preserving the claim boundary.",
+    "Regenerated fig_supplement_evidence_gate_registry_companion.png after changing the Reader gate card label to neutral interpretive wording.",
+    "Updated the layout regression test so it keeps the stable evidence-gate registry companion contract and rejects the old AI-generated caption phrase."
+  ],
+  "verification": [
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py::test_acl_supplement_overview_has_evidence_gate_registry_companion",
+      "result": "red before source fix; failed because the caption no longer contained the stable evidence-gate registry companion phrase"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py::test_acl_supplement_overview_has_evidence_gate_registry_companion",
+      "result": "passed after restoring the stable phrase without restoring the old AI-generated wording"
+    },
+    {
+      "command": "make -C paper acl27",
+      "result": "passed; rebuilt paper/venues/acl27/build/main.pdf as an 11-page A4 PDF"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "passed; no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "passed; 85 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "passed; ok=true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "passed; ok=true; abstract_word_count=169"
+    },
+    {
+      "command": "rg -n -i \"AI-generated|AI-assisted|AI-slot|imagegen|AI schematic|teaching artifact|author-produced|record-derived\" tmp/acl_main_visual_iter_20260606_round21_after/text/main_layout.txt paper/shared/tables/tab_acl_evidence_gate_registry.tex || true",
+      "result": "passed; no matches in the main-PDF extracted text or Table 1 caption source"
+    }
+  ],
+  "residual_risk": "Focused page-7 main-paper public-wording polish only. Supplement source files still contain legacy AI-generated wording and were not changed in this round because the active goal targets paper/venues/acl27/build/main.pdf."
+}

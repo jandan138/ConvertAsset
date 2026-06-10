@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_theory_hypothesis_boundary_v6_20260604",
+  "date_utc": "2026-06-04",
+  "target": "ACL27 supplement page 41 theory hypothesis-boundary companion v6",
+  "target_page": 41,
+  "independent_subagent_review": false,
+  "reason_independent_review_not_used": "Subagent spawning is restricted to explicit user requests in this environment; review followed the render-visual-reviewer and research-figure-ai-slot-composer checklists locally.",
+  "inputs": {
+    "standalone_figure": "paper/shared/figures/fig_supplement_theory_hypothesis_boundary_companion.png",
+    "source_ai_slot": "paper/shared/figures/ai_slots/fig_supplement_theory_hypothesis_boundary_v6_ai_slot.png",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_08602c99988cec58016a2112db67808192abc25f70dcf534a0.png",
+    "composer": "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_theory_hypothesis_boundary_companion.yaml",
+    "source_registry": "paper/shared/figures/sources.yaml",
+    "source_section": "paper/venues/acl27/sections/supplement/06_theory.tex",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_review_pages_144dpi": [
+      "tmp/acl_supplement_page41_theory_hypothesis_boundary_v6_20260604/page-40.png",
+      "tmp/acl_supplement_page41_theory_hypothesis_boundary_v6_20260604/page-41.png",
+      "tmp/acl_supplement_page41_theory_hypothesis_boundary_v6_20260604/page-42.png"
+    ],
+    "pdf_review_page_90dpi": "tmp/acl_supplement_page41_theory_hypothesis_boundary_v6_90dpi_20260604/page-41.png",
+    "slot_containment_crop": "tmp/acl_supplement_page41_theory_hypothesis_boundary_v6_20260604/hypothesis_boundary_lens_contain_crop.png",
+    "pdf_figure_caption_crop": "tmp/acl_supplement_page41_theory_hypothesis_boundary_v6_20260604/page41_figure_caption_crop.png"
+  },
+  "hashes": {
+    "source_generated_image_sha256": "5850a7b3c9713a4e1bfb1b2e5d86d1fe1e8d9c38a84f10ed0837f3c3664b3a68",
+    "source_ai_slot_sha256": "5850a7b3c9713a4e1bfb1b2e5d86d1fe1e8d9c38a84f10ed0837f3c3664b3a68",
+    "standalone_figure_sha256": "9644aa37b23d44f64ba2745c11cd14bea59c98083977aabd45a5e4f77259565d",
+    "slot_containment_crop_sha256": "e38eed926c7e89db0c4d7509938f4d009c0db07c1d9f6bc0a2cfe6441ebee640",
+    "pdf_figure_caption_crop_sha256": "1b2d802dbfa3387e0fe6e6d57035d06b57b155a7d0f5b60cec19e63c0ea4dd53",
+    "page40_render_144dpi_sha256": "7006962a9f6ed94ca1b58dcc88090b78566af39b4064a3e1ad0237765cac5bb7",
+    "page41_render_144dpi_sha256": "7f05a315be353116bb53e047b800742b326af24a579b21079963e6fff00fbba1",
+    "page42_render_144dpi_sha256": "188aee2f2c9e5e3b71f8daae48269320b942191e301b378eb8d3179a5ba704ff",
+    "page41_render_90dpi_sha256": "adbb9dfa5d2bceb237cbd004ebcf93311d59af3025d14e285480fb4e968df919",
+    "pdf_sha256": "3f7c408ac47600a98655c0d878c45a5acf5f68ed24ec9ceb682887bc99f4d18b"
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < threshold, matching tests/test_paper_layout.py figure-density checks.",
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, matching the sparse-page density audit.",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90, matching tests/test_paper_layout.py red fallback checks."
+  },
+  "metrics": {
+    "source_ai_slot_size_px": [
+      1536,
+      1024
+    ],
+    "source_ai_slot_layout_guard_active238": 0.380282084,
+    "source_ai_slot_layout_guard_active245": 0.396162669,
+    "source_ai_slot_red_pixel_fraction": 0.002194722,
+    "standalone_previous_v5_size_px": [
+      920,
+      1540
+    ],
+    "standalone_previous_v5_layout_guard_active238": 0.446494212,
+    "standalone_previous_v5_layout_guard_active245": 0.457092038,
+    "standalone_current_size_px": [
+      920,
+      1540
+    ],
+    "standalone_current_layout_guard_active238": 0.466949464,
+    "standalone_current_layout_guard_active245": 0.476667137,
+    "standalone_current_red_pixel_fraction": 0.000206098,
+    "standalone_active238_delta_from_v5": 0.020455252,
+    "standalone_active245_delta_from_v5": 0.019575099,
+    "slot_containment_crop_size_px": [
+      858,
+      340
+    ],
+    "slot_containment_crop_layout_guard_active245": 0.521918278,
+    "pdf_figure_caption_crop_size_px": [
+      445,
+      760
+    ],
+    "pdf_figure_caption_crop_layout_guard_active245": 0.339278533,
+    "round37_page41_active245_90dpi": 0.148192763,
+    "current_page41_active245_90dpi": 0.149026431,
+    "page41_active245_delta_from_round37": 0.000833668,
+    "current_page41_layout_guard_active238_90dpi": 0.142196473,
+    "current_page41_red_pixel_fraction_90dpi": 0.000005099,
+    "current_page40_active245_144dpi": 0.175816346,
+    "current_page41_active245_144dpi": 0.128711775,
+    "current_page42_active245_144dpi": 0.16588936,
+    "pdf_page_count": 45,
+    "pdf_file_size_bytes": 50608328
+  },
+  "layout_iteration": {
+    "before": "The v5 companion already used registered render lanes but the AI slot was still a generated hypothesis-boundary schematic path that could be center-cropped by the composer.",
+    "after": "The v6 companion uses a newly generated denser hypothesis-boundary AI slot, contain placement for the AI slot, and deterministic checkpoint cards backed by material, grounding, and selected-failure render crops.",
+    "ai_slot_containment_update": "The composer now uses contain scaling for THEORY_HYPOTHESIS_BOUNDARY_V6_AI_SLOT instead of cover scaling, following the updated AI slot composition rule that generated slots should not be cropped or occluded unless an explicit reviewed crop is intended.",
+    "fit_adjustment": "A trial 0.48 textheight placement improved the page figure size but created a sparse orphan page 42 and expanded the supplement to 46 pages. A 0.42 trial still left page 42 as a near-empty single-line tail. The accepted placement returns to 0.40 textheight so H.5 closes on page 41 and page 42 starts the reproducibility manifest.",
+    "result": "Accepted with caveat: the standalone companion and local figure crop are denser and no longer crop the AI slot; whole-page density changes only slightly because page 41 remains a theory text page."
+  },
+  "visual_review": {
+    "overall_verdict": "PASS",
+    "standalone_figure": "PASS: the render lanes, selected failure wall, cross-hypothesis audit strip, and v6 boundary lens are visibly contained and no panel overlaps its card.",
+    "ai_slot_asset": "PASS: the raw v6 AI slot is denser than v5, contains no readable words, numbers, logos, or watermarks, and functions as an exposition-only schematic.",
+    "ai_slot_composed_crop": "PASS: the composed bottom crop shows the AI slot inside a proportioned contain box, with deterministic checkpoint cards beside it and no center-crop loss.",
+    "pdf_page_41": "PASS: Figure S39, caption, H.4, and H.5 fit on page 41 with no clipping, overlap, or caption collision.",
+    "neighbor_pages": "PASS: page 40 remains the failure-mode interpretation map; page 42 starts the reproducibility review-packet manifest after the accepted 0.40 textheight rollback.",
+    "claim_boundary": "PASS: the caption and deterministic footer keep the AI boundary lens exposition-only and state that it is not a new experiment, causal proof, or population rate.",
+    "residual_risk": "The whole-page active-density gain is minimal at page scale; future iterations should target p40, p37, or other low-density non-formula pages for larger visual-density gains."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'theory_hypothesis_boundary'",
+    "python - <<'PY' from paper.shared.figures.gen_supplement_task_media_atlases import build_theory_hypothesis_boundary_companion; build_theory_hypothesis_boundary_companion() PY",
+    "make -C paper acl27-supplement",
+    "pdftoppm -r 144 -png -f 40 -l 42 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page41_theory_hypothesis_boundary_v6_20260604/page",
+    "pdftoppm -r 90 -png -f 41 -l 41 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page41_theory_hypothesis_boundary_v6_90dpi_20260604/page",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf | rg '^Pages:'",
+    "sha256sum paper/venues/acl27/build/supplement.pdf paper/shared/figures/fig_supplement_theory_hypothesis_boundary_companion.png paper/shared/figures/ai_slots/fig_supplement_theory_hypothesis_boundary_v6_ai_slot.png"
+  ]
+}

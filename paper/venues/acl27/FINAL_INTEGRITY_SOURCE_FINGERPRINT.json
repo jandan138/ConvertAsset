@@ -1,7 +1,7 @@
 {
   "purpose": "Guards the ACL final-integrity delta audit against stale manuscript, bibliography, policy, and evidence sources.",
   "schema_version": 1,
-  "source_count": 41,
+  "source_count": 57,
   "source_root": "paper",
   "sources": [
     {
@@ -20,6 +20,11 @@
       "size_bytes": 4892
     },
     {
+      "path": "shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json",
+      "sha256": "96d975aa9103d3fd860b51a3285dccd9bf0997e3026e57a8f58c863fba681a13",
+      "size_bytes": 50965
+    },
+    {
       "path": "shared/evidence/raw/official_scene_submission_closure/official_scene_submission_closure_summary.json",
       "sha256": "a4bf65181aa5ddea4837b4523ca881f8bcd1e1b2aaaf989c95c636d6299e9aa9",
       "size_bytes": 16494
@@ -28,6 +33,71 @@
       "path": "shared/evidence/references/verification_report.md",
       "sha256": "903d4efab16fd090b26f1e62ea4d389d2b74f00f8bda83944dd3752271007520",
       "size_bytes": 12947
+    },
+    {
+      "path": "shared/figures/fig_acl_method_chain_imagegen_v18.png",
+      "sha256": "04bd5413fd5cbd32c3e9b4f958efeea55c4d449a8c6017068fe258df61c6f6ef",
+      "size_bytes": 1211264
+    },
+    {
+      "path": "shared/figures/fig_grscene_qualitative.pdf",
+      "sha256": "0357b922df68e4e5d4281d5ca9811933a0e5aa863287b5570b4644be76a0e10d",
+      "size_bytes": 59536
+    },
+    {
+      "path": "shared/figures/fig_internnav_rollout_0036_0066_column.png",
+      "sha256": "7ca4fdf99c648d740d64ad27e69fb44e4b6da20a98e58e51996163a65243dfe5",
+      "size_bytes": 427932
+    },
+    {
+      "path": "shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png",
+      "sha256": "818525fcc0a5fd0b4e692ddd9d2738e673eb3b70a2b2dd90895cab7dd0d51a6e",
+      "size_bytes": 781424
+    },
+    {
+      "path": "shared/figures/fig_material_effect_baseline_qualitative.png",
+      "sha256": "e0cea32c186661ce2efcf736fd7fb0f714f7d78b411364b029374e0e473e187a",
+      "size_bytes": 491950
+    },
+    {
+      "path": "shared/figures/fig_material_effect_baseline_qualitative.report.json",
+      "sha256": "1f1c254c90c562921173bba60f5e2132064cedb2b572a834dc12401bda3284df",
+      "size_bytes": 1643
+    },
+    {
+      "path": "shared/figures/fig_render_pairs.pdf",
+      "sha256": "6e1ad0444fabb867eb681aeac2e70fec2fd93306947245c06e0323611cc061bb",
+      "size_bytes": 159811
+    },
+    {
+      "path": "shared/figures/fig_render_scene_evidence_wide.png",
+      "sha256": "c3916d57c87efd00edda9052f8a643881cd0e400959de7af669d4f45e6db5758",
+      "size_bytes": 1162714
+    },
+    {
+      "path": "shared/figures/gen_figures.py",
+      "sha256": "0811946cd21dcb024b0259d03c02eaa3906ba70877241103267def5b34bb68b1",
+      "size_bytes": 8444
+    },
+    {
+      "path": "shared/figures/gen_internnav_main_readable.py",
+      "sha256": "309376193899a5c48a19117bbbf77774794453241f8ce8f80c1b5314f9f31393",
+      "size_bytes": 12108
+    },
+    {
+      "path": "shared/figures/gen_material_effect_qualitative.py",
+      "sha256": "a42e7a61bb0f7dc3eb046af09e21718b643eb29fa37ef03e64fca107d524fa78",
+      "size_bytes": 9772
+    },
+    {
+      "path": "shared/figures/gen_render_scene_evidence_wide.py",
+      "sha256": "982101790fbb7a7a3f1ef88209a12fbb8809453197662e1fc84498835c79c5ff",
+      "size_bytes": 5924
+    },
+    {
+      "path": "shared/figures/prompts/fig_acl_method_chain_gpt_image2_v18.prompt.txt",
+      "sha256": "465ea8d40d6fa8c7c5f8bab341dff0196e263c0e76a205afd3aa7f636f0fc94b",
+      "size_bytes": 2094
     },
     {
       "path": "shared/references.bib",
@@ -66,13 +136,13 @@
     },
     {
       "path": "shared/tables/tab_acl_evidence_gate_registry.tex",
-      "sha256": "5dc797c19bae2c1fb306cf17d74c1165bb922313bbb56b10a88b74672fb0e986",
-      "size_bytes": 1819
+      "sha256": "4123f37ed2b9a63c0100411fac9e807c81e242d517540cb5b9916250a9ff20db",
+      "size_bytes": 2085
     },
     {
       "path": "shared/tables/tab_grscenes_vlm_clean_pool_pass15.tex",
-      "sha256": "adfb6322390df4b1617c080678da9ec8b047cdf86a648fccd069effeedf20b89",
-      "size_bytes": 1097
+      "sha256": "40465f6dbfc055e7c3c878330a1b6556ae5aa05e0d60a8f685ba7c9bcfb872a7",
+      "size_bytes": 1474
     },
     {
       "path": "shared/tables/tab_grscenes_vlm_coordinate_ablation.tex",
@@ -81,53 +151,53 @@
     },
     {
       "path": "shared/tables/tab_grscenes_vlm_failure_taxonomy.tex",
-      "sha256": "83250075ab755355a54b11f59311688b23ec95b15987ee336b0992b254d9ee51",
-      "size_bytes": 2504
+      "sha256": "2d36f7ad9646b23b0b48ba1c558a25a925f7b5bf9a20a0deca87e78304965fd9",
+      "size_bytes": 2511
     },
     {
       "path": "shared/tables/tab_grscenes_vlm_pass_only_pilot.tex",
-      "sha256": "b5cf91aa678e6800dd51c415f3e8f120f12489f7b57a1fc749f39c2470899220",
-      "size_bytes": 1244
+      "sha256": "bb03e9bf47078afd42206de034895523563764a5726f91a9c5872a4719bbb851",
+      "size_bytes": 1241
     },
     {
       "path": "shared/tables/tab_grscenes_vlm_stress_expanded30.tex",
-      "sha256": "0b69262a1d40f247c5b6123603aa2ca56e94ca1653579a95f6ce675ec106d138",
-      "size_bytes": 1001
+      "sha256": "016b528843147a1c8cd4bbcaab305b86ef0fb8cbb11a8b1dbe12d7d0a4c6709b",
+      "size_bytes": 830
     },
     {
       "path": "shared/tables/tab_grscenes_vlm_zoom_stress.tex",
-      "sha256": "a15effed1885aa86db115783b6d12aac16ed6e53de50e8950313b3ae71ccb88e",
-      "size_bytes": 1116
+      "sha256": "36f18f0b44a7fe853226688e9cb4a63f169bc18cfa569bf75fc4cc0f80eb8218",
+      "size_bytes": 1118
     },
     {
       "path": "shared/tables/tab_material_effect_baseline_summary.tex",
-      "sha256": "7bdf5b5d2ed4583cac885a8bbcb493074a0fb98a8cfd22841ddb8dae611430dd",
-      "size_bytes": 1318
+      "sha256": "8788ac9912f99492ad7aec9e2a184d8ff413dd46e69ab0be2fa81f269f0415ef",
+      "size_bytes": 1326
     },
     {
       "path": "shared/tables/tab_material_effect_risk_matrix.tex",
-      "sha256": "13c9b87e53aa2e57cab0dda4aa13afa7d007a7cc056abdf2bbf466a614fc7458",
-      "size_bytes": 1333
+      "sha256": "73a41d5c6380b12928303fa2cf0556841108a22dfd4a034fd2751df8cdef7ed0",
+      "size_bytes": 1160
     },
     {
       "path": "shared/tables/tab_material_safe_conversion_recommender.tex",
-      "sha256": "421eb88e6b37bfcbbbddf24c36678d057a43652aaa5a7fa6911d825c624a44a4",
-      "size_bytes": 1193
+      "sha256": "79e0d36d71e49fa721d89d8eafbc509721de27435aaa17da2965229f9ed8fc55",
+      "size_bytes": 1217
     },
     {
       "path": "shared/tables/tab_official_scene_performance_summary.tex",
-      "sha256": "175c0aa95445749111c707067360a69ffcd436350e4d09936dda58e531ed33e8",
-      "size_bytes": 1284
+      "sha256": "a2280731fef9b3704ec3a463a3a2710c35ace4508df194db826261b9bd75f349",
+      "size_bytes": 793
     },
     {
       "path": "shared/tables/tab_official_scene_submission_closure_status.tex",
-      "sha256": "afebcdb0cea531e3ce44662d2868dcecfd0dbc5567ab2e84fe2d699dc1467e8b",
-      "size_bytes": 1243
+      "sha256": "a63bfce71a0ffeb2e6a076f8eb5cdb0c7085b2166bb3c5d89626b7d78f10f6c3",
+      "size_bytes": 1265
     },
     {
       "path": "shared/tables/tab_reviewer_closure_paired_ci.tex",
-      "sha256": "ae2280ba7d7ba40d211eb9b3e37c8554861402ca1f874c457b14f780880e0da5",
-      "size_bytes": 1526
+      "sha256": "6d849a66ee00c77de11f035b77437164c4af58db6fe5c897195085afe6286225",
+      "size_bytes": 1492
     },
     {
       "path": "shared/tables/tab_vlm_coordinate_baselines.tex",
@@ -140,74 +210,84 @@
       "size_bytes": 828
     },
     {
+      "path": "venues/acl27/ARTIFACT_PROVENANCE_DRAFT.md",
+      "sha256": "0b085c1ab6de4a7c4f428e13293e83a327a874ccb2b9dfcd9c0abb54c89dc90b",
+      "size_bytes": 9285
+    },
+    {
       "path": "venues/acl27/OPENREVIEW_METADATA_PACKET.md",
-      "sha256": "3785e020f23940451902124c1a120613bd8bc16040e599e5723d4ef41a5323d1",
-      "size_bytes": 4625
+      "sha256": "b02aa921ab05a287f7e4fcb2b144d3c84b4f9ba914fd10f1909362315889a601",
+      "size_bytes": 4592
     },
     {
       "path": "venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md",
-      "sha256": "924632010a30bb739298659bbea5105c173bac0c7945b5bd1beceb0dbc8435ec",
-      "size_bytes": 10084
+      "sha256": "63214af75066906e8ac1a9b34776f7b711472aaad3da8035ab09f48f4350f61a",
+      "size_bytes": 10799
     },
     {
       "path": "venues/acl27/TARGET_CALL_POLICY_AUDIT.md",
-      "sha256": "6f6e07a0670faf56d57a5763162c9ab620808d0b9a50ad18e8c1624567f0b636",
-      "size_bytes": 8182
+      "sha256": "f6f944fdf84ad200dbd03a1125d5134d9bd23575e42fc0a43735bfc3152de1ec",
+      "size_bytes": 10245
     },
     {
       "path": "venues/acl27/TARGET_LOCK_OPENREVIEW_REHEARSAL.md",
-      "sha256": "0d3a22df9e54db0ca645463c98f8c37d7da8b300b68f21582b7f5588dfe66a73",
-      "size_bytes": 7956
+      "sha256": "0e070e5ed82e7cde1eddd798d057accb4da24cb1dfb88534ec80f0195e27cbcb",
+      "size_bytes": 9167
     },
     {
       "path": "venues/acl27/main.tex",
-      "sha256": "6b9f83ae351a058d2d1854ee66db3da032f071689f838dcf1299c1ac32c9cb1a",
-      "size_bytes": 884
+      "sha256": "70a88072f192257d11909e455bb4a314643c3a3b7448498b9ed8c7f43b279e3f",
+      "size_bytes": 1051
+    },
+    {
+      "path": "venues/acl27/preamble.tex",
+      "sha256": "463633780fe4eb853be7de9b0250545032b5073c3bbd05e60d4ea21fe79ea943",
+      "size_bytes": 476
     },
     {
       "path": "venues/acl27/sections/abstract.tex",
-      "sha256": "68a25fd98ec079587f47a81c5ca605d8cea90615a574c4cfee5840ea563c2074",
-      "size_bytes": 1484
+      "sha256": "0af6bb6f61130ffc07f54d064a1bf6e28e0002e398577194c7c5ef0bc163dedf",
+      "size_bytes": 1207
     },
     {
       "path": "venues/acl27/sections/conclusion.tex",
-      "sha256": "5230b1b21c9792385ab16792fce6241cdfa73c2d38ec3207d4d90ee7a65e39f8",
-      "size_bytes": 1841
+      "sha256": "ed969e0cb72218a46e12b3621d21191f236e522d60e02abaa3035d1b569e19bd",
+      "size_bytes": 471
     },
     {
       "path": "venues/acl27/sections/discussion.tex",
-      "sha256": "c31acfdd2546740b524d44e6570d94ebd4517c4bb8bf6e9b6857fa577df4ece9",
-      "size_bytes": 2689
+      "sha256": "c6e51c2506e8beeda9f113b291f8eee4d2497403a4a3bf75f40dd519ea865dbb",
+      "size_bytes": 1552
     },
     {
       "path": "venues/acl27/sections/ethical-considerations.tex",
-      "sha256": "4ff1dc8c5e7603b47d6674a6cdcce0a90d78b58bcd6a20f0625daf0f04b1a9fc",
-      "size_bytes": 754
+      "sha256": "2e61303681318404d58ed1c28c159aa8ba771c290d61ad6a06e9df1056377222",
+      "size_bytes": 1235
     },
     {
       "path": "venues/acl27/sections/intro.tex",
-      "sha256": "5cda101e2b63465acb16db5fb9dffc0a4366bf7aa77ca4ed3c0e9aebd17abdbc",
-      "size_bytes": 4326
+      "sha256": "4b25a6e01c576212166d206865829b2a01905c3ef5636d83fed54343428587fb",
+      "size_bytes": 3411
     },
     {
       "path": "venues/acl27/sections/limitations.tex",
-      "sha256": "a980e3cbe02200d578a9cfab8930571b61c271a57c7dfbd08f9d8aaba9262847",
-      "size_bytes": 2223
+      "sha256": "918f1962425b6e0c3783387bca04dbd7a12ec93a32028a70a1501a00240bffb2",
+      "size_bytes": 1732
     },
     {
       "path": "venues/acl27/sections/method.tex",
-      "sha256": "b54b38db598e477432b6e0f7b697e4e8b194e5cf88228c0f7d89f98393de6637",
-      "size_bytes": 3570
+      "sha256": "4d36530715eae184f088cae940245f179161c32a5c5aeeb8f3dcb411647263b2",
+      "size_bytes": 2808
     },
     {
       "path": "venues/acl27/sections/related.tex",
-      "sha256": "94835d34fe3c416eefebd0f17e0f4cfa35f7ee0b5632762f15779c99555a8f8e",
-      "size_bytes": 3325
+      "sha256": "a8a8e163964d1bb11c4a4e923e99078f6c882cbd9d4c0bbe2405fd84ea1f2762",
+      "size_bytes": 2698
     },
     {
       "path": "venues/acl27/sections/results.tex",
-      "sha256": "17ec0bb9a745a633ed1d4eaedfed1c8422fc5fd67c522b99878c397a4ba3d2c7",
-      "size_bytes": 5387
+      "sha256": "751994a0553512efc146326db037901d020aba8db7ea977a5d6d93272dea9d02",
+      "size_bytes": 5934
     }
   ]
 }

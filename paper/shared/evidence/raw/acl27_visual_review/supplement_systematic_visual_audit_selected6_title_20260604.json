@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "review_id": "acl_supplement_systematic_visual_audit_selected6_title_20260604",
+  "date_utc": "2026-06-04",
+  "scope": "Systematic ACL27 supplement visual audit for obvious clipping, bad scaling, incomplete figures, black tiles, and caption/image collisions",
+  "user_request": "Continue systematically scanning the ACL supplement for other obvious occlusion, bad scaling, or incomplete figure display problems.",
+  "audit_method": [
+    "Rebuilt paper/venues/acl27/build/supplement.pdf.",
+    "Rendered all 45 supplement pages at 150 dpi.",
+    "Generated compact 45-page and three 15-page contact sheets for coarse scanning.",
+    "Opened candidate dense pages 22, 23, 24, 28, 31, 32, 33, 34, 35, 36, 37, 38, 42, and 44 at page scale.",
+    "Cross-checked PDF image inventory with pdfimages -list for obvious low-resolution or PDF-layer crop anomalies."
+  ],
+  "confirmed_defect": {
+    "page": 32,
+    "figure": "Figure S30 / selected official navigation cases with divergent trajectories",
+    "root_cause": "The selected6 navigation crop generator used a fixed y box that started inside the case03/case04 title rows. The standalone PNGs therefore already had clipped or missing top titles before LaTeX placed them.",
+    "before_symptom": "Supplement page 32 showed only partial title strokes at the top of the first case panel.",
+    "fix": "Moved the selected6 case03-case06 crop boxes upward to include the full case title rows and avoid carrying the next row title into the previous crop."
+  },
+  "changes": [
+    "Adjusted selected6 crop boxes in paper/shared/figures/gen_acl_supplement_navigation_crops.py.",
+    "Regenerated paper/shared/figures/supplement/internnav_selected6_case03.png and internnav_selected6_case04.png; case05/case06 were also regenerated for consistent future reuse.",
+    "Added a regression test requiring selected6 case crop titles to have a visible top margin instead of being clipped at y=0.",
+    "Rebuilt and re-rendered the supplement after the fix."
+  ],
+  "local_visual_review": {
+    "reviewer": "Codex local visual review using browser-visual-review and render-visual-reviewer paper figure protocols; no subagent spawned because this environment only permits spawn_agent when explicitly requested.",
+    "final_verdict": "PASS for this pass. No remaining obvious hard clipping, black padded tile, incomplete figure footer, or caption/image collision was found in the final 45-page contact-sheet scan.",
+    "candidate_pages_reviewed": {
+      "22": "PASS: GRScenes failure-taxonomy companion is dense but complete; red panels are source scene content.",
+      "23": "PASS: PASS-only companion is complete and caption does not collide.",
+      "24": "PASS: zoom-stress companion and audit strip are contained.",
+      "28": "PASS: material decision map, render matrix, and visual decision gate are contained.",
+      "31": "PASS: selected6 pair01 titles and panels are complete.",
+      "32": "PASS after fix: selected6 pair02 case03/case04 titles are complete.",
+      "33": "PASS: selected6 neutral companion panels are contained.",
+      "34": "PASS: 0036/0066 asymmetric case page is complete.",
+      "35": "PASS: 0036/0066 divergent case page is complete.",
+      "36": "PASS: 0036/0066 neutral companion is contained.",
+      "37": "PASS: navigation media boundary strip remains dense but complete.",
+      "38": "PASS: upload-gate closure card is contained.",
+      "42": "PASS: review-packet contact sheet has no black padded tile recurrence.",
+      "44": "PASS: source-boundary companion gate and source trays are contained."
+    },
+    "residual_caveat": "Several supplement pages remain intentionally dense review indexes. This pass treats hard clipping, missing figure content, unreadable source title crops, black padded tiles, and figure/caption collision as blockers; it does not rewrite every dense index into a lower-density layout."
+  },
+  "before": {
+    "page32_prior_render": {
+      "path": "tmp/acl_supplement_systematic_visual_audit_20260604/pages_150/page-32.png",
+      "sha256": "33d78c93c7ec1a1f53ee3eb6f3de26b65861b873bf08c2b44a77ac6070c492e9",
+      "size": [
+        1241,
+        1754
+      ],
+      "layout_active": 0.19100488167026078,
+      "near_black": 0.02780843050579911,
+      "red_ratio": 0.0004010632540609377
+    }
+  },
+  "after": {
+    "standalone_selected6_case03": {
+      "path": "paper/shared/figures/supplement/internnav_selected6_case03.png",
+      "sha256": "81e5e3f29443e215d5a2a443f0f7ef7e7688843bae575d9ecaa69fbf6a101422",
+      "size": [
+        1106,
+        380
+      ],
+      "layout_active": 0.6777695821833064,
+      "near_black": 0.1393285428761778,
+      "red_ratio": 0.0006923955458265918,
+      "min_dark_y_top40": 18
+    },
+    "standalone_selected6_case04": {
+      "path": "paper/shared/figures/supplement/internnav_selected6_case04.png",
+      "sha256": "e95e4904f214d3972ccb3355bdf17556fba3d8b6970a7a6d9c214e7dab635220",
+      "size": [
+        1106,
+        380
+      ],
+      "layout_active": 0.6775673360616732,
+      "near_black": 0.0632197582564005,
+      "red_ratio": 0.002310364518892167,
+      "min_dark_y_top40": 6
+    },
+    "page32_final_render": {
+      "path": "tmp/acl_supplement_systematic_visual_audit_20260604/final_pages_150/page-32.png",
+      "sha256": "0cf4e073b3e31a1549dd4eec084d15134ee225d2182661591bd36707c91d8176",
+      "size": [
+        1241,
+        1754
+      ],
+      "layout_active": 0.19257467908048553,
+      "near_black": 0.027798782936113795,
+      "red_ratio": 0.00040290088638195
+    },
+    "final_contact_sheet_compact": {
+      "path": "tmp/acl_supplement_systematic_visual_audit_20260604/final_contact_sheets/pages_01_45_compact.png",
+      "sha256": "a42e0561bdfe086e0ff9b9eeb1aa2aeba497ca4fc1601e0924bd01abe54665d5",
+      "size": [
+        1282,
+        3469
+      ],
+      "layout_active": 0.21055131049289247,
+      "near_black": 0.0037845791721550673,
+      "red_ratio": 0.00023407681767057364
+    },
+    "final_contact_sheet_pages31_45": {
+      "path": "tmp/acl_supplement_systematic_visual_audit_20260604/final_contact_sheets/pages_31_45.png",
+      "sha256": "3acbca4dd163845022f8f41344aca9b177f4f397baf858476f9afb965dbbf635",
+      "size": [
+        1168,
+        2852
+      ],
+      "layout_active": 0.2052458980960249,
+      "near_black": 0.004564809122173337,
+      "red_ratio": 0.00026117216469096426
+    },
+    "supplement_pdf": {
+      "path": "paper/venues/acl27/build/supplement.pdf",
+      "sha256": "61b31811a638a9fbacc25b2c5952caba94a7736d4ba15b3399d0e918ccb84ddd",
+      "pages": 45
+    }
+  },
+  "commands_run": [
+    "make -C paper acl27-supplement",
+    "pdftoppm -png -r 150 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_systematic_visual_audit_20260604/pages_150/page",
+    "pdfimages -list paper/venues/acl27/build/supplement.pdf",
+    "python -m pytest -q tests/test_paper_layout.py -k 'navigation_selected6_crops_keep_titles_visible'",
+    "python paper/shared/figures/gen_acl_supplement_navigation_crops.py",
+    "python -m pytest -q tests/test_paper_layout.py -k 'navigation_selected6_crops_keep_titles_visible or groups_internnav_case_figures'",
+    "pdftoppm -png -r 150 -f 31 -l 36 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_systematic_visual_audit_20260604/selected6_title_fix_pages_150/page",
+    "pdftoppm -png -r 150 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_systematic_visual_audit_20260604/final_pages_150/page",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "make -C paper acl27-supplement",
+    "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_systematic_visual_audit_selected6_title_20260604.json >/dev/null",
+    "git diff --check -- paper/shared/figures/gen_acl_supplement_navigation_crops.py tests/test_paper_layout.py docs/records/README.md docs/records/2026-06-04-acl-supplement-systematic-visual-audit-selected6-title.md paper/shared/evidence/raw/acl27_visual_review/supplement_systematic_visual_audit_selected6_title_20260604.json"
+  ],
+  "files_changed": [
+    "paper/shared/figures/gen_acl_supplement_navigation_crops.py",
+    "paper/shared/figures/supplement/internnav_selected6_case03.png",
+    "paper/shared/figures/supplement/internnav_selected6_case04.png",
+    "paper/shared/figures/supplement/internnav_selected6_case05.png",
+    "paper/shared/figures/supplement/internnav_selected6_case06.png",
+    "tests/test_paper_layout.py",
+    "paper/shared/evidence/raw/acl27_visual_review/supplement_systematic_visual_audit_selected6_title_20260604.json",
+    "docs/records/2026-06-04-acl-supplement-systematic-visual-audit-selected6-title.md",
+    "docs/records/README.md"
+  ],
+  "follow_up_risks": [
+    "Dense review-index pages can still be improved editorially, but no obvious hard display failure remained in this scan.",
+    "Future crop generators should avoid fixed y boxes without title-margin regression checks."
+  ]
+}

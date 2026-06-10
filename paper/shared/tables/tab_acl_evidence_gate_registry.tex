@@ -1,17 +1,20 @@
 \begin{table*}[t]
 \centering
 \footnotesize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{p{0.15\textwidth}p{0.30\textwidth}p{0.24\textwidth}p{0.22\textwidth}}
+\setlength{\tabcolsep}{4pt}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\begin{tabular}{L{0.16\textwidth}L{0.29\textwidth}L{0.25\textwidth}L{0.21\textwidth}}
 \toprule
-Gate & Evidence used & Claim supported & Forbidden promotion \\
+Evaluation check & Data used & What it tests & Scope limit \\
 \midrule
-Proxy similarity & Four Isaac Sim assets; 24 matched render pairs; PSNR, SSIM, LPIPS, CLIP, DINOv2, and load/render diagnostics. & Converted assets pass a visual and feature-screening gate. & Task preservation, broad robustness, or speedup. \\
-VLM grounding & GRScenes 15-pair clean pilot and frozen 30-pair target-centered stress set with answer, point-in-box, and coordinate scoring. & Material perturbation can be evaluated as bounded answer and point-grounding evidence. & Population-level GRScenes benchmark claims or general VLM rankings. \\
-Material mechanisms & Selected opacity/transparency, emission, normal/bump, and displacement/height bins, plus clearcoat and procedural supplemental cases; original/noMDL/NVIDIA conditions are separated. & Covered bins have selected static and qualitative support; clearcoat and procedural texture remain scoped failure or limitation cases. & NVIDIA population failure rates, official-scene NVIDIA performance, or procedural-texture success. \\
-Embodied-data sanity & Official KuJiaLe InternNav 99 paired episodes over three scenes plus official-scene load/render stability. & Converted scenes can enter the selected official downstream stack and load/render repeatedly. & Broad embodied-navigation robustness, all-scene preservation, or noMDL speedup. \\
+Proxy render check & 4 Isaac Sim assets; 24 matched pairs; PSNR/SSIM/LPIPS, CLIP/DINOv2, and load-render diagnostics. & Whether converted assets remain close to source MDL views in controlled visual and feature checks. & Task preservation, broad robustness, or speedup. \\
+VLM grounding probe & GRScenes 15-pair clean pilot plus frozen 30-pair material-shift stress set with answer and point scoring. & Whether answer and point grounding remain stable for the recorded target-centered render pairs. & Population GRScenes conclusions or general VLM rankings. \\
+Material-effect audit & Selected opacity, emission, normal/bump, and height bins; supplemental clearcoat and procedural cases; original/noMDL/NVIDIA separated. & How selected material bins and known limitation cases behave across original/noMDL/NVIDIA outputs. & NVIDIA population failure rates, official-scene NVIDIA performance, or procedural-texture preservation. \\
+Stack-entry check & Official KuJiaLe InternNav 99 paired episodes over three scenes plus repeated load-render checks. & Whether selected converted scenes load, render, and run in the official KuJiaLe/InternNav stack. & Broad navigation robustness, all-scene preservation, or noMDL speedup. \\
 \bottomrule
 \end{tabular}
-\caption{Evidence-gate registry for the ACL/ARR claim boundary. Each gate lists the evidence that may be used, the claim it supports, and the promotion that remains forbidden without new evidence.}
+\vspace{0.7em}
+\includegraphics[width=\textwidth,height=0.50\textheight,keepaspectratio]{figures/fig_supplement_evidence_gate_registry_companion.png}
+\caption{Evaluation scope for the four checks used in this paper, with a visual companion below the rows. Each row lists the data used, what the check measures, and the resulting scope limit. The proxy, GRScenes VLM, material-effect, and InternNav thumbnails link the table entries to the corresponding evidence used later in the paper.}
 \label{tab:acl_evidence_gate_registry}
 \end{table*}

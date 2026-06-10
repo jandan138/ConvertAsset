@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-05-30",
+  "review_type": "local_pure_visual_full_pdf_review_post_manual_pagebreak_removal",
+  "independent_subagent_used": false,
+  "supersedes_pdf_sha256": "a66a67324f267ab7e41b4fb75993efef6969129148fc3ee95156bcdd6f5488ed",
+  "note": "Reviewed locally with the render-visual-reviewer rubric after removing a manual Introduction page break and restaging through the consolidated pre-upload gate. No fresh image generation was performed because the accepted Figure 1 v18 and empirical Figures 2-4 did not show a specific visual defect that would justify another generated candidate.",
+  "artifact": {
+    "path": "paper/submissions/acl27_arr_candidate_20260526/main.pdf",
+    "sha256": "177466b7d0cf6a557f73f792dc6f718fdae8f42663e7398a54bc2d9252cde356",
+    "size_bytes": 4066770,
+    "page_count": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "pdf_version": "1.5",
+    "created": "Sat May 30 20:25:01 2026 CST"
+  },
+  "rendered_pages": {
+    "dpi": 150,
+    "path_root": "/tmp/convertasset_acl27_visual_20260530_no_manual_break_final",
+    "contact_sheet_sha256": "895062a4428ec572e908db2643077474339171ee459455c0a4bae816d79c20a1",
+    "page_sha256": {
+      "page_01": "811e00d49062b29a37e823b0752332e92abd13a31fb6aa69ad37474dbd1be237",
+      "page_02": "980f7931c141e6ae389421da30d5196f2e96a6f28f9b1d06e3c9b1f2bab05874",
+      "page_03": "36f88a6686782340fe5436b90b90bc9b09a60894a1816dd80b533160b69eabe1",
+      "page_04": "938afe691cb0aa8c9d004c66bdfc3a009a8f142b930894507af854bc36ad6c61",
+      "page_05": "540969e84391d3fcfd42611979396ab27f5dc432bee4211615dd6f12d3c87bfb",
+      "page_06": "d2e25d28ad445974ed0b79fbd9b10339dcb399958c31085fc192172cbd620057",
+      "page_07": "43b24402e5e690e53f021999108946ba8897e57ffcfa47af319d567270d42456",
+      "page_08": "2898ea13de893b98f078971732a2107592dbef3f83cc9816635c7fd794faaf60",
+      "page_09": "087ae75467e45fa1fdee6e30c24d0c99c2384e493955bd5d63a5e6846016d481",
+      "page_10": "95b2490acdbc31ca40aed496404890a34a7de64fdf3f15701c2c54d00681e79a",
+      "page_11": "66db72d1f17d31627b5a7ecedc2de85a58baa9dea487dc53e44f1fb23d20691f"
+    }
+  },
+  "text_guard": {
+    "command": "pdftotext paper/submissions/acl27_arr_candidate_20260526/main.pdf - | rg -n \"Figure [1-4]:|Table [1-6]:|Limitations|Ethical Considerations|References|undefined|\\?\\?\"",
+    "found_required_anchors": [
+      "Figure 1",
+      "Table 1",
+      "Figure 2",
+      "Table 2",
+      "Table 3",
+      "Table 4",
+      "Table 5",
+      "Table 6",
+      "Figure 3",
+      "Figure 4",
+      "Limitations",
+      "Ethical Considerations",
+      "References"
+    ],
+    "undefined_or_question_mark_markers_found": false
+  },
+  "overall_verdict": "PASS_WITH_MINOR_QUALITATIVE_CAVEATS",
+  "blocking_visual_failures": [],
+  "page_review": [
+    {
+      "page": 1,
+      "verdict": "PASS",
+      "visible_evidence": "Title, anonymous author block, abstract, and opening introduction are readable and centered on VLM grounding and embodied-data reliability.",
+      "main_risk": "Venue route and private author fields remain human-side issues, not visible layout defects."
+    },
+    {
+      "page": 2,
+      "verdict": "PASS",
+      "visible_evidence": "Figure 1 v18 is readable at page scale, keeps the exact Target: box label, and its caption is attached. The contribution list now flows after Figure 1 without a manual page break.",
+      "main_risk": "Figure 1 remains schematic generated artwork and should not be described as empirical render evidence."
+    },
+    {
+      "pages": "3-5",
+      "verdict": "PASS",
+      "visible_evidence": "Related work, method, Results opening, and Table 1 flow normally with no visible overlap, clipped text, or detached table caption.",
+      "main_risk": "Table 1 is dense, but it is readable enough to support the evidence-gate framing."
+    },
+    {
+      "page": 6,
+      "verdict": "PASS_WITH_CAVEAT",
+      "visible_evidence": "Figure 2, Table 2, and the transition into the embodied-data section remain aligned with no visible overlap or clipping.",
+      "main_risk": "Figure 2 top row remains a deliberately cropped proxy detail; keep the cropped-proxy caveat."
+    },
+    {
+      "page": 7,
+      "verdict": "PASS_WITH_CAVEAT",
+      "visible_evidence": "Tables 3-6 are dense but readable at page scale, with captions attached and no table collision after the Introduction page-break removal.",
+      "main_risk": "This page is numeric-evidence heavy and depends on captions plus claim-boundary text to prevent over-reading."
+    },
+    {
+      "page": 8,
+      "verdict": "PASS_WITH_CAVEAT",
+      "visible_evidence": "Figure 3 remains clean: Original MDL, ConvertAsset, and NVIDIA columns are visible, with no abnormal red material fallback. The compact provenance caption stays attached, and the strengthened conclusion remains readable in the right column.",
+      "main_risk": "The right column begins with a continued Discussion paragraph before Conclusion, but it is readable and not a blocking float/layout failure."
+    },
+    {
+      "page": 9,
+      "verdict": "PASS_WITH_CAVEAT",
+      "visible_evidence": "Figure 4 path panel, caption, Limitations, and Ethical Considerations remain visually coherent with no overlap or blank-column regression.",
+      "main_risk": "In-panel navigation stills are necessarily small because the figure shows three selected cases across original/noMDL start/end columns."
+    },
+    {
+      "pages": "10-11",
+      "verdict": "PASS",
+      "visible_evidence": "References are readable in two columns, continue cleanly to page 11, and show no clipping or raw LaTeX artifacts.",
+      "main_risk": "No visible layout risk beyond normal reference-page density."
+    }
+  ],
+  "claim_boundary": [
+    "Figure 1 remains schematic imagegen art only.",
+    "Figures 2-4 are selected visual evidence and do not replace frozen tables, manifests, logs, or claim-boundary gates.",
+    "No new generated image should be introduced without a concrete visual defect and a fresh visual-review pass."
+  ],
+  "imagegen_decision": "No new imagegen iteration was run in this pass. The current visual defect search did not identify a reviewer-facing issue that another generated bitmap would solve, and unnecessary regeneration would risk in-image text errors.",
+  "follow_up": [
+    "Keep the next visual work focused on optional supplement/media packaging or a specific reviewer-facing visual defect.",
+    "Do not regenerate the current main-paper method-chain schematic unless the new candidate improves on v18 and passes text-accuracy review."
+  ]
+}

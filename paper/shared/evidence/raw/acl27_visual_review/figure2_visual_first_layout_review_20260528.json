@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "status": "figure2_visual_first_layout_review",
+  "reviewed_at_utc": "2026-05-28T07:30:00Z",
+  "reviewer_mode": "local_codex_visual_review_not_independent_subagent",
+  "source_figure": {
+    "path": "paper/shared/figures/fig_render_scene_evidence_wide.png",
+    "hash_sha256": "c3916d57c87efd00edda9052f8a643881cd0e400959de7af669d4f45e6db5758"
+  },
+  "generator": {
+    "path": "paper/shared/figures/gen_render_scene_evidence_wide.py",
+    "hash_sha256": "982101790fbb7a7a3f1ef88209a12fbb8809453197662e1fc84498835c79c5ff"
+  },
+  "current_pdf": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "hash_sha256": "1a7e3be4f3fea42f5fc8ec3359522a828e0ab2d71f8190054ee8357f81afbf24",
+    "pages": 11,
+    "bytes": 3615704,
+    "creation_date": "Thu May 28 15:34:05 2026 CST"
+  },
+  "rendered_page_check": {
+    "temporary_path": "/tmp/convertasset_acl27_fig2_polish_final/page-06.png",
+    "hash_sha256": "c4bcad2fb1e5f47037e2c7c7cf3a7a6ea4879a6f3160ca7a690e2f4396d75ca2",
+    "page": 6
+  },
+  "verdict": "PASS_WITH_CAVEAT",
+  "visible_evidence": [
+    "Figure 2 now uses a visual-first layout with larger real-render panels and no internal title, subtitle, or footer microcopy.",
+    "The proxy object detail row and GRScenes scene row are readable at PDF page scale.",
+    "The external LaTeX caption remains attached and carries the claim boundary.",
+    "Figure 2, Table 2, and following body text do not overlap after the layout change."
+  ],
+  "remaining_caveats": [
+    "The proxy object row is still a cropped high-key white furniture detail, so it should orient readers rather than carry a standalone visual-fidelity claim.",
+    "Figure 2 still floats on page 6; nearby text references keep it connected, but it is not immediately adjacent to the first Results paragraph."
+  ],
+  "claim_boundary": {
+    "may_support": "visual orientation for the proxy-similarity gate and GRScenes context",
+    "must_not_support": [
+      "VLM equivalence",
+      "task preservation",
+      "population-level robustness",
+      "uncropped full-object inspection"
+    ]
+  }
+}

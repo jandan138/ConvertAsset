@@ -1,0 +1,60 @@
+{
+  "review_id": "main_round18_related_method_transition_story_polish_20260606",
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "artifact": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "89ce4ab1c6211c81a6456882405919a862e10d75e5f803f652d989dfd2b6a5a6",
+    "pages": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "bytes": 5189623,
+    "created": "Sat Jun 6 10:39:30 2026 CST"
+  },
+  "scope": [
+    "paper/venues/acl27/sections/related.tex",
+    "paper/venues/acl27/sections/method.tex"
+  ],
+  "visual_artifacts": {
+    "before_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round18_current/contact_sheets/main_pages_01_11_current.png",
+    "before_page3": "tmp/acl_main_visual_iter_20260606_round18_current/pages_180/main-03.png",
+    "before_layout_text": "tmp/acl_main_visual_iter_20260606_round18_current/text/main_layout.txt",
+    "after_page3": "tmp/acl_main_visual_iter_20260606_round18_after/pages_180/main-03.png",
+    "after_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round18_after/contact_sheets/main_pages_01_11_after.png",
+    "after_layout_text": "tmp/acl_main_visual_iter_20260606_round18_after/text/main_layout.txt"
+  },
+  "visual_findings": [
+    "The round-18 contact sheet showed no hard crop or float displacement; the selected target was page 3, where Related Work hands off to Method.",
+    "The pre-edit transition had the right claim boundary but the proxy-metric paragraph still read like a list of diagnostics before Method began.",
+    "The accepted Related Work paragraph now states the story beat more directly: proxy metrics tell whether pixels or features stay close, while grounding systems expose a different contract.",
+    "The accepted Method opener turns that distinction into the paper's gate sequence and keeps intervention, evidence layer, and supported claims separate.",
+    "The after full contact sheet keeps the 11-page structure stable and does not visibly displace the Method, Results, figures, tables, Ethical Considerations, or References."
+  ],
+  "change_summary": [
+    "Rewrote the final Related Work paragraph so proxy metrics become the first evidence layer rather than a standalone diagnostic list.",
+    "Rewrote the Method opener to connect the Related Work distinction to the evidence-gate sequence.",
+    "Preserved all citations, evidence gates, claim boundaries, and reported counts."
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed; rebuilt/confirmed paper/venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "passed; no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "passed; 85 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "passed; ok=true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "passed; ok=true; abstract_word_count=169"
+    }
+  ],
+  "residual_risk": "Focused page-3 Related Work to Method transition polish only; this is not a final upload audit, target-policy refresh, or integrity-fingerprint refresh."
+}

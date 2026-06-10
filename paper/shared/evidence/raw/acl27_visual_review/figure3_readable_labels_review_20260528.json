@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "status": "figure3_readable_labels_review",
+  "reviewed_at_utc": "2026-05-28T07:52:00Z",
+  "reviewer_mode": "local_codex_visual_review_not_independent_subagent",
+  "source_figure": {
+    "path": "paper/shared/figures/fig_material_effect_baseline_qualitative.png",
+    "hash_sha256": "e0cea32c186661ce2efcf736fd7fb0f714f7d78b411364b029374e0e473e187a"
+  },
+  "generator": {
+    "path": "paper/shared/figures/gen_material_effect_qualitative.py",
+    "hash_sha256": "a42e7a61bb0f7dc3eb046af09e21718b643eb29fa37ef03e64fca107d524fa78"
+  },
+  "generator_report": {
+    "path": "paper/shared/figures/fig_material_effect_baseline_qualitative.report.json",
+    "hash_sha256": "1f1c254c90c562921173bba60f5e2132064cedb2b572a834dc12401bda3284df"
+  },
+  "current_pdf": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "hash_sha256": "cafa41976b46f16760883e0dd70bd69a1a777f16caa7136d8ec5b648a3b64156",
+    "pages": 11,
+    "bytes": 3625413,
+    "creation_date": "Thu May 28 15:56:58 2026 CST"
+  },
+  "rendered_page_check": {
+    "temporary_path": "/tmp/convertasset_acl27_fig3_readability_final/page-08.png",
+    "hash_sha256": "ba29e98a331afea7af10458120af6f0968599bbc38547129c0ea2ffc919d42a2",
+    "page": 8
+  },
+  "verdict": "PASS_WITH_CAVEAT",
+  "visible_evidence": [
+    "Figure 3 remains on page 8 and keeps the original MDL, ConvertAsset, and NVIDIA columns aligned.",
+    "Each row now has a larger target/effect label above the render triplet rather than tiny footer microcopy.",
+    "The source and PDF-rendered Figure 3 show no obvious red fallback material signal.",
+    "Figure 3 caption, Discussion text, and Conclusion text do not overlap after the layout change."
+  ],
+  "remaining_caveats": [
+    "The panel remains selected qualitative evidence and cannot support a population-level NVIDIA failure-rate claim.",
+    "Some NVIDIA baseline cells are visually low-contrast because that is the recorded render evidence, not a layout artifact."
+  ],
+  "claim_boundary": {
+    "may_support": "bounded selected visual inspection for the covered material-effect bins",
+    "must_not_support": [
+      "population-level material-effect failure rate",
+      "mechanism-level MDL preservation",
+      "NVIDIA official-scene performance",
+      "procedural-texture success"
+    ]
+  }
+}

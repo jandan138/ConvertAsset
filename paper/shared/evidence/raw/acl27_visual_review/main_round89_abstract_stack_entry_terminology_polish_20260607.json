@@ -1,0 +1,102 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 89,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main abstract stack-entry terminology polish",
+  "before_pdf_sha256": "999b351fbae6a5ae5b74cc0037c70731f80ce016ec8ac8d7d70b945afa5d71e6",
+  "after_pdf_sha256": "7eb468adee807132e3db5d6371fc3125538bea48bc89774bb0c13c2e2de3f47f",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round89_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round89_after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "rendered_after_screenshots": [
+      "tmp/acl_main_visual_iter_20260607_round89_after/page-01.png"
+    ],
+    "before_page1_png_sha256": "a2a975d140e63deb3d5efda88fe7d589d204cffa5abeceb68be9ab691b11ae3f",
+    "after_page1_png_sha256": "39209562d11d45dab5cc1276fca8652e7680f83d50c2a1049e682c04386bf737",
+    "before_page1_text_sha256": "e879ae1e607c72dc0d499653bbd05254394430c8ac318103ea0a706381b8679f",
+    "after_page1_text_sha256": "4a98fd5ed1a7fdd3b2263483366eadbfcd6d964a70f73d8e61d399c6f784e40d",
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round89_after/page"
+  },
+  "defect": {
+    "pages": [
+      1
+    ],
+    "class": "abstract stack-entry terminology",
+    "before_text_matches": [
+      "page 1 line 025: material audit and an official InternNav",
+      "page 1 line 026: sanity run over 99 episodes set the"
+    ],
+    "reader_effect": "The first-page abstract still used the colloquial sanity-run label after Results had been tightened to stack-entry evidence."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/abstract.tex",
+      "summary": "Changed the abstract phrase from sanity run to stack-entry check."
+    },
+    {
+      "path": "paper/venues/acl27/OPENREVIEW_METADATA_PACKET.md",
+      "summary": "Synchronized the OpenReview metadata abstract with the revised PDF abstract."
+    }
+  ],
+  "rejected_iterations": [],
+  "after_evidence": {
+    "targeted_scan_result": "Page 1 shows stack-entry check over 99 episodes; the explicit hyphen is not at a line end.",
+    "full_scan_result": "The enhanced after scan reports only the existing explicit human-subject wording and normal reference-column hyphenation on pages 9-10.",
+    "visual_result": "The first-page abstract and Introduction handoff remain visually stable.",
+    "page_count": 10,
+    "metadata_result": "Source and metadata abstracts match; abstract_word_count remains 168."
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 15.45s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true; abstract_word_count 168"
+    }
+  ],
+  "claim_boundary": "First-page abstract terminology and matching OpenReview metadata abstract only. No metrics, evidence pools, figures, tables, citations, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "Related Work and Limitations still use sanity-check wording in scoped contexts and can be considered in later terminology passes; reference pages retain normal reference-column hyphenation."
+}

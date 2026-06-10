@@ -1,0 +1,86 @@
+{
+  "review_id": "supplement_grscenes_failure_taxonomy_v3_20260604",
+  "date": "2026-06-04",
+  "target_pdf": "paper/venues/acl27/build/supplement.pdf",
+  "target_page": 22,
+  "figure_id": "fig_supplement_grscenes_failure_taxonomy_table_companion",
+  "change_summary": "Filled the unused third companion row with registered picture and faucet original/noMDL render pairs while keeping Table S4, the caption, the explanatory paragraph, and the 45-page supplement layout unchanged.",
+  "standalone_figure": {
+    "path": "paper/shared/figures/fig_supplement_grscenes_failure_taxonomy_table_companion.png",
+    "sha256": "120eb278bd978eab1ea9b167dc2c6cebd204b3768c2245960b6b72985f22e6ea",
+    "size_px": [1800, 1260],
+    "active238_fraction": 0.361131393,
+    "active245_fraction": 0.371723545,
+    "red_pixel_fraction": 0.011179012,
+    "previous_v2_active238_fraction": 0.281968254,
+    "delta_from_v2_active238_fraction": 0.079163139
+  },
+  "pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "5a206468cc3e73180828c64317d643b12ac66cdfd7e5321d799640a519b003b7",
+    "pages": 45,
+    "page_size": "A4"
+  },
+  "page_renders": [
+    {
+      "page": 21,
+      "dpi": 144,
+      "path": "tmp/acl_supplement_page22_grscenes_failure_v3_final_20260604/page-21.png",
+      "sha256": "487096ed874ae847f11b484c287d55334d8498345c11073ceffe3c52367277a5",
+      "size_px": [1191, 1684],
+      "active238_fraction": 0.134519885,
+      "active245_fraction": 0.137548339,
+      "red_pixel_fraction": 0.0
+    },
+    {
+      "page": 22,
+      "dpi": 144,
+      "path": "tmp/acl_supplement_page22_grscenes_failure_v3_final_20260604/page-22.png",
+      "sha256": "3d461a2015146dc07b8b24c913fc4e5750c1095a399fe05fb50bd110d27188f3",
+      "size_px": [1191, 1684],
+      "active238_fraction": 0.145370265,
+      "active245_fraction": 0.150923095,
+      "red_pixel_fraction": 0.003173544
+    },
+    {
+      "page": 23,
+      "dpi": 144,
+      "path": "tmp/acl_supplement_page22_grscenes_failure_v3_final_20260604/page-23.png",
+      "sha256": "7c6cbbd1794a4b75d163ce7e21188e5f8551a1aea2fda6890a434abb76c7b668",
+      "size_px": [1191, 1684],
+      "active238_fraction": 0.137924776,
+      "active245_fraction": 0.142405631,
+      "red_pixel_fraction": 0.005469066
+    },
+    {
+      "page": 22,
+      "dpi": 90,
+      "path": "tmp/acl_supplement_page22_grscenes_failure_v3_final_90dpi_20260604/page-22.png",
+      "sha256": "6f5e482b55596f7dc090f40cd42b9d8518459745d504f7c9c3e0027ab61563aa",
+      "size_px": [745, 1053],
+      "active238_fraction": 0.164231311,
+      "active245_fraction": 0.170570502,
+      "red_pixel_fraction": 0.003055508,
+      "previous_round19_active245_fraction": 0.14472807,
+      "delta_from_round19_active245_fraction": 0.025842432
+    }
+  ],
+  "visual_review": {
+    "independent_subagent_review": false,
+    "reviewer": "local Codex visual review using render-visual-reviewer protocol",
+    "verdict": "PASS",
+    "evidence": [
+      "The companion no longer has an empty third row; picture and faucet render pairs are visible with target boxes.",
+      "The table, figure, caption, explanatory paragraph, and page number remain on page 22 without overlap.",
+      "Page 23 still starts with the PASS-only table and companion, so the figure edit did not disturb section flow."
+    ],
+    "risk": "The additional picture and faucet crops are selected table-reading anchors; they do not add rows, new VLM predictions, or benchmark frequencies."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'grscenes_table_companions_are_registered_and_dense'",
+    "latexmk -g -cd -pdf -outdir=build -interaction=nonstopmode -halt-on-error supplement.tex",
+    "pdftoppm -f 21 -l 23 -png -r 144 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page22_grscenes_failure_v3_final_20260604/page",
+    "pdftoppm -f 22 -l 22 -png -r 90 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page22_grscenes_failure_v3_final_90dpi_20260604/page",
+    "pdftotext -f 21 -l 23 paper/venues/acl27/build/supplement.pdf -"
+  ]
+}

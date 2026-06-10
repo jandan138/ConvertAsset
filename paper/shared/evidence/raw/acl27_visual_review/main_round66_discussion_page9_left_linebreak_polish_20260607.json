@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 66,
+  "date": "2026-06-07",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/discussion.tex"
+  ],
+  "docs_record": "docs/records/2026-06-07-acl-main-discussion-page9-left-linebreak-polish.md",
+  "issue": {
+    "page": 9,
+    "location": "Discussion page-9 left column",
+    "before_problem": [
+      "The Discussion opener split 'contribution' as 'contri- / bution'.",
+      "The protocol sentence split 'coordinate compliance' as 'coordinate compli- / ance'.",
+      "The contract paragraph split 'before' as 'be- / fore'.",
+      "The boundary paragraph split 'material-effect' at the paragraph start."
+    ],
+    "rejected_intermediate_problems": [
+      "An initial page-4 Results/Claim Registry rewrite removed several left-column splits but made Figure 2 float onto page 4 ahead of the Results text. That source edit was rejected and reverted; the final page-4 render is byte-identical to the Round66 baseline page-4 render.",
+      "A first Discussion rewrite removed the target left-column cluster but introduced right-column splits including 'lo- / cal', 'in- / side', and 'ma- / terial'.",
+      "A later Discussion wording introduced 'suc- / cess', 'vi- / sual', 'embod- / ied', and 'af- / ter'.",
+      "The accepted version removes the target cluster and leaves no page-9 hyphen lines in the extracted text scan."
+    ]
+  },
+  "change_summary": {
+    "discussion_tex_lines": "4-26",
+    "summary": "Recast the Discussion opener, contract transition, and boundary paragraph with shorter ACL-style prose while preserving the measurement-protocol framing, contract-before-delta boundary, 99-episode KuJiaLe sanity-check scope, and gate-only claim boundary.",
+    "claim_scope_changed": false,
+    "changed_claims": []
+  },
+  "pdf": {
+    "before_sha256": "9f764b2b764055a0675ab2eaa24c12ed8f07e9f94d0e924eae28b3bc003c0034",
+    "after_sha256": "2dda5c1f787115f15d5b75424d416b2568c865541bc7c8219f9df425bb3c09c6",
+    "after_pages": 11,
+    "after_file_size_bytes": 5185344,
+    "after_creation_date": "Sun Jun 7 07:58:08 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260607_round66_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round66_after",
+    "before": {
+      "contact_sheet_png_sha256": "8666364318aa34c75082c85853921ea255f2248a2de68232cd1e4ff88105f80d",
+      "full_txt_sha256": "bbe3c53fef5b3995cfa292c39e321eb5ab9c86211f790494ff880a793eade5c0",
+      "page9_txt_sha256": "14658da0cbb8a36139542712865f83eb3d02cfbcdb5b7aa9e6887b617871e6fc",
+      "page9_png_sha256": "fe70b3494a81ec5041c2ff2ee05c3afa80ba882524da68162f3c8f266f146266",
+      "page9_left_png_sha256": "c7700f5c1ac46a63ce38a2fed196d45891d7f4c510a268691e27d1a9a5c2b42e",
+      "page9_right_png_sha256": "2725fbdb09a0ce1fb2fadcfc54bd08bb5ee15869c7283738105be7d19fd00840"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "e674a3a229124276bd79e291deaa70be2b28edd096b685da6d177fe11322fe05",
+      "full_txt_sha256": "cbafb958fe5e959f8bb37ad64f3e4c75c5c74f70d725903bfc58abfadfa5dd2b",
+      "page9_txt_sha256": "3bf430448695639447cde973f583b3b5a37181b1d33622064329bd15a98cb675",
+      "page9_png_sha256": "801f7561b3aa67bc483cb5bdbce3fd7261f2a87905e56a7b7fe77366a8752a6f",
+      "page9_left_png_sha256": "4da0abffce2ca3ae7b33fbbc3aa1c051b1a0bbf76ddfd9ac6c27ce8a27a3997f",
+      "page9_right_png_sha256": "f398ead68c45abec423df79d8a23ee51151f8d11b8e75a57946f7f8ebaadbce6"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260607_round66_current/page9_left.png",
+      "tmp/acl_main_visual_iter_20260607_round66_after/page9_left.png",
+      "tmp/acl_main_visual_iter_20260607_round66_after/page9_right.png",
+      "tmp/acl_main_visual_iter_20260607_round66_after/contact_sheet.png"
+    ],
+    "observations": [
+      "The final page-9 left crop removes the targeted Discussion split cluster around contribution, coordinate compliance, before, and material-effect.",
+      "The final page-9 extracted text scan has no hyphen-line matches on page 9.",
+      "The accepted Discussion wording keeps the protocol-not-leaderboard framing, the contract-before-delta warning, and the gate-only boundary.",
+      "The final page-4 render hash remains identical to the Round66 baseline page-4 render hash after rejecting the page-4 float-moving rewrite.",
+      "The final contact sheet remains 11 pages with no obvious float, table, or blank-page regression."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "python scan of paper/venues/acl27/build/main.log for overfull boxes, undefined references or citations, rerun warnings, multiply-defined labels, and lineno warnings",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "104 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 168"
+    }
+  ]
+}

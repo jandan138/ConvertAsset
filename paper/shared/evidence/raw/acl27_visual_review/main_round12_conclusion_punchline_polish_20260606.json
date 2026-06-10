@@ -1,0 +1,60 @@
+{
+  "review_id": "main_round12_conclusion_punchline_polish_20260606",
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "pdf": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "740a7677a2321c5ca3d5a92ea94611cbaeda946bf82fc6dadf5524b848322c8f",
+    "pages": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "bytes": 5189207,
+    "created": "Sat Jun 6 09:41:36 2026 CST"
+  },
+  "scope": [
+    "paper/venues/acl27/sections/conclusion.tex"
+  ],
+  "visual_artifacts": {
+    "before_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round12_current/contact_sheets/main_pages_01_11_current.png",
+    "before_page9": "tmp/acl_main_visual_iter_20260606_round12_current/pages_180/main-09.png",
+    "before_page10": "tmp/acl_main_visual_iter_20260606_round12_current/pages_180/main-10.png",
+    "before_layout_text": "tmp/acl_main_visual_iter_20260606_round12_current/text/main_layout.txt",
+    "after_page9": "tmp/acl_main_visual_iter_20260606_round12_after5/pages_180/main-09.png",
+    "after_page10": "tmp/acl_main_visual_iter_20260606_round12_after5/pages_180/main-10.png",
+    "after_contact_sheet": "tmp/acl_main_visual_iter_20260606_round12_after5/contact_sheets/main_pages_09_10_after5.png",
+    "after_layout_text": "tmp/acl_main_visual_iter_20260606_round12_after5/text/main_layout.txt"
+  },
+  "visual_findings": [
+    "The current page-9 render kept the Discussion, Limitations, and Conclusion columns stable, but the Conclusion opened with a weak visual split: 'synthetic-scene mate-' on page line 456 and 'rial conversion' on the next line.",
+    "An intermediate rewrite removed that split but introduced new visible breaks in 'measured', 'intervention', and 'ranking'; these variants were rejected.",
+    "The accepted render opens the Conclusion with the shorter punchline 'USD material conversion is not neutral.' followed by a scoped grounding-intervention sentence.",
+    "The accepted render keeps the complete Conclusion in the page-9 left column, keeps Limitations at the page-9 right column, and leaves page 10's Figure 4, Ethical Considerations, and References stable."
+  ],
+  "change_summary": [
+    "Replaced the original Conclusion opener with a shorter ACL-style claim-boundary punchline.",
+    "Changed the broad negative list to 'not a ranking, speedup claim, or broad robustness result' while preserving the no-ranking/no-speedup/no-broad-robustness boundary.",
+    "Shortened 'reusable evidence contract' to 'reusable contract' because the following clause still enumerates the evidence gates and avoids a disruptive line split."
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed; built 11-page A4 main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "85 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "ok"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "ok"
+    }
+  ],
+  "residual_risk": "This is a focused page-9 Conclusion wording and visual rhythm pass, not a complete final-upload audit or integrity-fingerprint refresh."
+}

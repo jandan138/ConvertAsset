@@ -35,14 +35,28 @@ def test_integrity_fingerprint_tracks_expected_current_sources() -> None:
     }
 
     assert "venues/acl27/main.tex" in source_paths
+    assert "venues/acl27/preamble.tex" in source_paths
     assert "venues/acl27/sections/abstract.tex" in source_paths
     assert "shared/sections/appendix.tex" in source_paths
     assert "shared/references.bib" in source_paths
     assert "venues/acl27/OPENREVIEW_METADATA_PACKET.md" in source_paths
     assert "venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md" in source_paths
+    assert "venues/acl27/ARTIFACT_PROVENANCE_DRAFT.md" in source_paths
     assert "venues/acl27/TARGET_CALL_POLICY_AUDIT.md" in source_paths
+    assert "shared/figures/fig_acl_method_chain_imagegen_v18.png" in source_paths
+    assert "shared/figures/prompts/fig_acl_method_chain_gpt_image2_v18.prompt.txt" in source_paths
+    assert "shared/figures/gen_figures.py" in source_paths
+    assert "shared/figures/gen_render_scene_evidence_wide.py" in source_paths
+    assert "shared/figures/fig_render_scene_evidence_wide.png" in source_paths
+    assert "shared/figures/gen_material_effect_qualitative.py" in source_paths
+    assert "shared/figures/fig_material_effect_baseline_qualitative.png" in source_paths
+    assert "shared/figures/fig_material_effect_baseline_qualitative.report.json" in source_paths
+    assert "shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png" in source_paths
+    assert "shared/figures/fig_internnav_rollout_0036_0066_column.png" in source_paths
+    assert "shared/figures/gen_internnav_main_readable.py" in source_paths
     assert "shared/evidence/references/verification_report.md" in source_paths
     assert "shared/tables/grscenes_vlm_stress_expanded30.csv" in source_paths
+    assert "shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json" in source_paths
     assert (
         "shared/evidence/raw/internnav_vln_downstream/"
         "official_val_unseen_99/paired_99_summary.json"

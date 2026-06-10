@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_grscenes_failure_taxonomy_v4_20260604",
+  "date_utc": "2026-06-04",
+  "target": "ACL27 supplement page 22 GRScenes failure-taxonomy companion v4",
+  "target_page": 22,
+  "independent_subagent_review": false,
+  "reason_independent_review_not_used": "Subagent spawning is restricted to explicit user requests in this environment; review followed the render-visual-reviewer checklist locally.",
+  "inputs": {
+    "standalone_figure": "paper/shared/figures/fig_supplement_grscenes_failure_taxonomy_table_companion.png",
+    "source_ai_slot": "paper/shared/figures/ai_slots/fig_supplement_grscenes_failure_taxonomy_gate_v4_ai_slot.png",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_025799cbdba5d7ec016a20f8523b58819b99e05f29eb81160f.png",
+    "generator": "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_grscenes_failure_taxonomy_table_companion.yaml",
+    "source_registry": "paper/shared/figures/sources.yaml",
+    "source_section": "paper/venues/acl27/sections/supplement/03_grscenes_visuals.tex",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_review_pages_144dpi": [
+      "tmp/acl_supplement_page22_grscenes_failure_taxonomy_v4_final_resolved_20260604/page-21.png",
+      "tmp/acl_supplement_page22_grscenes_failure_taxonomy_v4_final_resolved_20260604/page-22.png",
+      "tmp/acl_supplement_page22_grscenes_failure_taxonomy_v4_final_resolved_20260604/page-23.png",
+      "tmp/acl_supplement_page22_grscenes_failure_taxonomy_v4_final_resolved_20260604/page-24.png"
+    ],
+    "pdf_review_page_90dpi": "tmp/acl_supplement_page22_grscenes_failure_taxonomy_v4_final_resolved_90dpi_20260604/page-22.png"
+  },
+  "hashes": {
+    "source_generated_image_sha256": "0a1c274d28cb97bc2b9894c4b3911815362ee58b8f0f12fce3ea4548701c978f",
+    "source_ai_slot_sha256": "0a1c274d28cb97bc2b9894c4b3911815362ee58b8f0f12fce3ea4548701c978f",
+    "standalone_figure_sha256": "e6089fa12f74044f3c98700a57175e621738261ec090f2bb22d0174690cf504a",
+    "pdf_sha256": "8a6b9a8a060706e85cef22e1353abdb18124cd3683fa5f3841a627630a0d909f",
+    "page21_render_144dpi_sha256": "26427e2d3d62e0a4a31d071be66ec7af0bba4cab6562280af55334f935ba3b45",
+    "page22_render_144dpi_sha256": "58a3712a1159ac82c505a2c075a1d9fd3627972b479ad32a54def15cdaafea82",
+    "page23_render_144dpi_sha256": "734022cc8675246d3e110a7cc4d14ff69e1bcc6b98bc560a86d0fbb06aaf3a7e",
+    "page24_render_144dpi_sha256": "0decc41673ec6ad79a397a66543eabf068923309b29fc6df8aa50dbd23a4d719",
+    "page22_render_90dpi_sha256": "983e5af468bf34c5aa0c645f6a82b59f6ac01cfbf7dc5949dfc230b88a069a5f"
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < threshold, matching tests/test_paper_layout.py figure-density checks.",
+    "simple_sparse_active_definition": "RGB pixels where min(channel) < threshold, used here for round-to-round PDF sparse-page comparison.",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90, matching tests/test_paper_layout.py red fallback checks."
+  },
+  "metrics": {
+    "source_ai_slot_size_px": [
+      1536,
+      1024
+    ],
+    "source_ai_slot_layout_guard_active238": 0.250704447,
+    "source_ai_slot_layout_guard_active245": 0.29573377,
+    "source_ai_slot_red_pixel_fraction": 0.005057017,
+    "standalone_previous_v3_size_px": [
+      1800,
+      1260
+    ],
+    "standalone_previous_v3_layout_guard_active238": 0.361131393,
+    "standalone_previous_v3_layout_guard_active245": 0.371723545,
+    "standalone_previous_v3_red_pixel_fraction": 0.011179012,
+    "standalone_current_size_px": [
+      1800,
+      1640
+    ],
+    "standalone_current_layout_guard_active238": 0.438528117,
+    "standalone_current_layout_guard_active245": 0.449656843,
+    "standalone_current_red_pixel_fraction": 0.009454607,
+    "standalone_active238_delta_from_v3": 0.077396724,
+    "standalone_active245_delta_from_v3": 0.077933298,
+    "round35_page22_active245_90dpi": 0.170561579,
+    "current_page22_active245_90dpi": 0.21412774,
+    "page22_active245_delta_from_round35": 0.043566161,
+    "current_page22_layout_guard_active238_90dpi": 0.207245518,
+    "current_page22_layout_guard_active245_90dpi": 0.213778466,
+    "current_page22_red_pixel_fraction_90dpi": 0.003033837,
+    "current_page22_active245_144dpi": 0.191944832,
+    "current_page23_active245_144dpi": 0.18294473,
+    "pdf_page_count": 45,
+    "pdf_file_size_bytes": 50412965
+  },
+  "layout_iteration": {
+    "before": "The v3 companion used a 1800 x 1260 board with the existing table-reading gate and a single render audit strip; round35 still ranked page 22 among the lowest-density non-reference pages.",
+    "after": "The companion now uses a 1800 x 1640 board, a new AI failure-taxonomy gate v4 slot, a taller card field, and a two-row focused render matrix covering selected taxonomy edge cases.",
+    "fit_adjustment": "An initial 0.62 textheight PDF placement made the Figure S21 caption spill to page 23. The accepted placement uses 0.56 textheight and folds the standalone explanatory paragraph into the caption so page 23 starts with the PASS-only table rather than a sparse orphan paragraph.",
+    "result": "Accepted: the supplement remains 45 pages, page 22 gains density, Figure S21 and its caption fit on page 22, and page 23 stays populated by the next table companion."
+  },
+  "visual_review": {
+    "overall_verdict": "PASS",
+    "standalone_figure": "PASS: the board adds a dense registered failure-row render matrix while retaining the row cards, edge-case audit strip, and bounded AI gate.",
+    "pdf_page_22": "PASS: Table S4, the v4 companion, Figure S21 caption, line numbers, and page number fit without clipping or overlap.",
+    "neighbor_pages": "PASS: page 21 remains the GRScenes stress strip page; page 23 starts with Table S5 and its PASS-only companion; page 24 continues with the zoom-stress companion.",
+    "claim_boundary": "PASS: the caption states that the AI-generated gate is exposition only and that the panels are not additional VLM predictions, benchmark rows, an exhaustive taxonomy, or frequency estimates."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'grscenes_tables_have_render_companions or grscenes_table_companions_are_registered_and_dense'",
+    "make -C paper acl27-supplement",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf",
+    "pdftoppm -r 144 -png -f 21 -l 24 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page22_grscenes_failure_taxonomy_v4_final_resolved_20260604/page",
+    "pdftoppm -r 90 -png -f 22 -l 22 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page22_grscenes_failure_taxonomy_v4_final_resolved_90dpi_20260604/page",
+    "sha256sum paper/venues/acl27/build/supplement.pdf paper/shared/figures/fig_supplement_grscenes_failure_taxonomy_table_companion.png paper/shared/figures/ai_slots/fig_supplement_grscenes_failure_taxonomy_gate_v4_ai_slot.png"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "review_id": "main_round15_method_gate_story_polish_20260606",
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "artifact": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "04b194cc5bbf9228623e9672576ea061667c63c3d66771b46ff1b1222c8cefbc",
+    "pages": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "bytes": 5189527,
+    "created": "Sat Jun 6 10:12:25 2026 CST"
+  },
+  "scope": [
+    "paper/venues/acl27/sections/method.tex"
+  ],
+  "visual_artifacts": {
+    "before_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round15_current/contact_sheets/main_pages_01_11_current.png",
+    "before_page4": "tmp/acl_main_visual_iter_20260606_round15_current/pages_180/main-04.png",
+    "before_layout_text": "tmp/acl_main_visual_iter_20260606_round15_current/text/main_layout.txt",
+    "after_page4_intermediate1": "tmp/acl_main_visual_iter_20260606_round15_after1/pages_180/main-04.png",
+    "after_page4_intermediate2": "tmp/acl_main_visual_iter_20260606_round15_after2/pages_180/main-04.png",
+    "after_page4": "tmp/acl_main_visual_iter_20260606_round15_after3/pages_180/main-04.png",
+    "after_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round15_after3/contact_sheets/main_pages_01_11_after3.png",
+    "after_layout_text": "tmp/acl_main_visual_iter_20260606_round15_after3/text/main_layout.txt"
+  },
+  "visual_findings": [
+    "The round-15 contact sheet showed no new hard crop or table cutoff; the selected target was page 4, where Method 3.2 remained list-like and Gate 3 showed a visibly stretched sentence break.",
+    "The first Gate 3/Gate 4 rewrite improved the story but introduced a worse full-justification stretch around InteriorAgent/KuJiaLe and InternNav/DualVLN tokens.",
+    "The accepted wording removes the original 'the NVIDIA baseline. For the selected' stretch and frames Gate 3 as visible shifts linked to material mechanisms through a selected baseline comparison.",
+    "Gate 4 now states stack entry directly and avoids the slash-heavy InteriorAgent / KuJiaLe construction in the rendered page-4 method flow.",
+    "The accepted full contact sheet keeps the 11-page structure stable and does not visibly move figures, tables, Discussion, Ethical Considerations, or References."
+  ],
+  "change_summary": [
+    "Rewrote Gate 3 in Method 3.2 from a baseline inventory into a selected-baseline evidence gate.",
+    "Rewrote Gate 4 as an embodied-stack entry check while preserving the official KuJiaLe val_unseen, InternNav/DualVLN, and load/render stability evidence boundary.",
+    "Kept all claim boundaries and evidence counts unchanged."
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed; rebuilt paper/venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "passed; no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "passed; 85 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "passed; ok=true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "passed; ok=true; abstract_word_count=169"
+    }
+  ],
+  "residual_risk": "Focused Method 3.2 Gate 3/Gate 4 story and page-4 visual iteration only; this is not a final upload audit or a full integrity-fingerprint refresh."
+}

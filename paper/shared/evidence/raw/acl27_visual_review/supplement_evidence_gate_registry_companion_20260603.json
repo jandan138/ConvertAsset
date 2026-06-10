@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-06-03T03:34:10+08:00",
+  "paper": "acl27",
+  "artifact": "supplement_evidence_gate_registry_companion",
+  "purpose": "Improve the sparse evidence-gate registry page by binding the table rows to registered visual evidence thumbnails and an exposition-only reader-gate schematic.",
+  "skills": [
+    "imagegen",
+    "research-figure-ai-slot-composer",
+    "render-visual-reviewer",
+    "test-driven-development"
+  ],
+  "independent_subagent": false,
+  "claim_boundary": "The AI-generated reader-gate slot is exposition only. Registered proxy, GRScenes VLM, material-effect, and InternNav thumbnails carry the evidence-bearing content.",
+  "ai_generated_slot": {
+    "role": "reader_gate",
+    "repo_path": "paper/shared/figures/ai_slots/fig_supplement_evidence_gate_reader_ai_slot.png",
+    "source_path": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0d09dff01fa1981a016a1f2a68dda4819a87583c3685ec2992.png",
+    "sha256": "139021981c980e2f33e6860ac27cdc282055c15d84246aa89386d58ced8bc4e6",
+    "size": [
+      1693,
+      929
+    ],
+    "active_fraction": 0.181228,
+    "red_fraction": 0.0,
+    "verdict": "PASS",
+    "rationale": "No visible local path, author name, watermark, or red material fallback. The slot is schematic and remains separated from evidence-bearing thumbnails."
+  },
+  "standalone_figure": {
+    "figure_id": "fig_supplement_evidence_gate_registry_companion",
+    "path": "paper/shared/figures/fig_supplement_evidence_gate_registry_companion.png",
+    "sha256": "58e3e98d760b503470e7c68e9f7a570c575dde58432a2d57f451bcf42ff22d20",
+    "size": [
+      1800,
+      720
+    ],
+    "active_fraction": 0.221621,
+    "red_fraction": 0.00009,
+    "verdict": "PASS",
+    "rationale": "After visual iteration, boundary text is not clipped and the material thumbnail no longer exposes the prior ConvertAsset label crop."
+  },
+  "related_visual_polish": {
+    "figure_id": "fig_supplement_claim_boundary_examples",
+    "path": "paper/shared/figures/fig_supplement_claim_boundary_examples.png",
+    "sha256": "574cfaf21e48a2f74b2810aec80bd98b3b9ed977ac0eead93db79c3ead3ad8ca",
+    "size": [
+      1800,
+      1620
+    ],
+    "active_fraction": 0.250748,
+    "red_fraction": 0.000089,
+    "verdict": "PASS",
+    "rationale": "The material-mechanism covered-bin tile now crops only the render region and no longer exposes the source figure's ConvertAsset column heading."
+  },
+  "rendered_pdf_pages": [
+    {
+      "page": 3,
+      "path": "tmp/acl_supplement_gate_registry_final_review_20260603/page-03.png",
+      "sha256": "db97c08ed8d60656116101b032dc55d9d13bef83fffbbcb20ac639f415f61c0b",
+      "active_fraction": 0.075959,
+      "red_fraction": 0.000009,
+      "before_sparse_reference_page_active_fraction": 0.0327,
+      "verdict": "PASS",
+      "rationale": "The registry table, companion strip, and caption now occupy the former sparse table page without overlapping two-column text."
+    },
+    {
+      "page": 4,
+      "path": "tmp/acl_supplement_gate_registry_final_review_20260603/page-04.png",
+      "sha256": "ef8cf192ccb5080e7b1d76569677359ca4d9c74da94337d8a51073f293e11def",
+      "active_fraction": 0.069015,
+      "red_fraction": 0.0,
+      "verdict": "PASS",
+      "rationale": "The explanatory overview text now fills both columns after moving the one-column claim-boundary example block below the prose."
+    },
+    {
+      "page": 5,
+      "path": "tmp/acl_supplement_gate_registry_final_review_20260603/page-05.png",
+      "sha256": "670925b3e30bdb76226aaca4531d0e7c02e781a8ed5ce690baaab4fe97e8a8ea",
+      "active_fraction": 0.104054,
+      "red_fraction": 0.000026,
+      "verdict": "PASS",
+      "rationale": "The following claim-boundary examples page remains intact after the overview reflow; the material row no longer exposes the source figure's ConvertAsset column heading."
+    }
+  ],
+  "pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "d5c4783302c5f450794f77c72d26bbb76917dc91a71dc58f62bc941c1f065094",
+    "pages": 44,
+    "bytes": 31495893,
+    "page_size": "A4"
+  },
+  "text_scan": {
+    "positive_patterns_present": [
+      "Evidence-gate registry",
+      "AI-generated reader-gate schematic",
+      "not a new experiment, metric, VLM run, or navigation run",
+      "What This Supplement Does Not Prove"
+    ],
+    "negative_patterns_absent": [
+      "Red material in these diagnostic cases",
+      "fig_vlm_grounding_cases",
+      "/cpfs/user",
+      "Zihou"
+    ]
+  },
+  "commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k \"evidence_gate_registry_companion\"",
+    "python -m pytest -q tests/test_paper_layout.py -k \"claim_boundary_examples\"",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_evidence_gate_registry_companion_20260603.json >/dev/null",
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "make -C paper acl27-supplement",
+    "pdftoppm -r 140 -png -f 3 -l 5 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_gate_registry_final_review_20260603/page",
+    "pdftotext -f 3 -l 5 paper/venues/acl27/build/supplement.pdf - | rg -n \"Evidence-gate registry|AI-generated reader-gate schematic|not a new experiment, metric, VLM run, or navigation run|What This Supplement Does Not Prove\"",
+    "if pdftotext paper/venues/acl27/build/supplement.pdf - | rg -n \"Red material in these diagnostic cases|fig_vlm_grounding_cases|/cpfs/user|Zihou\"; then exit 1; else echo negative-tokens-absent; fi"
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 75,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main page 3 Method subsection widow and linebreak polish",
+  "before_pdf_sha256": "5cabab838bf41286b0010833c1a1fa303a2377b87fc738bd921f593dba55827d",
+  "after_pdf_sha256": "21cc21528dc6441d60562ad2d1e3f21f8108a33f6e0726a07b01fd46b3a5890c",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round75_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round75_after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "rendered_after_screenshot": "tmp/acl_main_visual_iter_20260607_round75_after/page-03.png",
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round75_after/page"
+  },
+  "defect": {
+    "page": 3,
+    "class": "method subsection heading wrap and column widow",
+    "before_text_matches": [
+      "page 3 line 001: Synthetic rendering shifts. Prior sim-to-               promises.",
+      "page 3 line 039: 3.1    Material Conversion as the",
+      "page 3 line 041:        Intervention"
+    ],
+    "reader_effect": "The Method transition looked visually unstable: a long subsection title wrapped awkwardly, and one word from the MDL-semantics boundary sentence was stranded at the top of the right column."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/method.tex",
+      "summary": "Shortened the 3.1 title to Conversion as Intervention."
+    },
+    {
+      "path": "paper/venues/acl27/sections/method.tex",
+      "summary": "Compressed the MDL-semantics boundary paragraph while preserving rewrite scope, declaring-layer path behavior, fixed-value fallback, and non-preserved MDL-effect risks."
+    }
+  ],
+  "rejected_iterations": [
+    {
+      "summary": "Title-only rewrite moved the lone promises. from the right-column top to a one-word line at the left-column bottom."
+    },
+    {
+      "summary": "First paragraph rewrite introduced tex-, re-, and a one-word claims. line."
+    },
+    {
+      "summary": "Second paragraph rewrite introduced procedu- before the final accepted risk sentence."
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "Page 3 no longer has the Method heading wrap, the promises. widow, or the rejected tex-/re-/procedu-/claims. artifacts.",
+    "full_scan_result": "The full after scan reports only the pre-existing Related Work compound break sim-to- and normal bibliography-column hyphenation.",
+    "visual_result": "Page 3 now enters 3.2 at the top of the right column, keeps 3.1 on one line, and ends the MDL-semantics paragraph without an orphaned word.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 14.34s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Method prose and linebreak polish only. No metric values, evidence pools, figures, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "Page 3 still contains the pre-existing Related Work compound break sim-to-. Reference pages retain normal bibliography-column hyphenation."
+}

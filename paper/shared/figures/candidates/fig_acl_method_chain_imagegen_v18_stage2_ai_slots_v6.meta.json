@@ -1,0 +1,29 @@
+{
+  "base": "paper/shared/figures/fig_acl_method_chain_imagegen_v18.png",
+  "candidate": "paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v18_stage2_ai_slots_v6.png",
+  "revision": "v6_stage2_ai_slots_logical_blocks",
+  "source_marked_image": "paper/shared/figures/candidates/fig1-s2.png",
+  "slots": {
+    "stage2_materials_preserved": {
+      "box_xyxy": [
+        520,
+        138,
+        884,
+        510
+      ],
+      "source": "paper/shared/figures/ai_slots/fig1_stage2_materials_preserved_ai_slot_v1.png",
+      "placement": "contain_on_white"
+    },
+    "stage2_structure_preserved": {
+      "box_xyxy": [
+        506,
+        516,
+        881,
+        803
+      ],
+      "source": "paper/shared/figures/ai_slots/fig1_stage2_structure_preserved_ai_slot_v1.png",
+      "placement": "contain_on_white"
+    }
+  },
+  "notes": "Covers the full logical Stage 2 material-conversion and structure-preservation blocks to avoid stale old glyphs outside the red annotation boxes."
+}

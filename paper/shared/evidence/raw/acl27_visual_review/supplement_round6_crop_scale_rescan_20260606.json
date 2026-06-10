@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_round6_crop_scale_rescan_20260606",
+  "artifact": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "4c5295b7306453238cfa9a2a14e8cbaea56c16ffec0b22d63b88c6d7a836cb0d",
+    "pages": 46,
+    "page_size": "A4",
+    "creation_timestamp": "Fri Jun 5 10:42:11 2026 CST"
+  },
+  "scope": [
+    "obvious figure occlusion",
+    "incorrect PDF scaling",
+    "incomplete figure display",
+    "caption collision",
+    "page-edge clipping",
+    "source image edge-contact candidates"
+  ],
+  "commands": [
+    {
+      "command": "make -C paper acl27-supplement",
+      "status": "pass",
+      "notes": "latexmk reported build/supplement.pdf up to date"
+    },
+    {
+      "command": "pdftoppm -r 180 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_visual_scan_20260606_round6/pages_180/page",
+      "status": "pass"
+    },
+    {
+      "command": "pdftotext -layout paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_visual_scan_20260606_round6/text/supplement_layout.txt",
+      "status": "pass"
+    },
+    {
+      "command": "pdfimages -list paper/venues/acl27/build/supplement.pdf",
+      "status": "pass",
+      "notes": "47 embedded images; ppi range 125-339; no image below 120 ppi"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|lineno Warning\" paper/venues/acl27/build/supplement.log",
+      "status": "pass",
+      "notes": "no matches"
+    }
+  ],
+  "artifacts": {
+    "tmp_root": "tmp/acl_supplement_visual_scan_20260606_round6/",
+    "page_renders": "tmp/acl_supplement_visual_scan_20260606_round6/pages_180/",
+    "layout_text": "tmp/acl_supplement_visual_scan_20260606_round6/text/supplement_layout.txt",
+    "full_page_contact_sheets": [
+      "tmp/acl_supplement_visual_scan_20260606_round6/contact_sheets/supplement_pages_01_08.png",
+      "tmp/acl_supplement_visual_scan_20260606_round6/contact_sheets/supplement_pages_09_16.png",
+      "tmp/acl_supplement_visual_scan_20260606_round6/contact_sheets/supplement_pages_17_24.png",
+      "tmp/acl_supplement_visual_scan_20260606_round6/contact_sheets/supplement_pages_25_32.png",
+      "tmp/acl_supplement_visual_scan_20260606_round6/contact_sheets/supplement_pages_33_40.png",
+      "tmp/acl_supplement_visual_scan_20260606_round6/contact_sheets/supplement_pages_41_46.png"
+    ],
+    "overview_contact_sheet": "tmp/acl_supplement_visual_scan_20260606_round6/contact_sheets/supplement_pages_01_all_overview.png",
+    "content_crop_contact_sheets": [
+      "tmp/acl_supplement_visual_scan_20260606_round6/contact_sheets/supplement_content_crops_01_08.png",
+      "tmp/acl_supplement_visual_scan_20260606_round6/contact_sheets/supplement_content_crops_09_16.png",
+      "tmp/acl_supplement_visual_scan_20260606_round6/contact_sheets/supplement_content_crops_17_24.png",
+      "tmp/acl_supplement_visual_scan_20260606_round6/contact_sheets/supplement_content_crops_25_32.png",
+      "tmp/acl_supplement_visual_scan_20260606_round6/contact_sheets/supplement_content_crops_33_40.png",
+      "tmp/acl_supplement_visual_scan_20260606_round6/contact_sheets/supplement_content_crops_41_46.png"
+    ],
+    "source_edge_risk_contact_sheet": "tmp/acl_supplement_visual_scan_20260606_round6/contact_sheets/source_edge_risk_candidates.png",
+    "page_bbox_report": "tmp/acl_supplement_visual_scan_20260606_round6/page_content_bbox_report.json",
+    "page_edge_candidate_report": "tmp/acl_supplement_visual_scan_20260606_round6/page_edge_candidate_report.json",
+    "source_image_edge_scan": "tmp/acl_supplement_visual_scan_20260606_round6/source_image_edge_scan.json",
+    "source_image_edge_risk_candidates": "tmp/acl_supplement_visual_scan_20260606_round6/source_image_edge_risk_candidates.json",
+    "pdfimages_summary": "tmp/acl_supplement_visual_scan_20260606_round6/pdfimages_summary.json"
+  },
+  "findings": [
+    {
+      "target": "Figure S25, page 27",
+      "status": "pass",
+      "evidence": "Bottom claim-boundary gate is fully visible; caption sits below it without collision."
+    },
+    {
+      "target": "Figure S26, page 28",
+      "status": "pass",
+      "evidence": "Bottom visual decision gate and right-side reading lanes remain complete."
+    },
+    {
+      "target": "GRScenes pages 19-24",
+      "status": "pass",
+      "evidence": "Dense VLM guide, stress, failure-taxonomy, PASS-only, and zoom-stress figures remain in bounds."
+    },
+    {
+      "target": "Navigation pages 30-38",
+      "status": "pass",
+      "evidence": "Route stills and media-boundary figures remain framed; source edge flags are intentional still crops."
+    },
+    {
+      "target": "Theory and manifest pages 39-45",
+      "status": "pass",
+      "evidence": "Hypothesis-boundary, review-packet manifest, and source-boundary figures are compact but complete."
+    }
+  ],
+  "automated_scan_summary": {
+    "page_edge_candidates": 27,
+    "source_image_edge_candidates": 10,
+    "embedded_images": 47,
+    "embedded_image_min_ppi": 125,
+    "embedded_image_max_ppi": 339,
+    "embedded_images_below_120_ppi": 0
+  },
+  "changes": {
+    "latex_sources": [],
+    "figure_assets": [],
+    "tests": [],
+    "docs": [
+      "docs/records/2026-06-06-acl-supplement-round6-crop-scale-rescan.md",
+      "docs/records/README.md"
+    ]
+  },
+  "verdict": {
+    "blocking_visual_defects_found": false,
+    "summary": "No new obvious clipping, occlusion, incorrect scaling, or incomplete figure display blocker was visible in the current ACL supplement PDF."
+  }
+}

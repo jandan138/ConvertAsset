@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 62,
+  "date": "2026-06-07",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/method.tex"
+  ],
+  "docs_record": "docs/records/2026-06-07-acl-main-method-page3-gate-prose-linebreak-polish.md",
+  "issue": {
+    "page": 3,
+    "location": "Method right column, Material Conversion and Evidence Gates opener",
+    "before_problem": [
+      "Material Conversion split 'flattening' as 'flat- / tening'.",
+      "Material Conversion split 'metallic' as 'metal- / lic'.",
+      "Gate 1 split proxy 'similarity' as 'similar- / ity' and DINOv2 'similarity' as 'sim- / ilarity'.",
+      "Gate 2 split 'rendered' as 'ren- / dered' and 'Visual' as 'Vi- / sual'.",
+      "Gate 2 split the QA-bucket wording across 'target-visible PASS/WARN material- / shift'.",
+      "Gate 2 split later metric wording around 'target- / category' and 'pixel- / space'."
+    ],
+    "rejected_intermediate_problems": [
+      "A first Gate 1 rewrite removed 'similarity' but introduced 'furni- / ture', 'pre- / serves', and 'con- / trolled'.",
+      "A material-channel rewrite briefly introduced 'met- / alness' and 'ConvertAs- / set'.",
+      "A later compact rewrite removed those splits but still introduced a short Gate 2 run of 'con- / tract', 'tar- / get', and 'un- / der'.",
+      "The accepted version avoids the targeted split cluster while leaving only normal ACL two-column hyphenation."
+    ]
+  },
+  "change_summary": {
+    "method_tex_lines": "12-42",
+    "summary": "Shortened the Material Conversion and Gate 1/Gate 2 prose, replaced fragile compound wording with shorter terms, and kept the non-flattening, proxy-gate, VLM-contract, and claim-boundary meanings intact.",
+    "claim_scope_changed": false,
+    "changed_claims": []
+  },
+  "pdf": {
+    "before_sha256": "d7219ef76e9da3bd6956592b5d54f73798001ea44152ed870060a531f764a5d2",
+    "before_pdf_artifact_present_in_round_dir": false,
+    "after_sha256": "b8b950c3b9a87357f6adc0a2d34d1282159793d1657112ea2f11dfb6207776c6",
+    "after_pages": 11,
+    "after_file_size_bytes": 5186232,
+    "after_creation_date": "Sun Jun 7 06:14:50 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260607_round62_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round62_after",
+    "before": {
+      "contact_sheet_png_sha256": "66e6a714da8e97e8fad79b2e3bf341f80a26041e50cb704f01602dd86e7d9e7e",
+      "full_txt_sha256": "afb7cfffbf9a51741f03c14893a29d969240ddb60bd5edfd1be2032b5cb021e0",
+      "page3_txt_sha256": "7de0982aa4f071632376a3b3c0d21cb4da1c528f5f46fee0b7933a87763c838f",
+      "page3_png_sha256": "97e4f7a688ff3736d19846f115441df2e57797e25b41b19cca958b4c06a54e86",
+      "page3_right_png_sha256": "55441799eca6d3a05f9d5574875fb4dd31ccb49c0f5607b052a522a687ccfa0b"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "f65d96b3b081b98d81aedea59a8eaf78c444c732c2e6250934f23f5cd32069c5",
+      "full_txt_sha256": "a869e06877775367929389b7965b3baa56815c8a81949a061b101521d566c5fc",
+      "page3_txt_sha256": "1276937756f447e104fc1a90909d70275ddf45b6e37c004e346ee1c41a591fde",
+      "page3_png_sha256": "805b034f966330d8b3c41991cd3f6c1525d8fed69f4fc178d05dbd6359f228a6",
+      "page3_right_png_sha256": "b730c34490067928474915ae7e31b7933da652e0427f9dbc844128616156174c"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260607_round62_current/page3_right.png",
+      "tmp/acl_main_visual_iter_20260607_round62_after/page3_right.png",
+      "tmp/acl_main_visual_iter_20260607_round62_after/contact_sheet.png"
+    ],
+    "observations": [
+      "The final page-3 right crop removes the targeted 'flat-/tening', 'metal-/lic', proxy 'similar-/ity', 'target-visible', 'material-/shift', 'target-/category', and 'pixel-/space' splits.",
+      "The accepted Gate 1 wording reports the same proxy gate as four Isaac Sim assets with PSNR, SSIM, LPIPS, CLIP, DINOv2, and headless load/render checks.",
+      "The accepted Gate 2 wording keeps the two-probe structured schema and box-inclusion diagnostic without promoting the result into a model leaderboard.",
+      "The final contact sheet remains 11 pages with no obvious float, table, or blank-page regression."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "python scan of paper/venues/acl27/build/main.log for overfull boxes, undefined references or citations, rerun warnings, multiply-defined labels, and lineno warnings",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "104 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 168"
+    }
+  ]
+}

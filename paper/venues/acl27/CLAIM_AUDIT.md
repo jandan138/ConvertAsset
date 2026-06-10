@@ -27,7 +27,8 @@ learned-classifier claims. Guardrailed/negated statements remain allowed.
 ## Disallowed Claims Removed Or Avoided
 
 - Broad embodied-navigation benchmark completion.
-- All-GRScenes, all-InteriorNav, R2R, MP3D, or manipulation robustness.
+- All GRScenes, all InternNav or InteriorAgent settings, R2R, MP3D, or
+  manipulation robustness.
 - Official-scene noMDL speedup.
 - NVIDIA official-scene performance comparison.
 - Population-level NVIDIA failure rate from the selected clearcoat case.

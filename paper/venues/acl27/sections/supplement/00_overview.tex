@@ -1,0 +1,59 @@
+\section{Evaluation Scope and Evidence Map}
+\label{sec:supp-evaluation-scope}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth,height=0.60\textheight,keepaspectratio]{figures/fig_supplement_first_page_evidence_quickstart.png}
+\caption{First-page evidence quickstart. The card opens with proxy,
+GRScenes target-view, material-effect, navigation media, and opening-render
+examples before the detailed appendix pages. The compass panel summarizes the
+reading order used throughout the supplement.}
+\label{fig:supp-first-page-evidence-quickstart}
+\end{figure}
+
+The main paper uses four evaluation checks: proxy preservation, GRScenes VLM
+grounding, material-effect diagnostics, and embodied-stack usability. The
+purpose of this appendix is to make the scope explicit. Each check answers a
+different question. Keeping them separate makes clear which measurement surface
+supports each result.
+
+\begin{figure*}[p]
+\centering
+\includegraphics[width=\textwidth,height=0.82\textheight,keepaspectratio]{figures/fig_supplement_visual_evidence_roadmap.png}
+\caption{Evidence roadmap. The lanes front-load representative render
+panels from the proxy, GRScenes VLM, material-effect, and InternNav sections so
+that the rest of the supplement can be read as an evidence map rather than as a
+sequence of disconnected tables. Each lane points readers to the detailed
+evidence pages that follow.}
+\label{fig:supp-visual-evidence-roadmap}
+\end{figure*}
+\clearpage
+
+\input{tables/tab_acl_evidence_gate_registry}
+\clearpage
+
+Table~\ref{tab:acl_evidence_gate_registry} gives the shortest reading guide.
+Proxy render scores cover matched cameras and lighting. VLM rows cover the
+specified prompt, coordinate format, and target set. Material panels make
+selected failure modes visible. The InternNav run checks whether matched scenes
+can be exercised by the official stack. Presenting the same result as a table,
+derivation, and visual example is useful here because the paper uses several
+measurement surfaces: metrics, prompts, material cases, and navigation media.
+
+\subsection{Reading Order}
+
+Appendix~\ref{sec:supp-render-atlas} starts with the render atlas
+so readers can inspect the actual image evidence before the formal details.
+Appendix~\ref{sec:supp-derivations} gives the mathematical definitions used by
+the evaluation checks. Appendix~\ref{sec:supp-vlm-protocol} expands the prompt and
+coordinate protocol. Appendix~\ref{sec:supp-grscenes-visuals} collects
+additional GRScenes diagnostics. Appendix~\ref{sec:supp-material-effects}
+summarizes material-effect and NVIDIA-baseline risk cases.
+Appendix~\ref{sec:supp-internnav-visuals} is the largest navigation section; it
+shows selected stills and explains the media inventory.
+Appendix~\ref{sec:supp-theory} records mechanism-level hypotheses and
+failure-mode interpretations. Appendix~\ref{sec:supp-reproducibility} lists the
+artifact and media sources. The appendix supports the main-paper results;
+broader claims about lossless MDL semantics, new VLM backends,
+population-level material rates, or general navigation robustness would require
+separate experiments.

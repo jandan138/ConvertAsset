@@ -1,0 +1,61 @@
+\section{Related Work}
+\label{sec:related_work}
+
+This paper sits between work on language grounding, embodied simulation, and
+synthetic rendering. The common thread is that all three areas increasingly
+depend on rendered 3D assets as evaluation inputs, while the asset-conversion
+step that produces those renders is usually treated as infrastructure rather
+than as an experimental intervention.
+
+\paragraph{Vision-language grounding and navigation.}
+Vision-language navigation connects natural-language instructions to visual
+observations and actions. The Room-to-Room benchmark introduced this setting in
+real indoor environments~\cite{Anderson2018Vision}, and REVERIE further couples
+navigation with remote object identification from referring
+instructions~\cite{Qi2020REVERIE}. Recent multimodal LLMs also expose explicit
+referential or coordinate-style interfaces, including Shikra's natural-language
+coordinate input/output~\cite{Chen2023Shikra} and Ferret's open-vocabulary
+referring-and-grounding interface~\cite{You2024Ferret}. Our work is not a new
+VLM architecture or a new VLN benchmark. It studies the measurement reliability
+question that sits underneath these evaluations: whether a material-converted
+synthetic scene still supports the same answer and point-grounding evidence as
+the original render.
+
+\paragraph{Embodied simulation and synthetic scene benchmarks.}
+Embodied AI platforms such as Habitat~\cite{Savva2019Habitat},
+AI2-THOR~\cite{Kolve2017AI2THOR}, and ThreeDWorld~\cite{Gan2021ThreeDWorld}
+provide interactive environments for visual and language-conditioned agents.
+Isaac Sim and Isaac Lab use USD scenes, RTX rendering, and MDL material graphs
+for robotics simulation~\cite{Mittal2023Orbit,Mittal2025Isaac}. GRUtopia and
+GRScenes extend this ecosystem to city-scale general-robot scenes and
+language-conditioned tasks~\cite{Wang2024GRUtopia}, while InternNav/DualVLN
+adds a dual-system foundation-model route for vision-language
+navigation~\cite{Wei2026Ground}. We use these ecosystems as evaluation
+substrates, but not as new benchmark leaderboards: our official KuJiaLe
+evidence is an end-to-end sanity check over matched original/noMDL scenes, not a
+claim that all InteriorNav or GRScenes navigation behavior is preserved.
+
+\paragraph{Synthetic rendering shifts.}
+Prior sim-to-real work shows that rendering choices influence downstream
+perception and policy learning. Domain randomization varies textures and
+lighting to improve transfer~\cite{Tobin2017Domain,Tremblay2018Training}, and
+photorealistic rendering can improve downstream detection in some
+settings~\cite{Zakharov2022Photo}. Synthetic-data systems such as SynTable and
+Synthetica use Isaac/Omniverse-style rendering pipelines for large-scale robot
+perception data~\cite{Ng2023SynTable,Singh2025Synthetica}. We study a
+different but related shift: a within-simulation material representation change
+from MDL to UsdPreviewSurface, holding geometry and task labels fixed where the
+protocol allows. The question is therefore not whether rendering variation can
+help transfer, but whether an evaluation asset remains comparable after a
+necessary toolchain conversion.
+
+\paragraph{Proxy metrics versus task evidence.}
+Perceptual and feature metrics such as SSIM~\cite{Wang2004Image},
+LPIPS~\cite{Zhang2018Unreasonable}, CLIP~\cite{Radford2021Learning}, and
+DINOv2~\cite{Oquab2023DINOv2} are useful diagnostics for visual preservation.
+However, language-grounding models produce structured outputs whose behavior
+depends on prompt contracts, parser coverage, coordinate frames, and visual
+salience. Our contribution is therefore a gated evidence protocol: proxy visual
+similarity is reported, but VLM answer consistency, point-in-box scoring,
+coordinate ablations, material-effect risk, and embodied-data sanity checks
+are kept as separate evidence layers.

@@ -1,0 +1,59 @@
+{
+  "review_id": "main_round10_results_figure2_sentence_flow_20260606",
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "pdf": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "f4d36cec8444c74d285cb9d1fc466ef897ce7786dcd5b1b3cd0410194fd63d57",
+    "pages": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "bytes": 5189306,
+    "created": "Sat Jun 6 09:23:46 2026 CST"
+  },
+  "scope": [
+    "paper/venues/acl27/sections/results.tex"
+  ],
+  "visual_artifacts": {
+    "before_page4": "tmp/acl_main_visual_iter_20260606_round10_current/pages_180/main-04.png",
+    "before_page5": "tmp/acl_main_visual_iter_20260606_round10_current/pages_180/main-05.png",
+    "before_layout_text": "tmp/acl_main_visual_iter_20260606_round10_current/text/main_layout.txt",
+    "after_page4": "tmp/acl_main_visual_iter_20260606_round10_after2/pages_180/main-04.png",
+    "after_page5": "tmp/acl_main_visual_iter_20260606_round10_after2/pages_180/main-05.png",
+    "after_contact_sheet": "tmp/acl_main_visual_iter_20260606_round10_after2/contact_sheets/main_pages_04_05_after2.png",
+    "after_layout_text": "tmp/acl_main_visual_iter_20260606_round10_after2/text/main_layout.txt"
+  },
+  "visual_findings": [
+    "Before this pass, page 4 ended with the opening of the Qwen2.5-VL clean-pool diagnostic sentence and page 5 resumed after Figure 2 with 'are scorable', forcing readers across a full-width figure and caption to finish one sentence.",
+    "The first rewrite shortened the paragraph but still left 'material conditions.' after Figure 2, so the accepted rewrite compressed the diagnostic into a complete page-4 sentence.",
+    "The final page-4 render ends the Qwen2.5-VL clean-pool diagnostic at line 336 before Figure 2.",
+    "The final page-5 render begins the post-figure text with the next full paragraph, 'The expanded stress set...', and shows no caption collision or text overlap."
+  ],
+  "change_summary": [
+    "Tightened the clean GRScenes pool description without changing the 15-pair pilot gate boundary.",
+    "Compressed the Gemma4/Qwen2.5-VL clean-pool diagnostic sentence while preserving the reported 8/15, 6/15, 23/30, 5/14, 5/15, and zero normalized-1000 values.",
+    "Kept Figure 2's role as orientation evidence tied to frozen tables rather than qualitative proof."
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed; built 11-page A4 main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "85 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "ok"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "ok"
+    }
+  ],
+  "residual_risk": "This is a focused page-4/page-5 Results sentence-flow pass, not a complete final-upload audit or integrity-fingerprint refresh."
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-05-28",
+  "review_type": "local_pure_visual_figure_review",
+  "note": "Reviewed locally with the render-visual-reviewer rubric. No delegated subagent was used in this turn.",
+  "artifact": {
+    "path": "paper/shared/figures/fig_acl_method_chain_imagegen_v16.png",
+    "candidate_path": "paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v16_candidate.png",
+    "prompt_path": "paper/shared/figures/prompts/fig_acl_method_chain_gpt_image2_v16.prompt.txt",
+    "generation_mode": "built-in image_gen tool via imagegen skill",
+    "image_sha256": "3859ea26536da733c0a2a57937661566e4a1291d1909886f18829ef35af392d3",
+    "prompt_sha256": "218f23ab1b063584508a4536a7ec666f1d52988ca89da666786f356050db9d08",
+    "rendered_page_2_png_sha256_150dpi": "9f38319fed9ecf3ce694b896341602804300388bf5003a376c0e6c3a5562e000",
+    "rendered_page_2_png_sha256_180dpi": "39db4d6724b7f38e9e43a64e64b94f773db732452d3f616c51cdb6f76d47f24f"
+  },
+  "verdict": "PASS_FOR_SCHEMATIC_USE",
+  "visible_evidence": [
+    "Four-stage roadmap reads clearly at ACL page scale: USD / MDL, noMDL, VLM Evidence, InternNav.",
+    "Stage 3 preserves Original, Converted, and Target: box without adding dense explanatory text.",
+    "Stage 4 keeps SR, SPL, and NE as neutral metric tiles and uses purple/green navigation paths.",
+    "The footer text from v15 is removed, reducing microtext while the Figure 1 caption carries the schematic/empirical boundary."
+  ],
+  "risks": [
+    "This is AI-generated schematic roadmap art, not empirical render or navigation evidence.",
+    "The figure should stay paired with the caption and ethics disclosure stating that quantitative claims come from recorded project artifacts."
+  ],
+  "promotion_decision": "Promote v16 over v15 because it keeps the same low-text four-stage story while removing footer/microtext and preserving the exact labels needed for the ACL narrative."
+}

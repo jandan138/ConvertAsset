@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "record_id": "supplement_navigation_derivation_companion_v3_20260603",
+  "generated_at_utc": "2026-06-03T04:21:33Z",
+  "status": "pass",
+  "claim_boundary": "Figure layout and page-level visual-review evidence only; not a new navigation metric, route-success statistic, model prediction, benchmark row, or replacement for the frozen official-scene run.",
+  "changed_page": {
+    "venue": "acl27",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "page": 14,
+    "section": "paper/venues/acl27/sections/supplement/01_derivations.tex",
+    "figure": "paper/shared/figures/fig_supplement_navigation_derivation_companion.png"
+  },
+  "figure_stats": {
+    "path": "paper/shared/figures/fig_supplement_navigation_derivation_companion.png",
+    "width_px": 1800,
+    "height_px": 560,
+    "sha256": "6da71175ecb478747e61f9aa146ed9845df666810296b665a796489d11edcdcd",
+    "active_test_fraction": 0.583527777778,
+    "active238_fraction": 0.585902777778,
+    "active245_fraction": 0.623668650794,
+    "red_render_content_fraction": 0.000491071429
+  },
+  "ai_slot": {
+    "path": "paper/shared/figures/ai_slots/fig_supplement_navigation_metric_gate_v3_ai_slot.png",
+    "width_px": 1774,
+    "height_px": 887,
+    "sha256": "0a453c29c5c6d44ad8bceb2867e5581e0db2bf34f5a0fd1784e20f94817491b8",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0c7fee79ccaaf054016a1fa5f44fd081908cf65ba972a1e75d.png",
+    "source_generated_image_sha256": "0a453c29c5c6d44ad8bceb2867e5581e0db2bf34f5a0fd1784e20f94817491b8",
+    "manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_navigation_derivation_companion.yaml",
+    "manifest_sha256": "710281655f94a0a7966982b6e2ea74eb16173e8019b9e53c2cbfbce652074197",
+    "claim_boundary": "Exposition only; not experimental evidence."
+  },
+  "registered_render_evidence": [
+    "paper/shared/figures/fig_internnav_downstream_panel.png",
+    "paper/shared/figures/fig_internnav_rollout_stills.png",
+    "paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png",
+    "paper/shared/figures/fig_internnav_rollout_selected6_supp.png",
+    "paper/shared/figures/fig_internnav_rollout_0036_0066_selected6_supp.png",
+    "paper/shared/figures/supplement/internnav_selected6_case01.png",
+    "paper/shared/figures/supplement/internnav_selected6_case02.png",
+    "paper/shared/figures/supplement/internnav_selected6_case03.png",
+    "paper/shared/figures/supplement/internnav_selected6_case04.png",
+    "paper/shared/figures/supplement/internnav_selected6_case05.png",
+    "paper/shared/figures/supplement/internnav_selected6_case06.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case01.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case02.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case03.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case04.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case05.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case06.png"
+  ],
+  "pdf_page_renders": [
+    {
+      "path": "tmp/acl_supplement_navigation_derivation_v3_review_20260603/page-13.png",
+      "page": 13,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active_test_fraction": 0.09589340807,
+      "active238_fraction": 0.096034171164,
+      "active245_fraction": 0.099044498008,
+      "red_render_content_fraction": 0.0,
+      "sha256": "845a14aaa2e19bdd84ae05e053a4354e3cc20a4fdfcb9a3faf1476cbd4850ef8"
+    },
+    {
+      "path": "tmp/acl_supplement_navigation_derivation_v3_review_20260603/page-14.png",
+      "page": 14,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active_test_fraction": 0.119315965171,
+      "active238_fraction": 0.119647048404,
+      "active245_fraction": 0.126527569533,
+      "red_render_content_fraction": 0.000051665855,
+      "sha256": "d931d4e84097f3c5771eaf4ce7b9e939693a327d471660ad7872993baf02ea9d"
+    },
+    {
+      "path": "tmp/acl_supplement_navigation_derivation_v3_review_20260603/page-15.png",
+      "page": 15,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active_test_fraction": 0.133828271134,
+      "active238_fraction": 0.134203112182,
+      "active245_fraction": 0.141044620319,
+      "red_render_content_fraction": 0.00005061145,
+      "sha256": "599ff97314e043d24f63f1ccd6780dc45140a3ef858f12b8813186a12e00cfa8"
+    }
+  ],
+  "previous_page14_active245_fraction": 0.092388038,
+  "new_page14_active245_fraction": 0.126527569533,
+  "visual_review": {
+    "mode": "local_render_visual_reviewer",
+    "independent_subagent": false,
+    "subagent_note": "The user requested repeated use of the visual-review skill, not explicit independent subagent dispatch; local clean-room-style visual review was used.",
+    "verdict": "PASS",
+    "evidence": "Page 14 keeps the navigation formulas, the v3 denser companion, and the caption together. Page 15 starts the metric-boundary summary and bridge normally. The v3 companion uses a page-fit 1800 x 560 footprint with more registered selected-route and 0036/0066 route-case panels, plus an exposition-only navigation-metric gate schematic."
+  },
+  "build": {
+    "command": "make -C paper acl27-supplement",
+    "pdf_pages": 44,
+    "pdf_sha256": "53a1d4ff935cff87ffbe70510210ae10b3e598e304cfb10cba316bae09181909",
+    "pdf_size_bytes": 39422211
+  }
+}

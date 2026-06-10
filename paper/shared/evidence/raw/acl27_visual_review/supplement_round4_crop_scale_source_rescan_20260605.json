@@ -1,0 +1,77 @@
+{
+  "artifact": "paper/venues/acl27/build/supplement.pdf",
+  "artifact_sha256": "4c5295b7306453238cfa9a2a14e8cbaea56c16ffec0b22d63b88c6d7a836cb0d",
+  "audit_date": "2026-06-05",
+  "audit_name": "acl_supplement_round4_crop_scale_source_rescan",
+  "page_count": 46,
+  "page_size": "A4",
+  "scope": [
+    "rendered PDF page clipping",
+    "figure scale and caption collision",
+    "source PNG internal AI-slot clipping",
+    "historical Figure S25 bottom-concept regression",
+    "dense atlas incomplete-display scan"
+  ],
+  "evidence_root": "tmp/acl_supplement_visual_scan_20260605_round4",
+  "rendered_pages": "tmp/acl_supplement_visual_scan_20260605_round4/pages_180",
+  "text_layout": "tmp/acl_supplement_visual_scan_20260605_round4/text/supplement_layout.txt",
+  "contact_sheets": [
+    "tmp/acl_supplement_visual_scan_20260605_round4/contact_sheets/supp_pages_01_12_round4.png",
+    "tmp/acl_supplement_visual_scan_20260605_round4/contact_sheets/supp_pages_13_24_round4.png",
+    "tmp/acl_supplement_visual_scan_20260605_round4/contact_sheets/supp_pages_25_36_round4.png",
+    "tmp/acl_supplement_visual_scan_20260605_round4/contact_sheets/supp_pages_37_46_round4.png",
+    "tmp/acl_supplement_visual_scan_20260605_round4/contact_sheets/supp_high_risk_pages_round4.png",
+    "tmp/acl_supplement_visual_scan_20260605_round4/contact_sheets/source_figures_S01_S12_round4.png",
+    "tmp/acl_supplement_visual_scan_20260605_round4/contact_sheets/source_figures_S13_S24_round4.png",
+    "tmp/acl_supplement_visual_scan_20260605_round4/contact_sheets/source_figures_S25_S36_round4.png",
+    "tmp/acl_supplement_visual_scan_20260605_round4/contact_sheets/source_figures_S37_S38_round4.png",
+    "tmp/acl_supplement_visual_scan_20260605_round4/contact_sheets/source_figures_high_risk_round4.png"
+  ],
+  "full_page_inspections": [
+    {
+      "page": 22,
+      "figure": "Figure S21",
+      "result": "complete; dense table companion remains within page and caption bounds"
+    },
+    {
+      "page": 27,
+      "figure": "Figure S25",
+      "source_png": "paper/shared/figures/fig_supplement_material_claim_boundary_atlas.png",
+      "result": "bottom claim-boundary gate schematic fully visible in source PNG and rendered PDF"
+    },
+    {
+      "page": 28,
+      "figure": "Figure S26",
+      "source_png": "paper/shared/figures/fig_supplement_material_decision_map.png",
+      "result": "bottom material-decision gate fully visible in source PNG and rendered PDF"
+    },
+    {
+      "page": 41,
+      "figure": "Figure S39",
+      "result": "compact but complete; no caption collision or page-edge truncation"
+    },
+    {
+      "page": 43,
+      "figure": "Figure S40",
+      "result": "manifest/index figure complete; thumbnails are intentionally small"
+    },
+    {
+      "page": 45,
+      "figure": "Figure S41",
+      "result": "source-boundary companion complete; AI source-boundary gate visible"
+    }
+  ],
+  "source_png_count": 38,
+  "page_edge_flags": 0,
+  "blocking_defects_found": [],
+  "changes_made": [
+    "docs/records/2026-06-05-acl-supplement-round4-crop-scale-source-rescan.md",
+    "paper/shared/evidence/raw/acl27_visual_review/supplement_round4_crop_scale_source_rescan_20260605.json",
+    "docs/records/README.md"
+  ],
+  "residual_risks": [
+    "Figure S39 and manifest/index figures remain dense, but current evidence shows complete display rather than clipping.",
+    "This pass did not perform OCR readability scoring or semantic correctness review."
+  ],
+  "verdict": "pass_no_new_blocking_visual_defects"
+}

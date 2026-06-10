@@ -129,6 +129,49 @@ def test_incomplete_private_author_gate_reports_completion_handoff(
     )
 
 
+def test_incomplete_private_author_gate_skips_prefill_handoff_when_repo_rows_done(
+    tmp_path: Path,
+) -> None:
+    module = load_module()
+    paper_root = tmp_path / "paper"
+    worksheet = paper_root / "venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md"
+    worksheet.parent.mkdir(parents=True)
+    repo_prefilled = {
+        "Clean PDF build command and timestamp": "pass: pre-upload gate passed",
+        "Final PDF page count / page size": "pass: 11 pages; A4; PDF 1.5",
+        "Undefined citation/reference scan": "pass: no unresolved citations",
+        "Staging command and packet path": "pass: staged packet path",
+        "Staged file list": "pass: main.pdf, openreview/METADATA.md",
+        "Local path / username / private-link scan": "pass: no leak",
+        "Acknowledgment scan": "pass: no acknowledgment",
+        "Limitations / Ethical Considerations / References text scan": "pass: ordered",
+    }
+    rows = [
+        "| Field | Fill in local copy |",
+        "| --- | --- |",
+        *(
+            f"| {field} | {repo_prefilled.get(field, 'TODO')} |"
+            for field in module.author_gate_module().REQUIRED_FIELDS
+        ),
+    ]
+    worksheet.write_text("\n".join(rows) + "\n", encoding="utf-8")
+
+    report = module.build_final_blocker_report(
+        paper_root,
+        repo_root=tmp_path,
+        check_git=False,
+        check_repo_evidence=False,
+    )
+
+    assert report["status"] == "human_blocked"
+    assert "private_author_gate_incomplete" in report["human_blockers"]
+    assert "prefill_author_gate.py --apply for repo-verifiable rows" not in report[
+        "next_actions"
+    ][0]
+    assert "Complete or correct" in report["next_actions"][0]
+    assert "check_author_gate.py" in report["next_actions"][0]
+
+
 def test_private_author_gate_status_reports_safe_field_names_only(
     tmp_path: Path,
 ) -> None:

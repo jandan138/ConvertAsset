@@ -1,0 +1,162 @@
+{
+  "record_id": "supplement_grounding_derivation_companion_v2_20260603",
+  "date_utc": "2026-06-03",
+  "scope": "ACL 2027 supplement page 13 grounding-derivation companion v2 visual iteration",
+  "motivation": {
+    "target_page": 13,
+    "target_page_before": "page 13 was formula-heavy and sparse, with the grounding companion too small to serve as a render-backed bridge",
+    "previous_page_13_active_fraction_90dpi_active245": 0.109492215,
+    "goal_alignment": "Add more registered render material to the supplement derivation page while keeping the AI-generated schematic clearly exposition-only."
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks",
+    "page_active245_definition": "RGB pixels where any channel is below 245, used for the sparse-page raster audit",
+    "red_pixel_fraction_definition": "RGB pixels where R > 180, G < 80, and B < 80"
+  },
+  "claim_boundary": {
+    "paper_use": "visual reading guide for the point-in-box and normalized-1000 coordinate derivations",
+    "not_new_evidence": true,
+    "boundary_statement": "Exposition only; not experimental evidence.",
+    "notes": "The AI-generated metric-contract gate is not a metric, model prediction, benchmark row, VLM output, or new experimental result. Evidence-bearing panels remain the registered original/noMDL GRScenes target-view render pairs and protocol overlays."
+  },
+  "ai_slots": {
+    "metric_contract_gate": {
+      "path": "paper/shared/figures/ai_slots/fig_supplement_metric_contract_gate_ai_slot.png",
+      "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0a3588239d776694016a1fe0455c248199a247bd056e34fb52.png",
+      "sha256": "5316daa3d44ca04ca849ace76a96f48d6c1a04135c58d7d5a20aaaafa5e6948d",
+      "size_px": [
+        1824,
+        862
+      ],
+      "bytes": 896340,
+      "layout_guard_active_fraction": 0.112090151,
+      "active245_fraction": 0.141984166,
+      "red_pixel_fraction": 0.0,
+      "role": "AI-generated metric-contract schematic only; deterministic figure code draws critical labels, boundary text, and all evidence-source annotations."
+    }
+  },
+  "final_figure": {
+    "path": "paper/shared/figures/fig_supplement_grounding_derivation_companion.png",
+    "sha256": "4def91adc3b9556de33328e029a2ee8211fdb2e0978290478241636e42e2b2d0",
+    "size_px": [
+      1800,
+      780
+    ],
+    "bytes": 560430,
+    "layout_guard_active_fraction": 0.363649573,
+    "active245_fraction": 0.370272792,
+    "red_pixel_fraction": 0.0,
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_grounding_derivation_companion.yaml",
+    "registered_real_sources": [
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expanded30_target_projection_qa_report.json",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png"
+    ],
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "The standalone v2 figure shows four registered original/noMDL target-view render pairs, explicit protocol overlays, a bottom formula-to-render audit strip, and a separated exposition-only metric-contract gate. No clipping, red fallback panels, or label overlap are visible in the standalone figure."
+  },
+  "pdf_review": {
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_sha256": "c1151dbfd3e84e4b778db983e1d0ff08cb15ba2393e91aee29ac6581476a5ce4",
+    "page_count": 45,
+    "page_number": 13,
+    "page_render_140dpi": "tmp/acl_supplement_grounding_derivation_v2_review_20260603/page-13.png",
+    "page_render_140dpi_sha256": "10963bb4037c1132aacf14d35d03a730b5df8f1bc829c1430f41847a8d929d03",
+    "page_render_140dpi_size_px": [
+      1158,
+      1638
+    ],
+    "page_layout_guard_active_fraction_140dpi": 0.097599436,
+    "page_active245_fraction_140dpi": 0.100932411,
+    "page_red_pixel_fraction_140dpi": 0.0,
+    "page_render_90dpi": "tmp/acl_supplement_grounding_derivation_v2_review_20260603/page90-13.png",
+    "page_render_90dpi_sha256": "2a258e4a6b1a7a68457f3fb67d343460f393c01408f6c25c3d21d1cfd529125d",
+    "page_render_90dpi_size_px": [
+      745,
+      1053
+    ],
+    "page_layout_guard_active_fraction_90dpi": 0.110787332,
+    "page_active245_fraction_90dpi": 0.115241209,
+    "previous_page_active_fraction_90dpi_active245": 0.109492215,
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "Rendered page 13 keeps the C.3-C.6 derivations, grounding companion, and caption on one page. The companion is compact but legible enough to connect the formulas to registered render pairs, and the caption does not collide with page content.",
+    "residual_risk": "The figure is smaller than the standalone design because larger 0.24-0.36 textheight trials caused caption-only or figure-only spillover pages."
+  },
+  "layout_iterations": [
+    {
+      "include_height": "0.36\\textheight",
+      "result": "Rejected: moved the companion to the following page as a mostly isolated figure."
+    },
+    {
+      "include_height": "0.24\\textheight",
+      "result": "Rejected: kept the figure near page 13 but produced a caption spillover page and a 46-page supplement in tested layouts."
+    },
+    {
+      "include_height": "0.22\\textheight",
+      "result": "Usable pagination, but the figure was smaller and page 13 active245 density was lower than the pre-iteration audit."
+    },
+    {
+      "include_height": "0.23\\textheight",
+      "result": "Selected: supplement remains 45 pages, figure and caption stay on page 13, and page 13 active245 density increases from 0.109492215 to 0.115241209 at 90 dpi."
+    }
+  ],
+  "review_artifacts": {
+    "contact_sheet_pages_13_15": "tmp/acl_supplement_grounding_derivation_v2_review_20260603/page13_15_contact.png",
+    "metric_gate_crop": "tmp/acl_supplement_grounding_derivation_v2_review_20260603/grounding_companion_metric_gate_crop.png",
+    "audit_strip_crop": "tmp/acl_supplement_grounding_derivation_v2_review_20260603/grounding_companion_audit_strip_crop.png",
+    "page13_figure_caption_crop": "tmp/acl_supplement_grounding_derivation_v2_review_20260603/page13_figure_caption_crop.png"
+  },
+  "tests": [
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py::test_acl_supplement_derivations_have_render_companions tests/test_paper_layout.py::test_supplement_derivation_companions_are_registered_and_dense",
+      "result": "RED during implementation for missing formula-to-render audit strip and rejected include heights; GREEN after implementation: 2 passed in 0.62s"
+    },
+    {
+      "command": "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+      "result": "completed; regenerated fig_supplement_grounding_derivation_companion.png from the v2 composer"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "74 passed in 13.83s"
+    },
+    {
+      "command": "make -C paper acl27-supplement",
+      "result": "exit 0; paper/venues/acl27/build/supplement.pdf contains 45 pages"
+    },
+    {
+      "command": "pdftoppm -f 13 -l 15 -r 140 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_grounding_derivation_v2_review_20260603/page",
+      "result": "completed; pages 13-15 regenerated for local visual review"
+    },
+    {
+      "command": "pdftoppm -f 13 -l 15 -r 90 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_grounding_derivation_v2_review_20260603/page90",
+      "result": "completed; pages 13-15 regenerated for density comparison against the pre-v2 audit"
+    },
+    {
+      "command": "pdftotext -f 13 -l 13 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_grounding_derivation_v2_review_20260603/page-13.txt",
+      "result": "normalized required caption text present; local-path and forbidden stronger-claim tokens absent"
+    },
+    {
+      "command": "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_grounding_derivation_companion_v2_20260603.json",
+      "result": "exit 0"
+    },
+    {
+      "command": "git diff --check -- docs/records/README.md paper/shared/figures/gen_supplement_task_media_atlases.py paper/shared/figures/ai_slot_manifests/fig_supplement_grounding_derivation_companion.yaml paper/venues/acl27/sections/supplement/01_derivations.tex tests/test_paper_layout.py",
+      "result": "exit 0; no whitespace errors in the tracked diff"
+    },
+    {
+      "command": "direct trailing-whitespace scan over the new docs, JSON, manifest, LaTeX, generator, and layout test files",
+      "result": "no trailing whitespace and all scanned text files end with a final newline"
+    }
+  ],
+  "review_mode": {
+    "skill": "render-visual-reviewer",
+    "independent_subagent_review": false,
+    "reason": "Local pure visual review was used; no separate clean-room subagent was dispatched in this run."
+  }
+}

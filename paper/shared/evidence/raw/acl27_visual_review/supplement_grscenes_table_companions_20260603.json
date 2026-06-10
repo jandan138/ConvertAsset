@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_grscenes_table_companions_20260603",
+  "date": "2026-06-03",
+  "scope": "ACL supplement GRScenes table companion strips for failure-taxonomy, PASS-only, and zoom-stress tables",
+  "independent_subagent": false,
+  "review_method": "Local render-visual-reviewer-style inspection of standalone PNGs and rendered PDF pages; no code context was used for visual verdicts beyond the image paths and expected page purpose.",
+  "claim_boundary": "The AI-generated table-reading gate is exposition only and is not experimental evidence. Evidence-bearing panels are registered GRScenes original/noMDL target-view renders and the existing VLM tables.",
+  "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0f12ac123d614b55016a1f198e0b54819aa87a8c130940e7ca.png",
+  "ai_slot": {
+    "path": "paper/shared/figures/ai_slots/fig_supplement_grscenes_table_reading_gate_ai_slot.png",
+    "sha256": "460e52dfb5f88a0f93542a981723afa73708b58f993c5bea22e2b16915ee2be7",
+    "width": 1983,
+    "height": 793,
+    "active_fraction": 0.16819,
+    "red_fallback_fraction": 0.0
+  },
+  "standalone_figures": [
+    {
+      "path": "paper/shared/figures/fig_supplement_grscenes_failure_taxonomy_table_companion.png",
+      "sha256": "90e68868ec36675a1e0fbd8e1796c691f88c4f3d669889c6e30181a88610d029",
+      "width": 1800,
+      "height": 680,
+      "active_fraction": 0.322192,
+      "red_fallback_fraction": 0.0,
+      "visual_verdict": "PASS",
+      "visual_notes": "Table companion is contained, render pairs are visible, AI slot is not cropped, and no red-material fallback is visible."
+    },
+    {
+      "path": "paper/shared/figures/fig_supplement_grscenes_pass_only_table_companion.png",
+      "sha256": "56ccce94e974566b118149977672bf29e18c3b0fa6b5f54f89b687698af10192",
+      "width": 1800,
+      "height": 680,
+      "active_fraction": 0.320426,
+      "red_fallback_fraction": 0.0,
+      "visual_verdict": "PASS",
+      "visual_notes": "Pilot-provenance strip is contained, target boxes remain legible, and claim-boundary text is explicit."
+    },
+    {
+      "path": "paper/shared/figures/fig_supplement_grscenes_zoom_stress_table_companion.png",
+      "sha256": "c2bb8c340f90791c4245f71d386595db904ce4ad7d6f96dfb1bec8821ab3214c",
+      "width": 1800,
+      "height": 680,
+      "active_fraction": 0.321241,
+      "red_fallback_fraction": 0.0,
+      "visual_verdict": "PASS",
+      "visual_notes": "Orange accent is stylistic, not material fallback; render pairs and table-reading boundary are contained."
+    }
+  ],
+  "rendered_pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "eda4cea3395cadb7aa9fb0189069a45ebfcd7780581492c0e2dae6bc403a3453",
+    "pages": 44,
+    "page_renders": [
+      {
+        "page": 22,
+        "render_path": "tmp/acl_supplement_grscenes_companion_review/page-22.png",
+        "sha256": "4fb10e6d660328925bdbb351f82e2ed50f76e1ac9d716e52acd2a8b4321be8c6",
+        "dpi": 140,
+        "active_fraction": 0.090659,
+        "strong_fraction": 0.0795,
+        "red_fallback_fraction": 0.0,
+        "visual_verdict": "PASS",
+        "visual_notes": "Failure-taxonomy table and companion render strip are on the same page with no clipping or caption collision."
+      },
+      {
+        "page": 23,
+        "render_path": "tmp/acl_supplement_grscenes_companion_review/page-23.png",
+        "sha256": "919dad81b9051f2150c050ae00f632fc9009200beda2ad4d1277be7076d66258",
+        "dpi": 140,
+        "active_fraction": 0.082423,
+        "strong_fraction": 0.072068,
+        "red_fallback_fraction": 0.0,
+        "visual_verdict": "PASS",
+        "visual_notes": "PASS-only table and companion render strip are on the same page with no clipping or caption collision."
+      },
+      {
+        "page": 24,
+        "render_path": "tmp/acl_supplement_grscenes_companion_review/page-24.png",
+        "sha256": "8f7623cd6d0f7a12f53eac655284997e3241f54f2b03723ddcd6b5d1770f620f",
+        "dpi": 140,
+        "active_fraction": 0.080753,
+        "strong_fraction": 0.070601,
+        "red_fallback_fraction": 0.0,
+        "visual_verdict": "PASS",
+        "visual_notes": "Zoom-stress table and companion render strip are on the same page before the material-effects section."
+      }
+    ]
+  },
+  "page_density_delta": {
+    "before_active_fraction_120dpi": {
+      "page_22": 0.0345,
+      "page_23": 0.0237,
+      "page_24": 0.0217
+    },
+    "after_active_fraction_140dpi": {
+      "page_22": 0.090659,
+      "page_23": 0.082423,
+      "page_24": 0.080753
+    }
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k \"grscenes_tables_have_render_companions or grscenes_table_companions_are_registered\"",
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "make -C paper acl27-supplement",
+    "pdftoppm -r 140 -png -f 22 -l 24 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_grscenes_companion_review/page",
+    "pdftotext paper/venues/acl27/build/supplement.pdf - | rg -n \"GRScenes failure-taxonomy table companion|GRScenes PASS-only table companion|GRScenes zoom-stress table companion|Red material in these diagnostic cases|fig_vlm_grounding_cases|/cpfs/user|Zihou\""
+  ],
+  "pdf_text_scan": {
+    "positive_caption_hits": [
+      "Figure S14: GRScenes failure-taxonomy table companion",
+      "Figure S15: GRScenes PASS-only table companion",
+      "Figure S16: GRScenes zoom-stress table companion"
+    ],
+    "negative_tokens_absent": [
+      "Red material in these diagnostic cases",
+      "fig_vlm_grounding_cases",
+      "/cpfs/user",
+      "Zihou"
+    ]
+  },
+  "residual_risk": "Some in-figure text is small at paper scale, but the page caption and deterministic labels carry the claim boundary. Bottom whitespace remains, but the former sparse table pages are no longer table-only pages."
+}

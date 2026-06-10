@@ -1,0 +1,42 @@
+Use case: infographic-diagram
+Asset type: ACL main paper Figure 1, wide method-chain schematic for a two-column academic paper.
+Output path: paper/shared/figures/fig_acl_method_chain_imagegen_v6.png
+Primary request: Generate a clean, publication-ready method-chain diagram for a paper about ConvertAsset, using the visible current Figure 1 only as a structural reference. Produce a fresh image, not a duplicate.
+
+Canvas and layout:
+- Wide landscape 2:1 aspect ratio, white background, thin academic panel borders, no decorative gradients, no shadows, no logos, no watermark.
+- Four left-to-right numbered stages connected by simple arrows.
+- Use restrained colors: blue for source assets, green for conversion, orange for paired grounding evidence, purple for navigation sanity evidence.
+- Keep typography large and simple enough for an ACL PDF. Avoid dense paragraphs and tiny legends.
+
+Stage labels, render exactly and prominently:
+1. USD / MDL Scene Assets
+2. ConvertAsset noMDL Conversion
+3. Matched Rendering + VLM Grounding
+4. InternNav Navigation Evidence
+
+Stage 1 visual content:
+- A USD file icon, a compact scene hierarchy tree, three small clean indoor room thumbnails, and four material spheres for wood, fabric, paint, metal.
+- Materials must look natural; avoid bright red fallback material.
+
+Stage 2 visual content:
+- MDL material nodes converted to UsdPreviewSurface nodes with rows for base color, roughness, metallic, normal, opacity.
+- Include small sub-panels for path rewriting and scene hierarchy preserved.
+- Output label: noMDL USD.
+
+Stage 3 visual content:
+- Paired original MDL and noMDL render thumbnails with aligned camera views and small red target boxes only around objects.
+- A VLM grounding mini-panel with a question bubble and a target point on an image.
+
+Stage 4 visual content:
+- First-person navigation thumbnail strip, top-down floorplan with a green success trajectory and a red failure trajectory, and three metric tiles labeled SR, SPL, NE.
+- Red should appear only in the failure trajectory and target boxes, not as material corruption.
+
+Footer text, render exactly:
+Quantitative claims use frozen paired evidence; selected rollouts are qualitative only.
+
+Constraints:
+- No author names, no numeric results, no invented claims, no brand logos.
+- No extra acronyms beyond USD, MDL, noMDL, VLM, InternNav, SR, SPL, NE.
+- Use synthetic schematic placeholders, not photorealistic empirical claims.
+- The result should look like a serious scientific workflow figure, not a marketing slide.

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import re
 import sys
@@ -47,9 +48,10 @@ RULES = (
     ),
     ClaimBoundaryRule(
         "all_scene_robustness",
-        "All-scene, R2R/MP3D, or manipulation robustness must be negated.",
+        "All-scene, InternNav/InteriorAgent, R2R/MP3D, or manipulation robustness must be negated.",
         re.compile(
-            r"\b(all-?(?:GRScenes|InteriorNav)|R2R/MP3D|MP3D|manipulation)\b",
+            r"\b(all[\s-]?(?:GRScenes|InteriorNav|InternNav|InteriorAgent)|"
+            r"R2R/MP3D|MP3D|manipulation)\b",
             re.IGNORECASE,
         ),
     ),
@@ -101,6 +103,42 @@ UNSAFE_FIGURES = (
         "figure": "fig_vlm_grounding_cases",
         "pattern": re.compile(r"figures/fig_vlm_grounding_cases\.(?:pdf|png)", re.IGNORECASE),
     },
+    {
+        "rule_id": "unsafe_material_effect_qualitative_panel",
+        "description": "The material-effect qualitative panel requires clean original-MDL provenance.",
+        "figure": "fig_material_effect_baseline_qualitative",
+        "pattern": re.compile(r"figures/fig_material_effect_baseline_qualitative\.png", re.IGNORECASE),
+        "allow_when_material_effect_clean_provenance_ready": True,
+    },
+)
+
+
+VENUE_WRAPPER_PHRASES = (
+    ClaimBoundaryRule(
+        "acl_facing",
+        "Main-paper prose should not describe evidence as ACL-facing.",
+        re.compile(r"\bACL-facing\b", re.IGNORECASE),
+    ),
+    ClaimBoundaryRule(
+        "main_acl_claim",
+        "Main-paper prose should not refer to an internal main ACL claim.",
+        re.compile(r"\bmain\s+ACL\s+claim\b", re.IGNORECASE),
+    ),
+    ClaimBoundaryRule(
+        "acl_protocol",
+        "The abstract should describe the protocol without venue-wrapper wording.",
+        re.compile(r"\b(?:claim-bounded\s+)?ACL\s+protocol\b", re.IGNORECASE),
+    ),
+    ClaimBoundaryRule(
+        "any_acl_submission",
+        "Ethics prose should be venue-neutral inside the manuscript.",
+        re.compile(r"\bAny\s+ACL\s+submission\b", re.IGNORECASE),
+    ),
+    ClaimBoundaryRule(
+        "acl_arr_claim_boundary",
+        "Main-paper table captions should not expose ACL/ARR wrapper wording.",
+        re.compile(r"\bACL/ARR\s+claim\s+boundary\b", re.IGNORECASE),
+    ),
 )
 
 
@@ -144,11 +182,20 @@ def find_claim_boundary_violations(text_by_path: Mapping[str, str]) -> list[dict
     return violations
 
 
-def find_unsafe_figure_violations(text_by_path: Mapping[str, str]) -> list[dict[str, str]]:
+def find_unsafe_figure_violations(
+    text_by_path: Mapping[str, str],
+    *,
+    material_effect_clean_provenance_ready: bool = False,
+) -> list[dict[str, str]]:
     violations: list[dict[str, str]] = []
     for path, text in sorted(text_by_path.items()):
         for figure in UNSAFE_FIGURES:
             if figure["pattern"].search(text):
+                if (
+                    figure.get("allow_when_material_effect_clean_provenance_ready")
+                    and material_effect_clean_provenance_ready
+                ):
+                    continue
                 violations.append(
                     {
                         "path": path,
@@ -160,26 +207,81 @@ def find_unsafe_figure_violations(text_by_path: Mapping[str, str]) -> list[dict[
     return violations
 
 
+def material_effect_clean_provenance_ready(paper_root: Path) -> bool:
+    project_root = paper_root.parent
+    script = (
+        project_root
+        / "paper/shared/evidence/experiments/08_material_effect_baseline/check_qualitative_clean_provenance.py"
+    )
+    manifest = project_root / "paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json"
+    if not script.is_file() or not manifest.is_file():
+        return False
+
+    spec = importlib.util.spec_from_file_location("material_effect_clean_provenance", script)
+    if spec is None or spec.loader is None:
+        return False
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    report = module.check_qualitative_clean_provenance(
+        json.loads(manifest.read_text(encoding="utf-8"))
+    )
+    return bool(report.get("ok"))
+
+
+def find_venue_wrapper_phrasing_violations(text_by_path: Mapping[str, str]) -> list[dict[str, str]]:
+    violations: list[dict[str, str]] = []
+    for path, text in sorted(text_by_path.items()):
+        for window in split_claim_windows(text):
+            for rule in VENUE_WRAPPER_PHRASES:
+                if rule.pattern.search(window):
+                    violations.append(
+                        {
+                            "path": path,
+                            "rule_id": rule.rule_id,
+                            "description": rule.description,
+                            "text": window,
+                        }
+                    )
+    return violations
+
+
+def extract_latex_captions(text: str) -> str:
+    captions = re.findall(r"\\caption\{([^{}]*)\}", text, flags=re.DOTALL)
+    return "\n".join(captions)
+
+
 def load_acl_claim_texts(paper_root: Path) -> dict[str, str]:
     venue_root = paper_root / "venues" / "acl27"
     paths = sorted((venue_root / "sections").glob("*.tex"))
     paths.append(paper_root / "shared" / "sections" / "appendix.tex")
     paths.append(venue_root / "OPENREVIEW_METADATA_PACKET.md")
-    return {
+    text_by_path = {
         str(path.relative_to(paper_root)): path.read_text(encoding="utf-8")
         for path in paths
     }
+    for table_path in sorted((paper_root / "shared" / "tables").glob("tab_*.tex")):
+        captions = extract_latex_captions(table_path.read_text(encoding="utf-8"))
+        if captions:
+            text_by_path[f"{table_path.relative_to(paper_root)}#captions"] = captions
+    return text_by_path
 
 
 def check_claim_boundaries(paper_root: Path) -> dict[str, object]:
     text_by_path = load_acl_claim_texts(paper_root)
+    clean_material_effect_panel_ready = material_effect_clean_provenance_ready(paper_root)
     violations = find_claim_boundary_violations(text_by_path)
-    unsafe_figure_violations = find_unsafe_figure_violations(text_by_path)
+    unsafe_figure_violations = find_unsafe_figure_violations(
+        text_by_path,
+        material_effect_clean_provenance_ready=clean_material_effect_panel_ready,
+    )
+    venue_wrapper_violations = find_venue_wrapper_phrasing_violations(text_by_path)
     return {
-        "ok": not violations and not unsafe_figure_violations,
+        "ok": not violations and not unsafe_figure_violations and not venue_wrapper_violations,
         "checked_files": sorted(text_by_path),
+        "material_effect_clean_provenance_ready": clean_material_effect_panel_ready,
         "violations": violations,
         "unsafe_figure_violations": unsafe_figure_violations,
+        "venue_wrapper_violations": venue_wrapper_violations,
     }
 
 

@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 47,
+  "date": "2026-06-06",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/intro.tex"
+  ],
+  "docs_record": "docs/records/2026-06-06-acl-main-intro-boundary-linebreak-polish.md",
+  "issue": {
+    "page": 2,
+    "location": "final sentence of the introductory gate-flow paragraph",
+    "before_problem": [
+      "The round46 page still split the transition phrase as 'broad ro- / bustness claims.'",
+      "The split occurred immediately before the contribution list, making the first evidence-chain story look less polished."
+    ],
+    "rejected_candidate": [
+      "The phrase 'not a blanket claim' removed the robustness split but left a one-word 'claim.' line, so it was rejected."
+    ]
+  },
+  "change_summary": {
+    "intro_tex_line": 56,
+    "before": "Together, these gates support bounded claims, not broad robustness claims.",
+    "after": "Together, these gates bound the paper's claim.",
+    "summary": "Shortened the boundary sentence to remove the page-2 ro-/bustness split and avoid a one-word continuation line.",
+    "claim_scope_changed": false
+  },
+  "pdf": {
+    "before_sha256": "b5f8ef0e47f76db3bef99945a76a853f1516372b7d69152acbbb724a4330d05a",
+    "after_sha256": "2220f78d266b1c2c9a406c56c3ee33dc5dcccc03e6b0c7980286b1b6f6d020d3",
+    "after_pages": 11,
+    "after_file_size_bytes": 5188316,
+    "after_creation_date": "Sat Jun 6 22:31:01 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260606_round47_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260606_round47_after",
+    "before": {
+      "contact_sheet_png_sha256": "406fbe38d8fe97e3db7f504c25bd1002cac57a34e7218251f551e83883809740",
+      "focus_p1_p2_png_sha256": "708c52ef959f08fdc655db77fa2bc1361eb01c4b8d452f9008d4a4fddee4d39f",
+      "full_txt_sha256": "e0535c6b34755919ae4a3b1095a4b3f58bad0e402abcb24103e6421ad8da0af2",
+      "page2_txt_sha256": "55619a633eb4add7965d66d95f68e87c3cd7f1d495d5298c08a8fef925c40858"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "aa76fb78e3cc50f9342e09b6cd171c062aee5deb772ce8d03101441f3757d4b3",
+      "focus_before_after_p2_png_sha256": "7eeb0808970f752fae2c681f044965c1f55490cd5b5afe1f59713e67f21ebb6c",
+      "focus_p1_p2_png_sha256": "9a92ad3ad89bfc68418a86249ed8253bc1fa7dcaf1a03c365845bc76f9e8a5a9",
+      "full_txt_sha256": "ba90a7bc8612a1fc08f8f38c8d363e94af0f81c3c4fdcc7d200bc9740842d182",
+      "page2_txt_sha256": "fa3c4a707fe3c2e189210ad39914ffb636eb7665ad89bfc40b30f821871aec23"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260606_round47_after/focus_before_after_p2.png",
+      "tmp/acl_main_visual_iter_20260606_round47_after/contact_sheet.png"
+    ],
+    "observations": [
+      "The page-2 before/after crop shows the prior 'broad ro- / bustness claims' split removed.",
+      "The accepted sentence appears as 'Together, these gates / bound the paper's claim' without an isolated one-word line.",
+      "Contribution item 3 now begins at the bottom of the left column; Related Work remains clean at the top of the right column.",
+      "The full contact sheet remains 11 pages with no obvious figure/table collision or blank page."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "bash -lc 'if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf \"no blocker matches\\n\"; fi'",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "exit_code": 0,
+      "result": "102 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 169"
+    }
+  ]
+}

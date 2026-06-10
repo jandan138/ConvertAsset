@@ -1,0 +1,34 @@
+{
+  "base_overwritten": "paper/shared/figures/fig_acl_method_chain_imagegen_v18.png",
+  "candidate": "paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v18_real_renders_overlay_v4_brown_stage3.png",
+  "revision": "v4_brown_stage3",
+  "reason": "Replace red/black stress-like Stage 3 VLM render pair with a brown/wood-toned matched MDL/noMDL scene material pair.",
+  "unchanged_slots": [
+    "stage1_input_left",
+    "stage1_input_right",
+    "stage4_internnav_map",
+    "layout_text_arrows_labels_caption"
+  ],
+  "stage3_slots": {
+    "stage3_original": {
+      "box_xyxy": [
+        936,
+        160,
+        1104,
+        431
+      ],
+      "source": "paper/shared/figures/out_tmp/mdl_images/orbit_mdl_04.png",
+      "crop_center_x": 600
+    },
+    "stage3_converted": {
+      "box_xyxy": [
+        1144,
+        160,
+        1311,
+        431
+      ],
+      "source": "paper/shared/figures/out_tmp/nomdl_images/orbit_04.png",
+      "crop_center_x": 600
+    }
+  }
+}

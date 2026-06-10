@@ -1,0 +1,90 @@
+{
+  "record": "main_round68_method_page3_claim_registry_linebreak_polish_20260607",
+  "date": "2026-06-07",
+  "round": 68,
+  "venue": "acl27",
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/method.tex"
+  ],
+  "visual_scope": {
+    "primary_page": 3,
+    "secondary_page_checked": 4,
+    "primary_region": "Method right column, Claim Registry opener at the page bottom"
+  },
+  "issue": {
+    "baseline_pdf_sha256": "ce7e409bef671cdec2d0e79574be20443e0f27e0a03b3d44fb6c44bf3c818dda",
+    "baseline_directory": "tmp/acl_main_visual_iter_20260607_round68_current",
+    "baseline_page3_target_splits": [
+      "ta- / ble"
+    ],
+    "baseline_page3_inherited_splits": [
+      "sim-to- / real",
+      "use- / ful",
+      "ob- / ject",
+      "similar- / ity",
+      "consis- / tency",
+      "abla- / tions"
+    ],
+    "baseline_page4_inherited_splits": [
+      "visual- / QA",
+      "nu- / meric",
+      "ren- / ders",
+      "co- / sine",
+      "vi- / sually"
+    ]
+  },
+  "change_summary": [
+    "Shortened the Claim Registry opener so page 3 no longer breaks the word table at the page bottom.",
+    "Changed the first sentence from a manifest/table/claim-entry list to a concise evidence-registry statement.",
+    "Changed the closing sentence from controlled-perturbation/evidence wording to conversion-is-the-test/task-wide-claims wording to avoid replacement splits while preserving the claim boundary."
+  ],
+  "rejected_iteration_notes": [
+    "A first rewrite replaced ta-/ble with evi-/dence and reg-/istry on page 3.",
+    "The same first rewrite also introduced con-/trolled and evi-/dence on page 4.",
+    "The accepted version removes those replacement splits and keeps the edit within the Claim Registry paragraph."
+  ],
+  "accepted_output": {
+    "after_directory": "tmp/acl_main_visual_iter_20260607_round68_after",
+    "after_pdf_sha256": "60abce690523873e3a3ef86e9ff1898ff9788c715e8288cb2cc192a76d959766",
+    "after_contact_sheet_sha256": "f67f9d23671e2ca860f013443291a4f133212ccf32092b0d34c30f10207a0f14",
+    "after_full_text_sha256": "54abce45451c037728e80f55e335dc83afd20cae13d1a924f4b10e2c4303fd9e",
+    "after_page3_png_sha256": "c6cf30a853bc777e00f84e945fbbcf18157c6b2b0174ff922073a852a1e7ffc7",
+    "after_page3_right_bottom_crop_sha256": "7759cc74159805bffec5d7479dec9a3dd80b581215d2e96bb8a3ef8c60ecd651",
+    "after_page4_png_sha256": "58ec470782328764599fa6da40bb840e7ce24863928f0f2499488a3bd03ce473",
+    "after_page4_top_crop_sha256": "f8c273fcddc1caca482abbe4c8ed1af4de0f30c07adeab15bde5f6397982dca4",
+    "pdf_pages": 11,
+    "pdf_file_size_bytes": 5185438
+  },
+  "accepted_text_scan": {
+    "page3_target_splits_remaining": [],
+    "page3_inherited_splits_remaining": [
+      "sim-to- / real",
+      "use- / ful",
+      "ob- / ject",
+      "similar- / ity",
+      "consis- / tency",
+      "abla- / tions"
+    ],
+    "page4_inherited_or_residual_splits": [
+      "visual- / QA",
+      "nu- / meric",
+      "ren- / ders",
+      "co- / sine",
+      "vi- / sually"
+    ],
+    "next_round_candidate": "Page 4 Results top/right text still contains inherited visual-/numeric/ren-/co-/vi- splits."
+  },
+  "verification": {
+    "make_acl27": "passed",
+    "latex_blocker_scan": "no blocker matches",
+    "pytest": "104 passed in 13.08s",
+    "claim_boundaries": {
+      "ok": true
+    },
+    "metadata_consistency": {
+      "ok": true,
+      "abstract_word_count": 168
+    }
+  }
+}

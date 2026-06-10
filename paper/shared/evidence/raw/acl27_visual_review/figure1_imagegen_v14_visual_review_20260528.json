@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-05-28",
+  "review_type": "local_pure_visual_review",
+  "note": "Reviewed locally with the render-visual-reviewer rubric. No delegated subagent was used because this turn did not explicitly authorize multi-agent delegation.",
+  "artifact": {
+    "path": "paper/shared/figures/fig_acl_method_chain_imagegen_v14.png",
+    "sha256": "4145f429130c90b71aa87ebf8304b1626155734f0d4017c90f3e76eda73f133d",
+    "size_px": [1774, 887],
+    "role": "AI-generated schematic roadmap, not empirical evidence"
+  },
+  "pdf_spot_check": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256_after_clean_preupload_gate": "77d6435cc0e06db1f464acbfd760f526a4612218ceb86e83cea39e39d2c10616",
+    "rendered_page_2_png_sha256": "d76a1a546c21f68b0331fd422a791cd816568c8a996f8eaedbbee46706559708"
+  },
+  "verdict": "PASS_FOR_SCHEMATIC_USE",
+  "visible_evidence": [
+    "The four-stage left-to-right method chain remains visible at ACL page scale.",
+    "Major labels are legible: USD / MDL Assets, noMDL Conversion, Paired VLM Evidence, and InternNav Evidence.",
+    "Stage 3 preserves Original, Converted, and Target: box while replacing the small VLM sentence with a question-mark icon.",
+    "Stage 4 keeps the floorplan, green/purple paths, and neutral SR/SPL/NE metric tiles without relying on a small legend.",
+    "The footer claim boundary remains readable and states that selected rollouts are qualitative."
+  ],
+  "risks": [
+    "The panel is AI-generated schematic art, so it must remain captioned as a roadmap rather than measured render evidence.",
+    "The icon-only navigation path explanation is less explicit than v13, but the caption and later empirical InternNav figure carry the claim boundary."
+  ],
+  "promotion_decision": "Promote v14 over v13 because it removes more generated microtext while preserving the same method-chain story and page-scale readability."
+}

@@ -1,0 +1,62 @@
+{
+  "status": "pass_with_caveat",
+  "review_type": "local_visual_review",
+  "independent_review": false,
+  "reviewed_at_utc": "2026-05-28T08:30:00Z",
+  "inputs": {
+    "pdf": {
+      "path": "paper/venues/acl27/build/main.pdf",
+      "sha256": "91cb9d3c248596f2356324e30a369fecbd267d80bc25f40fa33adb350e2f66de",
+      "pages": 11,
+      "bytes": 3625282,
+      "creation_date": "Thu May 28 16:32:03 2026 CST"
+    },
+    "rendered_pages": [
+      {
+        "page": 7,
+        "path": "/tmp/convertasset_acl27_current_visual/page-07.png",
+        "sha256": "df90adf076d30284b4452e20da306177a28de6eb34e7e7d4e16954c1da4b9123",
+        "dpi": 150
+      },
+      {
+        "page": 8,
+        "path": "/tmp/convertasset_acl27_current_visual/page-08.png",
+        "sha256": "ba29e98a331afea7af10458120af6f0968599bbc38547129c0ea2ffc919d42a2",
+        "dpi": 150
+      }
+    ],
+    "table_source": {
+      "path": "paper/shared/tables/tab_official_scene_performance_summary.tex",
+      "caption_word_count": 27
+    }
+  },
+  "checks": [
+    {
+      "id": "table6_fit",
+      "verdict": "pass",
+      "evidence": "Table 6 fits in the right column on page 7 with no visible overrun into Table 5, body text, or margins."
+    },
+    {
+      "id": "caption_density",
+      "verdict": "pass",
+      "evidence": "The caption is compact enough to read as a table caption rather than a large explanatory paragraph."
+    },
+    {
+      "id": "claim_boundary",
+      "verdict": "pass",
+      "evidence": "The caption still states aggregate original/noMDL rows only and omits the NVIDIA official-scene baseline until matching conversions pass smoke gates."
+    },
+    {
+      "id": "page_density",
+      "verdict": "warn",
+      "evidence": "Page 7 remains dense because Tables 3-6 share one page, but the density does not create overlap or detach captions."
+    },
+    {
+      "id": "following_page_regression",
+      "verdict": "pass",
+      "evidence": "Page 8 keeps Figure 3, its caption, Discussion text, and Conclusion text visible without overlap."
+    }
+  ],
+  "conclusion": "The Table 6 caption polish is suitable for the current ACL candidate. It improves scanability without changing experiment results or claim scope.",
+  "retake_or_followup": "No figure retake or image generation is needed for this pass. A future camera-ready cleanup could reduce page-7 density, but it is not a blocking submission defect."
+}

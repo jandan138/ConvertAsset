@@ -1,0 +1,77 @@
+\clearpage
+\onecolumn
+\section{Reproducibility, Artifact, and Media Manifest}
+\label{sec:supp-reproducibility}
+
+The supplement is built from tracked paper sources and project evidence
+artifacts. The review-packet view below summarizes the visual artifact classes
+used by the PDF: paired render atlases, material diagnostics, target-view
+grounding renders, and selected navigation media.
+
+\begin{center}
+\centering
+\includegraphics[width=0.98\textwidth,height=0.78\textheight,keepaspectratio]{figures/fig_supplement_review_packet_contact_sheet.png}
+\captionsetup{hypcap=false}
+\captionof{figure}{Review-packet media manifest for the supplement. The contact
+sheet is a visual index of tracked render figures and selected still panels.}
+\label{fig:supp-review-packet-contact-sheet}
+\end{center}
+
+\clearpage
+\twocolumn
+
+The main build target remains separate from the supplement build target. The
+supplement PDF can be rebuilt with:
+
+\begin{verbatim}
+make -C paper acl27-supplement
+\end{verbatim}
+
+The current scaffold uses shared tables, shared figures, and ACL-local
+supplement sections. Video material is represented by selected still panels and
+manifest references. Raw frame directories, raw source scenes, scratch noMDL
+USD trees, local model checkpoints, and private runtime logs remain outside the
+safe default review packet.
+
+\subsection{Primary Supplement Sources}
+
+The readable supplement uses the following source classes:
+
+\begin{itemize}
+\item metric tables under \texttt{paper/shared/tables/};
+\item render-atlas and scene-context panels under \texttt{paper/shared/figures/};
+\item material-effect panels under \texttt{paper/shared/figures/};
+\item InternNav selected still panels under \texttt{paper/shared/figures/};
+\item generated per-case crop panels under \texttt{paper/shared/figures/supplement/};
+\item media and video manifests under the project evidence tree.
+\end{itemize}
+
+The media manifests map selected cases to route status, failure reason, and
+metrics. These manifests are used for traceability. They are not a license to
+upload raw videos automatically.
+
+\subsection{Anonymization Policy}
+
+The supplement must satisfy the same anonymous-review scope as the main
+paper. It must not include author names, local absolute paths, usernames,
+private repository links, acknowledgments, or non-anonymous external services.
+Any future media ZIP must be scanned separately because binary files can carry
+filenames, metadata, or visible UI overlays that are not present in the PDF.
+
+\subsection{Final Upload Decision}
+
+The safe default is to upload the main PDF and OpenReview copy sources only.
+The supplement PDF and media ZIP can be added after a final route and media
+approval decision. If the supplement is uploaded, the author should also update
+the private author checklist to record that optional media and supplement
+contents were reviewed, anonymized, and approved.
+
+\begin{figure*}[p]
+\centering
+\includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figures/fig_supplement_source_boundary_companion.png}
+\caption{Source-scope review companion. Render,
+material, grounding, and navigation panels show the readable source classes
+while the right panel marks excluded raw/private artifacts.}
+\label{fig:supp-source-scope-companion}
+\end{figure*}
+\clearpage

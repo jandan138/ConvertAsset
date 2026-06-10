@@ -30,6 +30,15 @@ def test_current_target_policy_sources_are_candidate_ready() -> None:
     assert report["forbidden_final_claim_hits"] == []
 
 
+def test_target_policy_refresh_date_is_current() -> None:
+    module = load_module()
+
+    _combined, texts, _missing = module.read_policy_text(PAPER)
+
+    for filename, text in texts.items():
+        assert "Checked: 2026-05-30." in text, filename
+
+
 def test_annual_acl_final_claim_is_rejected(tmp_path: Path) -> None:
     module = load_module()
     venue_root = tmp_path / "venues/acl27"

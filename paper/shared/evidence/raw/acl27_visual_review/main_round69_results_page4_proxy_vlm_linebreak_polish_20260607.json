@@ -1,0 +1,77 @@
+{
+  "record": "main_round69_results_page4_proxy_vlm_linebreak_polish_20260607",
+  "date": "2026-06-07",
+  "round": 69,
+  "venue": "acl27",
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/results.tex"
+  ],
+  "visual_scope": {
+    "primary_page": 4,
+    "secondary_page_checked": 5,
+    "primary_region": "Results page 4, Proxy Similarity opener and VLM Grounding opener"
+  },
+  "issue": {
+    "baseline_pdf_sha256": "60abce690523873e3a3ef86e9ff1898ff9788c715e8288cb2cc192a76d959766",
+    "baseline_directory": "tmp/acl_main_visual_iter_20260607_round69_current",
+    "baseline_page4_target_splits": [
+      "visual- / QA",
+      "nu- / meric",
+      "ren- / ders",
+      "co- / sine",
+      "vi- / sually"
+    ],
+    "baseline_page5_inherited_splits": [
+      "expanded 30- / pair",
+      "original- / MDL"
+    ]
+  },
+  "change_summary": [
+    "Shortened the proxy-result opener while preserving PSNR, SSIM, LPIPS, CLIP, DINOv2, and 24-pair evidence values.",
+    "Removed redundant cosine wording around CLIP and DINOv2 because the metric names and values already carry the evidence.",
+    "Reframed proxy match as a gate for later task checks, not as the task claim.",
+    "Reworded the clean GRScenes opener from visual-QA/numeric-claims wording to source/noMDL QA pairs and claim-number wording."
+  ],
+  "rejected_iteration_notes": [
+    "The first rewrite removed visual-/QA, nu-/meric, ren-/ders, co-/sine, and vi-/sually, but introduced QA-/clean, stan-/dard, and ev-/idence.",
+    "A second rewrite introduced screen-/ing, similar-/ity, Fig-/ure, and origi-/nal.",
+    "A third rewrite introduced ob-/ject, there-/fore, and task-/proximal.",
+    "A fourth rewrite introduced down-/stream and ta-/bles.",
+    "A fifth rewrite introduced fi-/nal.",
+    "The accepted version removes the replacement splits in the page-4 target region."
+  ],
+  "accepted_output": {
+    "after_directory": "tmp/acl_main_visual_iter_20260607_round69_after",
+    "after_pdf_sha256": "ab72227c64e4b8a0ecf51a4dda990640c8598cb531ff6ead788d6cf56e3fe0d5",
+    "after_contact_sheet_sha256": "a0341c7b6c6e79c19a5df5a5b0b23d929b98bdac308c92edf1540033d6cb14ef",
+    "after_full_text_sha256": "09c5787668429fa70651b1f5461bd82241c27ea1922eb3b26ffba38a119fe4e1",
+    "after_page4_png_sha256": "1ae3cfa0677b6c6ba54ef5c2784463c53fecc8c4ae606415ffb2ce870adf080b",
+    "after_page4_top_crop_sha256": "b18bb148219aac0af226adcc0fc0eab891568c1891071bdba445ec83d9f0cba8",
+    "after_page4_right_mid_crop_sha256": "9043be6b75a0747ffe40fa58d03f93950aa0130db7ecf8d2f39d7094e155a33f",
+    "after_page5_png_sha256": "8fca26dc2f80b8074ed7f9a54e93ffc751409a12da522b0988900e350ce534ff",
+    "after_page5_top_crop_sha256": "cde7421552366371079ec8322bc4b3348c1da731aa991f366595c97f75e6a712",
+    "pdf_pages": 11,
+    "pdf_file_size_bytes": 5185116
+  },
+  "accepted_text_scan": {
+    "page4_target_splits_remaining": [],
+    "page5_inherited_or_residual_splits": [
+      "expanded 30- / pair",
+      "original- / MDL in Figure 3 caption"
+    ],
+    "next_round_candidate": "Page 5 contains inherited page-top Results text and Figure 3 caption splits."
+  },
+  "verification": {
+    "make_acl27": "passed",
+    "latex_blocker_scan": "no blocker matches",
+    "pytest": "104 passed in 13.58s",
+    "claim_boundaries": {
+      "ok": true
+    },
+    "metadata_consistency": {
+      "ok": true,
+      "abstract_word_count": 168
+    }
+  }
+}

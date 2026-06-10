@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-05-28",
+  "review_type": "local_pure_visual_preupload_candidate",
+  "note": "Reviewed locally with the render-visual-reviewer rubric. This is not an independent subagent review because this turn did not explicitly authorize multi-agent delegation.",
+  "artifact": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "staged_path": "paper/submissions/acl27_arr_candidate_20260526/main.pdf",
+    "sha256": "4f04c57047e395e2afc86e0adbd247fcf257a9e730e03e0c34a4846521d62250",
+    "size_bytes": 3009971,
+    "page_count": 10,
+    "created": "2026-05-28 13:47:21 CST",
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "pdf_version": "1.5",
+    "build_and_staged_pdf_identical": true
+  },
+  "rendered_pages": {
+    "dpi": 160,
+    "path_root": "tmp/acl27_postgate_visual_review_20260528_1347",
+    "contact_sheet": null,
+    "focused_pages": [
+      "tmp/acl27_postgate_visual_review_20260528_1347/page-01.png",
+      "tmp/acl27_postgate_visual_review_20260528_1347/page-02.png",
+      "tmp/acl27_postgate_visual_review_20260528_1347/page-06.png",
+      "tmp/acl27_postgate_visual_review_20260528_1347/page-09.png"
+    ]
+  },
+  "verdict": "PASS_FOR_REPOSITORY_SIDE_PREUPLOAD_REHEARSAL",
+  "findings": [
+    "The 10-page PDF has no blank-page or stale page-8 blank-column defect.",
+    "Figure 1's imagegen v16 method-chain schematic is readable at page scale and remains clearly captioned as a roadmap rather than empirical evidence.",
+    "Figure 2 uses real render evidence and does not overlap the caption or Table 2; the top cropped proxy detail is pale, so it remains suitable only as an orientation panel with claims tied to tables.",
+    "Tables 3, 4, 5, and 6 remain guarded by the focused layout tests; Table 6 no longer overflows.",
+    "Page 8 carries Discussion, Conclusion, and Limitations without stretched paragraph spacing or a blank right column.",
+    "Figure 3 is attached to its caption on page 9, uses the InternNav rollout panel, and shows no red material fallback; the visible colored marks are purple/green navigation overlays.",
+    "Ethical Considerations and References share page 9 without incoherent overlap."
+  ],
+  "remaining_boundary": [
+    "This visual review supports the repository-side candidate packet only.",
+    "Final upload remains human-gated by target route lock, OpenReview form copy, runtime/AI/media approvals, and final upload decision.",
+    "Figure 2 should not be promoted as a strong qualitative success claim; it remains a reader-orientation panel."
+  ]
+}

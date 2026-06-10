@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-05-28",
+  "review_type": "local_pure_visual_layout_refresh",
+  "note": "Reviewed locally with the render-visual-reviewer rubric. No delegated subagent was used because this turn did not explicitly authorize multi-agent delegation.",
+  "artifact": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "1a3fed80730e648dec0fc989b1215f84bb78be3907289799c06ded2ebd82c78f",
+    "size_bytes": 3009971,
+    "page_count": 10,
+    "created": "2026-05-28 12:40:50 CST",
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "pdf_version": "1.5"
+  },
+  "rendered_pages": {
+    "dpi": 180,
+    "path_root": "tmp/acl27_rebuild_visual_20260528",
+    "focused_pages": [
+      "tmp/acl27_rebuild_visual_20260528/page_after_tablefix-07.png",
+      "tmp/acl27_rebuild_visual_20260528/page_after_tablefix-08.png",
+      "tmp/acl27_rebuild_visual_20260528/page_after_tablefix-09.png"
+    ],
+    "contact_sheet": "tmp/acl27_rebuild_visual_20260528/contact_sheet.png"
+  },
+  "verdict": "PASS_FOR_LOCAL_LAYOUT_REFRESH",
+  "findings": [
+    "The previously inspected 11-page build was stale relative to main.tex and still showed a large blank right column on page 8.",
+    "Rebuilding the current source absorbs the no-clearpage flow after Conclusion and produces a 10-page PDF.",
+    "Page 7 keeps Tables 3, 4, 5, and 6 readable without overlap; Table 6 remains compact but no longer overflows after reducing tabcolsep.",
+    "Page 8 now carries Discussion, Conclusion, and Limitations text in the same page instead of leaving the right column blank.",
+    "Page 9 keeps Figure 3 attached to its caption, starts References in the right column, and keeps Ethical Considerations readable in the left column.",
+    "No saturated-red material fallback is visible in Figure 3; the panel remains the InternNav rollout figure with purple/green navigation overlays."
+  ],
+  "edits": [
+    {
+      "path": "paper/shared/tables/tab_official_scene_performance_summary.tex",
+      "change": "Added a local tabcolsep setting to remove the Table 6 overfull hbox while preserving the aggregate Metric / Original MDL / noMDL layout."
+    },
+    {
+      "path": "paper/shared/evidence/experiments/10_official_scene_submission_closure/build_submission_closure_package.py",
+      "change": "Mirrored the Table 6 tabcolsep setting in the official-scene package generator so regeneration preserves the layout fix."
+    },
+    {
+      "path": "paper/venues/acl27/sections/limitations.tex",
+      "change": "Added local hypcap=false before the captionof figure command to remove the harmless caption package warning for the Figure 3 minipage."
+    }
+  ],
+  "verification": {
+    "build": {
+      "command": "make -C paper acl27",
+      "ok": true
+    },
+    "log_scan": {
+      "command": "grep -n \"Overfull\\|Package .*Warning\\|LaTeX Warning\\|undefined\\|Error\" paper/venues/acl27/build/main.log",
+      "matches": 0
+    },
+    "scope_note": "This was a local layout refresh, not a full run_preupload_gate staging pass."
+  },
+  "remaining_boundary": [
+    "Superseded for staging by paper/shared/evidence/raw/acl27_visual_review/preupload_candidate_visual_review_20260528.json after the full preupload gate reran successfully on the 10-page PDF.",
+    "OpenReview/upload gates remain human-gated by route lock, form copy, runtime/AI/media approvals, and final upload decision."
+  ]
+}

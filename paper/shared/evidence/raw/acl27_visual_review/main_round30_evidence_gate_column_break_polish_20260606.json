@@ -1,0 +1,89 @@
+{
+  "round": 30,
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "target_pdf": "paper/venues/acl27/build/main.pdf",
+  "target_area": {
+    "pages": [4],
+    "source": "paper/venues/acl27/sections/method.tex",
+    "lines_after_change": "57-64",
+    "description": "Method Section 3.2 Evidence Gates closing sentence before the Claim Registry and Results transition"
+  },
+  "change_summary": [
+    "Replaced the longer 'summarizes the allowed claim boundary for each gate' sentence with 'names each gate's permitted claim'.",
+    "Removed a visual column-break orphan where 'claim bound-' ended the left column and 'ary for each gate.' opened the right column.",
+    "Kept the claim-boundary semantics intact while making the Evidence Gates close read more like an ACL method transition."
+  ],
+  "visual_review": {
+    "before_render_dir": "tmp/acl_main_visual_iter_20260606_round30_current",
+    "after_render_dir": "tmp/acl_main_visual_iter_20260606_round30_after",
+    "before_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round30_current/contact_sheet.png",
+      "sha256": "5ef51681a8c0da555ce90fb2c12aa72b74ea4158528696e7d65dc05c31f792df"
+    },
+    "after_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round30_after/contact_sheet.png",
+      "sha256": "adf04efaea76b3813143444280b1aa56159ad66d4839a8486a0fa99b4b02d28f"
+    },
+    "focus_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round30_after/focus_p4_after.png",
+      "sha256": "42520f619be73b9f0e5e995387ef4ba57d00a8430ef4fe034f7f060439055377",
+      "pages": [4]
+    },
+    "focus_before_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round30_after/focus_before_after_p4.png",
+      "sha256": "b2e1c69b0cdf6c9a03506b7fb95dffff4fbc7100fb4321088fba82c966bd9bb9",
+      "pages": [4]
+    },
+    "observations": [
+      "Before: page 4 left column ended with 'Table 1 summarizes the allowed claim bound-' and the right column opened with 'ary for each gate.'.",
+      "After: page 4 left column ends with the complete sentence 'Table 1 names each gate's permitted claim.'.",
+      "The Claim Registry heading and Results transition remain readable after the local compaction."
+    ]
+  },
+  "pdf_identity": {
+    "before_sha256": "03d3c18ca425a40c13c088c9d015b5ec553bea6e68f84a98a2280712613702aa",
+    "after_sha256": "f2023008b50efb706eb2c50281d25b4d284b51e410b1360ef9927ab1b40e7d40",
+    "after_pdfinfo": {
+      "creation_date": "Sat Jun 6 12:35:32 2026 CST",
+      "mod_date": "Sat Jun 6 12:35:32 2026 CST",
+      "pages": 11,
+      "page_size": "595.276 x 841.89 pts (A4)",
+      "file_size_bytes": 5188815,
+      "pdf_version": "1.5"
+    }
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "pass",
+      "evidence": "Exit 0; acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "pass",
+      "evidence": "No matches."
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "pass",
+      "evidence": "102 passed in 13.56s."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "pass",
+      "evidence": "ok=true; violations=[], unsafe_figure_violations=[], venue_wrapper_violations=[]"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "pass",
+      "evidence": "ok=true; title and abstract match metadata; abstract_word_count=169"
+    },
+    {
+      "command": "rg -n \"ary for each gate|claim bound-|names each gate\" tmp/acl_main_visual_iter_20260606_round30_current/page4.txt tmp/acl_main_visual_iter_20260606_round30_after/page4.txt || true",
+      "result": "pass",
+      "evidence": "Current page 4 text contains the old split; after page 4 text contains 'Table 1 names each gate's permitted claim.' and no old split."
+    }
+  ],
+  "workspace_note": "The repository had unrelated pre-existing modified paper, docs, and evidence files before this round. This evidence record only claims the round30 Method Section 3.2 closing-sentence polish plus the new record/evidence files."
+}

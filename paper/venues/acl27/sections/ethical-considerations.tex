@@ -1,12 +1,27 @@
 \section*{Ethical Considerations}
 
-The work studies conversion of synthetic 3D assets for AI data pipelines rather
-than human-subject data. The main ethical risks are indirect: synthetic scenes
-can still encode dataset bias, licensing constraints, unsafe deployment
-assumptions, or misleading claims about downstream model robustness. Any ACL
-submission should document asset provenance, license compatibility, filtering
-criteria, and the intended use of generated renders. If converted scenes are used
-to evaluate or train vision-language models, the paper should avoid overstating
-real-world generalization and should report failure cases where material
-simplification changes object affordances, safety cues, texturing, or semantic
-grounding signals.
+\begingroup
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\sloppy
+
+The study uses synthetic 3D assets, not human-subject data. The risks are
+practical: converted scenes can carry data bias, license limits, unsafe use
+risks, or unsupported generalizations. Authors using them should list provenance, license
+terms, filters, and intended use. When
+those renders train or evaluate VLMs, authors should report failures that alter
+task, safety, texture, or grounding cues, and should not treat success in
+synthetic scenes as evidence for real deployment. That distinction marks the
+evaluation scope.
+
+We used automated development and manuscript-support tools for implementation
+assistance, language editing, audit drafting, and
+Figure~\ref{fig:acl_method_chain} schematic drafting. The authors retain final
+control over the study setup, evidence selection, reported conclusions, citations, and text.
+Figure~\ref{fig:acl_method_chain} orients the evidence chain. Measurements,
+experiments, and results come from cited sources, logs, tables, and figures.
+Tool output is used as implementation or presentation support, while the
+empirical evaluation scope is defined by the recorded evidence.
+
+\par
+\endgroup

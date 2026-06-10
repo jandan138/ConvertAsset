@@ -1,0 +1,67 @@
+{
+  "record": "main_round70_results_page5_vlm_caption_linebreak_polish_20260607",
+  "date": "2026-06-07",
+  "round": 70,
+  "venue": "acl27",
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/results.tex"
+  ],
+  "visual_scope": {
+    "primary_page": 5,
+    "secondary_page_checked": 6,
+    "primary_regions": [
+      "Results page 5, paired-bootstrap paragraph",
+      "Results page 5, Figure 3 caption"
+    ]
+  },
+  "issue": {
+    "baseline_pdf_sha256": "ab72227c64e4b8a0ecf51a4dda990640c8598cb531ff6ead788d6cf56e3fe0d5",
+    "baseline_directory": "tmp/acl_main_visual_iter_20260607_round70_current",
+    "baseline_page5_target_splits": [
+      "expanded 30- / pair",
+      "original- / MDL"
+    ],
+    "baseline_page6_splits": []
+  },
+  "change_summary": [
+    "Replaced expanded 30-pair wording with this 30-pair stress set in the paired-bootstrap paragraph.",
+    "Changed the interval interpretation sentence to use shorter point-hit and interval language while preserving the descriptive-evidence boundary.",
+    "Changed the Figure 3 caption's original-MDL cells wording to source-MDL cells to avoid a caption linebreak while keeping the source-material condition explicit."
+  ],
+  "rejected_iteration_notes": [
+    "A first rewrite removed the two target splits but introduced normal-/ized and descrip-/tive in the paired-bootstrap paragraph.",
+    "The accepted version removes those replacement splits and leaves page 5 and page 6 with no hyphen-line matches."
+  ],
+  "accepted_output": {
+    "after_directory": "tmp/acl_main_visual_iter_20260607_round70_after",
+    "after_pdf_sha256": "44a1e259678ac479ff5081214162bcfd31014611a0ab00b4b9d3351487f06dbd",
+    "after_contact_sheet_sha256": "3561ea95116f25bcc44003639f09b92a70b6c58bf98896f05e483cf969ba7d8c",
+    "after_full_text_sha256": "a791c6298a6b7b37d123d3a9dee09115fc5bb695e9de1a07ca35597670ad28d2",
+    "after_page5_png_sha256": "2f651c6639b23dacd856afbe6e4d00c96ebdbd94e52480ada50b339c2f046b3f",
+    "after_page5_top_crop_sha256": "cdca83d9faea7b0dcedee1a029a64aa776c0a1351bbc2c9f6a97ac2b45b2819b",
+    "after_page5_bottom_crop_sha256": "54c5a54f11267bdc9e2e59943695704027865a6d9a0be1ba74fd1a7236976aa3",
+    "after_page6_png_sha256": "49599f770b71c868ce0409107fca6aa080ca161eb87648bb24a5f3d9e2fba25b",
+    "after_page6_top_crop_sha256": "158eb64beb5a7dff52c5de8ed4e796d8ca684e36009103c92a0da8e01827eb84",
+    "pdf_pages": 11,
+    "pdf_file_size_bytes": 5185099
+  },
+  "accepted_text_scan": {
+    "page5_target_splits_remaining": [],
+    "page5_hyphen_line_matches_remaining": [],
+    "page6_hyphen_line_matches_remaining": [],
+    "next_round_candidate": "Continue full-PDF scan from page 6 onward for any remaining visible layout or prose defects."
+  },
+  "verification": {
+    "make_acl27": "passed",
+    "latex_blocker_scan": "no blocker matches",
+    "pytest": "104 passed in 13.24s",
+    "claim_boundaries": {
+      "ok": true
+    },
+    "metadata_consistency": {
+      "ok": true,
+      "abstract_word_count": 168
+    }
+  }
+}

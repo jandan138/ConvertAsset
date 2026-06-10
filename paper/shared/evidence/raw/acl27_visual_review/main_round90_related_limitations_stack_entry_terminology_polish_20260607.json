@@ -1,0 +1,120 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 90,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main Related/Limitations stack-entry terminology polish",
+  "before_pdf_sha256": "7eb468adee807132e3db5d6371fc3125538bea48bc89774bb0c13c2e2de3f47f",
+  "after_pdf_sha256": "c4a7e550b14a0f7a9ee3b9fc63bb824bcf00da694fa31cf26de4bb895557e602",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round90_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round90_after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "rendered_after_screenshots": [
+      "tmp/acl_main_visual_iter_20260607_round90_after/page-02.png",
+      "tmp/acl_main_visual_iter_20260607_round90_after/page-08.png"
+    ],
+    "before_page2_png_sha256": "bd533313cd74279665900f42e16986a9c5a525b20eed8a781730d8981506ea1a",
+    "after_page2_png_sha256": "9ca116f412929c43a2f8ce69ac2d42d885f6db64090cc508db5ef512b31e33c9",
+    "before_page8_png_sha256": "0b1ec0ee21d428f56179f0a5bcc768127a6df1d2e922dd74e6011cb8126435ce",
+    "after_page8_png_sha256": "01be24482b982861ed16477ef19a5ad26d74043cc3af0874d046d87128b6cb86",
+    "before_page2_text_sha256": "e926b679d5f5f82f8af977828497c967b1b0e783933d20b19b3feab783914d1c",
+    "after_page2_text_sha256": "23ad798d0ec77e73bd588669c7008f0656b69bacd1539663d07eacca11c760a4",
+    "before_page8_text_sha256": "b222080415d97c6ba6ff16f7c452d6338e96acb7c8482a2312620b0e1868eafe",
+    "after_page8_text_sha256": "0557d9b095e2e76d1917445331cbba620d79ef8e07ff36043e12d6d777c384b2",
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round90_after/page"
+  },
+  "defect": {
+    "pages": [
+      2,
+      8
+    ],
+    "class": "main-text stack-entry terminology",
+    "before_text_matches": [
+      "page 2 line 133: sanity check uses matched source/noMDL",
+      "page 8 line 399: is a sanity check over three KuJiaLe"
+    ],
+    "reader_effect": "Related Work and Limitations retained the colloquial sanity-check label after the abstract and Results had moved to stack-entry terminology."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/related.tex",
+      "summary": "Changed the KuJiaLe sentence to entry evidence and shortened it to avoid page-2 body-text hyphenation."
+    },
+    {
+      "path": "paper/venues/acl27/sections/limitations.tex",
+      "summary": "Changed the cited route wording from sanity check to stack-entry check."
+    }
+  ],
+  "rejected_iterations": [
+    {
+      "summary": "The official KuJiaLe stack-entry check uses... introduced visible page-2 hyphenation: offi- / cial."
+    },
+    {
+      "summary": "matched source/noMDL scenes give stack-entry evidence introduced visible page-2 hyphenation: stack- / entry."
+    },
+    {
+      "summary": "matched source/noMDL scenes give stack entry evidence introduced visible page-2 hyphenation: en- / try."
+    },
+    {
+      "summary": "matched source/noMDL scenes give entry evidence introduced visible page-2 hyphenation: ev- / idence."
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "Pages 2 and 8 no longer contain the target sanity-check wording; page 2 has no target split regression.",
+    "full_scan_result": "The enhanced after scan reports only the existing explicit human-subject wording and normal reference-column hyphenation on pages 9-10.",
+    "visual_result": "The page-2 Related Work paragraph and page-8 Limitations paragraph remain visually stable.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 13.11s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Related Work and Limitations prose only. No metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "Supplemental scorer sanity-check wording remains because it describes deterministic scorer checks rather than the embodied-stack evidence; reference pages retain normal reference-column hyphenation."
+}

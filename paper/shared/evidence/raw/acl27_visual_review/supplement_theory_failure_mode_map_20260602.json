@@ -1,0 +1,56 @@
+{
+  "record_id": "supplement_theory_failure_mode_map_20260602",
+  "date_utc": "2026-06-02",
+  "scope": "ACL 2027 supplement theory failure-mode map iteration",
+  "inputs": {
+    "imagegen_layout_reference": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0293332e291c3dc3016a1ef6425f888197b3b9c7118a2b20b1.png",
+    "deterministic_output": "paper/shared/figures/fig_supplement_theory_failure_mode_map.png",
+    "supporting_navigation_atlas": "paper/shared/figures/fig_supplement_navigation_media_atlas.png",
+    "supplement_pdf": "paper/venues/acl27/build/supplement.pdf",
+    "rendered_pdf_page": "tmp/acl27_theory_map_check/page-38.png"
+  },
+  "hashes_sha256": {
+    "imagegen_layout_reference": "79d7d9d65219ba5dce7f454b2fc477842846d2f44bdfb5aee721530f589d9b99",
+    "deterministic_output": "44cf02a5eb807c17a58e2f0ad37f5c259a923e9c1ec2540ce6eb65a278c889a9",
+    "supplement_pdf_after_build": "7ebbf7872643da487ead9d4be91a111acb80b0ee4879acfc5bbacc8d0664a6a3",
+    "rendered_pdf_page": "0750af9f320f7bfd441e3bdd2e7df00e12f051f6c12fa73e74de4ecc00942e6f"
+  },
+  "source_figure_metrics": {
+    "paper/shared/figures/fig_supplement_theory_failure_mode_map.png": {
+      "size": "1800x1300",
+      "active_fraction": 0.570662,
+      "red_fraction": 0.000245
+    }
+  },
+  "pdf_profile": {
+    "page_count": 42,
+    "page_size": "A4",
+    "creation_date": "Wed Jun 3 00:08:47 2026 CST",
+    "file_size_bytes": 25154535
+  },
+  "pdf_render_metrics": {
+    "page_38_after": {
+      "size": "1241x1754",
+      "active_fraction": 0.173318,
+      "red_fraction": 0.000055,
+      "verdict": "PASS_WITH_SMALL_TEXT_RISK"
+    }
+  },
+  "local_visual_review": {
+    "skill": "render-visual-reviewer",
+    "independent_subagent": false,
+    "verdict": "PASS_WITH_SMALL_TEXT_RISK",
+    "notes": "The page is no longer a plain theory text page. The full-width map ties appearance perturbation, observable evidence, static metric movement, VLM boxes, and navigation outcomes into a single interpretive guide. The residual risk is small in-figure label text, but the panel is usable as a reading map rather than primary numerical evidence."
+  },
+  "verification": {
+    "targeted_red": "python -m pytest -q tests/test_paper_layout.py -k \"failure_mode_map\" failed before implementation because the source include and registry entry were absent.",
+    "targeted_green": "python -m pytest -q tests/test_paper_layout.py -k \"failure_mode_map\" passed after implementation and density iteration: 2 passed, 46 deselected.",
+    "build": "make -C paper acl27-supplement passed and produced paper/venues/acl27/build/supplement.pdf with 42 A4 pages.",
+    "pdf_text_scan": "pdftotext found the new Figure S23 failure-mode caption and did not find the old red-material caption tokens, fig_vlm_grounding_cases, or private local paths."
+  },
+  "claim_boundary": {
+    "paper_use": "interpretive reading guide",
+    "not_new_evidence": true,
+    "notes": "The map composes already registered evidence and render crops. It does not introduce a new metric, VLM prediction run, material-effect population statistic, or navigation experiment."
+  }
+}

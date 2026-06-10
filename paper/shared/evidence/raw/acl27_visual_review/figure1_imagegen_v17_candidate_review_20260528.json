@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "status": "figure1_imagegen_v17_candidate_rejected",
+  "reviewed_at_utc": "2026-05-28T11:08:08Z",
+  "reviewer_mode": "local_codex_visual_review_not_independent_subagent",
+  "candidate": {
+    "path": "paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v17_candidate.png",
+    "hash_sha256": "c6deac6d01b914c1b395be945471c738a861f989d600f3c820655f7d383e9197",
+    "size_pixels": [
+      1774,
+      887
+    ]
+  },
+  "prompt": {
+    "path": "paper/shared/figures/prompts/fig_acl_method_chain_gpt_image2_v17.prompt.txt"
+  },
+  "current_main_figure": {
+    "path": "paper/shared/figures/fig_acl_method_chain_imagegen_v16.png",
+    "hash_sha256": "3859ea26536da733c0a2a57937661566e4a1291d1909886f18829ef35af392d3"
+  },
+  "verdict": "REJECT_FOR_MAIN_PAPER",
+  "visible_evidence": [
+    "The candidate preserves the intended four-panel evidence-chain composition and the main stage labels are readable.",
+    "The VLM target label is visibly wrong: it reads Target: boy instead of the required Target: box.",
+    "Because Figure 1 is a roadmap, wrong in-image text would mislead the reader even though the rest of the composition is close to v16."
+  ],
+  "decision": "Do not replace Figure 1. Keep v16 as the active main-paper schematic.",
+  "claim_boundary": {
+    "may_support": "image-generation iteration audit for the schematic roadmap",
+    "must_not_support": [
+      "empirical render evidence",
+      "material-effect evidence",
+      "VLM output evidence",
+      "navigation evidence"
+    ]
+  }
+}

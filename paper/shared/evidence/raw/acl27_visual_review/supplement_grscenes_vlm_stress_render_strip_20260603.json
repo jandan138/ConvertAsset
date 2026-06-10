@@ -1,0 +1,91 @@
+{
+  "record_id": "supplement_grscenes_vlm_stress_render_strip_20260603",
+  "date_utc": "2026-06-03",
+  "scope": "ACL 2027 supplement GRScenes VLM stress render-strip visual-density iteration",
+  "motivation": {
+    "target_pages_before": "GRScenes VLM diagnostic tables around pages 21-23 were among the lowest-density supplement pages.",
+    "before_low_density_pages_120dpi": {
+      "table_s4_page": {
+        "page": 21,
+        "active_fraction": 0.0345
+      },
+      "table_s5_page": {
+        "page": 22,
+        "active_fraction": 0.0237
+      },
+      "table_s6_page": {
+        "page": 23,
+        "active_fraction": 0.0217
+      }
+    },
+    "goal_alignment": "Add more real render material near sparse GRScenes VLM tables while using the approved imagegen AI-slot workflow with an explicit claim boundary."
+  },
+  "slot_composer": {
+    "skill": "research-figure-ai-slot-composer",
+    "mode": "ai_slot_composition",
+    "manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_grscenes_vlm_stress_render_strip.yaml",
+    "overview_candidate": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0f5bf9090e530ea2016a1f0f4ef29081919fcffb865a355185.png",
+    "ai_slot_original": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0f5bf9090e530ea2016a1f0f4ef29081919fcffb865a355185.png",
+    "ai_slot_repo_copy": "paper/shared/figures/ai_slots/fig_supplement_grscenes_vlm_scoring_gate_ai_slot.png",
+    "deterministic_output": "paper/shared/figures/fig_supplement_grscenes_vlm_stress_render_strip.png",
+    "critical_text_policy": "Critical labels, target-box overlays, claim-boundary text, and paper caption are drawn by deterministic code or LaTeX. The AI slot is a small abstract prompt/point/score schematic."
+  },
+  "hashes_sha256": {
+    "ai_slot_original": "1ef5a552449db85a4fe0a754698bdf554aafc4a9eeebb14b130798622f0eca95",
+    "ai_slot_repo_copy": "1ef5a552449db85a4fe0a754698bdf554aafc4a9eeebb14b130798622f0eca95",
+    "manifest": "a61032c3e48120f81925d35fe7bf072664bf059101b4e81647a23e8fd932317f",
+    "deterministic_output": "87904c72bf90fa233e5dc2f642e3aa59ee2f6cba0011a7110d2e3d96b988a4f1",
+    "supplement_pdf_after_build": "6ec3dfbedb5959d0b35ac4c1e4d31d947ef89a4f265f483d83789d6932f10cd9",
+    "rendered_pdf_page": "7d424be513745fcf0889b4023bbc98f7779faa944dd7cdc3c6532583ca3f3de9"
+  },
+  "source_figure_metrics": {
+    "paper/shared/figures/fig_supplement_grscenes_vlm_stress_render_strip.png": {
+      "size": "1800x1380",
+      "active_fraction": 0.38302,
+      "red_fraction": 0.000011
+    },
+    "paper/shared/figures/ai_slots/fig_supplement_grscenes_vlm_scoring_gate_ai_slot.png": {
+      "size": "1774x887",
+      "active_fraction": 0.146046,
+      "red_fraction": 0.00006
+    }
+  },
+  "pdf_profile": {
+    "page_count": 44,
+    "page_size": "A4",
+    "creation_date": "Wed Jun 3 01:23:31 2026 CST",
+    "file_size_bytes": 27677065
+  },
+  "pdf_render_metrics": {
+    "page_21_after_170dpi": {
+      "size": "1406x1988",
+      "active_fraction": 0.136203,
+      "strong_fraction": 0.111255,
+      "red_fraction": 0.000001
+    },
+    "page_21_after_120dpi": {
+      "active_fraction": 0.1581,
+      "strong_fraction": 0.1144,
+      "red_fraction": 0.0
+    }
+  },
+  "local_visual_review": {
+    "skill": "render-visual-reviewer",
+    "independent_subagent": false,
+    "verdict": "PASS_WITH_SMALL_TEXT_RISK",
+    "notes": "Standalone figure and rendered PDF page show no clipping or caption collision. The four large cards carry eight registered original/converted target-view renders. The AI scoring slot is small and explicitly disclosed. Remaining risk: in-figure explanatory text is small at PDF scale, but the render evidence is readable."
+  },
+  "verification": {
+    "targeted_red": "python -m pytest -q tests/test_paper_layout.py -k \"grscenes_has_vlm_stress_render_strip or grscenes_vlm_stress_render_strip\" failed before implementation because the section reference and figure registry entry were absent.",
+    "targeted_green": "python -m pytest -q tests/test_paper_layout.py -k \"grscenes_has_vlm_stress_render_strip or grscenes_vlm_stress_render_strip\" passed: 2 passed, 52 deselected.",
+    "full_layout": "python -m pytest -q tests/test_paper_layout.py passed: 54 passed.",
+    "build": "make -C paper acl27-supplement passed and produced a 44-page A4 supplement.",
+    "pdf_text_scan": "pdftotext found the Figure S13 caption and AI-generated scoring-schematic disclosure. A separate risk-token scan found no old red-material caption tokens, fig_vlm_grounding_cases, author-identifying tokens, or local path tokens."
+  },
+  "claim_boundary": {
+    "paper_use": "visual reading guide for GRScenes VLM PASS-only and zoom-stress tables",
+    "ai_slot_exposition_only": true,
+    "not_new_evidence": true,
+    "notes": "The AI prompt/point/score slot is not VLM evidence. Evidence-bearing panels are registered original/converted GRScenes target-view renders; table metrics remain the metric record."
+  }
+}

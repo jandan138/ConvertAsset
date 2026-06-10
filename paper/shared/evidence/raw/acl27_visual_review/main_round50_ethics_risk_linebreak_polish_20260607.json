@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 50,
+  "date": "2026-06-07",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/ethical-considerations.tex"
+  ],
+  "docs_record": "docs/records/2026-06-07-acl-main-ethics-risk-linebreak-polish.md",
+  "issue": {
+    "page": 10,
+    "location": "Ethical Considerations risk paragraph",
+    "before_problem": [
+      "The page-10 ethics paragraph split 'overstated robustness claims' as 'overstated robust- / ness claims'."
+    ]
+  },
+  "change_summary": {
+    "ethical_considerations_tex_lines": "3-10",
+    "summary": "Replaced the ethics risk phrase with 'overbroad claims', tightened the adjacent reuse sentence, and guarded only the rendered words 'report' and 'evidence' against new visible splits.",
+    "claim_scope_changed": false
+  },
+  "pdf": {
+    "before_sha256": "581eadfeb25816d81e77c2a75835e24d17a64aefbef4115f7e76a786f929075f",
+    "after_sha256": "85e89fc7e4a1d1016cffbc66cf811c9fbef3b270309a98a13265d24b0abfa274",
+    "after_pages": 11,
+    "after_file_size_bytes": 5188341,
+    "after_creation_date": "Sun Jun 7 00:37:25 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260607_round50_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round50_after",
+    "before": {
+      "contact_sheet_png_sha256": "4f3fed3287edc52af3318a87d2b19ed404bdd0055f299a616fdfa7b574c7babc",
+      "full_txt_sha256": "26f822744c83373e6e56e367fb8d3e84ee744f6bfcfcc2887ee17bad12fbc466"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "6af0b50a128f30f6de68214e4d0f914bfb15c221d1be09b4c58544069619e79b",
+      "focus_before_after_p10_png_sha256": "2761bc489920f578b94d0b45c7151c7067239c301b306a144b9e9a661c0b9496",
+      "focus_p10_p11_png_sha256": "dd853dfa731424166a0dc25df2398cd8384635809418d2c43723d4f5558230b3",
+      "full_txt_sha256": "7ae69c88206f3f57824f058d4f121f9db64eee73bd2bee1356d01e4829a5f44c",
+      "page10_txt_sha256": "79d30d6384024fd91ab4f90b49624d01a54eebe4904415c20a7cb4a69e76f2af"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260607_round50_after/focus_before_after_p10.png",
+      "tmp/acl_main_visual_iter_20260607_round50_after/focus_p10_p11.png",
+      "tmp/acl_main_visual_iter_20260607_round50_after/contact_sheet.png"
+    ],
+    "observations": [
+      "The page-10 comparison shows the ethics paragraph no longer contains the 'overstated robust- / ness claims' split.",
+      "The accepted render keeps References at the top of the right column rather than pulling the heading to the lower left column.",
+      "The accepted render does not introduce the rejected intermediate 're- / port' or 'evi- / dence' splits.",
+      "The final contact sheet remains 11 pages with no obvious float, table, or blank-page regression."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "bash -lc 'if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf \"no blocker matches\\n\"; fi'",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "104 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 168"
+    }
+  ]
+}

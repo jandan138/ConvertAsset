@@ -1,0 +1,84 @@
+{
+  "round": 26,
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "target_pdf": "paper/venues/acl27/build/main.pdf",
+  "target_area": {
+    "page": 2,
+    "source": "paper/venues/acl27/sections/intro.tex",
+    "lines_after_change": "58-75",
+    "description": "Introduction contribution list before the Related Work handoff"
+  },
+  "change_summary": [
+    "Reframed the contribution lead sentence from a hidden intervention to a hidden preprocessing step that becomes an auditable grounding measurement protocol.",
+    "Rewrote the four contributions as an ACL-style contribution contract: define the perturbation, specify the claim-bounded protocol, instantiate it on GRScenes, and connect material-effect plus embodied-stack sanity checks to the same claim registry.",
+    "Kept the experimental evidence and claim boundaries unchanged; no abstract or metadata text was edited in this round."
+  ],
+  "visual_review": {
+    "before_render_dir": "tmp/acl_main_visual_iter_20260606_round26_current",
+    "after_render_dir": "tmp/acl_main_visual_iter_20260606_round26_after",
+    "before_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round26_current/contact_sheet.png",
+      "sha256": "f51f80e344b95a0ad497acf06012da4178ab24766ef84c15672a62024ce9c673"
+    },
+    "after_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round26_after/contact_sheet.png",
+      "sha256": "f57d2381824a3912a9d40abfd0b748016c7a72a8fe2a1a3d4aafa7468ffb4db4"
+    },
+    "focus_before_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round26_after/focus_before_after_p2_p3.png",
+      "sha256": "0f4d5e1f4c119efaf54d52fef51e3e0f2811faa41901fb3e9ae9c2ca98f6ad96",
+      "pages": [2, 3]
+    },
+    "observations": [
+      "Page 2 keeps the Figure 1 caption, protocol paragraph, contribution list, and Related Work handoff in the same broad layout region.",
+      "The final item 2 wording avoids the earlier visibly stretched justified line in the narrow left column.",
+      "Page 3 remains stable after the handoff; no new top-of-page crowding or section-title displacement was observed."
+    ]
+  },
+  "pdf_identity": {
+    "before_sha256": "710d1aad5282b82a987b61e2fe39d7e5c63107e17efd71caf1a12c0437267fd9",
+    "after_sha256": "542c9fd36dd054f453282cd18d86e755ba98f4c0ea61b0f257ad08793be1e749",
+    "after_pdfinfo": {
+      "creation_date": "Sat Jun 6 11:58:31 2026 CST",
+      "mod_date": "Sat Jun 6 11:58:31 2026 CST",
+      "pages": 11,
+      "page_size": "595.276 x 841.89 pts (A4)",
+      "file_size_bytes": 5189026,
+      "pdf_version": "1.5"
+    }
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "pass",
+      "evidence": "Exit 0; acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "pass",
+      "evidence": "No matches."
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "pass",
+      "evidence": "102 passed in 13.96s."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "pass",
+      "evidence": "ok=true; violations=[], unsafe_figure_violations=[], venue_wrapper_violations=[]"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "pass",
+      "evidence": "ok=true; title and abstract match metadata; abstract_word_count=169"
+    },
+    {
+      "command": "pdftotext paper/venues/acl27/build/main.pdf tmp/acl_main_visual_iter_20260606_round26_after/main.txt",
+      "result": "pass",
+      "evidence": "PDF text contains 'hidden preprocessing step', 'auditable grounding measurement protocol', 'claim-bounded perturbation protocol', 'grounding interface', and 'official-scene load/render checks'."
+    }
+  ],
+  "workspace_note": "The repository had unrelated pre-existing modified paper and table files before this round. This evidence record only claims the round26 contribution-list polish in intro.tex plus the new record/evidence files."
+}

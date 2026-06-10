@@ -32,6 +32,11 @@ INCOMPLETE_AUTHOR_GATE_NEXT_ACTION = (
     "paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md and run "
     "check_author_gate.py."
 )
+AUTHOR_GATE_HUMAN_COMPLETION_NEXT_ACTION = (
+    "Complete or correct the remaining human-only fields in "
+    "paper/venues/acl27/OPENREVIEW_AUTHOR_GATE_FILLED.local.md and run "
+    "check_author_gate.py."
+)
 FINAL_ROUTE_NEXT_ACTION = (
     "Choose EACL 2027 via ARR now, or wait for Annual ACL 2027 official policy."
 )
@@ -149,6 +154,16 @@ HUMAN_BLOCKER_HANDOFFS = {
         ),
     },
 }
+REPO_VERIFIABLE_PREFILL_FIELDS = (
+    "Clean PDF build command and timestamp",
+    "Final PDF page count / page size",
+    "Undefined citation/reference scan",
+    "Staging command and packet path",
+    "Staged file list",
+    "Local path / username / private-link scan",
+    "Acknowledgment scan",
+    "Limitations / Ethical Considerations / References text scan",
+)
 
 
 def default_repo_root() -> Path:
@@ -282,12 +297,29 @@ def human_blocker_details(human_blockers: list[str]) -> dict[str, object]:
     }
 
 
-def next_actions_for(human_blockers: list[str]) -> list[str]:
+def repo_verifiable_prefill_rows_are_done(
+    private_author_gate_status: dict[str, object] | None,
+) -> bool:
+    if private_author_gate_status is None:
+        return False
+    incomplete_fields = set(private_author_gate_status.get("missing_fields") or [])
+    incomplete_fields.update(private_author_gate_status.get("todo_fields") or [])
+    incomplete_fields.update(private_author_gate_status.get("invalid_fields") or [])
+    return not incomplete_fields.intersection(REPO_VERIFIABLE_PREFILL_FIELDS)
+
+
+def next_actions_for(
+    human_blockers: list[str],
+    private_author_gate_status: dict[str, object] | None = None,
+) -> list[str]:
     actions: list[str] = []
     if "private_author_gate_missing" in human_blockers:
         actions.append(MISSING_AUTHOR_GATE_NEXT_ACTION)
     elif "private_author_gate_incomplete" in human_blockers:
-        actions.append(INCOMPLETE_AUTHOR_GATE_NEXT_ACTION)
+        if repo_verifiable_prefill_rows_are_done(private_author_gate_status):
+            actions.append(AUTHOR_GATE_HUMAN_COMPLETION_NEXT_ACTION)
+        else:
+            actions.append(INCOMPLETE_AUTHOR_GATE_NEXT_ACTION)
     if "target_route_author_confirmation_pending" in human_blockers:
         actions.append(FINAL_ROUTE_NEXT_ACTION)
     if "official_openreview_form_copy_pending" in human_blockers:
@@ -327,6 +359,8 @@ def build_final_blocker_report(
     else:
         status = "upload_ready"
 
+    private_author_gate_status = safe_author_gate_status(private_author_gate_report)
+
     return {
         "ok": True,
         "upload_ready": upload_ready,
@@ -334,11 +368,12 @@ def build_final_blocker_report(
         "repo_blockers": repo_blockers,
         "human_blockers": human_blockers,
         "human_blocker_details": human_blocker_details(human_blockers),
-        "private_author_gate_status": safe_author_gate_status(
-            private_author_gate_report
-        ),
+        "private_author_gate_status": private_author_gate_status,
         "required_commands": list(REQUIRED_COMMANDS),
-        "next_actions": next_actions_for(human_blockers),
+        "next_actions": next_actions_for(
+            human_blockers,
+            private_author_gate_status=private_author_gate_status,
+        ),
         "privacy": {
             "prints_private_author_values": False,
             "filled_author_worksheet_tracked": False,

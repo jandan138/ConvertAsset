@@ -1,0 +1,35 @@
+Model route: Codex built-in image generation tool.
+Generated source: /root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_02d33e5e0b77269c016a17352284ac819380e8301c7b829ad2.png
+Candidate path: paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v14_candidate.png
+Promoted path: paper/shared/figures/fig_acl_method_chain_imagegen_v14.png
+
+Create a polished ACL paper Figure 1 schematic as a very low-text method-chain roadmap. Use the previously shown ConvertAsset Figure 1 v13 as the structural reference, but remove nearly all small internal wording.
+
+Canvas: wide horizontal scientific infographic, 16:8 aspect, white background, crisp publication style, high contrast, readable at two-column ACL page width.
+
+Four connected stages left to right with large numbered headers. Use exactly these header strings:
+1. USD / MDL Assets
+2. noMDL Conversion
+3. Paired VLM Evidence
+4. InternNav Evidence
+
+Allowed text strings anywhere in the image, and no other words:
+USD / MDL Assets
+noMDL Conversion
+Paired VLM Evidence
+InternNav Evidence
+Original
+Converted
+Target: box
+SR
+SPL
+NE
+Frozen paired evidence; selected rollouts are qualitative.
+
+Stage 1: USD file icon with .usd, simplified unlabeled scene-tree diagram, two indoor scene thumbnails, four material spheres. No labels under the spheres.
+Stage 2: material spheres convert to preview-surface graph icons, file-reference rewrite icons, hierarchy-preserved check mark. No labels besides the header.
+Stage 3: two matched indoor render thumbnails side by side with orange target boxes around a cardboard box, labels Original and Converted below the thumbnails, a VLM robot icon, a question bubble containing only a question-mark icon, an arrow to a target-point icon. Keep Target: box large and centered.
+Stage 4: indoor floorplan with green reference path and purple executed path, start and goal shown only with icons, no legend words, three neutral metric tiles labeled SR, SPL, NE with no direction arrows.
+Footer banner: exactly "Frozen paired evidence; selected rollouts are qualitative."
+
+Style constraints: no microscopic text, no fake paragraph text, no gibberish labels, no brand logos, no red material/fallback-looking surfaces, no red path lines, no dense tables, no watermark. Use restrained blue/green/orange/purple accents. Make all allowed text legible and spelled exactly as specified.

@@ -1,0 +1,97 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 82,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main Ethical Considerations page-9 real-deployment boundary polish",
+  "before_pdf_sha256": "42447583c60ca0cc95a780a93fec28ccbdc2465f1369955639ac72516864e9db",
+  "after_pdf_sha256": "7dd9d878ad2df7ee288003005037944460a0f9dcb2699fb063f5b93d4d249154",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round82_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round82_after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "rendered_after_screenshots": [
+      "tmp/acl_main_visual_iter_20260607_round82_after/page-09.png"
+    ],
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round82_after/page"
+  },
+  "defect": {
+    "pages": [
+      9
+    ],
+    "class": "ethical-considerations claim-boundary prose",
+    "before_text_matches": [
+      "page 9 line 419: treat success in synthetic scenes as proof",
+      "page 9 line 420: for real settings. That marks the evidence",
+      "page 9 line 421: boundary."
+    ],
+    "reader_effect": "The wording was correctly bounded but proof for real settings was less precise and less ACL-like than the paper's evidence-gate framing."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/ethical-considerations.tex",
+      "summary": "Rewrote the ethics warning to say synthetic-scene success should not be treated as evidence for real deployment."
+    },
+    {
+      "path": "paper/venues/acl27/sections/ethical-considerations.tex",
+      "summary": "Changed the following sentence to That distinction marks the evidence boundary."
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "Page 9 shows the revised evidence-for-real-deployment wording without new body-text linebreak hyphenation.",
+    "full_scan_result": "The strict after scan reports only the existing explicit human-subject wording and normal reference-column hyphenation on pages 9-10.",
+    "visual_result": "The Ethical Considerations paragraph and adjacent References column remain visually stable.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 14.23s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Ethical Considerations prose only. No metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "Reference pages retain normal reference-column hyphenation."
+}

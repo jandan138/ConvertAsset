@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 55,
+  "date": "2026-06-07",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/intro.tex"
+  ],
+  "docs_record": "docs/records/2026-06-07-acl-main-contribution1-linebreak-polish.md",
+  "issue": {
+    "page": 2,
+    "location": "Introduction first contribution item",
+    "before_problem": [
+      "The first contribution split 'controlled' as 'con- / trolled'.",
+      "The same contribution split 'grounding' as 'ground- / ing'.",
+      "The same contribution split 'optimization' as 'optimiza- / tion'."
+    ],
+    "rejected_intermediate_problems": []
+  },
+  "change_summary": {
+    "intro_tex_lines": "56-60",
+    "summary": "Reworded the first contribution from a controlled-perturbation/interface/optimization phrasing into a shorter controlled-test sentence that removes the three visible linebreak splits while preserving the contribution boundary.",
+    "final_wording": "We make material conversion a controlled test of VLM grounding, not neutral asset cleanup.",
+    "claim_scope_changed": false
+  },
+  "pdf": {
+    "before_sha256": "f970fa69d7e4e13c73bef9c129b767d33b38496685a4e06c69a4ba19af64ce1b",
+    "after_sha256": "29d4d48fda3868b411a75ea9105de9c483d68d8ba6d1d4da519fd8f9be400dc8",
+    "after_pages": 11,
+    "after_file_size_bytes": 5188124,
+    "after_creation_date": "Sun Jun 7 03:03:51 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260607_round55_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round55_after",
+    "before": {
+      "contact_sheet_png_sha256": "80df0fbeebe174113f6a4e9460ff611579e15ad42b27e7cad8d889af14d2f9b3",
+      "full_txt_sha256": "87fb30e144feb9ed01d17252f3c83c8b9c16124a92fca74e6a56b7633c8d1a5a",
+      "page2_txt_sha256": "f764e79d241fa1dbefac5b47e7ae5ad53353213084a5846b45c1464013147198",
+      "page2_png_sha256": "2f94d3d075c97872f43c21ef96c930614cb55151af6d96c9a4efc2b02ab7ee78"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "c9ccc375c824891fdbe0d4e9dbe227d41f9e0c7006d7a67dc2631aaee8b8c0c6",
+      "focus_before_after_p2_png_sha256": "ce29a316808e2a989932b4a6c2ade84f06fea1c76a9911c177785b8f3ac21ab9",
+      "focus_p1_p2_png_sha256": "dea3ba9a051ca8f1ed527dfb426387af50e66425105c685eba9496f361aed4bc",
+      "focus_p2_p3_png_sha256": "5c19faeef21c4e63479fa5a5e40903211705efb7f140bc8c3a7fb6e1b457c25f",
+      "full_txt_sha256": "15c20f903109e0e77547f80b0c1c56963cbccb3fb550f97773fa723962d24502",
+      "page2_txt_sha256": "f4cef4970559f901914ba53bfa04c7ad2b5a54511782105a61cda3b0bb71fbc4",
+      "page2_png_sha256": "39184e5fd7d4888ba048530a97ca777e9859547803550892eb0c377facc1a70f"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260607_round55_after/focus_before_after_p2.png",
+      "tmp/acl_main_visual_iter_20260607_round55_after/focus_p1_p2.png",
+      "tmp/acl_main_visual_iter_20260607_round55_after/focus_p2_p3.png",
+      "tmp/acl_main_visual_iter_20260607_round55_after/contact_sheet.png"
+    ],
+    "observations": [
+      "The page-2 comparison shows the first contribution no longer contains the targeted 'con- / trolled', 'ground- / ing', or 'optimiza- / tion' splits.",
+      "The accepted wording keeps material conversion framed as a controlled VLM-grounding test rather than neutral asset cleanup.",
+      "The final page-2 render keeps the contribution list and Related Work opening on the same page.",
+      "The final contact sheet remains 11 pages with no obvious float, table, or blank-page regression.",
+      "Existing Related Work splits such as 'set-' and 'referen-' are unchanged and outside this round's target."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "bash -c 'if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf \"no blocker matches\\n\"; fi'",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "104 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 168"
+    }
+  ]
+}

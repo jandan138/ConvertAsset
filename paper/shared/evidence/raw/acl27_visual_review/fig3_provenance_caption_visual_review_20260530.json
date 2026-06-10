@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-05-30",
+  "review_type": "local_pure_visual_targeted_pdf_review",
+  "independent_subagent_used": false,
+  "purpose": "Check the layout impact of tightening Figure 3's provenance caption after the user-reported red-material concern.",
+  "artifact": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "d6b74efc377ed51ca502d55d3d785cc43101e259bbce022388088e06c910432e",
+    "size_bytes": 4066557,
+    "page_count": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "pdf_version": "1.5",
+    "created": "Sat May 30 19:01:27 2026 CST"
+  },
+  "rendered_pages": {
+    "dpi": 180,
+    "path_root": "/tmp/ca_acl_fig3_caption_20260530",
+    "page_sha256": {
+      "page_08": "9a1f2c4323f1d04afceb5834b8d3b295473b9f43e7c27a63ed0e16083c56b1cc",
+      "page_09": "f4b334d68dc6f59e9a45dde02723f85feae7080650db0559f75c954843f008b8"
+    }
+  },
+  "overall_verdict": "PASS",
+  "blocking_visual_failures": [],
+  "page_review": [
+    {
+      "page": 8,
+      "verdict": "PASS",
+      "visible_evidence": "Figure 3 remains readable, the caption stays attached, and the material-effect panels show no visible red-material fallback.",
+      "main_risk": "The caption must stay compact; a longer provenance sentence was tested and rejected because it pushed Figure 4 to the next page."
+    },
+    {
+      "page": 9,
+      "verdict": "PASS",
+      "visible_evidence": "Figure 4 remains at the top of page 9 with attached caption, followed by Limitations and Ethical Considerations without overlap.",
+      "main_risk": "The page is dense, but it no longer contains the large blank-column layout produced by the rejected long caption draft."
+    }
+  ],
+  "accepted_caption_change": "Figure 3 now says the original-MDL cells passed a log-checked clean rerender/provenance gate.",
+  "rejected_iteration": "A longer sentence saying every original cell had a checked render log with no MDL-resolution error signal was rejected after visual review because it moved Figure 4 to page 10 and left page 9 with a large blank column.",
+  "claim_boundary": [
+    "Figure 3 remains selected qualitative material-effect evidence only.",
+    "The provenance wording supports clean original-MDL render inclusion; it does not expand NVIDIA, material-fidelity, or population-level claims.",
+    "No new image generation was performed for this targeted text/layout hardening."
+  ]
+}

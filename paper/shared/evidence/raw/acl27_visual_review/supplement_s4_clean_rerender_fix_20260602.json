@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_s4_clean_rerender_fix_20260602",
+  "reviewed_at_utc": "2026-06-02T12:25:00Z",
+  "scope": "ACL27 supplement Figure S4 replacement and local rendered-page visual check",
+  "inputs": {
+    "supplement_pdf": "paper/venues/acl27/build/supplement.pdf",
+    "s4_page_render": "tmp/acl27_supplement_visual_check/page-08.png",
+    "material_intro_page_render": "tmp/acl27_supplement_visual_check/page-23.png",
+    "navigation_intro_page_render": "tmp/acl27_supplement_visual_check/page-28.png",
+    "replacement_figure": "paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png"
+  },
+  "hashes": {
+    "supplement_pdf_sha256": "ef8c0115a9fd30ee9baa4dcf9ca20516ea0bd461f8147635730fa12c800126ef",
+    "replacement_figure_sha256": "b430f20f9cdffc78a002f891587b00977186d27999b8bdab830bd44c521e75ce",
+    "material_intro_strip_sha256": "c8b5824bdebced371e18b09dfb2c0a0c8ce9102e150d32740ed5fb0634e77307",
+    "navigation_intro_strip_sha256": "654439c68bf5d1d3d4700860ad99fdce14aabc6c0655b5e35503f1c705374682"
+  },
+  "image_stats": {
+    "replacement_figure": {
+      "size": [1802, 1134],
+      "red_fallback_fraction": 0.0,
+      "active_fraction": 0.5013
+    },
+    "material_intro_strip": {
+      "size": [1200, 470],
+      "red_fallback_fraction": 0.00019,
+      "active_fraction": 0.5639
+    },
+    "navigation_intro_strip": {
+      "size": [1200, 560],
+      "red_fallback_fraction": 0.00572,
+      "active_fraction": 0.4075
+    },
+    "page_08_render": {
+      "size": [1406, 1988],
+      "red_fallback_fraction": 0.0,
+      "nonwhite_fraction": 0.1419
+    },
+    "page_23_render": {
+      "size": [1406, 1988],
+      "red_fallback_fraction": 0.0,
+      "nonwhite_fraction": 0.0317
+    },
+    "page_28_render": {
+      "size": [1406, 1988],
+      "red_fallback_fraction": 0.00026,
+      "nonwhite_fraction": 0.0302
+    }
+  },
+  "local_visual_review": {
+    "s4": {
+      "verdict": "PASS",
+      "evidence": "Figure S4 now shows four post-repair target-view render pairs with green target boxes and no large red material fallback surfaces."
+    },
+    "material_intro": {
+      "verdict": "WARN",
+      "evidence": "The material preview strip no longer contains clipped source labels and uses dense material crops, but the rendered PDF page remains sparse because the strip is constrained to one ACL column."
+    },
+    "navigation_intro": {
+      "verdict": "WARN",
+      "evidence": "The navigation preview strip avoids clipped labels and shows real route/still evidence, but the rendered PDF page remains sparse because the strip is constrained to one ACL column."
+    }
+  },
+  "claim_boundary": "The replacement S4 panel is render-quality support for tabulated VLM evidence. It intentionally omits VLM point markers because the clean rerenders were produced after the frozen VLM prediction run."
+}

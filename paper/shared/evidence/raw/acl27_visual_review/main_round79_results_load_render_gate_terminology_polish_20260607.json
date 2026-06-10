@@ -1,0 +1,104 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 79,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main Results/Table 6 load-render gate terminology polish",
+  "before_pdf_sha256": "358597f80ed843efc743dffc0df0d9b347881b0f6fd68308fc17a402b0ba53ce",
+  "after_pdf_sha256": "fec589080615dbd9bfa322f17af85ffa416f704b09d9df5781126eff3665afc0",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round79_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round79_after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "rendered_after_screenshots": [
+      "tmp/acl_main_visual_iter_20260607_round79_after/page-05.png",
+      "tmp/acl_main_visual_iter_20260607_round79_after/page-07.png"
+    ],
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round79_after/page"
+  },
+  "defect": {
+    "pages": [
+      5,
+      7
+    ],
+    "class": "results and table-caption terminology consistency",
+    "before_text_matches": [
+      "page 5 line 340: run through a smoke gate.",
+      "page 7 line 069: scenes pass smoke gates."
+    ],
+    "reader_effect": "The term smoke gate was less formal and less consistent with the paper's load/render and stack-entry claim-gate terminology."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/results.tex",
+      "summary": "Changed the NVIDIA omission sentence to say converted scenes must pass this load/render gate."
+    },
+    {
+      "path": "paper/shared/tables/tab_official_scene_performance_summary.tex",
+      "summary": "Changed the Table 6 caption to the same load/render gate wording."
+    }
+  ],
+  "rejected_iterations": [
+    {
+      "summary": "The first Results rewrite introduced page-5 line-end breaks match- and gener-, so it was shortened before acceptance."
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "Pages 5 and 7 show no alphabetic line-end hyphenation after the accepted rewrite.",
+    "full_scan_result": "The full after scan reports no body-text line-end hyphenation outside bibliography pages; pages 9-10 retain normal reference-column hyphenation.",
+    "terminology_result": "smoke gate no longer appears in ACL main Results/table text.",
+    "visual_result": "The page-5 Results paragraph and page-7 Table 6 caption remain visually stable.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 13.28s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Results prose and Table 6 caption terminology only. No metric values, evidence pools, figures, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "Bibliography pages retain normal reference-column hyphenation."
+}

@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-06-03T13:51:07+00:00",
+  "paper": "acl27",
+  "artifact": "supplement_source_boundary_companion_v1",
+  "purpose": "Densify the reproducibility/source-boundary supplement material with a render-heavy companion page while preserving the claim boundary between registered evidence panels and an AI-generated exposition slot.",
+  "skills": [
+    "imagegen",
+    "research-figure-ai-slot-composer",
+    "render-visual-reviewer",
+    "test-driven-development"
+  ],
+  "independent_subagent": false,
+  "claim_boundary": "The AI-generated source-boundary gate is exposition only. Registered render, material, VLM target-view, and navigation panels carry the evidence-bearing content; the companion is not a new evidence source, experiment, metric, VLM run, or navigation run.",
+  "ai_generated_slot": {
+    "role": "source_boundary_gate",
+    "repo_path": "paper/shared/figures/ai_slots/fig_supplement_source_boundary_gate_ai_slot.png",
+    "source_path": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0c7fee79ccaaf054016a1faf60ebc4819094921aee9e0d6c1a.png",
+    "sha256": "5fa336f8af9b2c18978dd737050f1735a2f5d9582c5ca70a233331ad0f2cac28",
+    "bytes": 1198444,
+    "size": [
+      1774,
+      887
+    ],
+    "active_fraction": 0.233862163,
+    "red_fraction": 0.0,
+    "verdict": "PASS",
+    "rationale": "The selected slot is abstract and schematic. It contains no readable author/path text and is used only inside a deterministic composition with explicit source-boundary labels."
+  },
+  "standalone_figure": {
+    "figure_id": "fig_supplement_source_boundary_companion",
+    "path": "paper/shared/figures/fig_supplement_source_boundary_companion.png",
+    "manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_source_boundary_companion.yaml",
+    "sha256": "1e14d4038a072b8f5f4b3ed795b3befe9777986d1093eb3d87b4d999b30b7340",
+    "bytes": 829600,
+    "size": [
+      1320,
+      1380
+    ],
+    "active_fraction": 0.532612538,
+    "red_fraction": 0.00013285,
+    "verdict": "PASS",
+    "rationale": "The final deterministic composition uses the AI gate plus registered packet, render, material, VLM, navigation, route, and paired target-view panels. The third iteration removed title overlap, added real render closeups, and no visible clipping or caption separation remained in the standalone image."
+  },
+  "rendered_pdf_pages": [
+    {
+      "page": 43,
+      "path": "tmp/acl_supplement_source_boundary_v1_review_20260603/page-43.png",
+      "sha256": "cdb3a145a33f3ddb7b184985fbca1e9b5d69ae488c6f78333a0b9974166c9714",
+      "bytes": 306207,
+      "size": [
+        1158,
+        1638
+      ],
+      "active_fraction": 0.05341195,
+      "red_fraction": 0.0,
+      "verdict": "PASS",
+      "rationale": "The reproducibility prose now fills both columns before the companion page; the earlier single-column whitespace caused by an immediate float flush is removed."
+    },
+    {
+      "page": 44,
+      "path": "tmp/acl_supplement_source_boundary_v1_review_20260603/page-44.png",
+      "sha256": "6af16c41dd1cdda9b49bf17aac69daab1031a2d4581fc715452f17f5b45dd5c7",
+      "bytes": 483865,
+      "size": [
+        1158,
+        1638
+      ],
+      "active_fraction": 0.242363998,
+      "red_fraction": 0.000040067,
+      "verdict": "PASS",
+      "rationale": "The companion appears as an independent full-width figure page before references. Caption remains attached below the image, and no reference text or following section intrudes into the figure page."
+    },
+    {
+      "page": 45,
+      "path": "tmp/acl_supplement_source_boundary_v1_review_20260603/page-45.png",
+      "sha256": "f51865700efada16433852f95b479c65924f9f20638b4ca6a72de1b59f3adcc0",
+      "bytes": 319436,
+      "size": [
+        1158,
+        1638
+      ],
+      "active_fraction": 0.050104808,
+      "red_fraction": 0.0,
+      "verdict": "PASS",
+      "rationale": "References start after the companion page in normal text flow, avoiding the earlier figure-and-bibliography mix."
+    }
+  ],
+  "pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "ce80e24c5296367cebbe3b3c442f9bdf1c67d01ba78b3b7c036ab101a6ae90f8",
+    "pages": 45,
+    "bytes": 40252482,
+    "page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "text_scan": {
+    "positive_patterns_present": [
+      "Source-boundary review companion",
+      "AI-generated source-boundary gate schematic used only for exposition",
+      "not a new evidence source, experiment, metric, VLM run, or navigation run"
+    ],
+    "negative_patterns_absent": [
+      "fig_vlm_grounding_cases",
+      "Red material in these diagnostic cases",
+      "/cpfs/user",
+      "Zihou"
+    ]
+  },
+  "iteration_notes": [
+    "Iteration 1 placed a column-width companion in the two-column reproducibility text; visual review rejected it because the image and caption split across columns.",
+    "Iteration 2 moved the companion to a full-width float; visual review rejected the reference-page mixing and excess whitespace.",
+    "Iteration 3 added a registered render source tray and paired target-view closeups, then placed the figure after reproducibility text and before bibliography."
+  ],
+  "commands": [
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "python -m pytest -q tests/test_paper_layout.py::test_acl_supplement_reproducibility_has_visual_media_manifest tests/test_paper_layout.py::test_supplement_source_boundary_companion_is_registered_and_dense",
+    "python -m pytest -q tests/test_paper_layout.py::test_figure_sources_outputs_and_generators_are_consistent tests/test_paper_layout.py::test_acl_supplement_reproducibility_has_visual_media_manifest tests/test_paper_layout.py::test_supplement_source_boundary_companion_is_registered_and_dense",
+    "make -C paper acl27-supplement",
+    "pdftoppm -f 43 -l 45 -r 140 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_source_boundary_v1_review_20260603/page",
+    "pdftotext paper/venues/acl27/build/supplement.pdf - | whitespace-normalized positive/negative scan"
+  ]
+}

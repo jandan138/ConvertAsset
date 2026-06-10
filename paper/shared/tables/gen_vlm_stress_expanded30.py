@@ -226,7 +226,7 @@ def render_latex(rows: list[dict[str, str]]) -> str:
     body_text = "\n".join(body)
     return rf"""\begin{{table*}}[t]
 \centering
-\caption{{Expanded GRScenes material-shift grounding results over a frozen 30-pair target-centered stress set. Gemma4 is the canonical root run for this frozen set; Qwen2.5-VL is a second-model diagnostic under the same manifest. Values are hit counts for original/converted renders unless otherwise noted. Norm-1000 point-in-bbox is the primary point metric; raw point-in-bbox is retained only as a coordinate diagnostic.}}
+\caption{{Frozen 30-pair GRScenes material-shift stress set. Gemma4 is the canonical run; Qwen2.5-VL is a coordinate-format diagnostic under the same manifest. Values are O/C hit counts. Norm-1000 point hits are primary; raw point hits are diagnostic.}}
 \label{{tab:grscenes_vlm_stress_expanded30}}
 \scriptsize
 \resizebox{{\textwidth}}{{!}}{{%

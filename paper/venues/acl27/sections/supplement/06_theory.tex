@@ -1,0 +1,93 @@
+\clearpage
+\onecolumn
+\section{Hypotheses and Failure-Mode Interpretation}
+\label{sec:supp-theory}
+
+This section records theory and interpretation. The evidence is suggestive
+rather than mechanism-complete, so the discussion stays at hypothesis level.
+
+\begin{center}
+\centering
+\includegraphics[width=\textwidth,height=0.74\textheight,keepaspectratio]{figures/fig_supplement_theory_evidence_bridge.png}
+\captionsetup{hypcap=false}
+\captionof{figure}{Theory bridge linking the hypothesis-level interpretation to
+render evidence. The bands connect material salience,
+target-view grounding contracts, embodied-route sensitivity, and a
+selected-failure render wall.}
+\label{fig:supp-theory-evidence-bridge}
+\end{center}
+\clearpage
+
+\begin{center}
+\centering
+\includegraphics[width=0.98\textwidth,height=0.74\textheight,keepaspectratio]{figures/fig_supplement_theory_failure_mode_map.png}
+\captionsetup{hypcap=false}
+\captionof{figure}{Failure-mode interpretation map for the hypothesis-level
+section. Each lane anchors one interpretation to tracked render evidence and
+states the scope of the example.}
+\label{fig:supp-theory-failure-mode-map}
+\end{center}
+\clearpage
+
+\begin{center}
+\centering
+\includegraphics[width=0.86\textwidth,height=0.72\textheight,keepaspectratio]{figures/fig_supplement_theory_hypothesis_boundary_companion.png}
+\captionsetup{hypcap=false}
+\captionof{figure}{Hypothesis-scope companion. Render rows keep
+material, grounding, navigation, selected failure render wall, and
+cross-hypothesis evidence visible. The render-backed lens summarizes how the
+examples should be read.}
+\label{fig:supp-theory-hypothesis-scope-companion}
+\end{center}
+\clearpage
+
+\twocolumn
+
+\subsection{Material Salience Hypothesis}
+
+The material salience hypothesis is that conversion changes matter most when a
+target is recognized through localized material cues rather than silhouette
+alone. A cup, bottle, or backpack can remain geometrically visible while losing
+opacity, emission, normal, displacement, clearcoat, or procedural texture cues.
+If a VLM relies on those cues to separate the target from nearby objects, a
+small material perturbation can produce a grounding delta even when global
+image similarity remains high.
+
+\subsection{Coordinate-Format Hypothesis}
+
+The coordinate-format hypothesis is that material conversion and coordinate
+protocol failures can interact. A material shift can change visual salience,
+while a model-specific coordinate convention can change the returned point
+frame. If the analysis reports only raw point hits, a target-centered camera can
+hide this interaction. Separating answer accuracy, raw point hits,
+normalized-1000 point hits, parser coverage, and pair agreement is therefore
+part of the causal interpretation rather than bookkeeping.
+
+\subsection{Embodied-Stack Sensitivity Hypothesis}
+
+The navigation stack sees more than a static target crop. It receives
+egocentric observations, map context, route memory, stopping decisions, and
+failure thresholds. A converted scene can be static-render comparable while a
+selected rollout changes local route shape, endpoint behavior, or final
+navigation error. Conversely, a visible material difference can be irrelevant
+to the selected route. The 99-episode paired run is included to test whether
+converted scenes can be exercised by a real official stack, not to prove broad
+embodied robustness.
+
+\subsection{Why Selected Failures Still Matter}
+
+Selected failures provide mechanism visibility rather than rates. A selected
+clearcoat target-loss case warns that static conversion
+success can hide target preservation failures. A selected procedural-texture
+case warns that checker or generated texture evidence may disappear during
+conversion. A selected navigation divergence warns that route inspection is
+useful even when aggregate metrics are limited to the selected run. These examples help define
+future tests: they say what to test before estimating how often it fails.
+
+\subsection{Negative-Result Discipline}
+
+The supplement keeps negative cases visible. Procedural texture remains a
+known limitation case. NVIDIA clearcoat target loss remains a selected baseline
+failure, and Qwen coordinate behavior remains a coordinate-protocol effect.
+This discipline keeps the ACL contribution focused on language-grounded scene
+conversion measurement rather than an asset-converter leaderboard.

@@ -1,0 +1,77 @@
+{
+  "round": 108,
+  "date": "2026-06-07",
+  "topic": "ACL main Figure 1 caption claim-boundary polish",
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "scope": {
+    "section": "Introduction",
+    "source_file": "paper/venues/acl27/sections/intro.tex",
+    "pdf_page": 2,
+    "change_class": "caption claim-boundary and reviewer-facing wording polish"
+  },
+  "baseline": {
+    "pdf_hash": "162bd09a9a1ce850aa53e428a2f95c502fdca331267664b252093607734ba34d",
+    "artifact_dir": "tmp/acl_main_visual_iter_20260607_round108_current",
+    "page_png": "tmp/acl_main_visual_iter_20260607_round108_current/page-02.png",
+    "page_png_sha256": "489da85e205411874ae3e1cc52467268992e0feef07cc0926f846319db6ccdc4",
+    "page_text": "tmp/acl_main_visual_iter_20260607_round108_current/text/page-02.txt",
+    "page_text_sha256": "a0b29e488b07d653293b27b28fa84fa412edc73ffda8c61129334c13fe7a8385",
+    "visible_issue": [
+      "page 2 Figure 1 caption: empirical render, material-effect, and navigation figures later in the paper use recorded project artifacts."
+    ],
+    "reader_effect": "The caption preserved the schematic boundary but used internal artifact-production wording in reader-facing text."
+  },
+  "change": {
+    "accepted_summary": "Rewrote the final Figure 1 caption sentence so the schematic boundary is stated through empirical-claim ownership by later figures.",
+    "before": "This panel is a schematic roadmap; empirical render, material-effect, and navigation figures later in the paper use recorded project artifacts.",
+    "after": "This panel is a schematic roadmap; later render, material-effect, and navigation figures carry the empirical claims."
+  },
+  "rejected_candidates": [],
+  "after": {
+    "pdf_hash": "ea46134a76a8dfa7c94bf73f79da848c7b5f858d1d419b8b5234c4d2f0f1b406",
+    "artifact_dir": "tmp/acl_main_visual_iter_20260607_round108_current/after",
+    "page_png": "tmp/acl_main_visual_iter_20260607_round108_current/after/page-02.png",
+    "page_png_sha256": "5578aa0c63d04e4cdf6a6ffad9bf123c1b44b81fd781aed45adab5af3354b64e",
+    "page_text": "tmp/acl_main_visual_iter_20260607_round108_current/after/text/page-02.txt",
+    "page_text_sha256": "7244b153ec5ba051e474fe942df712413f9967952021ded803e8b76c2e0324b8",
+    "accepted_visual_read": [
+      "page 2 lines 1-4: Figure 1 caption remains four lines; the final line reads material-effect, and navigation figures carry the empirical claims."
+    ],
+    "page5_unchanged": {
+      "page_png_sha256": "34d73573bc3f60bc4dcf4cd97d6cfe0ce7672a12cebbec4d1830c453ff9087ac",
+      "page_text_sha256": "1fa6b032fad405aa5f01f1e157c3e455a2b123d8026591699853135ec33db386",
+      "residual_text": "result.    The official KuJiaLe val unseen"
+    },
+    "page_count": 10,
+    "pdf_file_size_bytes": 5183467,
+    "targeted_scan_result": "Page 2 no longer contains recorded project artifacts; the accepted caption has no new visible hyphenation or overlap."
+  },
+  "verification": {
+    "make": {
+      "command": "make -C paper acl27",
+      "status": "passed",
+      "log": "/tmp/acl27_round108_final_verify_make.log"
+    },
+    "latex_blocker_scan": {
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    "pytest": {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 14.01s"
+    },
+    "claim_boundaries": {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true, violations empty"
+    },
+    "metadata_consistency": {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  },
+  "claim_boundary": "The accepted edit changes only one Figure 1 caption sentence. It does not alter the schematic, metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes.",
+  "residual_risk": "The page-5 result.    The official spacing remains unchanged because earlier source-level attempts caused worse line breaks."
+}

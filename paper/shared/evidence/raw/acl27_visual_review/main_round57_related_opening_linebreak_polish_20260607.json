@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 57,
+  "date": "2026-06-07",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/related.tex"
+  ],
+  "docs_record": "docs/records/2026-06-07-acl-main-related-opening-linebreak-polish.md",
+  "issue": {
+    "page": 2,
+    "location": "Related Work opening and first related-work lane",
+    "before_problem": [
+      "The Related Work opener split 'synthetic' as 'syn- / thetic'.",
+      "The first related-work lane split 'setting' as 'set- / ting'.",
+      "The same lane split 'referential' as 'referen- / tial'."
+    ],
+    "rejected_intermediate_problems": [
+      "An intermediate wording removed the target splits but introduced 'embod- / ied', 'identifi- / cation', and 'inter- / face'.",
+      "A later intermediate wording introduced 'archi- / tecture' before the final 'VLM model' wording."
+    ]
+  },
+  "change_summary": {
+    "related_tex_lines": "4-17",
+    "summary": "Reworded the Related Work opener and first grounding/VLN lane with shorter terms so the page-2 opening no longer splits the target words while preserving the related-work boundary.",
+    "final_opening": "This paper links VLM grounding, embodied simulation, and rendered 3D evaluation. All three rely on rendered assets as inputs. Yet conversion is usually treated as setup, not as part of the experiment.",
+    "final_lane_boundary": "We add no new VLM model or VLN benchmark. We study the measurement question behind them: whether a converted synthetic scene retains the same answer and point-grounding evidence as the source render.",
+    "claim_scope_changed": false
+  },
+  "pdf": {
+    "before_sha256": "fc5a3559c298e9f2575234db35764ae2e59b5ac69428019febda79bacd78cfcd",
+    "after_sha256": "82e1d7f60d5b4222ee878d15ae6ed44f2420a9715b3493be4783bc8ce68ea382",
+    "after_pages": 11,
+    "after_file_size_bytes": 5187846,
+    "after_creation_date": "Sun Jun 7 03:45:13 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260607_round56_after",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round57_after",
+    "before": {
+      "contact_sheet_png_sha256": "9947d3725ed82fd7501ad9e0127a58247ccd442ec89badba43fdf13d1a37cb64",
+      "full_txt_sha256": "f6a91584635045b1daa6d496815cdf817740f68bcfa80085c415aaba229bef55",
+      "page2_txt_sha256": "054e7d8aa297f154a9dedc68a405b3c3de91b5ed97a92be07fa2347fea50faf5",
+      "page2_png_sha256": "1a5c4498869d075700d69c020ee0273200841d65a86e70c94af3876832b3de45"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "d0d76a60d66049caa94b5659e2d6f0a71398bf4af60bddf6e24f08cd49c7d50b",
+      "full_txt_sha256": "8e9b9148d84a08ad858d1ebda301afdb9f7927566858d7640f93f82f299e0098",
+      "page2_txt_sha256": "1a5edbb920f61d6f5e7fe90704a13198e702d7ab6dc09c61f9222a6144cc99d3",
+      "page2_png_sha256": "b50908310944b59cbd1eac085fb04683521a9a71e6d3cb67b6c4a87753133b2f",
+      "page2_related_top_png_sha256": "f76e338c1cddf24d2c003379453053cfa3ec2aae279b93a73946346603c824c9"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260607_round57_after/page2_related_top.png",
+      "tmp/acl_main_visual_iter_20260607_round57_after/contact_sheet.png"
+    ],
+    "observations": [
+      "The final page-2 text layer no longer contains the targeted 'syn- / thetic', 'set- / ting', or 'referen- / tial' splits.",
+      "The accepted local wording avoids the intermediate replacement splits introduced during tuning.",
+      "The Related Work opening still frames the paper as a measurement study rather than a new VLM model or VLN benchmark.",
+      "The final contact sheet remains 11 pages with no obvious float, table, or blank-page regression."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "bash -c 'if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf \"no blocker matches\\n\"; fi'",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "104 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 168"
+    }
+  ]
+}

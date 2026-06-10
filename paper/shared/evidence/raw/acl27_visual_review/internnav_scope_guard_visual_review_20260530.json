@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-05-30",
+  "review_type": "local_pure_visual_page9_review_after_internnav_scope_wording_polish",
+  "independent_subagent_used": false,
+  "supersedes_pdf_sha256": "177466b7d0cf6a557f73f792dc6f718fdae8f42663e7398a54bc2d9252cde356",
+  "note": "Reviewed locally with the render-visual-reviewer rubric after replacing the awkward all-InteriorNav wording with explicit all InternNav or InteriorAgent scope language and shortening the repeated Figure 4 limitations sentence. No imagegen iteration was run because the reviewed issue was text/scope wording and page-9 flow, not a generated-image defect.",
+  "artifact": {
+    "path": "paper/submissions/acl27_arr_candidate_20260526/main.pdf",
+    "sha256": "137370b33b567ebc55ab6f88ef5d6e6860b6e61debf133e8077b14a22b454c98",
+    "size_bytes": 4066626,
+    "page_count": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "pdf_version": "1.5",
+    "created": "Sat May 30 20:43:58 2026 CST"
+  },
+  "rendered_page": {
+    "dpi": 150,
+    "path_root": "/tmp/convertasset_acl27_visual_20260530_internnav_scope_guard_final",
+    "page": 9,
+    "page_sha256": "c102b28d3ca1b6d01713bebd110481c0178f80fa206376cfc23d4eed636f4496"
+  },
+  "text_guard": {
+    "command": "pdftotext paper/submissions/acl27_arr_candidate_20260526/main.pdf - | rg -n \"all InternNav|InteriorAgent settings|qualitative orientation evidence|Figure 4|Limitations|Ethical Considerations|References|undefined|\\?\\?\"",
+    "found_required_anchors": [
+      "Figure 4",
+      "Limitations",
+      "Ethical Considerations",
+      "References",
+      "all InternNav or InteriorAgent settings",
+      "qualitative orientation evidence"
+    ],
+    "undefined_or_question_mark_markers_found": false
+  },
+  "overall_verdict": "PASS",
+  "blocking_visual_failures": [],
+  "page_review": [
+    {
+      "page": 9,
+      "verdict": "PASS",
+      "visible_evidence": "Figure 4 remains attached to its caption, Limitations starts in the left column, Ethical Considerations starts cleanly in the right column, and the revised InternNav/InteriorAgent scope sentence is readable without overlap or clipping.",
+      "main_risk": "The selected InternNav panels remain qualitative orientation evidence only; quantitative claims still depend on the 99-episode paired run and official-scene load/render checks."
+    }
+  ],
+  "claim_boundary": [
+    "The revised limitations text negates all InternNav or InteriorAgent generalization.",
+    "Figure 4 remains selected qualitative orientation evidence.",
+    "No broad GRScenes, R2R/MP3D, manipulation, speedup, or NVIDIA official-scene performance claim is introduced."
+  ],
+  "imagegen_decision": "No new imagegen was run. The accepted Figure 1 v18 schematic remains active, and this iteration touched wording plus page-9 layout only."
+}

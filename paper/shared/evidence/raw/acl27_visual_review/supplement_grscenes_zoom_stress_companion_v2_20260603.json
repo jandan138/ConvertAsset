@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-06-03T07:07:53+08:00",
+  "artifact": "supplement_grscenes_zoom_stress_companion_v2",
+  "scope": "ACL supplement page-24 iteration for the GRScenes zoom-stress table companion.",
+  "skills": [
+    "imagegen",
+    "research-figure-ai-slot-composer",
+    "render-visual-reviewer"
+  ],
+  "independent_subagent": false,
+  "claim_boundary": "The AI-generated zoom-stress gate slot is exposition only. It is not experimental evidence, a VLM prediction, a benchmark row, a render result, or a preservation claim. Registered original/noMDL render pairs and the zoom-stress table remain evidence-bearing.",
+  "ai_generated_slot": {
+    "slot_name": "zoom_stress_gate",
+    "path": "paper/shared/figures/ai_slots/fig_supplement_grscenes_zoom_stress_gate_ai_slot.png",
+    "generated_asset_source": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0ba537d9ad0ac0e4016a1f5f8a388c8197bdddb5f1fd636150.png",
+    "sha256": "2cbe32b79f7bb946ad049664353eaaf87a9f5a74f43e9152d283b0be5b7f8248",
+    "bytes": 986705,
+    "size": [1774, 887],
+    "active_fraction": 0.08548315960593261,
+    "red_fallback_fraction": 0.0000006355105501106423,
+    "visual_review": "Abstract three-stage zoom-stress table-reading schematic with no realistic scene evidence and no paper-critical readable text."
+  },
+  "standalone_figure": {
+    "path": "paper/shared/figures/fig_supplement_grscenes_zoom_stress_table_companion.png",
+    "sha256": "b3f708de5c1584543b31fd038037ac057cde5c4c2ac1034cb96cd4b42ad0a451",
+    "bytes": 689155,
+    "size": [1800, 940],
+    "active_fraction": 0.3880443262411348,
+    "red_fallback_fraction": 0.0,
+    "visual_review": "Deterministic composite with four registered target-view render-pair cards, one separated AI zoom-stress gate, and an added registered zoom-stress render audit strip."
+  },
+  "rendered_pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "d4f071bda1ac70169d3b211b8862dd2de7dc3e0d5e4a639492db18b26a3a1e04",
+    "bytes": 34494706,
+    "pages": 44,
+    "page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "rendered_page_review": {
+    "renderer": "pdftoppm -f 23 -l 25 -r 140 -png",
+    "active_threshold": "max_channel_minus_min_channel > 15 OR mean_rgb < 245",
+    "pages": [
+      {
+        "page": 23,
+        "path": "tmp/acl_supplement_zoom_stress_review_20260603_final/page-23.png",
+        "size": [1158, 1638],
+        "active_fraction": 0.084527,
+        "red_fallback_fraction": 0.0,
+        "sha256_prefix": "73b7251fad01a09e",
+        "visual_review": "PASS-only table companion remains unchanged and is not a blank page."
+      },
+      {
+        "page": 24,
+        "path": "tmp/acl_supplement_zoom_stress_review_20260603_final/page-24.png",
+        "size": [1158, 1638],
+        "active_fraction": 0.117216,
+        "red_fallback_fraction": 0.0,
+        "sha256_prefix": "8d0f8e24f95c7ebd",
+        "visual_review": "Zoom-stress table, expanded companion, caption, and boundary paragraph share one page. The lower half is materially denser than the prior page-24 reference."
+      },
+      {
+        "page": 25,
+        "path": "tmp/acl_supplement_zoom_stress_review_20260603_final/page-25.png",
+        "size": [1158, 1638],
+        "active_fraction": 0.14405,
+        "red_fallback_fraction": 0.0,
+        "sha256_prefix": "bf40e134d565fb97",
+        "visual_review": "Material-effect section opener remains normal after the page-24 expansion."
+      }
+    ]
+  },
+  "density_delta": {
+    "prior_page24_active_reference_r110": 0.086817,
+    "final_page24_active_r140": 0.117216,
+    "note": "Different render resolution is recorded explicitly; the visual review confirms the page is no longer sparse in the same way."
+  },
+  "text_scan_expectations": {
+    "positive": [
+      "GRScenes zoom-stress table companion",
+      "AI-generated zoom-stress gate schematic",
+      "not additional VLM predictions or benchmark rows",
+      "should not be read as evidence that every material mechanism is preserved"
+    ],
+    "negative": [
+      "Red material in these diagnostic cases",
+      "fig_vlm_grounding_cases",
+      "/cpfs/user",
+      "Zihou"
+    ]
+  },
+  "commands": [
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "python -m pytest -q tests/test_paper_layout.py -k \"grscenes_tables_have_render_companions or grscenes_table_companions_are_registered_and_dense\"",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "make -C paper acl27-supplement",
+    "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_grscenes_zoom_stress_companion_v2_20260603.json >/dev/null",
+    "pdftotext paper/venues/acl27/build/supplement.pdf - # positive/negative claim-boundary scan",
+    "pdftoppm -f 23 -l 25 -r 140 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_zoom_stress_review_20260603_final/page",
+    "pdftoppm -f 23 -l 25 -r 140 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_zoom_stress_review_20260603_final_postbuild/page",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf | rg '^(Pages|Page size|File size):'"
+  ]
+}

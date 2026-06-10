@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 46,
+  "date": "2026-06-06",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/intro.tex"
+  ],
+  "docs_record": "docs/records/2026-06-06-acl-main-intro-gate-flow-polish.md",
+  "issue": {
+    "page": 2,
+    "location": "introductory gate-flow paragraph after Figure 1",
+    "before_problem": [
+      "Multiple dense line breaks across important terms: selected material-effect, ConvertAsset, PreviewSurface, and official KuJiaLe.",
+      "The paragraph listed experiment artifacts instead of presenting the clean/stress/material/navigation evidence as one bounded gate chain."
+    ],
+    "accepted_residual": [
+      "The final page still has the mild break 'broad ro- / bustness'. It was accepted for this round because further shortening destabilized the contribution block or introduced worse breaks."
+    ]
+  },
+  "change_summary": {
+    "intro_tex_lines": "48-56",
+    "summary": "Reframed the GRScenes clean/stress pools, material audit, and KuJiaLe InternNav run under shared gate logic while preserving the bounded-claim language.",
+    "claim_scope_changed": false
+  },
+  "pdf": {
+    "before_sha256": "27ac5e0c3714de620638348893d4ad30e174564c918f3182fdbd6939ae82c9b3",
+    "after_sha256": "b5f8ef0e47f76db3bef99945a76a853f1516372b7d69152acbbb724a4330d05a",
+    "after_pages": 11,
+    "after_file_size_bytes": 5188354,
+    "after_creation_date": "Sat Jun 6 21:50:35 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260606_round46_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260606_round46_after",
+    "before": {
+      "contact_sheet_png_sha256": "918c1c897f00688b02a37097084431fc2d22f51276b00b730522d3db3f87e06d",
+      "focus_p1_p2_png_sha256": "abb8e7ec906086e63e30ac961bab34c7da7a6d691022abba00b6562348373d9a",
+      "full_txt_sha256": "a1a01b2e719ef59ac8fd7b4ffcb7ee239fa1ad3e9909a5b8b6cb6c7de35ce54f",
+      "page2_txt_sha256": "607d4bac81f123ec10e1c170a58a12e42b5e041843c658d6f19b981b2f111a3f"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "7dfb94f30f9ffa3f35908c5d68f92696fae9e0ac031ace0e241e838f67406a35",
+      "focus_before_after_p2_png_sha256": "3bade1674041c1baebdb85714dd192a24baf36e333719249c048f7456c0f0188",
+      "focus_p1_p2_png_sha256": "13df7effa59f40c0e892f687f467acf00f820cce6d84b168e7725ada73a58f12",
+      "full_txt_sha256": "e0535c6b34755919ae4a3b1095a4b3f58bad0e402abcb24103e6421ad8da0af2",
+      "page2_txt_sha256": "73f7da0614adcb7ae2317c29dfb10d8353b340747704461284cb51fcc0e7f8e2"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260606_round46_after/contact_sheet.png",
+      "tmp/acl_main_visual_iter_20260606_round46_after/focus_before_after_p2.png"
+    ],
+    "observations": [
+      "The contact sheet remains 11 pages with no blank page or obvious figure/table collision.",
+      "The page-2 before/after crop shows the old material-effect, ConvertAsset, PreviewSurface, and KuJiaLe break cluster removed.",
+      "Contribution item flow and the Related Work start remain visually stable after the paragraph rewrite."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "bash -lc 'if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf \"no blocker matches\\n\"; fi'",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "exit_code": 0,
+      "result": "102 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 169"
+    }
+  ]
+}

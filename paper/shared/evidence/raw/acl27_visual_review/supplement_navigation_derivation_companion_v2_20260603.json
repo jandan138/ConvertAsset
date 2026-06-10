@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "record_id": "supplement_navigation_derivation_companion_v2_20260603",
+  "generated_at_utc": "2026-06-03T00:58:32Z",
+  "status": "pass",
+  "claim_boundary": "Figure companion and page-layout evidence only; not a new navigation run, benchmark row, model prediction, or metric result.",
+  "changed_page": {
+    "venue": "acl27",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "page": 14,
+    "section": "paper/venues/acl27/sections/supplement/01_derivations.tex",
+    "figure": "paper/shared/figures/fig_supplement_navigation_derivation_companion.png"
+  },
+  "figure_stats": {
+    "path": "paper/shared/figures/fig_supplement_navigation_derivation_companion.png",
+    "width_px": 1800,
+    "height_px": 560,
+    "sha256": "3cd1c0e6625faa1b0620042f6a3ad1e8177e3c01380d97edb3181f69f5edf62e",
+    "active238_fraction": 0.309787698,
+    "red_fallback_fraction": 0.000771825
+  },
+  "ai_slot": {
+    "path": "paper/shared/figures/ai_slots/fig_supplement_navigation_metric_gate_v2_ai_slot.png",
+    "sha256": "c0ccb2fff05680ebe679676edc12af61ed552e42967fcde968cb27f21d677eee",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_07b6679456fdc74e016a1f77311f6c8199ae26b887b20348fa.png",
+    "source_generated_image_sha256": "c0ccb2fff05680ebe679676edc12af61ed552e42967fcde968cb27f21d677eee",
+    "manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_navigation_derivation_companion.yaml",
+    "claim_boundary": "Exposition only; not experimental evidence."
+  },
+  "registered_render_evidence": [
+    "paper/shared/figures/fig_internnav_downstream_panel.png",
+    "paper/shared/figures/fig_internnav_rollout_stills.png",
+    "paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png",
+    "paper/shared/figures/fig_internnav_rollout_selected6_supp.png",
+    "paper/shared/figures/fig_internnav_rollout_0036_0066_selected6_supp.png",
+    "paper/shared/figures/supplement/internnav_selected6_case01.png",
+    "paper/shared/figures/supplement/internnav_selected6_case02.png",
+    "paper/shared/figures/supplement/internnav_selected6_case03.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case01.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case02.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case03.png"
+  ],
+  "pdf_page_renders": [
+    {
+      "path": "tmp/acl_supplement_navigation_derivation_v2_review_20260603/page-14.png",
+      "page": 14,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active245_fraction": 0.092388038,
+      "active238_fraction": 0.085739486,
+      "red180_fraction": 0.00007908,
+      "sha256": "c5d9aa6101e5b6b2879d16f3b23ec5f50c23372acd7b04c40b59275ec4f175c0"
+    },
+    {
+      "path": "tmp/acl_supplement_navigation_derivation_v2_review_20260603/page-15.png",
+      "page": 15,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active245_fraction": 0.14104462,
+      "active238_fraction": 0.134203112,
+      "red180_fraction": 0.000055883,
+      "sha256": "599ff97314e043d24f63f1ccd6780dc45140a3ef858f12b8813186a12e00cfa8"
+    }
+  ],
+  "previous_page14_active245_fraction": 0.098954,
+  "visual_review": {
+    "mode": "local_render_visual_reviewer",
+    "independent_subagent": false,
+    "subagent_note": "The user requested repeated use of visual-review skill, not explicit subagent dispatch; local visual review was used.",
+    "verdict": "PASS",
+    "evidence": "Page 14 keeps the navigation derivation companion and caption together, with no visible clipping or overlap. The companion is a full-width compact atlas with five metric/media cards and a registered render-heavy audit strip. Page 15 starts the metric-boundary summary and remains intact."
+  },
+  "build": {
+    "command": "make -C paper acl27-supplement",
+    "pdf_pages": 44,
+    "pdf_sha256": "7a775b089e68cf94ffd5fce1e4e5293a98b256106660e2c3a29752860612e323",
+    "pdf_size_bytes": 35388288
+  }
+}

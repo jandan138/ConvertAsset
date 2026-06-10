@@ -1,0 +1,94 @@
+{
+  "round": 32,
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "target_pdf": "paper/venues/acl27/build/main.pdf",
+  "target_area": {
+    "pages": [9, 10],
+    "source": "paper/venues/acl27/sections/discussion.tex",
+    "lines_after_change": "20-28",
+    "description": "Discussion boundary-method paragraph and the adjacent Conclusion/page-10 flow"
+  },
+  "change_summary": [
+    "Replaced the final boundary paragraph sentence with a shorter punchline: 'The method is the boundary: portable scene workflows carry auditable claims only inside the gates they pass.'",
+    "Removed the rendered page-9 hyphenation where 'These bound-' and 'portable-' split the Discussion's closing claim.",
+    "Preserved the claim-boundary meaning while making the Discussion-to-Conclusion handoff more direct."
+  ],
+  "visual_review": {
+    "before_render_dir": "tmp/acl_main_visual_iter_20260606_round32_current",
+    "after_render_dir": "tmp/acl_main_visual_iter_20260606_round32_after",
+    "before_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round32_current/contact_sheet.png",
+      "sha256": "620fb68d9b33d9f4a29f0612bd7881914c7305fe8ef594b3576f7cc6e16f13b2"
+    },
+    "after_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round32_after/contact_sheet.png",
+      "sha256": "cc11ca289d539f7b9b64c5c83d3e1e7c1108c09f7fbf06e22cc8f1aa1ce9940b"
+    },
+    "focus_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round32_after/focus_p9_after.png",
+      "sha256": "ae63f28e81a213afc53b875af517ff492e1863ab91367306be377af35123138e",
+      "pages": [9]
+    },
+    "focus_pages_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round32_after/focus_p9_p10_after.png",
+      "sha256": "47664d17cacdb370d8c635dd13926d86c159aec9c9b7add2c59524df120b7dbb",
+      "pages": [9, 10]
+    },
+    "focus_before_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round32_after/focus_before_after_p9.png",
+      "sha256": "c2afcc1e2dbb042f1a1af988ffa89c0ab76a591cf92ce6eb98aeb811efb420e6",
+      "pages": [9]
+    },
+    "observations": [
+      "Before: page 9 rendered 'These bound-' followed by 'aries' and then 'portable-' followed by 'scene', weakening the Discussion's closing punchline.",
+      "After: page 9 renders 'The method is the boundary: portable scene workflows carry auditable claims only inside the gates they pass.' without the old boundary/portable splits.",
+      "Conclusion still starts on page 9, and page 10 remains visually stable after the localized paragraph compaction."
+    ]
+  },
+  "pdf_identity": {
+    "before_sha256": "513cf208bbc0684a15813b2d41979a12b4267a847b739f9c0e79d7ccff25ba34",
+    "after_sha256": "a7eb18b17acf73ede0439e6a14c6034b15ec2a86c71b80cc530d296b12ba682c",
+    "after_pdfinfo": {
+      "creation_date": "Sat Jun 6 12:51:39 2026 CST",
+      "mod_date": "Sat Jun 6 12:51:39 2026 CST",
+      "pages": 11,
+      "page_size": "595.276 x 841.89 pts (A4)",
+      "file_size_bytes": 5188795,
+      "pdf_version": "1.5"
+    }
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "pass",
+      "evidence": "Exit 0; acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "pass",
+      "evidence": "No matches."
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "pass",
+      "evidence": "102 passed in 13.66s."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "pass",
+      "evidence": "ok=true; violations=[], unsafe_figure_violations=[], venue_wrapper_violations=[]"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "pass",
+      "evidence": "ok=true; title and abstract match metadata; abstract_word_count=169"
+    },
+    {
+      "command": "rg -n \"These bound|portable-|The method is the boundary|portable scene workflows\" tmp/acl_main_visual_iter_20260606_round32_current/page9.txt tmp/acl_main_visual_iter_20260606_round32_after/pages9_10.txt || true",
+      "result": "pass",
+      "evidence": "Current page 9 text contains the old 'These bound-' and 'portable-' splits; after pages 9-10 text contains 'the boundary: portable scene workflows carry' and no old split."
+    }
+  ],
+  "workspace_note": "The repository had unrelated pre-existing modified paper, docs, and evidence files before this round. This evidence record only claims the round32 Discussion boundary-punchline polish plus the new record/evidence files."
+}

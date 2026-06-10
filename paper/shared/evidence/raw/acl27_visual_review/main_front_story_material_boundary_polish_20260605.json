@@ -1,0 +1,99 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "date": "2026-06-05",
+  "scope": "ACL main-paper round 10 visual/prose iteration for Figure 1 front-story flow and page-5/page-6 material-effect boundary transition.",
+  "result": "front_story_and_material_boundary_page_transitions_improved",
+  "pdf": {
+    "pages": 11,
+    "page_size": "A4",
+    "before_round_sha256": "275ef0c4690c5d9339b71745c6f75544820dc9d75c94fdd98bec9b615e61ee5f",
+    "final_sha256": "a4c0b8b7e250dbd761727a93c38b4db11c3fe45c3357c646b2204ceeec7bd874"
+  },
+  "source_changes": [
+    {
+      "path": "paper/venues/acl27/sections/intro.tex",
+      "summary": "Tightened the opening intervention framing, shortened the Figure 1 bridge, and reworded the contribution list around a claim-bounded evidence-chain protocol."
+    },
+    {
+      "path": "paper/venues/acl27/sections/results.tex",
+      "summary": "Added the explicit static-gates-do-not-certify-MDL-mechanism boundary and shortened the Figure 3 bridge to avoid a page-6 orphan fragment."
+    }
+  ],
+  "render_artifacts": {
+    "front_baseline_contact_sheet": "tmp/acl_main_visual_iter_20260605_round10_front_story/contact_sheets/main_pages_01_04_before.png",
+    "final_pages_01_04_contact_sheet": "tmp/acl_main_visual_iter_20260605_round10_front_story/contact_sheets/main_pages_01_04_final_r2.png",
+    "final_pages_05_08_contact_sheet": "tmp/acl_main_visual_iter_20260605_round10_front_story/contact_sheets/main_pages_05_08_final_r2.png",
+    "final_pages_09_11_contact_sheet": "tmp/acl_main_visual_iter_20260605_round10_front_story/contact_sheets/main_pages_09_11_final_r2.png",
+    "material_transition_contact_sheet": "tmp/acl_main_visual_iter_20260605_round10_front_story/contact_sheets/main_pages_05_06_material_fix_r2.png",
+    "final_page_renders": "tmp/acl_main_visual_iter_20260605_round10_front_story/pages_180_final_r2/",
+    "final_text_layout": "tmp/acl_main_visual_iter_20260605_round10_front_story/text_final_r2/main_layout.txt"
+  },
+  "visual_findings": [
+    {
+      "page": 1,
+      "status": "passed",
+      "notes": "The page ends with the complete sentence 'Figure 1 gives the schematic roadmap.'"
+    },
+    {
+      "page": 2,
+      "status": "passed",
+      "notes": "Figure 1 remains fully visible; body text starts with a complete protocol paragraph instead of an orphan sentence fragment."
+    },
+    {
+      "page": 5,
+      "status": "passed",
+      "notes": "The material-effect subsection ends the page with the complete sentence 'Figure 3 aids inspection.'"
+    },
+    {
+      "page": 6,
+      "status": "passed",
+      "notes": "The page begins with a complete static-gate boundary sentence; Figure 3 remains readable and non-cropped."
+    },
+    {
+      "pages": "7-11",
+      "status": "passed",
+      "notes": "The evidence-gate table, late tables, Discussion/Limitations/Conclusion, Figure 4, Ethics, and References remain readable and non-overlapping."
+    }
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed"
+    },
+    {
+      "command": "pdfinfo paper/venues/acl27/build/main.pdf",
+      "result": "11 A4 pages"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "passed"
+    },
+    {
+      "command": "rg -n \"(^|[^A-Za-z])(Overfull|LaTeX Error|Package .* Error|Fatal error|Emergency stop|undefined references|Rerun to get cross-references)\" paper/venues/acl27/build/main.log",
+      "result": "no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_acl_claim_boundaries.py",
+      "result": "9 passed"
+    },
+    {
+      "command": "python -m pytest -q tests/test_acl_preupload_gate.py",
+      "result": "17 passed"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k \"acl_intro or acl_method or acl_main or results\"",
+      "result": "5 passed, 80 deselected"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/run_preupload_gate.py",
+      "result": "failed at check_integrity_fingerprint.py after earlier preupload stages passed; fingerprint mismatch covers multiple existing dirty paper/figure/table files"
+    }
+  ],
+  "source_changes_required": true,
+  "preupload_gate_fully_passed": false,
+  "residual_risk": "The round improves front-story and material-boundary visual flow but does not refresh the integrity fingerprint or prove final submission completion."
+}

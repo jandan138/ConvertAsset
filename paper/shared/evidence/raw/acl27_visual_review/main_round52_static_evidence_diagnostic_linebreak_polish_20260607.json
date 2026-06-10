@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 52,
+  "date": "2026-06-07",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/results.tex"
+  ],
+  "docs_record": "docs/records/2026-06-07-acl-main-static-evidence-diagnostic-linebreak-polish.md",
+  "issue": {
+    "page": 5,
+    "location": "Material Effects and NVIDIA Baseline Boundaries closing paragraph",
+    "before_problem": [
+      "The page-5 material-effect boundary paragraph split 'MDL preservation' as 'MDL preserva- / tion'."
+    ],
+    "rejected_intermediate_problems": [
+      "The first rewrite removed the original split but introduced 'certify- / ing' and 'esti- / mating'.",
+      "The second rewrite introduced 'pre- / served'."
+    ]
+  },
+  "change_summary": {
+    "results_tex_lines": "100-107",
+    "summary": "Replaced the short 'Static gates do not certify MDL preservation' paragraph with a diagnostic-boundary sentence that avoids the preservation noun form and keeps the static material-effect gate scoped to selected mechanisms.",
+    "final_wording": "The static evidence is diagnostic. It points to selected mechanisms, not broad rates or proof that MDL semantics stay intact.",
+    "claim_scope_changed": false
+  },
+  "pdf": {
+    "before_sha256": "c11bb6289cb1c6d40a0221d906ba2a4ad8247020dc26ef23af67e1ed74b6b47e",
+    "after_sha256": "ad9d09a920a21997ef84467e7edc82990cb6963926d5e5635c7a200c705aed8a",
+    "after_pages": 11,
+    "after_file_size_bytes": 5188366,
+    "after_creation_date": "Sun Jun 7 01:17:24 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260607_round52_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round52_after",
+    "before": {
+      "contact_sheet_png_sha256": "8fa5d939c3dea302a827a9fe5c559134e74378d0b6da382a7c25c856ffb2b8a1",
+      "full_txt_sha256": "88cd57db34baeebc7977a488dde95fd474c63e63ffbf2a2f2817dce4a9757ad0",
+      "page5_txt_sha256": "c39228b64bd96ebecf2edb36107cf7c353106c7f6e226d206b8e296b77c7eb78"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "88ba60a0074e074b464333ec65a203e482bbc96ff1133a523c41d88a08122e09",
+      "focus_before_after_p5_png_sha256": "5673e83e2551cf64e9b10d823b7cb305c5e554b927cbdbcaf9e3f94d0ef001a2",
+      "focus_p4_p5_png_sha256": "c6a69c500a2f8f622f9b55f373f62713165caf3ba3bf47a4c4a8b691b71b3566",
+      "focus_p5_p6_png_sha256": "0db2a8ca696eae4ac512437ad72898d20b101fc51e23fb9d551fa3ec4cb0ad3f",
+      "full_txt_sha256": "018fd83aa77274ab46af6f5906bd2e549fc92a0316c7890a74e92d37d0b803f7",
+      "page5_txt_sha256": "5392955534fc730bc67b3071d29e61eaa21e46e57e81aa932b12058f974a28c6"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260607_round52_after/focus_before_after_p5.png",
+      "tmp/acl_main_visual_iter_20260607_round52_after/focus_p4_p5.png",
+      "tmp/acl_main_visual_iter_20260607_round52_after/focus_p5_p6.png",
+      "tmp/acl_main_visual_iter_20260607_round52_after/contact_sheet.png"
+    ],
+    "observations": [
+      "The page-5 comparison shows the material-effect paragraph no longer contains the targeted 'MDL preserva- / tion' split.",
+      "The accepted wording avoids the rejected intermediate 'certify- / ing', 'esti- / mating', and 'pre- / served' splits.",
+      "The final page-5 render keeps the Material Effects subsection and following VLM-grounding paragraph on the same page.",
+      "The final contact sheet remains 11 pages with no obvious float, table, or blank-page regression."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "bash -lc 'if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf \"no blocker matches\\n\"; fi'",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "104 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 168"
+    }
+  ]
+}

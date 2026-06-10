@@ -1,0 +1,73 @@
+{
+  "review_id": "main_round25_related_method_bridge_polish_20260606",
+  "date": "2026-06-06",
+  "scope": "ACL 2027 main PDF page 3 related-work to method bridge polish",
+  "pdf": "paper/venues/acl27/build/main.pdf",
+  "before_pdf": {
+    "sha256": "e9523fa1433e7ff2e1fc5613c5e992dc8375815e777406f764a82b6305157484",
+    "pages": 11,
+    "bytes": 5188951,
+    "created": "Sat Jun 6 11:38:41 2026 CST"
+  },
+  "after_pdf": {
+    "sha256": "710d1aad5282b82a987b61e2fe39d7e5c63107e17efd71caf1a12c0437267fd9",
+    "pages": 11,
+    "bytes": 5188991,
+    "created": "Sat Jun 6 11:45:57 2026 CST"
+  },
+  "source_changes": [
+    {
+      "path": "paper/venues/acl27/sections/related.tex",
+      "lines": "46-55",
+      "change": "Reframed the proxy-metrics paragraph so perceptual metrics answer a preservation question, while grounding evaluation asks the stricter evidence-contract question."
+    },
+    {
+      "path": "paper/venues/acl27/sections/method.tex",
+      "lines": "4-8",
+      "change": "Rewrote the Method opener to operationalize the related-work distinction as progressively task-proximal evidence gates."
+    }
+  ],
+  "visual_evidence": {
+    "before_contact_sheet": "tmp/acl_main_visual_iter_20260606_round25_current/contact_sheet.png",
+    "before_page_3": "tmp/acl_main_visual_iter_20260606_round25_current/page-03.png",
+    "after_contact_sheet": "tmp/acl_main_visual_iter_20260606_round25_after/contact_sheet.png",
+    "after_page_3": "tmp/acl_main_visual_iter_20260606_round25_after/page-03.png",
+    "after_page_4": "tmp/acl_main_visual_iter_20260606_round25_after/page-04.png",
+    "pages_3_4_before_after": "tmp/acl_main_visual_iter_20260606_round25_after/pages03_04_before_after.png"
+  },
+  "visual_review": {
+    "selected_pages": [
+      3,
+      4
+    ],
+    "finding": "The related-to-method bridge remains visually stable after the rewrite. Method still starts on page 3, Material Conversion remains on page 3, Evidence Gates remains on page 4, and no figure or table position changes.",
+    "reader_effect": "The final related-work paragraph now sets up the method directly: proxy metrics are preservation diagnostics, while grounding requires a stricter evidence-contract gate."
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "exit 0; venues/acl27/build/main.pdf built"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "102 passed in 13.59s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "ok true; abstract_word_count 169"
+    },
+    {
+      "command": "pdftotext paper/venues/acl27/build/main.pdf tmp/acl_main_visual_iter_20260606_round25_after/main.txt && rg -n \"stricter question|entry gate|operationalizes that distinction\" tmp/acl_main_visual_iter_20260606_round25_after/main.txt paper/venues/acl27/sections/related.tex paper/venues/acl27/sections/method.tex",
+      "result": "updated bridge phrases found in extracted PDF text and source"
+    }
+  ],
+  "residual_risk": "Focused page-3 related-to-method story polish only; not a full final-upload audit, supplement-wide wording cleanup, or citation refresh."
+}

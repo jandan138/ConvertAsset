@@ -222,7 +222,7 @@ def render_latex(rows: list[dict[str, str]]) -> str:
     body_text = "\n".join(body)
     return rf"""\begin{{table*}}[t]
 \centering
-\caption{{Selected GRScenes VLM pilot failure taxonomy. Rows are illustrative diagnostics sampled from checked prediction and score artifacts, not a final benchmark distribution. Point status uses the metric most relevant to the selected case; Qwen rows marked as raw use raw-image scoring diagnostic over normalized-1000-requested outputs because coordinate semantics remain unresolved.}}
+\caption{{Selected GRScenes VLM pilot failure taxonomy. Rows are illustrative diagnostics sampled from checked prediction and score artifacts rather than a final benchmark distribution. Point status uses the metric most relevant to the selected case; Qwen rows marked as raw use raw-image scoring diagnostic over normalized-1000-requested outputs because coordinate semantics remain unresolved.}}
 \label{{tab:grscenes_vlm_failure_taxonomy}}
 \scriptsize
 \resizebox{{\textwidth}}{{!}}{{%

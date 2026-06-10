@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_evidence_gate_registry_companion_v3_20260604",
+  "date_utc": "2026-06-04",
+  "target": "ACL27 supplement page 3 evidence-gate registry companion v3",
+  "independent_subagent_review": false,
+  "reason_independent_review_not_used": "Subagent spawning is restricted to explicit user requests in this environment; review followed the render-visual-reviewer checklist locally.",
+  "inputs": {
+    "standalone_figure": "paper/shared/figures/fig_supplement_evidence_gate_registry_companion.png",
+    "source_ai_slot": "paper/shared/figures/ai_slots/fig_supplement_evidence_gate_reader_v3_ai_slot.png",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_06e6b8fd5c4398c6016a20a8f3a3d08190b652c89404960ddd.png",
+    "generator": "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_evidence_gate_registry_companion.yaml",
+    "source_table": "paper/shared/tables/tab_acl_evidence_gate_registry.tex",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_review_pages_144dpi": [
+      "tmp/acl_supplement_page03_evidence_gate_registry_v3_final_20260604/page-02.png",
+      "tmp/acl_supplement_page03_evidence_gate_registry_v3_final_20260604/page-03.png",
+      "tmp/acl_supplement_page03_evidence_gate_registry_v3_final_20260604/page-04.png"
+    ],
+    "pdf_review_page_90dpi": "tmp/acl_supplement_page03_evidence_gate_registry_v3_final_90dpi_20260604/page-03.png"
+  },
+  "hashes": {
+    "source_ai_slot_sha256": "20c064b30b0b433c4c9eb403621ff895dc4c330515766035261a206d28bb5b86",
+    "standalone_figure_sha256": "911601c8483a21d9c1692819881ab35e368192b806c92712b8474f8a824e41f2",
+    "pdf_sha256": "918241613327bf06b6377d29b7bb72467a69c2ea397d8ebdd9fbc522f3f6b531",
+    "page03_render_90dpi_sha256": "eb323a8e396ca95a7a2f710d8f8d00759654ec9018c1570d6d9cc10d8298ba2a"
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks.",
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, matching the sparse-page density audit.",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90."
+  },
+  "metrics": {
+    "source_ai_slot_size_px": [
+      1672,
+      941
+    ],
+    "source_ai_slot_layout_guard_active238": 0.22406302,
+    "source_ai_slot_layout_guard_active245": 0.237228541,
+    "source_ai_slot_red_pixel_fraction": 0.002965007,
+    "previous_v2_ai_slot_layout_guard_active245": 0.084926452,
+    "standalone_previous_v2_size_px": [
+      1800,
+      1160
+    ],
+    "standalone_current_size_px": [
+      1800,
+      1240
+    ],
+    "standalone_previous_v2_layout_guard_active238": 0.391122126,
+    "standalone_previous_v2_layout_guard_active245": 0.401445402,
+    "standalone_current_layout_guard_active238": 0.461080197,
+    "standalone_current_layout_guard_active245": 0.472991935,
+    "standalone_current_red_pixel_fraction": 0.000287634,
+    "previous_round27_page03_active245_90dpi": 0.156829002,
+    "current_page03_active245_90dpi": 0.19402283,
+    "page03_active245_delta": 0.037193828,
+    "current_page02_active245_144dpi": 0.191594819,
+    "current_page03_active245_144dpi": 0.177808724,
+    "current_page04_active245_144dpi": 0.160257254,
+    "pdf_page_count": 45
+  },
+  "layout_iterations": [
+    {
+      "attempt": "1800 x 1240 standalone with 0.50 textheight include",
+      "result": "Accepted: supplement stayed at 45 pages and page 3 active245 increased over the round27 sparse-page audit."
+    }
+  ],
+  "visual_review": {
+    "overall_verdict": "PASS",
+    "standalone_figure": "PASS: the v3 companion uses a denser reader-gate AI slot and a taller registered cross-evidence render strip while keeping the four evidence-gate cards readable.",
+    "pdf_page_03": "PASS: the table remains readable, the companion becomes the visual center of the page, and the caption stays separated without clipping.",
+    "neighbor_pages": "PASS: page 2 remains the visual evidence roadmap and page 4 remains the overview claim-boundary page; no float displacement or page-count spill was observed in the 45-page build.",
+    "claim_boundary": "PASS: the caption states that the v3 AI-generated reader-gate schematic is only for exposition and is not a new experiment, metric, VLM run, or navigation run."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'overview_has_evidence_gate_registry_companion or evidence_gate_registry_companion_is_registered_and_dense'",
+    "make -C paper acl27-supplement",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf",
+    "pdftoppm -r 144 -png -f 2 -l 4 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page03_evidence_gate_registry_v3_final_20260604/page",
+    "pdftoppm -r 90 -png -f 3 -l 3 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page03_evidence_gate_registry_v3_final_90dpi_20260604/page"
+  ]
+}

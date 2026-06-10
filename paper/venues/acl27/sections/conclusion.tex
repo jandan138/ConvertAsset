@@ -1,30 +1,11 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-This paper reframes synthetic-scene material conversion as a reliability
-problem for vision-language grounding and embodied data. ConvertAsset makes the
-material intervention controlled: the original USD composition is preserved,
-and matched noMDL scenes can be compared against the source condition. The
-evidence then shows why proxy visual fidelity is only the first gate. Even when
-paired renders have high PSNR, SSIM, LPIPS, CLIP, and DINOv2 similarity, VLM
-answer recognition, point grounding, parser coverage, coordinate
-interpretation, and visible material shifts can diverge.
+USD material conversion changes the evidence that a
+vision-language system sees, so it should be reported as a grounding
+intervention rather than absorbed into preprocessing.
 
-The practical outcome is a claim discipline, plus a frozen 30-pair
-material-shift stress set. Clean visual-QA pools and material-shift stress
-pools are reported separately. Coordinate contracts are frozen before model
-scoring. Raw-image coordinate rescoring remains diagnostic when the prompt asks
-for normalized coordinates. The effect-level ConvertAsset-vs-NVIDIA matrix
-applies the same discipline to material mechanisms: covered GRScenes bins can
-support bounded selected qualitative claims, clearcoat is a selected NVIDIA
-target-loss case, and procedural texture remains an explicit preservation
-limitation.
-
-The official KuJiaLe InternNav route adds 99 paired episodes across three local
-official scenes, and the official-scene performance closure adds 18/18
-successful original/noMDL fresh-process load/render runs with overlapping
-ready-time intervals. These results make the evidence stronger than an image
-proxy, but they remain scoped sanity evidence. The ACL claim is therefore
-precise: material conversion should be treated as a controlled perturbation in
-VLM and embodied-data evaluation, and downstream robustness claims should be
-made only after the corresponding evidence gate has been passed.
+We evaluate that intervention with four checks: render match, grounding QA,
+material-risk bins, and stack entry. Together they show where the recorded
+settings are stable and where the converted asset should not be treated as a
+benchmark substitute.

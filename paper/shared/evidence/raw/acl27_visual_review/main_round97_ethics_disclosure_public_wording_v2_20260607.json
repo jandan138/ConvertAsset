@@ -1,0 +1,114 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 97,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main Ethical Considerations disclosure public wording v2",
+  "before_pdf_sha256": "5ce9c8d5268e77dee24e8cfe509dee54a49dd9209be585489165298f4503c903",
+  "after_pdf_sha256": "40ce1f80bf45c07c4832c7574662de6c96e8881bd3fda7324d55137b60f49b70",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round97_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round97_current/after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "rendered_after_screenshots": [
+      "tmp/acl_main_visual_iter_20260607_round97_current/after/page-09.png"
+    ],
+    "before_page9_png_sha256": "1867f934d045deb68fd38c046e2ac222117e2b35ef02fe19bf1142a72d36ae4a",
+    "after_page9_png_sha256": "7101896b124c61b7971541dbd7f4439a5d48ea9ed4e378a3be6921f3709a488f",
+    "before_page9_text_sha256": "2687c8352848ace9381ef9b5982cf22e9614fb60d7078aafa3ee1b012ec8ad6d",
+    "after_page9_text_sha256": "ab05307be0113aeb25782b92ad065c7764465d39730957c6baf91b8691e60f49",
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round97_current/after/page"
+  },
+  "defect": {
+    "pages": [
+      9
+    ],
+    "class": "ethical disclosure public wording",
+    "before_text_matches": [
+      "page 9 line 417: We also used AI-based development and",
+      "page 9 line 423: and text. The roadmap is explanatory, not",
+      "page 9 line 424: evidence; measurements and render panels"
+    ],
+    "reader_effect": "The disclosure exposed internal production wording and used a stiff roadmap-not-evidence phrase instead of ordinary public-facing evidence-boundary prose."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/ethical-considerations.tex",
+      "summary": "Rewrote the tool-use disclosure to use automated development/manuscript-support wording and a natural Figure 1 evidence-boundary sentence."
+    }
+  ],
+  "rejected_iterations": [
+    {
+      "summary": "Page-5 embodied-stack opener attempt 1 moved val_unseen but introduced cov- / ers and retained stretched result / official spacing.",
+      "intermediate_pdf_sha256": "b53de676614451e517f733e70ba8556816862d93aefe2e8ec5b3bef1620a76d4"
+    },
+    {
+      "summary": "Page-5 embodied-stack opener attempt 2 removed covers but introduced benchmark re- / sult: and stretched spacing after sult:.",
+      "intermediate_pdf_sha256": "e15fccd3d2697e91220d860672324774f7859018f73186af716fbe707c821083"
+    },
+    {
+      "summary": "Page-5 embodied-stack opener attempt 3 fixed the local opener but shifted the right column into worse linebreaks: inter- / vals, se- / lected, eval- / uate, and Roll- / out.",
+      "intermediate_pdf_sha256": "f324b46e3a3dbdec97f0c7715c4087f7b17ed0af38dd20074e40324a659d60cb"
+    },
+    {
+      "summary": "The first ethics disclosure rewrite removed internal wording but shortened the left column so References moved to the left-column bottom.",
+      "intermediate_pdf_sha256": "19176cffc29a3a568d757f2a170686abdfd2f4f6101b3673b7bfa6ff3e201d87"
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "PDF-visible after text no longer contains AI-based or roadmap is explanatory. The only imagegen hit is the source filename in intro.tex, not rendered PDF text.",
+    "visual_result": "The accepted page-9 screenshot keeps Ethical Considerations in the left column and References at the top of the right column.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 14.35s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Ethical Considerations disclosure prose only. No metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "The source filename figures/fig_acl_method_chain_imagegen_v18.png still contains imagegen, but that string is not PDF-visible text."
+}

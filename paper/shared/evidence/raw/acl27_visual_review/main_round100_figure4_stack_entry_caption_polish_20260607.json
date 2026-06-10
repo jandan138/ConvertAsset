@@ -1,0 +1,85 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 100,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main Figure 4 stack-entry caption polish",
+  "before_pdf_sha256": "7b2e044625a75cebfaa10ace6f3bdb8959d16f56f6ba61989065e69a6ddca645",
+  "after_pdf_sha256": "b3e8e3a48b94a67fb23c0939be6f8326d08c16cde05c362a05221ec319182b89",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round100_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round100_current/after",
+    "pages_scanned_initial": [
+      1,
+      9
+    ],
+    "pages_scanned_after": [
+      9
+    ],
+    "rendered_after_screenshots": [
+      "tmp/acl_main_visual_iter_20260607_round100_current/after/page-09.png"
+    ],
+    "before_page9_png_sha256": "7101896b124c61b7971541dbd7f4439a5d48ea9ed4e378a3be6921f3709a488f",
+    "after_page9_png_sha256": "fb7a549d8998616d9ce420a43b6d51bd116abd56e8d3f3019f93f64880b0a1b4",
+    "before_page9_text_sha256": "ab05307be0113aeb25782b92ad065c7764465d39730957c6baf91b8691e60f49",
+    "after_page9_text_sha256": "4fe9df0efda34111d9619a010b4da061778aaa142229652f75ea5ed02e017a77",
+    "text_command": "pdftotext -layout -f 9 -l 9 <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round100_current/after/page"
+  },
+  "defect": {
+    "pages": [
+      9
+    ],
+    "class": "Figure caption terminology drift",
+    "before_text_matches": [
+      "page 9 line 003: arrows, with overlay color changed for readability; green reference paths. Quantitative embodied-data",
+      "page 9 line 004: claims remain tied to the 99-episode paired run and official-scene load/render checks."
+    ],
+    "reader_effect": "The Figure 4 caption still used embodied-data terminology after the main paper narrowed the InternNav evidence to stack-entry claims."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/limitations.tex",
+      "summary": "Changed the Figure 4 caption phrase from Quantitative embodied-data claims to Quantitative stack-entry claims."
+    }
+  ],
+  "rejected_iterations": [
+    {
+      "target": "paper/venues/acl27/sections/intro.tex",
+      "summary": "Attempted to rewrite the page-1 italic research question from embodied-data claims to stack-oriented wording.",
+      "reason_rejected": "Four variants introduced worse visible line breaks, including stack-/entry, con-/verted, an-/swer, and re-/liability. The accepted PDF leaves page 1 unchanged."
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "Page 9 extracted text now shows Quantitative stack-entry claims in the Figure 4 caption.",
+    "visual_result": "The accepted page-9 screenshot keeps the caption at four lines with no new visible hyphenation or overlap.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 17.91s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Visible Figure 4 caption terminology only. No metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "Page 1 still contains the older embodied-data phrase because accepted alternatives caused worse narrow-column line flow; it remains a possible future target only with a different paragraph-level reflow."
+}

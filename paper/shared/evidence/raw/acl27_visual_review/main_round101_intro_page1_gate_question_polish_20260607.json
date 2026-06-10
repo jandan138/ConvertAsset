@@ -1,0 +1,116 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 101,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main Introduction page-1 gate question polish",
+  "before_pdf_sha256": "b3e8e3a48b94a67fb23c0939be6f8326d08c16cde05c362a05221ec319182b89",
+  "after_pdf_sha256": "dabb2125c36b50da3752bad2ff174de2f6b742faad1203034d313e50122b81eb",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round101_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round101_current/after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3
+    ],
+    "rendered_after_screenshots": [
+      "tmp/acl_main_visual_iter_20260607_round101_current/after/page-01.png",
+      "tmp/acl_main_visual_iter_20260607_round101_current/after/page-02.png"
+    ],
+    "before_page1_png_sha256": "8d368ca10f32967a62781c9b4664f456cc42c8290cdd39d94062f5bd816d2702",
+    "after_page1_png_sha256": "e3ed52973eafd9845bf1a146dc8c55625d5c58d40261001a501e6051b3cdcb35",
+    "before_page1_text_sha256": "a9fe9263a964b25f66a63d5541f74df32e1c1002bce4fe9988d1471be8050f21",
+    "after_page1_text_sha256": "d5debfbd8a3519ed3f54486b99b6adf96c5dcb4da4194eb6091499ddffa6809c",
+    "after_page2_png_sha256": "f394b23048c7e0167645d3f91a1743ee5b2cdf538f01ac76f433953520ed7638",
+    "after_page2_text_sha256": "f5a38822bd8a2186da747fd42f44a7c85e7de4052111848205412a403d7d2c3c",
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round101_current/after/page"
+  },
+  "defect": {
+    "pages": [
+      1
+    ],
+    "class": "Introduction terminology and gate-framing drift",
+    "before_text_matches": [
+      "page 1 line 052: converted assets are used for grounding",
+      "page 1 line 053: or embodied-data claims, what evidence is"
+    ],
+    "reader_effect": "The page-1 research question retained embodied-data terminology after the main-paper navigation evidence had been narrowed to stack-entry checks."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/intro.tex",
+      "summary": "Reframed the page-1 research question as a gate question for grounding and stack checks, and shortened the GRScenes setup sentence."
+    },
+    {
+      "path": "paper/venues/acl27/sections/intro.tex",
+      "summary": "Protected InternNav and DualVLN with mbox in the revised sentence to avoid linebreaks inside names."
+    }
+  ],
+  "rejected_iterations": [
+    {
+      "summary": "Replaced embodied-data claims with grounding or stack-entry checks.",
+      "reason_rejected": "Rendered stack-entry as stack-/entry and introduced re-/liability."
+    },
+    {
+      "summary": "Used support grounding or stack checks.",
+      "reason_rejected": "Rendered an-/swer and re-/liability."
+    },
+    {
+      "summary": "Used grounding claims or stack checks.",
+      "reason_rejected": "Rendered con-/verted."
+    },
+    {
+      "summary": "Used which gates must hold variants before the final wording.",
+      "reason_rejected": "Rendered be-/fore, eval-/uation, navi-/gation, Du-/alVLN, or In-/ternNav."
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "Accepted after text contains no reader-visible embodied-data or sanity term in the main PDF extraction.",
+    "visual_result": "The accepted page-1 screenshot removes the old embodied-data phrase without new bad linebreaks; page 2 remains visually stable after the paragraph shortening.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 13.19s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "rg -n \"embodied-data|embodied data|sanity\" tmp/acl_main_visual_iter_20260607_round101_current/after/text/page-*.txt",
+      "status": "passed",
+      "result": "no reader-visible matches"
+    },
+    {
+      "command": "rg -n \"AI-generated|AI-assisted|author-produced|teaching artifact|record-derived|imagegen\" tmp/acl_main_visual_iter_20260607_round101_current/after/text/page-*.txt",
+      "status": "passed",
+      "result": "no matches"
+    }
+  ],
+  "claim_boundary": "Introduction prose and protected route-name lineflow only. No metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "The page-1 paragraph is shorter, so contribution text moves upward; page 1 and page 2 screenshots were checked and no visual blocker was found."
+}

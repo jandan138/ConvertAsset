@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_intro_column_iteration_20260602",
+  "reviewed_at_utc": "2026-06-02T13:59:00Z",
+  "scope": "ACL27 supplement material and navigation intro visual-page iteration",
+  "layout_reference": {
+    "mode": "imagegen_preview_only",
+    "path": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0ef19e9127865514016a1e5d29dee08199a7cea1a96beb6063.png",
+    "used_as_evidence": false,
+    "note": "The generated image was used only as a visual-density and page-composition reference. It is not copied into the paper tree and is not cited as evidence."
+  },
+  "inputs": {
+    "supplement_pdf": "paper/venues/acl27/build/supplement.pdf",
+    "material_intro_column": "paper/shared/figures/fig_supplement_material_intro_column.png",
+    "navigation_intro_column": "paper/shared/figures/fig_supplement_navigation_intro_column.png",
+    "material_page_render": "tmp/acl27_supplement_onecolumn_iteration/page-23.png",
+    "navigation_page_render": "tmp/acl27_supplement_onecolumn_iteration/page-28.png"
+  },
+  "hashes": {
+    "supplement_pdf_sha256": "144d70b8ee89302103506c9dcb316689dfc648a8177873a4de8aff8f9e753023",
+    "material_intro_column_sha256": "fc4c114fac35008e0c1c1f65e188c197feb280295c5f4be7169288a0256b0a8b",
+    "navigation_intro_column_sha256": "1f172a95e2f1990f25c7283b5aafb398aedfcb1918258817ec79bc73a5ff08a8",
+    "material_page_render_sha256": "8a171896fe347f96502ae07310f9e6fee7be31d30a65c63a40db1c4a8c4836b9",
+    "navigation_page_render_sha256": "f954eba6e0b5334f4210148de8f2171058d3ae352f4e8ae512b5ba8e171cd84b"
+  },
+  "image_stats": {
+    "material_intro_column": {
+      "size": [900, 1500],
+      "active_fraction": 0.442,
+      "red_fallback_fraction": 0.00005
+    },
+    "navigation_intro_column": {
+      "size": [900, 1460],
+      "active_fraction": 0.4193,
+      "red_fallback_fraction": 0.00139
+    },
+    "material_page_23_render": {
+      "size": [1406, 1988],
+      "nonwhite_fraction": 0.1416,
+      "active_fraction": 0.1385,
+      "red_fallback_fraction": 0.00001
+    },
+    "navigation_page_28_render": {
+      "size": [1406, 1988],
+      "nonwhite_fraction": 0.1411,
+      "active_fraction": 0.1359,
+      "red_fallback_fraction": 0.00042
+    }
+  },
+  "local_visual_review": {
+    "material_page": {
+      "verdict": "PASS",
+      "evidence": "The page is now a centered one-column visual page with a dense material preview. The previous empty right-column look is removed, and the preview uses real tracked render crops."
+    },
+    "navigation_page": {
+      "verdict": "PASS",
+      "evidence": "The page is now a centered one-column visual page with metric, still, route-context, and selected-case panels. The panel no longer contains clipped metric-axis fragments from the earlier crop attempts."
+    }
+  },
+  "claim_boundary": "Both intro-column figures are layout/preview evidence only. They summarize already tracked figures and selected still panels; they do not introduce new quantitative claims."
+}

@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "record_id": "supplement_vlm_coordinate_table_companion_v2_20260603",
+  "generated_at_utc": "2026-06-03T01:18:36Z",
+  "status": "pass",
+  "claim_boundary": "Figure companion and page-layout evidence only; not a new VLM run, benchmark row, model prediction, or metric result.",
+  "changed_page": {
+    "venue": "acl27",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "page": 17,
+    "section": "paper/venues/acl27/sections/supplement/02_vlm_protocol.tex",
+    "figure": "paper/shared/figures/fig_supplement_vlm_coordinate_table_companion.png"
+  },
+  "figure_stats": {
+    "path": "paper/shared/figures/fig_supplement_vlm_coordinate_table_companion.png",
+    "width_px": 1800,
+    "height_px": 1020,
+    "sha256": "8b37a7eed1de8399046230aba275103e0a9a1da2abbecd2d619ebba032411e89",
+    "active238_fraction": 0.450469499,
+    "red_fallback_fraction": 0.0
+  },
+  "ai_slot": {
+    "path": "paper/shared/figures/ai_slots/fig_supplement_vlm_coordinate_contract_gate_v2_ai_slot.png",
+    "sha256": "fd9fc0f290df0556ddd95f0a9ea72f1900136577afcc62fc6bb3652037d74527",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_050fe88e29730dd4016a1f7e70d3c08199aec87f87c1aade8d.png",
+    "source_generated_image_sha256": "fd9fc0f290df0556ddd95f0a9ea72f1900136577afcc62fc6bb3652037d74527",
+    "manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_vlm_coordinate_table_companion.yaml",
+    "claim_boundary": "Exposition only; not experimental evidence."
+  },
+  "registered_render_evidence": [
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_0000.png",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png"
+  ],
+  "pdf_page_renders": [
+    {
+      "path": "tmp/acl_supplement_coordinate_table_v2_review_20260603/page-17.png",
+      "page": 17,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active245_fraction": 0.145236935,
+      "active238_fraction": 0.141228087,
+      "red180_fraction": 0.0,
+      "sha256": "8813ae61245235a56b7c07894a50fe8d3f84ec88a25b2486f12aeb591e02e66b"
+    },
+    {
+      "path": "tmp/acl_supplement_coordinate_table_v2_review_20260603/page-18.png",
+      "page": 18,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active245_fraction": 0.12037037,
+      "active238_fraction": 0.116597181,
+      "red180_fraction": 0.0,
+      "sha256": "a2abb6ed9205b9d38218d564a027482de3a5b45a9f063e8e162bafab5202dcd6"
+    }
+  ],
+  "previous_page17_active245_fraction": 0.102799,
+  "visual_review": {
+    "mode": "local_render_visual_reviewer",
+    "independent_subagent": false,
+    "subagent_note": "The user requested repeated use of visual-review skill, not explicit subagent dispatch; local visual review was used.",
+    "verdict": "PASS",
+    "evidence": "Page 17 keeps Table S2, the enlarged companion, caption, and explanatory paragraph on one page. The bottom audit strip adds registered target-view renders without red-dominant material cues. Page 18 remains intact."
+  },
+  "build": {
+    "command": "make -C paper acl27-supplement",
+    "pdf_pages": 44,
+    "pdf_sha256": "410b4be15b736f044e5f8f234bb2786c0b62e9c4ef99282836746572d5aaf9a5",
+    "pdf_size_bytes": 35737320
+  }
+}

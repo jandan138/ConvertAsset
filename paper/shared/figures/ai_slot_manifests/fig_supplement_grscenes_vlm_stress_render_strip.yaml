@@ -1,0 +1,14 @@
+schema_version: 1
+figure_id: fig_supplement_grscenes_vlm_stress_render_strip
+mode: ai_slot_composition
+overview_candidates:
+  - /root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0f5bf9090e530ea2016a1f0f4ef29081919fcffb865a355185.png
+selected_overview: /root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0f5bf9090e530ea2016a1f0f4ef29081919fcffb865a355185.png
+slots:
+  scoring_gate: paper/shared/figures/ai_slots/fig_supplement_grscenes_vlm_scoring_gate_ai_slot.png
+source_generated_images:
+  scoring_gate: /root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0f5bf9090e530ea2016a1f0f4ef29081919fcffb865a355185.png
+replaceable_by_real_render:
+  - scoring_gate
+claim_boundary: "Exposition only; not experimental evidence."
+notes: "Critical labels and claim-boundary text are drawn by deterministic code. The AI slot is an abstract VLM scoring-flow schematic; the evidence-bearing panels are registered GRScenes original/converted target-view renders."

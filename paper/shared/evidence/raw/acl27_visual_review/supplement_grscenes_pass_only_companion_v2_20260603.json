@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "record_id": "supplement_grscenes_pass_only_companion_v2_20260603",
+  "generated_at_utc": "2026-06-03T08:23:12Z",
+  "status": "pass",
+  "claim_boundary": "Figure companion and page-layout evidence only; not a new VLM run, benchmark row, or metric result.",
+  "changed_page": {
+    "venue": "acl27",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "page": 23,
+    "table": "paper/shared/tables/tab_grscenes_vlm_pass_only_pilot.tex",
+    "figure": "paper/shared/figures/fig_supplement_grscenes_pass_only_table_companion.png"
+  },
+  "figure_stats": {
+    "path": "paper/shared/figures/fig_supplement_grscenes_pass_only_table_companion.png",
+    "width_px": 1800,
+    "height_px": 1040,
+    "sha256": "7f005fa208d819041531aa2b869c97741d1173af3e25193ae2847bc4106cea05",
+    "active238_fraction": 0.4345496794871795,
+    "red_material_fraction": 0.02331784188034188
+  },
+  "ai_slot": {
+    "path": "paper/shared/figures/ai_slots/fig_supplement_grscenes_pass_only_gate_ai_slot.png",
+    "sha256": "59dc963f4a6cbe895debbab5e9191f56755f8000fe276955a9b443c36fb3c962",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0f12ac123d614b55016a1f1de07e60819a95e8e88a9992f780.png",
+    "manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_grscenes_pass_only_table_companion.yaml",
+    "claim_boundary": "Exposition only; not experimental evidence.",
+    "current_imagegen_bridge_attempt": {
+      "transcript": "tmp/imagegen/fig_supplement_grscenes_pass_only_gate_ai_slot.transcript.txt",
+      "result": "blocked",
+      "reason": "Nested Codex reported that the built-in image_gen tool was not exposed in that session, so no fresh bitmap was generated. The v2 slot uses an unused prior imagegen candidate."
+    }
+  },
+  "registered_render_evidence": [
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_0000.png",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_0000.png",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_0000.png",
+    "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png"
+  ],
+  "pdf_page_renders": [
+    {
+      "path": "tmp/acl_supplement_grscenes_pass_only_v2_review_20260603/page-23.png",
+      "page": 23,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active245_fraction": 0.14255663737529023,
+      "active238_fraction": 0.13828049708878726,
+      "red_material_fraction": 0.00549292388670627,
+      "sha256": "ce222c158476da83f11878e7ee849538cbfbaadcf717ccfd8cf3e547beacd5c9"
+    },
+    {
+      "path": "tmp/acl_supplement_grscenes_pass_only_v2_review_20260603/page-24.png",
+      "page": 24,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active245_fraction": 0.11721559001351747,
+      "active238_fraction": 0.11465813020217165,
+      "red_material_fraction": 0.0,
+      "sha256": "8d0f8e24f95c7ebd5e14ff576be0f8047639a51e0d3bac8c7c17f3a5473f77d4"
+    }
+  ],
+  "previous_page23_active245_fraction": 0.089843,
+  "visual_review": {
+    "mode": "local_render_visual_reviewer",
+    "independent_subagent": false,
+    "subagent_note": "The multi-agent tool requires an explicit user request for sub-agents; local visual review was used instead.",
+    "verdict": "PASS",
+    "evidence": "Page 23 has no clipping or caption spill. The table, figure, caption, and explanatory paragraph remain on one page. The companion now shows bottle, two cup views, and faucet real render anchors with a larger registered render strip; page 24 remains intact."
+  },
+  "build": {
+    "command": "make -C paper acl27-supplement",
+    "pdf_pages": 44,
+    "pdf_sha256": "c79701b4fd77d87a7e3c9e29e385c7c53ff1dbb9bf0631721a6f3eedba8a9a2b",
+    "pdf_size_bytes": 35430302
+  }
+}

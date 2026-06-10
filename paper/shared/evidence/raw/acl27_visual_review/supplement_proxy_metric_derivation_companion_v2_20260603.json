@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-06-03T06:42:58+08:00",
+  "artifact": "supplement_proxy_metric_derivation_companion_v2",
+  "scope": "ACL supplement derivation-section layout iteration for the proxy-metric companion and adjacent grounding companion.",
+  "skills": [
+    "imagegen",
+    "research-figure-ai-slot-composer",
+    "render-visual-reviewer"
+  ],
+  "independent_subagent": false,
+  "claim_boundary": "The AI-generated proxy-metric axis slot is exposition only. It is not experimental evidence, a metric, a model prediction, a benchmark row, a render result, or a task result. Registered render pairs and the written formulas remain the evidence-bearing content.",
+  "ai_generated_slot": {
+    "slot_name": "proxy_metric_axis",
+    "path": "paper/shared/figures/ai_slots/fig_supplement_proxy_metric_axis_ai_slot.png",
+    "generated_asset_source": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0b676437b0f4040b016a1f56b8239c8199998969eadec1a791.png",
+    "sha256": "9753a8880071a757e57f808fa20bdaa840e4e4fdf5b59813d1f57b8b9eb8206f",
+    "bytes": 941123,
+    "size": [1774, 887],
+    "active_fraction": 0.07456763039723223,
+    "red_fallback_fraction": 0.0,
+    "visual_review": "Abstract proxy-axis schematic with no readable paper-critical text and no realistic scene evidence. Suitable as a replaceable exposition slot."
+  },
+  "standalone_figure": {
+    "path": "paper/shared/figures/fig_supplement_proxy_metric_derivation_companion.png",
+    "sha256": "afa25cce81c347a3d34016f50f88db95366e4af3e5a2e6e05d1a91ec913a1e51",
+    "bytes": 881192,
+    "size": [1800, 1080],
+    "active_fraction": 0.39492746913580246,
+    "red_fallback_fraction": 0.0,
+    "visual_review": "Deterministic composite with registered object and scene render pairs, a bottom registered render audit strip, and one clearly separated AI schematic card. No visible overlap after footer-strip adjustment."
+  },
+  "rendered_pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "a695b427b1f3601f22ae0bc962971382b95744de8f8102f2d072cf6eb8205fc1",
+    "bytes": 34213164,
+    "pages": 44,
+    "page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "rendered_page_review": {
+    "renderer": "pdftoppm -f 12 -l 15 -r 140 -png",
+    "active_threshold": "max_channel_minus_min_channel > 15 OR mean_rgb < 245",
+    "pages": [
+      {
+        "page": 12,
+        "path": "tmp/acl_supplement_proxy_metric_review_20260603_final3/page-12.png",
+        "size": [1158, 1638],
+        "active_fraction": 0.120017,
+        "red_fallback_fraction": 0.0,
+        "sha256_prefix": "885d04c9c7fd259d",
+        "visual_review": "Proxy companion is readable and anchored immediately after paired-render notation. No isolated caption page."
+      },
+      {
+        "page": 13,
+        "path": "tmp/acl_supplement_proxy_metric_review_20260603_final3/page-13.png",
+        "size": [1158, 1638],
+        "active_fraction": 0.098968,
+        "red_fallback_fraction": 0.0,
+        "sha256_prefix": "845a14aaa2e19bdd",
+        "visual_review": "SSIM, feature similarity, point-in-box, normalized-coordinate definitions, grounding companion, and caption share the page without overflow."
+      },
+      {
+        "page": 14,
+        "path": "tmp/acl_supplement_proxy_metric_review_20260603_final3/page-14.png",
+        "size": [1158, 1638],
+        "active_fraction": 0.08727,
+        "red_fallback_fraction": 0.000091,
+        "sha256_prefix": "33e1746f57868d31",
+        "visual_review": "Navigation derivation companion page; not a caption-only or blank page."
+      },
+      {
+        "page": 15,
+        "path": "tmp/acl_supplement_proxy_metric_review_20260603_final3/page-15.png",
+        "size": [1158, 1638],
+        "active_fraction": 0.149848,
+        "red_fallback_fraction": 0.000046,
+        "sha256_prefix": "eb00b054c4c71f97",
+        "visual_review": "Metric-boundary bridge page remains dense and readable."
+      }
+    ]
+  },
+  "text_scan_expectations": {
+    "positive": [
+      "Proxy metric derivation companion",
+      "AI-generated proxy-metric schematic used only for exposition",
+      "not a new metric, model prediction, or task result"
+    ],
+    "negative": [
+      "Red material in these diagnostic cases",
+      "fig_vlm_grounding_cases",
+      "/cpfs/user",
+      "Zihou"
+    ]
+  },
+  "commands": [
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "make -C paper acl27-supplement",
+    "pdftoppm -f 12 -l 15 -r 140 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_proxy_metric_review_20260603_final3/page",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf | rg '^(Pages|Page size|File size):'"
+  ],
+  "notes": [
+    "The prior v1 companion used a smaller proxy_metric_lens slot and ended up as a compact page-bottom visual.",
+    "This v2 pass replaced that slot with a cleaner proxy_metric_axis imagegen asset, added a registered proxy render audit strip, moved the figure after paired-render notation, and removed a caption-only page by reducing the adjacent grounding companion height."
+  ]
+}

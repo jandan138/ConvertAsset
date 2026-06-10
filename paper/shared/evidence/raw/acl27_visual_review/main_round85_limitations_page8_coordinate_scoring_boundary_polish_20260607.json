@@ -1,0 +1,113 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 85,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main Limitations page-8 coordinate-scoring boundary polish",
+  "before_pdf_sha256": "1c0b271cd3c2747c3750bb1eade028a642aa6d0858d06c2f6b8173fb89e19dd8",
+  "after_pdf_sha256": "224b7632bb00a5a25f43c6da91ca303b8cf7561c4003c8c23049e38760d6fa6a",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round85_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round85_after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "rendered_after_screenshots": [
+      "tmp/acl_main_visual_iter_20260607_round85_after/page-08.png"
+    ],
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round85_after/page"
+  },
+  "defect": {
+    "pages": [
+      8
+    ],
+    "class": "limitations coordinate-scoring prose",
+    "before_text_matches": [
+      "page 8 line 392: Qwen2.5-VL also leaves coordinate semantics",
+      "page 8 line 393: unresolved because raw image-space scoring is",
+      "page 8 line 394: stronger than the requested normalized-1000",
+      "page 8 line 395: interpretation."
+    ],
+    "reader_effect": "The wording named the right limitation but made a coordinate-semantics mismatch sound like an evaluation preference."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/limitations.tex",
+      "summary": "Changed the coordinate-semantics limitation to say raw image-space and normalized-1000 scores disagree."
+    },
+    {
+      "path": "paper/venues/acl27/sections/limitations.tex",
+      "summary": "Shortened the preceding clean-pool limitation to avoid column-boundary orphan text after the accepted rewrite."
+    },
+    {
+      "path": "paper/venues/acl27/sections/limitations.tex",
+      "summary": "Protected Qwen2.5-VL with mbox in source so the rendered model name does not split."
+    }
+  ],
+  "rejected_iterations": [
+    {
+      "summary": "The first rewrite introduced visible page-8 hyphenation: Qwen2.5- / VL, unre- / solved, can- / not, and ground- / ing."
+    },
+    {
+      "summary": "The second rewrite protected the model name and shortened the coordinate sentence, but still left can- / not at the page-8 column boundary."
+    },
+    {
+      "summary": "The third rewrite removed linebreak hyphenation but left a right-column opener that began with the isolated word claim."
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "Page 8 shows broad VLM grounding claims followed by the 30-pair stress-set limitation and the revised coordinate-use sentence.",
+    "full_scan_result": "The accepted after text scan reports no line-end hyphenation candidates in the extracted page text.",
+    "visual_result": "The page-8 Limitations paragraph, adjacent Discussion and Conclusion text, and right-column paragraph start remain visually stable.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 13.30s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Limitations prose only. No metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "This round did not re-audit figure content or references beyond the line-end scan and targeted page-8 visual review."
+}

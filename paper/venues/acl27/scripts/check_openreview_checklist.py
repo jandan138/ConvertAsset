@@ -39,10 +39,12 @@ REQUIRED_POLICY_URLS = (
 
 REQUIRED_ANCHOR_MARKERS = (
     "| Abstract | page 1;",
-    "| Introduction / main claims | pages 1-2;",
-    "| Limitations | page 8;",
-    "| Ethical Considerations | page 8;",
-    "| References | starts on page 8 |",
+    "| Introduction / main results | pages 1-3;",
+    "| Limitations | page 9;",
+    "| Ethical Considerations | page 9;",
+    "| Selected material-effect Figure 3 | page 8;",
+    "| Selected InternNav Figure 4 | page 9;",
+    "| References | starts on page 9 |",
 )
 
 PLACEHOLDER_RE = re.compile(
@@ -50,6 +52,9 @@ PLACEHOLDER_RE = re.compile(
     re.IGNORECASE,
 )
 BARE_ANSWER_RE = re.compile(r"^(?:Yes|No|N/A)\.$", re.IGNORECASE)
+VENUE_WRAPPER_RE = re.compile(
+    r"\b(?:ACL-facing|main ACL claim|ACL protocol|ACL/ARR claim boundary|Any ACL submission)\b"
+)
 
 
 def normalize_space(text: str) -> str:
@@ -103,6 +108,14 @@ def find_placeholder_hits(text: str) -> list[str]:
     return hits
 
 
+def find_venue_wrapper_hits(text: str) -> list[str]:
+    hits: list[str] = []
+    for line_no, line in enumerate(text.splitlines(), start=1):
+        if VENUE_WRAPPER_RE.search(line):
+            hits.append(f"line {line_no}: {line.strip()}")
+    return hits
+
+
 def check_openreview_checklist(paper_root: Path) -> dict[str, object]:
     path = checklist_path(Path(paper_root))
     text = path.read_text(encoding="utf-8")
@@ -139,6 +152,7 @@ def check_openreview_checklist(paper_root: Path) -> dict[str, object]:
         "answers_not_empty": not empty_answer_questions,
         "no_bare_yes_no_na_answers": not bare_answer_questions,
         "no_placeholder_text": not find_placeholder_hits(text),
+        "no_internal_venue_wrapper_phrasing": not find_venue_wrapper_hits(text),
         "policy_inputs_present": not missing_policy_inputs,
         "current_pdf_anchors_present": not missing_anchor_markers,
         "ai_disclosure_present": ai_disclosure_present,
@@ -154,6 +168,7 @@ def check_openreview_checklist(paper_root: Path) -> dict[str, object]:
         "empty_answer_questions": empty_answer_questions,
         "bare_answer_questions": bare_answer_questions,
         "placeholder_hits": find_placeholder_hits(text),
+        "venue_wrapper_hits": find_venue_wrapper_hits(text),
         "missing_policy_inputs": missing_policy_inputs,
         "missing_anchor_markers": missing_anchor_markers,
         "current_pdf_anchors_present": not missing_anchor_markers,

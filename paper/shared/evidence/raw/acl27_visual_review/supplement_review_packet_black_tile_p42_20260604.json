@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "review_id": "acl_supplement_review_packet_black_tile_p42_20260604",
+  "date_utc": "2026-06-04",
+  "scope": "ACL27 supplement page 42 review-packet media manifest",
+  "root_cause": "The review-packet contact sheet still used a bottom crop from the older taller supplement render atlas. After the render atlas was shortened to 2014 pixels, the crop (0, 1730, 1800, 2794) exceeded the image bounds and Pillow filled the missing crop region with black.",
+  "changes": [
+    "Added a near-black regression check to the review-packet contact sheet density test.",
+    "Changed the Render evidence row's fourth tile to a valid registered scene-evidence crop within the current supplement render atlas: (900, 1160, 1800, 2014).",
+    "Regenerated the review-packet contact sheet and rebuilt the ACL supplement PDF."
+  ],
+  "local_visual_review": {
+    "reviewer": "Codex local visual review using render-visual-reviewer paper figure protocol; no subagent spawned because this environment only permits spawn_agent when explicitly requested.",
+    "standalone_verdict": "PASS. The Render evidence row now contains a visible render tile instead of a black padded crop.",
+    "pdf_page_42_verdict": "PASS. The page-level PDF render contains no black block in the review-packet contact sheet; the figure and caption remain contained."
+  },
+  "before": {
+    "standalone_failure_observed": {
+      "path": "paper/shared/figures/fig_supplement_review_packet_contact_sheet.png",
+      "near_black_from_red_test": 0.04157070707070707,
+      "test": "python -m pytest -q tests/test_paper_layout.py -k 'review_packet_contact_sheet_is_registered_and_dense'"
+    },
+    "pdf_page42_prior_110dpi": {
+      "path": "tmp/acl_render_visibility_fix_20260604/supplement_after_p30_110/page-42.png",
+      "sha256": "e5872dd0df9f93c66b568c9182455e38fd4ab69d8d6598fbd43c790f72d506a7",
+      "size": [
+        910,
+        1287
+      ],
+      "layout_active": 0.21405090635859866,
+      "near_black": 0.01981266596651212,
+      "red_ratio": 0.000046961585423123884
+    }
+  },
+  "after": {
+    "standalone_review_packet_contact_sheet": {
+      "path": "paper/shared/figures/fig_supplement_review_packet_contact_sheet.png",
+      "sha256": "b3a8c235466adb28d52bff2636abb8793644d238e2bcd1d46bbb49e61a79eb72",
+      "size": [
+        1800,
+        2200
+      ],
+      "layout_active": 0.3699136363636364,
+      "near_black": 0.021736868686868686,
+      "red_ratio": 0.00017146464646464646
+    },
+    "pdf_page42": {
+      "path": "tmp/acl_render_visibility_fix_20260604/p42_contact_sheet_black_tile/page-42.png",
+      "sha256": "ad426983db3ca231345c4d4cafdd5d24fe91bf7480403ccbdf02254decf39857",
+      "size": [
+        1323,
+        1871
+      ],
+      "layout_active": 0.20079197425154516,
+      "near_black": 0.012086454630548698,
+      "red_ratio": 0.0000779693075638712
+    },
+    "supplement_pdf": {
+      "path": "paper/venues/acl27/build/supplement.pdf",
+      "sha256": "a7089bed65c6da9e7408407430a12bfdd2ce42743a4681259d5f6c835b5d6621",
+      "pages": 45
+    }
+  },
+  "commands_run": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'review_packet_contact_sheet_is_registered_and_dense'",
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "python -m pytest -q tests/test_paper_layout.py -k 'review_packet_contact_sheet_is_registered_and_dense or navigation_media_atlas_uses_non_cover_index_row_summaries or task_media_atlases_are_registered_and_dense'",
+    "make -C paper acl27-supplement",
+    "pdftoppm -png -r 160 -f 42 -l 42 paper/venues/acl27/build/supplement.pdf tmp/acl_render_visibility_fix_20260604/p42_contact_sheet_black_tile/page"
+  ],
+  "files_changed": [
+    "tests/test_paper_layout.py",
+    "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "paper/shared/figures/fig_supplement_review_packet_contact_sheet.png"
+  ],
+  "follow_up_risks": [
+    "Near-black pixels remain in legitimate source imagery and black footer bars, so the regression threshold is set below the observed bad crop while allowing real evidence images.",
+    "The broader supplement polish goal remains active; this record only closes the page-42 black padded crop."
+  ]
+}

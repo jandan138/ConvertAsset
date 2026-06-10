@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-06-03T18:06:22+08:00",
+  "paper": "acl27",
+  "artifact": "supplement_vlm_coordinate_baseline_sanity_companion_v2",
+  "purpose": "Iterate page 18 of the ACL supplement by replacing the sparse coordinate-baseline companion with a taller render-heavy v2 figure and a v2 exposition-only AI baseline-gate slot.",
+  "skills": [
+    "imagegen",
+    "research-figure-ai-slot-composer",
+    "render-visual-reviewer",
+    "test-driven-development"
+  ],
+  "independent_subagent": false,
+  "claim_boundary": "The AI-generated baseline-gate v2 slot is exposition only. Registered GRScenes original/noMDL target-view pairs, Table S3, and deterministic overlays carry the evidence-bearing visual content.",
+  "ai_generated_slot": {
+    "role": "baseline_gate",
+    "repo_path": "paper/shared/figures/ai_slots/fig_supplement_vlm_coordinate_baseline_gate_v2_ai_slot.png",
+    "source_path": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_05331546a7ff8eef016a1ff99a88288196ac1ac18f023a2760.png",
+    "sha256": "40131abc9e6de0adfca3e911de0686eb65be043e411833e8e488588481fc6889",
+    "size": [
+      1731,
+      909
+    ],
+    "active_fraction_238": 0.084914,
+    "active_fraction_245": 0.095232,
+    "red_fraction": 0.000803,
+    "verdict": "PASS",
+    "rationale": "The slot has three coordinate-flow lanes with box-center and normalized-grid cues, no readable in-image text, no watermark, and no red material fallback. It remains separated from evidence-bearing render pairs."
+  },
+  "standalone_figure": {
+    "figure_id": "fig_supplement_vlm_coordinate_baseline_sanity_companion",
+    "path": "paper/shared/figures/fig_supplement_vlm_coordinate_baseline_sanity_companion.png",
+    "sha256": "2e905108242b3f6fa08b4ef217265c1375135179ee906350df4864e971938b44",
+    "size": [
+      1800,
+      1040
+    ],
+    "active_fraction_238": 0.434354,
+    "active_fraction_245": 0.439638,
+    "red_fraction": 0.000022,
+    "verdict": "PASS",
+    "rationale": "The final figure keeps the three deterministic baseline cards, switches the gate to the v2 AI slot, and adds a registered baseline audit strip with four original/noMDL target-view pairs."
+  },
+  "rendered_pdf_pages": [
+    {
+      "page": 18,
+      "path": "tmp/acl_supplement_page18_coordinate_baseline_v2_final_check2/page-18.png",
+      "sha256": "c33ac82d8e0faec957bcac40c8e84c1b7c00bcaec1c69352303d5f9f74e9965c",
+      "active_fraction_238": 0.164539,
+      "active_fraction_245": 0.168086,
+      "page90_active_fraction_245": 0.185937,
+      "before_round5_page90_active_fraction_245": 0.134572,
+      "red_fraction": 0.000001,
+      "verdict": "PASS",
+      "rationale": "The rendered page now contains Table S3, the v2 render-heavy companion, caption, and D.1/D.2 prose without caption collision or a spill-only following page."
+    },
+    {
+      "page": 19,
+      "path": "tmp/acl_supplement_page18_coordinate_baseline_v2_final_check2/page-19.png",
+      "sha256": "2542df56735c0a72cb668709f7d533ab8ed8f410196ce58b9ba54d25ccc00a3e",
+      "active_fraction_238": 0.149201,
+      "active_fraction_245": 0.150979,
+      "page90_active_fraction_245": 0.162338,
+      "red_fraction": 0.0,
+      "verdict": "PASS",
+      "rationale": "After prose tightening, page 19 starts the next GRScenes visual guide instead of containing only a one-line overflow from page 18."
+    },
+    {
+      "page": 20,
+      "path": "tmp/acl_supplement_page18_coordinate_baseline_v2_final_check2/page-20.png",
+      "sha256": "85bb3f292d906085f11ee02f7e079dfdf81b5daffd9074ed2c4eaccf58a8107c",
+      "active_fraction_238": 0.222768,
+      "active_fraction_245": 0.223909,
+      "page90_active_fraction_245": 0.233858,
+      "red_fraction": 0.0,
+      "verdict": "PASS",
+      "rationale": "The following diagnostic atlas page remains framed after the section flow shift."
+    }
+  ],
+  "pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "9f60037a2d54e69123325090605dd2a43750fe8a340f875ef49c725fdfdc8865",
+    "pages": 45,
+    "bytes": 41952950,
+    "page_size": "A4"
+  },
+  "text_scan": {
+    "positive_patterns_present": [
+      "Coordinate-baseline sanity companion",
+      "registered baseline audit strip",
+      "AI-generated baseline-gate schematic used only for exposition",
+      "not a new VLM prediction, metric, or benchmark row"
+    ],
+    "negative_patterns_absent": [
+      "/cpfs/user",
+      "Zihou"
+    ]
+  },
+  "commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'coordinate_baseline_sanity_companion'",
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "make -C paper acl27-supplement",
+    "pdftoppm -f 18 -l 20 -r 140 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page18_coordinate_baseline_v2_final_check2/page",
+    "pdftoppm -f 18 -l 20 -r 90 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page18_coordinate_baseline_v2_final_check2/page90",
+    "pdftotext -f 18 -l 18 paper/venues/acl27/build/supplement.pdf -",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf",
+    "sha256sum paper/venues/acl27/build/supplement.pdf"
+  ]
+}

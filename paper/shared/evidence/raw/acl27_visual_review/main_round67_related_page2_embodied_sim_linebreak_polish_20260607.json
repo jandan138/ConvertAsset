@@ -1,0 +1,88 @@
+{
+  "record": "main_round67_related_page2_embodied_sim_linebreak_polish_20260607",
+  "date": "2026-06-07",
+  "round": 67,
+  "venue": "acl27",
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/related.tex"
+  ],
+  "visual_scope": {
+    "primary_page": 2,
+    "secondary_page_checked": 3,
+    "primary_region": "Related Work right column, Embodied simulation and synthetic scene benchmarks paragraph"
+  },
+  "issue": {
+    "baseline_pdf_sha256": "2dda5c1f787115f15d5b75424d416b2568c865541bc7c8219f9df425bb3c09c6",
+    "baseline_directory": "tmp/acl_main_visual_iter_20260607_round67_current",
+    "baseline_page2_target_splits": [
+      "AI plat- / forms",
+      "Three- / DWorld",
+      "GRScenes ex- / tend",
+      "general- / robot"
+    ],
+    "baseline_page2_inherited_splits": [
+      "coordinate- / frame",
+      "material-effect and embodied- / stack"
+    ],
+    "baseline_page3_inherited_splits": [
+      "sim-to- / real",
+      "use- / ful",
+      "ob- / ject",
+      "similar- / ity",
+      "consis- / tency",
+      "abla- / tions"
+    ]
+  },
+  "change_summary": [
+    "Rewrote the embodied-simulation related-work paragraph into shorter ACL-style sentences.",
+    "Kept Habitat, AI2-THOR, ThreeDWorld, Isaac Sim, Isaac Lab, GRUtopia, GRScenes, and InternNav/DualVLN as context systems rather than leaderboard targets.",
+    "Moved the KuJiaLe sentence to a bounded stack-entry-evidence claim instead of a broad navigation claim."
+  ],
+  "rejected_iteration_notes": [
+    "A first rewrite removed some target splits but introduced AI2-/THOR, ThreeD-/World, and mate-/rial.",
+    "A citation-position rewrite removed the large post-citation gap but introduced ren-/dering and sim-/ulation.",
+    "A shorter USD/RTX/MDL rewrite introduced GRU-/topia, city-, Intern-, vision-, evalu-, and leader- style splits.",
+    "The accepted version keeps the page-2 target platform names intact and leaves the page-2 target paragraph without new target-region hyphen splits."
+  ],
+  "accepted_output": {
+    "after_directory": "tmp/acl_main_visual_iter_20260607_round67_after",
+    "after_pdf_sha256": "ce7e409bef671cdec2d0e79574be20443e0f27e0a03b3d44fb6c44bf3c818dda",
+    "after_contact_sheet_sha256": "baf747b508fdf3f25a10d7411efa836e819e1b727284aceba245c5f79181e8ec",
+    "after_full_text_sha256": "4b2b03d1b408062bb025e25db919944cd9edda7e78148db8be6f8013ebaf7da0",
+    "after_page2_png_sha256": "879cec92daa85e4ac8774a28affae308686c2284824f7d74f8ab509ac074eed2",
+    "after_page2_right_crop_sha256": "546bcb89214c3695c348a7bbbf3747011dce412281284a22b8ec9fbe66b8b5a5",
+    "after_page3_png_sha256": "bb8ccee4166780c45a415cf6f75eecde6ca559e9349af40d54e177b9ed00049c",
+    "pdf_pages": 11,
+    "pdf_file_size_bytes": 5185536
+  },
+  "accepted_text_scan": {
+    "page2_target_splits_remaining": [],
+    "page2_inherited_splits_remaining": [
+      "coordinate- / frame",
+      "material-effect and embodied- / stack"
+    ],
+    "page3_inherited_or_residual_splits": [
+      "sim-to- / real",
+      "use- / ful",
+      "ob- / ject",
+      "similar- / ity",
+      "consis- / tency",
+      "abla- / tions",
+      "ta- / ble"
+    ],
+    "next_round_candidate": "Page 3 right-column Claim Registry opener: table appears as ta-/ble at the page bottom after the related-work paragraph shortened."
+  },
+  "verification": {
+    "make_acl27": "passed",
+    "latex_blocker_scan": "no blocker matches",
+    "pytest": "104 passed in 13.19s",
+    "claim_boundaries": {
+      "ok": true
+    },
+    "metadata_consistency": {
+      "ok": true,
+      "abstract_word_count": 168
+    }
+  }
+}

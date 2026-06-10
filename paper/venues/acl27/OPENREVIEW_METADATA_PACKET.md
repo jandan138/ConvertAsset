@@ -1,11 +1,16 @@
 # OpenReview Metadata Packet
 
-Checked: 2026-05-26.
+Checked: 2026-05-30.
 
 This packet provides copy-ready metadata for an ARR/OpenReview submission using
-the current ACL-facing PDF. It is not the official form. Re-check and update it
+the current anonymous PDF. It is not the official form. Re-check and update it
 after any manuscript edit, target-route change, or final venue instruction
 update.
+
+Route-policy note checked on 2026-05-30: EACL 2027 via ARR remains the concrete
+public 2027 ACL-family route for this packet; the EACL complete CFP is still
+forthcoming, and Annual ACL 2027 still lacks a public official CFP/author kit
+in the checked official sources.
 
 ## Title
 
@@ -20,13 +25,14 @@ Material Conversion as a Controlled Perturbation for Vision-Language Grounding i
 
 ## Abstract
 
-The PDF abstract was refreshed on 2026-05-26 to satisfy the ACLPUB guidance
+The PDF abstract was refreshed on 2026-06-10 to satisfy the ACLPUB guidance
 that abstracts should be no longer than 200 words while keeping the first-page
-story focused on language grounding rather than a tool-first framing. Current
-plain-text count by the repository's conservative tokenizer: 189 words.
+story focused on measurement reliability for language grounding rather than a
+tool-first framing. Current plain-text count by the repository's conservative
+tokenizer: 172 words.
 
 ```text
-Synthetic 3D scenes are increasingly used to evaluate vision-language and embodied agents, yet their assets often undergo material conversion before rendering, sharing, or reuse in downstream toolchains. We study MDL-to-UsdPreviewSurface conversion as a controlled within-simulation perturbation for vision-language grounding and embodied-data reliability. A composition-preserving conversion path replaces MDL shader networks with PreviewSurface approximations while keeping matched original/converted USD evidence. On four Isaac Sim assets, proxy metrics remain high (PSNR 35.52 dB, SSIM 0.990, LPIPS 0.020, CLIP 0.925, DINOv2 0.872), but these proxies do not determine grounding behavior. We therefore evaluate GRScenes with a 15-pair clean visual-QA pilot and a frozen 30-pair target-centered material-shift stress set. Gemma4 preserves 30/30 target-category answers in both material conditions and scores 27/30 versus 29/30 normalized-1000 point hits; Qwen2.5-VL exposes a different coordinate preference, scoring better in raw pixel space than under the requested normalized-coordinate contract. We further add a selected NVIDIA-baseline material-effect audit and a scoped 99-episode official InternNav sanity run. The result is a claim-bounded ACL protocol: visual similarity, grounding, material-effect risk, and embodied-data sanity should be reported as separate gates before converted synthetic scenes support downstream robustness claims.
+Synthetic 3D benchmarks increasingly use rendered USD scenes to test VLM and embodied agents, yet the material step that makes scenes portable is treated as quiet infrastructure. We treat MDL conversion as a controlled test of the measurement layer. Our path rewrites MDL shader networks as portable USD materials and keeps paired USD evidence. On four Isaac Sim assets, proxy similarity is high (PSNR 35.52 dB, SSIM 0.990, LPIPS 0.020, CLIP 0.925, DINOv2 0.872), while grounding behavior still requires task-level checks. We evaluate GRScenes with a 15-pair clean visual-QA pilot and a frozen stress set of 30 target-centered pairs. Gemma4 keeps all 30 target answers in both versions and scores 27/30 original versus 29/30 converted normalized-1000 point hits; Qwen2.5-VL exposes a raw-coordinate preference with the same coordinate-prompt format in paired runs. One NVIDIA baseline material audit and an official InternNav stack-entry check over 99 episodes define the evaluation scope. Keeping these checks separate prevents visual match, grounding, material effects, and stack behavior from being collapsed into one task result.
 ```
 
 ## ARR Track Recommendation
@@ -48,9 +54,9 @@ Reasonable secondary fit if OpenReview allows an additional area or keywords:
 Resources and Evaluation
 ```
 
-Reason: the paper is also an evaluation methodology and evidence-gate paper,
-with frozen stress pools, descriptive uncertainty, artifact provenance, and
-claim-bound reporting.
+Reason: the paper is also an evaluation-methodology paper, with frozen stress
+pools, descriptive uncertainty, artifact provenance, and explicitly scoped
+reporting.
 
 Do not choose `LLM agents` as the primary area unless the final abstract is
 rewritten around agent planning or environment interaction. It is relevant only

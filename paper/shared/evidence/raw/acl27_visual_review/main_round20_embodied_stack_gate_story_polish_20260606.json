@@ -1,0 +1,61 @@
+{
+  "review_id": "main_round20_embodied_stack_gate_story_polish_20260606",
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "artifact": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "548538fefb899e02a03480a91d44f40e7cb89b5bdae866bb4ae4e5446b565e87",
+    "pages": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "bytes": 5189937,
+    "created": "Sat Jun 6 10:59:19 2026 CST"
+  },
+  "scope": [
+    "paper/venues/acl27/sections/results.tex"
+  ],
+  "visual_artifacts": {
+    "before_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round20_current/contact_sheets/main_pages_01_11_current.png",
+    "before_page6": "tmp/acl_main_visual_iter_20260606_round20_current/pages_180/main-06.png",
+    "before_layout_text": "tmp/acl_main_visual_iter_20260606_round20_current/text/main_layout.txt",
+    "after_page6": "tmp/acl_main_visual_iter_20260606_round20_after/pages_180/main-06.png",
+    "after_focus_pages6_7": "tmp/acl_main_visual_iter_20260606_round20_after/contact_sheets/main_pages_06_07_after_focus.png",
+    "after_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round20_after/contact_sheets/main_pages_01_11_after.png",
+    "after_layout_text": "tmp/acl_main_visual_iter_20260606_round20_after/text/main_layout.txt"
+  },
+  "visual_findings": [
+    "The round-20 full contact sheet showed no hard crop, missing page, or float displacement; the selected target was page 6, where embodied-data sanity follows material-effect boundaries.",
+    "The pre-edit section opener was correct but list-like: it began with InternNav counts before telling the reader why this was the final gate.",
+    "The accepted opener now frames section 4.4 as the move from static evidence to an executable embodied stack.",
+    "The accepted Table 6 paragraph now describes official-scene load/render evidence as an infrastructure gate rather than a navigation-robustness or speed claim.",
+    "The after page-6 render keeps the new text inside the ACL columns and preserves the Figure 3 position and caption.",
+    "The page-6/page-7 focus sheet shows no downstream drift into the evidence-gate registry page, and the after full contact sheet keeps the 11-page A4 structure stable."
+  ],
+  "change_summary": [
+    "Rewrote the section 4.4 opener to connect embodied-data sanity to the paper's gate sequence.",
+    "Reframed the official-scene load/render paragraph as an infrastructure gate with the same claim boundary.",
+    "Preserved all reported InternNav/DualVLN counts, paired-run counts, table references, figure references, and NVIDIA official-scene scope."
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed; rebuilt paper/venues/acl27/build/main.pdf as an 11-page A4 PDF"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "passed; no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "passed; 85 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "passed; ok=true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "passed; ok=true; abstract_word_count=169"
+    }
+  ],
+  "residual_risk": "Focused page-6 embodied-stack gate story polish only; this is not a final upload audit, target-policy refresh, or integrity-fingerprint refresh."
+}

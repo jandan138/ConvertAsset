@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 49,
+  "date": "2026-06-06",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/method.tex"
+  ],
+  "docs_record": "docs/records/2026-06-06-acl-main-claim-registry-boundary-polish.md",
+  "issue": {
+    "page": 4,
+    "location": "Claim Registry paragraph",
+    "before_problem": [
+      "The page-4 Claim Registry paragraph split 'broader robustness claims' as 'broader robust- / ness claims'."
+    ]
+  },
+  "change_summary": {
+    "method_tex_lines": "69-73",
+    "summary": "Reworded the Claim Registry close so proxy metrics, selected videos, and single-scene results cannot stand in for task-wide evidence.",
+    "claim_scope_changed": false
+  },
+  "pdf": {
+    "before_sha256": "c63a33f973d20a3e5fb60b0a114e8c7dfb875e36e4ee4d4e82c489b2ab257766",
+    "after_sha256": "581eadfeb25816d81e77c2a75835e24d17a64aefbef4115f7e76a786f929075f",
+    "after_pages": 11,
+    "after_file_size_bytes": 5188344,
+    "after_creation_date": "Sat Jun 6 23:52:56 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260606_round49_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260606_round49_after",
+    "before": {
+      "contact_sheet_png_sha256": "2f72c934a8b80c1c704a418f55ac9ec4e751476350bd24ac0e23faa45ce24fb5",
+      "full_txt_sha256": "be2d79db15b20aefab8c342c4812081aacf879a047665a00212a8b18b7212325"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "28d866fd8ca52e05af20357bce4d4f55f924f974ef7fabec209fcf80a5be57b5",
+      "focus_before_after_p4_png_sha256": "5708b57d48422a449326a2f3e0339ac22f3f8f993b79f48f2c3794de071d47f1",
+      "focus_p3_p4_png_sha256": "f844941ad0cbf0e08e27270e5a84168a1733205b752dcc0aeebe6ba62b066005",
+      "focus_p4_p5_png_sha256": "b95a8a2c0eafe521b89387c98468144a06ff06f2211c06671e7d74abebef7c14",
+      "full_txt_sha256": "26f822744c83373e6e56e367fb8d3e84ee744f6bfcfcc2887ee17bad12fbc466",
+      "page4_txt_sha256": "6647bb6e3063aea8406256bdfecc23a63a128f9f1aaff2c83dd0f0e4777fd059"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260606_round49_after/focus_before_after_p4.png",
+      "tmp/acl_main_visual_iter_20260606_round49_after/contact_sheet.png"
+    ],
+    "observations": [
+      "The page-4 comparison shows the Claim Registry paragraph no longer ends with a 'broader robust- / ness claims' split.",
+      "The revised wording keeps the same claim-boundary meaning while rendering as task-wide evidence language.",
+      "The paragraph remains in the same right-column location before the Results section.",
+      "The final contact sheet remains 11 pages with no obvious float, table, or blank-page regression."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "bash -lc 'if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf \"no blocker matches\\n\"; fi'",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "104 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 168"
+    }
+  ]
+}

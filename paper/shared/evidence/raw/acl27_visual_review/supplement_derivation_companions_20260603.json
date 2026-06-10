@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-06-03T02:58:25+08:00",
+  "paper": "acl27",
+  "artifact": "supplement_derivation_companions",
+  "purpose": "Add imagegen-assisted but evidence-bounded visual companions for the grounding and navigation derivation pages.",
+  "skills": [
+    "imagegen",
+    "research-figure-ai-slot-composer",
+    "render-visual-reviewer"
+  ],
+  "independent_subagent": false,
+  "claim_boundary": "AI-generated slot imagery is exposition only. Registered render pairs, metric panels, route panels, and stills are the evidence-bearing material.",
+  "ai_generated_slot": {
+    "role": "metric_contract_gate",
+    "repo_path": "paper/shared/figures/ai_slots/fig_supplement_metric_contract_gate_ai_slot.png",
+    "source_path": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0f12ac123d614b55016a1f22cc759c819aa2b7de5b714a5264.png",
+    "sha256": "922a8b32587eccebbfe032ac0dc75a439314575825818102ce1404add81f64e4",
+    "size": [
+      1983,
+      793
+    ],
+    "active_fraction": 0.247118,
+    "red_fraction": 0.0,
+    "verdict": "PASS",
+    "rationale": "No readable pseudo-text, filesystem path, author name, logo, or red fallback material was visible. It is used only as a schematic slot."
+  },
+  "standalone_figures": [
+    {
+      "figure_id": "fig_supplement_grounding_derivation_companion",
+      "path": "paper/shared/figures/fig_supplement_grounding_derivation_companion.png",
+      "sha256": "e2dcc6abfe2df084ac750a88590d44e56fced77879ea213d6c38968ea3c46c3f",
+      "size": [
+        1800,
+        700
+      ],
+      "active_fraction": 0.340266,
+      "red_fraction": 0.0,
+      "verdict": "PASS",
+      "rationale": "The panel ties point-in-box and normalized-coordinate formulas to registered original/noMDL target-view render pairs; the AI slot is visually separated as a metric gate."
+    },
+    {
+      "figure_id": "fig_supplement_navigation_derivation_companion",
+      "path": "paper/shared/figures/fig_supplement_navigation_derivation_companion.png",
+      "sha256": "a7e29fadc14ad092bd6b92b08d69b66df418623e6e0d1a1eb77f331f58270892",
+      "size": [
+        1800,
+        700
+      ],
+      "active_fraction": 0.271963,
+      "red_fraction": 0.000729,
+      "verdict": "PASS",
+      "rationale": "The panel ties SR, NE, SPL, and TL to metric charts, route strips, rollout stills, and selected cases. The small red fraction comes from route/point annotations, not material fallback."
+    }
+  ],
+  "rendered_pdf_pages": [
+    {
+      "page": 13,
+      "path": "tmp/acl_supplement_derivation_companion_review/page-13.png",
+      "sha256": "e90a5febdeb0c959f9eafd54825e5e649c2370df84ac19c8dd7bbf8fd7611f01",
+      "active_fraction": 0.101992,
+      "red_fraction": 0.0,
+      "before_active_fraction": 0.0338,
+      "verdict": "PASS",
+      "rationale": "The grounding companion fills the former sparse derivation page without caption collision."
+    },
+    {
+      "page": 14,
+      "path": "tmp/acl_supplement_derivation_companion_review/page-14.png",
+      "sha256": "3487f39cd5f552a661ea36ea672bb1702ade6b1b6ee375e259e7a5147b368640",
+      "active_fraction": 0.087321,
+      "red_fraction": 0.000091,
+      "before_active_fraction": 0.0375,
+      "verdict": "PASS",
+      "rationale": "The navigation companion remains readable at full width and no longer creates a caption-only terminal page."
+    },
+    {
+      "page": 15,
+      "path": "tmp/acl_supplement_derivation_companion_review/page-15.png",
+      "sha256": "b1743e8e40ab2c4e16f8246318825de33440243d31369b5f194e99eebbb82b5a",
+      "active_fraction": 0.149727,
+      "red_fraction": 0.000046,
+      "verdict": "PASS",
+      "rationale": "The navigation caption is followed by the metric-boundary summary and visual bridge after replacing the hard page break with a soft separation."
+    },
+    {
+      "page": 16,
+      "path": "tmp/acl_supplement_derivation_companion_review/page-16.png",
+      "sha256": "c9106a34c5307e4009ae52ab2719531a9147b5aab4d5716c757766d870d6493d",
+      "active_fraction": 0.153845,
+      "red_fraction": 0.0,
+      "verdict": "PASS",
+      "rationale": "The following VLM protocol atlas page remains intact after the derivation-section reflow."
+    }
+  ],
+  "pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "8d24cf1149e1422a0f83a1562a866882de5bf34eeb9ee5af2c712821cd2debe1",
+    "pages": 44,
+    "bytes": 31102906,
+    "page_size": "A4"
+  },
+  "text_scan": {
+    "positive_patterns_present": [
+      "Grounding derivation render companion",
+      "Navigation derivation media companion",
+      "AI-generated metric-contract schematic used only for exposition",
+      "not new metrics, model predictions, or benchmark rows"
+    ],
+    "negative_patterns_absent": [
+      "Red material in these diagnostic cases",
+      "fig_vlm_grounding_cases",
+      "/cpfs/user",
+      "Zihou"
+    ]
+  },
+  "commands": [
+    "make -C paper acl27-supplement",
+    "pdftoppm -r 140 -png -f 13 -l 16 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_derivation_companion_review/page",
+    "pdftotext paper/venues/acl27/build/supplement.pdf - | rg -n \"Grounding derivation render companion|Navigation derivation media companion|AI-generated metric-contract schematic used only for exposition|not new metrics, model predictions, or benchmark rows\"",
+    "if pdftotext paper/venues/acl27/build/supplement.pdf - | rg -n \"Red material in these diagnostic cases|fig_vlm_grounding_cases|/cpfs/user|Zihou\"; then exit 1; else echo \"negative tokens absent\"; fi",
+    "python -m pytest -q tests/test_paper_layout.py -k \"derivations_have_render_companions or derivation_companions\"",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_derivation_companions_20260603.json"
+  ]
+}

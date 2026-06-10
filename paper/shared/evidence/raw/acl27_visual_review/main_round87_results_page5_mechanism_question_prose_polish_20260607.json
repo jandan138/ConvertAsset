@@ -1,0 +1,102 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 87,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main Results page-5 mechanism-question prose polish",
+  "before_pdf_sha256": "d0d7117740b1e10a6124c85724783f7f2dfda98b8fc60401e24114e85b9b07c8",
+  "after_pdf_sha256": "6ffb25f266907b729be2c5ab6f9898da1ef2eedddfed6388b4f7ed5e28b16ab5",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round87_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round87_after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "rendered_after_screenshots": [
+      "tmp/acl_main_visual_iter_20260607_round87_after/page-05.png"
+    ],
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round87_after/page"
+  },
+  "defect": {
+    "pages": [
+      5
+    ],
+    "class": "results mechanism-question prose",
+    "before_text_matches": [
+      "page 5 line 299: The VLM stress result leaves a mechanism",
+      "page 5 line 300: question: when evidence moves, which cue",
+      "page 5 line 301: moved it? We compare ConvertAsset with the"
+    ],
+    "reader_effect": "The repeated moves/moved phrasing was conversational compared with the surrounding ACL claim-boundary prose."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/results.tex",
+      "summary": "Changed the mechanism bridge to ask which cue changed the evidence."
+    },
+    {
+      "path": "paper/venues/acl27/sections/results.tex",
+      "summary": "Shortened the following comparison boundary to only in checked bins to avoid a provenance linebreak split."
+    }
+  ],
+  "rejected_iterations": [
+    {
+      "summary": "The first rewrite introduced visible page-5 linebreak hyphenation: prove- / nance."
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "Page 5 shows which cue changed the evidence and only in checked bins without body-text linebreak hyphenation.",
+    "full_scan_result": "The enhanced after scan reports only the existing explicit human-subject wording and normal reference-column hyphenation on pages 9-10.",
+    "visual_result": "The page-5 Material Effects opener and adjacent figure/caption remain visually stable.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 14.25s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Results prose only. No metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "Reference pages retain normal reference-column hyphenation; the existing explicit human-subject wording remains."
+}

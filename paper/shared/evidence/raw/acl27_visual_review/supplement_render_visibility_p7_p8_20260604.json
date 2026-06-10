@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "review_id": "acl_supplement_render_visibility_p7_p8_20260604",
+  "date_utc": "2026-06-04",
+  "scope": "ACL27 supplement pages 7-8 render evidence atlas and extended render-scene evidence view",
+  "root_cause": "4:3 proxy object renders were previously placed into very wide evidence tiles with center-cover/crop behavior, making proxy objects appear as clipped close-ups at paper scale.",
+  "changes": [
+    "fig_supplement_render_atlas now uses four contained tiles per proxy row: MDL front, noMDL front, MDL detail, noMDL detail.",
+    "fig_supplement_render_scene_evidence_extended now pairs full-context proxy object views with contained material-detail views instead of direct crop-fit close-ups.",
+    "ACL supplement captions and sources.yaml were updated for the new front-context render sources."
+  ],
+  "local_visual_review": {
+    "reviewer": "Codex local visual review using render-visual-reviewer paper figure protocol; no subagent spawned because this environment only permits spawn_agent when explicitly requested.",
+    "verdict": "PASS for clipping/containment on pages 7 and 8; remaining caveat is that the white proxy objects are inherently low contrast, but they are no longer horizontally cropped by the composer.",
+    "page_7": "No hard crop visible; proxy front and detail views are contained in their frames; caption does not collide with the figure.",
+    "page_8": "Full-context and material-detail proxy views are both visible; page-scale figure and caption are contained."
+  },
+  "before": {
+    "pdf_page7": {
+      "path": "tmp/acl_global_visual_audit_20260604/supplement/pages/page-07.png",
+      "sha256": "8a94d05529b19ad34041a1fd9ed2f1cf4d661cdad049b6ce0de9fe2878c0f93c",
+      "size": [
+        910,
+        1287
+      ],
+      "active245": 0.4543763928379313,
+      "active238": 0.31067394144317223,
+      "red_ratio": 0.0
+    },
+    "pdf_page8": {
+      "path": "tmp/acl_global_visual_audit_20260604/supplement/pages/page-08.png",
+      "sha256": "ed9b1bd1b763d6cf10a63373338ed5f84dbde6978f5d4893bb3f51e904d8c4d6",
+      "size": [
+        910,
+        1287
+      ],
+      "active245": 0.2595592441746288,
+      "active238": 0.2424771809387194,
+      "red_ratio": 0.0
+    }
+  },
+  "after": {
+    "standalone_render_atlas": {
+      "path": "paper/shared/figures/fig_supplement_render_atlas.png",
+      "sha256": "5700066a9e273982f084ab3296e8436f0be0d2229d4ff37019616ada41b66036",
+      "size": [
+        1800,
+        2014
+      ],
+      "active245": 0.5526459229835595,
+      "active238": 0.5350697892530067,
+      "red_ratio": 2.2067747986318e-06
+    },
+    "standalone_extended": {
+      "path": "paper/shared/figures/fig_supplement_render_scene_evidence_extended.png",
+      "sha256": "e4f81b2635af4c6b37e4d898fb395077ab31b0a2c7ad41590b19cca783efb4b5",
+      "size": [
+        1800,
+        1752
+      ],
+      "active245": 0.6360064687975647,
+      "active238": 0.6197796169457128,
+      "red_ratio": 6.0248604769152715e-06
+    },
+    "pdf_page7": {
+      "path": "tmp/acl_render_visibility_fix_20260604/supplement_pages/page-07.png",
+      "sha256": "7b294789680d26922e413ab531a108a56390c552016b01c10d2f34ef077e425f",
+      "size": [
+        1323,
+        1871
+      ],
+      "active245": 0.2684200469189398,
+      "active238": 0.2594560004653919,
+      "red_ratio": 4.039860495537368e-07
+    },
+    "pdf_page8": {
+      "path": "tmp/acl_render_visibility_fix_20260604/supplement_pages/page-08.png",
+      "sha256": "bbaf23b815c3f8f784939157a7ab84b0e04dbadb0e14a692ad338ce911298b52",
+      "size": [
+        1323,
+        1871
+      ],
+      "active245": 0.2666954304733949,
+      "active238": 0.2595574009638299,
+      "red_ratio": 4.039860495537368e-07
+    },
+    "contact_sheet": {
+      "path": "tmp/acl_render_visibility_fix_20260604/supplement_110/contact_sheet.png",
+      "sha256": "9a1cfa696bc0ae498850228277db4dc17b7824527dc79e48d6389a5cc74306ae",
+      "size": [
+        1300,
+        3546
+      ],
+      "active245": 0.3608588225085687,
+      "active238": 0.22797756952579287,
+      "red_ratio": 0.00028591262093800163
+    },
+    "supplement_pdf": {
+      "path": "paper/venues/acl27/build/supplement.pdf",
+      "sha256": "0f0ddd35342000136c11270bc038a378124f8918927c4938027e586c60770a62"
+    }
+  },
+  "commands_run": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'preserves_proxy_object_context'",
+    "python paper/shared/figures/gen_supplement_render_atlas.py",
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "python -m pytest -q tests/test_paper_layout.py -k 'render_atlas or render_scene_evidence_extended or preserves_proxy_object_context or review_packet_contact_sheet'",
+    "make -C paper acl27-supplement",
+    "pdftoppm -png -r 160 -f 7 -l 8 paper/venues/acl27/build/supplement.pdf tmp/acl_render_visibility_fix_20260604/supplement_pages/page",
+    "pdftoppm -png -r 110 paper/venues/acl27/build/supplement.pdf tmp/acl_render_visibility_fix_20260604/supplement_110/page"
+  ],
+  "files_changed": [
+    "tests/test_paper_layout.py",
+    "paper/shared/figures/gen_supplement_render_atlas.py",
+    "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "paper/shared/figures/fig_supplement_render_atlas.png",
+    "paper/shared/figures/fig_supplement_render_scene_evidence_extended.png",
+    "paper/shared/figures/sources.yaml",
+    "paper/venues/acl27/sections/supplement/01a_render_atlas.tex"
+  ],
+  "follow_up_risks": [
+    "Pages 22-23 and 30/36-38 remain high-density visual pages and should stay on the global review list.",
+    "The broader objective remains active: supplement-wide aesthetics and render density still need more visual iteration beyond this p7/p8 clipping fix."
+  ]
+}

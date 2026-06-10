@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-06-04",
+  "figure_id": "fig_supplement_review_packet_contact_sheet",
+  "paper_page": 42,
+  "claim_boundary": "The contact sheet indexes already registered render figures and selected media. It does not introduce new evidence, experiments, metrics, VLM runs, or navigation runs.",
+  "change_summary": [
+    "Recomposed the review-packet media manifest as a 1800x2200 portrait board.",
+    "Added a dedicated extended render-evidence row using registered render-scene evidence figures.",
+    "Added registered supplement render-atlas and navigation media-boundary sources to the contact-sheet registry.",
+    "Narrowed spacing while keeping deterministic row labels and figure-source boundary text.",
+    "Raised the ACL supplement include from 0.68 to 0.78 textheight so the one-column page uses the available paper scale."
+  ],
+  "asset_paths": {
+    "composed_figure": "paper/shared/figures/fig_supplement_review_packet_contact_sheet.png",
+    "latex_section": "paper/venues/acl27/sections/supplement/07_reproducibility.tex",
+    "sources_manifest": "paper/shared/figures/sources.yaml",
+    "pdf": "paper/venues/acl27/build/supplement.pdf"
+  },
+  "registered_visual_sources_added": [
+    "paper/shared/figures/fig_supplement_render_atlas.png",
+    "paper/shared/figures/fig_supplement_render_scene_evidence_extended.png",
+    "paper/shared/figures/fig_supplement_navigation_media_boundary_strip.png"
+  ],
+  "rendered_review_paths": {
+    "page41_160dpi": "tmp/acl_supplement_page42_review_packet_v2_20260604/page-41.png",
+    "page42_160dpi": "tmp/acl_supplement_page42_review_packet_v2_20260604/page-42.png",
+    "page43_160dpi": "tmp/acl_supplement_page42_review_packet_v2_20260604/page-43.png",
+    "page42_90dpi": "tmp/acl_supplement_page42_review_packet_v2_90dpi_20260604/page-42.png",
+    "page42_render_rows_crop": "tmp/acl_supplement_page42_review_packet_v2_20260604/crops/page42_render_rows.png",
+    "page42_vlm_navigation_rows_crop": "tmp/acl_supplement_page42_review_packet_v2_20260604/crops/page42_vlm_navigation_rows.png",
+    "page42_caption_area_crop": "tmp/acl_supplement_page42_review_packet_v2_20260604/crops/page42_caption_area.png",
+    "standalone_render_rows_crop": "tmp/acl_supplement_page42_review_packet_v2_20260604/crops/standalone_render_rows.png",
+    "standalone_vlm_navigation_rows_crop": "tmp/acl_supplement_page42_review_packet_v2_20260604/crops/standalone_vlm_navigation_rows.png"
+  },
+  "metrics": {
+    "old_page42_90dpi": {
+      "source": "tmp/acl_supplement_full_density_review_20260604_round40/pages/page-42.png",
+      "active238": 0.17039331535975832,
+      "active245": 0.17754195427573505,
+      "red_fallback": 0.00005863719510251949
+    },
+    "new_page42_90dpi": {
+      "active238": 0.2189538359560731,
+      "active245": 0.23588978756763992,
+      "red_fallback": 0.00006883496816382722
+    },
+    "page42_delta": {
+      "active238": 0.04856052059631478,
+      "active245": 0.05834783329190487
+    },
+    "standalone_composed_figure": {
+      "size": [1800, 2200],
+      "aspect": 0.8181818181818182,
+      "active238": 0.37410934343434343,
+      "active245": 0.3933406565656566,
+      "red_fallback": 0.0002005050505050505
+    }
+  },
+  "hashes_sha256": {
+    "composed_figure": "3b764b3927dc8e496ee09e67243a6e00987428ce60413a23425e2271f91767b0",
+    "page42_160dpi": "5413ed45ef516d98e63e6526e2f6c637c478428bde22f18ece6ac27238b07401",
+    "page42_90dpi": "85a79f3c3085414a39f3f15434bc0e19a4dcb55cb9512e27d050ec04c9a32d1c"
+  },
+  "visual_review": {
+    "mode": "Local pure visual review following render-visual-reviewer protocol. No independent subagent was spawned because the available spawn_agent tool requires explicit user authorization for delegation.",
+    "verdict": "PASS",
+    "standalone_figure": "PASS: five deterministic rows are contained; row labels, thumbnails, and source-boundary text do not overlap.",
+    "pdf_page": "PASS: page 42 uses the available one-column page height without caption collision or clipping. Pages 41 and 43 remain intact.",
+    "dense_crops": "PASS: render rows, VLM/navigation rows, and caption-area crops remain readable at paper scale.",
+    "residual_risk": "Some source-figure text inside thumbnails is intentionally small; the contact sheet is an index, not a replacement for the referenced full figures."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'review_packet_contact_sheet or reproducibility_has_visual_media_manifest'",
+    "make -C paper acl27-supplement",
+    "pdftoppm -png -r 160 -f 41 -l 43 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page42_review_packet_v2_20260604/page",
+    "pdftoppm -png -r 90 -f 42 -l 42 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page42_review_packet_v2_90dpi_20260604/page"
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "round": 43,
+  "date": "2026-06-06",
+  "timestamp_utc": "2026-06-06T11:34:15Z",
+  "venue": "acl27",
+  "target_pdf": "paper/venues/acl27/build/main.pdf",
+  "target_area": {
+    "pages": [
+      5,
+      6
+    ],
+    "source": "paper/venues/acl27/sections/results.tex",
+    "lines_after_change": "74-78",
+    "description": "Page 5 VLM-grounding qualitative-panel provenance sentence and adjacent page 6 continuity"
+  },
+  "change_summary": [
+    "Changed 'until they have clean render logs and VLM-overlay provenance' to 'until clean render logs and VLM overlay provenance exist for the exact images'.",
+    "Removed the distracting page 5 'VLM-overlay prove-' / 'nance' line break.",
+    "Kept qualitative panels scoped as orientation evidence until exact-image render logs and VLM overlay provenance are clean.",
+    "Rejected an intermediate 'image-level render logs' variant because it introduced an 'image-' / 'level' line break."
+  ],
+  "visual_review": {
+    "before_render_dir": "tmp/acl_main_visual_iter_20260606_round43_current",
+    "after_render_dir": "tmp/acl_main_visual_iter_20260606_round43_after",
+    "before_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round43_current/contact_sheet.png",
+      "sha256": "6a683c426ba0af9282a0d3c3229e6d8c674dfe162ca6f8086d04270264394b18"
+    },
+    "before_full_text": {
+      "path": "tmp/acl_main_visual_iter_20260606_round43_current/full.txt",
+      "sha256": "2e0443c51fcfc7f1bcfe97f1bde50145af03df4a6feda0134efb4d9425c226bf"
+    },
+    "before_page5": {
+      "path": "tmp/acl_main_visual_iter_20260606_round43_current/page5.txt",
+      "sha256": "fc48d1ab8e9debd9f6a68520826bf5dc3c7f70e73abde2fbc001b2a9ad52a7ad"
+    },
+    "before_focus_pages": {
+      "path": "tmp/acl_main_visual_iter_20260606_round43_current/focus_p5_p6.png",
+      "sha256": "3977b2d1b9f734abc85420f3b4c0031a387519c90db84a4c8acf23d533835091",
+      "pages": [
+        5,
+        6
+      ]
+    },
+    "after_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round43_after/contact_sheet.png",
+      "sha256": "09efb02ca46feb751fbfd4d22fb074bc5d888635710ae6f13cc8d18d377fd440"
+    },
+    "after_full_text": {
+      "path": "tmp/acl_main_visual_iter_20260606_round43_after/full.txt",
+      "sha256": "f8f78060da7377ef7e22f81558b7c1755929f446e7ad799c861e0283aa524773"
+    },
+    "after_page5": {
+      "path": "tmp/acl_main_visual_iter_20260606_round43_after/page5.txt",
+      "sha256": "116db9d622ecfae9f1b2b5ceb14f546c25e215d015b0b2736b5cb00d2377da4b"
+    },
+    "after_page6": {
+      "path": "tmp/acl_main_visual_iter_20260606_round43_after/page6.txt",
+      "sha256": "d7640cddbc5212a931b2328cf4a16f0d75855e8ab60693d9eedc99a32df9a161"
+    },
+    "focus_before_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round43_after/focus_before_after_p5.png",
+      "sha256": "ccc7dc07471bd1dd3f6e10e455de71d22ab1d708c111701b0a2c4f72818cee51",
+      "pages": [
+        5
+      ]
+    },
+    "focus_pages_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round43_after/focus_p5_p6.png",
+      "sha256": "760fbb712b8c6101e097ba4d7edd466305c85b4557308806c5fb683354f8d75c",
+      "pages": [
+        5,
+        6
+      ]
+    },
+    "observations": [
+      "Before: page 5 rendered 'VLM-overlay prove-' followed by 'nance' in the qualitative-panel provenance sentence.",
+      "Rejected: the first candidate removed the provenance split but introduced 'image-' followed by 'level'.",
+      "After: page 5 renders 'logs and VLM overlay provenance exist for the' followed by 'exact images'.",
+      "After: the page 5 'Material Effects and NVIDIA' heading remains at the same line-number position.",
+      "After: page 6 keeps the embodied-data section and Figure 3 stable.",
+      "After: the PDF remains 11 pages."
+    ]
+  },
+  "pdf_identity": {
+    "before_sha256": "fbce0b5fb8145a55ee640a95c3df7b17dad67b1dde312c410f146d0f1cb553c5",
+    "after_sha256": "b214f8bbc9d000e40e34c008cd11897ae1b79700e25f29335944c137a2334055",
+    "after_pdfinfo": {
+      "creation_date": "Sat Jun 6 19:27:04 2026 CST",
+      "mod_date": "Sat Jun 6 19:27:04 2026 CST",
+      "pages": 11,
+      "page_size": "595.276 x 841.89 pts (A4)",
+      "file_size_bytes": 5188369,
+      "pdf_version": "1.5"
+    }
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "pass",
+      "evidence": "Exit 0; acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf 'no blocker matches\\n'; fi",
+      "result": "pass",
+      "evidence": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "pass",
+      "evidence": "102 passed in 15.47s."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "pass",
+      "evidence": "ok=true; no violations or unsafe figure violations."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "pass",
+      "evidence": "ok=true; abstract word count 169."
+    }
+  ],
+  "docs_record": "docs/records/2026-06-06-acl-main-vlm-overlay-provenance-polish.md"
+}

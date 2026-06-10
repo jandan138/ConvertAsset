@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-05-28",
+  "review_type": "local_pure_visual_review",
+  "note": "Reviewed locally with the render-visual-reviewer rubric. No delegated subagent was used because this turn did not explicitly authorize multi-agent delegation.",
+  "artifact": {
+    "path": "paper/shared/figures/fig_acl_method_chain_imagegen_v15.png",
+    "candidate_path": "paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v15_candidate.png",
+    "prompt_path": "paper/shared/figures/prompts/fig_acl_method_chain_gpt_image2_v15.prompt.txt",
+    "sha256": "e11592d8275b1b453f110ec1d968bc9bcfa20e762d3b0d8987b2913127384cb1",
+    "prompt_sha256": "c2abb30064a35cc5a69663bdfe320adb0bb5ae973ca670723fe01e7058ddb442",
+    "size_px": [1774, 887],
+    "role": "AI-generated schematic roadmap, not empirical evidence"
+  },
+  "pdf_spot_check": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256_after_clean_preupload_gate": "5028f38ebc5ac398e3e99980ca00d909abfd4a8e6a61bcf2fb148b6ff5e3857c",
+    "rendered_page_2_png_sha256_150dpi": "234b30f2d2ff4c1d8cbc79c280ca7a1577be4a8cd95552f2f9a595401af14862",
+    "rendered_page_2_png_sha256_180dpi": "9a2dd5115956c9d1a028ceec02a8d79e52c7120c04250bdae80a780000a013c1"
+  },
+  "verdict": "PASS_FOR_SCHEMATIC_USE",
+  "visible_evidence": [
+    "The four-stage left-to-right method chain remains visible at ACL page scale.",
+    "Major labels are legible: USD / MDL Assets, noMDL Conversion, Paired VLM Evidence, and InternNav Evidence.",
+    "Stage 3 preserves Original, Converted, and Target: box with a clearer target/VLM visual than v14.",
+    "Stage 4 keeps the floorplan, green/purple paths, and neutral SR/SPL/NE metric tiles without relying on a small legend.",
+    "The footer claim boundary remains readable and states that selected rollouts are qualitative."
+  ],
+  "risks": [
+    "The panel is AI-generated schematic art, so it must remain captioned as a roadmap rather than measured render evidence.",
+    "Stage-level render thumbnails are illustrative; empirical evidence remains in Figure 2, Figure 3, and frozen tables."
+  ],
+  "promotion_decision": "Promote v15 over v14 because it preserves the same low-text four-stage story while improving page-scale balance and VLM/InternNav visual clarity."
+}

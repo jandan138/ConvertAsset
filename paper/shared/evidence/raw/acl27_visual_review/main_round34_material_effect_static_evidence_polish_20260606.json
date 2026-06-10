@@ -1,0 +1,95 @@
+{
+  "round": 34,
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "target_pdf": "paper/venues/acl27/build/main.pdf",
+  "target_area": {
+    "pages": [5, 6],
+    "source": "paper/venues/acl27/sections/results.tex",
+    "lines_after_change": "100-107",
+    "description": "Results Section 4.3 Table 5 covered-bin static-evidence transition and adjacent Figure 3 flow"
+  },
+  "change_summary": [
+    "Replaced 'Four covered bins carry selected three-condition static evidence' with 'The audit provides static evidence only for the four covered bins'.",
+    "Removed the rendered page-5 split where 'three-' ended one line and 'condition static evidence' opened the next.",
+    "Preserved the material-effect claim boundary while making the Table 5 transition more direct."
+  ],
+  "visual_review": {
+    "before_render_dir": "tmp/acl_main_visual_iter_20260606_round34_current",
+    "after_render_dir": "tmp/acl_main_visual_iter_20260606_round34_after",
+    "before_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round34_current/contact_sheet.png",
+      "sha256": "c4e3deefd79f70f08ead947753a7c373fb408459287404e41cca2e834fd95641"
+    },
+    "after_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round34_after/contact_sheet.png",
+      "sha256": "b32a4a7494c6a00076805cfc97a8ec24cf2c84d0e36e51182452c26fecc40c46"
+    },
+    "focus_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round34_after/focus_p5_after.png",
+      "sha256": "b5124b678a9df1de106352f4bd7bdae391b98cd8ebf044f77c67c70e18b63fb8",
+      "pages": [5]
+    },
+    "focus_pages_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round34_after/focus_p5_p6_after.png",
+      "sha256": "7d81da0cf83c9b810afa27d71c1ecdfb8d6c9156384afaff378fd6d5d73dbfad",
+      "pages": [5, 6]
+    },
+    "focus_before_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round34_after/focus_before_after_p5.png",
+      "sha256": "29425d54efd15dc6efee8525937ea33db553d33bcccec975caf241fed0ff1035",
+      "pages": [5]
+    },
+    "observations": [
+      "Before: page 5 rendered 'Four covered bins carry selected three-' followed by 'condition static evidence.'",
+      "After: page 5 renders 'The audit provides static evidence only for the four covered bins.' without the old three-condition split.",
+      "Page 5 column endings remain stable after the localized sentence rewrite.",
+      "Page 6 Figure 3 and its caption remain visually stable."
+    ]
+  },
+  "pdf_identity": {
+    "before_sha256": "ed41a93c5140bb9e06fce36bff58e65130e7d81dd448a9aaa3d9dc7dccb23628",
+    "after_sha256": "0bfba9b0b69f0d480f28b1202ec6535c1d23fdef18e8348c79763b4949074bff",
+    "after_pdfinfo": {
+      "creation_date": "Sat Jun 6 13:21:10 2026 CST",
+      "mod_date": "Sat Jun 6 13:21:10 2026 CST",
+      "pages": 11,
+      "page_size": "595.276 x 841.89 pts (A4)",
+      "file_size_bytes": 5188704,
+      "pdf_version": "1.5"
+    }
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "pass",
+      "evidence": "Exit 0; acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "pass",
+      "evidence": "No matches."
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "pass",
+      "evidence": "102 passed in 15.52s."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "pass",
+      "evidence": "ok=true; violations=[], unsafe_figure_violations=[], venue_wrapper_violations=[]"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "pass",
+      "evidence": "ok=true; title and abstract match metadata; abstract_word_count=169"
+    },
+    {
+      "command": "rg -n \"Four covered bins carry selected three-|condition static evidence|The audit provides static evidence only|four covered bins|Clearcoat is\" tmp/acl_main_visual_iter_20260606_round34_current/page5.txt tmp/acl_main_visual_iter_20260606_round34_after/pages5_6.txt || true",
+      "result": "pass",
+      "evidence": "Current page 5 text contains the old 'three-' split; after pages 5-6 text contains 'The audit provides static evidence only for' and 'the four covered bins.'"
+    }
+  ],
+  "workspace_note": "The repository had unrelated pre-existing modified paper, docs, evidence, figure, and test files before this round. This evidence record only claims the round34 Results Section 4.3 static-evidence sentence polish plus the new record/evidence files."
+}

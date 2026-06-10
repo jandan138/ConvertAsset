@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-06-03T07:52:31+08:00",
+  "artifact": "supplement_evidence_gate_registry_companion_v2",
+  "scope": "ACL supplement page-3 iteration for the evidence-gate registry companion.",
+  "skills": [
+    "imagegen",
+    "research-figure-ai-slot-composer",
+    "render-visual-reviewer"
+  ],
+  "independent_subagent": false,
+  "claim_boundary": "The AI-generated reader-gate slot is exposition only. It is not experimental evidence, a metric, a VLM run, a navigation run, a benchmark row, or a material-preservation claim. Registered proxy, GRScenes, material, and InternNav render thumbnails carry the evidence-bearing content.",
+  "ai_generated_slot": {
+    "slot_name": "reader_gate",
+    "path": "paper/shared/figures/ai_slots/fig_supplement_evidence_gate_reader_v2_ai_slot.png",
+    "generated_asset_source": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_05044f07302394df016a1f654e55548190b012b934d59429c2.png",
+    "sha256": "2c020def420d320e56f1374097313207b337153e116ca443c523c05f1382bf99",
+    "bytes": 892403,
+    "size": [1774, 887],
+    "active_fraction_threshold245": 0.08492645236403569,
+    "active_fraction_threshold238": 0.07111744362068155,
+    "red_fallback_fraction": 0.0,
+    "visual_review": "Abstract evidence-gate reader schematic with four lanes and a bounded-claim card; no realistic scene evidence and no paper-critical readable text."
+  },
+  "standalone_figure": {
+    "path": "paper/shared/figures/fig_supplement_evidence_gate_registry_companion.png",
+    "sha256": "095f69039959eddf9ac748569aa94cf34e557596d36c6a129fb9d460896c8884",
+    "bytes": 995518,
+    "size": [1800, 1160],
+    "active_fraction_threshold245": 0.40144540229885056,
+    "active_fraction_threshold238": 0.3911221264367816,
+    "red_fallback_fraction": 0.00004597701149425287,
+    "visual_review": "Deterministic composite with four evidence-gate cards, one separated AI reader-gate card, and an enlarged registered cross-evidence render strip. The final material tiles use image-only crops rather than embedded title text."
+  },
+  "rendered_pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "d5f111eb9b47847d56d4af25ddf4e22ceb1417b6bff574cf498ac42eae8cab20",
+    "bytes": 35084073,
+    "pages": 44,
+    "page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "rendered_page_review": {
+    "pages": [
+      {
+        "page": 3,
+        "path": "tmp/acl_supplement_evidence_gate_registry_v2_review_20260603_final/page-03.png",
+        "renderer": "pdftoppm -f 3 -l 4 -r 140 -png",
+        "size": [1158, 1638],
+        "active_fraction": 0.141003,
+        "red_fallback_fraction": 0.000003,
+        "sha256_prefix": "0679885f341ced0b",
+        "visual_review": "Table S1, the enlarged companion, and caption remain on one page. The lower half now carries a visible cross-evidence render strip instead of the prior sparse blank region."
+      },
+      {
+        "page": 3,
+        "path": "tmp/acl_supplement_evidence_gate_registry_v2_density_20260603/page-03.png",
+        "renderer": "pdftoppm -f 3 -l 3 -r 110 -png",
+        "size": [910, 1287],
+        "active_fraction": 0.149676,
+        "red_fallback_fraction": 0.000001,
+        "sha256_prefix": "aef57835fd91e36b",
+        "visual_review": "Same-page density check under the density-audit resolution."
+      },
+      {
+        "page": 4,
+        "path": "tmp/acl_supplement_evidence_gate_registry_v2_review_20260603_final/page-04.png",
+        "renderer": "pdftoppm -f 3 -l 4 -r 140 -png",
+        "size": [1158, 1638],
+        "active_fraction": 0.109777,
+        "red_fallback_fraction": 0.000012,
+        "sha256_prefix": "c7393e97ff3ae62b",
+        "visual_review": "The following claim-boundary page remains normal after expanding Table S1 companion."
+      }
+    ]
+  },
+  "density_delta": {
+    "prior_page3_active_reference_r110": 0.087227,
+    "final_page3_active_r110": 0.149676,
+    "final_page3_active_r140": 0.141003,
+    "note": "The r110 values use the supplement density-audit resolution. The r140 value is the page visual-review render."
+  },
+  "text_scan_expectations": {
+    "positive": [
+      "Evidence-gate registry for the paper's claim boundary",
+      "AI-generated reader-gate schematic used only for exposition",
+      "not a new experiment, metric, VLM run, or navigation run"
+    ],
+    "negative": [
+      "Red material in these diagnostic cases",
+      "fig_vlm_grounding_cases",
+      "/cpfs/user",
+      "Zihou"
+    ]
+  },
+  "commands": [
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "python -m pytest -q tests/test_paper_layout.py -k \"evidence_gate_registry_companion\"",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "make -C paper acl27-supplement",
+    "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_evidence_gate_registry_companion_v2_20260603.json >/dev/null",
+    "pdftotext paper/venues/acl27/build/supplement.pdf - # positive/negative claim-boundary scan",
+    "pdftoppm -f 3 -l 4 -r 140 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_evidence_gate_registry_v2_review_20260603_final/page",
+    "pdftoppm -f 3 -l 3 -r 110 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_evidence_gate_registry_v2_density_20260603/page",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf | rg '^(Pages|Page size|File size):'",
+    "sha256sum paper/venues/acl27/build/supplement.pdf paper/shared/figures/fig_supplement_evidence_gate_registry_companion.png paper/shared/figures/ai_slots/fig_supplement_evidence_gate_reader_v2_ai_slot.png"
+  ]
+}

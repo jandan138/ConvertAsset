@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_internnav_selected6_neutral_companion_v2_20260604",
+  "date_utc": "2026-06-04",
+  "target": "ACL27 supplement page 33 selected6 neutral navigation companion v2",
+  "target_page": 33,
+  "independent_subagent_review": false,
+  "reason_independent_review_not_used": "Subagent spawning is restricted to explicit user requests in this environment; review followed the render-visual-reviewer checklist locally.",
+  "inputs": {
+    "standalone_figure": "paper/shared/figures/fig_supplement_internnav_selected6_neutral_companion.png",
+    "source_ai_slot": "paper/shared/figures/ai_slots/fig_supplement_internnav_selected6_neutral_gate_ai_slot.png",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_025799cbdba5d7ec016a20ec41a6b8819bb82bb53b037cd766.png",
+    "generator": "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_internnav_selected6_neutral_companion.yaml",
+    "source_registry": "paper/shared/figures/sources.yaml",
+    "source_section": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_review_pages_144dpi": [
+      "tmp/acl_supplement_page33_selected6_neutral_v2_final_20260604/page-32.png",
+      "tmp/acl_supplement_page33_selected6_neutral_v2_final_20260604/page-33.png",
+      "tmp/acl_supplement_page33_selected6_neutral_v2_final_20260604/page-34.png"
+    ],
+    "pdf_review_page_90dpi": "tmp/acl_supplement_page33_selected6_neutral_v2_final_90dpi_20260604/page-33.png"
+  },
+  "hashes": {
+    "source_generated_image_sha256": "e1df556a853dba1d7ecd06434accf7b5a9ef2b4a7918f4f1e6a6c7f8cfb90c0a",
+    "source_ai_slot_sha256": "e1df556a853dba1d7ecd06434accf7b5a9ef2b4a7918f4f1e6a6c7f8cfb90c0a",
+    "standalone_figure_sha256": "91f7f1c750752a1c31286ca6a87a54d05b283a6b73f9c603589a45047b7a39a9",
+    "pdf_sha256": "fa053ee8ac75d3c1dced99e3ee5377c6d1c4c962978fa648d4572ae6599545fc",
+    "page32_render_144dpi_sha256": "d0d15fef17fe6a3e4bb71fd629baa624dab27980ea057777673c38f78b982ff3",
+    "page33_render_144dpi_sha256": "4908225031c1b11adc115ba98e7873bc5f41480e97f38d07a3ebf0d2d1401a28",
+    "page34_render_144dpi_sha256": "fc76946b530892ef9d9a6d7753cd0aef197932d377a9de2892e6ef9a25a9508e",
+    "page33_render_90dpi_sha256": "672d2014513b06e3d0b310f88513311ffbc5c03861077bb042e398408016ed78"
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks.",
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, matching the sparse-page density audit.",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90."
+  },
+  "metrics": {
+    "source_ai_slot_size_px": [
+      1536,
+      1024
+    ],
+    "source_ai_slot_layout_guard_active238": 0.374973297,
+    "source_ai_slot_layout_guard_active245": 0.438938777,
+    "source_ai_slot_red_pixel_fraction": 0.000078837,
+    "standalone_current_size_px": [
+      1500,
+      1900
+    ],
+    "standalone_current_layout_guard_active238": 0.641001404,
+    "standalone_current_layout_guard_active245": 0.648092632,
+    "standalone_current_red_pixel_fraction": 0.00148807,
+    "round34_page33_active245_90dpi": 0.16917978,
+    "current_page33_active245_90dpi": 0.339810194,
+    "page33_active245_delta": 0.170630414,
+    "current_page33_active238_90dpi": 0.334303396,
+    "current_page33_red_pixel_fraction_90dpi": 0.000673053,
+    "current_page32_active245_144dpi": 0.194515577,
+    "current_page33_active245_144dpi": 0.323290175,
+    "current_page34_active245_144dpi": 0.26857209,
+    "pdf_page_count": 45,
+    "pdf_file_size_bytes": 49969445
+  },
+  "layout_iteration": {
+    "before": "The selected6 neutral cases were shown by a generic two-image suppcasepair float. Page 33 had two horizontal panels and substantial empty space.",
+    "after": "The same selected case evidence is reflowed into a 1500 x 1900 companion board with registered still/route crops, detail tiles, a compact evidence strip, and an AI selected6-neutral gate slot used only for exposition.",
+    "result": "Accepted: page 33 remains page 33 in a 45-page supplement, active245 at 90 dpi roughly doubles, and the caption preserves the navigation-metric boundary."
+  },
+  "visual_review": {
+    "overall_verdict": "PASS",
+    "standalone_figure": "PASS: the board keeps case 493_493 and case 484_484 visible, expands the evidence into still and route crops, and keeps the AI slot as a bounded review-gate schematic.",
+    "pdf_page_33": "PASS: the figure and caption fit on page 33 without clipping, overlap, or page-count spill.",
+    "neighbor_pages": "PASS: pages 32 and 34 remain the selected6 divergent and 0036/0066 asymmetric case pages, respectively.",
+    "claim_boundary": "PASS: the caption says the AI-generated selected6-neutral gate schematic is used only for exposition and the visual expansion does not become an aggregate navigation metric."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'internnav_selected6_neutral_companion or has_task_media_atlases'",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "make -C paper acl27-supplement",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf",
+    "pdftoppm -r 144 -png -f 32 -l 34 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page33_selected6_neutral_v2_final_20260604/page",
+    "pdftoppm -r 90 -png -f 33 -l 33 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page33_selected6_neutral_v2_final_90dpi_20260604/page"
+  ]
+}

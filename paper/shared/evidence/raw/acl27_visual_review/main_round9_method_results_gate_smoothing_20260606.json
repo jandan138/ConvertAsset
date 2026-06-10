@@ -1,0 +1,60 @@
+{
+  "review_id": "main_round9_method_results_gate_smoothing_20260606",
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "pdf": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "18c9199b53b4036b783f0ee848d84bbaf22886648fa7a47acda761fe974e7d6f",
+    "pages": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "bytes": 5189433,
+    "created": "Sat Jun 6 09:13:39 2026 CST"
+  },
+  "scope": [
+    "paper/venues/acl27/sections/method.tex",
+    "paper/venues/acl27/sections/results.tex"
+  ],
+  "visual_artifacts": {
+    "before_all_contact_sheet": "tmp/acl_main_visual_iter_20260606_round9_current/contact_sheets/main_pages_01_all_current.png",
+    "before_page4": "tmp/acl_main_visual_iter_20260606_round9_current/pages_180/main-04.png",
+    "after_page3": "tmp/acl_main_visual_iter_20260606_round9_after2/pages_180/main-03.png",
+    "after_page4": "tmp/acl_main_visual_iter_20260606_round9_after2/pages_180/main-04.png",
+    "after_page5": "tmp/acl_main_visual_iter_20260606_round9_after2/pages_180/main-05.png",
+    "after_contact_sheet": "tmp/acl_main_visual_iter_20260606_round9_after2/contact_sheets/main_pages_03_05_after2.png",
+    "after_layout_text": "tmp/acl_main_visual_iter_20260606_round9_after2/text/main_layout.txt"
+  },
+  "visual_findings": [
+    "Page 4 previously exposed long inline backend identifiers in the Gate 2 Method paragraph, creating jagged monospaced line breaks.",
+    "The accepted render replaces those identifiers with model roles, leaving checkpoint identity to repository provenance records.",
+    "Results still starts on page 4 and Figure 2 remains stable on page 5 without caption collision.",
+    "The final page-4 Results opener now frames Figure 2 as orientation evidence rather than VLM-equivalence evidence."
+  ],
+  "change_summary": [
+    "Replaced inline full Gemma4 and Qwen checkpoint identifiers in the main Method prose with canonical/diagnostic backend roles.",
+    "Changed the Gate 1 description from obvious visual structure to first-order visual structure.",
+    "Reworded the Results opener to state that Figure 2 is orientation evidence, not VLM-equivalence evidence."
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed; built 11-page A4 main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "85 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "ok"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "ok"
+    }
+  ],
+  "residual_risk": "This is a focused p3-p5 method/results readability pass, not a complete final-upload audit or integrity-fingerprint refresh."
+}

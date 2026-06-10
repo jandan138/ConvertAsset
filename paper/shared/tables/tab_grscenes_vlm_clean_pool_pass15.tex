@@ -1,16 +1,28 @@
 \begin{table*}[t]
 \centering
-\caption{Clean-pool GRScenes VLM grounding pilot over 15 blind-visual-QA PASS original/converted pairs. Values are hit counts for original/converted renders. The pool is larger than the earlier four-pair canonical pilot, but it is still below the 20-pair final benchmark gate and is not final benchmark evidence.}
+\caption{Clean-pool GRScenes VLM grounding pilot over 15 blind-visual-QA PASS original/converted pairs. Counts are O/C hits under the structured-text prompt; the pool remains below the 20-pair benchmark threshold and is a control, not final benchmark evidence.}
 \label{tab:grscenes_vlm_clean_pool_pass15}
-\scriptsize
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{lllcccp{0.32\textwidth}}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.15\textwidth}
+                >{\raggedright\arraybackslash}p{0.07\textwidth}
+                >{\raggedright\arraybackslash}p{0.12\textwidth}
+                >{\raggedright\arraybackslash}p{0.12\textwidth}
+                >{\raggedright\arraybackslash}p{0.13\textwidth}
+                >{\raggedright\arraybackslash}p{0.20\textwidth}@{}}
 \toprule
-\textbf{Probe} & \textbf{Format} & \textbf{Answer rows} & \textbf{Answer O/C} & \textbf{Raw point O/C} & \textbf{Norm-1000 point O/C} & \textbf{Note / boundary} \\
+\textbf{Probe} & \textbf{Rows} & \textbf{Answer} & \textbf{Raw point} & \textbf{Norm-1000 point} & \textbf{Scope} \\
 \midrule
-Gemma4 local & structured\_text & 30/30 & 15/15 / 15/15 & 0/15 / 0/15 & 8/15 / 6/15 & Norm-1000: 11/15 same hit status; 5/15 both-hit; mean point delta 27.90 px \\
-Qwen2.5-VL structured & structured\_text & 23/30 & 8/11 / 9/12 & 5/14 / 5/15 & 0/14 / 0/15 & Coordinate semantics unresolved; norm agreement is 14/14 only because all comparable norm points miss; raw pair agreement 9/14 with 2/14 both-hit \\
+Gemma4 local & 30/30 & 15/15 / 15/15 & 0/15 / 0/15 & 8/15 / 6/15 & pilot preservation control \\
+Qwen2.5-VL structured & 23/30 & 8/11 / 9/12 & 5/14 / 5/15 & 0/14 / 0/15 & coordinate-format diagnostic \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabular}
+\par\vspace{0.25em}
+\begin{minipage}{0.88\textwidth}
+\scriptsize
+\emph{Notes.} Gemma4 has 11/15 normalized-1000 same-hit-status pairs, 5/15
+both-hit pairs, and 27.90 px mean point delta. Qwen2.5-VL normalized agreement
+is an all-miss agreement over comparable points; raw pair agreement is 9/14
+with 2/14 both-hit.
+\end{minipage}
 \end{table*}

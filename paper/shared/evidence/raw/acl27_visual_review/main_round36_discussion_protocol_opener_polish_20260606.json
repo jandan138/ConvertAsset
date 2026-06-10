@@ -1,0 +1,105 @@
+{
+  "round": 36,
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "target_pdf": "paper/venues/acl27/build/main.pdf",
+  "target_area": {
+    "pages": [9, 10],
+    "source": "paper/venues/acl27/sections/discussion.tex",
+    "lines_after_change": "4-10",
+    "description": "Discussion opener paragraph under 'Protocol, not leaderboard.' and adjacent Limitations/Figure 4 spread"
+  },
+  "change_summary": [
+    "Replaced the old converter-leaderboard wording with a tighter protocol framing: noMDL is a visible intervention, not proof that a tool is safe, faster, or better than NVIDIA's route.",
+    "Added 'The gate is the unit, not the tool' to make the Discussion opener carry the paper's central gated-evidence story.",
+    "Replaced the final language-grounding sentence with 'One gate can pass while the probe still sees a change.'"
+  ],
+  "visual_review": {
+    "before_render_dir": "tmp/acl_main_visual_iter_20260606_round36_current",
+    "after_render_dir": "tmp/acl_main_visual_iter_20260606_round36_after",
+    "before_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round36_current/contact_sheet.png",
+      "sha256": "bb338948ec4a1152c302df2955b105308ab448334b2c6fee0ab1f268e6b3742c"
+    },
+    "after_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round36_after/contact_sheet.png",
+      "sha256": "d992b186c30adfa84ee9778d197127bfabb886324e8773c1753113f210f4e903"
+    },
+    "focus_before_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round36_after/focus_before_after_p9.png",
+      "sha256": "92d48e3763b04cf4bc4ae61ad2126821b38e317512455167c59c819fba6bf221",
+      "pages": [9]
+    },
+    "focus_pages_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round36_after/focus_p9_p10_after.png",
+      "sha256": "eaaa80f0fddbd186af259f4be04a1c18b17c2726b8035108e5f8739127c886c1",
+      "pages": [9, 10]
+    },
+    "focus_adjacent_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round36_after/focus_p8_p9_after.png",
+      "sha256": "c5c8a93df41cacb4b0b7ae78152ab152e22f6233847379c39b307902870a8fa2",
+      "pages": [8, 9]
+    },
+    "text_extracts": {
+      "before_page9": {
+        "path": "tmp/acl_main_visual_iter_20260606_round36_current/page9.txt"
+      },
+      "after_pages9_10": {
+        "path": "tmp/acl_main_visual_iter_20260606_round36_after/pages9_10.txt",
+        "sha256": "1824e3606e61cd7d0b91087d0fb1d1362f87324c48b25573dd325962a71a3be9"
+      }
+    },
+    "observations": [
+      "Before: page 9 rendered 'harm-' followed by 'less, faster' in the Discussion opener.",
+      "Before: page 9 rendered 'NVIDIA As-' followed by 'set Converter baseline'.",
+      "Intermediate phrasings were rejected because they introduced 'con-'/'verter', 'base-'/'line', 'instru-'/'ments', 'test in-'/'puts', 'sepa-'/'rate', or 'Pass-'/'ing' splits.",
+      "After: page 9 renders the protocol opener as a gated-evidence story with 'The gate is the unit, not the tool' and without the old target split markers.",
+      "After: Limitations remains at the top of the right column on page 9, and Figure 4, Ethical Considerations, and References remain stable on page 10."
+    ]
+  },
+  "pdf_identity": {
+    "before_sha256": "54acf980380eb24eb818e61c72988e7d15d973153447005191d462bc346efb9e",
+    "after_sha256": "63f8f5701ca35244fd143fa2dfc146ae1f24c58e84384ffdc7a5775819966a1e",
+    "after_pdfinfo": {
+      "creation_date": "Sat Jun 6 14:21:25 2026 CST",
+      "mod_date": "Sat Jun 6 14:21:25 2026 CST",
+      "pages": 11,
+      "page_size": "595.276 x 841.89 pts (A4)",
+      "file_size_bytes": 5188621,
+      "pdf_version": "1.5"
+    }
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "pass",
+      "evidence": "Exit 0; acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "pass",
+      "evidence": "No matches."
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "pass",
+      "evidence": "102 passed in 15.62s."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "pass",
+      "evidence": "ok=true; violations=[], unsafe_figure_violations=[], venue_wrapper_violations=[]"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "pass",
+      "evidence": "ok=true; title and abstract match metadata; abstract_word_count=169"
+    },
+    {
+      "command": "rg -n \"harm-|less, faster|As-|set Converter|test in-|puts;|sepa-|rate\\. Passing|Pass-|ing one gate|The contribution is a measurement protocol|The gate is the unit|NVIDIA's route|does not rank tools|One gate can pass\" tmp/acl_main_visual_iter_20260606_round36_current/page9.txt tmp/acl_main_visual_iter_20260606_round36_after/pages9_10.txt paper/venues/acl27/sections/discussion.tex || true",
+      "result": "pass",
+      "evidence": "Current page 9 text contains the old 'harm-' and 'As-' split markers; after pages 9-10 text and discussion.tex contain the final protocol/gate wording and no target split markers."
+    }
+  ],
+  "workspace_note": "The repository had unrelated pre-existing modified paper, docs, evidence, figure, and test files before this round. This evidence record only claims the round36 Discussion opener polish plus the new record/evidence files."
+}

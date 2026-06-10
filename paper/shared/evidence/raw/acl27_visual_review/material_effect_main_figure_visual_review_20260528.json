@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "status": "material_effect_main_figure_visual_review",
+  "reviewed_at_utc": "2026-05-28T14:28:46Z",
+  "reviewer_mode": "local_codex_visual_review_not_independent_subagent",
+  "source_figure": {
+    "path": "paper/shared/figures/fig_material_effect_baseline_qualitative.png",
+    "hash_sha256": "e0cea32c186661ce2efcf736fd7fb0f714f7d78b411364b029374e0e473e187a",
+    "size_pixels": [
+      1124,
+      672
+    ],
+    "strong_red_pixels": 0,
+    "redish_pixels": 0,
+    "warm_red_dominant_pixels": 0,
+    "magenta_fallback_like_pixels": 0
+  },
+  "current_pdf": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "hash_sha256": "59636b2dbd5b43f90c49ddcf72649a018005790254f26558724f1c15fd2cb6b7",
+    "pages": 11,
+    "bytes": 4066538,
+    "creation_date": "Thu May 28 23:22:53 2026 CST"
+  },
+  "rendered_page_check": {
+    "temporary_path": "/tmp/convertasset_fig3_2322_diag/page-08.png",
+    "hash_sha256": "e8cf7110e83bfe8b44d7674dd29cee26d7a4917aea70dc783db07ee3e18c7f90",
+    "page": 8,
+    "size_pixels": [
+      1819,
+      2573
+    ],
+    "strong_red_pixels": 0,
+    "redish_pixels": 0,
+    "warm_red_dominant_pixels": 0,
+    "magenta_fallback_like_pixels": 0
+  },
+  "embedded_image_check": {
+    "temporary_path": "/tmp/convertasset_fig3_2322_diag/extracted/img-000.png",
+    "hash_sha256": "86f29b67e14a1f271abfa157134da887c5bf4a7a5c7cdc7c1a13e58b9b11402a",
+    "size_pixels": [
+      1124,
+      672
+    ],
+    "strong_red_pixels": 0,
+    "redish_pixels": 0,
+    "warm_red_dominant_pixels": 0,
+    "magenta_fallback_like_pixels": 0
+  },
+  "provenance_gate": {
+    "command": "python paper/shared/evidence/experiments/08_material_effect_baseline/check_qualitative_clean_provenance.py",
+    "ok": true,
+    "status": "clean_material_effect_panel_ready",
+    "selected_case_count": 4,
+    "complete_case_count": 4,
+    "checked_original_mdl_log_count": 4,
+    "missing_original_mdl_log_count": 0,
+    "original_mdl_error_signal_count": 0,
+    "blockers": []
+  },
+  "original_mdl_error_terms_checked": [
+    "C108",
+    "C120",
+    "Failed to create MDL shade node",
+    "KooPbr",
+    "KooPbr_maps",
+    "could not find module"
+  ],
+  "mdl_import_fix_dry_run": {
+    "command": "python scripts/fix_mdl_absolute_imports.py --dry-run --follow-symlinks --report /tmp/convertasset_fig3_current_diag/mdl_import_dryrun.json /cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADA8_usd /cpfs/user/zhuzihou/assets/zzh-grscenes_nomdl_full_work_20260521/scenes/GRScenes-100/home_scenes/scenes/MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+    "applied": false,
+    "candidate_files": 1566,
+    "changed_files": 0,
+    "total_replacements": 0,
+    "errors": 0
+  },
+  "verdict": "PASS_WITH_BOUNDARY",
+  "visible_evidence": [
+    "The current ACL PDF Figure 3 is the material-effect qualitative panel on page 8.",
+    "All four Original MDL cells show the intended target context without saturated red material fallback.",
+    "The source figure, rendered PDF page, and extracted embedded PDF image all contain zero strong-red pixels under the project spot check.",
+    "The four selected Original MDL stderr logs contain none of the checked KooPbr, module, or MDL shade-node error terms.",
+    "The NVIDIA cells remain washed or lower fidelity for some selected rows, so the panel remains selected qualitative evidence only."
+  ],
+  "claim_boundary": {
+    "may_support": "selected qualitative inspection for four GRScenes-covered material-effect bins after clean original-MDL rerender provenance",
+    "must_not_support": [
+      "population-level NVIDIA failure rate",
+      "mechanism-level MDL preservation certification",
+      "procedural texture preservation success",
+      "official-scene NVIDIA navigation baseline"
+    ]
+  },
+  "diagnosis": "The user-reported red Original MDL material was a stale pre-rerender artifact or an older cached PDF/source figure. The current build and current source figure do not show the red material fallback, the clean-provenance guard passes, and the selected scene roots no longer require MDL import rewrites."
+}

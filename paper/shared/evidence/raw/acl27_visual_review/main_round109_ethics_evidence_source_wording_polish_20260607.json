@@ -1,0 +1,92 @@
+{
+  "round": 109,
+  "date": "2026-06-07",
+  "topic": "ACL main Ethical Considerations evidence-source wording polish",
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "scope": {
+    "section": "Ethical Considerations",
+    "source_file": "paper/venues/acl27/sections/ethical-considerations.tex",
+    "pdf_page": 9,
+    "change_class": "reviewer-facing evidence-source wording polish"
+  },
+  "baseline": {
+    "pdf_hash": "ea46134a76a8dfa7c94bf73f79da848c7b5f858d1d419b8b5234c4d2f0f1b406",
+    "artifact_dir": "tmp/acl_main_visual_iter_20260607_round109_current",
+    "page_png": "tmp/acl_main_visual_iter_20260607_round109_current/page-09.png",
+    "page_png_sha256": "983a16f1537739f21fdadec11b2cfd61d15c4177a9d7757dd82f878f99df0507",
+    "page_text": "tmp/acl_main_visual_iter_20260607_round109_current/text/page-09.txt",
+    "page_text_sha256": "58844b5b72a4542d1b33df5c5ea396a934d16835a0da8fc67bccb8b19d1fc48d",
+    "visible_issue": [
+      "page 9 Ethical Considerations: Evidence comes from project artifacts and cited sources."
+    ],
+    "reader_effect": "The disclosure preserved the evidence boundary but used an internal production phrase in reviewer-facing text."
+  },
+  "change": {
+    "accepted_summary": "Rewrote the evidence-source sentence so it names paper evidence surfaces directly while retaining the tool-output boundary.",
+    "before": "Evidence comes from project artifacts and cited sources. No tool output is treated as evidence. All claims remain tied to evidence tables, logs, and figures.",
+    "after": "Evidence comes from cited sources, logs, tables, and figures; no tool output is treated as evidence."
+  },
+  "rejected_candidates": [
+    {
+      "candidate": "The final gate asks whether converted scenes still enter an executable embodied stack. It is not a benchmark result. The official...",
+      "reason": "The rebuilt page 5 introduced Ku- / JiaLe, In- / ternNav, and lo- / cal splits."
+    },
+    {
+      "candidate": "This stack-entry gate is not a benchmark result; the official...",
+      "reason": "The rebuilt page 5 introduced benchmark re- / sult and moved a wide gap to scenes.       Means."
+    },
+    {
+      "candidate": "This stack-entry gate is not a benchmark result.\\ The official...",
+      "reason": "The rebuilt page 5 still introduced benchmark re- / sult and the scenes.       Means gap."
+    }
+  ],
+  "after": {
+    "pdf_hash": "51b1866799b5224e2e9e091a69e58196e1a98234bc65e243f575b13223a62575",
+    "artifact_dir": "tmp/acl_main_visual_iter_20260607_round109_current/after",
+    "page_png": "tmp/acl_main_visual_iter_20260607_round109_current/after/page-09.png",
+    "page_png_sha256": "9653c852a0e642beaec6dc03c5e0920c489d10051df6286cac70b139b56e4f53",
+    "page_text": "tmp/acl_main_visual_iter_20260607_round109_current/after/text/page-09.txt",
+    "page_text_sha256": "131f0b52a9671b566f0dd977d6cc97ff9a689762612f0a8bad6afe26a8a9dd55",
+    "accepted_visual_read": [
+      "page 9 lines 420-424: Evidence comes from cited sources, logs, tables, and figures; no tool output is treated as evidence. This disclosure records tool use; it does not widen the empirical claim scope."
+    ],
+    "page5_unchanged": {
+      "page_png_sha256": "34d73573bc3f60bc4dcf4cd97d6cfe0ce7672a12cebbec4d1830c453ff9087ac",
+      "page_text_sha256": "1fa6b032fad405aa5f01f1e157c3e455a2b123d8026591699853135ec33db386",
+      "after_page_png_sha256": "34d73573bc3f60bc4dcf4cd97d6cfe0ce7672a12cebbec4d1830c453ff9087ac",
+      "after_page_text_sha256": "1fa6b032fad405aa5f01f1e157c3e455a2b123d8026591699853135ec33db386",
+      "residual_text": "result.    The official KuJiaLe val unseen"
+    },
+    "page_count": 10,
+    "pdf_file_size_bytes": 5183416,
+    "targeted_scan_result": "Page 9 no longer contains project artifacts in the main PDF; page 5 is unchanged after rejected candidates were restored."
+  },
+  "verification": {
+    "make": {
+      "command": "make -C paper acl27",
+      "status": "passed",
+      "log": "/tmp/acl27_round109_final_verify_make.log"
+    },
+    "latex_blocker_scan": {
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    "pytest": {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 13.12s"
+    },
+    "claim_boundaries": {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true, violations empty"
+    },
+    "metadata_consistency": {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  },
+  "claim_boundary": "The accepted edit changes only one Ethical Considerations disclosure sentence. It does not alter metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes; it keeps the statement that tool output is not evidence.",
+  "residual_risk": "The page-5 result.    The official spacing remains unchanged because three Round109 candidates produced worse line breaks."
+}

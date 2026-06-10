@@ -1,0 +1,73 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 72,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main page 10 Ethical Considerations linebreak and disclosure polish",
+  "before_pdf_sha256": "3a9ce97bfb4ff02f9fabb55af5b20aca9e171e15c00c3bb5d6841c03ef23ea7e",
+  "after_pdf_sha256": "fcf4f1e4363ecbac03837effacf8d3d536562572c19b4f2f4318b29e6f5a1236",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round72_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round72_after",
+    "pages_scanned_initial": [9, 10, 11],
+    "pages_scanned_after": [9, 10],
+    "rendered_after_screenshot": "tmp/acl_main_visual_iter_20260607_round72_after/page-10.png",
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 9 -l 10 -r 180 -png <pdf> tmp/acl_main_visual_iter_20260607_round72_after/page"
+  },
+  "defect": {
+    "page": 10,
+    "class": "body text linebreak and closing-section prose polish",
+    "before_observation": [
+      "Page 10 Ethical Considerations shared the page with References and showed body-line splits such as unsafe de-ployment, fil-tering, responsibil-ity, and visual pan-els.",
+      "Naive shortening moved the References heading to the bottom of the left column, so the accepted fix had to preserve the right-column References start."
+    ],
+    "reader_effect": "The final reviewer-facing disclosure block was readable but visually choppy and slightly less ACL-like than the surrounding closure sections."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/ethical-considerations.tex",
+      "summary": "Rewrote the risk/disclosure sentences with shorter claim-boundary language while preserving the synthetic-asset, license, safety, AI-tool disclosure, and evidence-scope boundaries."
+    },
+    {
+      "path": "paper/venues/acl27/sections/ethical-considerations.tex",
+      "summary": "Localized high hyphen penalties and sloppy paragraph setting to Ethical Considerations only, avoiding body end-of-line hyphenation without changing the rest of the paper."
+    },
+    {
+      "path": "paper/venues/acl27/sections/ethical-considerations.tex",
+      "summary": "Added an explicit disclosure-scope sentence: tool-use disclosure does not widen the empirical claim scope."
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "Pages 9-10 show no accepted body-column end-of-line split words in Ethical Considerations; remaining hyphen matches are reference-column hyphenation or the literal in-line term manuscript-support.",
+    "visual_result": "Figure 4 remains stable, Ethical Considerations fills the left column, and References starts cleanly at the top of the right column.",
+    "page_count": 11
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 13.25s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Disclosure and linebreak polish only. No empirical result, table value, figure evidence, citation, or supported/forbidden claim scope was changed.",
+  "residual_risk": "References retain normal bibliography hyphenation in narrow columns; this round intentionally treated only the Ethical Considerations body as the blocking reader-facing defect."
+}

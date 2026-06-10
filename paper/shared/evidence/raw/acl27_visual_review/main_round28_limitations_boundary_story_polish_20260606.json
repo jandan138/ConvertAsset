@@ -1,0 +1,84 @@
+{
+  "round": 28,
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "target_pdf": "paper/venues/acl27/build/main.pdf",
+  "target_area": {
+    "pages": [9, 10],
+    "source": "paper/venues/acl27/sections/limitations.tex",
+    "lines_after_change": "15-21",
+    "description": "Limitations opening paragraph on evidence boundary, clean pool, stress set, and Qwen2.5-VL coordinate semantics"
+  },
+  "change_summary": [
+    "Reframed the Limitations opening from a narrow-evidence list into a deliberate evidence-boundary statement.",
+    "Kept the clean visual-QA pool size, 20-pair final gate caveat, 30-pair stress-set composition, and Qwen2.5-VL coordinate caveat unchanged.",
+    "Changed the broad-distribution caveat to a clearer ACL-style formulation: controlled material-shift stress-test claim, not a broad benchmark over GRScenes."
+  ],
+  "visual_review": {
+    "before_render_dir": "tmp/acl_main_visual_iter_20260606_round28_current",
+    "after_render_dir": "tmp/acl_main_visual_iter_20260606_round28_after",
+    "before_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round28_current/contact_sheet.png",
+      "sha256": "64c25e2dad751c091724405ff917fd61ac66e30cb944a978d011c1f12b2a655c"
+    },
+    "after_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round28_after/contact_sheet.png",
+      "sha256": "c9294a23c0d8ca8fcf0f627130ff88d833fb1a1abb0feba45a5ed5b3afc0cbd7"
+    },
+    "focus_before_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round28_after/focus_before_after_p9_p10.png",
+      "sha256": "c990266a00f6d29c78e5d713cb7e14ec4b93c8dad6f0ce1486fa4eb7383df443",
+      "pages": [9, 10]
+    },
+    "observations": [
+      "Page 9 keeps the Discussion, Limitations, and Conclusion flow on the same page.",
+      "The Limitations opening now reads as a boundary statement and removes the looser 'a broad GRScenes benchmark distribution' phrasing.",
+      "Page 10 remains visually stable after the one-line page 9 compaction."
+    ]
+  },
+  "pdf_identity": {
+    "before_sha256": "4564f0eb59b4301e3fb6d0423e529544566179d842fe3b1dabd76d4df175a7f1",
+    "after_sha256": "367c40a1bbdd5272e3ef15305511ec8d2141d63a66b8d4fdf7ff43a64b92b85d",
+    "after_pdfinfo": {
+      "creation_date": "Sat Jun 6 12:16:49 2026 CST",
+      "mod_date": "Sat Jun 6 12:16:49 2026 CST",
+      "pages": 11,
+      "page_size": "595.276 x 841.89 pts (A4)",
+      "file_size_bytes": 5188964,
+      "pdf_version": "1.5"
+    }
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "pass",
+      "evidence": "Exit 0; acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "pass",
+      "evidence": "No matches."
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "pass",
+      "evidence": "102 passed in 13.41s."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "pass",
+      "evidence": "ok=true; violations=[], unsafe_figure_violations=[], venue_wrapper_violations=[]"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "pass",
+      "evidence": "ok=true; title and abstract match metadata; abstract_word_count=169"
+    },
+    {
+      "command": "pdftotext paper/venues/acl27/build/main.pdf tmp/acl_main_visual_iter_20260606_round28_after/main.txt",
+      "result": "pass",
+      "evidence": "PDF text contains the new evidence-boundary, preservation-claim, material-shift stress-test, broad benchmark, and coordinate-semantics wording."
+    }
+  ],
+  "workspace_note": "The repository had unrelated pre-existing modified paper and table files before this round. This evidence record only claims the round28 Limitations opening polish plus the new record/evidence files."
+}

@@ -1,0 +1,159 @@
+{
+  "record_id": "supplement_metric_boundary_bridge_v2_20260603",
+  "date_utc": "2026-06-03",
+  "scope": "ACL 2027 supplement page 15 metric-boundary bridge v2 visual-density iteration",
+  "motivation": {
+    "target_pages": [
+      14,
+      15,
+      16
+    ],
+    "target_page_before": "Round 13 density audit ranked page 15 as the lowest non-reference page after the theory hypothesis-boundary v2 pass.",
+    "round13_page15_active245_fraction_90dpi": 0.138870724,
+    "goal_alignment": "Use a text-free AI metric-boundary lens slot plus additional registered render crops to make the Metric Boundary Summary page less sparse without changing the evidence boundary or page count."
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks",
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, used for sparse-page raster review",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90"
+  },
+  "claim_boundary": {
+    "paper_use": "visual reading guide for connecting proxy, grounding, material, and navigation metric families to their claim boundaries",
+    "not_new_evidence": true,
+    "boundary_statement": "Exposition only; not experimental evidence.",
+    "notes": "The metric-boundary lens AI slot is a schematic for reading structure only. Evidence-bearing panels remain registered render crops and deterministic overlays composed by paper/shared/figures/gen_supplement_task_media_atlases.py."
+  },
+  "ai_slots": {
+    "metric_boundary_lens": {
+      "path": "paper/shared/figures/ai_slots/fig_supplement_metric_boundary_lens_ai_slot.png",
+      "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_041386b68e8da9df016a204b7c8a6c8196b7967220838735c6.png",
+      "sha256": "2a04610f54e87cf880e0c7becd87c075dc0314e5e19b398c70dbd4523c9e95c2",
+      "size_px": [
+        1744,
+        902
+      ],
+      "bytes": 1219571,
+      "layout_guard_active_fraction": 0.190621885,
+      "active245_fraction": 0.243638627,
+      "red_pixel_fraction": 0.0,
+      "role": "AI-generated metric-boundary lens schematic only; deterministic figure code draws paper labels, boundary text, and all evidence-source annotations."
+    }
+  },
+  "final_figure": {
+    "path": "paper/shared/figures/fig_supplement_metric_boundary_bridge.png",
+    "sha256": "ff339303e68fcb2bde0bab3c91a7ed32046c871c76a2641a48b008571347c926",
+    "size_px": [
+      1800,
+      1250
+    ],
+    "bytes": 1051509,
+    "layout_guard_active_fraction": 0.362602222,
+    "active245_fraction": 0.381038667,
+    "red_pixel_fraction": 0.002457333,
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_metric_boundary_bridge.yaml",
+    "registered_real_sources_added_in_v2": [
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_0000.png"
+    ],
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "The standalone v2 bridge adds a metric-boundary lens strip with a text-free AI schematic and three original/noMDL selected-failure render pairs. The four metric-family lanes remain readable, and the red fallback fraction stays below the guard threshold."
+  },
+  "pdf_review": {
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_sha256": "4e04ee564a9bad376ec8d51453748035de2bafa731dfb5053933c63858beb9e9",
+    "pdf_bytes": 43513061,
+    "page_count": 45,
+    "page_size": "A4",
+    "review_window": [
+      14,
+      16
+    ],
+    "page15_render_90dpi_before": "tmp/acl_supplement_full_density_review_20260603_round13/page-15.png",
+    "page15_render_90dpi_before_sha256": "0aafb3162ee91baef27a678f70567d4842029d638b5efb4075e6ea599b074175",
+    "page15_active245_fraction_90dpi_before": 0.138870724,
+    "page15_render_90dpi_after": "tmp/acl_supplement_page15_metric_boundary_lens_v3_final_90dpi_20260603/page-15.png",
+    "page15_render_90dpi_after_sha256": "e87adb240d80c3f27ec3b2e305ffde9dfffb8b0b371cd4b98976621986581405",
+    "page15_active245_fraction_90dpi_after": 0.179121334,
+    "page15_active245_delta_90dpi": 0.04025061,
+    "page15_layout_guard_active_fraction_90dpi_after": 0.170000701,
+    "page15_red_pixel_fraction_90dpi_after": 0.000657756,
+    "page14_render_144dpi": "tmp/acl_supplement_page15_metric_boundary_lens_v3_final_20260603/page-14.png",
+    "page14_render_144dpi_sha256": "1c120096ab4e5d19a4568de29e941ddd4499a9abb834049834e5a20c2456fcc5",
+    "page14_active245_fraction_144dpi_after": 0.127156664,
+    "page15_render_144dpi": "tmp/acl_supplement_page15_metric_boundary_lens_v3_final_20260603/page-15.png",
+    "page15_render_144dpi_sha256": "5e210492f0de2fee3416b5bf386218fd74320ff264f37313feba53a2dd744ebc",
+    "page15_active245_fraction_144dpi_after": 0.157927828,
+    "page16_render_144dpi": "tmp/acl_supplement_page15_metric_boundary_lens_v3_final_20260603/page-16.png",
+    "page16_render_144dpi_sha256": "2548cedbcfbde6f6a727c00efc2e2a92a47f4c24ec3fb52f34aaecf8ff632b77",
+    "page16_active245_fraction_144dpi_after": 0.153328308,
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "Rendered page 15 is visibly denser, the enlarged full-textwidth bridge remains inside the one-column layout, the caption stays complete, and pages 14 and 16 show no spill or clipping regression."
+  },
+  "post_review_density_audit": {
+    "audit_dir": "tmp/acl_supplement_full_density_review_20260603_round14",
+    "density_rank_json": "tmp/acl_supplement_full_density_review_20260603_round14/density_rank.json",
+    "low_density_contact_sheet": "tmp/acl_supplement_full_density_review_20260603_round14/low_density_contact.png",
+    "lowest_pages_by_active245": [
+      {
+        "page": 45,
+        "active245_fraction": 0.064967463,
+        "note": "references"
+      },
+      {
+        "page": 43,
+        "active245_fraction": 0.065171418,
+        "note": "references"
+      },
+      {
+        "page": 39,
+        "active245_fraction": 0.139262064,
+        "note": "next non-reference target"
+      },
+      {
+        "page": 14,
+        "active245_fraction": 0.140447555
+      },
+      {
+        "page": 41,
+        "active245_fraction": 0.140809576
+      },
+      {
+        "page": 36,
+        "active245_fraction": 0.143086229
+      }
+    ],
+    "page15_status": "Page 15 no longer appears in the lowest 12 pages after the full-textwidth bridge placement."
+  },
+  "tests": [
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k 'metric_boundary_bridge'",
+      "result": "RED first for missing metric-boundary lens strip/source registration and later for the full-textwidth include; GREEN after implementation: 2 passed, 72 deselected."
+    },
+    {
+      "command": "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+      "result": "completed; regenerated fig_supplement_metric_boundary_bridge.png at 1800x1250."
+    },
+    {
+      "command": "make -C paper acl27-supplement",
+      "result": "completed; paper/venues/acl27/build/supplement.pdf contains 45 A4 pages."
+    },
+    {
+      "command": "pdftoppm -f 14 -l 16 -png -r 144 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page15_metric_boundary_lens_v3_final_20260603/page",
+      "result": "completed; pages 14-16 regenerated for local visual and density review."
+    },
+    {
+      "command": "pdftoppm -f 15 -l 15 -png -r 90 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page15_metric_boundary_lens_v3_final_90dpi_20260603/page",
+      "result": "completed; page 15 regenerated at 90 dpi for direct comparison with the round 13 density baseline."
+    }
+  ],
+  "review_mode": {
+    "skill": "render-visual-reviewer",
+    "independent_subagent_review": false,
+    "reason": "Local pure visual review was used; no separate clean-room subagent was dispatched because independent delegation was not requested."
+  },
+  "residual_risk": "This pass improves page 15 but does not complete the broader supplement-wide visual iteration. Round 14 ranks page 39 as the next low-density non-reference page."
+}

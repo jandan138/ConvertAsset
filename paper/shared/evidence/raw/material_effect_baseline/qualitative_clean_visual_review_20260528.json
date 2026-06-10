@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "status": "material_effect_qualitative_clean_visual_review",
+  "reviewed_at_utc": "2026-05-27T17:30:00Z",
+  "review_mode": "local_pure_visual_review",
+  "reviewed_image": {
+    "path": "paper/shared/figures/fig_material_effect_baseline_qualitative.png",
+    "hash_sha256": "31fc5292c3c77710901c236fe6e2703195bbebd5954c831b0a16056ad375c9f4"
+  },
+  "inputs": {
+    "qualitative_render_manifest": {
+      "path": "paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json",
+      "hash_sha256": "96d975aa9103d3fd860b51a3285dccd9bf0997e3026e57a8f58c863fba681a13"
+    },
+    "figure_report": {
+      "path": "paper/shared/figures/fig_material_effect_baseline_qualitative.report.json",
+      "hash_sha256": "44079f150918c552ceed9151dd7bd0b66b4f2a54dcb026d0fdbf959ecb5199cb"
+    }
+  },
+  "overall_verdict": "WARN",
+  "claim_boundary": {
+    "may_support": "selected qualitative inspection for covered material-effect bins after clean provenance gate",
+    "must_not_support": [
+      "population-level NVIDIA failure rates",
+      "all material effects preserve visual fidelity",
+      "procedural texture preservation success",
+      "official-scene NVIDIA navigation baseline"
+    ]
+  },
+  "checks": [
+    {
+      "item": "Original MDL red fallback",
+      "verdict": "PASS",
+      "visible_evidence": "The four Original MDL cells show the intended targets without saturated red material fallback.",
+      "risk": "None visible in the reviewed contact sheet."
+    },
+    {
+      "item": "Target visibility",
+      "verdict": "WARN",
+      "visible_evidence": "Bottle, cup, and original/noMDL backpack targets are clear. NVIDIA clock and backpack remain low-contrast or washed, but the target shapes are still visible.",
+      "risk": "Use as selected qualitative evidence only; do not turn this into a broad visual-quality win/loss rate."
+    },
+    {
+      "item": "Pair fairness",
+      "verdict": "PASS",
+      "visible_evidence": "Each row uses the same target-centered view across Original MDL, ConvertAsset, and NVIDIA conditions.",
+      "risk": "NVIDIA material conversion changes contrast and color enough that captions/prose must keep the comparison bounded."
+    }
+  ],
+  "recommendation": "Keep the contact sheet available for supplemental or rebuttal inspection, while keeping the ACL main-paper material-effect claim table-bounded."
+}

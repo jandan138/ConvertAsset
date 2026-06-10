@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "review_id": "acl_supplement_navigation_media_atlas_p30_20260604",
+  "date_utc": "2026-06-04",
+  "scope": "ACL27 supplement page 30 navigation media atlas",
+  "root_cause": "The bottom navigation index panels previously treated wide source index sheets as large crops. Under paper-scale placement this made selected rows look compressed, left a partial-row risk, and contradicted the updated AI-slot composer rule to split wide strips into semantic segments before containing them.",
+  "changes": [
+    "Added a regression check requiring the page-30 navigation atlas to use row-card composers and to avoid the old single wide crop.",
+    "Replaced the bottom selected6 panel with deterministic pair row cards for cases 493_493 and 484_484.",
+    "Replaced the bottom 0036/0066 panel with deterministic row-detail cards for four complete official still rows and key original/noMDL start/end cells.",
+    "Preserved contain/letterbox scaling for every row/cell crop; no cover-style placement is used in build_navigation_atlas."
+  ],
+  "local_visual_review": {
+    "reviewer": "Codex local visual review using render-visual-reviewer paper figure protocol; no subagent spawned because this environment only permits spawn_agent when explicitly requested.",
+    "standalone_verdict": "PASS for clipping/containment. The bottom row cards are complete, labels are inside their lanes, and no cell crosses a card boundary.",
+    "pdf_page_30_verdict": "PASS for paper-scale placement. The figure is fully contained on the page, the caption does not collide with the image, and the bottom row cards remain readable as compact context.",
+    "residual_caveat": "The upper 0036/0066 readable route panel remains intentionally small because it is context; larger paired case pages below remain the main qualitative still evidence."
+  },
+  "before": {
+    "pdf_page30_prior_110dpi": {
+      "path": "tmp/acl_render_visibility_fix_20260604/supplement_110/page-30.png",
+      "sha256": "4a2a67ca221b9dd7a79176f8ba9ea7a09e03fc0d848fa04f31d36dfa24c27b8c",
+      "size": [
+        910,
+        1287
+      ],
+      "active245": 0.17160190237113315,
+      "active238": 0.8134506519121903,
+      "layout_active": 0.17299879607571916,
+      "red_ratio": 0.00011953858107704261
+    }
+  },
+  "after": {
+    "standalone_navigation_media_atlas": {
+      "path": "paper/shared/figures/fig_supplement_navigation_media_atlas.png",
+      "sha256": "187cfeecb63c845374508fb4d886d9af3b4eddffafdd3635c947e937f5c9cbf4",
+      "size": [
+        1800,
+        2450
+      ],
+      "active245": 0.30246213151927437,
+      "active238": 0.6862929705215419,
+      "layout_active": 0.3050140589569161,
+      "red_ratio": 0.0004578231292517007
+    },
+    "pdf_page30": {
+      "path": "tmp/acl_render_visibility_fix_20260604/p30_row_cards/page-30.png",
+      "sha256": "546308ff9842578f88856af1a34583b36eafac7373a278c05f89f75671e26049",
+      "size": [
+        1323,
+        1871
+      ],
+      "active245": 0.1680392092700255,
+      "active238": 0.8403697603514355,
+      "layout_active": 0.16926005511177689,
+      "red_ratio": 0.00017048211291167693
+    },
+    "supplement_pdf": {
+      "path": "paper/venues/acl27/build/supplement.pdf",
+      "sha256": "179357ef9ea33993565678888591ed2d1dfcbbb162ce1127abfcea85e3f12be7",
+      "pages": 45
+    }
+  },
+  "commands_run": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'navigation_media_atlas_uses_non_cover_index_row_summaries'",
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "python -m pytest -q tests/test_paper_layout.py -k 'navigation_media_atlas_uses_non_cover_index_row_summaries or task_media_atlases_are_registered_and_dense'",
+    "make -C paper acl27-supplement",
+    "pdftoppm -png -r 160 -f 30 -l 30 paper/venues/acl27/build/supplement.pdf tmp/acl_render_visibility_fix_20260604/p30_row_cards/page"
+  ],
+  "files_changed": [
+    "tests/test_paper_layout.py",
+    "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "paper/shared/figures/fig_supplement_navigation_media_atlas.png",
+    "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex"
+  ],
+  "follow_up_risks": [
+    "Pages 22-23 and 33-38 remain dense visual pages and should be kept in the broader supplement visual-review loop.",
+    "The broader polish goal remains active: this record only closes the page-30 index-row clipping/scale issue."
+  ]
+}

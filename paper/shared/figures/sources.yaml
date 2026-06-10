@@ -36,6 +36,12 @@ figures:
     generated_by: paper/shared/figures/gen_method_pipeline.py
     sources:
       - paper/shared/figures/final_run/
+  - id: fig_acl_method_chain_imagegen
+    outputs:
+      - paper/shared/figures/fig_acl_method_chain_imagegen_v18.png
+    generated_by: paper/shared/figures/prompts/fig_acl_method_chain_gpt_image2_v18.prompt.txt
+    sources:
+      - paper/shared/figures/prompts/fig_acl_method_chain_gpt_image2_v18.prompt.txt
   - id: fig_grscene_qualitative
     outputs:
       - paper/shared/figures/fig_grscene_qualitative.pdf
@@ -43,6 +49,696 @@ figures:
     generated_by: paper/shared/figures/gen_grscene_qualitative.py
     sources:
       - paper/shared/figures/out_tmp/
+  - id: fig_render_scene_evidence_wide
+    outputs:
+      - paper/shared/figures/fig_render_scene_evidence_wide.pdf
+      - paper/shared/figures/fig_render_scene_evidence_wide.png
+    generated_by: paper/shared/figures/gen_render_scene_evidence_wide.py
+    sources:
+      - paper/shared/evidence/raw/renders/
+      - paper/shared/figures/out_tmp/
+  - id: fig_supplement_render_atlas
+    outputs:
+      - paper/shared/figures/fig_supplement_render_atlas.png
+    generated_by: paper/shared/figures/gen_supplement_render_atlas.py
+    sources:
+      - paper/shared/evidence/raw/renders/
+      - paper/shared/figures/out_tmp/
+  - id: fig_supplement_render_scene_evidence_extended
+    outputs:
+      - paper/shared/figures/fig_supplement_render_scene_evidence_extended.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/A_front.png
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/A_top_front_right.png
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/B_front.png
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/B_top_front_right.png
+      - paper/shared/evidence/raw/renders/chestofdrawers_0023/A_front.png
+      - paper/shared/evidence/raw/renders/chestofdrawers_0023/A_top_front_right.png
+      - paper/shared/evidence/raw/renders/chestofdrawers_0023/B_front.png
+      - paper/shared/evidence/raw/renders/chestofdrawers_0023/B_top_front_right.png
+      - paper/shared/figures/out_tmp/mdl_images/orbit_mdl_01.png
+      - paper/shared/figures/out_tmp/nomdl_images/orbit_01.png
+      - paper/shared/figures/out_tmp/mdl_images/orbit_mdl_03.png
+      - paper/shared/figures/out_tmp/nomdl_images/orbit_03.png
+  - id: fig_supplement_render_atlas_opener
+    outputs:
+      - paper/shared/figures/fig_supplement_render_atlas_opener.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_render_pairs.png
+      - paper/shared/figures/fig_render_scene_evidence_wide.png
+      - paper/shared/figures/fig_supplement_render_atlas.png
+      - paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_0000.png
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+      - paper/shared/figures/fig_supplement_navigation_media_atlas.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/supplement/internnav_selected6_case01.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case01.png
+  - id: fig_supplement_proxy_metric_derivation_companion
+    outputs:
+      - paper/shared/figures/fig_supplement_proxy_metric_derivation_companion.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_render_pairs.png
+      - paper/shared/figures/fig_render_scene_evidence_wide.png
+      - paper/shared/figures/fig_supplement_render_atlas.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/converted/converted_0000.png
+      - paper/shared/figures/ai_slots/fig_supplement_proxy_metric_axis_v2_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_proxy_metric_derivation_companion.yaml
+  - id: fig_supplement_metric_boundary_bridge
+    outputs:
+      - paper/shared/figures/fig_supplement_metric_boundary_bridge.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_render_pairs.png
+      - paper/shared/figures/fig_supplement_render_atlas.png
+      - paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_0000.png
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+      - paper/shared/figures/fig_supplement_navigation_media_atlas.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/supplement/internnav_selected6_case01.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case01.png
+      - paper/shared/figures/ai_slots/fig_supplement_metric_boundary_lens_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_metric_boundary_bridge.yaml
+  - id: fig_supplement_grounding_derivation_companion
+    outputs:
+      - paper/shared/figures/fig_supplement_grounding_derivation_companion.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expanded30_target_projection_qa_report.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_0000.png
+      - paper/shared/figures/ai_slots/fig_supplement_metric_contract_gate_v3_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_grounding_derivation_companion.yaml
+  - id: fig_supplement_navigation_derivation_companion
+    outputs:
+      - paper/shared/figures/fig_supplement_navigation_derivation_companion.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_internnav_downstream_panel.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/fig_internnav_rollout_selected6_supp.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_selected6_supp.png
+      - paper/shared/figures/supplement/internnav_selected6_case01.png
+      - paper/shared/figures/supplement/internnav_selected6_case02.png
+      - paper/shared/figures/supplement/internnav_selected6_case03.png
+      - paper/shared/figures/supplement/internnav_selected6_case04.png
+      - paper/shared/figures/supplement/internnav_selected6_case05.png
+      - paper/shared/figures/supplement/internnav_selected6_case06.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case01.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case02.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case03.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case04.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case05.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case06.png
+      - paper/shared/figures/ai_slots/fig_supplement_navigation_metric_gate_v4_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_navigation_derivation_companion.yaml
+  - id: fig_supplement_claim_boundary_examples
+    outputs:
+      - paper/shared/figures/fig_supplement_claim_boundary_examples.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_render_scene_evidence_wide.png
+      - paper/shared/figures/fig_supplement_render_scene_evidence_extended.png
+      - paper/shared/figures/fig_supplement_vlm_coordinate_protocol_atlas.png
+      - paper/shared/figures/fig_supplement_grscenes_vlm_visual_guide.png
+      - paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+      - paper/shared/figures/fig_supplement_navigation_media_atlas.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/supplement/internnav_selected6_case04.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case04.png
+      - paper/shared/figures/ai_slots/fig_supplement_claim_boundary_examples_gate_v2_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_claim_boundary_examples.yaml
+  - id: fig_supplement_evidence_gate_registry_companion
+    outputs:
+      - paper/shared/figures/fig_supplement_evidence_gate_registry_companion.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/tables/tab_acl_evidence_gate_registry.tex
+      - paper/shared/figures/fig_render_pairs.png
+      - paper/shared/figures/fig_render_scene_evidence_wide.png
+      - paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+      - paper/shared/figures/fig_supplement_navigation_media_atlas.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/ai_slots/fig_supplement_evidence_scope_reader_v6_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_evidence_gate_registry_companion.yaml
+  - id: fig_supplement_first_page_evidence_quickstart
+    outputs:
+      - paper/shared/figures/fig_supplement_first_page_evidence_quickstart.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_render_pairs.png
+      - paper/shared/figures/fig_render_scene_evidence_wide.png
+      - paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/figures/fig_supplement_render_scene_evidence_extended.png
+      - paper/shared/figures/fig_supplement_vlm_coordinate_protocol_atlas.png
+      - paper/shared/figures/fig_supplement_grscenes_vlm_visual_guide.png
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+      - paper/shared/figures/fig_supplement_navigation_media_atlas.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/supplement/internnav_selected6_case01.png
+      - paper/shared/figures/ai_slots/fig_supplement_first_page_reading_compass_v4_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_first_page_evidence_quickstart.yaml
+  - id: fig_supplement_page4_claim_boundary_companion
+    outputs:
+      - paper/shared/figures/fig_supplement_page4_claim_boundary_companion.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_render_pairs.png
+      - paper/shared/figures/fig_render_scene_evidence_wide.png
+      - paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+      - paper/shared/figures/fig_supplement_navigation_media_atlas.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/supplement/internnav_selected6_case01.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/converted/converted_0000.png
+      - paper/shared/figures/ai_slots/fig_supplement_page4_boundary_marker_v3_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_page4_claim_boundary_companion.yaml
+  - id: fig_supplement_visual_evidence_roadmap
+    outputs:
+      - paper/shared/figures/fig_supplement_visual_evidence_roadmap.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_render_pairs.png
+      - paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+      - paper/shared/figures/fig_supplement_navigation_media_atlas.png
+      - paper/shared/figures/fig_internnav_downstream_panel.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/supplement/internnav_selected6_case01.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case01.png
+  - id: fig_supplement_vlm_clean_rerender_panel
+    outputs:
+      - paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png
+    generated_by: paper/shared/figures/gen_supplement_vlm_clean_rerender_panel.py
+    sources:
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/47aa36277a54f6ca90cc.zoom_018.clean_rerender_20260528.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/f35ef3d86c42446b7ddf.zoom_018.clean_rerender_20260528.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/c27086f557d316584264.zoom_018.clean_rerender_20260528.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/e2ec085d524d5df4455d.zoom_020.clean_rerender_20260528.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expanded30_target_projection_qa_report.json
+  - id: fig_supplement_grscenes_vlm_visual_guide
+    outputs:
+      - paper/shared/figures/fig_supplement_grscenes_vlm_visual_guide.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expanded30_target_projection_qa_report.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png
+      - paper/shared/figures/fig_grscene_qualitative.png
+      - paper/shared/figures/fig_render_scene_evidence_wide.png
+      - paper/shared/figures/fig_supplement_render_atlas.png
+      - paper/shared/figures/ai_slots/fig_supplement_grscenes_vlm_reading_route_v2_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_grscenes_vlm_visual_guide.yaml
+  - id: fig_supplement_grscenes_diagnostic_case_atlas
+    outputs:
+      - paper/shared/figures/fig_supplement_grscenes_diagnostic_case_atlas.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expanded30_target_projection_qa_report.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/47aa36277a54f6ca90cc.zoom_018.clean_rerender_20260528.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/f35ef3d86c42446b7ddf.zoom_018.clean_rerender_20260528.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/c27086f557d316584264.zoom_018.clean_rerender_20260528.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/e2ec085d524d5df4455d.zoom_020.clean_rerender_20260528.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png
+  - id: fig_supplement_grscenes_vlm_stress_render_strip
+    outputs:
+      - paper/shared/figures/fig_supplement_grscenes_vlm_stress_render_strip.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expanded30_target_projection_qa_report.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png
+      - paper/shared/figures/ai_slots/fig_supplement_grscenes_vlm_scoring_gate_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_grscenes_vlm_stress_render_strip.yaml
+  - id: fig_supplement_grscenes_failure_taxonomy_table_companion
+    outputs:
+      - paper/shared/figures/fig_supplement_grscenes_failure_taxonomy_table_companion.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/tables/tab_grscenes_vlm_failure_taxonomy.tex
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expanded30_target_projection_qa_report.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_0000.png
+      - paper/shared/figures/ai_slots/fig_supplement_grscenes_failure_taxonomy_gate_v4_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_grscenes_failure_taxonomy_table_companion.yaml
+  - id: fig_supplement_grscenes_pass_only_table_companion
+    outputs:
+      - paper/shared/figures/fig_supplement_grscenes_pass_only_table_companion.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/tables/tab_grscenes_vlm_pass_only_pilot.tex
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expanded30_target_projection_qa_report.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png
+      - paper/shared/figures/ai_slots/fig_supplement_grscenes_pass_only_gate_v3_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_grscenes_pass_only_table_companion.yaml
+  - id: fig_supplement_grscenes_zoom_stress_table_companion
+    outputs:
+      - paper/shared/figures/fig_supplement_grscenes_zoom_stress_table_companion.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/tables/tab_grscenes_vlm_zoom_stress.tex
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expanded30_target_projection_qa_report.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_0000.png
+      - paper/shared/figures/ai_slots/fig_supplement_grscenes_zoom_stress_gate_v3_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_grscenes_zoom_stress_table_companion.yaml
+  - id: fig_supplement_vlm_coordinate_protocol_atlas
+    outputs:
+      - paper/shared/figures/fig_supplement_vlm_coordinate_protocol_atlas.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expanded30_target_projection_qa_report.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png
+      - paper/shared/figures/ai_slots/fig_supplement_vlm_protocol_route_v2_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_vlm_coordinate_protocol_atlas.yaml
+  - id: fig_supplement_vlm_coordinate_table_companion
+    outputs:
+      - paper/shared/figures/fig_supplement_vlm_coordinate_table_companion.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/tables/tab_grscenes_vlm_coordinate_ablation.tex
+      - paper/shared/tables/tab_vlm_coordinate_baselines.tex
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expanded30_target_projection_qa_report.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png
+      - paper/shared/figures/ai_slots/fig_supplement_vlm_coordinate_contract_gate_v3_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_vlm_coordinate_table_companion.yaml
+  - id: fig_supplement_vlm_coordinate_baseline_sanity_companion
+    outputs:
+      - paper/shared/figures/fig_supplement_vlm_coordinate_baseline_sanity_companion.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/tables/tab_vlm_coordinate_baselines.tex
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_expanded30_target_projection_qa_report.json
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png
+      - paper/shared/figures/ai_slots/fig_supplement_vlm_coordinate_baseline_gate_v2_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_vlm_coordinate_baseline_sanity_companion.yaml
+  - id: fig_supplement_material_diagnostic_atlas
+    outputs:
+      - paper/shared/figures/fig_supplement_material_diagnostic_atlas.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+  - id: fig_supplement_material_claim_boundary_atlas
+    outputs:
+      - paper/shared/figures/fig_supplement_material_claim_boundary_atlas.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+      - paper/shared/figures/ai_slots/fig_supplement_material_claim_boundary_gate_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_material_claim_boundary_atlas.yaml
+      - paper/shared/evidence/raw/material_effect_baseline/material_effect_risk_profile.json
+      - paper/shared/tables/tab_material_effect_risk_matrix.tex
+      - paper/shared/tables/tab_material_safe_conversion_recommender.tex
+  - id: fig_supplement_material_decision_map
+    outputs:
+      - paper/shared/figures/fig_supplement_material_decision_map.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+      - paper/shared/figures/ai_slots/fig_supplement_material_decision_gate_v2_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_material_decision_map.yaml
+      - paper/shared/evidence/raw/material_effect_baseline/material_effect_risk_profile.json
+      - paper/shared/evidence/raw/reviewer_closure_package/material_safe_conversion_recommender.json
+      - paper/shared/tables/material_effect_risk_matrix.csv
+      - paper/shared/tables/material_safe_conversion_recommender.csv
+  - id: fig_supplement_material_intro_strip
+    outputs:
+      - paper/shared/figures/fig_supplement_material_intro_strip.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+  - id: fig_supplement_material_intro_column
+    outputs:
+      - paper/shared/figures/fig_supplement_material_intro_column.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+  - id: fig_supplement_navigation_media_atlas
+    outputs:
+      - paper/shared/figures/fig_supplement_navigation_media_atlas.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_internnav_downstream_panel.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/fig_internnav_rollout_selected6_supp.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_selected6_supp.png
+  - id: fig_supplement_navigation_media_boundary_strip
+    outputs:
+      - paper/shared/figures/fig_supplement_navigation_media_boundary_strip.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_supplement_navigation_media_atlas.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/supplement/internnav_selected6_case01.png
+      - paper/shared/figures/supplement/internnav_selected6_case02.png
+      - paper/shared/figures/supplement/internnav_selected6_case03.png
+      - paper/shared/figures/supplement/internnav_selected6_case04.png
+      - paper/shared/figures/supplement/internnav_selected6_case05.png
+      - paper/shared/figures/supplement/internnav_selected6_case06.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case01.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case02.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case03.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case04.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case05.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case06.png
+      - paper/shared/figures/ai_slots/fig_supplement_navigation_media_package_v3_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_navigation_media_boundary_strip.yaml
+  - id: fig_supplement_internnav_0036_neutral_companion
+    outputs:
+      - paper/shared/figures/fig_supplement_internnav_0036_neutral_companion.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/supplement/internnav_0036_0066_case05.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case06.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+  - id: fig_supplement_internnav_selected6_neutral_companion
+    outputs:
+      - paper/shared/figures/fig_supplement_internnav_selected6_neutral_companion.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/supplement/internnav_selected6_case05.png
+      - paper/shared/figures/supplement/internnav_selected6_case06.png
+      - paper/shared/figures/fig_internnav_rollout_selected6_supp.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/ai_slots/fig_supplement_internnav_selected6_neutral_gate_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_internnav_selected6_neutral_companion.yaml
+  - id: fig_supplement_internnav_upload_gate_closure_card
+    outputs:
+      - paper/shared/figures/fig_supplement_internnav_upload_gate_closure_card.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_supplement_navigation_media_boundary_strip.png
+      - paper/shared/figures/fig_supplement_navigation_media_atlas.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/supplement/internnav_selected6_case01.png
+      - paper/shared/figures/supplement/internnav_selected6_case02.png
+      - paper/shared/figures/supplement/internnav_selected6_case03.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case01.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case02.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case03.png
+      - paper/shared/figures/ai_slots/fig_supplement_internnav_upload_gate_v2_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_internnav_upload_gate_closure_card.yaml
+      - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_performance_plan.json
+      - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_performance_runs.csv
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/package_index.json
+      - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_claim_audit_checklist.json
+      - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_claim_audit_decision.json
+  - id: fig_supplement_navigation_intro_strip
+    outputs:
+      - paper/shared/figures/fig_supplement_navigation_intro_strip.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_internnav_downstream_panel.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+  - id: fig_supplement_navigation_intro_column
+    outputs:
+      - paper/shared/figures/fig_supplement_navigation_intro_column.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_internnav_downstream_panel.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/fig_supplement_navigation_media_atlas.png
+      - paper/shared/figures/fig_supplement_navigation_media_boundary_strip.png
+      - paper/shared/figures/supplement/internnav_selected6_case01.png
+      - paper/shared/figures/supplement/internnav_selected6_case02.png
+      - paper/shared/figures/supplement/internnav_selected6_case03.png
+      - paper/shared/figures/supplement/internnav_selected6_case04.png
+      - paper/shared/figures/supplement/internnav_selected6_case05.png
+      - paper/shared/figures/supplement/internnav_selected6_case06.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case01.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case02.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case03.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case04.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case05.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case06.png
+      - paper/shared/figures/ai_slots/fig_supplement_navigation_review_gate_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_navigation_intro_column.yaml
+  - id: fig_supplement_theory_evidence_bridge
+    outputs:
+      - paper/shared/figures/fig_supplement_theory_evidence_bridge.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+      - paper/shared/figures/fig_render_pairs.png
+      - paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/supplement/internnav_selected6_case01.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case01.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_0000.png
+      - paper/shared/figures/ai_slots/fig_supplement_theory_evidence_lens_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_theory_evidence_bridge.yaml
+  - id: fig_supplement_theory_failure_mode_map
+    outputs:
+      - paper/shared/figures/fig_supplement_theory_failure_mode_map.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+      - paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png
+      - paper/shared/figures/fig_supplement_navigation_media_atlas.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/supplement/internnav_selected6_case01.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case01.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_0000.png
+      - paper/shared/figures/ai_slots/fig_supplement_theory_failure_mode_gate_v2_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_theory_failure_mode_map.yaml
+  - id: fig_supplement_theory_hypothesis_boundary_companion
+    outputs:
+      - paper/shared/figures/fig_supplement_theory_hypothesis_boundary_companion.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+      - paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png
+      - paper/shared/figures/fig_supplement_navigation_media_atlas.png
+      - paper/shared/figures/fig_internnav_rollout_stills.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/supplement/internnav_selected6_case01.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_0000.png
+      - paper/shared/figures/ai_slots/fig_supplement_theory_hypothesis_boundary_v6_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_theory_hypothesis_boundary_companion.yaml
+  - id: fig_supplement_review_packet_contact_sheet
+    outputs:
+      - paper/shared/figures/fig_supplement_review_packet_contact_sheet.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_render_pairs.png
+      - paper/shared/figures/fig_render_scene_evidence_wide.png
+      - paper/shared/figures/fig_grscene_qualitative.png
+      - paper/shared/figures/fig_supplement_render_atlas.png
+      - paper/shared/figures/fig_supplement_render_scene_evidence_extended.png
+      - paper/shared/figures/fig_supplement_material_diagnostic_atlas.png
+      - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+      - paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png
+      - paper/shared/figures/fig_supplement_navigation_media_atlas.png
+      - paper/shared/figures/fig_supplement_navigation_media_boundary_strip.png
+      - paper/shared/figures/supplement/internnav_selected6_case01.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case01.png
+  - id: fig_supplement_source_boundary_companion
+    outputs:
+      - paper/shared/figures/fig_supplement_source_boundary_companion.png
+    generated_by: paper/shared/figures/gen_supplement_task_media_atlases.py
+    sources:
+      - paper/shared/figures/fig_supplement_review_packet_contact_sheet.png
+      - paper/shared/figures/fig_render_pairs.png
+      - paper/shared/figures/fig_render_scene_evidence_wide.png
+      - paper/shared/figures/fig_supplement_render_atlas_opener.png
+      - paper/shared/figures/fig_supplement_material_diagnostic_atlas.png
+      - paper/shared/figures/fig_material_effect_baseline_qualitative.png
+      - paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/e2ec085d524d5df4455d/zoom_020/converted/converted_0000.png
+      - paper/shared/figures/fig_supplement_navigation_media_boundary_strip.png
+      - paper/shared/figures/supplement/internnav_selected6_case04.png
+      - paper/shared/figures/supplement/internnav_0036_0066_case04.png
+      - paper/shared/figures/ai_slots/fig_supplement_source_boundary_gate_ai_slot.png
+      - paper/shared/figures/ai_slot_manifests/fig_supplement_source_boundary_companion.yaml
   - id: fig_vlm_grounding_cases
     outputs:
       - paper/shared/figures/fig_vlm_grounding_cases.pdf
@@ -88,6 +784,14 @@ figures:
     sources:
       - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_asset_manifest.json
       - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_basic_qa.json
+  - id: fig_internnav_rollout_0036_0066_readable_and_column
+    outputs:
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png
+      - paper/shared/figures/fig_internnav_rollout_0036_0066_column.png
+    generated_by: paper/shared/figures/gen_internnav_main_readable.py
+    sources:
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_case_manifest.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0036_0066/
   - id: fig_internnav_rollout_0036_0066_selected6_supp
     outputs:
       - paper/shared/figures/fig_internnav_rollout_0036_0066_selected6_supp.png

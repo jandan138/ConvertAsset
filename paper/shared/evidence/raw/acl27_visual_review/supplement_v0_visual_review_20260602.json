@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-06-02",
+  "artifact": "paper/venues/acl27/build/supplement.pdf",
+  "artifact_sha256": "47e771514b43915997d5818c9c272a8ce291deab269e4cd17bf8911afab13c11",
+  "review_mode": "local_visual_review",
+  "independent_blind_review": false,
+  "rendered_pages_dir": "/tmp/acl27_supplement_review",
+  "checks": [
+    {
+      "id": "page_01_overview",
+      "path": "/tmp/acl27_supplement_review/page-01.png",
+      "verdict": "PASS",
+      "visible_evidence": "Anonymous ACL review title page and overview text are readable; no author name or private path is visible.",
+      "main_risk": "None for v0."
+    },
+    {
+      "id": "page_04_derivations",
+      "path": "/tmp/acl27_supplement_review/page-04.png",
+      "verdict": "PASS",
+      "visible_evidence": "Single-column math derivation page has readable equations and stable margins.",
+      "main_risk": "Line numbering is visible because the ACL review style is active."
+    },
+    {
+      "id": "page_18_material_effect",
+      "path": "/tmp/acl27_supplement_review/page-18.png",
+      "verdict": "PASS",
+      "visible_evidence": "Original MDL, ConvertAsset, and NVIDIA material-effect panels are visible with caption boundary text.",
+      "main_risk": "The procedural-texture row remains a limitation case, not success evidence."
+    },
+    {
+      "id": "page_22_internnav_sheet",
+      "path": "/tmp/acl27_supplement_review/page-22.png",
+      "verdict": "WARN",
+      "visible_evidence": "The official selected InternNav sheet is visible and not clipped, but compact.",
+      "main_risk": "This sheet should be treated as an index; per-case pages carry the main visual evidence."
+    },
+    {
+      "id": "page_33_internnav_0036_case",
+      "path": "/tmp/acl27_supplement_review/page-33.png",
+      "verdict": "PASS",
+      "visible_evidence": "The 0036/0066 selected case is readable after 2x3 crop reflow, with original frames on the first row and noMDL frames on the second row.",
+      "main_risk": "Per-frame labels are summarized by title and caption rather than overlaid on each subpanel."
+    },
+    {
+      "id": "page_40_references_tail",
+      "path": "/tmp/acl27_supplement_review/page-40.png",
+      "verdict": "PASS",
+      "visible_evidence": "Reference tail page is readable and contains no visible private path or author identity token.",
+      "main_risk": "None for v0."
+    }
+  ],
+  "overall_verdict": "PASS_WITH_NOTES",
+  "notes": [
+    "The supplement builds as a 40-page A4 ACL-style PDF.",
+    "The PDF text privacy scan found no /cpfs, /home, /root, zhuzihou, jandan138, github.com/jandan138, or ConvertAsset.git tokens.",
+    "The full InternNav sheet is compact, but 12 per-case navigation pages provide larger still evidence.",
+    "This review was local, not an independent blind subagent review."
+  ]
+}

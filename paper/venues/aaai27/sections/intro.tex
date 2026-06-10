@@ -1,0 +1,78 @@
+\section{Introduction}
+\label{sec:introduction}
+
+Vision-language and embodied-language models are increasingly evaluated in
+simulated 3D environments where agents must connect text to objects,
+viewpoints, and actions. These evaluations often treat the rendered scene as a
+stable substrate. In practice, however, assets are often converted across
+material systems for scale rendering, distribution, viewer export, or robotics
+reuse. A seemingly
+engineering-level conversion can therefore become a hidden intervention in the
+benchmark itself.
+
+We study this problem in NVIDIA Isaac Sim, where photorealistic assets commonly
+use Material Definition Language (MDL) shaders while portable USD and glTF-style
+pipelines usually expect UsdPreviewSurface or PBR-like materials. Converting
+MDL materials to UsdPreviewSurface can improve interoperability, but it can also
+change color, reflectance, lighting response, or texture cues. For
+language-grounding benchmarks, the key question is not just whether two renders
+look similar, but whether a model still
+answers the same object query and points to the same target after the material
+representation changes.
+
+This paper treats material conversion as a controlled within-simulation
+perturbation. We ask: \emph{when synthetic-scene assets are converted for
+toolchain compatibility, what evidence is needed before using the converted
+renders or scenes for language-grounding and embodied-data claims?} The answer
+is evidence-gated rather than binary: proxy similarity can pass while grounding
+coordinates, material mechanisms, and embodied metrics answer different
+reliability questions. This matters for embodied-language benchmarks such as
+GRScenes~\cite{Wang2024GRUtopia}, where downstream experiments may combine
+large USD scenes, object-level goals, VLM prompting, and navigation frameworks
+such as InternNav/DualVLN~\cite{Wei2026Ground}. Figure~\ref{fig:acl_method_chain}
+summarizes the evidence chain and separates the schematic story from empirical
+panels used later in the paper.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_acl_method_chain_imagegen_v18.png}
+\caption{Evidence-chain overview. We start from
+USD scenes with MDL materials, convert them to composition-preserving noMDL
+counterparts, compare matched renders for VLM grounding, and finally check
+selected official InternNav navigation rollouts plus paired metrics. This
+panel is a schematic roadmap; empirical render, material-effect, and navigation
+figures later in the paper use recorded project artifacts.}
+\label{fig:acl_method_chain}
+\end{figure*}
+
+The evidence is organized as four gates. First, four single-object Isaac Sim
+assets screen visual and feature preservation. Second, GRScenes grounding uses
+read-only source scenes, scratch no-MDL conversion, matched renders, target
+projection, blind visual QA, and local Gemma4/Qwen2.5-VL probes: the 15-pair
+clean pool is a pilot preservation control, while the frozen 30-pair stress pool
+tests visible targets under material, color, or lighting shifts. Third, a
+selected material-effect audit compares original MDL, ConvertAsset noMDL, and
+the NVIDIA PreviewSurface baseline only inside bins with bounded evidence.
+Fourth, a 99-episode official KuJiaLe InternNav run checks whether converted
+scenes remain usable in a real navigation stack. No gate substitutes for broad
+downstream robustness: not a proxy score, selected visual panel, or navigation
+sanity run.
+
+
+We make four contributions:
+\begin{enumerate}
+    \item We frame material conversion as a controlled VLM-grounding
+    perturbation, not neutral asset optimization.
+    \item We define a claim-bounded grounding protocol with immutable inputs,
+    scratch conversion, matched renders, projection QA, prompt contracts, and
+    coordinate-frame scoring.
+    \item We instantiate the protocol on GRScenes with a clean preservation
+    pilot and a frozen 30-pair target-centered material-shift stress set,
+    showing that answer accuracy, point grounding, and coordinate compliance
+    can diverge across model backends.
+    \item We attach material-effect and embodied-data sanity evidence to the
+    same claim registry: a selected NVIDIA-baseline material audit, a
+    99-episode official KuJiaLe InternNav sanity run, and repeated official
+    scene load/render stability checks. These support bounded reliability
+    claims, not broad embodied-benchmark or speedup claims.
+\end{enumerate}

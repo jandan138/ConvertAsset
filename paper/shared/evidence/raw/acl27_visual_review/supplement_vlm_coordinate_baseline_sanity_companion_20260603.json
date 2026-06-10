@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-06-03T04:07:09+08:00",
+  "paper": "acl27",
+  "artifact": "supplement_vlm_coordinate_baseline_sanity_companion",
+  "purpose": "Improve the sparse coordinate-baseline page by adding a real-render companion for Table S3 and an exposition-only AI baseline-gate slot.",
+  "skills": [
+    "imagegen",
+    "research-figure-ai-slot-composer",
+    "render-visual-reviewer",
+    "test-driven-development"
+  ],
+  "independent_subagent": false,
+  "claim_boundary": "The AI-generated baseline-gate slot is exposition only. Registered GRScenes target-view renders and Table S3 carry the evidence-bearing content.",
+  "ai_generated_slot": {
+    "role": "baseline_gate",
+    "repo_path": "paper/shared/figures/ai_slots/fig_supplement_vlm_coordinate_baseline_gate_ai_slot.png",
+    "source_path": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_07aabb017a9934c6016a1f3494e3f08190a756a3de007bcf8c.png",
+    "sha256": "ba18280c265c1097acfc447861021e77e0d67a3c6080c07320828a4a34fe6c88",
+    "size": [
+      1693,
+      929
+    ],
+    "active_fraction": 0.118039,
+    "red_fraction": 0.000168,
+    "verdict": "PASS",
+    "rationale": "No visible local path, author name, watermark, or red material fallback. The schematic contains abstract coordinate-flow shapes and remains separated from evidence-bearing renders."
+  },
+  "standalone_figure": {
+    "figure_id": "fig_supplement_vlm_coordinate_baseline_sanity_companion",
+    "path": "paper/shared/figures/fig_supplement_vlm_coordinate_baseline_sanity_companion.png",
+    "sha256": "ca97c1b638f2f3baa853be139bc40fc339917024fcdac7cbce6f2b3b39ac088d",
+    "size": [
+      1800,
+      780
+    ],
+    "active_fraction": 0.31416,
+    "red_fraction": 0.000003,
+    "verdict": "PASS",
+    "rationale": "After visual iteration, all three render cards and the right-side baseline gate are visible, bottom labels are not clipped, and the figure is dense enough for the supplement page."
+  },
+  "rendered_pdf_pages": [
+    {
+      "page": 17,
+      "path": "tmp/acl_supplement_iter2_coordinate_review_20260603/page-17.png",
+      "sha256": "22f27877f95f614e549036ec0332efaefb4856cf597b5f4536eeef1ba8689a42",
+      "active_fraction": 0.08822,
+      "red_fraction": 0.0,
+      "verdict": "PASS",
+      "rationale": "The preceding coordinate-table companion page remains intact after adding the baseline companion."
+    },
+    {
+      "page": 18,
+      "path": "tmp/acl_supplement_iter2_coordinate_review_20260603/page-18.png",
+      "sha256": "36813ed9174567b6ab55215a49e88b00631df8f65da73a2d4cc55586fa2cb21f",
+      "active_fraction": 0.116327,
+      "red_fraction": 0.0,
+      "before_sparse_reference_page_active_fraction": 0.0469,
+      "verdict": "PASS",
+      "rationale": "The formerly sparse Table S3 tail page now includes the coordinate-baseline sanity companion without overlapping the caption or following prose."
+    },
+    {
+      "page": 19,
+      "path": "tmp/acl_supplement_iter2_coordinate_review_20260603/page-19.png",
+      "sha256": "08a6f449f77f4c1e35530534c863993484de6ef671b0fede69ee8b40dc85bab6",
+      "active_fraction": 0.149193,
+      "red_fraction": 0.0,
+      "verdict": "PASS",
+      "rationale": "The following GRScenes visual guide page remains well framed after the new p18 figure shifts section numbering."
+    },
+    {
+      "page": 20,
+      "path": "tmp/acl_supplement_iter2_coordinate_review_20260603/page-20.png",
+      "sha256": "d038ac109942a41b4307018165df99811f772b1052579dde677b9b56ecda4eeb",
+      "active_fraction": 0.222769,
+      "red_fraction": 0.0,
+      "verdict": "PASS",
+      "rationale": "The next diagnostic atlas page remains intact after the flow shift."
+    }
+  ],
+  "pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "938a87f42ec133bd16b250014e568e946af6129371cf2126e1dad15f2c6370cb",
+    "pages": 44,
+    "bytes": 31938015,
+    "page_size": "A4"
+  },
+  "text_scan": {
+    "positive_patterns_present": [
+      "Coordinate-baseline sanity companion",
+      "AI-generated baseline-gate schematic used only for exposition",
+      "not a new VLM prediction, metric, or benchmark row"
+    ],
+    "negative_patterns_absent": [
+      "Red material in these diagnostic cases",
+      "fig_vlm_grounding_cases",
+      "/cpfs/user",
+      "Zihou"
+    ]
+  },
+  "commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k \"coordinate_baseline_sanity_companion\"",
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "make -C paper acl27-supplement",
+    "pdftoppm -r 140 -png -f 17 -l 20 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_iter2_coordinate_review_20260603/page",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_vlm_coordinate_baseline_sanity_companion_20260603.json >/dev/null",
+    "pdftotext paper/venues/acl27/build/supplement.pdf - | positive/negative scan"
+  ]
+}

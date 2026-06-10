@@ -1,0 +1,122 @@
+{
+  "round": 37,
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "target_pdf": "paper/venues/acl27/build/main.pdf",
+  "target_area": {
+    "pages": [
+      10,
+      11
+    ],
+    "source": "paper/venues/acl27/sections/ethical-considerations.tex",
+    "lines_after_change": "3-10",
+    "description": "First Ethical Considerations risk paragraph on page 10 and adjacent References spread"
+  },
+  "change_summary": [
+    "Reframed the paragraph as direct ethics guidance: synthetic 3D assets are not human-subject data, but risks remain indirect and practical.",
+    "Replaced submission-oriented wording with author-facing reuse guidance for provenance, license compatibility, filtering criteria, and intended render use.",
+    "Tightened the downstream-model warning around material-change failures, object affordances, safety cues, texture, grounding cues, and real-world transfer."
+  ],
+  "visual_review": {
+    "before_render_dir": "tmp/acl_main_visual_iter_20260606_round37_current",
+    "after_render_dir": "tmp/acl_main_visual_iter_20260606_round37_after",
+    "before_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round37_current/contact_sheet.png",
+      "sha256": "d992b186c30adfa84ee9778d197127bfabb886324e8773c1753113f210f4e903"
+    },
+    "after_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round37_after/contact_sheet.png",
+      "sha256": "9dfbfb48d267f8490acf2f6df7d4aeb1a74b1753ddced04b6ea32ec5283cbc08"
+    },
+    "focus_before_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round37_after/focus_before_after_p10.png",
+      "sha256": "07d95d69fd6241fd87bf3877777b7e6f270e79045c290ec979c81c9805486fef",
+      "pages": [
+        10
+      ]
+    },
+    "focus_pages_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round37_after/focus_p10_p11_after.png",
+      "sha256": "64a1d0b4866978e88bcf72418502d84e9f9fc734de4a8b92a90103fc0091aeda",
+      "pages": [
+        10,
+        11
+      ]
+    },
+    "focus_adjacent_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round37_after/focus_p9_p10_after.png",
+      "sha256": "cbdaa45dde3c2a715daad88a5ce504ee5f0c2f1f4effc34e9837d5b98142d89a",
+      "pages": [
+        9,
+        10
+      ]
+    },
+    "text_extracts": {
+      "before_page10": {
+        "path": "tmp/acl_main_visual_iter_20260606_round37_current/page10.txt",
+        "sha256": "1d64127909fb4defe5711460363d1aa546453690f550c821517a931e37d3fd2b"
+      },
+      "after_pages10_11": {
+        "path": "tmp/acl_main_visual_iter_20260606_round37_after/pages10_11.txt",
+        "sha256": "cbe55d13d679db79d5ac36572a3ccea2b3762851811c6f6f4c9ce3e22cd91999"
+      },
+      "after_page10": {
+        "path": "tmp/acl_main_visual_iter_20260606_round37_after/page10.txt",
+        "sha256": "a0d657d7bb3e2b13a0efdcc949729fd383dac6c22e5f9977c27aff9395ea58e8"
+      }
+    },
+    "observations": [
+      "Before: page 10 rendered 'docu-' followed by 'ment asset provenance' in the first ethics paragraph.",
+      "Before: page 10 rendered 'ob-' followed by 'ject affordances'.",
+      "Before: page 10 rendered 'se-' followed by 'mantic grounding' and 'general-' followed by 'ization'.",
+      "Intermediate shorter wording was rejected because it moved the 'References' heading to the left-column bottom and split the first bibliography entry across the spread.",
+      "After: page 10 keeps 'References' at the top of the right column and removes the old target split markers from the first ethics paragraph.",
+      "After: Figure 4 remains stable above Ethical Considerations, and page 11 References layout remains readable."
+    ]
+  },
+  "pdf_identity": {
+    "before_sha256": "63f8f5701ca35244fd143fa2dfc146ae1f24c58e84384ffdc7a5775819966a1e",
+    "after_sha256": "509a70c729a8286e2904b0a5044249e354718dcda596a8b6159fca683a99a0d6",
+    "after_pdfinfo": {
+      "creation_date": "Sat Jun 6 14:54:25 2026 CST",
+      "mod_date": "Sat Jun 6 14:54:25 2026 CST",
+      "pages": 11,
+      "page_size": "595.276 x 841.89 pts (A4)",
+      "file_size_bytes": 5188574,
+      "pdf_version": "1.5"
+    }
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "pass",
+      "evidence": "Exit 0; acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "pass",
+      "evidence": "No matches."
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "pass",
+      "evidence": "102 passed in 15.52s."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "pass",
+      "evidence": "ok=true; violations=[], unsafe_figure_violations=[], venue_wrapper_violations=[]"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "pass",
+      "evidence": "ok=true; title and abstract match metadata; abstract_word_count=169"
+    },
+    {
+      "command": "rg -n \"docu-|ment asset|ob-|ject affordances|se-|mantic|general-|ization|The risks are indirect|overstated robust|real-world transfer|material-change|References\" tmp/acl_main_visual_iter_20260606_round37_current/page10.txt tmp/acl_main_visual_iter_20260606_round37_after/pages10_11.txt paper/venues/acl27/sections/ethical-considerations.tex || true",
+      "result": "pass",
+      "evidence": "Current page 10 text contains the old target split markers; after pages 10-11 text and ethical-considerations.tex contain the final ethics-risk wording, keep References at right-column top, and no longer contain the old target split markers."
+    }
+  ],
+  "workspace_note": "The repository had unrelated pre-existing modified paper, docs, evidence, figure, and test files before this round. This evidence record only claims the round37 Ethical Considerations risk-paragraph polish plus the new record/evidence files."
+}

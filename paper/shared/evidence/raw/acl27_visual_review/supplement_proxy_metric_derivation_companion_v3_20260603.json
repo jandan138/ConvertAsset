@@ -1,0 +1,157 @@
+{
+  "record_id": "supplement_proxy_metric_derivation_companion_v3_20260603",
+  "date_utc": "2026-06-03",
+  "scope": "ACL 2027 supplement page-12 proxy-metric derivation companion v3 visual iteration",
+  "motivation": {
+    "target_page": 12,
+    "target_page_before": "After page-1 and page-4 v2 passes, the round-10 full supplement density audit made page 12 the lowest non-reference page.",
+    "round10_page12_active245_fraction_90dpi_before": 0.13366731,
+    "goal_alignment": "Make the proxy-derivation spread more render-backed while preserving the metric-vs-task claim boundary."
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks.",
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, used for sparse-page raster review.",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90."
+  },
+  "claim_boundary": {
+    "paper_use": "visual reading guide for paired-render notation, PSNR, SSIM, and feature-similarity proxy equations",
+    "not_new_evidence": true,
+    "boundary_statement": "Exposition only; not experimental evidence.",
+    "notes": "The v2 proxy-axis AI slot is not a metric, model prediction, benchmark row, render result, VLM output, navigation run, or task result. Registered render pairs and written equations remain the evidence-bearing content."
+  },
+  "ai_slots": {
+    "proxy_metric_axis_v2": {
+      "path": "paper/shared/figures/ai_slots/fig_supplement_proxy_metric_axis_v2_ai_slot.png",
+      "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0e58799c07aab566016a202f7cc4a48193974faad67cdb3422.png",
+      "sha256": "e20ee3739ed57acf59453b014cb04dea7aa4f2648ef947279420c9a80ef28420",
+      "size_px": [
+        1774,
+        887
+      ],
+      "bytes": 1196521,
+      "layout_guard_active_fraction": 0.119596095,
+      "active245_fraction": 0.162523562,
+      "red_pixel_fraction": 0.0,
+      "role": "AI-generated proxy-axis schematic only; deterministic code draws all paper-critical labels and claim-boundary text."
+    }
+  },
+  "final_figure": {
+    "path": "paper/shared/figures/fig_supplement_proxy_metric_derivation_companion.png",
+    "sha256": "e0a7abf5af7d692a4d420d772658ec8788f3a8dac9e6af025e20a0d442e609a0",
+    "size_px": [
+      1800,
+      1260
+    ],
+    "bytes": 1080103,
+    "layout_guard_active_fraction": 0.381409171,
+    "active245_fraction": 0.435082451,
+    "red_pixel_fraction": 0.00704321,
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_proxy_metric_derivation_companion.yaml",
+    "registered_real_sources_added_or_expanded_in_v3": [
+      "paper/shared/figures/fig_render_pairs.png",
+      "paper/shared/figures/fig_render_scene_evidence_wide.png",
+      "paper/shared/figures/fig_supplement_render_atlas.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/converted/converted_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/converted/converted_0000.png"
+    ],
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "The standalone v3 figure enlarges the registered object and scene render pairs, uses the v2 proxy-axis schematic as a separate exposition card, and expands the bottom registered proxy render ladder with zoom-019 backpack and clock pairs."
+  },
+  "pdf_review": {
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_sha256": "e27f315a1a23bb43d4b2e5acaad636860d528ca4b2effbd7e5f5ff8271aa24de",
+    "page_count": 45,
+    "page_size": "A4",
+    "file_size_bytes": 42850016,
+    "review_window": [
+      12,
+      15
+    ],
+    "page12_render_90dpi": "tmp/acl_supplement_page12_proxy_derivation_v2_20260603/page90-12.png",
+    "page12_render_90dpi_sha256": "8cc1e9dd99e9d4c2430ce34ae766cf8e5fcf3008d444b428573a86129d09f95f",
+    "page12_active245_fraction_90dpi_after": 0.15789212,
+    "page12_layout_guard_active_fraction_90dpi_after": 0.141554013,
+    "page13_active245_fraction_90dpi_after": 0.134736802,
+    "page14_active245_fraction_90dpi_after": 0.13547869,
+    "page15_active245_fraction_90dpi_after": 0.136022996,
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "Rendered page 12 keeps the larger proxy companion and its caption on the page, starts PSNR below it, and does not shift the page-13 to page-15 derivation companions."
+  },
+  "layout_iterations": [
+    {
+      "change": "Updated regression tests to require the registered proxy render ladder phrase, the 0.40 textheight include cap, the v2 proxy-axis slot, zoom-019 source registration, and a taller 1800x1200-plus figure.",
+      "result": "RED first: focused derivation tests failed on the old caption/source registry and old v1 slot."
+    },
+    {
+      "change": "Generated and registered the v2 proxy-axis AI slot.",
+      "result": "Selected: text-free enough for deterministic relabeling and remains exposition only."
+    },
+    {
+      "change": "Rebuilt the proxy derivation companion at 1800x1260 and enlarged the render-pair cards and bottom proxy render ladder.",
+      "result": "Selected: standalone layout-guard active fraction is 0.381409171 and page-12 active245 at 90 dpi rises from 0.13366731 to 0.15789212."
+    }
+  ],
+  "review_artifacts": {
+    "standalone_figure": "paper/shared/figures/fig_supplement_proxy_metric_derivation_companion.png",
+    "source_ai_slot": "paper/shared/figures/ai_slots/fig_supplement_proxy_metric_axis_v2_ai_slot.png",
+    "page12_15_renders_140dpi": "tmp/acl_supplement_page12_proxy_derivation_v2_20260603/page-12.png through page-15.png",
+    "page12_15_renders_90dpi": "tmp/acl_supplement_page12_proxy_derivation_v2_20260603/page90-12.png through page90-15.png"
+  },
+  "text_scan": {
+    "positive_required_phrases": {
+      "Proxy metric derivation companion": true,
+      "registered proxy render ladder": true,
+      "AI-generated proxy-metric schematic used only for exposition": true,
+      "not a new metric, model prediction, or task result": true
+    },
+    "negative_required_absences": {
+      "/cpfs/user": true,
+      "Zihou": true
+    }
+  },
+  "tests": [
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k 'proxy_metric_derivation_companion or derivations_have_render_companions'",
+      "result": "RED before implementation: 2 failed, 72 deselected; GREEN after implementation: 2 passed, 72 deselected."
+    },
+    {
+      "command": "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+      "result": "completed; regenerated fig_supplement_proxy_metric_derivation_companion.png from the v3 composer."
+    },
+    {
+      "command": "make -C paper acl27-supplement",
+      "result": "completed during layout review; paper/venues/acl27/build/supplement.pdf contains 45 A4 pages."
+    },
+    {
+      "command": "pdftoppm -f 12 -l 15 -r 140 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page12_proxy_derivation_v2_20260603/page",
+      "result": "completed; pages 12-15 regenerated for local visual review."
+    },
+    {
+      "command": "pdftoppm -f 12 -l 15 -r 90 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page12_proxy_derivation_v2_20260603/page90",
+      "result": "completed; pages 12-15 regenerated for density review."
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "GREEN in the final verification pass: 74 passed."
+    },
+    {
+      "command": "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_proxy_metric_derivation_companion_v3_20260603.json",
+      "result": "exit 0"
+    },
+    {
+      "command": "pdfinfo paper/venues/acl27/build/supplement.pdf",
+      "result": "Pages: 45; Page size: 595.276 x 841.89 pts (A4)."
+    },
+    {
+      "command": "final figure, PDF text, PDF profile, git diff whitespace, and direct final-newline/trailing-whitespace scans",
+      "result": "exit 0; figure size is 1800x1260, figure layout-guard active fraction is 0.381409171, page-12 required caption phrases are present, local-path and author-name leakage checks passed, and touched text files have no trailing whitespace."
+    }
+  ],
+  "review_mode": {
+    "skill": "render-visual-reviewer",
+    "independent_subagent_review": false,
+    "reason": "Local pure visual review was used; no separate clean-room subagent was dispatched because the available subagent tool requires an explicit user request for delegation."
+  }
+}

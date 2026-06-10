@@ -1,0 +1,94 @@
+{
+  "round": 31,
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "target_pdf": "paper/venues/acl27/build/main.pdf",
+  "target_area": {
+    "pages": [5, 6],
+    "source": "paper/venues/acl27/sections/results.tex",
+    "lines_after_change": "100-107",
+    "description": "Results Section 4.3 Table 5 material-effect scope sentence and adjacent static-gate boundary"
+  },
+  "change_summary": [
+    "Replaced the longer 'sets the material claim boundary' sentence with 'defines the material-effect scope'.",
+    "Removed a rendered page-5 hyphenation where 'material claim bound-' ended one line and 'ary' opened the next.",
+    "Kept the material-effect claim boundary semantics while making the transition into covered bins shorter and more ACL-like."
+  ],
+  "visual_review": {
+    "before_render_dir": "tmp/acl_main_visual_iter_20260606_round31_current",
+    "after_render_dir": "tmp/acl_main_visual_iter_20260606_round31_after",
+    "before_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round31_current/contact_sheet.png",
+      "sha256": "adf04efaea76b3813143444280b1aa56159ad66d4839a8486a0fa99b4b02d28f"
+    },
+    "after_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round31_after/contact_sheet.png",
+      "sha256": "620fb68d9b33d9f4a29f0612bd7881914c7305fe8ef594b3576f7cc6e16f13b2"
+    },
+    "focus_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round31_after/focus_p5_after.png",
+      "sha256": "99e7c8f2e7dec81cd19566da4ad3a8d7016950ada93a4b3f305f95b5116decc6",
+      "pages": [5]
+    },
+    "focus_pages_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round31_after/focus_p5_p6_after.png",
+      "sha256": "4ef4b52c879f0fc68d2e686be212689ad86f8463aba94a3611ed6623c647929b",
+      "pages": [5, 6]
+    },
+    "focus_before_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round31_after/focus_before_after_p5.png",
+      "sha256": "282bfe92899c30d708349606d7ebb1097d01660b8b0a3607b8ebadad960c54de",
+      "pages": [5]
+    },
+    "observations": [
+      "Before: page 5 rendered 'Table 5 sets the material claim bound-' followed by 'ary' on the next line.",
+      "After: page 5 renders the complete sentence 'Table 5 defines the material-effect scope.' without the boundary split.",
+      "Page 6 Figure 3 and its caption remain stable after the local sentence compaction."
+    ]
+  },
+  "pdf_identity": {
+    "before_sha256": "f2023008b50efb706eb2c50281d25b4d284b51e410b1360ef9927ab1b40e7d40",
+    "after_sha256": "513cf208bbc0684a15813b2d41979a12b4267a847b739f9c0e79d7ccff25ba34",
+    "after_pdfinfo": {
+      "creation_date": "Sat Jun 6 12:43:08 2026 CST",
+      "mod_date": "Sat Jun 6 12:43:08 2026 CST",
+      "pages": 11,
+      "page_size": "595.276 x 841.89 pts (A4)",
+      "file_size_bytes": 5188806,
+      "pdf_version": "1.5"
+    }
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "pass",
+      "evidence": "Exit 0; acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "pass",
+      "evidence": "No matches."
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "pass",
+      "evidence": "102 passed in 13.67s."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "pass",
+      "evidence": "ok=true; violations=[], unsafe_figure_violations=[], venue_wrapper_violations=[]"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "pass",
+      "evidence": "ok=true; title and abstract match metadata; abstract_word_count=169"
+    },
+    {
+      "command": "rg -n \"material claim bound|Table 5 defines the material-effect scope|Table 5 sets the material claim\" tmp/acl_main_visual_iter_20260606_round31_current/page5.txt tmp/acl_main_visual_iter_20260606_round31_after/pages5_6.txt || true",
+      "result": "pass",
+      "evidence": "Current page 5 text contains the old split; after page 5 text contains 'Table 5 defines the material-effect scope.'"
+    }
+  ],
+  "workspace_note": "The repository had unrelated pre-existing modified paper, docs, and evidence files before this round. This evidence record only claims the round31 Results Section 4.3 Table 5 material-scope sentence polish plus the new record/evidence files."
+}

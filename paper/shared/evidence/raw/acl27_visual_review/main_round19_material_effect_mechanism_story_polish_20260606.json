@@ -1,0 +1,61 @@
+{
+  "review_id": "main_round19_material_effect_mechanism_story_polish_20260606",
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "artifact": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "467a711f65485caf81df270dff5a653e0a7dc24cde0f351efb9f0091d998fe88",
+    "pages": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "bytes": 5189872,
+    "created": "Sat Jun 6 10:48:02 2026 CST"
+  },
+  "scope": [
+    "paper/venues/acl27/sections/results.tex"
+  ],
+  "visual_artifacts": {
+    "before_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round19_current/contact_sheets/main_pages_01_11_current.png",
+    "before_page5": "tmp/acl_main_visual_iter_20260606_round19_current/pages_180/main-05.png",
+    "before_layout_text": "tmp/acl_main_visual_iter_20260606_round19_current/text/main_layout.txt",
+    "after_page5": "tmp/acl_main_visual_iter_20260606_round19_after/pages_180/main-05.png",
+    "after_focus_pages5_6": "tmp/acl_main_visual_iter_20260606_round19_after/contact_sheets/main_pages_05_06_after_focus.png",
+    "after_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round19_after/contact_sheets/main_pages_01_11_after.png",
+    "after_layout_text": "tmp/acl_main_visual_iter_20260606_round19_after/text/main_layout.txt"
+  },
+  "visual_findings": [
+    "The round-19 full contact sheet showed no hard crop, missing page, or float displacement; the selected target was page 5, where the material-effect section follows the VLM grounding stress result.",
+    "The pre-edit section opener was correct but flat: it introduced the NVIDIA baseline audit without explicitly naming the mechanism question created by the VLM stress evidence.",
+    "The accepted opener now frames the section as a mechanism handoff: when a render changes, the paper asks which bounded material effect moved the evidence.",
+    "The accepted Figure 3 paragraph now describes the figure as a visual index for bounded cases rather than an error-rate sample, preserving the claim boundary.",
+    "The after page-5 render keeps the new right-column text within the ACL column, and the page-5/page-6 focus sheet shows no downstream drift in Figure 3 or the embodied-sanity section.",
+    "The after full contact sheet keeps the 11-page A4 structure stable across tables, figures, Ethical Considerations, and References."
+  ],
+  "change_summary": [
+    "Rewrote the section 4.3 opener to connect the VLM stress result to a material-mechanism question before introducing the NVIDIA Asset Converter baseline.",
+    "Reframed Figure 3 as a bounded-case visual index and clarified that the static gates localize mechanisms rather than estimating population-level error rates.",
+    "Preserved reported counts, table references, figure references, material-effect boundaries, and NVIDIA-baseline claim scope."
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed; rebuilt paper/venues/acl27/build/main.pdf as an 11-page A4 PDF"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "passed; no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "passed; 85 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "passed; ok=true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "passed; ok=true; abstract_word_count=169"
+    }
+  ],
+  "residual_risk": "Focused page-5 material-effect mechanism story polish only; this is not a final upload audit, target-policy refresh, or integrity-fingerprint refresh."
+}

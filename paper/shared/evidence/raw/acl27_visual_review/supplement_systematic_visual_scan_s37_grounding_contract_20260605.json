@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "review_id": "acl_supplement_s37_grounding_contract_visual_fix_20260605",
+  "date_utc": "2026-06-05",
+  "scope": "ACL27 supplement systematic visual scan, Figure S37 theory visual bridge on PDF page 39",
+  "user_report": "Continue scanning the ACL supplement for obvious occlusion, wrong scaling, and incomplete figure display after AI-slot containment updates.",
+  "finding": {
+    "page": 39,
+    "figure": "Figure S37",
+    "standalone": "paper/shared/figures/fig_supplement_theory_evidence_bridge.png",
+    "defect": "The Grounding contract band embedded the full VLM clean-rerender panel into a narrow bridge band using cover-style scaling. The nested target-view strip appeared as a partially visible sliver rather than complete registered target-box evidence.",
+    "severity": "blocking_visual_qa",
+    "classification": [
+      "wrong_scaling",
+      "incomplete_figure_display"
+    ]
+  },
+  "root_cause": "build_theory_bridge placed VLM_CLEAN_RERENDER with _fit(..., cover=True) inside the Grounding contract band. The source panel is a multi-row atlas, so cover fitting into the short band cropped away most of the target-view rows before LaTeX included the PNG.",
+  "changes": [
+    "Added _compose_grounding_contract_bridge(size) to build four complete target-box pair cards for backpack, clock, bottle, and cup.",
+    "Replaced the Grounding contract band image in build_theory_bridge with _compose_grounding_contract_bridge((image_w, band_image_h)).",
+    "Used contained source crops from fig_supplement_vlm_clean_rerender_panel.png rather than cover-fitting the full source atlas.",
+    "Added regression assertions that the theory bridge uses the dedicated grounding-contract compositor and does not return to _fit(VLM_CLEAN_RERENDER, (image_w, band_image_h), cover=True).",
+    "Regenerated fig_supplement_theory_evidence_bridge.png and rebuilt the ACL27 supplement PDF."
+  ],
+  "local_visual_review": {
+    "reviewer": "Codex local visual review using the paper figure protocol from render-visual-reviewer and browser-visual-review; no independent subagent was used in this pass.",
+    "before_verdict": "FAIL. On the round3 rendered page 39, the Grounding contract row showed only a half-visible strip from the larger VLM panel, so the target-box evidence was not complete at reader scale.",
+    "after_standalone_verdict": "PASS. The standalone Figure S37 bridge now shows four complete target-box pair cards in the Grounding contract band.",
+    "after_pdf_page39_verdict": "PASS. In the final rendered PDF page 39, the four Grounding contract cards are visible, the figure remains inside the page, and the caption does not collide with the page footer.",
+    "global_rescan_verdict": "PASS with residual density caveat. Contact sheets covering pages 1-46 after the rebuild did not show a new obvious blocking crop, occlusion, caption collision, page-edge cut, blank page, or incomplete figure display. Dense navigation and VLM pages remain readability tradeoffs, not visible clipping blockers in this pass."
+  },
+  "before": {
+    "pdf_page39_round3": {
+      "path": "tmp/acl_supplement_visual_scan_20260605_round3/pages_160/page-39.png",
+      "sha256": "7f18609706cde6165ebd6ca5730ed062f1b9220d47775fc157f482c6446da358",
+      "bytes": 552590,
+      "size": [
+        1323,
+        1871
+      ],
+      "active245": 0.17591168541767915,
+      "layout_active": 0.16453099441570085,
+      "near_black": 0.021698494707580757
+    },
+    "source_panel": {
+      "path": "paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png",
+      "sha256": "6f44e63b4321ae27f61a79bb34c2a270b25a75e1bc5bb5558966b1e510b194ba",
+      "bytes": 952010,
+      "size": [
+        1602,
+        1672
+      ],
+      "active245": 0.5097190861901093,
+      "layout_active": 0.5019686068252005,
+      "near_black": 0.0830671439408873
+    }
+  },
+  "after": {
+    "standalone_theory_bridge": {
+      "path": "paper/shared/figures/fig_supplement_theory_evidence_bridge.png",
+      "sha256": "0b2994ab99a6f8c47c705f7d562aff35013f89636abbb0b888916dddf12f2ac1",
+      "bytes": 1189064,
+      "size": [
+        1800,
+        1650
+      ],
+      "active245": 0.41175319865319865,
+      "layout_active": 0.3776292929292929,
+      "near_black": 0.05014949494949495
+    },
+    "pdf_page39_round4": {
+      "path": "tmp/acl_supplement_visual_scan_20260605_round4_after_s37_fix/pages_160/page-39.png",
+      "sha256": "f51706b738f7d7de9f2642381b3c0edc0d909f04e17127e338895a68f5574cc0",
+      "bytes": 552370,
+      "size": [
+        1323,
+        1871
+      ],
+      "active245": 0.1760668160607078,
+      "layout_active": 0.1622836200220334,
+      "near_black": 0.021509833222439163
+    },
+    "supplement_pdf": {
+      "path": "paper/venues/acl27/build/supplement.pdf",
+      "sha256": "83fba3dea075a884b0727be510169e1bf9dfcc56f9acb4f98880b144e498e54f",
+      "bytes": 49105653,
+      "pages": 46,
+      "creation_date": "Fri Jun 5 08:49:54 2026 CST"
+    }
+  },
+  "review_artifacts": [
+    "tmp/acl_supplement_visual_scan_20260605_round3/pages_160/",
+    "tmp/acl_supplement_visual_scan_20260605_round3/contact_sheets/",
+    "tmp/acl_supplement_visual_scan_20260605_round4_after_s37_fix/pages_160/",
+    "tmp/acl_supplement_visual_scan_20260605_round4_after_s37_fix/contact_sheets/supp_pages_01_12_160.png",
+    "tmp/acl_supplement_visual_scan_20260605_round4_after_s37_fix/contact_sheets/supp_pages_13_24_160.png",
+    "tmp/acl_supplement_visual_scan_20260605_round4_after_s37_fix/contact_sheets/supp_pages_25_36_160.png",
+    "tmp/acl_supplement_visual_scan_20260605_round4_after_s37_fix/contact_sheets/supp_pages_37_46_160.png",
+    "tmp/acl_supplement_visual_scan_20260605_round4_after_s37_fix/contact_sheets/s37_fix_context_p37_41.png",
+    "tmp/acl_supplement_visual_scan_20260605_round4_after_s37_fix/contact_sheets/material_p25_28.png",
+    "tmp/acl_supplement_visual_scan_20260605_round4_after_s37_fix/contact_sheets/nav_p31_38.png"
+  ],
+  "commands_run": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'supplement_theory_bridge_is_registered_and_dense or acl_supplement_theory_has_visual_evidence_bridge'",
+    "make -C paper acl27-supplement",
+    "pdftoppm -png -r 160 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_visual_scan_20260605_round4_after_s37_fix/pages_160/page",
+    "python -m pytest -q tests/test_paper_layout.py -k 'supplement_theory_bridge_is_registered_and_dense or acl_supplement_theory_has_visual_evidence_bridge or supplement_material_claim_boundary_atlas_is_registered_and_dense or supplement_material_decision_map_is_registered_and_dense'",
+    "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|LaTeX Warning: Reference|Warning:.*Label|undefined|Rerun to get|Label\\\\(s\\\\) may have changed|Package lineno Warning\" paper/venues/acl27/build/supplement.log",
+    "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_systematic_visual_scan_s37_grounding_contract_20260605.json",
+    "git diff --check -- paper/shared/figures/gen_supplement_task_media_atlases.py tests/test_paper_layout.py docs/records/README.md",
+    "git diff --no-index --check /dev/null docs/records/2026-06-05-acl-supplement-s37-grounding-contract-visual-fix.md",
+    "git diff --no-index --check /dev/null paper/shared/evidence/raw/acl27_visual_review/supplement_systematic_visual_scan_s37_grounding_contract_20260605.json"
+  ],
+  "files_changed": [
+    "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "paper/shared/figures/fig_supplement_theory_evidence_bridge.png",
+    "tests/test_paper_layout.py",
+    "paper/shared/evidence/raw/acl27_visual_review/supplement_systematic_visual_scan_s37_grounding_contract_20260605.json",
+    "docs/records/2026-06-05-acl-supplement-s37-grounding-contract-visual-fix.md",
+    "docs/records/README.md"
+  ],
+  "follow_up_risks": [
+    "The pass targets obvious reader-blocking visual failures, not a full OCR or semantic correctness audit.",
+    "Several navigation and VLM pages remain intentionally dense; if the submission budget allows, a separate readability pass could trade page count for larger panels.",
+    "Future supplement bridge bands should avoid cover-fitting multi-row evidence atlases unless the crop is explicitly part of the figure design."
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_grscenes_diagnostic_case_atlas_20260602",
+  "generated_at_utc": "2026-06-02T10:18:07Z",
+  "review_type": "local_visual_review_not_independent_subagent",
+  "imagegen_reference_only": {
+    "path": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_010add49e1a52a25016a1ea4fe05848195acb737ae5d5c25ff.png",
+    "used_as_paper_evidence": false,
+    "purpose": "Non-evidence layout reference for a three-band GRScenes diagnostic case atlas."
+  },
+  "paper_assets": {
+    "figure": "paper/shared/figures/fig_supplement_grscenes_diagnostic_case_atlas.png",
+    "figure_sha256": "63edbd19c0f241141f113543bcc45519b706b4a61468f92062d6c7d657a4eaa6",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_sha256": "9c208abb588496d413ed4d5d341b7be2d1d384f35d7d558b7b69be37f03066cb",
+    "rendered_page": "/tmp/acl27_grscenes_case_atlas_check/page-18.png",
+    "pdf_page": 18
+  },
+  "visual_metrics": {
+    "source_figure_size": [1800, 1820],
+    "source_figure_active_fraction": 0.5005,
+    "source_figure_red_fallback_fraction": 0.0,
+    "rendered_pdf_page_size": [1406, 1988],
+    "rendered_pdf_page_active_fraction": 0.2202,
+    "rendered_pdf_page_red_fallback_fraction": 0.0
+  },
+  "visual_review": {
+    "overall_verdict": "PASS",
+    "evidence": [
+      "The final atlas uses clean-rerender GRScenes target-view original and converted render pairs.",
+      "The target boxes and center markers remain visible for bottle, cup, backpack, and clock cases.",
+      "The three bands map the visual anchors to Table S4, Table S5, and Table S6 without introducing a new benchmark claim.",
+      "No large red fallback-material artifact is visible in the source figure or rendered PDF page."
+    ],
+    "risks": [
+      "The atlas reuses the clean-rerender case pool rather than covering every row in the failure taxonomy.",
+      "The adjacent Table S4-S6 pages remain table-heavy and are still candidates for later reflow.",
+      "This is a local visual review, not an independent fork-context review."
+    ]
+  },
+  "verification_commands": [
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py && python -m pytest -q tests/test_paper_layout.py -k \"grscenes_diagnostic_case_atlas\"",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "make -C paper acl27-supplement",
+    "pdftotext paper/venues/acl27/build/supplement.pdf - | rg -n \"GRScenes diagnostic case atlas|Red material|registered diagnostic figure|fig_vlm_grounding_cases|/cpfs|zhuzihou|jandan138|github.com|ConvertAsset.git\" -S",
+    "pdftoppm -f 17 -l 20 -r 170 -png paper/venues/acl27/build/supplement.pdf /tmp/acl27_grscenes_case_atlas_check/page"
+  ]
+}

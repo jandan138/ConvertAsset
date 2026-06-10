@@ -2,9 +2,244 @@
 
 Template provenance: ACL 2027 conference-specific files are not published in this repo. The wrapper now vendors the generic official *ACL style files `acl.sty` and `acl_natbib.bst` from `acl-org/acl-style-files` so local compile checks can run until the ACL 2027 author kit or conference-specific instructions are published. Provenance checked on 2026-05-23: ACLPUB's formatting page points authors to `https://github.com/acl-org/acl-style-files`.
 
-Readiness: ACL/ARR candidate packet. It is route-ready for a final rehearsal,
-but not final-upload complete until the authors lock EACL 2027 via ARR or wait
-for the official Annual ACL 2027 call.
+Readiness: ACL/ARR candidate packet. It is route-ready for final human route
+and OpenReview-form decisions, but not final-upload complete until the authors
+lock EACL 2027 via ARR or wait for the official Annual ACL 2027 call.
+
+Target-policy refresh on 2026-05-30: official ARR Dates still lists EACL 2027
+with final ARR submission date August 3, 2026 and commitment date October 11,
+2026. The EACL 2027 home and main-paper pages still list the August 3, 2026
+AoE ARR deadline, with the complete CFP and detailed timetable forthcoming.
+Official searches still did not find a public Annual ACL 2027 CFP or author
+kit, so the route status remains ACL/ARR candidate-ready, not
+Annual-ACL-final-ready.
+
+Readiness sync on 2026-05-30: the reviewer-risk audit, full-PDF visual recheck,
+Figure 3 red-material recheck, first-page ACL-fit recheck, and staged packet
+now point to the same state. The current 11-page v18 PDF remains the active
+candidate; Figure 1 v18 does not need another imagegen iteration because the
+post-gate full-PDF visual review still passes page 2 and the exact
+`Target: box` label is preserved. The repo has no current paper-side blocker,
+but
+`report_final_blockers.py` still reports human-only blockers for route lock,
+private author-gate completion, OpenReview form copy, runtime/AI/media
+approvals, and final upload decision.
+
+Fig.3 provenance-caption, conclusion, and layout polish on 2026-05-30:
+Figure 3's caption now says the selected `Original MDL` cells passed a
+log-checked clean rerender/provenance gate, the conclusion now states the
+paper's practical outcome as an evidence gate, and the Introduction no longer
+uses a manual `\newpage` before the contribution list. A longer caption draft
+was rejected after rendered page review because it moved Figure 4 to page 10
+and left page 9 with a large blank column. The accepted compact wording
+preserves the red-material provenance signal while keeping Figure 4 on page 9.
+The refreshed staged candidate is an 11-page A4 PDF 1.5 file of 4,066,770 bytes
+(`sha256=177466b7d0cf6a557f73f792dc6f718fdae8f42663e7398a54bc2d9252cde356`,
+created 2026-05-30 20:25:01 CST). The build and staged PDFs are byte-identical.
+The full pre-upload gate passed claim boundaries, target policy, metadata
+consistency, OpenReview checklist, citation inventory, evidence-number checks,
+the 57-source final-integrity fingerprint, blocker/goal reports, 93 focused
+tests, clean ACL rebuild, LaTeX log scan, packet staging,
+inventory/checksum/private-token/acknowledgment scans, PDF profile checks, and
+ordered text-section checks. Remaining blockers are unchanged and human-only.
+
+InternNav scope wording polish on 2026-05-30: a final reviewer-style pass
+removed the awkward `all-InteriorNav` wording from the Limitations scope
+boundary and replaced it with explicit `all InternNav or InteriorAgent
+settings` language. The claim-boundary checker now catches natural broad-scope
+variants such as `all InternNav` and `all InteriorAgent`, not only hyphenated
+forms. The consolidated pre-upload gate was rerun after the edit and passed
+with 93 focused tests. The current staged candidate is an 11-page A4 PDF 1.5
+file of 4,066,626 bytes
+(`sha256=137370b33b567ebc55ab6f88ef5d6e6860b6e61debf133e8077b14a22b454c98`,
+created 2026-05-30 20:43:58 CST). The build and staged PDFs are
+byte-identical. Page 9 was rerendered at 150 DPI; the rendered page hash is
+`c102b28d3ca1b6d01713bebd110481c0178f80fa206376cfc23d4eed636f4496`, and local
+visual review passed with Figure 4, Limitations, and Ethical Considerations
+readable and non-overlapping.
+
+Post-gate full-PDF visual review on 2026-05-30: the current staged PDF with
+SHA-256 `177466b7d0cf6a557f73f792dc6f718fdae8f42663e7398a54bc2d9252cde356`
+was rerendered at 150 DPI after the Figure 3 provenance-caption hardening,
+conclusion takeaway polish, manual Introduction page-break removal, and final
+pre-upload-gate restaging. The durable record is
+`paper/shared/evidence/raw/acl27_visual_review/full_pdf_visual_review_20260530.json`.
+The verdict remains `PASS_WITH_MINOR_QUALITATIVE_CAVEATS`: no blank pages,
+detached captions, raw LaTeX artifacts, figure/table overlap, page-level
+clipping, or red-material recurrence were found. Page 2 now flows from
+Figure 1 into the contributions and Related Work without a manual page break,
+and page 8 still carries the compact Figure 3 provenance caption and
+strengthened conclusion without moving Figure 4 off page 9. No new imagegen
+candidate was generated because the visual review did not identify a concrete
+defect that another generated bitmap would solve.
+
+Previous full pre-upload candidate refresh on 2026-05-28: after the material-
+effect main-panel promotion, the Figure 2 visual-first readability polish,
+Figure 3 readable-label polish/red-material recheck, Table 6 caption
+compacting, the Figure 4 wide InternNav panel upgrade, the page-9 Limitations
+tail polish, the page-7 official-scene hyphenation polish, the rejected
+Figure 1 v17 imagegen candidate audit, the promoted Figure 1 v18 imagegen
+schematic, the abstract point-hit direction clarity update, the Figure 1
+caption polish, and the final pre-upload gate rerun, the staged candidate is
+an 11-page A4 PDF 1.5 file of
+4,066,538 bytes
+(`sha256=59636b2dbd5b43f90c49ddcf72649a018005790254f26558724f1c15fd2cb6b7`,
+created 2026-05-28 23:22:53 CST).
+The build and staged PDFs are byte-identical. The full gate passed claim
+boundaries, target policy, metadata
+consistency, OpenReview checklist, citation inventory, evidence-number checks,
+final-integrity fingerprint, blocker/goal reports, 91 focused tests, clean ACL
+rebuild, LaTeX log scan, packet staging, inventory/checksum/private-token/
+acknowledgment scans, PDF profile checks, and ordered text-section checks.
+Remaining blockers are human-only: final route lock, OpenReview form copy,
+runtime/AI/media approvals, and final upload decision.
+
+Same-day figure context: Figure 1 is now the accepted low-text imagegen v18
+schematic, promoted after local visual review confirmed the exact `Target: box`
+label and page-scale readability. Figure 2 remains deterministic real render evidence, now using a
+visual-first layout with larger panels and no internal title/subtitle/footer
+microcopy. Figure 3 is now the selected material-effect qualitative panel on
+page 8 with readable row-level target/effect labels, sourced from
+`fig_material_effect_baseline_qualitative.png`, and Figure 4 is now the wide
+three-case official KuJiaLe InternNav path panel on page 9, sourced from
+`fig_internnav_rollout_0036_0066_main3_readable.png`. Figure 3 and Figure 4 are
+included as bounded selected visual evidence only; Table 5 remains the
+governing material-effect claim-boundary artifact, and the InternNav
+quantitative claims remain tied to the frozen 99-episode paired run.
+
+Table 6 caption polish on 2026-05-28: the official-scene performance table keeps
+the same aggregate Original MDL/noMDL rows and the same CSV-backed metrics, but
+the main-paper caption is now compact enough for page-7 scanning while still
+stating that NVIDIA official-scene performance is omitted until matching
+conversions pass smoke gates. Local page-7/page-8 visual review reports
+`pass_with_caveat`: the page remains dense, but Table 6 has no visible overlap
+or detached caption.
+
+Fig.3 red-material recheck on 2026-05-28: rendered page 8 of the current build
+PDF, the extracted embedded PDF image, and the source Figure 3 PNG all have
+zero strong-red pixels under the project spot check. The current source figure
+hash is `e0cea32c186661ce2efcf736fd7fb0f714f7d78b411364b029374e0e473e187a`,
+and the rendered page-8 hash is
+`e8cf7110e83bfe8b44d7674dd29cee26d7a4917aea70dc783db07ee3e18c7f90`.
+`check_qualitative_clean_provenance.py` reports
+`status=clean_material_effect_panel_ready`, `selected_case_count=4`,
+`checked_original_mdl_log_count=4`, and
+`original_mdl_error_signal_count=0`. The current diagnosis is that any red
+`Original MDL` material seen in older candidates was stale pre-rerender evidence
+or a cached PDF/source image, not a recurrence of the MDL import problem.
+
+Fig.4 wide-panel recheck on 2026-05-28: the source wide InternNav panel
+`fig_internnav_rollout_0036_0066_main3_readable.png` now has SHA-256
+`818525fcc0a5fd0b4e692ddd9d2738e673eb3b70a2b2dd90895cab7dd0d51a6e` after the
+label-readability polish, and the rendered page-9 check has SHA-256
+`cb7fbc9efb13ff560646189e2f39067e5c720abb446ce85958ca12e31e4fde10` at 180
+DPI. Both report zero strong-red pixels after the overlay recoloring step. The
+pre-upload `pdftotext` guard now explicitly allows this top-of-page Figure 4
+float before the Limitations heading while still rejecting Figure 4 after
+Ethical Considerations or References. A follow-up page-9 polish keeps the right
+column starting cleanly at `Ethical Considerations`, while preserving the
+stability-only/no-speedup claim boundary.
+
+Page-7 hyphenation polish on 2026-05-28: the official-scene stability paragraph
+no longer starts page 7 with a broken `nal/noMDL`, `process official-scene`, or
+`scene runs` fragment. The checked text now preserves the `18 required` and
+`18/18 successful` evidence markers while phrasing the result as `18 required
+paired runs ... in fresh processes` across original and noMDL conditions.
+
+Figure 1 v17/v18 imagegen audit on 2026-05-28: an additional imagegen candidate was
+generated and preserved under `fig_acl_method_chain_imagegen_v17_candidate.png`,
+but local visual review rejected it for main-paper use because the VLM target
+label reads `Target: boy` instead of `Target: box`. A follow-up v18 candidate
+was generated, preserved under `fig_acl_method_chain_imagegen_v18_candidate.png`,
+and promoted to `fig_acl_method_chain_imagegen_v18.png` because it preserves
+the exact `Target: box` label, keeps the low-text four-stage roadmap, and uses
+the clearer `VLM Checks` stage title.
+
+Current v18 full-PDF visual review on 2026-05-28: the build PDF with SHA-256
+`59636b2dbd5b43f90c49ddcf72649a018005790254f26558724f1c15fd2cb6b7` was
+rerendered at 150 DPI and checked with the local pure-visual rubric after the
+Figure 1 caption polish and final pre-upload gate rerun. The durable record is
+`paper/shared/evidence/raw/acl27_visual_review/full_pdf_visual_review_v18_20260528.json`.
+The verdict is `PASS_WITH_MINOR_QUALITATIVE_CAVEATS`: no blank page, detached
+caption, raw LaTeX artifact, table/float overlap, or visible page-level clipping
+was found. The page-1 abstract update and page-2 Figure 1 caption polish fit
+without visible overlap or clipping.
+Figure 1 remains accepted schematic-roadmap art; Figure 2 remains
+real render orientation evidence with a cropped-proxy caveat; Figure 3 remains
+selected material-effect qualitative evidence without visible red MDL fallback;
+and Figure 4 remains selected qualitative InternNav path evidence with improved
+case-ID and `SR O/N` label readability while the caption and main-text claim
+boundary still carry the quantitative-scope warning.
+
+Main-paper polish update on 2026-05-27: the ACL/ARR manuscript no longer uses
+internal venue-wrapper wording such as `ACL-facing`, `main ACL claim`, or
+`ACL protocol` in checked manuscript/metadata text. Table captions also no
+longer expose `ACL/ARR claim boundary` wording. The text now presents the work
+as a claim-bounded evaluation protocol, while `check_claim_boundaries.py`
+rejects those wrapper phrases if they are reintroduced.
+
+Table-density polish update on 2026-05-27: the official-scene performance table
+in the ACL main PDF now uses a compact aggregate `Metric / Original MDL / noMDL`
+layout with wrapping columns. The corresponding CSV still keeps the aggregate
+and per-scene rows. This makes the repeated load/render stability result
+readable in the main paper without promoting it beyond the existing boundary:
+original/noMDL official KuJiaLe runs succeeded with overlapping ready-time
+intervals, and no NVIDIA official-scene performance row is reported yet.
+The subsequent full pre-upload gate passed with 69 focused tests, a 53-source
+integrity fingerprint, and a staged 11-page A4 PDF 1.5 file of 3,364,227 bytes.
+
+Reference-layout polish update on 2026-05-27: a follow-up visual review found
+that forcing a fresh References page after Ethical Considerations left a large
+blank right column below Figure 3. `main.tex` now lets References begin in the
+right column on page 9 after the ethics text, and the OpenReview checklist
+anchors now record `References | starts on page 9`. The subsequent full
+pre-upload gate passed with 70 focused tests, a 53-source integrity
+fingerprint, and a staged 10-page A4 PDF 1.5 file of 3,363,874 bytes.
+
+Introduction-layout polish update on 2026-05-27: a later page-level visual
+review found that the contribution list on page 2 started the right column with
+a mid-sentence continuation. `sections/intro.tex` now tightens the four-gate
+paragraph and first two contribution bullets and uses a deliberate column break
+before `We make four contributions`. The subsequent full pre-upload gate passed
+with 70 focused tests, the 53-source integrity fingerprint, and a staged
+10-page A4 PDF 1.5 file of 3,363,532 bytes, with page 3 still starting Related
+Work cleanly.
+
+Fig.3 overlay-color polish update on 2026-05-27: the selected InternNav rollout
+panel now recolors source-red agent trajectory/action overlays to purple during
+figure composition while leaving the evidence stills unchanged. The Figure 3
+caption describes the purple executed paths/action arrows as orientation
+overlays with color changed for readability, reducing confusion with the
+historical red-material fallback issue. The subsequent full pre-upload gate
+passed with 70 focused tests, the 53-source integrity fingerprint, clean build,
+staging, scans, PDF profile, and `pdftotext` checks. The staged candidate
+remains a 10-page A4 PDF 1.5 file of 3,363,508 bytes; page-9 visual review
+confirms that the purple/green legend and caption remain visible.
+
+Page-8 layout polish update on 2026-05-27: after the Fig.3 overlay-color
+mitigation, a rendered-PDF review found that the official-scene performance
+Table 6 could still force an awkward single-column float before Limitations.
+`tab_official_scene_performance_summary.tex` and its generator now emit the
+compact aggregate table as a two-column `table*`, and `sections/conclusion.tex`
+is shortened to a single claim-boundary paragraph. The subsequent full
+pre-upload gate passed with 70 focused tests, the 53-source integrity
+fingerprint, clean build, staging, scans, PDF profile, and `pdftotext` checks.
+The staged candidate remains a 10-page A4 PDF 1.5 file of 3,363,281 bytes;
+rendered page-8/page-9 visual review confirms that Table 6, Limitations, and
+the selected InternNav Figure 3 are readable without overlap.
+
+Method-chain v9 imagegen update on 2026-05-27: a follow-up full-PDF visual
+review found that Figure 1 could be made less dense without changing the paper
+story. A new imagegen/image2 v9 schematic was generated, copied to
+`paper/shared/figures/fig_acl_method_chain_imagegen_v9.png`, and connected to
+the ACL wrapper with its prompt preserved at
+`paper/shared/figures/prompts/fig_acl_method_chain_gpt_image2_v9.prompt.txt`.
+Rendered page-2 visual review of the staged PDF confirms that the four-stage
+roadmap, exact `Target: box` label, and claim-boundary footer remain readable.
+The subsequent full pre-upload gate passed with 70 focused tests, the 53-source
+integrity fingerprint, clean build, staging, scans, PDF profile, and
+`pdftotext` checks. The staged candidate remains a 10-page A4 PDF 1.5 file of
+3,313,612 bytes.
 
 Local section overrides: `sections/abstract.tex`, `sections/intro.tex`,
 `sections/related.tex`, `sections/method.tex`, `sections/results.tex`,
@@ -60,6 +295,17 @@ the same view succeeded. The ACL main paper therefore no longer includes
 unsafe panel if it is reintroduced before clean render/overlay provenance is
 available. See
 `../../../docs/records/2026-05-26-acl-fig1-red-material-root-cause.md`.
+
+Material-effect qualitative-panel QA update on 2026-05-28: the earlier
+`fig_material_effect_baseline_qualitative.png` red-material issue is repaired
+for the four selected covered-bin cases. Each selected original/noMDL pair was
+rerendered through `run_paired_render_smoke.py` from the existing zoom camera
+stages, the material-effect manifest and contact sheet were regenerated, and the
+clean-provenance checker now reports `clean_material_effect_panel_ready` with
+`original_mdl_error_signal_count=0`. The ACL main paper still keeps the
+material-effect result table-bounded; `check_claim_boundaries.py` now rejects
+the panel only when that clean-provenance gate is false. See
+`../../../docs/records/2026-05-27-acl-fig3-red-material-diagnosis.md`.
 
 CVPR workshop reviewer carry-over status on 2026-05-26: the expanded30 VLM grounding route addresses the most dangerous "proxy-only AI task" weakness at the image-level grounding layer, and the official KuJiaLe `val_unseen` route now adds scoped InternNav downstream sanity evidence over 99 paired episodes. This still does not mean manipulation, broad GRScenes embodied validation, or all-scene downstream robustness has been introduced. Reviewer concerns about overbroad guidelines have been addressed by narrowing the claim to frozen evidence pools. NVIDIA official-tool baseline and per-MDL-effect analysis are represented by the material-effect condition manifests, selected qualitative/failure panels, PXR diagnostic, and risk matrix in the shared manuscript: four GRScenes-covered bins have bounded selected qualitative support, clearcoat is a selected NVIDIA target-loss failure case, and procedural texture is a preservation limitation. The reviewer-closure package now adds paired bootstrap CIs, coordinate-only VLM baselines, and a rule-based safe-conversion table. The official-scene submission-closure package adds multi-scene/multi-run original/noMDL load-render statistics across the 0031/0036/0066 KuJiaLe scenes: 18/18 required runs succeeded, with overlapping original/noMDL ready-time intervals. A learned automatic recommender and NVIDIA official-scene performance baseline remain open.
 
@@ -151,7 +397,7 @@ Target-call refresh after pre-upload automation on 2026-05-26: official ARR,
 EACL, and ACLPUB pages were reopened after the evidence-number gate was added.
 The policy state is unchanged: EACL 2027 via ARR is the concrete public
 ACL-family route, Annual ACL 2027 remains unavailable as a final public target,
-and author order/OpenReview profile/reviewer-registration fields remain
+and reviewer-registration plus final route/form-copy/upload decisions remain
 human-only gates.
 
 Goal-completion audit update on 2026-05-26: `GOAL_COMPLETION_AUDIT.md` maps
@@ -175,9 +421,20 @@ values. The current report is `status=candidate_ready_human_blocked`:
 private author/OpenReview route, form-copy, runtime/AI/media, and final upload
 decision remain unresolved. The reporter is part of the consolidated
 pre-upload gate, but it is not a substitute for `run_preupload_gate.py`. After
-removing the unsafe qualitative VLM panel from the ACL main paper, the refreshed
-full pre-upload gate passes with 63 focused ACL tests, an 11-page A4 PDF 1.5
-staged packet, and 215253 bytes for `main.pdf`.
+removing the unsafe qualitative VLM panel from the ACL main paper and later
+adding the figure-driven evidence panels, the cleaner method-chain imagegen v3
+figure, the oblique-view single-object render-pair refresh, the retained
+InternNav supplemental/rebuttal panel, plus the earlier abstract refresh
+(now tightened to 183 words after the original/converted point-hit clarity
+edit), the
+2026-05-27 candidate passed the full pre-upload gate. The latest post-Fig.3
+mitigation, layout-polish, and venue-neutral wording gate passes with 69
+focused ACL tests, a
+53-source integrity fingerprint, and a staged 11-page A4 PDF 1.5 file. The
+unsafe material-effect
+qualitative panel is now removed, while the combined two-column Figure 2 keeps
+the selected real-render evidence easier to inspect without changing the
+underlying claims.
 
 Private author-gate status update on 2026-05-26:
 `scripts/report_final_blockers.py` and `scripts/report_goal_completion.py` now
@@ -198,6 +455,29 @@ readiness, form-copy approval, runtime/AI/license approvals, optional-media
 decision, or the final upload decision. The local ignored worksheet has been
 prefilled for those eight evidence rows and still fails `check_author_gate.py`
 until the remaining human rows are approved.
+
+Author-gate prefill restage on 2026-05-28: after the current 23:22 staged PDF
+was produced, `prefill_author_gate.py --apply --overwrite` refreshed the eight
+repo-verifiable rows in the ignored local worksheet against the exact current
+packet. `check_author_gate.py` still reports `ok=false`, but the remaining
+`todo_fields` are now the human-only route, OpenReview-copy, runtime/AI/media,
+approval, and final upload-decision rows. The final blocker reporter now detects
+this state and its first `next_actions` entry tells the author to complete the
+remaining human-only worksheet fields, rather than redundantly asking for the
+ordinary prefill step again.
+
+OpenReview author-profile sync on 2026-05-30: the ignored private worksheet now
+records the current sole-author and OpenReview-profile confirmation rows, and a
+fresh prefill refreshed the repo-verifiable rows for the latest staged 11-page
+A4 PDF 1.5 artifact of 4,087,616 bytes with SHA-256
+`d03af3b4554951ccb51c3a224a8fbbd12fb517180dd36bad5672f0fb07006793`. Those
+private values remain outside the tracked repository and outside the anonymous
+submission packet. `check_author_gate.py` still reports `ok=false`, with no
+missing fields but 19 remaining TODO fields: target route/deadline/commitment,
+reviewer-registration commitment, dual-submission and prior-submission answers,
+preprint/public-link decisions, OpenReview metadata/checklist copy approvals,
+runtime/AI/license wording approvals, optional-media decision, and final upload
+decision.
 
 Goal-completion refresh after pre-upload automation on 2026-05-26: the current
 candidate is now guarded by `run_preupload_gate.py`, which includes
@@ -448,9 +728,9 @@ Repository evidence is under
 `../../shared/evidence/raw/internnav_vln_downstream/official_val_unseen_99/`.
 Combined paired means are original/noMDL `SR=0.5253/0.4848`,
 `SPL=0.4739/0.4298`, `NE=3.6798/3.6306`, and `TL=6.9754/7.0598`. This is a
-controlled official InteriorNav / KuJiaLe downstream sanity result. It still
-does not justify a broad GRScenes, R2R, MP3D, or all-InteriorNav embodied
-benchmark claim. See
+controlled official InternNav / KuJiaLe downstream sanity result. It still
+does not justify a broad GRScenes, all InternNav or InteriorAgent settings,
+R2R, MP3D, or manipulation benchmark claim. See
 `../../../docs/records/2026-05-25-internnav-official-val-unseen-99-results.md`.
 
 Selected qualitative video update on 2026-05-25: the 0031 selected videos and
@@ -480,8 +760,10 @@ Conversion as a Controlled Perturbation for Vision-Language Grounding in
 Synthetic 3D Scenes`, and the abstract removes the tool-first ConvertAsset
 sentence in favor of a composition-preserving conversion-path description. The
 OpenReview metadata packet was updated to the same title and refreshed
-189-word abstract. The intent is to make the first screen read as VLM grounding
-and embodied-data reliability work under a controlled material perturbation,
+abstract, now 183 words after the later proxy-fidelity boundary and
+original/converted point-hit clarity edits. The intent is to make the first
+screen read as VLM grounding and embodied-data reliability work under a
+controlled material perturbation,
 while keeping the same evidence numbers and claim boundary.
 
 OpenReview metadata consistency update on 2026-05-26:
@@ -497,8 +779,9 @@ Claim-boundary automation update on 2026-05-26:
 `scripts/check_claim_boundaries.py` and `tests/test_acl_claim_boundaries.py`
 now guard the highest-risk ACL claims. The checker scans the ACL sections,
 shared appendix, and OpenReview metadata source for unguarded broad embodied
-robustness, broad benchmark, all-GRScenes/all-InteriorNav/R2R/MP3D/manipulation
-robustness, official-scene speedup, NVIDIA official-scene performance,
+robustness, broad benchmark, all GRScenes/all InternNav/InteriorAgent/
+R2R/MP3D/manipulation robustness, official-scene speedup, NVIDIA
+official-scene performance,
 population failure-rate, procedural-texture success, and learned-classifier
 claims. Guardrailed statements such as `does not establish`, `rather than
 speedup`, `selected`, `scoped`, and `limitation` remain allowed.
@@ -655,3 +938,216 @@ metadata/checklist/citation/evidence/build/staging, and
 `report_final_blockers.py` reports unsafe or missing target-policy notes as a
 repo blocker. The focused ACL pytest suite now covers 45 tests. This still
 does not choose the route for the authors.
+
+Figure-driven ACL candidate update on 2026-05-27: after the Fig.3 red-material
+diagnosis, the stale material-effect qualitative panel was removed from the
+main paper and from final-integrity sources. The material-effect result is now
+table-bounded, and the claim-boundary checker rejects reintroducing the stale
+panel until clean original-MDL rerenders or replacement cases exist. The
+post-Fig.3 `run_preupload_gate.py` pass rebuilt and staged an 11-page A4 PDF 1.5
+candidate, 3,364,751 bytes, with the accepted imagegen/image2 v8 method-chain
+schematic on page 2, real render/scene evidence on page 6, selected InternNav
+Figure 3 on page 9, ordered `pdftotext` section checks, the reviewer-risk
+Discussion reporting-pattern paragraph, and 69 focused tests.
+The layout guard now rejects a float-only material-table page immediately before
+Limitations.
+Remaining blockers
+are human-only: route lock, OpenReview form copy,
+author/reviewer/submission-history decisions, runtime/AI/license/media
+approvals, and final upload decision.
+
+Latest visual-polish note on 2026-05-27: a local rendered-PDF review of all 11
+pages found no overlap or clipped figures, but did flag two readability defects:
+the Method opening line on page 4 had stretched spacing caused by a long
+technical token, and the page-5 prose used the artifact-style token
+`expanded30`. Both were corrected in `sections/method.tex` and
+`sections/results.tex`; the claim boundary and experiment numbers are unchanged.
+
+Figure 2 visual-polish note on 2026-05-27: the real-render evidence panel was
+regenerated from the same source renders with cropped display views for the
+white single-object proxy row. The caption now states that the top row is
+cropped for display, and the nearby VLM text was compressed so Section 4.3 does
+not leave an orphaned sentence fragment on page 6. No generated imagery was used
+for empirical evidence. A subsequent visual pass kept the same render sources
+but switched the top proxy row to cover-fit cropped display cells, removing most
+gray side bands and making the white proxy objects larger in the integrated
+page-6 PDF view. A follow-up proxy-row readability pass keeps the same raw
+proxy-render pool but replaces the nearly blank `#0004` display example with
+the more legible `#0023` pair; `tests/test_render_scene_evidence_figure.py`
+guards against returning to an all-low-contrast top row and is included in the
+consolidated preupload gate.
+A later representative-pair compaction pass addressed the remaining PDF-scale
+readability issue: the eight-cell render contact sheet still looked like
+thumbnails, so `gen_render_scene_evidence_wide.py` now renders one proxy
+original/noMDL pair and one GRScenes original/noMDL pair at larger cell width
+from the same recorded sources. An oversized draft grew the build to 11 pages
+and was rejected; the accepted compact layout keeps the ACL build at 10 A4 pages
+while making the render evidence easier to inspect. A subsequent pure-visual
+review still found the selected white proxy row too strip-like in the PDF, so
+the generator now uses the same raw `#0023` proxy pair in a narrower
+proxy-object cell while keeping the GRScenes scene row full width. The focused
+Figure 2 test now checks the selected proxy row rather than only the proxy
+candidate pool. The current local ACL build remains 10 A4 pages and renders the
+updated Figure 2 on page 6 without overlap. The subsequent full pre-upload gate
+passed with 72 focused tests and staged a 10-page A4 PDF 1.5 file of 3,471,360
+bytes.
+An additional local visual pass on the same page found that the front-view
+proxy crop was still too low-detail for the paper narrative. The Figure 2
+generator now uses the recorded `#0023` full-object back-view original/noMDL
+pair (`A_back.png`/`B_back.png`) for the representative proxy row, while keeping
+the GRScenes row unchanged. The selected-proxy readability test was tightened
+to require minimum grayscale contrast `>=13.0`; the previous selected display
+failed this gate at `12.32`, and the new display passes. This is a
+presentation/sample-selection change over existing empirical render files, not
+image generation and not a new experiment. The current rebuilt local ACL PDF is
+10 A4 pages, PDF 1.5, and 3,487,597 bytes.
+The subsequent full pre-upload gate passed again with 72 focused tests, a
+53-source final-integrity fingerprint, clean ACL build, staging, scans, PDF
+profile, and ordered text-section checks. The staged candidate
+`paper/submissions/acl27_arr_candidate_20260526/main.pdf` is a 10-page A4 PDF
+1.5 file of 3,487,597 bytes, and a rendered staged page-6 spot check shows the
+refreshed Figure 2 without overlap.
+A subsequent rendered-PDF spot check found that the #0023 back view still looked
+like a low-detail gray slab at page scale. The current front-detail pass uses
+the recorded `#0011` front-view original/noMDL proxy pair
+(`A_front.png`/`B_front.png`) and replaces the selected-proxy contrast guard
+with a front-detail edge-density guard that rejects back-only representative
+views. The full pre-upload gate passed again with 72 focused tests, the
+53-source fingerprint, clean build/staging, packet scans, PDF profile checks,
+and ordered text-section checks. The current build and staged candidate are
+identical 10-page A4 PDF 1.5 files of 3,493,873 bytes, and rendered page 6 shows
+the drawer/handle details without overlap.
+A follow-up pure visual review still found the flat front view usable but less
+informative than an angled object render. The current Figure 2 proxy row uses
+the recorded `#0011` top-front-right pair
+(`A_top_front_right.png`/`B_top_front_right.png`) from the same empirical render
+pool. The selected-proxy guard now requires a front/front-angled path plus both
+minimum edge density and contrast, avoiding the earlier single-metric false
+negative on smooth white geometry. The full pre-upload gate passed again with
+72 focused tests, the 53-source fingerprint, clean build/staging, packet scans,
+PDF profile checks, and ordered text-section checks. The current build and
+staged candidate are identical 10-page A4 PDF 1.5 files of 3,514,678 bytes, and
+rendered page 6 shows the angled proxy object, Figure 2 caption, and Table 2
+without overlap.
+A label-precision pass then changed the representative proxy-row sublabel from
+the generic `#0011 full object view` to `#0011 top-front-right object view`, so
+the figure text now matches the actual recorded camera direction. This was a
+TDD-only figure-generator/label update over the same empirical render files, not
+a new experiment and not an imagegen rerun. The full pre-upload gate passed
+again with 73 focused tests, the 53-source fingerprint, clean build/staging,
+packet scans, PDF profile checks, and ordered text-section checks. The current
+build and staged candidate are identical 10-page A4 PDF 1.5 files of 3,515,110
+bytes, with SHA-256
+`2800402b662904faf83862cd1f5fd1374e9d81fa6bdd8768f72e0a59458fa794`; rendered
+staged page 6 shows the angled proxy object, Figure 2 caption, and Table 2
+without overlap.
+
+Figure 2 cropped-proxy detail update on 2026-05-27: a follow-up page-6 visual
+pass found that the same white `#0011` top-front-right proxy render remained
+slightly faint at PDF scale. The generator now crops the existing real
+Original MDL/noMDL pair to `(140, 40, 780, 720)`, discloses the crop in the
+cell label as `#0011 cropped top-front-right object view`, and has a regression
+test that requires improved minimum pair contrast over the uncropped view. This
+is a figure-readability update over existing empirical renders, not imagegen
+and not a new experiment. The subsequent full pre-upload gate passed with 75
+focused tests, the 53-source fingerprint, clean build/staging, packet scans,
+PDF profile checks, and ordered text-section checks. The current build and
+staged candidate are identical 10-page A4 PDF 1.5 files of 3,553,091 bytes,
+with SHA-256
+`7fed84db45e19f2e2ed56a67452d27ea04d0e4ffcf9a582e6a591a9e254163fe`; rendered
+staged page 6 shows the cropped proxy object, Figure 2 caption, and Table 2
+without overlap.
+
+Navigation visual-polish note on 2026-05-27: the selected official KuJiaLe
+0036/0066 rollout stills now produce both the superseded single-column
+`fig_internnav_rollout_0036_0066_column.png` and the retained full-width
+`fig_internnav_rollout_0036_0066_main3_readable.png`, generated by
+`paper/shared/figures/gen_internnav_main_readable.py`. The ACL PDF now uses the
+single-column representative panel on the Limitations page so readers can
+inspect a real navigation path panel without treating selected stills as the
+quantitative InternNav result. A clean page-break attempt with a wider panel
+grew the candidate and was rejected; the accepted layout preserves the 11-page
+profile.
+The red marks in the source video stills are InternNav visualization overlays:
+`draw_action_pil()` draws red action arrows in the egocentric view and
+`draw_trajectory()` draws the executed agent path in red on the top-down map.
+The checked current Figure 3 source logs contain no `KooPbr`, `KooPbr_maps`,
+`could not find module`, `Failed to create MDL shade node`, `C108`, or `C120`
+signals. The current paper panel recolors those source-red agent overlays to
+purple during composition, embeds a visible purple/green legend, and the caption
+states that purple denotes executed paths/action arrows while green denotes
+reference paths. Later reference-layout, page-8 polish, single-column Fig.3,
+and v14 schematic passes preserved Figure 3's provenance.
+The latest 2026-05-28 user-facing re-check of
+`paper/venues/acl27/build/main.pdf` again renders page 9 as the InternNav
+rollout panel, not an `Original MDL / ConvertAsset / NVIDIA` material-effect
+contact sheet. The old red-material contact sheet was stale pre-rerender
+evidence; the 2026-05-28 clean material-effect rerender now passes the
+clean-provenance gate, while the ACL main text still keeps that evidence
+table-bounded. The later 13:47 CST build re-check on the same path has SHA-256
+`4f04c57047e395e2afc86e0adbd247fcf257a9e730e03e0c34a4846521d62250`, still
+uses the `1050 x 718`
+`fig_internnav_rollout_0036_0066_column.png` image for Figure 3, and has zero
+strong-red pixels in the rendered page-9 figure, the Figure 3 source PNG, and
+the current material-effect contact sheet. The source video stills do contain
+red InternNav action/trajectory overlays before paper composition; the generator
+recolors those overlay pixels to purple, and current selected-video logs contain
+no `KooPbr` / module-resolution / shade-node error terms.
+
+Method-chain imagegen note on 2026-05-27: after the explicit request to use the
+project image-generation skill and image2 route for the method-chain diagram,
+fresh backup candidates were generated and retained at
+`paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v5_candidate.png`,
+`paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v7_candidate.png`,
+`paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v8_candidate.png`,
+`paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v9_candidate.png`,
+`paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v10_candidate.png`,
+`paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v11_candidate.png`,
+`paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v12_candidate.png`,
+`paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v13_candidate.png`,
+`paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v14_candidate.png`,
+`paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v15_candidate.png`,
+`paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v16_candidate.png`,
+`paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v17_candidate.png`,
+and `paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v18_candidate.png`.
+The accepted rerun is now copied to
+`paper/shared/figures/fig_acl_method_chain_imagegen_v18.png` and referenced by
+the ACL draft, with its exact prompt preserved at
+`paper/shared/figures/prompts/fig_acl_method_chain_gpt_image2_v18.prompt.txt`.
+Compared with v16, v18 keeps the schematic-only role, preserves page-scale
+balance for the VLM and InternNav blocks, keeps purple/green navigation paths,
+preserves the `Target: box` Stage 3 text, uses the clearer `VLM Checks` title,
+and leaves SR/SPL/NE as neutral metric tiles.
+v10/v11 are retained only as rejected backups because v10 used a misleading NE
+metric direction cue and v11 introduced a generated-text typo; v12/v13/v14/v15
+and v16 are retained as superseded acceptable backups, while v17 is retained as
+a rejected wrong-target-text audit artifact.
+The schematic
+remains claim-bounded: it is roadmap art, not empirical render, VLM, material,
+or navigation evidence.
+
+Four-gate narrative alignment note on 2026-05-27: a follow-up manuscript review
+found that the Introduction still described the evidence base as two layers
+after the paper had become a four-gate ACL story. `sections/intro.tex` now
+introduces the same four gates used by Figure 1, Method, Results, and the claim
+registry: proxy similarity, GRScenes VLM grounding, material-effect/NVIDIA
+baseline risk, and scoped InternNav embodied-stack sanity. The rewritten
+paragraph keeps the same claim boundary: no proxy score, selected visual panel,
+or navigation sanity run stands in for broad downstream robustness. Rendered
+PDF checks of pages 1--2 kept the then-current 11-page profile and did not
+disturb Figure 1; the later reference-layout pull-up reduced the final staged
+candidate to 10 pages.
+
+Clean-pool Table 2 readability note on 2026-05-30: a local page-scale visual
+review found that the GRScenes clean-pool pilot table was technically present
+but too compressed when rendered through `\resizebox`. The table now uses
+fixed-width text columns, keeps all original metric values, moves the shared
+structured-text prompt detail into the caption, and puts pair-level caveats into
+a table note below the rows. The focused layout test passes, the ACL build
+remains an 11-page A4 PDF, the final LaTeX log has no overfull/undefined/warning
+lines, and the rendered page-6 visual review passes for Figure 2 plus Table 2
+readability. The staged candidate is now byte-identical to the build PDF with
+SHA-256 `d03af3b4554951ccb51c3a224a8fbbd12fb517180dd36bad5672f0fb07006793`.
+No new imagegen asset was generated in this iteration because the active defect
+was tabular typography, while the accepted Figure 1 imagegen v18 schematic
+remains unchanged.

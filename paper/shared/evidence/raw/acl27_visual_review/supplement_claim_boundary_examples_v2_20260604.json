@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_claim_boundary_examples_v2_20260604",
+  "date_utc": "2026-06-04",
+  "target": "ACL27 supplement page 5 claim-boundary examples v2",
+  "independent_subagent_review": false,
+  "reason_independent_review_not_used": "Subagent spawning is restricted to explicit user requests in this environment; review followed the render-visual-reviewer checklist locally.",
+  "inputs": {
+    "standalone_figure": "paper/shared/figures/fig_supplement_claim_boundary_examples.png",
+    "source_ai_slot": "paper/shared/figures/ai_slots/fig_supplement_claim_boundary_examples_gate_v2_ai_slot.png",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0bc9a8f9fc0a9809016a20e18ee1f481948ec133d5c6366e24.png",
+    "superseded_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0bc9a8f9fc0a9809016a20dfcf77d4819487064e3a24033da2.png",
+    "generator": "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_claim_boundary_examples.yaml",
+    "source_registry": "paper/shared/figures/sources.yaml",
+    "source_section": "paper/venues/acl27/sections/supplement/00_overview.tex",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_review_pages_144dpi": [
+      "tmp/acl_supplement_page05_claim_boundary_examples_v2_final_20260604/page-04.png",
+      "tmp/acl_supplement_page05_claim_boundary_examples_v2_final_20260604/page-05.png",
+      "tmp/acl_supplement_page05_claim_boundary_examples_v2_final_20260604/page-06.png"
+    ],
+    "pdf_review_page_90dpi": "tmp/acl_supplement_page05_claim_boundary_examples_v2_final_90dpi_20260604/page-05.png"
+  },
+  "hashes": {
+    "source_generated_image_sha256": "26c1435a47434dde3d87a7a5bf9147339c5048ca89e110413d9962fd54af0d01",
+    "source_ai_slot_sha256": "a6ca7442b05d4b14c321b28b0d16035683b7e6ff069dfdfdaab777995ade6eea",
+    "standalone_figure_sha256": "81391a3baa6fef0466c995e8254f66f7d3f0b7a9e4e566bfa8ba807731a00626",
+    "pdf_sha256": "5d274a37ca1c6c9067fac20e3570ef03cbe99f0d96883b903bfbafe2c0cf3b99",
+    "page04_render_144dpi_sha256": "d2e71710be88fd6c0057e50c35c60641fe0dd79994e7606a6c1ce178a7030ace",
+    "page05_render_144dpi_sha256": "93de43ae9570fcc9a9f72ef52f7b8b39d6fd2af3fb8708fa5448ca5d3482c408",
+    "page06_render_144dpi_sha256": "70196e4945c257ef7eed02ed97cbe2346f623c8272baed38464283596c68107d",
+    "page05_render_90dpi_sha256": "5450eedca0c5f8dd0782ca9ee58fa4c4016a0995c89823658b23f13d0c008f18"
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks.",
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, matching the sparse-page density audit.",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90."
+  },
+  "metrics": {
+    "source_generated_image_size_px": [
+      1536,
+      1024
+    ],
+    "source_generated_image_layout_guard_active238": 0.345472972,
+    "source_generated_image_layout_guard_active245": 0.376216888,
+    "source_generated_image_red_pixel_fraction": 0.00537618,
+    "source_ai_slot_size_px": [
+      1536,
+      1024
+    ],
+    "source_ai_slot_layout_guard_active238": 1.0,
+    "source_ai_slot_layout_guard_active245": 1.0,
+    "source_ai_slot_red_pixel_fraction": 0.00665156,
+    "standalone_previous_size_px": [
+      1800,
+      2070
+    ],
+    "standalone_current_size_px": [
+      1800,
+      2320
+    ],
+    "standalone_previous_layout_guard_active238": 0.264567096,
+    "standalone_previous_layout_guard_active245": 0.289111111,
+    "standalone_current_layout_guard_active238": 0.325059626,
+    "standalone_current_layout_guard_active245": 0.35841499,
+    "standalone_current_red_pixel_fraction": 0.000203065,
+    "round33_page05_active245_90dpi": 0.166830468,
+    "current_page05_active245_90dpi": 0.196386164,
+    "page05_active245_delta": 0.029555696,
+    "current_page05_active238_90dpi": 0.183608355,
+    "current_page05_red_pixel_fraction_90dpi": 0.000008923,
+    "current_page04_active245_144dpi": 0.160257254,
+    "current_page05_active245_144dpi": 0.180698569,
+    "current_page06_active245_144dpi": 0.202983181,
+    "pdf_page_count": 45,
+    "pdf_file_size_bytes": 48828146
+  },
+  "layout_iterations": [
+    {
+      "attempt": "Increase the LaTeX include height without changing the standalone figure.",
+      "result": "Rejected: the figure was width-constrained in the page layout, so the PDF hash and page density did not change."
+    },
+    {
+      "attempt": "Rebuild the standalone figure as a 1800 x 2320 v2 composition with a 15-tile audit strip, wider real-render source coverage, a v2 AI claim-boundary gate slot, and a compact footer registry strip.",
+      "result": "Accepted: the standalone figure becomes denser, the supplement stays at 45 pages, and page 5 active245 at 90 dpi improves over the round33 audit."
+    }
+  ],
+  "slot_postprocessing": {
+    "applied": true,
+    "source": "The selected generated image was copied into the repository and locally adjusted with contrast 1.12 and brightness 0.93 so the gate schematic remains visible after supplement-page scaling.",
+    "claim_boundary": "The slot is exposition only and is not treated as experimental evidence."
+  },
+  "visual_review": {
+    "overall_verdict": "PASS",
+    "standalone_figure": "PASS: the four evidence rows remain ordered and readable as lanes; the expanded cross-gate audit strip adds real render, VLM, material, and navigation anchors without introducing a new result.",
+    "pdf_page_5": "PASS: the figure, caption, and page footer remain within page 5 without clipping, collision, or float spill.",
+    "neighbor_pages": "PASS: pages 4 and 6 remain intact in the 45-page build window.",
+    "claim_boundary": "PASS: the caption states that the AI-generated claim-boundary gate v2 schematic is only for exposition and that the figure is not a new experiment, metric, VLM run, or navigation run."
+  },
+  "verification_commands": [
+    "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_claim_boundary_examples_v2_20260604.json",
+    "python -m pytest -q tests/test_paper_layout.py -k 'claim_boundary_examples'",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "make -C paper acl27-supplement",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf",
+    "pdftoppm -r 144 -png -f 4 -l 6 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page05_claim_boundary_examples_v2_final_20260604/page",
+    "pdftoppm -r 90 -png -f 5 -l 5 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page05_claim_boundary_examples_v2_final_90dpi_20260604/page"
+  ]
+}

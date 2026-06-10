@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-06-03T05:46:15+08:00",
+  "artifact": "supplement_first_page_evidence_quickstart",
+  "skills": [
+    "imagegen",
+    "research-figure-ai-slot-composer",
+    "render-visual-reviewer"
+  ],
+  "independent_subagent": false,
+  "claim_boundary": "The AI-generated reading-compass slot is exposition only and is not experimental evidence. The registered render, VLM, material, and navigation rows are copied from existing evidence-bearing figures; the quickstart introduces no new metric, VLM run, navigation run, or empirical claim.",
+  "ai_generated_slot": {
+    "slot": "reading_compass",
+    "source_path": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0fd87bd734b6fb7d016a1f493bec288193810b0326ce1193a4.png",
+    "workspace_path": "paper/shared/figures/ai_slots/fig_supplement_first_page_reading_compass_ai_slot.png",
+    "sha256": "0b828a2b7ac19528153d5c79e18ae8fa2931cfda1a32ac41b81536068d914c52",
+    "size_px": [
+      1774,
+      887
+    ],
+    "active_fraction": 0.086658,
+    "red_fallback_fraction": 0.000046,
+    "verdict": "PASS",
+    "rationale": "The slot is an abstract linework reading-compass graphic with no readable paper claims, paths, author names, real-scene evidence, or experiment results."
+  },
+  "standalone_figure": {
+    "path": "paper/shared/figures/fig_supplement_first_page_evidence_quickstart.png",
+    "sha256": "b3927f67440445872adcf155dd7ffb98cc8735ce123a5d39036d04fcf3f0cb74",
+    "size_px": [
+      920,
+      1180
+    ],
+    "active_fraction": 0.621235,
+    "red_fallback_fraction": 0.000187,
+    "verdict": "PASS",
+    "rationale": "The figure front-loads registered visual evidence rows and confines the AI-generated component to the bottom exposition-only compass lane."
+  },
+  "rendered_pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "a4d8c8d9a475dbee358e3bc995d4162855c4857ddeed608bb0d0f08774ca0727",
+    "pages": 44,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "file_size_bytes": 33569059
+  },
+  "rendered_pdf_pages": [
+    {
+      "page": 1,
+      "path": "tmp/acl_supplement_first_page_quickstart_review_20260603/page-01.png",
+      "sha256": "a8905e046c96c1b037f0cc6fe71c304eb9530a6910f084c6d9a0e1081be566f2",
+      "size_px": [
+        1158,
+        1638
+      ],
+      "active_fraction": 0.134949,
+      "red_fallback_fraction": 0.000012,
+      "visual_review": "PASS: the quickstart figure lands in the first-page right column and materially reduces the previously sparse opening page."
+    },
+    {
+      "page": 2,
+      "path": "tmp/acl_supplement_first_page_quickstart_review_20260603/page-02.png",
+      "sha256": "43d8a1bb1a99413a62f895507baf6d46d050787691445e5b71c78ec9cf362261",
+      "size_px": [
+        1158,
+        1638
+      ],
+      "active_fraction": 0.280783,
+      "red_fallback_fraction": 0.000121,
+      "visual_review": "PASS: the visual evidence roadmap remains on a clean full page after the quickstart insertion."
+    },
+    {
+      "page": 3,
+      "path": "tmp/acl_supplement_first_page_quickstart_review_20260603/page-03.png",
+      "sha256": "db97c08ed8d60656116101b032dc55d9d13bef83fffbbcb20ac639f415f61c0b",
+      "size_px": [
+        1158,
+        1638
+      ],
+      "active_fraction": 0.132858,
+      "red_fallback_fraction": 0.000009,
+      "visual_review": "PASS: the evidence-gate registry companion remains readable and not visibly clipped."
+    },
+    {
+      "page": 4,
+      "path": "tmp/acl_supplement_first_page_quickstart_review_20260603/page-04.png",
+      "sha256": "ef8cf192ccb5080e7b1d76569677359ca4d9c74da94337d8a51073f293e11def",
+      "size_px": [
+        1158,
+        1638
+      ],
+      "active_fraction": 0.074102,
+      "red_fallback_fraction": 0.0,
+      "visual_review": "WARN: text is clean, but the right column remains relatively sparse; this is a lower-priority future layout-density target."
+    }
+  ],
+  "page_density_delta": {
+    "prior_page1_active_reference": 0.052022,
+    "current_page1_active": 0.134949,
+    "interpretation": "The first-page quickstart raises opening-page visual density while keeping the roadmap and registry pages intact."
+  },
+  "text_scan": {
+    "positive_required_phrases": {
+      "First-page evidence quickstart": true,
+      "AI-generated reading-compass schematic used only for exposition": true,
+      "not a new evidence source, metric, VLM run, or navigation run": true
+    },
+    "negative_required_absences": {
+      "Red material in these diagnostic cases": true,
+      "fig_vlm_grounding_cases": true,
+      "/cpfs/user": true,
+      "Zihou": true
+    }
+  },
+  "commands": [
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "make -C paper acl27-supplement",
+    "pdftoppm -r 140 -png -f 1 -l 4 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_first_page_quickstart_review_20260603/page",
+    "python -m pytest -q tests/test_paper_layout.py -k \"first_page_evidence_quickstart\"",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_first_page_evidence_quickstart_20260603.json >/dev/null",
+    "pdftotext paper/venues/acl27/build/supplement.pdf -",
+    "sha256sum paper/venues/acl27/build/supplement.pdf paper/shared/figures/fig_supplement_first_page_evidence_quickstart.png paper/shared/figures/ai_slots/fig_supplement_first_page_reading_compass_ai_slot.png",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf"
+  ]
+}

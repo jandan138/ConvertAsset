@@ -1,0 +1,63 @@
+{
+  "review_id": "main_round14_vlm_stress_story_polish_20260606",
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "artifact": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "7212bddbe930984bf3338dd9a1eba1290998914dc897065c9eb278cc9cae23fd",
+    "pages": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "bytes": 5189474,
+    "created": "Sat Jun 6 10:01:42 2026 CST"
+  },
+  "scope": [
+    "paper/venues/acl27/sections/results.tex"
+  ],
+  "visual_artifacts": {
+    "before_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round14_current/contact_sheets/main_pages_01_11_current.png",
+    "before_page4": "tmp/acl_main_visual_iter_20260606_round14_current/pages_180/main-04.png",
+    "before_page5": "tmp/acl_main_visual_iter_20260606_round14_current/pages_180/main-05.png",
+    "before_page6": "tmp/acl_main_visual_iter_20260606_round14_current/pages_180/main-06.png",
+    "before_layout_text": "tmp/acl_main_visual_iter_20260606_round14_current/text/main_layout.txt",
+    "after_page4": "tmp/acl_main_visual_iter_20260606_round14_after2/pages_180/main-04.png",
+    "after_page5": "tmp/acl_main_visual_iter_20260606_round14_after2/pages_180/main-05.png",
+    "after_page6": "tmp/acl_main_visual_iter_20260606_round14_after2/pages_180/main-06.png",
+    "after_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round14_after2/contact_sheets/main_pages_01_11_after2.png",
+    "after_layout_text": "tmp/acl_main_visual_iter_20260606_round14_after2/text/main_layout.txt"
+  },
+  "visual_findings": [
+    "The round-14 full contact sheet showed no new hard crop or table cutoff; the next high-value target was Results 4.2, where the stress-set narrative still read like a metric listing.",
+    "The accepted rewrite frames the expanded stress set as a prompt-contract question at the measurement interface, while preserving all Gemma4 and Qwen2.5-VL counts.",
+    "An intermediate rewrite produced a visually stretched short line, 'Table 3 gives the main stress result.'; the accepted wording replaces it with 'Table 3 gives the main result for this frozen stress test.'",
+    "The accepted page-5 render keeps Figure 2, Sections 4.3 and 4.4, and the surrounding table flow stable, with the manuscript still at 11 A4 pages.",
+    "The after full contact sheet shows no large downstream float movement outside the affected Results pages."
+  ],
+  "change_summary": [
+    "Recast the expanded material-shift stress set as a stronger question about whether the same prompt contract binds output when material appearance moves.",
+    "Replaced model-comfort wording with a claim-bounded contrast between Gemma4's normalized-coordinate behavior and Qwen2.5-VL's raw-coordinate diagnostic.",
+    "Changed the closing VLM-grounding paragraph from internal-artifact language to contract-auditable, figure-bounded evidence language."
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed; rebuilt paper/venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "passed; no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "passed; 85 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "passed; ok=true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "passed; ok=true; abstract_word_count=169"
+    }
+  ],
+  "residual_risk": "Focused Results 4.2 story and page-5 visual iteration only; this is not a final upload audit or a full integrity-fingerprint refresh."
+}

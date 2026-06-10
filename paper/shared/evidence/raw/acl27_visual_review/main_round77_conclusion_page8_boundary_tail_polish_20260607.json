@@ -1,0 +1,100 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 77,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main page 8 Conclusion boundary-tail polish",
+  "before_pdf_sha256": "07dda1650cc081cd25bee0945c81f2cec02e944f94d4f30ae787866a486d1937",
+  "after_pdf_sha256": "72a978305a2752c273b38b3dd47b88be9ef959a5ac74ca6684670f39e2d0239c",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round77_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round77_after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "rendered_after_screenshot": "tmp/acl_main_visual_iter_20260607_round77_after/page-08.png",
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round77_after/page"
+  },
+  "defect": {
+    "page": 8,
+    "class": "conclusion short-tail line and ACL boundary prose",
+    "before_text_matches": [
+      "page 8 line 055: Portable assets are useful only inside the gates",
+      "page 8 line 056: they pass."
+    ],
+    "reader_effect": "The final Conclusion sentence ended with a weak one-line tail, and the wording sounded more like casual utility guidance than an ACL claim-boundary close."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/conclusion.tex",
+      "summary": "Rewrote the second Conclusion paragraph to use formal evidence-boundary wording."
+    },
+    {
+      "path": "paper/venues/acl27/sections/conclusion.tex",
+      "summary": "Changed embodied smoke tests to stack checks and closed with the benchmark-substitute boundary."
+    }
+  ],
+  "rejected_iterations": [
+    {
+      "summary": "First rewrite introduced ground- at a line end."
+    },
+    {
+      "summary": "Second rewrite introduced ar- in artifact and left a one-word satisfies. tail."
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "Page 8 shows the conclusion closing over balanced lines without the they pass. tail and without body-text hyphenation.",
+    "full_scan_result": "The full after scan reports no body-text line-end hyphenation outside bibliography pages; pages 9-10 retain normal reference-column hyphenation.",
+    "visual_result": "The conclusion now closes with an evidence-boundary statement and Limitations starts cleanly below it on the same page.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 14.30s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Conclusion prose and linebreak behavior only. No metric values, evidence pools, figures, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "Bibliography pages retain normal reference-column hyphenation."
+}

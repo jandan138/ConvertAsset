@@ -27,6 +27,7 @@ def test_openreview_checklist_is_copy_ready_for_current_packet() -> None:
     assert report["placeholder_hits"] == []
     assert report["bare_answer_questions"] == []
     assert report["missing_policy_inputs"] == []
+    assert report["venue_wrapper_hits"] == []
     assert report["ai_disclosure_present"] is True
     assert report["current_pdf_anchors_present"] is True
 
@@ -37,15 +38,18 @@ def test_bare_yes_no_answer_is_rejected(tmp_path: Path) -> None:
     venue_root.mkdir(parents=True)
     source = PAPER / "venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md"
     text = source.read_text(encoding="utf-8")
+    original = text
     text = text.replace(
-        "Yes. See `Limitations`, page 8. The section states that the evidence is\n"
+        "Yes. See `Limitations`, page 9. The section states that the evidence is\n"
         "narrow, separates the 15-pair clean pilot from the frozen 30-pair stress set,\n"
-        "marks selected videos as qualitative only, limits the 99-episode InternNav\n"
-        "evidence to three official KuJiaLe scenes, and forbids promotion to broad\n"
-        "InteriorNav, R2R/MP3D, manipulation, or all-GRScenes robustness.",
+        "marks selected rollout panels as qualitative only, limits the 99-episode\n"
+        "InternNav evidence to three official KuJiaLe scenes, and avoids extending it to\n"
+        "broad InternNav or InteriorAgent coverage, R2R/MP3D, manipulation, or all\n"
+        "GRScenes robustness.",
         "Yes.",
         1,
     )
+    assert text != original, "test fixture failed to inject a bare yes/no answer"
     (venue_root / "OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md").write_text(
         text,
         encoding="utf-8",
@@ -74,3 +78,24 @@ def test_placeholder_text_is_rejected(tmp_path: Path) -> None:
 
     assert report["ok"] is False
     assert any("TODO" in hit for hit in report["placeholder_hits"])
+
+
+def test_internal_acl_facing_phrase_is_rejected_from_checklist(tmp_path: Path) -> None:
+    module = load_module()
+    venue_root = tmp_path / "venues/acl27"
+    venue_root.mkdir(parents=True)
+    source = PAPER / "venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md"
+    text = source.read_text(encoding="utf-8").replace(
+        "current anonymous review PDF",
+        "current anonymous ACL-facing PDF",
+        1,
+    )
+    (venue_root / "OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md").write_text(
+        text,
+        encoding="utf-8",
+    )
+
+    report = module.check_openreview_checklist(tmp_path)
+
+    assert report["ok"] is False
+    assert report["venue_wrapper_hits"]

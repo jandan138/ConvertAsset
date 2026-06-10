@@ -1,0 +1,59 @@
+{
+  "review_id": "main_round17_conclusion_closure_story_polish_20260606",
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "artifact": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "67b0f4a73b362821adfdcd0630bd1005e0d11d1ad1ba70b63ea605f8c07d3d6a",
+    "pages": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "bytes": 5189604,
+    "created": "Sat Jun 6 10:31:42 2026 CST"
+  },
+  "scope": [
+    "paper/venues/acl27/sections/conclusion.tex"
+  ],
+  "visual_artifacts": {
+    "before_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round17_current/contact_sheets/main_pages_01_11_current.png",
+    "before_page9": "tmp/acl_main_visual_iter_20260606_round17_current/pages_180/main-09.png",
+    "before_layout_text": "tmp/acl_main_visual_iter_20260606_round17_current/text/main_layout.txt",
+    "after_page9": "tmp/acl_main_visual_iter_20260606_round17_after/pages_180/main-09.png",
+    "after_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round17_after/contact_sheets/main_pages_01_11_after.png",
+    "after_layout_text": "tmp/acl_main_visual_iter_20260606_round17_after/text/main_layout.txt"
+  },
+  "visual_findings": [
+    "The round-17 contact sheet showed no hard crop or float displacement; the selected target was page 9, where Discussion, Limitations, and Conclusion share the closing page.",
+    "The pre-edit conclusion preserved the correct claim boundary but closed abruptly and rendered the contribution sentence as a compact checklist.",
+    "The accepted render uses the available page-9 slack to make the closing claim more reader-facing: conversion changes the evidence seen by a vision-language system and should be reported as a grounding intervention.",
+    "The revised second paragraph keeps the same gate list but frames it as an auditable intervention rather than a generic reusable contract.",
+    "The after full contact sheet keeps the 11-page structure stable and does not visibly move page 10 Ethical Considerations, References, figures, or tables."
+  ],
+  "change_summary": [
+    "Rewrote the first conclusion paragraph to state why material conversion matters for grounding evidence.",
+    "Rewrote the closing paragraph around auditable intervention, matched renders, projection QA, prompt/coordinate contracts, material-risk bins, and embodied smoke gates.",
+    "Kept the claim boundary that portable assets are useful only for gates they pass."
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed; rebuilt/confirmed paper/venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "passed; no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "passed; 85 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "passed; ok=true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "passed; ok=true; abstract_word_count=169"
+    }
+  ],
+  "residual_risk": "Focused Conclusion story polish and page-9 visual iteration only; this is not a final upload audit, target-policy refresh, or integrity-fingerprint refresh."
+}

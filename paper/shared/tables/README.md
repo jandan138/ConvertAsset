@@ -16,8 +16,8 @@ Venue-neutral table sources for the ConvertAsset paper live here.
 - `grscenes_vlm_clean_pool_pass15.csv`: machine-readable clean-pool pilot table
   over 15 blind-visual-QA PASS original/no-MDL pairs. It summarizes Gemma4 and
   Qwen2.5-VL structured-text probes under
-  `paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/`. This is
-  still below the 20-pair final gate.
+  `paper/shared/evidence/raw/grscene_vlm_grounding/clean_pool_probes/`. This
+  remains below the 20-pair final benchmark threshold.
 - `tab_grscenes_vlm_clean_pool_pass15.tex`: LaTeX table for the same 15-pair
   clean-pool pilot.
 - `grscenes_vlm_zoom_stress.csv`: machine-readable zoom material-shift stress
@@ -52,11 +52,11 @@ Venue-neutral table sources for the ConvertAsset paper live here.
   NVIDIA conditions.
 - `tab_material_effect_baseline_summary.tex`: LaTeX table generated from the
   same material-effect readiness CSV.
-- `material_effect_risk_matrix.csv`: machine-readable effect-level
-  claim-boundary table derived from the material-effect conversion manifests,
-  selected qualitative manifest, supplemental clean-room visual review, and PXR
-  diagnostic. It separates the four bounded GRScenes-covered bins from the
-  selected NVIDIA clearcoat failure and the procedural texture limitation case.
+- `material_effect_risk_matrix.csv`: machine-readable effect-level scope table
+  derived from the material-effect conversion manifests, selected qualitative
+  manifest, supplemental clean-room visual review, and PXR diagnostic. It
+  separates the four GRScenes-covered bins from the selected NVIDIA clearcoat
+  failure and the procedural texture limitation case.
 - `tab_material_effect_risk_matrix.tex`: LaTeX table generated from the same
   material-effect risk matrix.
 - `reviewer_closure_paired_ci.csv`: machine-readable paired bootstrap confidence
@@ -75,14 +75,16 @@ Venue-neutral table sources for the ConvertAsset paper live here.
   same safe-conversion recommender CSV.
 - `official_scene_submission_closure_status.csv`: machine-readable status table
   for the official KuJiaLe / InteriorAgent submission-closure package. It
-  records the current video, performance, and final claim-audit gates.
+  records the current video, performance, and final language/citation checks.
 - `tab_official_scene_submission_closure_status.tex`: LaTeX table generated
   from the same official-scene closure status CSV.
 - `official_scene_performance_summary.csv`: machine-readable official
   KuJiaLe / InteriorAgent repeated performance summary with aggregate and
   per-scene success/failure counts, ready-time CIs, FPS CIs, and GPU-memory CIs.
 - `tab_official_scene_performance_summary.tex`: LaTeX table generated from the
-  same official-scene performance summary CSV.
+  same official-scene performance summary CSV. The LaTeX version is intentionally
+  compact for main-paper use: it reports aggregate `Metric / Original MDL /
+  noMDL` rows with wrapping columns, while per-scene rows remain in the CSV.
 
 Regenerate with:
 

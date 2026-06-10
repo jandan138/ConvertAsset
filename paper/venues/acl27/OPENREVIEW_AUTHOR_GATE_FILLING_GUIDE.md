@@ -1,6 +1,6 @@
 # OpenReview Author Gate Filling Guide
 
-Checked: 2026-05-26.
+Checked: 2026-05-30.
 
 This guide explains how to fill the private author-gate worksheet without
 leaking author identities, OpenReview IDs, emails, or private submission
@@ -47,6 +47,44 @@ runtime/AI/license approvals, optional media decision, or final upload decision.
 The command reports only changed field names and never prints private worksheet
 values.
 
+Current 2026-05-30 state: after the latest `run_preupload_gate.py` pass, the
+private worksheet was refreshed with `prefill_author_gate.py --apply
+--overwrite`. The repo-verifiable rows are filled for the staged 11-page A4
+PDF 1.5 artifact of 4,087,616 bytes with SHA-256
+`d03af3b4554951ccb51c3a224a8fbbd12fb517180dd36bad5672f0fb07006793`. The
+ignored local copy now also records the user-provided sole-author/OpenReview
+profile confirmation rows. Route choice, reviewer-registration commitment,
+conflict/resubmission answers, OpenReview form-copy approval,
+runtime/AI/license approval, optional-media choice, and final upload decision
+remain human-only.
+
+Current remaining private worksheet fields after prefill:
+
+```text
+Selected route
+Target deadline
+Commitment venue if ARR-reviewed
+Reviewer-registration commitment
+Dual submission status
+Prior ARR/OpenReview submission link
+Explanation of revisions needed
+Preprint status answer
+Public repository or project links
+Title approved
+Abstract approved and under current venue limit
+Primary ARR area approved
+Secondary area / keywords approved
+Responsible NLP checklist copied into OpenReview
+Runtime / compute wording approved
+AI-assistance wording approved
+Model and asset license wording approved
+Optional media decision
+Final decision: upload / do not upload
+```
+
+Those rows require author decisions or form-copy confirmation. Do not fill them
+from repository evidence alone.
+
 After the private copy is filled, validate it with:
 
 ```bash
@@ -82,11 +120,13 @@ Fill the private worksheet in this order.
 
    Record either `EACL 2027 via ARR` or `Annual ACL 2027 later`.
 
-   Current public route state: ARR Dates lists EACL 2027 with final ARR
-   submission date August 3, 2026 and commitment date October 11, 2026. The
-   EACL 2027 main-paper page lists August 3, 2026 AoE and still says the full
-   CFP and detailed timetable are forthcoming. Annual ACL 2027 is not final
-   ready in this repo until its official CFP and author kit are public.
+   Current public route state checked on 2026-05-30: ARR Dates lists EACL 2027
+   with final ARR submission date August 3, 2026 and commitment date October
+   11, 2026. The EACL 2027 home page lists Athens, Greece, March 9-14, 2027,
+   and the EACL 2027 main-paper page lists August 3, 2026 AoE while still
+   saying the full CFP and detailed timetable are forthcoming. Annual ACL 2027
+   is not final ready in this repo until its official CFP and author kit are
+   public.
 
 2. **Author and OpenReview fields**
 

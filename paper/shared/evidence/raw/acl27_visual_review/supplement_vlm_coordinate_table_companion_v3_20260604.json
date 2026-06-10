@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_vlm_coordinate_table_companion_v3_20260604",
+  "date_utc": "2026-06-04",
+  "target": "ACL27 supplement page 17 VLM coordinate table companion v3",
+  "independent_subagent_review": false,
+  "reason_independent_review_not_used": "Subagent spawning is restricted to explicit user requests in this environment; review followed the render-visual-reviewer checklist locally.",
+  "inputs": {
+    "standalone_figure": "paper/shared/figures/fig_supplement_vlm_coordinate_table_companion.png",
+    "source_ai_slot": "paper/shared/figures/ai_slots/fig_supplement_vlm_coordinate_contract_gate_v3_ai_slot.png",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_06e6b8fd5c4398c6016a20aece3e748190ae4db5161817d5d1.png",
+    "generator": "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_vlm_coordinate_table_companion.yaml",
+    "source_section": "paper/venues/acl27/sections/supplement/02_vlm_protocol.tex",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_review_pages_144dpi": [
+      "tmp/acl_supplement_page17_vlm_coordinate_table_v3_final_20260604/page-16.png",
+      "tmp/acl_supplement_page17_vlm_coordinate_table_v3_final_20260604/page-17.png",
+      "tmp/acl_supplement_page17_vlm_coordinate_table_v3_final_20260604/page-18.png"
+    ],
+    "pdf_review_page_90dpi": "tmp/acl_supplement_page17_vlm_coordinate_table_v3_final_90dpi_20260604/page-17.png"
+  },
+  "hashes": {
+    "source_ai_slot_sha256": "ddf21bb5b919e372f19885474b28847304d4b6dc0c77fa12019c041aec3c6ffc",
+    "standalone_figure_sha256": "051acb397137307179ac645facba9c5cb0f04444b897cb512ad82d055d50ea2a",
+    "pdf_sha256": "218949fd9de3261b51f85830b8c1f529666e2bd32e163e80ce86888381beaeda",
+    "page17_render_90dpi_sha256": "b7cb2d5db6702c488f83b185f9b72771d61083e12f409d0ce5e7dbf233002195"
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks.",
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, matching the sparse-page density audit.",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90."
+  },
+  "metrics": {
+    "previous_v2_ai_slot_size_px": [
+      1983,
+      793
+    ],
+    "previous_v2_ai_slot_layout_guard_active238": 0.143202085,
+    "previous_v2_ai_slot_layout_guard_active245": 0.151015663,
+    "source_ai_slot_size_px": [
+      1536,
+      1024
+    ],
+    "source_ai_slot_layout_guard_active238": 0.217112859,
+    "source_ai_slot_layout_guard_active245": 0.241831462,
+    "source_ai_slot_red_pixel_fraction": 0.000219981,
+    "standalone_previous_v2_size_px": [
+      1800,
+      1020
+    ],
+    "standalone_current_size_px": [
+      1800,
+      1240
+    ],
+    "standalone_previous_v2_layout_guard_active238": 0.450469499,
+    "standalone_previous_v2_layout_guard_active245": 0.460129085,
+    "standalone_current_layout_guard_active238": 0.514337814,
+    "standalone_current_layout_guard_active245": 0.52928853,
+    "standalone_current_red_pixel_fraction": 0.000005376,
+    "previous_round28_page17_active245_90dpi": 0.160243982,
+    "current_page17_active245_90dpi": 0.204405438,
+    "page17_active245_delta": 0.044161456,
+    "current_page16_active245_144dpi": 0.153328308,
+    "current_page17_active245_144dpi": 0.188559884,
+    "current_page18_active245_144dpi": 0.166310671,
+    "pdf_page_count": 45
+  },
+  "layout_iterations": [
+    {
+      "attempt": "1800 x 1240 standalone with 0.50 textheight include",
+      "result": "Accepted: supplement stayed at 45 pages and page 17 active245 increased over the round28 sparse-page audit."
+    }
+  ],
+  "visual_review": {
+    "overall_verdict": "PASS",
+    "standalone_figure": "PASS: the v3 companion uses a denser coordinate-contract slot and a taller registered coordinate-frame render audit strip while preserving the four paired target-view cards.",
+    "pdf_page_17": "PASS: the coordinate table remains readable, the companion becomes the page's visual body, and caption plus explanatory paragraph remain separated without clipping.",
+    "neighbor_pages": "PASS: page 16 remains the coordinate protocol atlas and page 18 remains the baseline sanity companion; no float displacement or page-count spill was observed in the 45-page build.",
+    "claim_boundary": "PASS: the caption states that the v3 AI-generated coordinate-contract schematic is only for exposition and is not an additional VLM prediction or benchmark row."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'vlm_protocol or coordinate_table_companion'",
+    "make -C paper acl27-supplement",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf",
+    "pdftoppm -r 144 -png -f 16 -l 18 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page17_vlm_coordinate_table_v3_final_20260604/page",
+    "pdftoppm -r 90 -png -f 17 -l 17 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page17_vlm_coordinate_table_v3_final_90dpi_20260604/page"
+  ]
+}

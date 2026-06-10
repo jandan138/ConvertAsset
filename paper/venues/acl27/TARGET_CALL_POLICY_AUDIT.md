@@ -1,6 +1,6 @@
 # ACL/ARR Target Call Policy Audit
 
-Checked: 2026-05-26.
+Checked: 2026-05-30.
 
 This audit records the current external venue state for the ACL-facing
 manuscript wrapper. It separates the user's preferred Annual ACL 2027 target
@@ -48,6 +48,30 @@ co-branding with IJCLP/AFNLP, but it is not a CFP, author kit, deadline page,
 OpenReview form, or supplement policy. No public official Annual ACL 2027 CFP
 was found in the checked official sources.
 
+Last-mile policy refresh on 2026-05-28: official ARR Dates, ARR Authors, ACLPUB
+formatting guidance, the EACL 2027 home page, and the EACL 2027 main-paper page
+were reopened before the author-gate handoff was refreshed. The route state is
+still unchanged. ARR Dates still lists EACL 2027 with final ARR submission date
+August 3, 2026 and commitment date October 11, 2026; the ARR reviewing schedule
+still lists the August 2026 cycle with an August 3, 2026 submission date and
+later cycle dates as TBA. The EACL 2027 home page still lists Athens, Greece,
+March 9-14, 2027, and the same August 3, 2026 ARR submission deadline. The
+EACL main-paper page still says the comprehensive Call for Papers and detailed
+timetable are being finalized and asks authors to check back for the complete
+CFP. No public official Annual ACL 2027 CFP or author kit was found in the
+checked official sources.
+
+Policy refresh on 2026-05-30: official ARR Dates, ARR Authors, ARR Common
+Submission Problems, ARR Area Keywords, ACLPUB formatting guidance, the EACL
+2027 home page, and the EACL 2027 main-paper page were reopened. The route
+state is still unchanged. ARR Dates still lists EACL 2027 with final ARR
+submission date August 3, 2026 and commitment date October 11, 2026. The EACL
+2027 home page still lists Athens, Greece, March 9-14, 2027 and the August 3,
+2026 ARR deadline; the EACL main-paper page still says the comprehensive Call
+for Papers and detailed timetable are being finalized. Official searches still
+did not find a public Annual ACL 2027 CFP, author kit, city/date page,
+commitment deadline, or conference-specific supplement policy.
+
 ## Current Target Status
 
 | Candidate route | Official status checked | What this means for this repo |
@@ -89,6 +113,12 @@ The latest refresh checked the same policy-critical public pages:
 - The refresh after the private author-gate status report added ACL
   Resolutions as a checked source. That page confirms the `2027 ACL Conference Branding`
   resolution, not an Annual ACL 2027 CFP or author kit.
+- The 2026-05-28 last-mile refresh found the same route state: EACL 2027 remains
+  the concrete public ARR-family route, while Annual ACL 2027 remains unavailable
+  as a final public target in checked official sources.
+- The 2026-05-30 refresh found the same route state: EACL 2027 remains the
+  concrete public ARR-family route, while Annual ACL 2027 remains unavailable
+  as a final public target in checked official sources.
 
 ## Policy Facts To Carry Forward
 

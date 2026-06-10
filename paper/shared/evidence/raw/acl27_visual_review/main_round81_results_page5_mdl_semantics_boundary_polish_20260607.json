@@ -1,0 +1,104 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 81,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main Results page-5 MDL semantics boundary polish",
+  "before_pdf_sha256": "53e91d3d41556c401a46b0eeb01f4d481302453b19fa1d23ea3e18c52c3dd9d3",
+  "after_pdf_sha256": "42447583c60ca0cc95a780a93fec28ccbdc2465f1369955639ac72516864e9db",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round81_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round81_after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "rendered_after_screenshots": [
+      "tmp/acl_main_visual_iter_20260607_round81_after/page-05.png"
+    ],
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round81_after/page"
+  },
+  "defect": {
+    "pages": [
+      5
+    ],
+    "class": "results claim-boundary prose",
+    "before_text_matches": [
+      "page 5 line 311: The static evidence is diagnostic. It points",
+      "page 5 line 312: to selected mechanisms, not broad rates or",
+      "page 5 line 313: proof that MDL semantics stay intact."
+    ],
+    "reader_effect": "The wording was bounded but conversational; proof and stay intact were less precise than the paper's evidence-gate framing."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/results.tex",
+      "summary": "Rewrote the Material Effects boundary sentence to state that the rows mark cues, not rates or full MDL semantics."
+    }
+  ],
+  "rejected_iterations": [
+    {
+      "summary": "The first rewrite introduced visible page-5 linebreak hyphenation identi- and seman-."
+    },
+    {
+      "summary": "The second rewrite introduced visible page-5 linebreak hyphenation mech- and cer-."
+    },
+    {
+      "summary": "The third rewrite introduced visible page-5 linebreak hyphenation esti- and se-."
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "Page 5 shows the accepted two-line boundary sentence without body-text linebreak hyphenation.",
+    "full_scan_result": "The strict after scan reports only reference-column hyphenation on pages 9-10.",
+    "visual_result": "The page-5 Material Effects paragraph, Figure 3, and caption remain visually stable.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 14.39s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Results prose only. No metrics, table values, figures, evidence pools, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "Reference pages retain normal reference-column hyphenation."
+}

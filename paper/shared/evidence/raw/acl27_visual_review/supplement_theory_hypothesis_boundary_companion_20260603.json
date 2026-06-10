@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-06-03T05:05:44+08:00",
+  "paper": "acl27",
+  "artifact": "supplement_theory_hypothesis_boundary_companion",
+  "purpose": "Improve the formerly text-only theory hypothesis page by adding a column-width real-render companion that ties material, grounding, and navigation hypotheses to visible evidence rows.",
+  "skills": [
+    "imagegen",
+    "research-figure-ai-slot-composer",
+    "render-visual-reviewer",
+    "test-driven-development"
+  ],
+  "independent_subagent": false,
+  "claim_boundary": "The AI-generated hypothesis-boundary slot is exposition only. Registered material, VLM target-view, and navigation render rows carry the evidence-bearing content; the companion is not a new experiment, causal proof, population rate, or benchmark result.",
+  "ai_generated_slot": {
+    "role": "hypothesis_boundary",
+    "repo_path": "paper/shared/figures/ai_slots/fig_supplement_theory_hypothesis_boundary_ai_slot.png",
+    "source_path": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0fd87bd734b6fb7d016a1f421ff8348193bea1f5b2e843fda0.png",
+    "sha256": "402f4bdbc045e4437610e3bac42229f58459b8f5ae687240b5c57c4afd8c0e32",
+    "size": [
+      1717,
+      916
+    ],
+    "active_fraction": 0.049731,
+    "red_fraction": 0.000001,
+    "verdict": "PASS",
+    "rationale": "The selected slot is abstract and schematic. It contains no readable text, local path, author name, watermark, realistic scene, render-like object, or red-material fallback."
+  },
+  "standalone_figure": {
+    "figure_id": "fig_supplement_theory_hypothesis_boundary_companion",
+    "path": "paper/shared/figures/fig_supplement_theory_hypothesis_boundary_companion.png",
+    "sha256": "280de0bb02ca7e87b1622bf47e75d72c95e8b88853866a83824e0d0f9b543510",
+    "size": [
+      920,
+      1160
+    ],
+    "active_fraction": 0.344149,
+    "red_fraction": 0.000221,
+    "verdict": "PASS",
+    "rationale": "The final deterministic composition has three real-render evidence rows plus a separate AI schematic slot. It is dense enough for the layout test and remains readable as a column-width companion."
+  },
+  "rendered_pdf_pages": [
+    {
+      "page": 39,
+      "path": "tmp/acl_supplement_theory_hypothesis_review_20260603/page-39.png",
+      "sha256": "72d7d29884e1ff290d14227b404b49cf26c42376f601909d7f5f3320f4ab748b",
+      "active_fraction": 0.216856,
+      "red_fraction": 0.000087,
+      "verdict": "PASS",
+      "rationale": "The existing theory visual bridge page remains intact before the new column companion."
+    },
+    {
+      "page": 40,
+      "path": "tmp/acl_supplement_theory_hypothesis_review_20260603/page-40.png",
+      "sha256": "d2e115304e81ae651cf88e9852ffdcc5e816bed5fb15c48f857dc1f6d8c101d0",
+      "active_fraction": 0.273115,
+      "red_fraction": 0.000045,
+      "verdict": "PASS",
+      "rationale": "The existing failure-mode interpretation map remains intact before the new column companion."
+    },
+    {
+      "page": 41,
+      "path": "tmp/acl_supplement_theory_hypothesis_review_20260603/page-41.png",
+      "sha256": "619b2d573bbb6ff4f985bc3099e9273fa6d3d2ba1885039abe1cfece0d6900d8",
+      "active_fraction": 0.141167,
+      "red_fraction": 0.000005,
+      "before_sparse_reference_page_active_fraction": 0.079269,
+      "verdict": "PASS",
+      "rationale": "The formerly text-only hypothesis page now places the companion at the top of the right column without pushing H.4 or H.5 off the page."
+    },
+    {
+      "page": 42,
+      "path": "tmp/acl_supplement_theory_hypothesis_review_20260603/page-42.png",
+      "sha256": "ac641bd378102268c0a911aa6e081e0c89d45386ec549fefd02daf835448b639",
+      "active_fraction": 0.256477,
+      "red_fraction": 0.000074,
+      "verdict": "PASS",
+      "rationale": "The reproducibility media manifest remains well framed after the new companion."
+    },
+    {
+      "page": 43,
+      "path": "tmp/acl_supplement_theory_hypothesis_review_20260603/page-43.png",
+      "sha256": "8798b35f6e6ef6c39facfb594b3bbc453cd93bbd004865f567bdab3d8c4b9a02",
+      "active_fraction": 0.102503,
+      "red_fraction": 0.0,
+      "verdict": "PASS",
+      "rationale": "The following reproducibility text and references remain readable after the page-flow shift."
+    }
+  ],
+  "pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "3924bb8df5389d22a18b7a172d06aa43f53b6f2a2ffdab1ea2ae15594ca73119",
+    "pages": 44,
+    "bytes": 32978245,
+    "page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "text_scan": {
+    "positive_patterns_present": [
+      "Hypothesis-boundary companion",
+      "AI-generated hypothesis-boundary schematic used only for exposition",
+      "not a new experiment, causal proof, or population rate"
+    ],
+    "negative_patterns_absent": [
+      "Red material in these diagnostic cases",
+      "fig_vlm_grounding_cases",
+      "/cpfs/user",
+      "Zihou"
+    ]
+  },
+  "commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k \"hypothesis_boundary_companion\"",
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "make -C paper acl27-supplement",
+    "pdftoppm -r 140 -png -f 39 -l 43 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_theory_hypothesis_review_20260603/page",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_theory_hypothesis_boundary_companion_20260603.json >/dev/null",
+    "pdftotext paper/venues/acl27/build/supplement.pdf - | positive/negative scan"
+  ]
+}

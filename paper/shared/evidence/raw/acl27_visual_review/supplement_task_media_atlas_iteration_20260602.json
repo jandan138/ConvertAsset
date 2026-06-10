@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-06-02",
+  "review_id": "acl27_supplement_task_media_atlas_iteration_20260602",
+  "review_mode": "local_render_visual_review",
+  "independent_subagent_used": false,
+  "reason_independent_subagent_not_used": "The goal requested skill-based pure visual review, but not an explicit separate subagent; the render-visual-reviewer rubric was applied locally.",
+  "imagegen_use": {
+    "mode": "built-in imagegen skill",
+    "role": "non-evidence layout ideation for a task/media overview page",
+    "included_in_pdf": false,
+    "boundary": "The generated mock-up was not copied into the workspace or used as scientific evidence. The PDF uses only tracked render, material, VLM, and InternNav figures."
+  },
+  "artifact": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "f99460b5780e8db37515ed5b1900d0c02e4a5a38654a651c6531b10c2fc99c75",
+    "pages": 40,
+    "size_bytes": 12441303,
+    "page_size": "A4"
+  },
+  "new_figures": [
+    {
+      "id": "fig_supplement_material_diagnostic_atlas",
+      "path": "paper/shared/figures/fig_supplement_material_diagnostic_atlas.png",
+      "sha256": "847b0cb516e550db175abac3e1c3b0c91430f1226a93ebc649559c8627cda9e8",
+      "size_pixels": [1800, 2380],
+      "active_pixel_fraction": 0.407,
+      "sources": [
+        "paper/shared/figures/fig_material_effect_baseline_qualitative.png",
+        "paper/shared/figures/fig_material_effect_supplemental_qualitative.png"
+      ]
+    },
+    {
+      "id": "fig_supplement_navigation_media_atlas",
+      "path": "paper/shared/figures/fig_supplement_navigation_media_atlas.png",
+      "sha256": "c0971040e707a6f73f4f55ae9a4439156a7fe3e87c0db29b86292b2c301a5562",
+      "size_pixels": [1800, 2450],
+      "active_pixel_fraction": 0.305,
+      "sources": [
+        "paper/shared/figures/fig_internnav_downstream_panel.png",
+        "paper/shared/figures/fig_internnav_rollout_stills.png",
+        "paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png",
+        "paper/shared/figures/fig_internnav_rollout_selected6_supp.png",
+        "paper/shared/figures/fig_internnav_rollout_0036_0066_selected6_supp.png"
+      ]
+    }
+  ],
+  "rendered_review_pages": {
+    "dpi": 110,
+    "temporary_dir": "tmp/acl27_supplement_pages_21_35_iter2",
+    "contact_sheet": {
+      "path": "tmp/acl27_supplement_pages_21_35_iter2/contact_pages_21_35.png",
+      "sha256": "90a99ea3f3fb838ae551a486b34a09a05a9abbf368222111fd5c18086cdaedb2"
+    },
+    "focused_pages": [
+      {
+        "page": 24,
+        "path": "tmp/acl27_supplement_pages_21_35_iter2/page-24.png",
+        "sha256": "099026a07d70d209446a71059885a22667c02045dacc9e0e05d1caca0cc5e51a"
+      },
+      {
+        "page": 29,
+        "path": "tmp/acl27_supplement_pages_21_35_iter2/page-29.png",
+        "sha256": "fcc74c78f705f0351a3f4979da8b3a24e8cb45654f3265d04db2a5fa67930502"
+      }
+    ]
+  },
+  "checks": [
+    {
+      "id": "material_section_visual_density",
+      "verdict": "PASS_WITH_NOTES",
+      "visible_evidence": "Page 24 now presents covered bins and limitation cases as one material diagnostic atlas instead of a lone supplemental material figure.",
+      "main_risk": "Pages 21-23 remain mostly table/text pages before the atlas appears."
+    },
+    {
+      "id": "internnav_index_consolidation",
+      "verdict": "PASS_WITH_NOTES",
+      "visible_evidence": "Page 29 now combines metrics, rollout stills, a 0036/0066 route panel, and compact index context in one navigation media atlas. The two old standalone index-sheet pages are no longer used.",
+      "main_risk": "The index portions are intentionally compact; detailed inspection still belongs to pages 30-35."
+    },
+    {
+      "id": "privacy_scan",
+      "verdict": "PASS",
+      "visible_evidence": "PDF text scan found no /cpfs, /home, /root, zhuzihou, jandan138, github.com/jandan138, or ConvertAsset.git tokens.",
+      "main_risk": "Future binary media bundles still need separate metadata and visible-overlay scanning."
+    }
+  ],
+  "overall_verdict": "PASS_WITH_NEXT_ITERATION",
+  "next_iteration_recommendation": [
+    "Reduce or visually enrich the text-only material and InternNav introduction pages.",
+    "Consider adding small one-column real-render strips to pages 23 and 28 or moving introductory text closer to the atlas captions.",
+    "Continue pure visual review after each layout change because the goal is visual polish, not only passing tests."
+  ]
+}

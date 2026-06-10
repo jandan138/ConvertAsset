@@ -7,7 +7,7 @@ VENUES := aaai27 acl27 cvpr26
 SHARED_DIR := shared
 SHARED_SRCS := $(shell find $(SHARED_DIR) -type f \( -name '*.tex' -o -name '*.bib' -o -name '*.cls' -o -name '*.sty' -o -name '*.pdf' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.yaml' -o -name '*.yml' \) -print 2>/dev/null)
 
-.PHONY: all clean list template-check check check-latex-tools $(VENUES) $(addprefix clean-,$(VENUES)) $(addprefix check-template-,$(VENUES))
+.PHONY: all clean list template-check check check-latex-tools acl27-supplement clean-acl27-supplement $(VENUES) $(addprefix clean-,$(VENUES)) $(addprefix check-template-,$(VENUES))
 
 all: $(VENUES)
 
@@ -29,12 +29,12 @@ check-latex-tools:
 > fi
 
 check-template-aaai27:
-> @if [ ! -f venues/aaai27/aaai27.sty ]; then \
->   echo 'Missing AAAI-27 style: expected venues/aaai27/aaai27.sty from the official AAAI-27 author kit.'; \
+> @if [ ! -f venues/aaai27/aaai2027.sty ]; then \
+>   echo 'Missing AAAI-27 style: expected venues/aaai27/aaai2027.sty from the official AAAI-27 author kit.'; \
 >   exit 1; \
 > fi
-> @if [ ! -f venues/aaai27/aaai27.bst ]; then \
->   echo 'Missing AAAI-27 bibliography style: expected venues/aaai27/aaai27.bst from the official AAAI-27 author kit.'; \
+> @if [ ! -f venues/aaai27/aaai2027.bst ]; then \
+>   echo 'Missing AAAI-27 bibliography style: expected venues/aaai27/aaai2027.bst from the official AAAI-27 author kit.'; \
 >   exit 1; \
 > fi
 
@@ -81,6 +81,22 @@ clean-$(1):
 endef
 
 $(foreach v,$(VENUES),$(eval $(call VENUE_RULE,$(v))))
+
+ACL27_SUPPLEMENT := venues/acl27/supplement.tex
+ACL27_SUPPLEMENT_PDF := venues/acl27/build/supplement.pdf
+ACL27_SUPPLEMENT_LOCAL := $(shell find venues/acl27 -type f \( -name '*.tex' -o -name '*.sty' -o -name '*.cls' -o -name '*.bib' -o -name '*.bst' -o -name '.latexmkrc' -o -name 'STATUS.md' \) -print 2>/dev/null)
+
+$(ACL27_SUPPLEMENT_PDF): $(ACL27_SUPPLEMENT) $(ACL27_SUPPLEMENT_LOCAL) $(SHARED_SRCS) | venues/acl27/build
+> @$(MAKE) check-latex-tools
+> @$(MAKE) check-template-acl27
+> @if command -v latexmk >/dev/null 2>&1; then cd venues/acl27 && latexmk -cd -pdf -outdir=build -interaction=nonstopmode -halt-on-error supplement.tex; else cd venues/acl27 && pdflatex -interaction=nonstopmode -halt-on-error -output-directory=build supplement.tex && BIBINPUTS="../../shared:" bibtex build/supplement && pdflatex -interaction=nonstopmode -halt-on-error -output-directory=build supplement.tex && pdflatex -interaction=nonstopmode -halt-on-error -output-directory=build supplement.tex; fi
+
+acl27-supplement: $(ACL27_SUPPLEMENT_PDF)
+> @echo '=== acl27 supplement built: $(ACL27_SUPPLEMENT_PDF) ==='
+
+clean-acl27-supplement:
+> @cd venues/acl27 && latexmk -C -outdir=build supplement.tex 2>/dev/null || true
+> @rm -f venues/acl27/build/supplement.*
 
 clean: $(addprefix clean-,$(VENUES))
 > @rm -rf submissions arxiv-submission camera-ready

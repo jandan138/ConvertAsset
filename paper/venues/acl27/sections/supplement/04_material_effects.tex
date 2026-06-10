@@ -1,0 +1,54 @@
+\clearpage
+\onecolumn
+\section{Material-Effect and NVIDIA Diagnostics}
+\label{sec:supp-material-effects}
+
+The material-effect audit compares original MDL, ConvertAsset noMDL, and the
+NVIDIA PreviewSurface baseline only inside bins with selected evidence. The
+purpose is to make material risk visible before converted assets are used in
+VLM or embodied-language evaluation; global converter ranking would need a
+broader audit.
+
+\begin{center}
+\includegraphics[width=0.96\textwidth,height=0.78\textheight,keepaspectratio]{figures/fig_supplement_material_intro_column.png}
+\end{center}
+\clearpage
+\twocolumn
+
+\begin{figure*}[p]
+\centering
+\includegraphics[width=\textwidth,height=0.84\textheight,keepaspectratio]{figures/fig_supplement_material_diagnostic_atlas.png}
+\caption{Material diagnostic atlas. The top band summarizes covered bins where
+original MDL, ConvertAsset noMDL, and the NVIDIA baseline are all visually
+inspectable. The bottom band keeps the selected clearcoat and procedural-texture
+diagnostics together so the limitation is visible before the risk
+matrix.}
+\label{fig:supp-material-diagnostic-atlas}
+\end{figure*}
+\clearpage
+
+\begin{figure*}[p]
+\centering
+\includegraphics[width=\textwidth,height=0.82\textheight,keepaspectratio]{figures/fig_supplement_material_claim_boundary_atlas.png}
+\caption{Material-risk atlas. The rows tie the compact
+risk-matrix interpretation back to the real tracked renders used in the
+qualitative evidence package. Covered bins have static and selected qualitative
+evidence; clearcoat is a selected NVIDIA failure diagnostic; procedural texture
+remains a limitation case rather than a success case.}
+\label{fig:supp-material-scope-atlas}
+\end{figure*}
+\FloatBarrier
+
+\begin{figure*}[p]
+\centering
+\includegraphics[width=\textwidth,height=0.82\textheight,keepaspectratio]{figures/fig_supplement_material_decision_map.png}
+\caption{Material safe-conversion decision map. The lanes restate the risk
+matrix and lightweight recommender: covered bins permit selected evidence use,
+clearcoat requires manual review and is used as a selected NVIDIA failure case,
+and procedural texture remains a limitation unless it is kept as MDL or baked
+before reporting preservation. The NVIDIA route is treated as a selected
+material comparator; official-scene navigation and population-level converter
+ranking are outside this material audit.}
+\label{fig:supp-material-decision-map}
+\end{figure*}
+\FloatBarrier

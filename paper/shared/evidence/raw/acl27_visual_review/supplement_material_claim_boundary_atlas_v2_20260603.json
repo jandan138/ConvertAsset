@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "record_id": "supplement_material_claim_boundary_atlas_v2_20260603",
+  "generated_at_utc": "2026-06-03T02:21:37Z",
+  "status": "pass",
+  "claim_boundary": "Figure layout and page-level visual-review evidence only; not a new material benchmark, converter ranking, population-rate estimate, or material-mechanism result.",
+  "changed_page": {
+    "venue": "acl27",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "page": 27,
+    "section": "paper/venues/acl27/sections/supplement/04_material_effects.tex",
+    "figure": "paper/shared/figures/fig_supplement_material_claim_boundary_atlas.png"
+  },
+  "figure_stats": {
+    "path": "paper/shared/figures/fig_supplement_material_claim_boundary_atlas.png",
+    "width_px": 1800,
+    "height_px": 1940,
+    "sha256": "d600579bcebb25fade5a596ca26f706279716527fda173659b1d9f0a934f52d5",
+    "active238_fraction": 0.309646048,
+    "active245_fraction": 0.359506873,
+    "red_fallback_fraction": 0.000035223
+  },
+  "ai_slot": {
+    "path": "paper/shared/figures/ai_slots/fig_supplement_material_claim_boundary_gate_ai_slot.png",
+    "width_px": 1672,
+    "height_px": 941,
+    "sha256": "2ce5d58727beb613895536dcaedf824de98545872ca39b90c352efa885dc16fc",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_015f66b72ebfac12016a1f8b9ce15081938a9e17d2e581d4a1.png",
+    "source_generated_image_sha256": "2ce5d58727beb613895536dcaedf824de98545872ca39b90c352efa885dc16fc",
+    "manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_material_claim_boundary_atlas.yaml",
+    "manifest_sha256": "e05aa474954228a52dda6b753d8c0cad6f5f38031d20b1d05e415ccb684d5f65",
+    "claim_boundary": "Exposition only; not experimental evidence."
+  },
+  "registered_render_evidence": [
+    "paper/shared/figures/fig_material_effect_baseline_qualitative.png",
+    "paper/shared/figures/fig_material_effect_supplemental_qualitative.png",
+    "paper/shared/evidence/raw/material_effect_baseline/material_effect_risk_profile.json",
+    "paper/shared/tables/tab_material_effect_risk_matrix.tex",
+    "paper/shared/tables/tab_material_safe_conversion_recommender.tex"
+  ],
+  "pdf_page_renders": [
+    {
+      "path": "tmp/acl_supplement_material_claim_boundary_v2_review_20260603/page-27.png",
+      "page": 27,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active245_fraction": 0.178586717,
+      "active238_fraction": 0.156767383,
+      "red180_fraction": 0.0,
+      "sha256": "5c37c178d2abcb7d62e5544e71d943482c61b8a67dfb2be05c1c5510ff45ad0d"
+    },
+    {
+      "path": "tmp/acl_supplement_material_claim_boundary_v2_review_20260603/page-28.png",
+      "page": 28,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active245_fraction": 0.156651399,
+      "active238_fraction": 0.139537348,
+      "red180_fraction": 0.0,
+      "sha256": "67cc2c8eb4ca6c142c495bf26a95532ef34eda4128273414dec33d6283c70339"
+    }
+  ],
+  "previous_page27_active245_fraction": 0.110883,
+  "visual_review": {
+    "mode": "local_render_visual_reviewer",
+    "independent_subagent": false,
+    "subagent_note": "The user requested repeated use of visual-review skill, not explicit subagent dispatch; local visual review was used.",
+    "verdict": "PASS",
+    "evidence": "Page 27 keeps the material claim-boundary atlas and caption on one page. The figure is less sparse because the rows use larger fitted material-render crops and the former unused lower space is replaced by an exposition-only claim-boundary gate. Page 28 remains the material decision-map page and is not displaced."
+  },
+  "build": {
+    "command": "make -C paper acl27-supplement",
+    "pdf_pages": 44,
+    "pdf_sha256": "f0e3fa4e3906f5b5661378079c761f88e2b6d240843e3a4e54c21b669dd7dd4e",
+    "pdf_size_bytes": 36875454
+  }
+}

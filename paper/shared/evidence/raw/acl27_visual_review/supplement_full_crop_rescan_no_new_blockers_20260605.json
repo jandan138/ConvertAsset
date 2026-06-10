@@ -1,0 +1,121 @@
+{
+  "artifact": "paper/venues/acl27/build/supplement.pdf",
+  "date": "2026-06-05",
+  "scope": "Full ACL supplement rendered-PDF crop, scale, occlusion, and incomplete-display rescan.",
+  "result": "no_new_blocking_visual_defects_found",
+  "supplement_pdf": {
+    "pages": 46,
+    "page_size": "A4",
+    "sha256": "4c5295b7306453238cfa9a2a14e8cbaea56c16ffec0b22d63b88c6d7a836cb0d"
+  },
+  "render_artifacts": {
+    "pages_160dpi_dir": "tmp/acl_supplement_visual_scan_20260605_round2_before/pages_160/",
+    "layout_text": "tmp/acl_supplement_visual_scan_20260605_round2_before/text/supplement_layout.txt",
+    "contact_sheets": [
+      "tmp/acl_supplement_visual_scan_20260605_round2_before/contact_sheets/supplement_pages_01_12.png",
+      "tmp/acl_supplement_visual_scan_20260605_round2_before/contact_sheets/supplement_pages_13_24.png",
+      "tmp/acl_supplement_visual_scan_20260605_round2_before/contact_sheets/supplement_pages_25_36.png",
+      "tmp/acl_supplement_visual_scan_20260605_round2_before/contact_sheets/supplement_pages_37_46.png"
+    ]
+  },
+  "manual_page_scale_rechecks": [
+    {
+      "page": 20,
+      "figure": "Figure S19",
+      "status": "passed",
+      "notes": "GRScenes diagnostic case atlas is complete; render cards and caption remain on-page."
+    },
+    {
+      "page": 21,
+      "figure": "Figure S20",
+      "status": "passed",
+      "notes": "Four render cards, prompt/point/score gate, claim-boundary box, and caption are visible."
+    },
+    {
+      "page": 22,
+      "figure": "Figure S21",
+      "status": "passed",
+      "notes": "Failure-taxonomy companion is complete; bottom audit-strip crops are intentional row-inspection crops."
+    },
+    {
+      "page": 23,
+      "figure": "Figure S22",
+      "status": "passed",
+      "notes": "PASS-only companion is complete and does not collide with following text."
+    },
+    {
+      "page": 24,
+      "figure": "Figure S23",
+      "status": "passed",
+      "notes": "Zoom-stress companion is complete; following paragraph is separated from the figure."
+    },
+    {
+      "page": 27,
+      "figure": "Figure S25",
+      "status": "passed",
+      "notes": "Bottom claim-boundary gate, right-side cards, and caption spacing are visible."
+    },
+    {
+      "page": 28,
+      "figure": "Figure S26",
+      "status": "passed",
+      "notes": "Visual decision gate is complete; caption is near the bottom but still safely on-page."
+    },
+    {
+      "page": 31,
+      "figure": "Figure S29",
+      "status": "passed",
+      "notes": "Official navigation case strips are complete; tight route-map framing comes from source strip layout, not PDF clipping."
+    },
+    {
+      "page": 32,
+      "figure": "Figure S30",
+      "status": "passed",
+      "notes": "Divergent-trajectory case strips are complete."
+    },
+    {
+      "page": 33,
+      "figure": "Figure S31",
+      "status": "passed",
+      "notes": "Neutral companion, gate slot, compact strip, footer, and caption are visible."
+    },
+    {
+      "page": 36,
+      "figure": "Figure S34",
+      "status": "passed",
+      "notes": "0036/0066 neutral companion is complete; dense start/mid/end thumbnails remain inside the figure."
+    },
+    {
+      "page": 38,
+      "figure": "Figure S36",
+      "status": "passed",
+      "notes": "Upload-gate closure card, media wall, AI slot, paper-claim boundary, and caption are visible."
+    },
+    {
+      "page": 45,
+      "figure": "Figure S41",
+      "status": "passed",
+      "notes": "Source-boundary gate, render source tray, paired target-view closeups, footer, and caption are visible."
+    }
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27-supplement",
+      "result": "passed/up-to-date"
+    },
+    {
+      "command": "pdfinfo paper/venues/acl27/build/supplement.pdf",
+      "result": "46 A4 pages"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|LaTeX Warning: Reference|Warning:.*Label|undefined|Rerun to get|Label\\\\(s\\\\) may have changed|Package lineno Warning\" paper/venues/acl27/build/supplement.log",
+      "result": "no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k supplement",
+      "result": "66 passed, 19 deselected"
+    }
+  ],
+  "source_changes_required": false,
+  "residual_risk": "Dense source-level navigation and audit-strip crops remain compact by design. This pass only treats final-PDF clipping, missing panels, occlusion, unsafe scaling, or incomplete figure display as blockers."
+}

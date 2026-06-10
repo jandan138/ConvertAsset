@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_vlm_clean_rerender_panel_v2_20260604",
+  "date_utc": "2026-06-04",
+  "target": "ACL27 supplement page 10 VLM clean-rerender panel",
+  "independent_subagent_review": false,
+  "reason_independent_review_not_used": "Subagent spawning is restricted to explicit user requests in this environment; review followed the render-visual-reviewer checklist locally.",
+  "inputs": {
+    "standalone_figure": "paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png",
+    "generator": "paper/shared/figures/gen_supplement_vlm_clean_rerender_panel.py",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_review_pages_144dpi": [
+      "tmp/acl_supplement_page10_vlm_clean_rerender_v2_final_20260604/page-09.png",
+      "tmp/acl_supplement_page10_vlm_clean_rerender_v2_final_20260604/page-10.png",
+      "tmp/acl_supplement_page10_vlm_clean_rerender_v2_final_20260604/page-11.png"
+    ],
+    "pdf_review_page_90dpi": "tmp/acl_supplement_page10_vlm_clean_rerender_v2_final_90dpi_20260604/page-10.png"
+  },
+  "hashes": {
+    "standalone_figure_sha256": "6f44e63b4321ae27f61a79bb34c2a270b25a75e1bc5bb5558966b1e510b194ba",
+    "pdf_sha256": "8b45e6c51befdb904ceb02e25e396dd512e07d5d8f7f46bfd535630c9b9c1ca8"
+  },
+  "metrics": {
+    "standalone_previous_size": [1802, 1134],
+    "standalone_current_size": [1602, 1672],
+    "standalone_previous_active238": 0.501307092,
+    "standalone_current_active238": 0.501968607,
+    "previous_round22_page10_active245_90dpi": 0.150405680,
+    "current_page10_active245_90dpi": 0.256958387,
+    "page10_active245_delta": 0.106552707
+  },
+  "visual_review": {
+    "overall_verdict": "PASS",
+    "standalone_figure": "PASS: the panel is now page-shaped, keeps the four original/noMDL pairs visible, and adds bbox-centered target closeups plus clean-rerender report gates.",
+    "pdf_page_10": "PASS: the rendered page uses the available page height much better, has no clipping, and preserves caption readability.",
+    "neighbor_pages": "PASS: page 9 remains the GRScenes qualitative pair and page 11 remains the material-effect baseline figure; no float displacement was observed.",
+    "claim_boundary": "PASS: caption and report-gate footer state that the panel remains render-quality support for tabulated grounding evidence, not a VLM rerun."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'vlm_clean_rerender_panel_is_registered_and_not_red'",
+    "latexmk -g -cd -pdf -outdir=build -interaction=nonstopmode -halt-on-error supplement.tex",
+    "pdftoppm -r 144 -png -f 9 -l 11 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page10_vlm_clean_rerender_v2_final_20260604/page",
+    "pdftoppm -r 90 -png -f 10 -l 10 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page10_vlm_clean_rerender_v2_final_90dpi_20260604/page"
+  ]
+}

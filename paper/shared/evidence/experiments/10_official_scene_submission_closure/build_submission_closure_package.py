@@ -503,7 +503,7 @@ def write_status_table(csv_path: Path, tex_path: Path, rows: list[dict[str, Any]
 
     tex_path.parent.mkdir(parents=True, exist_ok=True)
     lines = [
-        "\\begin{table}[t]",
+        "\\begin{table*}[t]",
         "\\centering",
         "\\small",
         "\\resizebox{\\linewidth}{!}{%",
@@ -538,6 +538,43 @@ def _format_ci(row: dict[str, Any], metric: str, *, precision: int = 2) -> str:
     if mean_value is None or low is None or high is None:
         return "NA"
     return f"{float(mean_value):.{precision}f} [{float(low):.{precision}f}, {float(high):.{precision}f}]"
+
+
+def _aggregate_performance_tex_rows(rows: list[dict[str, Any]]) -> list[dict[str, str]]:
+    grouped: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        if row.get("row_type") != "aggregate":
+            continue
+        grouped[str(row["condition"])] = row
+
+    original = grouped.get("original_mdl", {})
+    converted = grouped.get("convertasset_nomdl", {})
+
+    def success_text(row: dict[str, Any]) -> str:
+        return f"{row.get('success_count', 'NA')}; {int(row.get('failure_count') or 0)} fail"
+
+    return [
+        {
+            "metric": "Scenes",
+            "original": str(original.get("scene_count") or "NA"),
+            "converted": str(converted.get("scene_count") or "NA"),
+        },
+        {
+            "metric": "Successful runs",
+            "original": success_text(original),
+            "converted": success_text(converted),
+        },
+        {
+            "metric": "Ready time (s)",
+            "original": str(original.get("total_ready_s", "NA")),
+            "converted": str(converted.get("total_ready_s", "NA")),
+        },
+        {
+            "metric": "FPS",
+            "original": str(original.get("warmup_fps", "NA")),
+            "converted": str(converted.get("warmup_fps", "NA")),
+        },
+    ]
 
 
 def write_performance_summary_table(csv_path: Path, tex_path: Path, performance_summary: dict[str, Any]) -> None:
@@ -589,31 +626,31 @@ def write_performance_summary_table(csv_path: Path, tex_path: Path, performance_
         writer.writerows(rows)
 
     tex_path.parent.mkdir(parents=True, exist_ok=True)
+    aggregate_rows = _aggregate_performance_tex_rows(rows)
     lines = [
-        "\\begin{table}[t]",
+        "\\begin{table*}[t]",
         "\\centering",
-        "\\small",
-        "\\resizebox{\\linewidth}{!}{%",
-        "\\begin{tabular}{lllrrr}",
+        "\\footnotesize",
+        "\\setlength{\\tabcolsep}{2pt}",
+        "\\begin{tabular}{@{}>{\\raggedright\\arraybackslash}p{0.30\\textwidth}"
+        ">{\\raggedright\\arraybackslash}p{0.30\\textwidth}"
+        ">{\\raggedright\\arraybackslash}p{0.30\\textwidth}@{}}",
         "\\toprule",
-        "Scope & Condition & Ready time (s) & Success & Failure & FPS \\\\",
+        "Metric & Original MDL & noMDL \\\\",
         "\\midrule",
     ]
-    for row in rows:
-        scope = row["scene_id"] if row["row_type"] == "per_scene" else "all official scenes"
+    for row in aggregate_rows:
         lines.append(
-            f"{_latex_escape(scope)} & {_latex_escape(row['condition'])} & "
-            f"{_latex_escape(row['total_ready_s'])} & {_latex_escape(row['success_count'])} & "
-            f"{_latex_escape(row['failure_count'])} & {_latex_escape(row['warmup_fps'])} \\\\"
+            f"{_latex_escape(row['metric'])} & {_latex_escape(row['original'])} & "
+            f"{_latex_escape(row['converted'])} \\\\"
         )
     lines.extend(
         [
             "\\bottomrule",
-            "\\end{tabular}%",
-            "}",
-            "\\caption{Official KuJiaLe / InteriorAgent scene load/render performance. Each required condition uses three fresh-process runs per scene; intervals are bootstrap 95\\% confidence intervals over the recorded runs. NVIDIA official-scene baseline is omitted until official-scene converted USDs exist and pass smoke gates.}",
+            "\\end{tabular}",
+            "\\caption{Official KuJiaLe / InteriorAgent scene load/render stability. Aggregate original/noMDL rows only; intervals are bootstrap 95\\% CIs. The NVIDIA official-scene row is omitted until matching converted scenes pass smoke gates.}",
             "\\label{tab:official_scene_performance_summary}",
-            "\\end{table}",
+            "\\end{table*}",
             "",
         ]
     )

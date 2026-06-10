@@ -1,6 +1,6 @@
 # ACL/ARR Submission Readiness Audit
 
-Checked: 2026-05-26.
+Checked: 2026-05-30.
 
 This file tracks whether the ACL-facing wrapper is ready for an ARR or
 ACL-family submission. It uses the current `paper/venues/acl27/` manuscript as
@@ -26,32 +26,70 @@ the source of truth and treats public ACL/ARR pages as external policy inputs.
 | Qwen2.5-VL-7B-Instruct model card | https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct | Public source/license context for Qwen diagnostic model. |
 | InteriorAgent dataset card and terms | https://huggingface.co/datasets/spatialverse/InteriorAgent | Public source/terms context for the official KuJiaLe scenes used in the 99-episode downstream sanity run. |
 
-Public search on 2026-05-26 found generic ACLPUB and ARR policy pages and now
-confirms EACL 2027 as a concrete public 2027 ACL-family ARR route. Public search
-still did not find an official Annual ACL 2027 CFP, author kit, city/date page,
-or commitment deadline. Therefore this wrapper is ACL/ARR-candidate ready and
-EACL-2027-route plausible, but not Annual-ACL-2027-final ready.
+Public checks through 2026-05-30 found generic ACLPUB and ARR policy pages and
+confirm EACL 2027 as a concrete public 2027 ACL-family ARR route. Public
+official search still did not find an Annual ACL 2027 CFP, author kit,
+city/date page, or commitment deadline. Therefore this wrapper is
+ACL/ARR-candidate ready and EACL-2027-route plausible, but not
+Annual-ACL-2027-final ready.
 
-Latest refresh on 2026-05-26 reopened the policy-critical pages after the
-pre-upload runner and evidence-number checker were added. ARR Dates still lists
-EACL 2027 with final ARR submission date August 3, 2026 and commitment date
-October 11, 2026; the EACL main-paper page still lists August 3, 2026 AoE while
-stating that the full CFP and detailed timetable are forthcoming. ACLPUB still
-states the generic 8-content-page long-paper review budget plus unlimited
-references, and ARR common-submission guidance still leaves author order,
-OpenReview profiles, and reviewer-registration confirmation as human gates.
+Latest refresh on 2026-05-30 reopened the policy-critical pages after the
+target-policy, reviewer-risk, full-PDF visual, Figure 3 red-material, and
+first-page fit rechecks. ARR Dates still lists the August 2026 cycle with
+submission deadline August 3, 2026 and lists EACL 2027 with final ARR
+submission date August 3, 2026 and commitment date October 11, 2026. The EACL
+home page still lists Athens, March 9-14, 2027; the EACL main-paper page still
+lists August 3, 2026 AoE while stating that the full CFP and detailed timetable
+are forthcoming. ACLPUB still states the generic 8-content-page long-paper
+review budget plus unlimited references, and ARR common-submission guidance
+still treats author order, OpenReview profiles, and reviewer-registration
+confirmation as author-side gates. The ignored private worksheet now records
+the current sole-author/profile confirmation, while reviewer-registration,
+route, form-copy, runtime/AI/license, optional-media, and final-upload decisions
+remain human-gated.
+
+Manuscript/staging refresh later on 2026-05-30 tightened Figure 3's caption to
+say the selected `Original MDL` cells passed a log-checked clean
+rerender/provenance gate, then strengthened the conclusion into an
+evidence-gate takeaway, and removed the manual Introduction `\newpage` before
+the contribution list. The refreshed staged candidate is an 11-page A4 PDF 1.5
+file of 4,066,770 bytes with SHA-256
+`177466b7d0cf6a557f73f792dc6f718fdae8f42663e7398a54bc2d9252cde356`, and the
+build and staged PDFs are byte-identical. The packet boundary and human
+blockers are unchanged.
+
+Follow-up manuscript/staging refresh on 2026-05-30 replaced the awkward
+`all-InteriorNav` limitation wording with explicit `all InternNav or
+InteriorAgent settings` scope language and extended the claim-boundary checker
+to catch those natural broad-scope variants. The refreshed staged candidate is
+an 11-page A4 PDF 1.5 file of 4,066,626 bytes with SHA-256
+`137370b33b567ebc55ab6f88ef5d6e6860b6e61debf133e8077b14a22b454c98`, and the
+build and staged PDFs are byte-identical. The packet boundary and human
+blockers remain unchanged.
+
+Clean-pool table readability refresh on 2026-05-30 removed resizebox
+compression from the GRScenes clean-pool pilot table while preserving the
+metric values and claim boundaries. The refreshed staged candidate is an
+11-page A4 PDF 1.5 file of 4,087,616 bytes with SHA-256
+`d03af3b4554951ccb51c3a224a8fbbd12fb517180dd36bad5672f0fb07006793`, and the
+build and staged PDFs are byte-identical. The ignored private author worksheet
+was also refreshed for this exact staged packet and now records the
+sole-author/profile confirmation rows locally; remaining upload blockers are
+still human-only route, OpenReview form-copy, runtime/AI/media approval, and
+final upload-decision fields.
 
 ## Current Manuscript State
 
 | Gate | Evidence | Status |
 | --- | --- | --- |
 | ACL-specific scientific story | `main.tex` inputs `./sections/abstract`, `intro`, `related`, `method`, `results`, `discussion`, `conclusion`, `limitations`, and `ethical-considerations`. | Pass |
+| First-page ACL fit | `FIRST_PAGE_ACL_FIT_AUDIT.md` and `paper/shared/evidence/raw/acl27_visual_review/first_page_acl_fit_review_20260530.json`; rendered page-1/page-2 hashes are recorded. | Pass with human route caveat: title/abstract/opening foreground VLM grounding and embodied-data reliability; Figure 1 v18 remains readable and does not need regeneration. |
 | Anonymous review wrapper | `main.tex` uses `\author{Anonymous ACL 2027 Submission}` and no acknowledgments section. | Pass for local review draft |
 | Limitations section present | `sections/limitations.tex`; PDF text places `Limitations` after conclusion and before references. | Pass |
 | Ethical considerations present | `sections/ethical-considerations.tex`; PDF text places it before references. | Pass |
-| Abstract length | `OPENREVIEW_METADATA_PACKET.md` and `sections/abstract.tex`; current plain-text abstract is 189 words by the repository's conservative tokenizer. | Pass under ACLPUB 200-word guidance |
+| Abstract length | `OPENREVIEW_METADATA_PACKET.md` and `sections/abstract.tex`; current plain-text abstract is 183 words by the repository's conservative tokenizer. | Pass under ACLPUB 200-word guidance |
 | Page size | `pdfinfo paper/venues/acl27/build/main.pdf` reports A4 `595.276 x 841.89 pts`. | Pass |
-| Review long-paper page budget | Latest staged build is 12 PDF pages total. The main content remains within the generic ACLPUB 8-content-page long-paper review budget before limitations, ethical considerations, references, and appendix material. | Pass for generic ARR/ACLPUB long paper |
+| Review long-paper page budget | Latest staged build is 11 PDF pages total. The main content remains within the generic ACLPUB 8-content-page long-paper review budget before limitations, ethical considerations, references, and appendix material. | Pass for generic ARR/ACLPUB long paper |
 | Bibliography resolution | Latest `make -C paper clean-acl27 && make -C paper acl27` resolves citations and writes `build/main.pdf`. | Pass |
 | Claim boundary | `CLAIM_AUDIT.md` forbids broad embodied benchmark, speedup, NVIDIA official-scene performance, and population NVIDIA failure-rate claims. | Pass |
 | Automated target-policy consistency | `scripts/check_target_policy.py` validates `TARGET_CALL_POLICY_AUDIT.md` and `TARGET_LOCK_OPENREVIEW_REHEARSAL.md`. | Pass for current source: EACL 2027 via ARR remains recorded as the public route, Annual ACL 2027 is not marked final-ready, and official policy URLs/key route markers are present; included in `run_preupload_gate.py` |
@@ -59,7 +97,7 @@ OpenReview profiles, and reviewer-registration confirmation as human gates.
 | Automated citation inventory | `scripts/check_citation_inventory.py` parses ACL citations, `paper/shared/references.bib`, and the 2026-05-26 web-trail addendum. | Pass for current source: 20 cited keys, no missing BibTeX entry, no cited key without DOI/URL, and exact web-trail coverage; included in `run_preupload_gate.py` |
 | Automated OpenReview checklist copy-readiness | `scripts/check_openreview_checklist.py` validates `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`. | Pass for current source: 17 expected ARR checklist questions, official policy URLs, current PDF anchors, no placeholder text, no bare yes/no/N/A answers, and AI-assistance wording; included in `run_preupload_gate.py` |
 | Automated evidence-number consistency | `scripts/check_evidence_numbers.py` recomputes the ACL-facing proxy, GRScenes VLM, InternNav, official-scene, and coordinate-baseline numbers from local CSV/JSON evidence and checks manuscript/OpenReview markers. | Pass for current source; included in `run_preupload_gate.py` |
-| Automated final-integrity source freshness | `scripts/check_integrity_fingerprint.py` validates `FINAL_INTEGRITY_SOURCE_FINGERPRINT.json` against 41 current manuscript, bibliography, policy, OpenReview-copy, reference web-trail, table, and evidence CSV/JSON sources. | Pass for current source; included in `run_preupload_gate.py` before PDF build/staging |
+| Automated final-integrity source freshness | `scripts/check_integrity_fingerprint.py` validates `FINAL_INTEGRITY_SOURCE_FINGERPRINT.json` against 57 current manuscript, bibliography, policy, OpenReview-copy, reference web-trail, table, figure/prompt, provenance, figure-builder, and evidence CSV/JSON sources. | Pass for current source; included in `run_preupload_gate.py` before PDF build/staging |
 | Final blocker report | `scripts/report_final_blockers.py` separates repo blockers from human-only upload blockers without printing private author values. | Current report is `status=human_blocked`, `repo_blockers=[]`, with private author worksheet, target-route confirmation, OpenReview form copy, and author/runtime/AI/media approval still pending. It also includes `human_blocker_details` that map each blocker to worksheet fields, copy sources, required action, and done condition; once the ignored private worksheet is complete, these human blockers can clear. |
 | Private author-gate semantics | `scripts/check_author_gate.py` validates the ignored filled worksheet without printing private values. | Current repository has no private worksheet, so the checker is expected to fail; a filled worksheet must use positive approval/pass/upload wording for high-risk rows and cannot clear the gate with `do not upload`, failed scans, or negative confirmations |
 | Packet checksum sidecar | `stage_submission_packet.py` writes `paper/submissions/acl27_arr_candidate_20260526.sha256`; `run_preupload_gate.py` validates it. | Pass for current staged packet: the anonymous packet remains five files, and the adjacent ignored sidecar records/verifies their SHA-256 digests |

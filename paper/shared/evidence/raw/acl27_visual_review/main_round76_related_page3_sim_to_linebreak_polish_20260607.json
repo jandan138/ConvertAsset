@@ -1,0 +1,105 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 76,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main page 3 Related Work sim-to linebreak polish",
+  "before_pdf_sha256": "21cc21528dc6441d60562ad2d1e3f21f8108a33f6e0726a07b01fd46b3a5890c",
+  "after_pdf_sha256": "07dda1650cc081cd25bee0945c81f2cec02e944f94d4f30ae787866a486d1937",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round76_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round76_after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "rendered_after_screenshot": "tmp/acl_main_visual_iter_20260607_round76_after/page-03.png",
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round76_after/page"
+  },
+  "defect": {
+    "page": 3,
+    "class": "related-work body text linebreak",
+    "before_text_matches": [
+      "page 3 line 001: Synthetic rendering shifts. Prior sim-to-               3.2   Evidence Gates"
+    ],
+    "reader_effect": "The page opened with a visible compound split in the Related Work paragraph immediately before the Method/Evidence Gates transition."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/related.tex",
+      "summary": "Reworded Prior sim-to-real work to Prior transfer work."
+    },
+    {
+      "path": "paper/venues/acl27/sections/related.tex",
+      "summary": "Added a local hyphen-penalty group around the short paragraph to avoid new ordinary-word breaks in the narrow column."
+    }
+  ],
+  "rejected_iterations": [
+    {
+      "summary": "Prior simulation transfer work removed sim-to- but introduced simula-, Trem-, and pro-."
+    },
+    {
+      "summary": "A short-sentence citation rewrite introduced ren-, Preview-, and as-."
+    },
+    {
+      "summary": "A transfer-work-only rewrite introduced Ran-, trans-, and mod-."
+    },
+    {
+      "summary": "A local sloppy group did not suppress the ordinary-word breaks."
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "Page 3 shows no alphabetic line-end hyphenation after the accepted rewrite.",
+    "full_scan_result": "The full after scan reports no body-text line-end hyphenation outside bibliography pages; pages 9-10 retain normal reference-column hyphenation.",
+    "visual_result": "The page-3 Related Work paragraph opens without a split compound or new ordinary-word breaks, and the spacing remains acceptable in the rendered screenshot.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 14.16s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Related Work prose and local linebreak behavior only. No metric values, evidence pools, figures, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "Bibliography pages retain normal reference-column hyphenation."
+}

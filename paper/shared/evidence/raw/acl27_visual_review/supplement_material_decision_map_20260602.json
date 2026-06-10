@@ -1,0 +1,105 @@
+{
+  "record_id": "supplement_material_decision_map_20260602",
+  "date_utc": "2026-06-02",
+  "scope": "ACL 2027 supplement material decision-map iteration and S4 red-material recheck",
+  "inputs": {
+    "supplement_pdf": "paper/venues/acl27/build/supplement.pdf",
+    "s4_replacement_figure": "paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png",
+    "legacy_unsafe_vlm_figure": "paper/shared/figures/fig_vlm_grounding_cases.png",
+    "material_decision_map": "paper/shared/figures/fig_supplement_material_decision_map.png",
+    "imagegen_layout_reference": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_035a3f5d5aac6898016a1ebd3967648199801caf3f474c0872.png"
+  },
+  "hashes_sha256": {
+    "paper/venues/acl27/build/supplement.pdf": "a7cb640814ab086dd5f0e3810a741367bc2f166d92d7c39151dd737541718fbb",
+    "paper/shared/figures/fig_supplement_material_decision_map.png": "7c6ab95a376c34b2b6d4f9c13c2de7e12a55ef56da756214e71880e6078f6bb1",
+    "paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png": "b430f20f9cdffc78a002f891587b00977186d27999b8bdab830bd44c521e75ce",
+    "paper/shared/figures/fig_vlm_grounding_cases.png": "20f230b62740bcae6ed8cbd356024147be5a72c565d23e4b038356d53feb5b7a"
+  },
+  "diagnosis": {
+    "user_report": "The user noticed a Figure S4 caption that framed red material in selected VLM grounding cases as diagnostic evidence.",
+    "root_cause_status": "The current source and rebuilt PDF no longer use that old caption or legacy figure. The old figure remains registered as historical/generated material but is excluded from the ACL supplement and shared experiments section.",
+    "legacy_unsafe_vlm_figure_red_fraction": 0.051321,
+    "current_s4_source_red_fraction": 0.0
+  },
+  "pdf_text_scan": {
+    "command": "pdftotext paper/venues/acl27/build/supplement.pdf - | rg -n \"Post-repair GRScenes target-view render panel|Material safe-conversion decision map|Red material|Selected VLM grounding cases|registered diagnostic figure|fig_vlm_grounding_cases|/cpfs|zhuzihou|jandan138|github.com|ConvertAsset.git\" -S || true",
+    "positive_hits": [
+      "Figure S4: Post-repair GRScenes target-view render panel for the VLM evidence chain.",
+      "Figure S11: Material safe-conversion decision map."
+    ],
+    "negative_hits_absent": [
+      "Red material",
+      "Selected VLM grounding cases",
+      "registered diagnostic figure",
+      "fig_vlm_grounding_cases",
+      "/cpfs",
+      "zhuzihou",
+      "jandan138",
+      "github.com",
+      "ConvertAsset.git"
+    ]
+  },
+  "pdf_render_metrics_150dpi": {
+    "page_count": 39,
+    "s4-08.png": {
+      "active_fraction": 0.1424,
+      "red_fraction": 0.0,
+      "verdict": "PASS: current S4 is the post-repair clean rerender panel with green target boxes and no red material fallback."
+    },
+    "s4-09.png": {
+      "active_fraction": 0.1782,
+      "red_fraction": 0.0,
+      "verdict": "PASS: material baseline page has no saturated red fallback signal."
+    },
+    "material-23.png": {
+      "active_fraction": 0.2239,
+      "red_fraction": 0.0,
+      "verdict": "PASS"
+    },
+    "material-24.png": {
+      "active_fraction": 0.0985,
+      "red_fraction": 0.0,
+      "verdict": "PASS"
+    },
+    "material-25.png": {
+      "active_fraction": 0.0884,
+      "red_fraction": 0.0,
+      "verdict": "PASS_WITH_CAVEAT: the decision map is organized and unclipped; some in-figure microcopy is small at full-page scale."
+    },
+    "material-26.png": {
+      "active_fraction": 0.1367,
+      "red_fraction": 0.000155,
+      "verdict": "PASS: the former orphan text page is gone; page 26 now begins the InternNav supplement."
+    },
+    "material-27.png": {
+      "active_fraction": 0.1686,
+      "red_fraction": 0.000144,
+      "verdict": "PASS"
+    }
+  },
+  "source_figure_metrics": {
+    "paper/shared/figures/fig_supplement_material_decision_map.png": {
+      "size": "1800x1940",
+      "active_fraction": 0.1585,
+      "red_fraction": 0.0
+    },
+    "paper/shared/figures/fig_supplement_material_claim_boundary_atlas.png": {
+      "size": "1800x1650",
+      "active_fraction": 0.2253,
+      "red_fraction": 0.000001
+    }
+  },
+  "local_visual_review": {
+    "independent_subagent": false,
+    "s4_verdict": "PASS",
+    "material_decision_map_verdict": "PASS_WITH_CAVEAT",
+    "notes": "The material decision map replaces two sparse table/prose pages with one render-supported policy figure. The isolated follow-up prose was removed because it created an almost blank page; the same claim boundary remains in the caption and registered shared tables."
+  },
+  "verification": {
+    "figure_generation": "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "test_command": "python -m pytest -q tests/test_paper_layout.py",
+    "test_result": "40 passed in 5.80s",
+    "build_command": "make -C paper acl27-supplement",
+    "build_result": "passed; output PDF has 39 pages"
+  }
+}

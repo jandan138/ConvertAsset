@@ -1,6 +1,6 @@
 # ACL Final Integrity Delta Audit
 
-Checked: 2026-05-26.
+Checked: 2026-05-26. Source-freshness refresh: 2026-05-30.
 
 This audit is a current-manuscript integrity delta pass after the 20-reference
 web-trail audit. It covers the exact ACL wrapper sources under
@@ -16,6 +16,23 @@ rerun this audit, refresh the fingerprint with
 `check_integrity_fingerprint.py --write`, and rerun the staging scans on the
 exact upload artifact.
 
+2026-05-30 source-freshness note: after Figure 3's caption was tightened to say
+the selected `Original MDL` cells passed a log-checked clean
+rerender/provenance gate and after the conclusion was strengthened into an
+evidence-gate takeaway, then after the manual Introduction page break was
+removed, the claim-boundary, metadata, clean-provenance, final-integrity
+fingerprint, and full pre-upload gates were rerun. The
+fingerprint now covers 57 current sources and the refreshed staged PDF is
+byte-identical to the build PDF with SHA-256
+`177466b7d0cf6a557f73f792dc6f718fdae8f42663e7398a54bc2d9252cde356`.
+
+Same-day scope-wording refresh: after the Limitations section replaced
+`all-InteriorNav` with explicit `all InternNav or InteriorAgent settings`
+wording and the claim-boundary checker was extended to catch natural
+broad-scope variants, the fingerprint and full pre-upload gate were rerun. The
+current staged PDF is byte-identical to the build PDF with SHA-256
+`137370b33b567ebc55ab6f88ef5d6e6860b6e61debf133e8077b14a22b454c98`.
+
 ## Scope
 
 | Gate | Coverage in this pass | Verdict |
@@ -25,7 +42,7 @@ exact upload artifact.
 | Claim boundary | Strong/forbidden wording search covered broad benchmark, speedup, NVIDIA official-scene performance, population failure rate, procedural-texture success, learned classifier, R2R/MP3D, and manipulation claims. | Pass; no manuscript edit required. |
 | Originality smoke | Exact-phrase web searches sampled distinctive manuscript sentences across abstract, introduction, method, results, discussion, conclusion, limitations, and appendix. | No copied-source finding in this smoke pass. |
 | Venue policy freshness | Official ARR/EACL/ACLPUB pages were reopened on 2026-05-26. | Annual ACL 2027 remains unavailable; EACL 2027 is the public ACL-family ARR route. |
-| Source freshness fingerprint | `FINAL_INTEGRITY_SOURCE_FINGERPRINT.json` covers 41 current source files, including ACL LaTeX, shared appendix/tables, `references.bib`, OpenReview copy sources, target-policy notes, reference web-trail, and key CSV/JSON evidence. | Pass for current source; `run_preupload_gate.py` now fails before staging if these sources drift. |
+| Source freshness fingerprint | `FINAL_INTEGRITY_SOURCE_FINGERPRINT.json` covers 57 current source files, including ACL LaTeX, shared appendix/tables, `references.bib`, OpenReview copy sources, target-policy notes, reference web-trail, figure assets/prompts, provenance notes, the shared figure builders, the readable InternNav figure builder, and key CSV/JSON evidence. | Pass for current source; `run_preupload_gate.py` now fails before staging if these sources drift. |
 
 ## Citation Context Findings
 
@@ -60,7 +77,8 @@ The current ACL text explicitly negates the dangerous claims rather than making
 them. Searches over ACL sections and appendix found no unsupported assertion of:
 
 - broad embodied-navigation benchmarking;
-- all-GRScenes, all-InteriorNav, R2R, MP3D, or manipulation robustness;
+- all GRScenes, all InternNav or InteriorAgent settings, R2R, MP3D, or
+  manipulation robustness;
 - official-scene noMDL speedup;
 - NVIDIA official-scene performance comparison;
 - population-level NVIDIA failure rate;

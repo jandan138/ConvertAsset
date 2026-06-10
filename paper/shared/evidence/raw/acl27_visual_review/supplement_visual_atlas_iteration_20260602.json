@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-06-02",
+  "review_id": "acl27_supplement_visual_atlas_iteration_20260602",
+  "review_mode": "local_render_visual_review",
+  "independent_subagent_used": false,
+  "reason_independent_subagent_not_used": "The user requested skill-based visual review, but did not explicitly request multi-agent delegation; the render-visual-reviewer rubric was applied locally.",
+  "imagegen_use": {
+    "mode": "built-in imagegen skill",
+    "role": "non-evidence layout ideation only",
+    "included_in_pdf": false,
+    "boundary": "No image-generated bitmap was used as render, VLM, material, or navigation evidence in this supplement iteration."
+  },
+  "artifact": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "8296854178441d86fc426dd18aedf00ae626d86683bf91b48fb2c9121210ce8e",
+    "pages": 40,
+    "size_bytes": 12591959,
+    "page_size": "A4"
+  },
+  "new_render_atlas": {
+    "path": "paper/shared/figures/fig_supplement_render_atlas.png",
+    "sha256": "3df24a95b8b34d6865290d004b7fa47b3edba928c89943a5d7d63f54396a663d",
+    "size_pixels": [1800, 2794],
+    "size_bytes": 3664004,
+    "active_pixel_fraction": 0.632,
+    "sources": [
+      "paper/shared/evidence/raw/renders/",
+      "paper/shared/figures/out_tmp/"
+    ]
+  },
+  "rendered_review_pages": {
+    "dpi": 110,
+    "temporary_dir": "tmp/acl27_supplement_visual_atlas_pages",
+    "contact_sheet": {
+      "path": "tmp/acl27_supplement_visual_atlas_pages/contact_pages_01_10.png",
+      "sha256": "2bbeb13e45f9de29a66d0b6818d4ed8442e9eed9863d0e35e4fe0777da4877fa"
+    },
+    "focused_page": {
+      "page": 5,
+      "path": "tmp/acl27_supplement_visual_atlas_pages/page-05.png",
+      "sha256": "ce0351977aa8d8894fa5264e7069fc64b613cf820ff990661ce08a4e165e3eba"
+    }
+  },
+  "checks": [
+    {
+      "id": "front_loaded_render_evidence",
+      "verdict": "PASS",
+      "visible_evidence": "Pages 5-9 now form a visible render-heavy block before the mathematical derivations: dense render atlas, wide render evidence, GRScenes qualitative pair, VLM grounding cases, and material baseline qualitative comparison.",
+      "main_risk": "Page 4 remains a text-only introduction page for the new atlas section."
+    },
+    {
+      "id": "atlas_page_fill",
+      "verdict": "PASS_WITH_CAVEAT",
+      "visible_evidence": "The atlas was changed from a landscape half-page figure to a portrait, eight-row MDL/noMDL evidence page that fills the page much better.",
+      "main_risk": "The proxy object renders are naturally pale because the source assets are white furniture; the caption must keep this as qualitative inspection material."
+    },
+    {
+      "id": "red_material_boundary",
+      "verdict": "PASS_WITH_BOUNDARY",
+      "visible_evidence": "The VLM diagnostic figure still contains red material cases, but the supplement caption states that red material is part of the selected probe evidence rather than a beautified showcase.",
+      "main_risk": "A reviewer skimming only the image may still need the caption boundary to avoid confusing diagnostic red material with a cleaned render panel."
+    },
+    {
+      "id": "privacy_scan",
+      "verdict": "PASS",
+      "visible_evidence": "PDF text scan found no /cpfs, /home, /root, zhuzihou, jandan138, github.com/jandan138, or ConvertAsset.git tokens.",
+      "main_risk": "Binary media ZIPs, if added later, require a separate metadata and visible-overlay scan."
+    }
+  ],
+  "overall_verdict": "PASS_WITH_NEXT_ITERATION",
+  "next_iteration_recommendation": [
+    "Either merge the atlas section introduction with the first figure page or add a small real-render visual strip to reduce the text-only feel of page 4.",
+    "Continue inspecting pages 21-35 because the material and InternNav sections still carry older table-heavy and video-still layouts.",
+    "Do not treat the imagegen layout mock-up as evidence; keep it outside the PDF."
+  ]
+}

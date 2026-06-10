@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_page4_claim_boundary_companion_v3_20260604",
+  "date_utc": "2026-06-04",
+  "target": "ACL27 supplement page 4 claim-boundary companion v3",
+  "independent_subagent_review": false,
+  "reason_independent_review_not_used": "Subagent spawning is restricted to explicit user requests in this environment; review followed the render-visual-reviewer checklist locally.",
+  "inputs": {
+    "standalone_figure": "paper/shared/figures/fig_supplement_page4_claim_boundary_companion.png",
+    "source_ai_slot": "paper/shared/figures/ai_slots/fig_supplement_page4_boundary_marker_v3_ai_slot.png",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0dc75627b970a490016a208f23add48190b82cffe0c345cb7f.png",
+    "generator": "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_page4_claim_boundary_companion.yaml",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_review_pages_144dpi": [
+      "tmp/acl_supplement_page4_claim_boundary_v3_final_20260604/page-03.png",
+      "tmp/acl_supplement_page4_claim_boundary_v3_final_20260604/page-04.png",
+      "tmp/acl_supplement_page4_claim_boundary_v3_final_20260604/page-05.png"
+    ],
+    "pdf_review_page_90dpi": "tmp/acl_supplement_page4_claim_boundary_v3_final_90dpi_20260604/page-04.png",
+    "pdf_review_crops": [
+      "tmp/acl_supplement_page4_claim_boundary_v3_final_20260604/crops/page04_figure_region.png",
+      "tmp/acl_supplement_page4_claim_boundary_v3_final_20260604/crops/page04_caption_region.png",
+      "tmp/acl_supplement_page4_claim_boundary_v3_final_20260604/crops/page04_marker_region.png"
+    ]
+  },
+  "hashes": {
+    "source_ai_slot_sha256": "a426dae47479d8404c89826e65bc3b878c83112718bfd7581cd5582937847855",
+    "standalone_figure_sha256": "ebfeeab3183c00d07945e32ab35964fde076f45fcb688a033322ad012ef71a07",
+    "pdf_sha256": "5f29ff8c1e620ec059d2d9e79aa6e80c838c7ada482ac959027bbabcc2ba0bdb",
+    "page4_render_90dpi_sha256": "1fce1c06308d5ad259168f57f0c2c73d34bedd33ba84cd0f2fc59f2ba004d458"
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks.",
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, matching the sparse-page density audit.",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90."
+  },
+  "metrics": {
+    "source_ai_slot_size_px": [
+      1672,
+      941
+    ],
+    "source_ai_slot_layout_guard_active238": 0.4063134,
+    "source_ai_slot_layout_guard_active245": 0.432593596,
+    "source_ai_slot_red_pixel_fraction": 0.001594684,
+    "standalone_previous_v2_size_px": [
+      920,
+      1040
+    ],
+    "standalone_current_size_px": [
+      920,
+      1480
+    ],
+    "standalone_previous_v2_layout_guard_active238": 0.423647575,
+    "standalone_current_layout_guard_active238": 0.468169066,
+    "standalone_current_layout_guard_active245": 0.493166863,
+    "standalone_current_red_pixel_fraction": 0.005073443,
+    "previous_round24_page4_active245_90dpi": 0.153922637,
+    "current_page4_active245_90dpi": 0.183705233,
+    "page4_active245_delta": 0.029782596,
+    "current_page3_active245_144dpi": 0.139782035,
+    "current_page4_active245_144dpi": 0.160257254,
+    "current_page5_active245_144dpi": 0.152694097
+  },
+  "visual_review": {
+    "overall_verdict": "PASS",
+    "standalone_figure": "PASS: the v3 companion is taller than v2, keeps the real proxy, GRScenes, material, and navigation render evidence in the upper sections, enlarges the registered exclusion-to-render ladder, and places the AI boundary marker in a separate exposition-only block.",
+    "pdf_page_4": "PASS: the rendered page keeps the figure and caption inside the right column; the taller include does not collide with text, page numbers, or the adjacent column.",
+    "neighbor_pages": "PASS: page 3 remains the evidence-gate registry companion and page 5 remains the claim-boundary examples page; no obvious float displacement or spill page was observed.",
+    "claim_boundary": "PASS: the caption and deterministic labels state that the AI-generated boundary-marker v3 schematic is only for exposition and is not a new evidence source, metric, VLM run, or navigation run."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'page4_claim_boundary_companion'",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "make -C paper acl27-supplement",
+    "pdftoppm -r 144 -png -f 3 -l 5 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page4_claim_boundary_v3_final_20260604/page",
+    "pdftoppm -r 90 -png -f 4 -l 4 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page4_claim_boundary_v3_final_90dpi_20260604/page"
+  ]
+}

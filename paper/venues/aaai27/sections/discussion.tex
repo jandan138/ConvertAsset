@@ -1,0 +1,25 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{The contribution is a measurement protocol, not a converter leaderboard.}
+The main result is not that noMDL conversion is always harmless, faster, or
+better than the NVIDIA Asset Converter baseline. The contribution is to make
+material conversion visible to VLM and embodied-language evaluation: proxy
+metrics, VLM answers, point grounding, coordinate compliance, material-effect
+risk, and embodied-stack usability answer different reliability questions.
+
+\paragraph{Grounding deltas are only interpretable after the prompt contract is fixed.}
+The GRScenes stress result shows why proxy-similar renders are not enough:
+Gemma4 follows the normalized-1000 contract, while Qwen2.5-VL exposes stronger
+raw-pixel behavior under the same prompt family. The finding is about
+measurement contracts, not model ranking; coordinate frames and parser coverage
+must be fixed before a material-conversion delta is interpretable.
+
+\paragraph{Material and embodied evidence need explicit boundaries.}
+The material-effect audit prevents a common failure mode in conversion papers:
+counting static conversion success, zero-MDL outputs, or effect-token coverage
+as visual or task success. The four GRScenes-covered bins support bounded
+selected qualitative evidence; clearcoat is a selected NVIDIA failure case, and
+procedural texture is a limitation for both converted conditions. Likewise, the
+99-episode official KuJiaLe InternNav run is sanity evidence over three local
+official scenes, not broad embodied robustness evidence.

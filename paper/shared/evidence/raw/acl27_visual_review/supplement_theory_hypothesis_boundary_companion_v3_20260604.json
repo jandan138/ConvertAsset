@@ -1,0 +1,100 @@
+{
+  "review_id": "supplement_theory_hypothesis_boundary_companion_v3_20260604",
+  "date": "2026-06-04",
+  "target_pdf": "paper/venues/acl27/build/supplement.pdf",
+  "target_page": 41,
+  "figure_id": "fig_supplement_theory_hypothesis_boundary_companion",
+  "change_summary": "Replaced the v2 hypothesis-boundary AI slot with a denser v3 render-backed boundary lens, expanded real-render tile area inside the companion, and shortened the PDF caption after a 46-page overflow regression.",
+  "generated_asset": {
+    "mode": "built_in_image_gen",
+    "source_path": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0674d474d8fa5e94016a206906f8ec8196a55d8126bfd913d0.png",
+    "workspace_path": "paper/shared/figures/ai_slots/fig_supplement_theory_hypothesis_boundary_v3_ai_slot.png",
+    "sha256": "63ee48a9034fc20fa6361841cd159b9883a574e6f0d85824bb74b3ee6f8fe8a8",
+    "size_px": [1024, 1536],
+    "active238_fraction": 0.451678594,
+    "active245_fraction": 0.541306814,
+    "red_pixel_fraction": 0.000466029,
+    "prompt_summary": "Dense portrait hypothesis-boundary lens with four stacked evidence bands for material cues, target grounding, embodied navigation, and selected failures; no readable text, logos, watermarks, checkmarks, warning icons, letters, or numbers."
+  },
+  "standalone_figure": {
+    "path": "paper/shared/figures/fig_supplement_theory_hypothesis_boundary_companion.png",
+    "sha256": "320082335d40a3301c10c031ea10c95d6bf28ea8ba2aa7bf4e330c620df48440",
+    "size_px": [920, 1500],
+    "active238_fraction": 0.492108696,
+    "active245_fraction": 0.505718841,
+    "red_pixel_fraction": 0.000304348
+  },
+  "pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "a0d942f26f01f2d8d4637a1e7ee9ba231b3ff0fc31d41d72dd0155c0d1895f1c",
+    "pages": 45,
+    "page_size": "A4"
+  },
+  "page_renders": [
+    {
+      "page": 40,
+      "dpi": 144,
+      "path": "tmp/acl_supplement_page41_theory_hypothesis_v3_final_20260604/page-40.png",
+      "sha256": "30b4186f8509b881faec40e9341cd8fb4f923efeb3748cb1fba2826ce0f66331",
+      "size_px": [1191, 1684],
+      "active238_fraction": 0.172719585,
+      "active245_fraction": 0.177467188,
+      "red_pixel_fraction": 0.000049361
+    },
+    {
+      "page": 41,
+      "dpi": 144,
+      "path": "tmp/acl_supplement_page41_theory_hypothesis_v3_final_20260604/page-41.png",
+      "sha256": "c5b4c370960aeda917f2e8aa1fdb4378ee18b4e6a8046b7a733651e18c38ce10",
+      "size_px": [1191, 1684],
+      "active238_fraction": 0.119316289,
+      "active245_fraction": 0.124209481,
+      "red_pixel_fraction": 0.000015955
+    },
+    {
+      "page": 42,
+      "dpi": 144,
+      "path": "tmp/acl_supplement_page41_theory_hypothesis_v3_final_20260604/page-42.png",
+      "sha256": "2531461070ccbd9e23543335ca350982a0698b9e387510ea83da806e44b211a5",
+      "size_px": [1191, 1684],
+      "active238_fraction": 0.15967041,
+      "active245_fraction": 0.166556976,
+      "red_pixel_fraction": 0.000062324
+    },
+    {
+      "page": 41,
+      "dpi": 90,
+      "path": "tmp/acl_supplement_page41_theory_hypothesis_v3_final_90dpi_20260604/page-41.png",
+      "sha256": "def8c0299dd791ae48794b958588766a9e73ae76b1c1f7e7df752699350ef35d",
+      "size_px": [745, 1053],
+      "active238_fraction": 0.137203388,
+      "active245_fraction": 0.144267895,
+      "red_pixel_fraction": 0.000012747,
+      "previous_round16_active245_fraction": 0.140809576,
+      "delta_active245_fraction": 0.003458319
+    }
+  ],
+  "regression_debug": {
+    "observed_failure": "The first v3 PDF rebuild produced 46 pages.",
+    "root_cause": "The longer S39 caption pushed the final H.5 sentence onto a mostly blank page, which shifted the reproducibility manifest to the following page.",
+    "fix": "Kept the denser v3 figure and shortened the caption while preserving the render-backed boundary lens and claim-boundary statements."
+  },
+  "visual_review": {
+    "independent_subagent_review": false,
+    "reviewer": "local Codex visual review using render-visual-reviewer protocol",
+    "verdict": "PASS",
+    "evidence": [
+      "Page 41 contains the complete H.1-H.5 hypothesis text, the denser companion figure, and the S39 caption without clipping or overlap.",
+      "Page 42 starts the reproducibility appendix and review-packet manifest as expected.",
+      "The v3 AI slot contains no readable words, logos, watermarks, checkmark icons, or warning icons at standalone inspection scale."
+    ],
+    "risk": "Page-level density improved modestly because the page is constrained by dense two-column text and the companion's fixed 0.36 text-height footprint."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'theory_has_hypothesis_boundary_companion or theory_hypothesis_boundary_companion_is_registered_and_dense'",
+    "latexmk -g -cd -pdf -outdir=build -interaction=nonstopmode -halt-on-error supplement.tex",
+    "pdftoppm -f 40 -l 42 -r 144 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page41_theory_hypothesis_v3_final_20260604/page",
+    "pdftoppm -f 41 -l 41 -r 90 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page41_theory_hypothesis_v3_final_90dpi_20260604/page",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf"
+  ]
+}

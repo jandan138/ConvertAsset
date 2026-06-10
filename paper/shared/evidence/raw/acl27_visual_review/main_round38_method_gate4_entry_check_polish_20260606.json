@@ -1,0 +1,135 @@
+{
+  "round": 38,
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "target_pdf": "paper/venues/acl27/build/main.pdf",
+  "target_area": {
+    "pages": [
+      4,
+      5
+    ],
+    "source": "paper/venues/acl27/sections/method.tex",
+    "lines_after_change": "57-61",
+    "description": "Gate 4 paragraph in Method and adjacent Results/Figure 2 spread"
+  },
+  "change_summary": [
+    "Recast Gate 4 as an embodied-stack entry check to match the evidence-gate story.",
+    "Replaced the old process sentence with a tighter account of the official KuJiaLe route supplying matched original/noMDL scenes for InternNav and DualVLN.",
+    "Kept the claim boundary explicit: selected-stack entry and load/render trials, not a broad navigation benchmark."
+  ],
+  "visual_review": {
+    "before_render_dir": "tmp/acl_main_visual_iter_20260606_round38_current",
+    "after_render_dir": "tmp/acl_main_visual_iter_20260606_round38_after",
+    "before_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round38_current/contact_sheet.png",
+      "sha256": "9dfbfb48d267f8490acf2f6df7d4aeb1a74b1753ddced04b6ea32ec5283cbc08"
+    },
+    "before_main_layout": {
+      "path": "tmp/acl_main_visual_iter_20260606_round38_current/main_layout.txt",
+      "sha256": "cede7db45a31408306937731ae1bde45f67c202c05964031a20a47e38d071581"
+    },
+    "before_focus_pages": {
+      "path": "tmp/acl_main_visual_iter_20260606_round38_current/focus_03_04.png",
+      "sha256": "1b5b352f2988a4713e4d7354ba557b678d2849a154b038fa5dbf580ec104e85c",
+      "pages": [
+        3,
+        4
+      ]
+    },
+    "after_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round38_after/contact_sheet.png",
+      "sha256": "7040eea8fbd73e4e6215e85010b62cce0c2df55fbcea48c01b1ee1d777c838ea"
+    },
+    "focus_before_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round38_after/focus_before_after_p4.png",
+      "sha256": "05c109b7f6a7d28eadb5e394a528b1006559e149914d1d2c33dd0f527c53070c",
+      "pages": [
+        4
+      ]
+    },
+    "focus_pages_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round38_after/focus_p3_p4_after.png",
+      "sha256": "1841c0d065ac626e1e9cd137ade9b162d6405dff3e1658c8979001489ac00dbc",
+      "pages": [
+        3,
+        4
+      ]
+    },
+    "focus_adjacent_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round38_after/focus_p4_p5_after.png",
+      "sha256": "105b309c9ce11537aeccc48e78c54556b6b0d95894e42386042235b20fa267a9",
+      "pages": [
+        4,
+        5
+      ]
+    },
+    "text_extracts": {
+      "before_page4": {
+        "path": "tmp/acl_main_visual_iter_20260606_round38_current/page4.txt",
+        "sha256": "d0f0880d4d312fb352dd2bf1067275c88f5795b0df4f19c409a1a0936b473352"
+      },
+      "after_pages3_5": {
+        "path": "tmp/acl_main_visual_iter_20260606_round38_after/pages3_5.txt",
+        "sha256": "53aa77e1e0df7a3b36415c83be52e35f6b00d21c72e875a5dfeb61a28523a51e"
+      },
+      "after_page4": {
+        "path": "tmp/acl_main_visual_iter_20260606_round38_after/page4.txt",
+        "sha256": "10024a737b1cd64711e5d10d79dd0f9a2dd35e6a26026d17e86fd999d02cb70c"
+      }
+    },
+    "observations": [
+      "Before: page 4 rendered a visibly stretched 'We run' line in the Gate 4 paragraph.",
+      "Before: page 4 rendered 'from the of-' followed by 'ficial KuJiaLe' and 'through In-' followed by 'ternNav'.",
+      "Intermediate wording with 'smoke test' was rejected because it split the phrase across lines and produced a high-badness method underfull.",
+      "Intermediate wording that retained the monospace val_unseen token was rejected because it produced a badness-10000 Gate 4 line.",
+      "Intermediate wording with 'InternNav/DualVLN stack' was rejected because it introduced worse Gate 4 underfulls.",
+      "After: page 4 renders the Gate 4 paragraph as an embodied-stack entry check, removes the stretched 'We run' line and the old official/InternNav split markers, and keeps the boundary against broad navigation benchmarks.",
+      "After: a minor 'Du-'/'alVLN' split remains, but Results, Figure 2, and page 5 flow remain stable."
+    ]
+  },
+  "pdf_identity": {
+    "before_sha256": "509a70c729a8286e2904b0a5044249e354718dcda596a8b6159fca683a99a0d6",
+    "after_sha256": "fa82288d41866e48febf661c1dce1d3d9fac5b4c0af9066260d23006b19ba08b",
+    "after_pdfinfo": {
+      "creation_date": "Sat Jun 6 15:21:26 2026 CST",
+      "mod_date": "Sat Jun 6 15:21:26 2026 CST",
+      "pages": 11,
+      "page_size": "595.276 x 841.89 pts (A4)",
+      "file_size_bytes": 5188391,
+      "pdf_version": "1.5"
+    }
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "pass",
+      "evidence": "Exit 0; acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "pass",
+      "evidence": "No matches."
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "pass",
+      "evidence": "102 passed in 15.48s."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "pass",
+      "evidence": "ok=true; violations=[], unsafe_figure_violations=[], venue_wrapper_violations=[]"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "pass",
+      "evidence": "ok=true; title and abstract match metadata; abstract_word_count=169"
+    },
+    {
+      "command": "rg -n \"lines 57--63|Gate 4 is the embodied-stack|official KuJiaLe route supplies|We run|through In-|from the of-\" paper/venues/acl27/build/main.log tmp/acl_main_visual_iter_20260606_round38_current/page4.txt tmp/acl_main_visual_iter_20260606_round38_after/page4.txt paper/venues/acl27/sections/method.tex || true",
+      "result": "pass",
+      "evidence": "Current page 4 text contains the old stretched/split markers; after page 4 text and method.tex contain the final Gate 4 entry-check wording; build log has no lines 57--63 Gate 4 underfull entry."
+    }
+  ],
+  "workspace_note": "The repository had unrelated pre-existing modified paper, docs, evidence, figure, and test files before this round. This evidence record only claims the round38 Method Gate 4 paragraph polish plus the new record/evidence files."
+}

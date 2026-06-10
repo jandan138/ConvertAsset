@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-05-28",
+  "review_type": "local_render_visual_review",
+  "independent_subagent_used": false,
+  "artifact": {
+    "path": "paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png",
+    "sha256": "818525fcc0a5fd0b4e692ddd9d2738e673eb3b70a2b2dd90895cab7dd0d51a6e",
+    "size": [1748, 806],
+    "rendered_pdf_page": "/tmp/convertasset_acl27_fig4_label_polish/page-09.png",
+    "rendered_pdf_page_sha256_180dpi": "cb7fbc9efb13ff560646189e2f39067e5c720abb446ce85958ca12e31e4fde10"
+  },
+  "generator": {
+    "path": "paper/shared/figures/gen_internnav_main_readable.py",
+    "change": "Kept the 1748px total figure width but widened the left per-case label column from 230px to 270px, reduced each evidence frame from 360px to 350px, and increased the row key/detail fonts to 22px/16px.",
+    "layout": {
+      "output_width_px": 1748,
+      "output_height_px": 806,
+      "row_label_width_px": 270,
+      "frame_cell_width_px": 350,
+      "frame_cell_height_px": 180,
+      "row_key_font_px": 22,
+      "row_detail_font_px": 16
+    }
+  },
+  "verdict": "PASS_WITH_MINOR_CAVEAT",
+  "visual_evidence": [
+    "The case IDs 597_597, 898_898, and 919_919 are larger and easier to scan at source scale and on PDF page 9.",
+    "The SR O/N labels remain visible in the left row label column without changing the selected original/noMDL start/end evidence frames.",
+    "The PDF page-9 render keeps Figure 4 at the top of the page with the caption attached and with Limitations and Ethical Considerations starting cleanly below.",
+    "Purple executed paths/action arrows and green reference paths remain distinguishable after the label-width change."
+  ],
+  "caveat": "The figure still compresses three selected cases across four evidence columns, so per-frame details remain orientation evidence only and should not be treated as quantitative navigation evidence.",
+  "pixel_checks": {
+    "source_png": {
+      "strong_red_pixels": 0,
+      "magenta_fallback_like_pixels": 2
+    },
+    "rendered_pdf_page_180dpi": {
+      "strong_red_pixels": 0,
+      "magenta_fallback_like_pixels": 0
+    }
+  },
+  "claim_boundary": "Selected qualitative path inspection only; quantitative InternNav claims remain tied to the 99-episode paired run and official-scene load/render checks."
+}

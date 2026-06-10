@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_first_page_evidence_quickstart_v4_20260604",
+  "date_utc": "2026-06-04",
+  "target": "ACL27 supplement page 1 first-page evidence quickstart v4",
+  "independent_subagent_review": false,
+  "reason_independent_review_not_used": "Subagent spawning is restricted to explicit user requests in this environment; review followed the render-visual-reviewer checklist locally.",
+  "inputs": {
+    "standalone_figure": "paper/shared/figures/fig_supplement_first_page_evidence_quickstart.png",
+    "source_ai_slot": "paper/shared/figures/ai_slots/fig_supplement_first_page_reading_compass_v4_ai_slot.png",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0bc9a8f9fc0a9809016a20d00d92388194bb532c653d362830.png",
+    "generator": "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_first_page_evidence_quickstart.yaml",
+    "source_section": "paper/venues/acl27/sections/supplement/00_overview.tex",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_review_pages_144dpi": [
+      "tmp/acl_supplement_page01_quickstart_v4_compact_final_20260604/page-01.png",
+      "tmp/acl_supplement_page01_quickstart_v4_compact_final_20260604/page-02.png"
+    ],
+    "pdf_review_page_90dpi": "tmp/acl_supplement_page01_quickstart_v4_compact_final_90dpi_20260604/page-01.png"
+  },
+  "hashes": {
+    "source_ai_slot_sha256": "6869bb2dd07b3526f62af440616da5e5ea3359da57a106e45694e10b760d9d30",
+    "standalone_figure_sha256": "43f624153953e73ced1990915b2ca6c8396c5a6eb0ff107fe3860a25042cd675",
+    "pdf_sha256": "0bbe611f2ebe8cf16cbbd89a78eb2c725652e333842b654c71e10f79de76a671",
+    "page01_render_90dpi_sha256": "7adf276e1c1553f7dd0d41c440718b5b7a3134f851d2035caff915ba62c128b3",
+    "page01_render_144dpi_sha256": "823805fb7bb50e705d8370705999c90a59cb2cc6118edce97397de1fd00484e7",
+    "page02_render_144dpi_sha256": "5c6a915478da0990f71cc2829ce2cf3483bc3a878755f8ccc96c59a9db2a412f"
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks.",
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, matching the sparse-page density audit.",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90."
+  },
+  "metrics": {
+    "source_ai_slot_size_px": [
+      1602,
+      982
+    ],
+    "source_ai_slot_layout_guard_active238": 0.453412359,
+    "source_ai_slot_layout_guard_active245": 0.48297126,
+    "source_ai_slot_red_pixel_fraction": 0.000448141,
+    "standalone_previous_size_px": [
+      920,
+      1720
+    ],
+    "standalone_current_size_px": [
+      920,
+      1800
+    ],
+    "standalone_previous_layout_guard_active238": 0.480123862,
+    "standalone_previous_layout_guard_active245": 0.496754297,
+    "standalone_current_layout_guard_active238": 0.500644928,
+    "standalone_current_layout_guard_active245": 0.519396739,
+    "standalone_current_red_pixel_fraction": 0.000299517,
+    "round32_page01_active245_90dpi": 0.165193726,
+    "current_page01_active245_90dpi": 0.172578188,
+    "page01_active245_delta": 0.007384462,
+    "current_page01_active238_90dpi": 0.164459486,
+    "current_page01_red_pixel_fraction_90dpi": 0.000020396,
+    "current_page01_active245_144dpi": 0.153229088,
+    "current_page02_active245_144dpi": 0.191594819,
+    "pdf_page_count": 45
+  },
+  "layout_iterations": [
+    {
+      "attempt": "920 x 2020 standalone with 0.78 textheight include",
+      "result": "Rejected: the figure was dense enough but the float moved to page 2 and expanded the supplement to 46 pages."
+    },
+    {
+      "attempt": "920 x 1800 compact standalone with 0.60 textheight include",
+      "result": "Accepted: the quickstart remains on page 1, the supplement stays at 45 pages, and the 90 dpi page active245 improves over the round32 audit."
+    }
+  ],
+  "visual_review": {
+    "overall_verdict": "PASS",
+    "standalone_figure": "PASS: v4 keeps the four registered evidence lanes, expands the opening render ladder to eight real-render anchors, and uses the generated compass only as a replaceable reading schematic.",
+    "pdf_page_1": "PASS: the title block, supplement overview text, section heading, quickstart figure, and caption remain on page 1 without clipping or overlap.",
+    "neighbor_pages": "PASS: page 2 remains the visual evidence roadmap; no extra page-count spill was observed in the 45-page build.",
+    "claim_boundary": "PASS: the caption states that the AI-generated reading-compass v4 schematic is only for exposition and is not a new evidence source, metric, VLM run, or navigation run."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'first_page_evidence_quickstart'",
+    "make -C paper acl27-supplement",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf",
+    "pdftoppm -r 144 -png -f 1 -l 2 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page01_quickstart_v4_compact_final_20260604/page",
+    "pdftoppm -r 90 -png -f 1 -l 1 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page01_quickstart_v4_compact_final_90dpi_20260604/page"
+  ]
+}

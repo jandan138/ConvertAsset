@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 53,
+  "date": "2026-06-07",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/intro.tex"
+  ],
+  "docs_record": "docs/records/2026-06-07-acl-main-intro-opening-linebreak-polish.md",
+  "issue": {
+    "page": 1,
+    "location": "Introduction opening paragraph",
+    "before_problem": [
+      "The page-1 Introduction opener split 'Vision-language and embodied-language models' as 'Vision-language and embodied-language mod- / els'."
+    ],
+    "rejected_intermediate_problems": [
+      "One rewrite removed the original split but introduced 'en- / vironments'.",
+      "Another rewrite introduced 'rou- / tine'.",
+      "Later attempts introduced 'ren- / der', 'im- / age', and 'as- / sets'.",
+      "Further attempts introduced 'render- / ing', 'interven- / tion', and then 'bench- / mark'."
+    ]
+  },
+  "change_summary": {
+    "intro_tex_lines": "4-9",
+    "summary": "Rewrote the Introduction opening paragraph to remove the visible first-paragraph model-name split while keeping the measurement-interface framing and shader-system crossing boundary.",
+    "final_wording": "Vision-language systems and embodied agents are increasingly tested in simulated 3D scenes, where they must bind language to objects, views, and actions. These evaluations treat the rendered scene as fixed input, yet the view is also the measurement interface. When scenes cross shader systems for large runs, sharing, viewer export, or robotics reuse, that step can become a hidden task factor.",
+    "claim_scope_changed": false
+  },
+  "pdf": {
+    "before_sha256": "ad9d09a920a21997ef84467e7edc82990cb6963926d5e5635c7a200c705aed8a",
+    "after_sha256": "bbd7729977b21eac43291cf7ce9a3fc13f2fda8e79e9d4fa51559b1c89e4e68d",
+    "after_pages": 11,
+    "after_file_size_bytes": 5188258,
+    "after_creation_date": "Sun Jun 7 02:19:09 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260607_round53_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round53_after",
+    "before": {
+      "contact_sheet_png_sha256": "88ba60a0074e074b464333ec65a203e482bbc96ff1133a523c41d88a08122e09",
+      "full_txt_sha256": "018fd83aa77274ab46af6f5906bd2e549fc92a0316c7890a74e92d37d0b803f7",
+      "page1_txt_sha256": "5c17d0580346ccccb3a0b2078d81f47156f1db6e9291232edd490e047e4c69d0",
+      "page1_png_sha256": "75d5e09a2869324116872ca4f71c19d7e537fe04d36bfa3fc5d84b09e0795d17"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "c7ac6ab985f7ddf2cfb3425373c639d433a9478fd454b77f0122828f2aac7c1a",
+      "focus_before_after_p1_png_sha256": "0a7925d6395a4dbdad4ff1ea766bd27625acbe5b73002d374b495461f387b5fd",
+      "focus_p1_p2_png_sha256": "081563940eb213deb4d6a457caed67a96c8728dd716bbcd16a0e41259bc5c416",
+      "full_txt_sha256": "397f4f7ee20179100d9b8b539b0bf5fa04bdcaf8baef5dfba3ea0c1ce3496ddf",
+      "page1_txt_sha256": "5c4ce66fc8f4c3f814d8068e56e6ece079fdfbc6d1b088ee944a2a37e99120f6",
+      "page1_png_sha256": "85c8cfcd27d2e324b2116b82250d6dc5d78446d8e26860fc4b6c5a2e20dcecd2"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260607_round53_after/focus_before_after_p1.png",
+      "tmp/acl_main_visual_iter_20260607_round53_after/focus_p1_p2.png",
+      "tmp/acl_main_visual_iter_20260607_round53_after/contact_sheet.png"
+    ],
+    "observations": [
+      "The page-1 comparison shows the Introduction opener no longer contains the targeted 'mod- / els' split.",
+      "The accepted wording avoids the rejected intermediate 'en- / vironments', 'rou- / tine', 'ren- / der', 'im- / age', 'as- / sets', 'render- / ing', 'interven- / tion', and 'bench- / mark' splits.",
+      "The final page-1 text reads as a compact setup: synthetic 3D scenes are an evaluation input, the view is a measurement interface, and shader-system crossing can become a hidden task factor.",
+      "The final contact sheet remains 11 pages with no obvious float, table, or blank-page regression."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "bash -c 'if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf \"no blocker matches\\n\"; fi'",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "104 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 168"
+    }
+  ]
+}

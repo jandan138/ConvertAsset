@@ -1,0 +1,67 @@
+{
+  "record_id": "supplement_navigation_media_boundary_ai_slot_20260603",
+  "date_utc": "2026-06-03",
+  "scope": "ACL 2027 supplement InternNav media-boundary AI slot-composition iteration",
+  "motivation": {
+    "target_page_before": "page 36 was a sparse InternNav media-inventory boundary page with mostly text and a small table",
+    "before_active_fraction_120dpi": 0.0205,
+    "goal_alignment": "Add more navigation/video visual evidence and use the approved AI slot-composer workflow while preserving the claim boundary."
+  },
+  "slot_composer": {
+    "skill": "research-figure-ai-slot-composer",
+    "mode": "ai_slot_composition",
+    "manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_navigation_media_boundary_strip.yaml",
+    "overview_candidate": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_01032ee89cab32b6016a1f082fbdd0819ba182e2726a6c0307.png",
+    "ai_slot_original": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_01032ee89cab32b6016a1f0980ea1c819ba28bfb53e1a00c43.png",
+    "ai_slot_repo_copy": "paper/shared/figures/ai_slots/fig_supplement_navigation_media_package_ai_slot.png",
+    "deterministic_output": "paper/shared/figures/fig_supplement_navigation_media_boundary_strip.png",
+    "critical_text_policy": "Critical labels, row titles, boundary cards, and paper caption are drawn by deterministic code or LaTeX; the AI slot is an abstract exposition component."
+  },
+  "hashes_sha256": {
+    "overview_candidate": "0ef5fb7c6e9750ab50178ec2cac062ce7aacddab5cf6472bf95fcff4da80ca96",
+    "ai_slot_original": "68f33a79eed136076e677fc7852a8b18dee23c0b470493186a4c2b330d5c001e",
+    "ai_slot_repo_copy": "68f33a79eed136076e677fc7852a8b18dee23c0b470493186a4c2b330d5c001e",
+    "deterministic_output": "59199f41290ff01d58b60b73200d1bc24e64a841d7ffe4021fec6ca2494b0cbd",
+    "supplement_pdf_after_build": "73472e88977d2fecd5504722909509920275046401d589589c65f26a853ee5a2",
+    "rendered_pdf_page": "8804623d067d0eb196005d8ddc7df83d0d9db2de6b73b8ff448ec50a1bd4f3f9"
+  },
+  "source_figure_metrics": {
+    "paper/shared/figures/fig_supplement_navigation_media_boundary_strip.png": {
+      "size": "1800x1360",
+      "active_fraction": 0.250076,
+      "red_fraction": 0.000488
+    }
+  },
+  "pdf_profile": {
+    "page_count": 43,
+    "page_size": "A4",
+    "creation_date": "Wed Jun 3 01:01:10 2026 CST",
+    "file_size_bytes": 26826004
+  },
+  "pdf_render_metrics": {
+    "page_36_after_170dpi": {
+      "size": "1406x1988",
+      "active_fraction": 0.099078,
+      "red_fraction": 0.000138
+    }
+  },
+  "local_visual_review": {
+    "skill": "render-visual-reviewer",
+    "independent_subagent": false,
+    "verdict": "PASS_WITH_SMALL_TEXT_RISK",
+    "notes": "The rendered page has no clipping or caption collision. The first two rows are registered video stills and route overlays; the third row contains the AI media-package gate slot and is explicitly disclosed in the caption. The remaining risk is small in-figure text at PDF scale."
+  },
+  "verification": {
+    "targeted_red": "python -m pytest -q tests/test_paper_layout.py -k \"navigation_media_boundary_strip\" failed before implementation because the figure registry entry was absent.",
+    "targeted_green": "python -m pytest -q tests/test_paper_layout.py -k \"navigation_media_boundary_strip or task_media_atlases\" passed: 3 passed, 49 deselected.",
+    "full_layout": "python -m pytest -q tests/test_paper_layout.py passed: 52 passed.",
+    "build": "make -C paper acl27-supplement passed and produced a 43-page A4 supplement.",
+    "pdf_text_scan": "pdftotext found the new Figure S23 caption and AI-generated schematic disclosure. A separate risk-token scan found no old red-material caption tokens, fig_vlm_grounding_cases, author-identifying tokens, or local path tokens."
+  },
+  "claim_boundary": {
+    "paper_use": "visual media-boundary reading guide in the InternNav supplement section",
+    "ai_slot_exposition_only": true,
+    "not_new_evidence": true,
+    "notes": "The AI media-package gate slot is not navigation evidence. The evidence-bearing slots are registered video stills and route panels; the quantitative navigation claim remains tied to the frozen 99-episode official-scene run."
+  }
+}

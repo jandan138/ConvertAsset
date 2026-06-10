@@ -1,0 +1,93 @@
+{
+  "round": 105,
+  "date": "2026-06-07",
+  "topic": "ACL main Method page-3 stack-entry clause polish",
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "scope": {
+    "section": "Method",
+    "source_file": "paper/venues/acl27/sections/method.tex",
+    "pdf_page": 3,
+    "change_class": "terminology and line-flow polish"
+  },
+  "baseline": {
+    "pdf_hash": "88fb7ee3e0addda66ba89ff140d1de57f9a0f7113736a5400a456c9c963de922",
+    "artifact_dir": "tmp/acl_main_visual_iter_20260607_round105_current",
+    "page_png": "tmp/acl_main_visual_iter_20260607_round105_current/page-03.png",
+    "page_png_sha256": "3e544d3bd847185df5a1f93694b3eab63bc90b1ad044b11d1b1e52246d00bfb0",
+    "page_text": "tmp/acl_main_visual_iter_20260607_round105_current/text/page-03.txt",
+    "page_text_sha256": "88b2b1e81d4c36ba4e0f495ae2167d42ae92d29887574e87969f523a08eaa8b0",
+    "visible_issue": [
+      "page 3 line 207: Gate 4 is the embodied-stack entry check."
+    ],
+    "reader_effect": "Method retained the older embodied-stack compound after the paper had converged on stack-entry and stack-check terminology."
+  },
+  "change": {
+    "accepted_summary": "Changed the Method Gate 4 opener to a stack-entry clause tied to the KuJiaLe route.",
+    "before": "Gate 4 is the embodied-stack entry check. The official KuJiaLe route supplies matched original/noMDL scenes for InternNav and DualVLN.",
+    "after": "Gate 4 checks stack entry through the KuJiaLe route, which supplies matched original/noMDL scenes for InternNav and DualVLN.",
+    "source_note": "The source uses \\mbox{KuJiaLe} to keep the proper name from splitting at the line edge."
+  },
+  "rejected_candidates": [
+    {
+      "target": "Results page 5 opening boundary sentence",
+      "candidate": "This is a stack-entry gate, not a benchmark result; the official KuJiaLe ...",
+      "reason": "The rebuilt PDF split benchmark as bench- / mark."
+    },
+    {
+      "target": "Results page 5 opening boundary sentence",
+      "candidate": "This is entry evidence, not a benchmark result; the official KuJiaLe ...",
+      "reason": "The rebuilt PDF split result as re- / sult and introduced a spacing gap before Means."
+    },
+    {
+      "target": "Results page 5 opening boundary sentence",
+      "candidate": "Delete the explicit benchmark-result sentence and start The official KuJiaLe route...",
+      "reason": "The rebuilt PDF split covers as cov- / ers and introduced a spacing gap before Means."
+    },
+    {
+      "target": "Method page 3 Gate 4 opener",
+      "candidate": "Gate 4 checks stack entry. The official \\mbox{KuJiaLe} route supplies...",
+      "reason": "The rebuilt PDF split official as of- / ficial."
+    }
+  ],
+  "after": {
+    "pdf_hash": "db5955e8151e6009827c829ef0cd0968fb13ccc74546bc53cb9491fb070875b2",
+    "artifact_dir": "tmp/acl_main_visual_iter_20260607_round105_current/after",
+    "page_png": "tmp/acl_main_visual_iter_20260607_round105_current/after/page-03.png",
+    "page_png_sha256": "71caff9fa2806b8f0139c78d73e48157d97e53fe78626d0db2ae55a0fdd9083c",
+    "page_text": "tmp/acl_main_visual_iter_20260607_round105_current/after/text/page-03.txt",
+    "page_text_sha256": "475755b4ee711476fb6efa086e48b44c93eb4f99ad405bbb48e8cf3f8380de89",
+    "accepted_visual_read": [
+      "page 3 lines 207-208: Gate 4 checks stack entry through the / KuJiaLe route, which supplies matched"
+    ],
+    "page_count": 10,
+    "targeted_scan_result": "The page-3 extracted text no longer contains embodied-stack in the Gate 4 opener and has no Ku-/JiaLe or of-/ficial split."
+  },
+  "verification": {
+    "make": {
+      "command": "make -C paper acl27",
+      "status": "passed",
+      "log": "/tmp/acl27_round105_final_verify_make.log"
+    },
+    "latex_blocker_scan": {
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    "pytest": {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 14.32s"
+    },
+    "claim_boundaries": {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true, violations empty"
+    },
+    "metadata_consistency": {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  },
+  "claim_boundary": "The accepted edit changes only one Method clause. It does not alter metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes.",
+  "residual_risk": "The page-5 result.    The official spacing remains intentionally unchanged because three source-level candidates created worse hyphenation or spacing regressions."
+}

@@ -1,0 +1,80 @@
+{
+  "round": 104,
+  "date": "2026-06-07",
+  "topic": "ACL main Related Work page-3 stack-check terminology polish",
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "scope": {
+    "section": "Related Work",
+    "source_file": "paper/venues/acl27/sections/related.tex",
+    "pdf_page": 3,
+    "change_class": "terminology and visual line-flow polish"
+  },
+  "baseline": {
+    "pdf_hash": "24ffc5dc1cf846a1abd061d06544e9480297fc93fa6a596e044b0ea9c77b4b35",
+    "artifact_dir": "tmp/acl_main_visual_iter_20260607_round104_current",
+    "page_png": "tmp/acl_main_visual_iter_20260607_round104_current/page-03.png",
+    "page_png_sha256": "883b0550190971de2b0da666db8bf7f8deee366e30ec3589f81e0aeb6e6b9e07",
+    "page_text": "tmp/acl_main_visual_iter_20260607_round104_current/text/page-03.txt",
+    "page_text_sha256": "a7b56b43e2a4e1e7ed8871a32c3b3328ea5d2536ad02d1c886ed3533c83191cb",
+    "visible_issue": [
+      "page 3 lines 152-154: Answer stability, point hits, frame / checks, material-risk bins, and embodied stack / checks remain separate claim gates."
+    ],
+    "reader_effect": "Related Work retained embodied-stack wording after the paper had converged on stack-entry or stack-check language for the bounded navigation evidence."
+  },
+  "change": {
+    "accepted_summary": "Rewrote the Related Work boundary sentence to identify proxy match as a first claim gate and keep answer stability, point hits, frame checks, material-risk bins, and stack checks separate.",
+    "before": "Proxy match is only a first gate. Answer stability, point hits, frame checks, material-risk bins, and embodied stack checks remain separate claim gates.",
+    "after": "Proxy match is only a first claim gate. Answer stability, point hits, frame checks, material-risk bins, and stack checks stay separate.",
+    "rejected_candidates": [
+      {
+        "candidate": "stack-entry checks remain separate claim gates",
+        "reason": "The rebuilt PDF split the compound as stack- / entry on page 3."
+      },
+      {
+        "candidate": "stack checks remain separate claim gates",
+        "reason": "The rebuilt PDF split remain as re- / main on page 3."
+      }
+    ]
+  },
+  "after": {
+    "pdf_hash": "88fb7ee3e0addda66ba89ff140d1de57f9a0f7113736a5400a456c9c963de922",
+    "artifact_dir": "tmp/acl_main_visual_iter_20260607_round104_current/after",
+    "page_png": "tmp/acl_main_visual_iter_20260607_round104_current/after/page-03.png",
+    "page_png_sha256": "3e544d3bd847185df5a1f93694b3eab63bc90b1ad044b11d1b1e52246d00bfb0",
+    "page_text": "tmp/acl_main_visual_iter_20260607_round104_current/after/text/page-03.txt",
+    "page_text_sha256": "88b2b1e81d4c36ba4e0f495ae2167d42ae92d29887574e87969f523a08eaa8b0",
+    "accepted_visual_read": [
+      "page 3 lines 151-154: evidence to a model? Proxy match is only a / first claim gate. Answer stability, point hits, / frame checks, material-risk bins, and stack / checks stay separate."
+    ],
+    "page_count": 10,
+    "targeted_scan_result": "The page-3 extracted text no longer contains embodied stack checks; the accepted replacement has no stack-/entry or re-/main split."
+  },
+  "verification": {
+    "make": {
+      "command": "make -C paper acl27",
+      "status": "passed",
+      "log": "/tmp/acl27_round104_final_verify_make.log"
+    },
+    "latex_blocker_scan": {
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    "pytest": {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 14.18s"
+    },
+    "claim_boundaries": {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true, violations empty"
+    },
+    "metadata_consistency": {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  },
+  "claim_boundary": "The edit changes only one Related Work boundary sentence. It does not alter metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes.",
+  "residual_risk": "Page 5 still contains the visible extraction gap result.    The official; previous attempts caused worse line breaks, so it remains a candidate for a separate future round."
+}

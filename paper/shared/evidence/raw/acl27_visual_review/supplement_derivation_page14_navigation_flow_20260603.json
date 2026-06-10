@@ -1,0 +1,117 @@
+{
+  "record_id": "supplement_derivation_page14_navigation_flow_20260603",
+  "date_utc": "2026-06-03",
+  "scope": "ACL 2027 supplement derivation page 14 navigation-flow visual rebalance",
+  "motivation": {
+    "target_page": 14,
+    "target_page_before": "After the page-13 grounding companion v3 pass, the full density audit made page 14 the lowest non-reference page because it was formula-only derivation text.",
+    "round7_page14_active245_fraction_90dpi_before": 0.052717388,
+    "goal_alignment": "Use existing registered render media more evenly across the derivation spread without adding new experimental evidence or creating a spill page."
+  },
+  "measurement": {
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, used for sparse-page raster review",
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90"
+  },
+  "claim_boundary": {
+    "paper_use": "visual reading guide for the SR, NE, SPL, and TL navigation derivations",
+    "not_new_evidence": true,
+    "boundary_statement": "Exposition only; not experimental evidence.",
+    "notes": "The navigation derivation media companion already used registered route, still, and case panels plus an exposition-only AI navigation-metric gate. This pass changes placement only; it does not create new metrics, predictions, or benchmark rows."
+  },
+  "figure": {
+    "path": "paper/shared/figures/fig_supplement_navigation_derivation_companion.png",
+    "sha256": "6da71175ecb478747e61f9aa146ed9845df666810296b665a796489d11edcdcd",
+    "size_px": [
+      1800,
+      560
+    ],
+    "bytes": 432234,
+    "layout_guard_active_fraction": 0.583527778,
+    "active245_fraction": 0.618345238,
+    "red_pixel_fraction": 0.000491071,
+    "role": "Existing deterministic navigation derivation companion; this iteration repositions it into the page-14 derivation flow."
+  },
+  "pdf_review": {
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_sha256": "ab8545b1e7d2cfe9a89851d36c4eb791d69c7940486eb6289d1740a5d9a06264",
+    "page_count": 45,
+    "page_size": "A4",
+    "review_window": [
+      13,
+      16
+    ],
+    "page14_render_140dpi": "tmp/acl_supplement_page14_navigation_flow_20260603/page-14.png",
+    "page14_render_140dpi_sha256": "d29e2ac9f291cfc0f013d9287d50509831967026ce549b5e93c400e42483f6ab",
+    "page14_render_90dpi": "tmp/acl_supplement_page14_navigation_flow_20260603/page90-14.png",
+    "page14_render_90dpi_sha256": "8a97c24d81ae018d1e33f5c84009ff30e90b72d1be0d035c48af0dfb309ff0b8",
+    "page14_active245_fraction_90dpi_after": 0.13547869,
+    "page14_layout_guard_active_fraction_90dpi_after": 0.127776822,
+    "page15_active245_fraction_90dpi_after": 0.136022996,
+    "page16_active245_fraction_90dpi_after": 0.166217327,
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "Rendered page 14 now contains the navigation derivation media companion between Bootstrap Paired Intervals and Navigation Metrics, followed by the start of the navigation equations. Page 15 carries the remaining navigation equations, the metric-boundary summary, the metric-boundary bridge, and its caption without a spill page. Page 16 remains the next supplement section.",
+    "residual_risk": "Pages 14 and 15 are balanced around 0.135-0.136 active245 at 90 dpi, but neither is as visually dense as the figure-atlas pages."
+  },
+  "layout_iterations": [
+    {
+      "change": "Updated the layout regression test to require the navigation companion between Bootstrap Paired Intervals and Navigation Metrics.",
+      "result": "RED first: test_acl_supplement_derivations_have_render_companions failed with the old navigation-after-equations placement."
+    },
+    {
+      "change": "Moved the existing navigation companion block before the Navigation Metrics subsection.",
+      "result": "Selected: focused tests pass, page 14 active245 rises from 0.052717388 to 0.13547869, and the supplement remains 45 A4 pages."
+    }
+  ],
+  "tests": [
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k 'derivations_have_render_companions'",
+      "result": "RED before the LaTeX move: 1 failed, 73 deselected, with bootstrap_pos < navigation_figure_pos < navigation_pos violated."
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k 'derivation_companions or derivations_have_render_companions'",
+      "result": "GREEN after the LaTeX move: 2 passed, 72 deselected."
+    },
+    {
+      "command": "make -C paper acl27-supplement",
+      "result": "completed during layout review; paper/venues/acl27/build/supplement.pdf contains 45 A4 pages."
+    },
+    {
+      "command": "pdftoppm -f 13 -l 16 -r 140 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page14_navigation_flow_20260603/page",
+      "result": "completed; pages 13-16 regenerated for local visual review."
+    },
+    {
+      "command": "pdftoppm -f 13 -l 16 -r 90 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page14_navigation_flow_20260603/page90",
+      "result": "completed; pages 13-16 regenerated for density review."
+    },
+    {
+      "command": "python paper/shared/figures/gen_supplement_task_media_atlases.py && python -m pytest -q tests/test_paper_layout.py && make -C paper acl27-supplement",
+      "result": "fresh final verification completed; figure generator regenerated supplement figures, tests reported 74 passed, and make reported paper/venues/acl27/build/supplement.pdf up to date."
+    },
+    {
+      "command": "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_derivation_page14_navigation_flow_20260603.json",
+      "result": "exit 0"
+    },
+    {
+      "command": "pdftotext -f 14 -l 14 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page14_navigation_flow_final_20260603/page14.txt",
+      "result": "normalized text scan found the navigation companion caption, AI exposition boundary, no-new-metrics boundary, and Navigation Metrics heading; local-path and author-name leakage checks passed."
+    },
+    {
+      "command": "pdfinfo paper/venues/acl27/build/supplement.pdf",
+      "result": "Pages: 45; Page size: 595.276 x 841.89 pts (A4)."
+    },
+    {
+      "command": "git diff --check -- tests/test_paper_layout.py paper/shared/figures/gen_supplement_task_media_atlases.py paper/shared/figures/sources.yaml paper/shared/figures/ai_slot_manifests/fig_supplement_grounding_derivation_companion.yaml paper/venues/acl27/sections/supplement/01_derivations.tex docs/records/README.md docs/records/2026-06-03-acl-supplement-grounding-derivation-companion-v3.md docs/records/2026-06-03-acl-supplement-derivation-page14-navigation-flow.md",
+      "result": "exit 0; no whitespace errors in tracked touched files."
+    },
+    {
+      "command": "direct final-newline and trailing-whitespace scan over the new page-14 doc, both new evidence JSON files, and touched text files",
+      "result": "exit 0; all scanned files end with a final newline and have no trailing whitespace."
+    }
+  ],
+  "review_mode": {
+    "skill": "render-visual-reviewer",
+    "independent_subagent_review": false,
+    "reason": "Local pure visual review was used; no separate clean-room subagent was dispatched because the available subagent tool requires an explicit user request for delegation."
+  }
+}

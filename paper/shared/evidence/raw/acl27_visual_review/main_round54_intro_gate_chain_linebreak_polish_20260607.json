@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 54,
+  "date": "2026-06-07",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/intro.tex"
+  ],
+  "docs_record": "docs/records/2026-06-07-acl-main-intro-gate-chain-linebreak-polish.md",
+  "issue": {
+    "page": 1,
+    "location": "Introduction answer paragraph in the right column",
+    "before_problem": [
+      "The page-1 Introduction answer paragraph split 'proxy similarity' as 'proxy simi- / larity'."
+    ],
+    "rejected_intermediate_problems": [
+      "A first rewrite removed the targeted split but introduced 'mate- / rial', 'an- / swer', and 'mat- / ters'.",
+      "A second rewrite introduced 'embod- / ied', 'bench- / marks', and 'set- / tings'."
+    ]
+  },
+  "change_summary": {
+    "intro_tex_lines": "20-28",
+    "summary": "Rewrote the Introduction answer paragraph from a 'claim-bounded evidence chain: proxy similarity...' sentence into a shorter gate-chain statement that removes the visible proxy-similarity split and keeps the evidence boundaries intact.",
+    "final_wording": "The answer is a chain of gates, not a single score: proxy scores may pass even when grounding, material, and stack checks ask different reliability questions. The issue is concrete in GRScenes, where evaluation runs may combine large USD scenes, object-level goals, VLM prompting, and navigation frameworks such as InternNav/DualVLN.",
+    "claim_scope_changed": false
+  },
+  "pdf": {
+    "before_sha256": "bbd7729977b21eac43291cf7ce9a3fc13f2fda8e79e9d4fa51559b1c89e4e68d",
+    "after_sha256": "f970fa69d7e4e13c73bef9c129b767d33b38496685a4e06c69a4ba19af64ce1b",
+    "after_pages": 11,
+    "after_file_size_bytes": 5188160,
+    "after_creation_date": "Sun Jun 7 02:41:24 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260607_round54_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round54_after",
+    "before": {
+      "contact_sheet_png_sha256": "c7ac6ab985f7ddf2cfb3425373c639d433a9478fd454b77f0122828f2aac7c1a",
+      "full_txt_sha256": "397f4f7ee20179100d9b8b539b0bf5fa04bdcaf8baef5dfba3ea0c1ce3496ddf",
+      "page1_txt_sha256": "5c4ce66fc8f4c3f814d8068e56e6ece079fdfbc6d1b088ee944a2a37e99120f6",
+      "page1_png_sha256": "ca00fcffc36e82d841779f9ec3d58c7a2cbd768f0fd9cdafb404a438c9e5e8a1"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "80df0fbeebe174113f6a4e9460ff611579e15ad42b27e7cad8d889af14d2f9b3",
+      "focus_before_after_p1_png_sha256": "45aae696b6016335ebc101c8acb7c700b6a0e04f05678ac9df694e1e609e6fa1",
+      "focus_p1_p2_png_sha256": "4fd88337600756de21312a5b396f91e31e822b0825d51580f5c83e0dc8d3ee5e",
+      "full_txt_sha256": "87fb30e144feb9ed01d17252f3c83c8b9c16124a92fca74e6a56b7633c8d1a5a",
+      "page1_txt_sha256": "7ee45a9cf215a3c35d8933de51bc63c63ef1b6bed5f75f0354b136db9985d1b8",
+      "page1_png_sha256": "6cc20c0f003abf0281b2c37e693531dbf799c6009c4530bb7ac887eef5607836"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260607_round54_after/focus_before_after_p1.png",
+      "tmp/acl_main_visual_iter_20260607_round54_after/focus_p1_p2.png",
+      "tmp/acl_main_visual_iter_20260607_round54_after/contact_sheet.png"
+    ],
+    "observations": [
+      "The page-1 comparison shows the answer paragraph no longer contains the targeted 'proxy simi- / larity' split.",
+      "The accepted wording avoids the rejected intermediate 'mate- / rial', 'an- / swer', 'mat- / ters', 'embod- / ied', 'bench- / marks', and 'set- / tings' splits.",
+      "The final wording keeps the story as a gate chain: proxy scores, grounding, material checks, and stack checks answer different reliability questions.",
+      "The final contact sheet remains 11 pages with no obvious float, table, or blank-page regression."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "bash -c 'if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf \"no blocker matches\\n\"; fi'",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "104 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 168"
+    }
+  ]
+}

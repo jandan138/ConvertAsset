@@ -1,0 +1,144 @@
+{
+  "artifact": "paper/venues/acl27/build/supplement.pdf",
+  "date": "2026-06-05",
+  "scope": "Round 3 ACL supplement rendered-PDF review for obvious occlusion, unsafe scaling, incomplete figure display, and AI-slot containment issues.",
+  "result": "no_new_blocking_visual_defects_found",
+  "supplement_pdf": {
+    "pages": 46,
+    "page_size": "A4",
+    "sha256": "4c5295b7306453238cfa9a2a14e8cbaea56c16ffec0b22d63b88c6d7a836cb0d"
+  },
+  "render_artifacts": {
+    "pages_180dpi_dir": "tmp/acl_supplement_visual_scan_20260605_round3/pages_180/",
+    "layout_text": "tmp/acl_supplement_visual_scan_20260605_round3/text/supplement_layout.txt",
+    "mechanical_risk_report": "tmp/acl_supplement_visual_scan_20260605_round3/supplement_page_edge_risk_report.json",
+    "contact_sheets": [
+      "tmp/acl_supplement_visual_scan_20260605_round3/contact_sheets/supplement_pages_01_08.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/contact_sheets/supplement_pages_09_16.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/contact_sheets/supplement_pages_17_24.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/contact_sheets/supplement_pages_25_32.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/contact_sheets/supplement_pages_33_40.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/contact_sheets/supplement_pages_41_46.png"
+    ],
+    "high_risk_overview": "tmp/acl_supplement_visual_scan_20260605_round3/contact_sheets/supplement_high_risk_pages_fullsize_sheet.png",
+    "dense_crop_sheet": "tmp/acl_supplement_visual_scan_20260605_round3/contact_sheets/supplement_high_risk_dense_crops_sheet.png",
+    "dense_crops": [
+      "tmp/acl_supplement_visual_scan_20260605_round3/crops/page-22_dense_crop.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/crops/page-24_dense_crop.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/crops/page-27_dense_crop.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/crops/page-28_dense_crop.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/crops/page-30_dense_crop.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/crops/page-33_dense_crop.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/crops/page-36_dense_crop.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/crops/page-37_dense_crop.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/crops/page-38_dense_crop.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/crops/page-41_dense_crop.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/crops/page-43_dense_crop.png",
+      "tmp/acl_supplement_visual_scan_20260605_round3/crops/page-45_dense_crop.png"
+    ]
+  },
+  "mechanical_page_scan": {
+    "render_dpi": 180,
+    "pages_rendered": 46,
+    "risk_candidates": [],
+    "checked_signals": [
+      "content_bbox_near_page_edge",
+      "dark_pixels_near_page_edge",
+      "large_dark_area_or_render_panel",
+      "dense_bottom_band"
+    ],
+    "notes": "No page was flagged by the mechanical page-edge and dark-area pass; manual review still covered dense and AI-slot-heavy pages."
+  },
+  "manual_review": [
+    {
+      "pages": "1-8",
+      "status": "passed",
+      "notes": "Overview, roadmap, registry, claim-boundary examples, render atlas opener, and render-scene pages are complete."
+    },
+    {
+      "pages": "9-16",
+      "status": "passed",
+      "notes": "GRScenes pair, VLM rerender, material baseline, derivation companions, and coordinate protocol atlas remain on-page."
+    },
+    {
+      "pages": "17-24",
+      "status": "passed",
+      "notes": "Dense VLM and GRScenes pages are complete; intentional audit-strip crops are source-level inspection crops, not PDF clipping."
+    },
+    {
+      "pages": "25-32",
+      "status": "passed",
+      "notes": "Material diagnostic, Fig. S25/S26, navigation opener/media atlas, and selected official case pages remain complete."
+    },
+    {
+      "pages": "33-40",
+      "status": "passed",
+      "notes": "Neutral navigation, media-boundary, upload-gate, theory bridge, and failure-mode pages remain complete."
+    },
+    {
+      "pages": "41-46",
+      "status": "passed",
+      "notes": "Hypothesis-boundary, review-packet, source-boundary companion, and references pages remain complete."
+    }
+  ],
+  "page_scale_rechecks": [
+    {
+      "page": 22,
+      "figure": "Figure S21",
+      "status": "passed",
+      "notes": "Table, companion figure, bottom render matrix, and caption are complete."
+    },
+    {
+      "page": 27,
+      "figure": "Figure S25",
+      "status": "passed",
+      "notes": "Bottom claim-boundary gate shows all input rows, center gate, and right-side cards inside the figure."
+    },
+    {
+      "page": 28,
+      "figure": "Figure S26",
+      "status": "passed",
+      "notes": "Visual decision gate and caption remain visible and on-page."
+    },
+    {
+      "page": 38,
+      "figure": "Figure S36",
+      "status": "passed",
+      "notes": "Upload-gate media wall, AI slot, gate cards, paper-claim boundary, and caption are complete."
+    },
+    {
+      "page": 45,
+      "figure": "Figure S41",
+      "status": "passed",
+      "notes": "Source-boundary gate, registered source tray, target-view closeups, claim-boundary footer, and caption are complete."
+    }
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27-supplement",
+      "result": "passed/up-to-date"
+    },
+    {
+      "command": "pdfinfo paper/venues/acl27/build/supplement.pdf",
+      "result": "46 A4 pages"
+    },
+    {
+      "command": "sha256sum paper/venues/acl27/build/supplement.pdf",
+      "result": "4c5295b7306453238cfa9a2a14e8cbaea56c16ffec0b22d63b88c6d7a836cb0d"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|LaTeX Warning: Reference|Warning:.*Label|undefined|Rerun to get|Label\\\\(s\\\\) may have changed|Package lineno Warning\" paper/venues/acl27/build/supplement.log",
+      "result": "no matches"
+    },
+    {
+      "command": "python -m json.tool tmp/acl_supplement_visual_scan_20260605_round3/supplement_page_edge_risk_report.json >/dev/null",
+      "result": "passed"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k supplement",
+      "result": "66 passed, 19 deselected"
+    }
+  ],
+  "source_changes_required": false,
+  "residual_risk": "Intentional dense thumbnail panels remain; this pass found no final-PDF clipping, occlusion, unsafe scaling, or incomplete figure display."
+}

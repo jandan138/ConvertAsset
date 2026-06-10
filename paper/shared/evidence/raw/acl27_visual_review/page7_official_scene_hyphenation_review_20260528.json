@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "status": "page7_official_scene_hyphenation_polish_visual_review",
+  "reviewed_at_utc": "2026-05-28T11:13:10Z",
+  "reviewer_mode": "local_codex_visual_review_not_independent_subagent",
+  "scope": "Page 6/7 layout around Table 6 and the official-scene stability paragraph.",
+  "issue_before": "Rendered page 7 started with the fragment nal/noMDL because original/noMDL fresh-process was split across a page boundary.",
+  "source_change": {
+    "path": "paper/venues/acl27/sections/results.tex",
+    "summary": "Reworded the stability sentence to use 18 required paired runs in fresh processes across original/noMDL conditions, preserving the 18/18 result and the stability-only claim boundary."
+  },
+  "current_pdf": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "hash_sha256": "36b2f0fae8ead9955016466227ef9936fa0f454427577aefb48b53c523116711",
+    "pages": 11,
+    "bytes": 3991259,
+    "creation_date": "Thu May 28 19:33:56 2026 CST"
+  },
+  "rendered_page_checks": [
+    {
+      "temporary_path": "/tmp/convertasset_acl27_page7_hyphen_final/page-06.png",
+      "hash_sha256": "cc2aa4ed487c62e21da0e97b0bcb915f09e2faa9c3991930bfc09a4b02605e8f",
+      "page": 6,
+      "dpi": 160
+    },
+    {
+      "temporary_path": "/tmp/convertasset_acl27_page7_hyphen_final/page-07.png",
+      "hash_sha256": "ee985d9cfbda18949177eeee4cb6b2119fd97d8c79b0e45ed1dab4785813f8b8",
+      "page": 7,
+      "dpi": 160
+    }
+  ],
+  "pdftotext_check": {
+    "command": "pdftotext -f 6 -l 7 -layout paper/venues/acl27/build/main.pdf -",
+    "forbidden_fragment_absent": "nal/noMDL fresh-process",
+    "page7_start_after_fix": "complete successfully in fresh processes across original and noMDL conditions"
+  },
+  "verdict": "PASS_WITH_CAVEAT",
+  "visible_evidence": [
+    "The page-7 first line no longer begins with nal/noMDL, process official-scene, or scene runs.",
+    "The paragraph still carries the same 18/18 official-scene success result and states that the evidence is for loadability and stability only.",
+    "Page 7 remains table-dense, but the correction removes the most obvious page-boundary word-fragment artifact."
+  ],
+  "claim_boundary": {
+    "may_support": "cleaner layout and wording for the official-scene stability result",
+    "must_not_support": [
+      "official-scene speedup",
+      "NVIDIA official-scene performance",
+      "broad embodied-navigation robustness"
+    ]
+  }
+}

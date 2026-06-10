@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
@@ -28,6 +28,14 @@ CONDITION_LABELS = {
     "original_MDL": "Original MDL",
     "existing_noMDL": "ConvertAsset",
     "nvidia_asset_converter_preview_or_bake": "NVIDIA",
+}
+EFFECT_LABELS = {
+    "opacity_transparency": "opacity/transparency",
+    "emission": "emission",
+    "normal_bump": "normal/bump",
+    "displacement_height": "displacement/height",
+    "clearcoat": "clearcoat",
+    "procedural_texture": "procedural texture",
 }
 
 
@@ -86,7 +94,20 @@ def _complete_cases(manifest: dict[str, Any]) -> list[dict[str, Any]]:
     return complete
 
 
-def _fit_image(image: Image.Image, size: tuple[int, int]) -> Image.Image:
+def _fit_image(
+    image: Image.Image,
+    size: tuple[int, int],
+    *,
+    fit_mode: str = "cover",
+) -> Image.Image:
+    if fit_mode == "cover":
+        return ImageOps.fit(
+            image.convert("RGB"),
+            size,
+            method=Image.Resampling.LANCZOS,
+            centering=(0.5, 0.5),
+        )
+
     fitted = image.convert("RGB")
     fitted.thumbnail(size, Image.Resampling.LANCZOS)
     canvas = Image.new("RGB", size, (245, 245, 245))
@@ -96,11 +117,15 @@ def _fit_image(image: Image.Image, size: tuple[int, int]) -> Image.Image:
     return canvas
 
 
-def _font(size: int) -> ImageFont.ImageFont:
-    for path in (
+def _font(size: int, *, bold: bool = False) -> ImageFont.ImageFont:
+    paths = (
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+    ) if bold else (
         "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
         "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-    ):
+    )
+    for path in paths:
         if Path(path).is_file():
             return ImageFont.truetype(path, size)
     return ImageFont.load_default()
@@ -111,15 +136,23 @@ def _draw_text(draw: ImageDraw.ImageDraw, xy: tuple[int, int], text: str, font: 
 
 
 def _case_caption(case: dict[str, Any]) -> str:
-    effects = ", ".join(str(effect) for effect in case.get("covered_effects") or [])
-    return f"{case.get('target_category')} | {effects}"
+    effects = ", ".join(EFFECT_LABELS.get(str(effect), str(effect)) for effect in case.get("covered_effects") or [])
+    category = str(case.get("target_category") or "target")
+    return f"{category.capitalize()}: {effects}"
 
 
 def build_material_effect_contact_sheet(
     manifest: dict[str, Any],
     *,
     output_path: Path,
-    cell_size: tuple[int, int] = (260, 195),
+    cell_size: tuple[int, int] = (360, 120),
+    fit_mode: str = "cover",
+    margin: int = 12,
+    gutter: int = 10,
+    header_h: int = 42,
+    caption_h: int = 0,
+    label_font_size: int = 18,
+    caption_font_size: int = 16,
 ) -> dict[str, Any]:
     complete = _complete_cases(manifest)
     blockers: list[str] = []
@@ -139,28 +172,26 @@ def build_material_effect_contact_sheet(
             },
         }
 
-    margin = 24
-    gutter = 14
-    header_h = 38
-    caption_h = 44
     row_h = header_h + cell_size[1] + caption_h
     width = margin * 2 + len(CONDITION_ORDER) * cell_size[0] + (len(CONDITION_ORDER) - 1) * gutter
     height = margin * 2 + len(complete) * row_h
     canvas = Image.new("RGB", (width, height), (255, 255, 255))
     draw = ImageDraw.Draw(canvas)
-    label_font = _font(18)
-    caption_font = _font(13)
+    label_font = _font(label_font_size, bold=True)
+    caption_font = _font(caption_font_size)
 
     for row_idx, case in enumerate(complete):
         y0 = margin + row_idx * row_h
+        _draw_text(draw, (margin, y0), _case_caption(case), caption_font)
         for col_idx, condition in enumerate(CONDITION_ORDER):
             x0 = margin + col_idx * (cell_size[0] + gutter)
-            _draw_text(draw, (x0, y0), CONDITION_LABELS[condition], label_font)
+            _draw_text(draw, (x0, y0 + 22), CONDITION_LABELS[condition], label_font)
             image_path = Path(str(case["records"][condition]["image"]["path"]))
             with Image.open(image_path) as image:
-                fitted = _fit_image(image, cell_size)
+                fitted = _fit_image(image, cell_size, fit_mode=fit_mode)
             canvas.paste(fitted, (x0, y0 + header_h))
-        _draw_text(draw, (margin, y0 + header_h + cell_size[1] + 10), _case_caption(case), caption_font)
+        if caption_h > 0:
+            _draw_text(draw, (margin, y0 + header_h + cell_size[1] + 10), _case_caption(case), caption_font)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(output_path)
@@ -180,6 +211,18 @@ def build_material_effect_contact_sheet(
             "ready_case_count": len(complete),
             "figure_written": output_path.is_file(),
             "blockers": blockers,
+            "layout": {
+                "cell_size": list(cell_size),
+                "fit_mode": fit_mode,
+                "margin": margin,
+                "gutter": gutter,
+                "header_h": header_h,
+                "caption_h": caption_h,
+                "label_font_size": label_font_size,
+                "condition_label_font_size": label_font_size,
+                "caption_font_size": caption_font_size,
+                "case_label_font_size": caption_font_size,
+            },
         },
     }
 
@@ -189,9 +232,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--report", type=Path, default=DEFAULT_OUTPUT.with_suffix(".report.json"))
+    parser.add_argument("--cell-width", type=int, default=360)
+    parser.add_argument("--cell-height", type=int, default=120)
+    parser.add_argument("--fit-mode", choices=("cover", "contain"), default="cover")
     args = parser.parse_args(argv)
 
-    report = build_material_effect_contact_sheet(_load_json(args.manifest), output_path=args.out)
+    report = build_material_effect_contact_sheet(
+        _load_json(args.manifest),
+        output_path=args.out,
+        cell_size=(args.cell_width, args.cell_height),
+        fit_mode=args.fit_mode,
+    )
     report["inputs"] = {
         "manifest": {"path": str(args.manifest), "hash_sha256": _sha256_file(args.manifest)},
     }

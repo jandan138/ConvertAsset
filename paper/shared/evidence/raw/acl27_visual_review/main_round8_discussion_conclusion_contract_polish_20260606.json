@@ -1,0 +1,59 @@
+{
+  "review_id": "main_round8_discussion_conclusion_contract_polish_20260606",
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "pdf": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "44be014aab9b2530eca69eb2da4bb77737ef408cb045a7443eaf4a8f5ae74344",
+    "pages": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "bytes": 5193049,
+    "created": "Sat Jun 6 09:03:32 2026 CST"
+  },
+  "scope": [
+    "paper/venues/acl27/sections/discussion.tex",
+    "paper/venues/acl27/sections/conclusion.tex"
+  ],
+  "visual_artifacts": {
+    "before_contact_sheet": "tmp/acl_main_visual_iter_20260606_round8/contact_sheets/main_pages_07_11.png",
+    "failed_spill_page9": "tmp/acl_main_visual_iter_20260606_round8_after/pages_180/main-09.png",
+    "final_page9": "tmp/acl_main_visual_iter_20260606_round8_after2/pages_180/main-09.png",
+    "final_page10": "tmp/acl_main_visual_iter_20260606_round8_after2/pages_180/main-10.png",
+    "final_contact_sheet": "tmp/acl_main_visual_iter_20260606_round8_after2/contact_sheets/main_pages_08_10_after2.png",
+    "final_layout_text": "tmp/acl_main_visual_iter_20260606_round8_after2/text/main_layout.txt"
+  },
+  "visual_findings": [
+    "The first evidence-contract rewrite spilled the conclusion into the top of the Limitations column.",
+    "The accepted rewrite keeps the complete Conclusion in the left column of page 9.",
+    "Limitations starts cleanly at the top of the right column on page 9.",
+    "Page 10 keeps Figure 4, Ethical Considerations, and References readable and non-overlapping."
+  ],
+  "change_summary": [
+    "Reframed noMDL conversion in Discussion as a visible intervention rather than a converter-quality claim.",
+    "Changed the material-effect paragraph from a negative shortcut warning to a positive auditable-claims boundary.",
+    "Rewrote the Conclusion around a reusable evidence contract while preserving the no-ranking, no-speedup, and no-broad-robustness boundary."
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed; built 11-page A4 main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "85 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "ok"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "ok"
+    }
+  ],
+  "residual_risk": "This is a focused main-paper prose and p9-p10 visual pass, not a final upload gate or integrity-fingerprint refresh."
+}

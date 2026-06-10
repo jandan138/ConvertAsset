@@ -1,0 +1,83 @@
+{
+  "review_id": "main_round23_page8_caption_density_polish_20260606",
+  "date": "2026-06-06",
+  "scope": "ACL 2027 main PDF page 8 dense result-table caption polish",
+  "pdf": "paper/venues/acl27/build/main.pdf",
+  "before_pdf": {
+    "sha256": "408e089cd1b848ecf423ae84c774c061a635616003e35329cc25f345787bba8f",
+    "pages": 11,
+    "bytes": 5189156,
+    "created": "Sat Jun 6 11:22:06 2026 CST"
+  },
+  "after_pdf": {
+    "sha256": "7cef09b4ffd907d129f5f16b65c077dbcc8d0eecc1bf4db3ab02c77403561572",
+    "pages": 11,
+    "bytes": 5188958,
+    "created": "Sat Jun 6 11:30:51 2026 CST"
+  },
+  "source_changes": [
+    {
+      "path": "paper/shared/tables/tab_grscenes_vlm_clean_pool_pass15.tex",
+      "change": "Condensed Table 2 caption while preserving PASS-pair count, O/C interpretation, prompt contract, and benchmark-gate boundary."
+    },
+    {
+      "path": "paper/shared/tables/tab_grscenes_vlm_stress_expanded30.tex",
+      "change": "Condensed Table 3 caption into a direct frozen-stress-set summary with canonical/diagnostic model roles and primary/diagnostic point metrics."
+    },
+    {
+      "path": "paper/shared/tables/tab_reviewer_closure_paired_ci.tex",
+      "change": "Replaced reviewer-closure phrasing in Table 4 caption with a reader-facing paired-CI claim-boundary description."
+    },
+    {
+      "path": "paper/shared/tables/gen_vlm_stress_expanded30.py",
+      "change": "Kept the Table 3 generator caption synchronized with the checked-in LaTeX table."
+    },
+    {
+      "path": "paper/shared/evidence/experiments/09_reviewer_closure_package/build_reviewer_closure_package.py",
+      "change": "Kept the Table 4 package generator caption synchronized with the checked-in LaTeX table."
+    }
+  ],
+  "visual_evidence": {
+    "before_contact_sheet": "tmp/acl_main_visual_iter_20260606_round23_current/contact_sheet.png",
+    "before_page_8": "tmp/acl_main_visual_iter_20260606_round23_current/page-08.png",
+    "after_contact_sheet": "tmp/acl_main_visual_iter_20260606_round23_after/contact_sheet.png",
+    "after_page_8": "tmp/acl_main_visual_iter_20260606_round23_after/page-08.png",
+    "page_8_before_after": "tmp/acl_main_visual_iter_20260606_round23_after/page08_before_after.png"
+  },
+  "visual_review": {
+    "selected_page": 8,
+    "finding": "The dense page-8 result table stack remains stable after the caption rewrite. Tables 2 through 6 stay on page 8, no table is clipped, Table 6 remains above the page number, and the shortened captions reduce repeated audit-style boundary prose while keeping the claim limits visible.",
+    "reader_effect": "The page now reads as a compact result-summary page: clean-pool control, frozen stress set, paired intervals, material-effect boundary, and official-stack stability."
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "exit 0; venues/acl27/build/main.pdf built"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "102 passed in 13.47s"
+    },
+    {
+      "command": "python -m py_compile paper/shared/tables/gen_vlm_stress_expanded30.py paper/shared/evidence/experiments/09_reviewer_closure_package/build_reviewer_closure_package.py",
+      "result": "exit 0"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "ok true; abstract_word_count 169"
+    },
+    {
+      "command": "pdftotext paper/venues/acl27/build/main.pdf tmp/acl_main_visual_iter_20260606_round23_after/main.txt && rg -n \"Table 2: Clean-pool GRScenes VLM grounding pilot on 15|Table 3: Frozen 30-pair GRScenes material-shift stress set|Table 4: Paired bootstrap confidence intervals for the frozen VLM\" tmp/acl_main_visual_iter_20260606_round23_after/main.txt",
+      "result": "all three updated captions found in extracted PDF text"
+    }
+  ],
+  "residual_risk": "Focused page-8 main-paper caption-density polish only; not a full final-upload audit, supplement-wide wording cleanup, or regeneration of all experiment packages."
+}

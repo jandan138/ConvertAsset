@@ -57,8 +57,8 @@ def load_csv(fname):
 # ============================================================
 def fig_render_pairs():
     selected = [
-        ('chestofdrawers_0011', 'front'),
-        ('chestofdrawers_0023', 'front'),
+        ('chestofdrawers_0011', 'top_front_right'),
+        ('chestofdrawers_0004', 'top_front_right'),
     ]
     fig, axes = plt.subplots(2, 2, figsize=(5.5, 4.5))
 

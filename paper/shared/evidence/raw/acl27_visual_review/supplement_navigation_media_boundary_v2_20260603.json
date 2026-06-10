@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "record_id": "supplement_navigation_media_boundary_v2_20260603",
+  "generated_at_utc": "2026-06-03T03:42:01Z",
+  "status": "pass",
+  "claim_boundary": "Figure layout and page-level visual-review evidence only; not a new navigation metric, route-success statistic, video-upload approval, or replacement for the 99-episode paired run.",
+  "changed_page": {
+    "venue": "acl27",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "page": 37,
+    "section": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+    "figure": "paper/shared/figures/fig_supplement_navigation_media_boundary_strip.png"
+  },
+  "figure_stats": {
+    "path": "paper/shared/figures/fig_supplement_navigation_media_boundary_strip.png",
+    "width_px": 1800,
+    "height_px": 2120,
+    "sha256": "fd4ffb541bb0ce4d48ad1c63ae1d79cf8f37c964aae9ecd2fbd02c2927771ac0",
+    "active238_fraction": 0.359973532,
+    "active245_fraction": 0.377080189,
+    "red_render_content_fraction": 0.000803983229
+  },
+  "ai_slot": {
+    "path": "paper/shared/figures/ai_slots/fig_supplement_navigation_media_package_v2_ai_slot.png",
+    "width_px": 1738,
+    "height_px": 905,
+    "sha256": "b38790af21243a4b8dbd323a7db93b50bb414f7d020b40028a681c95d51f1c16",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_08e83d0cc70f2de5016a1f9fe9ac3c81968e76ced2e9eae815.png",
+    "source_generated_image_sha256": "b38790af21243a4b8dbd323a7db93b50bb414f7d020b40028a681c95d51f1c16",
+    "manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_navigation_media_boundary_strip.yaml",
+    "manifest_sha256": "3fcae7e6d0f11f2ec6eda5f1e0aa893a3144d7f5683857be849cfc0becf63078",
+    "claim_boundary": "Exposition only; not experimental evidence."
+  },
+  "registered_render_evidence": [
+    "paper/shared/figures/fig_supplement_navigation_media_atlas.png",
+    "paper/shared/figures/fig_internnav_rollout_stills.png",
+    "paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png",
+    "paper/shared/figures/supplement/internnav_selected6_case01.png",
+    "paper/shared/figures/supplement/internnav_selected6_case02.png",
+    "paper/shared/figures/supplement/internnav_selected6_case03.png",
+    "paper/shared/figures/supplement/internnav_selected6_case04.png",
+    "paper/shared/figures/supplement/internnav_selected6_case05.png",
+    "paper/shared/figures/supplement/internnav_selected6_case06.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case01.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case02.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case03.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case04.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case05.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case06.png"
+  ],
+  "pdf_page_renders": [
+    {
+      "path": "tmp/acl_supplement_navigation_media_boundary_v2_review_20260603/page-37.png",
+      "page": 37,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active238_fraction": 0.16296834,
+      "active245_fraction": 0.170340214,
+      "red_render_content_fraction": 0.000260965287,
+      "sha256": "9a251ccdeec3c7bbcd32f53458ee5b7db59b270d12fcb29114655f44db53dbbb"
+    },
+    {
+      "path": "tmp/acl_supplement_navigation_media_boundary_v2_review_20260603/page-38.png",
+      "page": 38,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active238_fraction": 0.205506209,
+      "active245_fraction": 0.21929203,
+      "red_render_content_fraction": 0.000248312424,
+      "sha256": "1704593b738688d30f172730e05b1b37346fee846bced3eb9cb4ee9e7c079e45"
+    }
+  ],
+  "previous_page37_active245_fraction": 0.115970607,
+  "new_page37_active245_fraction": 0.170340214,
+  "visual_review": {
+    "mode": "local_render_visual_reviewer",
+    "independent_subagent": false,
+    "subagent_note": "The user requested repeated use of the visual-review skill, not explicit independent subagent dispatch; local clean-room-style visual review was used.",
+    "verdict": "PASS",
+    "evidence": "Page 37 keeps the media-inventory text, the taller navigation media boundary figure, and the caption on one page. The figure now has a 12-panel registered selected-media wall plus an exposition-only AI media-package gate. Page 38 still starts with the official-scene upload-gate closure card, so the taller page-37 figure does not displace downstream content."
+  },
+  "build": {
+    "command": "make -C paper acl27-supplement",
+    "pdf_pages": 44,
+    "pdf_sha256": "228107b97ddd91aab7adad900b3799629b00eda9cce348e119516937f7c66ae1",
+    "pdf_size_bytes": 39456281
+  }
+}

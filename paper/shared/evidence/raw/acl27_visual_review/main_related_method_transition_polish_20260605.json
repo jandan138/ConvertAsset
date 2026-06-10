@@ -1,0 +1,65 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "date": "2026-06-05",
+  "scope": "ACL main-paper visual and prose polish focused on the Related Work to Method transition.",
+  "changes": [
+    "Compressed Related Work background text while preserving citations and claim boundaries.",
+    "Added a Method framing paragraph that separates the conversion intervention from downstream evidence gates.",
+    "Rewrote the Method evidence-gate paragraphs as Gate 1 through Gate 4.",
+    "Rebuilt and visually reviewed pages 3, 4, 9, and 10."
+  ],
+  "visual_findings": [
+    {
+      "page": 3,
+      "before": "Method began low in the right column and entered directly into the first subsection.",
+      "after": "Method begins earlier with a short framing paragraph, followed by a readable 3.1 subsection."
+    },
+    {
+      "page": 4,
+      "before": "Evidence Gates, Claim Registry, and Results shared the page but were dense.",
+      "after": "The page remains dense but contained, with Results opening cleanly after Claim Registry."
+    },
+    {
+      "page": 10,
+      "after": "Figure 4, caption, Ethical Considerations, and References remain separated with no caption or column collision."
+    }
+  ],
+  "visual_evidence": {
+    "before_key_contact_sheet": "tmp/acl_main_visual_iter_20260605_round7_related_method_before/contact_sheets/main_pages_03_04_09_10_before.png",
+    "after_key_contact_sheet": "tmp/acl_main_visual_iter_20260605_round7_related_method_after/contact_sheets/main_pages_03_04_09_10_after.png",
+    "after_full_contact_sheet": "tmp/acl_main_visual_iter_20260605_round7_related_method_after/contact_sheets/main_pages_01_11_after.png",
+    "after_page_3": "tmp/acl_main_visual_iter_20260605_round7_related_method_after/pages_180/page-03.png",
+    "after_page_4": "tmp/acl_main_visual_iter_20260605_round7_related_method_after/pages_180/page-04.png",
+    "after_page_9": "tmp/acl_main_visual_iter_20260605_round7_related_method_after/pages_180/page-09.png",
+    "after_page_10": "tmp/acl_main_visual_iter_20260605_round7_related_method_after/pages_180/page-10.png"
+  },
+  "final_artifact": {
+    "pages": 11,
+    "pdf_sha256": "20ac19cc7fd2559727f4f292c2f072dedd506afdcd5dd767d25467a2f0e1a8d4",
+    "file_size_bytes": 5194349,
+    "creation_date": "Fri Jun 5 11:32:12 2026 CST"
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "ok true; title and abstract match metadata; abstract 183 words"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k 'acl_method_avoids_narrow_column_monospace_evidence_path or acl_main_forces_results_floats_before_discussion or acl_results_avoids_page_break_prone_original_nomdl_phrase or acl_intro_uses_latest_low_text_method_chain_schematic'",
+      "result": "4 passed, 81 deselected"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|LaTeX Warning: Reference|Warning:.*Label|undefined|Rerun to get|Label\\\\(s\\\\) may have changed|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "no matches"
+    }
+  ],
+  "residual_risk": "The long-running main-paper polish goal remains active. Page 9 Conclusion still starts low in the left column, but the final visual render shows enough text before continuation and page 10 remains collision-free."
+}

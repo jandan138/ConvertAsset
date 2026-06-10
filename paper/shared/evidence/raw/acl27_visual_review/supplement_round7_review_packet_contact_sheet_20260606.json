@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "review_id": "acl_supplement_round7_review_packet_contact_sheet_20260606",
+  "date_utc": "2026-06-06",
+  "scope": "ACL27 supplement round-7 crop, scale, and incomplete-display scan with a targeted review-packet contact-sheet fix.",
+  "pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "before_sha256": "4c5295b7306453238cfa9a2a14e8cbaea56c16ffec0b22d63b88c6d7a836cb0d",
+    "after_sha256": "5c4b86a78ae91f257f77c74c17cd6a17de45626b78f99542128c166db80f4237",
+    "after_pages": 46,
+    "after_page_size": "A4 595.276 x 841.89 pts",
+    "after_created_cst": "Sat Jun 6 08:42:49 2026 CST"
+  },
+  "finding": {
+    "blocking_issue": "Figure S40 / PDF page 43 review-packet media manifest had internal contact-sheet display defects: the left label lane could collide with the first thumbnail, and VLM target-view tiles could be cropped or padded with black because source crops were fit as cover-style tiles and some crop coordinates exceeded the 1602-pixel-wide source figure.",
+    "fig_s25_status": "Rechecked Figure S25 / PDF page 27. The bottom claim-boundary gate schematic remains fully visible in the final PDF and standalone source image; no S25 edit was required in this pass.",
+    "other_pages_status": "Systematic contact-sheet review of pages 1-46 found no additional obvious PDF-level clipping, caption collision, or incomplete figure display blocker after the page-43 fix."
+  },
+  "changes": [
+    "Changed _draw_contact_row in paper/shared/figures/gen_supplement_task_media_atlases.py from _crop_fit to _crop_contain so source-index thumbnails are letterboxed rather than center-cropped.",
+    "Widened the review-packet contact-sheet label lane from 225 px to 280 px so long labels such as Material diagnostics stay clear of thumbnails.",
+    "Replaced VLM target-view contact-sheet crop coordinates with source-bounded card crops inside the 1602x1672 clean-rerender panel.",
+    "Regenerated fig_supplement_review_packet_contact_sheet.png and fig_supplement_source_boundary_companion.png.",
+    "Added regression assertions in tests/test_paper_layout.py for contain scaling, label-lane width, and source-bounded VLM crop coordinates."
+  ],
+  "artifacts": {
+    "full_scan_before": {
+      "contact_sheet_overview": "tmp/acl_supp_visual_iter_20260606_round7/contact_sheets/supplement_pages_01_all_overview.png",
+      "page_25_36_sheet": "tmp/acl_supp_visual_iter_20260606_round7/contact_sheets/supplement_pages_25_36.png",
+      "page_37_46_sheet": "tmp/acl_supp_visual_iter_20260606_round7/contact_sheets/supplement_pages_37_46.png",
+      "page_bbox_report": "tmp/acl_supp_visual_iter_20260606_round7/page_content_bbox_report.json"
+    },
+    "after_page_renders": {
+      "fig_s25_page_27": {
+        "path": "tmp/acl_supp_visual_iter_20260606_round7_after/pages_160/supplement-27.png",
+        "sha256": "d3a37e7f66c5966d02402783c94fab812f7d2eb9dc5301f193279d1fa5ddaba4",
+        "margins_2px": {
+          "left": 158,
+          "top": 184,
+          "right": 158,
+          "bottom": 88
+        }
+      },
+      "fig_s40_page_43": {
+        "path": "tmp/acl_supp_visual_iter_20260606_round7_after/pages_160/supplement-43.png",
+        "sha256": "10ebd95be19206235a9aecc234daed073aaeb07427beb835016f8b4611291b1d",
+        "margins_2px": {
+          "left": 158,
+          "top": 162,
+          "right": 36,
+          "bottom": 88
+        }
+      },
+      "fig_s41_page_45": {
+        "path": "tmp/acl_supp_visual_iter_20260606_round7_after/pages_160/supplement-45.png",
+        "sha256": "924f706c601d8e8c23bc961882aa6b16739a0d6e58907fab8d776d6ecc3706e3",
+        "margins_2px": {
+          "left": 158,
+          "top": 158,
+          "right": 158,
+          "bottom": 88
+        }
+      }
+    },
+    "final_figures": {
+      "review_packet_contact_sheet": {
+        "path": "paper/shared/figures/fig_supplement_review_packet_contact_sheet.png",
+        "sha256": "0ceb398e71498f90946d97396fb6ca97249e610ca212e840d525073f827ba2b0",
+        "size": [
+          1800,
+          2200
+        ],
+        "active_mean": 0.26073030303030303,
+        "near_black_mean": 0.014786868686868687
+      },
+      "source_boundary_companion": {
+        "path": "paper/shared/figures/fig_supplement_source_boundary_companion.png",
+        "sha256": "691db6ed78a1411214150f61891979a0ca0d2cd3513c08e805a043c796609ae6",
+        "size": [
+          1320,
+          1380
+        ],
+        "active_mean": 0.5247924901185771,
+        "near_black_mean": 0.0069433465085639
+      },
+      "material_claim_boundary_atlas": {
+        "path": "paper/shared/figures/fig_supplement_material_claim_boundary_atlas.png",
+        "sha256": "971db8352b1fe611890b0f35573d7eb4ce4c5bfe92c8613495f514d02f334132",
+        "size": [
+          1800,
+          1940
+        ]
+      }
+    }
+  },
+  "visual_review": {
+    "reviewer": "Codex local visual review using browser-visual-review and render-visual-reviewer paper-figure protocol; no subagent spawned because the user did not request delegation.",
+    "standalone_contact_sheet": "PASS. Row labels no longer overlap thumbnails. VLM target-view tiles show four bounded card crops without black out-of-bounds padding.",
+    "pdf_page_43": "PASS. The rendered page shows Figure S40 contained inside the page, with the caption below and no label/thumbnail occlusion visible at paper scale.",
+    "pdf_page_45": "PASS. Figure S41 still embeds the updated packet index cleanly and remains contained with its caption.",
+    "pdf_page_27_fig_s25": "PASS. Figure S25's bottom claim-boundary gate schematic is fully visible; no page-edge or caption collision is present."
+  },
+  "verification": [
+    {
+      "command": "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+      "result": "PASS"
+    },
+    {
+      "command": "make -C paper acl27-supplement",
+      "result": "PASS; output written on build/supplement.pdf (46 pages, 48662958 bytes)"
+    },
+    {
+      "command": "pdftoppm -png -r 160 -f 27 -l 27 paper/venues/acl27/build/supplement.pdf tmp/acl_supp_visual_iter_20260606_round7_after/pages_160/supplement && pdftoppm -png -r 160 -f 43 -l 45 paper/venues/acl27/build/supplement.pdf tmp/acl_supp_visual_iter_20260606_round7_after/pages_160/supplement",
+      "result": "PASS"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined\" paper/venues/acl27/build/supplement.log || true",
+      "result": "PASS; no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k 'review_packet_contact_sheet or reproducibility_has_visual_media_manifest or source_boundary_companion_is_registered_and_dense'",
+      "result": "PASS; 3 passed, 82 deselected"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "PASS; 85 passed"
+    }
+  ],
+  "residual_risk": "This pass targeted visible containment, clipping, occlusion, and scaling defects. Several atlas/contact-sheet pages remain intentionally dense, but no obvious incomplete-display blocker was observed in the final page renders."
+}

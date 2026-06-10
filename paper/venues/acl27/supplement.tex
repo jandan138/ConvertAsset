@@ -1,0 +1,87 @@
+% Standalone ACL/ARR supplement for the ACL 2027 candidate wrapper.
+\documentclass[11pt]{article}
+
+\IfFileExists{acl.sty}{%
+  \usepackage[review]{acl}%
+}{%
+  \PackageError{convertasset-acl27}{Missing acl.sty}{Add the official ACL style files to paper/venues/acl27 before building this venue.}%
+}
+
+\input{preamble}
+
+\title{Supplementary Material: Material Conversion as a Controlled Perturbation for Vision-Language Grounding in Synthetic 3D Scenes}
+\author{Anonymous ACL 2027 Submission}
+
+\newcommand{\suppfig}[3]{%
+\begin{figure*}[p]
+\centering
+\includegraphics[width=\textwidth]{#1}
+\caption{#2}
+\label{#3}
+\end{figure*}
+\clearpage
+}
+
+\newcommand{\suppcasepair}[6]{%
+\begin{figure*}[p]
+\centering
+\begin{minipage}{0.98\textwidth}
+\centering
+\includegraphics[width=\textwidth,height=0.31\textheight,keepaspectratio]{#1}
+\vspace{0.35em}
+
+{\small #2}
+
+\vspace{0.9em}
+\includegraphics[width=\textwidth,height=0.31\textheight,keepaspectratio]{#3}
+\vspace{0.35em}
+
+{\small #4}
+\end{minipage}
+\caption{#5}
+\label{#6}
+\end{figure*}
+\clearpage
+}
+
+\begin{document}
+\maketitle
+
+\section*{Supplement Overview}
+This supplement expands the evidence and diagnostic material behind the main
+paper. The main submission remains self-contained: no main-paper result depends
+on reviewers reading this document. The supplement provides derivations,
+additional tables, selected visual panels, selected InternNav stills, media
+inventory notes, and hypothesis-level interpretation for readers who want to
+audit the evidence chain in more detail.
+
+The diagnostics are positioned against synthetic embodied-AI scene resources,
+grounding protocols, navigation metrics, and vision-model similarity checks
+used in the main paper's evidence chain
+\citep{Wang2024GRUtopia,Wei2026Ground,Anderson2018Vision,Wang2004Image,Radford2021Learning,Oquab2023DINOv2}.
+
+All selected visual and navigation examples are qualitative evidence. They do
+not replace the frozen VLM tables, the material-effect risk matrix, or the
+99-episode InternNav paired run used by the main paper.
+
+\appendix
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\theequation}{S\arabic{equation}}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\setcounter{equation}{0}
+
+\input{./sections/supplement/00_overview}
+\input{./sections/supplement/01a_render_atlas}
+\input{./sections/supplement/01_derivations}
+\input{./sections/supplement/02_vlm_protocol}
+\input{./sections/supplement/03_grscenes_visuals}
+\input{./sections/supplement/04_material_effects}
+\input{./sections/supplement/05_internnav_visuals}
+\input{./sections/supplement/06_theory}
+\input{./sections/supplement/07_reproducibility}
+
+\bibliography{references}
+
+\end{document}

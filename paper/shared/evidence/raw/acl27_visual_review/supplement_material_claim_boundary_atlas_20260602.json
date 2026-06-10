@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_material_claim_boundary_atlas_20260602",
+  "generated_at_utc": "2026-06-02T11:08:03Z",
+  "review_type": "local_visual_review_not_independent_subagent",
+  "imagegen_reference_only": {
+    "path": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_035a3f5d5aac6898016a1eb0bbb4548199b957c19f3269b5d1.png",
+    "used_as_paper_evidence": false,
+    "purpose": "Non-evidence layout reference for a material risk-matrix page with render thumbnails."
+  },
+  "paper_assets": {
+    "figure": "paper/shared/figures/fig_supplement_material_claim_boundary_atlas.png",
+    "figure_sha256": "e86e0e1861df1365d4c58e508209b96f1d95fa181c4f5201f5549019d2595c06",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_sha256": "b248a4b11cceabe0acfa7ab4acabe28539e41523d22829ed1c37cd1e1aad9705",
+    "rendered_page": "/tmp/acl27_material_final/page-24.png",
+    "pdf_page": 24
+  },
+  "visual_metrics": {
+    "source_figure_size": [1800, 1650],
+    "source_figure_active_fraction": 0.2254,
+    "source_figure_red_fallback_fraction": 0.00003,
+    "rendered_pdf_page_size": [1241, 1754],
+    "rendered_pdf_page_active_fraction": 0.0986,
+    "rendered_pdf_page_red_fallback_fraction": 0.0,
+    "adjacent_pages": {
+      "page_25_active_fraction": 0.0414,
+      "page_25_red_fallback_fraction": 0.0,
+      "page_26_active_fraction": 0.0131,
+      "page_26_red_fallback_fraction": 0.0
+    }
+  },
+  "visual_review": {
+    "overall_verdict": "PASS_WITH_REMAINING_SECTION_RISK",
+    "evidence": [
+      "The new atlas maps the material-effect risk-matrix rows to real Original MDL, ConvertAsset, and NVIDIA render evidence.",
+      "The covered-bin, clearcoat, and procedural-texture bands are visually separated and keep the claim boundary visible.",
+      "The source figure and rendered PDF page do not show a large red fallback-material artifact.",
+      "The figure is now forced before the material risk matrix using a FloatBarrier, so the previous sparse table-first page is replaced by a render-first visual page."
+    ],
+    "risks": [
+      "This is a local visual review, not an independent fork-context review.",
+      "The material risk matrix and recommender pages after the atlas remain table/text heavy and are still candidates for later reflow.",
+      "The image-generation output was used only as a layout reference and is not paper evidence."
+    ]
+  },
+  "verification_commands": [
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py && python -m pytest -q tests/test_paper_layout.py -k \"material_claim_boundary_atlas or has_task_media_atlases\"",
+    "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_material_claim_boundary_atlas_20260602.json >/tmp/supp_material_claim_boundary_json.out && python -m pytest -q tests/test_paper_layout.py",
+    "make -C paper acl27-supplement",
+    "pdftoppm -f 24 -l 26 -png -r 150 paper/venues/acl27/build/supplement.pdf /tmp/acl27_material_final/page",
+    "pdftotext paper/venues/acl27/build/supplement.pdf - | rg -n \"Figure S10|Material claim-boundary visual atlas|Red material|registered diagnostic figure|fig_vlm_grounding_cases|/cpfs|zhuzihou|jandan138|github.com|ConvertAsset.git\" -S"
+  ]
+}

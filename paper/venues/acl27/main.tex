@@ -21,14 +21,18 @@
 \input{./sections/related}
 \input{./sections/method}
 \input{./sections/results}
+\FloatBarrier
 \input{./sections/discussion}
 \input{./sections/conclusion}
+\clearpage
 \input{./sections/limitations}
+\FloatBarrier
 \input{./sections/ethical-considerations}
 
 \bibliography{references}
 
-\appendix
-\input{../../shared/sections/appendix}
+% Diagnostic appendix material is kept under ../../shared/sections/ for the
+% supplemental packet, but the ACL main PDF stays focused on the figure-driven
+% evidence narrative.
 
 \end{document}

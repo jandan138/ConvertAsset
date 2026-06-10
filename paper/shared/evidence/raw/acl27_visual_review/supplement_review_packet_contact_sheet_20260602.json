@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "record_id": "acl27_supplement_review_packet_contact_sheet_20260602",
+  "date": "2026-06-02",
+  "objective_slice": "Add more tracked render imagery to the supplement ending by replacing a text-only reproducibility entry point with a visual review-packet contact sheet.",
+  "imagegen_reference": {
+    "path": "$CODEX_HOME/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0b1fff5087d7da8c016a1e7d83fa1081988f27e64e6131e589.png",
+    "used_as_evidence": false,
+    "role": "Non-evidence layout reference for a dense review-packet media manifest page."
+  },
+  "generated_outputs": [
+    {
+      "path": "paper/shared/figures/fig_supplement_review_packet_contact_sheet.png",
+      "sha256": "a98e1a08bb676942222ec3214486706937d4f85c3f9d94b3bb9b327cd5ea4f98",
+      "size": [1800, 1700],
+      "active_fraction": 0.3854,
+      "color_fraction": 0.0523
+    }
+  ],
+  "source_figures": [
+    "paper/shared/figures/fig_render_pairs.png",
+    "paper/shared/figures/fig_render_scene_evidence_wide.png",
+    "paper/shared/figures/fig_grscene_qualitative.png",
+    "paper/shared/figures/fig_supplement_material_diagnostic_atlas.png",
+    "paper/shared/figures/fig_material_effect_supplemental_qualitative.png",
+    "paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png",
+    "paper/shared/figures/fig_supplement_navigation_media_atlas.png",
+    "paper/shared/figures/supplement/internnav_selected6_case01.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case01.png"
+  ],
+  "layout_evidence": {
+    "before_pdf_page_stats": {
+      "page_39_active_fraction": 0.1107,
+      "observation": "The reproducibility section was mostly text and shared a page with references."
+    },
+    "after_pdf_page_stats": {
+      "page_39_png": "tmp/acl27_supplement_contact_sheet_review/page-39.png",
+      "page_39_sha256": "bdb1d58b454ca6bf35338758b8486add9d19150cc11b50249879088d5111cdf1",
+      "page_39_active_fraction": 0.1580,
+      "page_39_color_fraction": 0.0181,
+      "page_40_png": "tmp/acl27_supplement_contact_sheet_review/page-40.png",
+      "page_40_sha256": "2bad09bfb258c4780236a084808d8ab2dd8a8d4d670c1dda6acb7e376d6d31e3"
+    }
+  },
+  "local_visual_review": {
+    "reviewer": "codex-local-render-visual-reviewer",
+    "independent_subagent": false,
+    "verdict": "PASS_WITH_REMAINING_GLOBAL_ITERATION",
+    "notes": [
+      "The first contact sheet was rejected locally because the render-atlas row was too visually washed out and the active fraction was below the test threshold.",
+      "The accepted version uses render-pair and GRScenes crops for the first row and keeps material, VLM, and navigation groups visually dense.",
+      "The PDF page places the contact sheet below the reproducibility heading and before the text-only reproducibility details."
+    ]
+  },
+  "claim_boundary": "Visual review-packet index only; no new quantitative claim and no raw media upload decision.",
+  "build": {
+    "command": "make -C paper acl27-supplement",
+    "status": "passed",
+    "output_pdf": "paper/venues/acl27/build/supplement.pdf",
+    "output_pdf_sha256": "7f81bbe1fc23c4b0f0716b5ecc87d3f7378b8828e1befba33d02d1016a5114d1",
+    "pages": 41,
+    "bytes": 16373701
+  },
+  "tests": [
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k 'reproducibility_has_visual_media_manifest or review_packet_contact_sheet_is_registered_and_dense'",
+      "status": "passed",
+      "result": "2 passed, 29 deselected"
+    }
+  ]
+}

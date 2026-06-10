@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "record_id": "supplement_internnav_upload_gate_v2_20260603",
+  "generated_at_utc": "2026-06-03T02:57:51Z",
+  "status": "pass",
+  "claim_boundary": "Figure layout and page-level visual-review evidence only; not a new navigation metric, route-success result, multi-run statistic, or official-scene submission gate.",
+  "changed_page": {
+    "venue": "acl27",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "page": 38,
+    "section": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+    "figure": "paper/shared/figures/fig_supplement_internnav_upload_gate_closure_card.png"
+  },
+  "figure_stats": {
+    "path": "paper/shared/figures/fig_supplement_internnav_upload_gate_closure_card.png",
+    "width_px": 1800,
+    "height_px": 2200,
+    "sha256": "3f032a3b973080f6ad91d80d774de4696bd01a8c061db883d07f9e80dd50f140",
+    "active238_fraction": 0.355904798,
+    "active245_fraction": 0.374968687,
+    "red_fallback_fraction": 0.000585354
+  },
+  "ai_slot": {
+    "path": "paper/shared/figures/ai_slots/fig_supplement_internnav_upload_gate_v2_ai_slot.png",
+    "width_px": 1672,
+    "height_px": 941,
+    "sha256": "402efae47c85e5d96b15300e2558f68a3bdbd5b3b95e8580f491482bd53af37d",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_015f66b72ebfac12016a1f93faa2fc81939f08a27509e6e184.png",
+    "source_generated_image_sha256": "402efae47c85e5d96b15300e2558f68a3bdbd5b3b95e8580f491482bd53af37d",
+    "manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_internnav_upload_gate_closure_card.yaml",
+    "manifest_sha256": "9a8225fcd3c9f43ba7224587b09cee444740df7649550e63546a54f8025f0a13",
+    "claim_boundary": "Exposition only; not experimental evidence."
+  },
+  "registered_render_evidence": [
+    "paper/shared/figures/fig_supplement_navigation_media_boundary_strip.png",
+    "paper/shared/figures/fig_supplement_navigation_media_atlas.png",
+    "paper/shared/figures/fig_internnav_rollout_stills.png",
+    "paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png",
+    "paper/shared/figures/supplement/internnav_selected6_case01.png",
+    "paper/shared/figures/supplement/internnav_selected6_case02.png",
+    "paper/shared/figures/supplement/internnav_selected6_case03.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case01.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case02.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case03.png",
+    "paper/shared/evidence/raw/official_scene_submission_closure/official_scene_performance_plan.json",
+    "paper/shared/evidence/raw/official_scene_submission_closure/official_scene_performance_runs.csv",
+    "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/package_index.json",
+    "paper/shared/evidence/raw/official_scene_submission_closure/official_scene_claim_audit_checklist.json",
+    "paper/shared/evidence/raw/official_scene_submission_closure/official_scene_claim_audit_decision.json"
+  ],
+  "pdf_page_renders": [
+    {
+      "path": "tmp/acl_supplement_upload_gate_v2_review_20260603/page-38.png",
+      "page": 38,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active238_fraction": 0.202723634,
+      "active245_fraction": 0.21674406,
+      "red_fallback_fraction": 0.000270982,
+      "sha256": "fe69b8ffc70b5ab81485d3bc673cd8d06fd3d6a1108cdca5e82b6778efbced47"
+    },
+    {
+      "path": "tmp/acl_supplement_upload_gate_v2_review_20260603/page-39.png",
+      "page": 39,
+      "resolution_dpi": 140,
+      "width_px": 1158,
+      "height_px": 1638,
+      "active238_fraction": 0.125371941,
+      "active245_fraction": 0.129922754,
+      "red_fallback_fraction": 0.000101223,
+      "sha256": "d7d97bafbc70fd968d8b0b99b54d1629a23a04e390a244cfe700874423c21250"
+    }
+  ],
+  "previous_page38_active245_fraction": 0.103449,
+  "new_page38_active245_fraction": 0.21674406,
+  "visual_review": {
+    "mode": "local_render_visual_reviewer",
+    "independent_subagent": false,
+    "subagent_note": "The user requested repeated use of the visual-review skill, not explicit independent subagent dispatch; local clean-room-style visual review was used.",
+    "verdict": "PASS",
+    "evidence": "Page 38 keeps the revised upload-gate card and its caption on one page. The upper media wall uses nine registered navigation panels, the middle row adds the exposition-only AI upload-gate slot beside deterministic closure cards, and the bottom claim-boundary strip uses registered route stills. Page 39 starts the next theory section normally, so the taller figure does not displace content."
+  },
+  "build": {
+    "command": "make -C paper acl27-supplement",
+    "pdf_pages": 44,
+    "pdf_sha256": "7156fbec266a1228f831ffc8c52d107ad8807387ccd26933c2d25c6ac9558595",
+    "pdf_size_bytes": 38076550
+  }
+}

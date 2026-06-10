@@ -1,0 +1,52 @@
+{
+  "base": "paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v18_candidate.png",
+  "output_candidate": "paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v18_real_renders_overlay_v3.png",
+  "slots": {
+    "stage1_input_left": {
+      "box_xyxy": [
+        49,
+        357,
+        242,
+        604
+      ],
+      "source": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0036_0066/kujiale0036_0066_597_597_nomdl_mid_000050.png"
+    },
+    "stage1_input_right": {
+      "box_xyxy": [
+        250,
+        357,
+        445,
+        604
+      ],
+      "source": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0036_0066/kujiale0036_0066_895_895_original_mid_000020.png"
+    },
+    "stage3_original": {
+      "box_xyxy": [
+        936,
+        160,
+        1104,
+        431
+      ],
+      "source": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_0000.png"
+    },
+    "stage3_converted": {
+      "box_xyxy": [
+        1144,
+        160,
+        1311,
+        431
+      ],
+      "source": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_0000.png"
+    },
+    "stage4_internnav_map": {
+      "box_xyxy": [
+        1373,
+        156,
+        1747,
+        505
+      ],
+      "source": "paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0031/kujiale0031_473_473_original_end_000123.png"
+    }
+  },
+  "notes": "Only the user-marked render slots were replaced. No figure text, arrows, labels, titles, or metric boxes were redrawn."
+}

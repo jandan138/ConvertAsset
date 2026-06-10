@@ -1,0 +1,163 @@
+{
+  "record_id": "supplement_theory_evidence_bridge_v2_20260604",
+  "date_utc": "2026-06-04",
+  "scope": "ACL 2027 supplement page 39 theory evidence bridge v2 visual-density iteration",
+  "motivation": {
+    "target_pages": [
+      38,
+      39,
+      40
+    ],
+    "target_page_before": "Round 14 density audit ranked page 39 as the lowest non-reference page after the metric-boundary bridge v2 pass.",
+    "round14_page39_active245_fraction_90dpi": 0.139262064,
+    "goal_alignment": "Use a text-free AI theory-evidence lens slot plus additional registered selected-failure render pairs to make the hypothesis-level theory bridge less sparse without changing the evidence boundary or page count."
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks",
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, used for sparse-page raster review",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90"
+  },
+  "claim_boundary": {
+    "paper_use": "visual reading guide linking hypothesis-level interpretation to material, grounding, navigation, and selected-failure render evidence",
+    "not_new_evidence": true,
+    "boundary_statement": "Exposition only; not experimental evidence.",
+    "notes": "The theory-evidence lens AI slot is schematic reading structure only. Evidence-bearing panels remain registered render crops and deterministic overlays composed by paper/shared/figures/gen_supplement_task_media_atlases.py."
+  },
+  "ai_slots": {
+    "theory_evidence_lens": {
+      "path": "paper/shared/figures/ai_slots/fig_supplement_theory_evidence_lens_ai_slot.png",
+      "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_08bf72c33acc4887016a20563ee8888195a84252f48b0ba5cc.png",
+      "sha256": "425429cf42c85e0978574d51cf889de0bfbcc0de638a17c6fd27b8733776e966",
+      "size_px": [
+        1719,
+        915
+      ],
+      "bytes": 1137835,
+      "layout_guard_active_fraction": 0.147815002,
+      "active245_fraction": 0.16341627,
+      "red_pixel_fraction": 0.000027338,
+      "role": "AI-generated theory-evidence lens schematic only; deterministic figure code draws paper labels, boundary text, and all evidence-source annotations."
+    }
+  },
+  "final_figure": {
+    "path": "paper/shared/figures/fig_supplement_theory_evidence_bridge.png",
+    "sha256": "d86a4f795c9d69fd18cc9f2fad098850e6c5ecee986f43bdb9a1875aceed6c67",
+    "size_px": [
+      1800,
+      1650
+    ],
+    "bytes": 1272471,
+    "layout_guard_active_fraction": 0.395395286,
+    "active245_fraction": 0.410946128,
+    "red_pixel_fraction": 0.005156902,
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_theory_evidence_bridge.yaml",
+    "registered_real_sources_added_in_v2": [
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_0000.png"
+    ],
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "The standalone v2 bridge adds a theory-evidence lens strip and a selected-failure anchor wall while preserving the material salience, grounding contract, and embodied sensitivity bands. The page-scale labels and render pairs remain contained without visible overlap."
+  },
+  "pdf_review": {
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_sha256": "bab53699cae5b3bdc73ce673f0a55e395ef57dbb9760f90766569bfd8c259c8f",
+    "pdf_bytes": 43880771,
+    "page_count": 45,
+    "page_size": "A4",
+    "review_window": [
+      38,
+      40
+    ],
+    "page39_render_90dpi_before": "tmp/acl_supplement_full_density_review_20260603_round14/page-39.png",
+    "page39_render_90dpi_before_sha256": "b8f412aed18efcecda7a55e84b8c0c25e4ccd80ccc71092568769636139aeff2",
+    "page39_active245_fraction_90dpi_before": 0.139262064,
+    "page39_render_90dpi_after": "tmp/acl_supplement_page39_theory_bridge_v2_final_90dpi_20260604/page-39.png",
+    "page39_render_90dpi_after_sha256": "711a53bc725f5150e6441ea200613610c9dc356865c66af20cc0cecf10a967aa",
+    "page39_active245_fraction_90dpi_after": 0.192053385,
+    "page39_active245_delta_90dpi": 0.052791321,
+    "page39_layout_guard_active_fraction_90dpi_after": 0.183503827,
+    "page39_red_pixel_fraction_90dpi_after": 0.001857269,
+    "page38_render_144dpi": "tmp/acl_supplement_page39_theory_bridge_v2_final_20260604/page-38.png",
+    "page38_render_144dpi_sha256": "80cefd7b4715ce1d56d6ba53d980cf05f96f141a58ecc9f924f6145bd64fd224",
+    "page38_active245_fraction_144dpi_after": 0.212400107,
+    "page39_render_144dpi": "tmp/acl_supplement_page39_theory_bridge_v2_final_20260604/page-39.png",
+    "page39_render_144dpi_sha256": "864c66d87f8eb8699be3e7423a2c4acd73a03c2b1e362f223f76275ce1694d6b",
+    "page39_active245_fraction_144dpi_after": 0.176189294,
+    "page40_render_144dpi": "tmp/acl_supplement_page39_theory_bridge_v2_final_20260604/page-40.png",
+    "page40_render_144dpi_sha256": "30b4186f8509b881faec40e9341cd8fb4f923efeb3748cb1fba2826ce0f66331",
+    "page40_active245_fraction_144dpi_after": 0.175787428,
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "Rendered page 39 is visibly denser, the enlarged bridge remains on one page, the caption stays complete, and pages 38 and 40 show no spill, clipping, or float-order regression."
+  },
+  "post_review_density_audit": {
+    "audit_dir": "tmp/acl_supplement_full_density_review_20260604_round15",
+    "density_rank_json": "tmp/acl_supplement_full_density_review_20260604_round15/density_rank.json",
+    "low_density_contact_sheet": "tmp/acl_supplement_full_density_review_20260604_round15/low_density_contact.png",
+    "lowest_pages_by_active245": [
+      {
+        "page": 45,
+        "active245_fraction": 0.064967463,
+        "note": "references"
+      },
+      {
+        "page": 43,
+        "active245_fraction": 0.065171418,
+        "note": "references"
+      },
+      {
+        "page": 14,
+        "active245_fraction": 0.140447555,
+        "note": "next non-reference target"
+      },
+      {
+        "page": 41,
+        "active245_fraction": 0.140809576
+      },
+      {
+        "page": 36,
+        "active245_fraction": 0.143086229
+      },
+      {
+        "page": 22,
+        "active245_fraction": 0.14472807
+      }
+    ],
+    "page39_status": "Page 39 no longer appears in the lowest 12 pages after the theory-evidence bridge v2 placement."
+  },
+  "tests": [
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k 'theory_has_visual_evidence_bridge or theory_bridge_is_registered_and_dense'",
+      "result": "RED first for the missing selected-failure render wall and source registration; GREEN after implementation with 2 passed, 72 deselected."
+    },
+    {
+      "command": "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+      "result": "completed; regenerated fig_supplement_theory_evidence_bridge.png at 1800x1650."
+    },
+    {
+      "command": "latexmk -g -cd -pdf -outdir=build -interaction=nonstopmode -halt-on-error supplement.tex",
+      "result": "completed from paper/venues/acl27; paper/venues/acl27/build/supplement.pdf contains 45 A4 pages."
+    },
+    {
+      "command": "pdftoppm -f 38 -l 40 -png -r 144 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page39_theory_bridge_v2_final_20260604/page",
+      "result": "completed; pages 38-40 regenerated for local visual and density review."
+    },
+    {
+      "command": "pdftoppm -f 39 -l 39 -png -r 90 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page39_theory_bridge_v2_final_90dpi_20260604/page",
+      "result": "completed; page 39 regenerated at 90 dpi for direct comparison with the round 14 density baseline."
+    },
+    {
+      "command": "pdftoppm -png -r 90 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_full_density_review_20260604_round15/page",
+      "result": "completed; round 15 full-density audit places page 39 outside the lowest 12 pages."
+    }
+  ],
+  "review_mode": {
+    "skill": "render-visual-reviewer",
+    "independent_subagent_review": false,
+    "reason": "Local pure visual review was used; no separate clean-room subagent was dispatched because independent delegation was not explicitly requested and the multi-agent tool only permits spawning under explicit delegation requests."
+  },
+  "residual_risk": "This pass improves page 39 but does not complete the broader supplement-wide visual iteration. Round 15 ranks page 14 as the next low-density non-reference page."
+}

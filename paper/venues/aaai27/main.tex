@@ -1,30 +1,35 @@
 % AAAI 2027 target wrapper.
-% Official AAAI-27 style files are not committed yet; see STATUS.md.
 \documentclass[letterpaper]{article}
 
-\IfFileExists{aaai27.sty}{%
-  \usepackage[submission]{aaai27}%
+\IfFileExists{aaai2027.sty}{%
+  \usepackage[submission]{aaai2027}%
 }{%
-  \PackageError{convertasset-aaai27}{Missing aaai27.sty}{Add the official AAAI-27 author kit to paper/venues/aaai27 before building this venue.}%
+  \PackageError{convertasset-aaai27}{Missing aaai2027.sty}{Add the official AAAI-27 author kit to paper/venues/aaai27 before building this venue.}%
 }
 
 \input{preamble}
 
-\title{Evaluating MDL-to-UsdPreviewSurface Material Simplification for Synthetic Data Pipelines}
-\author{Anonymous AAAI 2027 Submission}
+\title{Material Conversion as a Controlled Perturbation for Vision-Language Grounding in Synthetic 3D Scenes}
+\author{Anonymous Submission}
+\affiliations{}
 
 \begin{document}
 \maketitle
 
-\input{../../shared/sections/abstract}
-\input{../../shared/sections/intro}
-\input{../../shared/sections/related}
-\input{../../shared/sections/method}
-\input{../../shared/sections/experiments}
-\input{../../shared/sections/discussion}
-\input{../../shared/sections/conclusion}
+\input{./sections/abstract}
+\input{./sections/intro}
+\input{./sections/related}
+\input{./sections/method}
+\input{./sections/results}
+\input{./sections/discussion}
+\input{./sections/conclusion}
+\input{./sections/limitations}
+\input{./sections/ethical-considerations}
 
-\bibliographystyle{aaai27}
 \bibliography{references}
+
+% Diagnostic appendix material is kept under ../../shared/sections/ for the
+% supplemental packet, but the AAAI main PDF stays focused on the figure-driven
+% evidence narrative.
 
 \end{document}

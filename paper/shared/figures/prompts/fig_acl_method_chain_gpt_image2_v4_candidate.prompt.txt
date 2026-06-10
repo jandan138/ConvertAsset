@@ -1,0 +1,20 @@
+Use case: infographic-diagram
+Asset type: ACL paper Figure 1 method-chain schematic, candidate refresh.
+Primary request: Create a clean, publication-ready method-chain diagram for a research paper about ConvertAsset. Wide landscape 2:1 aspect ratio, white background, restrained academic colors, thin panel borders, no decorative gradient, no logos, no watermark.
+
+Structure: four left-to-right numbered stages with arrows between panels.
+Stage labels must be short and readable:
+1. USD / MDL Scene Assets
+2. ConvertAsset noMDL Conversion
+3. Matched Rendering + VLM Grounding
+4. InternNav Navigation Evidence
+
+Visual content:
+- Stage 1: USD file icon, simple scene hierarchy, indoor scene thumbnails, material spheres for wood, fabric, paint, metal.
+- Stage 2: MDL material nodes converting to UsdPreviewSurface nodes, with base color, roughness, metallic, normal, opacity; show path rewriting and preserved hierarchy; output noMDL USD.
+- Stage 3: paired original MDL and noMDL render thumbnails with target boxes; a VLM grounding mini-panel with a question bubble and a target point.
+- Stage 4: first-person navigation thumbnails; top-down floorplan with green success trajectory and red failure trajectory; three metric tiles SR, SPL, NE.
+
+Footer text must be present and readable: Quantitative claims use frozen paired evidence; selected rollouts are qualitative only.
+
+Constraints: synthetic schematic placeholders only, not empirical-looking claims; avoid fake numbers; no extra acronyms beyond USD, MDL, noMDL, VLM, InternNav, SR, SPL, NE; keep text large enough for an academic PDF figure.

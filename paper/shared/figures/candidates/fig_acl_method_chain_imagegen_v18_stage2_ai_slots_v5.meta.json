@@ -1,0 +1,29 @@
+{
+  "base": "paper/shared/figures/fig_acl_method_chain_imagegen_v18.png",
+  "candidate": "paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v18_stage2_ai_slots_v5.png",
+  "revision": "v5_stage2_ai_slots",
+  "source_marked_image": "paper/shared/figures/candidates/fig1-s2.png",
+  "slots": {
+    "stage2_materials_preserved": {
+      "box_xyxy": [
+        512,
+        186,
+        844,
+        515
+      ],
+      "source": "paper/shared/figures/ai_slots/fig1_stage2_materials_preserved_ai_slot_v1.png",
+      "placement": "contain_on_white"
+    },
+    "stage2_structure_preserved": {
+      "box_xyxy": [
+        495,
+        539,
+        855,
+        834
+      ],
+      "source": "paper/shared/figures/ai_slots/fig1_stage2_structure_preserved_ai_slot_v1.png",
+      "placement": "contain_on_white"
+    }
+  },
+  "notes": "Only user-marked Stage 2 slots were replaced. Stage 1, Stage 3, Stage 4, labels, arrows, titles, and caption were otherwise preserved from current active Fig.1."
+}

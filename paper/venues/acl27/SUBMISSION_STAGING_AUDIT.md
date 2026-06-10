@@ -1,11 +1,112 @@
 # ACL/ARR Submission Staging Audit
 
-Checked: 2026-05-26.
+Checked: 2026-05-30.
 
 This audit records the first concrete candidate upload staging directory for the
 ACL/ARR review draft. The staged directory is intentionally ignored by git and
 is not a final archive; it is a local smoke target for upload-boundary,
 anonymization, and PDF sanity checks.
+
+Latest refresh on 2026-05-30: after the InternNav/InteriorAgent scope wording
+polish in the Limitations section, the full pre-upload gate rebuilt and
+restaged the candidate. The current build and staged PDFs are byte-identical as
+an 11-page A4 PDF 1.5 candidate, 4,066,626 bytes
+(`sha256=137370b33b567ebc55ab6f88ef5d6e6860b6e61debf133e8077b14a22b454c98`,
+created 2026-05-30 20:43:58 CST). The adjacent ignored checksum sidecar is
+`paper/submissions/acl27_arr_candidate_20260526.sha256`
+(`sha256=0439826be4d8dd283dc82b277a8a206f6964e031d43bee0f3cadaf2bbf7fb86c`).
+The gate passed claim boundaries, target policy, metadata consistency,
+OpenReview checklist, citation inventory, evidence-number checks, the
+57-source final-integrity fingerprint, blocker/goal reports, 93 focused tests,
+clean ACL rebuild, LaTeX log scan, packet staging,
+inventory/checksum/private-token/acknowledgment scans, PDF profile checks, and
+ordered text-section checks. Page 9 was rerendered at 150 DPI and passed local
+visual review with Figure 4, Limitations, and Ethical Considerations readable
+and non-overlapping.
+
+Previous same-day refresh on 2026-05-30: after the Figure 3 provenance-caption hardening,
+conclusion takeaway polish, and removal of the manual Introduction page break,
+the full pre-upload gate rebuilt and restaged the candidate. The current build
+and staged PDFs are byte-identical as an 11-page A4 PDF 1.5 candidate,
+4,066,770 bytes
+(`sha256=177466b7d0cf6a557f73f792dc6f718fdae8f42663e7398a54bc2d9252cde356`,
+created 2026-05-30 20:25:01 CST). The adjacent ignored checksum sidecar is
+`paper/submissions/acl27_arr_candidate_20260526.sha256`
+(`sha256=4a39e9ce663abac3c31b266272173acb047f7ea7cbd28c868dec5d4d0e18a4ad`).
+The accepted caption says the selected `Original MDL` cells passed a
+log-checked clean rerender/provenance gate. A longer draft was rejected after
+rendered-page review because it pushed Figure 4 to page 10 and left page 9
+with a large blank column; the compact final wording keeps Figure 4 on page 9.
+The conclusion now states the paper's practical outcome as an evidence gate,
+and the contribution list now flows after Figure 1 without a manual
+`\newpage`, without changing the packet boundary. The gate passed claim
+boundaries, target policy, metadata consistency, OpenReview checklist, citation
+inventory, evidence-number checks, the 57-source final-integrity fingerprint,
+blocker/goal reports, 93 focused tests, clean ACL rebuild, LaTeX log scan,
+packet staging, inventory/checksum/private-token/acknowledgment scans, PDF
+profile checks, and ordered text-section checks.
+
+Previous refresh on 2026-05-28: after the material-effect covered-bin clean
+rerender/provenance pass, main-panel promotion, Figure 2 visual-first
+readability polish, Figure 3 readable-label polish/red-material recheck, Table
+6 caption compacting, the Figure 4 wide InternNav panel upgrade, the Figure 4
+label-readability polish, page-9 Limitations tail polish, page-7 official-scene
+hyphenation polish, Figure 1 v17 rejected-candidate audit plus v18 promotion,
+the abstract point-hit direction clarity update, the Figure 1 caption polish,
+and the final pre-upload gate rerun, the current build and staged PDFs are
+byte-identical as an 11-page A4 PDF 1.5 candidate,
+4,066,538 bytes
+(`sha256=59636b2dbd5b43f90c49ddcf72649a018005790254f26558724f1c15fd2cb6b7`,
+created 2026-05-28 23:22:53 CST).
+The material-effect qualitative panel is now main-paper Figure 3 on page 8;
+the material-effect result is still table-bounded, and the caption/prose state
+that it is selected qualitative evidence rather than a population-level NVIDIA
+failure rate or a mechanism-level MDL preservation certificate. Figure 4 is now
+the wide three-case official KuJiaLe InternNav path panel on page 9. The PDF
+text guard requires both `Figure 3:` and `Figure 4:`, allows this top-of-page
+Figure 4 float before the Limitations heading, and still rejects a float-only
+material-table page immediately before Limitations. The staged
+packet boundary is still the same five files plus an adjacent checksum sidecar
+outside the packet.
+
+Table 6 keeps the same official-scene aggregate metrics but now has a compact
+main-paper caption. Local page-7/page-8 review records `pass_with_caveat`: the
+page is dense, but Table 6 fits without overlap and keeps the NVIDIA
+official-scene omission explicit.
+
+Follow-up local visual review of the staged PDF rendered the Figure 3 page and
+found no red-material signal: both the source
+`fig_material_effect_baseline_qualitative.png`, the rendered page-8 image, and
+the extracted embedded PDF image had zero strong-red pixels, and the four
+selected original-MDL logs contain no `KooPbr`, module, or MDL shade-node error
+terms. Figure 3 now uses larger row-level target/effect labels; the source
+figure hash is
+`e0cea32c186661ce2efcf736fd7fb0f714f7d78b411364b029374e0e473e187a`,
+and the rendered page-8 hash is
+`e8cf7110e83bfe8b44d7674dd29cee26d7a4917aea70dc783db07ee3e18c7f90`.
+The source Figure 4 wide InternNav panel has hash
+`818525fcc0a5fd0b4e692ddd9d2738e673eb3b70a2b2dd90895cab7dd0d51a6e`, the
+rendered page-9 hash is
+`cb7fbc9efb13ff560646189e2f39067e5c720abb446ce85958ca12e31e4fde10`, and both
+have zero strong-red pixels after overlay recoloring. Page 9 now starts the
+right text column at `Ethical Considerations`, not with a dangling Limitations
+continuation; the left case-ID and `SR O/N` labels are widened for page-scale
+scanning without changing the selected still evidence.
+The page-7 official-scene stability paragraph now starts after the page break
+with `complete successfully in fresh processes...`, not a broken
+`nal/noMDL`, `process official-scene`, or `scene runs` fragment.
+Figure 2 remains an orientation panel, now with a larger visual-first
+real-render layout and a
+rendered page-6 hash
+`c4bcad2fb1e5f47037e2c7c7cf3a7a6ea4879a6f3160ca7a690e2f4396d75ca2`; its
+caption and main text correctly keep task claims tied to frozen tables rather
+than to the qualitative image.
+Figure 1 now uses the promoted v18 imagegen schematic
+`fig_acl_method_chain_imagegen_v18.png`
+(`sha256=be576fdaaa35f4977f500af32c5208e9abcf730e6975bc8961774ad6b8ec1a45`);
+local page-2 visual review confirms the exact `Target: box` label, readable
+`VLM Checks` title, the polished `Evidence-chain overview` caption opening,
+and schematic-only claim boundary.
 
 ## Staging Command
 
@@ -122,13 +223,23 @@ the consolidated pre-upload gate was rerun from the current repository state on
 2026-05-26:
 
 ```bash
-python paper/venues/acl27/scripts/run_preupload_gate.py
+make -C paper acl27
+python - <<'PY'
+import importlib.util
+from pathlib import Path
+script = Path("paper/venues/acl27/scripts/run_preupload_gate.py")
+spec = importlib.util.spec_from_file_location("gate", script)
+mod = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(mod)
+mod.check_pdf_text(Path("paper/venues/acl27/build/main.pdf"))
+print("pdf text/page-budget check ok")
+PY
 ```
 
 | Check | Result |
 | --- | --- |
 | Claim-boundary checker | Pass; no unsupported broad embodied, official-scene speedup, NVIDIA official-scene performance, procedural-texture success, selected-video-as-quantitative, or learned-classifier claim was found. |
-| OpenReview metadata consistency | Pass; title and 189-word abstract match the LaTeX sources and remain under the 200-word abstract guidance. |
+| OpenReview metadata consistency | Pass; title and 181-word abstract match the LaTeX sources and remain under the 200-word abstract guidance. |
 | Evidence-number consistency | Pass; local CSV/JSON evidence produced the current proxy, VLM, InternNav, official-scene, and coordinate-baseline snapshot, and manuscript/OpenReview text markers matched with no violations. |
 | Focused pytest gate | Pass; 20 tests passed across staging, layout, metadata, claim-boundary, evidence-number, and pre-upload runner checks. |
 | Clean ACL build | Pass; `make -C paper clean-acl27 acl27` rebuilt the PDF. |
@@ -580,6 +691,128 @@ the final blocker report correctly remains `status=human_blocked` because route,
 author, OpenReview form-copy, approval, optional-media, and final upload rows
 remain human decisions.
 
+## Refresh After Figure-Driven Main-Paper Rewrite
+
+After adding the AI-generated method-chain schematic, the cleaner follow-up
+method-chain imagegen v3 figure, the real render and material-effect panels, the
+oblique-view single-object render-pair refresh, retaining selected InternNav
+qualitative media for supplemental/rebuttal use, and later removing the main-text
+InternNav rollout panel to protect the eight-page counted-content boundary, the
+candidate was rebuilt from the current repository state on 2026-05-27:
+
+```bash
+python paper/venues/acl27/scripts/run_preupload_gate.py
+```
+
+Result: pass. The runner completed claim-boundary, target-policy consistency,
+OpenReview metadata consistency, OpenReview checklist copy-readiness,
+citation-inventory, evidence-number, final-integrity fingerprint, final blocker
+report, goal-completion report, 65-test focused pytest, clean ACL build, final
+LaTeX log scan, candidate packet staging, exact packet inventory, adjacent
+checksum-sidecar validation, private-token scan, acknowledgment scan,
+`pdfinfo`, `pdf_profile`, and `pdftotext_sections`. The final blocker report
+remained `status=human_blocked` with `repo_blockers=[]`. A later Fig.3
+red-material mitigation and layout-polish pass rebuilt the staged PDF as 11 A4
+pages, PDF 1.5, and 3,337,110 bytes. A later Figure 2 proxy-row readability
+pass rebuilt and staged the ACL PDF as 11 A4 pages, PDF 1.5, and 3,330,780
+bytes. A subsequent v8 method-chain imagegen pass rebuilt and staged the ACL
+PDF as 11 A4 pages, PDF 1.5, and 3,361,922 bytes. A later reviewer-risk
+Discussion pass reran the full gate and staged the current ACL PDF as 11 A4
+pages, PDF 1.5, and 3,362,820 bytes, with `Limitations` on page 8,
+`Ethical Considerations` on page 9, selected InternNav Figure 3 on page 9, and
+`References` starting on page 9. Local visual review found no overlap or
+clipped text after replacing the broad pre-Limitations `\clearpage` with
+targeted page breaks.
+Subsequent reference-layout, Fig.3 overlay-color, page-8 table layout, and v9
+method-chain imagegen passes preserved the candidate at 10 A4 pages. The latest
+full gate stages a PDF 1.5 file of 3,313,612 bytes with the v9 Figure 1
+schematic on page 2 and selected InternNav Figure 3 still on page 9.
+Later all-page visual review also fixed the page-4 Method opening word spacing
+and the page-5 `expanded30` prose token without changing experimental claims.
+Another Figure 2 pass regenerated the real-render panel with cropped display
+views for the white single-object proxy row, then shortened the caption and
+nearby prose to avoid a page-6 orphan line while preserving the claim boundary.
+The latest Figure 2 display pass keeps the same render sources but uses
+cover-fit cropped display cells for the top proxy row, so the white objects are
+larger and the gray side bands are mostly removed in the integrated PDF. A
+follow-up readability pass keeps the same raw proxy-render pool but replaces
+the nearly blank `#0004` display example with the more legible `#0023` pair and
+adds a focused pytest guard for minimum top-row contrast; the consolidated
+preupload gate now runs that guard as part of its 68-test focused suite.
+The latest navigation visual pass keeps the selected official KuJiaLe rollout
+panel as the full-width readable Figure 3 on page 9; it remains qualitative
+orientation only and does not enter the safe staged media packet. The accepted
+layout keeps the candidate under the 12-page cap and avoids a float-only
+material-table page before Limitations.
+The latest Figure 2 sample refresh switches the representative proxy row to the
+same `#0023` asset's recorded full-object back view (`A_back.png`/`B_back.png`)
+after a local visual review found the previous front-view crop too low-detail
+at PDF scale. This remains deterministic empirical render evidence, not image
+generation or a new experiment. The consolidated preupload gate now runs the
+selected-proxy contrast guard as part of its 72-test focused suite and stages a
+10-page A4 PDF 1.5 file of 3,487,597 bytes. A rendered staged page-6 spot check
+shows Figure 2 and the following table without overlap.
+A subsequent rendered-PDF spot check found that the back-view proxy still read
+like a low-detail gray slab in the integrated page. The current front-detail
+pass switches the representative proxy row to the recorded `#0011` front-view
+pair (`A_front.png`/`B_front.png`) from the same proxy render pool and replaces
+the selected-proxy contrast guard with a front-detail edge-density guard that
+rejects back-only representative views. The full preupload gate passed again
+with 72 focused tests, a 53-source fingerprint, clean build/staging, scans, PDF
+profile checks, and ordered text-section checks. The staged candidate is now a
+10-page A4 PDF 1.5 file of 3,493,873 bytes; rendered page 6 shows the front
+drawer/handle details, Figure 2 caption, and Table 2 without overlap.
+A follow-up pure visual review found that the flat front-view row was usable
+but still visually weaker than an angled object render. The current Figure 2
+proxy row therefore uses the recorded `#0011` top-front-right pair
+(`A_top_front_right.png`/`B_top_front_right.png`) from the same empirical render
+pool. The selected-proxy guard now requires a front/front-angled path plus both
+minimum edge density and contrast. The full preupload gate passed again with 72
+focused tests, a 53-source fingerprint, clean build/staging, scans, PDF profile
+checks, and ordered text-section checks. The staged candidate is now a 10-page
+A4 PDF 1.5 file of 3,514,678 bytes; rendered page 6 shows the angled proxy
+object, Figure 2 caption, and Table 2 without overlap.
+The follow-up sublabel precision pass keeps the same `#0011` top-front-right
+render files but changes the proxy-cell sublabel from `#0011 full object view`
+to `#0011 top-front-right object view`. The full preupload gate passed again
+with 73 focused tests, a 53-source fingerprint, clean build/staging, scans, PDF
+profile checks, and ordered text-section checks. The staged candidate is now a
+10-page A4 PDF 1.5 file of 3,515,110 bytes, identical to the build PDF with
+SHA-256 `2800402b662904faf83862cd1f5fd1374e9d81fa6bdd8768f72e0a59458fa794`;
+rendered staged page 6 shows the angled proxy object, Figure 2 caption, and
+Table 2 without overlap.
+After the gate, `prefill_author_gate.py --apply --overwrite` refreshed only the
+repo-verifiable private worksheet rows; `check_author_gate.py` still reports 19
+human-only TODO fields.
+
+A later visual/diagnostic pass rechecked the user-reported Fig.3 red-material
+concern and confirmed that the staged Figure 3 is still the selected InternNav
+rollout panel. The retired material-effect contact sheet remains excluded and
+blocked by clean provenance because its original-MDL cells reuse stale
+pre-rerender PNGs with `KooPbr`/`KooPbr_maps` stderr signals. The same pass
+removed a narrow-column monospace evidence path from the page-4 Claim Registry
+paragraph and added a layout regression guard. The refreshed full preupload
+gate passed with 74 focused tests, a 53-source fingerprint, clean
+build/staging, scans, PDF profile checks, and ordered text-section checks. The
+staged candidate is now a 10-page A4 PDF 1.5 file of 3,513,952 bytes,
+identical to the build PDF with SHA-256
+`81acd09574094b915097cc23fa8687f7822ed5dcd976f9d0ea9587faca2a8177`; rendered
+staged page 4 and page 9 checks show the Claim Registry typography and
+InternNav Figure 3 without overlap.
+
+A follow-up page-6 visual pass improved the same real Figure 2 proxy evidence
+without introducing new data: the selected `#0011` top-front-right Original
+MDL/noMDL render pair now uses deterministic crop `(140, 40, 780, 720)` and the
+cell sublabel discloses `#0011 cropped top-front-right object view`. The
+selected-proxy guard now includes a crop contrast-improvement check. The full
+preupload gate passed again with 75 focused tests, a 53-source fingerprint,
+clean build/staging, scans, PDF profile checks, and ordered text-section
+checks. The staged candidate is now a 10-page A4 PDF 1.5 file of 3,553,091
+bytes, identical to the build PDF with SHA-256
+`7fed84db45e19f2e2ed56a67452d27ea04d0e4ffcf9a582e6a591a9e254163fe`; rendered
+staged page 6 shows the cropped proxy object, Figure 2 caption, and Table 2
+without overlap.
+
 ## Refresh After Qualitative VLM Panel Exclusion
 
 After the render-log audit showed that the ACL qualitative VLM panel still lacks
@@ -618,7 +851,7 @@ python paper/venues/acl27/scripts/run_preupload_gate.py
 | Check | Result |
 | --- | --- |
 | Claim-boundary checker | Pass; no unsupported broad embodied, official-scene speedup, NVIDIA official-scene performance, procedural-texture success, selected-video-as-quantitative, or learned-classifier claim was found. |
-| OpenReview metadata consistency | Pass; title and 189-word abstract match the LaTeX sources and remain under the 200-word abstract guidance. |
+| OpenReview metadata consistency | Pass; title and 181-word abstract match the LaTeX sources and remain under the 200-word abstract guidance. |
 | Evidence-number consistency | Pass; local CSV/JSON evidence produced the current proxy, VLM, InternNav, official-scene, and coordinate-baseline snapshot, and manuscript/OpenReview text markers matched with no violations. |
 | Focused pytest gate | Pass; 20 tests passed across staging, layout, metadata, claim-boundary, evidence-number, and pre-upload runner checks. |
 | Clean ACL build | Pass; `make -C paper clean-acl27 acl27` rebuilt the PDF. |

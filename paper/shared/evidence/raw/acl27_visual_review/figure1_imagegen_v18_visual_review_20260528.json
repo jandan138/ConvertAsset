@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "status": "figure1_imagegen_v18_promoted",
+  "review_type": "local_render_visual_review",
+  "independent_subagent_used": false,
+  "candidate": {
+    "path": "paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v18_candidate.png",
+    "sha256": "be576fdaaa35f4977f500af32c5208e9abcf730e6975bc8961774ad6b8ec1a45",
+    "size": [1774, 887]
+  },
+  "promoted": {
+    "path": "paper/shared/figures/fig_acl_method_chain_imagegen_v18.png",
+    "sha256": "be576fdaaa35f4977f500af32c5208e9abcf730e6975bc8961774ad6b8ec1a45",
+    "size": [1774, 887]
+  },
+  "prompt": {
+    "path": "paper/shared/figures/prompts/fig_acl_method_chain_gpt_image2_v18.prompt.txt",
+    "sha256_after_path_header": "465ea8d40d6fa8c7c5f8bab341dff0196e263c0e76a205afd3aa7f636f0fc94b"
+  },
+  "verdict": "PASS for schematic roadmap use",
+  "visual_evidence": [
+    "The four stage labels are readable: USD / MDL, noMDL, VLM Checks, and InternNav.",
+    "The VLM target label reads Target: box; the v17 failure label Target: boy is not present.",
+    "The stage-3 matched-render block, target-box icon, robot/question/pointing motif, and stage-4 SR/SPL/NE metric tiles are visually legible at source scale.",
+    "The figure remains schematic roadmap art, not empirical render, VLM-output, material-effect, or navigation evidence."
+  ],
+  "decision": "Promote v18 over v16 because it keeps the low-text four-stage story, preserves the required target label, uses the clearer VLM Checks title, and avoids the v17 wrong-target text.",
+  "claim_boundary": "Use only as AI-generated schematic roadmap. Empirical claims remain tied to recorded project artifacts, real render figures, tables, and logs."
+}

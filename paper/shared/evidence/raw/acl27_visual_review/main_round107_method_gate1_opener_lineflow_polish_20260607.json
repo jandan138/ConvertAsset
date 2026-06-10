@@ -1,0 +1,80 @@
+{
+  "round": 107,
+  "date": "2026-06-07",
+  "topic": "ACL main Method Gate 1 opener line-flow polish",
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "scope": {
+    "section": "Method",
+    "source_file": "paper/venues/acl27/sections/method.tex",
+    "pdf_page": 3,
+    "change_class": "line-flow and ACL prose polish"
+  },
+  "baseline": {
+    "pdf_hash": "5e598fb9feb14a5bb8cf5231cb2a96a748a6fe24e8629461110ebbe972340707",
+    "artifact_dir": "tmp/acl_main_visual_iter_20260607_round107_current",
+    "page_png": "tmp/acl_main_visual_iter_20260607_round107_current/page-03.png",
+    "page_png_sha256": "71caff9fa2806b8f0139c78d73e48157d97e53fe78626d0db2ae55a0fdd9083c",
+    "page_text": "tmp/acl_main_visual_iter_20260607_round107_current/text/page-03.txt",
+    "page_text_sha256": "475755b4ee711476fb6efa086e48b44c93eb4f99ad405bbb48e8cf3f8380de89",
+    "visible_issue": [
+      "page 3 line 178: gates.    Gate 1 screens four assets from"
+    ],
+    "reader_effect": "The Method Evidence Gates opener had a conspicuous sentence-break gap before Gate 1."
+  },
+  "change": {
+    "accepted_summary": "Rewrote the Method Evidence Gates opener so Gate 1 starts as a compact clause rather than after a stretched sentence break.",
+    "before": "We organize the evaluation as four evidence gates. Gate 1 screens four assets from Isaac Sim with PSNR, SSIM, LPIPS, CLIP, DINOv2, and headless load/render checks.",
+    "after": "The four evidence gates start with Gate 1, which screens four assets from Isaac Sim with PSNR, SSIM, LPIPS, CLIP, DINOv2, and headless load/render checks."
+  },
+  "rejected_candidates": [
+    {
+      "candidate": "We organize the evaluation as four evidence gates: Gate 1 screens four assets...",
+      "reason": "The rebuilt PDF split evidence as evi- / dence at the line edge."
+    }
+  ],
+  "after": {
+    "pdf_hash": "162bd09a9a1ce850aa53e428a2f95c502fdca331267664b252093607734ba34d",
+    "artifact_dir": "tmp/acl_main_visual_iter_20260607_round107_current/after",
+    "page_png": "tmp/acl_main_visual_iter_20260607_round107_current/after/page-03.png",
+    "page_png_sha256": "74ff57a4e2c97ed5507e393ff98bcd2052fbc22027bb5c4558b8f3f9b6aff0fd",
+    "page_text": "tmp/acl_main_visual_iter_20260607_round107_current/after/text/page-03.txt",
+    "page_text_sha256": "4df47a0146ea44b4c3008bf394549bcc9e415e59446e88dad02775b383694b89",
+    "accepted_visual_read": [
+      "page 3 lines 177-180: The four evidence gates start with Gate 1, / which screens four assets from Isaac Sim / with PSNR, SSIM, LPIPS, CLIP, DINOv2, / and headless load/render checks."
+    ],
+    "page5_unchanged": {
+      "page_png_sha256": "145e08a8c54590243ab98176981e2483c712b9f6562537d27b87e43691aa8843",
+      "page_text_sha256": "1fa6b032fad405aa5f01f1e157c3e455a2b123d8026591699853135ec33db386"
+    },
+    "page_count": 10,
+    "targeted_scan_result": "Page 3 no longer contains evidence gates.    Gate 1 and does not contain the rejected evi- / dence split."
+  },
+  "verification": {
+    "make": {
+      "command": "make -C paper acl27",
+      "status": "passed",
+      "log": "/tmp/acl27_round107_final_verify_make.log"
+    },
+    "latex_blocker_scan": {
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    "pytest": {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 13.38s"
+    },
+    "claim_boundaries": {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true, violations empty"
+    },
+    "metadata_consistency": {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  },
+  "claim_boundary": "The accepted edit changes only one Method opener. It does not alter metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes.",
+  "residual_risk": "The page-5 result.    The official spacing remains unchanged because previous source-level attempts caused worse line breaks."
+}

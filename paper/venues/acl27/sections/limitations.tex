@@ -1,31 +1,30 @@
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_internnav_rollout_0036_0066_main3_readable.png}
+  \caption{Selected InternNav path panels. These selected official KuJiaLe
+  examples show original/noMDL start and end frames with trajectory overlays for
+  orientation only: purple executed paths and action arrows, with overlay color
+  changed for readability; green reference paths. Quantitative stack-entry
+  measurements remain tied to the 99-episode paired run and official-scene load/render
+  checks.}
+  \label{fig:internnav-rollout-supp}
+\end{figure*}
+
 \section*{Limitations}
 
-The current evidence base is intentionally narrow: the workshop-era experiments
-cover a small asset set, limited scene diversity, and mostly visual or
-feature-level metrics. The GRScenes extension adds real VLM grounding probes,
-but the claim boundaries remain narrow. The clean visual-QA pool has 15 pairs,
-below the configured 20-pair clean final gate, so it is not evidence that
-conversion preserves VLM grounding in general. The 30-pair expanded stress set
-is a frozen, target-centered material-shift set with 4 PASS and 26 WARN pairs;
-it supports a controlled stress-test claim, not a broad GRScenes benchmark
-distribution. Qwen2.5-VL also exposes unresolved coordinate semantics because
-raw image-space scoring is stronger than the requested normalized-1000
-interpretation. These results support claims about measurement protocols,
-coordinate contracts, and model sensitivity, but they do not yet establish
-broad downstream benefits for language, vision-language, or embodied-agent
-models. The material-effect baseline is also claim-bounded: the current matrix
-uses 30 GRScenes samples for four covered effect bins and two supplemental
-fixtures for clearcoat and procedural texture. It supports selected qualitative
-and failure-case interpretation, but it is not a material-effect error-rate
-distribution. The added InternNav/DualVLN~\cite{Wei2026Ground} route is a
-scoped official-route sanity check rather than a broad embodied benchmark: the
-current official KuJiaLe \texttt{val\_unseen} evidence covers three local scenes
-and 99 paired episodes, but it should not be promoted to all-InteriorNav,
-R2R/MP3D, manipulation, or broad GRScenes robustness. The selected rollout
-videos are qualitative evidence only. The official-scene load/render benchmark
-also remains claim-bounded: original MDL and noMDL both complete all 18 required
-fresh-process runs, but their warmed-ready intervals overlap, and no NVIDIA
-official-scene baseline is available yet. The current pipeline also depends on
-Isaac Sim and USD assets whose licenses, material graphs, and renderer settings
-may differ across datasets, so any general guidelines should be validated on a
-larger and more heterogeneous scene corpus.
+This evaluation is limited by design and scale. The clean visual-QA pool has 15
+pairs, below the configured 20-pair clean final set, so it supports a pilot
+check rather than broad VLM grounding conclusions. The 30-pair expanded stress set is frozen and
+target-centered: it contains 4 PASS and 26 WARN pairs, and supports a controlled
+material-shift stress-test result rather than a broad benchmark over GRScenes.
+\mbox{Qwen2.5-VL} also leaves coordinate use open: raw image-space and
+normalized-1000 scores disagree.
+
+Material and stack checks follow the same evaluation scope here. The audit covers 30
+GRScenes samples across four effect bins; clearcoat and texture fixtures are
+separate cases. It covers selected cases rather than a rate sample. The
+cited route~\cite{Wei2026Ground} is a stack-entry check over three KuJiaLe
+\texttt{val\_unseen} scenes and 99 paired episodes. InternNav variants,
+\mbox{InteriorAgent}, R2R/MP3D, \mbox{manipulation}, and broader GRScenes
+robustness remain outside this limited tested setting. The rollout panel only orients readers. Load/render
+measures stability only, not speedup.

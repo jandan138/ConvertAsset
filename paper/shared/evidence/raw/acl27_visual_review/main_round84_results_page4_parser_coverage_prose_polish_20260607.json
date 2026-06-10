@@ -1,0 +1,94 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 84,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main Results page-4 parser-coverage prose polish",
+  "before_pdf_sha256": "a0fc5f85e0fbe300f3102837d9ed168ea2862bfd462229a9dd2159ea91a0f001",
+  "after_pdf_sha256": "1c0b271cd3c2747c3750bb1eade028a642aa6d0858d06c2f6b8173fb89e19dd8",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round84_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round84_after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "rendered_after_screenshots": [
+      "tmp/acl_main_visual_iter_20260607_round84_after/page-04.png"
+    ],
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round84_after/page"
+  },
+  "defect": {
+    "pages": [
+      4
+    ],
+    "class": "results parser-coverage prose",
+    "before_text_matches": [
+      "page 4 line 259: normalized-1000 point hits of 8/15 original",
+      "page 4 line 260: and 6/15 converted. Qwen2.5-VL is weaker on",
+      "page 4 line 261: parser coverage: 23/30 scorable answer rows,"
+    ],
+    "reader_effect": "The wording was numerically correct but made a parser-coverage observation sound like a broader model-ranking judgment."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/results.tex",
+      "summary": "Changed Qwen2.5-VL is weaker on parser coverage to Qwen2.5-VL has lower parser coverage."
+    }
+  ],
+  "rejected_iterations": [],
+  "after_evidence": {
+    "targeted_scan_result": "Page 4 shows Qwen2.5-VL has lower parser coverage followed by the unchanged 23/30, 5/14, 5/15, and zero normalized-1000 point-hit counts.",
+    "full_scan_result": "The strict after scan reports only the existing explicit human-subject wording and normal reference-column hyphenation on pages 9-10.",
+    "visual_result": "The page-4 right column remains visually stable and the accepted sentence does not introduce body-text linebreak hyphenation.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 14.35s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Results prose only. No metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "Reference pages retain normal reference-column hyphenation; the existing explicit human-subject wording remains."
+}

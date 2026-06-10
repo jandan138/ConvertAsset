@@ -1,71 +1,64 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Vision-language and embodied-language models are increasingly evaluated in
-simulated 3D environments where agents must connect text to objects,
-viewpoints, and actions. These evaluations often treat the rendered scene as a
-stable substrate. In practice, however, scene assets are frequently converted
-across material systems before they can be rendered at scale, distributed,
-exported to other viewers, or reused by downstream robotics stacks. A seemingly
-engineering-level conversion can therefore become a hidden intervention in the
-benchmark itself.
+Vision-language systems and embodied agents are increasingly tested in
+simulated 3D scenes, where they must bind language to objects, views, and
+actions. These evaluations treat the rendered scene as fixed input, yet the
+view is also the measurement interface. When scenes cross shader systems for
+large runs, sharing, viewer export, or robotics reuse, that step can become
+a hidden task factor.
 
-We study this problem in NVIDIA Isaac Sim, where photorealistic assets commonly
-use Material Definition Language (MDL) shaders while portable USD and glTF-style
-pipelines usually expect UsdPreviewSurface or PBR-like materials. Converting
-MDL materials to UsdPreviewSurface can improve interoperability, but it can also
-change color, reflectance, lighting response, or texture cues. For a
-vision-language grounding benchmark, the key question is not only whether two
-renders look similar by pixel or feature metrics, but whether a model still
-answers the same object query and points to the same target after the material
-representation changes.
+In Isaac Sim, many photorealistic assets use NVIDIA's MDL shaders (Material
+\mbox{Definition} Language). Portable USD and glTF pipelines usually expect
+UsdPreviewSurface or PBR materials. That step helps reuse, but it can also
+shift color, gloss, lighting, or texture cues. For grounding benchmarks, visual
+match is only the first question. The next question is whether a model still
+answers the same object query and points to the same object after the material
+changes.
 
-This paper treats material conversion as a controlled within-simulation
-perturbation. We ask: \emph{when synthetic-scene assets are converted for
-toolchain compatibility, what evidence is needed before using the converted
-renders or scenes for language-grounding and embodied-data claims?} The answer
-matters for embodied-language benchmarks such as
-GRScenes~\cite{Wang2024GRUtopia}, where downstream experiments may combine
-large USD scenes, object-level goals, VLM prompting, and navigation frameworks
-such as InternNav/DualVLN~\cite{Wei2026Ground}.
+We therefore ask which checks must hold as converted assets move into grounding
+and stack checks, because a single proxy score is not enough. In
+GRScenes~\cite{Wang2024GRUtopia}, runs combine large USD scenes, object goals,
+VLM prompts, and VLN routes such as \mbox{InternNav} and
+\mbox{DualVLN}~\cite{Wei2026Ground}.
 
-Our current evidence base has two layers. First, we quantify the conversion on
-four Isaac Sim furniture assets with paired visual quality, rendering
-performance, and CLIP/DINOv2 feature similarity. These measurements show that
-the conversion can preserve the dominant visual and feature-level structure of
-the tested assets, while runtime effects depend strongly on scene scale.
-Second, we build a GRScenes VLM grounding route using a read-only benchmark
-source tree, a scratch no-MDL conversion, matched original/converted renders,
-target projection, blind visual QA, and local Gemma4/Qwen2.5-VL probes.
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_acl_method_chain_imagegen_v18.png}
+\caption{Evidence-chain overview. We start from
+USD scenes with MDL materials, convert them to composition-preserving noMDL
+counterparts, compare matched renders for VLM grounding, then check selected
+official InternNav rollouts and paired metrics. This
+panel is a schematic roadmap; later render, material-effect, and navigation
+figures carry the reported measurements.}
+\label{fig:acl_method_chain}
+\end{figure*}
 
-The VLM and embodied results are intentionally separated by claim boundary. A
-15-pair clean visual-QA pool remains a pilot preservation control:
-answer-level recognition can be stable for one backend, while point grounding
-remains sensitive to the coordinate contract. A larger frozen 30-pair stress
-pool asks a different question: when the target remains visible but material,
-color, or lighting changes are apparent, does a VLM still answer and point
-consistently? Gemma4 is stable under the normalized-1000 stress protocol, while
-Qwen2.5-VL exposes a different raw-coordinate preference. Separately, a
-99-episode official KuJiaLe InternNav run checks whether converted scenes remain
-usable in a real navigation stack, without promoting the result to a broad
-embodied benchmark.
+Figure~\ref{fig:acl_method_chain} gives the schematic roadmap. The protocol has
+four checks. First, four Isaac Sim assets test visual and feature match on noMDL
+outputs. Next,
+GRScenes grounding keeps source scenes unchanged, uses scratch noMDL rewrites,
+matched renders, target boxes, blind visual QA, and local Gemma4 and
+\mbox{Qwen2.5-VL} probes. The clean pool has 15 pairs; the frozen stress pool
+has 30 pairs and tests objects across color, gloss, or light
+shifts. Third, one controlled comparison covers source MDL, noMDL, and NVIDIA
+outputs in checked bins. Fourth, an official \mbox{InternNav} 99-episode run
+tests noMDL stack entry. Together, these checks make the evaluation scope
+explicit.
 
-We make four contributions:
+We make four contributions that turn a hidden preprocessing step into an
+auditable grounding measurement protocol:
 \begin{enumerate}
-    \item We frame MDL-to-UsdPreviewSurface conversion as a measurable
-    within-simulation perturbation for VLM grounding evaluation, rather than
-    only as an asset-optimization step.
-    \item We define a claim-bounded paired grounding protocol for synthetic
-    scenes: immutable benchmark inputs, scratch conversion, matched
-    original/noMDL renders, target projection, visual QA, prompt contracts, and
-    explicit coordinate-frame scoring.
-    \item We instantiate the protocol on GRScenes with a clean preservation
-    pilot and a frozen 30-pair target-centered material-shift stress set,
-    showing that answer accuracy, point grounding, and coordinate compliance
-    can diverge across model backends.
-    \item We attach material-effect and embodied-data sanity evidence to the
-    same claim registry: a selected NVIDIA-baseline material audit, a
-    99-episode official KuJiaLe InternNav sanity run, and repeated official
-    scene load/render stability checks. These support bounded reliability
-    claims, not broad embodied-benchmark or speedup claims.
+    \item We treat material conversion as a controlled VLM-grounding
+    intervention rather than routine asset cleanup.
+    \item We specify a controlled perturbation protocol with immutable
+    inputs, scratch conversion, matched renders, projection QA, prompt
+    formats, and coordinate scoring.
+    \item We instantiate the protocol on GRScenes with a clean visual-QA
+    pilot and a frozen 30-pair target-centered stress set, showing backend
+    differences in answer, point, and coordinate checks.
+    \item We keep material and stack checks limited to an NVIDIA material audit,
+    99 KuJiaLe VLN episodes, and repeated load/render checks. These checks
+    report entry and stability only for the tested settings; broader benchmark and
+    speed comparisons remain outside this study.
 \end{enumerate}

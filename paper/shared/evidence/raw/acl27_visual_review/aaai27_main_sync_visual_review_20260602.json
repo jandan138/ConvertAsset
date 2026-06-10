@@ -1,0 +1,80 @@
+{
+  "record_id": "aaai27_main_sync_visual_review_20260602",
+  "date_utc": "2026-06-02",
+  "scope": "AAAI 2027 main-paper sync from the figure-driven ACL candidate story",
+  "template_provenance": {
+    "entry_url": "https://aaai.org/authorkit27/",
+    "redirected_zip_url": "https://aaai.org/wp-content/uploads/2026/05/AuthorKit27.zip",
+    "author_kit_sha256": "e28c6ac9bc6eb3b4e2d849547d2cefb5162610ee39d0a12e0dc62d1126b44a7d",
+    "installed_style": "paper/venues/aaai27/aaai2027.sty",
+    "installed_bst": "paper/venues/aaai27/aaai2027.bst"
+  },
+  "files": {
+    "main_tex": "paper/venues/aaai27/main.tex",
+    "preamble_tex": "paper/venues/aaai27/preamble.tex",
+    "status": "paper/venues/aaai27/STATUS.md",
+    "sections_dir": "paper/venues/aaai27/sections",
+    "output_pdf": "paper/venues/aaai27/build/main.pdf",
+    "rendered_pages": [
+      "tmp/aaai27_visual_check/page-1.png",
+      "tmp/aaai27_visual_check/page-2.png",
+      "tmp/aaai27_visual_check/page-3.png"
+    ]
+  },
+  "hashes_sha256": {
+    "aaai2027_sty": "391bce82815bf698b8e382dd3ae7e30c75d7ab46df140cb295b1266016bc8623",
+    "aaai2027_bst": "5db7765ba99de5c1e4686f9b3940a0add9c5e702f2164514462bec130ccb6e3c",
+    "output_pdf": "45befdd4648a9d524b56d4e388459822ad585152422d6081f6bff89315b53728",
+    "rendered_page_1": "94a2a3209bc0ec1cab015cf56bd0ed3491c4cac61cb89503b9f921c37cdbcfdb",
+    "rendered_page_2": "0f37d7ac6fd21f3500653a75f44e20aa0264de4c147509e3da617bbbbb259231",
+    "rendered_page_3": "b8b4a2f35bb070eb6be776f1af5681ae14c81ec82ebc05ceaa570fb206f326e1"
+  },
+  "pdf_profile": {
+    "page_count": 9,
+    "page_size": "letter",
+    "creation_date": "Wed Jun 3 00:04:59 2026 CST",
+    "file_size_bytes": 4018297
+  },
+  "pdf_render_metrics": {
+    "page_1": {
+      "size": "1275x1651",
+      "active_fraction": 0.113003,
+      "red_fraction": 0.0
+    },
+    "page_2": {
+      "size": "1275x1651",
+      "active_fraction": 0.166657,
+      "red_fraction": 0.000127
+    },
+    "page_3": {
+      "size": "1275x1651",
+      "active_fraction": 0.137113,
+      "red_fraction": 0.0
+    }
+  },
+  "local_visual_review": {
+    "skill": "render-visual-reviewer",
+    "independent_subagent": false,
+    "verdict": "PASS_WITH_FIRST_PAGE_FIGURE_NOTE",
+    "notes": "The AAAI PDF uses the official two-column letter layout and anonymous submission metadata. The first three rendered pages have no large red-material fallback artifact. Figure 1 is pushed to page 2 by the AAAI style, so a later first-page polish pass may be useful if the final AAAI page budget allows it."
+  },
+  "verification": {
+    "targeted_red": "python -m pytest -q tests/test_paper_layout.py -k \"aaai27_uses_official\" failed before implementation because the old AAAI scaffold still used the shared tool-first sections and old style expectation.",
+    "targeted_green": "python -m pytest -q tests/test_paper_layout.py -k \"aaai27_uses_official\" passed after implementation: 1 passed, 48 deselected.",
+    "template_check": "make -C paper check-template-aaai27 passed.",
+    "full_layout": "python -m pytest -q tests/test_paper_layout.py passed: 49 passed in 6.33s.",
+    "build": "make -C paper aaai27 passed and produced paper/venues/aaai27/build/main.pdf with 9 letter pages.",
+    "pdf_text_scan": "pdftotext found the new title and Anonymous Submission marker, and did not find the old title, old red-material caption tokens, fig_vlm_grounding_cases, or private local paths."
+  },
+  "remaining_items": [
+    "Run the final AAAI page-limit and supplementary-material policy pass after the target call is locked.",
+    "Flatten or package the source according to the official AuthorKit source-upload requirements before submission.",
+    "Prepare the final reproducibility checklist and AI-use disclosure once AAAI 2027 submission forms are live.",
+    "Run a full page-by-page AAAI visual/readability review, not only the first three rendered pages."
+  ],
+  "claim_boundary": {
+    "paper_use": "AAAI candidate main-paper draft",
+    "not_final_submission_package": true,
+    "notes": "This pass builds the main PDF and local AAAI story sections. It does not claim the final AAAI upload package is complete."
+  }
+}

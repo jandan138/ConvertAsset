@@ -1,46 +1,29 @@
 \section{Discussion}
 \label{sec:discussion}
 
-\paragraph{The ACL contribution is evidence discipline.}
-The main result is not that noMDL conversion is always harmless, faster, or
-better than NVIDIA's converter. The contribution is a way to make material
-conversion visible to VLM and embodied-language evaluation. Visual proxy
-metrics, VLM answers, point grounding, coordinate-frame compliance,
-material-effect risk, and embodied stack usability are different evidence
-layers. A converted scene should pass the layer relevant to the claim being
-made.
+\paragraph{Protocol diagnostics.}
+This paper contributes a measurement protocol: noMDL is a visible intervention,
+and the study reports measured effects rather than safety, speed, or quality
+ranking between ConvertAsset and NVIDIA's route. Rendered scenes are data; the
+route gives context for the tested path while tool ranking remains outside this study. The
+evaluation is component-wise: proxy similarity, VLM answers, point grounding,
+coordinate checks, material-risk bins, and stack-entry checks stay separate. One
+check can pass while a probe still sees a change.
 
-\paragraph{Model behavior is protocol-dependent.}
-The GRScenes stress result shows a useful split. Gemma4 follows the
-normalized-1000 coordinate contract on the frozen target-centered stress set,
-while Qwen2.5-VL exposes stronger raw-pixel behavior under the same prompt
-family. This does not prove that one model is generally better at grounding.
-It shows that coordinate contracts and parser coverage must be frozen and
-reported before material-conversion deltas are interpreted.
+\paragraph{Scoring format before deltas.}
+The GRScenes stress result shows why proxy similarity is not enough: a close
+image can still expose a prompt-and-coordinate mismatch. Gemma4
+follows the normalized-1000 format, while \mbox{Qwen2.5-VL} shows a raw-pixel
+preference under the same prompt family. This backend difference is a protocol
+diagnostic.
+Coordinate frames and parser coverage come first; only then can a conversion
+delta become evidence.
 
-\paragraph{Material mechanisms need explicit boundaries.}
-The material-effect audit prevents a common failure mode in conversion papers:
-counting static conversion success as visual or task success. The four
-GRScenes-covered bins support bounded selected qualitative evidence. Clearcoat
-and procedural texture do not. In particular, the clearcoat case is a selected
-NVIDIA failure case, not a population failure rate, and procedural texture is a
-limitation for both converted conditions.
-
-\paragraph{Embodied evidence remains sanity-level.}
-The 99-episode official KuJiaLe InternNav run is important because it moves the
-paper beyond image-only proxy evaluation. It shows that the converted scenes
-can enter a real official navigation pipeline and produce paired metrics.
-However, the result is still scoped to three local official scenes and one
-navigation stack. The selected rollout videos are qualitative inspection
-evidence, and the official-scene performance table supports loadability rather
-than speedup. These boundaries are necessary for an ACL/ARR submission because
-overclaiming broad embodied robustness would make the paper easier to reject.
-
-\paragraph{Practical use.}
-For synthetic data practitioners, ConvertAsset should be used as a candidate
-interoperability route followed by task-specific gates. For VLM grounding, that
-means matched original/converted renders, target projection, visual QA, frozen
-prompt and coordinate contracts, parser coverage, and paired uncertainty. For
-embodied data, it means at least smoke-gated scene opening and paired
-downstream sanity metrics before converted scenes are treated as benchmark
-equivalent.
+\paragraph{Keep the tested settings visible.}
+This audit keeps static conversion, zero-MDL output, and effect-token
+coverage separate from broad success statements. The four GRScenes bins support
+visual checks; clearcoat and texture risks remain separate limitation cases. The
+99-episode KuJiaLe run
+checks InternNav on three official scenes; it gives entry evidence for that
+setting. Portable scenes should therefore be reported with the data
+and setting that were actually tested.

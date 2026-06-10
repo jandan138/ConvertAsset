@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-06-03T04:41:16+08:00",
+  "paper": "acl27",
+  "artifact": "supplement_proxy_metric_derivation_companion",
+  "purpose": "Improve the formerly sparse proxy-metric derivation page by adding a real-render companion for paired-render, PSNR, SSIM, and feature-similarity equations, with an exposition-only AI proxy-metric lens slot.",
+  "skills": [
+    "imagegen",
+    "research-figure-ai-slot-composer",
+    "render-visual-reviewer",
+    "test-driven-development"
+  ],
+  "independent_subagent": false,
+  "claim_boundary": "The AI-generated proxy-metric lens slot is exposition only. Registered original/noMDL render pairs carry the evidence-bearing content; the companion is not a new metric, model prediction, task result, or benchmark row.",
+  "ai_generated_slot": {
+    "role": "proxy_metric_lens",
+    "repo_path": "paper/shared/figures/ai_slots/fig_supplement_proxy_metric_lens_ai_slot.png",
+    "source_path": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_07aabb017a9934c6016a1f3a74a1148190a4bdd866c5fd9d81.png",
+    "sha256": "98bd951abd44d443194a55e8612f831019cbe53b62fdf99d31a11f94ec7e4be4",
+    "size": [
+      1774,
+      887
+    ],
+    "active_fraction": 0.125175,
+    "red_fraction": 0.000841,
+    "verdict": "PASS",
+    "rationale": "The accepted slot is abstract and schematic, with no realistic scene, no material showcase, no local path, no author name, no watermark, and no red-material fallback."
+  },
+  "rejected_ai_candidates": [
+    {
+      "source_path": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_07aabb017a9934c6016a1f3a1fd924819088bd027ff26dfb39.png",
+      "verdict": "REJECT",
+      "rationale": "The first imagegen candidate contained realistic object and scene-like imagery, which could be confused with evidence-bearing renders rather than an exposition-only schematic."
+    }
+  ],
+  "standalone_figure": {
+    "figure_id": "fig_supplement_proxy_metric_derivation_companion",
+    "path": "paper/shared/figures/fig_supplement_proxy_metric_derivation_companion.png",
+    "sha256": "9bf14ffb6561d00a78aa2a982ae61d5f08c4c6235bd0bb8b6e978522300d0523",
+    "size": [
+      1800,
+      780
+    ],
+    "active_fraction": 0.260246,
+    "red_fraction": 0.000023,
+    "verdict": "PASS",
+    "rationale": "The final deterministic composition uses two registered render-pair cards plus a separated AI schematic card. Labels do not overlap, bullets are visible, and the active density passes the layout test threshold."
+  },
+  "rendered_pdf_pages": [
+    {
+      "page": 12,
+      "path": "tmp/acl_supplement_iter3_proxy_review_20260603/page-12.png",
+      "sha256": "6cd2c351b1a74e4a501856c7e54f7d44e8df07c7faca35f08fd4ffb1766bc74c",
+      "active_fraction": 0.098933,
+      "red_fraction": 0.0,
+      "before_sparse_reference_page_active_fraction": 0.0455,
+      "verdict": "PASS",
+      "rationale": "The formerly pure-formula page now includes the proxy-metric companion at the bottom while keeping the derivation text readable."
+    },
+    {
+      "page": 13,
+      "path": "tmp/acl_supplement_iter3_proxy_review_20260603/page-13.png",
+      "sha256": "d9c620f0fd6c37775c22678acd21325e7714cff9993d33bfeec6cc6b8e39e354",
+      "active_fraction": 0.152343,
+      "red_fraction": 0.0,
+      "verdict": "PASS",
+      "rationale": "The following grounding derivation companion remains on-page and readable after the proxy companion was moved back to page 12."
+    },
+    {
+      "page": 14,
+      "path": "tmp/acl_supplement_iter3_proxy_review_20260603/page-14.png",
+      "sha256": "de23a0c55955dfc2ad19bdd4cb2516d4af678fe26f0ae11cb5252f4f5c0d7d9a",
+      "active_fraction": 0.139624,
+      "red_fraction": 0.000122,
+      "verdict": "PASS",
+      "rationale": "The navigation derivation media companion remains correctly framed; the small red fraction corresponds to route markers in existing navigation evidence, not MDL fallback material."
+    }
+  ],
+  "pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "b94578d17578a3bc1d9822ea3e82e86ee1df8f9e1f3f151c9aeeb35f79dcbd54",
+    "pages": 44,
+    "bytes": 32489985,
+    "page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "text_scan": {
+    "positive_patterns_present": [
+      "Proxy metric derivation companion",
+      "AI-generated proxy-metric schematic used only for exposition",
+      "not a new metric, model prediction, or task result"
+    ],
+    "negative_patterns_absent": [
+      "Red material in these diagnostic cases",
+      "fig_vlm_grounding_cases",
+      "/cpfs/user",
+      "Zihou"
+    ]
+  },
+  "commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k \"proxy_metric_derivation_companion or derivations_have_render_companions\"",
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "make -C paper acl27-supplement",
+    "pdftoppm -r 140 -png -f 12 -l 14 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_iter3_proxy_review_20260603/page",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_proxy_metric_derivation_companion_20260603.json >/dev/null",
+    "pdftotext paper/venues/acl27/build/supplement.pdf - | positive/negative scan"
+  ]
+}

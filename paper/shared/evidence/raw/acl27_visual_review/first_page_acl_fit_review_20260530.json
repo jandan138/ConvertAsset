@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "status": "first_page_acl_fit_review",
+  "reviewed_at_utc": "2026-05-30T20:28:00Z",
+  "review_mode": "local_codex_visual_review_not_independent_subagent",
+  "current_pdf": {
+    "path": "paper/submissions/acl27_arr_candidate_20260526/main.pdf",
+    "hash_sha256": "177466b7d0cf6a557f73f792dc6f718fdae8f42663e7398a54bc2d9252cde356",
+    "pages": 11,
+    "bytes": 4066770,
+    "creation_date": "Sat May 30 20:25:01 2026 CST"
+  },
+  "rendered_pages": [
+    {
+      "page": 1,
+      "temporary_path": "/tmp/convertasset_acl27_visual_20260530_no_manual_break_final/page-01.png",
+      "hash_sha256": "811e00d49062b29a37e823b0752332e92abd13a31fb6aa69ad37474dbd1be237",
+      "size_px": [1241, 1754]
+    },
+    {
+      "page": 2,
+      "temporary_path": "/tmp/convertasset_acl27_visual_20260530_no_manual_break_final/page-02.png",
+      "hash_sha256": "980f7931c141e6ae389421da30d5196f2e96a6f28f9b1d06e3c9b1f2bab05874",
+      "size_px": [1241, 1754]
+    }
+  ],
+  "verdict": "PASS_WITH_HUMAN_ROUTE_CAVEAT",
+  "visible_evidence": [
+    "Page 1 presents the title, anonymous ACL header, abstract, and opening introduction without visible clipping, overlap, or detached text.",
+    "The title and first abstract sentences foreground vision-language grounding, embodied-data reliability, and controlled material perturbation rather than a standalone asset-conversion tool.",
+    "Page 2 keeps Figure 1 readable at page scale, including the accepted low-text v18 schematic and the exact Target: box label.",
+    "The contribution list now flows naturally after Figure 1 without a manual Introduction page break.",
+    "The four-gate paragraph and contribution list remain readable and keep the claim boundary explicit."
+  ],
+  "main_risks": [
+    "The contribution remains a bounded case-study protocol, so final human review should judge whether the ACL-family framing is persuasive enough.",
+    "Final route and OpenReview author fields remain human-only blockers."
+  ],
+  "imagegen_decision": "No new imagegen iteration was run because the accepted v18 Figure 1 still passes this first-page visual-fit check.",
+  "claim_boundary": {
+    "may_support": "first-page ACL fit for a claim-bounded VLM grounding and embodied-data reliability paper",
+    "must_not_support": [
+      "broad embodied robustness",
+      "universal material conversion fidelity",
+      "NVIDIA population-level failure rate",
+      "speedup claim"
+    ]
+  }
+}

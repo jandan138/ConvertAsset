@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-05-28",
+  "review_type": "local_pure_visual_full_pdf_review",
+  "note": "Reviewed locally with the render-visual-reviewer rubric. No delegated subagent was used because this turn did not explicitly authorize multi-agent delegation.",
+  "artifact": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "staged_path": "paper/submissions/acl27_arr_candidate_20260526/main.pdf",
+    "sha256_after_clean_preupload_gate": "30b248b970aa586ce83f0c0f011d1576eee0af24b0eef6859124021bdc3b7e34",
+    "size_bytes": 3010470,
+    "page_count": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "pdf_version": "1.5"
+  },
+  "rendered_pages": {
+    "dpi": 150,
+    "path_root": "tmp/acl27_v16_visual_20260528",
+    "contact_sheet_sha256": "57e1216dd95bac47c87f18c46b35c419d91da864c4474f00aac57133c712024e",
+    "page_sha256": {
+      "page_01": "66b8c6a0a123f73ac099a82de7b97b198aa644e06e765051ede820f722a8487e",
+      "page_02": "9f38319fed9ecf3ce694b896341602804300388bf5003a376c0e6c3a5562e000",
+      "page_03": "3705f30ccfc1b1ab706ec98f6382194af34fd7cbe25dc37cdbcc2b2d6e5c4bae",
+      "page_04": "8d26161a9ea8126fe128968d809415bd81586b9913c7ea32e974f58426d63518",
+      "page_05": "3107bb79f5c320fbf8bea7373ad39955ca744262b4fb43fffb84916a947fcb1d",
+      "page_06": "bf1711848cb3dd017a21c19d27bef70c107656228890260b84dfb65a0c50066c",
+      "page_07": "03393f12daa73356fa0aef25017e2e966e0e5cf202b6243a892b132728d4a4e8",
+      "page_08": "2b3032a73d1021c7480d63d2f563138f8e56f4fda1b6078a9895e653028c6c55",
+      "page_09": "b6c6555f7b4e445b13b2a431b806b70d729c4018c561b8123b4e56986c635c18",
+      "page_10": "9bcb054927a99fae629b99eaa3cd8a1cf9c2f3c4b1a5523e553966c8cf0dbdcf",
+      "page_11": "af4d9a1748a14c6cf973e8938ea760602ff67933841234cf1d1c58977daae33d"
+    }
+  },
+  "verdict": "PASS_WITH_MINOR_QUALITATIVE_CAVEATS",
+  "visible_evidence": [
+    "Page 1 fits the title, anonymous author line, abstract, and opening introduction without overlap.",
+    "Page 2 Figure 1 v16 is readable at page scale, removes the v15 footer and most microtext, keeps the four-stage schematic labels clear, and remains captioned as a schematic roadmap rather than empirical evidence.",
+    "Page 3 Method opening now keeps the non-flattening/source-read-only conversion statement in a complete paragraph with no dangling half-sentence.",
+    "Page 4 Method now explicitly describes ConvertAsset as a core-channel PreviewSurface approximation and states that static material-effect gates do not by themselves certify material-effect fidelity; the added text fits without overlap.",
+    "Page 6 Figure 2 uses real cropped render evidence with a widened proxy-detail row, and fits with Table 2 and body text without overlap; in-figure labels remain auxiliary while the caption carries the claim boundary.",
+    "Page 7 tables fit within the page and do not overlap each other.",
+    "Page 8 no longer has stretched Discussion paragraph spacing after the ragged-bottom layout fix; the tightened Discussion text now warns against counting static conversion success, zero-MDL outputs, or effect-token coverage as visual or task success.",
+    "Page 9 Figure 3 is the selected InternNav rollout panel with purple/green navigation overlays, not a red material fallback or the material-effect contact sheet; its caption now uses Selected rather than Supplemental wording and remains attached to the image in the same single-column block.",
+    "Pages 10 and 11 contain References without obvious clipping or overflow.",
+    "Current 150-DPI contact-sheet re-render after the material-effect claim-boundary tightening shows no page-level overlap, blank page, detached caption, or reintroduced material-effect Figure 3."
+  ],
+  "risks": [
+    "Figure 2 top row is a cropped proxy detail view, not an uncropped full-object view; the sublabel and caption disclose that boundary.",
+    "The final upload remains blocked by human route, OpenReview form-copy, runtime/AI/media, and final upload-decision gates."
+  ],
+  "layout_fix": {
+    "file": "paper/venues/acl27/preamble.tex",
+    "change": "Added \\\\raggedbottom to prevent bottom-alignment from stretching the short Discussion/Conclusion page.",
+    "guard": "tests/test_paper_layout.py::test_acl_uses_raggedbottom_to_avoid_stretched_discussion_page"
+  },
+  "figure3_layout_fix": {
+    "file": "paper/venues/acl27/sections/limitations.tex",
+    "change": "Wrapped the single-column InternNav image and caption in a \\\\columnwidth minipage so the two-column layout cannot split the caption away from the image.",
+    "guard": "tests/test_internnav_rollout_figure.py::test_acl_limitations_uses_single_column_internnav_panel",
+    "rendered_page_9_png_sha256_180dpi": "d1f855fe8be5a85d2f3bfb47cd04b1403ac9b9c43c0381472d4b72b98ebd110e",
+    "strong_red_pixels": 0
+  },
+  "figure1_imagegen_iteration": {
+    "promoted_file": "paper/shared/figures/fig_acl_method_chain_imagegen_v16.png",
+    "candidate_file": "paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v16_candidate.png",
+    "prompt_file": "paper/shared/figures/prompts/fig_acl_method_chain_gpt_image2_v16.prompt.txt",
+    "image_sha256": "3859ea26536da733c0a2a57937661566e4a1291d1909886f18829ef35af392d3",
+    "prompt_sha256": "218f23ab1b063584508a4536a7ec666f1d52988ca89da666786f356050db9d08",
+    "rendered_page_2_png_sha256_150dpi": "9f38319fed9ecf3ce694b896341602804300388bf5003a376c0e6c3a5562e000",
+    "rendered_page_2_png_sha256_180dpi": "39db4d6724b7f38e9e43a64e64b94f773db732452d3f616c51cdb6f76d47f24f",
+    "verdict": "PASS_FOR_SCHEMATIC_USE"
+  },
+  "material_effect_claim_boundary_iteration": {
+    "files": [
+      "paper/venues/acl27/sections/method.tex",
+      "paper/venues/acl27/sections/results.tex",
+      "paper/venues/acl27/sections/discussion.tex"
+    ],
+    "guard": "tests/test_acl_claim_boundaries.py::test_acl_material_effect_static_gates_do_not_imply_effect_preservation",
+    "rendered_contact_sheet_sha256": "0c2d1c2a9893ba19deb076feef4bb559e4f64f0fb207775ffd9dfa380f5798ea",
+    "verdict": "PASS_FOR_LAYOUT_AND_CLAIM_BOUNDARY"
+  },
+  "abstract_boundary_iteration": {
+    "files": [
+      "paper/venues/acl27/sections/abstract.tex",
+      "paper/venues/acl27/OPENREVIEW_METADATA_PACKET.md",
+      "tests/test_acl_metadata_consistency.py"
+    ],
+    "change": "Tightened the abstract from the broader phrase 'proxy fidelity does not determine grounding behavior' to 'proxy fidelity alone is insufficient for downstream grounding claims'.",
+    "abstract_word_count": 181,
+    "rendered_contact_sheet_sha256": "f176fe5bab9af02a36e6296ff2a393ee694a8cad92ac390c1eb13379b17b21bd",
+    "verdict": "PASS_FOR_FIRST_PAGE_AND_LAYOUT"
+  },
+  "verification": {
+    "preupload_gate": {
+      "command": "python paper/venues/acl27/scripts/run_preupload_gate.py",
+      "ok": true,
+      "focused_pytest": "86 passed in 3.21s"
+    },
+    "goal_completion_status": "candidate_ready_human_blocked"
+  },
+  "figure2_readability_iteration": {
+    "files": [
+      "paper/shared/figures/gen_render_scene_evidence_wide.py",
+      "paper/shared/figures/fig_render_scene_evidence_wide.png",
+      "paper/shared/figures/fig_render_scene_evidence_wide.pdf",
+      "tests/test_render_scene_evidence_figure.py"
+    ],
+    "change": "Expanded the real-render proxy object cells to the same near-full text width as the GRScenes scene cells, increased the proxy row height, and regenerated Figure 2 without changing source render evidence.",
+    "figure_png_sha256": "899b32fa5a7d10cf329392e2d65839ebe2138d3c8af07f76b30f0a9a00e6a783",
+    "figure_pdf_sha256": "19c0a08303e9a31e77f30fa85ca318e2bc5fe7c99ea74b6d5ce2edf67637703b",
+    "rendered_page_6_png_sha256_150dpi": "bf1711848cb3dd017a21c19d27bef70c107656228890260b84dfb65a0c50066c",
+    "guard": "tests/test_render_scene_evidence_figure.py::test_proxy_object_row_uses_near_full_text_width_for_pdf_readability",
+    "verdict": "PASS_FOR_PAGE_SCALE_REAL_RENDER_EVIDENCE_ORIENTATION"
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "round": 40,
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "target_pdf": "paper/venues/acl27/build/main.pdf",
+  "target_area": {
+    "pages": [
+      9,
+      10
+    ],
+    "source": "paper/venues/acl27/sections/discussion.tex",
+    "lines_after_change": "12-18",
+    "description": "Discussion paragraph 'Contracts before deltas' and adjacent limitations/conclusion flow"
+  },
+  "change_summary": [
+    "Reframed the GRScenes stress result as the clearest warning that proxy similarity is not enough.",
+    "Added a close-image/scoring-contract contrast to make the paragraph read like a discussion takeaway rather than a table recap.",
+    "Changed 'contract finding' to 'contract evidence' while preserving the boundary against model ranking.",
+    "Kept coordinate frames and parser coverage as frozen prerequisites so the page 9 flow remains stable."
+  ],
+  "visual_review": {
+    "before_render_dir": "tmp/acl_main_visual_iter_20260606_round40_current",
+    "after_render_dir": "tmp/acl_main_visual_iter_20260606_round40_after",
+    "before_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round40_current/contact_sheet.png",
+      "sha256": "0c8f55e5bf1a0e091d84f35c6a42c3ec77f42613cc69d452c0f35a6bb09a22f4"
+    },
+    "before_full_text": {
+      "path": "tmp/acl_main_visual_iter_20260606_round40_current/full.txt",
+      "sha256": "7fe92699d556a35503b3e8e7d2a8e7017d11c0d4591763fd844e34ec74e159c0"
+    },
+    "before_page9": {
+      "path": "tmp/acl_main_visual_iter_20260606_round40_current/page9.txt",
+      "sha256": "558f3243d5c356845e96bcba58dcd3d3c19562f230bb76e43a04c85548bc6da5"
+    },
+    "before_focus_pages": {
+      "path": "tmp/acl_main_visual_iter_20260606_round40_current/focus_p9_p10.png",
+      "sha256": "7afb685d13f2f987941680ef66c15aa875d76593ca7cec766d84c7d69ac1c377",
+      "pages": [
+        9,
+        10
+      ]
+    },
+    "after_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round40_after/contact_sheet.png",
+      "sha256": "20c809df8f49ba61a4aa658f56749a290f36811c17694556cbd563ff1a6f4556"
+    },
+    "after_full_text": {
+      "path": "tmp/acl_main_visual_iter_20260606_round40_after/full.txt",
+      "sha256": "dcf758f8040f2270205adcf916fdd731b9fbb5ef3cef2bab3fe0467369a1e581"
+    },
+    "after_page9": {
+      "path": "tmp/acl_main_visual_iter_20260606_round40_after/page9.txt",
+      "sha256": "dfcf772722068fa62ee4c2a5071e5fe2ab35a6ef40a6c95ed36567ccf2d87403"
+    },
+    "focus_before_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round40_after/focus_before_after_p9.png",
+      "sha256": "22a88c6d58ac75d4c3f80a2def13a9cf24abbce64a35e6cbf920a3cfec03b8a2",
+      "pages": [
+        9
+      ]
+    },
+    "focus_pages_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round40_after/focus_p9_p10_after.png",
+      "sha256": "5c36708f1682d1ae39772da14d1e11098ee87cb7814547de5a931624f50e8ca2",
+      "pages": [
+        9,
+        10
+      ]
+    },
+    "observations": [
+      "Before: page 9 Contracts paragraph rendered 'proxy-similar ren-' followed by 'ders' and 'contract find-' followed by 'ing'.",
+      "After: the accepted wording removes those old splits and frames the stress result as a warning about proxy similarity and scoring contracts.",
+      "After: 'Limitations' remains at the top of the right column, and 'Conclusion' remains in the lower left column.",
+      "After: Figure 4, Ethical Considerations, and References remain on page 10 with stable structure.",
+      "Rejected: a Related Work opening rewrite reduced some old page 3 splits but introduced worse breaks and was restored.",
+      "Rejected: a shorter Discussion version moved the Limitations heading to the bottom of page 9 left column, so the accepted version restores the longer frozen-coordinate prerequisite sentence."
+    ]
+  },
+  "pdf_identity": {
+    "before_sha256": "b1487fc02e01915254908d2fc368882089526843e27f563c5aab1501efa0c562",
+    "after_sha256": "8cf186677adc81c1f48bc8ecbdd2302154a8b7c4e03634775b7471e25e36d364",
+    "after_pdfinfo": {
+      "creation_date": "Sat Jun 6 17:12:34 2026 CST",
+      "mod_date": "Sat Jun 6 17:12:34 2026 CST",
+      "pages": 11,
+      "page_size": "595.276 x 841.89 pts (A4)",
+      "file_size_bytes": 5188357,
+      "pdf_version": "1.5"
+    }
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "pass",
+      "evidence": "Exit 0; acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "pass",
+      "evidence": "No matches."
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "pass",
+      "evidence": "102 passed in 15.06s."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "pass",
+      "evidence": "ok=true; no violations or unsafe figure violations."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "pass",
+      "evidence": "ok=true; abstract word count 169."
+    }
+  ],
+  "docs_record": "docs/records/2026-06-06-acl-main-discussion-contract-evidence-polish.md"
+}

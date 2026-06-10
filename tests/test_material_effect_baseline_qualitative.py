@@ -301,6 +301,32 @@ def test_contact_sheet_writes_three_condition_panel_for_ready_cases(tmp_path: Pa
         assert image.width > image.height
 
 
+def test_contact_sheet_uses_pdf_readable_row_headers_instead_of_tiny_footers(tmp_path: Path) -> None:
+    module = load_module(FIGURE_SCRIPT, "material_effect_qualitative_figure_pdf_readable")
+    effect_manifest, baseline_manifest, stress_manifest, _, _ = make_synthetic_inputs(tmp_path)
+    output_root = tmp_path / "qualitative_renders"
+    write_image(output_root / "scene_a/target_1/zoom_016/nvidia/nvidia_0000.png", (40, 40, 220))
+    manifest_module = load_module(MANIFEST_SCRIPT, "material_effect_qualitative_manifest_for_pdf_readable_figure")
+    manifest = manifest_module.build_qualitative_render_manifest(
+        effect_manifest,
+        baseline_manifest,
+        stress_manifest,
+        output_root=output_root,
+        max_cases=4,
+    )
+
+    report = module.build_material_effect_contact_sheet(
+        manifest,
+        output_path=tmp_path / "figures/qualitative.png",
+    )
+
+    layout = report["summary"]["layout"]
+    assert layout["caption_h"] == 0
+    assert layout["case_label_font_size"] >= 16
+    assert layout["condition_label_font_size"] >= 18
+    assert layout["header_h"] >= 40
+
+
 def test_qualitative_nvidia_runner_skips_existing_outputs(tmp_path: Path) -> None:
     manifest_module = load_module(MANIFEST_SCRIPT, "material_effect_qualitative_manifest_for_runner")
     runner_module = load_module(RUNNER_SCRIPT, "material_effect_qualitative_runner")

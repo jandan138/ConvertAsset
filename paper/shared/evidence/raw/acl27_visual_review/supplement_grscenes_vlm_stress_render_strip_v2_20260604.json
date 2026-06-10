@@ -1,0 +1,87 @@
+{
+  "review_id": "supplement_grscenes_vlm_stress_render_strip_v2_20260604",
+  "date": "2026-06-04",
+  "target_pdf": "paper/venues/acl27/build/supplement.pdf",
+  "target_page": 21,
+  "figure_id": "fig_supplement_grscenes_vlm_stress_render_strip",
+  "change_summary": "Rebuilt the GRScenes VLM stress render strip as a 1500x1680 page-shaped board so the registered target-view render cards occupy the single-figure page instead of appearing as a short horizontal strip.",
+  "standalone_figure": {
+    "path": "paper/shared/figures/fig_supplement_grscenes_vlm_stress_render_strip.png",
+    "sha256": "f582ab6de7eea1358303448b829c4a2c7ea6ddd276f93eb1785ae2f20234f098",
+    "size_px": [1500, 1680],
+    "active238_fraction": 0.66478373,
+    "active245_fraction": 0.670627381,
+    "red_pixel_fraction": 0.00000873,
+    "previous_active238_fraction": 0.383019726,
+    "previous_active245_fraction": 0.390517311,
+    "delta_active238_fraction": 0.281764004
+  },
+  "pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "7892c1bb75e6e43b512cf57f994e0f018468e5ace1f648ef1f46c1feb4cfe03b",
+    "pages": 45,
+    "page_size": "A4"
+  },
+  "page_renders": [
+    {
+      "page": 20,
+      "dpi": 144,
+      "path": "tmp/acl_supplement_page21_grscenes_stress_v2_final_20260604/page-20.png",
+      "sha256": "dc2dc75321472be7023408724a52eda0315125c9a145e142d2a46eba4b4f1135",
+      "size_px": [1191, 1684],
+      "active238_fraction": 0.222219895,
+      "active245_fraction": 0.223455409,
+      "red_pixel_fraction": 0.0
+    },
+    {
+      "page": 21,
+      "dpi": 144,
+      "path": "tmp/acl_supplement_page21_grscenes_stress_v2_final_20260604/page-21.png",
+      "sha256": "26427e2d3d62e0a4a31d071be66ec7af0bba4cab6562280af55334f935ba3b45",
+      "size_px": [1191, 1684],
+      "active238_fraction": 0.318754973,
+      "active245_fraction": 0.322045188,
+      "red_pixel_fraction": 0.000000499
+    },
+    {
+      "page": 22,
+      "dpi": 144,
+      "path": "tmp/acl_supplement_page21_grscenes_stress_v2_final_20260604/page-22.png",
+      "sha256": "afa8f5663b9956b04bb1079de4a0603fc6a205b33f896359d7d098dd06403abf",
+      "size_px": [1191, 1684],
+      "active238_fraction": 0.145368271,
+      "active245_fraction": 0.150918109,
+      "red_pixel_fraction": 0.003173544
+    },
+    {
+      "page": 21,
+      "dpi": 90,
+      "path": "tmp/acl_supplement_page21_grscenes_stress_v2_final_90dpi_20260604/page-21.png",
+      "sha256": "883348450531c775c370e908a7afd3b21fdb4c092916f2db2fb75847e5ba7b63",
+      "size_px": [745, 1053],
+      "active238_fraction": 0.324737885,
+      "active245_fraction": 0.328461347,
+      "red_pixel_fraction": 0.0,
+      "previous_round20_active245_fraction": 0.147615315,
+      "delta_from_round20_active245_fraction": 0.180846032
+    }
+  ],
+  "visual_review": {
+    "independent_subagent_review": false,
+    "reviewer": "local Codex visual review using render-visual-reviewer protocol",
+    "verdict": "PASS",
+    "evidence": [
+      "Page 21 now uses the page-shaped board and the four registered render-pair cards are large and unclipped.",
+      "The process gate and claim boundary remain visible, and the caption does not collide with the figure or page number.",
+      "Page 22 still starts with the failure-taxonomy table, so the page-shaped figure did not disturb the GRScenes section flow."
+    ],
+    "risk": "The AI scoring-gate slot remains exposition only; the evidence-bearing content is the registered render pairs and table-linked source artifacts."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'grscenes_vlm_stress_render_strip_is_registered_and_dense'",
+    "latexmk -g -cd -pdf -outdir=build -interaction=nonstopmode -halt-on-error supplement.tex",
+    "pdftoppm -f 20 -l 22 -png -r 144 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page21_grscenes_stress_v2_final_20260604/page",
+    "pdftoppm -f 21 -l 21 -png -r 90 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page21_grscenes_stress_v2_final_90dpi_20260604/page",
+    "pdftotext -f 20 -l 22 paper/venues/acl27/build/supplement.pdf -"
+  ]
+}

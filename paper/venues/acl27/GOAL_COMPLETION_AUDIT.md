@@ -1,6 +1,6 @@
 # ACL/ARR Goal Completion Audit
 
-Checked: 2026-05-26.
+Checked: 2026-05-30.
 
 This audit maps the active ACL/ARR paper goal to concrete repository evidence.
 It is a goal-status record, not a new experiment and not a final submission
@@ -23,6 +23,13 @@ the checklist into the official OpenReview form, confirm compute/runtime and
 media/legal boundaries, and run a final full integrity pass after any last paper
 edits.
 
+2026-05-30 status sync: the goal remains active and not final-complete. The
+current repository state now includes the 2026-05-30 target-policy refresh,
+reviewer-risk refresh, full-PDF visual recheck, first-page ACL-fit recheck, and
+Figure 3 red-material recheck. These strengthen candidate readiness; they do
+not clear the human-only route, OpenReview form-copy, author/runtime/AI/media,
+or final-upload blockers.
+
 Latest refresh: after the OpenReview author-gate worksheet, first-page
 ACL-fit hardening, consolidated pre-upload runner, evidence-number checker,
 evidence-gate table, citation-inventory checker, final-integrity source
@@ -43,10 +50,11 @@ checks. The focused pytest step now passes 53 tests after adding the
 citation-inventory, private author-gate, target-policy, final-integrity
 fingerprint, OpenReview checklist, final blocker-report, final blocker
 clearance, private author-gate semantic, final blocker handoff-detail, and
-OpenReview upload runbook tests, packet-checksum tests, and author-gate
-initializer handoff checks, the
-refreshed abstract is 189 words by the conservative tokenizer, the clean ACL
-build produces a 12-page A4 PDF, and the staged packet still contains only the
+OpenReview upload runbook tests, packet-checksum tests, author-gate initializer
+handoff checks, figure-driven evidence panels, and the cleaner method-chain
+imagegen v3 figure, the refreshed abstract is 183 words by the conservative
+tokenizer, the current local clean ACL build produces a 12-page A4 PDF within
+the repository candidate cap, and the staged packet still contains only the
 safe five-file boundary with an adjacent checksum sidecar outside the packet.
 
 Evidence-gate table refresh: the ACL method now includes
@@ -89,14 +97,15 @@ target policy, and final-integrity fingerprint; its remaining requirement is
 | Avoid unsupported broad embodied-benchmark, speedup, and NVIDIA official-scene claims. | `CLAIM_AUDIT.md`, `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, and the current ACL sections. | Satisfied for the current candidate draft; re-check after any edits. |
 | Make all major paper claims traceable to existing evidence. | `CLAIM_AUDIT.md`, Table `tab:acl_evidence_gate_registry`, `paper/shared/evidence/claims.yaml`, GRScenes, material-effect, InternNav, and official-scene evidence manifests. | Satisfied at candidate level. |
 | Expand ACL/VLM-related framing rather than presenting only a simulation-tool paper. | ACL-local `related`, `method`, `results`, and `discussion` sections cite VLM grounding, embodied AI environments, domain randomization, and vision-language navigation sources. | Satisfied at candidate level. |
+| Keep first-page reviewer fit current after figure/policy refreshes. | `FIRST_PAGE_ACL_FIT_AUDIT.md` and `paper/shared/evidence/raw/acl27_visual_review/first_page_acl_fit_review_20260530.json`; page 1 and page 2 were rendered at 180 DPI and reviewed locally. | Satisfied at candidate level; final human route/fit read still required before upload. |
 | Check citation and artifact provenance for the current ACL wrapper. | `CITATION_PROVENANCE_AUDIT.md`, `FINAL_INTEGRITY_DELTA_AUDIT.md`, `FINAL_INTEGRITY_SOURCE_FINGERPRINT.json`, `paper/shared/evidence/references/verification_report.md`, `MODEL_AND_ASSET_LICENSE_AUDIT.md`, `ARTIFACT_PROVENANCE_DRAFT.md`, `paper/shared/references.bib`, `scripts/check_citation_inventory.py`, `scripts/check_integrity_fingerprint.py`, and `scripts/check_evidence_numbers.py`. | Current 20-reference web-trail existence audit, current-source citation-context/data/originality-smoke delta, automated citation-inventory drift check, automated final-integrity source freshness check, and automated evidence-number check are complete; rerun after any manuscript, bibliography, target, evidence, OpenReview-copy, or packet change. |
 | Keep OpenReview checklist copy source complete. | `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md`, `scripts/check_openreview_checklist.py`, and `tests/test_acl_openreview_checklist.py`. | Current copy source covers the expected 17 ARR checklist questions, official policy inputs, current PDF anchors, no placeholder text, no bare yes/no/N/A answers, and anonymous-review AI-assistance wording. Final copy into OpenReview remains human-gated. |
-| Produce a clean ACL-format PDF. | Latest consolidated gate ran `make -C paper clean-acl27 acl27`; `pdfinfo` reported 12 pages, A4 page size, PDF 1.5, and 306187 bytes, and the PDF profile guard now enforces that candidate shape. | Satisfied for the current candidate build; rerun immediately before upload. |
+| Produce a clean ACL-format PDF. | Latest consolidated candidate after the v18 imagegen/visual-review promotion, material-effect covered-bin clean rerender/provenance pass, material-effect main-panel promotion, OpenReview page-anchor sync, Table 6 overfull fix, two-column and top-float `pdftotext` guard updates, intro evidence-gate polish, Figure 2 visual-first readability polish, Figure 3 readable-label polish, Table 6 caption compacting, Figure 4 wide InternNav panel upgrade, Figure 4 label-readability polish, page-9 Limitations tail polish, page-7 official-scene hyphenation polish, Figure 1 v17 rejected-candidate audit, the abstract point-hit direction clarity update, the Figure 1 caption polish, the 2026-05-30 Fig.3 provenance-caption hardening, conclusion evidence-gate takeaway polish, manual Introduction page-break removal, InternNav/InteriorAgent scope wording polish, and Clean-pool Table 2 readability polish has an 11-page A4 PDF 1.5 staged artifact of 4,087,616 bytes. The build and staged PDFs are identical with SHA-256 `d03af3b4554951ccb51c3a224a8fbbd12fb517180dd36bad5672f0fb07006793`. The material-effect qualitative contact sheet is now main-paper Figure 3 on page 8, with log-checked clean original-MDL provenance, readable row-level target/effect labels, and zero strong-red pixels in source/PDF spot checks; Table 5 remains the governing claim-boundary artifact. Figure 1 now uses v18 after rejecting v17 for wrong in-image text, Figure 2 remains real render evidence with a larger visual-first layout, Table 2 now renders without resizebox compression, Table 6 remains aggregate-only with a compact NVIDIA-omission caption and clean page-7 continuation, and Figure 4 is the wide three-case selected official InternNav path panel on the Limitations page. Targeted page-6 and page-9 visual reviews pass for the dense evidence/table pages; Figure 4, Limitations, and Ethical Considerations are readable and non-overlapping. The material-effect and InternNav qualitative figures remain selected evidence only. | Candidate PDF pass; final upload still depends on human OpenReview/route approvals. |
 | Prepare a minimal anonymous submission packet. | Latest consolidated gate regenerated `paper/submissions/acl27_arr_candidate_20260526/` with exactly `main.pdf`, OpenReview metadata/checklist copy sources, `supplemental/README.md`, and `supplemental/manifest.json`, wrote the adjacent local checksum sidecar `paper/submissions/acl27_arr_candidate_20260526.sha256`, then passed packet-inventory, checksum, private-token, and acknowledgment scans. | Candidate staging smoke pass. |
 | Keep optional media and raw assets out of the safe upload boundary. | `FINAL_SUBMISSION_PACKET_CHECKLIST.md`, `MODEL_AND_ASSET_LICENSE_AUDIT.md`, and staging manifest exclude raw scenes, scratch USD, InternNav raw frames/logs/LMDBs, local checkpoints, and selected videos. | Satisfied for the safe packet; any future media inclusion is a separate author/legal decision. |
 | Keep human-only OpenReview fields out of the anonymous packet. | `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md` is a tracked blank template; filled local copies match `.gitignore` and are excluded from the staged packet. `scripts/check_author_gate.py` validates the filled private copy without printing private values. `scripts/report_final_blockers.py` reports missing/incomplete human gates with `human_blocker_details` field names and copy-source files, but without private values. | Satisfied for the current repository and candidate packet; final author copy remains private/human-gated and must pass the checker after authors fill it. |
 | Keep target-policy notes candidate-safe. | `TARGET_CALL_POLICY_AUDIT.md`, `TARGET_LOCK_OPENREVIEW_REHEARSAL.md`, `scripts/check_target_policy.py`, and `tests/test_acl_target_policy.py`. | Satisfied for current notes: EACL 2027 via ARR is recorded as the public route, Annual ACL 2027 is not marked final-ready, and official policy URLs/key route markers are present. |
-| Keep goal-completion status machine-readable. | `scripts/report_goal_completion.py`, `tests/test_acl_goal_completion_report.py`, and `scripts/run_preupload_gate.py`. | Current JSON report separates static repo readiness from final upload completion: repo static checks pass, but the final goal remains incomplete because human blockers and a fresh exact-state pre-upload gate remain. |
+| Keep goal-completion status machine-readable. | `scripts/report_goal_completion.py`, `tests/test_acl_goal_completion_report.py`, and `scripts/run_preupload_gate.py`. | Current JSON report separates static repo readiness from final upload completion: repo static checks pass, but the final goal remains incomplete because human route, OpenReview form-copy, runtime/AI/media, and final-upload approvals remain. |
 | Verify final ACL-family venue policy. | `TARGET_CALL_POLICY_AUDIT.md` and `TARGET_LOCK_OPENREVIEW_REHEARSAL.md`; EACL 2027 official pages and ARR dates are public, while Annual ACL 2027 official CFP/author kit is not available in checked official sources. | Not final-complete. Requires author target decision, OpenReview author/profile/reviewer-registration readiness, and final call check. |
 
 ## Evidence That Can Be Written
@@ -125,7 +134,8 @@ The current paper can defensibly say:
 Do not claim:
 
 - completed broad embodied-navigation benchmarking;
-- all-GRScenes, all-InteriorNav, R2R, MP3D, or manipulation robustness;
+- all GRScenes, all InternNav or InteriorAgent settings, R2R, MP3D, or
+  manipulation robustness;
 - official-scene noMDL speedup;
 - NVIDIA official-scene performance comparison;
 - population-level NVIDIA failure rate from selected clearcoat cases;
@@ -142,9 +152,11 @@ Do not claim:
    `OPENREVIEW_AUTHOR_GATE_WORKSHEET.md`; copy
    `OPENREVIEW_METADATA_PACKET.md` and
    `OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md` into the official form after the
-   final target and PDF are locked; confirm author list/order, OpenReview
-   profiles, reviewer-registration commitment, dual-submission/resubmission
-   status, and preprint status.
+   final target and PDF are locked. The ignored private worksheet now records
+   the current sole-author and OpenReview-profile confirmation rows, but still
+   needs reviewer-registration commitment, dual-submission/resubmission status,
+   preprint/public-link decisions, form-copy approvals, optional-media choice,
+   and final upload decision.
 3. **Author/runtime confirmation**: confirm checked compute/runtime details and
    AI-assistance disclosure wording before upload.
 4. **Media/legal decision**: keep InteriorAgent / KuJiaLe scene-derived videos

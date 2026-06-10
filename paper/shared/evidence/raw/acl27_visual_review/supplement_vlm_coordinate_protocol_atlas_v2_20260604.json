@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_vlm_coordinate_protocol_atlas_v2_20260604",
+  "date_utc": "2026-06-04",
+  "target": "ACL27 supplement page 16 VLM coordinate protocol atlas v2",
+  "independent_subagent_review": false,
+  "reason_independent_review_not_used": "Subagent spawning is restricted to explicit user requests in this environment; review followed the render-visual-reviewer checklist locally.",
+  "inputs": {
+    "standalone_figure": "paper/shared/figures/fig_supplement_vlm_coordinate_protocol_atlas.png",
+    "source_ai_slot": "paper/shared/figures/ai_slots/fig_supplement_vlm_protocol_route_v2_ai_slot.png",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_04ca6e01564c4703016a20c0bf25708190804b48526636c264.png",
+    "superseded_generated_images": [
+      {
+        "path": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_04ca6e01564c4703016a20bfcea90881909807f1d66901ce3c.png",
+        "reason": "Superseded because the local slot active238 measurement was 0.189559937, below the 0.20 target for this p16 pass."
+      }
+    ],
+    "generator": "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_vlm_coordinate_protocol_atlas.yaml",
+    "source_section": "paper/venues/acl27/sections/supplement/02_vlm_protocol.tex",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_review_pages_144dpi": [
+      "tmp/acl_supplement_page16_vlm_coordinate_protocol_atlas_v2_final_20260604/page-15.png",
+      "tmp/acl_supplement_page16_vlm_coordinate_protocol_atlas_v2_final_20260604/page-16.png",
+      "tmp/acl_supplement_page16_vlm_coordinate_protocol_atlas_v2_final_20260604/page-17.png"
+    ],
+    "pdf_review_page_90dpi": "tmp/acl_supplement_page16_vlm_coordinate_protocol_atlas_v2_final_90dpi_20260604/page-16.png"
+  },
+  "hashes": {
+    "source_ai_slot_sha256": "d094279a4efb87ea9d6b5271a3e8a554212731af735d270afa60dd42ca84762c",
+    "standalone_figure_sha256": "ffee4d8619002b10252da63b60591ad9747849c9205f0730349432b35f94769e",
+    "pdf_sha256": "f51a5d6518d855234c38b513ba0427d0466b6b45aee80cfd7986c04b9e3e35eb",
+    "page16_render_90dpi_sha256": "513899fbe188ac062abd85e63656efd1482f7252575f173c511afd5160dd3b75",
+    "page15_render_144dpi_sha256": "3d68e1f04ede99209698020d58090e925affa44127bf0877d2e486ee68b506c4",
+    "page16_render_144dpi_sha256": "9e670f0d686fe4396edd5165fd461a79b065d115d2a0444e09bf9a00668eb2ef",
+    "page17_render_144dpi_sha256": "c8a44aa317ea47dd58d96359b81011672c42247254d84c53b91fc482c56eaf09"
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks.",
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, matching the sparse-page density audit.",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90."
+  },
+  "metrics": {
+    "source_ai_slot_size_px": [
+      1536,
+      1024
+    ],
+    "source_ai_slot_layout_guard_active238": 0.247330983,
+    "source_ai_slot_layout_guard_active245": 0.259911855,
+    "source_ai_slot_red_pixel_fraction": 0.000995636,
+    "standalone_previous_size_px": [
+      1800,
+      1560
+    ],
+    "standalone_current_size_px": [
+      1800,
+      1840
+    ],
+    "standalone_previous_layout_guard_active238": 0.356385328,
+    "standalone_previous_layout_guard_active245": 0.358988604,
+    "standalone_current_layout_guard_active238": 0.389181159,
+    "standalone_current_layout_guard_active245": 0.393325483,
+    "standalone_current_red_pixel_fraction": 0.000003925,
+    "previous_round30_page16_active245_90dpi": 0.166217327,
+    "current_page16_active245_90dpi": 0.211681549,
+    "page16_active245_delta": 0.045464222,
+    "current_page15_active245_144dpi": 0.160508545,
+    "current_page16_active245_144dpi": 0.195314822,
+    "current_page17_active245_144dpi": 0.188559884,
+    "pdf_page_count": 45
+  },
+  "layout_iterations": [
+    {
+      "attempt": "1800 x 1840 standalone with 0.76 textheight include",
+      "result": "Accepted: supplement stayed at 45 pages, page 16 active245 increased over the round30 sparse-page audit, and the figure plus caption fit on page 16."
+    }
+  ],
+  "visual_review": {
+    "overall_verdict": "PASS",
+    "standalone_figure": "PASS: the v2 atlas preserves the three protocol rows and adds a registered route/crop audit strip.",
+    "pdf_page_16": "PASS: section heading, explanatory paragraph, enlarged atlas, and caption remain on page 16 without clipping, overlap, or spill.",
+    "neighbor_pages": "PASS: page 15 remains the metric boundary bridge and page 17 remains the coordinate table companion; no float displacement or page-count spill was observed in the 45-page build.",
+    "claim_boundary": "PASS: the caption states that the v2 AI-generated protocol-route schematic is only for exposition and that the atlas is not an additional VLM prediction result."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'vlm_protocol_has_coordinate_visual_atlas or vlm_coordinate_protocol_atlas_is_registered_and_dense'",
+    "make -C paper acl27-supplement",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf",
+    "pdftoppm -r 144 -png -f 15 -l 17 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page16_vlm_coordinate_protocol_atlas_v2_final_20260604/page",
+    "pdftoppm -r 90 -png -f 16 -l 16 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page16_vlm_coordinate_protocol_atlas_v2_final_90dpi_20260604/page"
+  ]
+}

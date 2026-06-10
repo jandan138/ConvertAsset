@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_s4_red_material_user_recheck_20260602",
+  "reviewed_at_utc": "2026-06-02T15:20:00Z",
+  "scope": "User-reported Figure S4 red-material caption recheck after supplement visual iterations",
+  "conclusion": "The user-quoted Figure S4 caption belongs to the old unsafe VLM grounding panel. The current supplement PDF does not include that caption or fig_vlm_grounding_cases. Current Figure S4 is a wide render evidence page; the post-repair VLM target-view panel is currently Figure S6 after earlier supplement insertions.",
+  "inputs": {
+    "supplement_pdf": "paper/venues/acl27/build/supplement.pdf",
+    "main_pdf": "paper/venues/acl27/build/main.pdf",
+    "current_s4_page_render": "tmp/acl27_s4_recheck/page-08.png",
+    "current_s6_page_render": "tmp/acl27_s4_recheck/page-10.png",
+    "legacy_unsafe_figure": "paper/shared/figures/fig_vlm_grounding_cases.png",
+    "replacement_clean_panel": "paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png",
+    "supplement_section": "paper/venues/acl27/sections/supplement/01a_render_atlas.tex"
+  },
+  "hashes": {
+    "supplement_pdf_sha256": "028ecdf152c4b870920a13d6e633bdc915af98b0f4723373fd756091a93e701b",
+    "main_pdf_sha256": "d03af3b4554951ccb51c3a224a8fbbd12fb517180dd36bad5672f0fb07006793",
+    "current_s4_page_render_sha256": "6f6732f786455790534004e6b49e6ee62bd18db540ae83b98fda31948f29e05c",
+    "current_s6_page_render_sha256": "ba0b00648f9b6dda27b21c9b423b5188a0a2c32700fa2e608f8ae3d4c8c77c9b",
+    "legacy_unsafe_figure_sha256": "20f230b62740bcae6ed8cbd356024147be5a72c565d23e4b038356d53feb5b7a",
+    "replacement_clean_panel_sha256": "b430f20f9cdffc78a002f891587b00977186d27999b8bdab830bd44c521e75ce"
+  },
+  "image_stats": {
+    "current_s4_page_render": {
+      "size": [1489, 2105],
+      "red_fallback_fraction": 0.0,
+      "active_fraction": 0.120128
+    },
+    "current_s6_page_render": {
+      "size": [1489, 2105],
+      "red_fallback_fraction": 0.0,
+      "active_fraction": 0.138941
+    },
+    "legacy_unsafe_figure": {
+      "size": [1144, 664],
+      "red_fallback_fraction": 0.055537,
+      "active_fraction": 0.52115
+    },
+    "replacement_clean_panel": {
+      "size": [1802, 1134],
+      "red_fallback_fraction": 0.0,
+      "active_fraction": 0.499575
+    }
+  },
+  "text_scan": {
+    "supplement_old_tokens_absent": [
+      "Red material",
+      "registered diagnostic figure",
+      "Selected VLM grounding cases",
+      "fig_vlm_grounding_cases"
+    ],
+    "supplement_current_tokens_present": [
+      "Figure S4: Wide render evidence view",
+      "Figure S6: Post-repair GRScenes target-view render panel"
+    ],
+    "main_old_tokens_absent": [
+      "Red material",
+      "registered diagnostic figure",
+      "Selected VLM grounding cases",
+      "fig_vlm_grounding_cases"
+    ]
+  },
+  "local_visual_review": {
+    "verdict": "PASS",
+    "evidence": "Rendered page 8 shows the current wide render evidence figure with no visible large red fallback material. Rendered page 10 shows the post-repair VLM target-view panel with green target boxes and no red fallback-material artifact.",
+    "remaining_risk": "Figure numbering may shift when new supplement figures are inserted; records should refer to both figure labels and source filenames, not only S-numbers."
+  },
+  "verification": {
+    "pytest_targeted": "python -m pytest -q tests/test_paper_layout.py -k \"unsafe_vlm_red_material_panel or vlm_clean_rerender\" -> 3 passed, 43 deselected",
+    "supplement_text_scan": "pdftotext paper/venues/acl27/build/supplement.pdf - | rg -n \"Red material|registered diagnostic figure|Selected VLM grounding cases|fig_vlm_grounding_cases|Post-repair GRScenes target-view|No VLM point marker\" -S || true",
+    "main_text_scan": "pdftotext paper/venues/acl27/build/main.pdf - | rg -n \"Selected VLM grounding|Red material|registered diagnostic|fig_vlm_grounding_cases|Post-repair GRScenes\" -C 2 -S || true"
+  }
+}

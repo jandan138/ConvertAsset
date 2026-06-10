@@ -1,0 +1,141 @@
+\section{Results}
+\label{sec:results}
+
+\subsection{Proxy Similarity Is Necessary but Not Sufficient}
+\label{sec:proxy_results}
+
+On the four single-object Isaac Sim assets, the converted renders remain close
+to the original MDL renders under standard proxy metrics: mean PSNR is
+35.52\,dB, mean SSIM is 0.990, mean LPIPS is 0.020, CLIP cosine similarity is
+0.925, and DINOv2 cosine similarity is 0.872 over 24 matched render pairs.
+These measurements justify using the converted assets for deeper checks, but
+they do not by themselves prove language-grounding preservation. The rest of
+the paper therefore treats proxy similarity as a screening gate, not as the main
+downstream-reliability claim. Figure~\ref{fig:render_scene_evidence_acl} shows the visual
+counterpart to this gate and to the GRScenes grounding context, while the caption
+keeps both visual panels below VLM-equivalence claims.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_render_scene_evidence_wide.png}
+\caption{Actual render evidence before task claims. Top: a representative
+cropped single-object proxy detail pair. Bottom: a representative GRScenes
+original/noMDL commercial-interior render pair. These panels orient readers, but
+metric and task claims come from the frozen tables, not from the qualitative
+figure.}
+\label{fig:render_scene_evidence_acl}
+\end{figure*}
+
+\subsection{VLM Grounding Under a Frozen Material Perturbation}
+\label{sec:vlm_grounding_pilot}
+
+The clean GRScenes pool contains 15 visual-QA PASS original/noMDL pairs. It is
+a pilot preservation control because it remains below the configured 20-pair
+clean final gate. The lower row of
+Figure~\ref{fig:render_scene_evidence_acl} anchors this section in actual
+commercial-interior scene renders, while the numeric claims remain tied to the
+frozen pair tables.
+
+\input{tables/tab_grscenes_vlm_clean_pool_pass15}
+
+Table~\ref{tab:grscenes_vlm_clean_pool_pass15} shows that answer-level
+recognition can remain stable while point grounding is less stable. Gemma4
+answers all 15 original and 15 converted renders correctly, but normalized-1000
+point hits are 8/15 for original and 6/15 for converted. Qwen2.5-VL has lower
+parser and coordinate stability: its structured-text run produces 23/30
+scorable answer rows, raw point hits of 5/14 and 5/15, and zero normalized-1000
+point hits in both material conditions.
+
+The expanded stress set asks a different question. It freezes 30
+target-centered PASS/WARN pairs where the target remains visible but material,
+color, or lighting changes may be apparent.
+
+\input{tables/tab_grscenes_vlm_stress_expanded30}
+
+Table~\ref{tab:grscenes_vlm_stress_expanded30} reports the primary stress-set
+result. Gemma4 preserves 30/30 target-category answers for both original and
+converted renders. Under the primary normalized-1000 coordinate contract, it
+scores 27/30 point hits on original renders and 29/30 on converted renders,
+with 28/30 pairwise hit-status agreement. Qwen2.5-VL is different: it is more
+comfortable in raw pixel space, with raw point hits 22/29 original and 19/29
+converted, while normalized-1000 hits remain 3/29 for both conditions. This is
+the main protocol finding: material perturbation, prompt contract, and
+coordinate interpretation interact, so VLM grounding reliability cannot be
+inferred from visual similarity alone.
+
+\input{tables/tab_reviewer_closure_paired_ci}
+
+The paired bootstrap intervals in Table~\ref{tab:reviewer_closure_paired_ci}
+calibrate the same point. On the expanded 30-pair stress set, Gemma4 has a small
+positive converted-minus-original normalized-point delta, while the Qwen raw
+point diagnostic decreases on converted renders. These are descriptive
+intervals over frozen evidence pools, not population-level guarantees.
+
+We therefore keep the VLM-grounding claim metric-auditable: scene panels orient
+readers, but answer and point-grounding claims come from frozen tables;
+overlay-style qualitative panels need clean render logs and VLM-overlay
+provenance.
+
+\subsection{Material Effects and NVIDIA Baseline Boundaries}
+\label{sec:material_effect_baseline}
+
+We next audit whether material mechanisms explain conversion risk and whether
+the NVIDIA Asset Converter baseline changes the interpretation.
+
+\input{tables/tab_material_effect_risk_matrix}
+
+Table~\ref{tab:material_effect_risk_matrix} is the claim-boundary artifact. For
+opacity/transparency, emission, normal/bump, and displacement/height, the
+selected GRScenes pool has bounded static evidence for
+original MDL, ConvertAsset noMDL, and the NVIDIA PreviewSurface baseline. This
+supports a covered-bin comparison, not a universal visual-quality win: static
+gates do not certify that the MDL mechanism itself is preserved, so the
+selected qualitative evidence in
+Figure~\ref{fig:material_effect_baseline_qualitative_acl} remains bounded to
+the checked cases. The
+supplemental clearcoat case is a selected NVIDIA target-loss failure while
+ConvertAsset retains an approximated PreviewSurface target. Procedural texture
+is a limitation case for both converters because checker/base-color texture
+preservation evidence is lost after conversion. The visual panel makes the
+covered-bin comparison inspectable, but Table~\ref{tab:material_effect_risk_matrix}
+remains the governing claim-boundary artifact.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.94\textwidth]{figures/fig_material_effect_baseline_qualitative.png}
+\caption{Selected material-effect qualitative comparison for the four
+GRScenes-covered bins. Columns compare original MDL, ConvertAsset noMDL, and
+the NVIDIA PreviewSurface baseline after the original-MDL cells passed the
+log-checked clean rerender/provenance gate. The panels support bounded visual inspection
+for the selected covered bins in Table~\ref{tab:material_effect_risk_matrix};
+they do not estimate a population-level NVIDIA failure rate or certify
+mechanism-level MDL preservation.}
+\label{fig:material_effect_baseline_qualitative_acl}
+\end{figure*}
+
+\subsection{Embodied-Data Sanity and Official Scene Stability}
+\label{sec:embodied_sanity}
+
+For downstream embodied-data sanity, the official KuJiaLe
+\texttt{val\_unseen} route covers 99 paired InternNav/DualVLN episodes across
+three local official scenes. Combined original/noMDL means are SR
+0.5253/0.4848, SPL 0.4739/0.4298, NE 3.6798/3.6306, and TL 6.9754/7.0598. The
+paired confidence intervals in Table~\ref{tab:reviewer_closure_paired_ci}
+cross zero for SR, SPL, NE, and TL, so the supported conclusion is scoped:
+converted scenes can be evaluated end-to-end in a real official navigation
+stack, but the current evidence does not establish broad embodied-navigation
+robustness. Selected rollout stills and videos are retained as supplemental
+qualitative evidence for figure and rebuttal use; they do not replace the
+99-episode paired run.
+
+\input{tables/tab_official_scene_performance_summary}
+
+Table~\ref{tab:official_scene_performance_summary} adds the official-scene
+load/render stability check. All 18 required paired runs complete successfully
+in fresh processes across original and noMDL conditions on the same three
+official scenes, i.e., 18/18 successful required runs. Aggregated
+warmed-ready time is comparable between original MDL and noMDL, with
+overlapping confidence intervals. We therefore use this evidence for
+loadability and stability only. We do not report an NVIDIA official-scene
+performance row because matching official-scene NVIDIA conversions have not yet
+been generated and smoke-gated.

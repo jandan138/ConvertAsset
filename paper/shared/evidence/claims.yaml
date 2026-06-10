@@ -23,7 +23,7 @@ claims:
       - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_performance_runs.csv
       - paper/shared/evidence/raw/official_scene_submission_closure/official_scene_submission_closure_summary.json
       - paper/shared/tables/official_scene_performance_summary.csv
-    scope: "Three local official KuJiaLe / InteriorAgent val_unseen scenes, original MDL and ConvertAsset noMDL only, three fresh-process runs per scene/condition. This is not an NVIDIA official-scene comparison and not a broad all-InteriorNav performance benchmark."
+    scope: "Three local official KuJiaLe / InteriorAgent val_unseen scenes, original MDL and ConvertAsset noMDL only, three fresh-process runs per scene/condition. This is not an NVIDIA official-scene comparison and not a broad InternNav or InteriorAgent performance benchmark."
   - id: grscenes_vlm_gemma4_pass_only_pilot
     statement: "In a four-pair visual-QA PASS-only GRScenes pilot, local Gemma4 answered the target category correctly for all original and converted renders; under normalized-1000 coordinate scoring, point-in-box accuracy was 4/4 for original renders and 3/4 for converted renders."
     sources:

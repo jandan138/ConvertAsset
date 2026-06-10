@@ -1,0 +1,144 @@
+{
+  "record_id": "supplement_grscenes_zoom_stress_companion_v3_20260603",
+  "date_utc": "2026-06-03",
+  "scope": "ACL 2027 supplement page 24 GRScenes zoom-stress table companion v3 visual iteration",
+  "motivation": {
+    "target_page": 24,
+    "target_page_before": "page 24 remained one of the lowest-density non-reference pages after the v2 zoom-stress companion",
+    "previous_page_24_active_fraction_90dpi_active245": 0.131449295,
+    "goal_alignment": "Use more registered render material and a new imagegen AI slot while reducing sparse lower-page whitespace and preserving the claim boundary."
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 238, matching tests/test_paper_layout.py figure-density checks",
+    "page_active245_definition": "RGB pixels where any channel is below 245, used for the sparse-page raster audit",
+    "red_test_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90"
+  },
+  "claim_boundary": {
+    "paper_use": "visual reading guide for the zoom material-shift GRScenes VLM stress table",
+    "not_new_evidence": true,
+    "boundary_statement": "Exposition only; not experimental evidence.",
+    "notes": "The AI-generated zoom-stress gate is not a VLM prediction, benchmark row, material-preservation result, or additional experiment. Evidence-bearing panels remain registered original/noMDL render pairs and the frozen table."
+  },
+  "ai_slots": {
+    "zoom_stress_gate": {
+      "path": "paper/shared/figures/ai_slots/fig_supplement_grscenes_zoom_stress_gate_v3_ai_slot.png",
+      "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0eb0df7a61af7af1016a1feed6332c819ba7df895a78df762f.png",
+      "sha256": "c07626983125a3f5fed6dbedb43fdf003e1af13d5fd1d6d5ea11ef585b99a776",
+      "size_px": [
+        1824,
+        862
+      ],
+      "bytes": 1072573,
+      "layout_guard_active_fraction": 0.162907813,
+      "active245_fraction": 0.1847416,
+      "red_test_fraction": 0.0,
+      "role": "AI-generated table-reading schematic only; deterministic figure code draws labels, bullets, and claim-boundary text."
+    }
+  },
+  "final_figure": {
+    "path": "paper/shared/figures/fig_supplement_grscenes_zoom_stress_table_companion.png",
+    "sha256": "2f07847695f1cbc1d6e9c708e8eb7292b5019fb4d8d0382b797a7ca7ecafc11f",
+    "size_px": [
+      1800,
+      1320
+    ],
+    "bytes": 1119216,
+    "layout_guard_active_fraction": 0.493427189,
+    "active245_fraction": 0.500746633,
+    "red_test_fraction": 0.000272727,
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_grscenes_zoom_stress_table_companion.yaml",
+    "registered_real_sources_added_this_iteration": [
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_0000.png",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_0000.png"
+    ],
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "The standalone v3 figure has four registered top render-pair cards, a separated v3 AI zoom-stress gate card, and a tall registered zoom-level audit strip. The rejected red-heavy zoom-019/cup/faucet tiles were removed; the selected version has no visible red-material fallback panels."
+  },
+  "pdf_review": {
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_sha256": "04581780247671d6f057fcffd053992f5bc1c18ea7358b3227bd302f367bee39",
+    "page_count": 45,
+    "page_number": 24,
+    "page_render_140dpi": "tmp/acl_supplement_zoom_stress_v3_review_20260603/page-24.png",
+    "page_render_140dpi_sha256": "3e4b40cb53a31aff4572b5ac1cbde020e2308cb13af66a2cd61ed9cdf978e5a0",
+    "page_render_140dpi_size_px": [
+      1158,
+      1638
+    ],
+    "page_layout_guard_active_fraction_140dpi": 0.18268519,
+    "page_active245_fraction_140dpi": 0.18622272,
+    "page_red_test_fraction_140dpi": 0.000078553,
+    "page_render_90dpi": "tmp/acl_supplement_zoom_stress_v3_review_20260603/page90-24.png",
+    "page_render_90dpi_sha256": "307d66a291edb6a12079cc6d8b08be74dcb32862c65f084ff5b79b814ca56012",
+    "page_render_90dpi_size_px": [
+      745,
+      1053
+    ],
+    "page_layout_guard_active_fraction_90dpi": 0.196595219,
+    "page_active245_fraction_90dpi": 0.201200788,
+    "previous_page_active_fraction_90dpi_active245": 0.131449295,
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "Rendered page 24 keeps Table S6, the larger v3 companion, caption, and boundary paragraph together. Page 25 begins the material-effects section normally. The page is denser and the figure/caption do not collide."
+  },
+  "layout_iterations": [
+    {
+      "attempt": "v3 red-heavy audit strip",
+      "result": "Rejected after visual review because zoom-019, cup-view-B, and faucet stress tiles introduced large red surfaces and failed the red-test heuristic at 0.0151022727."
+    },
+    {
+      "attempt": "v3 selected red-safe audit strip",
+      "result": "Selected: four clean registered render-pair cards plus a tall stacked audit strip using backpack, clock, bottle, cup, and a lower-red picture pair. Page 24 active245 density increased to 0.201200788 at 90 dpi."
+    }
+  ],
+  "review_artifacts": {
+    "contact_sheet_pages_23_25": "tmp/acl_supplement_zoom_stress_v3_review_20260603/page23_25_contact.png",
+    "page24_figure_caption_crop": "tmp/acl_supplement_zoom_stress_v3_review_20260603/page24_figure_caption_crop.png"
+  },
+  "tests": [
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py::test_acl_supplement_grscenes_tables_have_render_companions tests/test_paper_layout.py::test_supplement_grscenes_table_companions_are_registered_and_dense",
+      "result": "RED before implementation for missing registered zoom-level audit strip and v3 source/slot set; GREEN after selected v3 implementation: 2 passed in 1.16s"
+    },
+    {
+      "command": "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+      "result": "completed; regenerated fig_supplement_grscenes_zoom_stress_table_companion.png at 1800 x 1320"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "74 passed in 10.44s"
+    },
+    {
+      "command": "make -C paper acl27-supplement",
+      "result": "exit 0; paper/venues/acl27/build/supplement.pdf contains 45 pages"
+    },
+    {
+      "command": "pdftoppm -f 23 -l 25 -r 140 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_zoom_stress_v3_review_20260603/page",
+      "result": "completed; pages 23-25 regenerated for local visual review"
+    },
+    {
+      "command": "pdftoppm -f 23 -l 25 -r 90 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_zoom_stress_v3_review_20260603/page90",
+      "result": "completed; pages 23-25 regenerated for density comparison against the pre-v3 audit"
+    },
+    {
+      "command": "pdftotext -f 24 -l 24 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_zoom_stress_v3_review_20260603/page-24.txt",
+      "result": "normalized required caption text present; local-path and forbidden stronger-claim tokens absent"
+    },
+    {
+      "command": "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_grscenes_zoom_stress_companion_v3_20260603.json",
+      "result": "exit 0"
+    },
+    {
+      "command": "git diff --check -- docs/records/README.md paper/shared/figures/gen_supplement_task_media_atlases.py paper/shared/figures/sources.yaml paper/shared/figures/ai_slot_manifests/fig_supplement_grscenes_zoom_stress_table_companion.yaml paper/venues/acl27/sections/supplement/03_grscenes_visuals.tex tests/test_paper_layout.py",
+      "result": "exit 0; no whitespace errors in the tracked diff"
+    },
+    {
+      "command": "direct trailing-whitespace scan over the new docs, JSON, manifest, LaTeX, generator, source registry, and layout test files",
+      "result": "no trailing whitespace and all scanned text files end with a final newline"
+    }
+  ],
+  "review_mode": {
+    "skill": "render-visual-reviewer",
+    "independent_subagent_review": false,
+    "reason": "Local pure visual review was used; no separate clean-room subagent was dispatched in this run."
+  }
+}

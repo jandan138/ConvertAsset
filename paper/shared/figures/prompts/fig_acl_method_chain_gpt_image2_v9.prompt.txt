@@ -1,0 +1,47 @@
+Use case: infographic-diagram
+Asset type: ACL main paper Figure 1 candidate, wide method-chain schematic for a two-column academic paper.
+Output path: paper/shared/figures/fig_acl_method_chain_imagegen_v9.png
+Primary request: Create a cleaner, more readable replacement candidate for a paper figure about ConvertAsset material conversion and downstream evaluation. This should be a schematic roadmap, not experimental evidence.
+
+Canvas and layout:
+- Wide landscape 2:1 aspect ratio, white background, thin academic panel borders, no gradients, no shadows, no logos, no watermark.
+- Four left-to-right numbered stages connected by simple arrows.
+- Use restrained colors: blue for source assets, green for conversion, orange for render/VLM evidence, purple for navigation evidence.
+- Typography must be large enough for an ACL PDF. Use fewer internal labels than a dense infographic.
+
+Stage labels, render exactly and prominently:
+1. USD / MDL Scene Assets
+2. ConvertAsset noMDL Conversion
+3. Matched Rendering + VLM Grounding
+4. InternNav Navigation Evidence
+
+Stage 1 visual content:
+- USD file icon, simple scene hierarchy tree, two clean indoor room thumbnails, and four material spheres for wood, fabric, paint, metal.
+- Materials must look natural; avoid bright red fallback material.
+
+Stage 2 visual content:
+- Simple MDL-to-UsdPreviewSurface material-node mapping with only a few large channels.
+- Show path rewriting and preserved scene hierarchy as simple blocks.
+- Include the exact output label: noMDL USD.
+
+Stage 3 visual content:
+- Paired indoor render thumbnails with a clear before/after comparison.
+- Column headers must be exactly: Original (MDL) and noMDL (Converted).
+- Small red boxes only around target objects, not on walls or materials.
+- The target label must be exactly: Target: box.
+- A compact VLM grounding mini-panel with a question bubble and a target point.
+
+Stage 4 visual content:
+- First-person navigation thumbnail strip.
+- Top-down floorplan with green success trajectory and red failure trajectory.
+- Three metric tiles labeled exactly: SR, SPL, NE.
+
+Footer text, render exactly:
+Quantitative claims use frozen paired evidence; selected rollouts are qualitative only.
+
+Constraints:
+- Do not write Target: cabinet, Target: chair, Target: object, or any other target label. Only Target: box.
+- No author names, no numeric results, no invented claims, no brand logos.
+- No extra acronyms beyond USD, MDL, noMDL, VLM, InternNav, SR, SPL, NE.
+- Use synthetic schematic placeholders only; do not make the diagram look like measured experimental evidence.
+- Serious scientific workflow figure, not a marketing slide.

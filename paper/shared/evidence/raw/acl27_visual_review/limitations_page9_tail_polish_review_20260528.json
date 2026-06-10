@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "status": "limitations_page9_tail_polish_visual_review",
+  "reviewed_at_utc": "2026-05-28T10:46:50Z",
+  "reviewer_mode": "local_codex_visual_review_not_independent_subagent",
+  "scope": "Page 9 layout after promoting Figure 4 to a wide main-paper InternNav panel.",
+  "issue_before": "The wide Figure 4 made page 9's right column start with a dangling continuation of the Limitations paragraph before Ethical Considerations.",
+  "source_change": {
+    "path": "paper/venues/acl27/sections/limitations.tex",
+    "summary": "Tightened the final InternNav limitation sentence so the right column starts cleanly at Ethical Considerations while preserving the claim boundary."
+  },
+  "current_pdf": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "hash_sha256": "36b2f0fae8ead9955016466227ef9936fa0f454427577aefb48b53c523116711",
+    "pages": 11,
+    "bytes": 3991259,
+    "creation_date": "Thu May 28 19:33:56 2026 CST"
+  },
+  "rendered_page_check": {
+    "temporary_path": "/tmp/convertasset_acl27_limitations_tail_final/page-09.png",
+    "hash_sha256": "d120edde228dd31e50540c5d0e51761ccd9695826f0d0a1e0675ed48d999129e",
+    "page": 9,
+    "dpi": 180,
+    "size_pixels": [
+      1489,
+      2105
+    ],
+    "strong_red_pixels": 0,
+    "purple_overlay_pixels": 1254,
+    "green_reference_pixels": 1176
+  },
+  "source_figure": {
+    "path": "paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png",
+    "hash_sha256": "4d8881fd4833c32c039d8d5e72036570503a4bb6d08c1dec0d250fc4f398fe2e",
+    "size_pixels": [
+      1748,
+      806
+    ],
+    "strong_red_pixels": 0,
+    "purple_overlay_pixels": 2865,
+    "green_reference_pixels": 2447
+  },
+  "verdict": "PASS_WITH_BOUNDARY",
+  "visible_evidence": [
+    "Page 9 now keeps Figure 4 at the top and starts the right text column with Ethical Considerations rather than a dangling Limitations continuation.",
+    "The rendered page and InternNav source figure contain zero strong-red pixels under the spot-check threshold.",
+    "The wide real InternNav panel remains readable and does not introduce overlap, blank columns, or page growth."
+  ],
+  "claim_boundary": {
+    "may_support": "cleaner reader-facing layout for selected official KuJiaLe InternNav qualitative evidence",
+    "must_not_support": [
+      "population-level navigation robustness",
+      "official-scene speedup",
+      "NVIDIA official-scene performance",
+      "new experimental evidence beyond the already recorded wide InternNav panel"
+    ]
+  },
+  "imagegen_note": "No new generated bitmap was used for this layout polish. Figure 1 remains the AI-generated method-chain roadmap; Figure 4 remains recorded real InternNav evidence.",
+  "recommendation": "Keep this compact limitation wording unless a later layout change reintroduces a right-column continuation."
+}

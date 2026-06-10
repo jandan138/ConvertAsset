@@ -1,0 +1,60 @@
+{
+  "review_id": "main_round11_embodied_sanity_page_break_20260606",
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "pdf": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "13afc6f46049898600e24a50375021b9f8158ded223be32a57f47652445a7847",
+    "pages": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "bytes": 5189290,
+    "created": "Sat Jun 6 09:33:08 2026 CST"
+  },
+  "scope": [
+    "paper/venues/acl27/sections/results.tex"
+  ],
+  "visual_artifacts": {
+    "before_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round11_current/contact_sheets/main_pages_01_11_current.png",
+    "before_page5": "tmp/acl_main_visual_iter_20260606_round11_current/pages_180/main-05.png",
+    "before_page6": "tmp/acl_main_visual_iter_20260606_round11_current/pages_180/main-06.png",
+    "before_layout_text": "tmp/acl_main_visual_iter_20260606_round11_current/text/main_layout.txt",
+    "after_page5": "tmp/acl_main_visual_iter_20260606_round11_after4/pages_180/main-05.png",
+    "after_page6": "tmp/acl_main_visual_iter_20260606_round11_after4/pages_180/main-06.png",
+    "after_contact_sheet": "tmp/acl_main_visual_iter_20260606_round11_after4/contact_sheets/main_pages_05_06_after4.png",
+    "after_layout_text": "tmp/acl_main_visual_iter_20260606_round11_after4/text/main_layout.txt"
+  },
+  "visual_findings": [
+    "The full contact sheet showed the next local reading issue after the Figure 2 sentence-flow fix: page 5 ended the Embodied-Data Sanity opening with 'Combined orig-' and page 6 resumed with 'inal/noMDL'.",
+    "The accepted render removes the cross-page word split. Page 5 now carries the route coverage and starts the means sentence through SR 0.5253/0.4848.",
+    "Page 6 begins with the next metric, SPL 0.4739/0.4298, without a stretched first line, figure collision, or Figure 3 crop regression.",
+    "Figure 3 remains stable at the bottom of page 6 with its caption intact."
+  ],
+  "change_summary": [
+    "Shortened the Embodied-Data Sanity opener from 'For downstream embodied-data sanity' to 'For embodied-data sanity'.",
+    "Changed the official-scene phrase from 'three local official scenes' to 'three local scenes'.",
+    "Replaced 'Combined original/noMDL means are' with the shorter 'Means are' to avoid a cross-page split while preserving all SR, SPL, NE, and TL values."
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed; built 11-page A4 main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "85 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "ok"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "ok"
+    }
+  ],
+  "residual_risk": "This is a focused page-5/page-6 Results page-break pass, not a complete final-upload audit or integrity-fingerprint refresh."
+}

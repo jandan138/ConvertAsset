@@ -1,0 +1,81 @@
+{
+  "round": 45,
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "objective": "Polish a visible page 4 Results line-break stumble around the Figure 2 handoff while preserving the claim boundary.",
+  "source_change": {
+    "file": "paper/venues/acl27/sections/results.tex",
+    "before": "Figure~\\ref{fig:render_scene_evidence_acl} anchors the gate visually; the panels are orientation evidence, not VLM-equivalence evidence.",
+    "after": "Figure~\\ref{fig:render_scene_evidence_acl} gives visual context; metric and task claims stay in the frozen tables.",
+    "claim_scope_changed": false
+  },
+  "pdf": {
+    "before_sha256": "646dd6d838c9f75186a3d456876c7b0ca9d06a987ac8cf4d5805d09a1edbae2b",
+    "after_sha256": "27ac5e0c3714de620638348893d4ad30e174564c918f3182fdbd6939ae82c9b3",
+    "after_pages": 11,
+    "after_file_size_bytes": 5188362,
+    "after_creation_date": "Sat Jun 6 20:18:21 2026 CST"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260606_round45_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260606_round45_after",
+    "hashes": {
+      "before_contact_sheet_png": "4a43e2543a960e4dbb3244124cb1ae0bde7b2b66e18247834c220d75ba9a8b40",
+      "before_full_txt": "1469592ecc6aeff70bfcea386cc71a7bf7b9b1513c39f8e5cae29d2b8c8b0e9b",
+      "before_page4_txt": "52b3b826e03ad243cca0445476cbfa800cada65a0069fd762c16773039526fb2",
+      "before_focus_p4_p5_png": "2ba08fd908601923a53676511b08da41f61c8c93d3b5e8d70e149e145851e9b7",
+      "after_contact_sheet_png": "918c1c897f00688b02a37097084431fc2d22f51276b00b730522d3db3f87e06d",
+      "after_full_txt": "a1a01b2e719ef59ac8fd7b4ffcb7ee239fa1ad3e9909a5b8b6cb6c7de35ce54f",
+      "after_page4_txt": "185ad79b46cba7d79d691e1da983e5f2e949f63eda087c89b2d75e0baa9b276b",
+      "after_page5_txt": "17a4344c309ce18033170ada3ce675bf35fbd2b1afb8f5ec4fb53578260486ff",
+      "after_focus_before_after_p4_png": "4fc003740e5dc67da8f08187cacfa046107a90e0edb3f627620de873e7f34b97",
+      "after_focus_p3_p4_png": "b8aa2e0afdf1dff8267311de60bb7ccdd3b8d4a37d1b928976b1249f8959c37f",
+      "after_focus_p4_p5_png": "45899c31134620402ea90d7968b94076ad89d2e3170757df3b387687ba7ad621",
+      "after_focus_p5_p6_png": "bdd311aab59201c549ea4cc1f9bc80df2f694c8eefed7a1ff3a7d2a9c09b3cb0"
+    }
+  },
+  "text_observations": {
+    "before_page4_lines": [
+      "the downstream-reliability claim. Figure 2 an-",
+      "chors the gate visually; the panels are orienta-",
+      "tion evidence, not VLM-equivalence evidence."
+    ],
+    "after_page4_lines": [
+      "as the downstream-reliability claim. Figure 2",
+      "gives visual context; metric and task claims",
+      "stay in the frozen tables."
+    ],
+    "layout_observation": "The PDF remained 11 pages. Figure 2 stayed on page 5, and the page 4/5 spread kept the same float structure."
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf 'no blocker matches\\n'; fi",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "exit_code": 0,
+      "result": "102 passed in 15.66s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; abstract_word_count 169"
+    }
+  ],
+  "residual_risks": [
+    "This round intentionally addressed only the Figure 2 handoff in Results. Other ordinary ACL column hyphenations remain outside this round's scope."
+  ]
+}

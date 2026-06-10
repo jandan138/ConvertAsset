@@ -1,0 +1,227 @@
+\clearpage
+\onecolumn
+\section{Mathematical Definitions and Metric Derivations}
+\label{sec:supp-derivations}
+
+This appendix expands the metric definitions used in the main paper. The
+definitions are included to make clear which quantities are image-level proxy
+diagnostics, which are VLM grounding scores, and which are navigation metrics.
+
+\subsection{Paired Render Notation}
+
+For an asset or scene instance $i$, let $I_i^{o}$ denote the original MDL
+render and $I_i^{c}$ denote the converted noMDL render under the matched camera,
+resolution, renderer, and lighting configuration. The paired design is
+important: all proxy comparisons are computed on pairs whose scene identity and
+viewpoint are fixed before conversion. A proxy metric $m$ is reported as
+
+\begin{equation}
+\bar{m} = \frac{1}{N}\sum_{i=1}^{N} m(I_i^{o}, I_i^{c}),
+\end{equation}
+
+where $N$ is the number of paired render comparisons in that check. This average
+is descriptive for the sampled render set; unseen assets require separate
+checks.
+
+\begin{center}
+\includegraphics[width=\textwidth,height=0.40\textheight,keepaspectratio]{figures/fig_supplement_proxy_metric_derivation_companion.png}
+{\captionsetup{hypcap=false,font=scriptsize,skip=2pt}
+\captionof{figure}{Proxy metric derivation companion. Paired renders and the
+proxy render ladder anchor the proxy equations. The diagram summarizes how the
+proxy quantities relate to the sampled render pairs.}}
+\label{fig:supp-proxy-metric-derivation-companion}
+\end{center}
+
+\subsection{PSNR}
+
+For images normalized to $[0,1]$, mean squared error is
+
+\begin{equation}
+\operatorname{MSE}(I^o, I^c) =
+\frac{1}{HWC}\sum_{y=1}^{H}\sum_{x=1}^{W}\sum_{k=1}^{C}
+\left(I^o_{y,x,k}-I^c_{y,x,k}\right)^2 .
+\end{equation}
+
+Peak signal-to-noise ratio is
+
+\begin{equation}
+\operatorname{PSNR}(I^o, I^c) =
+10 \log_{10}\left(\frac{1}{\operatorname{MSE}(I^o, I^c)}\right).
+\end{equation}
+
+PSNR is sensitive to pixel-level changes and alignment. It is useful for
+detecting gross render drift; grounding and navigation behavior require the
+separate checks reported later.
+
+\subsection{SSIM}
+
+For local windows with means $\mu_o,\mu_c$, variances $\sigma_o^2,\sigma_c^2$,
+and covariance $\sigma_{oc}$, structural similarity is
+
+\begin{equation}
+\operatorname{SSIM}(I^o,I^c)=
+\frac{(2\mu_o\mu_c+C_1)(2\sigma_{oc}+C_2)}
+{(\mu_o^2+\mu_c^2+C_1)(\sigma_o^2+\sigma_c^2+C_2)} .
+\end{equation}
+
+The reported SSIM aggregates over windows and pairs. High SSIM means the
+matched render pair preserves local luminance and contrast structure under this
+metric. Material mechanisms such as clearcoat, procedural texture, and
+displacement remain separate diagnostics.
+
+\medskip
+
+\subsection{Feature Similarity}
+
+For CLIP or DINOv2 embeddings $f(I)$, cosine similarity is
+
+\begin{equation}
+s_{\cos}(I^o,I^c)=
+\frac{f(I^o)^\top f(I^c)}
+{\|f(I^o)\|_2\|f(I^c)\|_2}.
+\end{equation}
+
+Feature similarity is less tied to exact pixels than PSNR, but it is still a
+proxy diagnostic. It can remain high when a localized target cue is lost or
+when a coordinate-returning VLM changes point behavior under the same prompt.
+
+\begin{center}
+\includegraphics[width=\textwidth,height=0.40\textheight,keepaspectratio]{figures/fig_supplement_grounding_derivation_companion.png}
+{\captionsetup{hypcap=false,font=scriptsize,skip=2pt}
+\captionof{figure}{Grounding derivation render companion. Target-view
+render pairs and the formula-to-render audit strip connect point-in-box and
+normalized-coordinate formulas to visible original/noMDL renders. The
+coordinate-conversion render wall adds zoom-level target-view anchors for the
+same scorer equations, and the target close-up scorer wall shows pass and
+diagnostic target views.}}
+\label{fig:supp-grounding-derivation-companion}
+\end{center}
+
+\subsection{Point-in-Box Grounding}
+
+For each VLM example $j$, let $b_j=(x_{\min},y_{\min},x_{\max},y_{\max})$ be
+the target bounding box in image coordinates. Let $p_j=(x_j,y_j)$ be the model
+point after parsing and coordinate-frame conversion. A point hit is
+
+\begin{equation}
+h_j =
+\mathbb{1}\left[
+x_{\min}\leq x_j \leq x_{\max}
+\land
+y_{\min}\leq y_j \leq y_{\max}
+\right].
+\end{equation}
+
+The hit count is $\sum_j h_j$ over scorable rows. Missing answers, unparseable
+coordinates, or answers outside the required protocol are not silently
+converted into successful hits.
+
+\subsection{Normalized-1000 Coordinate Contract}
+
+The canonical VLM prompt asks for normalized coordinates in a $1000\times1000$
+frame. For an image of width $W$ and height $H$, a parsed normalized point
+$(u,v)$ is converted to image pixels by
+
+\begin{equation}
+x = \frac{u}{1000}W,\qquad y = \frac{v}{1000}H .
+\end{equation}
+
+Raw-image rescoring is retained only as a diagnostic. If a model outputs raw
+pixel coordinates despite the normalized prompt, raw scoring can explain model
+behavior; the prompt-compliant metric remains the normalized-1000 score.
+
+\subsection{Pair Agreement}
+
+For paired original/converted examples, agreement can be computed on answer
+labels or on point-hit statuses. For a binary status $z_j^o,z_j^c\in\{0,1\}$,
+pair agreement is
+
+\begin{equation}
+a_j = \mathbb{1}[z_j^o=z_j^c],
+\qquad
+\bar{a}=\frac{1}{M}\sum_{j=1}^{M}a_j .
+\end{equation}
+
+Agreement is not equivalent to correctness. Both renders can agree on a miss,
+or both can agree on an answer that is categorically correct but
+coordinate-inconsistent. This is why the tables report answer, raw point, and
+normalized point quantities separately.
+
+\subsection{Bootstrap Paired Intervals}
+
+For a paired metric difference $d_i=m_i^c-m_i^o$, the paired bootstrap samples
+indices $i_1,\ldots,i_N$ with replacement and computes
+
+\begin{equation}
+\Delta^*=\frac{1}{N}\sum_{r=1}^{N}d_{i_r}.
+\end{equation}
+
+The reported confidence interval is the percentile interval over repeated
+bootstrap draws. It describes the frozen evidence pool.
+
+\begin{center}
+\includegraphics[width=\textwidth,height=0.30\textheight,keepaspectratio]{figures/fig_supplement_navigation_derivation_companion.png}
+{\captionsetup{hypcap=false,font=scriptsize,skip=1pt}
+\captionof{figure}{Navigation derivation media companion. The formula-to-route
+panel links SR, NE, SPL, and TL definitions to metric, route, still, and case
+panels.}}
+\label{fig:supp-navigation-derivation-companion}
+\end{center}
+
+\subsection{Navigation Metrics}
+
+For an episode, success rate is
+
+\begin{equation}
+\operatorname{SR}=\mathbb{1}[\operatorname{dist}(p_T,g)\leq \tau],
+\end{equation}
+
+where $p_T$ is the final position, $g$ is the goal, and $\tau$ is the official
+success threshold. Navigation error is
+
+\begin{equation}
+\operatorname{NE}=\operatorname{dist}(p_T,g).
+\end{equation}
+
+SPL follows the standard success-weighted path-length form
+
+\begin{equation}
+\operatorname{SPL}=S\frac{L^*}{\max(L,L^*)},
+\end{equation}
+
+where $S$ is the success indicator, $L$ is the executed path length, and $L^*$
+is the reference shortest path length. Trajectory length (TL) records the
+executed path length. The main paper reports original/noMDL aggregate means and
+paired intervals for the frozen official-scene run.
+
+\medskip
+
+\subsection{Metric Scope Summary}
+
+The derivations above motivate the separate checks. Pixel metrics, feature
+metrics, VLM point hits, coordinate compliance, and navigation metrics measure
+different objects. A high proxy score can coexist with a prompt-compliance
+failure. A successful route can coexist with a material approximation. A
+selected visual example can make a mechanism legible without estimating a
+population rate.
+
+For this paper, the conversion method is therefore not presented as a
+universal semantic compiler. It is presented as a reproducible way to produce
+matched original/converted evidence and to expose whether downstream language
+grounding or embodied-stack checks still pass in explicit settings.
+
+\begin{center}
+\includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{figures/fig_supplement_metric_boundary_bridge.png}
+{\captionsetup{hypcap=false}
+\captionof{figure}{Metric summary panel. The rows connect each metric
+family to visual evidence and to the setting it measures: proxy
+metrics inspect appearance, VLM point hits inspect a
+prompt-and-box format, material diagnostics inspect covered or selected
+mechanisms, and navigation metrics inspect the frozen official-scene run. The
+metric-scope lens strip places selected-failure render crops next to a compact
+visual summary.}
+\label{fig:supp-metric-scope-bridge}}
+\end{center}
+
+\clearpage
+\twocolumn

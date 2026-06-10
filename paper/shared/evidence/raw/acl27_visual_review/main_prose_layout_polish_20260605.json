@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "review_id": "acl_main_prose_layout_polish_20260605",
+  "date_utc": "2026-06-05",
+  "scope": "ACL27 main PDF prose and visual-layout iteration",
+  "target_artifact": "paper/venues/acl27/build/main.pdf",
+  "objective": "Iteratively polish the ACL main PDF so the visual layout and manuscript language read more like a coherent ACL/ARR evaluation paper.",
+  "changes": [
+    "Synchronized sections/abstract.tex with the already-polished OpenReview metadata abstract, restoring metadata consistency and the 183-word abstract gate.",
+    "Reframed the introduction hook around the render as the measurement interface rather than a neutral substrate.",
+    "Tightened the four evidence-gate paragraph while preserving the explicit boundary that the gates do not establish broad downstream robustness.",
+    "Rewrote selected Results transition sentences so figures orient the reader while tables remain the source of quantitative claims.",
+    "Compressed Discussion to reduce repeated audit phrasing and improve the page-9 transition into Conclusion.",
+    "Revised Conclusion to state the paper-level contribution as an observable material-conversion intervention in language-grounding evidence."
+  ],
+  "local_visual_review": {
+    "reviewer": "Codex local visual review using browser-visual-review and render-visual-reviewer paper figure protocol; no independent subagent was used in this pass.",
+    "baseline_verdict": "WARN. The current PDF had no obvious clipping or figure occlusion, but page 9 placed the Conclusion heading low in the left column and the first-page abstract source did not match the polished OpenReview metadata abstract.",
+    "after_verdict": "PASS for this iteration. The final PDF remains 11 pages, Figure 3 stays at the bottom of page 6, the evidence registry page and table pages remain contained, and Figure 4 on page 10 does not collide with Ethical Considerations or References.",
+    "page9_note": "Discussion compression gives the Conclusion heading four lines of body text in the left column before it continues at the top of the right column. This is still compact but no longer presents as a bare orphan heading.",
+    "residual_caveat": "The main PDF still has a dense ACL two-column style and an 11-page total artifact. This pass did not attempt full page-count compression, citation rewriting, or new figure generation."
+  },
+  "final_artifacts": {
+    "main_pdf": {
+      "path": "paper/venues/acl27/build/main.pdf",
+      "sha256": "711191e54b0b0e72c44dd60adc8717a4e5d91d8c19266349a7f25e5de822c07c",
+      "bytes": 5194558,
+      "pages": 11,
+      "creation_date": "Fri Jun 5 09:42:06 2026 CST"
+    },
+    "page9_render": {
+      "path": "tmp/acl_main_visual_iter_20260605_round6_discussion_compact/pages_180/page-09.png",
+      "sha256": "c102a83f93824cf74c2c0db4cf224623333904a1c66f4444c83f8347b1051054",
+      "bytes": 723785,
+      "size": [
+        1489,
+        2105
+      ],
+      "active245": 0.09194361182320389,
+      "near_black50": 0.030432195562390227
+    },
+    "page10_render": {
+      "path": "tmp/acl_main_visual_iter_20260605_round6_discussion_compact/pages_180/page-10.png",
+      "sha256": "4cc13f03b7545d02d1a60c25e2471d65161b49802856e531b9c433988e507726",
+      "bytes": 947430,
+      "size": [
+        1489,
+        2105
+      ],
+      "active245": 0.1759432991581973,
+      "near_black50": 0.03152460880981513
+    },
+    "contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260605_round6_discussion_compact/contact_sheets/main_pages_01_11_round6_discussion_compact.png",
+      "sha256": "ae1b691ca7755a327451b62b6858c26d4493aad2b9e1d93501a0429227feb063",
+      "bytes": 3389456,
+      "size": [
+        2260,
+        2451
+      ],
+      "active245": 0.4071702718413651,
+      "near_black50": 0.004518654116253795
+    }
+  },
+  "review_artifacts": [
+    "tmp/acl_main_visual_iter_20260605_round4/contact_sheets/main_pages_01_11_180.png",
+    "tmp/acl_main_visual_iter_20260605_round5_prose_after/contact_sheets/main_pages_01_11_round5_prose_after.png",
+    "tmp/acl_main_visual_iter_20260605_round6_discussion_compact/contact_sheets/main_pages_01_11_round6_discussion_compact.png",
+    "tmp/acl_main_visual_iter_20260605_round6_discussion_compact/pages_180/page-09.png",
+    "tmp/acl_main_visual_iter_20260605_round6_discussion_compact/pages_180/page-10.png",
+    "tmp/acl_main_visual_iter_20260605_round6_discussion_compact/text/main_layout.txt"
+  ],
+  "commands_run": [
+    "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+    "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+    "make -C paper acl27",
+    "pdftoppm -png -r 180 paper/venues/acl27/build/main.pdf tmp/acl_main_visual_iter_20260605_round6_discussion_compact/pages_180/page",
+    "pdftotext -layout paper/venues/acl27/build/main.pdf tmp/acl_main_visual_iter_20260605_round6_discussion_compact/text/main_layout.txt",
+    "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|LaTeX Warning: Reference|Warning:.*Label|undefined|Rerun to get|Label\\\\(s\\\\) may have changed|Package lineno Warning\" paper/venues/acl27/build/main.log",
+    "python -m pytest -q tests/test_paper_layout.py -k 'acl_intro_uses_latest_low_text_method_chain_schematic or acl_main_forces_results_floats_before_discussion or acl_results_avoids_page_break_prone_original_nomdl_phrase'",
+    "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/main_prose_layout_polish_20260605.json",
+    "git diff --check -- paper/venues/acl27/sections/abstract.tex paper/venues/acl27/sections/intro.tex paper/venues/acl27/sections/results.tex paper/venues/acl27/sections/discussion.tex paper/venues/acl27/sections/conclusion.tex docs/records/README.md",
+    "git diff --no-index --check /dev/null docs/records/2026-06-05-acl-main-prose-layout-polish.md",
+    "git diff --no-index --check /dev/null paper/shared/evidence/raw/acl27_visual_review/main_prose_layout_polish_20260605.json"
+  ],
+  "files_changed": [
+    "paper/venues/acl27/sections/abstract.tex",
+    "paper/venues/acl27/sections/intro.tex",
+    "paper/venues/acl27/sections/results.tex",
+    "paper/venues/acl27/sections/discussion.tex",
+    "paper/venues/acl27/sections/conclusion.tex",
+    "paper/shared/evidence/raw/acl27_visual_review/main_prose_layout_polish_20260605.json",
+    "docs/records/2026-06-05-acl-main-prose-layout-polish.md",
+    "docs/records/README.md"
+  ],
+  "follow_up_risks": [
+    "A future iteration could further tune the page-9 Conclusion transition if the author wants a cleaner section break.",
+    "The reference pages and ethical-considerations text were visually checked only for containment, not rewritten in this pass.",
+    "The active thread goal remains broader than this single prose/layout iteration; additional rounds can continue from the rendered evidence."
+  ]
+}

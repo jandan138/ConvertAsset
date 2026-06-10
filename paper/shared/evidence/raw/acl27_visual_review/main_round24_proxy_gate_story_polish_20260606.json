@@ -1,0 +1,68 @@
+{
+  "review_id": "main_round24_proxy_gate_story_polish_20260606",
+  "date": "2026-06-06",
+  "scope": "ACL 2027 main PDF page 4 proxy-similarity gate story polish",
+  "pdf": "paper/venues/acl27/build/main.pdf",
+  "before_pdf": {
+    "sha256": "7cef09b4ffd907d129f5f16b65c077dbcc8d0eecc1bf4db3ab02c77403561572",
+    "pages": 11,
+    "bytes": 5188958,
+    "created": "Sat Jun 6 11:30:51 2026 CST"
+  },
+  "after_pdf": {
+    "sha256": "e9523fa1433e7ff2e1fc5613c5e992dc8375815e777406f764a82b6305157484",
+    "pages": 11,
+    "bytes": 5188951,
+    "created": "Sat Jun 6 11:38:41 2026 CST"
+  },
+  "source_changes": [
+    {
+      "path": "paper/venues/acl27/sections/results.tex",
+      "lines": "7-17",
+      "change": "Reframed the Section 4.1 proxy-similarity paragraph as a deliberately narrow screening gate that permits task-proximal checks but does not establish VLM-grounding reliability."
+    }
+  ],
+  "visual_evidence": {
+    "before_contact_sheet": "tmp/acl_main_visual_iter_20260606_round24_current/contact_sheet.png",
+    "before_page_4": "tmp/acl_main_visual_iter_20260606_round24_current/page-04.png",
+    "after_contact_sheet": "tmp/acl_main_visual_iter_20260606_round24_after/contact_sheet.png",
+    "after_page_4": "tmp/acl_main_visual_iter_20260606_round24_after/page-04.png",
+    "after_page_5": "tmp/acl_main_visual_iter_20260606_round24_after/page-05.png",
+    "pages_4_5_before_after": "tmp/acl_main_visual_iter_20260606_round24_after/pages04_05_before_after.png"
+  },
+  "visual_review": {
+    "selected_pages": [
+      4,
+      5
+    ],
+    "finding": "The page-4 Results opening now makes the proxy gate's role explicit before the VLM section. The rewrite leaves the 11-page structure unchanged: Section 4.2 still starts on page 4, Figure 2 stays at the top of page 5, and the page-5 text flow remains visually stable.",
+    "reader_effect": "The transition from proxy similarity to task-proximal VLM checks reads as a story gate: visual closeness clears the screening step but cannot close the grounding question."
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "exit 0; venues/acl27/build/main.pdf built"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "102 passed in 13.62s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "ok true; abstract_word_count 169"
+    },
+    {
+      "command": "pdftotext paper/venues/acl27/build/main.pdf tmp/acl_main_visual_iter_20260606_round24_after/main.txt && rg -n \"The first result is deliberately narrow|This clears the screening gate|permission to run task-proximal checks\" tmp/acl_main_visual_iter_20260606_round24_after/main.txt",
+      "result": "all three updated proxy-gate phrases found in extracted PDF text"
+    }
+  ],
+  "residual_risk": "Focused page-4 main-paper story polish only; not a full final-upload audit, supplement-wide wording cleanup, or metadata/title change."
+}

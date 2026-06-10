@@ -1,0 +1,101 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 93,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main Contribution 4 boundary-verb polish",
+  "before_pdf_sha256": "063db0dfff2b01b26d658e70bd626a7b7523158848981282d29d0f0e3942858d",
+  "after_pdf_sha256": "c84e9cf106443c2d9b8431f0c9a0ec2a5498e79b3b913b552069462401c0e24f",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round93_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round93_after",
+    "pages_scanned_initial": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pages_scanned_after": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "rendered_after_screenshots": [
+      "tmp/acl_main_visual_iter_20260607_round93_after/page-02.png"
+    ],
+    "before_page2_png_sha256": "9ca116f412929c43a2f8ce69ac2d42d885f6db64090cc508db5ef512b31e33c9",
+    "after_page2_png_sha256": "585964cc4b93879888bf041e47be539c8fba7070305f4b0dd17280f7b1db6e4c",
+    "before_page2_text_sha256": "23ad798d0ec77e73bd588669c7008f0656b69bacd1539663d07eacca11c760a4",
+    "after_page2_text_sha256": "a4fd6e1f9a97e171c7a2aef95ef8fa32891cd779476e76a7c3acd23673abaa7c",
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>",
+    "render_command": "pdftoppm -f 1 -l 10 -r 150 -png <pdf> tmp/acl_main_visual_iter_20260607_round93_after/page"
+  },
+  "defect": {
+    "pages": [
+      2
+    ],
+    "class": "contribution boundary verb",
+    "before_text_matches": [
+      "page 2 line 095: 4. We group material and stack checks in",
+      "page 2 line 096: one gate: NVIDIA material audit, 99"
+    ],
+    "reader_effect": "The contribution used a bookkeeping verb for a claim-boundary gate."
+  },
+  "changes": [
+    {
+      "path": "paper/venues/acl27/sections/intro.tex",
+      "summary": "Changed Contribution 4 from We group to We bound."
+    }
+  ],
+  "rejected_iterations": [
+    {
+      "summary": "The first rewrite used with one gate and introduced visible page-2 contribution-column hyphenation: au- / dit and re- / peated."
+    }
+  ],
+  "after_evidence": {
+    "targeted_scan_result": "Page 2 shows We bound material and stack checks in one gate without the rejected split regressions.",
+    "full_scan_result": "The enhanced after scan reports only the existing explicit human-subject wording and normal reference-column hyphenation on pages 9-10.",
+    "visual_result": "The Contribution 4 block and adjacent Related Work opener remain visually stable.",
+    "page_count": 10
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 14.33s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Contribution 4 verb only. No metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "Reference pages retain normal reference-column hyphenation; the existing explicit human-subject wording remains."
+}

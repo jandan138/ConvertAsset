@@ -1,0 +1,78 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "date": "2026-06-05",
+  "scope": "ACL main-paper round 9 visual/prose iteration for page-9 Discussion, Conclusion, and Limitations rhythm.",
+  "result": "page_9_discussion_conclusion_limitations_rhythm_improved",
+  "pdf": {
+    "pages": 11,
+    "page_size": "A4",
+    "before_round_sha256": "63427296e4390cd48b5a29d4f65e8eea8f02bb49783769aaeacb994464c7e9b8",
+    "final_sha256": "275ef0c4690c5d9339b71745c6f75544820dc9d75c94fdd98bec9b615e61ee5f"
+  },
+  "source_changes": [
+    {
+      "path": "paper/venues/acl27/sections/discussion.tex",
+      "summary": "Replaced generic short run-in labels with Protocol, not leaderboard; Contracts before deltas; Boundaries as method."
+    },
+    {
+      "path": "paper/venues/acl27/sections/conclusion.tex",
+      "summary": "Compressed the conclusion into a single burden-of-proof paragraph that fits in the left column on page 9."
+    }
+  ],
+  "render_artifacts": {
+    "before_page_9": "tmp/acl_main_visual_iter_20260605_round9_current/pages_180/page-09.png",
+    "after_page_9": "tmp/acl_main_visual_iter_20260605_round9_after_r2/pages_180/page-09.png",
+    "after_page_10": "tmp/acl_main_visual_iter_20260605_round9_after_r2/pages_180/page-10.png",
+    "after_late_page_contact_sheet": "tmp/acl_main_visual_iter_20260605_round9_after_r2/contact_sheets/main_pages_08_11_after_r2.png",
+    "after_text_layout": "tmp/acl_main_visual_iter_20260605_round9_after_r2/text/main_layout.txt"
+  },
+  "visual_findings": [
+    {
+      "page": 9,
+      "status": "passed",
+      "notes": "The final page keeps Discussion and the complete short Conclusion in the left column; Limitations starts at the top of the right column without stray Conclusion text above it."
+    },
+    {
+      "page": 10,
+      "status": "passed",
+      "notes": "Figure 4, caption, Ethical Considerations, and References remain readable and non-overlapping."
+    }
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed"
+    },
+    {
+      "command": "pdfinfo paper/venues/acl27/build/main.pdf",
+      "result": "11 A4 pages"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "passed"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|LaTeX Warning: Reference|Warning:.*Label|undefined|Rerun to get|Label\\\\(s\\\\) may have changed|Package lineno Warning\" paper/venues/acl27/build/main.log",
+      "result": "no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_acl_preupload_gate.py",
+      "result": "17 passed"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k 'acl_main_forces_results_floats_before_discussion or acl_uses_raggedbottom_to_avoid_stretched_discussion_page or acl_results_avoids_page_break_prone_original_nomdl_phrase or acl_intro_uses_latest_low_text_method_chain_schematic'",
+      "result": "4 passed, 81 deselected"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/run_preupload_gate.py",
+      "result": "failed at check_integrity_fingerprint.py because the current worktree fingerprint is stale relative to multiple paper/figure/table files"
+    }
+  ],
+  "source_changes_required": true,
+  "preupload_gate_fully_passed": false,
+  "residual_risk": "The round improves page-9 visual/prose closure but does not refresh the integrity fingerprint or prove final submission completion."
+}

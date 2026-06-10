@@ -1,0 +1,128 @@
+{
+  "review_id": "supplement_round5_systematic_crop_scale_rescan_20260605",
+  "artifact": "paper/venues/acl27/build/supplement.pdf",
+  "scope": "Round 5 systematic ACL supplement visual audit for obvious occlusion, incorrect scaling, caption collision, page-edge truncation, source-slot clipping, and incomplete display of dense atlas or AI-slot panels.",
+  "supplement_pdf": {
+    "sha256": "4c5295b7306453238cfa9a2a14e8cbaea56c16ffec0b22d63b88c6d7a836cb0d",
+    "pages": 46,
+    "page_size": "A4",
+    "creation_date": "Fri Jun 5 10:42:11 2026 CST"
+  },
+  "evidence": {
+    "pages_180dpi_dir": "tmp/acl_supplement_visual_scan_20260605_round5/pages_180/",
+    "layout_text": "tmp/acl_supplement_visual_scan_20260605_round5/text/supplement_layout.txt",
+    "page_edge_scan": "tmp/acl_supplement_visual_scan_20260605_round5/supplement_page_edge_risk_report.json",
+    "pdfimages_list": "tmp/acl_supplement_visual_scan_20260605_round5/pdfimages_list.txt",
+    "full_page_contact_sheets": [
+      "tmp/acl_supplement_visual_scan_20260605_round5/contact_sheets/supplement_pages_01_08.png",
+      "tmp/acl_supplement_visual_scan_20260605_round5/contact_sheets/supplement_pages_09_16.png",
+      "tmp/acl_supplement_visual_scan_20260605_round5/contact_sheets/supplement_pages_17_24.png",
+      "tmp/acl_supplement_visual_scan_20260605_round5/contact_sheets/supplement_pages_25_32.png",
+      "tmp/acl_supplement_visual_scan_20260605_round5/contact_sheets/supplement_pages_33_40.png",
+      "tmp/acl_supplement_visual_scan_20260605_round5/contact_sheets/supplement_pages_41_46.png"
+    ],
+    "content_crop_contact_sheets": [
+      "tmp/acl_supplement_visual_scan_20260605_round5/contact_sheets/supplement_candidate_crops_01_06.png",
+      "tmp/acl_supplement_visual_scan_20260605_round5/contact_sheets/supplement_candidate_crops_07_12.png",
+      "tmp/acl_supplement_visual_scan_20260605_round5/contact_sheets/supplement_candidate_crops_13_18.png",
+      "tmp/acl_supplement_visual_scan_20260605_round5/contact_sheets/supplement_candidate_crops_19_24.png",
+      "tmp/acl_supplement_visual_scan_20260605_round5/contact_sheets/supplement_candidate_crops_25_30.png",
+      "tmp/acl_supplement_visual_scan_20260605_round5/contact_sheets/supplement_candidate_crops_31_36.png",
+      "tmp/acl_supplement_visual_scan_20260605_round5/contact_sheets/supplement_candidate_crops_37_42.png",
+      "tmp/acl_supplement_visual_scan_20260605_round5/contact_sheets/supplement_candidate_crops_43_46.png"
+    ]
+  },
+  "visual_review": {
+    "overall_verdict": "PASS_WITH_DENSITY_NOTES",
+    "blocking_defects_found": 0,
+    "page_ranges_reviewed": [
+      {
+        "pages": "1-8",
+        "verdict": "PASS",
+        "notes": "Overview, evidence roadmap, claim-boundary, and render-atlas opener pages show complete figures and captions."
+      },
+      {
+        "pages": "9-16",
+        "verdict": "PASS",
+        "notes": "GRScenes render panels, material comparison, derivation companions, metric bridge, and VLM protocol atlas remain within page bounds."
+      },
+      {
+        "pages": "17-24",
+        "verdict": "PASS",
+        "notes": "VLM table companions and GRScenes stress/failure companions are dense but complete."
+      },
+      {
+        "pages": "25-32",
+        "verdict": "PASS",
+        "notes": "Material-effect pages, including Fig. S25 and S26 bottom schematics, and initial navigation case pages are complete."
+      },
+      {
+        "pages": "33-40",
+        "verdict": "PASS_WITH_DENSITY_NOTES",
+        "notes": "Navigation companion/media-boundary/upload-gate and theory bridge/failure map figures are compact but not clipped."
+      },
+      {
+        "pages": "41-46",
+        "verdict": "PASS_WITH_DENSITY_NOTES",
+        "notes": "Hypothesis-boundary, review-packet manifest, source-boundary companion, and references pages show no incomplete figure display."
+      }
+    ],
+    "specific_regression_targets": [
+      {
+        "target": "Figure S25 page 27 bottom claim-boundary gate",
+        "status": "fixed_in_current_pdf",
+        "notes": "The bottom concept/gate schematic is fully visible in the rendered PDF page and does not collide with the caption or footer."
+      },
+      {
+        "target": "Figure S26 page 28 bottom visual decision gate",
+        "status": "pass",
+        "notes": "The bottom decision schematic is complete and on-page."
+      },
+      {
+        "target": "Dense GRScenes table companions pages 20-24",
+        "status": "pass",
+        "notes": "No rendered-page clipping or caption collision was visible."
+      },
+      {
+        "target": "Navigation and upload-gate dense pages 29-38",
+        "status": "pass",
+        "notes": "Route strips and media panels remain visible within their figure frames."
+      },
+      {
+        "target": "Theory and source-boundary dense pages 39-45",
+        "status": "pass_with_density_notes",
+        "notes": "Small labels remain dense, but no figure is cut off or incorrectly scaled."
+      }
+    ],
+    "embedded_image_resolution": {
+      "source": "pdfimages -list paper/venues/acl27/build/supplement.pdf",
+      "min_ppi_observed": 125,
+      "max_ppi_observed": 339,
+      "assessment": "No extreme low-resolution or obviously over-upscaled embedded image was found. The 125ppi navigation strips on pages 34-35 remain visually complete."
+    },
+    "residual_risk": "This is a visual containment/scaling pass, not an OCR readability or semantic-claim review. Dense atlas/index labels may remain hard to read at print scale."
+  },
+  "commands": [
+    {
+      "command": "make -C paper acl27-supplement",
+      "result": "PASS; build/supplement.pdf was up to date"
+    },
+    {
+      "command": "pdftoppm -r 180 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_visual_scan_20260605_round5/pages_180/page",
+      "result": "PASS; rendered 46 page images"
+    },
+    {
+      "command": "pdftotext -layout paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_visual_scan_20260605_round5/text/supplement_layout.txt",
+      "result": "PASS"
+    },
+    {
+      "command": "pdfimages -list paper/venues/acl27/build/supplement.pdf",
+      "result": "PASS; embedded image PPI range approximately 125-339"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|lineno Warning\" paper/venues/acl27/build/supplement.log",
+      "result": "PASS; no matches"
+    }
+  ],
+  "source_changes_required": false
+}

@@ -1,0 +1,33 @@
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_internnav_rollout_0036_0066_main3_readable.png}
+  \caption{Selected InternNav path panels. These selected official KuJiaLe
+  examples show original/noMDL start and end frames with trajectory overlays for
+  orientation only: purple executed paths and action arrows, with overlay color
+  changed for readability; green reference paths. Quantitative embodied-data
+  claims remain tied to the 99-episode paired run and official-scene load/render
+  checks.}
+  \label{fig:internnav-rollout-supp}
+\end{figure*}
+
+\section*{Limitations}
+
+The evidence base is intentionally narrow. The clean visual-QA pool has 15
+pairs, below the configured 20-pair clean final gate, so it is not evidence that
+conversion preserves VLM grounding in general. The 30-pair expanded stress set is
+a frozen, target-centered material-shift set with 4 PASS and 26 WARN pairs; it
+supports a controlled stress-test claim, not a broad GRScenes benchmark
+distribution. Qwen2.5-VL also exposes unresolved coordinate semantics because
+raw image-space scoring is stronger than the requested normalized-1000
+interpretation.
+
+The material-effect and embodied checks are similarly claim-bounded. The current
+matrix covers 30 GRScenes samples for four effect bins plus clearcoat and
+procedural fixtures; it supports selected qualitative and failure-case
+interpretation, not a material-effect error-rate distribution. The
+InternNav/DualVLN~\cite{Wei2026Ground} route is an official-route sanity check
+over three local KuJiaLe \texttt{val\_unseen} scenes and 99 paired episodes, not
+evidence for all InternNav or InteriorAgent settings, R2R/MP3D, manipulation,
+or broad GRScenes robustness. Figure~\ref{fig:internnav-rollout-supp} is
+qualitative orientation evidence only. The official-scene load/render closure
+supports stability only, not speedup.

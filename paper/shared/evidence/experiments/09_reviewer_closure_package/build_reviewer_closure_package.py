@@ -563,7 +563,7 @@ def render_stat_latex(rows: list[dict[str, Any]]) -> str:
         )
     return rf"""\begin{{table*}}[t]
 \centering
-\caption{{Reviewer-closure paired bootstrap confidence intervals for existing VLM and InternNav evidence. Deltas are converted/noMDL minus original MDL and are descriptive within the current frozen evidence pools, not population-level guarantees.}}
+\caption{{Paired bootstrap confidence intervals for frozen VLM and InternNav evidence pools. Deltas are noMDL minus original MDL; they are descriptive claim-boundary checks, not population-level claims.}}
 \label{{tab:reviewer_closure_paired_ci}}
 \scriptsize
 \resizebox{{\textwidth}}{{!}}{{%
@@ -635,7 +635,7 @@ def render_recommender_latex(rows: list[dict[str, str]]) -> str:
         )
     return rf"""\begin{{table*}}[t]
 \centering
-\caption{{Lightweight safe-conversion recommender derived from the material-effect risk matrix. The rules are evidence-gated reviewer-closure guidance, not a learned classifier.}}
+\caption{{Lightweight safe-conversion recommender derived from the material-effect risk matrix. The rules are evidence-gated reviewer-closure guidance rather than a learned classifier.}}
 \label{{tab:material_safe_conversion_recommender}}
 \scriptsize
 \resizebox{{\textwidth}}{{!}}{{%

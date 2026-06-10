@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_vlm_coordinate_protocol_atlas_20260602",
+  "generated_at_utc": "2026-06-02T09:25:43Z",
+  "review_type": "local_visual_review_not_independent_subagent",
+  "imagegen_reference_only": {
+    "path": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_010add49e1a52a25016a1e9caa66d88195b33b4e12839692d0.png",
+    "used_as_paper_evidence": false,
+    "purpose": "Non-evidence layout reference for a dense VLM coordinate protocol atlas."
+  },
+  "paper_assets": {
+    "figure": "paper/shared/figures/fig_supplement_vlm_coordinate_protocol_atlas.png",
+    "figure_sha256": "3db4308a8aa583a0b7fe05ff0de90afddd19954cafe921c04b85905cc0374013",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_sha256": "7e8cb929dfa204b777d942b6ca00380499fe67eaefc6c5b3fb96e0fce7bfb1d9",
+    "rendered_page": "/tmp/page14_single.png",
+    "pdf_page": 14
+  },
+  "visual_metrics": {
+    "source_figure_size": [1800, 1560],
+    "source_figure_active_fraction": 0.3564,
+    "source_figure_red_fallback_fraction": 0.0,
+    "rendered_pdf_page_size": [1406, 1988],
+    "rendered_pdf_page_active_fraction": 0.15,
+    "rendered_pdf_page_red_fallback_fraction": 0.0
+  },
+  "visual_review": {
+    "overall_verdict": "PASS",
+    "evidence": [
+      "The page uses real GRScenes target-view original and converted render panels.",
+      "Green target boxes remain visible for backpack, clock, and bottle rows.",
+      "Blue raw-center and orange normalized bbox-center markers are visible without obscuring the target category.",
+      "No large red fallback-material artifact is visible.",
+      "The atlas is captioned as protocol guidance and not as additional VLM prediction evidence."
+    ],
+    "risks": [
+      "The adjacent coordinate-ablation and baseline table pages remain table-heavy.",
+      "This is a local visual review, not an independent fork-context review."
+    ]
+  },
+  "verification_commands": [
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py && python -m pytest -q tests/test_paper_layout.py -k \"vlm_coordinate_protocol\"",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "make -C paper acl27-supplement",
+    "pdftotext paper/venues/acl27/build/supplement.pdf - | rg -n \"VLM coordinate protocol visual atlas|Red material|registered diagnostic figure|fig_vlm_grounding_cases|/cpfs|zhuzihou|jandan138|github.com|ConvertAsset.git\" -S",
+    "pdfimages -f 14 -l 14 -png paper/venues/acl27/build/supplement.pdf /tmp/pdfimg14/img",
+    "pdftoppm -f 14 -l 14 -singlefile -r 170 -png paper/venues/acl27/build/supplement.pdf /tmp/page14_single"
+  ]
+}

@@ -280,6 +280,21 @@ def test_write_performance_summary_table_includes_failure_counts(tmp_path: Path)
                 "gpu_memory_mb_mean": 3807.0,
                 "gpu_memory_mb_ci95_low": 3700.0,
                 "gpu_memory_mb_ci95_high": 3900.0,
+            },
+            {
+                "condition": "convertasset_nomdl",
+                "scene_count": 3,
+                "success_count": 9,
+                "failure_count": 0,
+                "total_ready_s_mean": 14.1234,
+                "total_ready_s_ci95_low": 11.0,
+                "total_ready_s_ci95_high": 19.0,
+                "warmup_fps_mean": 2.4242,
+                "warmup_fps_ci95_low": 1.7,
+                "warmup_fps_ci95_high": 3.0,
+                "gpu_memory_mb_mean": 3829.0,
+                "gpu_memory_mb_ci95_low": 3650.0,
+                "gpu_memory_mb_ci95_high": 4000.0,
             }
         ],
         "rows": [],
@@ -295,6 +310,61 @@ def test_write_performance_summary_table_includes_failure_counts(tmp_path: Path)
     assert loaded[0]["failure_count"] == "0"
     tex = tex_path.read_text(encoding="utf-8")
     assert "\\label{tab:official_scene_performance_summary}" in tex
+    assert "Metric & Original MDL & noMDL" in tex
+    assert "Scenes" in tex
+    assert "Scenes & 3 & 3" in tex
+    assert "Successful runs & 9; 0 fail & 9; 0 fail" in tex
+    assert "kujiale\\_0031" not in tex
+    assert "original\\_mdl" not in tex
+    assert "convertasset\\_nomdl" not in tex
+
+
+def test_performance_summary_caption_stays_compact_for_main_pdf(tmp_path: Path) -> None:
+    module = load_module()
+    performance_summary = {
+        "condition_summary_rows": [
+            {
+                "condition": "original_mdl",
+                "scene_count": 3,
+                "success_count": 9,
+                "failure_count": 0,
+                "total_ready_s_mean": 13.9471,
+                "total_ready_s_ci95_low": 10.0,
+                "total_ready_s_ci95_high": 18.0,
+                "warmup_fps_mean": 2.3647,
+                "warmup_fps_ci95_low": 1.6,
+                "warmup_fps_ci95_high": 2.9,
+                "gpu_memory_mb_mean": 3807.0,
+                "gpu_memory_mb_ci95_low": 3700.0,
+                "gpu_memory_mb_ci95_high": 3900.0,
+            },
+            {
+                "condition": "convertasset_nomdl",
+                "scene_count": 3,
+                "success_count": 9,
+                "failure_count": 0,
+                "total_ready_s_mean": 14.1234,
+                "total_ready_s_ci95_low": 11.0,
+                "total_ready_s_ci95_high": 19.0,
+                "warmup_fps_mean": 2.4242,
+                "warmup_fps_ci95_low": 1.7,
+                "warmup_fps_ci95_high": 3.0,
+                "gpu_memory_mb_mean": 3829.0,
+                "gpu_memory_mb_ci95_low": 3650.0,
+                "gpu_memory_mb_ci95_high": 4000.0,
+            },
+        ],
+        "rows": [],
+    }
+    tex_path = tmp_path / "perf.tex"
+
+    module.write_performance_summary_table(tmp_path / "perf.csv", tex_path, performance_summary)
+
+    tex = tex_path.read_text(encoding="utf-8")
+    caption = tex.split("\\caption{", 1)[1].split("}", 1)[0]
+    assert len(caption.split()) <= 30
+    assert "NVIDIA official-scene baseline is omitted" in caption
+    assert "per-scene rows remain" not in caption
 
 
 def test_claim_audit_decision_marks_audit_complete() -> None:

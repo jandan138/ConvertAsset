@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-05-28",
+  "review_type": "local_pure_visual_review",
+  "note": "Reviewed locally with the render-visual-reviewer rubric. No delegated subagent was used because this turn did not explicitly authorize multi-agent delegation.",
+  "artifact": {
+    "path": "paper/shared/figures/fig_acl_method_chain_imagegen_v13.png",
+    "sha256": "aa07b2ba0e6338b977688937852e75529c891c45522ac631a428bbf6f0758d0c",
+    "size_px": [1847, 852],
+    "role": "AI-generated schematic roadmap, not empirical evidence"
+  },
+  "pdf_spot_check": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256_after_clean_preupload_gate": "a573d51453ea228ffa0c8a0f162237117f548c6868852dca43fd5e8e4a546474",
+    "rendered_page_2_png_sha256": "7a9191e6f8d326966c5298b53bad9c50a47fad69515d64b9f1b60501025f6fef"
+  },
+  "verdict": "PASS_FOR_SCHEMATIC_USE",
+  "visible_evidence": [
+    "The four-stage left-to-right method chain is visible at ACL page scale.",
+    "Major labels are legible: USD / MDL Assets, noMDL Conversion, Paired VLM Evidence, and InternNav Evidence.",
+    "The footer claim boundary remains readable and states that frozen paired evidence supports quantitative claims while selected rollouts are qualitative.",
+    "SR, SPL, and NE appear as neutral metric tiles without direction arrows.",
+    "Navigation overlays use green and purple paths, with no red trajectory that could be confused with material fallback."
+  ],
+  "risks": [
+    "The panel is AI-generated schematic art, so it must remain captioned as a roadmap rather than measured render evidence.",
+    "Some small internal text in the VLM question bubble is not evidence-bearing and should not be relied on for claims."
+  ],
+  "promotion_decision": "Promote v13 over v12 because it has lower microtext density and a cleaner page-scale structure while preserving the same paper story."
+}

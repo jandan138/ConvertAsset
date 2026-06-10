@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_theory_failure_mode_map_v2_20260604",
+  "date_utc": "2026-06-04",
+  "target": "ACL27 supplement page 40 theory failure-mode interpretation map v2",
+  "target_page": 40,
+  "independent_subagent_review": false,
+  "reason_independent_review_not_used": "Subagent spawning is restricted to explicit user requests in this environment; review followed the render-visual-reviewer and research-figure-ai-slot-composer checklists locally.",
+  "inputs": {
+    "standalone_figure": "paper/shared/figures/fig_supplement_theory_failure_mode_map.png",
+    "source_ai_slot": "paper/shared/figures/ai_slots/fig_supplement_theory_failure_mode_gate_v2_ai_slot.png",
+    "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_08602c99988cec58016a211a1bdc808192a2108b0deba4b040.png",
+    "composer": "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_theory_failure_mode_map.yaml",
+    "source_registry": "paper/shared/figures/sources.yaml",
+    "source_section": "paper/venues/acl27/sections/supplement/06_theory.tex",
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "pdf_review_pages_144dpi": [
+      "tmp/acl_supplement_page40_theory_failure_mode_v2_20260604/page-39.png",
+      "tmp/acl_supplement_page40_theory_failure_mode_v2_20260604/page-40.png",
+      "tmp/acl_supplement_page40_theory_failure_mode_v2_20260604/page-41.png"
+    ],
+    "pdf_review_page_90dpi": "tmp/acl_supplement_page40_theory_failure_mode_v2_90dpi_20260604/page-40.png",
+    "slot_containment_crop": "tmp/acl_supplement_page40_theory_failure_mode_v2_20260604/failure_mode_evidence_wall_crop.png",
+    "pdf_figure_caption_crop": "tmp/acl_supplement_page40_theory_failure_mode_v2_20260604/page40_figure_caption_crop.png"
+  },
+  "hashes": {
+    "source_generated_image_sha256": "b49d773da897b4263f1135c33e25d036ea18976fe40a7a3b6ddf8ca502fafd4a",
+    "source_ai_slot_sha256": "b49d773da897b4263f1135c33e25d036ea18976fe40a7a3b6ddf8ca502fafd4a",
+    "standalone_figure_sha256": "0c47e0d9e21b477110a0bec8af61bfe9259bbfed02ef7cb26d4dea30a5053c07",
+    "slot_containment_crop_sha256": "48c2283521dee0a83d10cbc3537fe82fca65b106b3e08be50a706f213980d282",
+    "pdf_figure_caption_crop_sha256": "37612424fff5065f63548e9daba9d79e732d4210ce8286c262701e35a1eab9f3",
+    "page39_render_144dpi_sha256": "147db3307b000fd1a2004f273c59b79b2e9d8c77dcd140c32134b6b4b40b4481",
+    "page40_render_144dpi_sha256": "a213cedf1db84b37ca93884b0e73b88552274bef814d03d0491bacb3d5907d1c",
+    "page41_render_144dpi_sha256": "7f05a315be353116bb53e047b800742b326af24a579b21079963e6fff00fbba1",
+    "page40_render_90dpi_sha256": "6663c664c4e091f43435b2b94cad42b5f31073b31d4bbe2bb58a3e6c36918348",
+    "pdf_sha256": "5b95ce3e8b4ca48f5531a507ad0f1d5097f82e17c1a56fb550e19a54979a4e83"
+  },
+  "measurement": {
+    "layout_guard_active_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < threshold, matching tests/test_paper_layout.py figure-density checks.",
+    "page_active245_definition": "RGB pixels where max(channel)-min(channel) > 15 or mean(channel) < 245, matching the sparse-page density audit.",
+    "red_pixel_fraction_definition": "RGB pixels where R > 150, G < 90, and B < 90, matching tests/test_paper_layout.py red fallback checks."
+  },
+  "metrics": {
+    "source_ai_slot_size_px": [
+      1672,
+      941
+    ],
+    "source_ai_slot_layout_guard_active238": 0.364448642,
+    "source_ai_slot_layout_guard_active245": 0.382907321,
+    "source_ai_slot_red_pixel_fraction": 0.004133214,
+    "standalone_previous_v1_size_px": [
+      1800,
+      1300
+    ],
+    "standalone_previous_v1_active_fraction_20260602_record": 0.570662,
+    "standalone_current_size_px": [
+      1800,
+      1800
+    ],
+    "standalone_current_layout_guard_active238": 0.552476543,
+    "standalone_current_layout_guard_active245": 0.562639815,
+    "standalone_current_red_pixel_fraction": 0.001266358,
+    "evidence_wall_crop_size_px": [
+      1724,
+      538
+    ],
+    "evidence_wall_crop_layout_guard_active245": 0.513925426,
+    "pdf_figure_caption_crop_size_px": [
+      955,
+      1090
+    ],
+    "pdf_figure_caption_crop_layout_guard_active245": 0.458383208,
+    "round38_page40_active245_90dpi": 0.183465586,
+    "current_page40_active245_90dpi": 0.266826007,
+    "page40_active245_delta_from_round38": 0.083360421,
+    "current_page40_layout_guard_active238_90dpi": 0.242523439,
+    "current_page40_red_pixel_fraction_90dpi": 0.000353098,
+    "current_page39_active245_144dpi": 0.176193781,
+    "current_page40_active245_144dpi": 0.238089611,
+    "current_page41_active245_144dpi": 0.128711775,
+    "pdf_page_count": 45,
+    "pdf_file_size_bytes": 51297310
+  },
+  "layout_iteration": {
+    "before": "The v1 failure-mode map was a 1800 x 1300 landscape board; on page 40 it left a large blank lower half after the caption in the round38 sparse-page review.",
+    "after": "The v2 map uses a 1800 x 1800 board, raises the PDF placement to 0.74 textheight, and adds a bottom failure-mode evidence wall with a contain-placed AI gate plus material, target, route, and selected-failure render crops.",
+    "ai_slot_containment_update": "The v2 failure-mode gate is placed with contain scaling through _fit(..., cover=False), following the updated AI-slot composition rule that generated slots should not be center-cropped or occluded.",
+    "result": "Accepted: the supplement remains 45 pages, Figure S38 and its caption fit on page 40, page 39 remains the theory bridge, and page 41 still starts the hypothesis text normally."
+  },
+  "visual_review": {
+    "overall_verdict": "PASS",
+    "standalone_figure": "PASS: the figure now has a dense lower evidence wall while preserving the four original interpretation lanes and claim-boundary cards.",
+    "ai_slot_asset": "PASS: the raw v2 AI slot has no readable words, numbers, logos, or watermarks and works as an exposition-only gate schematic.",
+    "ai_slot_composed_crop": "PASS: the evidence-wall crop shows the AI slot contained inside its card with no center-crop loss; surrounding render crops fill the wall without overlapping labels.",
+    "pdf_page_40": "PASS: the expanded Figure S38 and caption fit on one page without clipping, caption collision, or page-count spill.",
+    "neighbor_pages": "PASS: page 39 remains the theory visual bridge and page 41 remains the hypothesis-boundary companion and text page.",
+    "claim_boundary": "PASS: deterministic labels and caption keep the map a reading aid over existing evidence, not a new experiment, population rate, or converter ranking."
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'theory_failure_mode_map'",
+    "python - <<'PY' from paper.shared.figures.gen_supplement_task_media_atlases import build_theory_failure_mode_map; build_theory_failure_mode_map() PY",
+    "make -C paper acl27-supplement",
+    "pdftoppm -r 144 -png -f 39 -l 41 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page40_theory_failure_mode_v2_20260604/page",
+    "pdftoppm -r 90 -png -f 40 -l 40 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_page40_theory_failure_mode_v2_90dpi_20260604/page",
+    "pdfinfo paper/venues/acl27/build/supplement.pdf | rg '^Pages:'",
+    "sha256sum paper/venues/acl27/build/supplement.pdf paper/shared/figures/fig_supplement_theory_failure_mode_map.png paper/shared/figures/ai_slots/fig_supplement_theory_failure_mode_gate_v2_ai_slot.png"
+  ]
+}

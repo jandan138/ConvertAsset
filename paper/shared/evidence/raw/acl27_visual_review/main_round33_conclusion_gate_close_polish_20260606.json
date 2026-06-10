@@ -1,0 +1,96 @@
+{
+  "round": 33,
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "target_pdf": "paper/venues/acl27/build/main.pdf",
+  "target_area": {
+    "pages": [9, 10],
+    "source": "paper/venues/acl27/sections/conclusion.tex",
+    "lines_after_change": "8-10",
+    "description": "Conclusion second paragraph gate-audit closing sentence and adjacent Limitations/page-10 flow"
+  },
+  "change_summary": [
+    "Replaced the Conclusion's long second paragraph with a shorter four-gate closing sentence.",
+    "Removed the rendered page-9 splits where 'intervention au-' and 'visual compar-' weakened the final takeaway.",
+    "Kept the same gate semantics while making the closing sentence more compact and ACL-like."
+  ],
+  "visual_review": {
+    "before_render_dir": "tmp/acl_main_visual_iter_20260606_round33_current",
+    "after_render_dir": "tmp/acl_main_visual_iter_20260606_round33_after",
+    "before_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round33_current/contact_sheet.png",
+      "sha256": "40651efb42d91dc56fe8527d238355a45f0f606004043bf6b9b544a805d2083f"
+    },
+    "after_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round33_after/contact_sheet.png",
+      "sha256": "c4e3deefd79f70f08ead947753a7c373fb408459287404e41cca2e834fd95641"
+    },
+    "focus_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round33_after/focus_p9_after.png",
+      "sha256": "ff03b9dcd852e228adcea0fd2de945dd3d4ccf964a4d2f7b3405c1176fb56709",
+      "pages": [9]
+    },
+    "focus_pages_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round33_after/focus_p9_p10_after.png",
+      "sha256": "017b284cbbc30e74a843392c8dbf198e110e87588b6c5d92716cc81afc47d887",
+      "pages": [9, 10]
+    },
+    "focus_before_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round33_after/focus_before_after_p9.png",
+      "sha256": "e7d0529f1b0bbb2919c969f12d55d42a0029d328aea757d1696e3169df3f76a2",
+      "pages": [9]
+    },
+    "observations": [
+      "Before: page 9 rendered 'This paper makes that intervention au-' followed by 'ditable' and 'visual compar-' followed by 'ison'.",
+      "After: page 9 renders 'We make the intervention auditable with four gates: render similarity, grounding QA, material-risk bins, and embodied smoke tests.' without the old split words.",
+      "Conclusion remains contained in the left column; Limitations still starts at the top of the right column.",
+      "Page 10 Figure 4, Ethical Considerations, and References remain visually stable after the localized compaction."
+    ],
+    "rejected_intermediate": "An initial longer rewrite removed the target split words but pushed the Conclusion's final two lines into the top of the right column; it was rejected before final verification."
+  },
+  "pdf_identity": {
+    "before_sha256": "a7eb18b17acf73ede0439e6a14c6034b15ec2a86c71b80cc530d296b12ba682c",
+    "after_sha256": "ed41a93c5140bb9e06fce36bff58e65130e7d81dd448a9aaa3d9dc7dccb23628",
+    "after_pdfinfo": {
+      "creation_date": "Sat Jun 6 13:08:58 2026 CST",
+      "mod_date": "Sat Jun 6 13:08:58 2026 CST",
+      "pages": 11,
+      "page_size": "595.276 x 841.89 pts (A4)",
+      "file_size_bytes": 5188699,
+      "pdf_version": "1.5"
+    }
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "pass",
+      "evidence": "Exit 0; acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "pass",
+      "evidence": "No matches."
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "pass",
+      "evidence": "102 passed in 14.10s."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "pass",
+      "evidence": "ok=true; violations=[], unsafe_figure_violations=[], venue_wrapper_violations=[]"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "pass",
+      "evidence": "ok=true; title and abstract match metadata; abstract_word_count=169"
+    },
+    {
+      "command": "rg -n \"This paper makes that intervention|visual compar-|auditable with four gates|render similarity|Portable assets are useful only inside|portable assets are useful only inside|au-\" tmp/acl_main_visual_iter_20260606_round33_current/page9.txt tmp/acl_main_visual_iter_20260606_round33_after/pages9_10.txt || true",
+      "result": "pass",
+      "evidence": "Current page 9 text contains the old 'intervention au-' and 'visual compar-' splits; after pages 9-10 text contains 'four gates: render similarity, grounding QA,' and 'Portable assets are useful only inside the gates'."
+    }
+  ],
+  "workspace_note": "The repository had unrelated pre-existing modified paper, docs, evidence, figure, and test files before this round. This evidence record only claims the round33 Conclusion gate-close polish plus the new record/evidence files."
+}

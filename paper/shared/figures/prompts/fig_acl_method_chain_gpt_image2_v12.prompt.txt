@@ -1,0 +1,31 @@
+Model route: Codex built-in image generation tool.
+Generated source: /root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_02cbaf047fe5830d016a16f4b9aa1881909bce49f70f7ab094.png
+Candidate path: paper/shared/figures/candidates/fig_acl_method_chain_imagegen_v12_candidate.png
+Promoted path: paper/shared/figures/fig_acl_method_chain_imagegen_v12.png
+
+Use case: infographic-diagram
+Asset type: ACL paper Figure 1 schematic roadmap, wide horizontal bitmap.
+Primary request: Generate a very clean, low-text four-stage method-chain schematic for a research paper. Optimize for exact text accuracy and readability at small PDF scale.
+
+Canvas and style: wide horizontal academic infographic, white background, four large side-by-side panels with thin colored borders and big arrows between panels. Use icons, thumbnails, arrows, and simple visual blocks instead of many labels. No decorative gradients, no watermarks.
+
+Only include these exact text strings and no other words except tiny repeated "MDL"/"noMDL" labels if necessary:
+1. USD / MDL Scene Assets
+2. ConvertAsset noMDL Conversion
+3. Matched Rendering + VLM Grounding
+4. InternNav Navigation Evidence
+Original (MDL)
+noMDL (Converted)
+Target: box
+VLM QA
+SR
+SPL
+NE
+Quantitative claims use frozen paired evidence; selected rollouts are qualitative.
+
+Panel 1 visual content: USD file icon, simple scene hierarchy tree, indoor scene thumbnails, material swatches.
+Panel 2 visual content: material nodes transform into preview-surface style nodes, path-rewriting icon, preserved hierarchy icon, output noMDL USD database icon. Use visuals rather than text labels.
+Panel 3 visual content: paired indoor render thumbnails with orange target boxes on the same box, VLM QA bubble, model point crosshair.
+Panel 4 visual content: navigation first-person thumbnails, top-down map with green reference path and purple executed path, start/goal markers, neutral SR/SPL/NE metric cards with no up/down arrows.
+
+Strict constraints: no red trajectory, no red fallback material surfaces, no extra claim text, no speedup or leaderboard wording, no author names, no paper title, no citations.

@@ -1,0 +1,96 @@
+{
+  "round": 106,
+  "date": "2026-06-07",
+  "topic": "ACL main Introduction contribution-4 entry/stability polish",
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "scope": {
+    "section": "Introduction",
+    "source_file": "paper/venues/acl27/sections/intro.tex",
+    "pdf_page": 2,
+    "change_class": "claim-boundary prose polish"
+  },
+  "baseline": {
+    "pdf_hash": "db5955e8151e6009827c829ef0cd0968fb13ccc74546bc53cb9491fb070875b2",
+    "artifact_dir": "tmp/acl_main_visual_iter_20260607_round106_current",
+    "page_png": "tmp/acl_main_visual_iter_20260607_round106_current/page-02.png",
+    "page_png_sha256": "f394b23048c7e0167645d3f91a1743ee5b2cdf538f01ac76f433953520ed7638",
+    "page_text": "tmp/acl_main_visual_iter_20260607_round106_current/text/page-02.txt",
+    "page_text_sha256": "f5a38822bd8a2186da747fd42f44a7c85e7de4052111848205412a403d7d2c3c",
+    "visible_issue": [
+      "page 2 lines 92-94: They support bounded reliability / claims, not broad benchmark or speedup / claims."
+    ],
+    "reader_effect": "The contribution used reliability language broader than the supported entry and load/run stability evidence."
+  },
+  "change": {
+    "accepted_summary": "Narrowed contribution 4 from bounded reliability claims to bounded entry and stability claims.",
+    "before": "They support bounded reliability claims, not broad benchmark or speedup claims.",
+    "after": "They support bounded entry and stability claims, not broad benchmark or speedup claims."
+  },
+  "rejected_candidates": [
+    {
+      "target": "Limitations page 8 opener",
+      "candidate": "The evidence boundary is deliberate: the clean visual-QA pool has 15 pairs...",
+      "reason": "The rebuilt PDF split configured as con- / figured."
+    },
+    {
+      "target": "Limitations page 8 opener",
+      "candidate": "The boundary is deliberate: the clean visual-QA pool has 15 pairs...",
+      "reason": "The rebuilt PDF split visual-QA as visual- / QA."
+    },
+    {
+      "target": "Limitations page 8 opener",
+      "candidate": "The boundary is deliberate: the clean pool has 15 pairs...",
+      "reason": "The next sentence started at the bottom of the left column and continued at the top of the right column."
+    },
+    {
+      "target": "Limitations page 8 opener",
+      "candidate": "The boundary is deliberate. The clean visual QA pool has 15 pairs...",
+      "reason": "The rebuilt PDF split expanded as ex- / panded at the top of the right column."
+    }
+  ],
+  "after": {
+    "pdf_hash": "5e598fb9feb14a5bb8cf5231cb2a96a748a6fe24e8629461110ebbe972340707",
+    "artifact_dir": "tmp/acl_main_visual_iter_20260607_round106_current/after",
+    "page_png": "tmp/acl_main_visual_iter_20260607_round106_current/after/page-02.png",
+    "page_png_sha256": "489da85e205411874ae3e1cc52467268992e0feef07cc0926f846319db6ccdc4",
+    "page_text": "tmp/acl_main_visual_iter_20260607_round106_current/after/text/page-02.txt",
+    "page_text_sha256": "a0b29e488b07d653293b27b28fa84fa412edc73ffda8c61129334c13fe7a8385",
+    "accepted_visual_read": [
+      "page 2 lines 92-94: checks. They support bounded entry and / stability claims, not broad benchmark or / speedup claims."
+    ],
+    "page8_restored": {
+      "page_png_sha256": "fc2fc2971a7413d943223d268900484a394109965408da32e62916559c850cb6",
+      "page_text_sha256": "41d01ccef83369c0d80731ea1b7ed70a65de6dd8ca0d0c14055fec32c80df60b"
+    },
+    "page_count": 10,
+    "targeted_scan_result": "Page 2 no longer contains bounded reliability claims; page 8 hashes match the baseline after the rejected Limitations trials were restored."
+  },
+  "verification": {
+    "make": {
+      "command": "make -C paper acl27",
+      "status": "passed",
+      "log": "/tmp/acl27_round106_final_verify_make.log"
+    },
+    "latex_blocker_scan": {
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    "pytest": {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 13.56s"
+    },
+    "claim_boundaries": {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true, violations empty"
+    },
+    "metadata_consistency": {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  },
+  "claim_boundary": "The accepted edit narrows one Introduction contribution phrase. It does not alter metrics, evidence pools, figures, tables, citations, metadata, or supported/forbidden claim scopes.",
+  "residual_risk": "The page-5 result.    The official spacing remains unchanged because earlier source-level attempts caused worse line breaks."
+}

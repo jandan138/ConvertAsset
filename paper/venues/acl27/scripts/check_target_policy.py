@@ -27,7 +27,7 @@ REQUIRED_URLS = (
 )
 
 REQUIRED_MARKERS = (
-    "Checked: 2026-05-26.",
+    "Checked: 2026-05-30.",
     "EACL 2027",
     "August 3, 2026",
     "October 11, 2026",

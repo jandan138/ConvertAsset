@@ -1,0 +1,23 @@
+\begin{abstract}
+Synthetic 3D benchmarks increasingly evaluate vision-language and embodied
+agents through rendered USD scenes, yet the material conversions needed for
+portability are usually treated as neutral infrastructure. We study
+MDL-to-UsdPreviewSurface conversion as a controlled within-simulation
+perturbation for language grounding and embodied-data reliability. A
+composition-preserving conversion path replaces MDL shader networks with
+PreviewSurface approximations while keeping matched original/converted USD
+evidence. On four Isaac Sim assets, proxy similarity remains high (PSNR
+35.52\,dB, SSIM 0.990, LPIPS 0.020, CLIP 0.925, DINOv2 0.872), but proxy
+fidelity alone is insufficient for downstream grounding claims. We therefore
+evaluate GRScenes with a 15-pair clean visual-QA pilot and a frozen 30-pair
+target-centered material-shift stress set. Gemma4 preserves 30/30
+target-category answers in both conditions and scores 27/30 original versus
+29/30 converted normalized-1000 point hits; Qwen2.5-VL exposes a
+raw-coordinate preference under the same prompt contract. We further add a
+selected NVIDIA-baseline
+material-effect audit and a 99-episode official InternNav sanity run. The
+result is a claim-bounded evaluation
+protocol: visual similarity, grounding, material-effect risk, and embodied-stack
+usability should be reported as separate evidence gates before converted
+synthetic scenes support downstream robustness claims.
+\end{abstract}

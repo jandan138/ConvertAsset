@@ -1,0 +1,13 @@
+Use case: infographic-diagram
+Asset type: ACL paper Figure 1 method-chain roadmap, wide landscape bitmap, clean white background.
+Primary request: Create a polished four-panel evidence-chain schematic for a research paper about converting USD/MDL synthetic 3D scenes to noMDL/UsdPreviewSurface and evaluating VLM grounding plus InternNav navigation evidence.
+Composition: four large vertical panels left to right connected by bold arrows. Use generous margins, high contrast, no clutter, no dense microtext.
+Exact panel labels only: "1 USD / MDL", "2 noMDL", "3 VLM Evidence", "4 InternNav".
+Panel 1: simple .usd document icon, node graph icon, two realistic indoor scene thumbnails, four material swatches.
+Panel 2: material swatches transforming to simpler gray PreviewSurface spheres, file-reference graph with green check.
+Panel 3: original and converted room images side by side, one target box highlighted, model/question icon pointing to a target marker. Exact small labels allowed: "Original", "Converted", "Target: box".
+Panel 4: top-down apartment/map view with a purple executed path and green reference path, star goal marker, three metric tiles labeled exactly "SR", "SPL", "NE".
+Style: modern scientific figure, crisp vector-like icons plus realistic small render thumbnails, minimal text, color-coded panels blue green orange purple, professional ACL/NLP paper aesthetic.
+Avoid: any extra words, random text, watermarks, illegible tiny labels, distorted letters, red material/fallback coloring, busy backgrounds, photorealistic people.
+
+Local visual-review outcome: rejected for main-paper use because the generated VLM target label reads "Target: boy" instead of the required "Target: box". The v16 main-paper figure remains active.

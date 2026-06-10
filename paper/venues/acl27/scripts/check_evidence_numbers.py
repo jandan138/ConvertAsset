@@ -215,7 +215,7 @@ def build_required_text_markers(snapshot: Mapping[str, object]) -> list[dict[str
             "claim_id": "proxy_scope",
             "markers": [
                 "four single-object",
-                f"{proxy['render_pair_count']} matched render pairs",
+                f"{proxy['render_pair_count']} matched pairs",
             ],
         },
         {
@@ -225,18 +225,18 @@ def build_required_text_markers(snapshot: Mapping[str, object]) -> list[dict[str
         {
             "claim_id": "proxy_visual_feature_metrics",
             "markers": [
-                f"SSIM is {proxy['ssim']}",
-                f"LPIPS is {proxy['lpips']}",
-                f"CLIP cosine similarity is {proxy['clip']}",
-                f"DINOv2 cosine similarity is {proxy['dinov2']}",
+                f"SSIM {proxy['ssim']}",
+                f"LPIPS {proxy['lpips']}",
+                f"CLIP {proxy['clip']}",
+                f"DINOv2 {proxy['dinov2']}",
             ],
         },
         {
             "claim_id": "clean_pool_numbers",
             "markers": [
-                f"{clean['pair_count']} visual-QA PASS",
-                f"point hits are {clean['gemma_norm_original']} for original",
-                f"{clean['gemma_norm_converted']} for converted",
+                f"{clean['pair_count']} source/noMDL pairs",
+                f"point hits of {clean['gemma_norm_original']} original",
+                f"{clean['gemma_norm_converted']} converted",
                 f"{clean['qwen_answer_rows']} scorable answer rows",
                 f"raw point hits of {clean['qwen_raw_original']}",
                 f"{clean['qwen_raw_converted']}",
@@ -245,25 +245,25 @@ def build_required_text_markers(snapshot: Mapping[str, object]) -> list[dict[str
         {
             "claim_id": "stress_gemma_numbers",
             "markers": [
-                f"preserves {stress['gemma_answer_original']} target-category answers",
+                f"keeps all {stress['gemma_answer_original'].split('/')[0]} target labels",
                 f"scores {stress['gemma_norm_original']} point hits",
                 f"{stress['gemma_norm_converted']} on converted",
-                f"with {stress['gemma_pair_agreement']} pairwise",
+                f"{stress['gemma_pair_agreement'].split('/')[0]} pairs keep",
             ],
         },
         {
             "claim_id": "stress_qwen_numbers",
             "markers": [
-                f"raw point hits {stress['qwen_raw_original']} original",
+                f"raw-pixel hits are {stress['qwen_raw_original']} original",
                 f"{stress['qwen_raw_converted']} converted",
-                f"normalized-1000 hits remain {stress['qwen_norm_original']} for both",
+                f"normalized-1000 hits stay {stress['qwen_norm_original']} for both",
             ],
         },
         {
             "claim_id": "internnav_scope",
             "markers": [
                 f"{internnav['episode_count']} paired",
-                "three local official scenes",
+                "three local scenes",
             ],
         },
         {
@@ -278,8 +278,8 @@ def build_required_text_markers(snapshot: Mapping[str, object]) -> list[dict[str
         {
             "claim_id": "official_scene_stability",
             "markers": [
-                f"{stability['success_total']} required",
-                f"{stability['success_total']}/{stability['success_total']} successful",
+                f"{stability['success_total']} required paired runs",
+                f"({stability['success_total']}/{stability['success_total']})",
             ],
         },
         {

@@ -12,6 +12,15 @@ before any real ARR/OpenReview submission.
 
 ## Current Repository State
 
+Latest packet refresh on 2026-05-28:
+
+```text
+main.pdf pages=11
+main.pdf size=3,010,470 bytes
+main.pdf sha256=30b248b970aa586ce83f0c0f011d1576eee0af24b0eef6859124021bdc3b7e34
+staged packet=paper/submissions/acl27_arr_candidate_20260526/
+```
+
 The current repository-side blocker report is expected to show:
 
 ```text
@@ -89,6 +98,13 @@ Current repository recommendation: use EACL 2027 via ARR if the authors want a
 concrete 2027 ACL-family route now. Do not label the packet Annual ACL 2027
 final-ready until Annual ACL 2027 publishes its official CFP, author kit, and
 venue-specific policy.
+
+Latest official-source refresh on 2026-05-28: ARR Dates still lists EACL 2027
+with final ARR submission date August 3, 2026 and commitment date October 11,
+2026; the EACL 2027 site still lists Athens, Greece, March 9-14, 2027 and the
+August 3, 2026 ARR deadline; the EACL main-paper page still says the
+comprehensive CFP and detailed timetable are being finalized. Annual ACL 2027
+still lacks a public official CFP/author kit in checked official sources.
 
 ## Step 3: Copy OpenReview Form Fields
 

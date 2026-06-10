@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 51,
+  "date": "2026-06-07",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/limitations.tex"
+  ],
+  "docs_record": "docs/records/2026-06-07-acl-main-limitations-preservation-linebreak-polish.md",
+  "issue": {
+    "page": 9,
+    "location": "Limitations evidence-boundary paragraph",
+    "before_problem": [
+      "The page-9 Limitations paragraph split 'general VLM-grounding preservation claim' as 'general VLM-grounding preserva- / tion claim'."
+    ]
+  },
+  "change_summary": {
+    "limitations_tex_lines": "15-21",
+    "summary": "Replaced the long compound phrase 'VLM-grounding preservation claim' with the clause 'claim that VLM grounding is preserved' to remove the targeted page-9 linebreak defect.",
+    "claim_scope_changed": false
+  },
+  "pdf": {
+    "before_sha256": "85e89fc7e4a1d1016cffbc66cf811c9fbef3b270309a98a13265d24b0abfa274",
+    "after_sha256": "c11bb6289cb1c6d40a0221d906ba2a4ad8247020dc26ef23af67e1ed74b6b47e",
+    "after_pages": 11,
+    "after_file_size_bytes": 5188339,
+    "after_creation_date": "Sun Jun 7 01:02:21 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260607_round51_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round51_after",
+    "before": {
+      "contact_sheet_png_sha256": "6af0b50a128f30f6de68214e4d0f914bfb15c221d1be09b4c58544069619e79b",
+      "full_txt_sha256": "7ae69c88206f3f57824f058d4f121f9db64eee73bd2bee1356d01e4829a5f44c",
+      "page9_txt_sha256": "4f3fe985293470065358d209718a7d25fa12f5e1db7f0eb9f97ade865ad02dea"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "8fa5d939c3dea302a827a9fe5c559134e74378d0b6da382a7c25c856ffb2b8a1",
+      "focus_before_after_p9_png_sha256": "a720e4e31f028e18f6d2d283a41429340cd54135d07299afcda924f019279f95",
+      "focus_p8_p9_png_sha256": "ebe52b13f61b308e14ae1fa459cfe45f5add7631db49a9f28813c63debd697ec",
+      "focus_p9_p10_png_sha256": "ffe546c0e75049fe455cbb2f8f6f6c72c543742a57fd618575c15f1a719f6fbb",
+      "full_txt_sha256": "88cd57db34baeebc7977a488dde95fd474c63e63ffbf2a2f2817dce4a9757ad0",
+      "page9_txt_sha256": "afde8dbefe763fbc420a2a28762485c4303ee1bf6a9749bea0f6226ad97c8f63",
+      "page10_txt_sha256": "0d6b42daac1cfbe2e706e20307248ce937240d19b783f7466a9d5586770165f7"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260607_round51_after/focus_before_after_p9.png",
+      "tmp/acl_main_visual_iter_20260607_round51_after/focus_p8_p9.png",
+      "tmp/acl_main_visual_iter_20260607_round51_after/focus_p9_p10.png",
+      "tmp/acl_main_visual_iter_20260607_round51_after/contact_sheet.png"
+    ],
+    "observations": [
+      "The page-9 comparison shows the Limitations paragraph no longer contains the targeted 'general VLM-grounding preserva- / tion claim' split.",
+      "The accepted page-9 render reads 'cannot support a general claim that VLM grounding is preserved.'",
+      "Limitations and Conclusion remain on page 9, and the page-10 Ethical Considerations and References layout is not displaced.",
+      "The final contact sheet remains 11 pages with no obvious float, table, or blank-page regression.",
+      "A separate 'preserva-' split remains elsewhere in the paper text for an unrelated MDL-preservation sentence; this round only targeted the page-9 VLM-grounding preservation claim."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "bash -lc 'if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf \"no blocker matches\\n\"; fi'",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "104 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 168"
+    }
+  ]
+}

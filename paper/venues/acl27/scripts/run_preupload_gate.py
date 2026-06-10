@@ -42,19 +42,36 @@ LATEX_UNRESOLVED_PATTERNS = (
     "No file main.bbl",
 )
 PDF_MAX_TOTAL_PAGES = 12
+PDF_MAX_MAIN_CONTENT_PAGES = 8
 PDF_REQUIRED_PAGE_SIZE_LABEL = "A4"
 PDF_REQUIRED_VERSION = "1.5"
 PDF_REQUIRED_TEXT = (
     "Material Conversion as a Controlled Perturbation",
     "Anonymous ACL submission",
+    "Figure 3:",
     "Limitations",
+    "Figure 4:",
     "Ethical Considerations",
     "References",
 )
 PDF_ORDERED_SECTION_TEXT = (
     "Limitations",
+    "Figure 4:",
     "Ethical Considerations",
     "References",
+)
+PDF_NONCOUNTED_FIRST_SECTION = "Limitations"
+PDF_PRE_LIMITATION_FLOAT_ONLY_MARKER_SETS = (
+    (
+        "Table 5: Material-effect scope matrix",
+        "Table 6: Official KuJiaLe / InteriorAgent scene",
+    ),
+)
+PDF_PRE_LIMITATION_BODY_MARKERS = (
+    "Discussion",
+    "The contribution is a measurement protocol",
+    "Conclusion",
+    "This paper treats synthetic-scene material conversion",
 )
 
 
@@ -151,6 +168,7 @@ def build_preupload_plan(repo_root: Path) -> list[dict[str, object]]:
                 "tests/test_acl_author_gate_init.py",
                 "tests/test_acl_author_gate_prefill.py",
                 "tests/test_acl_goal_completion_report.py",
+                "tests/test_render_scene_evidence_figure.py",
                 "tests/test_acl_preupload_gate.py",
             ],
         },
@@ -374,16 +392,196 @@ def validate_pdf_text_markers(text: str) -> None:
         raise ValueError(f"PDF text is missing required marker(s): {missing}")
 
     positions = [text.index(token) for token in PDF_ORDERED_SECTION_TEXT]
-    if positions != sorted(positions):
+    if (
+        positions != sorted(positions)
+        and not allows_top_internnav_figure_before_limitations(text)
+        and not allows_two_column_reference_extraction(text)
+    ):
         raise ValueError(
             "PDF section markers are out of order: "
             + " -> ".join(PDF_ORDERED_SECTION_TEXT)
         )
 
+    validate_main_content_boundary(text)
+    validate_no_float_only_prelimitations_page(text)
+
+
+def is_internnav_figure_prefix(prefix: str) -> bool:
+    if "Figure 4:" not in prefix:
+        return False
+    if any(marker in prefix for marker in PDF_PRE_LIMITATION_BODY_MARKERS):
+        return False
+    compact = re.sub(r"[^A-Za-z0-9]+", "", prefix)
+    return "Figure4SelectedInternNavpathpanels" in compact
+
+
+def allows_top_internnav_figure_before_limitations(text: str) -> bool:
+    """Allow a top-of-page Figure 4 float before the Limitations heading."""
+
+    pages = text.split("\f")
+
+    def first_page_with(token: str) -> tuple[int, str] | None:
+        for page_index, page in enumerate(pages, start=1):
+            if token in page:
+                return page_index, page
+        return None
+
+    limitations = first_page_with("Limitations")
+    figure = first_page_with("Figure 4:")
+    ethics = first_page_with("Ethical Considerations")
+    references = first_page_with("References")
+    if not all((limitations, figure, ethics, references)):
+        return False
+
+    limitations_page, shared_page = limitations
+    figure_page, _ = figure
+    if figure_page != limitations_page:
+        return False
+
+    prefix = shared_page.split("Limitations", 1)[0]
+    if not is_internnav_figure_prefix(prefix):
+        return False
+
+    if (
+        text.index("Figure 4:")
+        < text.index("Limitations")
+        < text.index("Ethical Considerations")
+        < text.index("References")
+    ):
+        return True
+
+    ethics = first_page_with("Ethical Considerations")
+    references = first_page_with("References")
+    if not all((ethics, references)):
+        return False
+    ethics_page, _ = ethics
+    references_page, _ = references
+    if not (ethics_page == references_page == limitations_page):
+        return False
+
+    return (
+        shared_page.index("Figure 4:")
+        < shared_page.index("Limitations")
+        and shared_page.index("References")
+        < shared_page.index("Ethical Considerations")
+    )
+
+
+def allows_two_column_reference_extraction(text: str) -> bool:
+    """Allow pdftotext's top-right References before left-column rollout text.
+
+    In the current two-column ACL layout, the source order is Limitations,
+    Figure 4, Ethical Considerations, then References.  `pdftotext -layout`
+    can nevertheless emit the right-column References heading before the
+    left-column rollout caption when both share the same PDF page.  This guard
+    accepts only that geometry artifact: the rollout figure and Ethics must
+    still share the References page, and the rollout figure must precede Ethics
+    within that page.
+    """
+
+    pages = text.split("\f")
+    rollout_marker = "Figure 4:"
+
+    def first_page_with(token: str) -> tuple[int, str] | None:
+        for page_index, page in enumerate(pages, start=1):
+            if token in page:
+                return page_index, page
+        return None
+
+    limitations = first_page_with("Limitations")
+    figure = first_page_with(rollout_marker)
+    ethics = first_page_with("Ethical Considerations")
+    references = first_page_with("References")
+    if not all((limitations, figure, ethics, references)):
+        return False
+    if not (
+        text.index("Limitations")
+        < text.index(rollout_marker)
+        < text.index("Ethical Considerations")
+    ):
+        return False
+
+    limitations_page, _ = limitations
+    figure_page, shared_page = figure
+    ethics_page, _ = ethics
+    references_page, _ = references
+    if not (figure_page == ethics_page == references_page):
+        return False
+    if limitations_page > figure_page:
+        return False
+    return shared_page.index(rollout_marker) < shared_page.index("Ethical Considerations")
+
+
+def validate_main_content_boundary(text: str) -> None:
+    pages = text.split("\f")
+    marker_pages = [
+        index
+        for index, page in enumerate(pages, start=1)
+        if PDF_NONCOUNTED_FIRST_SECTION in page
+    ]
+    if not marker_pages:
+        raise ValueError(
+            f"PDF text is missing {PDF_NONCOUNTED_FIRST_SECTION!r} for page budget"
+        )
+
+    first_noncounted_page = marker_pages[0]
+    if first_noncounted_page > PDF_MAX_MAIN_CONTENT_PAGES + 1:
+        raise ValueError(
+            f"{PDF_NONCOUNTED_FIRST_SECTION} starts on page "
+            f"{first_noncounted_page}, after the allowed main-content boundary "
+            f"page {PDF_MAX_MAIN_CONTENT_PAGES + 1}"
+        )
+
+    for page_number in range(PDF_MAX_MAIN_CONTENT_PAGES + 1, first_noncounted_page):
+        if pages[page_number - 1].strip():
+            raise ValueError(
+                f"main content spills onto page {page_number} before "
+                f"{PDF_NONCOUNTED_FIRST_SECTION}"
+            )
+
+    prefix = pages[first_noncounted_page - 1].split(
+        PDF_NONCOUNTED_FIRST_SECTION, 1
+    )[0]
+    if re.sub(r"[\s\d]+", "", prefix):
+        if is_internnav_figure_prefix(prefix):
+            return
+        if first_noncounted_page <= PDF_MAX_MAIN_CONTENT_PAGES and any(
+            marker in prefix for marker in PDF_PRE_LIMITATION_BODY_MARKERS
+        ):
+            return
+        raise ValueError(
+            f"main content appears before {PDF_NONCOUNTED_FIRST_SECTION} "
+            f"on page {first_noncounted_page}"
+        )
+
+
+def validate_no_float_only_prelimitations_page(text: str) -> None:
+    pages = text.split("\f")
+    marker_pages = [
+        index
+        for index, page in enumerate(pages, start=1)
+        if PDF_NONCOUNTED_FIRST_SECTION in page
+    ]
+    if not marker_pages:
+        return
+
+    first_noncounted_page = marker_pages[0]
+    if first_noncounted_page <= 1:
+        return
+
+    preceding_page = re.sub(r"\s+", " ", pages[first_noncounted_page - 2])
+    has_body_text = any(marker in preceding_page for marker in PDF_PRE_LIMITATION_BODY_MARKERS)
+    for marker_set in PDF_PRE_LIMITATION_FLOAT_ONLY_MARKER_SETS:
+        if all(marker in preceding_page for marker in marker_set) and not has_body_text:
+            raise ValueError(
+                "float-only material table page appears before "
+                f"{PDF_NONCOUNTED_FIRST_SECTION}"
+            )
+
 
 def check_pdf_text(pdf_path: Path) -> None:
     result = subprocess.run(
-        ["pdftotext", str(pdf_path), "-"],
+        ["pdftotext", "-layout", str(pdf_path), "-"],
         check=True,
         text=True,
         stdout=subprocess.PIPE,

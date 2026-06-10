@@ -1,0 +1,84 @@
+{
+  "artifact": "acl27_supplement_navigation_intro_opener_v2",
+  "date": "2026-06-03",
+  "scope": "ACL27 supplement page 29 InternNav / DualVLN navigation opener",
+  "claim_boundary": "Exposition only; not experimental evidence.",
+  "independent_subagent_review": false,
+  "review_mode": "local render-visual-reviewer checklist; subagent spawning was not used because the available subagent tool requires explicit user delegation permission",
+  "ai_slots": {
+    "navigation_review_gate": {
+      "path": "paper/shared/figures/ai_slots/fig_supplement_navigation_review_gate_ai_slot.png",
+      "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0fb5117fb7b16798016a1fc6022d848193a5f03b614403ffdd.png",
+      "sha256": "fc75622a057289dfe31835db88a872f4d5b5d8d220bebb3e10b7e3aabb6c4612",
+      "size_px": [1774, 887],
+      "active_ratio": 0.177402135,
+      "red_pixel_ratio": 0.0,
+      "role": "AI-generated navigation-review gate schematic only; critical labels and claim boundaries are deterministic text or LaTeX."
+    }
+  },
+  "final_figure": {
+    "path": "paper/shared/figures/fig_supplement_navigation_intro_column.png",
+    "sha256": "449c2236f00159b1efa0c7e1d04be2ba068d4a8754ed6c19b6e22783fdef3416",
+    "size_px": [1700, 1540],
+    "bytes": 1367554,
+    "active_ratio": 0.400294118,
+    "red_pixel_ratio": 0.000287242,
+    "source_manifest": "paper/shared/figures/ai_slot_manifests/fig_supplement_navigation_intro_column.yaml",
+    "registered_real_sources_added_this_iteration": [
+      "paper/shared/figures/supplement/internnav_selected6_case05.png",
+      "paper/shared/figures/supplement/internnav_selected6_case06.png",
+      "paper/shared/figures/supplement/internnav_0036_0066_case05.png",
+      "paper/shared/figures/supplement/internnav_0036_0066_case06.png"
+    ],
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "Standalone opener has contained panel boundaries, a clean crop of the official paired-run metric chart, larger real case crops, and a new neutral case closure row that adds registered navigation still/route material without treating the AI slot as evidence."
+  },
+  "pdf_review": {
+    "pdf": "paper/venues/acl27/build/supplement.pdf",
+    "page_number": 29,
+    "page_render": "tmp/acl_supplement_navigation_intro_review_20260603/page-29.png",
+    "page_render_sha256": "f76a0863165bb0f2bceb3bf39a1c21e90502ed967c22acb9a8acf27336a5baa9",
+    "page_render_size_px": [1158, 1638],
+    "page_active_ratio": 0.174102332,
+    "previous_iteration_page_active_ratio": 0.14958003,
+    "local_visual_verdict": "PASS",
+    "local_visual_evidence": "Rendered page 29 shows the opener immediately below the section introduction, no clipping, no caption collision, and visibly more navigation case material than the earlier centered preview page. The caption remains readable and reiterates that the opener is not a metric or benchmark run.",
+    "page_30_render": "tmp/acl_supplement_navigation_intro_review_20260603/page-30.png",
+    "page_30_sha256": "be2171a9f6e69b843458a7e59601cfcc4aa1e59d22fdbeebb78636ba89f3c481"
+  },
+  "tests": [
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py::test_acl_supplement_intro_pages_have_real_visual_strips tests/test_paper_layout.py::test_supplement_intro_strips_are_registered_and_dense",
+      "result": "2 passed in 0.89s"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "74 passed in 16.11s"
+    },
+    {
+      "command": "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+      "result": "completed; regenerated fig_supplement_navigation_intro_column.png and related supplement figures"
+    },
+    {
+      "command": "make -C paper acl27-supplement",
+      "result": "completed; paper/venues/acl27/build/supplement.pdf built with 45 pages"
+    },
+    {
+      "command": "pdftoppm -f 29 -l 30 -r 140 -png paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_navigation_intro_review_20260603/page",
+      "result": "completed; page-29.png and page-30.png regenerated after the final figure change"
+    },
+    {
+      "command": "pdftotext -f 29 -l 29 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_navigation_intro_review_20260603/page-29.txt",
+      "result": "required navigation-opener and AI-disclosure phrases present; scanned local-path and forbidden claim tokens absent"
+    },
+    {
+      "command": "git diff --check -- docs/records/README.md paper/shared/figures/gen_supplement_task_media_atlases.py paper/shared/figures/sources.yaml paper/venues/acl27/sections/supplement/05_internnav_visuals.tex tests/test_paper_layout.py",
+      "result": "no whitespace errors"
+    }
+  ],
+  "notes": [
+    "This opener is a visual navigation supplement entry point, not a new navigation metric, benchmark run, video package approval, or experimental result.",
+    "The added neutral case closure row uses registered still/route panel assets already referenced by the detailed InternNav supplement pages.",
+    "Critical paper text is drawn by deterministic code or LaTeX; generated pseudo-text inside the AI slot is not relied on."
+  ]
+}

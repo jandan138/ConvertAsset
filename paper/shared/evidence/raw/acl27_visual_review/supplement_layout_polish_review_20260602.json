@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-06-02",
+  "artifact": "paper/venues/acl27/build/supplement.pdf",
+  "artifact_sha256": "44592ce8724f77445be3ce1f60c1470b5068a8f811623a8af3df3e1b49e40981",
+  "review_mode": "local_visual_review",
+  "independent_blind_review": false,
+  "layout_change": "InternNav selected case figures were regrouped from 12 standalone figure pages into 6 paired evidence pages.",
+  "checks": [
+    {
+      "id": "internnav_grouping_contact_sheet",
+      "verdict": "PASS",
+      "visible_evidence": "The InternNav case block now occupies pages 24-29 instead of pages 24-35, and each case page contains two evidence panels plus one consolidated caption.",
+      "main_risk": "The two overview sheets remain index pages; they are readable but should not be treated as the main visual evidence."
+    },
+    {
+      "id": "selected6_grouped_page",
+      "path": "/tmp/acl27_supplement_review/page-24.png",
+      "verdict": "PASS",
+      "visible_evidence": "Selected6 cases 494_494 and 479_479 have complete titles, clean crop boundaries, and two visible original/noMDL panels on one page.",
+      "main_risk": "None for v0 layout."
+    },
+    {
+      "id": "0036_0066_grouped_page",
+      "path": "/tmp/acl27_supplement_review/page-27.png",
+      "verdict": "PASS",
+      "visible_evidence": "0036/0066 cases 898_898 and 919_919 are grouped as two 3x2 video-still panels with readable captions.",
+      "main_risk": "Per-frame labels are summarized by title/caption rather than repeated inside every subpanel."
+    },
+    {
+      "id": "0036_0066_neutral_page",
+      "path": "/tmp/acl27_supplement_review/page-29.png",
+      "verdict": "WARN",
+      "visible_evidence": "Neutral 0036/0066 cases remain visually thin because the source stills have a strip-like composition, but panel-level trimming removes the largest empty source-sheet margins.",
+      "main_risk": "These cases are useful as supplemental balance, not as the strongest figure examples."
+    }
+  ],
+  "overall_verdict": "PASS_WITH_NOTES",
+  "notes": [
+    "The supplement is now 34 pages instead of 40 pages.",
+    "The previous scatter pattern caused by per-case standalone figure pages has been removed.",
+    "The PDF text privacy scan found no /cpfs, /home, /root, zhuzihou, jandan138, github.com/jandan138, or ConvertAsset.git tokens.",
+    "This review was local, not an independent blind subagent review."
+  ]
+}

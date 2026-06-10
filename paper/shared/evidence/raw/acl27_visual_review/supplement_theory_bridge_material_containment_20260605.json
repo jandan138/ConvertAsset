@@ -1,0 +1,65 @@
+{
+  "artifact": "paper/venues/acl27/build/supplement.pdf",
+  "date": "2026-06-05",
+  "scope": "ACL supplement systematic visual scan for obvious occlusion, unsafe scaling, and incomplete figure display.",
+  "finding": {
+    "page": 39,
+    "figure": "Figure S37",
+    "source": "paper/shared/figures/fig_supplement_theory_evidence_bridge.png",
+    "issue": "The Material salience row used cover-style crop fitting for wide supplemental material strips, making clearcoat and procedural material panels appear as narrow vertical slivers in the rendered PDF.",
+    "root_cause": "paper/shared/figures/gen_supplement_task_media_atlases.py::_compose_material_bridge used _crop_fit for wide MATERIAL_SUPPLEMENTAL crops.",
+    "status": "fixed"
+  },
+  "explicit_rechecks": [
+    {
+      "page": 27,
+      "figure": "Figure S25",
+      "result": "The bottom claim-boundary gate remains fully visible in the final PDF crop."
+    },
+    {
+      "page": 39,
+      "figure": "Figure S37",
+      "result": "The material row now preserves the wide supplemental material strips using contain/letterbox placement instead of cover-cropping them into slivers."
+    }
+  ],
+  "changes": [
+    "Changed the two MATERIAL_SUPPLEMENTAL crops in _compose_material_bridge from _crop_fit to _crop_contain.",
+    "Added a regression assertion to tests/test_paper_layout.py for contain placement in the theory bridge material row.",
+    "Regenerated fig_supplement_theory_evidence_bridge.png and rebuilt the ACL supplement PDF."
+  ],
+  "visual_evidence": {
+    "final_high_risk_contact_sheet": "tmp/acl_supplement_systematic_scan_20260605_round5_final/contact_sheets/supp_high_risk_pages_final_180dpi.png",
+    "final_page_39": "tmp/acl_supplement_systematic_scan_20260605_round5_final/pages_180/page-39.png",
+    "final_page_39_material_crop": "tmp/acl_supplement_systematic_scan_20260605_round5_final/crops/page39_fig_s37_material_row_final.png",
+    "final_page_27_figure_s25_crop": "tmp/acl_supplement_systematic_scan_20260605_round5_final/crops/page27_fig_s25_final.png",
+    "final_page_boundary_scan": "tmp/acl_supplement_systematic_scan_20260605_round5_final/page_bbox_margins.json"
+  },
+  "final_artifacts": {
+    "supplement_pdf_pages": 46,
+    "supplement_pdf_sha256": "4c5295b7306453238cfa9a2a14e8cbaea56c16ffec0b22d63b88c6d7a836cb0d",
+    "theory_bridge_png_sha256": "579489ea2881712042f47fd156a3e1e4dfdd1cd7edfea6c3c54f3fac2e5411b8"
+  },
+  "verification": [
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py::test_supplement_theory_bridge_is_registered_and_dense",
+      "result": "passed after failing on the old _crop_fit placement"
+    },
+    {
+      "command": "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+      "result": "passed"
+    },
+    {
+      "command": "make -C paper acl27-supplement",
+      "result": "passed"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k 'supplement'",
+      "result": "66 passed, 19 deselected"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|LaTeX Warning: Reference|Warning:.*Label|undefined|Rerun to get|Label\\\\(s\\\\) may have changed|Package lineno Warning\" paper/venues/acl27/build/supplement.log || true",
+      "result": "no matches"
+    }
+  ],
+  "residual_risk": "Dense supplement index pages remain compact by design. This pass did not find another blocking crop, page-edge overflow, caption collision, or incomplete-display defect in the reviewed high-risk pages."
+}

@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "record_type": "acl27_visual_review_round",
+  "round": 63,
+  "date": "2026-06-07",
+  "paper": "paper/venues/acl27/build/main.pdf",
+  "source_files_changed": [
+    "paper/venues/acl27/sections/results.tex"
+  ],
+  "docs_record": "docs/records/2026-06-07-acl-main-results-vlm-stress-page4-linebreak-polish.md",
+  "issue": {
+    "page": 4,
+    "location": "Results right column, VLM stress main result and material-boundary transition",
+    "before_problem": [
+      "The VLM stress result split 'target-category' as 'target- / category'.",
+      "The normalized-coordinate phrase split as 'co- / ordinate'.",
+      "The render-count sentence split 'renders' as 'ren- / ders' and 'agreement' as 'agree- / ment'.",
+      "The Qwen sentence split 'contract' as 'con- / tract'.",
+      "The measurement sentence split 'measurement' as 'mea- / surement' and 'cannot' as 'can- / not'.",
+      "The bootstrap sentence split a long normalized-point delta and 'diagnostic' as 'diag- / nostic'.",
+      "The transition into material effects split 'mechanistic' and 'Asset Converter'."
+    ],
+    "rejected_intermediate_problems": [
+      "A first rewrite removed the target cluster but introduced 'differ- / ent', 'con- / ditions', 'au- / dited', 'fig- / ures', and 'prove- / nance'.",
+      "A second rewrite removed those but left 'im- / age', 'nor- / malized', 'sur- / face', and 'Fig- / ure'.",
+      "A final evidence-boundary sentence briefly introduced 'read- / ers'.",
+      "The accepted version keeps the result numeric boundary intact and removes the target split cluster from the page-4 right column."
+    ]
+  },
+  "change_summary": {
+    "results_tex_lines": "55-83",
+    "summary": "Recast the VLM stress result and material-boundary transition with shorter ACL-style result prose while preserving all reported counts, model roles, coordinate-contract scope, and non-leaderboard claim boundary.",
+    "claim_scope_changed": false,
+    "changed_claims": []
+  },
+  "pdf": {
+    "before_sha256": "b8b950c3b9a87357f6adc0a2d34d1282159793d1657112ea2f11dfb6207776c6",
+    "after_sha256": "524882046d1793d398c31a197c03122f5f85e0ca772798ca2397b7135b41f759",
+    "after_pages": 11,
+    "after_file_size_bytes": 5185874,
+    "after_creation_date": "Sun Jun 7 06:38:36 2026 CST",
+    "after_page_size": "595.276 x 841.89 pts (A4)"
+  },
+  "visual_artifacts": {
+    "before_dir": "tmp/acl_main_visual_iter_20260607_round63_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round63_after",
+    "before": {
+      "contact_sheet_png_sha256": "f65d96b3b081b98d81aedea59a8eaf78c444c732c2e6250934f23f5cd32069c5",
+      "full_txt_sha256": "a869e06877775367929389b7965b3baa56815c8a81949a061b101521d566c5fc",
+      "page4_txt_sha256": "0a61c2c17197d6f017be9e43e1492bca521aebd4cd20e62a17fdef404fa33f5f",
+      "page4_png_sha256": "f4c01a8f8c098879b19561bebd57b4f2a4eb7e2ad00f8ce7d7c6e8081cc20dd0",
+      "page4_right_png_sha256": "3953809fc067287b75d158be43f96f94079134ae10151f59dd3045e7bf0dfe9f"
+    },
+    "after": {
+      "contact_sheet_png_sha256": "a4922e5d3336bf8f3fbe06027f77f44f29309e63101d4aefe3154c890c0424cb",
+      "full_txt_sha256": "de3ffa99acd1df9c18881c380cbab63dac5e962df307795b6811b966dc255cf1",
+      "page4_txt_sha256": "7b8087e04173b64f546df46bfbb5155e5cf3beb11d14aac1766487f31fae3318",
+      "page4_png_sha256": "8808156a490624dc308c3007eeeac521a04d3f95d75244f9894d308cc2f29c15",
+      "page4_right_png_sha256": "e9e2f12981d10d57033cfac8a5864d2425735ffa02031276f0902dd6c321ce91"
+    }
+  },
+  "visual_review": {
+    "reviewed_artifacts": [
+      "tmp/acl_main_visual_iter_20260607_round63_current/page4_right.png",
+      "tmp/acl_main_visual_iter_20260607_round63_after/page4_right.png",
+      "tmp/acl_main_visual_iter_20260607_round63_after/contact_sheet.png"
+    ],
+    "observations": [
+      "The final page-4 right crop removes the targeted VLM stress split cluster around target-category, coordinate, rendered renders, agreement, contract, measurement, cannot, diagnostic, mechanistic, and Asset Converter.",
+      "The accepted result prose keeps Gemma4 at 30/30 target labels, 27/30 original hits, 29/30 converted hits, and 28 same-status pairs.",
+      "The accepted Qwen wording keeps the raw-pixel and normalized-1000 contrast without turning the result into a model ranking.",
+      "The final contact sheet remains 11 pages with no obvious float, table, or blank-page regression."
+    ]
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "exit_code": 0,
+      "result": "acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "python scan of paper/venues/acl27/build/main.log for overfull boxes, undefined references or citations, rerun warnings, multiply-defined labels, and lineno warnings",
+      "exit_code": 0,
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "104 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "exit_code": 0,
+      "result": "ok true; no violations"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "exit_code": 0,
+      "result": "ok true; title and abstract match metadata; abstract word count 168"
+    }
+  ]
+}

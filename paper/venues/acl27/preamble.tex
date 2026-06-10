@@ -2,14 +2,21 @@
 
 \makeatletter
 \def\input@path{{../../shared/}{./}}
+\setlength{\@fptop}{0pt}
+\setlength{\@dblfptop}{0pt}
 \makeatother
 
 \usepackage{graphicx}
 \graphicspath{{../../shared/}{./}}
+\usepackage{stfloats}
 \usepackage{amsmath,amssymb}
+\usepackage{array}
 \usepackage{booktabs}
+\usepackage{placeins}
 \usepackage{subcaption}
 \usepackage{xcolor}
+
+\raggedbottom
 
 \input{../../shared/math_commands}
 \input{../../shared/venue_macros}

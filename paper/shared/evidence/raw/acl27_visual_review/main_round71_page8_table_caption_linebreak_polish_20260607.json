@@ -1,0 +1,90 @@
+{
+  "artifact": "paper/venues/acl27/build/main.pdf",
+  "round": 71,
+  "date_utc": "2026-06-07",
+  "topic": "ACL main page 8 table caption linebreak polish",
+  "before_pdf_sha256": "44a1e259678ac479ff5081214162bcfd31014611a0ab00b4b9d3351487f06dbd",
+  "after_pdf_sha256": "3a9ce97bfb4ff02f9fabb55af5b20aca9e171e15c00c3bb5d6841c03ef23ea7e",
+  "review_scope": {
+    "baseline_dir": "tmp/acl_main_visual_iter_20260607_round71_current",
+    "after_dir": "tmp/acl_main_visual_iter_20260607_round71_after",
+    "pages_scanned_initial": [6, 7, 8, 9, 10, 11],
+    "pages_scanned_after": [7, 8, 9],
+    "render_command": "pdftoppm -f 8 -l 8 -r 180 -png paper/venues/acl27/build/main.pdf tmp/acl_main_visual_iter_20260607_round71_after/page",
+    "text_command": "pdftotext -layout -f <page> -l <page> <pdf> <page_txt>"
+  },
+  "defect": {
+    "page": 8,
+    "class": "table caption end-of-line hyphenation",
+    "before_text_matches": [
+      "page 8 line 002: pairs. Counts are original/converted (O/C) hits under the structured-text prompt; this pool is a preser-",
+      "page 8 line 019: and Qwen2.5-VL serves as a coordinate-format diagnostic under the same manifest; values are origi-",
+      "page 8 line 030: are noMDL minus original MDL and serve as descriptive claim-boundary checks, not population guaran-",
+      "page 8 line 069: only; intervals are bootstrap 95% CIs. NVIDIA official-scene baseline is omitted until matching conver-"
+    ],
+    "reader_effect": "A dense table page showed four visually distracting caption word splits across Tables 2, 3, 4, and 6."
+  },
+  "changes": [
+    {
+      "path": "paper/shared/tables/tab_grscenes_vlm_clean_pool_pass15.tex",
+      "summary": "Compacted the Table 2 caption and replaced long repeated original/converted phrasing with O/C while preserving the clean-pool control boundary."
+    },
+    {
+      "path": "paper/shared/tables/tab_grscenes_vlm_stress_expanded30.tex",
+      "summary": "Compacted the Table 3 caption and replaced linebreak-prone point-in-bbox wording with point-hit wording."
+    },
+    {
+      "path": "paper/shared/tables/tab_reviewer_closure_paired_ci.tex",
+      "summary": "Compacted the Table 4 caption while preserving the descriptive, non-population claim boundary."
+    },
+    {
+      "path": "paper/shared/tables/tab_official_scene_performance_summary.tex",
+      "summary": "Compacted the Table 6 caption and kept the NVIDIA official-scene row gated on matching converted scenes."
+    },
+    {
+      "path": "paper/shared/tables/gen_vlm_stress_expanded30.py",
+      "summary": "Synced the generated Table 3 caption text."
+    },
+    {
+      "path": "paper/shared/evidence/experiments/09_reviewer_closure_package/build_reviewer_closure_package.py",
+      "summary": "Synced the generated paired-CI caption text."
+    },
+    {
+      "path": "paper/shared/evidence/experiments/10_official_scene_submission_closure/build_submission_closure_package.py",
+      "summary": "Synced the generated official-scene caption text and aligned the generated table* environment."
+    }
+  ],
+  "after_evidence": {
+    "targeted_hyphen_scan": "pages 7-9 had no text-extracted end-of-line hyphen matches after rebuild",
+    "rendered_screenshot": "tmp/acl_main_visual_iter_20260607_round71_after/page-08.png",
+    "visual_result": "Page 8 captions no longer show the previous preser-/origi-/guaran-/conver- breaks; tables remain on the same page without overlap."
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "status": "passed"
+    },
+    {
+      "command": "LaTeX blocker scan over paper/venues/acl27/build/main.log",
+      "status": "passed",
+      "result": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py tests/test_acl_metadata_consistency.py",
+      "status": "passed",
+      "result": "104 passed in 12.40s"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "status": "passed",
+      "result": "ok true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "status": "passed",
+      "result": "ok true"
+    }
+  ],
+  "claim_boundary": "Caption wording only. No table values, labels, evidence pool definitions, or supported/forbidden claim scopes were changed.",
+  "residual_risk": "Pages 10-11 still contain normal bibliography hyphenation from narrow reference columns; this round did not treat reference formatting as a body-text blocker."
+}

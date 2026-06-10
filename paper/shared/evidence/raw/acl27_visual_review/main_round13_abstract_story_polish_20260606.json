@@ -1,0 +1,64 @@
+{
+  "review_id": "main_round13_abstract_story_polish_20260606",
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "artifact": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "a405dc573e14fb553033da60852a42ce9328dd420cba5f86d2494d9a2f89af8b",
+    "pages": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "bytes": 5189144,
+    "created": "Sat Jun 6 09:50:56 2026 CST"
+  },
+  "scope": [
+    "paper/venues/acl27/sections/abstract.tex",
+    "paper/venues/acl27/OPENREVIEW_METADATA_PACKET.md"
+  ],
+  "visual_artifacts": {
+    "before_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round13_current/contact_sheets/main_pages_01_11_current.png",
+    "before_page1": "tmp/acl_main_visual_iter_20260606_round13_current/pages_180/main_front-01.png",
+    "before_page2": "tmp/acl_main_visual_iter_20260606_round13_current/pages_180/main_front-02.png",
+    "before_table_page7": "tmp/acl_main_visual_iter_20260606_round13_current/pages_180/main_tables-07.png",
+    "before_table_page8": "tmp/acl_main_visual_iter_20260606_round13_current/pages_180/main_tables-08.png",
+    "before_layout_text": "tmp/acl_main_visual_iter_20260606_round13_current/text/main_layout.txt",
+    "after_page1": "tmp/acl_main_visual_iter_20260606_round13_after4/pages_180/main-01.png",
+    "after_page2": "tmp/acl_main_visual_iter_20260606_round13_after4/pages_180/main-02.png",
+    "after_contact_sheet": "tmp/acl_main_visual_iter_20260606_round13_after4/contact_sheets/main_pages_01_02_after4.png",
+    "after_layout_text": "tmp/acl_main_visual_iter_20260606_round13_after4/text/main_layout.txt"
+  },
+  "visual_findings": [
+    "The round-13 current full contact sheet and page-8 table render showed no new blocking crop; Table 6 remained complete and readable.",
+    "The review target moved to the page-1 abstract because the opening story was still report-like and an intermediate rewrite introduced a visible large gap after the prompt-contract sentence.",
+    "The accepted abstract foregrounds material conversion as quiet infrastructure and as a controlled perturbation of the measurement interface.",
+    "The accepted page-1 render removes the large abstract gap and avoids the earlier disruptive hidden-infrastructure hyphenation by using 'quiet infrastructure'.",
+    "The OpenReview metadata packet abstract was synchronized with the venue source abstract and reports a conservative tokenizer count of 169 words."
+  ],
+  "change_summary": [
+    "Rewrote the ACL abstract to open with the synthetic-benchmark infrastructure story before the metric inventory.",
+    "Compressed proxy-fidelity and claim-boundary language while preserving the downstream-grounding, material-effect, and embodied-stack gate separation.",
+    "Updated the OpenReview metadata packet abstract and abstract word count to match the rendered venue source."
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed; rebuilt paper/venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "passed; no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "passed; 85 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "passed; ok=true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "passed; ok=true; abstract_word_count=169"
+    }
+  ],
+  "residual_risk": "Focused page-1/page-2 abstract story and visual pass only; this is not a final upload audit or a full integrity-fingerprint refresh."
+}

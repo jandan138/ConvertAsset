@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "review_id": "acl_supplement_fig25_material_claim_boundary_gate_20260604",
+  "date_utc": "2026-06-04",
+  "scope": "ACL27 supplement Figure S25 material claim-boundary gate footer",
+  "user_report": "The bottom concept diagram in supplement Figure S25 was not fully displayed.",
+  "root_cause": "The standalone atlas generator placed the complete AI claim-boundary gate slot with cover-style scaling in the footer. The 1672x941 source schematic was therefore cropped inside a wider fixed footer slot before LaTeX saw the PNG; this was not a LaTeX page crop.",
+  "changes": [
+    "Changed _draw_material_claim_boundary_gate_footer to place MATERIAL_CLAIM_BOUNDARY_GATE_AI_SLOT with contain/letterbox scaling rather than cover scaling.",
+    "Added a layout regression assertion rejecting cover=True for the material claim-boundary gate footer block.",
+    "Regenerated fig_supplement_material_claim_boundary_atlas.png and rebuilt the ACL27 supplement PDF."
+  ],
+  "local_visual_review": {
+    "reviewer": "Codex local visual review using render-visual-reviewer paper figure protocol; no subagent spawned because this environment only permits spawn_agent when explicitly requested.",
+    "standalone_verdict": "PASS. The bottom claim-boundary gate schematic shows all three input rows, the center gate, and all three output boxes inside the figure frame.",
+    "pdf_page_27_verdict": "PASS. Figure S25 on supplement page 27 keeps the bottom concept diagram fully visible and the caption remains below the figure without collision.",
+    "residual_caveat": "The AI schematic is now slightly smaller in its footer frame because the full source aspect ratio is preserved. This is preferable to clipping an exposition-only slot."
+  },
+  "before": {
+    "prior_pdf_page27_110dpi": {
+      "path": "tmp/acl_final_visual_review_20260604/supplement_110/page-27.png",
+      "sha256": "2b71e4a857470e482a0b47d980585e01b209641585c2fbc1a01ed6af1d3c80d3",
+      "size": [
+        910,
+        1287
+      ],
+      "active245": 0.1864152941076018,
+      "layout_active": 0.16419734112041803,
+      "near_black": 0.030778623086315394,
+      "red_ratio": 0.0000025615410230794845
+    }
+  },
+  "after": {
+    "source_ai_slot": {
+      "path": "paper/shared/figures/ai_slots/fig_supplement_material_claim_boundary_gate_ai_slot.png",
+      "sha256": "2ce5d58727beb613895536dcaedf824de98545872ca39b90c352efa885dc16fc",
+      "size": [
+        1672,
+        941
+      ],
+      "active245": 0.4708768285799999,
+      "layout_active": 0.3270495095820897,
+      "near_black": 0.0006749919916204384,
+      "red_ratio": 0.0
+    },
+    "standalone_material_claim_boundary_atlas": {
+      "path": "paper/shared/figures/fig_supplement_material_claim_boundary_atlas.png",
+      "sha256": "971db8352b1fe611890b0f35573d7eb4ce4c5bfe92c8613495f514d02f334132",
+      "size": [
+        1800,
+        1940
+      ],
+      "active245": 0.3229682130584192,
+      "layout_active": 0.28338860252004583,
+      "near_black": 0.06544215349369989,
+      "red_ratio": 0.000035223367697594504
+    },
+    "pdf_page27": {
+      "path": "tmp/acl_fig25_claim_boundary_fix_20260604/page-27.png",
+      "sha256": "d3a37e7f66c5966d02402783c94fab812f7d2eb9dc5301f193279d1fa5ddaba4",
+      "size": [
+        1323,
+        1871
+      ],
+      "active245": 0.16021965529486334,
+      "layout_active": 0.14281189641959283,
+      "near_black": 0.030442368764121836,
+      "red_ratio": 0.000003635874445983631
+    },
+    "supplement_pdf": {
+      "path": "paper/venues/acl27/build/supplement.pdf",
+      "sha256": "2dfe91cb77af2fba121df420792acb4103cac8c68289d805102c20e024bdc1bf",
+      "pages": 45
+    }
+  },
+  "commands_run": [
+    "python -m pytest -q tests/test_paper_layout.py -k 'material_claim_boundary_atlas_is_registered_and_dense'",
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "make -C paper acl27-supplement",
+    "pdftoppm -png -r 160 -f 27 -l 27 paper/venues/acl27/build/supplement.pdf tmp/acl_fig25_claim_boundary_fix_20260604/page",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "python -m json.tool paper/shared/evidence/raw/acl27_visual_review/supplement_fig25_material_claim_boundary_gate_20260604.json >/dev/null",
+    "git diff --check -- paper/shared/figures/gen_supplement_task_media_atlases.py tests/test_paper_layout.py docs/records/README.md docs/records/2026-06-04-acl-supplement-fig25-material-claim-boundary-gate.md paper/shared/evidence/raw/acl27_visual_review/supplement_fig25_material_claim_boundary_gate_20260604.json"
+  ],
+  "files_changed": [
+    "paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "paper/shared/figures/fig_supplement_material_claim_boundary_atlas.png",
+    "tests/test_paper_layout.py",
+    "paper/shared/evidence/raw/acl27_visual_review/supplement_fig25_material_claim_boundary_gate_20260604.json",
+    "docs/records/2026-06-04-acl-supplement-fig25-material-claim-boundary-gate.md",
+    "docs/records/README.md"
+  ],
+  "follow_up_risks": [
+    "This fix closes Figure S25 only. Other supplement figures with AI slots or wide media strips should keep using contain/letterbox placement unless a deliberate crop is explicitly justified.",
+    "The broader ACL/supplement visual review should continue treating obvious clipping, black padded tiles, and unreadable scaled panels as release blockers."
+  ]
+}

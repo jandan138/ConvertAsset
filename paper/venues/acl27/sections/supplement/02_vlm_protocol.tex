@@ -1,0 +1,83 @@
+\clearpage
+\onecolumn
+\section{VLM Prompt and Coordinate Protocol}
+\label{sec:supp-vlm-protocol}
+
+The VLM protocol separates answer preservation from point grounding. Each
+render pair is evaluated with immutable source scenes, scratch noMDL
+conversion, matched cameras, target projection, blind visual QA, and a fixed
+prompt format. The prompt asks for a target-category answer and a
+normalized-1000 point. The parser then evaluates whether the answer is scorable
+and whether the point lies inside the projected target box.
+
+\begin{center}
+\includegraphics[width=\textwidth,height=0.76\textheight,keepaspectratio]{figures/fig_supplement_vlm_coordinate_protocol_atlas.png}
+{\captionsetup{hypcap=false}
+\captionof{figure}{VLM coordinate protocol. The panels use real
+GRScenes target-view renders to separate three visual quantities that can be
+confused in table-only form: the target box, the raw image center,
+and the normalized-1000 target-box center. The route diagram summarizes the path
+from render evidence to parser and scoring steps.}}
+\label{fig:supp-vlm-coordinate-protocol-atlas}
+\end{center}
+
+\clearpage
+
+\input{tables/tab_grscenes_vlm_coordinate_ablation}
+
+\begin{center}
+\includegraphics[width=\textwidth,height=0.50\textheight,keepaspectratio]{figures/fig_supplement_vlm_coordinate_table_companion.png}
+{\captionsetup{hypcap=false}
+\captionof{figure}{VLM coordinate table companion. Original/noMDL
+render pairs show why raw-image center, target-box center, and normalized-1000
+coordinates must be separated in the coordinate ablation table. The diagram
+explains the frame transformation.}}
+\label{fig:supp-vlm-coordinate-table-companion}
+\end{center}
+
+The coordinate ablation explains the main paper's choice of normalized-1000
+point hits as the primary metric. A target-centered camera can make the raw
+image center a strong baseline even when a model ignores the requested
+normalized coordinate convention. The normalized-1000 protocol is stricter
+because it tests whether the model follows the requested coordinate format.
+
+\clearpage
+
+\input{tables/tab_vlm_coordinate_baselines}
+
+\begin{center}
+\includegraphics[width=\textwidth,height=0.50\textheight,keepaspectratio]{figures/fig_supplement_vlm_coordinate_baseline_sanity_companion.png}
+{\captionsetup{hypcap=false}
+\captionof{figure}{Coordinate-baseline sanity companion. Real target-view
+renders show why the deterministic rows in Table S3 are scorer sanity checks:
+image-center, bbox-center, and normalized-1000 bbox-center baselines test
+different coordinate assumptions. The baseline audit strip adds
+original/noMDL target-view pairs for the same scorer checks. The companion
+summarizes the reading rule.}}
+\label{fig:supp-vlm-coordinate-baseline-sanity-companion}
+\end{center}
+
+The deterministic baselines are scorer sanity checks rather than model
+predictions. If an oracle box center scores 30/30 under the
+normalized format, then VLM failures point to model output behavior rather than
+an impossible box or an unavailable scoring frame. If the raw image center also scores 30/30,
+then raw-image point hits must be interpreted carefully because the camera
+construction itself can make raw coordinates easy.
+
+\subsection{Parser and Scorable Rows}
+
+The parser is conservative by construction. A row is scorable only when the model
+produces an answer and a parseable point in the expected form. Scorable
+denominators are reported explicitly because a model can fail by returning a
+plausible answer with no usable point, by returning a raw pixel coordinate under
+the normalized prompt, or by mixing coordinate semantics. These are different
+failure modes and are reported separately.
+
+\subsection{Gemma4 and Qwen2.5-VL Interpretation}
+
+Gemma4 is more consistent with normalized-1000 in the frozen stress run, while
+Qwen2.5-VL shows a stronger raw-coordinate preference under the same prompt
+family. The comparison should be read as backend-specific protocol behavior:
+conversion studies must report prompt format, parser coverage, and coordinate
+frame together so material deltas are not mistaken for coordinate-convention
+effects.

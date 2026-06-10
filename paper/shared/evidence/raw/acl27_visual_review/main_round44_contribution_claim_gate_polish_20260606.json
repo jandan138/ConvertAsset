@@ -1,0 +1,139 @@
+{
+  "round": 44,
+  "date": "2026-06-06",
+  "timestamp_utc": "2026-06-06T12:05:43Z",
+  "venue": "acl27",
+  "target_pdf": "paper/venues/acl27/build/main.pdf",
+  "target_area": {
+    "pages": [
+      1,
+      2,
+      3
+    ],
+    "source": "paper/venues/acl27/sections/intro.tex",
+    "lines_after_change": "70-74",
+    "description": "Page 2 Introduction contribution 4 and adjacent Related Work continuity"
+  },
+  "change_summary": [
+    "Recast contribution 4 as a claim-gate sentence.",
+    "Changed 'selected NVIDIA-baseline material audit' to 'a selected material audit against the NVIDIA baseline'.",
+    "Changed the contribution-list embodied evidence phrase to 'a 99-episode VLN run on official KuJiaLe scenes'.",
+    "Preserved the bounded-claim close against broad embodied-benchmark or speedup claims."
+  ],
+  "visual_review": {
+    "before_render_dir": "tmp/acl_main_visual_iter_20260606_round44_current",
+    "after_render_dir": "tmp/acl_main_visual_iter_20260606_round44_after",
+    "before_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round44_current/contact_sheet.png",
+      "sha256": "09efb02ca46feb751fbfd4d22fb074bc5d888635710ae6f13cc8d18d377fd440"
+    },
+    "before_full_text": {
+      "path": "tmp/acl_main_visual_iter_20260606_round44_current/full.txt",
+      "sha256": "f8f78060da7377ef7e22f81558b7c1755929f446e7ad799c861e0283aa524773"
+    },
+    "before_page2": {
+      "path": "tmp/acl_main_visual_iter_20260606_round44_current/page2.txt",
+      "sha256": "22828b2f67e26e07434c832df7cc069545685baec10f1a6c6bdfda868f45f6ca"
+    },
+    "before_focus_pages": {
+      "path": "tmp/acl_main_visual_iter_20260606_round44_current/focus_p1_p2.png",
+      "sha256": "4b79aba4a233148e83d5b98e9532e2eba22902d65713f4c18a8a15592b876aa0",
+      "pages": [
+        1,
+        2
+      ]
+    },
+    "after_contact_sheet": {
+      "path": "tmp/acl_main_visual_iter_20260606_round44_after/contact_sheet.png",
+      "sha256": "b0e2ecaeb61f3de0599d6f64cb7be1211e866fbe1c34734e2084f1ff4710f385"
+    },
+    "after_full_text": {
+      "path": "tmp/acl_main_visual_iter_20260606_round44_after/full.txt",
+      "sha256": "1469592ecc6aeff70bfcea386cc71a7bf7b9b1513c39f8e5cae29d2b8c8b0e9b"
+    },
+    "after_page1": {
+      "path": "tmp/acl_main_visual_iter_20260606_round44_after/page1.txt",
+      "sha256": "ed0bb79a39a1fa4a000f4af6286356b227379993aa31d65887d492d30d5233e9"
+    },
+    "after_page2": {
+      "path": "tmp/acl_main_visual_iter_20260606_round44_after/page2.txt",
+      "sha256": "df12025215f063886e66b62b9a9553820f728f9c0f193a28711cab243fe6773e"
+    },
+    "after_page3": {
+      "path": "tmp/acl_main_visual_iter_20260606_round44_after/page3.txt",
+      "sha256": "914b2aa04934982559c3e99536d35f705262f44553e4fc420f1d533061edd2b7"
+    },
+    "focus_before_after": {
+      "path": "tmp/acl_main_visual_iter_20260606_round44_after/focus_before_after_p2.png",
+      "sha256": "a85a00f562fde642ceb68d13bfabe406c3e56508d10aa19a2b0a30fa1218dd4e",
+      "pages": [
+        2
+      ]
+    },
+    "focus_pages_after_1_2": {
+      "path": "tmp/acl_main_visual_iter_20260606_round44_after/focus_p1_p2.png",
+      "sha256": "74a8c47824567456f4361dcc08984b2aafea11c3f431dafb3904e321d1845775",
+      "pages": [
+        1,
+        2
+      ]
+    },
+    "focus_pages_after_2_3": {
+      "path": "tmp/acl_main_visual_iter_20260606_round44_after/focus_p2_p3.png",
+      "sha256": "f6edaae05f2fc16200e0cabc4805e1a9be8b3c3e35dd16ef9a9084b32c55b6ab",
+      "pages": [
+        2,
+        3
+      ]
+    },
+    "observations": [
+      "Before: page 2 contribution 4 rendered 'selected NVIDIA-' followed by 'baseline'.",
+      "Before: the same contribution rendered '99-episode offi-' followed by 'cial'.",
+      "Rejected: a claim-registry variant introduced 'claim reg-' / 'istry' and 'In-' / 'ternNav'.",
+      "Rejected: a navigation-run variant introduced 'nav-' / 'igation'.",
+      "After: contribution 4 renders 'the NVIDIA baseline, a 99-episode VLN run' followed by 'on official KuJiaLe scenes, and repeated'.",
+      "After: Related Work still starts at line 127 in the page 2 right column.",
+      "After: page 1 and page 3 text extraction hashes are unchanged, and the PDF remains 11 pages."
+    ]
+  },
+  "pdf_identity": {
+    "before_sha256": "b214f8bbc9d000e40e34c008cd11897ae1b79700e25f29335944c137a2334055",
+    "after_sha256": "646dd6d838c9f75186a3d456876c7b0ca9d06a987ac8cf4d5805d09a1edbae2b",
+    "after_pdfinfo": {
+      "creation_date": "Sat Jun 6 19:58:44 2026 CST",
+      "mod_date": "Sat Jun 6 19:58:44 2026 CST",
+      "pages": 11,
+      "page_size": "595.276 x 841.89 pts (A4)",
+      "file_size_bytes": 5188392,
+      "pdf_version": "1.5"
+    }
+  },
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "pass",
+      "evidence": "Exit 0; acl27 built: venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "if rg -n \"Overfull|LaTeX Warning: Label|There were undefined references|Undefined control sequence|multiply-defined|Rerun to get cross-references right|Package lineno Warning\" paper/venues/acl27/build/main.log; then exit 1; else printf 'no blocker matches\\n'; fi",
+      "result": "pass",
+      "evidence": "no blocker matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py tests/test_acl_preupload_gate.py",
+      "result": "pass",
+      "evidence": "102 passed in 16.07s."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "pass",
+      "evidence": "ok=true; no violations or unsafe figure violations."
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "pass",
+      "evidence": "ok=true; abstract word count 169."
+    }
+  ],
+  "docs_record": "docs/records/2026-06-06-acl-main-contribution-claim-gate-polish.md"
+}

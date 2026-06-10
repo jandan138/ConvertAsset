@@ -119,6 +119,12 @@ Figure entry point:
 python paper/shared/figures/gen_material_effect_qualitative.py
 ```
 
+Clean-provenance gate for reusing the selected panel in ACL main text:
+
+```bash
+python paper/shared/evidence/experiments/08_material_effect_baseline/check_qualitative_clean_provenance.py
+```
+
 Default qualitative outputs:
 
 ```text
@@ -135,6 +141,14 @@ Current qualitative result:
 - 4 selected cases: bottle, clock, cup, and backpack
 - 12/12 selected condition images ready across original MDL, ConvertAsset
   no-MDL, and NVIDIA
+- clean-provenance gate status: ready after the 2026-05-28 original/noMDL
+  rerender pass; the 4 selected original-MDL stderr logs now contain 0
+  `KooPbr` / `KooPbr_maps` / MDL shade-node failure signals
+- local pure-visual review:
+  `paper/shared/evidence/raw/material_effect_baseline/qualitative_clean_visual_review_20260528.json`
+  records `WARN`: no Original MDL red fallback is visible, but NVIDIA clock and
+  backpack cells remain low-contrast/washed, so the panel stays selected
+  qualitative evidence only
 - selected coverage includes `opacity_transparency`, `emission`,
   `normal_bump`, and `displacement_height`
 - `clearcoat` and `procedural_texture` are handled by the supplemental

@@ -1,0 +1,61 @@
+{
+  "review_id": "main_round16_ethics_disclosure_story_polish_20260606",
+  "date": "2026-06-06",
+  "venue": "acl27",
+  "artifact": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "sha256": "75f0bf954fc1357118c91f2c3c56455f484a3b05c95d1f87b3e50f6db1db0296",
+    "pages": 11,
+    "page_size": "595.276 x 841.89 pts (A4)",
+    "bytes": 5189504,
+    "created": "Sat Jun 6 10:23:56 2026 CST"
+  },
+  "scope": [
+    "paper/venues/acl27/sections/ethical-considerations.tex"
+  ],
+  "visual_artifacts": {
+    "before_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round16_current/contact_sheets/main_pages_01_11_current.png",
+    "before_page10": "tmp/acl_main_visual_iter_20260606_round16_current/pages_180/main-10.png",
+    "before_layout_text": "tmp/acl_main_visual_iter_20260606_round16_current/text/main_layout.txt",
+    "after_page10_intermediate": "tmp/acl_main_visual_iter_20260606_round16_after/pages_180/main-10.png",
+    "after_page10": "tmp/acl_main_visual_iter_20260606_round16_after_final/pages_180/main-10.png",
+    "after_full_contact_sheet": "tmp/acl_main_visual_iter_20260606_round16_after_final/contact_sheets/main_pages_01_11_after_final.png",
+    "after_layout_text": "tmp/acl_main_visual_iter_20260606_round16_after_final/text/main_layout.txt"
+  },
+  "visual_findings": [
+    "The round-16 contact sheet showed stable figure/table placement and no hard crop; the selected target was the page-10 Ethical Considerations block because it is reviewer-facing and visibly adjacent to the start of References.",
+    "The original ethics text preserved the right claim boundary but read as a compliance checklist and used a mechanical disclosure ending around quantitative claims, citations, reported artifacts, and empirical panels.",
+    "The first rewrite improved the disclosure boundary but introduced a loose full-justified line around the human-author responsibility sentence.",
+    "The accepted render keeps Ethical Considerations on page 10, starts References cleanly in the right column, and avoids the loose disclosure line from the intermediate render.",
+    "The full after contact sheet keeps the 11-page structure stable and does not visibly displace the references, figure stack, tables, Discussion, Conclusion, or Limitations."
+  ],
+  "change_summary": [
+    "Reframed ethical risks as indirect synthetic-scene risks: bias, license restrictions, unsafe deployment assumptions, and inflated robustness claims.",
+    "Changed the reuse guidance from an ACL-submission checklist to a general submission responsibility for provenance, licensing, filtering, and intended render use.",
+    "Added a concise author-responsibility disclosure for AI-assisted implementation, editing, audit drafting, and schematic generation.",
+    "Preserved the key boundary that the generated schematic is illustrative only and that quantitative results and empirical visual panels were checked against repository artifacts and cited sources."
+  ],
+  "verification": [
+    {
+      "command": "make -C paper acl27",
+      "result": "passed; rebuilt/confirmed paper/venues/acl27/build/main.pdf"
+    },
+    {
+      "command": "rg -n \"Overfull|Float too large|too large|LaTeX Warning: Float|Rerun to get|Warning:.*Label|Undefined references|multiply defined|Package lineno Warning\" paper/venues/acl27/build/main.log || true",
+      "result": "passed; no matches"
+    },
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py",
+      "result": "passed; 85 passed"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_claim_boundaries.py",
+      "result": "passed; ok=true"
+    },
+    {
+      "command": "python paper/venues/acl27/scripts/check_metadata_consistency.py",
+      "result": "passed; ok=true; abstract_word_count=169"
+    }
+  ],
+  "residual_risk": "Focused Ethical Considerations and disclosure story polish only; this is not a full upload audit, target-policy refresh, or integrity-fingerprint refresh."
+}

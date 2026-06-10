@@ -1,0 +1,74 @@
+\section{Method}
+\label{sec:methodology}
+
+\subsection{Material Conversion as the Intervention}
+\label{sec:conversion_intervention}
+
+The intervention stays within the same USD scene family. ConvertAsset starts
+from a root USD file, recursively discovers referenced layers, payloads,
+variants, and clips, and writes \texttt{\_noMDL} sibling USD assets; it does not
+flatten the scene. Converted arcs target those siblings; sources stay read-only.
+
+Within each processed USD file, MDL-driven materials are replaced by a
+core-channel PreviewSurface approximation rather than by a full MDL semantic
+compiler. ConvertAsset builds portable base-color, roughness, metallic, and
+normal networks; texture inputs are resolved relative to their declaring layer
+when possible, otherwise constant fallbacks are used. This deliberately leaves
+many MDL mechanisms outside the conversion target. Clearcoat, procedural
+textures, displacement or height cues, opacity, emission, and other specialized
+mechanisms therefore become risk labels for downstream audit, not promises that
+the mechanism has been faithfully reproduced.
+
+\subsection{Evidence Gates}
+\label{sec:evidence_gates}
+
+We organize the evaluation as four evidence gates. The first gate measures
+paired proxy similarity on four Isaac Sim furniture assets: PSNR, SSIM, LPIPS,
+CLIP similarity, DINOv2 similarity, and headless load/render behavior. This
+gate checks that the conversion can preserve obvious visual structure in a
+controlled single-object setting.
+
+The second gate is the VLM grounding protocol on GRScenes. We use
+the original GRScenes tree as the source condition, materialize noMDL
+counterparts in a scratch workspace, render matched target-centered views, and
+project target bounding boxes into each image. Visual QA separates clean
+PASS-only pairs from target-visible PASS/WARN material-shift pairs. Local VLM
+backends are prompted to return a target-category answer and a point location:
+an Unsloth-quantized Gemma4 checkpoint
+\texttt{unsloth/\allowbreak gemma-4-E4B-it-\allowbreak unsloth-bnb-4bit} is
+the canonical run, while
+\texttt{Qwen/\allowbreak Qwen2.5-VL-7B-\allowbreak Instruct} is a second-model
+diagnostic under the same manifest. We score answer match, point-in-box under
+normalized-1000 coordinates, and a raw pixel-space diagnostic because coordinate
+semantics proved model-dependent; these backends are measurement probes, not a
+model leaderboard.
+
+The third gate audits material mechanisms and the NVIDIA baseline. For the
+selected GRScenes material-effect pool, we compare original MDL, ConvertAsset
+noMDL, and NVIDIA Asset Converter PreviewSurface outputs when all three
+conditions pass static gates. These static gates check condition availability,
+zero active MDL in converted outputs, and target renderability; they do not by
+themselves certify material-effect fidelity. For missing material bins, we use
+bounded supplemental wrapper fixtures, but only as selected failure or
+limitation evidence.
+
+The fourth gate checks embodied-data usability. We run the official
+InteriorAgent / KuJiaLe \texttt{val\_unseen} route through
+InternNav/DualVLN~\cite{Wei2026Ground} on matched original and noMDL scenes,
+and separately measure repeated official-scene load/render stability. These
+runs are treated as scoped sanity evidence: they show that the converted scenes
+can be exercised by a real embodied stack, but they are not broad navigation
+benchmark evidence.
+Table~\ref{tab:acl_evidence_gate_registry} summarizes the allowed claim
+boundary for each gate.
+
+\input{tables/tab_acl_evidence_gate_registry}
+
+\subsection{Claim Registry}
+\label{sec:claim_registry}
+
+Every major result is tied to a manifest, table, or claim entry in the project
+evidence registry. The registry records not only the supported claim, but also
+its scope and forbidden promotion. This is part of the method: we use conversion
+as a controlled perturbation, then prevent proxy metrics, selected videos, or
+single-scene results from being promoted into broader robustness claims.

@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "record_id": "acl27_supplement_theory_bridge_iteration_20260602",
+  "date": "2026-06-02",
+  "objective_slice": "Reduce sparse, text-only supplement pages by adding a render-heavy theory evidence bridge built only from tracked paper figures.",
+  "imagegen_reference": {
+    "path": "$CODEX_HOME/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0b1fff5087d7da8c016a1e750dbe588198bd1b211d531362ec.png",
+    "used_as_evidence": false,
+    "role": "Non-evidence layout reference for a dense three-band academic supplement page."
+  },
+  "generated_outputs": [
+    {
+      "path": "paper/shared/figures/fig_supplement_theory_evidence_bridge.png",
+      "sha256": "6143cbbff7c9e98345890aa0991af27c8dcc256635aba708e55260f24ece8adf",
+      "size": [1800, 1420],
+      "active_fraction": 0.3590281690140845,
+      "red_fraction": 0.00034507042253521125
+    }
+  ],
+  "source_figures": [
+    "paper/shared/figures/fig_material_effect_baseline_qualitative.png",
+    "paper/shared/figures/fig_material_effect_supplemental_qualitative.png",
+    "paper/shared/figures/fig_supplement_vlm_clean_rerender_panel.png",
+    "paper/shared/figures/fig_internnav_rollout_stills.png",
+    "paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png",
+    "paper/shared/figures/supplement/internnav_selected6_case01.png",
+    "paper/shared/figures/supplement/internnav_0036_0066_case01.png"
+  ],
+  "layout_evidence": {
+    "before_pdf_page_stats": {
+      "page_37_active_fraction": 0.0578,
+      "page_38_active_fraction": 0.0311,
+      "observation": "Theory section had text-only sparse pages with large blank regions."
+    },
+    "after_pdf_page_stats": {
+      "page_37_png": "tmp/acl27_supplement_theory_bridge_review/page-37.png",
+      "page_37_sha256": "f4488d273892b37cd17c9d4ba0ec97ff1083ad435ac60792b5ecc61d357547d2",
+      "page_37_active_fraction": 0.12398872796334291,
+      "page_37_color_fraction": 0.00953823056221442,
+      "page_38_png": "tmp/acl27_supplement_theory_bridge_review/page-38.png",
+      "page_38_sha256": "1bd8a35998554de4deba148aa8fd4b5ee477ee944dc05364a8412d44f438bc6c",
+      "page_38_active_fraction": 0.0668737372020394
+    }
+  },
+  "local_visual_review": {
+    "reviewer": "codex-local-render-visual-reviewer",
+    "independent_subagent": false,
+    "verdict": "PASS_WITH_REMAINING_GLOBAL_ITERATION",
+    "notes": [
+      "The first bridge attempt failed visual review because source panels were shrunk into small centered blocks.",
+      "The second bridge attempt was denser but preserved too many large source-title crops.",
+      "The accepted bridge uses direct material, VLM, and navigation crops and avoids the previous text-only theory page.",
+      "The goal remains active because other supplement pages can still benefit from more render-heavy iteration."
+    ]
+  },
+  "claim_boundary": "Layout and qualitative navigation aid only; no new quantitative claim.",
+  "build": {
+    "command": "make -C paper acl27-supplement",
+    "status": "passed",
+    "output_pdf": "paper/venues/acl27/build/supplement.pdf",
+    "output_pdf_sha256": "b2e2716abe0ce66b8e5f256bd9c531a53c96c1aee653362a6ed607d158169a27",
+    "pages": 40,
+    "bytes": 14965089
+  },
+  "tests": [
+    {
+      "command": "python -m pytest -q tests/test_paper_layout.py -k 'theory_has_visual_evidence_bridge or theory_bridge_is_registered_and_dense'",
+      "status": "passed",
+      "result": "2 passed, 27 deselected"
+    }
+  ]
+}

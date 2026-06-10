@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "review_id": "supplement_vlm_coordinate_table_companion_20260603",
+  "date": "2026-06-03",
+  "scope": "ACL supplement VLM coordinate ablation table companion on page 17",
+  "independent_subagent": false,
+  "review_method": "Local render-visual-reviewer-style inspection of the standalone PNG and rendered PDF page; sub-agent delegation was not used because this turn did not include explicit permission to spawn sub-agents.",
+  "claim_boundary": "The AI-generated coordinate-contract gate is exposition only and is not experimental evidence. Evidence-bearing panels are registered GRScenes original/noMDL target-view renders and the existing coordinate tables.",
+  "source_generated_image": "/root/.codex/generated_images/019e5ded-e82b-7c03-91bd-2a636674e25e/ig_0f12ac123d614b55016a1f1de07e60819a95e8e88a9992f780.png",
+  "ai_slot": {
+    "path": "paper/shared/figures/ai_slots/fig_supplement_vlm_coordinate_contract_gate_ai_slot.png",
+    "sha256": "59dc963f4a6cbe895debbab5e9191f56755f8000fe276955a9b443c36fb3c962",
+    "width": 1983,
+    "height": 793,
+    "active_fraction": 0.140524,
+    "red_fallback_fraction": 0.0
+  },
+  "standalone_figure": {
+    "path": "paper/shared/figures/fig_supplement_vlm_coordinate_table_companion.png",
+    "sha256": "1b89fcdbb514e89a24959bc395cbc9728c40532dd3b710e4631d1df66adae73c",
+    "width": 1800,
+    "height": 700,
+    "active_fraction": 0.329163,
+    "red_fallback_fraction": 0.0,
+    "visual_verdict": "PASS",
+    "visual_notes": "The figure is contained, render pairs remain identifiable, coordinate overlays are visible, the AI slot is not cropped, and no red-material fallback is visible."
+  },
+  "rendered_pdf": {
+    "path": "paper/venues/acl27/build/supplement.pdf",
+    "sha256": "35e9299bdc9abd1293950dbf63691d081957191cba1612750b85513fb2adeeeb",
+    "pages": 44,
+    "page_renders": [
+      {
+        "page": 17,
+        "render_path": "tmp/acl_supplement_coordinate_companion_review/page-17.png",
+        "sha256": "ece52d397fb096780c2a5344bab2bdb22d089f077e3c7e94930e36707ffae6e0",
+        "dpi": 140,
+        "active_fraction": 0.088187,
+        "strong_fraction": 0.077567,
+        "red_fallback_fraction": 0.0,
+        "visual_verdict": "PASS",
+        "visual_notes": "The coordinate ablation table, companion render strip, caption, and explanatory paragraph are on the same page with no clipping or caption collision."
+      }
+    ]
+  },
+  "page_density_delta": {
+    "before_active_fraction_120dpi": {
+      "page_17": 0.0243
+    },
+    "after_active_fraction_140dpi": {
+      "page_17": 0.088187
+    }
+  },
+  "verification_commands": [
+    "python -m pytest -q tests/test_paper_layout.py -k \"coordinate_table_companion\"",
+    "python paper/shared/figures/gen_supplement_task_media_atlases.py",
+    "make -C paper acl27-supplement",
+    "pdftoppm -r 140 -png -f 17 -l 17 paper/venues/acl27/build/supplement.pdf tmp/acl_supplement_coordinate_companion_review/page",
+    "python -m pytest -q tests/test_paper_layout.py",
+    "pdftotext paper/venues/acl27/build/supplement.pdf - | rg -n \"VLM coordinate table companion|AI-generated coordinate-contract|Red material in these diagnostic cases|fig_vlm_grounding_cases|/cpfs/user|Zihou\""
+  ],
+  "pdf_text_scan": {
+    "positive_caption_hits": [
+      "Figure S11: VLM coordinate table companion",
+      "AI-generated coordinate-contract schematic used only for exposition"
+    ],
+    "negative_tokens_absent": [
+      "Red material in these diagnostic cases",
+      "fig_vlm_grounding_cases",
+      "/cpfs/user",
+      "Zihou"
+    ]
+  },
+  "residual_risk": "Some in-figure labels are small at paper scale, but the page caption carries the claim boundary and the render panels are visually legible. Bottom whitespace remains, but the page is no longer table-only."
+}

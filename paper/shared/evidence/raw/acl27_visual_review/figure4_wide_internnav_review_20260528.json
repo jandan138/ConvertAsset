@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "status": "figure4_wide_internnav_visual_review",
+  "reviewed_at_utc": "2026-05-28T10:16:02Z",
+  "reviewer_mode": "local_codex_visual_review_not_independent_subagent",
+  "source_figure": {
+    "path": "paper/shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png",
+    "hash_sha256": "4d8881fd4833c32c039d8d5e72036570503a4bb6d08c1dec0d250fc4f398fe2e",
+    "size_pixels": [
+      1748,
+      806
+    ],
+    "strong_red_pixels": 0,
+    "purple_overlay_pixels": 2865,
+    "green_reference_pixels": 2447
+  },
+  "current_pdf": {
+    "path": "paper/venues/acl27/build/main.pdf",
+    "hash_sha256": "36b2f0fae8ead9955016466227ef9936fa0f454427577aefb48b53c523116711",
+    "pages": 11,
+    "bytes": 3991259,
+    "creation_date": "Thu May 28 19:33:56 2026 CST"
+  },
+  "rendered_page_check": {
+    "temporary_path": "/tmp/convertasset_acl27_limitations_tail_final/page-09.png",
+    "hash_sha256": "d120edde228dd31e50540c5d0e51761ccd9695826f0d0a1e0675ed48d999129e",
+    "page": 9,
+    "dpi": 180,
+    "size_pixels": [
+      1489,
+      2105
+    ],
+    "strong_red_pixels": 0,
+    "purple_overlay_pixels": 1254,
+    "green_reference_pixels": 1176
+  },
+  "verdict": "PASS_WITH_BOUNDARY",
+  "visible_evidence": [
+    "Figure 4 now uses a wide three-case official KuJiaLe InternNav path panel rather than the previous single-column selected panel.",
+    "The source panel and rendered PDF page contain zero strong-red pixels after the overlay recoloring step; visible paths remain purple for executed/action overlays and green for reference paths.",
+    "The figure is readable enough for reader orientation and does not introduce page growth, overlap, or a blank right-column artifact.",
+    "The figure remains selected qualitative navigation evidence only; quantitative claims stay tied to the 99-episode paired run and official-scene load/render closure."
+  ],
+  "claim_boundary": {
+    "may_support": "reader orientation for selected official KuJiaLe original/noMDL InternNav path examples",
+    "must_not_support": [
+      "population-level InteriorNav or GRScenes embodied robustness",
+      "official-scene noMDL speedup",
+      "NVIDIA official-scene performance",
+      "quantitative navigation conclusions beyond the frozen 99-episode paired run"
+    ]
+  },
+  "imagegen_note": "No new generated schematic was used in this iteration. The change intentionally promotes recorded real InternNav visual evidence; Figure 1 remains the AI-generated method-chain roadmap.",
+  "recommendation": "Keep the wide panel in the main paper for narrative evidence, and keep the limitation text explicit that it is selected qualitative evidence only."
+}
