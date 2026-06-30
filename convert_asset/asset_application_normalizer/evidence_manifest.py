@@ -8,7 +8,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from .model import MILESTONE_AAN02, SCHEMA_VERSION, TOOL_VERSION, NormalizeAssetRequest
+from .model import (
+    MILESTONE_AAN02,
+    MILESTONE_AAN03,
+    MILESTONE_AAN04,
+    SCHEMA_VERSION,
+    TOOL_VERSION,
+    NormalizeAssetRequest,
+)
 
 
 def sha256_file(path: Path) -> str:
@@ -39,7 +46,9 @@ def build_manifest(
     milestone: str = MILESTONE_AAN02,
     root_usd: str = "asset.usd",
     dependency_closure: dict[str, Any] | None = None,
+    material_closure: list[dict[str, Any]] | None = None,
     static_usd_report: dict[str, Any] | None = None,
+    static_material_report: dict[str, Any] | None = None,
     stage_gates: list[dict[str, Any]] | None = None,
     claims_allowed: list[str] | None = None,
     claims_forbidden: list[str] | None = None,
@@ -48,7 +57,12 @@ def build_manifest(
     source_sha = sha256_file(request.source_usd)
     blocked_reasons = blocked_reasons or []
     default_prim = request.required_prims[0] if request.required_prims else None
-    command_stage = "cli_skeleton" if milestone == MILESTONE_AAN02 else "usd_closure"
+    command_stage_by_milestone = {
+        MILESTONE_AAN02: "cli_skeleton",
+        MILESTONE_AAN03: "usd_closure",
+        MILESTONE_AAN04: "material_closure",
+    }
+    command_stage = command_stage_by_milestone.get(milestone, "unknown")
 
     manifest = {
         "schema_version": SCHEMA_VERSION,
@@ -92,7 +106,7 @@ def build_manifest(
                 "blocked": 0,
             },
         },
-        "material_closure": [],
+        "material_closure": material_closure or [],
         "physics_closure": {},
         "articulation_closure": {},
         "stage_gates": stage_gates or [
@@ -134,6 +148,8 @@ def build_manifest(
     }
     if static_usd_report is not None:
         manifest["static_usd_report"] = static_usd_report
+    if static_material_report is not None:
+        manifest["static_material_report"] = static_material_report
     return manifest
 
 

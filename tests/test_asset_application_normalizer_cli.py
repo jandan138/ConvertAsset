@@ -130,6 +130,10 @@ def test_normalize_asset_blocks_missing_local_dependency_without_package(
     assert not out_dir.exists()
     manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
     assert manifest["overall_status"] == "blocked"
+    assert manifest["milestone"] == "AAN-04-material-closure"
+    assert manifest["stage_gates"][-1]["check_id"] == "AAN-04-material-closure"
+    assert manifest["stage_gates"][-1]["status"] == "not_run"
+    assert manifest["static_material_report"]["status"] == "not_run"
     assert manifest["static_usd_report"]["required_prims"][0] == {
         "path": "/World/DryingBox",
         "exists": True,
@@ -190,10 +194,11 @@ def test_normalize_asset_writes_package_local_usd_closure(tmp_path: Path) -> Non
     assert "@../mdl/surface.mdl@" in part_text
     assert "@../textures/albedo.png@" in part_text
     manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
-    assert manifest["milestone"] == "AAN-03-usd-closure"
+    assert manifest["milestone"] == "AAN-04-material-closure"
     assert manifest["overall_status"] == "pass"
     assert manifest["entrypoints"]["root_usd"] == "asset.usd"
     assert manifest["static_usd_report"]["root_layer"]["default_prim"] == "World"
+    assert manifest["static_material_report"]["material_count"] == 0
     assert manifest["static_usd_report"]["required_prims"][0] == {
         "path": "/World/DryingBox",
         "exists": True,
@@ -208,6 +213,165 @@ def test_normalize_asset_writes_package_local_usd_closure(tmp_path: Path) -> Non
     assert ("usd", "deps/usd/part.usda") in local_files
     assert ("mdl", "deps/mdl/surface.mdl") in local_files
     assert ("texture", "deps/textures/albedo.png") in local_files
+
+
+def test_normalize_asset_writes_material_closure_for_packaged_mdl_and_texture(
+    tmp_path: Path,
+) -> None:
+    source_root = tmp_path / "source"
+    (source_root / "materials").mkdir(parents=True)
+    (source_root / "textures").mkdir()
+    (source_root / "materials" / "paint.mdl").write_text("mdl 1.0;\n", encoding="utf-8")
+    (source_root / "textures" / "alpha.png").write_bytes(b"alpha")
+    source = source_root / "DryingBox.usda"
+    source.write_text(
+        "#usda 1.0\n"
+        "(\n"
+        "    defaultPrim = \"World\"\n"
+        ")\n"
+        "def Xform \"World\" {\n"
+        "    def Xform \"DryingBox\" {}\n"
+        "}\n"
+        "def Scope \"Looks\" {\n"
+        "    def Material \"Paint\" {\n"
+        "        token outputs:mdl:surface.connect = </Looks/Paint/Shader.outputs:out>\n"
+        "        def Shader \"Shader\" {\n"
+        "            uniform token info:implementationSource = \"sourceAsset\"\n"
+        "            asset info:mdl:sourceAsset = @materials/paint.mdl@\n"
+        "            color3f inputs:diffuseColor = (0.2, 0.4, 0.6)\n"
+        "            float inputs:roughness = 0.5\n"
+        "            asset inputs:opacity_texture = @textures/alpha.png@\n"
+        "            token outputs:out\n"
+        "        }\n"
+        "    }\n"
+        "}\n",
+        encoding="utf-8",
+    )
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+    args = _base_args(source, out_dir, evidence_out)
+    args.remove("--dry-run")
+
+    code = main(args)
+
+    assert code == 0
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["milestone"] == "AAN-04-material-closure"
+    assert manifest["static_material_report"]["material_count"] == 1
+    assert manifest["static_material_report"]["closure_mode_counts"]["local_mirror"] == 1
+    record = manifest["material_closure"][0]
+    assert record["material_prim"] == "/Looks/Paint"
+    assert record["closure_mode"] == "local_mirror"
+    assert record["source_assets_preserved"] is True
+    assert record["source_mdl_assets"][0]["raw_asset_path"] == "materials/paint.mdl"
+    assert record["source_mdl_assets"][0]["package_path"] == "deps/mdl/paint.mdl"
+    assert len(record["source_mdl_assets"][0]["package_sha256"]) == 64
+    assert record["texture_paths"][0]["raw_asset_path"] == "textures/alpha.png"
+    assert record["texture_paths"][0]["package_path"] == "deps/textures/alpha.png"
+    assert len(record["texture_paths"][0]["package_sha256"]) == 64
+    assert record["extracted_channels"]["baseColor"]["source"] == "constant"
+    assert record["transparency_strategy"] == "opacity_input"
+    assert record["preview_surface_fallback"]["status"] == "not_generated"
+
+
+def test_normalize_asset_reports_native_preview_surface_material(tmp_path: Path) -> None:
+    source = tmp_path / "DryingBox.usda"
+    source.write_text(
+        "#usda 1.0\n"
+        "(\n"
+        "    defaultPrim = \"World\"\n"
+        ")\n"
+        "def Xform \"World\" {\n"
+        "    def Xform \"DryingBox\" {}\n"
+        "}\n"
+        "def Scope \"Looks\" {\n"
+        "    def Material \"Preview\" {\n"
+        "        token outputs:surface.connect = </Looks/Preview/Shader.outputs:surface>\n"
+        "        def Shader \"Shader\" {\n"
+        "            uniform token info:id = \"UsdPreviewSurface\"\n"
+        "            color3f inputs:diffuseColor = (0.1, 0.2, 0.3)\n"
+        "            token outputs:surface\n"
+        "        }\n"
+        "    }\n"
+        "}\n",
+        encoding="utf-8",
+    )
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+    args = _base_args(source, out_dir, evidence_out)
+    args.remove("--dry-run")
+
+    code = main(args)
+
+    assert code == 0
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["milestone"] == "AAN-04-material-closure"
+    assert manifest["static_material_report"]["material_count"] == 1
+    record = manifest["material_closure"][0]
+    assert record["material_prim"] == "/Looks/Preview"
+    assert record["closure_mode"] == "native_resolved"
+    assert record["source_mdl_assets"] == []
+    assert record["texture_paths"] == []
+    assert record["source_assets_preserved"] is True
+    assert record["extracted_channels"]["baseColor"]["source"] == "constant"
+    assert record["extracted_channels"]["baseColor"]["value"] == [0.1, 0.2, 0.3]
+
+
+def test_normalize_asset_links_material_assets_from_rewritten_child_layers(
+    tmp_path: Path,
+) -> None:
+    source_root = tmp_path / "source"
+    (source_root / "parts").mkdir(parents=True)
+    (source_root / "materials").mkdir()
+    (source_root / "materials" / "child.mdl").write_text("mdl 1.0;\n", encoding="utf-8")
+    (source_root / "parts" / "part.usda").write_text(
+        "#usda 1.0\n"
+        "(\n"
+        "    defaultPrim = \"Asset\"\n"
+        ")\n"
+        "def Xform \"Asset\" {\n"
+        "    def Scope \"Looks\" {\n"
+        "        def Material \"Child\" {\n"
+        "            token outputs:mdl:surface.connect = </Asset/Looks/Child/Shader.outputs:out>\n"
+        "            def Shader \"Shader\" {\n"
+        "                uniform token info:implementationSource = \"sourceAsset\"\n"
+        "                asset info:mdl:sourceAsset = @../materials/child.mdl@\n"
+        "                token outputs:out\n"
+        "            }\n"
+        "        }\n"
+        "    }\n"
+        "}\n",
+        encoding="utf-8",
+    )
+    source = source_root / "DryingBox.usda"
+    source.write_text(
+        "#usda 1.0\n"
+        "(\n"
+        "    defaultPrim = \"World\"\n"
+        ")\n"
+        "def Xform \"World\" {\n"
+        "    def Xform \"DryingBox\" (\n"
+        "        references = @parts/part.usda@\n"
+        "    ) {}\n"
+        "}\n",
+        encoding="utf-8",
+    )
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+    args = _base_args(source, out_dir, evidence_out)
+    args.remove("--dry-run")
+
+    code = main(args)
+
+    assert code == 0
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    record = next(
+        item
+        for item in manifest["material_closure"]
+        if item["material_prim"] == "/World/DryingBox/Looks/Child"
+    )
+    assert record["closure_mode"] == "local_mirror"
+    assert record["source_mdl_assets"][0]["package_path"] == "deps/mdl/child.mdl"
 
 
 def test_normalize_asset_mirrors_mdl_from_package_sidecar_root(tmp_path: Path) -> None:
@@ -334,8 +498,11 @@ def test_normalize_asset_blocks_unauthorized_remote_uri_without_package(
     assert evidence_out.exists()
     assert not out_dir.exists()
     manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
-    assert manifest["milestone"] == "AAN-03-usd-closure"
+    assert manifest["milestone"] == "AAN-04-material-closure"
     assert manifest["overall_status"] == "blocked"
+    assert manifest["stage_gates"][-1]["check_id"] == "AAN-04-material-closure"
+    assert manifest["stage_gates"][-1]["status"] == "not_run"
+    assert manifest["static_material_report"]["status"] == "not_run"
     assert manifest["static_usd_report"]["required_prims"][0] == {
         "path": "/World/DryingBox",
         "exists": True,

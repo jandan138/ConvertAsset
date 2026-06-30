@@ -12,6 +12,8 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-06-30 AAN-03R Dependency Resolution Policy](2026-06-30-aan-03r-dependency-resolution-policy.md)
 - [2026-06-30 AAN-03R Resolution Records Implementation](2026-06-30-aan-03r-resolution-records.md)
 - [2026-06-30 AAN-03 DryingBox Real Evidence](evidence/2026-06-30-aan-03-dryingbox-real/)
+- [2026-06-30 AAN-04 Material Closure](2026-06-30-aan-04-material-closure.md)
+- [2026-06-30 AAN-04 DryingBox Material Closure Evidence](evidence/2026-06-30-aan-04-dryingbox-material-closure/)
 - [2026-01-06 GLB refactor](2026-01-06-glb-refactor.md)
 - [2026-01-06 GLB export history](2026-01-06-glb-export-history.md)
 - [2026-03-06 Codex agent system](2026-03-06-codex-agent-system.md)

@@ -1,0 +1,179 @@
+{
+  "schema_version": "asset_application_normalizer.v1",
+  "package_id": "dryingbox_01_ebench-lift2_isaac41",
+  "asset_id": "DryingBox_01",
+  "task_id": "Lift2.DryingBox",
+  "milestone": "AAN-04-material-closure",
+  "overall_status": "blocked",
+  "source": {
+    "path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/DryingBox/DryingBox_01/DryingBox_01.usd",
+    "sha256": "09859aa90a0b7a6c8499b92c1f84d5ed0ab77b14013ea1659aa47ffdbcb8b1ff",
+    "source_format": "usd",
+    "source_runtime_lineage": "isaac51"
+  },
+  "target": {
+    "target_runtime_profile": "isaac41",
+    "target_benchmark_profile": "ebench-lift2"
+  },
+  "entrypoints": {
+    "root_usd": "asset.usd",
+    "default_prim": "/group_009",
+    "task_config": "task/task_config.yaml",
+    "metric_evaluator": "task/evaluator.yaml"
+  },
+  "normalization_policy": {
+    "material": "preserve_source_then_add_compatibility_fallback",
+    "physics": "preserve_authored_then_generate_with_provenance",
+    "allowed_value_sources": [
+      "authored",
+      "derived",
+      "template",
+      "manual_override"
+    ]
+  },
+  "required_prim_paths": [
+    {
+      "name": "required_prim_0",
+      "path": "/group_009",
+      "role": "contract_required_prim",
+      "required": true
+    }
+  ],
+  "dependency_closure": {
+    "root_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/DryingBox/DryingBox_01/DryingBox_01.usd",
+    "scanned_layers": [
+      "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/DryingBox/DryingBox_01/DryingBox_01.usd"
+    ],
+    "local_files": [],
+    "missing": [
+      {
+        "kind": "asset",
+        "arc_kind": "sublayer",
+        "raw_asset_path": "./SubUSDs/textures/UnitsAdjust-efff8189aa8b94db49f62005befc3d4e.metricsAssembler",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/DryingBox/DryingBox_01/DryingBox_01.usd",
+        "status": "blocked",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/DryingBox/DryingBox_01/SubUSDs/textures/UnitsAdjust-efff8189aa8b94db49f62005befc3d4e.metricsAssembler",
+        "resolution": "blocked",
+        "required_resolution": "Find and package the missing local dependency, prove task-scope prune/waiver safety, or keep this source blocked.",
+        "resolution_source": "aan03r_missing_dependency_policy",
+        "claim_impact": "This source cannot claim package-local USD dependency closure until the gap is mirrored, safely pruned, explicitly waived, or remains blocked."
+      }
+    ],
+    "remote_uri": [],
+    "unauthorized_remote_uri": [],
+    "unrewritable_layers": [],
+    "resolution_records": [
+      {
+        "kind": "asset",
+        "arc_kind": "sublayer",
+        "raw_asset_path": "./SubUSDs/textures/UnitsAdjust-efff8189aa8b94db49f62005befc3d4e.metricsAssembler",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/DryingBox/DryingBox_01/DryingBox_01.usd",
+        "status": "blocked",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/DryingBox/DryingBox_01/SubUSDs/textures/UnitsAdjust-efff8189aa8b94db49f62005befc3d4e.metricsAssembler",
+        "resolution": "blocked",
+        "required_resolution": "Find and package the missing local dependency, prove task-scope prune/waiver safety, or keep this source blocked.",
+        "resolution_source": "aan03r_missing_dependency_policy",
+        "claim_impact": "This source cannot claim package-local USD dependency closure until the gap is mirrored, safely pruned, explicitly waived, or remains blocked."
+      }
+    ],
+    "resolution_summary": {
+      "mirrored": 0,
+      "pruned": 0,
+      "waived": 0,
+      "blocked": 1
+    }
+  },
+  "material_closure": [],
+  "physics_closure": {},
+  "articulation_closure": {},
+  "stage_gates": [
+    {
+      "check_id": "AAN-03-usd-closure",
+      "stage": "usd_closure",
+      "status": "blocked",
+      "summary": "USD dependency closure found blocking dependency gaps."
+    },
+    {
+      "check_id": "AAN-04-material-closure",
+      "stage": "material_closure",
+      "status": "not_run",
+      "summary": "AAN-04 material closure was not run because AAN-03 USD dependency closure blocked."
+    }
+  ],
+  "runtime_evidence": {},
+  "environment": {},
+  "waivers": [],
+  "blocked_reasons": [
+    {
+      "blocker_id": "aan03_block_missing_dependency",
+      "severity": "blocking",
+      "summary": "USD dependency closure found missing local dependencies.",
+      "count": 1,
+      "required_resolution": "Find and package the missing local dependency, prove task-scope prune/waiver safety, or keep this source blocked."
+    }
+  ],
+  "claims_allowed": [
+    "AAN-03 static USD closure inspected the source graph and wrote an evidence manifest.",
+    "Package USD asset paths are local when the AAN-03 gate status is pass."
+  ],
+  "claims_forbidden": [
+    "Material closure is complete.",
+    "Physics or articulation closure is complete.",
+    "Isaac Sim 4.1 runtime smoke passed.",
+    "EBench task readiness is achieved.",
+    "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
+    "Full visual material parity beyond recorded source-preservation evidence is achieved."
+  ],
+  "commands": {
+    "normalize_asset": {
+      "stage": "material_closure",
+      "dry_run": false,
+      "gates": [
+        "static"
+      ],
+      "material_policy": "native-or-mirror",
+      "contract": null,
+      "allow_waiver": null
+    }
+  },
+  "created_at": "2026-06-30T07:53:56Z",
+  "tool_version": "convert_asset.asset_application_normalizer.v1",
+  "git_commit": null,
+  "static_usd_report": {
+    "root_layer": {
+      "source_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/DryingBox/DryingBox_01/DryingBox_01.usd",
+      "package_path": null,
+      "default_prim": "group_009"
+    },
+    "required_prims": [
+      {
+        "path": "/group_009",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "dependency_counts": {
+      "total": 10,
+      "usd": 0,
+      "mdl": 9,
+      "texture": 0,
+      "remote": 0,
+      "missing": 1
+    }
+  },
+  "static_material_report": {
+    "status": "not_run",
+    "material_count": 0,
+    "closure_mode_counts": {
+      "native_resolved": 0,
+      "local_mirror": 0,
+      "preview_surface_fallback": 0,
+      "explicit_waiver": 0,
+      "blocked": 0
+    },
+    "blocked_material_count": 0,
+    "mdl_asset_count": 0,
+    "texture_asset_count": 0,
+    "reason": "AAN-04 material closure was not run because AAN-03 USD dependency closure blocked."
+  }
+}
