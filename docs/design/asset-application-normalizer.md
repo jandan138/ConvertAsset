@@ -1155,6 +1155,29 @@ MJCF route 的推荐原则：
   finite；它不等同于 full material parity。若 MDL 在 runtime 中有 fallback 或编译 warning，
   manifest 仍必须禁止 full visual material parity claim，直到 material/render parity 有单独证据。
 
+### AAN-07 implementation contract
+
+当前 `AAN-07-benchmark-contract` 采用显式 contract 输入，不自动猜 EBench success
+predicate：
+
+- 只有 `--gates` 包含 `benchmark` 时才运行 AAN-07；`static` 默认仍停在 AAN-05，
+  `static,runtime` 默认仍停在 AAN-06。
+- AAN-07 必须在 AAN-05 通过后运行；如果同时请求 `runtime`，则必须在 AAN-06 通过后运行。
+- AAN-07 要求 `--contract` 指向 JSON 或 simple YAML task contract。contract 必须包含
+  `task_config.task_id`、`task_config.benchmark`、`task_config.asset_id`、
+  `required_prims.asset_root`、`required_prims.manipulated_body`、
+  `required_prims.collision_root`、`required_prims.spawn_anchor`、
+  `required_prims.goal_target`、`evaluator.entrypoint` 和 `evaluator.metric`。
+- articulated asset 还必须包含 `required_prims.articulation_root`；rigid / auto asset 可以把
+  articulation root 写成 `N/A` 或省略。
+- 每个非 `N/A` required prim 必须能在 packaged `asset.usd` 中打开并找到。mapping 与 stage
+  不一致时是 blocking，不允许用 task readiness claim 掩盖。
+- AAN-07 pass 时写出 `task/task_config.yaml`、`task/required_prims.yaml`、
+  `task/evaluator.yaml`，并在 manifest `benchmark_contract` 和 `task_contract_report` 中记录。
+- AAN-07 pass 只声明“EBench adapter handoff contract ready”；它不声明 official
+  leaderboard comparability、full material parity、full physics parity 或真实 EBench episode
+  metric 已经完成。
+
 ## Multi-agent discussion summary
 
 设计讨论拆成两轮只读审阅，并由主会话集成到本文。

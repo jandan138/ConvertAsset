@@ -13,6 +13,7 @@ MILESTONE_AAN03 = "AAN-03-usd-closure"
 MILESTONE_AAN04 = "AAN-04-material-closure"
 MILESTONE_AAN05 = "AAN-05-physics-static"
 MILESTONE_AAN06 = "AAN-06-runtime-smoke"
+MILESTONE_AAN07 = "AAN-07-benchmark-contract"
 
 ALLOWED_SOURCE_RUNTIMES = {"isaac51"}
 ALLOWED_TARGET_RUNTIMES = {"isaac41"}

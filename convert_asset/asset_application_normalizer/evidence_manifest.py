@@ -14,6 +14,7 @@ from .model import (
     MILESTONE_AAN04,
     MILESTONE_AAN05,
     MILESTONE_AAN06,
+    MILESTONE_AAN07,
     SCHEMA_VERSION,
     TOOL_VERSION,
     NormalizeAssetRequest,
@@ -57,6 +58,8 @@ def build_manifest(
     static_articulation_report: dict[str, Any] | None = None,
     stage_gates: list[dict[str, Any]] | None = None,
     runtime_evidence: dict[str, Any] | None = None,
+    benchmark_contract: dict[str, Any] | None = None,
+    task_contract_report: dict[str, Any] | None = None,
     extra_commands: dict[str, Any] | None = None,
     claims_allowed: list[str] | None = None,
     claims_forbidden: list[str] | None = None,
@@ -71,6 +74,7 @@ def build_manifest(
         MILESTONE_AAN04: "material_closure",
         MILESTONE_AAN05: "physics_static",
         MILESTONE_AAN06: "runtime_smoke",
+        MILESTONE_AAN07: "benchmark_contract",
     }
     command_stage = command_stage_by_milestone.get(milestone, "unknown")
 
@@ -128,6 +132,7 @@ def build_manifest(
             }
         ],
         "runtime_evidence": runtime_evidence or {},
+        "benchmark_contract": benchmark_contract or {},
         "environment": {},
         "waivers": [],
         "blocked_reasons": blocked_reasons,
@@ -166,6 +171,8 @@ def build_manifest(
         manifest["static_physics_report"] = static_physics_report
     if static_articulation_report is not None:
         manifest["static_articulation_report"] = static_articulation_report
+    if task_contract_report is not None:
+        manifest["task_contract_report"] = task_contract_report
     return manifest
 
 

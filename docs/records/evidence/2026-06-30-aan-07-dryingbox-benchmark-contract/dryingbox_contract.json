@@ -1,0 +1,19 @@
+{
+  "task_config": {
+    "task_id": "Lift2.DryingBox",
+    "benchmark": "ebench-lift2",
+    "asset_id": "DryingBox_01_overlay"
+  },
+  "required_prims": {
+    "asset_root": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+    "manipulated_body": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh",
+    "collision_root": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh",
+    "articulation_root": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+    "spawn_anchor": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+    "goal_target": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh"
+  },
+  "evaluator": {
+    "entrypoint": "ebench.evaluators.lift2:DryingBoxEvaluator",
+    "metric": "door_state_success"
+  }
+}

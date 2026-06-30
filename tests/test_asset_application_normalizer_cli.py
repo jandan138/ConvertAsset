@@ -318,6 +318,40 @@ def _authored_articulation_usda() -> str:
     )
 
 
+def _authored_articulation_with_goal_usda() -> str:
+    return (
+        "#usda 1.0\n"
+        "(\n"
+        "    defaultPrim = \"World\"\n"
+        ")\n"
+        "def Xform \"World\" {\n"
+        "    def PhysicsScene \"PhysicsScene\" {}\n"
+        "    def Xform \"DryingBox\" (\n"
+        "        prepend apiSchemas = [\"PhysicsArticulationRootAPI\"]\n"
+        "    ) {\n"
+        "        def Mesh \"Body\" (\n"
+        "            prepend apiSchemas = [\"PhysicsRigidBodyAPI\", \"PhysicsCollisionAPI\", \"PhysicsMassAPI\"]\n"
+        "        ) {\n"
+        "            bool physics:rigidBodyEnabled = 1\n"
+        "            bool physics:collisionEnabled = 1\n"
+        "            float physics:mass = 2\n"
+        "            float3 physics:diagonalInertia = (0.1, 0.1, 0.1)\n"
+        "            point3f[] points = [(0, 0, 0), (1, 0, 0), (0, 1, 0)]\n"
+        "            int[] faceVertexCounts = [3]\n"
+        "            int[] faceVertexIndices = [0, 1, 2]\n"
+        "        }\n"
+        "        def Xform \"Goal\" {}\n"
+        "        def PhysicsRevoluteJoint \"DoorJoint\" {\n"
+        "            uniform token physics:axis = \"Y\"\n"
+        "            float physics:lowerLimit = 0\n"
+        "            float physics:upperLimit = 90\n"
+        "            bool physics:jointEnabled = 1\n"
+        "        }\n"
+        "    }\n"
+        "}\n"
+    )
+
+
 def test_normalize_asset_writes_physics_static_closure_for_authored_articulation(
     tmp_path: Path,
 ) -> None:
@@ -351,6 +385,101 @@ def test_normalize_asset_writes_physics_static_closure_for_authored_articulation
     assert joint["limits"]["lower"]["value"] == 0
     assert joint["limits"]["upper"]["value"] == 90
     assert manifest["runtime_evidence"]["status"] == "not_run"
+
+
+def test_normalize_asset_benchmark_gate_writes_ebench_task_contract(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "DryingBox.usda"
+    source.write_text(_authored_articulation_with_goal_usda(), encoding="utf-8")
+    contract = {
+        "task_config": {
+            "task_id": "Lift2.DryingBox",
+            "benchmark": "ebench-lift2",
+            "asset_id": "DryingBox",
+        },
+        "required_prims": {
+            "asset_root": "/World/DryingBox",
+            "manipulated_body": "/World/DryingBox/Body",
+            "collision_root": "/World/DryingBox/Body",
+            "articulation_root": "/World/DryingBox",
+            "spawn_anchor": "/World/DryingBox",
+            "goal_target": "/World/DryingBox/Goal",
+        },
+        "evaluator": {
+            "entrypoint": "ebench.evaluators.lift2:DryingBoxEvaluator",
+            "metric": "door_open_success",
+        },
+    }
+    contract_path = tmp_path / "contract.json"
+    contract_path.write_text(json.dumps(contract), encoding="utf-8")
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+    args = _base_args(source, out_dir, evidence_out, asset_class="articulated")
+    args.remove("--dry-run")
+    args[args.index("static")] = "static,benchmark"
+    args.extend(["--contract", str(contract_path)])
+
+    code = main(args)
+
+    assert code == 0
+    assert (out_dir / "task" / "task_config.yaml").exists()
+    assert (out_dir / "task" / "required_prims.yaml").exists()
+    assert (out_dir / "task" / "evaluator.yaml").exists()
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["milestone"] == "AAN-07-benchmark-contract"
+    assert manifest["stage_gates"][-1]["check_id"] == "AAN-07-benchmark-contract"
+    assert manifest["stage_gates"][-1]["status"] == "pass"
+    assert manifest["benchmark_contract"]["status"] == "pass"
+    assert manifest["benchmark_contract"]["task_files"]["task_config"] == "task/task_config.yaml"
+    assert "EBench task readiness is achieved." in manifest["claims_allowed"]
+    assert "EBench task readiness is achieved." not in manifest["claims_forbidden"]
+
+
+def test_normalize_asset_benchmark_gate_blocks_without_evaluator_entrypoint(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "DryingBox.usda"
+    source.write_text(_authored_articulation_with_goal_usda(), encoding="utf-8")
+    contract = {
+        "task_config": {
+            "task_id": "Lift2.DryingBox",
+            "benchmark": "ebench-lift2",
+            "asset_id": "DryingBox",
+        },
+        "required_prims": {
+            "asset_root": "/World/DryingBox",
+            "manipulated_body": "/World/DryingBox/Body",
+            "collision_root": "/World/DryingBox/Body",
+            "articulation_root": "/World/DryingBox",
+            "spawn_anchor": "/World/DryingBox",
+            "goal_target": "/World/DryingBox/Goal",
+        },
+        "evaluator": {
+            "metric": "door_open_success",
+        },
+    }
+    contract_path = tmp_path / "contract.json"
+    contract_path.write_text(json.dumps(contract), encoding="utf-8")
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+    args = _base_args(source, out_dir, evidence_out, asset_class="articulated")
+    args.remove("--dry-run")
+    args[args.index("static")] = "static,benchmark"
+    args.extend(["--contract", str(contract_path)])
+
+    code = main(args)
+
+    assert code == 5
+    assert not (out_dir / "task" / "evaluator.yaml").exists()
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["milestone"] == "AAN-07-benchmark-contract"
+    assert manifest["overall_status"] == "blocked"
+    assert manifest["stage_gates"][-1]["status"] == "blocked"
+    assert manifest["benchmark_contract"]["status"] == "blocked"
+    blocker_ids = {item["blocker_id"] for item in manifest["blocked_reasons"]}
+    assert "aan07_block_missing_evaluator_entrypoint" in blocker_ids
+    assert "EBench task readiness is achieved." in manifest["claims_forbidden"]
 
 
 def test_normalize_asset_blocks_articulated_asset_without_articulation_facts(
