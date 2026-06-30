@@ -130,6 +130,11 @@ def test_normalize_asset_blocks_missing_local_dependency_without_package(
     assert not out_dir.exists()
     manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
     assert manifest["overall_status"] == "blocked"
+    assert manifest["static_usd_report"]["required_prims"][0] == {
+        "path": "/World/DryingBox",
+        "exists": True,
+        "status": "pass",
+    }
     assert manifest["dependency_closure"]["missing"][0]["raw_asset_path"] == "missing_child.usda"
     assert manifest["blocked_reasons"][0]["blocker_id"] == "aan03_block_missing_dependency"
 
@@ -201,6 +206,98 @@ def test_normalize_asset_writes_package_local_usd_closure(tmp_path: Path) -> Non
     assert ("texture", "deps/textures/albedo.png") in local_files
 
 
+def test_normalize_asset_mirrors_mdl_from_package_sidecar_root(tmp_path: Path) -> None:
+    source_root = tmp_path / "source"
+    scene_dir = source_root / "assets" / "scene_usds" / "lab"
+    mirror_dir = source_root / "assets" / "miscs" / "mdl" / "labutopia" / "mdl"
+    scene_dir.mkdir(parents=True)
+    mirror_dir.mkdir(parents=True)
+    (mirror_dir / "OmniPBR.mdl").write_text("mdl 1.0;\n", encoding="utf-8")
+    source = scene_dir / "asset.usda"
+    source.write_text(
+        "#usda 1.0\n"
+        "def Xform \"World\" {\n"
+        "    def Xform \"DryingBox\" {\n"
+        "        custom asset material = @OmniPBR.mdl@\n"
+        "    }\n"
+        "}\n",
+        encoding="utf-8",
+    )
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+    args = _base_args(source, out_dir, evidence_out)
+    args.remove("--dry-run")
+
+    code = main(args)
+
+    assert code == 0
+    assert (out_dir / "deps" / "mdl" / "OmniPBR.mdl").exists()
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["overall_status"] == "pass"
+    assert manifest["dependency_closure"]["missing"] == []
+    local_files = {
+        (record["kind"], record["raw_asset_path"], record["package_path"])
+        for record in manifest["dependency_closure"]["local_files"]
+    }
+    assert ("mdl", "OmniPBR.mdl", "deps/mdl/OmniPBR.mdl") in local_files
+
+
+def test_normalize_asset_exports_binary_usd_dependency_with_rewritten_paths(
+    tmp_path: Path,
+) -> None:
+    try:
+        from pxr import Sdf  # type: ignore
+    except Exception:
+        return
+
+    source_root = tmp_path / "source"
+    (source_root / "parts").mkdir(parents=True)
+    (source_root / "materials").mkdir()
+    (source_root / "materials" / "surface.mdl").write_text("mdl 1.0;\n", encoding="utf-8")
+    binary_dep = source_root / "parts" / "part.usd"
+    child_layer = Sdf.Layer.CreateAnonymous("part.usda")
+    child_layer.ImportFromString(
+        "#usda 1.0\n"
+        "def Xform \"Part\" {\n"
+        "    custom asset material = @../materials/surface.mdl@\n"
+        "}\n"
+    )
+    child_layer.Export(str(binary_dep))
+    assert binary_dep.read_bytes().startswith(b"PXR-USDC")
+
+    source = source_root / "DryingBox.usda"
+    source.write_text(
+        "#usda 1.0\n"
+        "def Xform \"World\" {\n"
+        "    def Xform \"DryingBox\" (\n"
+        "        references = @parts/part.usd@\n"
+        "    ) {}\n"
+        "}\n",
+        encoding="utf-8",
+    )
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+    args = _base_args(source, out_dir, evidence_out)
+    args.remove("--dry-run")
+
+    code = main(args)
+
+    assert code == 0
+    packaged_part = out_dir / "deps" / "usd" / "part.usd"
+    assert packaged_part.exists()
+    assert "@deps/usd/part.usd@" in (out_dir / "asset.usd").read_text(encoding="utf-8")
+    assert "@../mdl/surface.mdl@" in packaged_part.read_text(encoding="utf-8")
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["overall_status"] == "pass"
+    assert manifest["dependency_closure"]["unrewritable_layers"] == []
+    local_files = {
+        (record["kind"], record["package_path"])
+        for record in manifest["dependency_closure"]["local_files"]
+    }
+    assert ("usd", "deps/usd/part.usd") in local_files
+    assert ("mdl", "deps/mdl/surface.mdl") in local_files
+
+
 def test_normalize_asset_blocks_unauthorized_remote_uri_without_package(
     tmp_path: Path,
 ) -> None:
@@ -227,6 +324,11 @@ def test_normalize_asset_blocks_unauthorized_remote_uri_without_package(
     manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
     assert manifest["milestone"] == "AAN-03-usd-closure"
     assert manifest["overall_status"] == "blocked"
+    assert manifest["static_usd_report"]["required_prims"][0] == {
+        "path": "/World/DryingBox",
+        "exists": True,
+        "status": "pass",
+    }
     assert manifest["dependency_closure"]["unauthorized_remote_uri"][0]["raw_asset_path"] == (
         "omniverse://server/assets/part.usd"
     )

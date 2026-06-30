@@ -1,0 +1,192 @@
+{
+  "schema_version": "asset_application_normalizer.v1",
+  "package_id": "dryingbox_01_ebench-lift2_isaac41",
+  "asset_id": "DryingBox_01",
+  "task_id": "Lift2.DryingBox",
+  "milestone": "AAN-03-usd-closure",
+  "overall_status": "blocked",
+  "source": {
+    "path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/assets/chemistry_lab/lab_001/lab_001.usd",
+    "sha256": "26212d40a78cd28f2bc3a38b2e06f05875b3096501c7d6dd5ccbe9a6e9019983",
+    "source_format": "usd",
+    "source_runtime_lineage": "isaac51"
+  },
+  "target": {
+    "target_runtime_profile": "isaac41",
+    "target_benchmark_profile": "ebench-lift2"
+  },
+  "entrypoints": {
+    "root_usd": "asset.usd",
+    "default_prim": "/World/DryingBox_01",
+    "task_config": "task/task_config.yaml",
+    "metric_evaluator": "task/evaluator.yaml"
+  },
+  "normalization_policy": {
+    "material": "preserve_source_then_add_compatibility_fallback",
+    "physics": "preserve_authored_then_generate_with_provenance",
+    "allowed_value_sources": [
+      "authored",
+      "derived",
+      "template",
+      "manual_override"
+    ]
+  },
+  "required_prim_paths": [
+    {
+      "name": "required_prim_0",
+      "path": "/World/DryingBox_01",
+      "role": "contract_required_prim",
+      "required": true
+    }
+  ],
+  "dependency_closure": {
+    "root_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/assets/chemistry_lab/lab_001/lab_001.usd",
+    "scanned_layers": [
+      "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/assets/chemistry_lab/lab_001/lab_001.usd"
+    ],
+    "local_files": [],
+    "missing": [],
+    "remote_uri": [
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/Base/Metals/Aluminum_Anodized_Charcoal.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/assets/chemistry_lab/lab_001/lab_001.usd",
+        "status": "pending",
+        "prim_path": "/World/Looks/Aluminum_Anodized_Charcoal/Shader"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/Base/Metals/Steel_Stainless.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/assets/chemistry_lab/lab_001/lab_001.usd",
+        "status": "pending",
+        "prim_path": "/World/Looks/Steel_Stainless/Shader"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/vMaterials_2/Metal/Stainless_Steel.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/assets/chemistry_lab/lab_001/lab_001.usd",
+        "status": "pending",
+        "prim_path": "/World/Looks/Stainless_Steel/Shader"
+      },
+      {
+        "kind": "usd",
+        "arc_kind": "payload",
+        "raw_asset_path": "http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/4.2/Isaac/Props/Sektion_Cabinet/sektion_cabinet_instanceable.usd",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/assets/chemistry_lab/lab_001/lab_001.usd",
+        "status": "pending",
+        "holder": "/World/Cabinet_01",
+        "prim_path": "/World/Cabinet_01"
+      }
+    ],
+    "unauthorized_remote_uri": [
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/Base/Metals/Aluminum_Anodized_Charcoal.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/assets/chemistry_lab/lab_001/lab_001.usd",
+        "status": "pending",
+        "prim_path": "/World/Looks/Aluminum_Anodized_Charcoal/Shader"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/Base/Metals/Steel_Stainless.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/assets/chemistry_lab/lab_001/lab_001.usd",
+        "status": "pending",
+        "prim_path": "/World/Looks/Steel_Stainless/Shader"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/vMaterials_2/Metal/Stainless_Steel.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/assets/chemistry_lab/lab_001/lab_001.usd",
+        "status": "pending",
+        "prim_path": "/World/Looks/Stainless_Steel/Shader"
+      },
+      {
+        "kind": "usd",
+        "arc_kind": "payload",
+        "raw_asset_path": "http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/4.2/Isaac/Props/Sektion_Cabinet/sektion_cabinet_instanceable.usd",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/assets/chemistry_lab/lab_001/lab_001.usd",
+        "status": "pending",
+        "holder": "/World/Cabinet_01",
+        "prim_path": "/World/Cabinet_01"
+      }
+    ],
+    "unrewritable_layers": []
+  },
+  "material_closure": [],
+  "physics_closure": {},
+  "articulation_closure": {},
+  "stage_gates": [
+    {
+      "check_id": "AAN-03-usd-closure",
+      "stage": "usd_closure",
+      "status": "blocked",
+      "summary": "USD dependency closure found blocking dependency gaps."
+    }
+  ],
+  "runtime_evidence": {},
+  "environment": {},
+  "waivers": [],
+  "blocked_reasons": [
+    {
+      "blocker_id": "aan03_block_remote_uri",
+      "severity": "blocking",
+      "summary": "USD dependency closure found unauthorized remote URI dependencies.",
+      "count": 4,
+      "required_resolution": "Mirror the remote asset locally or add an explicit waiver policy."
+    }
+  ],
+  "claims_allowed": [
+    "AAN-03 static USD closure inspected the source graph and wrote an evidence manifest.",
+    "Package USD asset paths are local when the AAN-03 gate status is pass."
+  ],
+  "claims_forbidden": [
+    "Material closure is complete.",
+    "Physics or articulation closure is complete.",
+    "Isaac Sim 4.1 runtime smoke passed.",
+    "EBench task readiness is achieved.",
+    "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting."
+  ],
+  "commands": {
+    "normalize_asset": {
+      "stage": "usd_closure",
+      "dry_run": false,
+      "gates": [
+        "static"
+      ],
+      "material_policy": "native-or-mirror",
+      "contract": null,
+      "allow_waiver": null
+    }
+  },
+  "created_at": "2026-06-30T06:24:56Z",
+  "tool_version": "convert_asset.asset_application_normalizer.v1",
+  "git_commit": null,
+  "static_usd_report": {
+    "root_layer": {
+      "source_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/assets/chemistry_lab/lab_001/lab_001.usd",
+      "package_path": null,
+      "default_prim": "World"
+    },
+    "required_prims": [
+      {
+        "path": "/World/DryingBox_01",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "dependency_counts": {
+      "total": 23,
+      "usd": 1,
+      "mdl": 15,
+      "texture": 7,
+      "remote": 4,
+      "missing": 0
+    }
+  }
+}

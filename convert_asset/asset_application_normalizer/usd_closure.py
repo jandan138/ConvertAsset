@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 import posixpath
 import re
 import shutil
+import sys
 from typing import Any
 
 from .model import MILESTONE_AAN03, NormalizeAssetRequest
@@ -115,6 +116,7 @@ def _collect_inventory(request: NormalizeAssetRequest) -> dict[str, Any]:
                 if dep_path not in seen_layers and dep_path not in queue:
                     queue.append(dep_path)
 
+    dependencies = _resolve_missing_dependencies_from_mirrors(root, dependencies)
     remote = [dep for dep in dependencies if _is_remote_uri(dep.raw_asset_path)]
     missing = [
         dep
@@ -126,7 +128,7 @@ def _collect_inventory(request: NormalizeAssetRequest) -> dict[str, Any]:
     required_prims = _required_prim_records(
         root,
         request.required_prims,
-        can_compose=not remote and not missing,
+        can_compose=not remote,
     )
     unrewritable = _unrewritable_layers(scanned_layers, dependencies)
 
@@ -361,6 +363,93 @@ def _resolve_local_asset(layer_path: Path, raw: str) -> Path:
     return (layer_path.parent / raw_path).resolve()
 
 
+def _resolve_missing_dependencies_from_mirrors(
+    root: Path,
+    dependencies: list[AssetDependency],
+) -> list[AssetDependency]:
+    resolved = []
+    for dep in dependencies:
+        if dep.resolved_path and dep.resolved_path.exists():
+            resolved.append(dep)
+            continue
+        mirror = _find_local_mirror(root, dep)
+        if mirror is None:
+            resolved.append(dep)
+        else:
+            resolved.append(replace(dep, resolved_path=mirror.resolve(), status="mirrored"))
+    return resolved
+
+
+def _find_local_mirror(root: Path, dep: AssetDependency) -> Path | None:
+    if _is_remote_uri(dep.raw_asset_path) or dep.kind == "usd":
+        return None
+
+    raw_path = Path(dep.raw_asset_path.split("?", 1)[0])
+    if not raw_path.name:
+        return None
+
+    for search_root in _local_mirror_search_roots(root, dep.source_layer):
+        direct_candidates = [search_root / raw_path, search_root / raw_path.name]
+        for candidate in direct_candidates:
+            if candidate.exists() and candidate.is_file():
+                return candidate
+        if _is_small_mirror_root(search_root):
+            for candidate in search_root.rglob(raw_path.name):
+                if candidate.is_file():
+                    return candidate
+    return None
+
+
+def _local_mirror_search_roots(root: Path, layer_path: Path) -> list[Path]:
+    roots: list[Path] = []
+    for base in [layer_path.parent, root.parent, *layer_path.parents, *root.parents]:
+        roots.extend(
+            [
+                base,
+                base / "SubUSDs" / "materials",
+                base / "SubUSDs" / "textures",
+                base / "Materials",
+                base / "materials",
+                base / "textures",
+                base / "miscs" / "mdl",
+                base / "assets" / "miscs" / "mdl",
+            ]
+        )
+
+    roots.extend(
+        [
+            Path("/isaac-sim/kit/mdl/core/Base"),
+            Path("/isaac-sim/kit/mdl/core/mdl"),
+            Path("/isaac-sim/kit/mdl/core"),
+        ]
+    )
+    for entry in sys.path:
+        site_root = Path(entry) / "omni" / "mdl" / "core"
+        roots.extend([site_root / "Base", site_root / "mdl", site_root])
+
+    return _existing_unique_paths(roots)
+
+
+def _existing_unique_paths(paths: list[Path]) -> list[Path]:
+    unique = []
+    seen: set[Path] = set()
+    for path in paths:
+        try:
+            resolved = path.resolve()
+        except OSError:
+            continue
+        if resolved in seen or not resolved.exists() or not resolved.is_dir():
+            continue
+        seen.add(resolved)
+        unique.append(resolved)
+    return unique
+
+
+def _is_small_mirror_root(path: Path) -> bool:
+    parts = {part.lower() for part in path.parts}
+    return bool(parts & {"mdl", "materials", "textures", "base"})
+
+
 def _read_text(path: Path) -> str | None:
     try:
         return path.read_text(encoding="utf-8")
@@ -389,25 +478,48 @@ def _required_prim_records(
 ) -> list[dict[str, Any]]:
     if not required_prims:
         return []
-    if not can_compose:
-        return [
-            {"path": prim, "exists": False, "status": "not_run"}
-            for prim in required_prims
-        ]
-    try:
-        from pxr import Usd  # type: ignore
-    except Exception:
-        return [
-            {"path": prim, "exists": False, "status": "blocked"}
-            for prim in required_prims
-        ]
 
-    stage = Usd.Stage.Open(str(root))
+    stage = None
+    if can_compose:
+        try:
+            from pxr import Usd  # type: ignore
+
+            stage = Usd.Stage.Open(str(root))
+        except Exception:
+            stage = None
+
     records = []
     for prim in required_prims:
-        exists = bool(stage and stage.GetPrimAtPath(prim).IsValid())
-        records.append({"path": prim, "exists": exists, "status": "pass" if exists else "blocked"})
+        if stage:
+            exists = bool(stage.GetPrimAtPath(prim).IsValid())
+            records.append(
+                {"path": prim, "exists": exists, "status": "pass" if exists else "blocked"}
+            )
+            continue
+
+        authored = _root_layer_has_prim_spec(root, prim)
+        if authored is True:
+            records.append({"path": prim, "exists": True, "status": "pass"})
+        elif can_compose:
+            records.append({"path": prim, "exists": False, "status": "blocked"})
+        else:
+            records.append({"path": prim, "exists": False, "status": "not_run"})
     return records
+
+
+def _root_layer_has_prim_spec(root: Path, prim_path: str) -> bool | None:
+    try:
+        from pxr import Sdf  # type: ignore
+    except Exception:
+        return None
+
+    layer = Sdf.Layer.FindOrOpen(str(root))
+    if not layer:
+        return None
+    try:
+        return bool(layer.GetPrimAtPath(Sdf.Path(prim_path)))
+    except Exception:
+        return None
 
 
 def _unrewritable_layers(
@@ -420,11 +532,14 @@ def _unrewritable_layers(
         deps_by_layer.setdefault(dep.source_layer.resolve(), []).append(dep)
     for layer in scanned_layers:
         layer_deps = deps_by_layer.get(layer.resolve(), [])
-        if layer_deps and _read_text(layer) is None:
+        if layer_deps and _read_text(layer) is None and not _can_export_usd_layer_to_text(layer):
             result.append(
                 {
                     "layer": str(layer),
-                    "reason": "Layer has asset dependencies but cannot be text-rewritten in AAN-03.",
+                    "reason": (
+                        "Layer has asset dependencies but cannot be text-rewritten or "
+                        "Sdf-exported by AAN-03."
+                    ),
                 }
             )
     return result
@@ -524,8 +639,10 @@ def _copy_usd_with_rewrites(
     target.parent.mkdir(parents=True, exist_ok=True)
     text = _read_text(source)
     if text is None:
-        shutil.copy2(source, target)
-        return
+        text = _export_usd_layer_to_string(source)
+        if text is None:
+            shutil.copy2(source, target)
+            return
 
     target_dir = posixpath.dirname(target_package_path)
     target_dir = target_dir if target_dir else "."
@@ -535,6 +652,24 @@ def _copy_usd_with_rewrites(
         rel = posixpath.relpath(dep.package_path, start=target_dir)
         text = text.replace(f"@{dep.raw_asset_path}@", f"@{rel}@")
     target.write_text(text, encoding="utf-8")
+
+
+def _can_export_usd_layer_to_text(path: Path) -> bool:
+    return _export_usd_layer_to_string(path) is not None
+
+
+def _export_usd_layer_to_string(path: Path) -> str | None:
+    try:
+        from pxr import Sdf  # type: ignore
+    except Exception:
+        return None
+    try:
+        layer = Sdf.Layer.OpenAsAnonymous(str(path))
+        if not layer:
+            return None
+        return layer.ExportToString()
+    except Exception:
+        return None
 
 
 def _build_blockers(inventory: dict[str, Any]) -> list[dict[str, Any]]:

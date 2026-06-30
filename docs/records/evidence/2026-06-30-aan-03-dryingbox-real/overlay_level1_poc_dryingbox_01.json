@@ -1,0 +1,339 @@
+{
+  "schema_version": "asset_application_normalizer.v1",
+  "package_id": "dryingbox_01_overlay_ebench-lift2_isaac41",
+  "asset_id": "DryingBox_01_overlay",
+  "task_id": "Lift2.DryingBox",
+  "milestone": "AAN-03-usd-closure",
+  "overall_status": "pass",
+  "source": {
+    "path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+    "sha256": "430c22c61f0cba7b09d19e9b90d78cd5d5012e179204194126d12247735be7f2",
+    "source_format": "usd",
+    "source_runtime_lineage": "isaac51"
+  },
+  "target": {
+    "target_runtime_profile": "isaac41",
+    "target_benchmark_profile": "ebench-lift2"
+  },
+  "entrypoints": {
+    "root_usd": "asset.usd",
+    "default_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+    "task_config": "task/task_config.yaml",
+    "metric_evaluator": "task/evaluator.yaml"
+  },
+  "normalization_policy": {
+    "material": "preserve_source_then_add_compatibility_fallback",
+    "physics": "preserve_authored_then_generate_with_provenance",
+    "allowed_value_sources": [
+      "authored",
+      "derived",
+      "template",
+      "manual_override"
+    ]
+  },
+  "required_prim_paths": [
+    {
+      "name": "required_prim_0",
+      "path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+      "role": "contract_required_prim",
+      "required": true
+    }
+  ],
+  "dependency_closure": {
+    "root_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+    "scanned_layers": [
+      "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+      "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd"
+    ],
+    "local_files": [
+      {
+        "kind": "usd",
+        "arc_kind": "payload",
+        "raw_asset_path": "scene.usd",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+        "status": "packaged",
+        "holder": "/World/labutopia_level1_poc/obj_obj_conical_bottle02",
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_conical_bottle02",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "package_path": "deps/usd/scene.usd"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "Aluminum_Anodized_Charcoal.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+        "status": "packaged",
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/miscs/mdl/labutopia/mdl/Aluminum_Anodized_Charcoal.mdl",
+        "package_path": "deps/mdl/Aluminum_Anodized_Charcoal.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniPBR.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+        "status": "packaged",
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat/OmniPBR",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
+        "package_path": "deps/mdl/OmniPBR.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "gltf/pbr.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/lounge_booth_table/Looks/Wood_001/Wood_001",
+        "resolved_path": "/isaac-sim/kit/mdl/core/mdl/gltf/pbr.mdl",
+        "package_path": "deps/mdl/pbr.mdl"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture0_1.jpg",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/lounge_booth_table/Looks/Wood_001/baseColorTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/lounge_booth_table_texture0_1.jpg",
+        "package_path": "deps/textures/lounge_booth_table_texture0_1.jpg"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture1_1.jpg",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/lounge_booth_table/Looks/Black_Nickel/baseColorTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/lounge_booth_table_texture1_1.jpg",
+        "package_path": "deps/textures/lounge_booth_table_texture1_1.jpg"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture2_1.png",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/lounge_booth_table/Looks/Black_Nickel/metallicRoughnessTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/lounge_booth_table_texture2_1.png",
+        "package_path": "deps/textures/lounge_booth_table_texture2_1.png"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniSurfacePresets.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/OmniSurface_Glass/Shader",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniSurfacePresets.mdl",
+        "package_path": "deps/mdl/OmniSurfacePresets.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniGlass.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/OmniGlass/Shader",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniGlass.mdl",
+        "package_path": "deps/mdl/OmniGlass.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/Plastic_Thick_Translucent.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material1_plastic_dark_blue/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/Plastic_Thick_Translucent.mdl",
+        "package_path": "deps/mdl/Plastic_Thick_Translucent.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/Plastic.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material4_plastic_light_white/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/Plastic.mdl",
+        "package_path": "deps/mdl/Plastic.mdl"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture1.jpg",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material5_black/baseColorTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/lounge_booth_table_texture1.jpg",
+        "package_path": "deps/textures/lounge_booth_table_texture1.jpg"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture2.png",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material5_black/metallicRoughnessTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/lounge_booth_table_texture2.png",
+        "package_path": "deps/textures/lounge_booth_table_texture2.png"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/Steel_Stainless.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material7_stainless/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/Steel_Stainless.mdl",
+        "package_path": "deps/mdl/Steel_Stainless.mdl"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/Steel_Stainless_BaseColor.png",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material7_stainless/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/Steel_Stainless_BaseColor.png",
+        "package_path": "deps/textures/Steel_Stainless_BaseColor.png"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture0.jpg",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material2_wood/baseColorTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/lounge_booth_table_texture0.jpg",
+        "package_path": "deps/textures/lounge_booth_table_texture0.jpg"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/Stainless_Steel.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Stainless_Steel/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/Stainless_Steel.mdl",
+        "package_path": "deps/mdl/Stainless_Steel.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/material_11.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/mdl_0007/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_11.mdl",
+        "package_path": "deps/mdl/material_11.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/material_09.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/mdl_0009/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_09.mdl",
+        "package_path": "deps/mdl/material_09.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/material_08.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/mdl_0008/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_08.mdl",
+        "package_path": "deps/mdl/material_08.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/material_06.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/mdl_0006/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_06.mdl",
+        "package_path": "deps/mdl/material_06.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/material_12.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/mdl_0011/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_12.mdl",
+        "package_path": "deps/mdl/material_12.mdl"
+      }
+    ],
+    "missing": [],
+    "remote_uri": [],
+    "unauthorized_remote_uri": [],
+    "unrewritable_layers": []
+  },
+  "material_closure": [],
+  "physics_closure": {},
+  "articulation_closure": {},
+  "stage_gates": [
+    {
+      "check_id": "AAN-03-usd-closure",
+      "stage": "usd_closure",
+      "status": "pass",
+      "summary": "USD dependency closure produced a package-local USD tree."
+    }
+  ],
+  "runtime_evidence": {},
+  "environment": {},
+  "waivers": [],
+  "blocked_reasons": [],
+  "claims_allowed": [
+    "AAN-03 static USD closure inspected the source graph and wrote an evidence manifest.",
+    "Package USD asset paths are local when the AAN-03 gate status is pass."
+  ],
+  "claims_forbidden": [
+    "Material closure is complete.",
+    "Physics or articulation closure is complete.",
+    "Isaac Sim 4.1 runtime smoke passed.",
+    "EBench task readiness is achieved.",
+    "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting."
+  ],
+  "commands": {
+    "normalize_asset": {
+      "stage": "usd_closure",
+      "dry_run": false,
+      "gates": [
+        "static"
+      ],
+      "material_policy": "native-or-mirror",
+      "contract": null,
+      "allow_waiver": null
+    }
+  },
+  "created_at": "2026-06-30T06:24:58Z",
+  "tool_version": "convert_asset.asset_application_normalizer.v1",
+  "git_commit": null,
+  "static_usd_report": {
+    "root_layer": {
+      "source_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+      "package_path": "asset.usd",
+      "default_prim": "World"
+    },
+    "required_prims": [
+      {
+        "path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "dependency_counts": {
+      "total": 27,
+      "usd": 2,
+      "mdl": 18,
+      "texture": 7,
+      "remote": 0,
+      "missing": 0
+    }
+  }
+}
