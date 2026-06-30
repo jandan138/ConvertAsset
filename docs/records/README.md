@@ -8,6 +8,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-06-30 AAN-00 Contract Freeze](2026-06-30-aan-00-contract-freeze.md)
 - [2026-06-30 AAN-01 DryingBox Manifest Seed](2026-06-30-aan-01-dryingbox-manifest-seed.md)
 - [2026-06-30 AAN-02 CLI Skeleton](2026-06-30-aan-02-cli-skeleton.md)
+- [2026-06-30 AAN-03 USD Closure](2026-06-30-aan-03-usd-closure.md)
 - [2026-01-06 GLB refactor](2026-01-06-glb-refactor.md)
 - [2026-01-06 GLB export history](2026-01-06-glb-export-history.md)
 - [2026-03-06 Codex agent system](2026-03-06-codex-agent-system.md)

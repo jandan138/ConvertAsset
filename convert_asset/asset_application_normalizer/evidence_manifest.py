@@ -1,4 +1,4 @@
-"""Evidence manifest construction for the AAN CLI skeleton."""
+"""Evidence manifest construction for Asset Application Normalizer milestones."""
 
 from __future__ import annotations
 
@@ -36,18 +36,26 @@ def build_manifest(
     *,
     overall_status: str,
     blocked_reasons: list[dict[str, Any]] | None = None,
+    milestone: str = MILESTONE_AAN02,
+    root_usd: str = "asset.usd",
+    dependency_closure: dict[str, Any] | None = None,
+    static_usd_report: dict[str, Any] | None = None,
+    stage_gates: list[dict[str, Any]] | None = None,
+    claims_allowed: list[str] | None = None,
+    claims_forbidden: list[str] | None = None,
 ) -> dict[str, Any]:
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     source_sha = sha256_file(request.source_usd)
     blocked_reasons = blocked_reasons or []
     default_prim = request.required_prims[0] if request.required_prims else None
+    command_stage = "cli_skeleton" if milestone == MILESTONE_AAN02 else "usd_closure"
 
-    return {
+    manifest = {
         "schema_version": SCHEMA_VERSION,
         "package_id": f"{request.asset_id.lower()}_{request.target_benchmark}_{request.target_runtime}",
         "asset_id": request.asset_id,
         "task_id": request.task_id,
-        "milestone": MILESTONE_AAN02,
+        "milestone": milestone,
         "overall_status": overall_status,
         "source": {
             "path": str(request.source_usd),
@@ -60,7 +68,7 @@ def build_manifest(
             "target_benchmark_profile": request.target_benchmark,
         },
         "entrypoints": {
-            "root_usd": "asset.usd",
+            "root_usd": root_usd,
             "default_prim": default_prim,
             "task_config": "task/task_config.yaml",
             "metric_evaluator": "task/evaluator.yaml",
@@ -71,7 +79,7 @@ def build_manifest(
             "allowed_value_sources": ["authored", "derived", "template", "manual_override"],
         },
         "required_prim_paths": _required_prim_records(request.required_prims),
-        "dependency_closure": {
+        "dependency_closure": dependency_closure or {
             "local_files": [],
             "missing": [],
             "remote_uri": [],
@@ -80,7 +88,7 @@ def build_manifest(
         "material_closure": [],
         "physics_closure": {},
         "articulation_closure": {},
-        "stage_gates": [
+        "stage_gates": stage_gates or [
             {
                 "check_id": MILESTONE_AAN02,
                 "stage": "cli_skeleton",
@@ -92,10 +100,10 @@ def build_manifest(
         "environment": {},
         "waivers": [],
         "blocked_reasons": blocked_reasons,
-        "claims_allowed": [
+        "claims_allowed": claims_allowed or [
             "AAN-02 CLI skeleton parsed the request and wrote a schema-compatible manifest."
         ],
-        "claims_forbidden": [
+        "claims_forbidden": claims_forbidden or [
             "Asset package contents were produced.",
             "USD dependency closure is complete.",
             "Material closure is complete.",
@@ -105,7 +113,7 @@ def build_manifest(
         ],
         "commands": {
             "normalize_asset": {
-                "stage": "cli_skeleton",
+                "stage": command_stage,
                 "dry_run": request.dry_run,
                 "gates": request.gates,
                 "material_policy": request.material_policy,
@@ -117,6 +125,9 @@ def build_manifest(
         "tool_version": TOOL_VERSION,
         "git_commit": None,
     }
+    if static_usd_report is not None:
+        manifest["static_usd_report"] = static_usd_report
+    return manifest
 
 
 def write_manifest(path: Path, manifest: dict[str, Any]) -> None:

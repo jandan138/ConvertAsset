@@ -9,6 +9,7 @@ from pathlib import Path
 SCHEMA_VERSION = "asset_application_normalizer.v1"
 TOOL_VERSION = "convert_asset.asset_application_normalizer.v1"
 MILESTONE_AAN02 = "AAN-02-cli-skeleton"
+MILESTONE_AAN03 = "AAN-03-usd-closure"
 
 ALLOWED_SOURCE_RUNTIMES = {"isaac51"}
 ALLOWED_TARGET_RUNTIMES = {"isaac41"}
