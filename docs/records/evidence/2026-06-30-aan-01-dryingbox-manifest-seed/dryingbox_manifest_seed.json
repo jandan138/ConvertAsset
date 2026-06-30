@@ -1,0 +1,392 @@
+{
+  "schema_version": "asset_application_normalizer.v1",
+  "package_id": "dryingbox_aan01_seed_ebench_isaac41",
+  "asset_id": "DryingBox",
+  "task_id": "Lift2.DryingBox",
+  "milestone": "AAN-01-manifest-seed",
+  "overall_status": "blocked",
+  "created_at": "2026-06-30T05:19:15Z",
+  "tool_version": "manual_seed.convert_asset.asset_application_normalizer.v1",
+  "git_commit": "572e769ed86c79d80e4a9d5bab314c0d37434a2a",
+  "source": {
+    "path": null,
+    "sha256": null,
+    "source_format": "usd",
+    "source_runtime_lineage": "isaac51",
+    "source_path_status": "blocked_source_usd_not_located",
+    "candidate_asset_names": [
+      "DryingBox",
+      "DryingBox_01",
+      "DryingBox_03",
+      "DyingBox"
+    ],
+    "source_task_evidence": [
+      {
+        "path": "/cpfs/user/zhuzihou/dev/labutopia_task整理_draft.xml",
+        "sha256": "2718c9cde8fbe3db1e370d44d9557a241847b5c2f5f0d84c6f1580010411c8e9",
+        "matched_rows": [
+          {
+            "source_task_id": "level1_open_door",
+            "description": "Open the door of the dryingbox",
+            "object_text": "干燥箱门",
+            "draft_instruction": "打开 DryingBox_01 的门。"
+          },
+          {
+            "source_task_id": "level1_close_door",
+            "description": "Close the door of the dryingbox",
+            "object_text": "干燥箱门",
+            "draft_instruction": "关闭 DryingBox_03 的门。"
+          },
+          {
+            "source_task_id": "level3_open",
+            "description": "Open the door of the dryingbox / mufflefurnace",
+            "object_text": "干燥箱门、马弗炉门",
+            "draft_instruction": "在多个可开设备中执行开门。"
+          }
+        ]
+      }
+    ]
+  },
+  "target": {
+    "target_runtime_profile": "isaac41",
+    "target_benchmark_profile": "ebench-lift2",
+    "target_repo_evidence": {
+      "ebench_repo_path": "/cpfs/shared/simulation/zhuzihou/dev/EBench",
+      "ebench_git_commit": "b68f9597640a40092dd1e6091a9dce8aa84bddc3",
+      "eos_repo_path": "/cpfs/user/zhuzihou/dev/embodied-eval-os",
+      "eos_git_commit": "ac0d8e3eaacd616ba37770e1e4f8a8492b3ffb9b"
+    }
+  },
+  "entrypoints": {
+    "root_usd": null,
+    "default_prim": null,
+    "task_config": null,
+    "required_prims": null,
+    "metric_evaluator": null,
+    "entrypoint_status": "blocked_until_source_usd_and_ebench_task_contract_are_located",
+    "candidate_root_usd": "asset.usd",
+    "candidate_default_prim": "/World/DryingBox",
+    "candidate_task_config": "task/task_config.yaml",
+    "candidate_metric_evaluator": "task/evaluator.yaml"
+  },
+  "normalization_policy": {
+    "material": "preserve_source_then_add_compatibility_fallback",
+    "physics": "preserve_authored_then_generate_with_provenance",
+    "allowed_value_sources": [
+      "authored",
+      "derived",
+      "template",
+      "manual_override"
+    ]
+  },
+  "required_prim_paths": [
+    {
+      "name": "asset_root",
+      "path": null,
+      "candidate_path": "/World/DryingBox",
+      "role": "asset_root",
+      "required": true,
+      "status": "blocked_unverified_without_source_stage",
+      "blocker_id": "aan01_block_source_usd_not_located"
+    },
+    {
+      "name": "manipulated_body",
+      "path": null,
+      "candidate_path": null,
+      "role": "door_or_manipulated_body",
+      "required": true,
+      "status": "blocked_missing_required_prim_mapping",
+      "blocker_id": "aan01_block_required_prim_mapping_missing"
+    },
+    {
+      "name": "collision_prim",
+      "path": null,
+      "candidate_path": null,
+      "role": "collision",
+      "required": true,
+      "status": "blocked_missing_required_prim_mapping",
+      "blocker_id": "aan01_block_required_prim_mapping_missing"
+    },
+    {
+      "name": "articulation_root",
+      "path": null,
+      "candidate_path": null,
+      "role": "articulation_root_or_not_applicable",
+      "required": true,
+      "status": "blocked_missing_required_prim_mapping",
+      "blocker_id": "aan01_block_required_prim_mapping_missing"
+    },
+    {
+      "name": "spawn_anchor",
+      "path": null,
+      "candidate_path": null,
+      "role": "spawn_anchor",
+      "required": true,
+      "status": "blocked_missing_required_prim_mapping",
+      "blocker_id": "aan01_block_required_prim_mapping_missing"
+    },
+    {
+      "name": "goal_target_semantic_prim",
+      "path": null,
+      "candidate_path": null,
+      "role": "goal_or_target_semantic_prim",
+      "required": true,
+      "status": "blocked_missing_required_prim_mapping",
+      "blocker_id": "aan01_block_required_prim_mapping_missing"
+    }
+  ],
+  "dependency_closure": {
+    "status": "blocked",
+    "local_files": [],
+    "missing": [
+      {
+        "kind": "root_usd",
+        "authored_path": null,
+        "reason": "DryingBox source USD was not found in the current ConvertAsset, EBench, InternUtopia, or visible LabUtopia draft paths."
+      }
+    ],
+    "remote_uri": [],
+    "unauthorized_remote_uri": [],
+    "package_escape": [],
+    "decision": "no package closure can be claimed until root USD is located"
+  },
+  "material_closure": [
+    {
+      "material_prim": null,
+      "owning_layer": null,
+      "shader_type": null,
+      "mdl_source": null,
+      "texture_deps": [],
+      "source_preservation_status": "not_run_source_usd_missing",
+      "closure_strategy": "blocked",
+      "fallback_fidelity_notes": "No MDL, texture, or UsdShade network can be inventoried until the source USD is available.",
+      "waiver_id": null,
+      "blocker_id": "aan01_block_source_usd_not_located"
+    }
+  ],
+  "physics_closure": {
+    "status": "blocked",
+    "asset_class": "articulated_candidate",
+    "asset_class_evidence": "LabUtopia draft tasks describe opening and closing a dryingbox door.",
+    "rigid_bodies": [],
+    "collisions": [],
+    "mass": {
+      "value": null,
+      "value_source": null,
+      "status": "not_run_source_usd_missing"
+    },
+    "inertia": {
+      "value": null,
+      "value_source": null,
+      "status": "not_run_source_usd_missing"
+    },
+    "reset_pose": {
+      "root_pose": null,
+      "joint_pose": null,
+      "value_source": null,
+      "status": "blocked_missing_source_stage_and_task_contract"
+    },
+    "blocker_id": "aan01_block_source_usd_not_located"
+  },
+  "articulation_closure": {
+    "status": "blocked",
+    "articulation_root": null,
+    "joints": [],
+    "required_joint_facts": [
+      "joint_type",
+      "axis",
+      "lower_limit",
+      "upper_limit",
+      "drive",
+      "dof_mapping",
+      "reset_value"
+    ],
+    "decision": "DryingBox is treated as an articulated candidate because the source task is door open/close; real joint facts must come from the source USD or manual task contract.",
+    "blocker_id": "aan01_block_articulation_facts_missing"
+  },
+  "task_contract": {
+    "status": "blocked",
+    "source_task_ids": [
+      "level1_open_door",
+      "level1_close_door",
+      "level3_open"
+    ],
+    "target_task_id": "Lift2.DryingBox",
+    "task_config_path": null,
+    "required_prims_path": null,
+    "metric_evaluator_path": null,
+    "success_predicate": null,
+    "reset_assumptions": [],
+    "blocker_id": "aan01_block_ebench_task_contract_missing"
+  },
+  "stage_gates": [
+    {
+      "check_id": "AAN-01-source-task-signal",
+      "stage": "manifest_seed",
+      "status": "pass",
+      "summary": "LabUtopia draft contains DryingBox open/close task rows."
+    },
+    {
+      "check_id": "AAN-01-source-usd-path",
+      "stage": "manifest_seed",
+      "status": "blocked",
+      "summary": "DryingBox source USD path is not located in current visible repositories or local draft evidence.",
+      "blocker_id": "aan01_block_source_usd_not_located"
+    },
+    {
+      "check_id": "AAN-01-required-prim-paths",
+      "stage": "manifest_seed",
+      "status": "blocked",
+      "summary": "Required semantic roles are enumerated, but real prim paths cannot be verified without the source stage.",
+      "blocker_id": "aan01_block_required_prim_mapping_missing"
+    },
+    {
+      "check_id": "AAN-01-material-physics-articulation-fields",
+      "stage": "manifest_seed",
+      "status": "blocked",
+      "summary": "Material, physics, and articulation closure sections are present but blocked on source USD inventory."
+    },
+    {
+      "check_id": "AAN-01-ebench-entrypoints",
+      "stage": "manifest_seed",
+      "status": "blocked",
+      "summary": "EBench task config, required prim mapping, and evaluator entrypoint for DryingBox are not located.",
+      "blocker_id": "aan01_block_ebench_task_contract_missing"
+    }
+  ],
+  "runtime_evidence": {
+    "cold_load": {
+      "status": "not_run",
+      "reason": "AAN-01 is a manifest seed; runtime smoke starts at AAN-06 after root USD exists."
+    },
+    "render_readback": {
+      "status": "not_run",
+      "reason": "AAN-01 is a manifest seed; render evidence starts at AAN-06 after normalized package exists."
+    },
+    "physics_step": {
+      "status": "not_run",
+      "reason": "AAN-01 is a manifest seed; step smoke starts at AAN-06 after physics closure exists."
+    },
+    "reset_smoke": {
+      "status": "not_run",
+      "reason": "AAN-01 is a manifest seed; reset smoke starts at AAN-06 after reset contract exists."
+    }
+  },
+  "environment": {
+    "status": "not_run",
+    "reason": "No Isaac 4.1 runtime command is required for AAN-01.",
+    "mutation_allowed": false
+  },
+  "waivers": [],
+  "blocked_reasons": [
+    {
+      "blocker_id": "aan01_block_source_usd_not_located",
+      "severity": "blocking",
+      "summary": "DryingBox root USD path is missing from the current evidence.",
+      "required_resolution": "Provide or locate the Isaac 5.1-oriented DryingBox root USD path and source asset root."
+    },
+    {
+      "blocker_id": "aan01_block_required_prim_mapping_missing",
+      "severity": "blocking",
+      "summary": "Required prim path mapping is not verified.",
+      "required_resolution": "Fill asset root, manipulated door body, collision prim, articulation root, spawn anchor, and goal semantic prim from the DryingBox source stage."
+    },
+    {
+      "blocker_id": "aan01_block_articulation_facts_missing",
+      "severity": "blocking",
+      "summary": "DryingBox door joint facts are not available.",
+      "required_resolution": "Extract or manually confirm joint type, axis, limits, drive, DOF mapping, and reset pose."
+    },
+    {
+      "blocker_id": "aan01_block_ebench_task_contract_missing",
+      "severity": "blocking",
+      "summary": "EBench DryingBox task entrypoints are not located.",
+      "required_resolution": "Provide or create task_config.yaml, required_prims.yaml, and evaluator.yaml for Lift2.DryingBox."
+    }
+  ],
+  "claims_allowed": [
+    "AAN-01 manifest seed exists for DryingBox and covers the frozen AAN-00 schema surface.",
+    "LabUtopia draft evidence identifies DryingBox door open/close tasks.",
+    "DryingBox readiness is explicitly blocked rather than silently treated as ready."
+  ],
+  "claims_forbidden": [
+    "DryingBox package is ready for EBench.",
+    "DryingBox source USD dependency closure is complete.",
+    "DryingBox material parity is known.",
+    "DryingBox physical parameter parity is known.",
+    "DryingBox articulation and reset pose are verified.",
+    "Isaac Sim 4.1 cold load, render readback, step, or reset smoke passed.",
+    "EBench official comparability is achieved."
+  ],
+  "commands": {
+    "aan01_contract_lookup": {
+      "stage": "manifest_seed",
+      "cwd": "/cpfs/user/zhuzihou/dev/ConvertAsset",
+      "argv": [
+        "rg",
+        "-n",
+        "AAN-01|Manifest Seed|DryingBox|Lift2|required prim|source USD|manifest seed",
+        "docs/design/asset-application-normalizer.md",
+        "docs/records/2026-06-30-aan-00-contract-freeze.md",
+        "docs/records/2026-06-30-asset-application-normalizer-placement.md"
+      ],
+      "result": "found AAN-01 contract and DryingBox seed requirements"
+    },
+    "aan01_labutopia_task_lookup": {
+      "stage": "manifest_seed",
+      "cwd": "/cpfs/user/zhuzihou/dev/ConvertAsset",
+      "argv": [
+        "rg",
+        "-n",
+        "DryingBox|dryingbox|drying_box|Lift2|level1_open_door|level1_close_door|level3_open",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset",
+        "/cpfs/user/zhuzihou/dev/labutopia_task整理_draft.xml"
+      ],
+      "result": "found LabUtopia draft rows for DryingBox door tasks"
+    },
+    "aan01_visible_asset_filename_lookup": {
+      "stage": "manifest_seed",
+      "cwd": "/cpfs/user/zhuzihou/dev/ConvertAsset",
+      "argv": [
+        "find",
+        "/cpfs/shared/simulation/zhuzihou/dev",
+        "/cpfs/user/zhuzihou/dev/InternUtopia",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/assets",
+        "-maxdepth",
+        "8",
+        "-type",
+        "f",
+        "-iname",
+        "*DryingBox*"
+      ],
+      "result": "no DryingBox source USD found before search was stopped for scope control"
+    },
+    "aan01_ebench_profile_lookup": {
+      "stage": "manifest_seed",
+      "cwd": "/cpfs/user/zhuzihou/dev/ConvertAsset",
+      "argv": [
+        "find",
+        "/cpfs/shared/simulation/zhuzihou/dev/EBench",
+        "-maxdepth",
+        "4",
+        "-type",
+        "f",
+        "-iname",
+        "*lift2*"
+      ],
+      "result": "found EBench learning material but no DryingBox task config or required prim mapping"
+    }
+  },
+  "weekly_summary": {
+    "milestone": "AAN-01 Manifest Seed",
+    "asset": "DryingBox",
+    "status": "blocked",
+    "ready_for_ebench_task_contract": false,
+    "primary_blockers": [
+      "source_usd_not_located",
+      "required_prim_mapping_missing",
+      "articulation_facts_missing",
+      "ebench_task_contract_missing"
+    ]
+  }
+}
