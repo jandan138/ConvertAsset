@@ -12,6 +12,8 @@ from .model import (
     MILESTONE_AAN02,
     MILESTONE_AAN03,
     MILESTONE_AAN04,
+    MILESTONE_AAN05,
+    MILESTONE_AAN06,
     SCHEMA_VERSION,
     TOOL_VERSION,
     NormalizeAssetRequest,
@@ -47,9 +49,15 @@ def build_manifest(
     root_usd: str = "asset.usd",
     dependency_closure: dict[str, Any] | None = None,
     material_closure: list[dict[str, Any]] | None = None,
+    physics_closure: dict[str, Any] | None = None,
+    articulation_closure: dict[str, Any] | None = None,
     static_usd_report: dict[str, Any] | None = None,
     static_material_report: dict[str, Any] | None = None,
+    static_physics_report: dict[str, Any] | None = None,
+    static_articulation_report: dict[str, Any] | None = None,
     stage_gates: list[dict[str, Any]] | None = None,
+    runtime_evidence: dict[str, Any] | None = None,
+    extra_commands: dict[str, Any] | None = None,
     claims_allowed: list[str] | None = None,
     claims_forbidden: list[str] | None = None,
 ) -> dict[str, Any]:
@@ -61,6 +69,8 @@ def build_manifest(
         MILESTONE_AAN02: "cli_skeleton",
         MILESTONE_AAN03: "usd_closure",
         MILESTONE_AAN04: "material_closure",
+        MILESTONE_AAN05: "physics_static",
+        MILESTONE_AAN06: "runtime_smoke",
     }
     command_stage = command_stage_by_milestone.get(milestone, "unknown")
 
@@ -107,8 +117,8 @@ def build_manifest(
             },
         },
         "material_closure": material_closure or [],
-        "physics_closure": {},
-        "articulation_closure": {},
+        "physics_closure": physics_closure or {},
+        "articulation_closure": articulation_closure or {},
         "stage_gates": stage_gates or [
             {
                 "check_id": MILESTONE_AAN02,
@@ -117,7 +127,7 @@ def build_manifest(
                 "summary": "AAN-02 CLI accepted the request and wrote an evidence manifest.",
             }
         ],
-        "runtime_evidence": {},
+        "runtime_evidence": runtime_evidence or {},
         "environment": {},
         "waivers": [],
         "blocked_reasons": blocked_reasons,
@@ -146,10 +156,16 @@ def build_manifest(
         "tool_version": TOOL_VERSION,
         "git_commit": None,
     }
+    if extra_commands:
+        manifest["commands"].update(extra_commands)
     if static_usd_report is not None:
         manifest["static_usd_report"] = static_usd_report
     if static_material_report is not None:
         manifest["static_material_report"] = static_material_report
+    if static_physics_report is not None:
+        manifest["static_physics_report"] = static_physics_report
+    if static_articulation_report is not None:
+        manifest["static_articulation_report"] = static_articulation_report
     return manifest
 
 

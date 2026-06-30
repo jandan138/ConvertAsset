@@ -1,15 +1,25 @@
 import json
+import pytest
 import subprocess
 import sys
+from types import SimpleNamespace
 from pathlib import Path
 
 from convert_asset.cli import main
+from convert_asset.asset_application_normalizer.model import NormalizeAssetRequest
+from convert_asset.asset_application_normalizer.pipeline import normalize_asset
 
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def _base_args(source: Path, out_dir: Path, evidence_out: Path) -> list[str]:
+def _base_args(
+    source: Path,
+    out_dir: Path,
+    evidence_out: Path,
+    *,
+    asset_class: str = "auto",
+) -> list[str]:
     return [
         "normalize-asset",
         str(source),
@@ -18,7 +28,7 @@ def _base_args(source: Path, out_dir: Path, evidence_out: Path) -> list[str]:
         "--asset-id",
         "DryingBox",
         "--asset-class",
-        "articulated",
+        asset_class,
         "--source-runtime",
         "isaac51",
         "--target-runtime",
@@ -130,9 +140,10 @@ def test_normalize_asset_blocks_missing_local_dependency_without_package(
     assert not out_dir.exists()
     manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
     assert manifest["overall_status"] == "blocked"
-    assert manifest["milestone"] == "AAN-04-material-closure"
-    assert manifest["stage_gates"][-1]["check_id"] == "AAN-04-material-closure"
-    assert manifest["stage_gates"][-1]["status"] == "not_run"
+    assert manifest["milestone"] == "AAN-05-physics-static"
+    gate_by_id = {gate["check_id"]: gate for gate in manifest["stage_gates"]}
+    assert gate_by_id["AAN-04-material-closure"]["status"] == "not_run"
+    assert gate_by_id["AAN-05-physics-static"]["status"] == "not_run"
     assert manifest["static_material_report"]["status"] == "not_run"
     assert manifest["static_usd_report"]["required_prims"][0] == {
         "path": "/World/DryingBox",
@@ -194,7 +205,7 @@ def test_normalize_asset_writes_package_local_usd_closure(tmp_path: Path) -> Non
     assert "@../mdl/surface.mdl@" in part_text
     assert "@../textures/albedo.png@" in part_text
     manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
-    assert manifest["milestone"] == "AAN-04-material-closure"
+    assert manifest["milestone"] == "AAN-05-physics-static"
     assert manifest["overall_status"] == "pass"
     assert manifest["entrypoints"]["root_usd"] == "asset.usd"
     assert manifest["static_usd_report"]["root_layer"]["default_prim"] == "World"
@@ -256,7 +267,7 @@ def test_normalize_asset_writes_material_closure_for_packaged_mdl_and_texture(
 
     assert code == 0
     manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
-    assert manifest["milestone"] == "AAN-04-material-closure"
+    assert manifest["milestone"] == "AAN-05-physics-static"
     assert manifest["static_material_report"]["material_count"] == 1
     assert manifest["static_material_report"]["closure_mode_counts"]["local_mirror"] == 1
     record = manifest["material_closure"][0]
@@ -272,6 +283,213 @@ def test_normalize_asset_writes_material_closure_for_packaged_mdl_and_texture(
     assert record["extracted_channels"]["baseColor"]["source"] == "constant"
     assert record["transparency_strategy"] == "opacity_input"
     assert record["preview_surface_fallback"]["status"] == "not_generated"
+
+
+def _authored_articulation_usda() -> str:
+    return (
+        "#usda 1.0\n"
+        "(\n"
+        "    defaultPrim = \"World\"\n"
+        ")\n"
+        "def Xform \"World\" {\n"
+        "    def PhysicsScene \"PhysicsScene\" {}\n"
+        "    def Xform \"DryingBox\" (\n"
+        "        prepend apiSchemas = [\"PhysicsArticulationRootAPI\"]\n"
+        "    ) {\n"
+        "        def Mesh \"Body\" (\n"
+        "            prepend apiSchemas = [\"PhysicsRigidBodyAPI\", \"PhysicsCollisionAPI\", \"PhysicsMassAPI\"]\n"
+        "        ) {\n"
+        "            bool physics:rigidBodyEnabled = 1\n"
+        "            bool physics:collisionEnabled = 1\n"
+        "            float physics:mass = 2\n"
+        "            float3 physics:diagonalInertia = (0.1, 0.1, 0.1)\n"
+        "            point3f[] points = [(0, 0, 0), (1, 0, 0), (0, 1, 0)]\n"
+        "            int[] faceVertexCounts = [3]\n"
+        "            int[] faceVertexIndices = [0, 1, 2]\n"
+        "        }\n"
+        "        def PhysicsRevoluteJoint \"DoorJoint\" {\n"
+        "            uniform token physics:axis = \"Y\"\n"
+        "            float physics:lowerLimit = 0\n"
+        "            float physics:upperLimit = 90\n"
+        "            bool physics:jointEnabled = 1\n"
+        "        }\n"
+        "    }\n"
+        "}\n"
+    )
+
+
+def test_normalize_asset_writes_physics_static_closure_for_authored_articulation(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "DryingBox.usda"
+    source.write_text(_authored_articulation_usda(), encoding="utf-8")
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+    args = _base_args(source, out_dir, evidence_out, asset_class="articulated")
+    args.remove("--dry-run")
+
+    code = main(args)
+
+    assert code == 0
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["milestone"] == "AAN-05-physics-static"
+    assert manifest["overall_status"] == "pass"
+    assert manifest["stage_gates"][-1]["check_id"] == "AAN-05-physics-static"
+    assert manifest["stage_gates"][-1]["status"] == "pass"
+    assert manifest["physics_closure"]["summary"]["rigid_body_count"] == 1
+    assert manifest["physics_closure"]["summary"]["collision_count"] == 1
+    assert manifest["physics_closure"]["summary"]["mass_record_count"] == 1
+    mass_record = manifest["physics_closure"]["mass_properties"][0]
+    assert mass_record["mass"]["value_source"] == "authored"
+    assert mass_record["inertia"]["value_source"] == "authored"
+    assert manifest["articulation_closure"]["summary"]["articulation_root_count"] == 1
+    assert manifest["articulation_closure"]["summary"]["joint_count"] == 1
+    joint = manifest["articulation_closure"]["joints"][0]
+    assert joint["joint_type"] == "PhysicsRevoluteJoint"
+    assert joint["axis"]["value"] == "Y"
+    assert joint["axis"]["value_source"] == "authored"
+    assert joint["limits"]["lower"]["value"] == 0
+    assert joint["limits"]["upper"]["value"] == 90
+    assert manifest["runtime_evidence"]["status"] == "not_run"
+
+
+def test_normalize_asset_blocks_articulated_asset_without_articulation_facts(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "DryingBox.usda"
+    source.write_text(
+        "#usda 1.0\n"
+        "(\n"
+        "    defaultPrim = \"World\"\n"
+        ")\n"
+        "def Xform \"World\" {\n"
+        "    def Xform \"DryingBox\" {}\n"
+        "}\n",
+        encoding="utf-8",
+    )
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+    args = _base_args(source, out_dir, evidence_out, asset_class="articulated")
+    args.remove("--dry-run")
+
+    code = main(args)
+
+    assert code == 5
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["milestone"] == "AAN-05-physics-static"
+    assert manifest["overall_status"] == "blocked"
+    assert manifest["stage_gates"][-1]["check_id"] == "AAN-05-physics-static"
+    assert manifest["stage_gates"][-1]["status"] == "blocked"
+    assert manifest["physics_closure"]["summary"]["rigid_body_count"] == 0
+    assert manifest["articulation_closure"]["summary"]["articulation_root_count"] == 0
+    blocker_ids = {item["blocker_id"] for item in manifest["blocked_reasons"]}
+    assert "aan05_block_missing_articulation" in blocker_ids
+
+
+def test_normalize_asset_runtime_gate_records_smoke_evidence_when_requested(
+    monkeypatch,
+    tmp_path: Path,
+) -> None:
+    from convert_asset.asset_application_normalizer import pipeline
+
+    source = tmp_path / "DryingBox.usda"
+    source.write_text(_authored_articulation_usda(), encoding="utf-8")
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+
+    def fake_runtime_smoke(*_args, **_kwargs):
+        return SimpleNamespace(
+            overall_status="pass",
+            return_code=0,
+            runtime_evidence={
+                "status": "pass",
+                "cold_load": {"status": "pass"},
+                "render_readback": {
+                    "status": "pass",
+                    "mean_rgb": [10.0, 20.0, 30.0],
+                    "non_background_ratio": 0.42,
+                    "bbox_ratio": 0.25,
+                    "sha256": "a" * 64,
+                },
+                "physics_step": {"status": "pass", "frames": 4},
+                "reset": {"status": "pass"},
+            },
+            stage_gate={
+                "check_id": "AAN-06-runtime-smoke",
+                "stage": "runtime_smoke",
+                "status": "pass",
+                "summary": "fake runtime smoke passed",
+            },
+            blocked_reasons=[],
+        )
+
+    monkeypatch.setattr(pipeline, "build_runtime_smoke", fake_runtime_smoke, raising=False)
+    request = NormalizeAssetRequest(
+        source_usd=source,
+        out_dir=out_dir,
+        asset_id="DryingBox",
+        asset_class="articulated",
+        source_runtime="isaac51",
+        target_runtime="isaac41",
+        target_benchmark="ebench-lift2",
+        task_id="Lift2.DryingBox",
+        required_prims=["/World/DryingBox"],
+        gates=["static", "runtime"],
+        evidence_out=evidence_out,
+    )
+
+    result = normalize_asset(request)
+
+    assert result.return_code == 0
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["milestone"] == "AAN-06-runtime-smoke"
+    assert manifest["overall_status"] == "pass"
+    assert manifest["stage_gates"][-1]["check_id"] == "AAN-06-runtime-smoke"
+    assert manifest["runtime_evidence"]["render_readback"]["non_background_ratio"] == 0.42
+
+
+def test_runtime_smoke_writes_worker_report_before_simulation_app_close(
+    tmp_path: Path,
+) -> None:
+    from convert_asset.asset_application_normalizer.runtime_smoke import (
+        _close_simulation_app_with_report,
+    )
+
+    class ExitingSimulationApp:
+        def close(self) -> None:
+            raise SystemExit(0)
+
+    report = {"status": "pass", "cold_load": {"status": "pass"}}
+    report_path = tmp_path / "report.json"
+
+    with pytest.raises(SystemExit):
+        _close_simulation_app_with_report(ExitingSimulationApp(), report_path, report)
+
+    assert json.loads(report_path.read_text(encoding="utf-8")) == report
+
+
+def test_runtime_smoke_waits_for_camera_rgba_until_available() -> None:
+    from convert_asset.asset_application_normalizer.runtime_smoke import _wait_for_camera_rgba
+
+    frames = [None, None, "rgba-frame"]
+    steps: list[bool] = []
+
+    class FakeWorld:
+        def step(self, *, render: bool) -> None:
+            steps.append(render)
+
+    def fake_camera_rgba(_camera):
+        return frames.pop(0)
+
+    rgba = _wait_for_camera_rgba(
+        camera=object(),
+        world=FakeWorld(),
+        camera_rgba=fake_camera_rgba,
+        max_attempts=4,
+    )
+
+    assert rgba == "rgba-frame"
+    assert steps == [True, True]
 
 
 def test_normalize_asset_reports_native_preview_surface_material(tmp_path: Path) -> None:
@@ -305,7 +523,7 @@ def test_normalize_asset_reports_native_preview_surface_material(tmp_path: Path)
 
     assert code == 0
     manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
-    assert manifest["milestone"] == "AAN-04-material-closure"
+    assert manifest["milestone"] == "AAN-05-physics-static"
     assert manifest["static_material_report"]["material_count"] == 1
     record = manifest["material_closure"][0]
     assert record["material_prim"] == "/Looks/Preview"
@@ -498,10 +716,11 @@ def test_normalize_asset_blocks_unauthorized_remote_uri_without_package(
     assert evidence_out.exists()
     assert not out_dir.exists()
     manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
-    assert manifest["milestone"] == "AAN-04-material-closure"
+    assert manifest["milestone"] == "AAN-05-physics-static"
     assert manifest["overall_status"] == "blocked"
-    assert manifest["stage_gates"][-1]["check_id"] == "AAN-04-material-closure"
-    assert manifest["stage_gates"][-1]["status"] == "not_run"
+    gate_by_id = {gate["check_id"]: gate for gate in manifest["stage_gates"]}
+    assert gate_by_id["AAN-04-material-closure"]["status"] == "not_run"
+    assert gate_by_id["AAN-05-physics-static"]["status"] == "not_run"
     assert manifest["static_material_report"]["status"] == "not_run"
     assert manifest["static_usd_report"]["required_prims"][0] == {
         "path": "/World/DryingBox",

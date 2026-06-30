@@ -1,0 +1,57 @@
+{
+  "status": "pass",
+  "runtime_profile": "isaac41",
+  "asset_id": "DryingBox_01_overlay",
+  "root_usd": "/tmp/aan05_06_real_packages/overlay_level1_poc_dryingbox_01_runtime/asset.usd",
+  "required_prims": [
+    "/World/labutopia_level1_poc/obj_obj_DryingBox_01"
+  ],
+  "cold_load": {
+    "status": "pass",
+    "opened": true,
+    "required_prims": [
+      {
+        "path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "default_prim": "/World"
+  },
+  "render_readback": {
+    "mean_rgb": [
+      170.145531,
+      114.850334,
+      114.850006
+    ],
+    "non_background_ratio": 0.76338577,
+    "bbox_ratio": 0.84765625,
+    "sha256": "2448774d15e648f8b45487560d9e6d3f1df6d06b3bab92cae70714ca8c818393",
+    "bytes": 133329,
+    "resolution": [
+      512,
+      512
+    ],
+    "status": "pass",
+    "bbox_source": "authored",
+    "path": "/tmp/aan05_06_real_packages/overlay_level1_poc_dryingbox_01_runtime/evidence/runtime_smoke/render.png"
+  },
+  "physics_step": {
+    "status": "pass",
+    "frames": 4,
+    "finite_transforms": true,
+    "max_abs_delta": 0.0
+  },
+  "reset": {
+    "status": "pass",
+    "finite_transforms": true,
+    "max_abs_delta_from_initial": 0.0
+  },
+  "environment": {
+    "python_executable": "/isaac-sim/kit/python/bin/python3",
+    "python_version": "3.10.15",
+    "headless": true,
+    "isaacsim_file": "/isaac-sim/python_packages/isaacsim/__init__.py",
+    "pxr_version": "\nTf -- Tools Foundation\n"
+  }
+}

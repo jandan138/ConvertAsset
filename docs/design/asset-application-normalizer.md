@@ -1131,6 +1131,30 @@ MJCF route 的推荐原则：
     profile、Genesis / MuJoCo / EOS adapter 等路线；先做 source adapter 和 semantic gap
     report，不承诺一口气完成 official reproduction。
 
+### AAN-05 / AAN-06 implementation contract
+
+当前实现采用 gate-by-gate 收敛：
+
+- `--gates static` 默认跑到 `AAN-05-physics-static`。manifest 中必须包含
+  `physics_closure`、`articulation_closure`、`static_physics_report`、
+  `static_articulation_report`，并把 `runtime_evidence.status` 写成 `not_run`，不能暗示
+  runtime 已通过。
+- `--gates static,runtime` 才启动 `AAN-06-runtime-smoke`。runtime smoke 必须通过
+  `scripts/isaac_python.sh` 新进程进入既有 Isaac 环境，写出 command contract、
+  `cold_load`、`render_readback`、`physics_step`、`reset` 和 stdout/stderr/report/render
+  artifacts。
+- AAN-06 可以声明“配置的 headless Isaac runtime wrapper 完成 smoke”，但只有 manifest
+  记录了明确 Isaac Sim 4.1 environment fingerprint 时，才允许声明“精确 Isaac Sim 4.1
+  二进制验收通过”。
+- AAN-05 的 static scope 以 `required_prim_paths` 为准，避免同一 scene 里的 beaker、
+  table 等旁路 physics 污染 DryingBox 结论。
+- AAN-05 对 `asset_class=articulated` 是严格 gate：缺 articulation root、缺 joint、revolute /
+  prismatic joint 缺 axis 或有效 limit 都是 blocked；缺 drive 会记录为 `not_authored`，但对
+  外部机械臂操作型任务不单独 blocked。
+- AAN-06 的 render pass 只证明目标 runtime 有非空 readback、目标 bbox 可见、step/reset
+  finite；它不等同于 full material parity。若 MDL 在 runtime 中有 fallback 或编译 warning，
+  manifest 仍必须禁止 full visual material parity claim，直到 material/render parity 有单独证据。
+
 ## Multi-agent discussion summary
 
 设计讨论拆成两轮只读审阅，并由主会话集成到本文。
