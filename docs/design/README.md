@@ -8,6 +8,7 @@ Architecture, module responsibilities, algorithms, and implementation deep dives
 - [Execution flow](architecture-flow.md)
 - [Module responsibilities](architecture-modules.md)
 - [Callstack analysis](architecture-callstack.md)
+- [Asset Application Normalizer](asset-application-normalizer.md)
 
 ## no-MDL
 

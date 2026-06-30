@@ -4,6 +4,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 ## Engineering Records
 
+- [2026-06-30 Asset Application Normalizer placement](2026-06-30-asset-application-normalizer-placement.md)
 - [2026-01-06 GLB refactor](2026-01-06-glb-refactor.md)
 - [2026-01-06 GLB export history](2026-01-06-glb-export-history.md)
 - [2026-03-06 Codex agent system](2026-03-06-codex-agent-system.md)

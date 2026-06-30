@@ -1,6 +1,6 @@
 # ConvertAsset 文档
 
-> 最后更新: 2026-05-26
+> 最后更新: 2026-06-30
 
 ## 快速导航
 
@@ -8,6 +8,7 @@
 - **[运维文档](operations/README.md)** - 运行环境、CLI、构建、排障与 agent 协作
 - **[Setup](setup.md)** - Isaac Sim Python 与可选 native backend 环境说明
 - **[Research asset layout](operations/research-asset-layout.md)** - `/cpfs/user/zhuzihou/assets/convertasset_research` 外部实验资产布局规范
+- **[Asset Application Normalizer](design/asset-application-normalizer.md)** - USD/MJCF 等资产进入 target benchmark 前的资产、材质、物理、铰接、任务契约和证据闭环设计
 - **[InternNav official evidence runbook](operations/internnav-official-evidence-runbook.md)** - official KuJiaLe downstream evidence 的运行、同步和 claim 边界
 - **[过程记录](records/README.md)** - 变更日志、实现记录、审计与路线记录
 - **[参考资料](reference/README.md)** - USD、UsdShade、MDL 与材质背景知识
