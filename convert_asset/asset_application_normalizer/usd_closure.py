@@ -31,6 +31,15 @@ TEXTURE_EXTENSIONS = {
 }
 REMOTE_URI_RE = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*://")
 ASSET_TOKEN_RE = re.compile(r"@([^@\r\n]+)@")
+RESOLUTION_STATES = ("mirrored", "pruned", "waived", "blocked")
+MISSING_DEPENDENCY_REQUIRED_RESOLUTION = (
+    "Find and package the missing local dependency, prove task-scope prune/waiver safety, "
+    "or keep this source blocked."
+)
+REMOTE_DEPENDENCY_REQUIRED_RESOLUTION = (
+    "Mirror the remote URI into the package with provenance, prove task-scope prune/explicit "
+    "allowance, or keep this source blocked."
+)
 
 
 @dataclass(frozen=True)
@@ -44,6 +53,9 @@ class AssetDependency:
     resolved_path: Path | None = None
     package_path: str | None = None
     status: str = "pending"
+    resolution: str | None = None
+    required_resolution: str | None = None
+    resolution_source: str | None = None
 
     def to_manifest_record(self) -> dict[str, Any]:
         record: dict[str, Any] = {
@@ -61,6 +73,12 @@ class AssetDependency:
             record["resolved_path"] = str(self.resolved_path)
         if self.package_path:
             record["package_path"] = self.package_path
+        if self.resolution:
+            record["resolution"] = self.resolution
+        if self.required_resolution:
+            record["required_resolution"] = self.required_resolution
+        if self.resolution_source:
+            record["resolution_source"] = self.resolution_source
         return record
 
 
@@ -376,7 +394,15 @@ def _resolve_missing_dependencies_from_mirrors(
         if mirror is None:
             resolved.append(dep)
         else:
-            resolved.append(replace(dep, resolved_path=mirror.resolve(), status="mirrored"))
+            resolved.append(
+                replace(
+                    dep,
+                    resolved_path=mirror.resolve(),
+                    status="mirrored",
+                    resolution="mirrored",
+                    resolution_source="local_mirror_search",
+                )
+            )
     return resolved
 
 
@@ -575,6 +601,9 @@ def _assign_package_paths(
                 resolved_path=dep.resolved_path,
                 package_path=package_path,
                 status="packaged",
+                resolution=dep.resolution,
+                required_resolution=dep.required_resolution,
+                resolution_source=dep.resolution_source,
             )
         )
     return assigned
@@ -681,7 +710,7 @@ def _build_blockers(inventory: dict[str, Any]) -> list[dict[str, Any]]:
                 "severity": "blocking",
                 "summary": "USD dependency closure found unauthorized remote URI dependencies.",
                 "count": len(inventory["remote"]),
-                "required_resolution": "Mirror the remote asset locally or add an explicit waiver policy.",
+                "required_resolution": REMOTE_DEPENDENCY_REQUIRED_RESOLUTION,
             }
         )
     if inventory["missing"]:
@@ -691,7 +720,7 @@ def _build_blockers(inventory: dict[str, Any]) -> list[dict[str, Any]]:
                 "severity": "blocking",
                 "summary": "USD dependency closure found missing local dependencies.",
                 "count": len(inventory["missing"]),
-                "required_resolution": "Provide the missing files or update the source USD references.",
+                "required_resolution": MISSING_DEPENDENCY_REQUIRED_RESOLUTION,
             }
         )
     missing_required = [
@@ -730,14 +759,38 @@ def _result(
     gate_status: str,
 ) -> UsdClosureResult:
     dependencies: list[AssetDependency] = inventory["dependencies"]
+    resolution_records = _resolution_records(inventory)
     dependency_closure = {
         "root_layer": str(inventory["root_layer"]),
         "scanned_layers": [str(path) for path in inventory["scanned_layers"]],
         "local_files": _unique_local_records(dependencies),
-        "missing": [dep.to_manifest_record() for dep in inventory["missing"]],
-        "remote_uri": [dep.to_manifest_record() for dep in inventory["remote"]],
-        "unauthorized_remote_uri": [dep.to_manifest_record() for dep in inventory["remote"]],
+        "missing": [
+            _blocked_dependency_record(
+                dep,
+                required_resolution=MISSING_DEPENDENCY_REQUIRED_RESOLUTION,
+                resolution_source="aan03r_missing_dependency_policy",
+            )
+            for dep in inventory["missing"]
+        ],
+        "remote_uri": [
+            _blocked_dependency_record(
+                dep,
+                required_resolution=REMOTE_DEPENDENCY_REQUIRED_RESOLUTION,
+                resolution_source="aan03r_remote_uri_policy",
+            )
+            for dep in inventory["remote"]
+        ],
+        "unauthorized_remote_uri": [
+            _blocked_dependency_record(
+                dep,
+                required_resolution=REMOTE_DEPENDENCY_REQUIRED_RESOLUTION,
+                resolution_source="aan03r_remote_uri_policy",
+            )
+            for dep in inventory["remote"]
+        ],
         "unrewritable_layers": inventory["unrewritable_layers"],
+        "resolution_records": resolution_records,
+        "resolution_summary": _resolution_summary(resolution_records),
     }
     static_usd_report = {
         "root_layer": {
@@ -790,3 +843,78 @@ def _unique_local_records(dependencies: list[AssetDependency]) -> list[dict[str,
         seen.add(key)
         records.append(dep.to_manifest_record())
     return records
+
+
+def _blocked_dependency_record(
+    dep: AssetDependency,
+    *,
+    required_resolution: str,
+    resolution_source: str,
+) -> dict[str, Any]:
+    record = dep.to_manifest_record()
+    record["status"] = "blocked"
+    record["resolution"] = "blocked"
+    record["required_resolution"] = required_resolution
+    record["resolution_source"] = resolution_source
+    record["claim_impact"] = (
+        "This source cannot claim package-local USD dependency closure until the gap is "
+        "mirrored, safely pruned, explicitly waived, or remains blocked."
+    )
+    return record
+
+
+def _resolution_records(inventory: dict[str, Any]) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    for dep in inventory["dependencies"]:
+        if dep.resolution != "mirrored" or not dep.package_path:
+            continue
+        record = dep.to_manifest_record()
+        record["claim_impact"] = (
+            "AAN found a local mirror for this dependency and wrote it into the package."
+        )
+        records.append(record)
+
+    records.extend(
+        _blocked_dependency_record(
+            dep,
+            required_resolution=MISSING_DEPENDENCY_REQUIRED_RESOLUTION,
+            resolution_source="aan03r_missing_dependency_policy",
+        )
+        for dep in inventory["missing"]
+    )
+    records.extend(
+        _blocked_dependency_record(
+            dep,
+            required_resolution=REMOTE_DEPENDENCY_REQUIRED_RESOLUTION,
+            resolution_source="aan03r_remote_uri_policy",
+        )
+        for dep in inventory["remote"]
+    )
+    return _unique_resolution_records(records)
+
+
+def _resolution_summary(records: list[dict[str, Any]]) -> dict[str, int]:
+    summary = {state: 0 for state in RESOLUTION_STATES}
+    for record in records:
+        resolution = record.get("resolution")
+        if resolution in summary:
+            summary[resolution] += 1
+    return summary
+
+
+def _unique_resolution_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    unique = []
+    seen: set[tuple[str, str, str, str, str]] = set()
+    for record in records:
+        key = (
+            str(record.get("source_layer", "")),
+            str(record.get("raw_asset_path", "")),
+            str(record.get("resolved_path", "")),
+            str(record.get("package_path", "")),
+            str(record.get("resolution", "")),
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        unique.append(record)
+    return unique

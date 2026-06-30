@@ -2,6 +2,10 @@
 
 Date: 2026-06-30
 
+Implementation status: manifest-level AAN-03R resolution records are implemented. See
+[`2026-06-30-aan-03r-resolution-records.md`](2026-06-30-aan-03r-resolution-records.md) for code
+changes, regenerated DryingBox evidence, and verification.
+
 ## Context
 
 AAN-03 proved the first real DryingBox overlay package path:

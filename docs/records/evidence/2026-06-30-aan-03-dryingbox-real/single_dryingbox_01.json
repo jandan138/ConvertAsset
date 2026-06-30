@@ -51,13 +51,37 @@
         "arc_kind": "sublayer",
         "raw_asset_path": "./SubUSDs/textures/UnitsAdjust-efff8189aa8b94db49f62005befc3d4e.metricsAssembler",
         "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/DryingBox/DryingBox_01/DryingBox_01.usd",
-        "status": "pending",
-        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/DryingBox/DryingBox_01/SubUSDs/textures/UnitsAdjust-efff8189aa8b94db49f62005befc3d4e.metricsAssembler"
+        "status": "blocked",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/DryingBox/DryingBox_01/SubUSDs/textures/UnitsAdjust-efff8189aa8b94db49f62005befc3d4e.metricsAssembler",
+        "resolution": "blocked",
+        "required_resolution": "Find and package the missing local dependency, prove task-scope prune/waiver safety, or keep this source blocked.",
+        "resolution_source": "aan03r_missing_dependency_policy",
+        "claim_impact": "This source cannot claim package-local USD dependency closure until the gap is mirrored, safely pruned, explicitly waived, or remains blocked."
       }
     ],
     "remote_uri": [],
     "unauthorized_remote_uri": [],
-    "unrewritable_layers": []
+    "unrewritable_layers": [],
+    "resolution_records": [
+      {
+        "kind": "asset",
+        "arc_kind": "sublayer",
+        "raw_asset_path": "./SubUSDs/textures/UnitsAdjust-efff8189aa8b94db49f62005befc3d4e.metricsAssembler",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/DryingBox/DryingBox_01/DryingBox_01.usd",
+        "status": "blocked",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/DryingBox/DryingBox_01/SubUSDs/textures/UnitsAdjust-efff8189aa8b94db49f62005befc3d4e.metricsAssembler",
+        "resolution": "blocked",
+        "required_resolution": "Find and package the missing local dependency, prove task-scope prune/waiver safety, or keep this source blocked.",
+        "resolution_source": "aan03r_missing_dependency_policy",
+        "claim_impact": "This source cannot claim package-local USD dependency closure until the gap is mirrored, safely pruned, explicitly waived, or remains blocked."
+      }
+    ],
+    "resolution_summary": {
+      "mirrored": 0,
+      "pruned": 0,
+      "waived": 0,
+      "blocked": 1
+    }
   },
   "material_closure": [],
   "physics_closure": {},
@@ -79,7 +103,7 @@
       "severity": "blocking",
       "summary": "USD dependency closure found missing local dependencies.",
       "count": 1,
-      "required_resolution": "Provide the missing files or update the source USD references."
+      "required_resolution": "Find and package the missing local dependency, prove task-scope prune/waiver safety, or keep this source blocked."
     }
   ],
   "claims_allowed": [
@@ -105,7 +129,7 @@
       "allow_waiver": null
     }
   },
-  "created_at": "2026-06-30T06:24:56Z",
+  "created_at": "2026-06-30T07:26:34Z",
   "tool_version": "convert_asset.asset_application_normalizer.v1",
   "git_commit": null,
   "static_usd_report": {

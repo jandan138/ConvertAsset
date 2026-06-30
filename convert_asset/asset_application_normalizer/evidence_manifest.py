@@ -84,6 +84,13 @@ def build_manifest(
             "missing": [],
             "remote_uri": [],
             "unauthorized_remote_uri": [],
+            "resolution_records": [],
+            "resolution_summary": {
+                "mirrored": 0,
+                "pruned": 0,
+                "waived": 0,
+                "blocked": 0,
+            },
         },
         "material_closure": [],
         "physics_closure": {},

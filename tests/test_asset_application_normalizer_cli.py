@@ -135,7 +135,11 @@ def test_normalize_asset_blocks_missing_local_dependency_without_package(
         "exists": True,
         "status": "pass",
     }
-    assert manifest["dependency_closure"]["missing"][0]["raw_asset_path"] == "missing_child.usda"
+    missing_record = manifest["dependency_closure"]["missing"][0]
+    assert missing_record["raw_asset_path"] == "missing_child.usda"
+    assert missing_record["resolution"] == "blocked"
+    assert missing_record["required_resolution"]
+    assert manifest["dependency_closure"]["resolution_summary"]["blocked"] == 1
     assert manifest["blocked_reasons"][0]["blocker_id"] == "aan03_block_missing_dependency"
 
 
@@ -240,6 +244,14 @@ def test_normalize_asset_mirrors_mdl_from_package_sidecar_root(tmp_path: Path) -
         for record in manifest["dependency_closure"]["local_files"]
     }
     assert ("mdl", "OmniPBR.mdl", "deps/mdl/OmniPBR.mdl") in local_files
+    mirrored_records = [
+        record
+        for record in manifest["dependency_closure"]["resolution_records"]
+        if record["raw_asset_path"] == "OmniPBR.mdl"
+    ]
+    assert mirrored_records[0]["resolution"] == "mirrored"
+    assert mirrored_records[0]["package_path"] == "deps/mdl/OmniPBR.mdl"
+    assert manifest["dependency_closure"]["resolution_summary"]["mirrored"] == 1
 
 
 def test_normalize_asset_exports_binary_usd_dependency_with_rewritten_paths(
@@ -329,9 +341,11 @@ def test_normalize_asset_blocks_unauthorized_remote_uri_without_package(
         "exists": True,
         "status": "pass",
     }
-    assert manifest["dependency_closure"]["unauthorized_remote_uri"][0]["raw_asset_path"] == (
-        "omniverse://server/assets/part.usd"
-    )
+    remote_record = manifest["dependency_closure"]["unauthorized_remote_uri"][0]
+    assert remote_record["raw_asset_path"] == "omniverse://server/assets/part.usd"
+    assert remote_record["resolution"] == "blocked"
+    assert remote_record["required_resolution"]
+    assert manifest["dependency_closure"]["resolution_summary"]["blocked"] == 1
     assert manifest["blocked_reasons"][0]["blocker_id"] == "aan03_block_remote_uri"
 
 

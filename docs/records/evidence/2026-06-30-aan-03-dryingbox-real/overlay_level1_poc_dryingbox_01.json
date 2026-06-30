@@ -65,7 +65,9 @@
         "status": "packaged",
         "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal/Shader",
         "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/miscs/mdl/labutopia/mdl/Aluminum_Anodized_Charcoal.mdl",
-        "package_path": "deps/mdl/Aluminum_Anodized_Charcoal.mdl"
+        "package_path": "deps/mdl/Aluminum_Anodized_Charcoal.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search"
       },
       {
         "kind": "mdl",
@@ -75,7 +77,9 @@
         "status": "packaged",
         "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat/OmniPBR",
         "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
-        "package_path": "deps/mdl/OmniPBR.mdl"
+        "package_path": "deps/mdl/OmniPBR.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search"
       },
       {
         "kind": "mdl",
@@ -85,7 +89,9 @@
         "status": "packaged",
         "prim_path": "/World/lounge_booth_table/Looks/Wood_001/Wood_001",
         "resolved_path": "/isaac-sim/kit/mdl/core/mdl/gltf/pbr.mdl",
-        "package_path": "deps/mdl/pbr.mdl"
+        "package_path": "deps/mdl/pbr.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search"
       },
       {
         "kind": "texture",
@@ -125,7 +131,9 @@
         "status": "packaged",
         "prim_path": "/World/Looks/OmniSurface_Glass/Shader",
         "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniSurfacePresets.mdl",
-        "package_path": "deps/mdl/OmniSurfacePresets.mdl"
+        "package_path": "deps/mdl/OmniSurfacePresets.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search"
       },
       {
         "kind": "mdl",
@@ -135,7 +143,9 @@
         "status": "packaged",
         "prim_path": "/World/Looks/OmniGlass/Shader",
         "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniGlass.mdl",
-        "package_path": "deps/mdl/OmniGlass.mdl"
+        "package_path": "deps/mdl/OmniGlass.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search"
       },
       {
         "kind": "mdl",
@@ -271,7 +281,93 @@
     "missing": [],
     "remote_uri": [],
     "unauthorized_remote_uri": [],
-    "unrewritable_layers": []
+    "unrewritable_layers": [],
+    "resolution_records": [
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "Aluminum_Anodized_Charcoal.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+        "status": "packaged",
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/miscs/mdl/labutopia/mdl/Aluminum_Anodized_Charcoal.mdl",
+        "package_path": "deps/mdl/Aluminum_Anodized_Charcoal.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search",
+        "claim_impact": "AAN found a local mirror for this dependency and wrote it into the package."
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniPBR.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+        "status": "packaged",
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat/OmniPBR",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
+        "package_path": "deps/mdl/OmniPBR.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search",
+        "claim_impact": "AAN found a local mirror for this dependency and wrote it into the package."
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "gltf/pbr.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/lounge_booth_table/Looks/Wood_001/Wood_001",
+        "resolved_path": "/isaac-sim/kit/mdl/core/mdl/gltf/pbr.mdl",
+        "package_path": "deps/mdl/pbr.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search",
+        "claim_impact": "AAN found a local mirror for this dependency and wrote it into the package."
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniSurfacePresets.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/OmniSurface_Glass/Shader",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniSurfacePresets.mdl",
+        "package_path": "deps/mdl/OmniSurfacePresets.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search",
+        "claim_impact": "AAN found a local mirror for this dependency and wrote it into the package."
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniGlass.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/OmniGlass/Shader",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniGlass.mdl",
+        "package_path": "deps/mdl/OmniGlass.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search",
+        "claim_impact": "AAN found a local mirror for this dependency and wrote it into the package."
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniPBR.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/OmniPBR_Button_Blue/Shader",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
+        "package_path": "deps/mdl/OmniPBR.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search",
+        "claim_impact": "AAN found a local mirror for this dependency and wrote it into the package."
+      }
+    ],
+    "resolution_summary": {
+      "mirrored": 6,
+      "pruned": 0,
+      "waived": 0,
+      "blocked": 0
+    }
   },
   "material_closure": [],
   "physics_closure": {},
@@ -311,7 +407,7 @@
       "allow_waiver": null
     }
   },
-  "created_at": "2026-06-30T06:24:58Z",
+  "created_at": "2026-06-30T07:26:57Z",
   "tool_version": "convert_asset.asset_application_normalizer.v1",
   "git_commit": null,
   "static_usd_report": {
