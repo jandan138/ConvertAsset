@@ -115,11 +115,18 @@ def main(argv: list[str] | None = None) -> int:
     p_pipe.add_argument("--out", required=True, help="Path to output .glb file")
     p_pipe.add_argument("--keep-intermediate", action="store_true", help="Do not delete the intermediate *_noMDL.usd file")
 
+    from .asset_application_normalizer.cli import add_normalize_asset_parser
+    add_normalize_asset_parser(sub)
+
     # If no subcommand provided, default to no-mdl for convenience
     args_ns, extras = parser.parse_known_args(argv)
     if args_ns.cmd is None:
         # Re-parse as no-mdl
         args_ns = parser.parse_args(["no-mdl"] + (argv or []))
+
+    if args_ns.cmd == "normalize-asset":
+        from .asset_application_normalizer.cli import run_from_args
+        return run_from_args(args_ns)
 
     if args_ns.cmd == "no-mdl":
         # Lazy import to avoid requiring pxr unless actually running no-mdl conversion
