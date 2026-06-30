@@ -369,6 +369,42 @@ argparse 风格，不做多层子命令：
 - texture / MDL mirror 后写 package-relative path；
 - waiver 不是 pass，它会改变总状态和 forbidden claims。
 
+## Missing / remote dependency resolution policy
+
+Dependency closure 不能停在“发现缺失或 remote URI”这一层。AAN 必须把每条 dependency
+收敛到一个明确、机器可读、可审计的处理结论：
+
+| Resolution | 含义 | 允许条件 | Manifest / claim impact |
+|---|---|---|---|
+| `mirrored` | 找到等价本地文件或合法下载/同步远程文件，并复制到 target package | hash、source URI/source path、owner layer、package path 都可追溯；USD/MDL/texture 路径已重写为 package-relative | 可以进入 `pass`，但只能声明 package-local closure，不声明材质/物理语义完全等价 |
+| `pruned` | 依赖属于当前 task scope 之外的背景/装饰/未激活 branch，被安全裁剪或从 task entrypoint 排除 | task contract 证明该依赖不在 required prim、required material、required collision/runtime 路径上；裁剪前后 required prim 仍存在 | 可以进入 task-scope `pass`；forbidden claims 必须禁止 full source-scene closure |
+| `waived` | 依赖缺口已知且短期不阻断目标任务，但风险需要保留 | 有 waiver id、owner、reason、impact、review/expiry、forbidden claims；runtime/material gate 不能把风险声明为 pass | 总状态只能是 `ready_with_waivers`，不能是 clean `ready` |
+| `blocked` | 依赖对 package / task / material / physics / runtime closure 必需，且不能合法 mirror、不能安全 prune、不能 waiver | required USD/helper/texture/MDL 缺失；remote URI 无本地 mirror 或授权 resolver；路径逃逸；缺 provenance | CLI 返回 blocked，周报显示 blocker，不继续冒充可交付资产 |
+
+处理顺序固定为：
+
+1. `inventory`: 记录 raw path、owner layer、owner prim、arc kind、URI scheme、required/task
+   relevance、初始 resolved path。
+2. `local search`: 在 source tree、dataset mirror、overlay sidecar、Isaac/Omni MDL roots 和显式
+   mirror roots 中寻找同名或等价文件；找到后进入 `mirrored`。
+3. `remote mirror`: 对 remote URI 只允许在 license / cache / allowlist 明确时下载或同步，并记录
+   original URI、hash、fetch command、mirror time；否则保持 unauthorized remote。
+4. `task-scope prune`: 只有 target task contract 证明该依赖不影响 required prim、runtime load、
+   render readback、collision/articulation、metric/evaluator 时，才允许 prune。
+5. `waiver review`: 只覆盖非阻断风险，且必须改变 claims；waiver 不能补 provenance，也不能让
+   required dependency 缺失变成 pass。
+6. `block`: 以上都不能成立时必须 blocked，并把 required resolution 写进 manifest。
+
+具体到当前 DryingBox 证据：
+
+- `DryingBox_01.usd` 缺 `UnitsAdjust-*.metricsAssembler`：先在 LabUtopia source export、dataset、
+  历史 package 和 overlay 中查找。如果找回，则 mirror；如果证明它只是 exporter 残留且不影响
+  units/scale/geometry/material/physics/runtime load，可按 task-scope prune 或 waiver；如果影响
+  scale/units 或无法证明无影响，必须 blocked。
+- 原始 `lab_001.usd` 的 unauthorized remote URI：优先 mirror 到本地 package 或显式 mirror
+  cache；如果是 task 无关背景 cabinet，可通过 task-scope prune 生成 DryingBox task package；
+  如果是 required material / USD dependency 且不能 mirror，必须 blocked。
+
 ## Evidence manifest schema
 
 `manifest.json` 是 LabUtopia / EBench / 周报消费的主接口。最小字段：
@@ -413,7 +449,13 @@ argparse 风格，不做多层子命令：
     "local_files": [],
     "missing": [],
     "remote_uri": [],
-    "unauthorized_remote_uri": []
+    "unauthorized_remote_uri": [],
+    "resolution_summary": {
+      "mirrored": 0,
+      "pruned": 0,
+      "waived": 0,
+      "blocked": 0
+    }
   },
   "material_closure": [],
   "physics_closure": {},
@@ -527,6 +569,7 @@ issue、manifest 和 artifact 路径引用。例如：
 | `AAN-01` | Manifest Seed | DryingBox 手工 manifest 基线 | DryingBox / Lift2 的人工 evidence manifest seed，记录 source、lineage、required prim、dependency、material、physics、task fields、known waiver/blocker | manifest 字段覆盖 `schema_version/source/target/entrypoints/required_prim_paths/dependency_closure/material_closure/physics_closure/articulation_closure/stage_gates/waivers/blockers/claims`；能作为后续自动化输出对照 | 缺 required prim；缺 source/target lineage；只记录成功项不记录 blocker/waiver；无法解释 DryingBox 当前是否可进入 EBench | MVP core |
 | `AAN-02` | CLI Skeleton | `normalize-asset` 最小入口和包结构 | `convert_asset/asset_application_normalizer/` MVP 模块骨架、flat CLI、IR model、package layout、manifest writer、dry-run path | CLI 支持设计中的核心参数；MVP 拒绝非 USD、非 `isaac41`、非允许 benchmark profile；`--dry-run` 可写 manifest 但不写 target package 内容；`pxr` / `omni.*` 继续懒加载 | CLI 隐式接受 MJCF/URDF；dry-run 写 package；导入模块时加载 `pxr` 或 `omni.*`；返回码无法区分参数、runtime、gate、blocked | MVP core |
 | `AAN-03` | USD Closure | USD inventory + dependency package closure | DryingBox package-local USD tree、dependency report、static USD report | 列出 root layer、sublayer、reference、payload、variant、clip、texture、MDL、defaultPrim、required prim；package 内无未授权 remote URI、无缺失 local dependency、无 package escape；组合关系保留、不 flatten | required USD 缺失；remote URI 未 mirror/allow/waive 就通过；绝对路径或路径逃逸残留；variant/clip required branch 未扫描 | MVP core |
+| `AAN-03R` | Dependency Resolution | missing / remote URI 收敛策略 | 每条 missing / remote dependency 的 `mirrored/pruned/waived/blocked` 决策记录，raw source 和 task-scope source 各自有结论 | DryingBox overlay 继续 pass；raw single / raw lab 的缺口不只报错，必须给出查找范围、resolution decision、required_resolution、claim impact；remote URI 无授权时不能 pass | missing / remote 只停留在列表；未证明 task irrelevant 就 prune；required dependency 用 waiver 伪装 pass；下载/同步 remote 无 hash/source/license 记录 | MVP core |
 | `AAN-04` | Material Closure | MDL / texture closure policy | material report + manifest material records；优先 source preservation 和 local mirror，必要时附加 PreviewSurface fallback 或 waiver/block | 每个材质都有 `native_resolved/local_mirror/preview_surface_fallback/explicit_waiver/blocked` 五选一；source MDL/texture raw/resolved/package path/hash 可追溯；fallback 记录 channel provenance、defaults、losses、residual MDL；透明材质记录 opacity/visibility 策略 | 丢弃原始 MDL/texture 只保留 fallback；active residual MDL 在 no-MDL profile 下无说明；缺核心 texture 却静默 fallback；透明/语义关键材质不可见仍放行；material waiver 没有 owner/reason/impact/expiry/forbidden claims | MVP core |
 | `AAN-05` | Physics Static | rigid/articulation static checks | physics report、articulation report、manifest closure records | authored collision、mass、inertia、scale、spawn/reset pose、joint type/axis/limit/drive 优先保留；缺失 mass/inertia/collision 可用 `derived/template/manual_override` 补齐并记录 method/input/template/owner；articulation 检查 root、DOF mapping、reset value | 找不到 required body/collision/articulation prim；joint limit/axis/drive 不可解释且无 manual override；用无来源默认值掩盖 schema gap；static checker 把 runtime-only 风险声明为 pass | MVP core |
 | `AAN-06` | Runtime Smoke | Isaac Sim 4.1 cold runtime evidence | runtime smoke report、render artifacts、logs、manifest runtime evidence | Isaac 4.1 headless 新进程 cold load 成功；记录 runtime fingerprint；root/required prim 存在；render readback 非空且记录 mean RGB、non-background ratio、bbox ratio、hash；step N frames finite；reset pose 恢复；退出码 0 | stage load error/crash/hang；PNG 存在但 readback blank/all-background/invalid；step 出现 NaN/Inf 或异常爆炸；reset 不可恢复；runtime gate 未运行却被标 pass | MVP core |
@@ -574,6 +617,8 @@ benchmark comparability 等扩展。
 - 能检查并记录 dependency、material、physics、articulation、runtime smoke 的状态；
 - 能最大保真保留 source material / physics authoring；目标 runtime 不兼容时附加兼容层；
 - 能为缺失 physics value 生成规范填充值，但每个填充值都有 provenance 和 runtime evidence；
+- 能把 missing dependency / unauthorized remote URI 收敛成 `mirrored/pruned/waived/blocked`
+  四类可审计结论，而不是只把问题留给人工排查；
 - 能区分 `ready`、`ready_with_waivers`、`failed`、`blocked`，避免把问题藏在转换流程里；
 - DryingBox 是首个验收资产，后续会用 2-3 个额外 USD 资产验证不是单资产特化；
 - AAN 把 LabUtopia / EBench 中手工维护的 USD、MDL、texture、physics 修补逻辑收敛到
@@ -613,14 +658,20 @@ Path status 分类建议：
 
 - `local_existing`
 - `local_missing`
+- `local_mirrored`
+- `task_scope_pruned`
 - `remote_allowed_native`
 - `remote_mirrored`
 - `remote_unresolved`
+- `explicit_waiver`
 - `package_escape`
 - `unsupported_scheme`
 
 Remote URI 不能默认通过。只有两种可通过：target profile 明确允许并有 runtime resolver
 证据，或已经 local mirror 到 target package 并重写为 package-relative。
+
+对 PM 和周报来说，`local_missing` / `remote_unresolved` 不是最终状态；它们只是发现阶段状态。
+每条进入周报的缺口必须有最终 resolution：`mirrored`、`pruned`、`waived` 或 `blocked`。
 
 ## Material closure policy
 
@@ -1057,22 +1108,26 @@ MJCF route 的推荐原则：
 4. `AAN-03 USD Closure`：实现 `usd_inventory + dependency_closure`，输出 package-local
    USD tree。验收：无未授权 remote URI、无缺失 local dependency、组合关系仍保留，不
    flatten。
-5. `AAN-04 Material Closure`：先保留 source material binding、MDL 和 texture，并做 local
+5. `AAN-03R Dependency Resolution`：把 raw source 中发现的 missing / remote URI 缺口收敛成
+   `mirrored/pruned/waived/blocked` 决策。验收：DryingBox overlay pass 继续成立；单体
+   `DryingBox_01.usd` 的 `UnitsAdjust-*.metricsAssembler` 和 raw `lab_001.usd` 的 remote URI
+   都有查找范围、处理结论、claim impact，而不是只停在 blocker 列表。
+6. `AAN-04 Material Closure`：先保留 source material binding、MDL 和 texture，并做 local
    mirror；目标 Isaac 4.1 不能稳定解析时才附加 PreviewSurface fallback。每个材质必须有
    closure record、channel provenance 和 source preservation evidence。
-6. `AAN-05 Physics Static`：检查 collision、mass、inertia、rigid body API、joint
+7. `AAN-05 Physics Static`：检查 collision、mass、inertia、rigid body API、joint
    type/axis/limit/drive/reset pose。authored value 原样保留；缺失值只能按
    `derived/template/manual_override` 生成并记录 provenance；第一轮允许 report/block，不急着
    大规模自动修。
-7. `AAN-06 Runtime Smoke`：生成 Isaac Sim 4.1 cold load、render readback、step、reset
+8. `AAN-06 Runtime Smoke`：生成 Isaac Sim 4.1 cold load、render readback、step、reset
    smoke 证据，并写入 evidence manifest。
-8. `AAN-07 Benchmark Contract`：输出 EBench task config、required prim mapping、
+9. `AAN-07 Benchmark Contract`：输出 EBench task config、required prim mapping、
    metric/evaluator entrypoint，并由 LabUtopia / EBench adapter 消费。
-9. `AAN-08 Replication Set`：用另外 2-3 个 rigid/articulated USD assets 证明不是
+10. `AAN-08 Replication Set`：用另外 2-3 个 rigid/articulated USD assets 证明不是
    DryingBox-only pipeline。首选 Cabinet Drawer 和 Transparent Beaker / `Beaker_01`。
-10. `AAN-09 Negative Gate`：用一个缺 MDL、不可镜像 remote URI 或 schema gap 的资产验证
+11. `AAN-09 Negative Gate`：用一个缺 MDL、不可镜像 remote URI 或 schema gap 的资产验证
     `blocked/waived` 是否清晰。
-11. `AAN-10+ Post-MVP Expansion`：进入 MJCF / AutoBio、多 source adapter、多 target
+12. `AAN-10+ Post-MVP Expansion`：进入 MJCF / AutoBio、多 source adapter、多 target
     profile、Genesis / MuJoCo / EOS adapter 等路线；先做 source adapter 和 semantic gap
     report，不承诺一口气完成 official reproduction。
 

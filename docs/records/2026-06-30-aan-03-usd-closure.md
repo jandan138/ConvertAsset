@@ -234,8 +234,24 @@ required prim /World/labutopia_level1_poc/obj_obj_DryingBox_01: valid
 
 ## Next Milestone
 
-Start `AAN-04 Material Closure`: upgrade the static MDL/texture package mirror into material
-closure records with source preservation evidence, channel provenance, fallback policy, and
-blocked/waived material semantics. Separate follow-ups should decide whether the raw full-lab
-remote URI dependencies are mirrored, waived, or left blocked, and whether the single-asset
-`UnitsAdjust-*.metricsAssembler` missing helper is recoverable from source data.
+Run `AAN-03R Dependency Resolution` before starting `AAN-04 Material Closure`.
+
+`AAN-03R` owns the raw-source cleanup decisions that are outside the already-passing overlay
+package:
+
+1. `DryingBox_01.usd` missing `UnitsAdjust-*.metricsAssembler`:
+   - search LabUtopia source export, dataset, historical package, and overlay outputs;
+   - if found, mirror it into the package and record hash/provenance;
+   - if proven task-irrelevant exporter residue, record `pruned` or `waived` with forbidden claims;
+   - if it affects units, scale, geometry, material, physics, or runtime load and cannot be found,
+     keep it `blocked`.
+2. Raw `lab_001.usd` unauthorized remote URI:
+   - prefer local mirror with original URI, hash, and source evidence;
+   - if the remote resource is task-irrelevant background, create a task-scope pruned package and
+     forbid full source-scene closure claims;
+   - if the remote resource is required and cannot be mirrored or explicitly allowed, keep it
+     `blocked`.
+
+After `AAN-03R`, start `AAN-04 Material Closure`: upgrade the static MDL/texture package mirror
+into material closure records with source preservation evidence, channel provenance, fallback
+policy, and blocked/waived material semantics.
