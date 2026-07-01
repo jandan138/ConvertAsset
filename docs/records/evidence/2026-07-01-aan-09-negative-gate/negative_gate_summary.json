@@ -1,0 +1,56 @@
+{
+  "schema_version": "aan09.negative_gate_summary.v1",
+  "status": "pass",
+  "case_count": 1,
+  "status_counts": {
+    "blocked": 1
+  },
+  "waiver_count": 0,
+  "blocked_reason_count": 1,
+  "failure_modes": {
+    "aan03_block_remote_uri": {
+      "count": 1,
+      "representative_manifest": "docs/records/evidence/2026-07-01-aan-09-negative-gate/remote_uri_block_manifest.json",
+      "asset_ids": [
+        "RemoteUriBlocked"
+      ]
+    }
+  },
+  "representative_artifacts": [
+    {
+      "manifest": "docs/records/evidence/2026-07-01-aan-09-negative-gate/remote_uri_block_manifest.json",
+      "asset_id": "RemoteUriBlocked",
+      "task_id": "AAN09.RemoteUriBlocked",
+      "source_path": "docs/records/evidence/2026-07-01-aan-09-negative-gate/sources/remote_uri_block.usda",
+      "overall_status": "blocked",
+      "stage_statuses": {
+        "usd_closure": "blocked",
+        "material_closure": "not_run",
+        "physics_static": "not_run",
+        "runtime_smoke": "not_run",
+        "benchmark_contract": "not_run"
+      },
+      "blocker_ids": [
+        "aan03_block_remote_uri"
+      ],
+      "waiver_ids": [],
+      "claims_forbidden": [
+        "Material closure is complete.",
+        "Physics or articulation closure is complete.",
+        "Isaac runtime smoke passed.",
+        "EBench task readiness is achieved.",
+        "Exact Isaac Sim 4.1 binary conformance is verified without an explicit runtime environment fingerprint.",
+        "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
+        "Full visual material parity beyond recorded source-preservation evidence is achieved."
+      ]
+    }
+  ],
+  "invalid_cases": [],
+  "claim_boundary": {
+    "accepted_negative_statuses": [
+      "blocked",
+      "ready_with_waivers"
+    ],
+    "not_run_treated_as_pass": false
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "task_config": {
+    "task_id": "AAN09.RemoteUriBlocked",
+    "benchmark": "ebench-lift2",
+    "asset_id": "RemoteUriBlocked"
+  },
+  "required_prims": {
+    "asset_root": "/World/RemoteBlockedAsset",
+    "manipulated_body": "/World/RemoteBlockedAsset",
+    "collision_root": "/World/RemoteBlockedAsset",
+    "spawn_anchor": "/World/RemoteBlockedAsset",
+    "goal_target": "N/A"
+  },
+  "evaluator": {
+    "entrypoint": "ebench.evaluators.aan09:RemoteUriBlockedEvaluator",
+    "metric": "blocked_remote_uri_boundary"
+  }
+}

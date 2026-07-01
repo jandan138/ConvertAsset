@@ -1,0 +1,13 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+)
+
+def Xform "World"
+{
+    def Xform "RemoteBlockedAsset" (
+        references = @omniverse://aan09.example.invalid/assets/required_part.usd@
+    )
+    {
+    }
+}

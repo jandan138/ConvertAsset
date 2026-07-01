@@ -1,0 +1,38 @@
+task_id: Lift2.DryingBox
+required_prims:
+  -
+    role: asset_root
+    path: /World/labutopia_level1_poc/obj_obj_DryingBox_01
+    required: true
+    status: pass
+    exists: true
+  -
+    role: manipulated_body
+    path: /World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh
+    required: true
+    status: pass
+    exists: true
+  -
+    role: collision_root
+    path: /World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh
+    required: true
+    status: pass
+    exists: true
+  -
+    role: spawn_anchor
+    path: /World/labutopia_level1_poc/obj_obj_DryingBox_01
+    required: true
+    status: pass
+    exists: true
+  -
+    role: goal_target
+    path: /World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh
+    required: true
+    status: pass
+    exists: true
+  -
+    role: articulation_root
+    path: /World/labutopia_level1_poc/obj_obj_DryingBox_01
+    required: true
+    status: pass
+    exists: true

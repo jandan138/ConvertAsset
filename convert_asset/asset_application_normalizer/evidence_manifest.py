@@ -99,6 +99,7 @@ def build_manifest(
             "root_usd": root_usd,
             "default_prim": default_prim,
             "task_config": "task/task_config.yaml",
+            "required_prims": "task/required_prims.yaml",
             "metric_evaluator": "task/evaluator.yaml",
         },
         "normalization_policy": {

@@ -1,0 +1,19 @@
+{
+  "task_config": {
+    "task_id": "AAN08.MuffleFurnaceDoor",
+    "benchmark": "ebench-lift2",
+    "asset_id": "MuffleFurnace"
+  },
+  "required_prims": {
+    "asset_root": "/group_002",
+    "manipulated_body": "/group_002/Group/mesh_000",
+    "collision_root": "/group_002/Group/mesh_000",
+    "articulation_root": "/group_002",
+    "spawn_anchor": "/group_002",
+    "goal_target": "N/A"
+  },
+  "evaluator": {
+    "entrypoint": "ebench.evaluators.aan08:MuffleFurnaceDoorEvaluator",
+    "metric": "door_revolute_limit_reachable"
+  }
+}

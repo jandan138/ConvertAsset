@@ -1,0 +1,9 @@
+{
+  "schema_version": "aan09.return_code_probe.v1",
+  "command": "convert_asset.cli.main([...normalize-asset remote_uri_block...]) inside scripts/isaac_python.sh",
+  "convert_asset_cli_return_code": 5,
+  "manifest": "remote_uri_block_manifest.json",
+  "manifest_overall_status": "blocked",
+  "consistent": true,
+  "note": "scripts/isaac_python.sh shell wrapper may report generic nonzero status for sys.exit(5); this probe records the ConvertAsset CLI return value directly."
+}

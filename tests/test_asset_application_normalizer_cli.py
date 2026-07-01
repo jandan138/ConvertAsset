@@ -7,6 +7,7 @@ from pathlib import Path
 
 from convert_asset.cli import main
 from convert_asset.asset_application_normalizer.model import NormalizeAssetRequest
+from convert_asset.asset_application_normalizer.negative_gate import build_negative_gate_summary
 from convert_asset.asset_application_normalizer.pipeline import normalize_asset
 
 
@@ -387,6 +388,112 @@ def test_normalize_asset_writes_physics_static_closure_for_authored_articulation
     assert manifest["runtime_evidence"]["status"] == "not_run"
 
 
+def test_normalize_asset_generates_mass_inertia_for_rigid_prop_without_mass_api(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "Beaker.usda"
+    source.write_text(
+        "#usda 1.0\n"
+        "(\n"
+        "    defaultPrim = \"World\"\n"
+        ")\n"
+        "def Xform \"World\" {\n"
+        "    def Mesh \"Beaker\" (\n"
+        "        prepend apiSchemas = [\"PhysicsRigidBodyAPI\", \"PhysicsCollisionAPI\"]\n"
+        "    ) {\n"
+        "        bool physics:rigidBodyEnabled = 1\n"
+        "        bool physics:collisionEnabled = 1\n"
+        "        point3f[] points = [(0, 0, 0), (4, 0, 0), (0, 3, 0), (0, 0, 5)]\n"
+        "        int[] faceVertexCounts = [3, 3, 3, 3]\n"
+        "        int[] faceVertexIndices = [0, 1, 2, 0, 1, 3, 0, 2, 3, 1, 2, 3]\n"
+        "    }\n"
+        "}\n",
+        encoding="utf-8",
+    )
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+    args = _base_args(source, out_dir, evidence_out, asset_class="rigid")
+    args[args.index("DryingBox")] = "Beaker"
+    args[args.index("Lift2.DryingBox")] = "AAN08.TransparentBeaker"
+    args[args.index("/World/DryingBox")] = "/World/Beaker"
+    args.remove("--dry-run")
+
+    code = main(args)
+
+    assert code == 0
+    package_text = (out_dir / "asset.usd").read_text(encoding="utf-8")
+    assert "PhysicsMassAPI" in package_text
+    assert "physics:mass" in package_text
+    assert "physics:diagonalInertia" in package_text
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["overall_status"] == "pass"
+    assert manifest["physics_closure"]["summary"]["mass_record_count"] == 1
+    assert manifest["physics_closure"]["summary"]["derived_mass_count"] == 1
+    mass_record = manifest["physics_closure"]["mass_properties"][0]
+    assert mass_record["prim_path"] == "/World/Beaker"
+    assert mass_record["mass"]["value_source"] == "derived"
+    assert mass_record["mass"]["status"] == "pass"
+    assert mass_record["mass"]["value"] > 0
+    assert mass_record["inertia"]["value_source"] == "derived"
+    assert mass_record["inertia"]["status"] == "pass"
+    assert all(value > 0 for value in mass_record["inertia"]["value"])
+    assert mass_record["generation"]["method"] == "bbox_shell_density_template_v0"
+
+
+def test_normalize_asset_generates_invalid_mass_inertia_for_articulated_bodies(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "MuffleFurnace.usda"
+    source.write_text(
+        "#usda 1.0\n"
+        "(\n"
+        "    defaultPrim = \"World\"\n"
+        ")\n"
+        "def Xform \"World\" {\n"
+        "    def Xform \"Furnace\" (\n"
+        "        prepend apiSchemas = [\"PhysicsArticulationRootAPI\"]\n"
+        "    ) {\n"
+        "        def Mesh \"Door\" (\n"
+        "            prepend apiSchemas = [\"PhysicsRigidBodyAPI\", \"PhysicsCollisionAPI\", \"PhysicsMassAPI\"]\n"
+        "        ) {\n"
+        "            bool physics:rigidBodyEnabled = 1\n"
+        "            bool physics:collisionEnabled = 1\n"
+        "            float physics:mass = 0\n"
+        "            float3 physics:diagonalInertia = (0, 0, 0)\n"
+        "            point3f[] points = [(0, 0, 0), (4, 0, 0), (0, 3, 0), (0, 0, 5)]\n"
+        "            int[] faceVertexCounts = [3, 3, 3, 3]\n"
+        "            int[] faceVertexIndices = [0, 1, 2, 0, 1, 3, 0, 2, 3, 1, 2, 3]\n"
+        "        }\n"
+        "        def PhysicsRevoluteJoint \"DoorJoint\" {\n"
+        "            uniform token physics:axis = \"Z\"\n"
+        "            float physics:lowerLimit = -90\n"
+        "            float physics:upperLimit = 0\n"
+        "        }\n"
+        "    }\n"
+        "}\n",
+        encoding="utf-8",
+    )
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+    args = _base_args(source, out_dir, evidence_out, asset_class="articulated")
+    args[args.index("DryingBox")] = "MuffleFurnace"
+    args[args.index("Lift2.DryingBox")] = "AAN08.MuffleFurnaceDoor"
+    args[args.index("/World/DryingBox")] = "/World/Furnace"
+    args.remove("--dry-run")
+
+    code = main(args)
+
+    assert code == 0
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["overall_status"] == "pass"
+    assert manifest["physics_closure"]["summary"]["derived_mass_count"] == 1
+    assert manifest["physics_closure"]["summary"]["derived_inertia_count"] == 1
+    mass_record = manifest["physics_closure"]["mass_properties"][0]
+    assert mass_record["mass"]["value_source"] == "derived"
+    assert mass_record["inertia"]["value_source"] == "derived"
+    assert manifest["articulation_closure"]["joints"][0]["axis"]["value"] == "Z"
+
+
 def test_normalize_asset_benchmark_gate_writes_ebench_task_contract(
     tmp_path: Path,
 ) -> None:
@@ -431,6 +538,9 @@ def test_normalize_asset_benchmark_gate_writes_ebench_task_contract(
     assert manifest["stage_gates"][-1]["check_id"] == "AAN-07-benchmark-contract"
     assert manifest["stage_gates"][-1]["status"] == "pass"
     assert manifest["benchmark_contract"]["status"] == "pass"
+    assert manifest["entrypoints"]["task_config"] == "task/task_config.yaml"
+    assert manifest["entrypoints"]["required_prims"] == "task/required_prims.yaml"
+    assert manifest["entrypoints"]["metric_evaluator"] == "task/evaluator.yaml"
     assert manifest["benchmark_contract"]["task_files"]["task_config"] == "task/task_config.yaml"
     assert "EBench task readiness is achieved." in manifest["claims_allowed"]
     assert "EBench task readiness is achieved." not in manifest["claims_forbidden"]
@@ -862,6 +972,135 @@ def test_normalize_asset_blocks_unauthorized_remote_uri_without_package(
     assert remote_record["required_resolution"]
     assert manifest["dependency_closure"]["resolution_summary"]["blocked"] == 1
     assert manifest["blocked_reasons"][0]["blocker_id"] == "aan03_block_remote_uri"
+
+
+def test_negative_gate_summary_accepts_blocked_manifest_with_failure_modes(
+    tmp_path: Path,
+) -> None:
+    manifest_path = tmp_path / "remote_manifest.json"
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "schema_version": "asset_application_normalizer.v1",
+                "asset_id": "RemoteBlockedAsset",
+                "task_id": "AAN09.RemoteUriBlocked",
+                "overall_status": "blocked",
+                "source": {"path": str(tmp_path / "remote_uri_block.usda")},
+                "stage_gates": [
+                    {"stage": "usd_closure", "status": "blocked"},
+                    {"stage": "material_closure", "status": "not_run"},
+                    {"stage": "physics_static", "status": "not_run"},
+                    {"stage": "runtime_smoke", "status": "not_run"},
+                    {"stage": "benchmark_contract", "status": "not_run"},
+                ],
+                "dependency_closure": {
+                    "resolution_summary": {
+                        "mirrored": 0,
+                        "pruned": 0,
+                        "waived": 0,
+                        "blocked": 1,
+                    }
+                },
+                "waivers": [],
+                "blocked_reasons": [
+                    {
+                        "blocker_id": "aan03_block_remote_uri",
+                        "severity": "blocking",
+                        "summary": "USD dependency closure found unauthorized remote URI dependencies.",
+                        "required_resolution": "Mirror the remote URI into the package or keep blocked.",
+                    }
+                ],
+                "claims_allowed": [
+                    "AAN-03 static USD closure inspected the source graph and wrote an evidence manifest."
+                ],
+                "claims_forbidden": [
+                    "Material closure is complete.",
+                    "Physics or articulation closure is complete.",
+                    "Isaac runtime smoke passed.",
+                    "EBench task readiness is achieved.",
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    summary = build_negative_gate_summary([manifest_path])
+
+    assert summary["status"] == "pass"
+    assert summary["case_count"] == 1
+    assert summary["status_counts"] == {"blocked": 1}
+    assert summary["waiver_count"] == 0
+    assert summary["failure_modes"]["aan03_block_remote_uri"]["count"] == 1
+    assert summary["representative_artifacts"][0]["manifest"] == str(manifest_path)
+    assert summary["representative_artifacts"][0]["stage_statuses"]["usd_closure"] == "blocked"
+    assert summary["claim_boundary"]["not_run_treated_as_pass"] is False
+
+
+def test_negative_gate_summary_rejects_false_ready_negative_manifest(
+    tmp_path: Path,
+) -> None:
+    manifest_path = tmp_path / "false_ready.json"
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "schema_version": "asset_application_normalizer.v1",
+                "asset_id": "FalseReadyAsset",
+                "task_id": "AAN09.FalseReady",
+                "overall_status": "pass",
+                "source": {"path": str(tmp_path / "false_ready.usda")},
+                "stage_gates": [
+                    {"stage": "usd_closure", "status": "pass"},
+                    {"stage": "material_closure", "status": "pass"},
+                ],
+                "waivers": [],
+                "blocked_reasons": [],
+                "claims_allowed": ["EBench task readiness is achieved."],
+                "claims_forbidden": [],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    summary = build_negative_gate_summary([manifest_path])
+
+    assert summary["status"] == "fail"
+    assert summary["invalid_cases"][0]["reason"] == "negative manifest was not blocked or waived"
+    assert summary["case_count"] == 1
+
+
+def test_negative_gate_summary_requires_complete_waiver_fields(
+    tmp_path: Path,
+) -> None:
+    manifest_path = tmp_path / "bad_waiver.json"
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "schema_version": "asset_application_normalizer.v1",
+                "asset_id": "WaivedAsset",
+                "task_id": "AAN09.Waived",
+                "overall_status": "ready_with_waivers",
+                "source": {"path": str(tmp_path / "waived.usda")},
+                "stage_gates": [{"stage": "material_closure", "status": "waived"}],
+                "waivers": [
+                    {
+                        "waiver_id": "AAN09-WAIVE-001",
+                        "owner": "asset-review",
+                        "reason": "Non-semantic texture missing.",
+                    }
+                ],
+                "blocked_reasons": [],
+                "claims_allowed": [],
+                "claims_forbidden": ["Full visual material parity is achieved."],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    summary = build_negative_gate_summary([manifest_path])
+
+    assert summary["status"] == "fail"
+    assert summary["invalid_cases"][0]["reason"] == "waiver record is incomplete"
+    assert summary["invalid_cases"][0]["missing_fields"] == ["claims_forbidden", "expires_or_review_by", "impact"]
 
 
 def test_normalize_asset_inventories_variant_usd_dependency(tmp_path: Path) -> None:

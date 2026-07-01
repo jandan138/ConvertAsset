@@ -19,6 +19,13 @@ JOINT_TYPE_NAMES = {
     "PhysicsDistanceJoint",
 }
 LIMITED_DOF_JOINT_TYPES = {"PhysicsRevoluteJoint", "PhysicsPrismaticJoint"}
+GENERATED_MASS_METHOD = "bbox_shell_density_template_v0"
+GENERATED_MASS_DENSITY_KG_M3 = 1000.0
+GENERATED_MASS_SHELL_OCCUPANCY = 0.08
+GENERATED_MASS_MIN_KG = 0.02
+GENERATED_MASS_MAX_KG = 10.0
+GENERATED_DIMENSION_MIN_M = 0.01
+GENERATED_INERTIA_MIN = 1.0e-6
 
 
 @dataclass(frozen=True)
@@ -112,9 +119,49 @@ def build_physics_checks(
     ] if any(item["status"] == "blocked" for item in required) else []
 
     scoped_prims = _scoped_prims(stage, request.required_prims)
+    generated_mass_properties = {}
+    if request.asset_class in {"rigid", "articulated"}:
+        generated_mass_properties = _author_missing_mass_properties(stage, scoped_prims)
+        if generated_mass_properties:
+            if not _save_stage(stage):
+                reason = "AAN-05 could not save generated mass/inertia values into the package USD."
+                return _blocked_result(
+                    root_usd,
+                    reason,
+                    [
+                        {
+                            "blocker_id": "aan05_block_generated_mass_save",
+                            "severity": "blocking",
+                            "summary": reason,
+                            "required_resolution": "Make the package USD writable or provide authored MassAPI values.",
+                        }
+                    ],
+                )
+            stage = _open_stage(root_usd)
+            if stage is None:
+                reason = "AAN-05 could not reopen the package USD after generated mass/inertia authoring."
+                return _blocked_result(
+                    root_usd,
+                    reason,
+                    [
+                        {
+                            "blocker_id": "aan05_block_generated_mass_reopen",
+                            "severity": "blocking",
+                            "summary": reason,
+                            "required_resolution": "Fix generated MassAPI authoring so Usd.Stage.Open succeeds.",
+                        }
+                    ],
+                )
+            required = _required_prim_records(stage, request.required_prims)
+            scoped_prims = _scoped_prims(stage, request.required_prims)
+
     rigid_bodies = [_rigid_body_record(prim) for prim in scoped_prims if _has_api(prim, "PhysicsRigidBodyAPI")]
     collisions = [_collision_record(prim) for prim in scoped_prims if _has_api(prim, "PhysicsCollisionAPI")]
-    mass_records = [_mass_record(prim) for prim in scoped_prims if _has_api(prim, "PhysicsMassAPI")]
+    mass_records = [
+        _mass_record(prim, generated_mass_properties.get(prim.GetPath().pathString))
+        for prim in scoped_prims
+        if _has_api(prim, "PhysicsMassAPI")
+    ]
     articulation_roots = [
         _articulation_root_record(prim)
         for prim in scoped_prims
@@ -247,6 +294,14 @@ def _open_stage(root_usd: Path) -> Any | None:
         return None
 
 
+def _save_stage(stage: Any) -> bool:
+    try:
+        stage.GetRootLayer().Save()
+        return True
+    except Exception:
+        return False
+
+
 def _required_prim_records(stage: Any, required_prims: list[str]) -> list[dict[str, Any]]:
     records = []
     for path in required_prims:
@@ -288,6 +343,109 @@ def _has_api(prim: Any, api_schema: str) -> bool:
         return False
 
 
+def _author_missing_mass_properties(
+    stage: Any,
+    scoped_prims: list[Any],
+) -> dict[str, dict[str, Any]]:
+    try:
+        from pxr import Gf, UsdPhysics  # type: ignore
+    except Exception:
+        return {}
+
+    generated: dict[str, dict[str, Any]] = {}
+    for prim in scoped_prims:
+        if not _has_api(prim, "PhysicsRigidBodyAPI"):
+            continue
+        need_mass = not _valid_positive_scalar(_attr_raw_value(prim, "physics:mass"))
+        need_inertia = not _valid_positive_vec3(_attr_raw_value(prim, "physics:diagonalInertia"))
+        if not need_mass and not need_inertia:
+            continue
+
+        derived = _derive_mass_properties(stage, prim)
+        mass_api = UsdPhysics.MassAPI.Apply(prim)
+        generated_record = {
+            "bbox_dimensions_m": derived["bbox_dimensions_m"],
+            "bbox_volume_m3": derived["bbox_volume_m3"],
+            "effective_volume_m3": derived["effective_volume_m3"],
+        }
+        if need_mass:
+            attr = mass_api.CreateMassAttr(float(derived["mass"]))
+            attr.Set(float(derived["mass"]))
+            generated_record["mass"] = derived["mass"]
+        if need_inertia:
+            inertia = derived["inertia"]
+            value = Gf.Vec3f(float(inertia[0]), float(inertia[1]), float(inertia[2]))
+            attr = mass_api.CreateDiagonalInertiaAttr(value)
+            attr.Set(value)
+            generated_record["inertia"] = inertia
+        generated[prim.GetPath().pathString] = generated_record
+    return generated
+
+
+def _derive_mass_properties(stage: Any, prim: Any) -> dict[str, Any]:
+    dims_m = _bbox_dimensions_m(stage, prim)
+    bbox_volume = max(dims_m[0] * dims_m[1] * dims_m[2], 0.0)
+    effective_volume = bbox_volume * GENERATED_MASS_SHELL_OCCUPANCY
+    mass = effective_volume * GENERATED_MASS_DENSITY_KG_M3
+    mass = min(max(mass, GENERATED_MASS_MIN_KG), GENERATED_MASS_MAX_KG)
+    inertia = [
+        max(mass * (dims_m[1] ** 2 + dims_m[2] ** 2) / 12.0, GENERATED_INERTIA_MIN),
+        max(mass * (dims_m[0] ** 2 + dims_m[2] ** 2) / 12.0, GENERATED_INERTIA_MIN),
+        max(mass * (dims_m[0] ** 2 + dims_m[1] ** 2) / 12.0, GENERATED_INERTIA_MIN),
+    ]
+    return {
+        "bbox_dimensions_m": [round(float(value), 8) for value in dims_m],
+        "bbox_volume_m3": round(float(bbox_volume), 10),
+        "effective_volume_m3": round(float(effective_volume), 10),
+        "mass": round(float(mass), 8),
+        "inertia": [round(float(value), 10) for value in inertia],
+    }
+
+
+def _bbox_dimensions_m(stage: Any, prim: Any) -> list[float]:
+    try:
+        from pxr import Usd, UsdGeom  # type: ignore
+
+        meters_per_unit = float(UsdGeom.GetStageMetersPerUnit(stage) or 1.0)
+        cache = UsdGeom.BBoxCache(Usd.TimeCode.Default(), [UsdGeom.Tokens.default_])
+        bbox = cache.ComputeWorldBound(prim).ComputeAlignedBox()
+        size = bbox.GetSize()
+        return [
+            max(abs(float(size[idx])) * meters_per_unit, GENERATED_DIMENSION_MIN_M)
+            for idx in range(3)
+        ]
+    except Exception:
+        return [GENERATED_DIMENSION_MIN_M] * 3
+
+
+def _attr_raw_value(prim: Any, attr_name: str) -> Any:
+    attr = prim.GetAttribute(attr_name)
+    if not attr:
+        return None
+    try:
+        return attr.Get()
+    except Exception:
+        return None
+
+
+def _valid_positive_scalar(value: Any) -> bool:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return False
+    return math.isfinite(number) and number > 0.0
+
+
+def _valid_positive_vec3(value: Any) -> bool:
+    if value is None:
+        return False
+    try:
+        values = [float(value[idx]) for idx in range(3)]
+    except Exception:
+        return False
+    return all(math.isfinite(item) and item > 0.0 for item in values)
+
+
 def _rigid_body_record(prim: Any) -> dict[str, Any]:
     return {
         "prim_path": prim.GetPath().pathString,
@@ -312,20 +470,69 @@ def _collision_record(prim: Any) -> dict[str, Any]:
     }
 
 
-def _mass_record(prim: Any) -> dict[str, Any]:
-    return {
+def _mass_record(prim: Any, generated: dict[str, Any] | None = None) -> dict[str, Any]:
+    mass = _physics_value_record(prim, "physics:mass", generated_method=GENERATED_MASS_METHOD)
+    inertia = _physics_value_record(
+        prim,
+        "physics:diagonalInertia",
+        generated_method="bbox_inertia_template_v0",
+    )
+    if generated and "mass" in generated:
+        mass = _generated_value_record(
+            prim,
+            "physics:mass",
+            generated["mass"],
+            GENERATED_MASS_METHOD,
+        )
+    if generated and "inertia" in generated:
+        inertia = _generated_value_record(
+            prim,
+            "physics:diagonalInertia",
+            generated["inertia"],
+            GENERATED_MASS_METHOD,
+        )
+
+    record = {
         "prim_path": prim.GetPath().pathString,
         "type_name": prim.GetTypeName(),
         "owning_layer": _owning_layer(prim),
-        "mass": _physics_value_record(prim, "physics:mass", generated_method="bbox_density_template_v0"),
+        "mass": mass,
         "density": _authored_value_record(prim, "physics:density"),
         "center_of_mass": _authored_value_record(prim, "physics:centerOfMass"),
-        "inertia": _physics_value_record(
-            prim,
-            "physics:diagonalInertia",
-            generated_method="bbox_inertia_template_v0",
-        ),
+        "inertia": inertia,
         "principal_axes": _authored_value_record(prim, "physics:principalAxes"),
+    }
+    if generated:
+        record["generation"] = {
+            "method": GENERATED_MASS_METHOD,
+            "value_source": "derived",
+            "package_authored": True,
+            "density_template_kg_m3": GENERATED_MASS_DENSITY_KG_M3,
+            "shell_occupancy": GENERATED_MASS_SHELL_OCCUPANCY,
+            "bbox_dimensions_m": generated["bbox_dimensions_m"],
+            "bbox_volume_m3": generated["bbox_volume_m3"],
+            "effective_volume_m3": generated["effective_volume_m3"],
+            "generated_fields": sorted(
+                field for field in ("mass", "inertia") if field in generated
+            ),
+        }
+    return record
+
+
+def _generated_value_record(
+    prim: Any,
+    attr_name: str,
+    value: Any,
+    method: str,
+) -> dict[str, Any]:
+    return {
+        "value": _json_value(value),
+        "value_source": "derived",
+        "status": "pass",
+        "method": method,
+        "attribute": f"{prim.GetPath().pathString}.{attr_name}",
+        "package_authored": True,
+        "input_artifacts": ["UsdGeom bbox"],
     }
 
 
@@ -595,6 +802,12 @@ def _summary(
         ),
         "authored_inertia_count": sum(
             1 for record in mass_records if record["inertia"]["value_source"] == "authored"
+        ),
+        "derived_mass_count": sum(
+            1 for record in mass_records if record["mass"]["value_source"] == "derived"
+        ),
+        "derived_inertia_count": sum(
+            1 for record in mass_records if record["inertia"]["value_source"] == "derived"
         ),
     }
 

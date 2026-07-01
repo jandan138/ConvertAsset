@@ -1,0 +1,283 @@
+{
+  "schema_version": "asset_application_normalizer.v1",
+  "package_id": "remoteuriblocked_ebench-lift2_isaac41",
+  "asset_id": "RemoteUriBlocked",
+  "task_id": "AAN09.RemoteUriBlocked",
+  "milestone": "AAN-07-benchmark-contract",
+  "overall_status": "blocked",
+  "source": {
+    "path": "docs/records/evidence/2026-07-01-aan-09-negative-gate/sources/remote_uri_block.usda",
+    "sha256": "3598d341ad6a3881a94195d0d10416555de6111e2fea0a914275ab7dd80b8b71",
+    "source_format": "usd",
+    "source_runtime_lineage": "isaac51"
+  },
+  "target": {
+    "target_runtime_profile": "isaac41",
+    "target_benchmark_profile": "ebench-lift2"
+  },
+  "entrypoints": {
+    "root_usd": "asset.usd",
+    "default_prim": "/World/RemoteBlockedAsset",
+    "task_config": "task/task_config.yaml",
+    "required_prims": "task/required_prims.yaml",
+    "metric_evaluator": "task/evaluator.yaml"
+  },
+  "normalization_policy": {
+    "material": "preserve_source_then_add_compatibility_fallback",
+    "physics": "preserve_authored_then_generate_with_provenance",
+    "allowed_value_sources": [
+      "authored",
+      "derived",
+      "template",
+      "manual_override"
+    ]
+  },
+  "required_prim_paths": [
+    {
+      "name": "required_prim_0",
+      "path": "/World/RemoteBlockedAsset",
+      "role": "contract_required_prim",
+      "required": true
+    }
+  ],
+  "dependency_closure": {
+    "root_layer": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-01-aan-09-negative-gate/sources/remote_uri_block.usda",
+    "scanned_layers": [
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-01-aan-09-negative-gate/sources/remote_uri_block.usda"
+    ],
+    "local_files": [],
+    "missing": [],
+    "remote_uri": [
+      {
+        "kind": "usd",
+        "arc_kind": "reference",
+        "raw_asset_path": "omniverse://aan09.example.invalid/assets/required_part.usd",
+        "source_layer": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-01-aan-09-negative-gate/sources/remote_uri_block.usda",
+        "status": "blocked",
+        "holder": "/World/RemoteBlockedAsset",
+        "prim_path": "/World/RemoteBlockedAsset",
+        "resolution": "blocked",
+        "required_resolution": "Mirror the remote URI into the package with provenance, prove task-scope prune/explicit allowance, or keep this source blocked.",
+        "resolution_source": "aan03r_remote_uri_policy",
+        "claim_impact": "This source cannot claim package-local USD dependency closure until the gap is mirrored, safely pruned, explicitly waived, or remains blocked."
+      },
+      {
+        "kind": "usd",
+        "arc_kind": "asset_token",
+        "raw_asset_path": "omniverse://aan09.example.invalid/assets/required_part.usd",
+        "source_layer": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-01-aan-09-negative-gate/sources/remote_uri_block.usda",
+        "status": "blocked",
+        "resolution": "blocked",
+        "required_resolution": "Mirror the remote URI into the package with provenance, prove task-scope prune/explicit allowance, or keep this source blocked.",
+        "resolution_source": "aan03r_remote_uri_policy",
+        "claim_impact": "This source cannot claim package-local USD dependency closure until the gap is mirrored, safely pruned, explicitly waived, or remains blocked."
+      }
+    ],
+    "unauthorized_remote_uri": [
+      {
+        "kind": "usd",
+        "arc_kind": "reference",
+        "raw_asset_path": "omniverse://aan09.example.invalid/assets/required_part.usd",
+        "source_layer": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-01-aan-09-negative-gate/sources/remote_uri_block.usda",
+        "status": "blocked",
+        "holder": "/World/RemoteBlockedAsset",
+        "prim_path": "/World/RemoteBlockedAsset",
+        "resolution": "blocked",
+        "required_resolution": "Mirror the remote URI into the package with provenance, prove task-scope prune/explicit allowance, or keep this source blocked.",
+        "resolution_source": "aan03r_remote_uri_policy",
+        "claim_impact": "This source cannot claim package-local USD dependency closure until the gap is mirrored, safely pruned, explicitly waived, or remains blocked."
+      },
+      {
+        "kind": "usd",
+        "arc_kind": "asset_token",
+        "raw_asset_path": "omniverse://aan09.example.invalid/assets/required_part.usd",
+        "source_layer": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-01-aan-09-negative-gate/sources/remote_uri_block.usda",
+        "status": "blocked",
+        "resolution": "blocked",
+        "required_resolution": "Mirror the remote URI into the package with provenance, prove task-scope prune/explicit allowance, or keep this source blocked.",
+        "resolution_source": "aan03r_remote_uri_policy",
+        "claim_impact": "This source cannot claim package-local USD dependency closure until the gap is mirrored, safely pruned, explicitly waived, or remains blocked."
+      }
+    ],
+    "unrewritable_layers": [],
+    "resolution_records": [
+      {
+        "kind": "usd",
+        "arc_kind": "reference",
+        "raw_asset_path": "omniverse://aan09.example.invalid/assets/required_part.usd",
+        "source_layer": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-01-aan-09-negative-gate/sources/remote_uri_block.usda",
+        "status": "blocked",
+        "holder": "/World/RemoteBlockedAsset",
+        "prim_path": "/World/RemoteBlockedAsset",
+        "resolution": "blocked",
+        "required_resolution": "Mirror the remote URI into the package with provenance, prove task-scope prune/explicit allowance, or keep this source blocked.",
+        "resolution_source": "aan03r_remote_uri_policy",
+        "claim_impact": "This source cannot claim package-local USD dependency closure until the gap is mirrored, safely pruned, explicitly waived, or remains blocked."
+      }
+    ],
+    "resolution_summary": {
+      "mirrored": 0,
+      "pruned": 0,
+      "waived": 0,
+      "blocked": 1
+    }
+  },
+  "material_closure": [],
+  "physics_closure": {
+    "status": "not_run",
+    "reason": "AAN-05 physics static checks were not run because an earlier package or material gate blocked.",
+    "summary": {
+      "rigid_body_count": 0,
+      "collision_count": 0,
+      "mass_record_count": 0
+    }
+  },
+  "articulation_closure": {
+    "status": "not_run",
+    "reason": "AAN-05 physics static checks were not run because an earlier package or material gate blocked.",
+    "summary": {
+      "articulation_root_count": 0,
+      "joint_count": 0
+    }
+  },
+  "stage_gates": [
+    {
+      "check_id": "AAN-03-usd-closure",
+      "stage": "usd_closure",
+      "status": "blocked",
+      "summary": "USD dependency closure found blocking dependency gaps."
+    },
+    {
+      "check_id": "AAN-04-material-closure",
+      "stage": "material_closure",
+      "status": "not_run",
+      "summary": "AAN-04 material closure was not run because AAN-03 USD dependency closure blocked."
+    },
+    {
+      "check_id": "AAN-05-physics-static",
+      "stage": "physics_static",
+      "status": "not_run",
+      "summary": "AAN-05 physics static checks were not run because an earlier package or material gate blocked."
+    },
+    {
+      "check_id": "AAN-06-runtime-smoke",
+      "stage": "runtime_smoke",
+      "status": "not_run",
+      "summary": "AAN-06 runtime smoke was not run because an earlier static gate blocked."
+    },
+    {
+      "check_id": "AAN-07-benchmark-contract",
+      "stage": "benchmark_contract",
+      "status": "not_run",
+      "summary": "AAN-07 benchmark contract was not run because an earlier static or runtime gate blocked."
+    }
+  ],
+  "runtime_evidence": {
+    "status": "not_run",
+    "reason": "AAN-06 runtime smoke was not run because an earlier static gate blocked.",
+    "required_gate": "runtime"
+  },
+  "benchmark_contract": {
+    "status": "not_run",
+    "reason": "AAN-07 benchmark contract was not run because an earlier static or runtime gate blocked.",
+    "task_files": {},
+    "required_prims": []
+  },
+  "environment": {},
+  "waivers": [],
+  "blocked_reasons": [
+    {
+      "blocker_id": "aan03_block_remote_uri",
+      "severity": "blocking",
+      "summary": "USD dependency closure found unauthorized remote URI dependencies.",
+      "count": 2,
+      "required_resolution": "Mirror the remote URI into the package with provenance, prove task-scope prune/explicit allowance, or keep this source blocked."
+    }
+  ],
+  "claims_allowed": [
+    "AAN-03 static USD closure inspected the source graph and wrote an evidence manifest.",
+    "Package USD asset paths are local when the AAN-03 gate status is pass."
+  ],
+  "claims_forbidden": [
+    "Material closure is complete.",
+    "Physics or articulation closure is complete.",
+    "Isaac runtime smoke passed.",
+    "EBench task readiness is achieved.",
+    "Exact Isaac Sim 4.1 binary conformance is verified without an explicit runtime environment fingerprint.",
+    "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
+    "Full visual material parity beyond recorded source-preservation evidence is achieved."
+  ],
+  "commands": {
+    "normalize_asset": {
+      "stage": "benchmark_contract",
+      "dry_run": false,
+      "gates": [
+        "static",
+        "runtime",
+        "benchmark"
+      ],
+      "material_policy": "native-or-mirror",
+      "contract": "docs/records/evidence/2026-07-01-aan-09-negative-gate/contracts/remote_uri_block_contract.json",
+      "allow_waiver": null
+    }
+  },
+  "created_at": "2026-06-30T16:28:24Z",
+  "tool_version": "convert_asset.asset_application_normalizer.v1",
+  "git_commit": null,
+  "static_usd_report": {
+    "root_layer": {
+      "source_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-01-aan-09-negative-gate/sources/remote_uri_block.usda",
+      "package_path": null,
+      "default_prim": "World"
+    },
+    "required_prims": [
+      {
+        "path": "/World/RemoteBlockedAsset",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "dependency_counts": {
+      "total": 2,
+      "usd": 2,
+      "mdl": 0,
+      "texture": 0,
+      "remote": 2,
+      "missing": 0
+    }
+  },
+  "static_material_report": {
+    "status": "not_run",
+    "material_count": 0,
+    "closure_mode_counts": {
+      "native_resolved": 0,
+      "local_mirror": 0,
+      "preview_surface_fallback": 0,
+      "explicit_waiver": 0,
+      "blocked": 0
+    },
+    "blocked_material_count": 0,
+    "mdl_asset_count": 0,
+    "texture_asset_count": 0,
+    "reason": "AAN-04 material closure was not run because AAN-03 USD dependency closure blocked."
+  },
+  "static_physics_report": {
+    "status": "not_run",
+    "reason": "AAN-05 physics static checks were not run because an earlier package or material gate blocked.",
+    "rigid_body_count": 0,
+    "collision_count": 0,
+    "mass_record_count": 0
+  },
+  "static_articulation_report": {
+    "status": "not_run",
+    "reason": "AAN-05 physics static checks were not run because an earlier package or material gate blocked.",
+    "articulation_root_count": 0,
+    "joint_count": 0
+  },
+  "task_contract_report": {
+    "status": "not_run",
+    "reason": "AAN-07 benchmark contract was not run because an earlier static or runtime gate blocked.",
+    "task_file_count": 0,
+    "required_prim_role_count": 0
+  }
+}

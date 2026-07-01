@@ -1,0 +1,385 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+)
+
+def Xform "World"
+{
+    def Xform "labutopia_level1_poc"
+    {
+        def Xform "obj_obj_conical_bottle02" (
+            prepend payload = @deps/usd/scene.usd@</World/conical_bottle02>
+        )
+        {
+            double3 xformOp:translate = (0.28, 0, 0.8)
+            over "mesh"
+            {
+                color3f[] primvars:displayColor = [(0.1, 0.48, 0.95)]
+                uniform token primvars:displayColor:interpolation = "constant"
+            }
+        }
+        def Xform "obj_obj_beaker2" (
+            prepend payload = @deps/usd/scene.usd@</World/beaker2>
+        )
+        {
+            double3 xformOp:translate = (0.27, 0.18, 0.84)
+            over "mesh"
+            {
+                color3f[] primvars:displayColor = [(0.1, 0.72, 0.54)]
+                uniform token primvars:displayColor:interpolation = "constant"
+            }
+        }
+        def Xform "obj_obj_target_plat" (
+            prepend payload = @deps/usd/scene.usd@</World/target_plat>
+        )
+        {
+            double3 xformOp:translate = (0.26, -0.24, 0.776)
+            over "mesh"
+            {
+                color3f[] primvars:displayColor = [(0.95, 0.78, 0.12)]
+                uniform token primvars:displayColor:interpolation = "constant"
+            }
+        }
+        def Xform "obj_obj_DryingBox_01" (
+            prepend payload = @deps/usd/scene.usd@</World/DryingBox_01>
+        )
+        {
+            double3 xformOp:translate = (0.75, 0.1, 0.78)
+            double3 xformOp:scale = (0.001, 0.001, 0.001)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+            over "FixedJoint_01"
+            {
+                delete rel physics:body0 = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Group_02/group/mesh>
+            }
+            over "RevoluteJoint"
+            {
+                float state:angular:physics:position = 0
+            }
+            def Scope "Looks" (
+                prepend payload = @deps/usd/scene.usd@</World/Looks>
+            )
+            {
+                over "Aluminum_Anodized_Charcoal"
+                {
+                    over "Shader"
+                    {
+                        uniform token info:implementationSource = "sourceAsset"
+                        asset info:mdl:sourceAsset = @deps/mdl/Aluminum_Anodized_Charcoal.mdl@
+                        token info:mdl:sourceAsset:subIdentifier = "Aluminum_Anodized_Charcoal"
+                    }
+                }
+                def Material "task_button_mat"
+                {
+                    token outputs:surface.connect = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat/PreviewSurface.outputs:surface>
+                    token outputs:mdl:surface.connect = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat/OmniPBR.outputs:out>
+                    token outputs:mdl:displacement.connect = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat/OmniPBR.outputs:out>
+                    token outputs:mdl:volume.connect = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat/OmniPBR.outputs:out>
+                    def Shader "PreviewSurface"
+                    {
+                        uniform token info:id = "UsdPreviewSurface"
+                        color3f inputs:diffuseColor = (1, 0.48, 0.04)
+                        float inputs:metallic = 0
+                        float inputs:roughness = 0.85
+                        token outputs:surface
+                    }
+                    def Shader "OmniPBR"
+                    {
+                        uniform token info:implementationSource = "sourceAsset"
+                        asset info:mdl:sourceAsset = @deps/mdl/OmniPBR.mdl@
+                        token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+                        color3f inputs:diffuse_color_constant = (1, 0.48, 0.04)
+                        float inputs:reflection_roughness_constant = 0.45
+                        token outputs:out
+                    }
+                }
+                def Material "task_indicator_mat"
+                {
+                    token outputs:surface.connect = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_indicator_mat/PreviewSurface.outputs:surface>
+                    token outputs:mdl:surface.connect = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_indicator_mat/OmniPBR.outputs:out>
+                    token outputs:mdl:displacement.connect = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_indicator_mat/OmniPBR.outputs:out>
+                    token outputs:mdl:volume.connect = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_indicator_mat/OmniPBR.outputs:out>
+                    def Shader "PreviewSurface"
+                    {
+                        uniform token info:id = "UsdPreviewSurface"
+                        color3f inputs:diffuseColor = (0.1, 0.36, 0.95)
+                        float inputs:metallic = 0
+                        float inputs:roughness = 0.85
+                        token outputs:surface
+                    }
+                    def Shader "OmniPBR"
+                    {
+                        uniform token info:implementationSource = "sourceAsset"
+                        asset info:mdl:sourceAsset = @deps/mdl/OmniPBR.mdl@
+                        token info:mdl:sourceAsset:subIdentifier = "OmniPBR"
+                        color3f inputs:diffuse_color_constant = (0.1, 0.36, 0.95)
+                        float inputs:reflection_roughness_constant = 0.45
+                        token outputs:out
+                    }
+                }
+            }
+            over "body"
+            {
+                over "Group"
+                {
+                    over "door"
+                    {
+                        over "mesh" (
+                            prepend apiSchemas = ["PhysicsMassAPI", "MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0007>
+                            float physics:mass = 0.5
+                            point3f physics:diagonalInertia = (0.01, 0.01, 0.01)
+                            point3f physics:centerOfMass = (0, 0, 0)
+                            quatf physics:principalAxes = (1, 0, 0, 0)
+                        }
+                    }
+                }
+                over "body" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0009>
+                    over "mesh" (
+                        prepend apiSchemas = ["PhysicsMassAPI"]
+                    )
+                    {
+                        float physics:mass = 2
+                        point3f physics:diagonalInertia = (0.05, 0.05, 0.05)
+                        point3f physics:centerOfMass = (0, 0, 0)
+                        quatf physics:principalAxes = (1, 0, 0, 0)
+                    }
+                }
+            }
+            over "handle"
+            {
+                over "mesh" (
+                    prepend apiSchemas = ["PhysicsMassAPI", "MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0007>
+                    float physics:mass = 0.1
+                    point3f physics:diagonalInertia = (0.002, 0.002, 0.002)
+                    point3f physics:centerOfMass = (0, 0, 0)
+                    quatf physics:principalAxes = (1, 0, 0, 0)
+                }
+            }
+            over "Group"
+            {
+                over "_14_1" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0007>
+                }
+                over "_255_1" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0007>
+                }
+                over "_908_1" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0007>
+                }
+                over "_900_1" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_indicator_mat>
+                }
+            }
+            over "Group_01"
+            {
+                over "mesh" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_01" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_02" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_03" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_04" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_05" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_06" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_07" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_08" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_09" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_10" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_11" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_12" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_13" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_14" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_15" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_16" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_17" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "mesh_18" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+            }
+            over "Group_02"
+            {
+                over "group" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "group_01" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "group_04" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+                over "group_05" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+            }
+            over "panel"
+            {
+                over "mesh" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0007>
+                }
+                over "mesh_01" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0008>
+                }
+                over "mesh_02" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal>
+                }
+            }
+            over "button" (
+                prepend apiSchemas = ["PhysicsMassAPI", "MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat>
+                float physics:mass = 0.05
+                point3f physics:diagonalInertia = (0.001, 0.001, 0.001)
+                point3f physics:centerOfMass = (0, 0, 0)
+                quatf physics:principalAxes = (1, 0, 0, 0)
+            }
+        }
+        def Xform "obj_table" (
+            prepend payload = @deps/usd/scene.usd@</World/table>
+        )
+        {
+
+        }
+        def PhysicsScene "PhysicsScene"
+        {
+        }
+        def DomeLight "DeterministicDomeLight"
+        {
+            color3f inputs:color = (1, 1, 1)
+            float inputs:intensity = 1000
+        }
+    }
+}

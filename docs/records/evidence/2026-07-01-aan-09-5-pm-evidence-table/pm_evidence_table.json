@@ -1,0 +1,233 @@
+{
+  "schema_version": "aan09_5.pm_evidence_table.v1",
+  "created_at": "2026-07-01T05:30:07Z",
+  "summary": {
+    "asset_count": 4,
+    "status_counts": {
+      "blocked": 1,
+      "ready": 3
+    },
+    "waiver_count": 0,
+    "failure_modes": {
+      "aan03_block_remote_uri": 1
+    }
+  },
+  "rows": [
+    {
+      "manifest": "docs/records/evidence/2026-07-01-aan-09-negative-gate/remote_uri_block_manifest.json",
+      "asset_id": "RemoteUriBlocked",
+      "task_id": "AAN09.RemoteUriBlocked",
+      "source_path": "docs/records/evidence/2026-07-01-aan-09-negative-gate/sources/remote_uri_block.usda",
+      "target_runtime": "isaac41",
+      "target_benchmark": "ebench-lift2",
+      "milestone": "AAN-07-benchmark-contract",
+      "overall_status": "blocked",
+      "pm_status": "blocked",
+      "gate_summary": "usd_closure=blocked, material_closure=not_run, physics_static=not_run, runtime_smoke=not_run, benchmark_contract=not_run",
+      "stage_statuses": {
+        "usd_closure": "blocked",
+        "material_closure": "not_run",
+        "physics_static": "not_run",
+        "runtime_smoke": "not_run",
+        "benchmark_contract": "not_run"
+      },
+      "evidence_summary": {
+        "manifest": "present",
+        "runtime": "not_run",
+        "render_readback": "not_present",
+        "render_non_background_ratio": null,
+        "benchmark_contract": "not_run"
+      },
+      "failure_mode": "aan03_block_remote_uri",
+      "blocked_reasons": [
+        {
+          "blocker_id": "aan03_block_remote_uri",
+          "severity": "blocking",
+          "summary": "USD dependency closure found unauthorized remote URI dependencies.",
+          "count": 2,
+          "required_resolution": "Mirror the remote URI into the package with provenance, prove task-scope prune/explicit allowance, or keep this source blocked."
+        }
+      ],
+      "waiver_count": 0,
+      "waiver_ids": [],
+      "claim_boundary": {
+        "allowed": [
+          "AAN-03 static USD closure inspected the source graph and wrote an evidence manifest.",
+          "Package USD asset paths are local when the AAN-03 gate status is pass."
+        ],
+        "forbidden": [
+          "Material closure is complete.",
+          "Physics or articulation closure is complete.",
+          "Isaac runtime smoke passed.",
+          "EBench task readiness is achieved.",
+          "Exact Isaac Sim 4.1 binary conformance is verified without an explicit runtime environment fingerprint.",
+          "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
+          "Full visual material parity beyond recorded source-preservation evidence is achieved."
+        ]
+      }
+    },
+    {
+      "manifest": "docs/records/evidence/2026-06-30-aan-08-replication-set/beaker_01_manifest.json",
+      "asset_id": "Beaker_01",
+      "task_id": "AAN08.TransparentBeaker",
+      "source_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/Beaker_01/Beaker_01.usd",
+      "target_runtime": "isaac41",
+      "target_benchmark": "ebench-lift2",
+      "milestone": "AAN-07-benchmark-contract",
+      "overall_status": "pass",
+      "pm_status": "ready",
+      "gate_summary": "usd_closure=pass, material_closure=pass, physics_static=pass, runtime_smoke=pass, benchmark_contract=pass",
+      "stage_statuses": {
+        "usd_closure": "pass",
+        "material_closure": "pass",
+        "physics_static": "pass",
+        "runtime_smoke": "pass",
+        "benchmark_contract": "pass"
+      },
+      "evidence_summary": {
+        "manifest": "present",
+        "runtime": "pass",
+        "render_readback": "pass",
+        "render_non_background_ratio": 0.30619049,
+        "benchmark_contract": "pass"
+      },
+      "failure_mode": null,
+      "blocked_reasons": [],
+      "waiver_count": 0,
+      "waiver_ids": [],
+      "claim_boundary": {
+        "allowed": [
+          "AAN-03 static USD closure inspected the source graph and wrote an evidence manifest.",
+          "Package USD asset paths are local when the AAN-03 gate status is pass.",
+          "AAN-04 material closure recorded package-local source material evidence.",
+          "Source MDL and texture assets are preserved when listed with package hashes.",
+          "AAN-05 static physics and articulation evidence was recorded.",
+          "Authored rigid body, collision, mass, inertia, joint axis, and joint limits are preserved when listed with value_source=authored.",
+          "AAN-06 headless Isaac runtime smoke passed under the configured runtime wrapper.",
+          "Cold load, render readback, physics step, and reset smoke evidence are recorded.",
+          "AAN-07 wrote EBench task_config, required_prims, and evaluator entrypoint files.",
+          "EBench task readiness is achieved."
+        ],
+        "forbidden": [
+          "Exact Isaac Sim 4.1 binary conformance is verified without an explicit runtime environment fingerprint.",
+          "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
+          "Full visual material parity beyond recorded source-preservation evidence is achieved."
+        ]
+      }
+    },
+    {
+      "manifest": "docs/records/evidence/2026-07-01-aan-07-dryingbox-runtime-ready/dryingbox_runtime_ready_manifest.json",
+      "asset_id": "DryingBox_01_overlay",
+      "task_id": "Lift2.DryingBox",
+      "source_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+      "target_runtime": "isaac41",
+      "target_benchmark": "ebench-lift2",
+      "milestone": "AAN-07-benchmark-contract",
+      "overall_status": "pass",
+      "pm_status": "ready",
+      "gate_summary": "usd_closure=pass, material_closure=pass, physics_static=pass, runtime_smoke=pass, benchmark_contract=pass",
+      "stage_statuses": {
+        "usd_closure": "pass",
+        "material_closure": "pass",
+        "physics_static": "pass",
+        "runtime_smoke": "pass",
+        "benchmark_contract": "pass"
+      },
+      "evidence_summary": {
+        "manifest": "present",
+        "runtime": "pass",
+        "render_readback": "pass",
+        "render_non_background_ratio": 0.76343536,
+        "benchmark_contract": "pass"
+      },
+      "failure_mode": null,
+      "blocked_reasons": [],
+      "waiver_count": 0,
+      "waiver_ids": [],
+      "claim_boundary": {
+        "allowed": [
+          "AAN-03 static USD closure inspected the source graph and wrote an evidence manifest.",
+          "Package USD asset paths are local when the AAN-03 gate status is pass.",
+          "AAN-04 material closure recorded package-local source material evidence.",
+          "Source MDL and texture assets are preserved when listed with package hashes.",
+          "AAN-05 static physics and articulation evidence was recorded.",
+          "Authored rigid body, collision, mass, inertia, joint axis, and joint limits are preserved when listed with value_source=authored.",
+          "AAN-06 headless Isaac runtime smoke passed under the configured runtime wrapper.",
+          "Cold load, render readback, physics step, and reset smoke evidence are recorded.",
+          "AAN-07 wrote EBench task_config, required_prims, and evaluator entrypoint files.",
+          "EBench task readiness is achieved."
+        ],
+        "forbidden": [
+          "Exact Isaac Sim 4.1 binary conformance is verified without an explicit runtime environment fingerprint.",
+          "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
+          "Full visual material parity beyond recorded source-preservation evidence is achieved."
+        ]
+      }
+    },
+    {
+      "manifest": "docs/records/evidence/2026-06-30-aan-08-replication-set/muffle_furnace_manifest.json",
+      "asset_id": "MuffleFurnace",
+      "task_id": "AAN08.MuffleFurnaceDoor",
+      "source_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/MuffleFurnace.usd",
+      "target_runtime": "isaac41",
+      "target_benchmark": "ebench-lift2",
+      "milestone": "AAN-07-benchmark-contract",
+      "overall_status": "pass",
+      "pm_status": "ready",
+      "gate_summary": "usd_closure=pass, material_closure=pass, physics_static=pass, runtime_smoke=pass, benchmark_contract=pass",
+      "stage_statuses": {
+        "usd_closure": "pass",
+        "material_closure": "pass",
+        "physics_static": "pass",
+        "runtime_smoke": "pass",
+        "benchmark_contract": "pass"
+      },
+      "evidence_summary": {
+        "manifest": "present",
+        "runtime": "pass",
+        "render_readback": "pass",
+        "render_non_background_ratio": 0.4051857,
+        "benchmark_contract": "pass"
+      },
+      "failure_mode": null,
+      "blocked_reasons": [],
+      "waiver_count": 0,
+      "waiver_ids": [],
+      "claim_boundary": {
+        "allowed": [
+          "AAN-03 static USD closure inspected the source graph and wrote an evidence manifest.",
+          "Package USD asset paths are local when the AAN-03 gate status is pass.",
+          "AAN-04 material closure recorded package-local source material evidence.",
+          "Source MDL and texture assets are preserved when listed with package hashes.",
+          "AAN-05 static physics and articulation evidence was recorded.",
+          "Authored rigid body, collision, mass, inertia, joint axis, and joint limits are preserved when listed with value_source=authored.",
+          "AAN-06 headless Isaac runtime smoke passed under the configured runtime wrapper.",
+          "Cold load, render readback, physics step, and reset smoke evidence are recorded.",
+          "AAN-07 wrote EBench task_config, required_prims, and evaluator entrypoint files.",
+          "EBench task readiness is achieved."
+        ],
+        "forbidden": [
+          "Exact Isaac Sim 4.1 binary conformance is verified without an explicit runtime environment fingerprint.",
+          "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
+          "Full visual material parity beyond recorded source-preservation evidence is achieved."
+        ]
+      }
+    }
+  ],
+  "inputs": {
+    "manifests": [
+      "docs/records/evidence/2026-07-01-aan-07-dryingbox-runtime-ready/dryingbox_runtime_ready_manifest.json",
+      "docs/records/evidence/2026-06-30-aan-08-replication-set/muffle_furnace_manifest.json",
+      "docs/records/evidence/2026-06-30-aan-08-replication-set/beaker_01_manifest.json",
+      "docs/records/evidence/2026-07-01-aan-09-negative-gate/remote_uri_block_manifest.json"
+    ],
+    "negative_summaries": [
+      "docs/records/evidence/2026-07-01-aan-09-negative-gate/negative_gate_summary.json"
+    ]
+  },
+  "claim_boundary": {
+    "ready": "Package/runtime/benchmark evidence exists for the recorded gates.",
+    "blocked": "Do not claim task readiness; use blocked reason and required resolution.",
+    "ready_with_waivers": "Only scoped claims are allowed; waiver forbidden claims remain binding."
+  }
+}
