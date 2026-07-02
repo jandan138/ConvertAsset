@@ -16,6 +16,13 @@ from .model import MILESTONE_AAN06, NormalizeAssetRequest
 from .package_layout import TargetPackageLayout
 
 
+MATERIAL_VIEW_SPECS = (
+    {"view_id": "front", "elevation": 20.0, "azimuth": 0.0},
+    {"view_id": "orbit_3q", "elevation": 35.0, "azimuth": 45.0},
+    {"view_id": "side", "elevation": 25.0, "azimuth": 90.0},
+)
+
+
 @dataclass(frozen=True)
 class RuntimeSmokeResult:
     overall_status: str
@@ -56,6 +63,7 @@ def build_runtime_smoke(
     evidence_dir.mkdir(parents=True, exist_ok=True)
     report_path = evidence_dir / "report.json"
     render_path = evidence_dir / "render.png"
+    material_view_dir = evidence_dir / "material_views"
     stdout_path = evidence_dir / "stdout.log"
     stderr_path = evidence_dir / "stderr.log"
     wrapper = repo_root / "scripts" / "isaac_python.sh"
@@ -70,6 +78,8 @@ def build_runtime_smoke(
         str(report_path),
         "--render-out",
         str(render_path),
+        "--material-view-dir",
+        str(material_view_dir),
         "--asset-id",
         request.asset_id,
         "--width",
@@ -100,6 +110,7 @@ def build_runtime_smoke(
         "stderr_path": _package_relative(layout.root, stderr_path),
         "report_path": _package_relative(layout.root, report_path),
         "render_path": _package_relative(layout.root, render_path),
+        "material_view_dir": _package_relative(layout.root, material_view_dir),
     }
 
     try:
@@ -214,6 +225,7 @@ def _worker_report(args: argparse.Namespace) -> dict[str, Any]:
         "required_prims": required_prims,
         "cold_load": {"status": "not_run"},
         "render_readback": {"status": "not_run"},
+        "material_view_evidence": [],
         "physics_step": {"status": "not_run"},
         "reset": {"status": "not_run"},
         "environment": {},
@@ -356,6 +368,20 @@ def _worker_report(args: argparse.Namespace) -> dict[str, Any]:
             "bbox_source": bbox_source,
             "path": str(render_path),
         }
+        report["material_view_evidence"] = _capture_material_view_evidence(
+            camera=camera,
+            world=world,
+            center=center,
+            distance=distance,
+            args=args,
+            target_prim_path=target_prim.GetPath().pathString,
+            bbox_source=bbox_source,
+            background_color=DEFAULT_BACKGROUND_COLOR,
+            set_camera_look_at=_set_camera_look_at,
+            camera_rgba=_camera_rgba,
+            rgba_to_rgb=_rgba_to_rgb,
+            save_rgb_png=_save_rgb_png,
+        )
 
         before = _world_transforms(stage, required_prims)
         for _ in range(max(1, int(args.step_frames))):
@@ -472,15 +498,101 @@ def _render_metrics(rgb: Any, render_path: Path, background_color: tuple[int, in
     height, width = arr.shape[:2]
     if xs.size and ys.size:
         bbox_ratio = float((xs.max() - xs.min() + 1) * (ys.max() - ys.min() + 1)) / float(width * height)
+        foreground = arr[mask][:, :3]
     else:
         bbox_ratio = 0.0
+        foreground = arr.reshape(-1, arr.shape[-1])[:, :3]
     return {
         "mean_rgb": [round(float(item), 6) for item in arr[:, :, :3].mean(axis=(0, 1)).tolist()],
+        "foreground_rgb": [
+            round(float(item), 6) for item in foreground.mean(axis=0).tolist()
+        ],
         "non_background_ratio": round(float(mask.mean()), 8),
         "bbox_ratio": round(bbox_ratio, 8),
         "sha256": _sha256_file(render_path),
         "bytes": render_path.stat().st_size,
         "resolution": [int(width), int(height)],
+    }
+
+
+def _capture_material_view_evidence(
+    *,
+    camera: Any,
+    world: Any,
+    center: Any,
+    distance: float,
+    args: argparse.Namespace,
+    target_prim_path: str,
+    bbox_source: str,
+    background_color: tuple[int, int, int],
+    set_camera_look_at: Any,
+    camera_rgba: Any,
+    rgba_to_rgb: Any,
+    save_rgb_png: Any,
+) -> list[dict[str, Any]]:
+    view_dir = Path(args.material_view_dir).resolve()
+    records: list[dict[str, Any]] = []
+    for spec in MATERIAL_VIEW_SPECS:
+        view_id = str(spec["view_id"])
+        elevation = float(spec["elevation"])
+        azimuth = float(spec["azimuth"])
+        path = view_dir / f"{view_id}.png"
+        camera_pose = _camera_pose(center, distance=distance, elevation=elevation, azimuth=azimuth)
+        set_camera_look_at(camera, center, distance=distance, elevation=elevation, azimuth=azimuth)
+        for _ in range(max(1, int(args.render_steps))):
+            world.step(render=True)
+        rgba = _wait_for_camera_rgba(
+            camera=camera,
+            world=world,
+            camera_rgba=camera_rgba,
+            max_attempts=20,
+        )
+        rgb = rgba_to_rgb(rgba, background_color=background_color) if rgba is not None else None
+        if rgb is None:
+            continue
+        if not save_rgb_png(path, rgb):
+            continue
+        metrics = _render_metrics(rgb, path, background_color)
+        records.append(
+            {
+                "view_id": view_id,
+                "camera_pose": camera_pose,
+                "target_prim": target_prim_path,
+                "render_hash": metrics["sha256"],
+                "mean_rgb": metrics["mean_rgb"],
+                "foreground_rgb": metrics["foreground_rgb"],
+                "non_background_ratio": metrics["non_background_ratio"],
+                "bbox_ratio": metrics["bbox_ratio"],
+                "render_path": str(path),
+                "bbox_source": bbox_source,
+                "bytes": metrics["bytes"],
+                "resolution": metrics["resolution"],
+            }
+        )
+    return records
+
+
+def _camera_pose(center: Any, *, distance: float, elevation: float, azimuth: float) -> dict[str, Any]:
+    import numpy as np  # type: ignore
+
+    elev_rad = math.radians(float(elevation))
+    azim_rad = math.radians(float(azimuth))
+    target = np.asarray(center, dtype=float)
+    offset = np.array(
+        [
+            float(distance) * math.cos(elev_rad) * math.cos(azim_rad),
+            float(distance) * math.cos(elev_rad) * math.sin(azim_rad),
+            float(distance) * math.sin(elev_rad),
+        ],
+        dtype=float,
+    )
+    position = target + offset
+    return {
+        "position": [round(float(item), 8) for item in position.tolist()],
+        "look_at": [round(float(item), 8) for item in target.tolist()],
+        "distance": round(float(distance), 8),
+        "elevation": round(float(elevation), 8),
+        "azimuth": round(float(azimuth), 8),
     }
 
 
@@ -581,6 +693,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--root-usd", required=True)
     parser.add_argument("--report-out", required=True)
     parser.add_argument("--render-out", required=True)
+    parser.add_argument("--material-view-dir", required=True)
     parser.add_argument("--asset-id", required=True)
     parser.add_argument("--required-prim", action="append", default=[])
     parser.add_argument("--width", type=int, default=160)

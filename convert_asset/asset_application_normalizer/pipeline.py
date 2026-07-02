@@ -7,6 +7,13 @@ from pathlib import Path
 from .benchmark_contract import build_benchmark_contract, build_not_run_benchmark_contract
 from .evidence_manifest import build_manifest, write_manifest
 from .material_closure import build_material_closure, build_not_run_material_closure
+from .mdl_runtime_closure import (
+    build_material_runtime_closure,
+    build_not_run_material_runtime_closure,
+    merge_material_view_evidence_result,
+    merge_runtime_compiler_result,
+    runtime_compiler_report_from_evidence,
+)
 from .model import (
     ALLOWED_SOURCE_RUNTIMES,
     ALLOWED_TARGET_BENCHMARKS,
@@ -14,6 +21,7 @@ from .model import (
     MILESTONE_AAN05,
     MILESTONE_AAN06,
     MILESTONE_AAN07,
+    MILESTONE_AAN11,
     USD_EXTENSIONS,
     NormalizeAssetRequest,
     NormalizeAssetResult,
@@ -68,17 +76,44 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         )
 
     if material.return_code == 0 and material.stage_gate["status"] == "pass":
+        layout = TargetPackageLayout(request.out_dir)
+        material_runtime = build_material_runtime_closure(
+            layout.root,
+            material.material_closure,
+            required_prims=request.required_prims,
+        )
+    else:
+        material_runtime = build_not_run_material_runtime_closure(
+            "AAN-11 material runtime closure was not run because AAN-04 material closure blocked."
+        )
+
+    if (
+        material_runtime.return_code == 0
+        and material_runtime.stage_gate["status"] == "pass"
+    ):
         physics = build_physics_checks(TargetPackageLayout(request.out_dir), request)
     else:
         physics = build_not_run_physics_checks(
-            "AAN-05 physics static checks were not run because an earlier package or material gate blocked."
+            "AAN-05 physics static checks were not run because an earlier package or material runtime gate blocked."
         )
 
     requested_gates = set(request.gates)
     runtime_requested = "runtime" in requested_gates
     benchmark_requested = "benchmark" in requested_gates
     if runtime_requested and physics.return_code == 0 and physics.stage_gate["status"] == "pass":
-        runtime = build_runtime_smoke(TargetPackageLayout(request.out_dir), request)
+        layout = TargetPackageLayout(request.out_dir)
+        runtime = build_runtime_smoke(layout, request)
+        if runtime.return_code == 0 and runtime.stage_gate["status"] == "pass":
+            material_runtime = merge_runtime_compiler_result(
+                material_runtime,
+                runtime_compiler_report_from_evidence(layout.root, runtime.runtime_evidence),
+            )
+            material_view_evidence = runtime.runtime_evidence.get("material_view_evidence", [])
+            if material_view_evidence:
+                material_runtime = merge_material_view_evidence_result(
+                    material_runtime,
+                    material_view_evidence,
+                )
     elif runtime_requested:
         runtime = build_not_run_runtime_smoke(
             "AAN-06 runtime smoke was not run because an earlier static gate blocked."
@@ -92,6 +127,8 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         benchmark_requested
         and physics.return_code == 0
         and physics.stage_gate["status"] == "pass"
+        and material_runtime.return_code == 0
+        and material_runtime.stage_gate["status"] == "pass"
         and (not runtime_requested or (runtime.return_code == 0 and runtime.stage_gate["status"] == "pass"))
     ):
         benchmark = build_benchmark_contract(TargetPackageLayout(request.out_dir), request)
@@ -107,6 +144,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
     return_code = (
         closure.return_code
         or material.return_code
+        or material_runtime.return_code
         or physics.return_code
         or runtime.return_code
         or benchmark.return_code
@@ -117,6 +155,8 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         overall_status = runtime.overall_status
     elif physics.return_code:
         overall_status = physics.overall_status
+    elif material_runtime.return_code:
+        overall_status = material_runtime.overall_status
     elif material.return_code:
         overall_status = material.overall_status
     elif closure.return_code:
@@ -131,16 +171,23 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
     blocked_reasons = [
         *closure.blocked_reasons,
         *material.blocked_reasons,
+        *material_runtime.blocked_reasons,
         *physics.blocked_reasons,
         *runtime.blocked_reasons,
         *benchmark.blocked_reasons,
     ]
-    stage_gates = [*closure.stage_gates, material.stage_gate, physics.stage_gate]
+    stage_gates = [
+        *closure.stage_gates,
+        material.stage_gate,
+        material_runtime.stage_gate,
+        physics.stage_gate,
+    ]
     if runtime_requested:
         stage_gates.append(runtime.stage_gate)
     if benchmark_requested:
         stage_gates.append(benchmark.stage_gate)
     material_passed = material.stage_gate["status"] == "pass"
+    material_runtime_passed = material_runtime.stage_gate["status"] == "pass"
     physics_passed = physics.stage_gate["status"] == "pass"
     runtime_passed = runtime.stage_gate["status"] == "pass"
     benchmark_passed = benchmark.stage_gate["status"] == "pass"
@@ -151,15 +198,23 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         milestone=(
             MILESTONE_AAN07
             if benchmark_requested
-            else MILESTONE_AAN06 if runtime_requested else MILESTONE_AAN05
+            and material_runtime.return_code == 0
+            and material_runtime.stage_gate["status"] == "pass"
+            else MILESTONE_AAN06
+            if runtime_requested and material_runtime.return_code == 0
+            else MILESTONE_AAN11
+            if material_runtime.return_code
+            else MILESTONE_AAN05
         ),
         root_usd=closure.root_usd_package_path,
         dependency_closure=closure.dependency_closure,
         material_closure=material.material_closure,
+        material_runtime_closure=material_runtime.material_runtime_closure,
         physics_closure=physics.physics_closure,
         articulation_closure=physics.articulation_closure,
         static_usd_report=closure.static_usd_report,
         static_material_report=material.static_material_report,
+        static_material_runtime_report=material_runtime.static_material_runtime_report,
         static_physics_report=physics.static_physics_report,
         static_articulation_report=physics.static_articulation_report,
         stage_gates=stage_gates,
@@ -176,6 +231,14 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
                     "Source MDL and texture assets are preserved when listed with package hashes.",
                 ]
                 if material_passed
+                else []
+            ),
+            *(
+                [
+                    "AAN-11 material runtime dependency closure passed for package-local MDL roots.",
+                    "Required MDL helper modules and MDL-internal texture literals are classified with package evidence.",
+                ]
+                if material_runtime_passed
                 else []
             ),
             *(
@@ -205,6 +268,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         ],
         claims_forbidden=[
             *([] if material_passed else ["Material closure is complete."]),
+            *([] if material_runtime_passed else ["Material runtime closure is complete."]),
             *([] if physics_passed else ["Physics or articulation closure is complete."]),
             *([] if runtime_passed else ["Isaac runtime smoke passed."]),
             *([] if benchmark_passed else ["EBench task readiness is achieved."]),
@@ -225,6 +289,8 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         print(f"AAN-05 physics static checks not run; AAN-03 blocked: {evidence_out}")
     elif material.return_code != 0:
         print(f"AAN-05 physics static checks not run; AAN-04 blocked: {evidence_out}")
+    elif material_runtime.return_code != 0:
+        print(f"AAN-05 physics static checks not run; AAN-11 blocked: {evidence_out}")
     elif physics.return_code != 0 and runtime_requested:
         print(f"AAN-06 runtime smoke not run; AAN-05 blocked: {evidence_out}")
     elif physics.return_code != 0:

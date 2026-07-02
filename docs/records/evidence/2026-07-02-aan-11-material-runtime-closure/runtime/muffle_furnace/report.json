@@ -1,0 +1,199 @@
+{
+  "status": "pass",
+  "runtime_profile": "isaac41",
+  "asset_id": "MuffleFurnace",
+  "root_usd": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+  "required_prims": [
+    "/group_002",
+    "/group_002/Group",
+    "/group_002/Group/mesh_000",
+    "/group_002/Group/RevoluteJoint"
+  ],
+  "cold_load": {
+    "status": "pass",
+    "opened": true,
+    "required_prims": [
+      {
+        "path": "/group_002",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group/mesh_000",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group/RevoluteJoint",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "default_prim": "/group_002"
+  },
+  "render_readback": {
+    "mean_rgb": [
+      99.400093,
+      103.955128,
+      108.261993
+    ],
+    "foreground_rgb": [
+      186.81183,
+      198.077282,
+      208.719329
+    ],
+    "non_background_ratio": 0.40456009,
+    "bbox_ratio": 0.60273743,
+    "sha256": "9d86ffbc8583d49fe13a3f359076326ab4f3cc65a3c1f12ebd9cd8dda96068f0",
+    "bytes": 108134,
+    "resolution": [
+      512,
+      512
+    ],
+    "status": "pass",
+    "bbox_source": "authored",
+    "path": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/evidence/runtime_smoke/render.png"
+  },
+  "material_view_evidence": [
+    {
+      "view_id": "front",
+      "camera_pose": {
+        "position": [
+          562.97313243,
+          0.0038053,
+          415.23071752
+        ],
+        "look_at": [
+          0.49369785,
+          0.0038053,
+          210.50494595
+        ],
+        "distance": 598.57811175,
+        "elevation": 20.0,
+        "azimuth": 0.0
+      },
+      "target_prim": "/group_002",
+      "render_hash": "2d0329a2a5568a1b94a3bac3f0d7f081fc84ca4b4c72f531b0c6119a2c97dcd3",
+      "mean_rgb": [
+        83.062916,
+        88.537457,
+        94.576923
+      ],
+      "foreground_rgb": [
+        150.583624,
+        164.676192,
+        180.141826
+      ],
+      "non_background_ratio": 0.38938904,
+      "bbox_ratio": 0.44855118,
+      "render_path": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/evidence/runtime_smoke/material_views/front.png",
+      "bbox_source": "authored",
+      "bytes": 107462,
+      "resolution": [
+        512,
+        512
+      ]
+    },
+    {
+      "view_id": "orbit_3q",
+      "camera_pose": {
+        "position": [
+          347.20687962,
+          346.71698707,
+          553.83524617
+        ],
+        "look_at": [
+          0.49369785,
+          0.0038053,
+          210.50494595
+        ],
+        "distance": 598.57811175,
+        "elevation": 35.0,
+        "azimuth": 45.0
+      },
+      "target_prim": "/group_002",
+      "render_hash": "37b6cb702422c0c5f2accf7c7c39b53c6d3fb44e6bfb922b8bba3fc39ca4a7d4",
+      "mean_rgb": [
+        99.521328,
+        104.091152,
+        108.394859
+      ],
+      "foreground_rgb": [
+        186.991464,
+        198.281814,
+        208.907792
+      ],
+      "non_background_ratio": 0.40489578,
+      "bbox_ratio": 0.60417938,
+      "render_path": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/evidence/runtime_smoke/material_views/orbit_3q.png",
+      "bbox_source": "authored",
+      "bytes": 105289,
+      "resolution": [
+        512,
+        512
+      ]
+    },
+    {
+      "view_id": "side",
+      "camera_pose": {
+        "position": [
+          0.49369785,
+          542.49980913,
+          463.47498705
+        ],
+        "look_at": [
+          0.49369785,
+          0.0038053,
+          210.50494595
+        ],
+        "distance": 598.57811175,
+        "elevation": 25.0,
+        "azimuth": 90.0
+      },
+      "target_prim": "/group_002",
+      "render_hash": "b607cb44b167db12a4d2e00378945089973d83ded4b88b4e386049b4ba5baf7b",
+      "mean_rgb": [
+        107.944969,
+        109.350338,
+        110.180264
+      ],
+      "foreground_rgb": [
+        223.598215,
+        227.395961,
+        229.638676
+      ],
+      "non_background_ratio": 0.37005234,
+      "bbox_ratio": 0.44107056,
+      "render_path": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/evidence/runtime_smoke/material_views/side.png",
+      "bbox_source": "authored",
+      "bytes": 54581,
+      "resolution": [
+        512,
+        512
+      ]
+    }
+  ],
+  "physics_step": {
+    "status": "pass",
+    "frames": 4,
+    "finite_transforms": true,
+    "max_abs_delta": 0.0
+  },
+  "reset": {
+    "status": "pass",
+    "finite_transforms": true,
+    "max_abs_delta_from_initial": 0.0
+  },
+  "environment": {
+    "python_executable": "/isaac-sim/kit/python/bin/python3",
+    "python_version": "3.10.15",
+    "headless": true,
+    "isaacsim_file": "/isaac-sim/python_packages/isaacsim/__init__.py",
+    "pxr_version": "\nTf -- Tools Foundation\n"
+  }
+}

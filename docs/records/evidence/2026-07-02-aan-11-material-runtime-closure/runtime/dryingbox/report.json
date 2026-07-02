@@ -1,0 +1,181 @@
+{
+  "status": "pass",
+  "runtime_profile": "isaac41",
+  "asset_id": "DryingBox_01_overlay",
+  "root_usd": "/tmp/aan11_real_packages_final/dryingbox_runtime/asset.usd",
+  "required_prims": [
+    "/World/labutopia_level1_poc/obj_obj_DryingBox_01"
+  ],
+  "cold_load": {
+    "status": "pass",
+    "opened": true,
+    "required_prims": [
+      {
+        "path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "default_prim": "/World"
+  },
+  "render_readback": {
+    "mean_rgb": [
+      150.065514,
+      150.203064,
+      150.330971
+    ],
+    "foreground_rgb": [
+      184.171062,
+      184.351239,
+      184.518783
+    ],
+    "non_background_ratio": 0.7634201,
+    "bbox_ratio": 0.84765625,
+    "sha256": "1298be02038a1c66e9fbeab95fd43a9e293a3ddd2e521d5b896ef24c2fde51e3",
+    "bytes": 128639,
+    "resolution": [
+      512,
+      512
+    ],
+    "status": "pass",
+    "bbox_source": "authored",
+    "path": "/tmp/aan11_real_packages_final/dryingbox_runtime/evidence/runtime_smoke/render.png"
+  },
+  "material_view_evidence": [
+    {
+      "view_id": "front",
+      "camera_pose": {
+        "position": [
+          1.80616062,
+          0.11991013,
+          1.48166131
+        ],
+        "look_at": [
+          0.74381742,
+          0.11991013,
+          1.095
+        ],
+        "distance": 1.13052202,
+        "elevation": 20.0,
+        "azimuth": 0.0
+      },
+      "target_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+      "render_hash": "1d7fa73cfc27cde018a964431150b29fc86ad90b702c517e55bb921f9e0c7a8d",
+      "mean_rgb": [
+        148.911087,
+        148.932034,
+        148.931576
+      ],
+      "foreground_rgb": [
+        188.115893,
+        188.144209,
+        188.143607
+      ],
+      "non_background_ratio": 0.73530197,
+      "bbox_ratio": 0.77148438,
+      "render_path": "/tmp/aan11_real_packages_final/dryingbox_runtime/evidence/runtime_smoke/material_views/front.png",
+      "bbox_source": "authored",
+      "bytes": 158795,
+      "resolution": [
+        512,
+        512
+      ]
+    },
+    {
+      "view_id": "orbit_3q",
+      "camera_pose": {
+        "position": [
+          1.39864739,
+          0.7747401,
+          1.74344079
+        ],
+        "look_at": [
+          0.74381742,
+          0.11991013,
+          1.095
+        ],
+        "distance": 1.13052202,
+        "elevation": 35.0,
+        "azimuth": 45.0
+      },
+      "target_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+      "render_hash": "e971a8f68adf53596753bfc31d5ce3421b42cf9efb359e3ef9af21b5de2082d5",
+      "mean_rgb": [
+        149.916344,
+        150.062721,
+        150.197517
+      ],
+      "foreground_rgb": [
+        183.953521,
+        184.145231,
+        184.321772
+      ],
+      "non_background_ratio": 0.76353836,
+      "bbox_ratio": 0.84765625,
+      "render_path": "/tmp/aan11_real_packages_final/dryingbox_runtime/evidence/runtime_smoke/material_views/orbit_3q.png",
+      "bbox_source": "authored",
+      "bytes": 165535,
+      "resolution": [
+        512,
+        512
+      ]
+    },
+    {
+      "view_id": "side",
+      "camera_pose": {
+        "position": [
+          0.74381742,
+          1.14451104,
+          1.57277925
+        ],
+        "look_at": [
+          0.74381742,
+          0.11991013,
+          1.095
+        ],
+        "distance": 1.13052202,
+        "elevation": 25.0,
+        "azimuth": 90.0
+      },
+      "target_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+      "render_hash": "1cc9dce56b3a4b0c8da4214964f5b1b208150de06bf6aee69ab0cd2f646fb621",
+      "mean_rgb": [
+        136.070343,
+        137.293922,
+        137.555256
+      ],
+      "foreground_rgb": [
+        180.983049,
+        182.778682,
+        183.162196
+      ],
+      "non_background_ratio": 0.68141937,
+      "bbox_ratio": 0.79882812,
+      "render_path": "/tmp/aan11_real_packages_final/dryingbox_runtime/evidence/runtime_smoke/material_views/side.png",
+      "bbox_source": "authored",
+      "bytes": 151203,
+      "resolution": [
+        512,
+        512
+      ]
+    }
+  ],
+  "physics_step": {
+    "status": "pass",
+    "frames": 4,
+    "finite_transforms": true,
+    "max_abs_delta": 0.0
+  },
+  "reset": {
+    "status": "pass",
+    "finite_transforms": true,
+    "max_abs_delta_from_initial": 0.0
+  },
+  "environment": {
+    "python_executable": "/isaac-sim/kit/python/bin/python3",
+    "python_version": "3.10.15",
+    "headless": true,
+    "isaacsim_file": "/isaac-sim/python_packages/isaacsim/__init__.py",
+    "pxr_version": "\nTf -- Tools Foundation\n"
+  }
+}

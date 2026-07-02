@@ -15,6 +15,7 @@ from .model import (
     MILESTONE_AAN05,
     MILESTONE_AAN06,
     MILESTONE_AAN07,
+    MILESTONE_AAN11,
     SCHEMA_VERSION,
     TOOL_VERSION,
     NormalizeAssetRequest,
@@ -50,10 +51,12 @@ def build_manifest(
     root_usd: str = "asset.usd",
     dependency_closure: dict[str, Any] | None = None,
     material_closure: list[dict[str, Any]] | None = None,
+    material_runtime_closure: dict[str, Any] | None = None,
     physics_closure: dict[str, Any] | None = None,
     articulation_closure: dict[str, Any] | None = None,
     static_usd_report: dict[str, Any] | None = None,
     static_material_report: dict[str, Any] | None = None,
+    static_material_runtime_report: dict[str, Any] | None = None,
     static_physics_report: dict[str, Any] | None = None,
     static_articulation_report: dict[str, Any] | None = None,
     stage_gates: list[dict[str, Any]] | None = None,
@@ -75,6 +78,7 @@ def build_manifest(
         MILESTONE_AAN05: "physics_static",
         MILESTONE_AAN06: "runtime_smoke",
         MILESTONE_AAN07: "benchmark_contract",
+        MILESTONE_AAN11: "material_runtime_closure",
     }
     command_stage = command_stage_by_milestone.get(milestone, "unknown")
 
@@ -122,6 +126,20 @@ def build_manifest(
             },
         },
         "material_closure": material_closure or [],
+        "material_runtime_closure": material_runtime_closure
+        or {
+            "status": "not_run",
+            "claim_level": "not_claimed",
+            "full_material_parity_claimed": False,
+            "root_mdl_assets": [],
+            "imported_mdl_modules": [],
+            "mdl_texture_assets": [],
+            "native_runtime_modules": [],
+            "mirror_actions": [],
+            "rewrite_actions": [],
+            "runtime_compiler": {"status": "not_run"},
+            "view_evidence": [],
+        },
         "physics_closure": physics_closure or {},
         "articulation_closure": articulation_closure or {},
         "stage_gates": stage_gates or [
@@ -168,6 +186,8 @@ def build_manifest(
         manifest["static_usd_report"] = static_usd_report
     if static_material_report is not None:
         manifest["static_material_report"] = static_material_report
+    if static_material_runtime_report is not None:
+        manifest["static_material_runtime_report"] = static_material_runtime_report
     if static_physics_report is not None:
         manifest["static_physics_report"] = static_physics_report
     if static_articulation_report is not None:

@@ -13,6 +13,14 @@ MVP. The completed scope is not "arbitrary USD conversion". The completed scope 
 - Downstream projects should consume the package/manifest/task files, not reimplement
   USD, MDL, texture, physics, or articulation repair logic.
 
+2026-07-02 update: Phase 1 remains closed as a bounded package/runtime/benchmark
+handoff. A new follow-up is opened as `AAN-11 Material Runtime Closure` to close
+runtime material compiler gaps, especially MDL transitive helper modules, MDL-internal
+textures, binding scope, and front/door-facing or transparent-object render evidence.
+This follow-up does not reopen `AAN-04` or `AAN-06`; it tightens the material runtime
+claim after the retained packages showed that AAN-06 smoke can pass while material
+stderr still contains MDLC warnings/errors.
+
 ## Completed Milestones
 
 | Milestone | Result | Retained evidence |
@@ -36,9 +44,9 @@ Current PM table:
 
 | Asset | Status | Notes |
 |---|---|---|
-| `DryingBox_01_overlay` | `ready` | First acceptance asset; USD/material/physics/runtime/benchmark gates pass |
-| `MuffleFurnace` | `ready` | Non-DryingBox articulated asset; runtime and benchmark gates pass |
-| `Beaker_01` | `ready` | Transparent rigid beaker; material mirror and render readback evidence pass |
+| `DryingBox_01_overlay` | `ready` | First acceptance asset; USD/source-material/physics/runtime/benchmark gates pass; material runtime compiler closure is tracked by AAN-11 follow-up |
+| `MuffleFurnace` | `ready` | Non-DryingBox articulated asset; runtime and benchmark gates pass; MDL-internal texture handling is an AAN-11 replication focus |
+| `Beaker_01` | `ready` | Transparent rigid beaker; material mirror and render readback evidence pass; empty MDL texture uniforms must not become false missing-texture blockers in AAN-11 |
 | `RemoteUriBlocked` | `blocked` | Unauthorized remote URI negative case; failure mode `aan03_block_remote_uri` |
 
 Summary:
@@ -82,6 +90,11 @@ Unsafe product wording:
 
 > AAN can convert almost any USD asset to EBench.
 
+Also unsafe:
+
+> AAN-06 render smoke proves full material runtime compiler cleanliness or full
+> material parity.
+
 ## Still Out Of Scope
 
 - Arbitrary USD coverage claims without a batch admission experiment.
@@ -94,13 +107,17 @@ Unsafe product wording:
 
 ## Recommended Next Work
 
-1. `AAN-11 Batch Admission`: run 20-50 LabUtopia USD assets through the public CLI and
+1. `AAN-11 Material Runtime Closure`: close MDL transitive dependencies, MDL-internal
+   textures, material binding scope, runtime compiler log parsing, and multi-view
+   material evidence without reopening Phase 1. DryingBox is first acceptance;
+   MuffleFurnace and Beaker_01 are replication checks.
+2. `AAN-12 Batch Admission`: run 20-50 LabUtopia USD assets through the public CLI and
    report ready / blocked / waiver proportions.
-2. `AAN-12 Consumer SDK`: add a thin manifest/task-file reader if downstream projects
+3. `AAN-13 Consumer SDK`: add a thin manifest/task-file reader if downstream projects
    need a Python API instead of shelling out to CLI outputs.
-3. `EBench-02 Runtime Episode`: let EBench consume the retained ready packages in its
+4. `EBench-02 Runtime Episode`: let EBench consume the retained ready packages in its
    own runtime / EpisodeTrace path, still respecting AAN claim boundaries.
-4. `AAN-13 Profile Split`: only after batch admission, split source adapters and target
+5. `AAN-14 Profile Split`: only after batch admission, split source adapters and target
    profiles if the flat MVP modules become a bottleneck.
 
 ## Verification
@@ -119,4 +136,5 @@ Evidence audit expectations:
 DryingBox runtime-ready manifest: all AAN-03/04/05/06/07 gates pass
 PM evidence table status_counts: {"blocked": 1, "ready": 3}
 MJCF scout manifest: overall_status=semantic_gap_report_only
+AAN-11 follow-up: Phase 1 ready means package/runtime/benchmark ready, not full material runtime parity
 ```

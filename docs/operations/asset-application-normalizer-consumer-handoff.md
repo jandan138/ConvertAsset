@@ -134,6 +134,7 @@ Required top-level fields for consumers:
 | `required_prim_paths` | Required prim records for the package |
 | `dependency_closure` | Missing, remote, mirrored, blocked, waived dependency state |
 | `material_closure` | Source material preservation, MDL/texture mirror, fallback/waiver/block state |
+| `material_runtime_closure` | AAN-11 MDL transitive dependency, binding scope, runtime material compiler, and view evidence when the profile requires material runtime closure |
 | `physics_closure` | Rigid body, collision, mass, inertia, and provenance records |
 | `articulation_closure` | Articulation root, joint type/axis/limit/DOF records |
 | `stage_gates` | Per-stage pass/block/not-run evidence |
@@ -164,9 +165,56 @@ A downstream adapter may treat a package as AAN-ready only when all checks below
 11. No required dependency is unresolved, unauthorized, or package-escaping.
 12. Any waiver is explicitly accepted by the consuming project and its
     `claims_forbidden` entries remain enforced.
+13. If the target profile or handoff explicitly requires `AAN-11`, then
+    `material_runtime_closure.status == "pass"`, required-material MDLC/module/texture/
+    shader-node error counts are zero, and `full_material_parity_claimed` remains
+    `false` unless a separate parity experiment exists.
 
 If any required check fails, the consumer should produce a structured blocker instead
 of applying local USD/MDL/physics fixes.
+
+## AAN-11 Material Runtime Closure
+
+`AAN-11 Material Runtime Closure` is a post-closeout follow-up. It does not reopen
+the Phase 1 AAN handoff, but a consumer profile may require it for assets whose
+material appearance matters or whose retained runtime logs show MDLC/shader/texture
+errors.
+
+When present, consumers should read `material_runtime_closure` as the material runtime
+handoff surface:
+
+| Field | Consumer meaning |
+|---|---|
+| `status` | `pass` means required target materials have closed runtime dependency evidence |
+| `claim_level` | Scope of the material runtime claim, usually required surfaces only |
+| `full_material_parity_claimed` | Must stay `false` unless a separate source-vs-target parity experiment was run |
+| `root_mdl_assets` | Source/package MDL files that seeded the runtime dependency graph |
+| `imported_mdl_modules` | Helper MDL modules mirrored or resolved through approved runtime-root evidence, including runtime path/hash when native |
+| `mdl_texture_assets` | MDL-internal texture files mirrored with package path and hash |
+| `mirror_actions` | Source-to-package helper MDL or MDL-internal texture copies performed by AAN |
+| `rewrite_actions` | Any MDL text rewrite, including before/after hash and rule |
+| `binding_scope` | Required prim to effective material binding graph; `unknown_required_prims` blocks required render surfaces, while `non_render_required_prims` records existing joint/helper prims that do not need material binding |
+| `runtime_compiler` | MDLC, USD_MDL, failed shader node, and missing texture counters grouped by required/background scope |
+| `view_evidence` | Front/door-facing/orbit/transparent render artifacts and material visibility metrics |
+
+Consumer hard blockers when AAN-11 is required:
+
+- required material helper MDL or MDL-internal texture is unresolved;
+- runtime compiler log contains MDLC/module/texture/shader-node errors for a required
+  material;
+- package USD/MDL text still references `/cpfs/...`, `omniverse://`, `http(s)://`,
+  unauthorized absolute paths, or package escapes;
+- required render prim material binding cannot be traced to the material that was
+  checked;
+- the adapter would need to hand-edit USD, MDL, texture paths, or material bindings.
+
+`non_render_required_prims` is not itself a material blocker. It exists so articulated
+tasks can keep joint/helper paths in `required_prims.yaml` while AAN-11 still checks
+materials only on renderable target surfaces.
+
+Allowed warnings must stay scoped: background-only material warnings, renderer
+deprecation warnings, or explicit PreviewSurface fallback are acceptable only when
+`claims_forbidden` preserves the no-full-material-parity boundary.
 
 ## Task File Contract
 
@@ -254,6 +302,7 @@ Forbidden downstream claims unless separately proven:
 - AutoBio official reproduction is supported;
 - official EBench leaderboard comparability is achieved;
 - full visual material parity is achieved;
+- AAN-06 render smoke alone proves material runtime compiler cleanliness;
 - physical parameter parity with the source asset is achieved;
 - runtime smoke is an EBench score.
 

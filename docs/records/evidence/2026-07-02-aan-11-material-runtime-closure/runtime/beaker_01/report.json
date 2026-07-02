@@ -1,0 +1,187 @@
+{
+  "status": "pass",
+  "runtime_profile": "isaac41",
+  "asset_id": "Beaker_01",
+  "root_usd": "/tmp/aan11_real_packages_final/beaker_01_runtime/asset.usd",
+  "required_prims": [
+    "/group_000",
+    "/group_000/mesh_000"
+  ],
+  "cold_load": {
+    "status": "pass",
+    "opened": true,
+    "required_prims": [
+      {
+        "path": "/group_000",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_000/mesh_000",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "default_prim": "/group_000"
+  },
+  "render_readback": {
+    "mean_rgb": [
+      78.363674,
+      78.440876,
+      78.302925
+    ],
+    "foreground_rgb": [
+      165.279371,
+      165.529975,
+      165.07885
+    ],
+    "non_background_ratio": 0.30619049,
+    "bbox_ratio": 0.41808701,
+    "sha256": "6f55cd79e1ec19dccbdcbe041bd9dedfe6382eaddd5c541d520c86b9b48a010f",
+    "bytes": 108682,
+    "resolution": [
+      512,
+      512
+    ],
+    "status": "pass",
+    "bbox_source": "authored",
+    "path": "/tmp/aan11_real_packages_final/beaker_01_runtime/evidence/runtime_smoke/render.png"
+  },
+  "material_view_evidence": [
+    {
+      "view_id": "front",
+      "camera_pose": {
+        "position": [
+          10.74658352,
+          -1.4e-07,
+          7.52622876
+        ],
+        "look_at": [
+          0.0006279,
+          -1.4e-07,
+          3.61502078
+        ],
+        "distance": 11.43560712,
+        "elevation": 20.0,
+        "azimuth": 0.0
+      },
+      "target_prim": "/group_000",
+      "render_hash": "33d7fbd4fc539b4ae2a0be24db832827e7c37e2de988183a154b597cd39ef646",
+      "mean_rgb": [
+        79.867115,
+        80.975792,
+        81.927727
+      ],
+      "foreground_rgb": [
+        175.43621,
+        179.185779,
+        182.414802
+      ],
+      "non_background_ratio": 0.29436874,
+      "bbox_ratio": 0.38160324,
+      "render_path": "/tmp/aan11_real_packages_final/beaker_01_runtime/evidence/runtime_smoke/material_views/front.png",
+      "bbox_source": "authored",
+      "bytes": 112188,
+      "resolution": [
+        512,
+        512
+      ]
+    },
+    {
+      "view_id": "orbit_3q",
+      "camera_pose": {
+        "position": [
+          6.62445134,
+          6.6238233,
+          10.17421556
+        ],
+        "look_at": [
+          0.0006279,
+          -1.4e-07,
+          3.61502078
+        ],
+        "distance": 11.43560712,
+        "elevation": 35.0,
+        "azimuth": 45.0
+      },
+      "target_prim": "/group_000",
+      "render_hash": "f24f1501cc5a89a0261a68bc5c4fa349631363fac7eae71986243250ce32eaca",
+      "mean_rgb": [
+        74.735191,
+        74.825359,
+        74.72208
+      ],
+      "foreground_rgb": [
+        159.298956,
+        159.607188,
+        159.251549
+      ],
+      "non_background_ratio": 0.29113388,
+      "bbox_ratio": 0.39653778,
+      "render_path": "/tmp/aan11_real_packages_final/beaker_01_runtime/evidence/runtime_smoke/material_views/orbit_3q.png",
+      "bbox_source": "authored",
+      "bytes": 106608,
+      "resolution": [
+        512,
+        512
+      ]
+    },
+    {
+      "view_id": "side",
+      "camera_pose": {
+        "position": [
+          0.0006279,
+          10.36417964,
+          8.44791718
+        ],
+        "look_at": [
+          0.0006279,
+          -1.4e-07,
+          3.61502078
+        ],
+        "distance": 11.43560712,
+        "elevation": 25.0,
+        "azimuth": 90.0
+      },
+      "target_prim": "/group_000",
+      "render_hash": "95766db7f3e8ec1380e99633b0ddd41753181cda59739dcb03bdcbadea512915",
+      "mean_rgb": [
+        77.073105,
+        77.773129,
+        77.476997
+      ],
+      "foreground_rgb": [
+        173.027338,
+        175.53944,
+        174.4767
+      ],
+      "non_background_ratio": 0.27865601,
+      "bbox_ratio": 0.38599014,
+      "render_path": "/tmp/aan11_real_packages_final/beaker_01_runtime/evidence/runtime_smoke/material_views/side.png",
+      "bbox_source": "authored",
+      "bytes": 115476,
+      "resolution": [
+        512,
+        512
+      ]
+    }
+  ],
+  "physics_step": {
+    "status": "pass",
+    "frames": 4,
+    "finite_transforms": true,
+    "max_abs_delta": 0.2060101
+  },
+  "reset": {
+    "status": "pass",
+    "finite_transforms": true,
+    "max_abs_delta_from_initial": 1.24488878
+  },
+  "environment": {
+    "python_executable": "/isaac-sim/kit/python/bin/python3",
+    "python_version": "3.10.15",
+    "headless": true,
+    "isaacsim_file": "/isaac-sim/python_packages/isaacsim/__init__.py",
+    "pxr_version": "\nTf -- Tools Foundation\n"
+  }
+}

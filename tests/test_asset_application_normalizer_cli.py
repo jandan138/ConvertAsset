@@ -81,6 +81,7 @@ def test_normalize_asset_dry_run_writes_manifest_without_package_contents(
         }
     ]
     assert manifest["stage_gates"][0]["check_id"] == "AAN-02-cli-skeleton"
+    assert manifest["material_runtime_closure"]["mirror_actions"] == []
     assert manifest["runtime_evidence"] == {}
     assert manifest["waivers"] == []
     assert manifest["blocked_reasons"] == []
@@ -284,6 +285,113 @@ def test_normalize_asset_writes_material_closure_for_packaged_mdl_and_texture(
     assert record["extracted_channels"]["baseColor"]["source"] == "constant"
     assert record["transparency_strategy"] == "opacity_input"
     assert record["preview_surface_fallback"]["status"] == "not_generated"
+
+
+def test_normalize_asset_blocks_unresolved_mdl_runtime_helper_before_physics(
+    tmp_path: Path,
+) -> None:
+    source_root = tmp_path / "source"
+    (source_root / "materials").mkdir(parents=True)
+    (source_root / "materials" / "paint.mdl").write_text(
+        "mdl 1.0;\nimport ad_3dsmax_materials::*;\n",
+        encoding="utf-8",
+    )
+    source = source_root / "DryingBox.usda"
+    source.write_text(
+        "#usda 1.0\n"
+        "(\n"
+        "    defaultPrim = \"World\"\n"
+        ")\n"
+        "def Xform \"World\" {\n"
+        "    def Xform \"DryingBox\" {}\n"
+        "}\n"
+        "def Scope \"Looks\" {\n"
+        "    def Material \"Paint\" {\n"
+        "        def Shader \"Shader\" {\n"
+        "            uniform token info:implementationSource = \"sourceAsset\"\n"
+        "            asset info:mdl:sourceAsset = @materials/paint.mdl@\n"
+        "            token outputs:out\n"
+        "        }\n"
+        "    }\n"
+        "}\n",
+        encoding="utf-8",
+    )
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+    args = _base_args(source, out_dir, evidence_out)
+    args.remove("--dry-run")
+
+    code = main(args)
+
+    assert code == 5
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["overall_status"] == "blocked"
+    assert manifest["material_runtime_closure"]["status"] == "blocked"
+    gate_by_id = {gate["check_id"]: gate for gate in manifest["stage_gates"]}
+    assert gate_by_id["AAN-11-material-runtime-closure"]["status"] == "blocked"
+    assert gate_by_id["AAN-05-physics-static"]["status"] == "not_run"
+
+
+def test_normalize_asset_mirrors_mdl_runtime_helper_and_texture_from_source_context(
+    tmp_path: Path,
+) -> None:
+    source_root = tmp_path / "source"
+    (source_root / "materials" / "helpers").mkdir(parents=True)
+    (source_root / "textures").mkdir()
+    (source_root / "materials" / "helpers" / "paint.mdl").write_text(
+        "mdl 1.0;\n",
+        encoding="utf-8",
+    )
+    (source_root / "textures" / "albedo.png").write_bytes(b"png")
+    root_text = (
+        "mdl 1.0;\n"
+        "import .::helpers::paint::*;\n"
+        'export material m(texture_2d tex = texture_2d("../textures/albedo.png")) = material();\n'
+    )
+    (source_root / "materials" / "root.mdl").write_text(root_text, encoding="utf-8")
+    source = source_root / "DryingBox.usda"
+    source.write_text(
+        "#usda 1.0\n"
+        "(\n"
+        "    defaultPrim = \"World\"\n"
+        ")\n"
+        "def Xform \"World\" {\n"
+        "    def Xform \"DryingBox\" {}\n"
+        "}\n"
+        "def Scope \"Looks\" {\n"
+        "    def Material \"Paint\" {\n"
+        "        def Shader \"Shader\" {\n"
+        "            uniform token info:implementationSource = \"sourceAsset\"\n"
+        "            asset info:mdl:sourceAsset = @materials/root.mdl@\n"
+        "            token outputs:out\n"
+        "        }\n"
+        "    }\n"
+        "}\n",
+        encoding="utf-8",
+    )
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+    args = _base_args(source, out_dir, evidence_out)
+    args.remove("--dry-run")
+
+    code = main(args)
+
+    assert code == 0
+    assert (out_dir / "deps" / "mdl" / "helpers" / "paint.mdl").exists()
+    assert (out_dir / "deps" / "textures" / "albedo.png").exists()
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    runtime = manifest["material_runtime_closure"]
+    assert runtime["status"] == "pass"
+    assert runtime["root_mdl_assets"] == [
+        "deps/mdl/helpers/paint.mdl",
+        "deps/mdl/root.mdl",
+    ]
+    assert runtime["imported_mdl_modules"][0]["resolution"] == "mirrored"
+    assert runtime["mdl_texture_assets"][0]["resolution"] == "mirrored"
+    assert [action["action_id"] for action in runtime["mirror_actions"]] == [
+        "aan11_mirror_helper_mdl",
+        "aan11_mirror_mdl_texture",
+    ]
 
 
 def _authored_articulation_usda() -> str:
@@ -652,6 +760,28 @@ def test_normalize_asset_runtime_gate_records_smoke_evidence_when_requested(
                 },
                 "physics_step": {"status": "pass", "frames": 4},
                 "reset": {"status": "pass"},
+                "material_view_evidence": [
+                    {
+                        "view_id": "front",
+                        "camera_pose": {"position": [1, 0, 1], "look_at": [0, 0, 0]},
+                        "target_prim": "/World/DryingBox",
+                        "render_hash": "b" * 64,
+                        "mean_rgb": [11.0, 21.0, 31.0],
+                        "foreground_rgb": [12.0, 22.0, 32.0],
+                        "non_background_ratio": 0.44,
+                        "bbox_ratio": 0.27,
+                    },
+                    {
+                        "view_id": "orbit_3q",
+                        "camera_pose": {"position": [1, 1, 1], "look_at": [0, 0, 0]},
+                        "target_prim": "/World/DryingBox",
+                        "render_hash": "c" * 64,
+                        "mean_rgb": [13.0, 23.0, 33.0],
+                        "foreground_rgb": [14.0, 24.0, 34.0],
+                        "non_background_ratio": 0.45,
+                        "bbox_ratio": 0.28,
+                    },
+                ],
             },
             stage_gate={
                 "check_id": "AAN-06-runtime-smoke",
@@ -685,6 +815,103 @@ def test_normalize_asset_runtime_gate_records_smoke_evidence_when_requested(
     assert manifest["overall_status"] == "pass"
     assert manifest["stage_gates"][-1]["check_id"] == "AAN-06-runtime-smoke"
     assert manifest["runtime_evidence"]["render_readback"]["non_background_ratio"] == 0.42
+    assert manifest["material_runtime_closure"]["view_evidence"] == [
+        {
+            "bbox_ratio": 0.27,
+            "camera_pose": {"position": [1, 0, 1], "look_at": [0, 0, 0]},
+            "foreground_rgb": [12.0, 22.0, 32.0],
+            "mean_rgb": [11.0, 21.0, 31.0],
+            "non_background_ratio": 0.44,
+            "render_hash": "b" * 64,
+            "target_prim": "/World/DryingBox",
+            "view_id": "front",
+        },
+        {
+            "bbox_ratio": 0.28,
+            "camera_pose": {"position": [1, 1, 1], "look_at": [0, 0, 0]},
+            "foreground_rgb": [14.0, 24.0, 34.0],
+            "mean_rgb": [13.0, 23.0, 33.0],
+            "non_background_ratio": 0.45,
+            "render_hash": "c" * 64,
+            "target_prim": "/World/DryingBox",
+            "view_id": "orbit_3q",
+        },
+    ]
+
+
+def test_normalize_asset_runtime_gate_blocks_material_compiler_errors(
+    monkeypatch,
+    tmp_path: Path,
+) -> None:
+    from convert_asset.asset_application_normalizer import pipeline
+
+    source = tmp_path / "DryingBox.usda"
+    source.write_text(_authored_articulation_usda(), encoding="utf-8")
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+
+    def fake_runtime_smoke(layout, *_args, **_kwargs):
+        stderr_path = layout.root / "evidence" / "runtime_smoke" / "stderr.log"
+        stderr_path.parent.mkdir(parents=True, exist_ok=True)
+        stderr_path.write_text(
+            "[Error] [rtx.mdltranslator] MDLC: could not find module .::ad_3dsmax_materials\n",
+            encoding="utf-8",
+        )
+        return SimpleNamespace(
+            overall_status="pass",
+            return_code=0,
+            runtime_evidence={
+                "status": "pass",
+                "cold_load": {"status": "pass"},
+                "render_readback": {
+                    "status": "pass",
+                    "mean_rgb": [10.0, 20.0, 30.0],
+                    "non_background_ratio": 0.42,
+                    "bbox_ratio": 0.25,
+                    "sha256": "a" * 64,
+                },
+                "physics_step": {"status": "pass", "frames": 4},
+                "reset": {"status": "pass"},
+                "stderr_path": "evidence/runtime_smoke/stderr.log",
+            },
+            stage_gate={
+                "check_id": "AAN-06-runtime-smoke",
+                "stage": "runtime_smoke",
+                "status": "pass",
+                "summary": "fake runtime smoke passed",
+            },
+            blocked_reasons=[],
+        )
+
+    monkeypatch.setattr(pipeline, "build_runtime_smoke", fake_runtime_smoke, raising=False)
+    request = NormalizeAssetRequest(
+        source_usd=source,
+        out_dir=out_dir,
+        asset_id="DryingBox",
+        asset_class="articulated",
+        source_runtime="isaac51",
+        target_runtime="isaac41",
+        target_benchmark="ebench-lift2",
+        task_id="Lift2.DryingBox",
+        required_prims=["/World/DryingBox"],
+        gates=["static", "runtime"],
+        evidence_out=evidence_out,
+    )
+
+    result = normalize_asset(request)
+
+    assert result.return_code == 5
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["milestone"] == "AAN-11-material-runtime-closure"
+    assert manifest["overall_status"] == "blocked"
+    assert manifest["material_runtime_closure"]["status"] == "blocked"
+    assert manifest["material_runtime_closure"]["runtime_compiler"]["status"] == "blocked"
+    assert manifest["material_runtime_closure"]["runtime_compiler"]["missing_modules"] == [
+        "ad_3dsmax_materials"
+    ]
+    gate_by_id = {gate["check_id"]: gate for gate in manifest["stage_gates"]}
+    assert gate_by_id["AAN-11-material-runtime-closure"]["status"] == "blocked"
+    assert "Material runtime closure is complete." in manifest["claims_forbidden"]
 
 
 def test_runtime_smoke_writes_worker_report_before_simulation_app_close(
@@ -729,6 +956,80 @@ def test_runtime_smoke_waits_for_camera_rgba_until_available() -> None:
 
     assert rgba == "rgba-frame"
     assert steps == [True, True]
+
+
+def test_runtime_smoke_render_metrics_records_foreground_rgb(tmp_path: Path) -> None:
+    import numpy as np
+
+    from convert_asset.asset_application_normalizer.runtime_smoke import _render_metrics
+
+    render_path = tmp_path / "render.png"
+    render_path.write_bytes(b"png")
+    rgb = np.array(
+        [
+            [[40, 40, 40], [100, 50, 50]],
+            [[40, 40, 40], [80, 70, 60]],
+        ],
+        dtype=np.uint8,
+    )
+
+    metrics = _render_metrics(rgb, render_path, (40, 40, 40))
+
+    assert metrics["foreground_rgb"] == [90.0, 60.0, 55.0]
+    assert metrics["non_background_ratio"] == 0.5
+
+
+def test_runtime_smoke_material_view_capture_uses_injected_render_helpers(
+    tmp_path: Path,
+) -> None:
+    import numpy as np
+
+    from convert_asset.asset_application_normalizer.runtime_smoke import (
+        _capture_material_view_evidence,
+    )
+
+    class FakeWorld:
+        def step(self, *, render: bool) -> None:
+            assert render is True
+
+    def fake_set_camera(*_args, **_kwargs) -> None:
+        return None
+
+    def fake_camera_rgba(_camera):
+        return np.full((2, 2, 4), 255, dtype=np.uint8)
+
+    def fake_rgba_to_rgb(_rgba, *, background_color):
+        return np.array(
+            [
+                [[40, 40, 40], [100, 50, 50]],
+                [[40, 40, 40], [80, 70, 60]],
+            ],
+            dtype=np.uint8,
+        )
+
+    def fake_save(path: Path, _rgb) -> bool:
+        path.write_bytes(b"png")
+        return True
+
+    records = _capture_material_view_evidence(
+        camera=object(),
+        world=FakeWorld(),
+        center=np.array([0.0, 0.0, 0.0]),
+        distance=1.0,
+        args=SimpleNamespace(material_view_dir=tmp_path, render_steps=1),
+        target_prim_path="/World/DryingBox",
+        bbox_source="authored",
+        background_color=(40, 40, 40),
+        set_camera_look_at=fake_set_camera,
+        camera_rgba=fake_camera_rgba,
+        rgba_to_rgb=fake_rgba_to_rgb,
+        save_rgb_png=fake_save,
+    )
+
+    assert [record["view_id"] for record in records] == ["front", "orbit_3q", "side"]
+    assert records[0]["foreground_rgb"] == [90.0, 60.0, 55.0]
+    assert records[0]["target_prim"] == "/World/DryingBox"
+    assert (tmp_path / "front.png").exists()
 
 
 def test_normalize_asset_reports_native_preview_surface_material(tmp_path: Path) -> None:
