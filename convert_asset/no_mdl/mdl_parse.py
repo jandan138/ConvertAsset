@@ -17,7 +17,7 @@ _RE_GLOSS_KV = re.compile(r"\b(reflect_glossiness|gloss(?:iness)?)\s*:\s*([0-9.]
 _RE_ROUGH_KV = re.compile(r"\b(rough(?:ness)?)\s*:\s*([0-9.]+)f?", re.I)
 _RE_METAL_KV = re.compile(r"\b(reflection_metalness|metal(?:lic|ness)?)\s*:\s*([0-9.]+)f?", re.I)
 _RE_STR_FILE = re.compile(
-    r"\"([^\"]+\.(?:png|jpg|jpeg|tga|bmp|exr|tif|tiff|ktx|dds|hdr|psd|gif|webp))\"",
+    r"\"([^\"]+\.(?:png|jpg|jpeg|tga|bmp|exr|tif|tiff|ktx|dds|hdr|psd|gif|webp|tx))\"",
     re.I
 )
 

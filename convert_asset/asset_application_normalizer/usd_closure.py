@@ -760,6 +760,8 @@ def _result(
 ) -> UsdClosureResult:
     dependencies: list[AssetDependency] = inventory["dependencies"]
     resolution_records = _resolution_records(inventory)
+    missing_material_refs = _missing_raw_paths_by_kind(inventory["missing"], "mdl")
+    missing_textures = _missing_raw_paths_by_kind(inventory["missing"], "texture")
     dependency_closure = {
         "root_layer": str(inventory["root_layer"]),
         "scanned_layers": [str(path) for path in inventory["scanned_layers"]],
@@ -772,6 +774,8 @@ def _result(
             )
             for dep in inventory["missing"]
         ],
+        "missing_material_refs": missing_material_refs,
+        "missing_textures": missing_textures,
         "remote_uri": [
             _blocked_dependency_record(
                 dep,
@@ -806,6 +810,8 @@ def _result(
             "texture": sum(1 for dep in dependencies if dep.kind == "texture"),
             "remote": len(inventory["remote"]),
             "missing": len(inventory["missing"]),
+            "missing_material_ref": len(missing_material_refs),
+            "missing_texture": len(missing_textures),
         },
     }
     stage_gates = [
@@ -829,6 +835,20 @@ def _result(
         stage_gates=stage_gates,
         blocked_reasons=blockers,
     )
+
+
+def _missing_raw_paths_by_kind(
+    dependencies: list[AssetDependency],
+    kind: str,
+) -> list[str]:
+    result = []
+    seen: set[str] = set()
+    for dep in dependencies:
+        if dep.kind != kind or dep.raw_asset_path in seen:
+            continue
+        seen.add(dep.raw_asset_path)
+        result.append(dep.raw_asset_path)
+    return result
 
 
 def _unique_local_records(dependencies: list[AssetDependency]) -> list[dict[str, Any]]:

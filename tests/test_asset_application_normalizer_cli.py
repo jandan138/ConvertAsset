@@ -160,6 +160,50 @@ def test_normalize_asset_blocks_missing_local_dependency_without_package(
     assert manifest["blocked_reasons"][0]["blocker_id"] == "aan03_block_missing_dependency"
 
 
+def test_normalize_asset_reports_missing_registry_facing_mdl_ref(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "soap_to_dish.usda"
+    source.write_text(
+        "#usda 1.0\n"
+        "(\n"
+        "    defaultPrim = \"World\"\n"
+        ")\n"
+        "def Xform \"World\" {\n"
+        "    def Xform \"DryingBox\" {}\n"
+        "}\n"
+        "def Scope \"Looks\" {\n"
+        "    def Material \"Paint\" {\n"
+        "        token outputs:mdl:surface.connect = </Looks/Paint/Shader.outputs:out>\n"
+        "        def Shader \"Shader\" {\n"
+        "            uniform token info:implementationSource = \"sourceAsset\"\n"
+        "            asset info:mdl:sourceAsset = @O.mdl@\n"
+        "            token outputs:out\n"
+        "        }\n"
+        "    }\n"
+        "}\n",
+        encoding="utf-8",
+    )
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+    args = _base_args(source, out_dir, evidence_out)
+    args.remove("--dry-run")
+
+    code = main(args)
+
+    assert code == 5
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["overall_status"] == "blocked"
+    assert manifest["dependency_closure"]["missing_material_refs"] == ["O.mdl"]
+    assert manifest["dependency_closure"]["missing_textures"] == []
+    missing_record = manifest["dependency_closure"]["missing"][0]
+    assert missing_record["kind"] == "mdl"
+    assert missing_record["arc_kind"] == "asset_property"
+    assert missing_record["raw_asset_path"] == "O.mdl"
+    assert missing_record["resolution"] == "blocked"
+    assert manifest["static_usd_report"]["dependency_counts"]["missing_material_ref"] == 1
+
+
 def test_normalize_asset_writes_package_local_usd_closure(tmp_path: Path) -> None:
     source_root = tmp_path / "source"
     (source_root / "parts").mkdir(parents=True)

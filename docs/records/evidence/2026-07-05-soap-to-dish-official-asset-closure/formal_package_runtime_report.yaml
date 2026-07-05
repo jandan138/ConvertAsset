@@ -1,0 +1,92 @@
+schema_version: convertasset.s2d_formal_package_runtime.v0.1
+created_utc: "2026-07-05"
+stage: S2D-02_to_S2D-05
+asset:
+  asset_id: official_ebench_scene_e1cf0d5b4d76_soap_to_dish
+  prior_registry_entry_id: official_ebench_scene@e1cf0d5b4d76
+  replacement_registry_candidate_id: official_ebench_scene@18bf1ffa8d13
+external_workspace:
+  root: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705
+  source_lock_root: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/source_lock/task3
+  package_root: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/package
+  evidence_root: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence
+formal_outputs:
+  no_mdl_usd:
+    path: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/source_lock/task3/scene_noMDL.usd
+    sha256: 6394738615561ed7dadcac189151172b2f6f9bf104863ab089a53b27922c4ae8
+  package_asset_usd:
+    path: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/package/asset.usd
+    sha256: 18bf1ffa8d1309fa67c348e2c06e9f559fd9106387876e33cf23a319d14f9abf
+  manifest:
+    path: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/package/evidence/manifest.json
+    sha256: 0fb80c51fa14aed70771ebc08b964878da0a0f62b96178e702c4e74b00599620
+  closure_report:
+    path: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/closure_report.json
+    sha256: 3b560d8c8cc81d4d6ef1c826987155b6323cec0ca618f39e7ac97a9934005310
+  registry_handoff:
+    path: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/registry_handoff.yaml
+    sha256: 39666f5c7fc233f0d5cf2a755cb59d549b992fc289012f5d299433f79805d60a
+  sha256sums:
+    path: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/SHA256SUMS
+    sha256: 00d35234d86b131591848921a3b408be9de58b127e55f6a4a6d30730011defd0
+repair_actions:
+  route: formal_no_mdl_preview_surface_package
+  source_policy: official_source_read_only
+  texture_policy:
+    keep_existing_textures: true
+    missing_mdl_pin_textures: skipped_from_preview_surface_file_inputs
+    missing_texture_catalog_asset_attrs: pruned_from_no_mdl_output
+  removed_missing_texture_asset_attrs:
+    removed: 3
+    blocked: 0
+    failed: 0
+    samples:
+      - /root/layout/Meshes/Animation/washingmachine/model_4ccdcfde6a7f0a3ff4c6bff6b8a47c43_0/Instance/textures::texture_0 -> ./SubUSDs/textures/c9c274d4ea1de7d059cec0a795b3b27e3941935.jpg
+      - /root/layout/Meshes/Animation/washingmachine/model_4ccdcfde6a7f0a3ff4c6bff6b8a47c43_0/Instance/textures::texture_1 -> ./SubUSDs/textures/c00e97e58585d8ddb0f8b16a724d05a13eae31.jpg
+      - /root/layout/Meshes/Animation/washingmachine/model_4ccdcfde6a7f0a3ff4c6bff6b8a47c43_0/Instance/textures::texture_2 -> ./SubUSDs/textures/bf77ddc86c270d02747e7d0517103514ab51d0f.jpg
+static_acceptance:
+  command: "./scripts/isaac_python.sh ./main.py normalize-asset <scene_noMDL.usd> --out <package> --asset-id official_ebench_scene_e1cf0d5b4d76_soap_to_dish --asset-class auto --source-runtime isaac51 --target-runtime isaac41 --target-benchmark ebench-lift2 --task-id official_ebench_scene.soap_to_dish --required-prim /root --gates static"
+  overall_status: pass
+  dependency_closure:
+    missing_material_refs: []
+    missing_textures: []
+  material_closure_status: passed
+  material_runtime_closure_status: pass
+  physics_closure_status: pass
+runtime_acceptance:
+  command: "./scripts/isaac_python.sh ./main.py normalize-asset <scene_noMDL.usd> --out <package> --asset-id official_ebench_scene_e1cf0d5b4d76_soap_to_dish --asset-class auto --source-runtime isaac51 --target-runtime isaac41 --target-benchmark ebench-lift2 --task-id official_ebench_scene.soap_to_dish --required-prim /root --gates static,runtime"
+  overall_status: pass
+  runtime_status: pass
+  cold_load_status: pass
+  render_readback_status: pass
+  render_png:
+    path: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/package/evidence/runtime_smoke/render.png
+    sha256: a1768ca6ed1084ca3b831d833d5726b99d5ba5fbd0183683c8aa69b60f6a03ea
+    resolution: [512, 512]
+    non_background_ratio: 0.26379395
+  material_view_images:
+    - /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/package/evidence/runtime_smoke/material_views/front.png
+    - /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/package/evidence/runtime_smoke/material_views/orbit_3q.png
+    - /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/package/evidence/runtime_smoke/material_views/side.png
+  physics_step_status: pass
+  reset_pose_status: not_separately_reported_by_runtime_worker
+visual_qa:
+  verdict: PASS
+  images_reviewed:
+    - /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/package/evidence/runtime_smoke/render.png
+    - /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/package/evidence/runtime_smoke/material_views/orbit_3q.png
+  conclusion: "Rendered target is visible and identifiable; images are not blank; no obvious red/pink fallback. This is runtime/readback smoke evidence, not full material parity evidence."
+scenario_forge_handoff:
+  status: ready_for_phase12_registry_update
+  next_steps:
+    - Phase12 registry closure
+    - Phase13 soap_to_dish compile
+    - 13.6 visual
+    - 13.8 execution predicate
+    - 13.9 batch gate
+verification:
+  tests:
+    - command: "python -m pytest tests/test_no_mdl_missing_texture_pruning.py tests/test_asset_application_normalizer_mdl_runtime_closure.py tests/test_asset_application_normalizer_cli.py -q"
+      result: "57 passed in 0.76s"
+  runtime:
+    result: "AAN-06 runtime smoke passed under scripts/isaac_python.sh; stderr contains non-blocking UsdShade MaterialBindingAPI warnings."

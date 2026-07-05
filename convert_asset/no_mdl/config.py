@@ -41,7 +41,7 @@ MDL_BASECOLOR_CONST_KEYS = [
     "diffuse_color","albedo_color","tint_color","base_color_constant"
 ]
 
-_TEX_EXTS = (".png",".jpg",".jpeg",".tga",".bmp",".exr",".tif",".tiff",".ktx",".dds",".hdr",".psd",".gif",".webp")
+_TEX_EXTS = (".png",".jpg",".jpeg",".tga",".bmp",".exr",".tif",".tiff",".ktx",".dds",".hdr",".psd",".gif",".webp",".tx")
 
 # ================= Diagnostics / Verification Enhancements =================
 # When adding richer reporting we keep old behaviour by default (strict).

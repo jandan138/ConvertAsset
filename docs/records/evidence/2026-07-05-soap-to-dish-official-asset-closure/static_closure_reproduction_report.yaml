@@ -1,0 +1,58 @@
+schema_version: convertasset.s2d_static_closure_reproduction.v0.1
+created_utc: "2026-07-05"
+stage: S2D-01
+asset:
+  asset_id: official_ebench_scene_e1cf0d5b4d76_soap_to_dish
+  selected_asset_ref: official_ebench_scene@e1cf0d5b4d76
+purpose: "ConvertAsset reproduces the Phase12/Phase13-facing O.mdl and missing MDL texture blockers with regression fixtures."
+blocker_patterns:
+  missing_material_ref:
+    raw_asset_path: O.mdl
+    fixture: tests/test_asset_application_normalizer_cli.py::test_normalize_asset_reports_missing_registry_facing_mdl_ref
+    modeled_as: "USD Material shader with asset info:mdl:sourceAsset = @O.mdl@"
+    expected_manifest_fields:
+      dependency_closure.missing_material_refs:
+        - O.mdl
+      dependency_closure.missing_textures: []
+      dependency_closure.missing[0].kind: mdl
+      dependency_closure.missing[0].arc_kind: asset_property
+      static_usd_report.dependency_counts.missing_material_ref: 1
+  missing_mdl_textures:
+    fixture: tests/test_asset_application_normalizer_mdl_runtime_closure.py::test_material_runtime_closure_reports_exact_missing_soap_to_dish_textures
+    modeled_as: "Packaged MDL roots whose texture_2d literals point at package-local ../textures/*.jpg files that do not exist."
+    expected_manifest_fields:
+      material_runtime_closure.status: blocked
+      material_runtime_closure.missing_textures:
+        - ../textures/c00e97e58585d8ddb0f8b16a724d05a13eae31.jpg
+        - ../textures/bf77ddc86c270d02747e7d0517103514ab51d0f.jpg
+        - ../textures/c9c274d4ea1de7d059cec0a795b3b27e3941935.jpg
+      static_material_runtime_report.missing_texture_count: 3
+red_green_evidence:
+  missing_mdl_textures_red:
+    command: "python -m pytest tests/test_asset_application_normalizer_mdl_runtime_closure.py::test_material_runtime_closure_reports_exact_missing_soap_to_dish_textures -q"
+    pre_fix_result: "failed as expected with KeyError: 'missing_textures'"
+  missing_mdl_textures_green:
+    implementation:
+      - convert_asset/asset_application_normalizer/mdl_runtime_closure.py
+      - convert_asset/asset_application_normalizer/evidence_manifest.py
+    change: "AAN-11 derives missing_textures from blocked MDL texture records and reports missing_texture_count."
+    post_fix_result: "1 passed in 0.05s"
+  missing_o_mdl_red:
+    command: "python -m pytest tests/test_asset_application_normalizer_cli.py::test_normalize_asset_reports_missing_registry_facing_mdl_ref -q"
+    pre_fix_result: "failed as expected with KeyError: 'missing_material_refs'"
+  missing_o_mdl_green:
+    implementation:
+      - convert_asset/asset_application_normalizer/usd_closure.py
+      - convert_asset/asset_application_normalizer/evidence_manifest.py
+    change: "AAN-03 derives missing_material_refs and missing_textures from missing dependency records and records matching dependency counters."
+    post_fix_result: "1 passed in 0.21s"
+verification:
+  targeted_suite:
+    command: "python -m pytest tests/test_asset_application_normalizer_mdl_runtime_closure.py tests/test_asset_application_normalizer_cli.py -q"
+    result: "51 passed in 0.66s"
+acceptance_status:
+  static_closure_reproduction: pass
+  notes:
+    - "The official source S2D-00 investigation classified current O.mdl as retained Scenario Forge registry metadata, not active official-source PXR dependency."
+    - "The S2D-01 O.mdl fixture intentionally models the registry-facing active material-ref shape so ConvertAsset emits the same clean missing_material_refs field Phase12/Phase13 consume."
+    - "The three JPG fixture models the real MDL runtime texture literal shape found in official task3 MDLs."

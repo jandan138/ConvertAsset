@@ -9,7 +9,8 @@ from .config import (
 from . import config as _config  # 动态读取 RESOLVE_TEXTURES_TO_ABSOLUTE，支持 CLI 运行时覆盖
 from .materials import (
     find_mdl_shader, ensure_preview, copy_textures, connect_preview,
-    remove_material_mdl_outputs, remove_all_mdl_shaders, post_process_material_surfaces
+    remove_material_mdl_outputs, remove_all_mdl_shaders, post_process_material_surfaces,
+    remove_missing_texture_asset_attributes,
 )
 
 
@@ -220,8 +221,10 @@ def convert_and_strip_mdl_in_this_file_only(
             else:
                 print("[DIAG][clean-delete] no external active MDL shaders remain after suppression.")
         surf_stats = post_process_material_surfaces(stage)
+        texture_attr_stats = remove_missing_texture_asset_attributes(stage)
         stats["mdl_outputs"] = mdl_out_stats
         stats["surface_post"] = surf_stats
+        stats["missing_texture_asset_attributes"] = texture_attr_stats
         return stats
 
     # Variant 模式
@@ -258,6 +261,8 @@ def convert_and_strip_mdl_in_this_file_only(
                     pass
     # 最后一次 Variant 完成后做 surface 补齐统计
     surf_stats = post_process_material_surfaces(stage)
+    texture_attr_stats = remove_missing_texture_asset_attributes(stage)
     stats["mdl_outputs"] = mdl_out_stats
     stats["surface_post"] = surf_stats
+    stats["missing_texture_asset_attributes"] = texture_attr_stats
     return stats

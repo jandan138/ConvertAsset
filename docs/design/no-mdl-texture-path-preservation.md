@@ -178,6 +178,30 @@ filled, has_c, c_rgb, bc_tex = copy_textures(
 
 在 `convert.py` 中，外部材质 override 流程（第 107 行）同样调用了 `copy_textures()`，也需同步传参。
 
+### 2.4.1 缺失纹理闭包规则
+
+`no-mdl` 的正式资产包输出不能把已知缺失的纹理继续写成 active USD
+asset dependency。当前规则如下：
+
+| 输入情况 | 输出行为 |
+|---|---|
+| MDL pin 或 MDL 文本推断出的纹理文件存在 | 保留纹理，并按本设计重算为相对/绝对路径 |
+| MDL pin 或 MDL 文本推断出的纹理文件缺失 | 不写 `UsdUVTexture.inputs:file`，由 PreviewSurface 常量 fallback 接管 |
+| 普通 USD `asset` 属性指向本地存在的纹理 | 保留原属性 |
+| 普通 USD `asset` 属性指向缺失纹理 | 从 `*_noMDL.usd` 输出中移除或 block 该属性，并记录 audit 统计 |
+
+这个规则只针对纹理扩展名（png/jpg/exr/dds 等）的 asset 属性，不处理
+references、payloads、sublayers 这类 composition arcs。目标是让下游 AAN /
+EBench registry 看到的是闭包干净的 package：已有材质资产尽量保留，缺失
+贴图不再制造红/粉 fallback 或 missing texture blocker。
+
+2026-07-05 的 soap-to-dish 官方资产修复验证了该规则：
+
+- `scene_noMDL.usd` 仍保留 11 个可打包纹理；
+- 3 个原始 `texture_0/1/2` 缺失 JPG 属性被 pruned；
+- AAN static/runtime manifest 均为 `overall_status: pass`；
+- `missing_material_refs: []`，`missing_textures: []`。
+
 ### 2.5 `config.py` 新增配置项
 
 在 `config.py` 末尾添加：

@@ -115,6 +115,8 @@ def build_manifest(
         "dependency_closure": dependency_closure or {
             "local_files": [],
             "missing": [],
+            "missing_material_refs": [],
+            "missing_textures": [],
             "remote_uri": [],
             "unauthorized_remote_uri": [],
             "resolution_records": [],
@@ -134,6 +136,7 @@ def build_manifest(
             "root_mdl_assets": [],
             "imported_mdl_modules": [],
             "mdl_texture_assets": [],
+            "missing_textures": [],
             "native_runtime_modules": [],
             "mirror_actions": [],
             "rewrite_actions": [],

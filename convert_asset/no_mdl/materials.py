@@ -37,7 +37,7 @@ from .config import (
     PRINT_DIAGNOSTICS, BREAK_INSTANCE_FOR_MDL, CLEAN_VARIANT_MDL,
     ALLOW_EXTERNAL_MDL_SHADERS, ALLOW_EXTERNAL_MDL_OUTPUTS, STRICT_VERIFY,
     CREATE_PREVIEW_FOR_EXTERNAL_MDL, AUTO_PREVIEW_BASECOLOR,
-    PRINT_DIAGNOSTICS_LEVEL, DIAG_SAMPLE_LIMIT
+    PRINT_DIAGNOSTICS_LEVEL, DIAG_SAMPLE_LIMIT, _TEX_EXTS
 )
 
 if PRINT_DIAGNOSTICS:
@@ -201,6 +201,75 @@ def _anchor_dir_for_attr(attr):
     return None
 
 
+def _texture_source_exists(path: str | None, anchor_dir: str | None, resolved_path: str | None = None) -> bool:
+    """Return True only when a texture path resolves to an existing local file."""
+    for candidate in (resolved_path, _resolve_abs_path(anchor_dir, path)):
+        if not candidate:
+            continue
+        if os.path.isabs(candidate) and os.path.exists(candidate):
+            return True
+    if path and os.path.isabs(path) and os.path.exists(path):
+        return True
+    return False
+
+
+def _looks_like_texture_asset(path: str | None) -> bool:
+    if not path:
+        return False
+    stem = str(path).split("?", 1)[0].split("#", 1)[0].lower()
+    return stem.endswith(_TEX_EXTS)
+
+
+def remove_missing_texture_asset_attributes(stage: Usd.Stage):
+    """Remove authored texture asset attributes whose local source file is absent."""
+    removed = blocked = failed = 0
+    samples = []
+    root_layer = stage.GetRootLayer()
+    root_layer_dir = os.path.dirname(root_layer.realPath or root_layer.identifier or "") or None
+    for prim in Usd.PrimRange(stage.GetPseudoRoot()):
+        for attr in list(prim.GetAttributes()):
+            try:
+                value = attr.Get()
+            except Exception:
+                continue
+            if not isinstance(value, Sdf.AssetPath):
+                continue
+            path = value.path or value.resolvedPath
+            if not _looks_like_texture_asset(path):
+                continue
+            anchor_dir = _anchor_dir_for_attr(attr) or root_layer_dir
+            if _texture_source_exists(path, anchor_dir, resolved_path=value.resolvedPath):
+                continue
+            name = attr.GetName()
+            try:
+                prim.RemoveProperty(name)
+            except Exception:
+                pass
+            if not prim.HasAttribute(name):
+                removed += 1
+            else:
+                try:
+                    stage.OverridePrim(prim.GetPath())
+                    block_attr = prim.GetAttribute(name)
+                    if block_attr:
+                        block_attr.Block()
+                except Exception:
+                    pass
+                try:
+                    block_attr = prim.GetAttribute(name)
+                    if block_attr and getattr(block_attr, "IsBlocked", None) and block_attr.IsBlocked():
+                        blocked += 1
+                    else:
+                        failed += 1
+                except Exception:
+                    failed += 1
+            if len(samples) < DIAG_SAMPLE_LIMIT:
+                samples.append(f"{prim.GetPath()}::{name} -> {path}")
+            if PRINT_DIAGNOSTICS_LEVEL >= 1:
+                print(f"[WARN][no-mdl][texture-attr-missing] prune {prim.GetPath()}::{name}: {path}")
+    return {"removed": removed, "blocked": blocked, "failed": failed, "samples": samples}
+
+
 def copy_textures(
     stage: Usd.Stage,
     mdl_shader,
@@ -232,7 +301,7 @@ def copy_textures(
     filled = {}
     bc_tex = None
 
-    def _set_tex(tag, path, colorspace="raw", invert_r_to_rough=False, anchor_dir=None):
+    def _set_tex(tag, path, colorspace="raw", invert_r_to_rough=False, anchor_dir=None, resolved_path=None):
         """在 `Tex_{tag}` 上设置 `file` 与 `sourceColorSpace`，必要时添加 R→Roughness 的反转参数。
 
         - `path` 可为相对/绝对路径；通过 `_rebase_tex_path` 根据路径类型保持策略重算最终写入路径；
@@ -244,7 +313,12 @@ def copy_textures(
         nonlocal bc_tex
         if not path:
             return False
-        ap = _rebase_tex_path(path, anchor_dir, dst_layer_dir, resolve_to_absolute)
+        effective_anchor_dir = anchor_dir or dst_layer_dir
+        if not _texture_source_exists(path, effective_anchor_dir, resolved_path=resolved_path):
+            if PRINT_DIAGNOSTICS_LEVEL >= 1:
+                print(f"[WARN][no-mdl][texture-missing] skip {tag}: {path}")
+            return False
+        ap = _rebase_tex_path(path, effective_anchor_dir, dst_layer_dir, resolve_to_absolute)
         tex_prim = stage.GetPrimAtPath(f"{mpath}/{GROUP}/Tex_{tag}")
         if not tex_prim:
             return False
@@ -283,7 +357,13 @@ def copy_textures(
             continue
         # path A: pin 上的 anchor_dir 以 resolvedPath 对应层目录为准（已绝对路径或相对层目录）
         anchor_dir_pin = _anchor_dir_for_attr(inp.GetAttr()) if inp else None
-        _set_tex(tag, path, colorspace=("sRGB" if tag == "BaseColor" else "raw"), anchor_dir=anchor_dir_pin)
+        _set_tex(
+            tag,
+            path,
+            colorspace=("sRGB" if tag == "BaseColor" else "raw"),
+            anchor_dir=anchor_dir_pin,
+            resolved_path=resolved_path,
+        )
 
     # 2) 兜底：解析 .mdl 文本（在 MDL pin 缺失时，尽量由源码推断纹理路径）
     need_tags = [t for t in ("BaseColor", "Roughness", "Metallic", "Normal") if not filled.get(t)]
@@ -294,18 +374,19 @@ def copy_textures(
         anchor_dir = _anchor_dir_for_attr(sa_attr) if sa_attr else None
         mdl_abs = _resolve_abs_path(anchor_dir, mdl_rel) if mdl_rel else None
         parsed = parse_mdl_text(mdl_abs) if (mdl_abs and os.path.exists(mdl_abs)) else {}
+        mdl_texture_anchor_dir = os.path.dirname(os.path.abspath(mdl_abs)) if mdl_abs else anchor_dir
         tex = parsed.get("textures", {}) if parsed else {}
         if (not filled.get("BaseColor")) and "BaseColor" in tex:
-            _set_tex("BaseColor", tex["BaseColor"], colorspace="sRGB", anchor_dir=anchor_dir)
+            _set_tex("BaseColor", tex["BaseColor"], colorspace="sRGB", anchor_dir=mdl_texture_anchor_dir)
         if not filled.get("Roughness"):
             if "Roughness" in tex:
-                _set_tex("Roughness", tex["Roughness"], colorspace="raw", invert_r_to_rough=False, anchor_dir=anchor_dir)
+                _set_tex("Roughness", tex["Roughness"], colorspace="raw", invert_r_to_rough=False, anchor_dir=mdl_texture_anchor_dir)
             elif "Roughness_fromGloss" in tex:
-                _set_tex("Roughness", tex["Roughness_fromGloss"], colorspace="raw", invert_r_to_rough=True, anchor_dir=anchor_dir)
+                _set_tex("Roughness", tex["Roughness_fromGloss"], colorspace="raw", invert_r_to_rough=True, anchor_dir=mdl_texture_anchor_dir)
         if (not filled.get("Metallic")) and "Metallic" in tex:
-            _set_tex("Metallic", tex["Metallic"], colorspace="raw", anchor_dir=anchor_dir)
+            _set_tex("Metallic", tex["Metallic"], colorspace="raw", anchor_dir=mdl_texture_anchor_dir)
         if (not filled.get("Normal")) and "Normal" in tex:
-            _set_tex("Normal", tex["Normal"], colorspace="raw", anchor_dir=anchor_dir)
+            _set_tex("Normal", tex["Normal"], colorspace="raw", anchor_dir=mdl_texture_anchor_dir)
 
     # 3) 常量色：优先从 MDL pin 取；否则尝试从 .mdl 文本的 `diffuse_const` 中提取
     has_c, c_rgb = read_mdl_basecolor_const(mdl_shader)

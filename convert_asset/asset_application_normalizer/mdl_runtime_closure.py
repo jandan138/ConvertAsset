@@ -63,6 +63,7 @@ MATERIAL_RUNTIME_NOT_RUN_REPORT = {
     "root_mdl_count": 0,
     "imported_module_count": 0,
     "mdl_texture_asset_count": 0,
+    "missing_texture_count": 0,
     "blocked_dependency_count": 0,
 }
 
@@ -75,6 +76,7 @@ def build_not_run_material_runtime_closure(reason: str) -> MaterialRuntimeClosur
         "root_mdl_assets": [],
         "imported_mdl_modules": [],
         "mdl_texture_assets": [],
+        "missing_textures": [],
         "native_runtime_modules": [],
         "mirror_actions": [],
         "rewrite_actions": [],
@@ -167,6 +169,11 @@ def build_material_runtime_closure(
         for record in [*module_records, *texture_records]
         if record.get("resolution") == "blocked"
     ]
+    missing_textures = [
+        str(record["raw_asset_path"])
+        for record in texture_records
+        if record.get("failure_mode") == "missing_texture"
+    ]
     status = "blocked" if unresolved else "pass"
     return_code = 5 if unresolved else 0
     closure = {
@@ -178,6 +185,7 @@ def build_material_runtime_closure(
         "root_mdl_assets": [path.relative_to(package_root).as_posix() for path in roots],
         "imported_mdl_modules": module_records,
         "mdl_texture_assets": texture_records,
+        "missing_textures": missing_textures,
         "native_runtime_modules": [
             record
             for record in module_records
@@ -224,6 +232,7 @@ def build_material_runtime_closure(
             "root_mdl_count": len(roots),
             "imported_module_count": len(module_records),
             "mdl_texture_asset_count": len(texture_records),
+            "missing_texture_count": len(missing_textures),
             "blocked_dependency_count": len(unresolved),
         },
         stage_gate={

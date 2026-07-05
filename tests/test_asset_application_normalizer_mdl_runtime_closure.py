@@ -4,12 +4,20 @@ from convert_asset.asset_application_normalizer.mdl_runtime_closure import (
     build_binding_scope_report,
     build_material_view_evidence,
     build_material_runtime_closure,
+    build_not_run_material_runtime_closure,
     classify_mdl_module,
     discover_mdl_roots,
     merge_runtime_compiler_report,
     parse_material_runtime_log,
     parse_mdl_runtime_dependencies,
 )
+
+
+def test_not_run_material_runtime_closure_keeps_missing_texture_schema() -> None:
+    result = build_not_run_material_runtime_closure("static gate blocked")
+
+    assert result.material_runtime_closure["missing_textures"] == []
+    assert result.static_material_runtime_report["missing_texture_count"] == 0
 
 
 def test_parse_mdl_runtime_dependencies_extracts_imports_using_and_textures(
@@ -118,6 +126,56 @@ def test_build_material_runtime_closure_blocks_unresolved_required_helper_and_re
     assert result.blocked_reasons[0]["blocker_id"] == (
         "aan11_block_required_mdl_runtime_dependency"
     )
+
+
+def test_material_runtime_closure_reports_exact_missing_soap_to_dish_textures(
+    tmp_path: Path,
+) -> None:
+    package = tmp_path / "package"
+    (package / "deps" / "mdl").mkdir(parents=True)
+    (package / "deps" / "mdl" / "MI_655dcc9a9237ad0001ba8197.mdl").write_text(
+        "mdl 1.0;\n"
+        'export material m(texture_2d tex = texture_2d("../textures/c00e97e58585d8ddb0f8b16a724d05a13eae31.jpg")) = material();\n',
+        encoding="utf-8",
+    )
+    (package / "deps" / "mdl" / "MI_655dcc9ad6b50e000157727c.mdl").write_text(
+        "mdl 1.0;\n"
+        'export material m(texture_2d base = texture_2d("../textures/bf77ddc86c270d02747e7d0517103514ab51d0f.jpg"),\n'
+        '                  texture_2d rough = texture_2d("../textures/c9c274d4ea1de7d059cec0a795b3b27e3941935.jpg")) = material();\n',
+        encoding="utf-8",
+    )
+
+    result = build_material_runtime_closure(package, material_closure=[])
+
+    assert result.return_code == 5
+    report = result.material_runtime_closure
+    assert report["status"] == "blocked"
+    assert report["missing_textures"] == [
+        "../textures/c00e97e58585d8ddb0f8b16a724d05a13eae31.jpg",
+        "../textures/bf77ddc86c270d02747e7d0517103514ab51d0f.jpg",
+        "../textures/c9c274d4ea1de7d059cec0a795b3b27e3941935.jpg",
+    ]
+    assert [
+        (record["raw_asset_path"], record["package_path"], record["failure_mode"])
+        for record in report["mdl_texture_assets"]
+    ] == [
+        (
+            "../textures/c00e97e58585d8ddb0f8b16a724d05a13eae31.jpg",
+            "deps/textures/c00e97e58585d8ddb0f8b16a724d05a13eae31.jpg",
+            "missing_texture",
+        ),
+        (
+            "../textures/bf77ddc86c270d02747e7d0517103514ab51d0f.jpg",
+            "deps/textures/bf77ddc86c270d02747e7d0517103514ab51d0f.jpg",
+            "missing_texture",
+        ),
+        (
+            "../textures/c9c274d4ea1de7d059cec0a795b3b27e3941935.jpg",
+            "deps/textures/c9c274d4ea1de7d059cec0a795b3b27e3941935.jpg",
+            "missing_texture",
+        ),
+    ]
+    assert result.static_material_runtime_report["missing_texture_count"] == 3
 
 
 def test_build_material_runtime_closure_includes_binding_scope_static_hints(

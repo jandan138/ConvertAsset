@@ -66,6 +66,40 @@ AAN handoff runs.
 Use `--gates static,runtime,benchmark` for a ready handoff. `static,benchmark` can
 prove task files exist, but it does not prove runtime readiness.
 
+## Official Soap-To-Dish Handoff Example
+
+2026-07-05 soap-to-dish is the first official EBench scene repair that uses the
+formal no-MDL + AAN package route instead of a temporary `/tmp` artifact.
+
+Registry update handoff:
+
+```text
+/cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/registry_handoff.yaml
+```
+
+Canonical package:
+
+```text
+/cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/package
+```
+
+Key acceptance values:
+
+| Field | Value |
+|---|---|
+| prior registry entry | `official_ebench_scene@e1cf0d5b4d76` |
+| replacement candidate | `official_ebench_scene@18bf1ffa8d13` |
+| `dependency_closure.missing_material_refs` | `[]` |
+| `dependency_closure.missing_textures` | `[]` |
+| `material_runtime_closure.status` | `pass` |
+| `physics_closure.status` | `pass` |
+| `runtime_evidence.status` | `pass` |
+| `runtime_evidence.render_readback.status` | `pass` |
+
+The route intentionally does not claim full material parity. It claims that the
+package has no active missing MDL or texture dependency, opens in the target runtime,
+renders nonblank readback evidence, and preserves the no-full-parity boundary.
+
 ## Input Contract
 
 The caller owns:

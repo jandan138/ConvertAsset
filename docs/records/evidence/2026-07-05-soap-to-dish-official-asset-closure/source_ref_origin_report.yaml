@@ -1,0 +1,253 @@
+schema_version: convertasset.s2d_source_ref_origin.v0.1
+created_utc: "2026-07-05"
+stage: S2D-00
+asset:
+  asset_id: official_ebench_scene_e1cf0d5b4d76_soap_to_dish
+  phase13_request_id: tabletop_photo_goal_soap_to_dish
+  selected_asset_ref: official_ebench_scene@e1cf0d5b4d76
+external_workspace:
+  root: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705
+  source_lock_dir: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/source_lock
+  package_dir: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/package
+  evidence_dir: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence
+blocker_source:
+  path: /cpfs/user/zhuzihou/dev/scenario-forge/docs/records/evidence/2026-07-05-phase13-image-grounded-task-factory/phase13_batch_rc_20260705/blocked_probes/phase13_tabletop_photo_goal_soap_to_dish/handoff/asset_intake_blockers.yaml
+  status: blocked
+  reported_missing_material_refs:
+    - O.mdl
+  reported_missing_textures:
+    - ../textures/bf77ddc86c270d02747e7d0517103514ab51d0f.jpg
+    - ../textures/c00e97e58585d8ddb0f8b16a724d05a13eae31.jpg
+    - ../textures/c9c274d4ea1de7d059cec0a795b3b27e3941935.jpg
+  official_source_root: /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets/assets/scene_usds/ebench/simple_pnp/task3
+  source_read_policy: read_only
+  source_read_only_evidence:
+    write_targets_used:
+      - /cpfs/user/zhuzihou/dev/ConvertAsset/.worktrees/soap-to-dish-closure
+      - /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705
+    forbidden_write_root: /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets/assets/scene_usds/ebench/simple_pnp/task3
+    source_hash_recheck_command: "sha256sum scene.usd scene.usda"
+    source_hash_recheck_result: unchanged_from_initial_lock
+    source_files_newer_than_task_day_command: "find official_source_root -type f -newermt '2026-07-05 00:00:00 UTC'"
+    source_files_newer_than_task_day_result: []
+    conclusion: "All S2D-00 generated evidence was written outside the official source tree; official source files were opened/read only."
+  source_files:
+    scene_usd:
+      path: /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets/assets/scene_usds/ebench/simple_pnp/task3/scene.usd
+      sha256: 62f62e8c71dabd7e79589414e2e9f8058c12d0509ad23f329ba26cf5c817adde
+    scene_usda:
+      path: /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets/assets/scene_usds/ebench/simple_pnp/task3/scene.usda
+      sha256: 343e73aea9056510231da9b2588ce54c78aaa02d121f96eb227c79469ae7d138
+  source_package_tree:
+    materials_dir: /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets/assets/scene_usds/ebench/simple_pnp/task3/SubUSDs/materials
+    materials_file_count: 28
+    materials_files:
+      - KooPbr.mdl
+      - MI_655dcc9a18a1690001fbf439.mdl
+      - MI_655dcc9a18a1690001fbf43a.mdl
+      - MI_655dcc9a21dcca0001c8daeb.mdl
+      - MI_655dcc9a31e8670001f10fd2.mdl
+      - MI_655dcc9a3d6ca40001b7acbd.mdl
+      - MI_655dcc9a41c3890001f47836.mdl
+      - MI_655dcc9a42cf3c0001c60fd4.mdl
+      - MI_655dcc9a501c350001293c70.mdl
+      - MI_655dcc9a5bfe510001f04fb8.mdl
+      - MI_655dcc9a65fe450001c35988.mdl
+      - MI_655dcc9a846cd70001fd24bd.mdl
+      - MI_655dcc9a86328000019704e5.mdl
+      - MI_655dcc9a86328000019704e6.mdl
+      - MI_655dcc9a8dbf9400018c78ed.mdl
+      - MI_655dcc9a9237ad0001ba8197.mdl
+      - MI_655dcc9a9f4dd400018e1d09.mdl
+      - MI_655dcc9aa9ead30001655c08.mdl
+      - MI_655dcc9abf392f000189451c.mdl
+      - MI_655dcc9ad6b50e000157727c.mdl
+      - MI_655dcc9ad8565000012e27ae.mdl
+      - MI_655dcc9adf830200017c3a39.mdl
+      - MI_655dcc9afeb6f70001812165.mdl
+      - MI_6576cd0390c49f0001be062f.mdl
+      - Num5dd77cea7d6a630001bffad3.mdl
+      - OmniUe4Base.mdl
+      - OmniUe4Function.mdl
+      - WorldGridMaterial.mdl
+    textures_dir: /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets/assets/scene_usds/ebench/simple_pnp/task3/SubUSDs/textures
+    textures_file_count: 14
+    textures_files:
+      - 5b9766aeb5a3a91c8ed95ec8_color.png
+      - 5b9766aeb5a3a91c8ed95ec8_metallic.png
+      - 5c807665b5a3a90001b24482_color.png
+      - 5c807665b5a3a90001b24482_metallic.png
+      - 5d33c408b5cb690001741df5_color.png
+      - 5d33c408b5cb690001741df5_gloss.png
+      - 5d33c408b5cb690001741df5_metallic.png
+      - 5defcb537d6a63000130b931_color.png
+      - 5e94205b7fdaa4000170a2a5_color.png
+      - WorldGridMaterial/T_Default_Material_Grid_M.png
+      - WorldGridMaterial/T_Default_Material_Grid_N.png
+      - black.png
+      - normal.png
+      - white.png
+  prior_temporary_nomdl:
+    path: /tmp/ebench-soap-to-dish-canary/assets/official_ebench_scene/scene_noMDL.usd
+    sha256: e1cf0d5b4d76cdc32cb57459be501e55e736f533effe17838191fa63ee107840
+    status: temporary_artifact_not_final_package
+scan_results:
+  raw_string_scan:
+    searched_roots:
+      - /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets/assets/scene_usds/ebench/simple_pnp/task3
+      - /tmp/ebench-soap-to-dish-canary
+    o_mdl_matches: []
+    exact_texture_file_search:
+      searched_roots:
+        - /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets
+        - /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay
+        - /tmp/ebench-soap-to-dish-canary
+      found_files: []
+  scenario_forge_registry_trace:
+    definitive_o_mdl_source: phase11_phase12_registry_material_closure_metadata
+    phase13_blocker_handoff:
+      path: /cpfs/user/zhuzihou/dev/scenario-forge/docs/records/evidence/2026-07-05-phase13-image-grounded-task-factory/phase13_batch_rc_20260705/blocked_probes/phase13_tabletop_photo_goal_soap_to_dish/handoff/asset_intake_blockers.yaml
+      status: blocked
+      missing_material_ref_text: O.mdl
+    phase12_asset_registry_entry:
+      path: /cpfs/user/zhuzihou/dev/scenario-forge/docs/records/evidence/2026-07-05-phase11-small-multi-task-canary/phase11_three_task_suite/registry/asset_registry.yaml
+      asset_uid: official_ebench_scene@e1cf0d5b4d76
+      canonical_usd: assets/official_ebench_scene/scene_noMDL.usd
+      source_kind: convertasset_nomdl_artifact
+      material_closure_status: failed
+      missing_material_ref:
+        usd: scene.usd
+        material: O.mdl
+        resolved_path: O.mdl
+    phase12_registry_snapshot_entry:
+      path: /cpfs/user/zhuzihou/dev/scenario-forge/docs/records/evidence/2026-07-05-phase11-small-multi-task-canary/phase11_three_task_suite/registry/registry_snapshot.yaml
+      asset_uid: official_ebench_scene@e1cf0d5b4d76
+      canonical_usd: assets/official_ebench_scene/scene_noMDL.usd
+      material_closure_status: failed
+      missing_material_ref:
+        usd: scene.usd
+        material: O.mdl
+        resolved_path: O.mdl
+    interpretation: "O.mdl is a retained Scenario Forge registry material_closure field for the prior soap-to-dish no-MDL artifact. It is not present as an active PXR dependency in the official source USD or prior no-MDL USD examined below."
+  pxr_shader_asset_traversal:
+    official_scene_usd:
+      opened: true
+      layer_count: 2
+      external_asset_dependency_count: 0
+      o_mdl_external_asset_hits: []
+      bucketed_o_mdl_checks:
+        sublayers:
+          asset_path_count: 0
+          o_mdl_hits: []
+        references:
+          asset_path_count: 0
+          o_mdl_hits: []
+        payloads:
+          asset_path_count: 0
+          o_mdl_hits: []
+        info_mdl_source_asset:
+          attr_count: 175
+          o_mdl_hits: []
+        info_source_asset:
+          attr_count: 0
+          o_mdl_hits: []
+        shader_asset_inputs:
+          attr_count: 348
+          o_mdl_hits: []
+        other_shader_asset_attrs:
+          attr_count: 0
+          o_mdl_hits: []
+      material_count: 176
+      shader_count: 175
+      shader_asset_attr_count: 698
+      named_blocker_hits: 0
+      active_o_mdl_asset_refs: 0
+      note: "Composed USD shader asset attrs reference package MDL files under ./SubUSDs/materials/*.mdl, not O.mdl."
+    prior_scene_no_mdl_usd:
+      opened: true
+      layer_count: 2
+      bucketed_o_mdl_checks:
+        sublayers:
+          asset_path_count: 0
+          o_mdl_hits: []
+        references:
+          asset_path_count: 0
+          o_mdl_hits: []
+        payloads:
+          asset_path_count: 0
+          o_mdl_hits: []
+        info_mdl_source_asset:
+          attr_count: 0
+          o_mdl_hits: []
+        info_source_asset:
+          attr_count: 0
+          o_mdl_hits: []
+        shader_asset_inputs:
+          attr_count: 231
+          o_mdl_hits: []
+        other_shader_asset_attrs:
+          attr_count: 0
+          o_mdl_hits: []
+      material_count: 176
+      shader_count: 1056
+      shader_asset_attr_count: 231
+      named_blocker_hits: 0
+      active_mdl_asset_refs: 0
+      note: "Prior no-MDL output has no active MDL shader asset refs under pxr traversal."
+  mdl_internal_texture_literals:
+    - owning_mdl: /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets/assets/scene_usds/ebench/simple_pnp/task3/SubUSDs/materials/MI_655dcc9a9237ad0001ba8197.mdl
+      line: 20
+      raw_texture_literal: ../textures/c00e97e58585d8ddb0f8b16a724d05a13eae31.jpg
+      expected_resolution_from_owning_mdl: /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets/assets/scene_usds/ebench/simple_pnp/task3/SubUSDs/textures/c00e97e58585d8ddb0f8b16a724d05a13eae31.jpg
+      exists: false
+    - owning_mdl: /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets/assets/scene_usds/ebench/simple_pnp/task3/SubUSDs/materials/MI_655dcc9ad6b50e000157727c.mdl
+      line: 36
+      raw_texture_literal: ../textures/bf77ddc86c270d02747e7d0517103514ab51d0f.jpg
+      expected_resolution_from_owning_mdl: /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets/assets/scene_usds/ebench/simple_pnp/task3/SubUSDs/textures/bf77ddc86c270d02747e7d0517103514ab51d0f.jpg
+      exists: false
+    - owning_mdl: /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets/assets/scene_usds/ebench/simple_pnp/task3/SubUSDs/materials/MI_655dcc9ad6b50e000157727c.mdl
+      line: 37
+      raw_texture_literal: ../textures/c9c274d4ea1de7d059cec0a795b3b27e3941935.jpg
+      expected_resolution_from_owning_mdl: /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets/assets/scene_usds/ebench/simple_pnp/task3/SubUSDs/textures/c9c274d4ea1de7d059cec0a795b3b27e3941935.jpg
+      exists: false
+origin_classification:
+  o_mdl:
+    classification: phase11_phase12_registry_material_closure_metadata_not_active_pxr_dependency
+    evidence:
+      - raw text search found no O.mdl matches under official task3 or prior temporary canary package
+      - pxr traversal found zero named blocker hits and zero active O.mdl shader asset refs
+      - Phase12 asset_registry.yaml records official_ebench_scene@e1cf0d5b4d76 material_closure.missing_material_refs[0] as usd=scene.usd, material=O.mdl, resolved_path=O.mdl
+      - Phase12 registry_snapshot.yaml repeats the same missing_material_refs entry
+      - Phase13 asset_intake_blockers.yaml forwards that registry material_closure blocker into the current request
+    definitive_source: /cpfs/user/zhuzihou/dev/scenario-forge/docs/records/evidence/2026-07-05-phase11-small-multi-task-canary/phase11_three_task_suite/registry/asset_registry.yaml
+    follow_up_scope: "S2D-01 should preserve a regression fixture for registry-facing O.mdl blockers, but S2D-00 origin is now classified as Scenario Forge retained registry metadata rather than an active official-source USD dependency."
+  missing_jpgs:
+    classification: active_mdl_runtime_texture_literals_with_missing_files
+    evidence:
+      - "MI_655dcc9a9237ad0001ba8197.mdl:20 references c00e97e58585d8ddb0f8b16a724d05a13eae31.jpg"
+      - "MI_655dcc9ad6b50e000157727c.mdl:36 references bf77ddc86c270d02747e7d0517103514ab51d0f.jpg"
+      - "MI_655dcc9ad6b50e000157727c.mdl:37 references c9c274d4ea1de7d059cec0a795b3b27e3941935.jpg"
+      - exact filename search found no matching JPG files under checked EBench roots or prior temporary canary package
+    route_a_possible: false
+    route_a_condition: "Only possible if an approved official source package supplies exact O.mdl/JPG dependencies."
+route_decision:
+  selected_default: route_b_formal_nomdl_preview_fallback
+  rationale: "Official source tree lacks the three MDL-internal JPG files, and O.mdl is not active in pxr-composed official source traversal. The only currently defensible clean package route is a formal no-MDL / PreviewSurface compatibility package generated outside /tmp, with no full material parity claim."
+  forbidden_shortcuts:
+    - do_not_modify_official_source_tree
+    - do_not_synthesize_placeholder_jpgs
+    - do_not_use_tmp_canary_as_final_package
+    - do_not_claim_full_material_parity
+verification_commands:
+  baseline_tests:
+    command: python -m pytest tests/test_asset_application_normalizer_mdl_runtime_closure.py -q
+    result: "18 passed in 0.32s"
+  pxr_traversal:
+    command: "./scripts/isaac_python.sh - <inline pxr traversal script>"
+    result: "official scene opened; prior no-MDL opened; O.mdl hits were zero in sublayers, references, payloads, info:mdl:sourceAsset, info:sourceAsset, shader asset inputs, and other shader asset attrs"
+  source_hashes:
+    command: "sha256sum scene.usd scene.usda prior scene_noMDL.usd"
+    result: "hashes recorded above"
+  source_read_only_recheck:
+    command: "sha256sum scene.usd scene.usda && find official_source_root -type f -newermt '2026-07-05 00:00:00 UTC'"
+    result: "scene.usd and scene.usda hashes unchanged; no official source files newer than the S2D task day were reported"

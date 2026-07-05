@@ -304,6 +304,12 @@ class Processor:
                     if stats.get('surface_post'):
                         sp = stats['surface_post']
                         f.write(f"Materials without surface (after): {sp['materials_without_surface']} (auto_created={sp['auto_created_preview']})\n")
+                    if stats.get('missing_texture_asset_attributes'):
+                        ta = stats['missing_texture_asset_attributes']
+                        f.write(
+                            "Missing texture asset attributes pruned: "
+                            f"removed={ta.get('removed', 0)} blocked={ta.get('blocked', 0)} failed={ta.get('failed', 0)}\n"
+                        )
                     if 'mdl_shaders_external' in report:
                         f.write(f"External MDL shaders: {len(report.get('mdl_shaders_external', []))}\n")
                         f.write(f"Root-owned MDL shaders: {len(diag.get('root_owned_mdl_shaders', [])) if diag else 0}\n")
@@ -355,6 +361,7 @@ class Processor:
                         "forcedBlockedSamples": stats.get('mdl_outputs', {}).get('forced_samples') if stats.get('mdl_outputs') else [],
                         "materialsWithoutSurface": stats.get('surface_post', {}).get('materials_without_surface') if stats.get('surface_post') else None,
                         "autoCreatedSurface": stats.get('surface_post', {}).get('auto_created_preview') if stats.get('surface_post') else None,
+                        "missingTextureAssetAttributes": stats.get('missing_texture_asset_attributes'),
                     },
                     "timings": timings,
                     "missingChildren": missing_children[:DIAG_SAMPLE_LIMIT],
