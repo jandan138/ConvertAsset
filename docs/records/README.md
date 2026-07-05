@@ -7,6 +7,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-06-30 Asset Application Normalizer placement](2026-06-30-asset-application-normalizer-placement.md)
 - [2026-07-01 AAN Phase 1 Closeout And Handoff](2026-07-01-aan-phase1-closeout-handoff.md)
 - [2026-07-02 AAN-11 Material Runtime Closure Follow-up](2026-07-02-aan-11-material-runtime-closure.md)
+- [2026-07-05 Official EBench Soap-to-Dish Material Closure Plan](2026-07-05-official-ebench-scene-e1cf0d5b4d76-soap-to-dish-material-closure.md)
 - [2026-06-30 AAN-00 Contract Freeze](2026-06-30-aan-00-contract-freeze.md)
 - [2026-06-30 AAN-01 DryingBox Manifest Seed](2026-06-30-aan-01-dryingbox-manifest-seed.md)
 - [2026-06-30 AAN-02 CLI Skeleton](2026-06-30-aan-02-cli-skeleton.md)

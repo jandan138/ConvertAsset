@@ -305,3 +305,16 @@ Remaining work:
 - Promote retained `/tmp` package outputs to full retained package trees only if a
   future consumer needs package-local multi-view replay instead of retained manifest,
   logs, and PNG artifacts.
+
+## 2026-07-05 Official EBench Soap-to-Dish Closure Case
+
+The `official_ebench_scene@e1cf0d5b4d76` soap-to-dish blocker is a single official
+asset closure case that should reuse AAN-03R/AAN-04/AAN-11 rather than reopen AAN or
+rename `AAN-12` batch admission. The dated plan is:
+
+- [2026-07-05 Official EBench Soap-to-Dish Material Closure Plan](2026-07-05-official-ebench-scene-e1cf0d5b4d76-soap-to-dish-material-closure.md)
+
+The key policy carried forward from AAN-11 is strict: required `O.mdl` and required
+MDL-internal JPG texture gaps are hard blockers unless the final package removes them
+as active dependencies through a formal no-MDL / PreviewSurface compatibility route.
+They are not waiverable for a clean Phase12 `material_closure.status: passed` target.

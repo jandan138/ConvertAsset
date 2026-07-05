@@ -1295,6 +1295,23 @@ AAN-11 必须继续遵守 Isaac 4.1 环境只读策略：使用 `./scripts/isaac
 Isaac 安装目录。非 Isaac 部分优先用 fixture stderr 和 synthetic image metrics 做单元测试；
 runtime 集成仍通过 `--gates static,runtime` 触发。
 
+#### Official EBench single-asset closure cases
+
+`official_ebench_scene@e1cf0d5b4d76` / `soap-to-dish` 这类单资产 official closure
+blocker 不升级为 `AAN-12`，也不交给 Scenario Forge/EOS 手工修 USD/MDL/texture。
+它们按 official asset material-closure record 管理，复用 `AAN-03R`、`AAN-04` 和
+`AAN-11`：
+
+- 如果官方 `O.mdl` 和真实 texture 依赖可取得，走 source-preserving mirror；
+- 如果官方依赖不可取得或 Isaac 4.1 无法 clean compile，走正式 no-MDL / OmniPBR /
+  UsdPreviewSurface compatibility package；
+- clean Phase12 registry closure 要求 `missing_material_refs: []` 和
+  `missing_textures: []`，required material 缺口不能靠 temporary waiver 伪装成 pass；
+- AAN 内部仍使用 `pass`，Phase12/registry exporter 可映射为 `passed`。
+
+当前计划记录见
+`docs/records/2026-07-05-official-ebench-scene-e1cf0d5b4d76-soap-to-dish-material-closure.md`。
+
 ### AAN-07 implementation contract
 
 当前 `AAN-07-benchmark-contract` 采用显式 contract 输入，不自动猜 EBench success
