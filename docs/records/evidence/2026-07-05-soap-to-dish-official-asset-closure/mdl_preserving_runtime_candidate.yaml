@@ -1,0 +1,184 @@
+schema_version: convertasset.s2d_mdl_preserving_runtime_candidate.v0.3
+created_utc: "2026-07-05"
+stage: S2D-08_to_S2D-12
+asset:
+  asset_id: official_ebench_scene_e1cf0d5b4d76_soap_to_dish
+  selected_asset_ref: official_ebench_scene@e1cf0d5b4d76
+route_candidate:
+  route: source_mdl_native_phase12_clean_reexport
+  status: pass_phase12_clean_registry_mapping
+  selected_for_required_scope: true
+  package_wide_preview_fallback_selected: false
+  full_material_parity_claimed: false
+  decision_rule: raw_missing_refs -> dependency_relevance_trace -> required_scope_runtime_gate -> visual_gate -> route_decision
+  decision_boundary:
+    - Raw missing MDL/JPG reports do not automatically justify package-wide no-MDL fallback.
+    - Native MDL is kept when required-scope dependency, runtime compiler, and render gates pass.
+    - Background-only missing textures are retained as scoped warnings and do not force whole-package UsdPreviewSurface fallback.
+    - Phase12 clean registry pass still requires either scoped-warning-aware registry fields or a follow-up package re-export that removes raw background missing refs.
+source:
+  official_source_modified: false
+  original_root_usd: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/source_lock/task3/scene.usd
+  import_fixed_root_usd: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/source_mdl_import_fixed/task3/scene.usd
+  mdl_search_path: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/source_mdl_import_fixed/task3/SubUSDs/materials
+import_fix:
+  reason: KooPbr and KooPbr_maps were authored as absolute MDL imports that Isaac Sim 4.1 did not resolve from the source material directory.
+  external_precedent:
+    doc: /cpfs/shared/simulation/zhuzihou/dev/usd-scene-physics-prep/docs/records/changes/2026-03-16_mdl_import_fix.md
+    script: /cpfs/shared/simulation/zhuzihou/dev/usd-scene-physics-prep/scripts/fix_mdl_absolute_imports.py
+  candidate_report: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d09_mdl_import_fix_report.json
+  files_modified_in_candidate: 23
+  total_replacements: 33
+  residual_absolute_imports: 0
+  kooppbr_maps_mirror:
+    source_path: /cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets/assets/miscs/mdl/ebench/mdl/KooPbr_maps.mdl
+    candidate_path: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/source_mdl_import_fixed/task3/SubUSDs/materials/KooPbr_maps.mdl
+    sha256: 993bddbf7ae067b261512c4ffbe668cc77ee9e905ace9e751b272107becb460c
+dependency_relevance:
+  report: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d08_dependency_relevance_trace.json
+  o_mdl:
+    classification: registry_residue_not_active_dependency
+    active_asset_attr_hits: 0
+    runtime_log_hits_after_import_fix: 0
+    fallback_trigger: false
+  reported_missing_jpgs:
+    - path: ../textures/c00e97e58585d8ddb0f8b16a724d05a13eae31.jpg
+      owning_mdl: MI_655dcc9a9237ad0001ba8197.mdl
+      parameter_role: diffuse
+      scope: background_washingmachine
+      task_required_scope: false
+      status: scoped_background_warning
+    - path: ../textures/bf77ddc86c270d02747e7d0517103514ab51d0f.jpg
+      owning_mdl: MI_655dcc9ad6b50e000157727c.mdl
+      parameter_role: texmap_bump
+      scope: background_washingmachine
+      task_required_scope: false
+      status: scoped_background_warning
+    - path: ../textures/c9c274d4ea1de7d059cec0a795b3b27e3941935.jpg
+      owning_mdl: MI_655dcc9ad6b50e000157727c.mdl
+      parameter_role: opacity
+      scope: background_washingmachine
+      task_required_scope: false
+      status: scoped_background_warning
+runtime_evidence:
+  full_scene_render:
+    root: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/mdl_preserving_render_import_fixed/scene
+    summary: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d09_import_fixed_runtime_summary.json
+    images:
+      - view: back
+        sha256_prefix: c81777a9cadc3ac
+        redish_ratio: 0.0
+        pinkish_ratio: 0.0
+      - view: front
+        sha256_prefix: 23499be0dabac678
+        redish_ratio: 0.0
+        pinkish_ratio: 0.0
+      - view: left
+        sha256_prefix: 04f08f4153732415
+        redish_ratio: 0.0
+        pinkish_ratio: 0.0
+      - view: right
+        sha256_prefix: 0922e0d3d6c72f7c
+        redish_ratio: 0.0
+        pinkish_ratio: 0.0
+  target_runtime_smoke:
+    required_prim: /root/obj__01
+    report: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/runtime_native_import_fixed_target_container/report.json
+    summary: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d09_runtime_target_import_fixed_summary.json
+    status: pass
+    cold_load: pass
+    render_readback: pass
+    physics_step: pass
+    reset: pass
+    required_scope_counters:
+      mdlc_lines: 0
+      usd_mdl_lines: 0
+      failed_shader_node_lines: 0
+      missing_module_lines: 0
+      kooppbr_hits: 0
+      kooppbr_maps_hits: 0
+      o_mdl_hits: 0
+      required_scope_missing_texture_lines: 0
+      required_scope_reported_jpg_texture_errors_total: 0
+    background_runtime_warnings:
+      reported_jpg_texture_errors_total: 12
+      scope: background_washingmachine_only_by_s2d08_binding_join
+      status: scoped_background_warning
+binding_scope:
+  target_container:
+    required_prim: /root/obj__01
+    binding_report: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d10_target_material_binding_report.json
+    bound_materials:
+      - /root/obj__01/Looks/material0
+    target_texture_exists: true
+    target_texture_sha256: 2fb5c14672d87be26ee1d31dc171148f6662581152f36be0069aef92d25971a5
+    uses_reported_missing_jpgs: false
+visual_review:
+  verdict: pass_required_target
+  independent_clean_room_review: PASS for target views A-C; WARN for distant full-scene D only.
+  required_target_red_or_pink_fallback_visible: false
+  deterministic_metrics:
+    target_front_redish_ratio: 0.0
+    target_front_pinkish_ratio: 0.0
+    target_orbit_redish_ratio: 0.0
+    target_orbit_pinkish_ratio: 0.0
+    target_side_redish_ratio: 0.0
+    target_side_pinkish_ratio: 0.0
+phase12_clean_mapping:
+  selected_representation: native_mdl_phase12_clean_reexport_with_runtime_approved_gltf_pbr
+  phase12_scoped_background_warning_clean_pass_supported: false
+  phase12_clean_root_usd: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/source_mdl_phase12_clean/task3/asset.usda
+  phase12_clean_root_usd_sha256: 1fedd44093435591458cf10c303bdf2e856e20b18608307ed7e7dc59b71f0673
+  official_source_modified: false
+  known_prior_blockers_removed_from_candidate_scan:
+    O.mdl: true
+    ../textures/bf77ddc86c270d02747e7d0517103514ab51d0f.jpg: true
+    ../textures/c00e97e58585d8ddb0f8b16a724d05a13eae31.jpg: true
+    ../textures/c9c274d4ea1de7d059cec0a795b3b27e3941935.jpg: true
+  phase12_projection:
+    path: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d12_phase12_material_closure_projection.json
+    status: passed
+    missing_material_refs: []
+    missing_textures: []
+    approved_runtime_mdl_dependencies:
+      - module: gltf/pbr.mdl
+        resolution: approved_runtime_module
+        runtime_path: /isaac-sim/kit/mdl/core/mdl/gltf/pbr.mdl
+  runtime_phase12_clean:
+    report: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/runtime_native_phase12_clean_target_container/report.json
+    summary: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d12_runtime_phase12_clean_summary.json
+    status: pass
+    required_scope_counters:
+      error_lines: 0
+      mdlc_lines: 0
+      usd_mdl_lines: 0
+      failed_shader_node_lines: 0
+      missing_texture_lines: 0
+      missing_module_lines: 0
+      kooppbr_hits: 0
+      kooppbr_maps_hits: 0
+      o_mdl_hits: 0
+      known_jpg_hits: 0
+    target_view_red_or_pink_fallback_visible: false
+  phase13_compile_smoke:
+    report: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d12_phase13_compile_smoke/s2d12_phase13_compile_smoke_report.yaml
+    returncode: 0
+    overall_status: phase13_static_candidate_ready
+    material_gate_status: passed
+    remaining_blockers:
+      - 13.6 engine-native overview render gate is required before formal package readiness
+      - 13.8 EOS execution/predicate canary gate is required before formal package readiness
+  registry_handoff:
+    path: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d12_phase12_clean_registry_mapping.yaml
+    replacement_asset_uid: official_ebench_scene@e1cf0d5b4d76_native_phase12_clean
+    source_package_id: s2d12_native_mdl_phase12_clean
+retained_evidence:
+  route_decision: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d11_mdl_preserving_route_decision.json
+  dependency_trace: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d08_dependency_relevance_trace.json
+  import_fix_report: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d09_mdl_import_fix_report.json
+  target_runtime_report: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/runtime_native_import_fixed_target_container/report.json
+  phase12_clean_registry_mapping: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d12_phase12_clean_registry_mapping.yaml
+next_required_actions:
+  - Downstream updates Phase12 registry to the S2D-12 replacement asset UID and copies the clean material_closure fields.
+  - Downstream reruns Phase12 registry closure, Phase13 compile, 13.6 visual, 13.8 execution predicate, and 13.9 batch gate.
+  - Preserve the existing formal no-MDL package only as a compatibility fallback, not as the fidelity-first route.

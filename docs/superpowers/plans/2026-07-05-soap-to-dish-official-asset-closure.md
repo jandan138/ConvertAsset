@@ -12,8 +12,15 @@
 **Architecture:** This is a ConvertAsset official-asset closure case, not a Scenario
 Forge task-generation change and not an `AAN-12` batch milestone. The implementation
 uses AAN-03R dependency resolution, AAN-04 material closure, AAN-11 material runtime
-closure, and the formal no-MDL / PreviewSurface compatibility path when exact source
-MDL/texture dependencies are unavailable.
+closure, and the formal no-MDL / PreviewSurface compatibility path only when
+required-scope native MDL evidence fails or the target profile disallows native MDL.
+
+**Current status:** S2D-08 through S2D-12 are complete for required-scope route
+selection and Phase12 clean registry mapping. The selected required-scope route is a
+native-MDL Phase12-clean re-export, not package-wide no-MDL fallback. Background-only
+missing JPG texture warnings are removed from the Phase12-clean candidate rather than
+hidden as waivers, and `gltf/pbr.mdl` is carried through the approved Isaac runtime
+module protocol.
 
 **Environment:** Use the existing wrapper:
 
@@ -382,3 +389,146 @@ docs/records/2026-07-05-official-ebench-scene-e1cf0d5b4d76-soap-to-dish-material
 **Final acceptance:** ConvertAsset has produced a formal repaired package, closure
 report, Isaac render evidence, provenance/hash/source records, and a registry handoff
 that lets Phase12/Phase13 rerun without asset-level local patches.
+
+---
+
+## Task S2D-08: Dependency Relevance Trace
+
+- [x] **Step 1: Classify `O.mdl` with pxr-level traversal**
+
+Acceptance met:
+
+- `O.mdl` has no active composed USD asset attr hit.
+- Classification is `registry_residue_not_active_dependency`.
+- Evidence:
+  `/cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d08_dependency_relevance_trace.json`.
+
+- [x] **Step 2: Join each reported JPG to owning MDL, Material, binding consumer, and task relevance**
+
+Acceptance met:
+
+- all three JPGs are real missing MDL-internal literals;
+- all three bind to background washing-machine materials;
+- none bind to required `/root/obj__01`;
+- status is `scoped_background_warning`.
+
+## Task S2D-09: MDL-Preserving Runtime Candidate
+
+- [x] **Step 1: Run native MDL render before fallback**
+
+Acceptance met:
+
+- initial source render produced four nonblank views and proved raw missing refs do
+  not justify immediate no-MDL fallback;
+- initial logs exposed KooPbr/KooPbr_maps MDL resolver failures.
+
+- [x] **Step 2: Build import-fixed external candidate without modifying official source**
+
+Acceptance met:
+
+- copied source lock to `source_mdl_import_fixed/task3`;
+- rewrote 23 candidate MDL files, 33 KooPbr/KooPbr_maps imports;
+- mirrored `KooPbr_maps.mdl`;
+- residual absolute KooPbr imports: 0.
+
+- [x] **Step 3: Re-render import-fixed candidate and retain counters**
+
+Acceptance met:
+
+- full-scene four-view render is retained;
+- `MDLC`, `USD_MDL`, failed shader node, missing module, KooPbr, and KooPbr_maps
+  counters are 0 after the import fix;
+- remaining reported JPG texture errors are classified as background-only by S2D-08.
+
+## Task S2D-10: Visual Review Gate
+
+- [x] **Step 1: Run target-focused runtime smoke on `/root/obj__01`**
+
+Acceptance met:
+
+- cold load, render readback, physics step, and reset passed;
+- front/orbit/side target material views are retained;
+- target material binding resolves to `/root/obj__01/Looks/material0`;
+- target texture exists and does not use the reported missing JPGs.
+
+- [x] **Step 2: Run independent visual QA**
+
+Acceptance met:
+
+- target views A-C are `PASS`;
+- no red/pink/pure-black/missing-material fallback is visible on the target;
+- full-scene D is `WARN` only because target material is too distant to judge.
+
+## Task S2D-11: Fidelity Route Finalization
+
+- [x] **Step 1: Select route from dependency, runtime, and visual evidence**
+
+Decision:
+
+```text
+selected_route_for_required_scope: source_mdl_native_import_fixed
+blanket_nomdl_from_reported_missing_refs: rejected
+package_wide_preview_fallback: not_selected_for_required_scope
+status: pass_required_scope_with_scoped_background_texture_warnings
+full_material_parity_claimed: false
+```
+
+Evidence:
+
+```text
+/cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d11_mdl_preserving_route_decision.json
+```
+
+- [x] **Step 2: Preserve Phase12 boundary**
+
+Acceptance met:
+
+- no-MDL remains a compatibility fallback, not the fidelity-first route;
+- Phase12 clean `passed` still requires `missing_material_refs: []` and
+  `missing_textures: []`, or scoped-warning-aware registry support;
+- background JPG warnings must not be hidden as clean pass.
+
+## Task S2D-12: Phase12 Clean Registry Mapping
+
+- [x] **Step 1: Decide registry representation**
+
+Acceptance:
+
+- either Phase12 supports scoped background warnings, or ConvertAsset produces a
+  follow-up re-export/package that removes raw background missing refs without
+  downgrading required target materials.
+
+Decision:
+
+- Phase12 / Phase13 does not currently support scoped background missing-texture
+  warnings as clean `passed`.
+- ConvertAsset selected a native-MDL Phase12-clean re-export:
+  `/cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/source_mdl_phase12_clean/task3/asset.usda`.
+- Root USD sha256:
+  `1fedd44093435591458cf10c303bdf2e856e20b18608307ed7e7dc59b71f0673`.
+- Package-wide no-MDL fallback remains rejected for this fidelity-first route.
+
+- [x] **Step 2: Re-run Phase12 closure and Phase13 compile**
+
+Acceptance:
+
+- downstream can rerun Phase12 registry closure, Phase13 compile, visual, predicate,
+  and batch gates without hand-editing USD, MDL, texture paths, or material bindings.
+
+Evidence:
+
+- Phase12 projection:
+  `/cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d12_phase12_material_closure_projection.json`
+  exports `material_closure.status: passed`, `missing_material_refs: []`, and
+  `missing_textures: []`.
+- Runtime/render summary:
+  `/cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d12_runtime_phase12_clean_summary.json`
+  has zero error/MDLC/USD_MDL/failed-shader/missing-texture/missing-module/KooPbr/O.mdl/JPG
+  hits and zero red/pink fallback ratios for retained target views.
+- Phase13 compile smoke:
+  `/cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d12_phase13_compile_smoke/s2d12_phase13_compile_smoke_report.yaml`
+  returns code 0, writes `overall_status: phase13_static_candidate_ready`, and has
+  `phase13_5_scene_layout_usd_materialization_gate.status: passed`. The only remaining
+  blockers are expected downstream 13.6 overview render and 13.8 EOS execution gates.
+- Registry mapping handoff:
+  `/cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d12_phase12_clean_registry_mapping.yaml`.

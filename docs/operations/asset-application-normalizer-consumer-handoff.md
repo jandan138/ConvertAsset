@@ -188,6 +188,9 @@ handoff surface:
 | `status` | `pass` means required target materials have closed runtime dependency evidence |
 | `claim_level` | Scope of the material runtime claim, usually required surfaces only |
 | `full_material_parity_claimed` | Must stay `false` unless a separate source-vs-target parity experiment was run |
+| `route_decision` | `source_mdl_native`, `source_mdl_mirrored`, `targeted_preview_fallback`, `package_preview_fallback`, or `blocked` |
+| `source_material_completeness` | Whether the source package has missing helper MDL or MDL-internal textures, and whether they are active |
+| `target_runtime_viability` | Required/background scoped runtime compiler and render verdict for the target Isaac profile |
 | `root_mdl_assets` | Source/package MDL files that seeded the runtime dependency graph |
 | `imported_mdl_modules` | Helper MDL modules mirrored or resolved through approved runtime-root evidence, including runtime path/hash when native |
 | `mdl_texture_assets` | MDL-internal texture files mirrored with package path and hash |
@@ -202,6 +205,8 @@ Consumer hard blockers when AAN-11 is required:
 - required material helper MDL or MDL-internal texture is unresolved;
 - runtime compiler log contains MDLC/module/texture/shader-node errors for a required
   material;
+- missing dependency cannot be assigned to active required, active background,
+  inactive/residue, or unbound scope;
 - package USD/MDL text still references `/cpfs/...`, `omniverse://`, `http(s)://`,
   unauthorized absolute paths, or package escapes;
 - required render prim material binding cannot be traced to the material that was
@@ -215,6 +220,29 @@ materials only on renderable target surfaces.
 Allowed warnings must stay scoped: background-only material warnings, renderer
 deprecation warnings, or explicit PreviewSurface fallback are acceptable only when
 `claims_forbidden` preserves the no-full-material-parity boundary.
+
+Consumers must not convert a raw `missing_material_refs` or `missing_textures` list
+directly into a PreviewSurface/no-MDL decision. Use the AAN `route_decision` plus the
+binding-scope and runtime-visual evidence. If a dependency is registry residue or
+background-only and required surfaces render correctly, the consumer should preserve
+the MDL route and retain the scoped warning. If the consumer registry cannot represent
+that distinction, it should keep the asset blocked or request a re-export rather than
+hand-editing USD/MDL paths downstream.
+
+For Phase12 clean registry mapping, `passed` still means the exported fields are clean:
+`missing_material_refs: []` and `missing_textures: []`, or an explicitly versioned
+registry schema that can carry scoped background warnings without presenting them as
+required-scope defects. A visually acceptable render can reject automatic fallback,
+but it cannot by itself produce clean pass; the AAN evidence must also include active
+dependency scope, required material binding, runtime compiler counters, and retained
+target views.
+
+When the consumer registry cannot represent scoped background warnings, request or use
+an AAN clean re-export package instead of hand-editing USD/MDL/texture paths. The
+soap-to-dish S2D-12 handoff is the reference pattern: native MDL is retained for the
+required target, raw background missing refs are removed from the registry candidate,
+`gltf/pbr.mdl` is recorded as an approved Isaac runtime module, and Phase13 compile
+can reach `phase13_static_candidate_ready` with only downstream 13.6/13.8 gates left.
 
 ## Task File Contract
 
@@ -303,6 +331,7 @@ Forbidden downstream claims unless separately proven:
 - official EBench leaderboard comparability is achieved;
 - full visual material parity is achieved;
 - AAN-06 render smoke alone proves material runtime compiler cleanliness;
+- a raw missing dependency list alone proves that no-MDL fallback is required;
 - physical parameter parity with the source asset is achieved;
 - runtime smoke is an EBench score.
 

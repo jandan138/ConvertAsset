@@ -232,8 +232,15 @@ origin_classification:
     route_a_possible: false
     route_a_condition: "Only possible if an approved official source package supplies exact O.mdl/JPG dependencies."
 route_decision:
-  selected_default: route_b_formal_nomdl_preview_fallback
-  rationale: "Official source tree lacks the three MDL-internal JPG files, and O.mdl is not active in pxr-composed official source traversal. The only currently defensible clean package route is a formal no-MDL / PreviewSurface compatibility package generated outside /tmp, with no full material parity claim."
+  superseded_by:
+    repo_summary: mdl_preserving_runtime_candidate.yaml
+    external_decision: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d11_mdl_preserving_route_decision.json
+    phase12_clean_mapping: /cpfs/user/zhuzihou/assets/convertasset_research/experiments/ebench/official_asset_closure/soap_to_dish_e1cf0d5b4d76_20260705/evidence/s2d12_phase12_clean_registry_mapping.yaml
+  selected_default: source_mdl_native_phase12_clean_reexport
+  fallback_candidate: route_b_formal_nomdl_preview_fallback
+  status: pass_phase12_clean_registry_mapping
+  rationale: "This S2D-00 origin report proved O.mdl is not active in pxr-composed official source traversal and that the three missing JPGs are localized MDL-internal texture literals. S2D-08 then bound the three JPGs to background washing-machine materials, and S2D-09/S2D-10 proved the import-fixed native MDL candidate renders the required /root/obj__01 target without KooPbr, MDLC, USD_MDL, shader-node, red, or pink fallback failures. S2D-12 then produced a native-MDL Phase12-clean re-export that removes raw background missing refs and maps gltf/pbr.mdl through approved Isaac runtime-module evidence. Package-wide no-MDL is therefore rejected for the fidelity-first route; formal no-MDL remains a compatibility fallback if a consumer cannot accept native MDL."
+  phase12_boundary: "S2D-12 exports clean Phase12-facing fields: material_closure.status=passed, missing_material_refs=[], and missing_textures=[]. Scoped background warnings are not hidden as clean pass; they are removed from the Phase12-clean candidate or kept outside the clean registry projection."
   forbidden_shortcuts:
     - do_not_modify_official_source_tree
     - do_not_synthesize_placeholder_jpgs
