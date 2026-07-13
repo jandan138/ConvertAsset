@@ -71,6 +71,35 @@ assert all(gate["status"] == "pass" for gate in manifest["stage_gates"])
 PY
 ```
 
+## 2026-07-13 Scope Correction
+
+This retained result remains valid for the source and scope shown in the command
+above: the already repaired `DryingBox_01_overlay` at
+`/World/labutopia_level1_poc/obj_obj_DryingBox_01`. It does not test the raw
+20260707 LabUtopia source
+`/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd`
+or any raw DB01--DB04 family member.
+
+The original record described this as a “DryingBox” refresh and a “first
+acceptance asset.” That short form omitted two material facts: the input was a
+pre-repaired overlay rather than raw `lab_001.usd`, and the evidence was only
+for its declared overlay prim scope. Consequently, the result was incorrectly
+reused as support for a broader “DryingBox normalization-ready” statement.
+
+Correct interpretation:
+
+> Retained readiness evidence applies only to the pre-repaired
+> `DryingBox_01_overlay` source and its declared overlay prim scope. It does
+> not establish normalization readiness for the raw LabUtopia `lab_001.usd`
+> DryingBox family.
+
+The raw-family audit and the distinct DB03 `visual_static` Scenario Forge
+package are recorded in
+`docs/records/2026-07-13-aan-dryingbox-family-admission-and-claim-correction.md`.
+That record must retain its own source hash, scope map, output-role admission,
+and Isaac Sim 4.1 runtime/warning-diff evidence before any DB03 runtime-ready
+claim is made.
+
 ## PM Table Impact
 
 After this run, the AAN-09.5 PM evidence table was regenerated with this refreshed
@@ -83,7 +112,9 @@ DryingBox manifest. The PM table now reports:
 
 ## Claim Boundary
 
-This refresh proves the retained DryingBox package has runtime smoke and benchmark
-contract evidence. It still does not claim official EBench leaderboard comparability,
-full visual material parity, full physical-parameter parity, or exact Isaac Sim 4.1
-binary conformance beyond the recorded environment evidence.
+This refresh proves the retained pre-repaired `DryingBox_01_overlay` package has
+runtime smoke and benchmark-contract evidence at its declared overlay scope. It
+does not claim readiness for raw `lab_001.usd` DB01--DB04, official EBench
+leaderboard comparability, full visual material parity, full physical-parameter
+parity, or exact Isaac Sim 4.1 binary conformance beyond the recorded environment
+evidence.

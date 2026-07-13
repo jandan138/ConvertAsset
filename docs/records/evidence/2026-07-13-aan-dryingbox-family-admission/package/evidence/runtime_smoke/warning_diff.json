@@ -1,0 +1,84 @@
+{
+  "status": "pass",
+  "baseline_scope_prims": [
+    "/World/scientific_workbench_bimanual_pour/room/DryingBox_03"
+  ],
+  "candidate_scope_prims": [
+    "/World/DryingBox_03"
+  ],
+  "scope_validation": {
+    "baseline": {
+      "status": "pass",
+      "scope_prims": [
+        "/World/scientific_workbench_bimanual_pour/room/DryingBox_03"
+      ],
+      "errors": []
+    },
+    "candidate": {
+      "status": "pass",
+      "scope_prims": [
+        "/World/DryingBox_03"
+      ],
+      "errors": []
+    }
+  },
+  "comparison_basis": "canonical_scope_relative_prim_and_category",
+  "rows": [
+    {
+      "canonical_prim": "scope_0/body/Group/door/mesh",
+      "category": "invalid_inertia",
+      "baseline_count": 2,
+      "candidate_count": 0,
+      "removed": 2,
+      "introduced": 0
+    },
+    {
+      "canonical_prim": "scope_0/body/Group/door/mesh",
+      "category": "negative_mass",
+      "baseline_count": 2,
+      "candidate_count": 0,
+      "removed": 2,
+      "introduced": 0
+    },
+    {
+      "canonical_prim": "scope_0/body/Group/door/mesh",
+      "category": "small_sphere_approximated_inertia",
+      "baseline_count": 2,
+      "candidate_count": 0,
+      "removed": 2,
+      "introduced": 0
+    },
+    {
+      "canonical_prim": "scope_0/handle/mesh",
+      "category": "invalid_inertia",
+      "baseline_count": 2,
+      "candidate_count": 0,
+      "removed": 2,
+      "introduced": 0
+    },
+    {
+      "canonical_prim": "scope_0/handle/mesh",
+      "category": "negative_mass",
+      "baseline_count": 2,
+      "candidate_count": 0,
+      "removed": 2,
+      "introduced": 0
+    },
+    {
+      "canonical_prim": "scope_0/handle/mesh",
+      "category": "small_sphere_approximated_inertia",
+      "baseline_count": 2,
+      "candidate_count": 0,
+      "removed": 2,
+      "introduced": 0
+    }
+  ],
+  "summary": {
+    "baseline_scoped_count": 12,
+    "candidate_scoped_count": 0,
+    "removed_count": 12,
+    "introduced_count": 0
+  },
+  "baseline_log": "/cpfs/user/zhuzihou/dev/scenario-forge/outputs/scientific_workbench_bimanual_pour/adapters/ebench/genmanip/evidence/initial_scene/runtime.log",
+  "baseline_sha256": "cce797479cd8c222770ad661a545d57853d78baa4dd6ded29881e10365ca9c97"
+}

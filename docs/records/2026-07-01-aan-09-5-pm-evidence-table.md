@@ -47,6 +47,11 @@ Important result:
 - `RemoteUriBlocked` is `blocked` with failure mode `aan03_block_remote_uri`.
 - Waiver count is `0`.
 
+2026-07-13 scope correction: the `DryingBox_01_overlay` row is a ready row for
+the pre-repaired overlay manifest only. It is not a count or status for the raw
+LabUtopia `lab_001.usd` DryingBox family. The table must not be used to infer
+DB01--DB04 family readiness from that row.
+
 ## Verification
 
 Commands run:
@@ -82,3 +87,12 @@ AAN-09.5 pass means product reporting can consume a single table instead of manu
 opening separate manifests. If a future table includes `contract_ready_runtime_pending`,
 that status must remain separate from `ready`; the current table has no pending runtime
 asset after the DryingBox refresh.
+
+The historical “DryingBox refresh” wording refers to the already repaired
+`DryingBox_01_overlay`, not the raw 20260707 source family. Any future PM row
+for `lab_001.usd:/World/DryingBox_03` must carry the source SHA-256, output
+asset role, declared prim scope, source-physics-audit status, output-role
+admission status, and (when runtime is requested) the scoped PhysX
+negative-mass/inertia warning result. A `visual_static` DB03 row may only be
+reported as ready for its declared Scenario Forge background scope; it cannot
+upgrade DB01--DB04 to dynamic, articulated, or family ready.

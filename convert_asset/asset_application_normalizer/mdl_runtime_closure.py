@@ -7,6 +7,7 @@ import hashlib
 from pathlib import Path
 import re
 import shutil
+import sys
 from typing import Any
 
 from .evidence_manifest import sha256_file
@@ -123,11 +124,15 @@ def classify_mdl_module(module: str) -> str:
 
 
 def discover_mdl_roots(package_root: Path, material_closure: list[dict]) -> list[Path]:
-    roots: set[Path] = set()
-    mdl_dir = package_root / "deps" / "mdl"
-    if mdl_dir.exists():
-        roots.update(path for path in mdl_dir.rglob("*.mdl") if path.is_file())
+    """Return MDL roots reachable from admitted material bindings.
 
+    A package may retain source mirrors for provenance, but AAN-11 must not
+    turn an unrelated scene material into a target-runtime requirement.  When
+    AAN-04 has material records, start only from their referenced source MDLs
+    and follow package-local helper imports.  The directory-wide fallback is
+    retained for direct/legacy callers that do not provide a material closure.
+    """
+    roots: set[Path] = set()
     for material in material_closure:
         for asset in material.get("source_mdl_assets", []):
             package_path = asset.get("package_path")
@@ -136,6 +141,23 @@ def discover_mdl_roots(package_root: Path, material_closure: list[dict]) -> list
             candidate = package_root / str(package_path)
             if candidate.exists() and candidate.suffix.lower() == ".mdl":
                 roots.add(candidate)
+
+    if material_closure:
+        queue = list(roots)
+        while queue:
+            root = queue.pop(0)
+            for module in parse_mdl_runtime_dependencies(root).imported_modules:
+                if classify_mdl_module(module) == "native_runtime_module":
+                    continue
+                helper = package_root / "deps" / "mdl" / _module_package_file(module)
+                if helper.exists() and helper.suffix.lower() == ".mdl" and helper not in roots:
+                    roots.add(helper)
+                    queue.append(helper)
+        return sorted(roots, key=lambda item: item.relative_to(package_root).as_posix())
+
+    mdl_dir = package_root / "deps" / "mdl"
+    if mdl_dir.exists():
+        roots.update(path for path in mdl_dir.rglob("*.mdl") if path.is_file())
 
     return sorted(roots, key=lambda item: item.relative_to(package_root).as_posix())
 
@@ -146,8 +168,12 @@ def build_material_runtime_closure(
     required_prims: list[str] | None = None,
     runtime_mdl_roots: list[Path] | None = None,
 ) -> MaterialRuntimeClosureResult:
-    mirror_actions = _mirror_mdl_runtime_dependencies(package_root, material_closure)
     approved_runtime_roots = _existing_runtime_mdl_roots(runtime_mdl_roots)
+    mirror_actions = _mirror_mdl_runtime_dependencies(
+        package_root,
+        material_closure,
+        runtime_mdl_roots=approved_runtime_roots,
+    )
     roots = discover_mdl_roots(package_root, material_closure)
     module_records: list[dict[str, Any]] = []
     texture_records: list[dict[str, Any]] = []
@@ -584,6 +610,8 @@ def build_material_view_evidence(records: list[dict[str, Any]]) -> list[dict[str
 def _mirror_mdl_runtime_dependencies(
     package_root: Path,
     material_closure: list[dict[str, Any]],
+    *,
+    runtime_mdl_roots: list[Path],
 ) -> list[dict[str, Any]]:
     source_by_package = _source_mdl_paths_by_package(material_closure)
     if not source_by_package:
@@ -609,6 +637,7 @@ def _mirror_mdl_runtime_dependencies(
                 package_mdl,
                 source_mdl,
                 module,
+                runtime_mdl_roots=runtime_mdl_roots,
             )
             if source_path is not None and package_path not in source_by_package:
                 source_by_package[package_path] = source_path
@@ -643,6 +672,8 @@ def _mirror_helper_module(
     owner_package_mdl: Path,
     owner_source_mdl: Path,
     module: str,
+    *,
+    runtime_mdl_roots: list[Path],
 ) -> tuple[str, Path | None, dict[str, Any] | None]:
     package_rel = (Path("deps") / "mdl" / _module_package_file(module)).as_posix()
     package_candidate = package_root / package_rel
@@ -652,7 +683,22 @@ def _mirror_helper_module(
     if package_candidate.exists():
         return package_rel, source_candidate if source_candidate.exists() else None, None
     if not source_candidate.exists() or not source_candidate.is_file():
-        return package_rel, None, None
+        runtime = _runtime_module_resolution(module, runtime_mdl_roots)
+        if runtime is None:
+            return package_rel, None, None
+        runtime_module, runtime_root, runtime_path = runtime
+        _copy_package_file(runtime_path, package_candidate)
+        return package_rel, runtime_path, {
+            "action_id": "aan11_mirror_runtime_compatible_helper_mdl",
+            "module": module,
+            "runtime_module": runtime_module,
+            "owner_mdl": owner_package_mdl.relative_to(package_root).as_posix(),
+            "source_path": str(runtime_path),
+            "runtime_root": str(runtime_root),
+            "package_path": package_rel,
+            "package_sha256": sha256_file(package_candidate),
+            "resolution_source": "target_runtime_module_mirror",
+        }
 
     _copy_package_file(source_candidate, package_candidate)
     return package_rel, source_candidate, {
@@ -680,18 +726,48 @@ def _mirror_mdl_texture(
         return None
 
     source_candidate = (owner_source_mdl.parent / raw_texture).resolve()
-    if not source_candidate.exists() or not source_candidate.is_file():
-        return None
+    if source_candidate.exists() and source_candidate.is_file():
+        _copy_package_file(source_candidate, package_candidate)
+        return {
+            "action_id": "aan11_mirror_mdl_texture",
+            "raw_asset_path": raw_texture,
+            "owner_mdl": owner_package_mdl.relative_to(package_root).as_posix(),
+            "source_path": str(source_candidate),
+            "package_path": package_rel,
+            "package_sha256": sha256_file(package_candidate),
+        }
 
-    _copy_package_file(source_candidate, package_candidate)
+    # Some localized USD packages contain the byte-identical texture next to a
+    # second copy of the MDL, while the first copy retains a stale relative
+    # literal.  Do not guess among alternatives: only an exactly one package
+    # local basename match is a deterministic closure repair.
+    alias = _unique_package_local_texture_alias(package_root, package_candidate.name)
+    if alias is None:
+        return None
+    _copy_package_file(alias, package_candidate)
     return {
-        "action_id": "aan11_mirror_mdl_texture",
+        "action_id": "aan11_mirror_unique_package_texture_alias",
         "raw_asset_path": raw_texture,
         "owner_mdl": owner_package_mdl.relative_to(package_root).as_posix(),
-        "source_path": str(source_candidate),
+        "source_path": str(alias),
         "package_path": package_rel,
         "package_sha256": sha256_file(package_candidate),
+        "resolution_source": "unique_package_local_basename",
     }
+
+
+def _unique_package_local_texture_alias(package_root: Path, basename: str) -> Path | None:
+    if not basename:
+        return None
+    candidates = sorted(
+        (
+            path.resolve()
+            for path in package_root.rglob(basename)
+            if path.is_file()
+        ),
+        key=str,
+    )
+    return candidates[0] if len(candidates) == 1 else None
 
 
 def _copy_package_file(source: Path, target: Path) -> None:
@@ -754,11 +830,18 @@ def _module_record(
 
 
 def _existing_runtime_mdl_roots(runtime_mdl_roots: list[Path] | None) -> list[Path]:
-    roots = (
-        runtime_mdl_roots
-        if runtime_mdl_roots is not None
-        else list(DEFAULT_RUNTIME_MDL_ROOTS)
-    )
+    roots = list(runtime_mdl_roots) if runtime_mdl_roots is not None else []
+    if runtime_mdl_roots is None:
+        for entry in sys.path:
+            site = Path(entry)
+            roots.extend(
+                [
+                    site / "omni" / "mdl" / "core" / "mdl",
+                    site / "omni" / "mdl" / "core" / "Base",
+                    site / "omni" / "mdl" / "core",
+                ]
+            )
+        roots.extend(DEFAULT_RUNTIME_MDL_ROOTS)
     existing: list[Path] = []
     seen: set[Path] = set()
     for root in roots:

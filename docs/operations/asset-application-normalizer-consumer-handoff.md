@@ -17,6 +17,11 @@ Isaac 5.1-oriented USD source
   -> EBench / Isaac Sim 4.1 target profile
 ```
 
+The role-scoped Scenario Forge path is narrower: immutable LabUtopia USD goes
+through a ConvertAsset-owned package-local closure and `visual_static` overlay
+before Scenario Forge consumes it as a background object. It is not a
+dynamic-physics, articulated, or source-family readiness profile.
+
 Supported input format:
 
 - `.usd`
@@ -28,6 +33,8 @@ Supported runtime/profile values:
 - `--source-runtime isaac51`
 - `--target-runtime isaac41`
 - `--target-benchmark ebench-lift2`
+- `--target-benchmark scenario-forge` only with an explicit role-specific
+  admission contract
 
 Supported asset classes:
 
@@ -41,7 +48,7 @@ Unsupported as ready package input:
 - deformable, liquid, cloth, particle, granular assets
 - USD assets whose required dependencies cannot be mirrored, safely pruned, waived, or
   blocked with evidence
-- assets without an explicit benchmark task contract
+- dynamic/EBench assets without an explicit benchmark task contract
 
 ## Producer Command
 
@@ -66,6 +73,72 @@ AAN handoff runs.
 Use `--gates static,runtime,benchmark` for a ready handoff. `static,benchmark` can
 prove task files exist, but it does not prove runtime readiness.
 
+## Scenario Forge Visual-Static Admission
+
+Scenario Forge may consume an AAN package with
+`--target-benchmark scenario-forge --asset-role visual_static` only when the
+manifest declares its exact package scope through `asset_scope_prim_paths`.
+This profile is for a background object; it does not request an EBench evaluator
+or AAN-07 task contract.
+
+The producer must provide:
+
+- an immutable upstream source USD and its before/after SHA-256 integrity result;
+- `--asset-scope-prim` values that identify the output asset scope explicitly;
+- the `visual_static` role, which preserves visual/material/transform semantics
+  while removing active scoped articulation, joint, rigid-body, and collision
+  semantics only in the ConvertAsset-owned package overlay;
+- `--runtime-python` and `--expected-runtime-version 4.1` for a final
+  Isaac Sim 4.1 runtime claim; and
+- if comparing a Scenario Forge integration log, a baseline log plus its composed
+  `--warning-baseline-scope-prim` mapping.
+
+The source physics audit and output-role admission are deliberately separate.
+For example, a raw source can remain physics-blocked while its declared
+`visual_static` package output passes with no active physics semantics. That
+does not make the raw source dynamic-ready, articulated-ready, or family-ready.
+
+AAN-03 isolates this role-specific package before the runtime gate. It composes
+the package-local source closure, discovers the declared scope’s effective bound
+material prims, opens a population-masked composed stage for those roots, and
+writes a flattened package-local snapshot. The owned `asset.usd` overlay then
+sublayers that snapshot rather than the full source scene. The manifest’s
+`dependency_closure.scope_extraction` record identifies the strategy, retained
+scope subtrees, retained material prims, and stage metadata.
+
+Scope isolation is fail-closed: if the declared source scope cannot compose, a
+bound material root is lost, or the scoped USDA cannot reopen, AAN blocks the
+package. Collection bindings, external relationship targets, and instancing are
+not grounds for a best-effort whole-scene fallback; they require explicit
+composition and visual-preservation evidence before admission.
+
+### Retained DB03 reference admission
+
+The retained 2026-07-13 reference package is
+[`LabUtopia_lab001_DryingBox_03_visual_static`](../records/evidence/2026-07-13-aan-dryingbox-family-admission/manifest.json).
+It admits only `/World/DryingBox_03` as a Scenario Forge background
+`visual_static` output. Its immutable raw source SHA-256 is
+`b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2`; before
+and after values are equal. The separate real DB01--DB04 source-family audit is
+blocked (4/3/3/4 invalid rigid bodies, 14 total), so this manifest must not be
+used to claim a dynamic-ready or family-ready DryingBox asset.
+
+For the declared package scope, the output-role audit has zero active physics
+residue and the visual-preservation fingerprint passes. The final runtime report
+uses Isaac Sim Kit `4.1.0-rc.7+4.1.14801.71533b68.gl`: cold load, render, step,
+and reset pass; the candidate has zero scoped negative-mass, invalid-inertia, or
+small-sphere inertia events. Its warning diff records the composed Scenario
+Forge baseline as 12 scoped events and the package candidate as 0 (12 removed,
+0 introduced). The source-family audit, static report, package, render, and
+warning diff are retained beside the [manifest](../records/evidence/2026-07-13-aan-dryingbox-family-admission/).
+
+The runtime worker uses `os_exit_after_evidence` only after persisting the gate
+report, to isolate an Isaac 4.1 native-plugin-unload crash. It is not evidence
+of graceful `SimulationApp.close()` shutdown and it does not waive gates: a
+missing report, failed gate, or nonzero worker/protocol result remains blocking.
+This retained worker exited 0. Scenario Forge must consume this package and
+manifest as-is, with no local physics repair or warning suppression.
+
 ## Input Contract
 
 The caller owns:
@@ -75,9 +148,9 @@ The caller owns:
 | source USD | Must exist and use a supported USD extension |
 | `asset_id` | Stable asset name for manifest, evidence, and downstream reports |
 | `asset_class` | `rigid`, `articulated`, or `auto`; articulated assets require joint evidence |
-| required prims | At least the asset root; more roles should be expressed in the task contract |
-| task contract | JSON or simple YAML containing task metadata, required semantic prim roles, evaluator entrypoint, and metric |
-| gates | Use `static,runtime,benchmark` for ready packages |
+| required prims | At least the asset root; a `visual_static` package also needs an explicit output scope |
+| task contract | Required for dynamic EBench admission; JSON or simple YAML containing task metadata, required semantic prim roles, evaluator entrypoint, and metric |
+| gates | Use `static,runtime,benchmark` for dynamic EBench ready packages; a Scenario Forge visual-static package uses `static,runtime` when runtime evidence is requested |
 
 Do not rely on AAN to infer success predicates. The benchmark contract must provide the
 task/evaluator meaning.
@@ -98,12 +171,14 @@ A ready package must contain:
 
 ```text
 <package_dir>/
-  asset.usd
+  asset.usd              # ConvertAsset-owned strong entry overlay
   deps/                 # present when USD/MDL/texture dependencies are copied
     usd/
+      source_root.usd    # package-local immutable-source mirror used to compose closure
+      scoped_source.usda # visual_static only: population-masked scope/material snapshot
     mdl/
     textures/
-  task/
+  task/                  # required for EBench; not applicable to visual_static Scenario Forge
     task_config.yaml
     required_prims.yaml
     evaluator.yaml
@@ -115,8 +190,11 @@ A ready package must contain:
       stderr.log
 ```
 
-The exact `deps/` contents are asset-dependent. Consumers should not hard-code MDL or
-texture filenames. Read the manifest instead.
+The exact `deps/` contents are asset-dependent. Consumers should not hard-code MDL,
+texture, source-root, or scoped-snapshot filenames. Read the manifest instead.
+For `visual_static`, `asset.usd` composes the scoped snapshot, not the full
+source root. The source mirror is not permission to edit the upstream LabUtopia
+source; only the package overlay is owned by ConvertAsset.
 
 ## Manifest Contract
 
@@ -127,18 +205,25 @@ Required top-level fields for consumers:
 | Field | Consumer use |
 |---|---|
 | `schema_version` | Must be `asset_application_normalizer.v1` for the current MVP |
-| `asset_id`, `task_id` | Report identity and task routing |
+| `asset_id`, `task_id`, `asset_role` | Report identity, task routing, and whether the package is dynamic or visual-static |
 | `source` | Source path/hash/format/runtime lineage |
+| `source_integrity` | Source SHA-256 before/after normalization; `unchanged` must be true |
 | `target` | Runtime and benchmark profile |
 | `entrypoints` | Package root USD and task file paths |
 | `required_prim_paths` | Required prim records for the package |
+| `asset_scope_prim_paths` | Exact output admission scope; required for role-scoped claims |
 | `dependency_closure` | Missing, remote, mirrored, blocked, waived dependency state |
+| `dependency_closure.scope_extraction` | For `visual_static`, population-masked scope/material snapshot strategy and retained roots |
 | `material_closure` | Source material preservation, MDL/texture mirror, fallback/waiver/block state |
 | `material_runtime_closure` | AAN-11 MDL transitive dependency, binding scope, runtime material compiler, and view evidence when the profile requires material runtime closure |
 | `physics_closure` | Rigid body, collision, mass, inertia, and provenance records |
 | `articulation_closure` | Articulation root, joint type/axis/limit/DOF records |
+| `source_physics_audit` | Raw source-scoped diagnostic; a blocked source audit must not be relabeled as a family pass |
+| `output_role_admission` | Role-specific package result, including zero active physics residue for `visual_static` |
+| `normalization_actions`, `visual_preservation_fingerprint` | Package-overlay changes and source/package visual-preservation comparison |
 | `stage_gates` | Per-stage pass/block/not-run evidence |
 | `runtime_evidence` | Cold load, render readback, physics step, reset smoke |
+| `runtime_evidence.physics_warning_gate`, `warning_diff` | Scoped PhysX warning categories, scope map, and baseline/candidate comparison |
 | `benchmark_contract` | Task file and evaluator handoff status |
 | `waivers`, `blocked_reasons` | Risk and blocker records |
 | `claims_allowed`, `claims_forbidden` | Reporting boundary |
@@ -148,7 +233,9 @@ records and claim boundary.
 
 ## Ready Decision
 
-A downstream adapter may treat a package as AAN-ready only when all checks below pass:
+The following checklist is the dynamic EBench handoff checklist. A downstream
+adapter may treat that kind of package as AAN-ready only when all checks below
+pass:
 
 1. `schema_version == "asset_application_normalizer.v1"`.
 2. `target.target_runtime_profile == "isaac41"`.
@@ -172,6 +259,28 @@ A downstream adapter may treat a package as AAN-ready only when all checks below
 
 If any required check fails, the consumer should produce a structured blocker instead
 of applying local USD/MDL/physics fixes.
+
+For a Scenario Forge `visual_static` package, do not require or invent an
+EBench task contract. Instead require all of the following:
+
+1. `asset_role == "visual_static"` and the manifest declares
+   `asset_scope_prim_paths`.
+2. `source_integrity.unchanged == true`.
+3. `output_role_admission.status == "pass"`, with no active rigid-body,
+   collision, articulation, or joint semantics in the declared output scope.
+4. `visual_preservation_fingerprint.status == "pass"`.
+5. The manifest still exposes `source_physics_audit`; a source failure remains a
+   diagnostic boundary and forbids dynamic/family claims.
+6. If runtime is requested, the recorded actual runtime version satisfies the
+   explicit Isaac Sim 4.1 profile gate and cold load, render, step, and reset
+   all pass.
+7. `runtime_evidence.physics_warning_gate` has zero scoped or unattributed
+   negative-mass, invalid-inertia, and small-sphere-approximated-inertia events.
+   A requested `warning_diff` must record zero candidate scoped events; a
+   baseline cannot waive a candidate warning.
+
+If any visual-static check fails, Scenario Forge must reject the package or ask
+ConvertAsset to re-admit it. It must not repair the scene locally.
 
 ## AAN-11 Material Runtime Closure
 
@@ -334,8 +443,18 @@ Forbidden downstream claims unless separately proven:
 - a raw missing dependency list alone proves that no-MDL fallback is required;
 - physical parameter parity with the source asset is achieved;
 - runtime smoke is an EBench score.
+- a passing pre-repaired overlay establishes readiness for a raw LabUtopia
+  asset family;
+- a `visual_static` background package is dynamic-physics-ready,
+  articulated-ready, or family-ready;
+- a baseline warning diff permits a scoped warning in the output package.
 
 ## Minimal Consumer Pseudocode
+
+`load_aan_ready_package` below is intentionally an EBench dynamic-package
+example: it requires AAN-07 task files. A Scenario Forge consumer must branch by
+`asset_role` and apply the visual-static checklist above instead of fabricating
+task files or restoring local physics.
 
 ```python
 from pathlib import Path

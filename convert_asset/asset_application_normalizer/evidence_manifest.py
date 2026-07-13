@@ -49,6 +49,7 @@ def build_manifest(
     blocked_reasons: list[dict[str, Any]] | None = None,
     milestone: str = MILESTONE_AAN02,
     root_usd: str = "asset.usd",
+    package_default_prim: str | None = None,
     dependency_closure: dict[str, Any] | None = None,
     material_closure: list[dict[str, Any]] | None = None,
     material_runtime_closure: dict[str, Any] | None = None,
@@ -59,6 +60,11 @@ def build_manifest(
     static_material_runtime_report: dict[str, Any] | None = None,
     static_physics_report: dict[str, Any] | None = None,
     static_articulation_report: dict[str, Any] | None = None,
+    source_physics_audit: dict[str, Any] | None = None,
+    output_role_admission: dict[str, Any] | None = None,
+    normalization_actions: list[dict[str, Any]] | None = None,
+    visual_preservation_fingerprint: dict[str, Any] | None = None,
+    source_integrity: dict[str, Any] | None = None,
     stage_gates: list[dict[str, Any]] | None = None,
     runtime_evidence: dict[str, Any] | None = None,
     benchmark_contract: dict[str, Any] | None = None,
@@ -70,7 +76,31 @@ def build_manifest(
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     source_sha = sha256_file(request.source_usd)
     blocked_reasons = blocked_reasons or []
-    default_prim = request.required_prims[0] if request.required_prims else None
+    asset_entry_prim = request.effective_asset_scope_prims[0] if request.effective_asset_scope_prims else None
+    default_prim = package_default_prim or None
+    entrypoints: dict[str, Any] = {
+        "root_usd": root_usd,
+        "default_prim": default_prim,
+        "asset_entry_prim": asset_entry_prim,
+        "asset_scope_prims": list(request.effective_asset_scope_prims),
+    }
+    if request.target_benchmark == "ebench-lift2":
+        entrypoints.update(
+            {
+                "task_config": "task/task_config.yaml",
+                "required_prims": "task/required_prims.yaml",
+                "metric_evaluator": "task/evaluator.yaml",
+            }
+        )
+    else:
+        entrypoints.update(
+            {
+                "consumer_profile": "scenario-forge",
+                "task_config": None,
+                "required_prims": None,
+                "metric_evaluator": None,
+            }
+        )
     command_stage_by_milestone = {
         MILESTONE_AAN02: "cli_skeleton",
         MILESTONE_AAN03: "usd_closure",
@@ -86,6 +116,7 @@ def build_manifest(
         "schema_version": SCHEMA_VERSION,
         "package_id": f"{request.asset_id.lower()}_{request.target_benchmark}_{request.target_runtime}",
         "asset_id": request.asset_id,
+        "asset_role": request.asset_role,
         "task_id": request.task_id,
         "milestone": milestone,
         "overall_status": overall_status,
@@ -99,17 +130,18 @@ def build_manifest(
             "target_runtime_profile": request.target_runtime,
             "target_benchmark_profile": request.target_benchmark,
         },
-        "entrypoints": {
-            "root_usd": root_usd,
-            "default_prim": default_prim,
-            "task_config": "task/task_config.yaml",
-            "required_prims": "task/required_prims.yaml",
-            "metric_evaluator": "task/evaluator.yaml",
-        },
+        "entrypoints": entrypoints,
         "normalization_policy": {
             "material": "preserve_source_then_add_compatibility_fallback",
-            "physics": "preserve_authored_then_generate_with_provenance",
+            "physics": "visual_static_strip_or_preserve_valid_then_derive_with_provenance",
             "allowed_value_sources": ["authored", "derived", "template", "manual_override"],
+        },
+        "asset_scope_prim_paths": list(request.effective_asset_scope_prims),
+        "source_integrity": source_integrity
+        or {
+            "sha256_before": source_sha,
+            "sha256_after": source_sha,
+            "unchanged": True,
         },
         "required_prim_paths": _required_prim_records(request.required_prims),
         "dependency_closure": dependency_closure or {
@@ -142,6 +174,10 @@ def build_manifest(
         },
         "physics_closure": physics_closure or {},
         "articulation_closure": articulation_closure or {},
+        "source_physics_audit": source_physics_audit or {},
+        "output_role_admission": output_role_admission or {},
+        "normalization_actions": normalization_actions or [],
+        "visual_preservation_fingerprint": visual_preservation_fingerprint or {},
         "stage_gates": stage_gates or [
             {
                 "check_id": MILESTONE_AAN02,
@@ -172,8 +208,15 @@ def build_manifest(
                 "dry_run": request.dry_run,
                 "gates": request.gates,
                 "material_policy": request.material_policy,
+                "asset_role": request.asset_role,
+                "asset_scope_prims": list(request.effective_asset_scope_prims),
                 "contract": str(request.contract) if request.contract else None,
                 "allow_waiver": str(request.allow_waiver) if request.allow_waiver else None,
+                "runtime_python": str(request.runtime_python) if request.runtime_python else None,
+                "warning_baseline_log": str(request.warning_baseline_log) if request.warning_baseline_log else None,
+                "warning_baseline_scope_prims": list(request.warning_baseline_scope_prims),
+                "expected_runtime_version": request.expected_runtime_version,
+                "runtime_timeout_seconds": request.runtime_timeout_seconds,
             }
         },
         "created_at": now,

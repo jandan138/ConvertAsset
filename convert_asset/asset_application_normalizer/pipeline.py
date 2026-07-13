@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from .benchmark_contract import build_benchmark_contract, build_not_run_benchmark_contract
-from .evidence_manifest import build_manifest, write_manifest
+from .evidence_manifest import build_manifest, sha256_file, write_manifest
 from .material_closure import build_material_closure, build_not_run_material_closure
 from .mdl_runtime_closure import (
     build_material_runtime_closure,
@@ -15,6 +15,7 @@ from .mdl_runtime_closure import (
     runtime_compiler_report_from_evidence,
 )
 from .model import (
+    ALLOWED_ASSET_ROLES,
     ALLOWED_SOURCE_RUNTIMES,
     ALLOWED_TARGET_BENCHMARKS,
     ALLOWED_TARGET_RUNTIMES,
@@ -25,9 +26,11 @@ from .model import (
     USD_EXTENSIONS,
     NormalizeAssetRequest,
     NormalizeAssetResult,
+    validate_scope_prim_paths,
 )
 from .package_layout import TargetPackageLayout, default_evidence_out
-from .physics_checks import build_not_run_physics_checks, build_physics_checks
+from .physics_checks import audit_source_physics, build_not_run_physics_checks, build_physics_checks
+from .role_normalization import build_not_run_role_normalization, normalize_asset_role
 from .runtime_smoke import build_not_run_runtime_smoke, build_runtime_smoke
 from .usd_closure import build_usd_closure_package
 
@@ -48,6 +51,21 @@ def validate_request(request: NormalizeAssetRequest) -> NormalizeAssetResult | N
         return _validation_error(f"unsupported target runtime for MVP: {request.target_runtime}")
     if request.target_benchmark not in ALLOWED_TARGET_BENCHMARKS:
         return _validation_error(f"unsupported target benchmark for MVP: {request.target_benchmark}")
+    if request.asset_role not in ALLOWED_ASSET_ROLES:
+        return _validation_error(f"unsupported asset role: {request.asset_role}")
+    scope_validation = validate_scope_prim_paths(request.effective_asset_scope_prims)
+    if scope_validation["status"] != "pass":
+        return _validation_error(
+            "invalid asset scope: " + "; ".join(str(item) for item in scope_validation["errors"])
+        )
+    if request.target_runtime == "isaac41" and request.expected_runtime_version != "4.1":
+        return _validation_error(
+            "target runtime isaac41 requires --expected-runtime-version 4.1"
+        )
+    if request.runtime_timeout_seconds <= 0:
+        return _validation_error("runtime timeout seconds must be positive")
+    if request.warning_baseline_log is not None and not request.warning_baseline_log.exists():
+        return _validation_error(f"warning baseline log not found: {request.warning_baseline_log}")
     return None
 
 
@@ -57,6 +75,13 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         return validation
 
     evidence_out = request.evidence_out or default_evidence_out(request.out_dir)
+    source_sha_before = sha256_file(request.source_usd)
+    # Raw-source admission is independent evidence.  It must be recorded even
+    # when a later material/package gate blocks role-specific normalization.
+    source_physics_audit = audit_source_physics(
+        request.source_usd,
+        request.effective_asset_scope_prims,
+    )
     if request.dry_run:
         manifest = build_manifest(request, overall_status="dry_run_incomplete")
         write_manifest(evidence_out, manifest)
@@ -81,6 +106,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             layout.root,
             material.material_closure,
             required_prims=request.required_prims,
+            runtime_mdl_roots=_target_runtime_mdl_roots(request),
         )
     else:
         material_runtime = build_not_run_material_runtime_closure(
@@ -91,8 +117,23 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         material_runtime.return_code == 0
         and material_runtime.stage_gate["status"] == "pass"
     ):
-        physics = build_physics_checks(TargetPackageLayout(request.out_dir), request)
+        layout = TargetPackageLayout(request.out_dir)
+        role_normalization = normalize_asset_role(layout, request)
+        if role_normalization.return_code == 0:
+            physics = build_physics_checks(
+                layout,
+                request,
+                source_physics_audit=source_physics_audit,
+                normalization_actions=role_normalization.normalization_actions,
+            )
+        else:
+            physics = build_not_run_physics_checks(
+                "AAN-05 physics output admission was not run because role normalization blocked."
+            )
     else:
+        role_normalization = build_not_run_role_normalization(
+            "Role normalization was not run because an earlier package or material runtime gate blocked."
+        )
         physics = build_not_run_physics_checks(
             "AAN-05 physics static checks were not run because an earlier package or material runtime gate blocked."
         )
@@ -102,7 +143,11 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
     benchmark_requested = "benchmark" in requested_gates
     if runtime_requested and physics.return_code == 0 and physics.stage_gate["status"] == "pass":
         layout = TargetPackageLayout(request.out_dir)
-        runtime = build_runtime_smoke(layout, request)
+        runtime = build_runtime_smoke(
+            layout,
+            request,
+            timeout_seconds=request.runtime_timeout_seconds,
+        )
         if runtime.return_code == 0 and runtime.stage_gate["status"] == "pass":
             material_runtime = merge_runtime_compiler_result(
                 material_runtime,
@@ -125,6 +170,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
 
     if (
         benchmark_requested
+        and request.target_benchmark == "ebench-lift2"
         and physics.return_code == 0
         and physics.stage_gate["status"] == "pass"
         and material_runtime.return_code == 0
@@ -132,6 +178,10 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         and (not runtime_requested or (runtime.return_code == 0 and runtime.stage_gate["status"] == "pass"))
     ):
         benchmark = build_benchmark_contract(TargetPackageLayout(request.out_dir), request)
+    elif benchmark_requested and request.target_benchmark != "ebench-lift2":
+        benchmark = build_not_run_benchmark_contract(
+            "AAN-07 benchmark contract is not applicable to the scenario-forge target profile."
+        )
     elif benchmark_requested:
         benchmark = build_not_run_benchmark_contract(
             "AAN-07 benchmark contract was not run because an earlier static or runtime gate blocked."
@@ -141,15 +191,39 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             "AAN-07 benchmark contract requires the benchmark gate, e.g. --gates static,benchmark."
         )
 
+    source_sha_after = sha256_file(request.source_usd)
+    source_integrity = {
+        "sha256_before": source_sha_before,
+        "sha256_after": source_sha_after,
+        "unchanged": source_sha_before == source_sha_after,
+    }
+    integrity_blockers = []
+    integrity_return_code = 0
+    if not source_integrity["unchanged"]:
+        integrity_return_code = 5
+        integrity_blockers.append(
+            {
+                "blocker_id": "aan_source_integrity_changed",
+                "severity": "blocking",
+                "summary": "The upstream source USD hash changed while AAN was running.",
+                "before": source_sha_before,
+                "after": source_sha_after,
+                "required_resolution": "Re-run against a stable source and retain the matching SHA-256.",
+            }
+        )
     return_code = (
         closure.return_code
         or material.return_code
         or material_runtime.return_code
+        or role_normalization.return_code
         or physics.return_code
         or runtime.return_code
         or benchmark.return_code
+        or integrity_return_code
     )
-    if benchmark.return_code:
+    if integrity_return_code:
+        overall_status = "blocked"
+    elif benchmark.return_code:
         overall_status = benchmark.overall_status
     elif runtime.return_code:
         overall_status = runtime.overall_status
@@ -157,6 +231,8 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         overall_status = physics.overall_status
     elif material_runtime.return_code:
         overall_status = material_runtime.overall_status
+    elif role_normalization.return_code:
+        overall_status = role_normalization.overall_status
     elif material.return_code:
         overall_status = material.overall_status
     elif closure.return_code:
@@ -172,25 +248,72 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         *closure.blocked_reasons,
         *material.blocked_reasons,
         *material_runtime.blocked_reasons,
+        *role_normalization.blocked_reasons,
         *physics.blocked_reasons,
         *runtime.blocked_reasons,
         *benchmark.blocked_reasons,
+        *integrity_blockers,
     ]
     stage_gates = [
         *closure.stage_gates,
         material.stage_gate,
         material_runtime.stage_gate,
+        *(
+            [
+                {
+                    "check_id": "AAN-05R-role-normalization",
+                    "stage": "role_normalization",
+                    "status": role_normalization.overall_status,
+                    "summary": "AAN package-owned visual_static overlay was applied."
+                    if role_normalization.return_code == 0
+                    else "AAN package-owned role normalization blocked.",
+                }
+            ]
+            if request.asset_role == "visual_static"
+            else []
+        ),
         physics.stage_gate,
     ]
     if runtime_requested:
         stage_gates.append(runtime.stage_gate)
     if benchmark_requested:
         stage_gates.append(benchmark.stage_gate)
+    stage_gates.insert(
+        0,
+        {
+            "check_id": "AAN-source-integrity",
+            "stage": "source_integrity",
+            "status": "pass" if source_integrity["unchanged"] else "blocked",
+            "summary": "Source SHA-256 remained unchanged during AAN processing."
+            if source_integrity["unchanged"]
+            else "Source SHA-256 changed during AAN processing.",
+        },
+    )
     material_passed = material.stage_gate["status"] == "pass"
     material_runtime_passed = material_runtime.stage_gate["status"] == "pass"
     physics_passed = physics.stage_gate["status"] == "pass"
     runtime_passed = runtime.stage_gate["status"] == "pass"
     benchmark_passed = benchmark.stage_gate["status"] == "pass"
+    role_physics_claims = (
+        [
+            "AAN-05 records a package-owned visual_static admission for the declared asset scope only.",
+            "The visual_static scope has no active rigid body, collision, articulation, or joint semantics.",
+        ]
+        if request.asset_role == "visual_static"
+        else [
+            "AAN-05 static physics and articulation evidence was recorded.",
+            "Authored rigid body, collision, mass, inertia, joint axis, and joint limits are preserved when listed with value_source=authored.",
+        ]
+    )
+    role_forbidden_claims = (
+        [
+            "The raw source asset family is normalization-ready.",
+            "The visual_static asset is articulated-physics-ready or dynamic-physics-ready.",
+            "Any sibling asset outside the declared visual_static scope is ready.",
+        ]
+        if request.asset_role == "visual_static"
+        else []
+    )
     manifest = build_manifest(
         request,
         overall_status=overall_status,
@@ -207,6 +330,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             else MILESTONE_AAN05
         ),
         root_usd=closure.root_usd_package_path,
+        package_default_prim=closure.static_usd_report.get("root_layer", {}).get("default_prim"),
         dependency_closure=closure.dependency_closure,
         material_closure=material.material_closure,
         material_runtime_closure=material_runtime.material_runtime_closure,
@@ -217,6 +341,11 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         static_material_runtime_report=material_runtime.static_material_runtime_report,
         static_physics_report=physics.static_physics_report,
         static_articulation_report=physics.static_articulation_report,
+        source_physics_audit=source_physics_audit,
+        output_role_admission=physics.output_role_admission,
+        normalization_actions=role_normalization.normalization_actions,
+        visual_preservation_fingerprint=role_normalization.visual_preservation_fingerprint,
+        source_integrity=source_integrity,
         stage_gates=stage_gates,
         runtime_evidence=runtime.runtime_evidence,
         benchmark_contract=benchmark.benchmark_contract,
@@ -243,15 +372,14 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             ),
             *(
                 [
-                    "AAN-05 static physics and articulation evidence was recorded.",
-                    "Authored rigid body, collision, mass, inertia, joint axis, and joint limits are preserved when listed with value_source=authored.",
+                    *role_physics_claims,
                 ]
                 if physics_passed
                 else []
             ),
             *(
                 [
-                    "AAN-06 headless Isaac runtime smoke passed under the configured runtime wrapper.",
+                    "AAN-06 headless Isaac runtime smoke passed under the configured isolated runtime runner.",
                     "Cold load, render readback, physics step, and reset smoke evidence are recorded.",
                 ]
                 if runtime_passed
@@ -275,9 +403,16 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             "Exact Isaac Sim 4.1 binary conformance is verified without an explicit runtime environment fingerprint.",
             "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
             "Full visual material parity beyond recorded source-preservation evidence is achieved.",
+            *role_forbidden_claims,
         ],
     )
     write_manifest(evidence_out, manifest)
+    # Keep a self-contained manifest beside the owned package as well as the
+    # caller-selected sidecar.  Consumers must not need a separate filesystem
+    # convention to find the admission evidence that describes asset.usd.
+    package_manifest = TargetPackageLayout(request.out_dir).evidence_manifest
+    if request.out_dir.is_dir() and package_manifest != evidence_out:
+        write_manifest(package_manifest, manifest)
     if return_code == 0:
         if benchmark_requested:
             print(f"AAN-07 benchmark contract package written: {request.out_dir}")
@@ -308,3 +443,20 @@ def parse_gates(raw: str | None) -> list[str]:
     if not raw:
         return ["static"]
     return [item.strip() for item in raw.split(",") if item.strip()]
+
+
+def _target_runtime_mdl_roots(request: NormalizeAssetRequest) -> list[Path] | None:
+    """Resolve MDL roots from the explicit target runner without importing Kit."""
+    if request.runtime_python is None:
+        return None
+    prefix = request.runtime_python.resolve().parent.parent
+    roots: list[Path] = []
+    for site_packages in prefix.glob("lib/python*/site-packages"):
+        roots.extend(
+            [
+                site_packages / "omni" / "mdl" / "core" / "mdl",
+                site_packages / "omni" / "mdl" / "core" / "Base",
+                site_packages / "omni" / "mdl" / "core",
+            ]
+        )
+    return roots

@@ -1,0 +1,2662 @@
+{
+  "status": "blocked",
+  "source_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+  "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+  "scope": [
+    "/World/DryingBox_01",
+    "/World/DryingBox_02",
+    "/World/DryingBox_03",
+    "/World/DryingBox_04"
+  ],
+  "summary": {
+    "family_member_count": 4,
+    "invalid_rigid_body_count": 14,
+    "rigid_body_count": 14
+  },
+  "family_members": [
+    {
+      "scope": "/World/DryingBox_01",
+      "status": "blocked",
+      "summary": {
+        "rigid_body_count": 4,
+        "collision_count": 8,
+        "mass_record_count": 4,
+        "authored_mass_count": 1,
+        "authored_inertia_count": 0,
+        "derived_mass_count": 0,
+        "derived_inertia_count": 0,
+        "invalid_rigid_body_count": 4
+      },
+      "rigid_bodies": [
+        {
+          "prim_path": "/World/DryingBox_01/body/Group/door/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/body/Group/door/mesh.physics:rigidBodyEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "kinematic": {
+            "value": false,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/body/Group/door/mesh.physics:kinematicEnabled",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_01/body/body/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/body/body/mesh.physics:rigidBodyEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "kinematic": {
+            "value": false,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/body/body/mesh.physics:kinematicEnabled",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_01/handle/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/handle/mesh.physics:rigidBodyEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "kinematic": {
+            "value": false,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/handle/mesh.physics:kinematicEnabled",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_01/button",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/button.physics:rigidBodyEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "kinematic": {
+            "value": false,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/button.physics:kinematicEnabled",
+            "provenance_status": "not_applicable"
+          }
+        }
+      ],
+      "collisions": [
+        {
+          "prim_path": "/World/DryingBox_01/body/Group/door/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/body/Group/door/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "convexDecomposition",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/body/Group/door/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_01/body/body/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/body/body/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "convexDecomposition",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/body/body/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_01/handle/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/handle/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "convexHull",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/handle/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_01/Group_02/group/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/Group_02/group/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "none",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/Group_02/group/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_01/Group_02/group_04/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/Group_02/group_04/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "none",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/Group_02/group_04/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_01/Group_02/group_01/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/Group_02/group_01/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "none",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/Group_02/group_01/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_01/Group_02/group_05/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/Group_02/group_05/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "none",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/Group_02/group_05/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_01/button",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/button.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "convexHull",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/button.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        }
+      ],
+      "mass_properties": [
+        {
+          "prim_path": "/World/DryingBox_01/body/Group/door/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "mass_api_applied": true,
+          "mass": {
+            "value": 0.0,
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_01/body/Group/door/mesh.physics:mass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "density": {
+            "value": 0.001,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/body/Group/door/mesh.physics:density",
+            "provenance_status": "not_applicable"
+          },
+          "center_of_mass": {
+            "value": [
+              "-inf",
+              "-inf",
+              "-inf"
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_01/body/Group/door/mesh.physics:centerOfMass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "inertia": {
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_01/body/Group/door/mesh.physics:diagonalInertia",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "principal_axes": {
+            "value": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_01/body/Group/door/mesh.physics:principalAxes",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "provenance_complete": false,
+          "invalid_auto_compute_reliance": true,
+          "status": "blocked"
+        },
+        {
+          "prim_path": "/World/DryingBox_01/body/body/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "mass_api_applied": true,
+          "mass": {
+            "value": 1.0,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/body/body/mesh.physics:mass",
+            "provenance_status": "pass",
+            "provenance": {
+              "value_source": "authored",
+              "method": "usd_authored_value",
+              "field": "mass",
+              "authored_value_opinion": true,
+              "authoring_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd"
+            }
+          },
+          "density": {
+            "value": 0.01,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/body/body/mesh.physics:density",
+            "provenance_status": "not_applicable"
+          },
+          "center_of_mass": {
+            "value": [
+              "-inf",
+              "-inf",
+              "-inf"
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_01/body/body/mesh.physics:centerOfMass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "inertia": {
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_01/body/body/mesh.physics:diagonalInertia",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "principal_axes": {
+            "value": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_01/body/body/mesh.physics:principalAxes",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "provenance_complete": false,
+          "invalid_auto_compute_reliance": true,
+          "status": "blocked"
+        },
+        {
+          "prim_path": "/World/DryingBox_01/handle/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "mass_api_applied": true,
+          "mass": {
+            "value": 0.0,
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_01/handle/mesh.physics:mass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "density": {
+            "value": 0.1,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/handle/mesh.physics:density",
+            "provenance_status": "not_applicable"
+          },
+          "center_of_mass": {
+            "value": [
+              "-inf",
+              "-inf",
+              "-inf"
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_01/handle/mesh.physics:centerOfMass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "inertia": {
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_01/handle/mesh.physics:diagonalInertia",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "principal_axes": {
+            "value": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_01/handle/mesh.physics:principalAxes",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "provenance_complete": false,
+          "invalid_auto_compute_reliance": true,
+          "status": "blocked"
+        },
+        {
+          "prim_path": "/World/DryingBox_01/button",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "mass_api_applied": false,
+          "mass": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_01/button.physics:mass",
+            "provenance_status": "invalid"
+          },
+          "density": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_01/button.physics:density",
+            "provenance_status": "not_applicable"
+          },
+          "center_of_mass": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_01/button.physics:centerOfMass",
+            "provenance_status": "invalid"
+          },
+          "inertia": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_01/button.physics:diagonalInertia",
+            "provenance_status": "invalid"
+          },
+          "principal_axes": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_01/button.physics:principalAxes",
+            "provenance_status": "invalid"
+          },
+          "provenance_complete": false,
+          "invalid_auto_compute_reliance": false,
+          "status": "blocked"
+        }
+      ],
+      "articulation_roots": [
+        {
+          "prim_path": "/World/DryingBox_01",
+          "type_name": "Xform",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "value_source": "authored"
+        }
+      ],
+      "joints": [
+        {
+          "prim_path": "/World/DryingBox_01/FixedJoint",
+          "joint_type": "PhysicsFixedJoint",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "axis": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_01/FixedJoint.physics:axis",
+            "provenance_status": "not_applicable"
+          },
+          "limits": {
+            "lower": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_01/FixedJoint.physics:lowerLimit",
+              "provenance_status": "not_applicable"
+            },
+            "upper": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_01/FixedJoint.physics:upperLimit",
+              "provenance_status": "not_applicable"
+            },
+            "status": "not_applicable"
+          },
+          "enabled": {
+            "value": true,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/FixedJoint.physics:jointEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "collision_enabled": {
+            "value": false,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/FixedJoint.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "drive_status": "not_authored",
+          "reset_value": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_01/FixedJoint.state:angular:physics:position",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_01/FixedJoint_01",
+          "joint_type": "PhysicsFixedJoint",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "axis": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_01/FixedJoint_01.physics:axis",
+            "provenance_status": "not_applicable"
+          },
+          "limits": {
+            "lower": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_01/FixedJoint_01.physics:lowerLimit",
+              "provenance_status": "not_applicable"
+            },
+            "upper": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_01/FixedJoint_01.physics:upperLimit",
+              "provenance_status": "not_applicable"
+            },
+            "status": "not_applicable"
+          },
+          "enabled": {
+            "value": true,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/FixedJoint_01.physics:jointEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "collision_enabled": {
+            "value": false,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/FixedJoint_01.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "drive_status": "not_authored",
+          "reset_value": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_01/FixedJoint_01.state:angular:physics:position",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_01/RevoluteJoint",
+          "joint_type": "PhysicsRevoluteJoint",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "axis": {
+            "value": "Y",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/RevoluteJoint.physics:axis",
+            "provenance_status": "not_applicable"
+          },
+          "limits": {
+            "lower": {
+              "value": 0.0,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_01/RevoluteJoint.physics:lowerLimit",
+              "provenance_status": "not_applicable"
+            },
+            "upper": {
+              "value": 120.0,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_01/RevoluteJoint.physics:upperLimit",
+              "provenance_status": "not_applicable"
+            },
+            "status": "pass"
+          },
+          "enabled": {
+            "value": true,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/RevoluteJoint.physics:jointEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "collision_enabled": {
+            "value": false,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/RevoluteJoint.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "drive_status": "authored",
+          "reset_value": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_01/RevoluteJoint.state:angular:physics:position",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_01/button/PrismaticJoint",
+          "joint_type": "PhysicsPrismaticJoint",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "axis": {
+            "value": "Y",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/button/PrismaticJoint.physics:axis",
+            "provenance_status": "not_applicable"
+          },
+          "limits": {
+            "lower": {
+              "value": 0.0,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_01/button/PrismaticJoint.physics:lowerLimit",
+              "provenance_status": "not_applicable"
+            },
+            "upper": {
+              "value": 0.01,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_01/button/PrismaticJoint.physics:upperLimit",
+              "provenance_status": "not_applicable"
+            },
+            "status": "pass"
+          },
+          "enabled": {
+            "value": true,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/button/PrismaticJoint.physics:jointEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "collision_enabled": {
+            "value": false,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_01/button/PrismaticJoint.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "drive_status": "authored",
+          "reset_value": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_01/button/PrismaticJoint.state:linear:physics:position",
+            "provenance_status": "not_applicable"
+          }
+        }
+      ],
+      "blocked_reasons": [
+        {
+          "blocker_id": "aan05_block_invalid_mass_properties",
+          "severity": "blocking",
+          "summary": "Every scoped rigid body requires explicit finite positive mass/inertia, finite COM, a normalizable principal-axes quaternion, and complete provenance.",
+          "count": 4,
+          "prim_paths": [
+            "/World/DryingBox_01/body/Group/door/mesh",
+            "/World/DryingBox_01/body/body/mesh",
+            "/World/DryingBox_01/handle/mesh",
+            "/World/DryingBox_01/button"
+          ],
+          "required_resolution": "Author valid package values or derive them with persistent provenance; do not rely on PhysX auto-compute fallbacks."
+        }
+      ]
+    },
+    {
+      "scope": "/World/DryingBox_02",
+      "status": "blocked",
+      "summary": {
+        "rigid_body_count": 3,
+        "collision_count": 4,
+        "mass_record_count": 3,
+        "authored_mass_count": 0,
+        "authored_inertia_count": 0,
+        "derived_mass_count": 0,
+        "derived_inertia_count": 0,
+        "invalid_rigid_body_count": 3
+      },
+      "rigid_bodies": [
+        {
+          "prim_path": "/World/DryingBox_02/handle/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/handle/mesh.physics:rigidBodyEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "kinematic": {
+            "value": false,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/handle/mesh.physics:kinematicEnabled",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_02/door",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/door.physics:rigidBodyEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "kinematic": {
+            "value": false,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/door.physics:kinematicEnabled",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_02/body",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/body.physics:rigidBodyEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "kinematic": {
+            "value": false,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/body.physics:kinematicEnabled",
+            "provenance_status": "not_applicable"
+          }
+        }
+      ],
+      "collisions": [
+        {
+          "prim_path": "/World/DryingBox_02/handle/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/handle/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "convexHull",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/handle/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_02/door",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/door.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "convexHull",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/door.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_02/body",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/body.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "convexDecomposition",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/body.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_02/mesh_001",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/mesh_001.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "none",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/mesh_001.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        }
+      ],
+      "mass_properties": [
+        {
+          "prim_path": "/World/DryingBox_02/handle/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "mass_api_applied": true,
+          "mass": {
+            "value": 0.0,
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_02/handle/mesh.physics:mass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "density": {
+            "value": 0.005,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/handle/mesh.physics:density",
+            "provenance_status": "not_applicable"
+          },
+          "center_of_mass": {
+            "value": [
+              "-inf",
+              "-inf",
+              "-inf"
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_02/handle/mesh.physics:centerOfMass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "inertia": {
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_02/handle/mesh.physics:diagonalInertia",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "principal_axes": {
+            "value": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_02/handle/mesh.physics:principalAxes",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "provenance_complete": false,
+          "invalid_auto_compute_reliance": true,
+          "status": "blocked"
+        },
+        {
+          "prim_path": "/World/DryingBox_02/door",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "mass_api_applied": true,
+          "mass": {
+            "value": 0.0,
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_02/door.physics:mass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "density": {
+            "value": 0.001,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/door.physics:density",
+            "provenance_status": "not_applicable"
+          },
+          "center_of_mass": {
+            "value": [
+              "-inf",
+              "-inf",
+              "-inf"
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_02/door.physics:centerOfMass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "inertia": {
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_02/door.physics:diagonalInertia",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "principal_axes": {
+            "value": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_02/door.physics:principalAxes",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "provenance_complete": false,
+          "invalid_auto_compute_reliance": true,
+          "status": "blocked"
+        },
+        {
+          "prim_path": "/World/DryingBox_02/body",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "mass_api_applied": true,
+          "mass": {
+            "value": 0.0,
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_02/body.physics:mass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "density": {
+            "value": 0.01,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/body.physics:density",
+            "provenance_status": "not_applicable"
+          },
+          "center_of_mass": {
+            "value": [
+              "-inf",
+              "-inf",
+              "-inf"
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_02/body.physics:centerOfMass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "inertia": {
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_02/body.physics:diagonalInertia",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "principal_axes": {
+            "value": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_02/body.physics:principalAxes",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "provenance_complete": false,
+          "invalid_auto_compute_reliance": true,
+          "status": "blocked"
+        }
+      ],
+      "articulation_roots": [
+        {
+          "prim_path": "/World/DryingBox_02",
+          "type_name": "Xform",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "value_source": "authored"
+        }
+      ],
+      "joints": [
+        {
+          "prim_path": "/World/DryingBox_02/RevoluteJoint",
+          "joint_type": "PhysicsRevoluteJoint",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "axis": {
+            "value": "Z",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/RevoluteJoint.physics:axis",
+            "provenance_status": "not_applicable"
+          },
+          "limits": {
+            "lower": {
+              "value": -90.0,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_02/RevoluteJoint.physics:lowerLimit",
+              "provenance_status": "not_applicable"
+            },
+            "upper": {
+              "value": 3.0,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_02/RevoluteJoint.physics:upperLimit",
+              "provenance_status": "not_applicable"
+            },
+            "status": "pass"
+          },
+          "enabled": {
+            "value": true,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/RevoluteJoint.physics:jointEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "collision_enabled": {
+            "value": false,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/RevoluteJoint.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "drive_status": "authored",
+          "reset_value": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_02/RevoluteJoint.state:angular:physics:position",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_02/FixedJoint_01",
+          "joint_type": "PhysicsFixedJoint",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "axis": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_02/FixedJoint_01.physics:axis",
+            "provenance_status": "not_applicable"
+          },
+          "limits": {
+            "lower": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_02/FixedJoint_01.physics:lowerLimit",
+              "provenance_status": "not_applicable"
+            },
+            "upper": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_02/FixedJoint_01.physics:upperLimit",
+              "provenance_status": "not_applicable"
+            },
+            "status": "not_applicable"
+          },
+          "enabled": {
+            "value": true,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/FixedJoint_01.physics:jointEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "collision_enabled": {
+            "value": false,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/FixedJoint_01.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "drive_status": "not_authored",
+          "reset_value": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_02/FixedJoint_01.state:angular:physics:position",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_02/FixedJoint_02",
+          "joint_type": "PhysicsFixedJoint",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "axis": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_02/FixedJoint_02.physics:axis",
+            "provenance_status": "not_applicable"
+          },
+          "limits": {
+            "lower": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_02/FixedJoint_02.physics:lowerLimit",
+              "provenance_status": "not_applicable"
+            },
+            "upper": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_02/FixedJoint_02.physics:upperLimit",
+              "provenance_status": "not_applicable"
+            },
+            "status": "not_applicable"
+          },
+          "enabled": {
+            "value": true,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/FixedJoint_02.physics:jointEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "collision_enabled": {
+            "value": false,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_02/FixedJoint_02.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "drive_status": "not_authored",
+          "reset_value": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_02/FixedJoint_02.state:angular:physics:position",
+            "provenance_status": "not_applicable"
+          }
+        }
+      ],
+      "blocked_reasons": [
+        {
+          "blocker_id": "aan05_block_invalid_mass_properties",
+          "severity": "blocking",
+          "summary": "Every scoped rigid body requires explicit finite positive mass/inertia, finite COM, a normalizable principal-axes quaternion, and complete provenance.",
+          "count": 3,
+          "prim_paths": [
+            "/World/DryingBox_02/handle/mesh",
+            "/World/DryingBox_02/door",
+            "/World/DryingBox_02/body"
+          ],
+          "required_resolution": "Author valid package values or derive them with persistent provenance; do not rely on PhysX auto-compute fallbacks."
+        }
+      ]
+    },
+    {
+      "scope": "/World/DryingBox_03",
+      "status": "blocked",
+      "summary": {
+        "rigid_body_count": 3,
+        "collision_count": 7,
+        "mass_record_count": 3,
+        "authored_mass_count": 1,
+        "authored_inertia_count": 0,
+        "derived_mass_count": 0,
+        "derived_inertia_count": 0,
+        "invalid_rigid_body_count": 3
+      },
+      "rigid_bodies": [
+        {
+          "prim_path": "/World/DryingBox_03/body/Group/door/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:rigidBodyEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "kinematic": {
+            "value": false,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:kinematicEnabled",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_03/body/body/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/body/body/mesh.physics:rigidBodyEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "kinematic": {
+            "value": false,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/body/body/mesh.physics:kinematicEnabled",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_03/handle/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/handle/mesh.physics:rigidBodyEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "kinematic": {
+            "value": false,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/handle/mesh.physics:kinematicEnabled",
+            "provenance_status": "not_applicable"
+          }
+        }
+      ],
+      "collisions": [
+        {
+          "prim_path": "/World/DryingBox_03/body/Group/door/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "convexDecomposition",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_03/body/body/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/body/body/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "convexDecomposition",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/body/body/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_03/handle/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/handle/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "convexHull",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/handle/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_03/Group_02/group/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/Group_02/group/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "none",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/Group_02/group/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_03/Group_02/group_04/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/Group_02/group_04/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "none",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/Group_02/group_04/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_03/Group_02/group_05/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/Group_02/group_05/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "none",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/Group_02/group_05/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_03/Group_02/group_06/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/Group_02/group_06/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "none",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/Group_02/group_06/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        }
+      ],
+      "mass_properties": [
+        {
+          "prim_path": "/World/DryingBox_03/body/Group/door/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "mass_api_applied": true,
+          "mass": {
+            "value": 0.0,
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:mass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "density": {
+            "value": 0.001,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:density",
+            "provenance_status": "not_applicable"
+          },
+          "center_of_mass": {
+            "value": [
+              "-inf",
+              "-inf",
+              "-inf"
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:centerOfMass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "inertia": {
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:diagonalInertia",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "principal_axes": {
+            "value": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:principalAxes",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "provenance_complete": false,
+          "invalid_auto_compute_reliance": true,
+          "status": "blocked"
+        },
+        {
+          "prim_path": "/World/DryingBox_03/body/body/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "mass_api_applied": true,
+          "mass": {
+            "value": 1.0,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/body/body/mesh.physics:mass",
+            "provenance_status": "pass",
+            "provenance": {
+              "value_source": "authored",
+              "method": "usd_authored_value",
+              "field": "mass",
+              "authored_value_opinion": true,
+              "authoring_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd"
+            }
+          },
+          "density": {
+            "value": 0.01,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/body/body/mesh.physics:density",
+            "provenance_status": "not_applicable"
+          },
+          "center_of_mass": {
+            "value": [
+              "-inf",
+              "-inf",
+              "-inf"
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_03/body/body/mesh.physics:centerOfMass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "inertia": {
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_03/body/body/mesh.physics:diagonalInertia",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "principal_axes": {
+            "value": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_03/body/body/mesh.physics:principalAxes",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "provenance_complete": false,
+          "invalid_auto_compute_reliance": true,
+          "status": "blocked"
+        },
+        {
+          "prim_path": "/World/DryingBox_03/handle/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "mass_api_applied": true,
+          "mass": {
+            "value": 0.0,
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_03/handle/mesh.physics:mass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "density": {
+            "value": 0.2,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/handle/mesh.physics:density",
+            "provenance_status": "not_applicable"
+          },
+          "center_of_mass": {
+            "value": [
+              "-inf",
+              "-inf",
+              "-inf"
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_03/handle/mesh.physics:centerOfMass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "inertia": {
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_03/handle/mesh.physics:diagonalInertia",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "principal_axes": {
+            "value": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_03/handle/mesh.physics:principalAxes",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "provenance_complete": false,
+          "invalid_auto_compute_reliance": true,
+          "status": "blocked"
+        }
+      ],
+      "articulation_roots": [
+        {
+          "prim_path": "/World/DryingBox_03",
+          "type_name": "Xform",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "value_source": "authored"
+        }
+      ],
+      "joints": [
+        {
+          "prim_path": "/World/DryingBox_03/FixedJoint",
+          "joint_type": "PhysicsFixedJoint",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "axis": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_03/FixedJoint.physics:axis",
+            "provenance_status": "not_applicable"
+          },
+          "limits": {
+            "lower": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_03/FixedJoint.physics:lowerLimit",
+              "provenance_status": "not_applicable"
+            },
+            "upper": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_03/FixedJoint.physics:upperLimit",
+              "provenance_status": "not_applicable"
+            },
+            "status": "not_applicable"
+          },
+          "enabled": {
+            "value": true,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/FixedJoint.physics:jointEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "collision_enabled": {
+            "value": false,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/FixedJoint.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "drive_status": "not_authored",
+          "reset_value": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_03/FixedJoint.state:angular:physics:position",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_03/FixedJoint_01",
+          "joint_type": "PhysicsFixedJoint",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "axis": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_03/FixedJoint_01.physics:axis",
+            "provenance_status": "not_applicable"
+          },
+          "limits": {
+            "lower": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_03/FixedJoint_01.physics:lowerLimit",
+              "provenance_status": "not_applicable"
+            },
+            "upper": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_03/FixedJoint_01.physics:upperLimit",
+              "provenance_status": "not_applicable"
+            },
+            "status": "not_applicable"
+          },
+          "enabled": {
+            "value": true,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/FixedJoint_01.physics:jointEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "collision_enabled": {
+            "value": false,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/FixedJoint_01.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "drive_status": "not_authored",
+          "reset_value": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_03/FixedJoint_01.state:angular:physics:position",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_03/RevoluteJoint",
+          "joint_type": "PhysicsRevoluteJoint",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "axis": {
+            "value": "Y",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/RevoluteJoint.physics:axis",
+            "provenance_status": "not_applicable"
+          },
+          "limits": {
+            "lower": {
+              "value": -35.0,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/RevoluteJoint.physics:lowerLimit",
+              "provenance_status": "not_applicable"
+            },
+            "upper": {
+              "value": 90.0,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/RevoluteJoint.physics:upperLimit",
+              "provenance_status": "not_applicable"
+            },
+            "status": "pass"
+          },
+          "enabled": {
+            "value": true,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/RevoluteJoint.physics:jointEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "collision_enabled": {
+            "value": false,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_03/RevoluteJoint.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "drive_status": "authored",
+          "reset_value": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_03/RevoluteJoint.state:angular:physics:position",
+            "provenance_status": "not_applicable"
+          }
+        }
+      ],
+      "blocked_reasons": [
+        {
+          "blocker_id": "aan05_block_invalid_mass_properties",
+          "severity": "blocking",
+          "summary": "Every scoped rigid body requires explicit finite positive mass/inertia, finite COM, a normalizable principal-axes quaternion, and complete provenance.",
+          "count": 3,
+          "prim_paths": [
+            "/World/DryingBox_03/body/Group/door/mesh",
+            "/World/DryingBox_03/body/body/mesh",
+            "/World/DryingBox_03/handle/mesh"
+          ],
+          "required_resolution": "Author valid package values or derive them with persistent provenance; do not rely on PhysX auto-compute fallbacks."
+        }
+      ]
+    },
+    {
+      "scope": "/World/DryingBox_04",
+      "status": "blocked",
+      "summary": {
+        "rigid_body_count": 4,
+        "collision_count": 8,
+        "mass_record_count": 4,
+        "authored_mass_count": 1,
+        "authored_inertia_count": 0,
+        "derived_mass_count": 0,
+        "derived_inertia_count": 0,
+        "invalid_rigid_body_count": 4
+      },
+      "rigid_bodies": [
+        {
+          "prim_path": "/World/DryingBox_04/body/Group/door/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/body/Group/door/mesh.physics:rigidBodyEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "kinematic": {
+            "value": false,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/body/Group/door/mesh.physics:kinematicEnabled",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_04/body/body/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/body/body/mesh.physics:rigidBodyEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "kinematic": {
+            "value": false,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/body/body/mesh.physics:kinematicEnabled",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_04/handle/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/handle/mesh.physics:rigidBodyEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "kinematic": {
+            "value": false,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/handle/mesh.physics:kinematicEnabled",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_04/button",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/button.physics:rigidBodyEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "kinematic": {
+            "value": false,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/button.physics:kinematicEnabled",
+            "provenance_status": "not_applicable"
+          }
+        }
+      ],
+      "collisions": [
+        {
+          "prim_path": "/World/DryingBox_04/body/Group/door/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/body/Group/door/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "convexDecomposition",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/body/Group/door/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_04/body/body/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/body/body/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "convexDecomposition",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/body/body/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_04/handle/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/handle/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "convexHull",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/handle/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_04/Group_02/group/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/Group_02/group/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "none",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/Group_02/group/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_04/Group_02/group_04/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/Group_02/group_04/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "none",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/Group_02/group_04/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_04/Group_02/group_05/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/Group_02/group_05/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "none",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/Group_02/group_05/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_04/Group_02/group_06/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/Group_02/group_06/mesh.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "none",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/Group_02/group_06/mesh.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_04/button",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "enabled": {
+            "value": true,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/button.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "approximation": {
+            "value": "convexHull",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/button.physics:approximation",
+            "provenance_status": "not_applicable"
+          }
+        }
+      ],
+      "mass_properties": [
+        {
+          "prim_path": "/World/DryingBox_04/body/Group/door/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "mass_api_applied": true,
+          "mass": {
+            "value": 0.0,
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_04/body/Group/door/mesh.physics:mass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "density": {
+            "value": 0.001,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/body/Group/door/mesh.physics:density",
+            "provenance_status": "not_applicable"
+          },
+          "center_of_mass": {
+            "value": [
+              "-inf",
+              "-inf",
+              "-inf"
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_04/body/Group/door/mesh.physics:centerOfMass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "inertia": {
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_04/body/Group/door/mesh.physics:diagonalInertia",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "principal_axes": {
+            "value": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_04/body/Group/door/mesh.physics:principalAxes",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "provenance_complete": false,
+          "invalid_auto_compute_reliance": true,
+          "status": "blocked"
+        },
+        {
+          "prim_path": "/World/DryingBox_04/body/body/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "mass_api_applied": true,
+          "mass": {
+            "value": 1.0,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/body/body/mesh.physics:mass",
+            "provenance_status": "pass",
+            "provenance": {
+              "value_source": "authored",
+              "method": "usd_authored_value",
+              "field": "mass",
+              "authored_value_opinion": true,
+              "authoring_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd"
+            }
+          },
+          "density": {
+            "value": 0.01,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/body/body/mesh.physics:density",
+            "provenance_status": "not_applicable"
+          },
+          "center_of_mass": {
+            "value": [
+              "-inf",
+              "-inf",
+              "-inf"
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_04/body/body/mesh.physics:centerOfMass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "inertia": {
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_04/body/body/mesh.physics:diagonalInertia",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "principal_axes": {
+            "value": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_04/body/body/mesh.physics:principalAxes",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "provenance_complete": false,
+          "invalid_auto_compute_reliance": true,
+          "status": "blocked"
+        },
+        {
+          "prim_path": "/World/DryingBox_04/handle/mesh",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "mass_api_applied": true,
+          "mass": {
+            "value": 0.0,
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_04/handle/mesh.physics:mass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "density": {
+            "value": 0.1,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/handle/mesh.physics:density",
+            "provenance_status": "not_applicable"
+          },
+          "center_of_mass": {
+            "value": [
+              "-inf",
+              "-inf",
+              "-inf"
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_04/handle/mesh.physics:centerOfMass",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "inertia": {
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_04/handle/mesh.physics:diagonalInertia",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "principal_axes": {
+            "value": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "value_source": "fallback",
+            "status": "invalid",
+            "attribute": "/World/DryingBox_04/handle/mesh.physics:principalAxes",
+            "provenance_status": "invalid",
+            "provenance": {
+              "value_source": "fallback",
+              "reason": "No authored opinion or persistent derived/template provenance was found."
+            }
+          },
+          "provenance_complete": false,
+          "invalid_auto_compute_reliance": true,
+          "status": "blocked"
+        },
+        {
+          "prim_path": "/World/DryingBox_04/button",
+          "type_name": "Mesh",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "mass_api_applied": false,
+          "mass": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_04/button.physics:mass",
+            "provenance_status": "invalid"
+          },
+          "density": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_04/button.physics:density",
+            "provenance_status": "not_applicable"
+          },
+          "center_of_mass": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_04/button.physics:centerOfMass",
+            "provenance_status": "invalid"
+          },
+          "inertia": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_04/button.physics:diagonalInertia",
+            "provenance_status": "invalid"
+          },
+          "principal_axes": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_04/button.physics:principalAxes",
+            "provenance_status": "invalid"
+          },
+          "provenance_complete": false,
+          "invalid_auto_compute_reliance": false,
+          "status": "blocked"
+        }
+      ],
+      "articulation_roots": [
+        {
+          "prim_path": "/World/DryingBox_04",
+          "type_name": "Xform",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "value_source": "authored"
+        }
+      ],
+      "joints": [
+        {
+          "prim_path": "/World/DryingBox_04/FixedJoint",
+          "joint_type": "PhysicsFixedJoint",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "axis": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_04/FixedJoint.physics:axis",
+            "provenance_status": "not_applicable"
+          },
+          "limits": {
+            "lower": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_04/FixedJoint.physics:lowerLimit",
+              "provenance_status": "not_applicable"
+            },
+            "upper": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_04/FixedJoint.physics:upperLimit",
+              "provenance_status": "not_applicable"
+            },
+            "status": "not_applicable"
+          },
+          "enabled": {
+            "value": true,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/FixedJoint.physics:jointEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "collision_enabled": {
+            "value": false,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/FixedJoint.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "drive_status": "not_authored",
+          "reset_value": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_04/FixedJoint.state:angular:physics:position",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_04/FixedJoint_01",
+          "joint_type": "PhysicsFixedJoint",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "axis": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_04/FixedJoint_01.physics:axis",
+            "provenance_status": "not_applicable"
+          },
+          "limits": {
+            "lower": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_04/FixedJoint_01.physics:lowerLimit",
+              "provenance_status": "not_applicable"
+            },
+            "upper": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_04/FixedJoint_01.physics:upperLimit",
+              "provenance_status": "not_applicable"
+            },
+            "status": "not_applicable"
+          },
+          "enabled": {
+            "value": true,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/FixedJoint_01.physics:jointEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "collision_enabled": {
+            "value": false,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/FixedJoint_01.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "drive_status": "not_authored",
+          "reset_value": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_04/FixedJoint_01.state:angular:physics:position",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_04/RevoluteJoint",
+          "joint_type": "PhysicsRevoluteJoint",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "axis": {
+            "value": "Y",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/RevoluteJoint.physics:axis",
+            "provenance_status": "not_applicable"
+          },
+          "limits": {
+            "lower": {
+              "value": 0.0,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_04/RevoluteJoint.physics:lowerLimit",
+              "provenance_status": "not_applicable"
+            },
+            "upper": {
+              "value": 120.0,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_04/RevoluteJoint.physics:upperLimit",
+              "provenance_status": "not_applicable"
+            },
+            "status": "pass"
+          },
+          "enabled": {
+            "value": true,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/RevoluteJoint.physics:jointEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "collision_enabled": {
+            "value": false,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/RevoluteJoint.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "drive_status": "authored",
+          "reset_value": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_04/RevoluteJoint.state:angular:physics:position",
+            "provenance_status": "not_applicable"
+          }
+        },
+        {
+          "prim_path": "/World/DryingBox_04/button/PrismaticJoint",
+          "joint_type": "PhysicsPrismaticJoint",
+          "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+          "axis": {
+            "value": "Y",
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/button/PrismaticJoint.physics:axis",
+            "provenance_status": "not_applicable"
+          },
+          "limits": {
+            "lower": {
+              "value": 0.0,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_04/button/PrismaticJoint.physics:lowerLimit",
+              "provenance_status": "not_applicable"
+            },
+            "upper": {
+              "value": 0.01,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_04/button/PrismaticJoint.physics:upperLimit",
+              "provenance_status": "not_applicable"
+            },
+            "status": "pass"
+          },
+          "enabled": {
+            "value": true,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/button/PrismaticJoint.physics:jointEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "collision_enabled": {
+            "value": false,
+            "value_source": "fallback",
+            "status": "pass",
+            "attribute": "/World/DryingBox_04/button/PrismaticJoint.physics:collisionEnabled",
+            "provenance_status": "not_applicable"
+          },
+          "drive_status": "authored",
+          "reset_value": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing",
+            "attribute": "/World/DryingBox_04/button/PrismaticJoint.state:linear:physics:position",
+            "provenance_status": "not_applicable"
+          }
+        }
+      ],
+      "blocked_reasons": [
+        {
+          "blocker_id": "aan05_block_invalid_mass_properties",
+          "severity": "blocking",
+          "summary": "Every scoped rigid body requires explicit finite positive mass/inertia, finite COM, a normalizable principal-axes quaternion, and complete provenance.",
+          "count": 4,
+          "prim_paths": [
+            "/World/DryingBox_04/body/Group/door/mesh",
+            "/World/DryingBox_04/body/body/mesh",
+            "/World/DryingBox_04/handle/mesh",
+            "/World/DryingBox_04/button"
+          ],
+          "required_resolution": "Author valid package values or derive them with persistent provenance; do not rely on PhysX auto-compute fallbacks."
+        }
+      ]
+    }
+  ]
+}

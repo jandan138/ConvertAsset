@@ -21,6 +21,14 @@ This follow-up does not reopen `AAN-04` or `AAN-06`; it tightens the material ru
 claim after the retained packages showed that AAN-06 smoke can pass while material
 stderr still contains MDLC warnings/errors.
 
+2026-07-13 claim-scope correction: the Phase 1 retained `DryingBox_01_overlay`
+result is an already repaired overlay result at its declared overlay scope. It is
+not evidence that the raw LabUtopia 20260707 `lab_001.usd` DryingBox family is
+normalization-ready. The raw DB01--DB04 family must be admitted from its own
+source hash and prim scopes; DB03 may have a separate ConvertAsset-owned
+`visual_static` background package, but that role does not establish dynamic or
+family readiness.
+
 ## Completed Milestones
 
 | Milestone | Result | Retained evidence |
@@ -30,7 +38,7 @@ stderr still contains MDLC warnings/errors.
 | `AAN-04` | Source-first material closure with MDL/texture local mirror records | `docs/records/2026-06-30-aan-04-material-closure.md` |
 | `AAN-05` / `AAN-06` | Physics/articulation static checks and Isaac runtime smoke | `docs/records/2026-06-30-aan-05-06-physics-runtime.md` |
 | `AAN-07` | EBench task contract files and manifest entrypoints | `docs/records/2026-06-30-aan-07-benchmark-contract.md` |
-| DryingBox runtime refresh | First acceptance asset has static/runtime/benchmark evidence | `docs/records/2026-07-01-aan-07-dryingbox-runtime-ready.md` |
+| DryingBox runtime refresh | Pre-repaired `DryingBox_01_overlay` has static/runtime/benchmark evidence at its declared overlay scope | `docs/records/2026-07-01-aan-07-dryingbox-runtime-ready.md` |
 | `AAN-08` | Replication set proves the path is not DryingBox-only | `docs/records/2026-06-30-aan-08-replication-set.md` |
 | `AAN-09` | Negative gate proves blocked cases do not look ready | `docs/records/2026-07-01-aan-09-negative-gate.md` |
 | `AAN-09.5` | PM evidence table for reports and acceptance review | `docs/records/2026-07-01-aan-09-5-pm-evidence-table.md` |
@@ -44,7 +52,7 @@ Current PM table:
 
 | Asset | Status | Notes |
 |---|---|---|
-| `DryingBox_01_overlay` | `ready` | First acceptance asset; USD/source-material/physics/runtime/benchmark gates pass; material runtime compiler closure is tracked by AAN-11 follow-up |
+| `DryingBox_01_overlay` | `ready` | Pre-repaired overlay only; USD/source-material/physics/runtime/benchmark gates pass at its declared overlay scope. This row is not a raw `lab_001.usd` DryingBox-family claim. |
 | `MuffleFurnace` | `ready` | Non-DryingBox articulated asset; runtime and benchmark gates pass; MDL-internal texture handling is an AAN-11 replication focus |
 | `Beaker_01` | `ready` | Transparent rigid beaker; material mirror and render readback evidence pass; empty MDL texture uniforms must not become false missing-texture blockers in AAN-11 |
 | `RemoteUriBlocked` | `blocked` | Unauthorized remote URI negative case; failure mode `aan03_block_remote_uri` |
@@ -81,10 +89,15 @@ reports that are not listed in the handoff document, or `/tmp` run directories.
 Safe product wording:
 
 > AAN Phase 1 has completed a bounded USD -> EBench Isaac 4.1 normalization MVP. It
-> has retained evidence for DryingBox, one additional articulated asset, one transparent
-> rigid asset, and one blocked negative case. Downstream projects can consume the
-> normalized package and evidence manifest without hand-maintaining USD/MDL/texture/
-> physics/articulation repair logic.
+> has retained evidence for one pre-repaired DryingBox overlay, one additional
+> articulated asset, one transparent rigid asset, and one blocked negative case.
+> Downstream projects can consume the normalized package and evidence manifest
+> without hand-maintaining USD/MDL/texture/physics/articulation repair logic.
+
+The overlay result must not be restated as raw-LabUtopia DryingBox-family
+readiness. The 20260707 raw family correction and Scenario Forge visual-static
+boundary are in
+`docs/records/2026-07-13-aan-dryingbox-family-admission-and-claim-correction.md`.
 
 Unsafe product wording:
 
@@ -109,8 +122,9 @@ Also unsafe:
 
 1. `AAN-11 Material Runtime Closure`: close MDL transitive dependencies, MDL-internal
    textures, material binding scope, runtime compiler log parsing, and multi-view
-   material evidence without reopening Phase 1. DryingBox is first acceptance;
-   MuffleFurnace and Beaker_01 are replication checks.
+   material evidence without reopening Phase 1. The first retained acceptance is
+   the pre-repaired `DryingBox_01_overlay`; MuffleFurnace and Beaker_01 are
+   replication checks.
 2. `AAN-12 Batch Admission`: run 20-50 LabUtopia USD assets through the public CLI and
    report ready / blocked / waiver proportions.
 3. `AAN-13 Consumer SDK`: add a thin manifest/task-file reader if downstream projects
@@ -133,7 +147,8 @@ git diff --check
 Evidence audit expectations:
 
 ```text
-DryingBox runtime-ready manifest: all AAN-03/04/05/06/07 gates pass
+DryingBox_01_overlay runtime-ready manifest: all AAN-03/04/05/06/07 gates pass at
+its declared overlay scope
 PM evidence table status_counts: {"blocked": 1, "ready": 3}
 MJCF scout manifest: overall_status=semantic_gap_report_only
 AAN-11 follow-up: Phase 1 ready means package/runtime/benchmark ready, not full material runtime parity

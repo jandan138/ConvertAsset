@@ -3,11 +3,14 @@
 > Status: MVP design contract, 2026-06-30
 > Owner repo: ConvertAsset
 > First target: LabUtopia-style Isaac 5.1 USD assets -> EBench Isaac Sim 4.1 runtime package
-> First acceptance asset: DryingBox
+> First retained acceptance asset: pre-repaired `DryingBox_01_overlay` at its declared overlay scope
 > Contract milestone: AAN-00 Contract Freeze completed for Phase 1 MVP
 > Phase 1 closeout: `docs/records/2026-07-01-aan-phase1-closeout-handoff.md`
 > Material runtime follow-up: `docs/records/2026-07-02-aan-11-material-runtime-closure.md`
 > Downstream interface: `docs/operations/asset-application-normalizer-consumer-handoff.md`
+> 2026-07-13 scope correction: `DryingBox_01_overlay` evidence does not establish raw
+> `lab_001.usd` DryingBox-family readiness; see
+> `docs/records/2026-07-13-aan-dryingbox-family-admission-and-claim-correction.md`.
 
 ## 一句话定位
 
@@ -52,7 +55,8 @@ manifest / CLI / gate / claim boundary 的兼容影响。
 2. Repo boundary：ConvertAsset 拥有 normalizer 实现；EOS、LabUtopia、GenManip、EBench
    只消费 package、task contract、manifest 和 evidence。
 3. MVP scope：Phase 1 只支持 Isaac 5.1-oriented USD rigid/articulated assets 到
-   EBench Isaac Sim 4.1 package。DryingBox 是首验资产，Cabinet Drawer 和 Transparent
+   EBench Isaac Sim 4.1 package。历史首验是 pre-repaired `DryingBox_01_overlay`，
+   不是原始 `lab_001.usd` DryingBox family；Cabinet Drawer 和 Transparent
    Beaker / `Beaker_01` 是 AAN-08 复制验收候选。
 4. CLI contract：第一版新增 flat `normalize-asset` subcommand，MVP 拒绝 MJCF / URDF 等
    非 USD 输入，拒绝非 `isaac41` / 非允许 benchmark profile。
@@ -606,9 +610,11 @@ issue、manifest 和 artifact 路径引用。例如：
 | `AAN-13` | Consumer SDK | 下游读取 package/manifest 的薄接口 | Python reader 或 schema validator，供 EBench/EOS/LabUtopia 消费 AAN 输出 | 只读 package、task YAML、manifest、claim boundary；不包含 USD/MDL/physics 修补逻辑；兼容 Phase 1 manifest | SDK 偷偷修 package；绕过 manifest gate；不同 consumer 重复实现不一致 | Post-MVP |
 | `AAN-14` | Profiles | 多 source / target profile 扩展 | `source_adapters/`、`target_profiles/`、`validators/` 的重构方案或实现 | 只有在 USD -> EBench MVP 和 batch admission 稳定后再抽象；保持 AAN-00 到 AAN-13 manifest 兼容；新增 profile 有独立 gate matrix | 过早抽象破坏 MVP；旧 manifest 不兼容；profile 之间共享隐式硬编码 | Post-MVP |
 
-产品口径：`AAN-00` 到 `AAN-07` 证明 DryingBox 可以从 source USD/task 进入 EBench
-Isaac 4.1 package contract；`AAN-08` 到 `AAN-09` 证明这不是单资产特化，并且失败/waiver
-边界可机器判定；`AAN-09.5` 把这些证据整理成 PM/周报可直接消费的表；`AAN-10` 是
+产品口径：`AAN-00` 到 `AAN-07` 的 retained evidence 证明 pre-repaired
+`DryingBox_01_overlay` 可以从其 declared source USD/task 进入 EBench Isaac 4.1 package
+contract；它不证明 raw `lab_001.usd` DryingBox family。 `AAN-08` 到 `AAN-09` 证明
+这不是单资产特化，并且失败/waiver 边界可机器判定；`AAN-09.5` 把这些证据整理成
+PM/周报可直接消费的表；`AAN-10` 是
 MJCF scout；`AAN-11` 是不重开主线的材料 runtime closure follow-up；`AAN-12+` 才进入
 批量准入、多 consumer SDK、多 target profile、deformable 或 official benchmark
 comparability 等扩展。
@@ -649,7 +655,9 @@ comparability 等扩展。
 - 能把 missing dependency / unauthorized remote URI 收敛成 `mirrored/pruned/waived/blocked`
   四类可审计结论，而不是只把问题留给人工排查；
 - 能区分 `ready`、`ready_with_waivers`、`failed`、`blocked`，避免把问题藏在转换流程里；
-- DryingBox 是首个验收资产，后续会用 2-3 个额外 USD 资产验证不是单资产特化；
+- 已验证的 `DryingBox_01_overlay` 是历史首个 overlay 验收资产；raw family 必须以
+  source hash、prim scope、asset role 和真实 family audit 重新验证，后续仍需用额外 USD
+  资产验证不是单资产特化；
 - AAN 把 LabUtopia / EBench 中手工维护的 USD、MDL、texture、physics 修补逻辑收敛到
   ConvertAsset。
 
@@ -662,6 +670,9 @@ comparability 等扩展。
 - rich MDL 能无损转换到所有 runtime；
 - fallback 后仍具备 full material parity；
 - generated physics value 等同于 source-authored physical parameter parity；
+- 一个 pre-repaired DryingBox overlay 的 ready evidence 等同于原始 `lab_001.usd`
+  DryingBox family ready；
+- 一个 `visual_static` background package 等同于 articulated/dynamic physics ready；
 - 能自动理解任意 task success predicate；
 - 柔性体、液体、颗粒、布料等复杂仿真语义已经闭环。
 
@@ -1084,9 +1095,86 @@ Articulated asset：
 - 记录 failed joints：missing drive、limit invalid、axis unsupported、DOF mapping mismatch、
   articulation not created、runtime reports zero DOF。
 
+### 2026-07-13 DryingBox 原始资产族准入更正
+
+历史 AAN-07 的通过证据对应的是已经修好的 `DryingBox_01_overlay`，不是
+20260707 的原始 LabUtopia `lab_001.usd`。它仍是该 overlay 自身的有效证据，但不能把
+asset label “DryingBox” 扩展成整个原始资产族已 ready。原始来源、SHA-256、prim scope 与
+overlay status 必须成为 readiness key 的一部分；不同 source hash、不同 prim scope 或
+不同 asset role 都必须重新准入。
+
+对
+`/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd`
+（SHA-256
+`b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2`）的 DB01--DB04
+真实 source family audit，是 source-admission evidence，不是 synthetic fixture 代替品。
+它必须独立记录为 blocked，原因包括 applied MassAPI 后仍无有效显式正 mass、正 finite
+inertia、finite COM、normalizable principal axes 或完整 provenance；不允许把 PhysX 的
+invalid auto-compute fallback 记成 pass。
+
+新增的 asset role 把 source diagnosis 与 output admission 分开：
+
+| Role | Source ledger | Package output | Allowed claim |
+|---|---|---|---|
+| `dynamic` | source scoped physics 必须可解释；每个 rigid body 的 mass/inertia/COM/axes 和 provenance 通过 | 保留并验证 physics/articulation | declared dynamic task scope 的 package/runtime evidence |
+| `visual_static` | raw scoped physics 仍如实记录；raw defect 不会被抹去 | ConvertAsset-owned strong overlay 保留 visual/material/transform，删除 scoped Physics/Physx APIs，并停用 typed joint/articulation/rigid/collision semantics | 仅声明 declared background scope 的 visual-static package |
+
+`visual_static` 不是对 source dynamic physics 的 waiver，也不是 “整族 ready” 的快捷方式。
+它要求 output scope 中没有 active rigid body、collision、articulation 或 joint semantics，
+同时使用 source/package-before/package-after 的 mesh、material binding、visibility 和
+transform fingerprint 阻断视觉漂移。source USD SHA-256 在 package run 前后必须一致。
+
+对 `visual_static`，AAN-03 还交付了 scope-isolated package closure，而不是把完整
+LabUtopia scene 直接交给 target runtime：先在 package-local `source_root.usd` 上找出
+declared scope 的有效 bound material roots；再以 scope subtree 和 material roots 建立
+`Usd.StagePopulationMask`，对 composed stage 做 `OpenMasked(..., LoadAll)` 与 flatten；
+最后把 snapshot 写为 `deps/usd/scoped_source.usda`，由 ConvertAsset-owned
+`asset.usd` strong overlay sublayer。这样 scope 内的 absolute prim path、world transform
+和 material binding 可保留，同时不会让无关 LabUtopia asset/material graph 进入 target
+runtime。
+
+scope snapshot 的 hard block 是：declared scope 不存在、material root 或 visual prim 在
+export 后丢失、snapshot 无法 reopen、或 source/package visual fingerprint 不一致。
+collection binding、external relationship target、instancing 等复杂 composition 不得触发
+“退回整场景复制”的 best-effort 行为；只有它们在 package-local composed snapshot 中被
+明确解析并由 visual-preservation evidence 覆盖后，才可通过。
+
+dynamic path 的质量属性规则也补强为一致性规则：若 authored mass 本身是正且 finite，
+但 inertia 缺失或 invalid，inertia 必须以这个 authored mass 为 mass basis 推导，并将
+basis 写入 persistent provenance；不得为了生成 inertia 又换成 template mass。只有 mass
+本身无效时，才可采用版本化 density/template 推导，并且同样需要 persistent provenance。
+
+AAN-06 对 PhysX mass/inertia warning 使用 declared output prim scope，而不是 global log
+count。negative mass、invalid inertia、small-sphere approximated inertia 任一警告只要可归属
+于 package scope 就必须 blocked；无可提取 prim path 的同类 warning 也 fail-closed。对于
+Scenario Forge baseline，manifest 要同时记录 composed baseline scope、package scope、
+scope map、baseline/candidate log hash 和 category count；candidate scope count 必须为零，
+baseline diff 不能作为 waiver。
+
+2026-07-13 的 retained evidence 将该规则用于真实 DB01--DB04 family：raw family
+admission 保持 `blocked`（DB01/DB02/DB03/DB04 分别有 4/3/3/4 个 invalid rigid bodies，
+合计 14），而不是通过一个 synthetic fixture 或预修 overlay 掩盖问题。对同一 immutable
+source hash，ConvertAsset 仅交付 `/World/DryingBox_03` 的 `visual_static` package；其
+source-integrity、scope-isolated closure、material closure、output-role admission 和 runtime
+gates 都通过。Isaac Sim Kit `4.1.0-rc.7+4.1.14801.71533b68.gl` 的 cold load、render、step
+和 reset 均通过，DB03 scoped PhysX events 从 Scenario Forge baseline 的 12 降到 candidate
+的 0（removed 12, introduced 0）。完整 package、manifest、family audit 和 runtime evidence
+见 [2026-07-13 DryingBox family admission evidence](../records/evidence/2026-07-13-aan-dryingbox-family-admission/)。
+
+该 runtime 证据使用一个隔离 worker 的 `os_exit_after_evidence` policy，以规避所有 gate
+完成并持久化后 Isaac 4.1 native-plugin unload 的已知 crash；它不是 graceful
+`SimulationApp.close()` 成功的声明。缺最终 report、任一 gate 失败或非零 worker/protocol
+结果仍 fail-closed；此 retained run 的 worker exit code 为 0。
+
 ## DryingBox first acceptance
 
-DryingBox 是首个验收对象。首验清单：
+历史首验对象是 pre-repaired `DryingBox_01_overlay`，其 retained readiness 只覆盖
+declared overlay source/prim scope。下列首验清单描述一个 asset-specific package contract，
+不得用作 raw `lab_001.usd` DryingBox family 的 blanket conclusion。原始 DB01--DB04
+family admission 和 DB03 `visual_static` background package 的具体更正见
+`docs/records/2026-07-13-aan-dryingbox-family-admission-and-claim-correction.md`。
+
+首验清单：
 
 - static inventory 列出 root layer、sublayer、reference、payload、variant、clip、
   textures、MDL、defaultPrim；
@@ -1106,7 +1194,8 @@ DryingBox 是首个验收对象。首验清单：
 
 ## 多资产复制验收
 
-DryingBox 通过后，必须扩到另外 2-3 个 USD asset，证明不是单资产特化：
+历史 `DryingBox_01_overlay` 通过后，必须扩到另外 2-3 个 USD asset，证明不是单资产
+特化；raw `lab_001.usd` DB01--DB04 的 source family audit 也必须单独保留：
 
 - 至少一个 rigid-only 或 mostly-rigid prop；
 - 至少一个非 DryingBox articulated asset，必须有真实 joint/limit/drive/reset pose；
@@ -1242,8 +1331,9 @@ MJCF route 的推荐原则：
     `blocked/waived` 是否清晰。2026-07-01 retained run 使用
     `remote_uri_block.usda`，稳定产生 `aan03_block_remote_uri`、CLI return code `5` 和
     weekly summary `status=pass`，同时证明后续 `not_run` gate 没有被当作 pass。
-12. `AAN-09.5 PM Evidence Table`：把 DryingBox runtime-ready evidence、AAN-08 replication
-    evidence 和 AAN-09 blocked negative evidence 聚合成 PM/周报表。2026-07-01 retained
+12. `AAN-09.5 PM Evidence Table`：把 pre-repaired `DryingBox_01_overlay`
+    runtime-ready evidence、AAN-08 replication evidence 和 AAN-09 blocked negative evidence
+    聚合成 PM/周报表。2026-07-01 retained
     table 刷新后显示 3 个 `ready`、1 个 `blocked`，并把 `aan03_block_remote_uri`
     聚合为 failure mode。
 13. `AAN-10 MJCF Scout`：先把 AutoBio/MJCF 路线落成 source inventory 和 semantic gap

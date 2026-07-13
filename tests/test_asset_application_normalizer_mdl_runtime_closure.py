@@ -62,7 +62,7 @@ def test_classify_mdl_module_treats_stdlib_as_native_and_custom_as_required() ->
     assert classify_mdl_module("OmniPBR_ClearCoat") == "required_helper_module"
 
 
-def test_discover_mdl_roots_uses_material_closure_and_package_mdl_directory(
+def test_discover_mdl_roots_scopes_to_material_closure_when_records_exist(
     tmp_path: Path,
 ) -> None:
     package = tmp_path / "package"
@@ -83,10 +83,7 @@ def test_discover_mdl_roots_uses_material_closure_and_package_mdl_directory(
 
     roots = discover_mdl_roots(package, material_closure)
 
-    assert roots == [
-        package / "deps" / "mdl" / "from_dir.mdl",
-        package / "deps" / "mdl" / "from_record.mdl",
-    ]
+    assert roots == [package / "deps" / "mdl" / "from_record.mdl"]
 
 
 def test_build_material_runtime_closure_blocks_unresolved_required_helper_and_records_texture(
@@ -263,6 +260,79 @@ def test_material_runtime_closure_mirrors_source_context_helper_and_texture(
         "aan11_mirror_helper_mdl",
         "aan11_mirror_mdl_texture",
     ]
+
+
+def test_material_runtime_closure_mirrors_unique_package_local_texture_alias(
+    tmp_path: Path,
+) -> None:
+    """A broken source-relative path may still have one unambiguous package mirror."""
+    source = tmp_path / "source"
+    package = tmp_path / "package"
+    (source / "materials").mkdir(parents=True)
+    (package / "deps" / "mdl" / "alternate").mkdir(parents=True)
+    root_text = (
+        "mdl 1.0;\n"
+        'export material m(texture_2d tex = texture_2d("../textures/steel_orm.png")) = material();\n'
+    )
+    source_mdl = source / "materials" / "steel.mdl"
+    source_mdl.write_text(root_text, encoding="utf-8")
+    (package / "deps" / "mdl" / "steel.mdl").write_text(root_text, encoding="utf-8")
+    (package / "deps" / "mdl" / "alternate" / "steel_orm.png").write_bytes(b"orm")
+    material_closure = [
+        {
+            "source_mdl_assets": [
+                {
+                    "package_path": "deps/mdl/steel.mdl",
+                    "resolved_path": str(source_mdl),
+                }
+            ]
+        }
+    ]
+
+    result = build_material_runtime_closure(package, material_closure=material_closure)
+
+    assert result.return_code == 0
+    mirrored = package / "deps" / "textures" / "steel_orm.png"
+    assert mirrored.read_bytes() == b"orm"
+    action = result.material_runtime_closure["mirror_actions"][0]
+    assert action["action_id"] == "aan11_mirror_unique_package_texture_alias"
+    assert action["resolution_source"] == "unique_package_local_basename"
+
+
+def test_material_runtime_closure_blocks_ambiguous_package_local_texture_alias(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "source"
+    package = tmp_path / "package"
+    (source / "materials").mkdir(parents=True)
+    (package / "deps" / "mdl" / "a").mkdir(parents=True)
+    (package / "deps" / "mdl" / "b").mkdir(parents=True)
+    root_text = (
+        "mdl 1.0;\n"
+        'export material m(texture_2d tex = texture_2d("../textures/steel_orm.png")) = material();\n'
+    )
+    source_mdl = source / "materials" / "steel.mdl"
+    source_mdl.write_text(root_text, encoding="utf-8")
+    (package / "deps" / "mdl" / "steel.mdl").write_text(root_text, encoding="utf-8")
+    (package / "deps" / "mdl" / "a" / "steel_orm.png").write_bytes(b"first")
+    (package / "deps" / "mdl" / "b" / "steel_orm.png").write_bytes(b"second")
+    material_closure = [
+        {
+            "source_mdl_assets": [
+                {
+                    "package_path": "deps/mdl/steel.mdl",
+                    "resolved_path": str(source_mdl),
+                }
+            ]
+        }
+    ]
+
+    result = build_material_runtime_closure(package, material_closure=material_closure)
+
+    assert result.return_code == 5
+    texture = result.material_runtime_closure["mdl_texture_assets"][0]
+    assert texture["resolution"] == "blocked"
+    assert texture["failure_mode"] == "missing_texture"
 
 
 def test_material_runtime_closure_resolves_approved_runtime_mdl_modules(

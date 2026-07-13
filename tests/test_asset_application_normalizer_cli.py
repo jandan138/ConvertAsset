@@ -117,6 +117,18 @@ def test_normalize_asset_rejects_unsupported_runtime_and_benchmark(
     assert not (tmp_path / "benchmark.json").exists()
 
 
+def test_normalize_asset_rejects_runtime_fingerprint_mismatch_for_isaac41(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "asset.usd"
+    source.write_text("#usda 1.0\n", encoding="utf-8")
+    args = _base_args(source, tmp_path / "pkg", tmp_path / "manifest.json")
+    args.extend(["--expected-runtime-version", "4.5"])
+
+    assert main(args) == 2
+    assert not (tmp_path / "manifest.json").exists()
+
+
 def test_normalize_asset_blocks_missing_local_dependency_without_package(
     tmp_path: Path,
 ) -> None:
@@ -198,12 +210,17 @@ def test_normalize_asset_writes_package_local_usd_closure(tmp_path: Path) -> Non
 
     assert code == 0
     assert (out_dir / "asset.usd").exists()
+    assert (out_dir / "deps" / "usd" / "source_root.usd").exists()
     assert (out_dir / "deps" / "usd" / "part.usda").exists()
     assert (out_dir / "deps" / "mdl" / "surface.mdl").exists()
     assert (out_dir / "deps" / "textures" / "albedo.png").exists()
     root_text = (out_dir / "asset.usd").read_text(encoding="utf-8")
+    source_root_text = (out_dir / "deps" / "usd" / "source_root.usd").read_text(
+        encoding="utf-8"
+    )
     part_text = (out_dir / "deps" / "usd" / "part.usda").read_text(encoding="utf-8")
-    assert "@deps/usd/part.usda@" in root_text
+    assert "@deps/usd/source_root.usd@" in root_text
+    assert "@part.usda@" in source_root_text
     assert "@../mdl/surface.mdl@" in part_text
     assert "@../textures/albedo.png@" in part_text
     manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
@@ -545,7 +562,7 @@ def test_normalize_asset_generates_mass_inertia_for_rigid_prop_without_mass_api(
     assert mass_record["inertia"]["value_source"] == "derived"
     assert mass_record["inertia"]["status"] == "pass"
     assert all(value > 0 for value in mass_record["inertia"]["value"])
-    assert mass_record["generation"]["method"] == "bbox_shell_density_template_v0"
+    assert mass_record["generation"]["method"] == "bbox_shell_density_template_v1"
 
 
 def test_normalize_asset_generates_invalid_mass_inertia_for_articulated_bodies(
@@ -1219,7 +1236,12 @@ def test_normalize_asset_exports_binary_usd_dependency_with_rewritten_paths(
     assert code == 0
     packaged_part = out_dir / "deps" / "usd" / "part.usd"
     assert packaged_part.exists()
-    assert "@deps/usd/part.usd@" in (out_dir / "asset.usd").read_text(encoding="utf-8")
+    assert "@deps/usd/source_root.usd@" in (out_dir / "asset.usd").read_text(
+        encoding="utf-8"
+    )
+    assert "@part.usd@" in (out_dir / "deps" / "usd" / "source_root.usd").read_text(
+        encoding="utf-8"
+    )
     assert "@../mdl/surface.mdl@" in packaged_part.read_text(encoding="utf-8")
     manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
     assert manifest["overall_status"] == "pass"
