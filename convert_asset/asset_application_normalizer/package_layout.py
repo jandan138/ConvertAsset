@@ -15,6 +15,16 @@ class TargetPackageLayout:
         return self.root / "asset.usd"
 
     @property
+    def source_root_usd(self) -> Path:
+        """Package-local source root composed below the owned entry overlay."""
+        return self.root / "deps" / "usd" / "source_root.usd"
+
+    @property
+    def scoped_source_usd(self) -> Path:
+        """Role-scoped USDA composed below the owned entry overlay when required."""
+        return self.root / "deps" / "usd" / "scoped_source.usda"
+
+    @property
     def evidence_manifest(self) -> Path:
         return self.root / "evidence" / "manifest.json"
 

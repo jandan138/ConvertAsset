@@ -1,0 +1,75 @@
+{
+  "status": "pass",
+  "runtime_profile": "isaac41",
+  "asset_id": "MuffleFurnace",
+  "root_usd": "/tmp/aan08_real_packages/muffle_furnace/asset.usd",
+  "required_prims": [
+    "/group_002",
+    "/group_002/Group",
+    "/group_002/Group/mesh_000",
+    "/group_002/Group/RevoluteJoint"
+  ],
+  "cold_load": {
+    "status": "pass",
+    "opened": true,
+    "required_prims": [
+      {
+        "path": "/group_002",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group/mesh_000",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group/RevoluteJoint",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "default_prim": "/group_002"
+  },
+  "render_readback": {
+    "mean_rgb": [
+      113.103821,
+      58.216759,
+      58.521461
+    ],
+    "non_background_ratio": 0.4051857,
+    "bbox_ratio": 0.60273743,
+    "sha256": "3c4f6e6a58608fc5ebeddb3a66ef2a794b98ad7363c1678b7bbc22a4396df4ef",
+    "bytes": 108172,
+    "resolution": [
+      512,
+      512
+    ],
+    "status": "pass",
+    "bbox_source": "authored",
+    "path": "/tmp/aan08_real_packages/muffle_furnace/evidence/runtime_smoke/render.png"
+  },
+  "physics_step": {
+    "status": "pass",
+    "frames": 4,
+    "finite_transforms": true,
+    "max_abs_delta": 0.0
+  },
+  "reset": {
+    "status": "pass",
+    "finite_transforms": true,
+    "max_abs_delta_from_initial": 0.0
+  },
+  "environment": {
+    "python_executable": "/isaac-sim/kit/python/bin/python3",
+    "python_version": "3.10.15",
+    "headless": true,
+    "isaacsim_file": "/isaac-sim/python_packages/isaacsim/__init__.py",
+    "pxr_version": "\nTf -- Tools Foundation\n"
+  }
+}

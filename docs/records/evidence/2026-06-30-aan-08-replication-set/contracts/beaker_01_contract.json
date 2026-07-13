@@ -1,0 +1,18 @@
+{
+  "task_config": {
+    "task_id": "AAN08.TransparentBeaker",
+    "benchmark": "ebench-lift2",
+    "asset_id": "Beaker_01"
+  },
+  "required_prims": {
+    "asset_root": "/group_000",
+    "manipulated_body": "/group_000/mesh_000",
+    "collision_root": "/group_000/mesh_000",
+    "spawn_anchor": "/group_000",
+    "goal_target": "N/A"
+  },
+  "evaluator": {
+    "entrypoint": "ebench.evaluators.aan08:TransparentBeakerEvaluator",
+    "metric": "grasp_place_visibility_smoke"
+  }
+}

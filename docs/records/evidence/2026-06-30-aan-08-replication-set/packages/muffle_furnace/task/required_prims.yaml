@@ -1,0 +1,38 @@
+task_id: AAN08.MuffleFurnaceDoor
+required_prims:
+  -
+    role: asset_root
+    path: /group_002
+    required: true
+    status: pass
+    exists: true
+  -
+    role: manipulated_body
+    path: /group_002/Group/mesh_000
+    required: true
+    status: pass
+    exists: true
+  -
+    role: collision_root
+    path: /group_002/Group/mesh_000
+    required: true
+    status: pass
+    exists: true
+  -
+    role: spawn_anchor
+    path: /group_002
+    required: true
+    status: pass
+    exists: true
+  -
+    role: goal_target
+    path: "N/A"
+    required: true
+    status: not_applicable
+    exists: null
+  -
+    role: articulation_root
+    path: /group_002
+    required: true
+    status: pass
+    exists: true

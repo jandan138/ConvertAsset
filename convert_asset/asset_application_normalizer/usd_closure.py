@@ -108,7 +108,28 @@ def build_usd_closure_package(request: NormalizeAssetRequest) -> UsdClosureResul
             gate_status="blocked",
         )
 
-    _write_package(layout, inventory)
+    scope_extraction = _write_package(layout, inventory, request)
+    inventory["scope_extraction"] = scope_extraction
+    if scope_extraction.get("status") == "blocked":
+        return _result(
+            "blocked",
+            5,
+            layout,
+            inventory,
+            [
+                {
+                    "blocker_id": "aan03_block_scope_extraction",
+                    "severity": "blocking",
+                    "summary": "AAN-03 could not create the declared role-scoped package USD.",
+                    "detail": scope_extraction.get("reason"),
+                    "required_resolution": (
+                        "Use a declared source scope that composes successfully with all "
+                        "bound materials, or fix the package-local source closure."
+                    ),
+                }
+            ],
+            gate_status="blocked",
+        )
     return _result("pass", 0, layout, inventory, [], gate_status="pass")
 
 
@@ -633,7 +654,11 @@ def _path_digest(path: Path) -> str:
     return hashlib.sha1(str(path).encode("utf-8")).hexdigest()[:8]
 
 
-def _write_package(layout: TargetPackageLayout, inventory: dict[str, Any]) -> None:
+def _write_package(
+    layout: TargetPackageLayout,
+    inventory: dict[str, Any],
+    request: NormalizeAssetRequest,
+) -> dict[str, Any]:
     layout.root.mkdir(parents=True, exist_ok=True)
     dependencies: list[AssetDependency] = inventory["dependencies"]
     deps_by_layer: dict[Path, list[AssetDependency]] = {}
@@ -641,7 +666,15 @@ def _write_package(layout: TargetPackageLayout, inventory: dict[str, Any]) -> No
         deps_by_layer.setdefault(dep.source_layer.resolve(), []).append(dep)
 
     root = inventory["root_layer"].resolve()
-    _copy_usd_with_rewrites(root, layout.root_usd, "asset.usd", deps_by_layer.get(root, []))
+    # The package entrypoint is deliberately a ConvertAsset-owned strong overlay.
+    # It allows later role normalization to author scoped changes without mutating
+    # the copied source layer or the upstream LabUtopia input.
+    _copy_usd_with_rewrites(
+        root,
+        layout.source_root_usd,
+        "deps/usd/source_root.usd",
+        deps_by_layer.get(root, []),
+    )
 
     copied: set[Path] = {root}
     for dep in sorted(dependencies, key=lambda item: item.package_path or ""):
@@ -657,6 +690,290 @@ def _write_package(layout: TargetPackageLayout, inventory: dict[str, Any]) -> No
         else:
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
+
+    scope_extraction = _build_role_scoped_source(layout, request)
+    package_sublayer = scope_extraction.get("package_path")
+    if not isinstance(package_sublayer, str):
+        package_sublayer = "deps/usd/source_root.usd"
+    layout.root_usd.write_text(
+        _entry_overlay_text(inventory.get("default_prim"), package_sublayer),
+        encoding="utf-8",
+    )
+    return scope_extraction
+
+
+def _entry_overlay_text(default_prim: str | None, package_sublayer: str) -> str:
+    lines = ["#usda 1.0", "("]
+    if default_prim:
+        lines.append(f'    defaultPrim = "{default_prim}"')
+    lines.extend(
+        [
+            "    subLayers = [",
+            f"        @{package_sublayer}@",
+            "    ]",
+            ")",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def _build_role_scoped_source(
+    layout: TargetPackageLayout,
+    request: NormalizeAssetRequest,
+) -> dict[str, Any]:
+    """Create a standalone visual-static scene from scope and bound materials.
+
+    A visual-static package is a consumer-facing background asset, not a whole
+    source scene with unrelated material graphs.  Copying the selected composed
+    prim subtrees into a package-local USDA keeps transforms and bindings at
+    their original absolute paths while preventing unrelated source materials
+    from entering the target runtime.
+    """
+    if request.asset_role != "visual_static":
+        return {
+            "status": "not_applicable",
+            "reason": "Role-scoped USD extraction is required for visual_static only.",
+            "scope_prims": list(request.effective_asset_scope_prims),
+            "retained_material_prims": [],
+            "package_path": "deps/usd/source_root.usd",
+        }
+
+    try:
+        from pxr import Sdf, Usd, UsdGeom, UsdShade  # type: ignore
+    except Exception as exc:
+        return {
+            "status": "blocked",
+            "reason": f"USD scope extraction requires pxr modules: {exc}",
+            "scope_prims": list(request.effective_asset_scope_prims),
+            "retained_material_prims": [],
+        }
+
+    try:
+        source_stage = Usd.Stage.Open(str(layout.source_root_usd))
+    except Exception as exc:
+        source_stage = None
+        open_error = str(exc)
+    else:
+        open_error = None
+    if source_stage is None:
+        return {
+            "status": "blocked",
+            "reason": f"Could not compose package-local source root: {open_error or layout.source_root_usd}",
+            "scope_prims": list(request.effective_asset_scope_prims),
+            "retained_material_prims": [],
+        }
+
+    scope_prims = list(request.effective_asset_scope_prims)
+    missing = [
+        path
+        for path in scope_prims
+        if not source_stage.GetPrimAtPath(path).IsValid()
+    ]
+    if missing:
+        return {
+            "status": "blocked",
+            "reason": f"Declared scope prims are absent from the package-local source: {missing}",
+            "scope_prims": scope_prims,
+            "retained_material_prims": [],
+        }
+
+    material_paths = _scope_bound_material_paths(source_stage, scope_prims, Usd, UsdShade)
+    subtree_paths = _minimal_subtree_paths([*scope_prims, *material_paths])
+    try:
+        # Flatten a population-masked composed snapshot rather than the full
+        # scene.  This keeps the output package independent from unrelated
+        # source materials (which may not be compatible with the target Kit)
+        # while still resolving future sublayers/references in the declared
+        # visual scope.
+        population_mask = Usd.StagePopulationMask()
+        for path in subtree_paths:
+            population_mask.Add(Sdf.Path(path))
+        masked_stage = Usd.Stage.OpenMasked(
+            str(layout.source_root_usd),
+            population_mask,
+            Usd.Stage.LoadAll,
+        )
+        if masked_stage is None:
+            raise RuntimeError("Could not compose the population-masked source stage")
+        flattened = masked_stage.Flatten()
+        scoped = Sdf.Layer.CreateAnonymous("aan_visual_static_scope.usda")
+        _copy_layer_timing_metadata(flattened, scoped)
+        for root_spec in flattened.rootPrims:
+            if not Sdf.CopySpec(
+                flattened,
+                root_spec.path,
+                scoped,
+                root_spec.path,
+            ):
+                raise RuntimeError(f"Sdf.CopySpec returned false for {root_spec.path}")
+        layout.scoped_source_usd.parent.mkdir(parents=True, exist_ok=True)
+        if not scoped.Export(str(layout.scoped_source_usd)):
+            raise RuntimeError(f"Could not export scoped USDA: {layout.scoped_source_usd}")
+        snapshot_rewrite = rewrite_scoped_snapshot_asset_paths(
+            layout.root,
+            layout.scoped_source_usd,
+        )
+        if snapshot_rewrite["status"] != "pass":
+            raise RuntimeError(str(snapshot_rewrite["reason"]))
+
+        scoped_stage = Usd.Stage.Open(str(layout.scoped_source_usd))
+        if scoped_stage is None:
+            raise RuntimeError("Scoped USDA could not be reopened")
+        UsdGeom.SetStageMetersPerUnit(
+            scoped_stage,
+            UsdGeom.GetStageMetersPerUnit(source_stage),
+        )
+        UsdGeom.SetStageUpAxis(scoped_stage, UsdGeom.GetStageUpAxis(source_stage))
+        scoped_stage.GetRootLayer().Save()
+        missing_after_export = [
+            path for path in [*scope_prims, *material_paths]
+            if not scoped_stage.GetPrimAtPath(path).IsValid()
+        ]
+        if missing_after_export:
+            raise RuntimeError(
+                "Scoped USDA lost required visual/material prims: "
+                f"{missing_after_export}"
+            )
+    except Exception as exc:
+        return {
+            "status": "blocked",
+            "reason": str(exc),
+            "scope_prims": scope_prims,
+            "retained_material_prims": material_paths,
+        }
+
+    return {
+        "status": "pass",
+        "strategy": "population_masked_composed_snapshot",
+        "source_root_package_path": "deps/usd/source_root.usd",
+        "package_path": "deps/usd/scoped_source.usda",
+        "scope_prims": scope_prims,
+        "retained_subtree_prims": subtree_paths,
+        "retained_material_prims": material_paths,
+        "snapshot_asset_path_rewrite": snapshot_rewrite,
+        "preserved_stage_metadata": {
+            "meters_per_unit": float(UsdGeom.GetStageMetersPerUnit(source_stage)),
+            "up_axis": str(UsdGeom.GetStageUpAxis(source_stage)),
+        },
+    }
+
+
+def rewrite_scoped_snapshot_asset_paths(package_root: Path, snapshot_path: Path) -> dict[str, Any]:
+    """Rewrite flattened package-internal asset paths to snapshot-relative form.
+
+    `Usd.Stage.Flatten()` resolves authored asset paths.  A snapshot exported
+    from a package-local stage can therefore contain absolute temporary output
+    paths even though all of its assets are already inside the package.  Those
+    paths are not portable package evidence, so rewrite only paths proved to be
+    descendants of ``package_root`` and fail closed for anything external.
+    """
+    text = _read_text(snapshot_path)
+    if text is None:
+        return {
+            "status": "blocked",
+            "reason": f"Scoped snapshot is not UTF-8 USDA: {snapshot_path}",
+            "rewrite_count": 0,
+            "external_asset_paths": [],
+        }
+    package = package_root.resolve()
+    try:
+        snapshot_rel = snapshot_path.resolve().relative_to(package).as_posix()
+    except ValueError:
+        return {
+            "status": "blocked",
+            "reason": f"Scoped snapshot is outside package root: {snapshot_path}",
+            "rewrite_count": 0,
+            "external_asset_paths": [],
+        }
+    snapshot_dir = posixpath.dirname(snapshot_rel) or "."
+    external_asset_paths: list[str] = []
+    rewrite_actions: list[dict[str, str]] = []
+
+    def replace(match: re.Match[str]) -> str:
+        raw = match.group(1).strip()
+        if not raw or _is_remote_uri(raw):
+            if raw:
+                external_asset_paths.append(raw)
+            return match.group(0)
+        candidate = Path(raw)
+        if not candidate.is_absolute():
+            return match.group(0)
+        try:
+            package_rel = candidate.resolve().relative_to(package).as_posix()
+        except (OSError, ValueError):
+            external_asset_paths.append(raw)
+            return match.group(0)
+        rewritten = posixpath.relpath(package_rel, start=snapshot_dir)
+        rewrite_actions.append(
+            {
+                "raw_asset_path": raw,
+                "package_relative_asset_path": rewritten,
+            }
+        )
+        return f"@{rewritten}@"
+
+    rewritten_text = ASSET_TOKEN_RE.sub(replace, text)
+    if external_asset_paths:
+        return {
+            "status": "blocked",
+            "reason": "Scoped snapshot retains an external or remote asset path.",
+            "rewrite_count": len(rewrite_actions),
+            "rewrite_actions": rewrite_actions,
+            "external_asset_paths": sorted(set(external_asset_paths)),
+        }
+    if rewritten_text != text:
+        snapshot_path.write_text(rewritten_text, encoding="utf-8")
+    return {
+        "status": "pass",
+        "rewrite_count": len(rewrite_actions),
+        "rewrite_actions": rewrite_actions,
+        "external_asset_paths": [],
+    }
+
+
+def _scope_bound_material_paths(
+    stage: Any,
+    scope_prims: list[str],
+    usd_module: Any,
+    usd_shade: Any,
+) -> list[str]:
+    material_paths: set[str] = set()
+    for path in scope_prims:
+        root = stage.GetPrimAtPath(path)
+        for prim in usd_module.PrimRange(root):
+            binding = usd_shade.MaterialBindingAPI(prim)
+            try:
+                material, _relationship = binding.ComputeBoundMaterial()
+            except Exception:
+                material = None
+            if material and material.GetPrim().IsValid():
+                material_paths.add(material.GetPath().pathString)
+            for relationship in prim.GetRelationships():
+                if not relationship.GetName().startswith("material:binding"):
+                    continue
+                for target in relationship.GetTargets():
+                    target_prim = stage.GetPrimAtPath(target)
+                    if target_prim and target_prim.IsValid():
+                        material_paths.add(target.pathString)
+    return sorted(material_paths)
+
+
+def _minimal_subtree_paths(paths: list[str]) -> list[str]:
+    retained: list[str] = []
+    for path in sorted(set(paths), key=lambda item: (item.count("/"), item)):
+        if any(path == parent or path.startswith(parent.rstrip("/") + "/") for parent in retained):
+            continue
+        retained.append(path)
+    return retained
+
+
+def _copy_layer_timing_metadata(source_layer: Any, target_layer: Any) -> None:
+    target_layer.defaultPrim = source_layer.defaultPrim
+    target_layer.startTimeCode = source_layer.startTimeCode
+    target_layer.endTimeCode = source_layer.endTimeCode
+    target_layer.framesPerSecond = source_layer.framesPerSecond
+    target_layer.timeCodesPerSecond = source_layer.timeCodesPerSecond
 
 
 def _copy_usd_with_rewrites(
@@ -762,6 +1079,15 @@ def _result(
     resolution_records = _resolution_records(inventory)
     dependency_closure = {
         "root_layer": str(inventory["root_layer"]),
+        "scope_extraction": inventory.get(
+            "scope_extraction",
+            {
+                "status": "not_run",
+                "reason": "AAN-03 package writing did not run.",
+                "scope_prims": [],
+                "retained_material_prims": [],
+            },
+        ),
         "scanned_layers": [str(path) for path in inventory["scanned_layers"]],
         "local_files": _unique_local_records(dependencies),
         "missing": [
@@ -798,6 +1124,15 @@ def _result(
             "package_path": "asset.usd" if overall_status == "pass" else None,
             "default_prim": inventory["default_prim"],
         },
+        "scope_extraction": inventory.get(
+            "scope_extraction",
+            {
+                "status": "not_run",
+                "reason": "AAN-03 package writing did not run.",
+                "scope_prims": [],
+                "retained_material_prims": [],
+            },
+        ),
         "required_prims": inventory["required_prims"],
         "dependency_counts": {
             "total": len(dependencies),

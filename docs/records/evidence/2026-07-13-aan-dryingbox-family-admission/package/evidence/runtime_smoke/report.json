@@ -1,0 +1,368 @@
+{
+  "status": "pass",
+  "runtime_profile": "isaac41",
+  "expected_runtime_version": "4.1",
+  "run_id": "e0fa9669b412408398b3ca1d07d87db6",
+  "expected_root_usd_sha256": "a85c4d3b81d1fccfc9ebb20f637f92a99281957d6229072fb7a33874744cac4f",
+  "runtime_profile_gate": {
+    "status": "pass",
+    "expected_version": "4.1",
+    "observed_kit_version": "4.1.0-rc.7+4.1.14801.71533b68.gl",
+    "reason": null
+  },
+  "asset_id": "LabUtopia_lab001_DryingBox_03_visual_static",
+  "root_usd": "/tmp/aan_db03_visual_static_final/asset.usd",
+  "required_prims": [
+    "/World/DryingBox_03"
+  ],
+  "asset_scope_prims": [
+    "/World/DryingBox_03"
+  ],
+  "cold_load": {
+    "status": "pass",
+    "opened": true,
+    "loading_complete": true,
+    "loading_state": {
+      "api": "get_stage_loading_status",
+      "value": [
+        "",
+        0,
+        0
+      ]
+    },
+    "asset_scope_prims": [
+      {
+        "path": "/World/DryingBox_03",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "consumer_required_prims": [
+      "/World/DryingBox_03"
+    ],
+    "default_prim": "/World"
+  },
+  "render_readback": {
+    "mean_rgb": [
+      160.292826,
+      160.4092,
+      160.461426
+    ],
+    "foreground_rgb": [
+      247.807311,
+      248.008366,
+      248.098594
+    ],
+    "non_background_ratio": 0.57881673,
+    "bbox_ratio": 0.82116699,
+    "sha256": "debd1c4e90ac0b9793aefc3f6129773c8a797bffafa7556757c4ffb4cd3a4e84",
+    "bytes": 16084,
+    "resolution": [
+      256,
+      192
+    ],
+    "status": "pass",
+    "bbox_source": "authored",
+    "path": "/tmp/aan_db03_visual_static_final/evidence/runtime_smoke/render.png"
+  },
+  "material_view_evidence": [
+    {
+      "view_id": "front",
+      "camera_pose": {
+        "position": [
+          46.93970089,
+          3.63191351,
+          0.70166268
+        ],
+        "look_at": [
+          45.87735686,
+          3.63191351,
+          0.31500107
+        ],
+        "distance": 1.13052291,
+        "elevation": 20.0,
+        "azimuth": 0.0
+      },
+      "target_prim": "/World/DryingBox_03",
+      "render_hash": "0806b61b8e9668226f6697994397e4511a2dc3d411e813f0e7a07b6a1aed9974",
+      "mean_rgb": [
+        116.01296,
+        117.530619,
+        117.928324
+      ],
+      "foreground_rgb": [
+        171.161476,
+        173.780555,
+        174.466838
+      ],
+      "non_background_ratio": 0.57944743,
+      "bbox_ratio": 0.81298828,
+      "render_path": "/tmp/aan_db03_visual_static_final/evidence/runtime_smoke/material_views/front.png",
+      "bbox_source": "authored",
+      "bytes": 27933,
+      "resolution": [
+        256,
+        192
+      ]
+    },
+    {
+      "view_id": "orbit_3q",
+      "camera_pose": {
+        "position": [
+          46.53218734,
+          4.28674399,
+          0.96344237
+        ],
+        "look_at": [
+          45.87735686,
+          3.63191351,
+          0.31500107
+        ],
+        "distance": 1.13052291,
+        "elevation": 35.0,
+        "azimuth": 45.0
+      },
+      "target_prim": "/World/DryingBox_03",
+      "render_hash": "fee7ce3e3c0117e768f461cc5e936def972fc61ecccc779c86f3f9b25d5a092c",
+      "mean_rgb": [
+        118.073751,
+        119.554464,
+        119.987183
+      ],
+      "foreground_rgb": [
+        175.02759,
+        177.588823,
+        178.33731
+      ],
+      "non_background_ratio": 0.578125,
+      "bbox_ratio": 0.81675212,
+      "render_path": "/tmp/aan_db03_visual_static_final/evidence/runtime_smoke/material_views/orbit_3q.png",
+      "bbox_source": "authored",
+      "bytes": 28620,
+      "resolution": [
+        256,
+        192
+      ]
+    },
+    {
+      "view_id": "side",
+      "camera_pose": {
+        "position": [
+          45.87735686,
+          4.65651522,
+          0.7927807
+        ],
+        "look_at": [
+          45.87735686,
+          3.63191351,
+          0.31500107
+        ],
+        "distance": 1.13052291,
+        "elevation": 25.0,
+        "azimuth": 90.0
+      },
+      "target_prim": "/World/DryingBox_03",
+      "render_hash": "a97a6fd89a85faa0a759fefc1ac83b1fee2f709d2ed8160a98201befd0401805",
+      "mean_rgb": [
+        125.425639,
+        126.331462,
+        126.497721
+      ],
+      "foreground_rgb": [
+        171.698861,
+        173.095455,
+        173.351799
+      ],
+      "non_background_ratio": 0.64857992,
+      "bbox_ratio": 0.74355062,
+      "render_path": "/tmp/aan_db03_visual_static_final/evidence/runtime_smoke/material_views/side.png",
+      "bbox_source": "authored",
+      "bytes": 27933,
+      "resolution": [
+        256,
+        192
+      ]
+    }
+  ],
+  "physics_step": {
+    "status": "pass",
+    "frames": 2,
+    "finite_transforms": true,
+    "comparison": "pre_step",
+    "max_abs_delta": 0.0
+  },
+  "reset": {
+    "status": "pass",
+    "finite_transforms": true,
+    "max_abs_delta_from_initial": 0.0,
+    "max_abs_delta_from_pre_step": 0.0,
+    "restored_to_initial": true,
+    "initial_capture_point": "before_warmup_and_render"
+  },
+  "environment": {
+    "python_executable": "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/bin/python3.10",
+    "python_version": "3.10.20",
+    "headless": true,
+    "isaac_sim_root": null,
+    "isaacsim_file": "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/isaacsim/__init__.py",
+    "pxr_version": "\nTf -- Tools Foundation\n",
+    "kit_version": "4.1.0-rc.7+4.1.14801.71533b68.gl"
+  },
+  "root_usd_sha256": "a85c4d3b81d1fccfc9ebb20f637f92a99281957d6229072fb7a33874744cac4f",
+  "asset_scope_validation": {
+    "status": "pass",
+    "scope_prims": [
+      "/World/DryingBox_03"
+    ],
+    "errors": []
+  },
+  "initial_state": {
+    "status": "pass",
+    "scope_prims": [
+      "/World/DryingBox_03"
+    ],
+    "capture_point": "before_warmup_and_render",
+    "finite_transforms": true
+  },
+  "shutdown_cleanup": {
+    "status": "pass",
+    "method": "world.clear_instance"
+  },
+  "process_exit": {
+    "policy": "os_exit_after_evidence",
+    "simulation_app_close": "not_called",
+    "reason": "isolated_worker_avoids_isaac41_native_plugin_unload_crash"
+  },
+  "runtime_report_binding": {
+    "status": "pass",
+    "run_id": "e0fa9669b412408398b3ca1d07d87db6",
+    "root_usd_sha256": "a85c4d3b81d1fccfc9ebb20f637f92a99281957d6229072fb7a33874744cac4f",
+    "errors": []
+  },
+  "physics_warning_gate": {
+    "status": "pass",
+    "scope_prims": [
+      "/World/DryingBox_03"
+    ],
+    "scope_validation": {
+      "status": "pass",
+      "scope_prims": [
+        "/World/DryingBox_03"
+      ],
+      "errors": []
+    },
+    "events": [],
+    "scoped_events": [],
+    "out_of_scope_events": [],
+    "unattributed_events": [],
+    "summary": {
+      "scoped_event_count": 0,
+      "out_of_scope_event_count": 0,
+      "unattributed_event_count": 0,
+      "by_category": {}
+    },
+    "parser_version": "aan06.physx_scope.v2",
+    "log_hashes": {
+      "stdout": "0053941d7063e9abb657385369f18c9d306147a9301152145075c8ce139fada6",
+      "stderr": "e23fe7953c782adfa1b26e7854ef10f78cdfdf090a921082e49bb75cdb985ee0"
+    }
+  },
+  "scope_map": {
+    "source_scope_prims": [
+      "/World/DryingBox_03"
+    ],
+    "package_scope_prims": [
+      "/World/DryingBox_03"
+    ],
+    "runtime_scope_prims": [
+      "/World/DryingBox_03"
+    ],
+    "mapping_kind": "package_direct_identity",
+    "relative_suffix": true
+  },
+  "warning_diff": {
+    "status": "pass",
+    "baseline_scope_prims": [
+      "/World/scientific_workbench_bimanual_pour/room/DryingBox_03"
+    ],
+    "candidate_scope_prims": [
+      "/World/DryingBox_03"
+    ],
+    "scope_validation": {
+      "baseline": {
+        "status": "pass",
+        "scope_prims": [
+          "/World/scientific_workbench_bimanual_pour/room/DryingBox_03"
+        ],
+        "errors": []
+      },
+      "candidate": {
+        "status": "pass",
+        "scope_prims": [
+          "/World/DryingBox_03"
+        ],
+        "errors": []
+      }
+    },
+    "comparison_basis": "canonical_scope_relative_prim_and_category",
+    "rows": [
+      {
+        "canonical_prim": "scope_0/body/Group/door/mesh",
+        "category": "invalid_inertia",
+        "baseline_count": 2,
+        "candidate_count": 0,
+        "removed": 2,
+        "introduced": 0
+      },
+      {
+        "canonical_prim": "scope_0/body/Group/door/mesh",
+        "category": "negative_mass",
+        "baseline_count": 2,
+        "candidate_count": 0,
+        "removed": 2,
+        "introduced": 0
+      },
+      {
+        "canonical_prim": "scope_0/body/Group/door/mesh",
+        "category": "small_sphere_approximated_inertia",
+        "baseline_count": 2,
+        "candidate_count": 0,
+        "removed": 2,
+        "introduced": 0
+      },
+      {
+        "canonical_prim": "scope_0/handle/mesh",
+        "category": "invalid_inertia",
+        "baseline_count": 2,
+        "candidate_count": 0,
+        "removed": 2,
+        "introduced": 0
+      },
+      {
+        "canonical_prim": "scope_0/handle/mesh",
+        "category": "negative_mass",
+        "baseline_count": 2,
+        "candidate_count": 0,
+        "removed": 2,
+        "introduced": 0
+      },
+      {
+        "canonical_prim": "scope_0/handle/mesh",
+        "category": "small_sphere_approximated_inertia",
+        "baseline_count": 2,
+        "candidate_count": 0,
+        "removed": 2,
+        "introduced": 0
+      }
+    ],
+    "summary": {
+      "baseline_scoped_count": 12,
+      "candidate_scoped_count": 0,
+      "removed_count": 12,
+      "introduced_count": 0
+    },
+    "baseline_log": "/cpfs/user/zhuzihou/dev/scenario-forge/outputs/scientific_workbench_bimanual_pour/adapters/ebench/genmanip/evidence/initial_scene/runtime.log",
+    "baseline_sha256": "cce797479cd8c222770ad661a545d57853d78baa4dd6ded29881e10365ca9c97",
+    "path": "evidence/runtime_smoke/warning_diff.json"
+  }
+}

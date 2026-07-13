@@ -5,4 +5,7 @@ __all__ = [
     "package_layout",
     "pipeline",
     "evidence_manifest",
+    "negative_gate",
+    "pm_evidence_table",
+    "mjcf_scout",
 ]

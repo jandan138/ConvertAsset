@@ -1,0 +1,270 @@
+{
+  "schema_version": "aan10.mjcf_scout.v1",
+  "milestone": "AAN-10-mjcf-scout",
+  "overall_status": "semantic_gap_report_only",
+  "created_at": "2026-06-30T17:08:11Z",
+  "source": {
+    "path": "docs/records/evidence/2026-07-01-aan-10-mjcf-scout/sources/autobio_like_mjcf.xml",
+    "source_format": "mjcf",
+    "source_runtime_lineage": "mujoco",
+    "model": "autobio_like"
+  },
+  "inventory": {
+    "counts": {
+      "bodies": 2,
+      "geoms": 2,
+      "joints": 1,
+      "sites": 1,
+      "meshes": 1,
+      "textures": 1,
+      "materials": 1,
+      "actuators": 1,
+      "sensors": 1,
+      "contacts": 1,
+      "equality": 1,
+      "tendons": 1,
+      "plugins": 1
+    },
+    "assets": {
+      "meshes": [
+        {
+          "tag": "mesh",
+          "name": "dish_mesh",
+          "attributes": {
+            "name": "dish_mesh",
+            "file": "meshes/dish.obj"
+          },
+          "file": "meshes/dish.obj"
+        }
+      ],
+      "textures": [
+        {
+          "tag": "texture",
+          "name": "glass_texture",
+          "attributes": {
+            "name": "glass_texture",
+            "file": "textures/glass.png",
+            "type": "2d"
+          },
+          "file": "textures/glass.png"
+        }
+      ],
+      "materials": [
+        {
+          "tag": "material",
+          "name": "glass",
+          "attributes": {
+            "name": "glass",
+            "texture": "glass_texture",
+            "rgba": "0.8 0.9 1.0 0.35"
+          }
+        }
+      ]
+    },
+    "bodies": [
+      {
+        "tag": "body",
+        "name": "sample",
+        "path": "/sample",
+        "pos": "0 0 0",
+        "quat": null,
+        "euler": null,
+        "mocap": null,
+        "child_body_count": 1,
+        "geom_count": 1,
+        "joint_count": 1,
+        "site_count": 1
+      },
+      {
+        "tag": "body",
+        "name": "child",
+        "path": "/sample/child",
+        "pos": "0 0 0.02",
+        "quat": null,
+        "euler": null,
+        "mocap": null,
+        "child_body_count": 0,
+        "geom_count": 1,
+        "joint_count": 0,
+        "site_count": 0
+      }
+    ],
+    "geoms": [
+      {
+        "tag": "geom",
+        "name": "sample_geom",
+        "attributes": {
+          "name": "sample_geom",
+          "type": "mesh",
+          "mesh": "dish_mesh",
+          "material": "glass"
+        }
+      },
+      {
+        "tag": "geom",
+        "name": "child_geom",
+        "attributes": {
+          "name": "child_geom",
+          "type": "sphere",
+          "size": "0.01"
+        }
+      }
+    ],
+    "joints": [
+      {
+        "tag": "joint",
+        "name": "slide",
+        "attributes": {
+          "name": "slide",
+          "type": "slide",
+          "axis": "1 0 0",
+          "range": "0 0.1"
+        }
+      }
+    ],
+    "sites": [
+      {
+        "tag": "site",
+        "name": "sensor_site",
+        "attributes": {
+          "name": "sensor_site"
+        }
+      }
+    ],
+    "actuators": [
+      {
+        "tag": "motor",
+        "name": "slide_motor",
+        "attributes": {
+          "name": "slide_motor",
+          "joint": "slide"
+        }
+      }
+    ],
+    "sensors": [
+      {
+        "tag": "touch",
+        "name": "touch_sensor",
+        "attributes": {
+          "name": "touch_sensor",
+          "site": "sensor_site"
+        }
+      }
+    ],
+    "contacts": [
+      {
+        "tag": "pair",
+        "name": null,
+        "attributes": {
+          "geom1": "sample_geom",
+          "geom2": "child_geom"
+        }
+      }
+    ],
+    "equality": [
+      {
+        "tag": "weld",
+        "name": "lock",
+        "attributes": {
+          "name": "lock",
+          "body1": "sample",
+          "body2": "child"
+        }
+      }
+    ],
+    "tendons": [
+      {
+        "tag": "spatial",
+        "name": "tendon",
+        "attributes": {
+          "name": "tendon"
+        }
+      }
+    ],
+    "plugins": [
+      {
+        "tag": "plugin",
+        "name": null,
+        "attributes": {
+          "plugin": "custom.fluid"
+        }
+      }
+    ],
+    "task_semantics": []
+  },
+  "semantic_gaps": [
+    {
+      "category": "actuator",
+      "count": 1,
+      "status": "requires_target_adapter_or_surrogate",
+      "summary": "MuJoCo actuator/control model must be mapped to a target controller or blocked."
+    },
+    {
+      "category": "sensor",
+      "count": 1,
+      "status": "requires_target_adapter_or_surrogate",
+      "summary": "MuJoCo sensors require target runtime readout and evaluator contract."
+    },
+    {
+      "category": "contact",
+      "count": 1,
+      "status": "requires_target_adapter_or_surrogate",
+      "summary": "Contact pair policy affects physics behavior and cannot be inferred from geometry alone."
+    },
+    {
+      "category": "equality",
+      "count": 1,
+      "status": "requires_target_adapter_or_surrogate",
+      "summary": "Equality constraints require explicit target simulator support or surrogate authoring."
+    },
+    {
+      "category": "tendon",
+      "count": 1,
+      "status": "requires_target_adapter_or_surrogate",
+      "summary": "Tendon routing/force semantics need a target-specific representation."
+    },
+    {
+      "category": "plugin",
+      "count": 1,
+      "status": "blocked_without_policy",
+      "summary": "Custom MuJoCo plugins are blocked until a policy or surrogate implementation exists."
+    },
+    {
+      "category": "task_semantic",
+      "count": 0,
+      "status": "requires_external_benchmark_contract",
+      "summary": "No explicit task semantic element was found; success/reset semantics must come from an external contract."
+    }
+  ],
+  "target_mapping": {
+    "usd_candidate": [
+      "mesh and primitive geometry inventory",
+      "body tree transforms",
+      "material and texture asset references",
+      "limited joint type, axis, and range records"
+    ],
+    "requires_surrogate_or_manual_contract": [
+      "actuator model and control semantics",
+      "sensor readout semantics",
+      "contact pair policy",
+      "equality constraints",
+      "tendon routing and force semantics",
+      "task success predicates and reset semantics"
+    ],
+    "blocked_without_policy": [
+      "custom MuJoCo plugins",
+      "fluid/process-specific simulator behavior",
+      "official benchmark comparability claims"
+    ]
+  },
+  "claims_allowed": [
+    "AAN-10 extracted MJCF source inventory and semantic gap evidence.",
+    "A future adapter can use this manifest to decide convert, surrogate, waiver, or block policy."
+  ],
+  "claims_forbidden": [
+    "MJCF has been converted to USD.",
+    "MJCF runtime semantics are preserved in Isaac Sim.",
+    "AutoBio official reproduction is supported.",
+    "MuJoCo actuator, sensor, contact, tendon, equality, plugin, or task semantics are losslessly supported."
+  ]
+}

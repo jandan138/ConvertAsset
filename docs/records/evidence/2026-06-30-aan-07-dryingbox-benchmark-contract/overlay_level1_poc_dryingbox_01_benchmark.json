@@ -1,0 +1,4486 @@
+{
+  "schema_version": "asset_application_normalizer.v1",
+  "package_id": "dryingbox_01_overlay_ebench-lift2_isaac41",
+  "asset_id": "DryingBox_01_overlay",
+  "task_id": "Lift2.DryingBox",
+  "milestone": "AAN-07-benchmark-contract",
+  "overall_status": "pass",
+  "source": {
+    "path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+    "sha256": "430c22c61f0cba7b09d19e9b90d78cd5d5012e179204194126d12247735be7f2",
+    "source_format": "usd",
+    "source_runtime_lineage": "isaac51"
+  },
+  "target": {
+    "target_runtime_profile": "isaac41",
+    "target_benchmark_profile": "ebench-lift2"
+  },
+  "entrypoints": {
+    "root_usd": "asset.usd",
+    "default_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+    "task_config": "task/task_config.yaml",
+    "required_prims": "task/required_prims.yaml",
+    "metric_evaluator": "task/evaluator.yaml"
+  },
+  "normalization_policy": {
+    "material": "preserve_source_then_add_compatibility_fallback",
+    "physics": "preserve_authored_then_generate_with_provenance",
+    "allowed_value_sources": [
+      "authored",
+      "derived",
+      "template",
+      "manual_override"
+    ]
+  },
+  "required_prim_paths": [
+    {
+      "name": "required_prim_0",
+      "path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+      "role": "contract_required_prim",
+      "required": true
+    }
+  ],
+  "dependency_closure": {
+    "root_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+    "scanned_layers": [
+      "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+      "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd"
+    ],
+    "local_files": [
+      {
+        "kind": "usd",
+        "arc_kind": "payload",
+        "raw_asset_path": "scene.usd",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+        "status": "packaged",
+        "holder": "/World/labutopia_level1_poc/obj_obj_conical_bottle02",
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_conical_bottle02",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "package_path": "deps/usd/scene.usd"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "Aluminum_Anodized_Charcoal.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+        "status": "packaged",
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/miscs/mdl/labutopia/mdl/Aluminum_Anodized_Charcoal.mdl",
+        "package_path": "deps/mdl/Aluminum_Anodized_Charcoal.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniPBR.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+        "status": "packaged",
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat/OmniPBR",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
+        "package_path": "deps/mdl/OmniPBR.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "gltf/pbr.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/lounge_booth_table/Looks/Wood_001/Wood_001",
+        "resolved_path": "/isaac-sim/kit/mdl/core/mdl/gltf/pbr.mdl",
+        "package_path": "deps/mdl/pbr.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture0_1.jpg",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/lounge_booth_table/Looks/Wood_001/baseColorTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/lounge_booth_table_texture0_1.jpg",
+        "package_path": "deps/textures/lounge_booth_table_texture0_1.jpg"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture1_1.jpg",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/lounge_booth_table/Looks/Black_Nickel/baseColorTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/lounge_booth_table_texture1_1.jpg",
+        "package_path": "deps/textures/lounge_booth_table_texture1_1.jpg"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture2_1.png",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/lounge_booth_table/Looks/Black_Nickel/metallicRoughnessTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/lounge_booth_table_texture2_1.png",
+        "package_path": "deps/textures/lounge_booth_table_texture2_1.png"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniSurfacePresets.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/OmniSurface_Glass/Shader",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniSurfacePresets.mdl",
+        "package_path": "deps/mdl/OmniSurfacePresets.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniGlass.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/OmniGlass/Shader",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniGlass.mdl",
+        "package_path": "deps/mdl/OmniGlass.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/Plastic_Thick_Translucent.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material1_plastic_dark_blue/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/Plastic_Thick_Translucent.mdl",
+        "package_path": "deps/mdl/Plastic_Thick_Translucent.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/Plastic.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material4_plastic_light_white/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/Plastic.mdl",
+        "package_path": "deps/mdl/Plastic.mdl"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture1.jpg",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material5_black/baseColorTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/lounge_booth_table_texture1.jpg",
+        "package_path": "deps/textures/lounge_booth_table_texture1.jpg"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture2.png",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material5_black/metallicRoughnessTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/lounge_booth_table_texture2.png",
+        "package_path": "deps/textures/lounge_booth_table_texture2.png"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/Steel_Stainless.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material7_stainless/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/Steel_Stainless.mdl",
+        "package_path": "deps/mdl/Steel_Stainless.mdl"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/Steel_Stainless_BaseColor.png",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material7_stainless/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/Steel_Stainless_BaseColor.png",
+        "package_path": "deps/textures/Steel_Stainless_BaseColor.png"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture0.jpg",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material2_wood/baseColorTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/lounge_booth_table_texture0.jpg",
+        "package_path": "deps/textures/lounge_booth_table_texture0.jpg"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/Stainless_Steel.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Stainless_Steel/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/Stainless_Steel.mdl",
+        "package_path": "deps/mdl/Stainless_Steel.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/material_11.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/mdl_0007/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_11.mdl",
+        "package_path": "deps/mdl/material_11.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/material_09.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/mdl_0009/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_09.mdl",
+        "package_path": "deps/mdl/material_09.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/material_08.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/mdl_0008/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_08.mdl",
+        "package_path": "deps/mdl/material_08.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/material_06.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/mdl_0006/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_06.mdl",
+        "package_path": "deps/mdl/material_06.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/material_12.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/mdl_0011/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_12.mdl",
+        "package_path": "deps/mdl/material_12.mdl"
+      }
+    ],
+    "missing": [],
+    "remote_uri": [],
+    "unauthorized_remote_uri": [],
+    "unrewritable_layers": [],
+    "resolution_records": [
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "Aluminum_Anodized_Charcoal.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+        "status": "packaged",
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/miscs/mdl/labutopia/mdl/Aluminum_Anodized_Charcoal.mdl",
+        "package_path": "deps/mdl/Aluminum_Anodized_Charcoal.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search",
+        "claim_impact": "AAN found a local mirror for this dependency and wrote it into the package."
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniPBR.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+        "status": "packaged",
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat/OmniPBR",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
+        "package_path": "deps/mdl/OmniPBR.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search",
+        "claim_impact": "AAN found a local mirror for this dependency and wrote it into the package."
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "gltf/pbr.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/lounge_booth_table/Looks/Wood_001/Wood_001",
+        "resolved_path": "/isaac-sim/kit/mdl/core/mdl/gltf/pbr.mdl",
+        "package_path": "deps/mdl/pbr.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search",
+        "claim_impact": "AAN found a local mirror for this dependency and wrote it into the package."
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniSurfacePresets.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/OmniSurface_Glass/Shader",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniSurfacePresets.mdl",
+        "package_path": "deps/mdl/OmniSurfacePresets.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search",
+        "claim_impact": "AAN found a local mirror for this dependency and wrote it into the package."
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniGlass.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/OmniGlass/Shader",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniGlass.mdl",
+        "package_path": "deps/mdl/OmniGlass.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search",
+        "claim_impact": "AAN found a local mirror for this dependency and wrote it into the package."
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniPBR.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/OmniPBR_Button_Blue/Shader",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
+        "package_path": "deps/mdl/OmniPBR.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search",
+        "claim_impact": "AAN found a local mirror for this dependency and wrote it into the package."
+      }
+    ],
+    "resolution_summary": {
+      "mirrored": 6,
+      "pruned": 0,
+      "waived": 0,
+      "blocked": 0
+    }
+  },
+  "material_closure": [
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniSurface_Glass",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniSurface_Glass/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/OmniSurfacePresets.mdl",
+          "source_sub_identifier": "OmniSurface_Glass",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "OmniSurfacePresets.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniSurfacePresets.mdl",
+          "package_path": "deps/mdl/OmniSurfacePresets.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniSurface_Glass/Shader",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "5c86c8545a1e215ec4b99e60eb66f9112ca5952cc66ca13ec0c26687dcfcb930",
+          "package_sha256": "5c86c8545a1e215ec4b99e60eb66f9112ca5952cc66ca13ec0c26687dcfcb930",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniGlass",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniGlass/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/OmniGlass.mdl",
+          "source_sub_identifier": "OmniGlass",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "OmniGlass.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniGlass.mdl",
+          "package_path": "deps/mdl/OmniGlass.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniGlass/Shader",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "cd7c97781dc95f1694f9acc70c0b9ae327361a3b1c84abf917e55a9d672e627a",
+          "package_sha256": "cd7c97781dc95f1694f9acc70c0b9ae327361a3b1c84abf917e55a9d672e627a",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material1_plastic_dark_blue",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material1_plastic_dark_blue/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/Plastic_Thick_Translucent.mdl",
+          "source_sub_identifier": "plastic_dark_blue",
+          "inputs": [
+            {
+              "name": "diffuse_color",
+              "value": [
+                0.149549,
+                0.187898,
+                0.506329
+              ],
+              "connected": false
+            },
+            {
+              "name": "diffuse_weight",
+              "value": 0.08,
+              "connected": false
+            },
+            {
+              "name": "reflection_roughness",
+              "value": 0.27,
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/materials/Plastic_Thick_Translucent.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/Plastic_Thick_Translucent.mdl",
+          "package_path": "deps/mdl/Plastic_Thick_Translucent.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material1_plastic_dark_blue/Shader",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "e6fc7403fce0da94912d3aa2ced0638a2aafb4c9cd504a745743f4273b7dc333",
+          "package_sha256": "e6fc7403fce0da94912d3aa2ced0638a2aafb4c9cd504a745743f4273b7dc333",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "constant",
+          "shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material1_plastic_dark_blue/Shader",
+          "input": "reflection_roughness",
+          "value": 0.27
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material3_plastic_dark_green",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material3_plastic_dark_green/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/Plastic_Thick_Translucent.mdl",
+          "source_sub_identifier": "plastic_dark_green",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/materials/Plastic_Thick_Translucent.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/Plastic_Thick_Translucent.mdl",
+          "package_path": "deps/mdl/Plastic_Thick_Translucent.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material3_plastic_dark_green/Shader",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "e6fc7403fce0da94912d3aa2ced0638a2aafb4c9cd504a745743f4273b7dc333",
+          "package_sha256": "e6fc7403fce0da94912d3aa2ced0638a2aafb4c9cd504a745743f4273b7dc333",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material4_plastic_light_white",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material4_plastic_light_white/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/Plastic.mdl",
+          "source_sub_identifier": "Plastic",
+          "inputs": [
+            {
+              "name": "albedo_add",
+              "value": 0.0,
+              "connected": false
+            },
+            {
+              "name": "reflection_roughness_constant",
+              "value": 0.45,
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/materials/Plastic.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/Plastic.mdl",
+          "package_path": "deps/mdl/Plastic.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material4_plastic_light_white/Shader",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "00ff5c95e8f9a97a5f21d0230536b01ac2ab88a8ab0d7eea9780e839be8be215",
+          "package_sha256": "00ff5c95e8f9a97a5f21d0230536b01ac2ab88a8ab0d7eea9780e839be8be215",
+          "effect_tags": [
+            "normal_bump",
+            "emission"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opaque",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material5_black",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material5_black/Black_Nickel",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/pbr.mdl",
+          "source_sub_identifier": "gltf_material",
+          "inputs": [
+            {
+              "name": "alpha_cutoff",
+              "value": 0.0,
+              "connected": false
+            },
+            {
+              "name": "alpha_mode",
+              "value": 0,
+              "connected": false
+            },
+            {
+              "name": "base_alpha",
+              "value": 1.0,
+              "connected": false
+            },
+            {
+              "name": "base_color_factor",
+              "value": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "connected": false
+            },
+            {
+              "name": "base_color_texture",
+              "value": null,
+              "connected": true
+            },
+            {
+              "name": "emissive_strength",
+              "value": 10000.0,
+              "connected": false
+            },
+            {
+              "name": "metallic_factor",
+              "value": 1.0,
+              "connected": false
+            },
+            {
+              "name": "metallic_roughness_texture",
+              "value": null,
+              "connected": true
+            },
+            {
+              "name": "roughness_factor",
+              "value": 1.0,
+              "connected": false
+            }
+          ]
+        },
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material5_black/baseColorTex",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/pbr.mdl",
+          "source_sub_identifier": "gltf_texture_lookup",
+          "inputs": [
+            {
+              "name": "offset",
+              "value": [
+                0.0,
+                0.0
+              ],
+              "connected": false
+            },
+            {
+              "name": "rotation",
+              "value": 0.0,
+              "connected": false
+            },
+            {
+              "name": "scale",
+              "value": [
+                1.0,
+                1.0
+              ],
+              "connected": false
+            },
+            {
+              "name": "tex_coord_index",
+              "value": 0,
+              "connected": false
+            },
+            {
+              "name": "texture",
+              "value": "../textures/lounge_booth_table_texture1.jpg",
+              "connected": false
+            },
+            {
+              "name": "wrap_s",
+              "value": 10497,
+              "connected": false
+            },
+            {
+              "name": "wrap_t",
+              "value": 10497,
+              "connected": false
+            }
+          ]
+        },
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material5_black/metallicRoughnessTex",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/pbr.mdl",
+          "source_sub_identifier": "gltf_texture_lookup",
+          "inputs": [
+            {
+              "name": "offset",
+              "value": [
+                0.0,
+                0.0
+              ],
+              "connected": false
+            },
+            {
+              "name": "rotation",
+              "value": 0.0,
+              "connected": false
+            },
+            {
+              "name": "scale",
+              "value": [
+                1.0,
+                1.0
+              ],
+              "connected": false
+            },
+            {
+              "name": "tex_coord_index",
+              "value": 0,
+              "connected": false
+            },
+            {
+              "name": "texture",
+              "value": "../textures/lounge_booth_table_texture2.png",
+              "connected": false
+            },
+            {
+              "name": "wrap_s",
+              "value": 10497,
+              "connected": false
+            },
+            {
+              "name": "wrap_t",
+              "value": 10497,
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "gltf/pbr.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/mdl/gltf/pbr.mdl",
+          "package_path": "deps/mdl/pbr.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material5_black/Black_Nickel",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "08d49f866cba15416a9614776ce3502dd922c3ca5441261496df84ffee1ae0a2",
+          "package_sha256": "08d49f866cba15416a9614776ce3502dd922c3ca5441261496df84ffee1ae0a2",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission",
+            "clearcoat"
+          ]
+        },
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "gltf/pbr.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/mdl/gltf/pbr.mdl",
+          "package_path": "deps/mdl/pbr.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material5_black/baseColorTex",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "08d49f866cba15416a9614776ce3502dd922c3ca5441261496df84ffee1ae0a2",
+          "package_sha256": "08d49f866cba15416a9614776ce3502dd922c3ca5441261496df84ffee1ae0a2",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission",
+            "clearcoat"
+          ]
+        },
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "gltf/pbr.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/mdl/gltf/pbr.mdl",
+          "package_path": "deps/mdl/pbr.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material5_black/metallicRoughnessTex",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "08d49f866cba15416a9614776ce3502dd922c3ca5441261496df84ffee1ae0a2",
+          "package_sha256": "08d49f866cba15416a9614776ce3502dd922c3ca5441261496df84ffee1ae0a2",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission",
+            "clearcoat"
+          ]
+        }
+      ],
+      "texture_paths": [
+        {
+          "kind": "texture",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture1.jpg",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/lounge_booth_table_texture1.jpg",
+          "package_path": "deps/textures/lounge_booth_table_texture1.jpg",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material5_black/baseColorTex",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "c993bac14939eb27ab4cf248fee5816a6873885d8a159e0e97c2f4fad0619925",
+          "package_sha256": "c993bac14939eb27ab4cf248fee5816a6873885d8a159e0e97c2f4fad0619925"
+        },
+        {
+          "kind": "texture",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture2.png",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/lounge_booth_table_texture2.png",
+          "package_path": "deps/textures/lounge_booth_table_texture2.png",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material5_black/metallicRoughnessTex",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "a961a7fb56b25ad1905310f6be55efcb167f241fe2f01836468bc17f7a6602ba",
+          "package_sha256": "a961a7fb56b25ad1905310f6be55efcb167f241fe2f01836468bc17f7a6602ba"
+        }
+      ],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 3,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material7_stainless",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material7_stainless/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/Steel_Stainless.mdl",
+          "source_sub_identifier": "Steel_Stainless",
+          "inputs": [
+            {
+              "name": "albedo_add",
+              "value": 0.05,
+              "connected": false
+            },
+            {
+              "name": "albedo_desaturation",
+              "value": 0.0,
+              "connected": false
+            },
+            {
+              "name": "diffuse_texture",
+              "value": "../textures/Steel_Stainless_BaseColor.png",
+              "connected": false
+            },
+            {
+              "name": "reflection_roughness_constant",
+              "value": 0.5,
+              "connected": false
+            },
+            {
+              "name": "reflection_roughness_texture_influence",
+              "value": 0.46,
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/materials/Steel_Stainless.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/Steel_Stainless.mdl",
+          "package_path": "deps/mdl/Steel_Stainless.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material7_stainless/Shader",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "4aa967952d1f840438880df500a642e71b385bd537fd077dbf202e98a1573689",
+          "package_sha256": "4aa967952d1f840438880df500a642e71b385bd537fd077dbf202e98a1573689",
+          "effect_tags": [
+            "normal_bump",
+            "emission"
+          ]
+        }
+      ],
+      "texture_paths": [
+        {
+          "kind": "texture",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/textures/Steel_Stainless_BaseColor.png",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/Steel_Stainless_BaseColor.png",
+          "package_path": "deps/textures/Steel_Stainless_BaseColor.png",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material7_stainless/Shader",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "3f8b3b576ce734630625a64faf6266faf411714a59c42c7af395dc0826e52151",
+          "package_sha256": "3f8b3b576ce734630625a64faf6266faf411714a59c42c7af395dc0826e52151"
+        }
+      ],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opaque",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material6_plastic_light_blue",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material6_plastic_light_blue/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/Plastic_Thick_Translucent.mdl",
+          "source_sub_identifier": "plastic_light_blue",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/materials/Plastic_Thick_Translucent.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/Plastic_Thick_Translucent.mdl",
+          "package_path": "deps/mdl/Plastic_Thick_Translucent.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material6_plastic_light_blue/Shader",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "e6fc7403fce0da94912d3aa2ced0638a2aafb4c9cd504a745743f4273b7dc333",
+          "package_sha256": "e6fc7403fce0da94912d3aa2ced0638a2aafb4c9cd504a745743f4273b7dc333",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material2_wood",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material2_wood/Wood_001",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/pbr.mdl",
+          "source_sub_identifier": "gltf_material",
+          "inputs": [
+            {
+              "name": "alpha_cutoff",
+              "value": 0.0,
+              "connected": false
+            },
+            {
+              "name": "alpha_mode",
+              "value": 0,
+              "connected": false
+            },
+            {
+              "name": "base_alpha",
+              "value": 1.0,
+              "connected": false
+            },
+            {
+              "name": "base_color_factor",
+              "value": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "connected": false
+            },
+            {
+              "name": "base_color_texture",
+              "value": null,
+              "connected": true
+            },
+            {
+              "name": "emissive_strength",
+              "value": 10000.0,
+              "connected": false
+            },
+            {
+              "name": "metallic_factor",
+              "value": 0.0,
+              "connected": false
+            },
+            {
+              "name": "roughness_factor",
+              "value": 0.821115,
+              "connected": false
+            }
+          ]
+        },
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material2_wood/baseColorTex",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/pbr.mdl",
+          "source_sub_identifier": "gltf_texture_lookup",
+          "inputs": [
+            {
+              "name": "offset",
+              "value": [
+                0.0,
+                0.0
+              ],
+              "connected": false
+            },
+            {
+              "name": "rotation",
+              "value": 0.0,
+              "connected": false
+            },
+            {
+              "name": "scale",
+              "value": [
+                1.0,
+                1.0
+              ],
+              "connected": false
+            },
+            {
+              "name": "tex_coord_index",
+              "value": 0,
+              "connected": false
+            },
+            {
+              "name": "texture",
+              "value": "../textures/lounge_booth_table_texture0.jpg",
+              "connected": false
+            },
+            {
+              "name": "wrap_s",
+              "value": 10497,
+              "connected": false
+            },
+            {
+              "name": "wrap_t",
+              "value": 10497,
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "gltf/pbr.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/mdl/gltf/pbr.mdl",
+          "package_path": "deps/mdl/pbr.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material2_wood/Wood_001",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "08d49f866cba15416a9614776ce3502dd922c3ca5441261496df84ffee1ae0a2",
+          "package_sha256": "08d49f866cba15416a9614776ce3502dd922c3ca5441261496df84ffee1ae0a2",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission",
+            "clearcoat"
+          ]
+        },
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "gltf/pbr.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/mdl/gltf/pbr.mdl",
+          "package_path": "deps/mdl/pbr.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material2_wood/baseColorTex",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "08d49f866cba15416a9614776ce3502dd922c3ca5441261496df84ffee1ae0a2",
+          "package_sha256": "08d49f866cba15416a9614776ce3502dd922c3ca5441261496df84ffee1ae0a2",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission",
+            "clearcoat"
+          ]
+        }
+      ],
+      "texture_paths": [
+        {
+          "kind": "texture",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture0.jpg",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/textures/lounge_booth_table_texture0.jpg",
+          "package_path": "deps/textures/lounge_booth_table_texture0.jpg",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Material2_wood/baseColorTex",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "090cea3716ec138f618190081619ed4516a3403351d378063e15c6c06d2cce46",
+          "package_sha256": "090cea3716ec138f618190081619ed4516a3403351d378063e15c6c06d2cce46"
+        }
+      ],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 2,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_Blue",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_Blue/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/OmniPBR.mdl",
+          "source_sub_identifier": "OmniPBR",
+          "inputs": [
+            {
+              "name": "diffuse_tint",
+              "value": [
+                0.0,
+                1.03,
+                2.0
+              ],
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "OmniPBR.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
+          "package_path": "deps/mdl/OmniPBR.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_Blue/Shader",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "package_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission",
+            "clearcoat"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_DeepGray",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_DeepGray/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/OmniPBR.mdl",
+          "source_sub_identifier": "OmniPBR",
+          "inputs": [
+            {
+              "name": "diffuse_tint",
+              "value": [
+                0.39,
+                0.4,
+                0.4
+              ],
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "OmniPBR.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
+          "package_path": "deps/mdl/OmniPBR.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_DeepGray/Shader",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "package_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission",
+            "clearcoat"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_Gray",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_Gray/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/OmniPBR.mdl",
+          "source_sub_identifier": "OmniPBR",
+          "inputs": [
+            {
+              "name": "diffuse_tint",
+              "value": [
+                0.2,
+                0.2,
+                0.21
+              ],
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "OmniPBR.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
+          "package_path": "deps/mdl/OmniPBR.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_Gray/Shader",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "package_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission",
+            "clearcoat"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_Green",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_Green/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/OmniPBR.mdl",
+          "source_sub_identifier": "OmniPBR",
+          "inputs": [
+            {
+              "name": "diffuse_tint",
+              "value": [
+                0.52,
+                1.01,
+                0.49
+              ],
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "OmniPBR.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
+          "package_path": "deps/mdl/OmniPBR.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_Green/Shader",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "package_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission",
+            "clearcoat"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_Red",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_Red/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/OmniPBR.mdl",
+          "source_sub_identifier": "OmniPBR",
+          "inputs": [
+            {
+              "name": "diffuse_tint",
+              "value": [
+                2.0,
+                0.33,
+                0.32
+              ],
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "OmniPBR.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
+          "package_path": "deps/mdl/OmniPBR.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_Red/Shader",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "package_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission",
+            "clearcoat"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_Yellow",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_Yellow/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/OmniPBR.mdl",
+          "source_sub_identifier": "OmniPBR",
+          "inputs": [
+            {
+              "name": "diffuse_tint",
+              "value": [
+                2.0,
+                2.0,
+                0.0
+              ],
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "OmniPBR.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
+          "package_path": "deps/mdl/OmniPBR.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_Yellow/Shader",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "package_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission",
+            "clearcoat"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_WhiteBlue",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_WhiteBlue/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/OmniPBR.mdl",
+          "source_sub_identifier": "OmniPBR",
+          "inputs": [
+            {
+              "name": "diffuse_color_constant",
+              "value": [
+                1.0,
+                0.99999,
+                0.99999
+              ],
+              "connected": false
+            },
+            {
+              "name": "diffuse_tint",
+              "value": [
+                0.164504,
+                0.369533,
+                0.590717
+              ],
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "OmniPBR.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
+          "package_path": "deps/mdl/OmniPBR.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/OmniPBR_Button_WhiteBlue/Shader",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "package_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission",
+            "clearcoat"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "deps/mdl/Aluminum_Anodized_Charcoal.mdl",
+          "source_sub_identifier": "Aluminum_Anodized_Charcoal",
+          "inputs": [
+            {
+              "name": "albedo_add",
+              "value": 0.02,
+              "connected": false
+            },
+            {
+              "name": "ao_to_diffuse",
+              "value": 0.0,
+              "connected": false
+            },
+            {
+              "name": "emissive_color",
+              "value": [
+                0.88,
+                1.0,
+                1.0
+              ],
+              "connected": false
+            },
+            {
+              "name": "enable_emission",
+              "value": false,
+              "connected": false
+            },
+            {
+              "name": "metallic_texture_influence",
+              "value": 1.0,
+              "connected": false
+            },
+            {
+              "name": "reflection_roughness_constant",
+              "value": 0.0,
+              "connected": false
+            },
+            {
+              "name": "reflection_roughness_texture_influence",
+              "value": 1.0,
+              "connected": false
+            },
+            {
+              "name": "specular_level",
+              "value": 0.5,
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "Aluminum_Anodized_Charcoal.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/miscs/mdl/labutopia/mdl/Aluminum_Anodized_Charcoal.mdl",
+          "package_path": "deps/mdl/Aluminum_Anodized_Charcoal.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Aluminum_Anodized_Charcoal/Shader",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "640855d3890c6faaae6346a850ef9f366d4b397c0f4313e25c7ac0b9230c106a",
+          "package_sha256": "640855d3890c6faaae6346a850ef9f366d4b397c0f4313e25c7ac0b9230c106a",
+          "effect_tags": [
+            "normal_bump",
+            "emission"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opaque",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Steel_Stainless",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Steel_Stainless/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/Steel_Stainless.mdl",
+          "source_sub_identifier": "Steel_Stainless",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/materials/Steel_Stainless.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/Steel_Stainless.mdl",
+          "package_path": "deps/mdl/Steel_Stainless.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Steel_Stainless/Shader",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "4aa967952d1f840438880df500a642e71b385bd537fd077dbf202e98a1573689",
+          "package_sha256": "4aa967952d1f840438880df500a642e71b385bd537fd077dbf202e98a1573689",
+          "effect_tags": [
+            "normal_bump",
+            "emission"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opaque",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Stainless_Steel",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Stainless_Steel/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/Stainless_Steel.mdl",
+          "source_sub_identifier": "Stainless_Steel",
+          "inputs": [
+            {
+              "name": "roundcorners_radius_mm",
+              "value": 0.5,
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/materials/Stainless_Steel.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/Stainless_Steel.mdl",
+          "package_path": "deps/mdl/Stainless_Steel.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/Stainless_Steel/Shader",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "4ea4907fe674866a20bfc45e32be1f1db71aaa7c2479458b3ad3277ea0fa5d48",
+          "package_sha256": "4ea4907fe674866a20bfc45e32be1f1db71aaa7c2479458b3ad3277ea0fa5d48",
+          "effect_tags": [
+            "normal_bump",
+            "emission"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opaque",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0007",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0007/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/material_11.mdl",
+          "source_sub_identifier": "mdl_0007",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/materials/material_11.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_11.mdl",
+          "package_path": "deps/mdl/material_11.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0007/Shader",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "f91013cdb672bc6670ef09225f378918df2fed2a977de2b3927e4f148ced9a32",
+          "package_sha256": "f91013cdb672bc6670ef09225f378918df2fed2a977de2b3927e4f148ced9a32",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "procedural"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0009",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0009/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/material_09.mdl",
+          "source_sub_identifier": "mdl_0009",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/materials/material_09.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_09.mdl",
+          "package_path": "deps/mdl/material_09.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0009/Shader",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "0569e8b1b05810a9c1d0eb604184dbc5450f0ad79307639e0cb0ec44dce26ea8",
+          "package_sha256": "0569e8b1b05810a9c1d0eb604184dbc5450f0ad79307639e0cb0ec44dce26ea8",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0008",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0008/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/material_08.mdl",
+          "source_sub_identifier": "mdl_0008",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/materials/material_08.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_08.mdl",
+          "package_path": "deps/mdl/material_08.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0008/Shader",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "2d340831b68cb0402efac04f53857c8fef5c479f505c7dfbf96fc26525acd6ae",
+          "package_sha256": "2d340831b68cb0402efac04f53857c8fef5c479f505c7dfbf96fc26525acd6ae",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0006",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0006/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/material_06.mdl",
+          "source_sub_identifier": "mdl_0006",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/materials/material_06.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_06.mdl",
+          "package_path": "deps/mdl/material_06.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0006/Shader",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "a387b9e3f737dbc61653de75538958e95eab77c0ae9093cdc30f8496579214ad",
+          "package_sha256": "a387b9e3f737dbc61653de75538958e95eab77c0ae9093cdc30f8496579214ad",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0011",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0011/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/material_12.mdl",
+          "source_sub_identifier": "mdl_0011",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/materials/material_12.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_12.mdl",
+          "package_path": "deps/mdl/material_12.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_0011/Shader",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "c63181bc2f23c090d36e9e3b96672b511a17e03f4362cca130937c6b6d7ec492",
+          "package_sha256": "c63181bc2f23c090d36e9e3b96672b511a17e03f4362cca130937c6b6d7ec492",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_12",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_12/Shader",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/material_12.mdl",
+          "source_sub_identifier": "mdl_0011",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./SubUSDs/materials/material_12.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/SubUSDs/materials/material_12.mdl",
+          "package_path": "deps/mdl/material_12.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/mdl_12/Shader",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "c63181bc2f23c090d36e9e3b96672b511a17e03f4362cca130937c6b6d7ec492",
+          "package_sha256": "c63181bc2f23c090d36e9e3b96672b511a17e03f4362cca130937c6b6d7ec492",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat/PreviewSurface",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+          "shader_id": "UsdPreviewSurface",
+          "implementation_source": "id",
+          "source_asset": null,
+          "source_sub_identifier": null,
+          "inputs": [
+            {
+              "name": "diffuseColor",
+              "value": [
+                1.0,
+                0.48,
+                0.04
+              ],
+              "connected": false
+            },
+            {
+              "name": "metallic",
+              "value": 0.0,
+              "connected": false
+            },
+            {
+              "name": "roughness",
+              "value": 0.85,
+              "connected": false
+            }
+          ]
+        },
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat/OmniPBR",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "deps/mdl/OmniPBR.mdl",
+          "source_sub_identifier": "OmniPBR",
+          "inputs": [
+            {
+              "name": "diffuse_color_constant",
+              "value": [
+                1.0,
+                0.48,
+                0.04
+              ],
+              "connected": false
+            },
+            {
+              "name": "reflection_roughness_constant",
+              "value": 0.45,
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "OmniPBR.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
+          "package_path": "deps/mdl/OmniPBR.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat/OmniPBR",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "package_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission",
+            "clearcoat"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "constant",
+          "shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat/PreviewSurface",
+          "input": "diffuseColor",
+          "value": [
+            1.0,
+            0.48,
+            0.04
+          ]
+        },
+        "roughness": {
+          "source": "constant",
+          "shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat/PreviewSurface",
+          "input": "roughness",
+          "value": 0.85
+        },
+        "metallic": {
+          "source": "constant",
+          "shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_button_mat/PreviewSurface",
+          "input": "metallic",
+          "value": 0.0
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_indicator_mat",
+      "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_indicator_mat/PreviewSurface",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+          "shader_id": "UsdPreviewSurface",
+          "implementation_source": "id",
+          "source_asset": null,
+          "source_sub_identifier": null,
+          "inputs": [
+            {
+              "name": "diffuseColor",
+              "value": [
+                0.1,
+                0.36,
+                0.95
+              ],
+              "connected": false
+            },
+            {
+              "name": "metallic",
+              "value": 0.0,
+              "connected": false
+            },
+            {
+              "name": "roughness",
+              "value": 0.85,
+              "connected": false
+            }
+          ]
+        },
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_indicator_mat/OmniPBR",
+          "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "deps/mdl/OmniPBR.mdl",
+          "source_sub_identifier": "OmniPBR",
+          "inputs": [
+            {
+              "name": "diffuse_color_constant",
+              "value": [
+                0.1,
+                0.36,
+                0.95
+              ],
+              "connected": false
+            },
+            {
+              "name": "reflection_roughness_constant",
+              "value": 0.45,
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "OmniPBR.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniPBR.mdl",
+          "package_path": "deps/mdl/OmniPBR.mdl",
+          "source_shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_indicator_mat/OmniPBR",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "package_sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission",
+            "clearcoat"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "constant",
+          "shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_indicator_mat/PreviewSurface",
+          "input": "diffuseColor",
+          "value": [
+            0.1,
+            0.36,
+            0.95
+          ]
+        },
+        "roughness": {
+          "source": "constant",
+          "shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_indicator_mat/PreviewSurface",
+          "input": "roughness",
+          "value": 0.85
+        },
+        "metallic": {
+          "source": "constant",
+          "shader_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Looks/task_indicator_mat/PreviewSurface",
+          "input": "metallic",
+          "value": 0.0
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    }
+  ],
+  "physics_closure": {
+    "status": "pass",
+    "root_usd": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+    "scope": {
+      "mode": "required_prims",
+      "required_prims": [
+        "/World/labutopia_level1_poc/obj_obj_DryingBox_01"
+      ]
+    },
+    "value_policy": "preserve_authored_then_generate_with_provenance",
+    "required_prims": [
+      {
+        "path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "rigid_bodies": [
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh.physics:rigidBodyEnabled"
+        },
+        "kinematic": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh.physics:kinematicEnabled"
+        },
+        "velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh.physics:velocity"
+        },
+        "angular_velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh.physics:angularVelocity"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/body/mesh",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/body/mesh.physics:rigidBodyEnabled"
+        },
+        "kinematic": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/body/mesh.physics:kinematicEnabled"
+        },
+        "velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/body/mesh.physics:velocity"
+        },
+        "angular_velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/body/mesh.physics:angularVelocity"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/handle/mesh",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/handle/mesh.physics:rigidBodyEnabled"
+        },
+        "kinematic": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/handle/mesh.physics:kinematicEnabled"
+        },
+        "velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/handle/mesh.physics:velocity"
+        },
+        "angular_velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/handle/mesh.physics:angularVelocity"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button.physics:rigidBodyEnabled"
+        },
+        "kinematic": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button.physics:kinematicEnabled"
+        },
+        "velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button.physics:velocity"
+        },
+        "angular_velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button.physics:angularVelocity"
+        },
+        "value_source": "authored"
+      }
+    ],
+    "collisions": [
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh.physics:collisionEnabled"
+        },
+        "approximation": {
+          "value": "convexDecomposition",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh.physics:approximation"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/body/mesh",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/body/mesh.physics:collisionEnabled"
+        },
+        "approximation": {
+          "value": "convexDecomposition",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/body/mesh.physics:approximation"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/handle/mesh",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/handle/mesh.physics:collisionEnabled"
+        },
+        "approximation": {
+          "value": "convexHull",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/handle/mesh.physics:approximation"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Group_02/group/mesh",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Group_02/group/mesh.physics:collisionEnabled"
+        },
+        "approximation": {
+          "value": "none",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Group_02/group/mesh.physics:approximation"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Group_02/group_04/mesh",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Group_02/group_04/mesh.physics:collisionEnabled"
+        },
+        "approximation": {
+          "value": "none",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Group_02/group_04/mesh.physics:approximation"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Group_02/group_01/mesh",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Group_02/group_01/mesh.physics:collisionEnabled"
+        },
+        "approximation": {
+          "value": "none",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Group_02/group_01/mesh.physics:approximation"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Group_02/group_05/mesh",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Group_02/group_05/mesh.physics:collisionEnabled"
+        },
+        "approximation": {
+          "value": "none",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/Group_02/group_05/mesh.physics:approximation"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button.physics:collisionEnabled"
+        },
+        "approximation": {
+          "value": "convexHull",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button.physics:approximation"
+        },
+        "value_source": "authored"
+      }
+    ],
+    "mass_properties": [
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+        "mass": {
+          "value": 0.5,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh.physics:mass"
+        },
+        "density": {
+          "value": 0.001,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh.physics:density"
+        },
+        "center_of_mass": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh.physics:centerOfMass"
+        },
+        "inertia": {
+          "value": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh.physics:diagonalInertia"
+        },
+        "principal_axes": {
+          "value": "(1, 0, 0, 0)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh.physics:principalAxes"
+        }
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/body/mesh",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+        "mass": {
+          "value": 2.0,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/body/mesh.physics:mass"
+        },
+        "density": {
+          "value": 0.01,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/body/mesh.physics:density"
+        },
+        "center_of_mass": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/body/mesh.physics:centerOfMass"
+        },
+        "inertia": {
+          "value": [
+            0.05,
+            0.05,
+            0.05
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/body/mesh.physics:diagonalInertia"
+        },
+        "principal_axes": {
+          "value": "(1, 0, 0, 0)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/body/mesh.physics:principalAxes"
+        }
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/handle/mesh",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+        "mass": {
+          "value": 0.1,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/handle/mesh.physics:mass"
+        },
+        "density": {
+          "value": 0.1,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/handle/mesh.physics:density"
+        },
+        "center_of_mass": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/handle/mesh.physics:centerOfMass"
+        },
+        "inertia": {
+          "value": [
+            0.002,
+            0.002,
+            0.002
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/handle/mesh.physics:diagonalInertia"
+        },
+        "principal_axes": {
+          "value": "(1, 0, 0, 0)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/handle/mesh.physics:principalAxes"
+        }
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+        "mass": {
+          "value": 0.05,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button.physics:mass"
+        },
+        "density": {
+          "value": 0.0,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button.physics:density"
+        },
+        "center_of_mass": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button.physics:centerOfMass"
+        },
+        "inertia": {
+          "value": [
+            0.001,
+            0.001,
+            0.001
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button.physics:diagonalInertia"
+        },
+        "principal_axes": {
+          "value": "(1, 0, 0, 0)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button.physics:principalAxes"
+        }
+      }
+    ],
+    "scale": {
+      "meters_per_unit": {
+        "value": 0.01,
+        "value_source": "authored"
+      },
+      "up_axis": {
+        "value": "Y",
+        "value_source": "authored"
+      }
+    },
+    "reset_pose": {
+      "required_prims": [
+        {
+          "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+          "status": "pass",
+          "value_source": "authored",
+          "transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              0.75,
+              0.1,
+              0.78,
+              1.0
+            ]
+          ]
+        }
+      ]
+    },
+    "summary": {
+      "rigid_body_count": 4,
+      "collision_count": 8,
+      "mass_record_count": 4,
+      "authored_mass_count": 4,
+      "authored_inertia_count": 4
+    }
+  },
+  "articulation_closure": {
+    "status": "pass",
+    "root_usd": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+    "scope": {
+      "mode": "required_prims",
+      "required_prims": [
+        "/World/labutopia_level1_poc/obj_obj_DryingBox_01"
+      ]
+    },
+    "articulation_roots": [
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+        "type_name": "Xform",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+        "value_source": "authored"
+      }
+    ],
+    "joints": [
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/FixedJoint",
+        "joint_type": "PhysicsFixedJoint",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+        "axis": {
+          "value": null,
+          "value_source": "missing",
+          "status": "missing"
+        },
+        "limits": {
+          "lower": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing"
+          },
+          "upper": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing"
+          },
+          "status": "not_applicable"
+        },
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/FixedJoint.physics:jointEnabled"
+        },
+        "collision_enabled": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/FixedJoint.physics:collisionEnabled"
+        },
+        "local_pos0": {
+          "value": [
+            -24.84733772,
+            -0.86509985,
+            7.51144838
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/FixedJoint.physics:localPos0"
+        },
+        "local_pos1": {
+          "value": [
+            -14.66354656,
+            -4.82833338,
+            -4.00678778
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/FixedJoint.physics:localPos1"
+        },
+        "local_rot0": {
+          "value": "(1, 5.2630266e-8, -3.663736e-15, -3.552713e-15)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/FixedJoint.physics:localRot0"
+        },
+        "local_rot1": {
+          "value": "(1, -6.5978625e-8, 0, 0)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/FixedJoint.physics:localRot1"
+        },
+        "drive_status": "not_authored",
+        "reset_value": {
+          "value": null,
+          "value_source": "missing",
+          "status": "missing"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/FixedJoint_01",
+        "joint_type": "PhysicsFixedJoint",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+        "axis": {
+          "value": null,
+          "value_source": "missing",
+          "status": "missing"
+        },
+        "limits": {
+          "lower": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing"
+          },
+          "upper": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing"
+          },
+          "status": "not_applicable"
+        },
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/FixedJoint_01.physics:jointEnabled"
+        },
+        "collision_enabled": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/FixedJoint_01.physics:collisionEnabled"
+        },
+        "local_pos0": {
+          "value": [
+            -292.0869751,
+            -211.84216309,
+            30.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/FixedJoint_01.physics:localPos0"
+        },
+        "local_pos1": {
+          "value": [
+            3.8e-07,
+            1.3e-07,
+            -7e-08
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/FixedJoint_01.physics:localPos1"
+        },
+        "local_rot0": {
+          "value": "(1, 0, 0, 1.7114271e-8)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/FixedJoint_01.physics:localRot0"
+        },
+        "local_rot1": {
+          "value": "(1, 0, 0, 0)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/FixedJoint_01.physics:localRot1"
+        },
+        "drive_status": "not_authored",
+        "reset_value": {
+          "value": null,
+          "value_source": "missing",
+          "status": "missing"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/RevoluteJoint",
+        "joint_type": "PhysicsRevoluteJoint",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+        "axis": {
+          "value": "Y",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/RevoluteJoint.physics:axis"
+        },
+        "limits": {
+          "lower": {
+            "value": 0.0,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/RevoluteJoint.physics:lowerLimit"
+          },
+          "upper": {
+            "value": 120.0,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/RevoluteJoint.physics:upperLimit"
+          },
+          "status": "pass"
+        },
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/RevoluteJoint.physics:jointEnabled"
+        },
+        "collision_enabled": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/RevoluteJoint.physics:collisionEnabled"
+        },
+        "local_pos0": {
+          "value": [
+            36.93571472,
+            -25.02942085,
+            30.00000381
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/RevoluteJoint.physics:localPos0"
+        },
+        "local_pos1": {
+          "value": [
+            27.12861061,
+            -1.81e-06,
+            -2.91e-06
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/RevoluteJoint.physics:localPos1"
+        },
+        "local_rot0": {
+          "value": "(0.7071067, 0.7071068, -3.4345442e-17, -2.1073424e-8)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/RevoluteJoint.physics:localRot0"
+        },
+        "local_rot1": {
+          "value": "(1, 6.0040334e-10, 0, 0)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/RevoluteJoint.physics:localRot1"
+        },
+        "drive_status": "authored",
+        "reset_value": {
+          "value": 0.0,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/RevoluteJoint.state:angular:physics:position"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button/PrismaticJoint",
+        "joint_type": "PhysicsPrismaticJoint",
+        "owning_layer": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/deps/usd/scene.usd",
+        "axis": {
+          "value": "Y",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button/PrismaticJoint.physics:axis"
+        },
+        "limits": {
+          "lower": {
+            "value": 0.0,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button/PrismaticJoint.physics:lowerLimit"
+          },
+          "upper": {
+            "value": 0.01,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button/PrismaticJoint.physics:upperLimit"
+          },
+          "status": "pass"
+        },
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button/PrismaticJoint.physics:jointEnabled"
+        },
+        "collision_enabled": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button/PrismaticJoint.physics:collisionEnabled"
+        },
+        "local_pos0": {
+          "value": [
+            -24.25687981,
+            -25.20031929,
+            34.38259888
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button/PrismaticJoint.physics:localPos0"
+        },
+        "local_pos1": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button/PrismaticJoint.physics:localPos1"
+        },
+        "local_rot0": {
+          "value": "(1, 0, 0, -6.717942e-8)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button/PrismaticJoint.physics:localRot0"
+        },
+        "local_rot1": {
+          "value": "(1, 0, 0, 0)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button/PrismaticJoint.physics:localRot1"
+        },
+        "drive_status": "authored",
+        "reset_value": {
+          "value": null,
+          "value_source": "missing",
+          "status": "missing"
+        },
+        "value_source": "authored"
+      }
+    ],
+    "dof_mapping": [
+      {
+        "dof_index": 0,
+        "joint_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/RevoluteJoint",
+        "joint_type": "PhysicsRevoluteJoint",
+        "axis": "Y",
+        "value_source": "authored"
+      },
+      {
+        "dof_index": 1,
+        "joint_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button/PrismaticJoint",
+        "joint_type": "PhysicsPrismaticJoint",
+        "axis": "Y",
+        "value_source": "authored"
+      }
+    ],
+    "reset_values": [
+      {
+        "joint_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/RevoluteJoint",
+        "joint_type": "PhysicsRevoluteJoint",
+        "reset_value": {
+          "value": 0.0,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/RevoluteJoint.state:angular:physics:position"
+        }
+      },
+      {
+        "joint_prim": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/button/PrismaticJoint",
+        "joint_type": "PhysicsPrismaticJoint",
+        "reset_value": {
+          "value": null,
+          "value_source": "missing",
+          "status": "missing"
+        }
+      }
+    ],
+    "summary": {
+      "articulation_root_count": 1,
+      "joint_count": 4,
+      "controllable_dof_count": 2
+    }
+  },
+  "stage_gates": [
+    {
+      "check_id": "AAN-03-usd-closure",
+      "stage": "usd_closure",
+      "status": "pass",
+      "summary": "USD dependency closure produced a package-local USD tree."
+    },
+    {
+      "check_id": "AAN-04-material-closure",
+      "stage": "material_closure",
+      "status": "pass",
+      "summary": "AAN-04 material closure recorded source-preserved material evidence."
+    },
+    {
+      "check_id": "AAN-05-physics-static",
+      "stage": "physics_static",
+      "status": "pass",
+      "summary": "AAN-05 recorded static physics and articulation evidence."
+    },
+    {
+      "check_id": "AAN-07-benchmark-contract",
+      "stage": "benchmark_contract",
+      "status": "pass",
+      "summary": "AAN-07 wrote EBench task contract files."
+    }
+  ],
+  "runtime_evidence": {
+    "status": "not_run",
+    "reason": "AAN-06 runtime smoke requires the runtime gate, e.g. --gates static,runtime.",
+    "required_gate": "runtime"
+  },
+  "benchmark_contract": {
+    "status": "pass",
+    "contract_source": "/tmp/aan07_real_packages/dryingbox_contract.json",
+    "target_benchmark": "ebench-lift2",
+    "task_id": "Lift2.DryingBox",
+    "task_files": {
+      "task_config": "task/task_config.yaml",
+      "required_prims": "task/required_prims.yaml",
+      "evaluator": "task/evaluator.yaml"
+    },
+    "required_prims": [
+      {
+        "role": "asset_root",
+        "path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+        "required": true,
+        "status": "pass",
+        "exists": true
+      },
+      {
+        "role": "manipulated_body",
+        "path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh",
+        "required": true,
+        "status": "pass",
+        "exists": true
+      },
+      {
+        "role": "collision_root",
+        "path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh",
+        "required": true,
+        "status": "pass",
+        "exists": true
+      },
+      {
+        "role": "spawn_anchor",
+        "path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+        "required": true,
+        "status": "pass",
+        "exists": true
+      },
+      {
+        "role": "goal_target",
+        "path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01/body/Group/door/mesh",
+        "required": true,
+        "status": "pass",
+        "exists": true
+      },
+      {
+        "role": "articulation_root",
+        "path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+        "required": true,
+        "status": "pass",
+        "exists": true
+      }
+    ],
+    "evaluator": {
+      "entrypoint": "ebench.evaluators.lift2:DryingBoxEvaluator",
+      "metric": "door_state_success"
+    },
+    "ready_for_ebench_task_contract": true
+  },
+  "environment": {},
+  "waivers": [],
+  "blocked_reasons": [],
+  "claims_allowed": [
+    "AAN-03 static USD closure inspected the source graph and wrote an evidence manifest.",
+    "Package USD asset paths are local when the AAN-03 gate status is pass.",
+    "AAN-04 material closure recorded package-local source material evidence.",
+    "Source MDL and texture assets are preserved when listed with package hashes.",
+    "AAN-05 static physics and articulation evidence was recorded.",
+    "Authored rigid body, collision, mass, inertia, joint axis, and joint limits are preserved when listed with value_source=authored.",
+    "AAN-07 wrote EBench task_config, required_prims, and evaluator entrypoint files.",
+    "EBench task readiness is achieved."
+  ],
+  "claims_forbidden": [
+    "Isaac runtime smoke passed.",
+    "Exact Isaac Sim 4.1 binary conformance is verified without an explicit runtime environment fingerprint.",
+    "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
+    "Full visual material parity beyond recorded source-preservation evidence is achieved."
+  ],
+  "commands": {
+    "normalize_asset": {
+      "stage": "benchmark_contract",
+      "dry_run": false,
+      "gates": [
+        "static",
+        "benchmark"
+      ],
+      "material_policy": "native-or-mirror",
+      "contract": "/tmp/aan07_real_packages/dryingbox_contract.json",
+      "allow_waiver": null
+    }
+  },
+  "created_at": "2026-06-30T09:56:21Z",
+  "tool_version": "convert_asset.asset_application_normalizer.v1",
+  "git_commit": null,
+  "static_usd_report": {
+    "root_layer": {
+      "source_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/EBench-Assets-Overlay/labutopia_level1_poc/assets/scene_usds/labutopia/level1_poc/lab_001/scene.usda",
+      "package_path": "asset.usd",
+      "default_prim": "World"
+    },
+    "required_prims": [
+      {
+        "path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "dependency_counts": {
+      "total": 27,
+      "usd": 2,
+      "mdl": 18,
+      "texture": 7,
+      "remote": 0,
+      "missing": 0
+    }
+  },
+  "static_material_report": {
+    "status": "pass",
+    "root_usd": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+    "material_policy": "native-or-mirror",
+    "material_count": 27,
+    "closure_mode_counts": {
+      "native_resolved": 0,
+      "local_mirror": 27,
+      "preview_surface_fallback": 0,
+      "explicit_waiver": 0,
+      "blocked": 0
+    },
+    "blocked_material_count": 0,
+    "mdl_asset_count": 30,
+    "texture_asset_count": 4,
+    "transparency_strategy_counts": {
+      "opacity_input": 22,
+      "opaque": 5
+    }
+  },
+  "static_physics_report": {
+    "status": "pass",
+    "root_usd": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+    "rigid_body_count": 4,
+    "collision_count": 8,
+    "mass_record_count": 4,
+    "authored_mass_count": 4,
+    "authored_inertia_count": 4,
+    "required_prims": [
+      {
+        "path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+        "exists": true,
+        "status": "pass"
+      }
+    ]
+  },
+  "static_articulation_report": {
+    "status": "pass",
+    "root_usd": "/tmp/aan07_real_packages/overlay_level1_poc_dryingbox_01_benchmark/asset.usd",
+    "articulation_root_count": 1,
+    "joint_count": 4,
+    "controllable_dof_count": 2,
+    "required_prims": [
+      {
+        "path": "/World/labutopia_level1_poc/obj_obj_DryingBox_01",
+        "exists": true,
+        "status": "pass"
+      }
+    ]
+  },
+  "task_contract_report": {
+    "status": "pass",
+    "contract_source": "/tmp/aan07_real_packages/dryingbox_contract.json",
+    "task_file_count": 3,
+    "required_prim_role_count": 6,
+    "evaluator_entrypoint": "ebench.evaluators.lift2:DryingBoxEvaluator",
+    "metric": "door_state_success"
+  }
+}

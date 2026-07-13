@@ -8,7 +8,7 @@ Architecture, module responsibilities, algorithms, and implementation deep dives
 - [Execution flow](architecture-flow.md)
 - [Module responsibilities](architecture-modules.md)
 - [Callstack analysis](architecture-callstack.md)
-- [Asset Application Normalizer](asset-application-normalizer.md)
+- [Asset Application Normalizer](asset-application-normalizer.md) - design contract; downstream integration starts from [AAN consumer handoff](../operations/asset-application-normalizer-consumer-handoff.md)
 
 ## no-MDL
 

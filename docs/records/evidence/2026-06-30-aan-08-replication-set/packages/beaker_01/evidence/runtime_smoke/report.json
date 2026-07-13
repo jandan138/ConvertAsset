@@ -1,0 +1,63 @@
+{
+  "status": "pass",
+  "runtime_profile": "isaac41",
+  "asset_id": "Beaker_01",
+  "root_usd": "/tmp/aan08_real_packages/beaker_01/asset.usd",
+  "required_prims": [
+    "/group_000",
+    "/group_000/mesh_000"
+  ],
+  "cold_load": {
+    "status": "pass",
+    "opened": true,
+    "required_prims": [
+      {
+        "path": "/group_000",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_000/mesh_000",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "default_prim": "/group_000"
+  },
+  "render_readback": {
+    "mean_rgb": [
+      78.363674,
+      78.440876,
+      78.302925
+    ],
+    "non_background_ratio": 0.30619049,
+    "bbox_ratio": 0.41808701,
+    "sha256": "6f55cd79e1ec19dccbdcbe041bd9dedfe6382eaddd5c541d520c86b9b48a010f",
+    "bytes": 108682,
+    "resolution": [
+      512,
+      512
+    ],
+    "status": "pass",
+    "bbox_source": "authored",
+    "path": "/tmp/aan08_real_packages/beaker_01/evidence/runtime_smoke/render.png"
+  },
+  "physics_step": {
+    "status": "pass",
+    "frames": 4,
+    "finite_transforms": true,
+    "max_abs_delta": 0.11183405
+  },
+  "reset": {
+    "status": "pass",
+    "finite_transforms": true,
+    "max_abs_delta_from_initial": 0.33844494
+  },
+  "environment": {
+    "python_executable": "/isaac-sim/kit/python/bin/python3",
+    "python_version": "3.10.15",
+    "headless": true,
+    "isaacsim_file": "/isaac-sim/python_packages/isaacsim/__init__.py",
+    "pxr_version": "\nTf -- Tools Foundation\n"
+  }
+}

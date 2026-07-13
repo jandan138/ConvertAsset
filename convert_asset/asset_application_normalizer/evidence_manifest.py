@@ -12,6 +12,10 @@ from .model import (
     MILESTONE_AAN02,
     MILESTONE_AAN03,
     MILESTONE_AAN04,
+    MILESTONE_AAN05,
+    MILESTONE_AAN06,
+    MILESTONE_AAN07,
+    MILESTONE_AAN11,
     SCHEMA_VERSION,
     TOOL_VERSION,
     NormalizeAssetRequest,
@@ -45,22 +49,66 @@ def build_manifest(
     blocked_reasons: list[dict[str, Any]] | None = None,
     milestone: str = MILESTONE_AAN02,
     root_usd: str = "asset.usd",
+    package_default_prim: str | None = None,
     dependency_closure: dict[str, Any] | None = None,
     material_closure: list[dict[str, Any]] | None = None,
+    material_runtime_closure: dict[str, Any] | None = None,
+    physics_closure: dict[str, Any] | None = None,
+    articulation_closure: dict[str, Any] | None = None,
     static_usd_report: dict[str, Any] | None = None,
     static_material_report: dict[str, Any] | None = None,
+    static_material_runtime_report: dict[str, Any] | None = None,
+    static_physics_report: dict[str, Any] | None = None,
+    static_articulation_report: dict[str, Any] | None = None,
+    source_physics_audit: dict[str, Any] | None = None,
+    output_role_admission: dict[str, Any] | None = None,
+    normalization_actions: list[dict[str, Any]] | None = None,
+    visual_preservation_fingerprint: dict[str, Any] | None = None,
+    source_integrity: dict[str, Any] | None = None,
     stage_gates: list[dict[str, Any]] | None = None,
+    runtime_evidence: dict[str, Any] | None = None,
+    benchmark_contract: dict[str, Any] | None = None,
+    task_contract_report: dict[str, Any] | None = None,
+    extra_commands: dict[str, Any] | None = None,
     claims_allowed: list[str] | None = None,
     claims_forbidden: list[str] | None = None,
 ) -> dict[str, Any]:
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     source_sha = sha256_file(request.source_usd)
     blocked_reasons = blocked_reasons or []
-    default_prim = request.required_prims[0] if request.required_prims else None
+    asset_entry_prim = request.effective_asset_scope_prims[0] if request.effective_asset_scope_prims else None
+    default_prim = package_default_prim or None
+    entrypoints: dict[str, Any] = {
+        "root_usd": root_usd,
+        "default_prim": default_prim,
+        "asset_entry_prim": asset_entry_prim,
+        "asset_scope_prims": list(request.effective_asset_scope_prims),
+    }
+    if request.target_benchmark == "ebench-lift2":
+        entrypoints.update(
+            {
+                "task_config": "task/task_config.yaml",
+                "required_prims": "task/required_prims.yaml",
+                "metric_evaluator": "task/evaluator.yaml",
+            }
+        )
+    else:
+        entrypoints.update(
+            {
+                "consumer_profile": "scenario-forge",
+                "task_config": None,
+                "required_prims": None,
+                "metric_evaluator": None,
+            }
+        )
     command_stage_by_milestone = {
         MILESTONE_AAN02: "cli_skeleton",
         MILESTONE_AAN03: "usd_closure",
         MILESTONE_AAN04: "material_closure",
+        MILESTONE_AAN05: "physics_static",
+        MILESTONE_AAN06: "runtime_smoke",
+        MILESTONE_AAN07: "benchmark_contract",
+        MILESTONE_AAN11: "material_runtime_closure",
     }
     command_stage = command_stage_by_milestone.get(milestone, "unknown")
 
@@ -68,6 +116,7 @@ def build_manifest(
         "schema_version": SCHEMA_VERSION,
         "package_id": f"{request.asset_id.lower()}_{request.target_benchmark}_{request.target_runtime}",
         "asset_id": request.asset_id,
+        "asset_role": request.asset_role,
         "task_id": request.task_id,
         "milestone": milestone,
         "overall_status": overall_status,
@@ -81,16 +130,18 @@ def build_manifest(
             "target_runtime_profile": request.target_runtime,
             "target_benchmark_profile": request.target_benchmark,
         },
-        "entrypoints": {
-            "root_usd": root_usd,
-            "default_prim": default_prim,
-            "task_config": "task/task_config.yaml",
-            "metric_evaluator": "task/evaluator.yaml",
-        },
+        "entrypoints": entrypoints,
         "normalization_policy": {
             "material": "preserve_source_then_add_compatibility_fallback",
-            "physics": "preserve_authored_then_generate_with_provenance",
+            "physics": "visual_static_strip_or_preserve_valid_then_derive_with_provenance",
             "allowed_value_sources": ["authored", "derived", "template", "manual_override"],
+        },
+        "asset_scope_prim_paths": list(request.effective_asset_scope_prims),
+        "source_integrity": source_integrity
+        or {
+            "sha256_before": source_sha,
+            "sha256_after": source_sha,
+            "unchanged": True,
         },
         "required_prim_paths": _required_prim_records(request.required_prims),
         "dependency_closure": dependency_closure or {
@@ -107,8 +158,26 @@ def build_manifest(
             },
         },
         "material_closure": material_closure or [],
-        "physics_closure": {},
-        "articulation_closure": {},
+        "material_runtime_closure": material_runtime_closure
+        or {
+            "status": "not_run",
+            "claim_level": "not_claimed",
+            "full_material_parity_claimed": False,
+            "root_mdl_assets": [],
+            "imported_mdl_modules": [],
+            "mdl_texture_assets": [],
+            "native_runtime_modules": [],
+            "mirror_actions": [],
+            "rewrite_actions": [],
+            "runtime_compiler": {"status": "not_run"},
+            "view_evidence": [],
+        },
+        "physics_closure": physics_closure or {},
+        "articulation_closure": articulation_closure or {},
+        "source_physics_audit": source_physics_audit or {},
+        "output_role_admission": output_role_admission or {},
+        "normalization_actions": normalization_actions or [],
+        "visual_preservation_fingerprint": visual_preservation_fingerprint or {},
         "stage_gates": stage_gates or [
             {
                 "check_id": MILESTONE_AAN02,
@@ -117,7 +186,8 @@ def build_manifest(
                 "summary": "AAN-02 CLI accepted the request and wrote an evidence manifest.",
             }
         ],
-        "runtime_evidence": {},
+        "runtime_evidence": runtime_evidence or {},
+        "benchmark_contract": benchmark_contract or {},
         "environment": {},
         "waivers": [],
         "blocked_reasons": blocked_reasons,
@@ -138,18 +208,35 @@ def build_manifest(
                 "dry_run": request.dry_run,
                 "gates": request.gates,
                 "material_policy": request.material_policy,
+                "asset_role": request.asset_role,
+                "asset_scope_prims": list(request.effective_asset_scope_prims),
                 "contract": str(request.contract) if request.contract else None,
                 "allow_waiver": str(request.allow_waiver) if request.allow_waiver else None,
+                "runtime_python": str(request.runtime_python) if request.runtime_python else None,
+                "warning_baseline_log": str(request.warning_baseline_log) if request.warning_baseline_log else None,
+                "warning_baseline_scope_prims": list(request.warning_baseline_scope_prims),
+                "expected_runtime_version": request.expected_runtime_version,
+                "runtime_timeout_seconds": request.runtime_timeout_seconds,
             }
         },
         "created_at": now,
         "tool_version": TOOL_VERSION,
         "git_commit": None,
     }
+    if extra_commands:
+        manifest["commands"].update(extra_commands)
     if static_usd_report is not None:
         manifest["static_usd_report"] = static_usd_report
     if static_material_report is not None:
         manifest["static_material_report"] = static_material_report
+    if static_material_runtime_report is not None:
+        manifest["static_material_runtime_report"] = static_material_runtime_report
+    if static_physics_report is not None:
+        manifest["static_physics_report"] = static_physics_report
+    if static_articulation_report is not None:
+        manifest["static_articulation_report"] = static_articulation_report
+    if task_contract_report is not None:
+        manifest["task_contract_report"] = task_contract_report
     return manifest
 
 

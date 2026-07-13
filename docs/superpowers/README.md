@@ -30,6 +30,7 @@ large documentation or implementation change.
 - [GRScenes full no-MDL multi-root runner implementation plan](plans/2026-05-21-grscenes-full-nomdl-multi-root-runner.md)
 - [GRScenes full dependency closure implementation plan](plans/2026-05-21-grscenes-full-dependency-closure.md)
 - [GRScenes full materialization and closure runner implementation plan](plans/2026-05-21-grscenes-full-materialization-and-closure-runner.md)
+- [Soap-to-Dish official asset closure implementation plan](plans/2026-07-05-soap-to-dish-official-asset-closure.md)
 - [Local Isaac render-single design](specs/2026-05-20-local-isaac-render-single-design.md)
 - [Local Isaac render-single implementation plan](plans/2026-05-20-local-isaac-render-single.md)
 - [InternNav VLN downstream implementation plan](plans/2026-05-23-internnav-vln-downstream.md)

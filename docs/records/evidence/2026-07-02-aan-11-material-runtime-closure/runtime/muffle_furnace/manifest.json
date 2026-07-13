@@ -1,0 +1,3164 @@
+{
+  "schema_version": "asset_application_normalizer.v1",
+  "package_id": "mufflefurnace_ebench-lift2_isaac41",
+  "asset_id": "MuffleFurnace",
+  "task_id": "AAN11.MuffleFurnaceDoor",
+  "milestone": "AAN-06-runtime-smoke",
+  "overall_status": "pass",
+  "source": {
+    "path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/MuffleFurnace.usd",
+    "sha256": "853c3a675d48d47c2645bbd25850161f0cc9397a3a1bbb8444fa17a90311644d",
+    "source_format": "usd",
+    "source_runtime_lineage": "isaac51"
+  },
+  "target": {
+    "target_runtime_profile": "isaac41",
+    "target_benchmark_profile": "ebench-lift2"
+  },
+  "entrypoints": {
+    "root_usd": "asset.usd",
+    "default_prim": "/group_002",
+    "task_config": "task/task_config.yaml",
+    "required_prims": "task/required_prims.yaml",
+    "metric_evaluator": "task/evaluator.yaml"
+  },
+  "normalization_policy": {
+    "material": "preserve_source_then_add_compatibility_fallback",
+    "physics": "preserve_authored_then_generate_with_provenance",
+    "allowed_value_sources": [
+      "authored",
+      "derived",
+      "template",
+      "manual_override"
+    ]
+  },
+  "required_prim_paths": [
+    {
+      "name": "required_prim_0",
+      "path": "/group_002",
+      "role": "contract_required_prim",
+      "required": true
+    },
+    {
+      "name": "required_prim_1",
+      "path": "/group_002/Group",
+      "role": "contract_required_prim",
+      "required": true
+    },
+    {
+      "name": "required_prim_2",
+      "path": "/group_002/Group/mesh_000",
+      "role": "contract_required_prim",
+      "required": true
+    },
+    {
+      "name": "required_prim_3",
+      "path": "/group_002/Group/RevoluteJoint",
+      "role": "contract_required_prim",
+      "required": true
+    }
+  ],
+  "dependency_closure": {
+    "root_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/MuffleFurnace.usd",
+    "scanned_layers": [
+      "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/MuffleFurnace.usd"
+    ],
+    "local_files": [
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./Materials/mdl_0000.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/MuffleFurnace.usd",
+        "status": "packaged",
+        "prim_path": "/group_002/Looks/material_000/shader_00",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/Materials/mdl_0000.mdl",
+        "package_path": "deps/mdl/mdl_0000.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./Materials/mdl_0005.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/MuffleFurnace.usd",
+        "status": "packaged",
+        "prim_path": "/group_002/Looks/material_001/shader_00",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/Materials/mdl_0005.mdl",
+        "package_path": "deps/mdl/mdl_0005.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./Materials/mdl_0006.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/MuffleFurnace.usd",
+        "status": "packaged",
+        "prim_path": "/group_002/Looks/material_002/shader_00",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/Materials/mdl_0006.mdl",
+        "package_path": "deps/mdl/mdl_0006.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./Materials/mdl_0007.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/MuffleFurnace.usd",
+        "status": "packaged",
+        "prim_path": "/group_002/Looks/material_003/shader_00",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/Materials/mdl_0007.mdl",
+        "package_path": "deps/mdl/mdl_0007.mdl"
+      }
+    ],
+    "missing": [],
+    "remote_uri": [],
+    "unauthorized_remote_uri": [],
+    "unrewritable_layers": [],
+    "resolution_records": [],
+    "resolution_summary": {
+      "mirrored": 0,
+      "pruned": 0,
+      "waived": 0,
+      "blocked": 0
+    }
+  },
+  "material_closure": [
+    {
+      "material_prim": "/group_002/Looks/material_000",
+      "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/group_002/Looks/material_000/shader_00",
+          "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "deps/mdl/mdl_0000.mdl",
+          "source_sub_identifier": "mdl_0000",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./Materials/mdl_0000.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/Materials/mdl_0000.mdl",
+          "package_path": "deps/mdl/mdl_0000.mdl",
+          "source_shader_prim": "/group_002/Looks/material_000/shader_00",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "5ac2b7c436c3dc5406cbfbffce6e882ca1460d20016e3e911731208c2351d5fa",
+          "package_sha256": "5ac2b7c436c3dc5406cbfbffce6e882ca1460d20016e3e911731208c2351d5fa",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/group_002/Looks/material_001",
+      "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/group_002/Looks/material_001/shader_00",
+          "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "deps/mdl/mdl_0005.mdl",
+          "source_sub_identifier": "mdl_0005",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./Materials/mdl_0005.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/Materials/mdl_0005.mdl",
+          "package_path": "deps/mdl/mdl_0005.mdl",
+          "source_shader_prim": "/group_002/Looks/material_001/shader_00",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "3a6d7d12b2daeafe810206645ae751a31d2b323001eb2a30f7e7ac518a549254",
+          "package_sha256": "3a6d7d12b2daeafe810206645ae751a31d2b323001eb2a30f7e7ac518a549254",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/group_002/Looks/material_002",
+      "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/group_002/Looks/material_002/shader_00",
+          "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "deps/mdl/mdl_0006.mdl",
+          "source_sub_identifier": "mdl_0006",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./Materials/mdl_0006.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/Materials/mdl_0006.mdl",
+          "package_path": "deps/mdl/mdl_0006.mdl",
+          "source_shader_prim": "/group_002/Looks/material_002/shader_00",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "30f34305403cd4b992d2040e194af5302ab0bec2c09846edf4b55822f20830ef",
+          "package_sha256": "30f34305403cd4b992d2040e194af5302ab0bec2c09846edf4b55822f20830ef",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    },
+    {
+      "material_prim": "/group_002/Looks/material_003",
+      "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/group_002/Looks/material_003/shader_00",
+          "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "deps/mdl/mdl_0007.mdl",
+          "source_sub_identifier": "mdl_0007",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "./Materials/mdl_0007.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/Materials/mdl_0007.mdl",
+          "package_path": "deps/mdl/mdl_0007.mdl",
+          "source_shader_prim": "/group_002/Looks/material_003/shader_00",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "8ebde7f4532586da7a868abb5c1ec1bccad00c88dfc96c46cbf2aabde67601d8",
+          "package_sha256": "8ebde7f4532586da7a868abb5c1ec1bccad00c88dfc96c46cbf2aabde67601d8",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    }
+  ],
+  "material_runtime_closure": {
+    "status": "pass",
+    "claim_level": "required_surface_runtime_dependency_closure",
+    "full_material_parity_claimed": false,
+    "root_mdl_assets": [
+      "deps/mdl/mdl_0000.mdl",
+      "deps/mdl/mdl_0005.mdl",
+      "deps/mdl/mdl_0006.mdl",
+      "deps/mdl/mdl_0007.mdl",
+      "deps/mdl/templates/mdl_0001.mdl",
+      "deps/mdl/templates/mdl_0002.mdl",
+      "deps/mdl/templates/mdl_0003.mdl",
+      "deps/mdl/templates/mdl_0004.mdl"
+    ],
+    "imported_mdl_modules": [
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "base::transform_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "base::rotation_translation_scale",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "base::file_texture",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "base::mono_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "base::texture_coordinate_info",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "base::texture_return",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "state::normal",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "state::texture_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "state::texture_tangent_u",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "state::texture_tangent_v",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "tex::gamma_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "tex::wrap_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "templates::mdl_0001",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0001.mdl",
+        "package_sha256": "650f7a8e9a28d4f1b96f9a19232eb77df98460672311ea554c8a50ef4c6aa804"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "templates::mdl_0002",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0002.mdl",
+        "package_sha256": "be935fede0b3c1de4fdd49d203ec9682198f1403b4b8f763489219b313475b88"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "templates::mdl_0003",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0003.mdl",
+        "package_sha256": "9b7086f7415d7c38125603d39a6d0265098dfe75ba590814568d94819a6e2e77"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "templates::mdl_0004",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0004.mdl",
+        "package_sha256": "362fc09e31e1e442da0fa963f6548bf2ae6d16888abfda70259d64fb7b382b79"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "base::transform_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "base::rotation_translation_scale",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "base::file_texture",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "base::mono_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "base::texture_coordinate_info",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "base::texture_return",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "state::normal",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "state::texture_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "state::texture_tangent_u",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "state::texture_tangent_v",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "tex::gamma_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "tex::wrap_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "templates::mdl_0001",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0001.mdl",
+        "package_sha256": "650f7a8e9a28d4f1b96f9a19232eb77df98460672311ea554c8a50ef4c6aa804"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "templates::mdl_0002",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0002.mdl",
+        "package_sha256": "be935fede0b3c1de4fdd49d203ec9682198f1403b4b8f763489219b313475b88"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "templates::mdl_0003",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0003.mdl",
+        "package_sha256": "9b7086f7415d7c38125603d39a6d0265098dfe75ba590814568d94819a6e2e77"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "templates::mdl_0004",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0004.mdl",
+        "package_sha256": "362fc09e31e1e442da0fa963f6548bf2ae6d16888abfda70259d64fb7b382b79"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "base::transform_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "base::rotation_translation_scale",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "base::file_texture",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "base::mono_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "base::texture_coordinate_info",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "base::texture_return",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "state::normal",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "state::texture_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "state::texture_tangent_u",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "state::texture_tangent_v",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "tex::gamma_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "tex::wrap_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "templates::mdl_0001",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0001.mdl",
+        "package_sha256": "650f7a8e9a28d4f1b96f9a19232eb77df98460672311ea554c8a50ef4c6aa804"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "templates::mdl_0002",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0002.mdl",
+        "package_sha256": "be935fede0b3c1de4fdd49d203ec9682198f1403b4b8f763489219b313475b88"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "templates::mdl_0003",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0003.mdl",
+        "package_sha256": "9b7086f7415d7c38125603d39a6d0265098dfe75ba590814568d94819a6e2e77"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "templates::mdl_0004",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0004.mdl",
+        "package_sha256": "362fc09e31e1e442da0fa963f6548bf2ae6d16888abfda70259d64fb7b382b79"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "base::transform_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "base::rotation_translation_scale",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "base::file_texture",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "base::mono_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "base::texture_coordinate_info",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "base::texture_return",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "state::normal",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "state::texture_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "state::texture_tangent_u",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "state::texture_tangent_v",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "tex::gamma_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "tex::wrap_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "templates::mdl_0001",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0001.mdl",
+        "package_sha256": "650f7a8e9a28d4f1b96f9a19232eb77df98460672311ea554c8a50ef4c6aa804"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "templates::mdl_0002",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0002.mdl",
+        "package_sha256": "be935fede0b3c1de4fdd49d203ec9682198f1403b4b8f763489219b313475b88"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "templates::mdl_0003",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0003.mdl",
+        "package_sha256": "9b7086f7415d7c38125603d39a6d0265098dfe75ba590814568d94819a6e2e77"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "templates::mdl_0004",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/templates/mdl_0004.mdl",
+        "package_sha256": "362fc09e31e1e442da0fa963f6548bf2ae6d16888abfda70259d64fb7b382b79"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0001.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0001.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0001.mdl",
+        "module": "df",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0001.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0001.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0002.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0002.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0002.mdl",
+        "module": "limits",
+        "classification": "approved_runtime_module",
+        "resolution": "native_runtime_module",
+        "runtime_module": "limits",
+        "runtime_root": "/isaac-sim/kit/mdl/core/mdl",
+        "runtime_path": "/isaac-sim/kit/mdl/core/mdl/limits.mdl",
+        "runtime_sha256": "9025d82e139948d0e64336cdd98754eb9b674fd899085574a282358661562e3e"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0002.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0002.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0002.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0003.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0003.mdl",
+        "module": "df",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0003.mdl",
+        "module": "df::color_weighted_layer",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0003.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0003.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0004.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0004.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0004.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0004.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0004.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      }
+    ],
+    "mdl_texture_assets": [
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "raw_asset_path": "folder_0000/image_0000.jpg",
+        "package_path": "deps/mdl/folder_0000/image_0000.jpg",
+        "resolution": "mirrored",
+        "package_sha256": "77aeacad5676f2f34493d2b573f8e8d0a9800188f799bf4dac2e359650ae6c72"
+      }
+    ],
+    "native_runtime_modules": [
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "base::transform_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "base::rotation_translation_scale",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "base::file_texture",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "base::mono_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "base::texture_coordinate_info",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "base::texture_return",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "state::normal",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "state::texture_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "state::texture_tangent_u",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "state::texture_tangent_v",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "tex::gamma_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0000.mdl",
+        "module": "tex::wrap_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "base::transform_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "base::rotation_translation_scale",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "base::file_texture",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "base::mono_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "base::texture_coordinate_info",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "base::texture_return",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "state::normal",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "state::texture_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "state::texture_tangent_u",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "state::texture_tangent_v",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "tex::gamma_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0005.mdl",
+        "module": "tex::wrap_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "base::transform_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "base::rotation_translation_scale",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "base::file_texture",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "base::mono_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "base::texture_coordinate_info",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "base::texture_return",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "state::normal",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "state::texture_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "state::texture_tangent_u",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "state::texture_tangent_v",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "tex::gamma_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0006.mdl",
+        "module": "tex::wrap_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "base::transform_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "base::rotation_translation_scale",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "base::file_texture",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "base::mono_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "base::texture_coordinate_info",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "base::texture_return",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "state::normal",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "state::texture_coordinate",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "state::texture_tangent_u",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "state::texture_tangent_v",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "tex::gamma_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/mdl_0007.mdl",
+        "module": "tex::wrap_mode",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0001.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0001.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0001.mdl",
+        "module": "df",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0001.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0001.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0002.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0002.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0002.mdl",
+        "module": "limits",
+        "classification": "approved_runtime_module",
+        "resolution": "native_runtime_module",
+        "runtime_module": "limits",
+        "runtime_root": "/isaac-sim/kit/mdl/core/mdl",
+        "runtime_path": "/isaac-sim/kit/mdl/core/mdl/limits.mdl",
+        "runtime_sha256": "9025d82e139948d0e64336cdd98754eb9b674fd899085574a282358661562e3e"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0002.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0002.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0002.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0003.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0003.mdl",
+        "module": "df",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0003.mdl",
+        "module": "df::color_weighted_layer",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0003.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0003.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0004.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0004.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0004.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0004.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/templates/mdl_0004.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      }
+    ],
+    "mirror_actions": [
+      {
+        "action_id": "aan11_mirror_helper_mdl",
+        "module": "templates::mdl_0001",
+        "owner_mdl": "deps/mdl/mdl_0000.mdl",
+        "source_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/Materials/templates/mdl_0001.mdl",
+        "package_path": "deps/mdl/templates/mdl_0001.mdl",
+        "package_sha256": "650f7a8e9a28d4f1b96f9a19232eb77df98460672311ea554c8a50ef4c6aa804"
+      },
+      {
+        "action_id": "aan11_mirror_helper_mdl",
+        "module": "templates::mdl_0002",
+        "owner_mdl": "deps/mdl/mdl_0000.mdl",
+        "source_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/Materials/templates/mdl_0002.mdl",
+        "package_path": "deps/mdl/templates/mdl_0002.mdl",
+        "package_sha256": "be935fede0b3c1de4fdd49d203ec9682198f1403b4b8f763489219b313475b88"
+      },
+      {
+        "action_id": "aan11_mirror_helper_mdl",
+        "module": "templates::mdl_0003",
+        "owner_mdl": "deps/mdl/mdl_0000.mdl",
+        "source_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/Materials/templates/mdl_0003.mdl",
+        "package_path": "deps/mdl/templates/mdl_0003.mdl",
+        "package_sha256": "9b7086f7415d7c38125603d39a6d0265098dfe75ba590814568d94819a6e2e77"
+      },
+      {
+        "action_id": "aan11_mirror_helper_mdl",
+        "module": "templates::mdl_0004",
+        "owner_mdl": "deps/mdl/mdl_0000.mdl",
+        "source_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/Materials/templates/mdl_0004.mdl",
+        "package_path": "deps/mdl/templates/mdl_0004.mdl",
+        "package_sha256": "362fc09e31e1e442da0fa963f6548bf2ae6d16888abfda70259d64fb7b382b79"
+      },
+      {
+        "action_id": "aan11_mirror_mdl_texture",
+        "raw_asset_path": "folder_0000/image_0000.jpg",
+        "owner_mdl": "deps/mdl/mdl_0005.mdl",
+        "source_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/Materials/folder_0000/image_0000.jpg",
+        "package_path": "deps/mdl/folder_0000/image_0000.jpg",
+        "package_sha256": "77aeacad5676f2f34493d2b573f8e8d0a9800188f799bf4dac2e359650ae6c72"
+      }
+    ],
+    "binding_scope": {
+      "status": "effective_binding",
+      "required_materials": [
+        {
+          "required_prim": "/group_002",
+          "material_prim": "/group_002/Looks/material_002",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/mesh_000",
+          "render_prim": "/group_002/Group/mesh_000"
+        },
+        {
+          "required_prim": "/group_002",
+          "material_prim": "/group_002/Looks/material_000",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/mesh_001",
+          "render_prim": "/group_002/Group/mesh_001"
+        },
+        {
+          "required_prim": "/group_002",
+          "material_prim": "/group_002/Looks/material_000",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/mesh_002",
+          "render_prim": "/group_002/Group/mesh_002"
+        },
+        {
+          "required_prim": "/group_002",
+          "material_prim": "/group_002/Looks/material_001",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/mesh_003",
+          "render_prim": "/group_002/Group/mesh_003"
+        },
+        {
+          "required_prim": "/group_002",
+          "material_prim": "/group_002/Looks/material_000",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/group_000/mesh_000",
+          "render_prim": "/group_002/Group/group_000/mesh_000"
+        },
+        {
+          "required_prim": "/group_002",
+          "material_prim": "/group_002/Looks/material_000",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/group_000/mesh_001",
+          "render_prim": "/group_002/Group/group_000/mesh_001"
+        },
+        {
+          "required_prim": "/group_002",
+          "material_prim": "/group_002/Looks/material_000",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/group_000/mesh_002",
+          "render_prim": "/group_002/Group/group_000/mesh_002"
+        },
+        {
+          "required_prim": "/group_002",
+          "material_prim": "/group_002/Looks/material_000",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/group_000/mesh_003",
+          "render_prim": "/group_002/Group/group_000/mesh_003"
+        },
+        {
+          "required_prim": "/group_002",
+          "material_prim": "/group_002/Looks/material_003",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/group_001/mesh_000",
+          "render_prim": "/group_002/Group/group_001/mesh_000"
+        },
+        {
+          "required_prim": "/group_002/Group",
+          "material_prim": "/group_002/Looks/material_002",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/mesh_000",
+          "render_prim": "/group_002/Group/mesh_000"
+        },
+        {
+          "required_prim": "/group_002/Group",
+          "material_prim": "/group_002/Looks/material_000",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/mesh_001",
+          "render_prim": "/group_002/Group/mesh_001"
+        },
+        {
+          "required_prim": "/group_002/Group",
+          "material_prim": "/group_002/Looks/material_000",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/mesh_002",
+          "render_prim": "/group_002/Group/mesh_002"
+        },
+        {
+          "required_prim": "/group_002/Group",
+          "material_prim": "/group_002/Looks/material_001",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/mesh_003",
+          "render_prim": "/group_002/Group/mesh_003"
+        },
+        {
+          "required_prim": "/group_002/Group",
+          "material_prim": "/group_002/Looks/material_000",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/group_000/mesh_000",
+          "render_prim": "/group_002/Group/group_000/mesh_000"
+        },
+        {
+          "required_prim": "/group_002/Group",
+          "material_prim": "/group_002/Looks/material_000",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/group_000/mesh_001",
+          "render_prim": "/group_002/Group/group_000/mesh_001"
+        },
+        {
+          "required_prim": "/group_002/Group",
+          "material_prim": "/group_002/Looks/material_000",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/group_000/mesh_002",
+          "render_prim": "/group_002/Group/group_000/mesh_002"
+        },
+        {
+          "required_prim": "/group_002/Group",
+          "material_prim": "/group_002/Looks/material_000",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/group_000/mesh_003",
+          "render_prim": "/group_002/Group/group_000/mesh_003"
+        },
+        {
+          "required_prim": "/group_002/Group",
+          "material_prim": "/group_002/Looks/material_003",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/group_001/mesh_000",
+          "render_prim": "/group_002/Group/group_001/mesh_000"
+        },
+        {
+          "required_prim": "/group_002/Group/mesh_000",
+          "material_prim": "/group_002/Looks/material_002",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/group_002/Group/mesh_000"
+        }
+      ],
+      "unknown_required_prims": [],
+      "non_render_required_prims": [
+        "/group_002/Group/RevoluteJoint"
+      ]
+    },
+    "rewrite_actions": [],
+    "runtime_compiler": {
+      "status": "pass",
+      "counters": {
+        "stderr_bytes": 41385,
+        "error_count": 0,
+        "warning_count": 122,
+        "mdlc_count": 0,
+        "usd_mdl_count": 0,
+        "omni_hydra_count": 8,
+        "rtx_mdltranslator_count": 0,
+        "failed_shader_node_count": 0,
+        "missing_texture_count": 0
+      },
+      "missing_modules": [],
+      "exemplars": []
+    },
+    "view_evidence": [
+      {
+        "view_id": "front",
+        "camera_pose": {
+          "position": [
+            562.97313243,
+            0.0038053,
+            415.23071752
+          ],
+          "look_at": [
+            0.49369785,
+            0.0038053,
+            210.50494595
+          ],
+          "distance": 598.57811175,
+          "elevation": 20.0,
+          "azimuth": 0.0
+        },
+        "target_prim": "/group_002",
+        "render_hash": "2d0329a2a5568a1b94a3bac3f0d7f081fc84ca4b4c72f531b0c6119a2c97dcd3",
+        "mean_rgb": [
+          83.062916,
+          88.537457,
+          94.576923
+        ],
+        "foreground_rgb": [
+          150.583624,
+          164.676192,
+          180.141826
+        ],
+        "non_background_ratio": 0.38938904,
+        "bbox_ratio": 0.44855118,
+        "render_path": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/evidence/runtime_smoke/material_views/front.png",
+        "bbox_source": "authored",
+        "bytes": 107462,
+        "resolution": [
+          512,
+          512
+        ]
+      },
+      {
+        "view_id": "orbit_3q",
+        "camera_pose": {
+          "position": [
+            347.20687962,
+            346.71698707,
+            553.83524617
+          ],
+          "look_at": [
+            0.49369785,
+            0.0038053,
+            210.50494595
+          ],
+          "distance": 598.57811175,
+          "elevation": 35.0,
+          "azimuth": 45.0
+        },
+        "target_prim": "/group_002",
+        "render_hash": "37b6cb702422c0c5f2accf7c7c39b53c6d3fb44e6bfb922b8bba3fc39ca4a7d4",
+        "mean_rgb": [
+          99.521328,
+          104.091152,
+          108.394859
+        ],
+        "foreground_rgb": [
+          186.991464,
+          198.281814,
+          208.907792
+        ],
+        "non_background_ratio": 0.40489578,
+        "bbox_ratio": 0.60417938,
+        "render_path": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/evidence/runtime_smoke/material_views/orbit_3q.png",
+        "bbox_source": "authored",
+        "bytes": 105289,
+        "resolution": [
+          512,
+          512
+        ]
+      },
+      {
+        "view_id": "side",
+        "camera_pose": {
+          "position": [
+            0.49369785,
+            542.49980913,
+            463.47498705
+          ],
+          "look_at": [
+            0.49369785,
+            0.0038053,
+            210.50494595
+          ],
+          "distance": 598.57811175,
+          "elevation": 25.0,
+          "azimuth": 90.0
+        },
+        "target_prim": "/group_002",
+        "render_hash": "b607cb44b167db12a4d2e00378945089973d83ded4b88b4e386049b4ba5baf7b",
+        "mean_rgb": [
+          107.944969,
+          109.350338,
+          110.180264
+        ],
+        "foreground_rgb": [
+          223.598215,
+          227.395961,
+          229.638676
+        ],
+        "non_background_ratio": 0.37005234,
+        "bbox_ratio": 0.44107056,
+        "render_path": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/evidence/runtime_smoke/material_views/side.png",
+        "bbox_source": "authored",
+        "bytes": 54581,
+        "resolution": [
+          512,
+          512
+        ]
+      }
+    ]
+  },
+  "physics_closure": {
+    "status": "pass",
+    "root_usd": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+    "scope": {
+      "mode": "required_prims",
+      "required_prims": [
+        "/group_002",
+        "/group_002/Group",
+        "/group_002/Group/mesh_000",
+        "/group_002/Group/RevoluteJoint"
+      ]
+    },
+    "value_policy": "preserve_authored_then_generate_with_provenance",
+    "required_prims": [
+      {
+        "path": "/group_002",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group/mesh_000",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group/RevoluteJoint",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "rigid_bodies": [
+      {
+        "prim_path": "/group_002/Group/group_001/mesh_000",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/group_001/mesh_000.physics:rigidBodyEnabled"
+        },
+        "kinematic": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/group_001/mesh_000.physics:kinematicEnabled"
+        },
+        "velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/group_001/mesh_000.physics:velocity"
+        },
+        "angular_velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/group_001/mesh_000.physics:angularVelocity"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/group_002/Group/mesh_000",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_000.physics:rigidBodyEnabled"
+        },
+        "kinematic": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_000.physics:kinematicEnabled"
+        },
+        "velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_000.physics:velocity"
+        },
+        "angular_velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_000.physics:angularVelocity"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/group_002/Group/mesh_002",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_002.physics:rigidBodyEnabled"
+        },
+        "kinematic": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_002.physics:kinematicEnabled"
+        },
+        "velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_002.physics:velocity"
+        },
+        "angular_velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_002.physics:angularVelocity"
+        },
+        "value_source": "authored"
+      }
+    ],
+    "collisions": [
+      {
+        "prim_path": "/group_002/Group/group_001/mesh_000",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/group_001/mesh_000.physics:collisionEnabled"
+        },
+        "approximation": {
+          "value": "convexDecomposition",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/group_001/mesh_000.physics:approximation"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/group_002/Group/mesh_000",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_000.physics:collisionEnabled"
+        },
+        "approximation": {
+          "value": "convexHull",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_000.physics:approximation"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/group_002/Group/mesh_001",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_001.physics:collisionEnabled"
+        },
+        "approximation": {
+          "value": "none",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_001.physics:approximation"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/group_002/Group/mesh_002",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_002.physics:collisionEnabled"
+        },
+        "approximation": {
+          "value": "convexHull",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_002.physics:approximation"
+        },
+        "value_source": "authored"
+      }
+    ],
+    "mass_properties": [
+      {
+        "prim_path": "/group_002/Group/group_001/mesh_000",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+        "mass": {
+          "value": 0.02,
+          "value_source": "derived",
+          "status": "pass",
+          "method": "bbox_shell_density_template_v0",
+          "attribute": "/group_002/Group/group_001/mesh_000.physics:mass",
+          "package_authored": true,
+          "input_artifacts": [
+            "UsdGeom bbox"
+          ]
+        },
+        "density": {
+          "value": 0.01,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/group_001/mesh_000.physics:density"
+        },
+        "center_of_mass": {
+          "value": [
+            "-inf",
+            "-inf",
+            "-inf"
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/group_001/mesh_000.physics:centerOfMass"
+        },
+        "inertia": {
+          "value": [
+            4.651e-05,
+            4.864e-05,
+            3.3e-06
+          ],
+          "value_source": "derived",
+          "status": "pass",
+          "method": "bbox_shell_density_template_v0",
+          "attribute": "/group_002/Group/group_001/mesh_000.physics:diagonalInertia",
+          "package_authored": true,
+          "input_artifacts": [
+            "UsdGeom bbox"
+          ]
+        },
+        "principal_axes": {
+          "value": "(0, 0, 0, 0)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/group_001/mesh_000.physics:principalAxes"
+        },
+        "generation": {
+          "method": "bbox_shell_density_template_v0",
+          "value_source": "derived",
+          "package_authored": true,
+          "density_template_kg_m3": 1000.0,
+          "shell_occupancy": 0.08,
+          "bbox_dimensions_m": [
+            0.04034594,
+            0.01868863,
+            0.1660016
+          ],
+          "bbox_volume_m3": 0.0001251669,
+          "effective_volume_m3": 1.00134e-05,
+          "generated_fields": [
+            "inertia",
+            "mass"
+          ]
+        }
+      },
+      {
+        "prim_path": "/group_002/Group/mesh_000",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+        "mass": {
+          "value": 0.24574013,
+          "value_source": "derived",
+          "status": "pass",
+          "method": "bbox_shell_density_template_v0",
+          "attribute": "/group_002/Group/mesh_000.physics:mass",
+          "package_authored": true,
+          "input_artifacts": [
+            "UsdGeom bbox"
+          ]
+        },
+        "density": {
+          "value": 0.0001,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_000.physics:density"
+        },
+        "center_of_mass": {
+          "value": [
+            "-inf",
+            "-inf",
+            "-inf"
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_000.physics:centerOfMass"
+        },
+        "inertia": {
+          "value": [
+            0.00336175,
+            0.00131031,
+            0.00211227
+          ],
+          "value_source": "derived",
+          "status": "pass",
+          "method": "bbox_shell_density_template_v0",
+          "attribute": "/group_002/Group/mesh_000.physics:diagonalInertia",
+          "package_authored": true,
+          "input_artifacts": [
+            "UsdGeom bbox"
+          ]
+        },
+        "principal_axes": {
+          "value": "(0, 0, 0, 0)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_000.physics:principalAxes"
+        },
+        "generation": {
+          "method": "bbox_shell_density_template_v0",
+          "value_source": "derived",
+          "package_authored": true,
+          "density_template_kg_m3": 1000.0,
+          "shell_occupancy": 0.08,
+          "bbox_dimensions_m": [
+            0.03853613,
+            0.31884378,
+            0.25
+          ],
+          "bbox_volume_m3": 0.0030717516,
+          "effective_volume_m3": 0.0002457401,
+          "generated_fields": [
+            "inertia",
+            "mass"
+          ]
+        }
+      },
+      {
+        "prim_path": "/group_002/Group/mesh_002",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+        "mass": {
+          "value": 1.31690456,
+          "value_source": "derived",
+          "status": "pass",
+          "method": "bbox_shell_density_template_v0",
+          "attribute": "/group_002/Group/mesh_002.physics:mass",
+          "package_authored": true,
+          "input_artifacts": [
+            "UsdGeom bbox"
+          ]
+        },
+        "density": {
+          "value": 0.001,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_002.physics:density"
+        },
+        "center_of_mass": {
+          "value": [
+            "-inf",
+            "-inf",
+            "-inf"
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_002.physics:centerOfMass"
+        },
+        "inertia": {
+          "value": [
+            0.0182654,
+            0.01151818,
+            0.01584569
+          ],
+          "value_source": "derived",
+          "status": "pass",
+          "method": "bbox_shell_density_template_v0",
+          "attribute": "/group_002/Group/mesh_002.physics:diagonalInertia",
+          "package_authored": true,
+          "input_artifacts": [
+            "UsdGeom bbox"
+          ]
+        },
+        "principal_axes": {
+          "value": "(0, 0, 0, 0)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/mesh_002.physics:principalAxes"
+        },
+        "generation": {
+          "method": "bbox_shell_density_template_v0",
+          "value_source": "derived",
+          "package_authored": true,
+          "density_template_kg_m3": 1000.0,
+          "shell_occupancy": 0.08,
+          "bbox_dimensions_m": [
+            0.20360229,
+            0.32083711,
+            0.25199798
+          ],
+          "bbox_volume_m3": 0.016461307,
+          "effective_volume_m3": 0.0013169046,
+          "generated_fields": [
+            "inertia",
+            "mass"
+          ]
+        }
+      }
+    ],
+    "scale": {
+      "meters_per_unit": {
+        "value": 0.001,
+        "value_source": "authored"
+      },
+      "up_axis": {
+        "value": "Z",
+        "value_source": "authored"
+      }
+    },
+    "reset_pose": {
+      "required_prims": [
+        {
+          "prim_path": "/group_002",
+          "status": "pass",
+          "value_source": "authored",
+          "transform": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        {
+          "prim_path": "/group_002/Group",
+          "status": "pass",
+          "value_source": "authored",
+          "transform": [
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              -1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.02653754,
+              -0.01893153,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        {
+          "prim_path": "/group_002/Group/mesh_000",
+          "status": "pass",
+          "value_source": "authored",
+          "transform": [
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              -1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              -1.5389157,
+              -184.14779109,
+              217.68419305,
+              1.0
+            ]
+          ]
+        },
+        {
+          "prim_path": "/group_002/Group/RevoluteJoint",
+          "status": "pass",
+          "value_source": "identity_or_composed_default",
+          "transform": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      ]
+    },
+    "summary": {
+      "rigid_body_count": 3,
+      "collision_count": 4,
+      "mass_record_count": 3,
+      "authored_mass_count": 0,
+      "authored_inertia_count": 0,
+      "derived_mass_count": 3,
+      "derived_inertia_count": 3
+    }
+  },
+  "articulation_closure": {
+    "status": "pass",
+    "root_usd": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+    "scope": {
+      "mode": "required_prims",
+      "required_prims": [
+        "/group_002",
+        "/group_002/Group",
+        "/group_002/Group/mesh_000",
+        "/group_002/Group/RevoluteJoint"
+      ]
+    },
+    "articulation_roots": [
+      {
+        "prim_path": "/group_002",
+        "type_name": "Xform",
+        "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+        "value_source": "authored"
+      }
+    ],
+    "joints": [
+      {
+        "prim_path": "/group_002/Group/FixedJoint_01",
+        "joint_type": "PhysicsFixedJoint",
+        "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+        "axis": {
+          "value": null,
+          "value_source": "missing",
+          "status": "missing"
+        },
+        "limits": {
+          "lower": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing"
+          },
+          "upper": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing"
+          },
+          "status": "not_applicable"
+        },
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/FixedJoint_01.physics:jointEnabled"
+        },
+        "collision_enabled": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/FixedJoint_01.physics:collisionEnabled"
+        },
+        "local_pos0": {
+          "value": [
+            0.0,
+            0.0,
+            -200.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/FixedJoint_01.physics:localPos0"
+        },
+        "local_pos1": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/FixedJoint_01.physics:localPos1"
+        },
+        "local_rot0": {
+          "value": "(1, 0, 0, -1.7114271e-8)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/FixedJoint_01.physics:localRot0"
+        },
+        "local_rot1": {
+          "value": "(1, 0, 0, -1.7114271e-8)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/FixedJoint_01.physics:localRot1"
+        },
+        "drive_status": "not_authored",
+        "reset_value": {
+          "value": null,
+          "value_source": "missing",
+          "status": "missing"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/group_002/Group/FixedJoint_02",
+        "joint_type": "PhysicsFixedJoint",
+        "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+        "axis": {
+          "value": null,
+          "value_source": "missing",
+          "status": "missing"
+        },
+        "limits": {
+          "lower": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing"
+          },
+          "upper": {
+            "value": null,
+            "value_source": "missing",
+            "status": "missing"
+          },
+          "status": "not_applicable"
+        },
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/FixedJoint_02.physics:jointEnabled"
+        },
+        "collision_enabled": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/FixedJoint_02.physics:collisionEnabled"
+        },
+        "local_pos0": {
+          "value": [
+            68.23441315,
+            114.08521271,
+            73.39238739
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/FixedJoint_02.physics:localPos0"
+        },
+        "local_pos1": {
+          "value": [
+            -0.0,
+            1.031e-05,
+            -4.70960093
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/FixedJoint_02.physics:localPos1"
+        },
+        "local_rot0": {
+          "value": "(0.4999999, 0.50000006, -0.50000006, -0.4999999)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/FixedJoint_02.physics:localRot0"
+        },
+        "local_rot1": {
+          "value": "(1, 1.8315086e-8, 1.9868216e-8, 1.986821e-8)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/FixedJoint_02.physics:localRot1"
+        },
+        "drive_status": "not_authored",
+        "reset_value": {
+          "value": null,
+          "value_source": "missing",
+          "status": "missing"
+        },
+        "value_source": "authored"
+      },
+      {
+        "prim_path": "/group_002/Group/RevoluteJoint",
+        "joint_type": "PhysicsRevoluteJoint",
+        "owning_layer": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+        "axis": {
+          "value": "Z",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/RevoluteJoint.physics:axis"
+        },
+        "limits": {
+          "lower": {
+            "value": -100.0,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/group_002/Group/RevoluteJoint.physics:lowerLimit"
+          },
+          "upper": {
+            "value": 0.0,
+            "value_source": "authored",
+            "status": "pass",
+            "attribute": "/group_002/Group/RevoluteJoint.physics:upperLimit"
+          },
+          "status": "pass"
+        },
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/RevoluteJoint.physics:jointEnabled"
+        },
+        "collision_enabled": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/RevoluteJoint.physics:collisionEnabled"
+        },
+        "local_pos0": {
+          "value": [
+            119.99999237,
+            -160.25331116,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/RevoluteJoint.physics:localPos0"
+        },
+        "local_pos1": {
+          "value": [
+            -81.78173828,
+            -158.12666321,
+            -2.32125854
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/RevoluteJoint.physics:localPos1"
+        },
+        "local_rot0": {
+          "value": "(1, 0, 0, -1.7114271e-8)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/RevoluteJoint.physics:localRot0"
+        },
+        "local_rot1": {
+          "value": "(1, 0, 0, -1.7114271e-8)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_002/Group/RevoluteJoint.physics:localRot1"
+        },
+        "drive_status": "authored",
+        "reset_value": {
+          "value": null,
+          "value_source": "missing",
+          "status": "missing"
+        },
+        "value_source": "authored"
+      }
+    ],
+    "dof_mapping": [
+      {
+        "dof_index": 0,
+        "joint_prim": "/group_002/Group/RevoluteJoint",
+        "joint_type": "PhysicsRevoluteJoint",
+        "axis": "Z",
+        "value_source": "authored"
+      }
+    ],
+    "reset_values": [
+      {
+        "joint_prim": "/group_002/Group/RevoluteJoint",
+        "joint_type": "PhysicsRevoluteJoint",
+        "reset_value": {
+          "value": null,
+          "value_source": "missing",
+          "status": "missing"
+        }
+      }
+    ],
+    "summary": {
+      "articulation_root_count": 1,
+      "joint_count": 3,
+      "controllable_dof_count": 1
+    }
+  },
+  "stage_gates": [
+    {
+      "check_id": "AAN-03-usd-closure",
+      "stage": "usd_closure",
+      "status": "pass",
+      "summary": "USD dependency closure produced a package-local USD tree."
+    },
+    {
+      "check_id": "AAN-04-material-closure",
+      "stage": "material_closure",
+      "status": "pass",
+      "summary": "AAN-04 material closure recorded source-preserved material evidence."
+    },
+    {
+      "check_id": "AAN-11-material-runtime-closure",
+      "stage": "material_runtime_closure",
+      "status": "pass",
+      "summary": "AAN-11 material runtime dependency closure passed."
+    },
+    {
+      "check_id": "AAN-05-physics-static",
+      "stage": "physics_static",
+      "status": "pass",
+      "summary": "AAN-05 recorded static physics and articulation evidence."
+    },
+    {
+      "check_id": "AAN-06-runtime-smoke",
+      "stage": "runtime_smoke",
+      "status": "pass",
+      "summary": "AAN-06 Isaac Sim runtime smoke passed."
+    }
+  ],
+  "runtime_evidence": {
+    "status": "pass",
+    "runtime_profile": "isaac41",
+    "asset_id": "MuffleFurnace",
+    "root_usd": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+    "required_prims": [
+      "/group_002",
+      "/group_002/Group",
+      "/group_002/Group/mesh_000",
+      "/group_002/Group/RevoluteJoint"
+    ],
+    "cold_load": {
+      "status": "pass",
+      "opened": true,
+      "required_prims": [
+        {
+          "path": "/group_002",
+          "exists": true,
+          "status": "pass"
+        },
+        {
+          "path": "/group_002/Group",
+          "exists": true,
+          "status": "pass"
+        },
+        {
+          "path": "/group_002/Group/mesh_000",
+          "exists": true,
+          "status": "pass"
+        },
+        {
+          "path": "/group_002/Group/RevoluteJoint",
+          "exists": true,
+          "status": "pass"
+        }
+      ],
+      "default_prim": "/group_002"
+    },
+    "render_readback": {
+      "mean_rgb": [
+        99.400093,
+        103.955128,
+        108.261993
+      ],
+      "foreground_rgb": [
+        186.81183,
+        198.077282,
+        208.719329
+      ],
+      "non_background_ratio": 0.40456009,
+      "bbox_ratio": 0.60273743,
+      "sha256": "9d86ffbc8583d49fe13a3f359076326ab4f3cc65a3c1f12ebd9cd8dda96068f0",
+      "bytes": 108134,
+      "resolution": [
+        512,
+        512
+      ],
+      "status": "pass",
+      "bbox_source": "authored",
+      "path": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/evidence/runtime_smoke/render.png"
+    },
+    "material_view_evidence": [
+      {
+        "view_id": "front",
+        "camera_pose": {
+          "position": [
+            562.97313243,
+            0.0038053,
+            415.23071752
+          ],
+          "look_at": [
+            0.49369785,
+            0.0038053,
+            210.50494595
+          ],
+          "distance": 598.57811175,
+          "elevation": 20.0,
+          "azimuth": 0.0
+        },
+        "target_prim": "/group_002",
+        "render_hash": "2d0329a2a5568a1b94a3bac3f0d7f081fc84ca4b4c72f531b0c6119a2c97dcd3",
+        "mean_rgb": [
+          83.062916,
+          88.537457,
+          94.576923
+        ],
+        "foreground_rgb": [
+          150.583624,
+          164.676192,
+          180.141826
+        ],
+        "non_background_ratio": 0.38938904,
+        "bbox_ratio": 0.44855118,
+        "render_path": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/evidence/runtime_smoke/material_views/front.png",
+        "bbox_source": "authored",
+        "bytes": 107462,
+        "resolution": [
+          512,
+          512
+        ]
+      },
+      {
+        "view_id": "orbit_3q",
+        "camera_pose": {
+          "position": [
+            347.20687962,
+            346.71698707,
+            553.83524617
+          ],
+          "look_at": [
+            0.49369785,
+            0.0038053,
+            210.50494595
+          ],
+          "distance": 598.57811175,
+          "elevation": 35.0,
+          "azimuth": 45.0
+        },
+        "target_prim": "/group_002",
+        "render_hash": "37b6cb702422c0c5f2accf7c7c39b53c6d3fb44e6bfb922b8bba3fc39ca4a7d4",
+        "mean_rgb": [
+          99.521328,
+          104.091152,
+          108.394859
+        ],
+        "foreground_rgb": [
+          186.991464,
+          198.281814,
+          208.907792
+        ],
+        "non_background_ratio": 0.40489578,
+        "bbox_ratio": 0.60417938,
+        "render_path": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/evidence/runtime_smoke/material_views/orbit_3q.png",
+        "bbox_source": "authored",
+        "bytes": 105289,
+        "resolution": [
+          512,
+          512
+        ]
+      },
+      {
+        "view_id": "side",
+        "camera_pose": {
+          "position": [
+            0.49369785,
+            542.49980913,
+            463.47498705
+          ],
+          "look_at": [
+            0.49369785,
+            0.0038053,
+            210.50494595
+          ],
+          "distance": 598.57811175,
+          "elevation": 25.0,
+          "azimuth": 90.0
+        },
+        "target_prim": "/group_002",
+        "render_hash": "b607cb44b167db12a4d2e00378945089973d83ded4b88b4e386049b4ba5baf7b",
+        "mean_rgb": [
+          107.944969,
+          109.350338,
+          110.180264
+        ],
+        "foreground_rgb": [
+          223.598215,
+          227.395961,
+          229.638676
+        ],
+        "non_background_ratio": 0.37005234,
+        "bbox_ratio": 0.44107056,
+        "render_path": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/evidence/runtime_smoke/material_views/side.png",
+        "bbox_source": "authored",
+        "bytes": 54581,
+        "resolution": [
+          512,
+          512
+        ]
+      }
+    ],
+    "physics_step": {
+      "status": "pass",
+      "frames": 4,
+      "finite_transforms": true,
+      "max_abs_delta": 0.0
+    },
+    "reset": {
+      "status": "pass",
+      "finite_transforms": true,
+      "max_abs_delta_from_initial": 0.0
+    },
+    "environment": {
+      "python_executable": "/isaac-sim/kit/python/bin/python3",
+      "python_version": "3.10.15",
+      "headless": true,
+      "isaacsim_file": "/isaac-sim/python_packages/isaacsim/__init__.py",
+      "pxr_version": "\nTf -- Tools Foundation\n"
+    },
+    "command_id": "runtime_smoke_001",
+    "stdout_path": "evidence/runtime_smoke/stdout.log",
+    "stderr_path": "evidence/runtime_smoke/stderr.log"
+  },
+  "benchmark_contract": {
+    "status": "not_run",
+    "reason": "AAN-07 benchmark contract requires the benchmark gate, e.g. --gates static,benchmark.",
+    "task_files": {},
+    "required_prims": []
+  },
+  "environment": {},
+  "waivers": [],
+  "blocked_reasons": [],
+  "claims_allowed": [
+    "AAN-03 static USD closure inspected the source graph and wrote an evidence manifest.",
+    "Package USD asset paths are local when the AAN-03 gate status is pass.",
+    "AAN-04 material closure recorded package-local source material evidence.",
+    "Source MDL and texture assets are preserved when listed with package hashes.",
+    "AAN-11 material runtime dependency closure passed for package-local MDL roots.",
+    "Required MDL helper modules and MDL-internal texture literals are classified with package evidence.",
+    "AAN-05 static physics and articulation evidence was recorded.",
+    "Authored rigid body, collision, mass, inertia, joint axis, and joint limits are preserved when listed with value_source=authored.",
+    "AAN-06 headless Isaac runtime smoke passed under the configured runtime wrapper.",
+    "Cold load, render readback, physics step, and reset smoke evidence are recorded."
+  ],
+  "claims_forbidden": [
+    "EBench task readiness is achieved.",
+    "Exact Isaac Sim 4.1 binary conformance is verified without an explicit runtime environment fingerprint.",
+    "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
+    "Full visual material parity beyond recorded source-preservation evidence is achieved."
+  ],
+  "commands": {
+    "normalize_asset": {
+      "stage": "runtime_smoke",
+      "dry_run": false,
+      "gates": [
+        "static",
+        "runtime"
+      ],
+      "material_policy": "native-or-mirror",
+      "contract": null,
+      "allow_waiver": null
+    },
+    "runtime_smoke_001": {
+      "stage": "runtime_smoke",
+      "cwd": "/cpfs/user/zhuzihou/dev/ConvertAsset",
+      "argv": [
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/scripts/isaac_python.sh",
+        "-m",
+        "convert_asset.asset_application_normalizer.runtime_smoke",
+        "--worker",
+        "--root-usd",
+        "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+        "--report-out",
+        "/tmp/aan11_real_packages_final/muffle_furnace_runtime/evidence/runtime_smoke/report.json",
+        "--render-out",
+        "/tmp/aan11_real_packages_final/muffle_furnace_runtime/evidence/runtime_smoke/render.png",
+        "--material-view-dir",
+        "/tmp/aan11_real_packages_final/muffle_furnace_runtime/evidence/runtime_smoke/material_views",
+        "--asset-id",
+        "MuffleFurnace",
+        "--width",
+        "512",
+        "--height",
+        "512",
+        "--warmup-steps",
+        "16",
+        "--render-steps",
+        "8",
+        "--step-frames",
+        "4",
+        "--required-prim",
+        "/group_002",
+        "--required-prim",
+        "/group_002/Group",
+        "--required-prim",
+        "/group_002/Group/mesh_000",
+        "--required-prim",
+        "/group_002/Group/RevoluteJoint"
+      ],
+      "env_policy": {
+        "allowed_existing_conda_env": "isaac41",
+        "mutation_allowed": false,
+        "headless_only": true,
+        "wrapper": "scripts/isaac_python.sh"
+      },
+      "stdout_path": "evidence/runtime_smoke/stdout.log",
+      "stderr_path": "evidence/runtime_smoke/stderr.log",
+      "report_path": "evidence/runtime_smoke/report.json",
+      "render_path": "evidence/runtime_smoke/render.png",
+      "material_view_dir": "evidence/runtime_smoke/material_views",
+      "exit_code": 0
+    }
+  },
+  "created_at": "2026-07-02T07:16:16Z",
+  "tool_version": "convert_asset.asset_application_normalizer.v1",
+  "git_commit": null,
+  "static_usd_report": {
+    "root_layer": {
+      "source_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/MuffleFurnace.usd",
+      "package_path": "asset.usd",
+      "default_prim": "group_002"
+    },
+    "required_prims": [
+      {
+        "path": "/group_002",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group/mesh_000",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group/RevoluteJoint",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "dependency_counts": {
+      "total": 4,
+      "usd": 0,
+      "mdl": 4,
+      "texture": 0,
+      "remote": 0,
+      "missing": 0
+    }
+  },
+  "static_material_report": {
+    "status": "pass",
+    "root_usd": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+    "material_policy": "native-or-mirror",
+    "material_count": 4,
+    "closure_mode_counts": {
+      "native_resolved": 0,
+      "local_mirror": 4,
+      "preview_surface_fallback": 0,
+      "explicit_waiver": 0,
+      "blocked": 0
+    },
+    "blocked_material_count": 0,
+    "mdl_asset_count": 4,
+    "texture_asset_count": 0,
+    "transparency_strategy_counts": {
+      "opacity_input": 4
+    }
+  },
+  "static_material_runtime_report": {
+    "status": "pass",
+    "root_mdl_count": 8,
+    "imported_module_count": 89,
+    "mdl_texture_asset_count": 1,
+    "blocked_dependency_count": 0,
+    "runtime_compiler_status": "pass"
+  },
+  "static_physics_report": {
+    "status": "pass",
+    "root_usd": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+    "rigid_body_count": 3,
+    "collision_count": 4,
+    "mass_record_count": 3,
+    "authored_mass_count": 0,
+    "authored_inertia_count": 0,
+    "derived_mass_count": 3,
+    "derived_inertia_count": 3,
+    "required_prims": [
+      {
+        "path": "/group_002",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group/mesh_000",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group/RevoluteJoint",
+        "exists": true,
+        "status": "pass"
+      }
+    ]
+  },
+  "static_articulation_report": {
+    "status": "pass",
+    "root_usd": "/tmp/aan11_real_packages_final/muffle_furnace_runtime/asset.usd",
+    "articulation_root_count": 1,
+    "joint_count": 3,
+    "controllable_dof_count": 1,
+    "required_prims": [
+      {
+        "path": "/group_002",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group/mesh_000",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_002/Group/RevoluteJoint",
+        "exists": true,
+        "status": "pass"
+      }
+    ]
+  },
+  "task_contract_report": {
+    "status": "not_run",
+    "reason": "AAN-07 benchmark contract requires the benchmark gate, e.g. --gates static,benchmark.",
+    "task_file_count": 0,
+    "required_prim_role_count": 0
+  }
+}

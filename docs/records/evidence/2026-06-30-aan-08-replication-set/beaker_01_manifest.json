@@ -1,0 +1,925 @@
+{
+  "schema_version": "asset_application_normalizer.v1",
+  "package_id": "beaker_01_ebench-lift2_isaac41",
+  "asset_id": "Beaker_01",
+  "task_id": "AAN08.TransparentBeaker",
+  "milestone": "AAN-07-benchmark-contract",
+  "overall_status": "pass",
+  "source": {
+    "path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/Beaker_01/Beaker_01.usd",
+    "sha256": "30fbe68518083a7923d24a9547b56b54584c67c00012efb5c58c2026bd674120",
+    "source_format": "usd",
+    "source_runtime_lineage": "isaac51"
+  },
+  "target": {
+    "target_runtime_profile": "isaac41",
+    "target_benchmark_profile": "ebench-lift2"
+  },
+  "entrypoints": {
+    "root_usd": "asset.usd",
+    "default_prim": "/group_000",
+    "task_config": "task/task_config.yaml",
+    "required_prims": "task/required_prims.yaml",
+    "metric_evaluator": "task/evaluator.yaml"
+  },
+  "normalization_policy": {
+    "material": "preserve_source_then_add_compatibility_fallback",
+    "physics": "preserve_authored_then_generate_with_provenance",
+    "allowed_value_sources": [
+      "authored",
+      "derived",
+      "template",
+      "manual_override"
+    ]
+  },
+  "required_prim_paths": [
+    {
+      "name": "required_prim_0",
+      "path": "/group_000",
+      "role": "contract_required_prim",
+      "required": true
+    },
+    {
+      "name": "required_prim_1",
+      "path": "/group_000/mesh_000",
+      "role": "contract_required_prim",
+      "required": true
+    }
+  ],
+  "dependency_closure": {
+    "root_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/Beaker_01/Beaker_01.usd",
+    "scanned_layers": [
+      "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/Beaker_01/Beaker_01.usd"
+    ],
+    "local_files": [
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniGlass.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/Beaker_01/Beaker_01.usd",
+        "status": "packaged",
+        "prim_path": "/group_000/material_000/shader_00",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniGlass.mdl",
+        "package_path": "deps/mdl/OmniGlass.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search"
+      }
+    ],
+    "missing": [],
+    "remote_uri": [],
+    "unauthorized_remote_uri": [],
+    "unrewritable_layers": [],
+    "resolution_records": [
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniGlass.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/Beaker_01/Beaker_01.usd",
+        "status": "packaged",
+        "prim_path": "/group_000/material_000/shader_00",
+        "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniGlass.mdl",
+        "package_path": "deps/mdl/OmniGlass.mdl",
+        "resolution": "mirrored",
+        "resolution_source": "local_mirror_search",
+        "claim_impact": "AAN found a local mirror for this dependency and wrote it into the package."
+      }
+    ],
+    "resolution_summary": {
+      "mirrored": 1,
+      "pruned": 0,
+      "waived": 0,
+      "blocked": 0
+    }
+  },
+  "material_closure": [
+    {
+      "material_prim": "/group_000/material_000",
+      "owning_layer": "/tmp/aan08_real_packages/beaker_01/asset.usd",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/group_000/material_000/shader_00",
+          "owning_layer": "/tmp/aan08_real_packages/beaker_01/asset.usd",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "deps/mdl/OmniGlass.mdl",
+          "source_sub_identifier": "OmniGlass",
+          "inputs": [
+            {
+              "name": "absorption_coeff",
+              "value": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "connected": false
+            },
+            {
+              "name": "use_glass_color_texture",
+              "value": false,
+              "connected": false
+            },
+            {
+              "name": "glass_color",
+              "value": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "connected": false
+            },
+            {
+              "name": "glass_color_texture",
+              "value": "",
+              "connected": false
+            },
+            {
+              "name": "frosting_roughness",
+              "value": 0.0,
+              "connected": false
+            },
+            {
+              "name": "glass_ior",
+              "value": 1.491,
+              "connected": false
+            },
+            {
+              "name": "thin_walled",
+              "value": false,
+              "connected": false
+            },
+            {
+              "name": "depth",
+              "value": 0.001,
+              "connected": false
+            },
+            {
+              "name": "roughness_texture_influence",
+              "value": 1.0,
+              "connected": false
+            },
+            {
+              "name": "roughness_texture",
+              "value": "",
+              "connected": false
+            },
+            {
+              "name": "reflection_color_texture",
+              "value": "",
+              "connected": false
+            },
+            {
+              "name": "reflection_color",
+              "value": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "connected": false
+            },
+            {
+              "name": "normal_map_texture",
+              "value": "",
+              "connected": false
+            },
+            {
+              "name": "normal_map_strength",
+              "value": 1.0,
+              "connected": false
+            },
+            {
+              "name": "flip_tangent_u",
+              "value": false,
+              "connected": false
+            },
+            {
+              "name": "flip_tangent_v",
+              "value": true,
+              "connected": false
+            },
+            {
+              "name": "enable_opacity",
+              "value": false,
+              "connected": false
+            },
+            {
+              "name": "cutout_opacity",
+              "value": 1.0,
+              "connected": false
+            },
+            {
+              "name": "cutout_opacity_texture",
+              "value": "",
+              "connected": false
+            },
+            {
+              "name": "cutout_opacity_mono_source",
+              "value": 0,
+              "connected": false
+            },
+            {
+              "name": "opacity_threshold",
+              "value": 0.0,
+              "connected": false
+            },
+            {
+              "name": "project_uvw",
+              "value": false,
+              "connected": false
+            },
+            {
+              "name": "world_or_object",
+              "value": false,
+              "connected": false
+            },
+            {
+              "name": "uv_space_index",
+              "value": 0,
+              "connected": false
+            },
+            {
+              "name": "texture_translate",
+              "value": [
+                0.0,
+                0.0
+              ],
+              "connected": false
+            },
+            {
+              "name": "texture_rotate",
+              "value": 0.0,
+              "connected": false
+            },
+            {
+              "name": "texture_scale",
+              "value": [
+                1.0,
+                1.0
+              ],
+              "connected": false
+            }
+          ]
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "OmniGlass.mdl",
+          "resolved_path": "/isaac-sim/kit/mdl/core/Base/OmniGlass.mdl",
+          "package_path": "deps/mdl/OmniGlass.mdl",
+          "source_shader_prim": "/group_000/material_000/shader_00",
+          "status": "packaged",
+          "resolution": "mirrored",
+          "source_sha256": "cd7c97781dc95f1694f9acc70c0b9ae327361a3b1c84abf917e55a9d672e627a",
+          "package_sha256": "cd7c97781dc95f1694f9acc70c0b9ae327361a3b1c84abf917e55a9d672e627a",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    }
+  ],
+  "physics_closure": {
+    "status": "pass",
+    "root_usd": "/tmp/aan08_real_packages/beaker_01/asset.usd",
+    "scope": {
+      "mode": "required_prims",
+      "required_prims": [
+        "/group_000",
+        "/group_000/mesh_000"
+      ]
+    },
+    "value_policy": "preserve_authored_then_generate_with_provenance",
+    "required_prims": [
+      {
+        "path": "/group_000",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_000/mesh_000",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "rigid_bodies": [
+      {
+        "prim_path": "/group_000/mesh_000",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan08_real_packages/beaker_01/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_000/mesh_000.physics:rigidBodyEnabled"
+        },
+        "kinematic": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_000/mesh_000.physics:kinematicEnabled"
+        },
+        "velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_000/mesh_000.physics:velocity"
+        },
+        "angular_velocity": {
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_000/mesh_000.physics:angularVelocity"
+        },
+        "value_source": "authored"
+      }
+    ],
+    "collisions": [
+      {
+        "prim_path": "/group_000/mesh_000",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan08_real_packages/beaker_01/asset.usd",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_000/mesh_000.physics:collisionEnabled"
+        },
+        "approximation": {
+          "value": "sdf",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_000/mesh_000.physics:approximation"
+        },
+        "value_source": "authored"
+      }
+    ],
+    "mass_properties": [
+      {
+        "prim_path": "/group_000/mesh_000",
+        "type_name": "Mesh",
+        "owning_layer": "/tmp/aan08_real_packages/beaker_01/asset.usd",
+        "mass": {
+          "value": 0.02263737,
+          "value_source": "derived",
+          "status": "pass",
+          "method": "bbox_shell_density_template_v0",
+          "attribute": "/group_000/mesh_000.physics:mass",
+          "package_authored": true,
+          "input_artifacts": [
+            "UsdGeom bbox"
+          ]
+        },
+        "density": {
+          "value": 0.0,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_000/mesh_000.physics:density"
+        },
+        "center_of_mass": {
+          "value": [
+            "-inf",
+            "-inf",
+            "-inf"
+          ],
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_000/mesh_000.physics:centerOfMass"
+        },
+        "inertia": {
+          "value": [
+            1.672e-05,
+            1.782e-05,
+            1.48e-05
+          ],
+          "value_source": "derived",
+          "status": "pass",
+          "method": "bbox_shell_density_template_v0",
+          "attribute": "/group_000/mesh_000.physics:diagonalInertia",
+          "package_authored": true,
+          "input_artifacts": [
+            "UsdGeom bbox"
+          ]
+        },
+        "principal_axes": {
+          "value": "(0, 0, 0, 0)",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/group_000/mesh_000.physics:principalAxes"
+        },
+        "generation": {
+          "method": "bbox_shell_density_template_v0",
+          "value_source": "derived",
+          "package_authored": true,
+          "density_template_kg_m3": 1000.0,
+          "shell_occupancy": 0.08,
+          "bbox_dimensions_m": [
+            0.06492372,
+            0.06026596,
+            0.07232035
+          ],
+          "bbox_volume_m3": 0.0002829671,
+          "effective_volume_m3": 2.26374e-05,
+          "generated_fields": [
+            "inertia",
+            "mass"
+          ]
+        }
+      }
+    ],
+    "scale": {
+      "meters_per_unit": {
+        "value": 0.01,
+        "value_source": "authored"
+      },
+      "up_axis": {
+        "value": "Z",
+        "value_source": "authored"
+      }
+    },
+    "reset_pose": {
+      "required_prims": [
+        {
+          "prim_path": "/group_000",
+          "status": "pass",
+          "value_source": "identity_or_composed_default",
+          "transform": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        {
+          "prim_path": "/group_000/mesh_000",
+          "status": "pass",
+          "value_source": "authored",
+          "transform": [
+            [
+              0.04,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -0.0,
+              0.04,
+              0.0
+            ],
+            [
+              0.0,
+              -0.04,
+              -0.0,
+              0.0
+            ],
+            [
+              -1.90034666,
+              -7.2e-07,
+              3.46751366,
+              1.0
+            ]
+          ]
+        }
+      ]
+    },
+    "summary": {
+      "rigid_body_count": 1,
+      "collision_count": 1,
+      "mass_record_count": 1,
+      "authored_mass_count": 0,
+      "authored_inertia_count": 0,
+      "derived_mass_count": 1,
+      "derived_inertia_count": 1
+    }
+  },
+  "articulation_closure": {
+    "status": "pass",
+    "root_usd": "/tmp/aan08_real_packages/beaker_01/asset.usd",
+    "scope": {
+      "mode": "required_prims",
+      "required_prims": [
+        "/group_000",
+        "/group_000/mesh_000"
+      ]
+    },
+    "articulation_roots": [],
+    "joints": [],
+    "dof_mapping": [],
+    "reset_values": [],
+    "summary": {
+      "articulation_root_count": 0,
+      "joint_count": 0,
+      "controllable_dof_count": 0
+    }
+  },
+  "stage_gates": [
+    {
+      "check_id": "AAN-03-usd-closure",
+      "stage": "usd_closure",
+      "status": "pass",
+      "summary": "USD dependency closure produced a package-local USD tree."
+    },
+    {
+      "check_id": "AAN-04-material-closure",
+      "stage": "material_closure",
+      "status": "pass",
+      "summary": "AAN-04 material closure recorded source-preserved material evidence."
+    },
+    {
+      "check_id": "AAN-05-physics-static",
+      "stage": "physics_static",
+      "status": "pass",
+      "summary": "AAN-05 recorded static physics and articulation evidence."
+    },
+    {
+      "check_id": "AAN-06-runtime-smoke",
+      "stage": "runtime_smoke",
+      "status": "pass",
+      "summary": "AAN-06 Isaac Sim runtime smoke passed."
+    },
+    {
+      "check_id": "AAN-07-benchmark-contract",
+      "stage": "benchmark_contract",
+      "status": "pass",
+      "summary": "AAN-07 wrote EBench task contract files."
+    }
+  ],
+  "runtime_evidence": {
+    "status": "pass",
+    "runtime_profile": "isaac41",
+    "asset_id": "Beaker_01",
+    "root_usd": "/tmp/aan08_real_packages/beaker_01/asset.usd",
+    "required_prims": [
+      "/group_000",
+      "/group_000/mesh_000"
+    ],
+    "cold_load": {
+      "status": "pass",
+      "opened": true,
+      "required_prims": [
+        {
+          "path": "/group_000",
+          "exists": true,
+          "status": "pass"
+        },
+        {
+          "path": "/group_000/mesh_000",
+          "exists": true,
+          "status": "pass"
+        }
+      ],
+      "default_prim": "/group_000"
+    },
+    "render_readback": {
+      "mean_rgb": [
+        78.363674,
+        78.440876,
+        78.302925
+      ],
+      "non_background_ratio": 0.30619049,
+      "bbox_ratio": 0.41808701,
+      "sha256": "6f55cd79e1ec19dccbdcbe041bd9dedfe6382eaddd5c541d520c86b9b48a010f",
+      "bytes": 108682,
+      "resolution": [
+        512,
+        512
+      ],
+      "status": "pass",
+      "bbox_source": "authored",
+      "path": "/tmp/aan08_real_packages/beaker_01/evidence/runtime_smoke/render.png"
+    },
+    "physics_step": {
+      "status": "pass",
+      "frames": 4,
+      "finite_transforms": true,
+      "max_abs_delta": 0.11183405
+    },
+    "reset": {
+      "status": "pass",
+      "finite_transforms": true,
+      "max_abs_delta_from_initial": 0.33844494
+    },
+    "environment": {
+      "python_executable": "/isaac-sim/kit/python/bin/python3",
+      "python_version": "3.10.15",
+      "headless": true,
+      "isaacsim_file": "/isaac-sim/python_packages/isaacsim/__init__.py",
+      "pxr_version": "\nTf -- Tools Foundation\n"
+    },
+    "command_id": "runtime_smoke_001",
+    "stdout_path": "evidence/runtime_smoke/stdout.log",
+    "stderr_path": "evidence/runtime_smoke/stderr.log"
+  },
+  "benchmark_contract": {
+    "status": "pass",
+    "contract_source": "docs/records/evidence/2026-06-30-aan-08-replication-set/contracts/beaker_01_contract.json",
+    "target_benchmark": "ebench-lift2",
+    "task_id": "AAN08.TransparentBeaker",
+    "task_files": {
+      "task_config": "task/task_config.yaml",
+      "required_prims": "task/required_prims.yaml",
+      "evaluator": "task/evaluator.yaml"
+    },
+    "required_prims": [
+      {
+        "role": "asset_root",
+        "path": "/group_000",
+        "required": true,
+        "status": "pass",
+        "exists": true
+      },
+      {
+        "role": "manipulated_body",
+        "path": "/group_000/mesh_000",
+        "required": true,
+        "status": "pass",
+        "exists": true
+      },
+      {
+        "role": "collision_root",
+        "path": "/group_000/mesh_000",
+        "required": true,
+        "status": "pass",
+        "exists": true
+      },
+      {
+        "role": "spawn_anchor",
+        "path": "/group_000",
+        "required": true,
+        "status": "pass",
+        "exists": true
+      },
+      {
+        "role": "goal_target",
+        "path": "N/A",
+        "required": true,
+        "status": "not_applicable",
+        "exists": null
+      }
+    ],
+    "evaluator": {
+      "entrypoint": "ebench.evaluators.aan08:TransparentBeakerEvaluator",
+      "metric": "grasp_place_visibility_smoke"
+    },
+    "ready_for_ebench_task_contract": true
+  },
+  "environment": {},
+  "waivers": [],
+  "blocked_reasons": [],
+  "claims_allowed": [
+    "AAN-03 static USD closure inspected the source graph and wrote an evidence manifest.",
+    "Package USD asset paths are local when the AAN-03 gate status is pass.",
+    "AAN-04 material closure recorded package-local source material evidence.",
+    "Source MDL and texture assets are preserved when listed with package hashes.",
+    "AAN-05 static physics and articulation evidence was recorded.",
+    "Authored rigid body, collision, mass, inertia, joint axis, and joint limits are preserved when listed with value_source=authored.",
+    "AAN-06 headless Isaac runtime smoke passed under the configured runtime wrapper.",
+    "Cold load, render readback, physics step, and reset smoke evidence are recorded.",
+    "AAN-07 wrote EBench task_config, required_prims, and evaluator entrypoint files.",
+    "EBench task readiness is achieved."
+  ],
+  "claims_forbidden": [
+    "Exact Isaac Sim 4.1 binary conformance is verified without an explicit runtime environment fingerprint.",
+    "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
+    "Full visual material parity beyond recorded source-preservation evidence is achieved."
+  ],
+  "commands": {
+    "normalize_asset": {
+      "stage": "benchmark_contract",
+      "dry_run": false,
+      "gates": [
+        "static",
+        "runtime",
+        "benchmark"
+      ],
+      "material_policy": "native-or-mirror",
+      "contract": "docs/records/evidence/2026-06-30-aan-08-replication-set/contracts/beaker_01_contract.json",
+      "allow_waiver": null
+    },
+    "runtime_smoke_001": {
+      "stage": "runtime_smoke",
+      "cwd": "/cpfs/user/zhuzihou/dev/ConvertAsset",
+      "argv": [
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/scripts/isaac_python.sh",
+        "-m",
+        "convert_asset.asset_application_normalizer.runtime_smoke",
+        "--worker",
+        "--root-usd",
+        "/tmp/aan08_real_packages/beaker_01/asset.usd",
+        "--report-out",
+        "/tmp/aan08_real_packages/beaker_01/evidence/runtime_smoke/report.json",
+        "--render-out",
+        "/tmp/aan08_real_packages/beaker_01/evidence/runtime_smoke/render.png",
+        "--asset-id",
+        "Beaker_01",
+        "--width",
+        "512",
+        "--height",
+        "512",
+        "--warmup-steps",
+        "16",
+        "--render-steps",
+        "8",
+        "--step-frames",
+        "4",
+        "--required-prim",
+        "/group_000",
+        "--required-prim",
+        "/group_000/mesh_000"
+      ],
+      "env_policy": {
+        "allowed_existing_conda_env": "isaac41",
+        "mutation_allowed": false,
+        "headless_only": true,
+        "wrapper": "scripts/isaac_python.sh"
+      },
+      "stdout_path": "evidence/runtime_smoke/stdout.log",
+      "stderr_path": "evidence/runtime_smoke/stderr.log",
+      "report_path": "evidence/runtime_smoke/report.json",
+      "render_path": "evidence/runtime_smoke/render.png",
+      "exit_code": 0
+    }
+  },
+  "created_at": "2026-06-30T15:18:23Z",
+  "tool_version": "convert_asset.asset_application_normalizer.v1",
+  "git_commit": null,
+  "static_usd_report": {
+    "root_layer": {
+      "source_path": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/Beaker_01/Beaker_01.usd",
+      "package_path": "asset.usd",
+      "default_prim": "group_000"
+    },
+    "required_prims": [
+      {
+        "path": "/group_000",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_000/mesh_000",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "dependency_counts": {
+      "total": 1,
+      "usd": 0,
+      "mdl": 1,
+      "texture": 0,
+      "remote": 0,
+      "missing": 0
+    }
+  },
+  "static_material_report": {
+    "status": "pass",
+    "root_usd": "/tmp/aan08_real_packages/beaker_01/asset.usd",
+    "material_policy": "native-or-mirror",
+    "material_count": 1,
+    "closure_mode_counts": {
+      "native_resolved": 0,
+      "local_mirror": 1,
+      "preview_surface_fallback": 0,
+      "explicit_waiver": 0,
+      "blocked": 0
+    },
+    "blocked_material_count": 0,
+    "mdl_asset_count": 1,
+    "texture_asset_count": 0,
+    "transparency_strategy_counts": {
+      "opacity_input": 1
+    }
+  },
+  "static_physics_report": {
+    "status": "pass",
+    "root_usd": "/tmp/aan08_real_packages/beaker_01/asset.usd",
+    "rigid_body_count": 1,
+    "collision_count": 1,
+    "mass_record_count": 1,
+    "authored_mass_count": 0,
+    "authored_inertia_count": 0,
+    "derived_mass_count": 1,
+    "derived_inertia_count": 1,
+    "required_prims": [
+      {
+        "path": "/group_000",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_000/mesh_000",
+        "exists": true,
+        "status": "pass"
+      }
+    ]
+  },
+  "static_articulation_report": {
+    "status": "pass",
+    "root_usd": "/tmp/aan08_real_packages/beaker_01/asset.usd",
+    "articulation_root_count": 0,
+    "joint_count": 0,
+    "controllable_dof_count": 0,
+    "required_prims": [
+      {
+        "path": "/group_000",
+        "exists": true,
+        "status": "pass"
+      },
+      {
+        "path": "/group_000/mesh_000",
+        "exists": true,
+        "status": "pass"
+      }
+    ]
+  },
+  "task_contract_report": {
+    "status": "pass",
+    "contract_source": "docs/records/evidence/2026-06-30-aan-08-replication-set/contracts/beaker_01_contract.json",
+    "task_file_count": 3,
+    "required_prim_role_count": 5,
+    "evaluator_entrypoint": "ebench.evaluators.aan08:TransparentBeakerEvaluator",
+    "metric": "grasp_place_visibility_smoke"
+  }
+}

@@ -1,0 +1,107 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    subLayers = [
+        @deps/usd/scoped_source.usda@
+    ]
+)
+
+over "World"
+{
+    over "DryingBox_03" (
+        delete apiSchemas = ["PhysicsArticulationRootAPI", "PhysxArticulationAPI"]
+    )
+    {
+        over "body"
+        {
+            over "Group"
+            {
+                over "door"
+                {
+                    over "mesh" (
+                        delete apiSchemas = ["PhysicsCollisionAPI", "PhysicsMassAPI", "PhysicsMeshCollisionAPI", "PhysicsRigidBodyAPI", "PhysxCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysxRigidBodyAPI"]
+                    )
+                    {
+                    }
+                }
+            }
+
+            over "body"
+            {
+                over "mesh" (
+                    delete apiSchemas = ["PhysicsCollisionAPI", "PhysicsMassAPI", "PhysicsMeshCollisionAPI", "PhysicsRigidBodyAPI", "PhysxCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysxRigidBodyAPI", "PhysxTriangleMeshCollisionAPI"]
+                )
+                {
+                }
+            }
+        }
+
+        over "handle"
+        {
+            over "mesh" (
+                delete apiSchemas = ["PhysicsCollisionAPI", "PhysicsMassAPI", "PhysicsMeshCollisionAPI", "PhysicsRigidBodyAPI", "PhysxCollisionAPI", "PhysxConvexDecompositionCollisionAPI", "PhysxConvexHullCollisionAPI", "PhysxForceAPI", "PhysxRigidBodyAPI", "PhysxSDFMeshCollisionAPI", "PhysxSphereFillCollisionAPI", "PhysxTriangleMeshCollisionAPI", "PhysxTriangleMeshSimplificationCollisionAPI"]
+            )
+            {
+            }
+        }
+
+        over "FixedJoint" (
+            active = false
+        )
+        {
+        }
+
+        over "FixedJoint_01" (
+            active = false
+        )
+        {
+        }
+
+        over "RevoluteJoint" (
+            active = false
+            delete apiSchemas = ["PhysxJointAPI", "PhysxLimitAPI:angular"]
+        )
+        {
+        }
+
+        over "Group_02"
+        {
+            over "group"
+            {
+                over "mesh" (
+                    delete apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxCollisionAPI", "PhysxTriangleMeshCollisionAPI"]
+                )
+                {
+                }
+            }
+
+            over "group_04"
+            {
+                over "mesh" (
+                    delete apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxCollisionAPI", "PhysxTriangleMeshCollisionAPI"]
+                )
+                {
+                }
+            }
+
+            over "group_05"
+            {
+                over "mesh" (
+                    delete apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxCollisionAPI", "PhysxTriangleMeshCollisionAPI"]
+                )
+                {
+                }
+            }
+
+            over "group_06"
+            {
+                over "mesh" (
+                    delete apiSchemas = ["PhysicsCollisionAPI", "PhysicsMeshCollisionAPI", "PhysxCollisionAPI", "PhysxTriangleMeshCollisionAPI"]
+                )
+                {
+                }
+            }
+        }
+    }
+}
+

@@ -1,0 +1,4134 @@
+{
+  "schema_version": "asset_application_normalizer.v1",
+  "package_id": "labutopia_lab001_dryingbox_03_visual_static_scenario-forge_isaac41",
+  "asset_id": "LabUtopia_lab001_DryingBox_03_visual_static",
+  "asset_role": "visual_static",
+  "asset_scope_prim_paths": [
+    "/World/DryingBox_03"
+  ],
+  "source": {
+    "path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+    "sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+    "source_format": "usd",
+    "source_runtime_lineage": "isaac51"
+  },
+  "target": {
+    "target_runtime_profile": "isaac41",
+    "target_benchmark_profile": "scenario-forge"
+  },
+  "entrypoints": {
+    "root_usd": "asset.usd",
+    "default_prim": "World",
+    "asset_entry_prim": "/World/DryingBox_03",
+    "asset_scope_prims": [
+      "/World/DryingBox_03"
+    ],
+    "consumer_profile": "scenario-forge",
+    "task_config": null,
+    "required_prims": null,
+    "metric_evaluator": null
+  },
+  "source_integrity": {
+    "sha256_before": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+    "sha256_after": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+    "unchanged": true
+  },
+  "source_physics_audit": {
+    "status": "blocked",
+    "source_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+    "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+    "scope": [
+      "/World/DryingBox_03"
+    ],
+    "summary": {
+      "family_member_count": 1,
+      "invalid_rigid_body_count": 3,
+      "rigid_body_count": 3
+    },
+    "family_members": [
+      {
+        "scope": "/World/DryingBox_03",
+        "status": "blocked",
+        "summary": {
+          "rigid_body_count": 3,
+          "collision_count": 7,
+          "mass_record_count": 3,
+          "authored_mass_count": 1,
+          "authored_inertia_count": 0,
+          "derived_mass_count": 0,
+          "derived_inertia_count": 0,
+          "invalid_rigid_body_count": 3
+        },
+        "rigid_bodies": [
+          {
+            "prim_path": "/World/DryingBox_03/body/Group/door/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "enabled": {
+              "value": true,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:rigidBodyEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "kinematic": {
+              "value": false,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:kinematicEnabled",
+              "provenance_status": "not_applicable"
+            }
+          },
+          {
+            "prim_path": "/World/DryingBox_03/body/body/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "enabled": {
+              "value": true,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/body/body/mesh.physics:rigidBodyEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "kinematic": {
+              "value": false,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/body/body/mesh.physics:kinematicEnabled",
+              "provenance_status": "not_applicable"
+            }
+          },
+          {
+            "prim_path": "/World/DryingBox_03/handle/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "enabled": {
+              "value": true,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/handle/mesh.physics:rigidBodyEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "kinematic": {
+              "value": false,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/handle/mesh.physics:kinematicEnabled",
+              "provenance_status": "not_applicable"
+            }
+          }
+        ],
+        "collisions": [
+          {
+            "prim_path": "/World/DryingBox_03/body/Group/door/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "enabled": {
+              "value": true,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:collisionEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "approximation": {
+              "value": "convexDecomposition",
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:approximation",
+              "provenance_status": "not_applicable"
+            }
+          },
+          {
+            "prim_path": "/World/DryingBox_03/body/body/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "enabled": {
+              "value": true,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/body/body/mesh.physics:collisionEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "approximation": {
+              "value": "convexDecomposition",
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/body/body/mesh.physics:approximation",
+              "provenance_status": "not_applicable"
+            }
+          },
+          {
+            "prim_path": "/World/DryingBox_03/handle/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "enabled": {
+              "value": true,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/handle/mesh.physics:collisionEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "approximation": {
+              "value": "convexHull",
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/handle/mesh.physics:approximation",
+              "provenance_status": "not_applicable"
+            }
+          },
+          {
+            "prim_path": "/World/DryingBox_03/Group_02/group/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "enabled": {
+              "value": true,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/Group_02/group/mesh.physics:collisionEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "approximation": {
+              "value": "none",
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/Group_02/group/mesh.physics:approximation",
+              "provenance_status": "not_applicable"
+            }
+          },
+          {
+            "prim_path": "/World/DryingBox_03/Group_02/group_04/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "enabled": {
+              "value": true,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/Group_02/group_04/mesh.physics:collisionEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "approximation": {
+              "value": "none",
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/Group_02/group_04/mesh.physics:approximation",
+              "provenance_status": "not_applicable"
+            }
+          },
+          {
+            "prim_path": "/World/DryingBox_03/Group_02/group_05/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "enabled": {
+              "value": true,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/Group_02/group_05/mesh.physics:collisionEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "approximation": {
+              "value": "none",
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/Group_02/group_05/mesh.physics:approximation",
+              "provenance_status": "not_applicable"
+            }
+          },
+          {
+            "prim_path": "/World/DryingBox_03/Group_02/group_06/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "enabled": {
+              "value": true,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/Group_02/group_06/mesh.physics:collisionEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "approximation": {
+              "value": "none",
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/Group_02/group_06/mesh.physics:approximation",
+              "provenance_status": "not_applicable"
+            }
+          }
+        ],
+        "mass_properties": [
+          {
+            "prim_path": "/World/DryingBox_03/body/Group/door/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "mass_api_applied": true,
+            "mass": {
+              "value": 0.0,
+              "value_source": "fallback",
+              "status": "invalid",
+              "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:mass",
+              "provenance_status": "invalid",
+              "provenance": {
+                "value_source": "fallback",
+                "reason": "No authored opinion or persistent derived/template provenance was found."
+              }
+            },
+            "density": {
+              "value": 0.001,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:density",
+              "provenance_status": "not_applicable"
+            },
+            "center_of_mass": {
+              "value": [
+                "-inf",
+                "-inf",
+                "-inf"
+              ],
+              "value_source": "fallback",
+              "status": "invalid",
+              "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:centerOfMass",
+              "provenance_status": "invalid",
+              "provenance": {
+                "value_source": "fallback",
+                "reason": "No authored opinion or persistent derived/template provenance was found."
+              }
+            },
+            "inertia": {
+              "value": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "value_source": "fallback",
+              "status": "invalid",
+              "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:diagonalInertia",
+              "provenance_status": "invalid",
+              "provenance": {
+                "value_source": "fallback",
+                "reason": "No authored opinion or persistent derived/template provenance was found."
+              }
+            },
+            "principal_axes": {
+              "value": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "value_source": "fallback",
+              "status": "invalid",
+              "attribute": "/World/DryingBox_03/body/Group/door/mesh.physics:principalAxes",
+              "provenance_status": "invalid",
+              "provenance": {
+                "value_source": "fallback",
+                "reason": "No authored opinion or persistent derived/template provenance was found."
+              }
+            },
+            "provenance_complete": false,
+            "invalid_auto_compute_reliance": true,
+            "status": "blocked"
+          },
+          {
+            "prim_path": "/World/DryingBox_03/body/body/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "mass_api_applied": true,
+            "mass": {
+              "value": 1.0,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/body/body/mesh.physics:mass",
+              "provenance_status": "pass",
+              "provenance": {
+                "value_source": "authored",
+                "method": "usd_authored_value",
+                "field": "mass",
+                "authored_value_opinion": true,
+                "authoring_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd"
+              }
+            },
+            "density": {
+              "value": 0.01,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/body/body/mesh.physics:density",
+              "provenance_status": "not_applicable"
+            },
+            "center_of_mass": {
+              "value": [
+                "-inf",
+                "-inf",
+                "-inf"
+              ],
+              "value_source": "fallback",
+              "status": "invalid",
+              "attribute": "/World/DryingBox_03/body/body/mesh.physics:centerOfMass",
+              "provenance_status": "invalid",
+              "provenance": {
+                "value_source": "fallback",
+                "reason": "No authored opinion or persistent derived/template provenance was found."
+              }
+            },
+            "inertia": {
+              "value": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "value_source": "fallback",
+              "status": "invalid",
+              "attribute": "/World/DryingBox_03/body/body/mesh.physics:diagonalInertia",
+              "provenance_status": "invalid",
+              "provenance": {
+                "value_source": "fallback",
+                "reason": "No authored opinion or persistent derived/template provenance was found."
+              }
+            },
+            "principal_axes": {
+              "value": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "value_source": "fallback",
+              "status": "invalid",
+              "attribute": "/World/DryingBox_03/body/body/mesh.physics:principalAxes",
+              "provenance_status": "invalid",
+              "provenance": {
+                "value_source": "fallback",
+                "reason": "No authored opinion or persistent derived/template provenance was found."
+              }
+            },
+            "provenance_complete": false,
+            "invalid_auto_compute_reliance": true,
+            "status": "blocked"
+          },
+          {
+            "prim_path": "/World/DryingBox_03/handle/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "mass_api_applied": true,
+            "mass": {
+              "value": 0.0,
+              "value_source": "fallback",
+              "status": "invalid",
+              "attribute": "/World/DryingBox_03/handle/mesh.physics:mass",
+              "provenance_status": "invalid",
+              "provenance": {
+                "value_source": "fallback",
+                "reason": "No authored opinion or persistent derived/template provenance was found."
+              }
+            },
+            "density": {
+              "value": 0.2,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/handle/mesh.physics:density",
+              "provenance_status": "not_applicable"
+            },
+            "center_of_mass": {
+              "value": [
+                "-inf",
+                "-inf",
+                "-inf"
+              ],
+              "value_source": "fallback",
+              "status": "invalid",
+              "attribute": "/World/DryingBox_03/handle/mesh.physics:centerOfMass",
+              "provenance_status": "invalid",
+              "provenance": {
+                "value_source": "fallback",
+                "reason": "No authored opinion or persistent derived/template provenance was found."
+              }
+            },
+            "inertia": {
+              "value": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "value_source": "fallback",
+              "status": "invalid",
+              "attribute": "/World/DryingBox_03/handle/mesh.physics:diagonalInertia",
+              "provenance_status": "invalid",
+              "provenance": {
+                "value_source": "fallback",
+                "reason": "No authored opinion or persistent derived/template provenance was found."
+              }
+            },
+            "principal_axes": {
+              "value": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "value_source": "fallback",
+              "status": "invalid",
+              "attribute": "/World/DryingBox_03/handle/mesh.physics:principalAxes",
+              "provenance_status": "invalid",
+              "provenance": {
+                "value_source": "fallback",
+                "reason": "No authored opinion or persistent derived/template provenance was found."
+              }
+            },
+            "provenance_complete": false,
+            "invalid_auto_compute_reliance": true,
+            "status": "blocked"
+          }
+        ],
+        "articulation_roots": [
+          {
+            "prim_path": "/World/DryingBox_03",
+            "type_name": "Xform",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "value_source": "authored"
+          }
+        ],
+        "joints": [
+          {
+            "prim_path": "/World/DryingBox_03/FixedJoint",
+            "joint_type": "PhysicsFixedJoint",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "axis": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_03/FixedJoint.physics:axis",
+              "provenance_status": "not_applicable"
+            },
+            "limits": {
+              "lower": {
+                "value": null,
+                "value_source": "missing",
+                "status": "missing",
+                "attribute": "/World/DryingBox_03/FixedJoint.physics:lowerLimit",
+                "provenance_status": "not_applicable"
+              },
+              "upper": {
+                "value": null,
+                "value_source": "missing",
+                "status": "missing",
+                "attribute": "/World/DryingBox_03/FixedJoint.physics:upperLimit",
+                "provenance_status": "not_applicable"
+              },
+              "status": "not_applicable"
+            },
+            "enabled": {
+              "value": true,
+              "value_source": "fallback",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/FixedJoint.physics:jointEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "collision_enabled": {
+              "value": false,
+              "value_source": "fallback",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/FixedJoint.physics:collisionEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "drive_status": "not_authored",
+            "reset_value": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_03/FixedJoint.state:angular:physics:position",
+              "provenance_status": "not_applicable"
+            }
+          },
+          {
+            "prim_path": "/World/DryingBox_03/FixedJoint_01",
+            "joint_type": "PhysicsFixedJoint",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "axis": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_03/FixedJoint_01.physics:axis",
+              "provenance_status": "not_applicable"
+            },
+            "limits": {
+              "lower": {
+                "value": null,
+                "value_source": "missing",
+                "status": "missing",
+                "attribute": "/World/DryingBox_03/FixedJoint_01.physics:lowerLimit",
+                "provenance_status": "not_applicable"
+              },
+              "upper": {
+                "value": null,
+                "value_source": "missing",
+                "status": "missing",
+                "attribute": "/World/DryingBox_03/FixedJoint_01.physics:upperLimit",
+                "provenance_status": "not_applicable"
+              },
+              "status": "not_applicable"
+            },
+            "enabled": {
+              "value": true,
+              "value_source": "fallback",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/FixedJoint_01.physics:jointEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "collision_enabled": {
+              "value": false,
+              "value_source": "fallback",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/FixedJoint_01.physics:collisionEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "drive_status": "not_authored",
+            "reset_value": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_03/FixedJoint_01.state:angular:physics:position",
+              "provenance_status": "not_applicable"
+            }
+          },
+          {
+            "prim_path": "/World/DryingBox_03/RevoluteJoint",
+            "joint_type": "PhysicsRevoluteJoint",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "axis": {
+              "value": "Y",
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/RevoluteJoint.physics:axis",
+              "provenance_status": "not_applicable"
+            },
+            "limits": {
+              "lower": {
+                "value": -35.0,
+                "value_source": "authored",
+                "status": "pass",
+                "attribute": "/World/DryingBox_03/RevoluteJoint.physics:lowerLimit",
+                "provenance_status": "not_applicable"
+              },
+              "upper": {
+                "value": 90.0,
+                "value_source": "authored",
+                "status": "pass",
+                "attribute": "/World/DryingBox_03/RevoluteJoint.physics:upperLimit",
+                "provenance_status": "not_applicable"
+              },
+              "status": "pass"
+            },
+            "enabled": {
+              "value": true,
+              "value_source": "fallback",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/RevoluteJoint.physics:jointEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "collision_enabled": {
+              "value": false,
+              "value_source": "fallback",
+              "status": "pass",
+              "attribute": "/World/DryingBox_03/RevoluteJoint.physics:collisionEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "drive_status": "authored",
+            "reset_value": {
+              "value": null,
+              "value_source": "missing",
+              "status": "missing",
+              "attribute": "/World/DryingBox_03/RevoluteJoint.state:angular:physics:position",
+              "provenance_status": "not_applicable"
+            }
+          }
+        ],
+        "blocked_reasons": [
+          {
+            "blocker_id": "aan05_block_invalid_mass_properties",
+            "severity": "blocking",
+            "summary": "Every scoped rigid body requires explicit finite positive mass/inertia, finite COM, a normalizable principal-axes quaternion, and complete provenance.",
+            "count": 3,
+            "prim_paths": [
+              "/World/DryingBox_03/body/Group/door/mesh",
+              "/World/DryingBox_03/body/body/mesh",
+              "/World/DryingBox_03/handle/mesh"
+            ],
+            "required_resolution": "Author valid package values or derive them with persistent provenance; do not rely on PhysX auto-compute fallbacks."
+          }
+        ]
+      }
+    ]
+  },
+  "output_role_admission": {
+    "status": "pass",
+    "scope": [
+      "/World/DryingBox_03"
+    ],
+    "summary": {
+      "active_articulation_root_count": 0,
+      "active_collision_count": 0,
+      "active_joint_count": 0,
+      "active_rigid_body_count": 0
+    },
+    "residue": []
+  },
+  "normalization_actions": [
+    {
+      "prim_path": "/World/DryingBox_03",
+      "action": "delete_applied_physics_api_tokens",
+      "tokens": [
+        "PhysicsArticulationRootAPI",
+        "PhysxArticulationAPI"
+      ]
+    },
+    {
+      "prim_path": "/World/DryingBox_03/body/Group/door/mesh",
+      "action": "delete_applied_physics_api_tokens",
+      "tokens": [
+        "PhysicsCollisionAPI",
+        "PhysicsMassAPI",
+        "PhysicsMeshCollisionAPI",
+        "PhysicsRigidBodyAPI",
+        "PhysxCollisionAPI",
+        "PhysxConvexDecompositionCollisionAPI",
+        "PhysxConvexHullCollisionAPI",
+        "PhysxRigidBodyAPI"
+      ]
+    },
+    {
+      "prim_path": "/World/DryingBox_03/body/body/mesh",
+      "action": "delete_applied_physics_api_tokens",
+      "tokens": [
+        "PhysicsCollisionAPI",
+        "PhysicsMassAPI",
+        "PhysicsMeshCollisionAPI",
+        "PhysicsRigidBodyAPI",
+        "PhysxCollisionAPI",
+        "PhysxConvexDecompositionCollisionAPI",
+        "PhysxRigidBodyAPI",
+        "PhysxTriangleMeshCollisionAPI"
+      ]
+    },
+    {
+      "prim_path": "/World/DryingBox_03/handle/mesh",
+      "action": "delete_applied_physics_api_tokens",
+      "tokens": [
+        "PhysicsCollisionAPI",
+        "PhysicsMassAPI",
+        "PhysicsMeshCollisionAPI",
+        "PhysicsRigidBodyAPI",
+        "PhysxCollisionAPI",
+        "PhysxConvexDecompositionCollisionAPI",
+        "PhysxConvexHullCollisionAPI",
+        "PhysxForceAPI",
+        "PhysxRigidBodyAPI",
+        "PhysxSDFMeshCollisionAPI",
+        "PhysxSphereFillCollisionAPI",
+        "PhysxTriangleMeshCollisionAPI",
+        "PhysxTriangleMeshSimplificationCollisionAPI"
+      ]
+    },
+    {
+      "prim_path": "/World/DryingBox_03/FixedJoint",
+      "action": "deactivate_physics_typed_prim",
+      "type_name": "PhysicsFixedJoint"
+    },
+    {
+      "prim_path": "/World/DryingBox_03/FixedJoint_01",
+      "action": "deactivate_physics_typed_prim",
+      "type_name": "PhysicsFixedJoint"
+    },
+    {
+      "prim_path": "/World/DryingBox_03/RevoluteJoint",
+      "action": "delete_applied_physics_api_tokens",
+      "tokens": [
+        "PhysxJointAPI",
+        "PhysxLimitAPI:angular"
+      ]
+    },
+    {
+      "prim_path": "/World/DryingBox_03/RevoluteJoint",
+      "action": "deactivate_physics_typed_prim",
+      "type_name": "PhysicsRevoluteJoint"
+    },
+    {
+      "prim_path": "/World/DryingBox_03/Group_02/group/mesh",
+      "action": "delete_applied_physics_api_tokens",
+      "tokens": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI",
+        "PhysxCollisionAPI",
+        "PhysxTriangleMeshCollisionAPI"
+      ]
+    },
+    {
+      "prim_path": "/World/DryingBox_03/Group_02/group_04/mesh",
+      "action": "delete_applied_physics_api_tokens",
+      "tokens": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI",
+        "PhysxCollisionAPI",
+        "PhysxTriangleMeshCollisionAPI"
+      ]
+    },
+    {
+      "prim_path": "/World/DryingBox_03/Group_02/group_05/mesh",
+      "action": "delete_applied_physics_api_tokens",
+      "tokens": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI",
+        "PhysxCollisionAPI",
+        "PhysxTriangleMeshCollisionAPI"
+      ]
+    },
+    {
+      "prim_path": "/World/DryingBox_03/Group_02/group_06/mesh",
+      "action": "delete_applied_physics_api_tokens",
+      "tokens": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI",
+        "PhysxCollisionAPI",
+        "PhysxTriangleMeshCollisionAPI"
+      ]
+    }
+  ],
+  "visual_preservation_fingerprint": {
+    "status": "pass",
+    "raw_source": {
+      "scope_world_transforms": {
+        "/World/DryingBox_03": [
+          [
+            0.0,
+            -0.001,
+            0.0,
+            0.0
+          ],
+          [
+            0.001,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.001,
+            0.0
+          ],
+          [
+            45.88354019,
+            3.61200341,
+            1.06e-06,
+            1.0
+          ]
+        ]
+      },
+      "meshes": [
+        {
+          "path": "/World/DryingBox_03/Group/_14_1",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/DryingBox_03/Looks/_002"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.001,
+              0.0
+            ],
+            [
+              -0.001,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.75056703,
+              3.89639015,
+              0.1890517,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group/_255_1",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/DryingBox_03/Looks/_002"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.001,
+              0.0
+            ],
+            [
+              -0.001,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.75556703,
+              3.89639015,
+              0.1890517,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group/_900_1",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.001,
+              0.0
+            ],
+            [
+              -0.001,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.67231215,
+              3.86885817,
+              0.35972154,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group/_908_1",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/DryingBox_03/Looks/_002"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.001,
+              0.0
+            ],
+            [
+              -0.001,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.75056703,
+              3.89639015,
+              0.1890517,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.80884878,
+              3.53768188,
+              0.24918555,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_01",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.94350625,
+              3.53768188,
+              0.24918555,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_02",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.35826729,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_03",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.38214229,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_04",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.42989278,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_05",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.40601729,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_06",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.45376827,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_07",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.50151831,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_08",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.47764327,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_09",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.5253938,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_10",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.54926928,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_11",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.57314429,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_12",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.59701953,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_13",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.62089478,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_14",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.64477002,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_15",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.66864527,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_16",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.69252051,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_17",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.71639576,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_18",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.53768188,
+              0.24918555,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_02/group/mesh",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              46.13240873,
+              3.34027266,
+              1.06e-06,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_02/group_04/mesh",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              46.13240873,
+              3.83318873,
+              1.06e-06,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_02/group_05/mesh",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.70872524,
+              3.34027266,
+              1.06e-06,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_02/group_06/mesh",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.70872524,
+              3.83318873,
+              1.06e-06,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/body/Group/door/mesh",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/mdl_0007"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.01,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.01,
+              0.0
+            ],
+            [
+              -0.01,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.67027211,
+              3.53428868,
+              0.33000114,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/body/body/mesh",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/DryingBox_03/Looks/_007"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.01,
+              0.0,
+              0.0
+            ],
+            [
+              0.01,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.01,
+              0.0
+            ],
+            [
+              45.92056704,
+              3.63235969,
+              0.03000106,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/handle/mesh",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/mdl_0007"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.0015,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.0015,
+              0.0
+            ],
+            [
+              -0.0015,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.58914669,
+              3.76076665,
+              0.32859263,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/panel",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.001,
+              0.0
+            ],
+            [
+              -0.001,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.68306703,
+              3.90246999,
+              0.42375279,
+              1.0
+            ]
+          ]
+        }
+      ],
+      "signature": "f05e6ee2a80b2524b4d74c58dd86859bf9d4ebb53fc8ae120797351c31aeaf95"
+    },
+    "package_before_role": {
+      "scope_world_transforms": {
+        "/World/DryingBox_03": [
+          [
+            0.0,
+            -0.001,
+            0.0,
+            0.0
+          ],
+          [
+            0.001,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.001,
+            0.0
+          ],
+          [
+            45.88354019,
+            3.61200341,
+            1.06e-06,
+            1.0
+          ]
+        ]
+      },
+      "meshes": [
+        {
+          "path": "/World/DryingBox_03/Group/_14_1",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/DryingBox_03/Looks/_002"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.001,
+              0.0
+            ],
+            [
+              -0.001,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.75056703,
+              3.89639015,
+              0.1890517,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group/_255_1",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/DryingBox_03/Looks/_002"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.001,
+              0.0
+            ],
+            [
+              -0.001,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.75556703,
+              3.89639015,
+              0.1890517,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group/_900_1",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.001,
+              0.0
+            ],
+            [
+              -0.001,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.67231215,
+              3.86885817,
+              0.35972154,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group/_908_1",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/DryingBox_03/Looks/_002"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.001,
+              0.0
+            ],
+            [
+              -0.001,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.75056703,
+              3.89639015,
+              0.1890517,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.80884878,
+              3.53768188,
+              0.24918555,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_01",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.94350625,
+              3.53768188,
+              0.24918555,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_02",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.35826729,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_03",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.38214229,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_04",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.42989278,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_05",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.40601729,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_06",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.45376827,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_07",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.50151831,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_08",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.47764327,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_09",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.5253938,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_10",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.54926928,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_11",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.57314429,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_12",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.59701953,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_13",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.62089478,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_14",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.64477002,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_15",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.66864527,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_16",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.69252051,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_17",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.71639576,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_18",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.53768188,
+              0.24918555,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_02/group/mesh",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              46.13240873,
+              3.34027266,
+              1.06e-06,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_02/group_04/mesh",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              46.13240873,
+              3.83318873,
+              1.06e-06,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_02/group_05/mesh",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.70872524,
+              3.34027266,
+              1.06e-06,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_02/group_06/mesh",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.70872524,
+              3.83318873,
+              1.06e-06,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/body/Group/door/mesh",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/mdl_0007"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.01,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.01,
+              0.0
+            ],
+            [
+              -0.01,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.67027211,
+              3.53428868,
+              0.33000114,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/body/body/mesh",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/DryingBox_03/Looks/_007"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.01,
+              0.0,
+              0.0
+            ],
+            [
+              0.01,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.01,
+              0.0
+            ],
+            [
+              45.92056704,
+              3.63235969,
+              0.03000106,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/handle/mesh",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/mdl_0007"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.0015,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.0015,
+              0.0
+            ],
+            [
+              -0.0015,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.58914669,
+              3.76076665,
+              0.32859263,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/panel",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.001,
+              0.0
+            ],
+            [
+              -0.001,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.68306703,
+              3.90246999,
+              0.42375279,
+              1.0
+            ]
+          ]
+        }
+      ],
+      "signature": "f05e6ee2a80b2524b4d74c58dd86859bf9d4ebb53fc8ae120797351c31aeaf95"
+    },
+    "package_after_role": {
+      "scope_world_transforms": {
+        "/World/DryingBox_03": [
+          [
+            0.0,
+            -0.001,
+            0.0,
+            0.0
+          ],
+          [
+            0.001,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.001,
+            0.0
+          ],
+          [
+            45.88354019,
+            3.61200341,
+            1.06e-06,
+            1.0
+          ]
+        ]
+      },
+      "meshes": [
+        {
+          "path": "/World/DryingBox_03/Group/_14_1",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/DryingBox_03/Looks/_002"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.001,
+              0.0
+            ],
+            [
+              -0.001,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.75056703,
+              3.89639015,
+              0.1890517,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group/_255_1",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/DryingBox_03/Looks/_002"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.001,
+              0.0
+            ],
+            [
+              -0.001,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.75556703,
+              3.89639015,
+              0.1890517,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group/_900_1",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.001,
+              0.0
+            ],
+            [
+              -0.001,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.67231215,
+              3.86885817,
+              0.35972154,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group/_908_1",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/DryingBox_03/Looks/_002"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.001,
+              0.0
+            ],
+            [
+              -0.001,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.75056703,
+              3.89639015,
+              0.1890517,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.80884878,
+              3.53768188,
+              0.24918555,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_01",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.94350625,
+              3.53768188,
+              0.24918555,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_02",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.35826729,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_03",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.38214229,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_04",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.42989278,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_05",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.40601729,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_06",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.45376827,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_07",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.50151831,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_08",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.47764327,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_09",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.5253938,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_10",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.54926928,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_11",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.57314429,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_12",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.59701953,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_13",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.62089478,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_14",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.64477002,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_15",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.66864527,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_16",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.69252051,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_17",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.71639576,
+              0.25297168,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_01/mesh_18",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/Aluminum_Anodized_Charcoal"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.8809977,
+              3.53768188,
+              0.24918555,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_02/group/mesh",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              46.13240873,
+              3.34027266,
+              1.06e-06,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_02/group_04/mesh",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              46.13240873,
+              3.83318873,
+              1.06e-06,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_02/group_05/mesh",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.70872524,
+              3.34027266,
+              1.06e-06,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/Group_02/group_06/mesh",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              0.001,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.001,
+              0.0
+            ],
+            [
+              45.70872524,
+              3.83318873,
+              1.06e-06,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/body/Group/door/mesh",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/mdl_0007"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.01,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.01,
+              0.0
+            ],
+            [
+              -0.01,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.67027211,
+              3.53428868,
+              0.33000114,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/body/body/mesh",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/DryingBox_03/Looks/_007"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.01,
+              0.0,
+              0.0
+            ],
+            [
+              0.01,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.01,
+              0.0
+            ],
+            [
+              45.92056704,
+              3.63235969,
+              0.03000106,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/handle/mesh",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/mdl_0007"
+          ],
+          "world_transform": [
+            [
+              0.0,
+              -0.0015,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.0015,
+              0.0
+            ],
+            [
+              -0.0015,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.58914669,
+              3.76076665,
+              0.32859263,
+              1.0
+            ]
+          ]
+        },
+        {
+          "path": "/World/DryingBox_03/panel",
+          "visibility": "inherited",
+          "material_targets": [],
+          "world_transform": [
+            [
+              0.0,
+              -0.001,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.001,
+              0.0
+            ],
+            [
+              -0.001,
+              -0.0,
+              -0.0,
+              0.0
+            ],
+            [
+              45.68306703,
+              3.90246999,
+              0.42375279,
+              1.0
+            ]
+          ]
+        }
+      ],
+      "signature": "f05e6ee2a80b2524b4d74c58dd86859bf9d4ebb53fc8ae120797351c31aeaf95"
+    },
+    "scope": [
+      "/World/DryingBox_03"
+    ]
+  },
+  "stage_gates": [
+    {
+      "check_id": "AAN-source-integrity",
+      "stage": "source_integrity",
+      "status": "pass",
+      "summary": "Source SHA-256 remained unchanged during AAN processing."
+    },
+    {
+      "check_id": "AAN-03-usd-closure",
+      "stage": "usd_closure",
+      "status": "pass",
+      "summary": "USD dependency closure produced a package-local USD tree."
+    },
+    {
+      "check_id": "AAN-04-material-closure",
+      "stage": "material_closure",
+      "status": "pass",
+      "summary": "AAN-04 material closure recorded source-preserved material evidence."
+    },
+    {
+      "check_id": "AAN-11-material-runtime-closure",
+      "stage": "material_runtime_closure",
+      "status": "pass",
+      "summary": "AAN-11 material runtime dependency closure passed."
+    },
+    {
+      "check_id": "AAN-05R-role-normalization",
+      "stage": "role_normalization",
+      "status": "pass",
+      "summary": "AAN package-owned visual_static overlay was applied."
+    },
+    {
+      "check_id": "AAN-05-physics-static",
+      "stage": "physics_static",
+      "status": "pass",
+      "summary": "AAN-05 recorded strict source/output physics admission evidence."
+    },
+    {
+      "check_id": "AAN-06-runtime-smoke",
+      "stage": "runtime_smoke",
+      "status": "pass",
+      "summary": "AAN-06 Isaac Sim runtime smoke passed."
+    }
+  ],
+  "static_usd_report": {
+    "root_layer": {
+      "source_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+      "package_path": "asset.usd",
+      "default_prim": "World"
+    },
+    "scope_extraction": {
+      "status": "pass",
+      "strategy": "population_masked_composed_snapshot",
+      "source_root_package_path": "deps/usd/source_root.usd",
+      "package_path": "deps/usd/scoped_source.usda",
+      "scope_prims": [
+        "/World/DryingBox_03"
+      ],
+      "retained_subtree_prims": [
+        "/World/DryingBox_03",
+        "/World/Looks/Aluminum_Anodized_Charcoal",
+        "/World/Looks/mdl_0007",
+        "/World/Looks/mdl_0008",
+        "/World/Looks/mdl_0009"
+      ],
+      "retained_material_prims": [
+        "/World/Looks/Aluminum_Anodized_Charcoal",
+        "/World/Looks/mdl_0007",
+        "/World/Looks/mdl_0008",
+        "/World/Looks/mdl_0009"
+      ],
+      "snapshot_asset_path_rewrite": {
+        "status": "pass",
+        "rewrite_count": 4,
+        "rewrite_actions": [
+          {
+            "raw_asset_path": "/tmp/aan_db03_visual_static_final/deps/mdl/Aluminum_Anodized_Charcoal.mdl",
+            "package_relative_asset_path": "../mdl/Aluminum_Anodized_Charcoal.mdl"
+          },
+          {
+            "raw_asset_path": "/tmp/aan_db03_visual_static_final/deps/mdl/material_11.mdl",
+            "package_relative_asset_path": "../mdl/material_11.mdl"
+          },
+          {
+            "raw_asset_path": "/tmp/aan_db03_visual_static_final/deps/mdl/material_09.mdl",
+            "package_relative_asset_path": "../mdl/material_09.mdl"
+          },
+          {
+            "raw_asset_path": "/tmp/aan_db03_visual_static_final/deps/mdl/material_08.mdl",
+            "package_relative_asset_path": "../mdl/material_08.mdl"
+          }
+        ],
+        "external_asset_paths": []
+      },
+      "preserved_stage_metadata": {
+        "meters_per_unit": 1.0,
+        "up_axis": "Z"
+      }
+    },
+    "required_prims": [
+      {
+        "path": "/World/DryingBox_03",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "dependency_counts": {
+      "total": 25,
+      "usd": 3,
+      "mdl": 15,
+      "texture": 7,
+      "remote": 0,
+      "missing": 0
+    }
+  },
+  "static_material_report": {
+    "status": "pass",
+    "root_usd": "/tmp/aan_db03_visual_static_final/asset.usd",
+    "material_policy": "native-or-mirror",
+    "material_count": 4,
+    "closure_mode_counts": {
+      "native_resolved": 0,
+      "local_mirror": 4,
+      "preview_surface_fallback": 0,
+      "explicit_waiver": 0,
+      "blocked": 0
+    },
+    "blocked_material_count": 0,
+    "mdl_asset_count": 4,
+    "texture_asset_count": 0,
+    "transparency_strategy_counts": {
+      "opaque": 1,
+      "opacity_input": 3
+    }
+  },
+  "static_material_runtime_report": {
+    "status": "pass",
+    "root_mdl_count": 10,
+    "imported_module_count": 85,
+    "mdl_texture_asset_count": 5,
+    "blocked_dependency_count": 0,
+    "runtime_compiler_status": "pass"
+  },
+  "static_physics_report": {
+    "status": "pass",
+    "root_usd": "/tmp/aan_db03_visual_static_final/asset.usd",
+    "rigid_body_count": 0,
+    "collision_count": 0,
+    "mass_record_count": 0,
+    "authored_mass_count": 0,
+    "authored_inertia_count": 0,
+    "derived_mass_count": 0,
+    "derived_inertia_count": 0,
+    "invalid_rigid_body_count": 0,
+    "required_prims": [
+      {
+        "path": "/World/DryingBox_03",
+        "exists": true,
+        "status": "pass"
+      }
+    ]
+  },
+  "static_articulation_report": {
+    "status": "pass",
+    "root_usd": null,
+    "articulation_root_count": 0,
+    "joint_count": 0,
+    "controllable_dof_count": 0,
+    "required_prims": [
+      {
+        "path": "/World/DryingBox_03",
+        "exists": true,
+        "status": "pass"
+      }
+    ]
+  },
+  "task_contract_report": {
+    "status": "not_run",
+    "reason": "AAN-07 benchmark contract requires the benchmark gate, e.g. --gates static,benchmark.",
+    "task_file_count": 0,
+    "required_prim_role_count": 0
+  },
+  "claims_allowed": [
+    "AAN-03 static USD closure inspected the source graph and wrote an evidence manifest.",
+    "Package USD asset paths are local when the AAN-03 gate status is pass.",
+    "AAN-04 material closure recorded package-local source material evidence.",
+    "Source MDL and texture assets are preserved when listed with package hashes.",
+    "AAN-11 material runtime dependency closure passed for package-local MDL roots.",
+    "Required MDL helper modules and MDL-internal texture literals are classified with package evidence.",
+    "AAN-05 records a package-owned visual_static admission for the declared asset scope only.",
+    "The visual_static scope has no active rigid body, collision, articulation, or joint semantics.",
+    "AAN-06 headless Isaac runtime smoke passed under the configured isolated runtime runner.",
+    "Cold load, render readback, physics step, and reset smoke evidence are recorded."
+  ],
+  "claims_forbidden": [
+    "EBench task readiness is achieved.",
+    "Exact Isaac Sim 4.1 binary conformance is verified without an explicit runtime environment fingerprint.",
+    "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
+    "Full visual material parity beyond recorded source-preservation evidence is achieved.",
+    "The raw source asset family is normalization-ready.",
+    "The visual_static asset is articulated-physics-ready or dynamic-physics-ready.",
+    "Any sibling asset outside the declared visual_static scope is ready."
+  ]
+}

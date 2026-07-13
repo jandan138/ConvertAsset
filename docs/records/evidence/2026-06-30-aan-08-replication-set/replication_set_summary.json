@@ -1,0 +1,206 @@
+{
+  "schema_version": "aan08.replication_set.v1",
+  "created_at": "2026-06-30T15:19:58Z",
+  "replication_set": "AAN-08",
+  "status": "pass",
+  "goal": "Prove AAN is not DryingBox-only by running one non-DryingBox articulated asset and one transparent rigid prop through package, manifest, runtime, and benchmark contract gates.",
+  "assets": [
+    {
+      "asset_id": "MuffleFurnace",
+      "asset_class": "articulated",
+      "source_usd": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/MuffleFurnace/MuffleFurnace.usd",
+      "package_dir": "/tmp/aan08_real_packages/muffle_furnace",
+      "manifest": "muffle_furnace_manifest.json",
+      "contract": "contracts/muffle_furnace_contract.json",
+      "retained_runtime_report": "runtime/muffle_furnace_runtime_report.json",
+      "retained_render": "runtime/muffle_furnace_render.png",
+      "retained_task_files": {
+        "task_config": "task_files/muffle_furnace/task_config.yaml",
+        "required_prims": "task_files/muffle_furnace/required_prims.yaml",
+        "evaluator": "task_files/muffle_furnace/evaluator.yaml"
+      },
+      "overall_status": "pass",
+      "milestone": "AAN-07-benchmark-contract",
+      "stage_gates": [
+        {
+          "stage": "usd_closure",
+          "status": "pass"
+        },
+        {
+          "stage": "material_closure",
+          "status": "pass"
+        },
+        {
+          "stage": "physics_static",
+          "status": "pass"
+        },
+        {
+          "stage": "runtime_smoke",
+          "status": "pass"
+        },
+        {
+          "stage": "benchmark_contract",
+          "status": "pass"
+        }
+      ],
+      "dependency_resolution_summary": {
+        "mirrored": 0,
+        "pruned": 0,
+        "waived": 0,
+        "blocked": 0
+      },
+      "material_summary": {
+        "material_count": 4,
+        "closure_mode_counts": {
+          "native_resolved": 0,
+          "local_mirror": 4,
+          "preview_surface_fallback": 0,
+          "explicit_waiver": 0,
+          "blocked": 0
+        },
+        "transparency_strategy_counts": {
+          "opacity_input": 4
+        }
+      },
+      "physics_summary": {
+        "rigid_body_count": 3,
+        "collision_count": 4,
+        "mass_record_count": 3,
+        "authored_mass_count": 0,
+        "authored_inertia_count": 0,
+        "derived_mass_count": 3,
+        "derived_inertia_count": 3
+      },
+      "articulation_summary": {
+        "articulation_root_count": 1,
+        "joint_count": 3,
+        "controllable_dof_count": 1
+      },
+      "runtime_summary": {
+        "status": "pass",
+        "cold_load": "pass",
+        "render_readback": "pass",
+        "physics_step": "pass",
+        "reset": "pass",
+        "render_metrics": {
+          "non_background_ratio": 0.4051857,
+          "bbox_ratio": 0.60273743,
+          "sha256": "3c4f6e6a58608fc5ebeddb3a66ef2a794b98ad7363c1678b7bbc22a4396df4ef",
+          "resolution": [
+            512,
+            512
+          ]
+        }
+      },
+      "benchmark_status": "pass",
+      "blocked_reason_count": 0,
+      "waiver_count": 0,
+      "visual_review": "PASS: target furnace/cabinet form is visible, framed, nonblank, and suitable for runtime visibility smoke; full visual material parity remains forbidden by manifest.",
+      "claims_forbidden": [
+        "Exact Isaac Sim 4.1 binary conformance is verified without an explicit runtime environment fingerprint.",
+        "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
+        "Full visual material parity beyond recorded source-preservation evidence is achieved."
+      ],
+      "retained_package_dir": "packages/muffle_furnace"
+    },
+    {
+      "asset_id": "Beaker_01",
+      "asset_class": "rigid transparent prop",
+      "source_usd": "/cpfs/shared/simulation/zhuzihou/dev/_datasets/LabUtopia-Dataset/Instruments/Beaker_01/Beaker_01.usd",
+      "package_dir": "/tmp/aan08_real_packages/beaker_01",
+      "manifest": "beaker_01_manifest.json",
+      "contract": "contracts/beaker_01_contract.json",
+      "retained_runtime_report": "runtime/beaker_01_runtime_report.json",
+      "retained_render": "runtime/beaker_01_render.png",
+      "retained_task_files": {
+        "task_config": "task_files/beaker_01/task_config.yaml",
+        "required_prims": "task_files/beaker_01/required_prims.yaml",
+        "evaluator": "task_files/beaker_01/evaluator.yaml"
+      },
+      "overall_status": "pass",
+      "milestone": "AAN-07-benchmark-contract",
+      "stage_gates": [
+        {
+          "stage": "usd_closure",
+          "status": "pass"
+        },
+        {
+          "stage": "material_closure",
+          "status": "pass"
+        },
+        {
+          "stage": "physics_static",
+          "status": "pass"
+        },
+        {
+          "stage": "runtime_smoke",
+          "status": "pass"
+        },
+        {
+          "stage": "benchmark_contract",
+          "status": "pass"
+        }
+      ],
+      "dependency_resolution_summary": {
+        "mirrored": 1,
+        "pruned": 0,
+        "waived": 0,
+        "blocked": 0
+      },
+      "material_summary": {
+        "material_count": 1,
+        "closure_mode_counts": {
+          "native_resolved": 0,
+          "local_mirror": 1,
+          "preview_surface_fallback": 0,
+          "explicit_waiver": 0,
+          "blocked": 0
+        },
+        "transparency_strategy_counts": {
+          "opacity_input": 1
+        }
+      },
+      "physics_summary": {
+        "rigid_body_count": 1,
+        "collision_count": 1,
+        "mass_record_count": 1,
+        "authored_mass_count": 0,
+        "authored_inertia_count": 0,
+        "derived_mass_count": 1,
+        "derived_inertia_count": 1
+      },
+      "articulation_summary": {
+        "articulation_root_count": 0,
+        "joint_count": 0,
+        "controllable_dof_count": 0
+      },
+      "runtime_summary": {
+        "status": "pass",
+        "cold_load": "pass",
+        "render_readback": "pass",
+        "physics_step": "pass",
+        "reset": "pass",
+        "render_metrics": {
+          "non_background_ratio": 0.30619049,
+          "bbox_ratio": 0.41808701,
+          "sha256": "6f55cd79e1ec19dccbdcbe041bd9dedfe6382eaddd5c541d520c86b9b48a010f",
+          "resolution": [
+            512,
+            512
+          ]
+        }
+      },
+      "benchmark_status": "pass",
+      "blocked_reason_count": 0,
+      "waiver_count": 0,
+      "visual_review": "PASS: transparent beaker outline, rim, wall, and internal geometry are visible; not all-background or fully transparent.",
+      "claims_forbidden": [
+        "Exact Isaac Sim 4.1 binary conformance is verified without an explicit runtime environment fingerprint.",
+        "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
+        "Full visual material parity beyond recorded source-preservation evidence is achieved."
+      ],
+      "retained_package_dir": "packages/beaker_01"
+    }
+  ],
+  "visual_review_mode": "local_human_style_review_by_codex; no independent subagent available in this tool session"
+}
