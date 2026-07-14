@@ -156,6 +156,18 @@ The final cylinder material runtime compiler gate has zero MDLC, USD_MDL,
 failed-shader-node, and missing-texture errors. This is a target-runtime
 compatibility result, not a source/target visual-equivalence claim.
 
+### Entry-reference material closure
+
+The first downstream Scenario Forge composition exposed a package-interface bug:
+opening `asset.usd` directly preserved the effective material, but referencing
+only `asset_entry_prim` dropped a sibling `/World/Looks/...` material outside the
+reference namespace. The packages now relocate each effective bound material
+below `<asset_entry_prim>/__aan_materials/` while preserving its source identity
+in custom data. `Usd.NamespaceEditor` retargets the render-prim bindings and
+shader connections; a nested arbitrary-path reference probe then requires the
+material and unique rigid root to remain valid. This is documented in the
+[entry-reference closure record](2026-07-14-aan-vessel-entry-reference-material-closure.md).
+
 ## Final retained evidence
 
 The target runtime for both runs is Isaac Sim Kit
@@ -172,16 +184,16 @@ conversion blocker; it still prevents a stronger visual-fidelity claim.
 
 | Asset | Conventional runtime | Four interaction probes | Blind asset-render QA | Interaction report SHA-256 | Prequalification payload SHA-256 | Final payload SHA-256 | Runtime-tree SHA-256 |
 |---|---|---|---|---|---|---|---|
-| Conical bottle | pass | all pass | warn | `807b89aa1374a4d8cbd211601a69f85a36c81e1554b2c57f81a3eada19ef59aa` | `277cde9796ae85979ca4cd84b00ca92ed17c25887dd39e95a4e7231e33c167ac` | `5327f93240e3221d7e5b67b78e892cc4bfe665aeb4df64328a93a7eb7dea8b42` | `c9af6eb83aa2ec685bc987bf14d0ba0fb009988e775644d0c838fb992a6e7f9c` |
-| Graduated cylinder | pass | all pass | warn | `56e71ac7e871b47bf6f9b0250da6046e457e024212ce74f3f83272d0a48726b1` | `6f8564d9ca073b171f2962cbc386b4c83c549c34818a6a68470401376d607d7c` | `f143fe894f3f668453bd7afd5d592a0dcb41811b7f18d33bf5a8691dad345bbb` | `7392a8f21269820fc0adc4dab60489b8004bbab49e39046cf9433304367ba992` |
+| Conical bottle | pass | all pass | warn | `b5ec7d721294c544d7be23cbac4044063dfa78bc087cf65175cc3b12d72100fc` | `277cde9796ae85979ca4cd84b00ca92ed17c25887dd39e95a4e7231e33c167ac` | `7a8efec731676cfe3a1b1ff55fd0c911a616ff045455b9bbbfa5dadd82b33923` | `8865c06c5915227d4807d38641d46acd3450bbcedf414699ad2ee1d3603aa584` |
+| Graduated cylinder | pass | all pass | warn | `2109713e3cb5788da5bf9b9dcc8b4f316505e3fccff5dc8e6a741822ec4271aa` | `6f8564d9ca073b171f2962cbc386b4c83c549c34818a6a68470401376d607d7c` | `4e88bb016013c9a84196a40380908c168394d3ddf755c25bcdac7772ec582967` | `2540ecd80cfdbd26cb31ba1d772ddf451206d3b3f49161f108ec67d5d52cab0d` |
 
 The visual-review input hashes are retained separately from the functional
 interaction reports:
 
 | Asset | Runtime render | Front | Orbit 3/4 | Side |
 |---|---|---|---|---|
-| Conical bottle | `cdfbfd5bc5320f6c639771a52f2f5929929128e23e309ba47b89f34a2e62860f` | `cd3ecc4fd1a41b1c324a1a0c82fdb8b736872a7d9265af79482711bd8ebab45a` | `d255d58b4406b79ec83581d1636887f709fc65d3a5ed2b30364bc9b3ff748dbd` | `22c9853e8fd99fa82d7a201ea83221a8a0d9a65a74333ba3ba94d9db67954a06` |
-| Graduated cylinder | `a182c0560f735baff6cfce5b490df509c02fc09b4f139d514aececae28437fcc` | `ef0f237e2cff240dde12b70d7b290c974a6e18ee2802b6d53c202b96a2e4c58c` | `42af4b1615aa584402bbb1ca87e273e7b1b113fc312284e18110027cc0a07c96` | `554a8aba7b4c8ceb0712d4166b4d82130a916fb4315f6b0705ee66aa8b7bcde8` |
+| Conical bottle | `0c1c2aef7bce1b9b9b8ccd5abd90da9e20da87a9caf3fa23de860cc09544d24b` | `9cf5d450be7cc2c90c806dffa883b27496473de9fdb79b3f572cc37036bb32c8` | `5a3242b153b70f32d4683a90b9728bd9dfc6d8a5302d9bbe369c3ab6cb1aeeb7` | `e736a7e0fea7793e39ff29a216ee7d31b71b6fb8c408575825a1cfe575ca71de` |
+| Graduated cylinder | `26d03b49d6c7270dcb40207443266fc46d7fcfa47d800b11fb25085cdb064555` | `ca0e8fbb110770a425d2a29dec18c4c8a14d1a005c92b7e9c6aeb207cb6f4014` | `a1eb6da43d1ca99eafbd8734910fa0c44e853cf7a3b98ee3904ff009aa500331` | `d889411443710c1b4e747f74da472546a3870a17001027fdb2523762e5e2d60e` |
 
 Retained entrypoints:
 

@@ -19,6 +19,16 @@ SOURCE = Path(
     "lab_001_localized_20260707/lab_001.usd"
 )
 SOURCE_SHA256 = "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2"
+RUNTIME_PYTHON = Path(
+    "/cpfs/user/zhuzihou/conda-managed/envs/"
+    "embodied-eval-os-isaacsim41-py310/bin/python"
+)
+ISAAC41_OMNIGLASS_SHA256 = (
+    "d71555550deb30af245c0ec939c8647442df5709a2977549cad7f6ddcc8c1182"
+)
+SOURCE_OMNIGLASS_SHA256 = (
+    "cd7c97781dc95f1694f9acc70c0b9ae327361a3b1c84abf917e55a9d672e627a"
+)
 
 VESSELS = (
     {
@@ -59,6 +69,7 @@ def test_real_labutopia_vessel_profiles_compile_static_packages(
 ) -> None:
     assert SOURCE.is_file()
     assert _sha256(SOURCE) == SOURCE_SHA256
+    assert RUNTIME_PYTHON.is_file()
     name = str(spec["name"])
     interaction_profile = (
         ROOT
@@ -162,12 +173,21 @@ def test_real_labutopia_vessel_profiles_compile_static_packages(
             evidence_out=evidence_out,
             physics_profile=physics_profile,
             interaction_profile=interaction_profile,
+            runtime_python=RUNTIME_PYTHON,
         )
     )
 
     assert result.return_code == 0
     manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
     contract = manifest["interaction_contract"]
+    extraction = manifest["dependency_closure"]["scope_extraction"]
+    assert extraction["entry_reference_qualification"]["status"] == "pass"
+    assert extraction["entry_reference_qualification"]["errors"] == []
+    assert len(extraction["reference_scope_material_relocations"]) == 1
+    relocation = extraction["reference_scope_material_relocations"][0]
+    assert relocation["package_material_prim"].startswith(
+        f"{spec['scope']}/__aan_materials/"
+    )
     assert contract["status"] == "pass"
     assert contract["runtime_identity"]["active_rigid_body_prims"] == [spec["scope"]]
     contract_colliders = contract["collider_prims"]
@@ -192,3 +212,53 @@ def test_real_labutopia_vessel_profiles_compile_static_packages(
     assert (out_dir / "asset.usd").is_file()
     assert (out_dir / "interaction" / "profile.json").is_file()
     assert (out_dir / "physics" / "profile.json").is_file()
+    assert _sha256(SOURCE) == SOURCE_SHA256
+
+    Sdf = pytest.importorskip("pxr.Sdf")
+    Usd = pytest.importorskip("pxr.Usd")
+    UsdShade = pytest.importorskip("pxr.UsdShade")
+    consumer = Usd.Stage.CreateInMemory()
+    probe_path = Sdf.Path(f"/ReferenceProbe/{name}")
+    probe = consumer.DefinePrim(probe_path, "Xform")
+    assert probe.GetReferences().AddReference(
+        str((out_dir / "asset.usd").resolve()),
+        str(spec["scope"]),
+    )
+    mesh = consumer.GetPrimAtPath(probe_path.AppendChild("mesh"))
+    material, _ = UsdShade.MaterialBindingAPI(mesh).ComputeBoundMaterial()
+    assert material and material.GetPrim().IsValid()
+    assert material.GetPath().HasPrefix(probe_path)
+
+    if name == "graduated_cylinder_03":
+        package_mdl = out_dir / "deps" / "mdl" / "OmniGlass.mdl"
+        preserved_source_mdl = (
+            out_dir / "deps" / "mdl_source" / "OmniGlass.mdl"
+        )
+        assert _sha256(package_mdl) == ISAAC41_OMNIGLASS_SHA256
+        assert _sha256(preserved_source_mdl) == SOURCE_OMNIGLASS_SHA256
+        assert relocation == {
+            "source_material_prim": "/World/Looks/OmniGlass",
+            "package_material_prim": (
+                "/World/graduated_cylinder_03/__aan_materials/OmniGlass"
+            ),
+            "method": "Usd.NamespaceEditor.MovePrimAtPath",
+        }
+        material_record = manifest["material_closure"][0]
+        assert material_record["source_material_prim"] == "/World/Looks/OmniGlass"
+        assert material_record["package_material_prim"] == relocation[
+            "package_material_prim"
+        ]
+        assert len(material_record["source_mdl_assets"]) == 1
+        assert material_record["source_mdl_assets"][0][
+            "package_sha256"
+        ] == ISAAC41_OMNIGLASS_SHA256
+        shaders = [
+            prim
+            for prim in Usd.PrimRange(material.GetPrim())
+            if prim.GetTypeName() == "Shader"
+        ]
+        assert len(shaders) == 1
+        source_asset = shaders[0].GetAttribute("info:mdl:sourceAsset").Get()
+        assert source_asset
+        assert Path(source_asset.resolvedPath).resolve() == package_mdl.resolve()
+        assert _sha256(Path(source_asset.resolvedPath)) == ISAAC41_OMNIGLASS_SHA256

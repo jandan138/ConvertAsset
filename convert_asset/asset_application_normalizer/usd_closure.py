@@ -42,6 +42,9 @@ REMOTE_DEPENDENCY_REQUIRED_RESOLUTION = (
     "Mirror the remote URI into the package with provenance, prove task-scope prune/explicit "
     "allowance, or keep this source blocked."
 )
+REFERENCE_MATERIAL_SCOPE_NAME = "__aan_materials"
+SOURCE_MATERIAL_PRIM_CUSTOM_DATA_KEY = "aan:sourceMaterialPrim"
+REFERENCE_RENDER_PRIM_TYPES = {"BasisCurves", "GeomSubset", "Mesh", "Points"}
 
 
 @dataclass(frozen=True)
@@ -731,6 +734,21 @@ def _write_package(
         ),
         encoding="utf-8",
     )
+    if (
+        request.interaction_profile is not None
+        and scope_extraction.get("status") == "pass"
+    ):
+        qualification = _qualify_entry_reference_materials(
+            layout.root_usd,
+            request.effective_asset_scope_prims[0],
+        )
+        scope_extraction["entry_reference_qualification"] = qualification
+        if qualification["status"] != "pass":
+            scope_extraction["status"] = "blocked"
+            scope_extraction["reason"] = (
+                "Interaction asset_entry_prim material reference closure failed: "
+                + "; ".join(qualification["errors"])
+            )
     return scope_extraction
 
 
@@ -879,6 +897,29 @@ def _build_role_scoped_source(
                 root_spec.path,
             ):
                 raise RuntimeError(f"Sdf.CopySpec returned false for {root_spec.path}")
+        reference_scope_material_relocations: list[dict[str, str]] = []
+        material_output_paths = list(material_paths)
+        if request.interaction_profile is not None:
+            scoped_stage_for_relocation = Usd.Stage.Open(scoped)
+            if scoped_stage_for_relocation is None:
+                raise RuntimeError("Scoped USDA could not be opened for material relocation")
+            reference_scope_material_relocations = (
+                _relocate_reference_scope_materials(
+                    scoped_stage_for_relocation,
+                    scope_prims[0],
+                    material_paths,
+                    Usd,
+                    Sdf,
+                )
+            )
+            relocated_by_source = {
+                item["source_material_prim"]: item["package_material_prim"]
+                for item in reference_scope_material_relocations
+            }
+            material_output_paths = [
+                relocated_by_source.get(path, path) for path in material_paths
+            ]
+
         layout.scoped_source_usd.parent.mkdir(parents=True, exist_ok=True)
         if not scoped.Export(str(layout.scoped_source_usd)):
             raise RuntimeError(f"Could not export scoped USDA: {layout.scoped_source_usd}")
@@ -911,7 +952,7 @@ def _build_role_scoped_source(
             pass
         scoped_stage.GetRootLayer().Save()
         missing_after_export = [
-            path for path in [*scope_prims, *material_paths]
+            path for path in [*scope_prims, *material_output_paths]
             if not scoped_stage.GetPrimAtPath(path).IsValid()
         ]
         if missing_after_export:
@@ -927,7 +968,7 @@ def _build_role_scoped_source(
             "retained_material_prims": material_paths,
         }
 
-    return {
+    result = {
         "status": "pass",
         "strategy": "population_masked_composed_snapshot",
         "source_root_package_path": "deps/usd/source_root.usd",
@@ -948,6 +989,11 @@ def _build_role_scoped_source(
             "frames_per_second": float(source_stage.GetFramesPerSecond()),
         },
     }
+    if request.interaction_profile is not None:
+        result["reference_scope_material_relocations"] = (
+            reference_scope_material_relocations
+        )
+    return result
 
 
 def rewrite_scoped_snapshot_asset_paths(package_root: Path, snapshot_path: Path) -> dict[str, Any]:
@@ -1048,6 +1094,296 @@ def _scope_bound_material_paths(
                     if target_prim and target_prim.IsValid():
                         material_paths.add(target.pathString)
     return sorted(material_paths)
+
+
+def _relocate_reference_scope_materials(
+    scoped_stage: Any,
+    asset_entry_prim: str,
+    material_paths: list[str],
+    usd_module: Any,
+    sdf_module: Any,
+) -> list[dict[str, str]]:
+    """Move bound sibling materials below an interaction asset's entry prim.
+
+    A consumer references ``asset.usd@<asset_entry_prim>`` rather than the
+    package's whole ``/World``.  USD therefore drops relationship targets to
+    sibling material scopes.  NamespaceEditor keeps the material network and
+    fixes binding/connection back-pointers while moving the package-owned
+    flattened snapshot; the immutable source layer is never edited.
+    """
+    entry_path = sdf_module.Path(asset_entry_prim)
+    external_paths = [
+        sdf_module.Path(path)
+        for path in material_paths
+        if not sdf_module.Path(path).HasPrefix(entry_path)
+    ]
+    if not external_paths:
+        return []
+
+    material_scope_path = entry_path.AppendChild(REFERENCE_MATERIAL_SCOPE_NAME)
+    if scoped_stage.GetPrimAtPath(material_scope_path).IsValid():
+        raise RuntimeError(
+            f"reserved reference material scope already exists: {material_scope_path}"
+        )
+
+    destinations: dict[str, Any] = {}
+    for source_path in external_paths:
+        source_prim = scoped_stage.GetPrimAtPath(source_path)
+        if not source_prim.IsValid() or source_prim.GetTypeName() != "Material":
+            raise RuntimeError(
+                f"bound material prim is absent or not a Material: {source_path}"
+            )
+        if source_prim.GetCustomDataByKey(
+            SOURCE_MATERIAL_PRIM_CUSTOM_DATA_KEY
+        ) is not None:
+            raise RuntimeError(
+                "source material already uses reserved AAN provenance key: "
+                f"{source_path}"
+            )
+        destination = material_scope_path.AppendChild(source_prim.GetName())
+        destination_key = destination.pathString
+        if destination_key in destinations:
+            raise RuntimeError(
+                "reference material destination name collision: "
+                f"{destinations[destination_key]} and {source_path} -> {destination}"
+            )
+        destinations[destination_key] = source_path
+
+    for index, source_path in enumerate(external_paths):
+        for other_path in external_paths[index + 1 :]:
+            if source_path.HasPrefix(other_path) or other_path.HasPrefix(source_path):
+                raise RuntimeError(
+                    "nested bound material roots cannot be relocated independently: "
+                    f"{source_path}, {other_path}"
+                )
+
+    scoped_stage.DefinePrim(material_scope_path, "Scope")
+    relocations: list[dict[str, str]] = []
+    for source_path in sorted(external_paths, key=lambda path: path.pathString):
+        destination = material_scope_path.AppendChild(
+            scoped_stage.GetPrimAtPath(source_path).GetName()
+        )
+        # NamespaceEditor keeps one pending move.  Apply each material with a
+        # fresh editor so a multi-material asset cannot silently keep all but
+        # the last binding outside the entry reference scope.
+        editor = usd_module.NamespaceEditor(scoped_stage)
+        if not editor.MovePrimAtPath(source_path, destination):
+            raise RuntimeError(
+                f"could not schedule material relocation: {source_path} -> {destination}"
+            )
+        if not editor.CanApplyEdits():
+            raise RuntimeError(
+                f"could not apply material relocation: {source_path} -> {destination}"
+            )
+        if not editor.ApplyEdits():
+            raise RuntimeError(
+                f"material relocation failed: {source_path} -> {destination}"
+            )
+        relocated = scoped_stage.GetPrimAtPath(destination)
+        if not relocated.IsValid() or relocated.GetTypeName() != "Material":
+            raise RuntimeError(f"relocated material is missing: {destination}")
+        relocated.SetCustomDataByKey(
+            SOURCE_MATERIAL_PRIM_CUSTOM_DATA_KEY,
+            source_path.pathString,
+        )
+        relocations.append(
+            {
+                "source_material_prim": source_path.pathString,
+                "package_material_prim": destination.pathString,
+                "method": "Usd.NamespaceEditor.MovePrimAtPath",
+            }
+        )
+    return relocations
+
+
+def _qualify_entry_reference_materials(
+    root_usd: Path,
+    asset_entry_prim: str,
+) -> dict[str, Any]:
+    """Prove effective material bindings survive an entry-prim reference."""
+    try:
+        from pxr import Sdf, Usd, UsdShade  # type: ignore
+    except Exception as exc:
+        return {
+            "status": "blocked",
+            "asset_entry_prim": asset_entry_prim,
+            "probe_paths": [],
+            "qualified_bindings": [],
+            "errors": [f"entry reference qualification requires pxr modules: {exc}"],
+        }
+
+    errors: list[str] = []
+    qualified_bindings: list[dict[str, str]] = []
+    try:
+        direct_stage = Usd.Stage.Open(str(root_usd))
+    except Exception as exc:
+        direct_stage = None
+        errors.append(f"could not open package entry USD: {exc}")
+    entry_path = Sdf.Path(asset_entry_prim)
+    entry_prim = direct_stage.GetPrimAtPath(entry_path) if direct_stage else None
+    if not entry_prim or not entry_prim.IsValid():
+        errors.append(f"asset entry prim is missing: {asset_entry_prim}")
+
+    if entry_prim and entry_prim.IsValid():
+        seen: set[tuple[str, str, str]] = set()
+        for prim in Usd.PrimRange(entry_prim):
+            if prim.GetTypeName() not in REFERENCE_RENDER_PRIM_TYPES:
+                continue
+            binding_api = UsdShade.MaterialBindingAPI(prim)
+            for purpose in (
+                UsdShade.Tokens.allPurpose,
+                UsdShade.Tokens.preview,
+                UsdShade.Tokens.full,
+            ):
+                try:
+                    material, relationship = binding_api.ComputeBoundMaterial(
+                        materialPurpose=purpose
+                    )
+                except Exception as exc:
+                    errors.append(
+                        f"could not compute {purpose} material at {prim.GetPath()}: {exc}"
+                    )
+                    continue
+                if not material or not material.GetPrim().IsValid():
+                    continue
+                material_path = material.GetPath()
+                key = (
+                    prim.GetPath().pathString,
+                    str(purpose),
+                    material_path.pathString,
+                )
+                if key in seen:
+                    continue
+                seen.add(key)
+                if not material_path.HasPrefix(entry_path):
+                    errors.append(
+                        f"effective material remains outside asset_entry_prim: "
+                        f"{prim.GetPath()} -> {material_path}"
+                    )
+                relationship_name = (
+                    relationship.GetName() if relationship is not None else ""
+                )
+                if "collection" in relationship_name:
+                    errors.append(
+                        f"collection material binding is not reference-qualified: "
+                        f"{relationship.GetPath()}"
+                    )
+                if relationship is not None:
+                    for target in relationship.GetTargets():
+                        if not target.GetPrimPath().HasPrefix(entry_path):
+                            errors.append(
+                                "material binding target remains outside asset_entry_prim: "
+                                f"{relationship.GetPath()} -> {target}"
+                            )
+                errors.extend(
+                    _material_network_reference_errors(
+                        direct_stage,
+                        material.GetPrim(),
+                        Usd,
+                    )
+                )
+                qualified_bindings.append(
+                    {
+                        "render_prim": prim.GetPath().pathString,
+                        "purpose": str(purpose),
+                        "material_prim": material_path.pathString,
+                    }
+                )
+
+    probe_paths = ["/__aan_nested/reference_probe"]
+    if direct_stage is not None and not errors:
+        for probe_raw in probe_paths:
+            probe_path = Sdf.Path(probe_raw)
+            probe_stage = Usd.Stage.CreateInMemory()
+            probe = probe_stage.DefinePrim(probe_path, "Xform")
+            if not probe.GetReferences().AddReference(
+                str(root_usd.resolve()),
+                asset_entry_prim,
+            ):
+                errors.append(f"could not author entry reference at {probe_path}")
+                continue
+            for binding in qualified_bindings:
+                source_render_path = Sdf.Path(binding["render_prim"])
+                relative_render_path = source_render_path.MakeRelativePath(entry_path)
+                probe_render_path = probe_path.AppendPath(relative_render_path)
+                probe_render = probe_stage.GetPrimAtPath(probe_render_path)
+                if not probe_render.IsValid():
+                    errors.append(
+                        f"referenced render prim is missing: {probe_render_path}"
+                    )
+                    continue
+                material, relationship = UsdShade.MaterialBindingAPI(
+                    probe_render
+                ).ComputeBoundMaterial(materialPurpose=binding["purpose"])
+                if not material or not material.GetPrim().IsValid():
+                    errors.append(
+                        f"referenced effective material is missing: "
+                        f"{probe_render_path} ({binding['purpose']})"
+                    )
+                    continue
+                expected_material = Sdf.Path(binding["material_prim"]).ReplacePrefix(
+                    entry_path,
+                    probe_path,
+                )
+                if material.GetPath() != expected_material:
+                    errors.append(
+                        f"referenced material path mismatch: {material.GetPath()} != "
+                        f"{expected_material}"
+                    )
+                if relationship is not None:
+                    for target in relationship.GetTargets():
+                        if not target.GetPrimPath().HasPrefix(probe_path):
+                            errors.append(
+                                "referenced material target escapes probe scope: "
+                                f"{relationship.GetPath()} -> {target}"
+                            )
+                errors.extend(
+                    _material_network_reference_errors(
+                        probe_stage,
+                        material.GetPrim(),
+                        Usd,
+                    )
+                )
+
+    return {
+        "status": "pass" if not errors else "blocked",
+        "asset_entry_prim": asset_entry_prim,
+        "probe_paths": probe_paths,
+        "qualified_bindings": sorted(
+            qualified_bindings,
+            key=lambda item: (
+                item["render_prim"],
+                item["purpose"],
+                item["material_prim"],
+            ),
+        ),
+        "errors": sorted(set(errors)),
+    }
+
+
+def _material_network_reference_errors(
+    stage: Any,
+    material_prim: Any,
+    usd_module: Any,
+) -> list[str]:
+    """Reject shader connections that would escape an entry reference."""
+    errors: list[str] = []
+    material_path = material_prim.GetPath()
+    for prim in usd_module.PrimRange(material_prim):
+        for attribute in prim.GetAttributes():
+            for target in attribute.GetConnections():
+                target_prim_path = target.GetPrimPath()
+                target_prim = stage.GetPrimAtPath(target_prim_path)
+                if not target_prim.IsValid():
+                    errors.append(
+                        f"material connection target is invalid: {attribute.GetPath()} -> {target}"
+                    )
+                elif not target_prim_path.HasPrefix(material_path):
+                    errors.append(
+                        "material connection target is outside the material subtree: "
+                        f"{attribute.GetPath()} -> {target}"
+                    )
+    return errors
 
 
 def _minimal_subtree_paths(paths: list[str]) -> list[str]:

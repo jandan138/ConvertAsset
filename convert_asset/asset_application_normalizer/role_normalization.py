@@ -15,6 +15,7 @@ from typing import Any
 
 from .model import NormalizeAssetRequest
 from .package_layout import TargetPackageLayout
+from .usd_closure import SOURCE_MATERIAL_PRIM_CUSTOM_DATA_KEY
 
 
 @dataclass(frozen=True)
@@ -338,7 +339,10 @@ def _visual_fingerprint(stage: Any, scopes: list[str]) -> dict[str, Any]:
         material_targets = []
         for relationship in prim.GetRelationships():
             if relationship.GetName().startswith("material:binding"):
-                material_targets.extend(str(target) for target in relationship.GetTargets())
+                material_targets.extend(
+                    _canonical_material_target(stage, target)
+                    for target in relationship.GetTargets()
+                )
         meshes.append(
             {
                 "path": prim.GetPath().pathString,
@@ -353,6 +357,20 @@ def _visual_fingerprint(stage: Any, scopes: list[str]) -> dict[str, Any]:
         records["scope_world_transforms"][scope] = _world_transform(prim) if _valid_prim(prim) else None
     encoded = json.dumps(records, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
     return {**records, "signature": hashlib.sha256(encoded.encode("utf-8")).hexdigest()}
+
+
+def _canonical_material_target(stage: Any, target: Any) -> str:
+    """Compare relocated package materials against their immutable source identity."""
+    try:
+        target_prim = stage.GetPrimAtPath(target.GetPrimPath())
+        source_material = target_prim.GetCustomDataByKey(
+            SOURCE_MATERIAL_PRIM_CUSTOM_DATA_KEY
+        )
+    except Exception:
+        source_material = None
+    if isinstance(source_material, str) and source_material.startswith("/"):
+        return source_material
+    return str(target)
 
 
 def _attribute_value(prim: Any, name: str) -> Any:

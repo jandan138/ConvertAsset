@@ -61,6 +61,150 @@ def Xform "World"
 """
 
 
+def _source_usda_with_external_materials(
+    *,
+    reserved_material_scope: bool = False,
+    external_shader_connection: bool = False,
+    duplicate_material_leaf: bool = False,
+) -> str:
+    reserved_scope = (
+        '        def Scope "__aan_materials" {}\n'
+        if reserved_material_scope
+        else ""
+    )
+    all_material_shader = (
+        """
+            token outputs:surface.connect = </World/SharedShader.outputs:surface>
+"""
+        if external_shader_connection
+        else """
+            token outputs:surface.connect = </World/Looks/GlassAll/Shader.outputs:surface>
+            def Shader "Shader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.2, 0.4, 0.8)
+                token outputs:surface
+            }
+"""
+    )
+    external_shader = (
+        """
+    def Shader "SharedShader"
+    {
+        uniform token info:id = "UsdPreviewSurface"
+        color3f inputs:diffuseColor = (0.2, 0.4, 0.8)
+        token outputs:surface
+    }
+"""
+        if external_shader_connection
+        else ""
+    )
+    source = (
+        """#usda 1.0
+(
+    defaultPrim = "World"
+    metersPerUnit = 1
+    kilogramsPerUnit = 1
+    upAxis = "Z"
+    timeCodesPerSecond = 60
+    framesPerSecond = 24
+)
+def Xform "World"
+{
+    def Xform "Asset"
+    {
+%s        def Mesh "Body" (
+            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsCollisionAPI", "PhysicsMassAPI", "MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </World/Looks/GlassAll>
+            rel material:binding:preview = </World/Looks/GlassPreview>
+            bool physics:rigidBodyEnabled = 1
+            bool physics:collisionEnabled = 1
+            float physics:mass = 0
+            float3 physics:diagonalInertia = (0, 0, 0)
+            point3f physics:centerOfMass = (-inf, -inf, -inf)
+            quatf physics:principalAxes = (0, 0, 0, 0)
+            point3f[] points = [(0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1)]
+            int[] faceVertexCounts = [3, 3, 3, 3]
+            int[] faceVertexIndices = [0, 2, 1, 0, 1, 3, 0, 3, 2, 1, 2, 3]
+            def GeomSubset "PaintedFaces" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                uniform token elementType = "face"
+                uniform token familyName = "materialBind"
+                int[] indices = [0]
+                rel material:binding = </World/Looks/GlassSubset>
+            }
+        }
+        def Mesh "Shell"
+        {
+            point3f[] points = [(0, 0, 0), (2, 0, 0), (0, 2, 0), (0, 0, 2)]
+            int[] faceVertexCounts = [3, 3, 3, 3]
+            int[] faceVertexIndices = [0, 2, 1, 0, 1, 3, 0, 3, 2, 1, 2, 3]
+        }
+    }
+    def Scope "Looks"
+    {
+        def Material "GlassAll"
+        {%s        }
+        def Material "GlassPreview"
+        {
+            token outputs:surface.connect = </World/Looks/GlassPreview/Shader.outputs:surface>
+            def Shader "Shader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.3, 0.5, 0.9)
+                token outputs:surface
+            }
+        }
+        def Material "GlassSubset"
+        {
+            token outputs:surface.connect = </World/Looks/GlassSubset/Shader.outputs:surface>
+            def Shader "Shader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.8, 0.4, 0.2)
+                token outputs:surface
+            }
+        }
+    }
+%s}
+"""
+        % (reserved_scope, all_material_shader, external_shader)
+    )
+    if duplicate_material_leaf:
+        source = source.replace(
+            '        def Mesh "Shell"\n        {\n',
+            '        def Mesh "Shell" (\n'
+            '            prepend apiSchemas = ["MaterialBindingAPI"]\n'
+            '        )\n'
+            '        {\n'
+            '            rel material:binding = </World/OtherLooks/GlassAll>\n',
+        )
+        world_close = source.rfind("\n}\n")
+        source = (
+            source[:world_close]
+            + """
+    def Scope "OtherLooks"
+    {
+        def Material "GlassAll"
+        {
+            token outputs:surface.connect = </World/OtherLooks/GlassAll/Shader.outputs:surface>
+            def Shader "Shader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                token outputs:surface
+            }
+        }
+    }
+"""
+            + source[world_close:]
+        )
+    return source
+
+
 def _interaction_profile(source: Path, path: Path) -> Path:
     payload = {
         "schema_version": "aan.object_interaction_profile.v1",
@@ -293,6 +437,134 @@ def test_interaction_profile_runs_before_mass_profile_and_compiles_runtime_ident
     assert root_text.index("overlays/interaction.usda") < root_text.index(
         "deps/usd/scoped_source.usda"
     )
+
+
+def test_interaction_entry_reference_closes_material_purposes_and_geom_subset(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "source.usda"
+    source.write_text(_source_usda_with_external_materials(), encoding="utf-8")
+    interaction = _interaction_profile(source, tmp_path / "interaction.json")
+    physics = _physics_profile(source, tmp_path / "physics.json")
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+
+    result = normalize_asset(
+        _request(source, out_dir, evidence_out, physics, interaction)
+    )
+
+    assert result.return_code == 0
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    extraction = manifest["dependency_closure"]["scope_extraction"]
+    assert extraction["entry_reference_qualification"]["status"] == "pass"
+    assert extraction["reference_scope_material_relocations"] == [
+        {
+            "source_material_prim": "/World/Looks/GlassAll",
+            "package_material_prim": "/World/Asset/__aan_materials/GlassAll",
+            "method": "Usd.NamespaceEditor.MovePrimAtPath",
+        },
+        {
+            "source_material_prim": "/World/Looks/GlassPreview",
+            "package_material_prim": "/World/Asset/__aan_materials/GlassPreview",
+            "method": "Usd.NamespaceEditor.MovePrimAtPath",
+        },
+        {
+            "source_material_prim": "/World/Looks/GlassSubset",
+            "package_material_prim": "/World/Asset/__aan_materials/GlassSubset",
+            "method": "Usd.NamespaceEditor.MovePrimAtPath",
+        },
+    ]
+    assert manifest["visual_preservation_fingerprint"]["status"] == "pass"
+
+    Sdf = pytest.importorskip("pxr.Sdf")
+    Usd = pytest.importorskip("pxr.Usd")
+    UsdShade = pytest.importorskip("pxr.UsdShade")
+    consumer = Usd.Stage.CreateInMemory()
+    probe_path = Sdf.Path("/Arbitrary/Deep/Probe")
+    probe = consumer.DefinePrim(probe_path, "Xform")
+    assert probe.GetReferences().AddReference(
+        str((out_dir / "asset.usd").resolve()),
+        "/World/Asset",
+    )
+
+    body = consumer.GetPrimAtPath(probe_path.AppendChild("Body"))
+    subset = consumer.GetPrimAtPath(
+        probe_path.AppendPath("Body/PaintedFaces")
+    )
+    all_material, _ = UsdShade.MaterialBindingAPI(body).ComputeBoundMaterial()
+    preview_material, _ = UsdShade.MaterialBindingAPI(body).ComputeBoundMaterial(
+        materialPurpose=UsdShade.Tokens.preview
+    )
+    subset_material, _ = UsdShade.MaterialBindingAPI(subset).ComputeBoundMaterial()
+    assert all_material.GetPath() == probe_path.AppendPath(
+        "__aan_materials/GlassAll"
+    )
+    assert preview_material.GetPath() == probe_path.AppendPath(
+        "__aan_materials/GlassPreview"
+    )
+    assert subset_material.GetPath() == probe_path.AppendPath(
+        "__aan_materials/GlassSubset"
+    )
+    assert body.GetRelationship("material:binding").GetTargets() == [
+        probe_path.AppendPath("__aan_materials/GlassAll")
+    ]
+    assert body.GetRelationship("material:binding:preview").GetTargets() == [
+        probe_path.AppendPath("__aan_materials/GlassPreview")
+    ]
+    assert subset.GetRelationship("material:binding").GetTargets() == [
+        probe_path.AppendPath("__aan_materials/GlassSubset")
+    ]
+    for material in (all_material, preview_material, subset_material):
+        connected = UsdShade.Material(material).GetSurfaceOutput().GetConnectedSource()
+        assert connected
+        assert connected[0].GetPath().HasPrefix(probe_path)
+
+    active_rigid = [
+        prim.GetPath()
+        for prim in consumer.Traverse()
+        if "PhysicsRigidBodyAPI" in set(str(item) for item in prim.GetAppliedSchemas())
+        and prim.GetAttribute("physics:rigidBodyEnabled").Get() is not False
+    ]
+    assert active_rigid == [probe_path]
+
+
+@pytest.mark.parametrize(
+    ("source_kwargs", "reason_fragment"),
+    [
+        ({"reserved_material_scope": True}, "__aan_materials"),
+        ({"external_shader_connection": True}, "connection"),
+        ({"duplicate_material_leaf": True}, "collision"),
+    ],
+)
+def test_interaction_reference_material_closure_fails_closed(
+    tmp_path: Path,
+    source_kwargs: dict[str, bool],
+    reason_fragment: str,
+) -> None:
+    source = tmp_path / "source.usda"
+    source.write_text(
+        _source_usda_with_external_materials(**source_kwargs),
+        encoding="utf-8",
+    )
+    interaction = _interaction_profile(source, tmp_path / "interaction.json")
+    physics = _physics_profile(source, tmp_path / "physics.json")
+    evidence_out = tmp_path / "manifest.json"
+
+    result = normalize_asset(
+        _request(
+            source,
+            tmp_path / "package",
+            evidence_out,
+            physics,
+            interaction,
+        )
+    )
+
+    assert result.return_code == 5
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    extraction = manifest["dependency_closure"]["scope_extraction"]
+    assert extraction["status"] == "blocked"
+    assert reason_fragment in str(extraction["reason"])
 
 
 def test_interaction_profile_authors_compound_proxy_and_disables_source_mesh(

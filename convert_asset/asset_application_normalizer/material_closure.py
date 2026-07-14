@@ -9,6 +9,7 @@ from typing import Any
 from .evidence_manifest import sha256_file
 from .model import MILESTONE_AAN04
 from .package_layout import TargetPackageLayout
+from .usd_closure import SOURCE_MATERIAL_PRIM_CUSTOM_DATA_KEY
 
 
 CLOSURE_MODES = (
@@ -237,14 +238,39 @@ def _material_record(
     material_policy: str,
 ) -> dict[str, Any]:
     material_path = material_prim.GetPath().pathString
+    source_material_path = material_prim.GetCustomDataByKey(
+        SOURCE_MATERIAL_PRIM_CUSTOM_DATA_KEY
+    )
+    if not isinstance(source_material_path, str) or not source_material_path.startswith(
+        "/"
+    ):
+        source_material_path = None
     shaders = _shader_records(material_prim)
-    asset_records = [
+    dependency_records = [
         *dependency_context["by_material"].get(material_path, []),
-        *_asset_records_from_shader_references(
-            package_root,
-            shaders,
-            dependency_context["by_package_path"],
+        *(
+            dependency_context["by_material"].get(source_material_path, [])
+            if source_material_path is not None
+            else []
         ),
+    ]
+    shader_asset_records = _asset_records_from_shader_references(
+        package_root,
+        shaders,
+        dependency_context["by_package_path"],
+    )
+    shader_asset_keys = {
+        (record.get("kind"), record.get("package_path"))
+        for record in shader_asset_records
+    }
+    asset_records = [
+        *shader_asset_records,
+        *[
+            record
+            for record in dependency_records
+            if (record.get("kind"), record.get("package_path"))
+            not in shader_asset_keys
+        ],
     ]
     asset_records = _unique_asset_records(asset_records)
     source_mdl_assets = [record for record in asset_records if record.get("kind") == "mdl"]
@@ -266,7 +292,7 @@ def _material_record(
     else:
         closure_mode = "native_resolved"
 
-    return {
+    record = {
         "material_prim": material_path,
         "owning_layer": _owning_layer(material_prim),
         "closure_mode": closure_mode,
@@ -311,6 +337,10 @@ def _material_record(
             "required_gate": "AAN-06-runtime-smoke",
         },
     }
+    if source_material_path is not None:
+        record["source_material_prim"] = source_material_path
+        record["package_material_prim"] = material_path
+    return record
 
 
 def _shader_records(material_prim: Any) -> list[dict[str, Any]]:

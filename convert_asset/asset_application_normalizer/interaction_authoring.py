@@ -259,6 +259,32 @@ def apply_object_interaction_profile(
             raise RuntimeError(
                 f"interaction overlay did not produce exactly one active rigid root: {active_rigid}"
             )
+        reference_stage = Usd.Stage.CreateInMemory()
+        reference_probe_path = Sdf.Path("/__aan_interaction_reference_probe")
+        reference_probe = reference_stage.DefinePrim(reference_probe_path, "Xform")
+        if not reference_probe.GetReferences().AddReference(
+            str(layout.root_usd.resolve()),
+            root_path,
+        ):
+            raise RuntimeError("could not author interaction entry reference probe")
+        referenced_rigid = _active_rigid_body_paths(
+            reference_stage,
+            reference_probe_path.pathString,
+        )
+        if referenced_rigid != [reference_probe_path.pathString]:
+            raise RuntimeError(
+                "interaction entry reference did not preserve the unique rigid root: "
+                f"{referenced_rigid}"
+            )
+        actions.append(
+            {
+                "action": "qualify_asset_entry_reference",
+                "asset_entry_prim": root_path,
+                "probe_prim": reference_probe_path.pathString,
+                "observed_active_rigid_body_prims": referenced_rigid,
+                "status": "pass",
+            }
+        )
         for record in disabled_records:
             prim = output_stage.GetPrimAtPath(record["prim_path"])
             schemas = set(str(item) for item in prim.GetAppliedSchemas())

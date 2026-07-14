@@ -89,6 +89,38 @@
         "kilograms_per_unit": 1.0,
         "time_codes_per_second": 60.0,
         "frames_per_second": 24.0
+      },
+      "reference_scope_material_relocations": [
+        {
+          "source_material_prim": "/World/Looks/OmniGlass",
+          "package_material_prim": "/World/graduated_cylinder_03/__aan_materials/OmniGlass",
+          "method": "Usd.NamespaceEditor.MovePrimAtPath"
+        }
+      ],
+      "entry_reference_qualification": {
+        "status": "pass",
+        "asset_entry_prim": "/World/graduated_cylinder_03",
+        "probe_paths": [
+          "/__aan_nested/reference_probe"
+        ],
+        "qualified_bindings": [
+          {
+            "render_prim": "/World/graduated_cylinder_03/mesh",
+            "purpose": "",
+            "material_prim": "/World/graduated_cylinder_03/__aan_materials/OmniGlass"
+          },
+          {
+            "render_prim": "/World/graduated_cylinder_03/mesh",
+            "purpose": "full",
+            "material_prim": "/World/graduated_cylinder_03/__aan_materials/OmniGlass"
+          },
+          {
+            "render_prim": "/World/graduated_cylinder_03/mesh",
+            "purpose": "preview",
+            "material_prim": "/World/graduated_cylinder_03/__aan_materials/OmniGlass"
+          }
+        ],
+        "errors": []
       }
     },
     "scanned_layers": [
@@ -366,14 +398,14 @@
   },
   "material_closure": [
     {
-      "material_prim": "/World/Looks/OmniGlass",
+      "material_prim": "/World/graduated_cylinder_03/__aan_materials/OmniGlass",
       "owning_layer": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/graduated_cylinder_03/package/deps/usd/scoped_source.usda",
       "closure_mode": "local_mirror",
       "material_policy": "native-or-mirror",
       "source_assets_preserved": true,
       "shader_prims": [
         {
-          "prim_path": "/World/Looks/OmniGlass/Shader",
+          "prim_path": "/World/graduated_cylinder_03/__aan_materials/OmniGlass/Shader",
           "owning_layer": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/graduated_cylinder_03/package/deps/usd/scoped_source.usda",
           "shader_id": null,
           "implementation_source": "sourceAsset",
@@ -389,7 +421,7 @@
           "raw_asset_path": "OmniGlass.mdl",
           "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/OmniGlass.mdl",
           "package_path": "deps/mdl/OmniGlass.mdl",
-          "source_shader_prim": "/World/Looks/OmniGlass/Shader",
+          "source_shader_prim": "/World/graduated_cylinder_03/__aan_materials/OmniGlass/Shader",
           "status": "packaged",
           "resolution": null,
           "source_sha256": "cd7c97781dc95f1694f9acc70c0b9ae327361a3b1c84abf917e55a9d672e627a",
@@ -459,7 +491,9 @@
       "visibility_evidence": {
         "status": "not_run",
         "required_gate": "AAN-06-runtime-smoke"
-      }
+      },
+      "source_material_prim": "/World/Looks/OmniGlass",
+      "package_material_prim": "/World/graduated_cylinder_03/__aan_materials/OmniGlass"
     }
   ],
   "material_runtime_closure": {
@@ -597,7 +631,7 @@
       "required_materials": [
         {
           "required_prim": "/World/graduated_cylinder_03",
-          "material_prim": "/World/Looks/OmniGlass",
+          "material_prim": "/World/graduated_cylinder_03/__aan_materials/OmniGlass",
           "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
           "binding_strength": "direct",
           "bound_at_prim": "/World/graduated_cylinder_03/mesh",
@@ -623,7 +657,7 @@
     "runtime_compiler": {
       "status": "pass",
       "counters": {
-        "stderr_bytes": 24398,
+        "stderr_bytes": 24409,
         "error_count": 0,
         "warning_count": 28,
         "mdlc_count": 0,
@@ -655,22 +689,22 @@
           "azimuth": 0.0
         },
         "target_prim": "/World/graduated_cylinder_03",
-        "render_hash": "ef0f237e2cff240dde12b70d7b290c974a6e18ee2802b6d53c202b96a2e4c58c",
+        "render_hash": "ca0e8fbb110770a425d2a29dec18c4c8a14d1a005c92b7e9c6aeb207cb6f4014",
         "mean_rgb": [
-          153.346781,
-          185.391317,
-          203.053507
+          150.714213,
+          182.811666,
+          200.81779
         ],
         "foreground_rgb": [
-          160.903234,
-          195.084071,
-          213.923741
+          158.754866,
+          193.183419,
+          212.49725
         ],
-        "non_background_ratio": 0.9375,
-        "bbox_ratio": 0.9375,
+        "non_background_ratio": 0.93229167,
+        "bbox_ratio": 0.93229167,
         "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/graduated_cylinder_03/package/evidence/runtime_smoke/material_views/front.png",
         "bbox_source": "authored",
-        "bytes": 47482,
+        "bytes": 47368,
         "resolution": [
           256,
           192
@@ -694,22 +728,22 @@
           "azimuth": 45.0
         },
         "target_prim": "/World/graduated_cylinder_03",
-        "render_hash": "42af4b1615aa584402bbb1ca87e273e7b1b113fc312284e18110027cc0a07c96",
+        "render_hash": "a1eb6da43d1ca99eafbd8734910fa0c44e853cf7a3b98ee3904ff009aa500331",
         "mean_rgb": [
-          140.921102,
-          187.83311,
-          211.710083
+          136.937459,
+          184.31189,
+          209.046672
         ],
         "foreground_rgb": [
-          140.921102,
-          187.83311,
-          211.710083
+          136.937459,
+          184.31189,
+          209.046672
         ],
         "non_background_ratio": 1.0,
         "bbox_ratio": 1.0,
         "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/graduated_cylinder_03/package/evidence/runtime_smoke/material_views/orbit_3q.png",
         "bbox_source": "authored",
-        "bytes": 48069,
+        "bytes": 49965,
         "resolution": [
           256,
           192
@@ -733,22 +767,22 @@
           "azimuth": 90.0
         },
         "target_prim": "/World/graduated_cylinder_03",
-        "render_hash": "554a8aba7b4c8ceb0712d4166b4d82130a916fb4315f6b0705ee66aa8b7bcde8",
+        "render_hash": "d889411443710c1b4e747f74da472546a3870a17001027fdb2523762e5e2d60e",
         "mean_rgb": [
-          129.441406,
-          180.51711,
-          206.808268
+          128.909261,
+          180.228231,
+          206.640706
         ],
         "foreground_rgb": [
-          129.441406,
-          180.51711,
-          206.808268
+          128.909261,
+          180.228231,
+          206.640706
         ],
         "non_background_ratio": 1.0,
         "bbox_ratio": 1.0,
         "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/graduated_cylinder_03/package/evidence/runtime_smoke/material_views/side.png",
         "bbox_source": "authored",
-        "bytes": 50185,
+        "bytes": 50926,
         "resolution": [
           256,
           192
@@ -1419,6 +1453,15 @@
         "action": "author_named_interaction_frame",
         "name": "support",
         "prim_path": "/World/graduated_cylinder_03/__aan_frame_support"
+      },
+      {
+        "action": "qualify_asset_entry_reference",
+        "asset_entry_prim": "/World/graduated_cylinder_03",
+        "probe_prim": "/__aan_interaction_reference_probe",
+        "observed_active_rigid_body_prims": [
+          "/__aan_interaction_reference_probe"
+        ],
+        "status": "pass"
       }
     ],
     "required_prims": [
@@ -2628,6 +2671,15 @@
       "action": "author_named_interaction_frame",
       "name": "support",
       "prim_path": "/World/graduated_cylinder_03/__aan_frame_support"
+    },
+    {
+      "action": "qualify_asset_entry_reference",
+      "asset_entry_prim": "/World/graduated_cylinder_03",
+      "probe_prim": "/__aan_interaction_reference_probe",
+      "observed_active_rigid_body_prims": [
+        "/__aan_interaction_reference_probe"
+      ],
+      "status": "pass"
     }
   ],
   "interaction_contract": {
@@ -2824,7 +2876,7 @@
         "status": "pass",
         "probe_id": "cooked_aperture",
         "report_path": "evidence/interaction_runtime_qualification/report.json",
-        "report_sha256": "56e71ac7e871b47bf6f9b0250da6046e457e024212ce74f3f83272d0a48726b1",
+        "report_sha256": "2109713e3cb5788da5bf9b9dcc8b4f316505e3fccff5dc8e6a741822ec4271aa",
         "observations": [
           {
             "finite": true,
@@ -2951,9 +3003,9 @@
       "status": "pass",
       "digest_algorithm": "sha256",
       "contract_encoding": "canonical_json_interaction_payload_v1",
-      "contract_payload_sha256": "f143fe894f3f668453bd7afd5d592a0dcb41811b7f18d33bf5a8691dad345bbb",
+      "contract_payload_sha256": "4e88bb016013c9a84196a40380908c168394d3ddf755c25bcdac7772ec582967",
       "tree_encoding": "canonical_json_artifact_list_v1",
-      "runtime_tree_sha256": "7392a8f21269820fc0adc4dab60489b8004bbab49e39046cf9433304367ba992",
+      "runtime_tree_sha256": "2540ecd80cfdbd26cb31ba1d772ddf451206d3b3f49161f108ec67d5d52cab0d",
       "artifacts": [
         {
           "path": "asset.usd",
@@ -3057,7 +3109,7 @@
         },
         {
           "path": "deps/usd/scoped_source.usda",
-          "sha256": "10d393ac666c56a7e7f93079badf7f404c3b29ecf8255bcecb3f85b56b52f729"
+          "sha256": "1bff3bce6265eb658c529669edac6a111b636e94291c8b5fb3733914297ab1f5"
         },
         {
           "path": "deps/usd/sektion_cabinet_collisions.usd",
@@ -3101,7 +3153,7 @@
         "status": "pass",
         "probe_id": "root_motion_parity",
         "report_path": "evidence/interaction_runtime_qualification/report.json",
-        "report_sha256": "56e71ac7e871b47bf6f9b0250da6046e457e024212ce74f3f83272d0a48726b1",
+        "report_sha256": "2109713e3cb5788da5bf9b9dcc8b4f316505e3fccff5dc8e6a741822ec4271aa",
         "observations": [
           {
             "finite": true,
@@ -3153,7 +3205,7 @@
         "status": "pass",
         "probe_id": "stable_support",
         "report_path": "evidence/interaction_runtime_qualification/report.json",
-        "report_sha256": "56e71ac7e871b47bf6f9b0250da6046e457e024212ce74f3f83272d0a48726b1",
+        "report_sha256": "2109713e3cb5788da5bf9b9dcc8b4f316505e3fccff5dc8e6a741822ec4271aa",
         "observations": [
           {
             "finite": true,
@@ -3198,7 +3250,7 @@
         "status": "pass",
         "probe_id": "bilateral_gripper_proxy_collision",
         "report_path": "evidence/interaction_runtime_qualification/report.json",
-        "report_sha256": "56e71ac7e871b47bf6f9b0250da6046e457e024212ce74f3f83272d0a48726b1",
+        "report_sha256": "2109713e3cb5788da5bf9b9dcc8b4f316505e3fccff5dc8e6a741822ec4271aa",
         "observations": [
           {
             "finite": true,
@@ -3434,7 +3486,7 @@
     "status": "pass",
     "runtime_profile": "isaac41",
     "expected_runtime_version": "4.1",
-    "run_id": "14b8ab7929e54e9c928828fcf3fa5ff4",
+    "run_id": "10fbe93fdeea4609859b0e7782c8215b",
     "expected_root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
     "runtime_profile_gate": {
       "status": "pass",
@@ -3476,19 +3528,19 @@
     },
     "render_readback": {
       "mean_rgb": [
-        138.439351,
-        182.71287,
-        206.848022
+        138.275879,
+        182.229716,
+        206.39742
       ],
       "foreground_rgb": [
-        138.439351,
-        182.71287,
-        206.848022
+        138.275879,
+        182.229716,
+        206.39742
       ],
       "non_background_ratio": 1.0,
       "bbox_ratio": 1.0,
-      "sha256": "a182c0560f735baff6cfce5b490df509c02fc09b4f139d514aececae28437fcc",
-      "bytes": 50712,
+      "sha256": "26d03b49d6c7270dcb40207443266fc46d7fcfa47d800b11fb25085cdb064555",
+      "bytes": 50234,
       "resolution": [
         256,
         192
@@ -3516,22 +3568,22 @@
           "azimuth": 0.0
         },
         "target_prim": "/World/graduated_cylinder_03",
-        "render_hash": "ef0f237e2cff240dde12b70d7b290c974a6e18ee2802b6d53c202b96a2e4c58c",
+        "render_hash": "ca0e8fbb110770a425d2a29dec18c4c8a14d1a005c92b7e9c6aeb207cb6f4014",
         "mean_rgb": [
-          153.346781,
-          185.391317,
-          203.053507
+          150.714213,
+          182.811666,
+          200.81779
         ],
         "foreground_rgb": [
-          160.903234,
-          195.084071,
-          213.923741
+          158.754866,
+          193.183419,
+          212.49725
         ],
-        "non_background_ratio": 0.9375,
-        "bbox_ratio": 0.9375,
+        "non_background_ratio": 0.93229167,
+        "bbox_ratio": 0.93229167,
         "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/graduated_cylinder_03/package/evidence/runtime_smoke/material_views/front.png",
         "bbox_source": "authored",
-        "bytes": 47482,
+        "bytes": 47368,
         "resolution": [
           256,
           192
@@ -3555,22 +3607,22 @@
           "azimuth": 45.0
         },
         "target_prim": "/World/graduated_cylinder_03",
-        "render_hash": "42af4b1615aa584402bbb1ca87e273e7b1b113fc312284e18110027cc0a07c96",
+        "render_hash": "a1eb6da43d1ca99eafbd8734910fa0c44e853cf7a3b98ee3904ff009aa500331",
         "mean_rgb": [
-          140.921102,
-          187.83311,
-          211.710083
+          136.937459,
+          184.31189,
+          209.046672
         ],
         "foreground_rgb": [
-          140.921102,
-          187.83311,
-          211.710083
+          136.937459,
+          184.31189,
+          209.046672
         ],
         "non_background_ratio": 1.0,
         "bbox_ratio": 1.0,
         "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/graduated_cylinder_03/package/evidence/runtime_smoke/material_views/orbit_3q.png",
         "bbox_source": "authored",
-        "bytes": 48069,
+        "bytes": 49965,
         "resolution": [
           256,
           192
@@ -3594,22 +3646,22 @@
           "azimuth": 90.0
         },
         "target_prim": "/World/graduated_cylinder_03",
-        "render_hash": "554a8aba7b4c8ceb0712d4166b4d82130a916fb4315f6b0705ee66aa8b7bcde8",
+        "render_hash": "d889411443710c1b4e747f74da472546a3870a17001027fdb2523762e5e2d60e",
         "mean_rgb": [
-          129.441406,
-          180.51711,
-          206.808268
+          128.909261,
+          180.228231,
+          206.640706
         ],
         "foreground_rgb": [
-          129.441406,
-          180.51711,
-          206.808268
+          128.909261,
+          180.228231,
+          206.640706
         ],
         "non_background_ratio": 1.0,
         "bbox_ratio": 1.0,
         "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/graduated_cylinder_03/package/evidence/runtime_smoke/material_views/side.png",
         "bbox_source": "authored",
-        "bytes": 50185,
+        "bytes": 50926,
         "resolution": [
           256,
           192
@@ -3839,7 +3891,7 @@
     },
     "runtime_report_binding": {
       "status": "pass",
-      "run_id": "14b8ab7929e54e9c928828fcf3fa5ff4",
+      "run_id": "10fbe93fdeea4609859b0e7782c8215b",
       "root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
       "errors": []
     },
@@ -3897,7 +3949,7 @@
       },
       "parser_version": "aan06.physx_scope.v3",
       "log_hashes": {
-        "stdout": "446b843abe04043428e0de984c94f6368d465e9a0e12cb81bcdbcceb5d5cccce",
+        "stdout": "6c943749cb727e077b8a98cf13b17e4cb651466792611157b259940e089ffe2f",
         "stderr": "e23fe7953c782adfa1b26e7854ef10f78cdfdf090a921082e49bb75cdb985ee0"
       }
     },
@@ -3985,7 +4037,7 @@
         "--asset-id",
         "LabUtopia_graduated_cylinder_03",
         "--run-id",
-        "14b8ab7929e54e9c928828fcf3fa5ff4",
+        "10fbe93fdeea4609859b0e7782c8215b",
         "--expected-root-usd-sha256",
         "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
         "--width",
@@ -4011,7 +4063,7 @@
         "--asset-scope-prim",
         "/World/graduated_cylinder_03"
       ],
-      "run_id": "14b8ab7929e54e9c928828fcf3fa5ff4",
+      "run_id": "10fbe93fdeea4609859b0e7782c8215b",
       "root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
       "env_policy": {
         "allowed_existing_conda_env": "isaac41",
@@ -4044,7 +4096,7 @@
       "exit_code": 0
     }
   },
-  "created_at": "2026-07-14T15:36:53Z",
+  "created_at": "2026-07-14T16:42:51Z",
   "tool_version": "convert_asset.asset_application_normalizer.v1",
   "git_commit": null,
   "static_usd_report": {
@@ -4085,6 +4137,38 @@
         "kilograms_per_unit": 1.0,
         "time_codes_per_second": 60.0,
         "frames_per_second": 24.0
+      },
+      "reference_scope_material_relocations": [
+        {
+          "source_material_prim": "/World/Looks/OmniGlass",
+          "package_material_prim": "/World/graduated_cylinder_03/__aan_materials/OmniGlass",
+          "method": "Usd.NamespaceEditor.MovePrimAtPath"
+        }
+      ],
+      "entry_reference_qualification": {
+        "status": "pass",
+        "asset_entry_prim": "/World/graduated_cylinder_03",
+        "probe_paths": [
+          "/__aan_nested/reference_probe"
+        ],
+        "qualified_bindings": [
+          {
+            "render_prim": "/World/graduated_cylinder_03/mesh",
+            "purpose": "",
+            "material_prim": "/World/graduated_cylinder_03/__aan_materials/OmniGlass"
+          },
+          {
+            "render_prim": "/World/graduated_cylinder_03/mesh",
+            "purpose": "full",
+            "material_prim": "/World/graduated_cylinder_03/__aan_materials/OmniGlass"
+          },
+          {
+            "render_prim": "/World/graduated_cylinder_03/mesh",
+            "purpose": "preview",
+            "material_prim": "/World/graduated_cylinder_03/__aan_materials/OmniGlass"
+          }
+        ],
+        "errors": []
       }
     },
     "required_prims": [

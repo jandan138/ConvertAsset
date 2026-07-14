@@ -89,6 +89,38 @@
         "kilograms_per_unit": 1.0,
         "time_codes_per_second": 60.0,
         "frames_per_second": 24.0
+      },
+      "reference_scope_material_relocations": [
+        {
+          "source_material_prim": "/World/Looks/OmniSurface_Glass",
+          "package_material_prim": "/World/conical_bottle03/__aan_materials/OmniSurface_Glass",
+          "method": "Usd.NamespaceEditor.MovePrimAtPath"
+        }
+      ],
+      "entry_reference_qualification": {
+        "status": "pass",
+        "asset_entry_prim": "/World/conical_bottle03",
+        "probe_paths": [
+          "/__aan_nested/reference_probe"
+        ],
+        "qualified_bindings": [
+          {
+            "render_prim": "/World/conical_bottle03/mesh",
+            "purpose": "",
+            "material_prim": "/World/conical_bottle03/__aan_materials/OmniSurface_Glass"
+          },
+          {
+            "render_prim": "/World/conical_bottle03/mesh",
+            "purpose": "full",
+            "material_prim": "/World/conical_bottle03/__aan_materials/OmniSurface_Glass"
+          },
+          {
+            "render_prim": "/World/conical_bottle03/mesh",
+            "purpose": "preview",
+            "material_prim": "/World/conical_bottle03/__aan_materials/OmniSurface_Glass"
+          }
+        ],
+        "errors": []
       }
     },
     "scanned_layers": [
@@ -366,14 +398,14 @@
   },
   "material_closure": [
     {
-      "material_prim": "/World/Looks/OmniSurface_Glass",
+      "material_prim": "/World/conical_bottle03/__aan_materials/OmniSurface_Glass",
       "owning_layer": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/deps/usd/scoped_source.usda",
       "closure_mode": "local_mirror",
       "material_policy": "native-or-mirror",
       "source_assets_preserved": true,
       "shader_prims": [
         {
-          "prim_path": "/World/Looks/OmniSurface_Glass/Shader",
+          "prim_path": "/World/conical_bottle03/__aan_materials/OmniSurface_Glass/Shader",
           "owning_layer": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/deps/usd/scoped_source.usda",
           "shader_id": null,
           "implementation_source": "sourceAsset",
@@ -389,7 +421,7 @@
           "raw_asset_path": "OmniSurfacePresets.mdl",
           "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/OmniSurfacePresets.mdl",
           "package_path": "deps/mdl/OmniSurfacePresets.mdl",
-          "source_shader_prim": "/World/Looks/OmniSurface_Glass/Shader",
+          "source_shader_prim": "/World/conical_bottle03/__aan_materials/OmniSurface_Glass/Shader",
           "status": "packaged",
           "resolution": null,
           "source_sha256": "5c86c8545a1e215ec4b99e60eb66f9112ca5952cc66ca13ec0c26687dcfcb930",
@@ -450,7 +482,9 @@
       "visibility_evidence": {
         "status": "not_run",
         "required_gate": "AAN-06-runtime-smoke"
-      }
+      },
+      "source_material_prim": "/World/Looks/OmniSurface_Glass",
+      "package_material_prim": "/World/conical_bottle03/__aan_materials/OmniSurface_Glass"
     }
   ],
   "material_runtime_closure": {
@@ -1181,7 +1215,7 @@
       "required_materials": [
         {
           "required_prim": "/World/conical_bottle03",
-          "material_prim": "/World/Looks/OmniSurface_Glass",
+          "material_prim": "/World/conical_bottle03/__aan_materials/OmniSurface_Glass",
           "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
           "binding_strength": "direct",
           "bound_at_prim": "/World/conical_bottle03/mesh",
@@ -1195,7 +1229,7 @@
     "runtime_compiler": {
       "status": "pass",
       "counters": {
-        "stderr_bytes": 24347,
+        "stderr_bytes": 24388,
         "error_count": 0,
         "warning_count": 28,
         "mdlc_count": 0,
@@ -1227,22 +1261,22 @@
           "azimuth": 0.0
         },
         "target_prim": "/World/conical_bottle03",
-        "render_hash": "cd3ecc4fd1a41b1c324a1a0c82fdb8b736872a7d9265af79482711bd8ebab45a",
+        "render_hash": "9cf5d450be7cc2c90c806dffa883b27496473de9fdb79b3f572cc37036bb32c8",
         "mean_rgb": [
-          150.842977,
-          183.370748,
-          201.520874
+          149.560486,
+          182.317078,
+          200.711182
         ],
         "foreground_rgb": [
-          158.232509,
-          192.928798,
-          212.288932
+          156.864518,
+          191.804883,
+          211.42526
         ],
         "non_background_ratio": 0.9375,
         "bbox_ratio": 0.9375,
         "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/material_views/front.png",
         "bbox_source": "authored",
-        "bytes": 43885,
+        "bytes": 44217,
         "resolution": [
           256,
           192
@@ -1266,22 +1300,22 @@
           "azimuth": 45.0
         },
         "target_prim": "/World/conical_bottle03",
-        "render_hash": "d255d58b4406b79ec83581d1636887f709fc65d3a5ed2b30364bc9b3ff748dbd",
+        "render_hash": "5a3242b153b70f32d4683a90b9728bd9dfc6d8a5302d9bbe369c3ab6cb1aeeb7",
         "mean_rgb": [
-          134.096252,
-          182.296794,
-          207.676147
+          139.929789,
+          187.346415,
+          211.489583
         ],
         "foreground_rgb": [
-          134.096252,
-          182.296794,
-          207.676147
+          139.929789,
+          187.346415,
+          211.489583
         ],
         "non_background_ratio": 1.0,
         "bbox_ratio": 1.0,
         "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/material_views/orbit_3q.png",
         "bbox_source": "authored",
-        "bytes": 47733,
+        "bytes": 47280,
         "resolution": [
           256,
           192
@@ -1305,22 +1339,22 @@
           "azimuth": 90.0
         },
         "target_prim": "/World/conical_bottle03",
-        "render_hash": "22c9853e8fd99fa82d7a201ea83221a8a0d9a65a74333ba3ba94d9db67954a06",
+        "render_hash": "e736a7e0fea7793e39ff29a216ee7d31b71b6fb8c408575825a1cfe575ca71de",
         "mean_rgb": [
-          130.41748,
-          181.368022,
-          207.484741
+          130.421041,
+          181.846049,
+          208.020508
         ],
         "foreground_rgb": [
-          130.41748,
-          181.368022,
-          207.484741
+          130.421041,
+          181.846049,
+          208.020508
         ],
         "non_background_ratio": 1.0,
         "bbox_ratio": 1.0,
         "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/material_views/side.png",
         "bbox_source": "authored",
-        "bytes": 46967,
+        "bytes": 46290,
         "resolution": [
           256,
           192
@@ -1625,6 +1659,15 @@
         "action": "author_named_interaction_frame",
         "name": "support",
         "prim_path": "/World/conical_bottle03/__aan_frame_support"
+      },
+      {
+        "action": "qualify_asset_entry_reference",
+        "asset_entry_prim": "/World/conical_bottle03",
+        "probe_prim": "/__aan_interaction_reference_probe",
+        "observed_active_rigid_body_prims": [
+          "/__aan_interaction_reference_probe"
+        ],
+        "status": "pass"
       }
     ],
     "required_prims": [
@@ -2221,6 +2264,15 @@
       "action": "author_named_interaction_frame",
       "name": "support",
       "prim_path": "/World/conical_bottle03/__aan_frame_support"
+    },
+    {
+      "action": "qualify_asset_entry_reference",
+      "asset_entry_prim": "/World/conical_bottle03",
+      "probe_prim": "/__aan_interaction_reference_probe",
+      "observed_active_rigid_body_prims": [
+        "/__aan_interaction_reference_probe"
+      ],
+      "status": "pass"
     }
   ],
   "interaction_contract": {
@@ -2278,7 +2330,7 @@
         "status": "pass",
         "probe_id": "cooked_aperture",
         "report_path": "evidence/interaction_runtime_qualification/report.json",
-        "report_sha256": "807b89aa1374a4d8cbd211601a69f85a36c81e1554b2c57f81a3eada19ef59aa",
+        "report_sha256": "b5ec7d721294c544d7be23cbac4044063dfa78bc087cf65175cc3b12d72100fc",
         "observations": [
           {
             "finite": true,
@@ -2405,9 +2457,9 @@
       "status": "pass",
       "digest_algorithm": "sha256",
       "contract_encoding": "canonical_json_interaction_payload_v1",
-      "contract_payload_sha256": "5327f93240e3221d7e5b67b78e892cc4bfe665aeb4df64328a93a7eb7dea8b42",
+      "contract_payload_sha256": "7a8efec731676cfe3a1b1ff55fd0c911a616ff045455b9bbbfa5dadd82b33923",
       "tree_encoding": "canonical_json_artifact_list_v1",
-      "runtime_tree_sha256": "c9af6eb83aa2ec685bc987bf14d0ba0fb009988e775644d0c838fb992a6e7f9c",
+      "runtime_tree_sha256": "8865c06c5915227d4807d38641d46acd3450bbcedf414699ad2ee1d3603aa584",
       "artifacts": [
         {
           "path": "asset.usd",
@@ -2539,7 +2591,7 @@
         },
         {
           "path": "deps/usd/scoped_source.usda",
-          "sha256": "43855ae8a37927761a25fc010a4cae40448eb89224b5dc0061c8bf84046a2b2b"
+          "sha256": "b37c4eef464df500657f3928d207561b8c763fae83192401371418e6a4b36424"
         },
         {
           "path": "deps/usd/sektion_cabinet_collisions.usd",
@@ -2583,7 +2635,7 @@
         "status": "pass",
         "probe_id": "root_motion_parity",
         "report_path": "evidence/interaction_runtime_qualification/report.json",
-        "report_sha256": "807b89aa1374a4d8cbd211601a69f85a36c81e1554b2c57f81a3eada19ef59aa",
+        "report_sha256": "b5ec7d721294c544d7be23cbac4044063dfa78bc087cf65175cc3b12d72100fc",
         "observations": [
           {
             "finite": true,
@@ -2635,7 +2687,7 @@
         "status": "pass",
         "probe_id": "stable_support",
         "report_path": "evidence/interaction_runtime_qualification/report.json",
-        "report_sha256": "807b89aa1374a4d8cbd211601a69f85a36c81e1554b2c57f81a3eada19ef59aa",
+        "report_sha256": "b5ec7d721294c544d7be23cbac4044063dfa78bc087cf65175cc3b12d72100fc",
         "observations": [
           {
             "finite": true,
@@ -2680,7 +2732,7 @@
         "status": "pass",
         "probe_id": "bilateral_gripper_proxy_collision",
         "report_path": "evidence/interaction_runtime_qualification/report.json",
-        "report_sha256": "807b89aa1374a4d8cbd211601a69f85a36c81e1554b2c57f81a3eada19ef59aa",
+        "report_sha256": "b5ec7d721294c544d7be23cbac4044063dfa78bc087cf65175cc3b12d72100fc",
         "observations": [
           {
             "finite": true,
@@ -2916,7 +2968,7 @@
     "status": "pass",
     "runtime_profile": "isaac41",
     "expected_runtime_version": "4.1",
-    "run_id": "d38e0666315246789dc77ad0b3175620",
+    "run_id": "d5423271b8d9466d8c8147f8f53bbf84",
     "expected_root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
     "runtime_profile_gate": {
       "status": "pass",
@@ -2958,19 +3010,19 @@
     },
     "render_readback": {
       "mean_rgb": [
-        145.759257,
-        188.809347,
-        211.36381
+        145.934347,
+        188.968648,
+        211.488566
       ],
       "foreground_rgb": [
-        145.759257,
-        188.809347,
-        211.36381
+        145.934347,
+        188.968648,
+        211.488566
       ],
       "non_background_ratio": 1.0,
       "bbox_ratio": 1.0,
-      "sha256": "cdfbfd5bc5320f6c639771a52f2f5929929128e23e309ba47b89f34a2e62860f",
-      "bytes": 46054,
+      "sha256": "0c1c2aef7bce1b9b9b8ccd5abd90da9e20da87a9caf3fa23de860cc09544d24b",
+      "bytes": 46516,
       "resolution": [
         256,
         192
@@ -2998,22 +3050,22 @@
           "azimuth": 0.0
         },
         "target_prim": "/World/conical_bottle03",
-        "render_hash": "cd3ecc4fd1a41b1c324a1a0c82fdb8b736872a7d9265af79482711bd8ebab45a",
+        "render_hash": "9cf5d450be7cc2c90c806dffa883b27496473de9fdb79b3f572cc37036bb32c8",
         "mean_rgb": [
-          150.842977,
-          183.370748,
-          201.520874
+          149.560486,
+          182.317078,
+          200.711182
         ],
         "foreground_rgb": [
-          158.232509,
-          192.928798,
-          212.288932
+          156.864518,
+          191.804883,
+          211.42526
         ],
         "non_background_ratio": 0.9375,
         "bbox_ratio": 0.9375,
         "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/material_views/front.png",
         "bbox_source": "authored",
-        "bytes": 43885,
+        "bytes": 44217,
         "resolution": [
           256,
           192
@@ -3037,22 +3089,22 @@
           "azimuth": 45.0
         },
         "target_prim": "/World/conical_bottle03",
-        "render_hash": "d255d58b4406b79ec83581d1636887f709fc65d3a5ed2b30364bc9b3ff748dbd",
+        "render_hash": "5a3242b153b70f32d4683a90b9728bd9dfc6d8a5302d9bbe369c3ab6cb1aeeb7",
         "mean_rgb": [
-          134.096252,
-          182.296794,
-          207.676147
+          139.929789,
+          187.346415,
+          211.489583
         ],
         "foreground_rgb": [
-          134.096252,
-          182.296794,
-          207.676147
+          139.929789,
+          187.346415,
+          211.489583
         ],
         "non_background_ratio": 1.0,
         "bbox_ratio": 1.0,
         "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/material_views/orbit_3q.png",
         "bbox_source": "authored",
-        "bytes": 47733,
+        "bytes": 47280,
         "resolution": [
           256,
           192
@@ -3076,22 +3128,22 @@
           "azimuth": 90.0
         },
         "target_prim": "/World/conical_bottle03",
-        "render_hash": "22c9853e8fd99fa82d7a201ea83221a8a0d9a65a74333ba3ba94d9db67954a06",
+        "render_hash": "e736a7e0fea7793e39ff29a216ee7d31b71b6fb8c408575825a1cfe575ca71de",
         "mean_rgb": [
-          130.41748,
-          181.368022,
-          207.484741
+          130.421041,
+          181.846049,
+          208.020508
         ],
         "foreground_rgb": [
-          130.41748,
-          181.368022,
-          207.484741
+          130.421041,
+          181.846049,
+          208.020508
         ],
         "non_background_ratio": 1.0,
         "bbox_ratio": 1.0,
         "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/material_views/side.png",
         "bbox_source": "authored",
-        "bytes": 46967,
+        "bytes": 46290,
         "resolution": [
           256,
           192
@@ -3321,7 +3373,7 @@
     },
     "runtime_report_binding": {
       "status": "pass",
-      "run_id": "d38e0666315246789dc77ad0b3175620",
+      "run_id": "d5423271b8d9466d8c8147f8f53bbf84",
       "root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
       "errors": []
     },
@@ -3379,7 +3431,7 @@
       },
       "parser_version": "aan06.physx_scope.v3",
       "log_hashes": {
-        "stdout": "37d25b57dc9a794c1d8670ba997583c4cdef525c8a809221c1efaf2d57b14d69",
+        "stdout": "b3bde50ece8d6af101108b23e51fc6e10a33eea43fcae27c715e0c6030318e6c",
         "stderr": "e23fe7953c782adfa1b26e7854ef10f78cdfdf090a921082e49bb75cdb985ee0"
       }
     },
@@ -3467,7 +3519,7 @@
         "--asset-id",
         "LabUtopia_conical_bottle03",
         "--run-id",
-        "d38e0666315246789dc77ad0b3175620",
+        "d5423271b8d9466d8c8147f8f53bbf84",
         "--expected-root-usd-sha256",
         "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
         "--width",
@@ -3493,7 +3545,7 @@
         "--asset-scope-prim",
         "/World/conical_bottle03"
       ],
-      "run_id": "d38e0666315246789dc77ad0b3175620",
+      "run_id": "d5423271b8d9466d8c8147f8f53bbf84",
       "root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
       "env_policy": {
         "allowed_existing_conda_env": "isaac41",
@@ -3526,7 +3578,7 @@
       "exit_code": 0
     }
   },
-  "created_at": "2026-07-14T15:39:51Z",
+  "created_at": "2026-07-14T16:41:02Z",
   "tool_version": "convert_asset.asset_application_normalizer.v1",
   "git_commit": null,
   "static_usd_report": {
@@ -3567,6 +3619,38 @@
         "kilograms_per_unit": 1.0,
         "time_codes_per_second": 60.0,
         "frames_per_second": 24.0
+      },
+      "reference_scope_material_relocations": [
+        {
+          "source_material_prim": "/World/Looks/OmniSurface_Glass",
+          "package_material_prim": "/World/conical_bottle03/__aan_materials/OmniSurface_Glass",
+          "method": "Usd.NamespaceEditor.MovePrimAtPath"
+        }
+      ],
+      "entry_reference_qualification": {
+        "status": "pass",
+        "asset_entry_prim": "/World/conical_bottle03",
+        "probe_paths": [
+          "/__aan_nested/reference_probe"
+        ],
+        "qualified_bindings": [
+          {
+            "render_prim": "/World/conical_bottle03/mesh",
+            "purpose": "",
+            "material_prim": "/World/conical_bottle03/__aan_materials/OmniSurface_Glass"
+          },
+          {
+            "render_prim": "/World/conical_bottle03/mesh",
+            "purpose": "full",
+            "material_prim": "/World/conical_bottle03/__aan_materials/OmniSurface_Glass"
+          },
+          {
+            "render_prim": "/World/conical_bottle03/mesh",
+            "purpose": "preview",
+            "material_prim": "/World/conical_bottle03/__aan_materials/OmniSurface_Glass"
+          }
+        ],
+        "errors": []
       }
     },
     "required_prims": [
