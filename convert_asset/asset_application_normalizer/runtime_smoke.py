@@ -162,7 +162,7 @@ def build_runtime_smoke(
         "--warmup-steps",
         "4",
         "--render-steps",
-        "1",
+        "4",
         "--step-frames",
         "120",
         "--reset-cycles",
@@ -821,6 +821,72 @@ def _build_physx_warning_gate_from_logs(
     return result
 
 
+def _runtime_support_surface(stage: Any, scope_prims: list[str]) -> dict[str, Any]:
+    """Choose a session-only support plane from authored interaction frames."""
+    from pxr import Usd, UsdGeom  # type: ignore
+
+    frame_paths = [
+        scope.rstrip("/") + "/__aan_frame_support" for scope in scope_prims
+    ]
+    frames = [stage.GetPrimAtPath(path) for path in frame_paths]
+    if frames and all(prim and prim.IsValid() for prim in frames):
+        heights = [
+            float(
+                UsdGeom.Xformable(prim)
+                .ComputeLocalToWorldTransform(Usd.TimeCode.Default())
+                .ExtractTranslation()[2]
+            )
+            for prim in frames
+        ]
+        if all(math.isfinite(value) for value in heights) and max(heights) - min(
+            heights
+        ) <= 1.0e-6:
+            return {
+                "z_position_stage_units": heights[0],
+                "method": "interaction_support_frame",
+                "frame_paths": frame_paths,
+            }
+
+    bbox_cache = UsdGeom.BBoxCache(
+        Usd.TimeCode.Default(),
+        [UsdGeom.Tokens.default_, UsdGeom.Tokens.render, UsdGeom.Tokens.proxy],
+        useExtentsHint=False,
+    )
+    minimum_z = min(
+        float(
+            bbox_cache.ComputeWorldBound(stage.GetPrimAtPath(scope))
+            .ComputeAlignedRange()
+            .GetMin()[2]
+        )
+        for scope in scope_prims
+    )
+    if not math.isfinite(minimum_z):
+        raise ValueError("runtime asset scope has no finite support surface")
+    return {
+        "z_position_stage_units": minimum_z,
+        "method": "scope_world_bbox_min",
+        "frame_paths": [],
+    }
+
+
+def _stage_requires_gpu_dynamics(stage: Any, scope_prims: list[str]) -> bool:
+    """Return true when an active scoped collider requests cooked SDF physics."""
+    for prim in stage.Traverse():
+        path = prim.GetPath().pathString
+        if not _path_in_scope(path, scope_prims):
+            continue
+        schemas = set(str(item) for item in prim.GetAppliedSchemas())
+        if "PhysicsMeshCollisionAPI" not in schemas:
+            continue
+        enabled = prim.GetAttribute("physics:collisionEnabled")
+        if enabled and enabled.Get() is False:
+            continue
+        approximation = prim.GetAttribute("physics:approximation")
+        if approximation and str(approximation.Get()) == "sdf":
+            return True
+    return False
+
+
 def _combine_physx_warning_gates(
     package_direct_gate: dict[str, Any],
     instantiated_runtime_gate: dict[str, Any],
@@ -917,16 +983,14 @@ def _worker_report(
             }
         )
 
-        import numpy as np  # type: ignore
         import omni  # type: ignore
-        from pxr import Usd, UsdGeom  # type: ignore
+        from pxr import UsdGeom  # type: ignore
 
         from convert_asset.render.single import (  # noqa: PLC0415
             DEFAULT_BACKGROUND_COLOR,
             _camera_rgba,
             _compute_bbox,
             _init_camera,
-            _init_world,
             _is_valid_bbox,
             _rgba_to_rgb,
             _save_rgb_png,
@@ -975,6 +1039,7 @@ def _worker_report(
                 "reason": "omni.usd context did not return a fully loaded stage",
             }
             return report
+        stage.SetEditTarget(stage.GetSessionLayer())
 
         prim_records = _runtime_required_prims(stage, asset_scope_prims)
         if any(item["status"] == "blocked" for item in prim_records):
@@ -1003,7 +1068,28 @@ def _worker_report(
                 "reason": "stage metersPerUnit must be finite and positive",
             }
             return report
-        world = _init_world(stage_units_in_meters=stage_units_in_meters)
+        from omni.isaac.core import World  # type: ignore  # noqa: PLC0415
+
+        world = World(
+            stage_units_in_meters=stage_units_in_meters,
+            physics_dt=0.01,
+            rendering_dt=0.01,
+        )
+        requires_gpu_dynamics = _stage_requires_gpu_dynamics(
+            stage,
+            asset_scope_prims,
+        )
+        physics_context = world.get_physics_context()
+        if requires_gpu_dynamics:
+            physics_context.set_broadphase_type("GPU")
+            physics_context.enable_gpu_dynamics(True)
+        support_surface = _runtime_support_surface(stage, asset_scope_prims)
+        world.scene.add_default_ground_plane(
+            z_position=float(support_surface["z_position_stage_units"]),
+            name="aan_runtime_smoke_ground",
+            prim_path="/World/__aan_runtime_smoke_ground",
+        )
+        world.reset()
         report["physics_context"] = {
             "stage_units_in_meters": stage_units_in_meters,
             "physics_dt_seconds": 0.01,
@@ -1013,6 +1099,9 @@ def _worker_report(
             "reset_tolerance_m": float(args.reset_tolerance_m),
             "scope_rigid_bodies": _scoped_rigid_body_paths(stage, asset_scope_prims),
             "joint_topology": _scoped_joint_topology(stage, asset_scope_prims),
+            "broadphase_type": physics_context.get_broadphase_type(),
+            "gpu_dynamics_enabled": physics_context.is_gpu_dynamics_enabled(),
+            "support_surface": support_surface,
         }
         _setup_environment(stage)
         target_prim = _target_prim(stage, asset_scope_prims)
@@ -1027,7 +1116,7 @@ def _worker_report(
 
         bbox_min, bbox_max = bbox
         center = (bbox_min + bbox_max) / 2.0
-        distance = max(0.25, float(np.linalg.norm(bbox_max - bbox_min)))
+        distance = _camera_fit_distance(bbox_min, bbox_max)
         camera = _init_camera(
             "aan_runtime_smoke_camera",
             int(args.width),
@@ -1412,6 +1501,16 @@ def _camera_pose(center: Any, *, distance: float, elevation: float, azimuth: flo
         "elevation": round(float(elevation), 8),
         "azimuth": round(float(azimuth), 8),
     }
+
+
+def _camera_fit_distance(bbox_min: Any, bbox_max: Any) -> float:
+    """Fit the complete authored bbox with margin in the fixed smoke camera."""
+    extents = [
+        float(bbox_max[index]) - float(bbox_min[index])
+        for index in range(3)
+    ]
+    diagonal = math.sqrt(sum(value * value for value in extents))
+    return max(0.25, 1.5 * diagonal)
 
 
 def _wait_for_camera_rgba(

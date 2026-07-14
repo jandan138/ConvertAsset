@@ -63,6 +63,7 @@ def build_manifest(
     source_physics_audit: dict[str, Any] | None = None,
     output_role_admission: dict[str, Any] | None = None,
     normalization_actions: list[dict[str, Any]] | None = None,
+    interaction_contract: dict[str, Any] | None = None,
     visual_preservation_fingerprint: dict[str, Any] | None = None,
     source_integrity: dict[str, Any] | None = None,
     stage_gates: list[dict[str, Any]] | None = None,
@@ -177,6 +178,11 @@ def build_manifest(
         "source_physics_audit": source_physics_audit or {},
         "output_role_admission": output_role_admission or {},
         "normalization_actions": normalization_actions or [],
+        "interaction_contract": interaction_contract
+        or {
+            "schema_version": "aan.interaction_contract.v1",
+            "status": "not_requested",
+        },
         "visual_preservation_fingerprint": visual_preservation_fingerprint or {},
         "stage_gates": stage_gates or [
             {
@@ -213,6 +219,9 @@ def build_manifest(
                 "contract": str(request.contract) if request.contract else None,
                 "allow_waiver": str(request.allow_waiver) if request.allow_waiver else None,
                 "physics_profile": str(request.physics_profile) if request.physics_profile else None,
+                "interaction_profile": (
+                    str(request.interaction_profile) if request.interaction_profile else None
+                ),
                 "runtime_python": str(request.runtime_python) if request.runtime_python else None,
                 "warning_baseline_log": str(request.warning_baseline_log) if request.warning_baseline_log else None,
                 "warning_baseline_scope_prims": list(request.warning_baseline_scope_prims),

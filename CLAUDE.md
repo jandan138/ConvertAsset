@@ -21,6 +21,16 @@ All commands require Isaac Sim's Python environment (provides the `pxr` USD bind
 ./scripts/isaac_python.sh ./main.py usd-to-glb /path/to/scene.usd --out /output.glb
 ./scripts/isaac_python.sh ./main.py inspect /path/to/scene.usd usdpreview /Looks/MaterialName
 ./scripts/isaac_python.sh ./main.py mesh-faces /path/to/scene.usd
+
+# AAN dynamic object package: interaction topology is authored before the
+# independent mass-only physics profile.
+./scripts/isaac_python.sh ./main.py normalize-asset /path/to/source.usd \
+  --out /path/to/package --asset-role dynamic \
+  --interaction-profile /path/to/interaction.json \
+  --physics-profile /path/to/physics.json \
+  --source-runtime isaac51 --target-runtime isaac41 \
+  --target-benchmark scenario-forge --asset-id Object --task-id Task.Object \
+  --asset-scope-prim /World/Object --required-prim /World/Object
 ```
 
 Default subcommand (when none specified) is `no-mdl`.

@@ -1,0 +1,494 @@
+{
+  "schema_version": "aan.interaction_runtime_qualification_request.v1",
+  "binding": {
+    "run_id": "66fbb10dd62e4c6dad4a27cd018c2119",
+    "root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
+    "runtime_tree_sha256": "d30bd99251521ffbfc6bef395a0615d777f12f7e72771322fba86496b65776ce",
+    "prequalification_contract_payload_sha256": "9dba83e2b92a79b2d7b46a3a7491f240d8df02943fc7700f3de1cb6a92a43ad7"
+  },
+  "expected_runtime_version": "4.1",
+  "interaction_contract": {
+    "schema_version": "aan.interaction_contract.v1",
+    "status": "pass",
+    "profile": {
+      "schema_version": "aan.object_interaction_profile.v1",
+      "profile_id": "labutopia.lab_001.graduated_cylinder_03.20260707.interaction",
+      "revision": "r1",
+      "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+      "profile_sha256": "2161e1393a8aeb63e5d58902a23ee5b570854e21c83bc6372e87c16739544fe1",
+      "package_path": "interaction/profile.json",
+      "overlay_path": "overlays/interaction.usda"
+    },
+    "asset_entry_prim": "/World/graduated_cylinder_03",
+    "runtime_identity": {
+      "rigid_root_prim": "/World/graduated_cylinder_03",
+      "exactly_one_active_rigid_body": true,
+      "active_rigid_body_prims": [
+        "/World/graduated_cylinder_03"
+      ]
+    },
+    "disabled_source_rigid_bodies": [
+      {
+        "prim_path": "/World/graduated_cylinder_03/mesh",
+        "rigid_body_api_removed": true,
+        "rigid_body_disabled": true,
+        "mass_api_removed": true
+      }
+    ],
+    "collider_prims": [
+      {
+        "prim_path": "/World/graduated_cylinder_03/mesh",
+        "mode": "preserve",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "gripper",
+          "support"
+        ],
+        "requested_approximation": "sdf",
+        "observed_approximation": "sdf"
+      }
+    ],
+    "open_top": {
+      "required": true,
+      "axis_body_local": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "aperture_frame": "opening",
+      "status": "blocked",
+      "evidence": {
+        "status": "blocked",
+        "probe_id": "cooked_aperture",
+        "report_path": "evidence/interaction_runtime_qualification/report.json",
+        "report_sha256": "84bea0a058a89f055768781910c0b606d7792556c96347b7c6d45d975d959d64",
+        "observations": [
+          {
+            "finite": true,
+            "method": "physx_cooked_sphere_sweep_and_overlap",
+            "probe_radius_m": 0.003517323066652905,
+            "entry_depth_m": 0.04,
+            "entry_center_clear": false,
+            "entry_overlaps": [
+              {
+                "collision": "/World/graduated_cylinder_03/mesh",
+                "rigid_body": "/World/graduated_cylinder_03"
+              }
+            ],
+            "bottom_hit": true,
+            "bottom_depth_m": 0.0007084154796828124,
+            "bottom_observation": {
+              "collision": "/World/graduated_cylinder_03/mesh",
+              "rigid_body": "/World/graduated_cylinder_03",
+              "distance_m": 0.005987037904560566,
+              "position_m": [
+                9.77731990814209,
+                0.3360556364059448,
+                0.28231561183929443
+              ],
+              "normal": [
+                -0.04039165377616882,
+                0.0032370693515986204,
+                0.9991787075996399
+              ]
+            },
+            "vessel_height_m": 0.2722941904,
+            "side_hits": {
+              "positive": true,
+              "negative": true
+            },
+            "side_observations": {
+              "positive": [
+                {
+                  "collision": "/World/graduated_cylinder_03/mesh",
+                  "rigid_body": "/World/graduated_cylinder_03",
+                  "distance_m": 0.0,
+                  "position_m": [
+                    -351.19683837890625,
+                    0.3332325518131256,
+                    0.010781675577163696
+                  ],
+                  "normal": [
+                    -0.9999999403953552,
+                    -7.794938028382603e-06,
+                    -0.0003779517428483814
+                  ]
+                }
+              ],
+              "negative": [
+                {
+                  "collision": "/World/graduated_cylinder_03/mesh",
+                  "rigid_body": "/World/graduated_cylinder_03",
+                  "distance_m": 0.0,
+                  "position_m": [
+                    -351.19683837890625,
+                    0.3332325518131256,
+                    0.010781675577163696
+                  ],
+                  "normal": [
+                    0.9999999403953552,
+                    7.794938028382603e-06,
+                    0.0003779517428483814
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "errors": [
+          "probe could not enter a clear center below the opening",
+          "first axial hit is too shallow and may be a virtual cap"
+        ],
+        "prequalification_contract_payload_sha256": "a5c272e9c34b4ebdaf78095a84187b4bd559eadfbdb789727babc17cf7e9f1ff"
+      }
+    },
+    "named_frames": {
+      "grasp": {
+        "prim_path": "/World/graduated_cylinder_03/__aan_frame_grasp",
+        "parent_prim": "/World/graduated_cylinder_03",
+        "translation_body_local_usd": [
+          0.0,
+          0.14,
+          0.0
+        ],
+        "rotation_body_local_wxyz": [
+          0.7071067811865476,
+          -0.7071067811865475,
+          0.0,
+          0.0
+        ],
+        "authoritative": true
+      },
+      "opening": {
+        "prim_path": "/World/graduated_cylinder_03/__aan_frame_opening",
+        "parent_prim": "/World/graduated_cylinder_03",
+        "translation_body_local_usd": [
+          0.0,
+          0.2722941904,
+          0.0
+        ],
+        "rotation_body_local_wxyz": [
+          0.7071067811865476,
+          -0.7071067811865475,
+          0.0,
+          0.0
+        ],
+        "authoritative": true
+      },
+      "support": {
+        "prim_path": "/World/graduated_cylinder_03/__aan_frame_support",
+        "parent_prim": "/World/graduated_cylinder_03",
+        "translation_body_local_usd": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_body_local_wxyz": [
+          0.7071067811865476,
+          -0.7071067811865475,
+          0.0,
+          0.0
+        ],
+        "authoritative": true
+      }
+    },
+    "closure": {
+      "status": "pass",
+      "digest_algorithm": "sha256",
+      "contract_encoding": "canonical_json_interaction_payload_v1",
+      "contract_payload_sha256": "9dba83e2b92a79b2d7b46a3a7491f240d8df02943fc7700f3de1cb6a92a43ad7",
+      "tree_encoding": "canonical_json_artifact_list_v1",
+      "runtime_tree_sha256": "d30bd99251521ffbfc6bef395a0615d777f12f7e72771322fba86496b65776ce",
+      "artifacts": [
+        {
+          "path": "asset.usd",
+          "sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17"
+        },
+        {
+          "path": "deps/mdl/Aluminum_Anodized_Charcoal.mdl",
+          "sha256": "640855d3890c6faaae6346a850ef9f366d4b397c0f4313e25c7ac0b9230c106a"
+        },
+        {
+          "path": "deps/mdl/OmniGlass.mdl",
+          "sha256": "cd7c97781dc95f1694f9acc70c0b9ae327361a3b1c84abf917e55a9d672e627a"
+        },
+        {
+          "path": "deps/mdl/OmniGlass_Opacity.mdl",
+          "sha256": "87facd037b11888d3052b663bb20e41367b769095bde4c9cf686925fa17eb2a4"
+        },
+        {
+          "path": "deps/mdl/OmniPBR.mdl",
+          "sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db"
+        },
+        {
+          "path": "deps/mdl/OmniPBRBase.mdl",
+          "sha256": "edcc669a238798a4d90ce36bd535282d23f88cddc544d68a532a5b732432788e"
+        },
+        {
+          "path": "deps/mdl/OmniSurfacePresets.mdl",
+          "sha256": "5c86c8545a1e215ec4b99e60eb66f9112ca5952cc66ca13ec0c26687dcfcb930"
+        },
+        {
+          "path": "deps/mdl/Plastic.mdl",
+          "sha256": "00ff5c95e8f9a97a5f21d0230536b01ac2ab88a8ab0d7eea9780e839be8be215"
+        },
+        {
+          "path": "deps/mdl/Plastic_Thick_Translucent.mdl",
+          "sha256": "e6fc7403fce0da94912d3aa2ced0638a2aafb4c9cd504a745743f4273b7dc333"
+        },
+        {
+          "path": "deps/mdl/Stainless_Steel.mdl",
+          "sha256": "d97fda12c4cb264ee73a9a27772da8a0165c7a149506b6b6a6a6aedeaf23aef5"
+        },
+        {
+          "path": "deps/mdl/Steel_Stainless-dc62db95.mdl",
+          "sha256": "976b0375c79f2c7262d0e4af785db67735260ff457319c62d50427c957cbf2a8"
+        },
+        {
+          "path": "deps/mdl/Steel_Stainless.mdl",
+          "sha256": "4aa967952d1f840438880df500a642e71b385bd537fd077dbf202e98a1573689"
+        },
+        {
+          "path": "deps/mdl/material_06.mdl",
+          "sha256": "a387b9e3f737dbc61653de75538958e95eab77c0ae9093cdc30f8496579214ad"
+        },
+        {
+          "path": "deps/mdl/material_08.mdl",
+          "sha256": "2d340831b68cb0402efac04f53857c8fef5c479f505c7dfbf96fc26525acd6ae"
+        },
+        {
+          "path": "deps/mdl/material_09.mdl",
+          "sha256": "0569e8b1b05810a9c1d0eb604184dbc5450f0ad79307639e0cb0ec44dce26ea8"
+        },
+        {
+          "path": "deps/mdl/material_11.mdl",
+          "sha256": "f91013cdb672bc6670ef09225f378918df2fed2a977de2b3927e4f148ced9a32"
+        },
+        {
+          "path": "deps/mdl/material_12.mdl",
+          "sha256": "c63181bc2f23c090d36e9e3b96672b511a17e03f4362cca130937c6b6d7ec492"
+        },
+        {
+          "path": "deps/mdl/pbr.mdl",
+          "sha256": "08d49f866cba15416a9614776ce3502dd922c3ca5441261496df84ffee1ae0a2"
+        },
+        {
+          "path": "deps/textures/Steel_Stainless_BaseColor.png",
+          "sha256": "3f8b3b576ce734630625a64faf6266faf411714a59c42c7af395dc0826e52151"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture0.jpg",
+          "sha256": "090cea3716ec138f618190081619ed4516a3403351d378063e15c6c06d2cce46"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture0_1.jpg",
+          "sha256": "090cea3716ec138f618190081619ed4516a3403351d378063e15c6c06d2cce46"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture1.jpg",
+          "sha256": "c993bac14939eb27ab4cf248fee5816a6873885d8a159e0e97c2f4fad0619925"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture1_1.jpg",
+          "sha256": "c993bac14939eb27ab4cf248fee5816a6873885d8a159e0e97c2f4fad0619925"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture2.png",
+          "sha256": "a961a7fb56b25ad1905310f6be55efcb167f241fe2f01836468bc17f7a6602ba"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture2_1.png",
+          "sha256": "a961a7fb56b25ad1905310f6be55efcb167f241fe2f01836468bc17f7a6602ba"
+        },
+        {
+          "path": "deps/usd/scoped_source.usda",
+          "sha256": "10d393ac666c56a7e7f93079badf7f404c3b29ecf8255bcecb3f85b56b52f729"
+        },
+        {
+          "path": "deps/usd/sektion_cabinet_collisions.usd",
+          "sha256": "404c6604a98d719a4af74f489e505e17037e6b0ae5112aeec643675e70e797cb"
+        },
+        {
+          "path": "deps/usd/sektion_cabinet_instanceable.usd",
+          "sha256": "24ff5433c76d39345e0a633e3ec0c39c4c6c9217a1a00b20f2b12cc6f49e38c6"
+        },
+        {
+          "path": "deps/usd/sektion_cabinet_visuals.usd",
+          "sha256": "f9879be54b34eed9ba16928ee14ac0c261f9b7211fdeadd8bd9fe3ace206afd7"
+        },
+        {
+          "path": "deps/usd/source_root.usd",
+          "sha256": "653ed760fc9c85efe6012d1cb58849befba2d35ac02280c8b26d6e7680dde7bb"
+        },
+        {
+          "path": "interaction/profile.json",
+          "sha256": "2161e1393a8aeb63e5d58902a23ee5b570854e21c83bc6372e87c16739544fe1"
+        },
+        {
+          "path": "overlays/interaction.usda",
+          "sha256": "bc9ab4dd3ffc4ca107170edb2c63692d6345c9315f7d768dec94664244499a8c"
+        },
+        {
+          "path": "overlays/physics_profile.usda",
+          "sha256": "cbbc52cdd53e31922c2c1552a78c61b65b01419ef09d0f7edc60e45b29819a72"
+        },
+        {
+          "path": "physics/profile.json",
+          "sha256": "7bf298de5e8ed014d0f37717539dd4b0aa471a29eee2e2bcd1deb9efd62ce67e"
+        }
+      ]
+    },
+    "root_motion_gate": {
+      "required": true,
+      "min_translation_m": 0.05,
+      "status": "pass",
+      "evidence": {
+        "status": "pass",
+        "probe_id": "root_motion_parity",
+        "report_path": "evidence/interaction_runtime_qualification/report.json",
+        "report_sha256": "84bea0a058a89f055768781910c0b606d7792556c96347b7c6d45d975d959d64",
+        "observations": [
+          {
+            "finite": true,
+            "control": {
+              "kind": "rigid_root_pose_delta_plus_velocity",
+              "requested_translation_m": 0.060000000000000005,
+              "linear_velocity_m_s": [
+                0.019999998570917207,
+                1.558987597828778e-07,
+                7.559034676074001e-06
+              ],
+              "steps": 2
+            },
+            "translation_m": 0.05935481006883829,
+            "scene_to_rigid_position_error_m": 0.0,
+            "scene_to_rigid_orientation_error_deg": 1.1326587362040635e-05,
+            "scene_position_stage_units": [
+              9.836636543273926,
+              0.3360782563686371,
+              0.010751351714134216
+            ],
+            "rigid_position_stage_units": [
+              9.836636543273926,
+              0.3360782563686371,
+              0.010751351714134216
+            ],
+            "scene_orientation_wxyz": [
+              0.7071365332449082,
+              0.7070766687334011,
+              0.0004037654143724328,
+              0.0005872450419652488
+            ],
+            "rigid_orientation_wxyz": [
+              0.7071363925933838,
+              0.7070766687393188,
+              0.0004037654143758118,
+              0.0005872450419701636
+            ]
+          }
+        ],
+        "errors": [],
+        "prequalification_contract_payload_sha256": "a5c272e9c34b4ebdaf78095a84187b4bd559eadfbdb789727babc17cf7e9f1ff"
+      }
+    },
+    "stable_support_gate": {
+      "required": true,
+      "status": "pass",
+      "evidence": {
+        "status": "pass",
+        "probe_id": "stable_support",
+        "report_path": "evidence/interaction_runtime_qualification/report.json",
+        "report_sha256": "84bea0a058a89f055768781910c0b606d7792556c96347b7c6d45d975d959d64",
+        "observations": [
+          {
+            "finite": true,
+            "settle_steps": 240,
+            "tail_steps": 30,
+            "support_height_error_m": 9.993794334056672e-06,
+            "tail_max_linear_speed_m_s": 0.004717749543488026,
+            "tail_max_angular_speed_rad_s": 0.029174983501434326,
+            "tilt_deg": 0.02337090111311127,
+            "lateral_drift_m": 1.0728836059570312e-06,
+            "scene_to_rigid_position_error_m": 0.0,
+            "final_root_position_stage_units": [
+              9.777281761169434,
+              0.33602482080459595,
+              0.010729804635047913
+            ],
+            "final_scene_root_position_stage_units": [
+              9.777281761169434,
+              0.33602482080459595,
+              0.010729804635047913
+            ],
+            "final_support_position_stage_units": [
+              9.777281761169434,
+              0.33602482080459595,
+              0.010729804635047913
+            ],
+            "predicted_support_position_stage_units": [
+              9.777281761169434,
+              0.33602482080459595,
+              0.010729804635047913
+            ]
+          }
+        ],
+        "errors": [],
+        "prequalification_contract_payload_sha256": "a5c272e9c34b4ebdaf78095a84187b4bd559eadfbdb789727babc17cf7e9f1ff"
+      }
+    },
+    "gripper_collision_gate": {
+      "required": true,
+      "status": "pass",
+      "evidence": {
+        "status": "pass",
+        "probe_id": "bilateral_gripper_proxy_collision",
+        "report_path": "evidence/interaction_runtime_qualification/report.json",
+        "report_sha256": "84bea0a058a89f055768781910c0b606d7792556c96347b7c6d45d975d959d64",
+        "observations": [
+          {
+            "finite": true,
+            "method": "physx_cooked_bilateral_sphere_sweep",
+            "probe_radius_m": 0.003517323066652905,
+            "positive_hit": true,
+            "negative_hit": true,
+            "positive_observation": {
+              "collision": "/World/graduated_cylinder_03/mesh",
+              "rigid_body": "/World/graduated_cylinder_03",
+              "distance_m": 0.0,
+              "position_m": [
+                -351.19683837890625,
+                0.3332325518131256,
+                0.010781675577163696
+              ],
+              "normal": [
+                -0.9999999403953552,
+                -7.794938028382603e-06,
+                -0.0003779517428483814
+              ]
+            },
+            "negative_observation": {
+              "collision": "/World/graduated_cylinder_03/mesh",
+              "rigid_body": "/World/graduated_cylinder_03",
+              "distance_m": 0.0,
+              "position_m": [
+                -351.19683837890625,
+                0.3332325518131256,
+                0.010781675577163696
+              ],
+              "normal": [
+                0.9999999403953552,
+                7.794938028382603e-06,
+                0.0003779517428483814
+              ]
+            },
+            "claim_boundary": "Proxy collision only; no robot finger, contact force, closure, or grasp-retention claim is made."
+          }
+        ],
+        "errors": [],
+        "claim_boundary": "Bilateral proxy scene-query hits demonstrate cooked vessel-wall collision near the grasp frame; they do not demonstrate a robot grasp.",
+        "prequalification_contract_payload_sha256": "a5c272e9c34b4ebdaf78095a84187b4bd559eadfbdb789727babc17cf7e9f1ff"
+      }
+    }
+  }
+}

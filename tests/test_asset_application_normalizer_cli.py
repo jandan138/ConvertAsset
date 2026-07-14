@@ -996,6 +996,22 @@ def test_runtime_smoke_render_metrics_records_foreground_rgb(tmp_path: Path) -> 
     assert metrics["non_background_ratio"] == 0.5
 
 
+def test_runtime_smoke_camera_fit_keeps_margin_around_tall_asset() -> None:
+    import numpy as np
+
+    from convert_asset.asset_application_normalizer.runtime_smoke import (
+        _camera_fit_distance,
+    )
+
+    bbox_min = np.array([-0.06, -0.14, -0.06])
+    bbox_max = np.array([0.06, 0.14, 0.06])
+
+    distance = _camera_fit_distance(bbox_min, bbox_max)
+
+    assert distance == pytest.approx(1.5 * np.linalg.norm(bbox_max - bbox_min))
+    assert distance > 0.45
+
+
 def test_runtime_smoke_material_view_capture_uses_injected_render_helpers(
     tmp_path: Path,
 ) -> None:

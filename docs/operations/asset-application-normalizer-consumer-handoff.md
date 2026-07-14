@@ -177,7 +177,15 @@ A ready package must contain:
       source_root.usd    # package-local immutable-source mirror used to compose closure
       scoped_source.usda # visual_static only: population-masked scope/material snapshot
     mdl/
-    textures/
+    mdl_source/           # optional original root-MDL bytes retained after explicit target-runtime substitution
+  textures/
+  overlays/
+    interaction.usda   # optional dynamic object rigid-root/frame contract
+    physics_profile.usda
+  interaction/
+    profile.json       # exact admitted source-bound bytes
+  physics/
+    profile.json
   task/                  # required for EBench; not applicable to visual_static Scenario Forge
     task_config.yaml
     required_prims.yaml
@@ -186,6 +194,11 @@ A ready package must contain:
     runtime_smoke/
       report.json
       render.png
+      stdout.log
+      stderr.log
+    interaction_runtime_qualification/  # optional dynamic object qualification
+      request.json
+      report.json
       stdout.log
       stderr.log
 ```
@@ -221,6 +234,7 @@ Required top-level fields for consumers:
 | `source_physics_audit` | Raw source-scoped diagnostic; a blocked source audit must not be relabeled as a family pass |
 | `output_role_admission` | Role-specific package result, including zero active physics residue for `visual_static` |
 | `normalization_actions`, `visual_preservation_fingerprint` | Package-overlay changes and source/package visual-preservation comparison |
+| `interaction_contract` | Optional dynamic-object unique rigid root, collider/open-top declaration, named frames, runtime-gate states, and runtime-tree closure |
 | `stage_gates` | Per-stage pass/block/not-run evidence |
 | `runtime_evidence` | Cold load, render readback, physics step, reset smoke |
 | `runtime_evidence.physics_warning_gate`, `warning_diff` | Scoped PhysX warning categories, scope map, and baseline/candidate comparison |
@@ -282,6 +296,67 @@ EBench task contract. Instead require all of the following:
 If any visual-static check fails, Scenario Forge must reject the package or ask
 ConvertAsset to re-admit it. It must not repair the scene locally.
 
+For a Scenario Forge dynamic object that declares an interaction profile, treat
+static contract validity and runtime readiness as two different decisions.
+Static admission requires:
+
+1. `interaction_contract.schema_version == "aan.interaction_contract.v1"` and
+   `status == "pass"`;
+2. `asset_entry_prim == runtime_identity.rigid_root_prim`;
+3. `runtime_identity.exactly_one_active_rigid_body == true` and the active list
+   contains only that root;
+4. every disabled source body records RigidBody removal/disable and its MassAPI
+   removal when present;
+5. collider paths are package-scoped and their requested approximation equals
+   composed-stage observed readback when an override was requested;
+6. `opening`, `grasp`, and `support` frames are all authoritative;
+7. each `closure.artifacts[]` file hash and `closure.runtime_tree_sha256` is
+   recomputed from the package before use.
+
+Runtime-ready admission additionally requires open-top, root-motion,
+stable-support, and gripper-collision gates to be `pass` with retained evidence.
+`open_top.status == "declared"` or any gate `status == "not_run"` is a valid
+static package but is not runtime-ready. Scenario Forge must report that state;
+it must not author local RigidBody/Mass/collision/frame fixes.
+
+Before accepting those four passes, the consumer must validate the evidence
+binding rather than trusting the copied status strings:
+
+1. `runtime_evidence.status`, cold load, render readback, physics step, reset,
+   `runtime_report_binding.status`, and the scoped PhysX warning gate all pass;
+2. every promoted interaction gate names the expected probe and the same
+   package-relative `report_path` and lowercase SHA-256;
+3. the path is not absolute, contains no `..` escape, resolves inside the
+   package, names a regular file, and the file hash matches `report_sha256`;
+4. the report schema is
+   `aan.interaction_runtime_qualification_report.v1`, all four probe records
+   are present, and `binding.runtime_tree_sha256` equals the contract closure;
+5. `binding.prequalification_contract_payload_sha256` equals the digest retained
+   in every promoted evidence record;
+6. recomputing the final canonical interaction payload yields
+   `closure.contract_payload_sha256`;
+7. when both an external sidecar manifest and
+   `package/evidence/manifest.json` are handed off, their bytes are identical.
+8. static-era interaction `claims_forbidden` entries are removed only for
+   probes that passed; unrelated physical-parameter, robot/task, and parity
+   restrictions remain present and enforced.
+
+`open_top` is part of the payload, so the final payload digest normally differs
+from the prequalification digest after runtime promotion. This is expected; the
+worker report must remain bound to the prequalification digest, while consumers
+recompute the final digest from the promoted contract.
+
+For a dynamic vessel, bilateral gripper-proxy collision is still a proxy-level
+claim. It does not establish robot-finger contact, force closure, holding,
+retention, dual-arm reachability, pouring success, or benchmark score.
+
+The contract payload digest is SHA-256 over canonical UTF-8 JSON (`sort_keys`,
+compact separators, ASCII escaping) of exactly schema version, entry prim,
+runtime identity, disabled bodies, colliders, open-top declaration, and named
+frames. The runtime tree digest uses the same encoding over the path-sorted
+`[{"path", "sha256"}]` list for `asset.usd`, `deps/**`, `overlays/**`,
+`interaction/**`, and `physics/**`; `evidence/**` is excluded.
+
 ## AAN-11 Material Runtime Closure
 
 `AAN-11 Material Runtime Closure` is a post-closeout follow-up. It does not reopen
@@ -304,7 +379,7 @@ handoff surface:
 | `imported_mdl_modules` | Helper MDL modules mirrored or resolved through approved runtime-root evidence, including runtime path/hash when native |
 | `mdl_texture_assets` | MDL-internal texture files mirrored with package path and hash |
 | `mirror_actions` | Source-to-package helper MDL or MDL-internal texture copies performed by AAN |
-| `rewrite_actions` | Any MDL text rewrite, including before/after hash and rule |
+| `rewrite_actions` | Any MDL text rewrite or explicit target-runtime root substitution, including source-preservation path/hash, installed target path/hash, rule, and claim boundary |
 | `binding_scope` | Required prim to effective material binding graph; `unknown_required_prims` blocks required render surfaces, while `non_render_required_prims` records existing joint/helper prims that do not need material binding |
 | `runtime_compiler` | MDLC, USD_MDL, failed shader node, and missing texture counters grouped by required/background scope |
 | `view_evidence` | Front/door-facing/orbit/transparent render artifacts and material visibility metrics |
@@ -337,6 +412,14 @@ background-only and required surfaces render correctly, the consumer should pres
 the MDL route and retain the scoped warning. If the consumer registry cannot represent
 that distinction, it should keep the asset blocked or request a re-export rather than
 hand-editing USD/MDL paths downstream.
+
+An explicit target-runtime root MDL substitution is allowed only when its
+provenance is complete. The package-visible root under `deps/mdl/**` must match
+the selected target runtime hash, the original package bytes must remain under
+`deps/mdl_source/**`, and `material_closure` plus
+`material_runtime_closure.rewrite_actions` must agree on both hashes. Consumers
+must preserve the `target_runtime_mdl_substitution_not_visual_parity` loss and
+must not translate a clean target compiler log into a full visual-parity claim.
 
 For Phase12 clean registry mapping, `passed` still means the exported fields are clean:
 `missing_material_refs: []` and `missing_textures: []`, or an explicitly versioned

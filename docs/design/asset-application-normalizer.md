@@ -14,6 +14,9 @@
 > 2026-07-14 dynamic-physics profile: package metric parity plus source-bound
 > profile-owned physics authoring are required for Scenario Forge dynamic admission;
 > see `docs/records/2026-07-14-aan-dryingbox-dynamic-physics-profile.md`.
+> 2026-07-14 vessel interaction runtime qualification: cooked aperture, stable
+> support, root-motion parity, and bilateral proxy-collision gates are implemented;
+> see `docs/records/2026-07-14-aan-labutopia-vessel-runtime-qualification.md`.
 
 ## 一句话定位
 
@@ -1017,6 +1020,138 @@ local patch）可接收 `--runtime-physx-log <log>` 和可重复的
 `--runtime-scope-binding PACKAGE_SCOPE=RUNTIME_SCOPE`。external log 必须显式给出完整、
 one-to-one binding；non-identity binding 没有 external log 也 blocked。最终 runtime gate
 是 package-direct gate 与 external consumer-log gate 的 conjunction，二者都 pass 才可通过。
+
+### 2026-07-14 Object interaction profile and rigid-root identity
+
+`aan.physics_profile.v1` 继续只负责 mass、inertia、COM、principal axes 与 motion role，不能
+偷偷扩展成资产拓扑修复器。需要被机器人抓取、支撑或倾倒的 object 另用
+`aan.object_interaction_profile.v1` 描述：source SHA/stage frame、唯一
+`asset_entry_prim`、collider closure、open-top intent、`opening` / `grasp` / `support`
+三个 body-local authoritative frame，以及后续 runtime gate 要求。
+
+pipeline 顺序固定为：
+
+```text
+immutable scoped source
+  -> overlays/interaction.usda
+       - asset_entry_prim becomes the one active rigid root
+       - descendant RigidBodyAPI/MassAPI are deleted in the strong layer
+       - descendant rigidBodyEnabled is set false
+       - declared colliders are preserved or authored
+       - optional Mesh collision approximation is authored/read back
+       - opening/grasp/support Xforms are authored below the rigid root
+  -> overlays/physics_profile.usda
+       - unchanged physics_profile.v1 resolves the normalized root (relative_path ".")
+  -> static physics admission
+```
+
+`asset.usd` 的 sublayer strength 从强到弱为 physics profile、interaction、scoped source。
+authoring 的执行顺序仍然是 interaction first；这样 mass profile resolver 读取 composed stage
+时只看到 normalized root，不会把 source child mesh 继续当 state prim。raw USD 不修改，
+consumer 也不得复制该修复。
+
+profile 中 `colliders[]` 必须 exact-cover source scope 内全部 active collision prim。现有
+mode 是 `preserve`、`disable` 和 `author`：`disable` 明确停用 source collision，`author`
+可以在 reserved `__aan_collision_proxy/` 下创建 package-owned Cube geometry，因此 open-top
+compound proxy 可以完全由 profile data 描述，不需要 asset-name code branch。Mesh collider
+可选 `approximation`，包括 `sdf`；manifest 同时记录 requested 与 composed-stage observed
+value。选择 `sdf` 只是 package authoring，不能替代 open-top runtime aperture probe。
+
+manifest 的 `interaction_contract` schema 是 `aan.interaction_contract.v1`，核心字段为：
+
+```json
+{
+  "asset_entry_prim": "/World/Object",
+  "runtime_identity": {
+    "rigid_root_prim": "/World/Object",
+    "exactly_one_active_rigid_body": true,
+    "active_rigid_body_prims": ["/World/Object"]
+  },
+  "disabled_source_rigid_bodies": [],
+  "collider_prims": [],
+  "open_top": {},
+  "named_frames": {},
+  "closure": {},
+  "root_motion_gate": {"status": "not_run"},
+  "stable_support_gate": {"status": "not_run"},
+  "gripper_collision_gate": {"status": "not_run"}
+}
+```
+
+static authoring pass 只证明唯一 root、schema removal、collider/frame readback 与 package closure；
+它不证明 open-top、root motion、stable support 或 gripper contact。后三项必须保留
+`status: not_run`，open-top 保留 `status: declared`，直到对应 Isaac runtime evidence 合入。
+
+closure 有两层 digest：`contract_payload_sha256` 覆盖 schema、entry prim、runtime identity、
+disabled source bodies、colliders、open-top declaration 与 named frames；
+`runtime_tree_sha256` 覆盖按 path 排序的 `asset.usd`、`deps/**`、`overlays/**`、
+`interaction/**`、`physics/**` 文件清单。每项保存 bare lowercase SHA-256，tree digest 对
+canonical JSON artifact list 求 SHA-256。`evidence/**` 被明确排除以避免 manifest 自引用。
+
+#### Interaction runtime qualification
+
+`interaction_runtime_qualification.py` 是 object-level qualifier，不是 episode runner 或机器人
+adapter。它在独立 Isaac Sim 4.1 worker 中读取一个 closure-bound package，并产生四个彼此
+独立的 probe：
+
+| Probe | Gate projection | Core acceptance facts |
+|---|---|---|
+| `cooked_aperture` | `open_top` | opening 下方中心无 overlap、轴向 first hit 足够深、正负两侧 wall 均可碰撞 |
+| `stable_support` | `stable_support_gate` | support height、settled speed、tilt、lateral drift、USD/rigid position parity 都在固定阈值内 |
+| `root_motion_parity` | `root_motion_gate` | controlled translation 达到 profile minimum，USD scene 与 rigid view 的 position/orientation 一致 |
+| `bilateral_gripper_proxy_collision` | `gripper_collision_gate` | grasp frame 两侧 cooked sphere sweep 都命中，且不从 collider 内部开始 |
+
+一项 probe 只更新对应 claim。任何 missing/non-finite observation、worker failure、closure
+change 或 binding mismatch 都是 `blocked`；不能因为其他三项通过而提升该 gate。
+bilateral probe 只证明 grasp frame 附近存在可查询的 cooked wall collision，不证明 robot
+finger、contact force、closure、holding 或 grasp retention。
+
+worker request/report binding 包含 unique `run_id`、`asset.usd` SHA-256、
+`runtime_tree_sha256` 和 `prequalification_contract_payload_sha256`。host 在 worker 前后都重算
+runtime tree，并在 promotion 前验证 report schema 和所有 binding。report 固定写入
+`package/evidence/interaction_runtime_qualification/report.json`；gate 只保存 package-relative
+path 和 report SHA-256。consumer 必须拒绝 absolute/escaping path、missing file、hash 不符和
+binding 不符。
+
+`open_top` 是 contract payload 的一部分，所以把它从 `declared` 提升到 `pass/blocked` 会
+合法改变 payload。report 绑定 promotion 前的 digest；每项 gate evidence 保留该
+prequalification digest；promotion 后重新计算 `closure.contract_payload_sha256`。package
+runtime tree 不含 `evidence/**`，因此 report 本身不会改变被测 closure。external sidecar 与
+`package/evidence/manifest.json` 使用同一 serialized bytes 原子双写，consumer 可要求两者
+byte-identical。promotion 只移除已经被对应 PASS measurement 取代的 static-era
+`claims_forbidden` 项；其他 provisional physics、robot/task 和 parity boundary 保持不变。
+
+#### Conventional runtime alignment
+
+interaction qualification 不能替代 AAN-06 conventional runtime smoke。dynamic object 在进入
+interaction probe 前仍需通过 cold load、render readback、finite physics step、reset、root
+USD hash binding 和 scoped PhysX warning gate。对这类 object，conventional worker 还遵循：
+
+- 在 session layer 中、第一次 reset 前添加 support plane；优先使用 authoritative
+  `__aan_frame_support` world height，缺 frame 时才使用 declared scope world-bounds minimum；
+- 扫描 enabled scoped mesh colliders；存在 `physics:approximation = "sdf"` 时，在第一次
+  reset 前选择 GPU broadphase 并开启 GPU dynamics；
+- support plane 和 physics-scene choice 只属于 runtime evidence，不写入 package runtime tree。
+
+这个顺序修复了两类 false result：无 support 时 object 在 first reset 前已下落；动态 SDF
+在 CPU physics scene 中会被 PhysX 拒绝。conical bottle 最终使用 GPU SDF；graduated
+cylinder 的 source SDF 则因 cooked virtual cap 被 runtime probe 阻断，最终 profile 改用
+source mesh disable + package-owned bottom/12-wall open-top compound proxy。失败的 SDF report
+继续作为 iteration evidence 保留，不能被 final pass 覆盖。
+
+#### Explicit target-runtime root MDL substitution
+
+source package 的 root MDL 可能来自更新的 Isaac release，而 selected target runtime 的 helper
+API 不兼容。AAN-11 在 caller 明确提供 target runtime MDL roots 时，允许精确同 module path
+的 root substitution：原 package bytes 先归档到 `deps/mdl_source/**`，target bytes 再安装到
+`deps/mdl/**`。`material_closure` 必须更新 package hash、source-preservation path/hash、target
+runtime root/path/hash，并添加 `target_runtime_mdl_substitution_not_visual_parity`；
+`material_runtime_closure.rewrite_actions` 记录同一 provenance。
+
+该 route 只能声明 target-runtime compatibility。即使 MDLC/module/texture/shader-node gate 和
+multi-view evidence 都通过，也不能声明 source/target full visual parity。2026-07-14 cylinder
+package 用此 route 将 source `OmniGlass.mdl` bytes 保存在
+`deps/mdl_source/OmniGlass.mdl`，并使用 selected Isaac 4.1 root 通过 material runtime gate。
 
 ## Temporary waiver and blocked policy
 

@@ -1,6 +1,15 @@
 # Render logs are provenance artifacts; keep exact bytes so report hashes stay valid.
 paper/shared/evidence/raw/grscene_vlm_grounding/*render_logs/**/*.txt -text -diff
 
+# AAN evidence packages are content-addressed runtime closures.  Keep their
+# package-owned artifacts byte-exact; the source profiles remain text-diffable.
+docs/records/evidence/**/package/asset.usd -text -diff
+docs/records/evidence/**/package/deps/** -text -diff
+docs/records/evidence/**/package/interaction/** -text -diff
+docs/records/evidence/**/package/overlays/** -text -diff
+docs/records/evidence/**/package/physics/** -text -diff
+docs/records/evidence/**/package/task/** -text -diff
+
 # Curated paper evidence media are committed as binary artifacts.
 paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/**/*.mp4 -text -diff
 paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/**/*.png -text -diff

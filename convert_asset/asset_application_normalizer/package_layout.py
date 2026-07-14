@@ -35,6 +35,16 @@ class TargetPackageLayout:
         return self.root / "physics" / "profile.json"
 
     @property
+    def interaction_overlay_usd(self) -> Path:
+        """Strong package-owned layer for rigid-root and interaction semantics."""
+        return self.root / "overlays" / "interaction.usda"
+
+    @property
+    def interaction_profile_json(self) -> Path:
+        """Immutable package copy of the source-bound interaction profile."""
+        return self.root / "interaction" / "profile.json"
+
+    @property
     def evidence_manifest(self) -> Path:
         return self.root / "evidence" / "manifest.json"
 

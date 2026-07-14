@@ -8,4 +8,7 @@ __all__ = [
     "negative_gate",
     "pm_evidence_table",
     "mjcf_scout",
+    "object_interaction_profile",
+    "interaction_authoring",
+    "interaction_runtime_qualification",
 ]

@@ -1,0 +1,317 @@
+{
+  "schema_version": "aan.interaction_runtime_qualification_request.v1",
+  "binding": {
+    "run_id": "a88dc528bc9944689bbd5d16a4e54a9d",
+    "root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
+    "runtime_tree_sha256": "c9af6eb83aa2ec685bc987bf14d0ba0fb009988e775644d0c838fb992a6e7f9c",
+    "prequalification_contract_payload_sha256": "277cde9796ae85979ca4cd84b00ca92ed17c25887dd39e95a4e7231e33c167ac"
+  },
+  "expected_runtime_version": "4.1",
+  "interaction_contract": {
+    "schema_version": "aan.interaction_contract.v1",
+    "status": "pass",
+    "profile": {
+      "schema_version": "aan.object_interaction_profile.v1",
+      "profile_id": "labutopia.lab_001.conical_bottle03.20260707.interaction",
+      "revision": "r1",
+      "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+      "profile_sha256": "c700b887cea7c7f0bad34ded178df3e725cc93ef5f30b5af837cf74da81b87c6",
+      "package_path": "interaction/profile.json",
+      "overlay_path": "overlays/interaction.usda"
+    },
+    "asset_entry_prim": "/World/conical_bottle03",
+    "runtime_identity": {
+      "rigid_root_prim": "/World/conical_bottle03",
+      "exactly_one_active_rigid_body": true,
+      "active_rigid_body_prims": [
+        "/World/conical_bottle03"
+      ]
+    },
+    "disabled_source_rigid_bodies": [
+      {
+        "prim_path": "/World/conical_bottle03/mesh",
+        "rigid_body_api_removed": true,
+        "rigid_body_disabled": true,
+        "mass_api_removed": true
+      }
+    ],
+    "collider_prims": [
+      {
+        "prim_path": "/World/conical_bottle03/mesh",
+        "mode": "preserve",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "gripper",
+          "support"
+        ],
+        "requested_approximation": "sdf",
+        "observed_approximation": "sdf"
+      }
+    ],
+    "open_top": {
+      "required": true,
+      "axis_body_local": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "aperture_frame": "opening",
+      "status": "declared",
+      "evidence": {
+        "status": "declared",
+        "method": "source_geometry_bounds_and_task_frame_contract",
+        "claim_boundary": "The frame and SDF collision intent are provisional until an Isaac 4.1 cooked-collision aperture probe passes."
+      }
+    },
+    "named_frames": {
+      "grasp": {
+        "prim_path": "/World/conical_bottle03/__aan_frame_grasp",
+        "parent_prim": "/World/conical_bottle03",
+        "translation_body_local_usd": [
+          0.0,
+          0.16,
+          0.0
+        ],
+        "rotation_body_local_wxyz": [
+          0.7071067811865476,
+          -0.7071067811865475,
+          0.0,
+          0.0
+        ],
+        "authoritative": true
+      },
+      "opening": {
+        "prim_path": "/World/conical_bottle03/__aan_frame_opening",
+        "parent_prim": "/World/conical_bottle03",
+        "translation_body_local_usd": [
+          0.0,
+          0.1965674179,
+          0.0
+        ],
+        "rotation_body_local_wxyz": [
+          0.7071067811865476,
+          -0.7071067811865475,
+          0.0,
+          0.0
+        ],
+        "authoritative": true
+      },
+      "support": {
+        "prim_path": "/World/conical_bottle03/__aan_frame_support",
+        "parent_prim": "/World/conical_bottle03",
+        "translation_body_local_usd": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_body_local_wxyz": [
+          0.7071067811865476,
+          -0.7071067811865475,
+          0.0,
+          0.0
+        ],
+        "authoritative": true
+      }
+    },
+    "closure": {
+      "status": "pass",
+      "digest_algorithm": "sha256",
+      "contract_encoding": "canonical_json_interaction_payload_v1",
+      "contract_payload_sha256": "277cde9796ae85979ca4cd84b00ca92ed17c25887dd39e95a4e7231e33c167ac",
+      "tree_encoding": "canonical_json_artifact_list_v1",
+      "runtime_tree_sha256": "c9af6eb83aa2ec685bc987bf14d0ba0fb009988e775644d0c838fb992a6e7f9c",
+      "artifacts": [
+        {
+          "path": "asset.usd",
+          "sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17"
+        },
+        {
+          "path": "deps/mdl/Aluminum_Anodized_Charcoal.mdl",
+          "sha256": "640855d3890c6faaae6346a850ef9f366d4b397c0f4313e25c7ac0b9230c106a"
+        },
+        {
+          "path": "deps/mdl/OmniGlass.mdl",
+          "sha256": "cd7c97781dc95f1694f9acc70c0b9ae327361a3b1c84abf917e55a9d672e627a"
+        },
+        {
+          "path": "deps/mdl/OmniPBR.mdl",
+          "sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db"
+        },
+        {
+          "path": "deps/mdl/OmniSurface.mdl",
+          "sha256": "6477aaf2f837524e2b4aa52bc86dd4a8b20f17bf5f151fc718098d4a1a59a88c"
+        },
+        {
+          "path": "deps/mdl/OmniSurface/OmniImage.mdl",
+          "sha256": "25601c038c9cca778506c8434a4cb7e7cb48f2dbd9a4dff848738a702e2de64e"
+        },
+        {
+          "path": "deps/mdl/OmniSurface/OmniShared.mdl",
+          "sha256": "c52816bc2ecb4cebb36f9e28c14bf21f05cef962dd45e89278508a1e1b551275"
+        },
+        {
+          "path": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+          "sha256": "e21589d55655e64d9326b3513ba434cb0199e4266da3ac9256434a13c6a80e99"
+        },
+        {
+          "path": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+          "sha256": "97bb55ab467387ef07a3a94453b17572358b89147f65a95c3f6abb699583e134"
+        },
+        {
+          "path": "deps/mdl/OmniSurfaceLite.mdl",
+          "sha256": "58384eeaf4d320dca4babcaabe5457ce84ca1bbc59c09ec9a5a7feab56314df8"
+        },
+        {
+          "path": "deps/mdl/OmniSurfacePresets.mdl",
+          "sha256": "5c86c8545a1e215ec4b99e60eb66f9112ca5952cc66ca13ec0c26687dcfcb930"
+        },
+        {
+          "path": "deps/mdl/Plastic.mdl",
+          "sha256": "00ff5c95e8f9a97a5f21d0230536b01ac2ab88a8ab0d7eea9780e839be8be215"
+        },
+        {
+          "path": "deps/mdl/Plastic_Thick_Translucent.mdl",
+          "sha256": "e6fc7403fce0da94912d3aa2ced0638a2aafb4c9cd504a745743f4273b7dc333"
+        },
+        {
+          "path": "deps/mdl/Stainless_Steel.mdl",
+          "sha256": "d97fda12c4cb264ee73a9a27772da8a0165c7a149506b6b6a6a6aedeaf23aef5"
+        },
+        {
+          "path": "deps/mdl/Steel_Stainless-dc62db95.mdl",
+          "sha256": "976b0375c79f2c7262d0e4af785db67735260ff457319c62d50427c957cbf2a8"
+        },
+        {
+          "path": "deps/mdl/Steel_Stainless.mdl",
+          "sha256": "4aa967952d1f840438880df500a642e71b385bd537fd077dbf202e98a1573689"
+        },
+        {
+          "path": "deps/mdl/aux_definitions.mdl",
+          "sha256": "02e27500a7339d2f2400e282736dce88a0719b391b0a3912db8e7be0563e7ff6"
+        },
+        {
+          "path": "deps/mdl/limits.mdl",
+          "sha256": "9025d82e139948d0e64336cdd98754eb9b674fd899085574a282358661562e3e"
+        },
+        {
+          "path": "deps/mdl/material_06.mdl",
+          "sha256": "a387b9e3f737dbc61653de75538958e95eab77c0ae9093cdc30f8496579214ad"
+        },
+        {
+          "path": "deps/mdl/material_08.mdl",
+          "sha256": "2d340831b68cb0402efac04f53857c8fef5c479f505c7dfbf96fc26525acd6ae"
+        },
+        {
+          "path": "deps/mdl/material_09.mdl",
+          "sha256": "0569e8b1b05810a9c1d0eb604184dbc5450f0ad79307639e0cb0ec44dce26ea8"
+        },
+        {
+          "path": "deps/mdl/material_11.mdl",
+          "sha256": "f91013cdb672bc6670ef09225f378918df2fed2a977de2b3927e4f148ced9a32"
+        },
+        {
+          "path": "deps/mdl/material_12.mdl",
+          "sha256": "c63181bc2f23c090d36e9e3b96672b511a17e03f4362cca130937c6b6d7ec492"
+        },
+        {
+          "path": "deps/mdl/nvidia/support_definitions.mdl",
+          "sha256": "14183044814a3e227bb2973e1db01892b73456ae12bdbbb2b65bcb44c42738fc"
+        },
+        {
+          "path": "deps/mdl/pbr.mdl",
+          "sha256": "08d49f866cba15416a9614776ce3502dd922c3ca5441261496df84ffee1ae0a2"
+        },
+        {
+          "path": "deps/textures/Steel_Stainless_BaseColor.png",
+          "sha256": "3f8b3b576ce734630625a64faf6266faf411714a59c42c7af395dc0826e52151"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture0.jpg",
+          "sha256": "090cea3716ec138f618190081619ed4516a3403351d378063e15c6c06d2cce46"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture0_1.jpg",
+          "sha256": "090cea3716ec138f618190081619ed4516a3403351d378063e15c6c06d2cce46"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture1.jpg",
+          "sha256": "c993bac14939eb27ab4cf248fee5816a6873885d8a159e0e97c2f4fad0619925"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture1_1.jpg",
+          "sha256": "c993bac14939eb27ab4cf248fee5816a6873885d8a159e0e97c2f4fad0619925"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture2.png",
+          "sha256": "a961a7fb56b25ad1905310f6be55efcb167f241fe2f01836468bc17f7a6602ba"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture2_1.png",
+          "sha256": "a961a7fb56b25ad1905310f6be55efcb167f241fe2f01836468bc17f7a6602ba"
+        },
+        {
+          "path": "deps/usd/scoped_source.usda",
+          "sha256": "43855ae8a37927761a25fc010a4cae40448eb89224b5dc0061c8bf84046a2b2b"
+        },
+        {
+          "path": "deps/usd/sektion_cabinet_collisions.usd",
+          "sha256": "404c6604a98d719a4af74f489e505e17037e6b0ae5112aeec643675e70e797cb"
+        },
+        {
+          "path": "deps/usd/sektion_cabinet_instanceable.usd",
+          "sha256": "24ff5433c76d39345e0a633e3ec0c39c4c6c9217a1a00b20f2b12cc6f49e38c6"
+        },
+        {
+          "path": "deps/usd/sektion_cabinet_visuals.usd",
+          "sha256": "f9879be54b34eed9ba16928ee14ac0c261f9b7211fdeadd8bd9fe3ace206afd7"
+        },
+        {
+          "path": "deps/usd/source_root.usd",
+          "sha256": "653ed760fc9c85efe6012d1cb58849befba2d35ac02280c8b26d6e7680dde7bb"
+        },
+        {
+          "path": "interaction/profile.json",
+          "sha256": "c700b887cea7c7f0bad34ded178df3e725cc93ef5f30b5af837cf74da81b87c6"
+        },
+        {
+          "path": "overlays/interaction.usda",
+          "sha256": "28640b5ebd9a034c19b5114506128ad8fe1f70f564728c2e27e0cbe6eb2b8423"
+        },
+        {
+          "path": "overlays/physics_profile.usda",
+          "sha256": "7648cf045d2de99a0bf9569b9268e1329e9aa0a28b21651cae379f111e8c3174"
+        },
+        {
+          "path": "physics/profile.json",
+          "sha256": "1042b748ec6e3e4a1e19dec5384637d07912a8219aa107fb0ccb46e585b178c3"
+        }
+      ]
+    },
+    "root_motion_gate": {
+      "status": "not_run",
+      "required": true,
+      "min_translation_m": 0.05,
+      "evidence": {
+        "status": "not_run",
+        "observations": []
+      }
+    },
+    "stable_support_gate": {
+      "status": "not_run",
+      "required": true,
+      "evidence": {
+        "status": "not_run",
+        "observations": []
+      }
+    },
+    "gripper_collision_gate": {
+      "status": "not_run",
+      "required": true,
+      "evidence": {
+        "status": "not_run",
+        "observations": []
+      }
+    }
+  }
+}

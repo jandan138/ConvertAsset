@@ -1,0 +1,241 @@
+{
+  "schema_version": "aan.interaction_runtime_qualification_report.v1",
+  "status": "pass",
+  "binding": {
+    "run_id": "a88dc528bc9944689bbd5d16a4e54a9d",
+    "root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
+    "runtime_tree_sha256": "c9af6eb83aa2ec685bc987bf14d0ba0fb009988e775644d0c838fb992a6e7f9c",
+    "prequalification_contract_payload_sha256": "277cde9796ae85979ca4cd84b00ca92ed17c25887dd39e95a4e7231e33c167ac"
+  },
+  "probes": {
+    "cooked_aperture": {
+      "status": "pass",
+      "errors": [],
+      "observations": {
+        "finite": true,
+        "method": "physx_cooked_sphere_sweep_and_overlap",
+        "probe_radius_m": 0.005,
+        "entry_depth_m": 0.03931348358000001,
+        "entry_center_clear": true,
+        "entry_overlaps": [],
+        "bottom_hit": true,
+        "bottom_depth_m": 0.1917396623965525,
+        "bottom_observation": {
+          "collision": "/World/conical_bottle03/mesh",
+          "rigid_body": "/World/conical_bottle03",
+          "distance_m": 0.19923962652683258,
+          "position_m": [
+            9.61868953704834,
+            0.4872204661369324,
+            0.005639987997710705
+          ],
+          "normal": [
+            -0.0001907334226416424,
+            1.192083891510265e-05,
+            0.9999998807907104
+          ]
+        },
+        "vessel_height_m": 0.19656741790000004,
+        "side_hits": {
+          "positive": true,
+          "negative": true
+        },
+        "side_observations": {
+          "positive": [
+            {
+              "collision": "/World/conical_bottle03/mesh",
+              "rigid_body": "/World/conical_bottle03",
+              "distance_m": 0.017390405759215355,
+              "position_m": [
+                9.634312629699707,
+                0.5032556653022766,
+                0.1609484851360321
+              ],
+              "normal": [
+                -0.6683304905891418,
+                -0.7433662414550781,
+                -0.027221258729696274
+              ]
+            }
+          ],
+          "negative": [
+            {
+              "collision": "/World/conical_bottle03/mesh",
+              "rigid_body": "/World/conical_bottle03",
+              "distance_m": 0.017389733344316483,
+              "position_m": [
+                9.603235244750977,
+                0.4710439145565033,
+                0.16088011860847473
+              ],
+              "normal": [
+                0.6327954530715942,
+                0.7741994261741638,
+                -0.013606389984488487
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "stable_support": {
+      "status": "pass",
+      "errors": [],
+      "observations": {
+        "finite": true,
+        "settle_steps": 240,
+        "tail_steps": 30,
+        "support_height_error_m": 3.7477250632120696e-07,
+        "tail_max_linear_speed_m_s": 0.0036305515095591545,
+        "tail_max_angular_speed_rad_s": 0.04319300130009651,
+        "tilt_deg": 0.002743764704049117,
+        "lateral_drift_m": 0.00016656161779866614,
+        "scene_to_rigid_position_error_m": 0.0,
+        "final_root_position_stage_units": [
+          9.61868953704834,
+          0.48722025752067566,
+          0.000812232494354248
+        ],
+        "final_scene_root_position_stage_units": [
+          9.61868953704834,
+          0.48722025752067566,
+          0.000812232494354248
+        ],
+        "final_support_position_stage_units": [
+          9.61868953704834,
+          0.48722025752067566,
+          0.000812232494354248
+        ],
+        "predicted_support_position_stage_units": [
+          9.61868953704834,
+          0.48722025752067566,
+          0.000812232494354248
+        ]
+      }
+    },
+    "root_motion_parity": {
+      "status": "pass",
+      "errors": [],
+      "observations": {
+        "finite": true,
+        "control": {
+          "kind": "rigid_root_pose_delta_plus_velocity",
+          "requested_translation_m": 0.060000000000000005,
+          "linear_velocity_m_s": [
+            0.014127305360999619,
+            0.0141569503497638,
+            1.7718376536635107e-07
+          ],
+          "steps": 2
+        },
+        "translation_m": 0.05933700387043499,
+        "scene_to_rigid_position_error_m": 0.0,
+        "scene_to_rigid_orientation_error_deg": 7.443026089337883e-06,
+        "scene_position_stage_units": [
+          9.660600662231445,
+          0.5292242765426636,
+          0.0008117780089378357
+        ],
+        "rigid_position_stage_units": [
+          9.660600662231445,
+          0.5292242765426636,
+          0.0008117780089378357
+        ],
+        "scene_orientation_wxyz": [
+          0.6539639557135988,
+          0.6522603096776026,
+          0.27303639313005496,
+          0.26895866052839873
+        ],
+        "rigid_orientation_wxyz": [
+          0.6539638638496399,
+          0.6522603034973145,
+          0.273036390542984,
+          0.2689586579799652
+        ]
+      }
+    },
+    "bilateral_gripper_proxy_collision": {
+      "status": "pass",
+      "errors": [],
+      "observations": {
+        "finite": true,
+        "method": "physx_cooked_bilateral_sphere_sweep",
+        "probe_radius_m": 0.005,
+        "positive_hit": true,
+        "negative_hit": true,
+        "positive_distance_m": 0.017390405759215355,
+        "negative_distance_m": 0.017389733344316483,
+        "positive_observation": {
+          "collision": "/World/conical_bottle03/mesh",
+          "rigid_body": "/World/conical_bottle03",
+          "distance_m": 0.017390405759215355,
+          "position_m": [
+            9.634312629699707,
+            0.5032556653022766,
+            0.1609484851360321
+          ],
+          "normal": [
+            -0.6683304905891418,
+            -0.7433662414550781,
+            -0.027221258729696274
+          ]
+        },
+        "negative_observation": {
+          "collision": "/World/conical_bottle03/mesh",
+          "rigid_body": "/World/conical_bottle03",
+          "distance_m": 0.017389733344316483,
+          "position_m": [
+            9.603235244750977,
+            0.4710439145565033,
+            0.16088011860847473
+          ],
+          "normal": [
+            0.6327954530715942,
+            0.7741994261741638,
+            -0.013606389984488487
+          ]
+        },
+        "claim_boundary": "Proxy collision only; no robot finger, contact force, closure, or grasp-retention claim is made."
+      }
+    }
+  },
+  "environment": {
+    "python_executable": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/bin/python3.10",
+    "python_version": "3.10.20",
+    "headless": true,
+    "isaac_sim_root": null,
+    "isaacsim_file": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/isaacsim/__init__.py",
+    "pxr_version": "\nTf -- Tools Foundation\n",
+    "kit_version": "4.1.0-rc.7+4.1.14801.71533b68.gl"
+  },
+  "runtime_profile_gate": {
+    "status": "pass",
+    "expected_version": "4.1",
+    "observed_kit_version": "4.1.0-rc.7+4.1.14801.71533b68.gl",
+    "reason": null
+  },
+  "static_identity_gate": {
+    "status": "pass",
+    "observed_active_rigid_bodies": [
+      "/World/conical_bottle03"
+    ],
+    "expected_active_rigid_bodies": [
+      "/World/conical_bottle03"
+    ]
+  },
+  "physics_scene": {
+    "broadphase_type": "GPU",
+    "gpu_dynamics_enabled": true,
+    "readback_mode": "usd_and_rigid_view"
+  },
+  "shutdown_cleanup": {
+    "status": "pass",
+    "method": "world.clear_instance"
+  },
+  "process_exit": {
+    "policy": "os_exit_after_evidence",
+    "simulation_app_close": "not_called",
+    "reason": "isolated_worker_avoids_isaac41_native_plugin_unload_crash"
+  }
+}

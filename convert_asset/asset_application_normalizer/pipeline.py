@@ -7,6 +7,11 @@ from pathlib import Path
 from .benchmark_contract import build_benchmark_contract, build_not_run_benchmark_contract
 from .evidence_manifest import build_manifest, sha256_file, write_manifest
 from .material_closure import build_material_closure, build_not_run_material_closure
+from .interaction_authoring import (
+    apply_object_interaction_profile,
+    build_not_run_interaction_authoring,
+    finalize_interaction_contract,
+)
 from .mdl_runtime_closure import (
     build_material_runtime_closure,
     build_not_run_material_runtime_closure,
@@ -60,6 +65,10 @@ def validate_request(request: NormalizeAssetRequest) -> NormalizeAssetResult | N
         return _validation_error(f"unsupported asset role: {request.asset_role}")
     if request.physics_profile is not None and not request.physics_profile.is_file():
         return _validation_error(f"physics profile not found: {request.physics_profile}")
+    if request.interaction_profile is not None and not request.interaction_profile.is_file():
+        return _validation_error(f"interaction profile not found: {request.interaction_profile}")
+    if request.interaction_profile is not None and request.asset_role != "dynamic":
+        return _validation_error("--interaction-profile is only valid for the dynamic asset role")
     if (
         request.target_benchmark == "scenario-forge"
         and request.asset_role == "dynamic"
@@ -159,33 +168,51 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         layout = TargetPackageLayout(request.out_dir)
         role_normalization = normalize_asset_role(layout, request)
         if role_normalization.return_code == 0:
-            profile_authoring = (
-                apply_physics_profile(layout, request)
-                if request.asset_role == "dynamic" and request.physics_profile is not None
-                else None
-            )
-            physics = build_physics_checks(
-                layout,
-                request,
-                source_physics_audit=source_physics_audit,
-                normalization_actions=role_normalization.normalization_actions,
-                physics_profile_admission=(
-                    profile_authoring.profile_admission if profile_authoring is not None else None
-                ),
-                physics_profile_actions=(
-                    profile_authoring.normalization_actions if profile_authoring is not None else None
-                ),
-                physics_profile_blockers=(
-                    profile_authoring.blocked_reasons if profile_authoring is not None else None
-                ),
-            )
+            interaction = apply_object_interaction_profile(layout, request)
+            if interaction.return_code == 0:
+                # Interaction topology is intentionally applied first.  The
+                # unchanged mass-only physics_profile.v1 resolver therefore
+                # sees the package's normalized, unique rigid root.
+                profile_authoring = (
+                    apply_physics_profile(layout, request)
+                    if request.asset_role == "dynamic" and request.physics_profile is not None
+                    else None
+                )
+                physics = build_physics_checks(
+                    layout,
+                    request,
+                    source_physics_audit=source_physics_audit,
+                    normalization_actions=[
+                        *role_normalization.normalization_actions,
+                        *interaction.normalization_actions,
+                    ],
+                    physics_profile_admission=(
+                        profile_authoring.profile_admission if profile_authoring is not None else None
+                    ),
+                    physics_profile_actions=(
+                        profile_authoring.normalization_actions if profile_authoring is not None else None
+                    ),
+                    physics_profile_blockers=(
+                        profile_authoring.blocked_reasons if profile_authoring is not None else None
+                    ),
+                )
+            else:
+                physics = build_not_run_physics_checks(
+                    "AAN-05 physics output admission was not run because object interaction normalization blocked."
+                )
         else:
+            interaction = build_not_run_interaction_authoring(
+                "Object interaction normalization was not run because role normalization blocked."
+            )
             physics = build_not_run_physics_checks(
                 "AAN-05 physics output admission was not run because role normalization blocked."
             )
     else:
         role_normalization = build_not_run_role_normalization(
             "Role normalization was not run because an earlier package or material runtime gate blocked."
+        )
+        interaction = build_not_run_interaction_authoring(
+            "Object interaction normalization was not run because an earlier package or material runtime gate blocked."
         )
         physics = build_not_run_physics_checks(
             "AAN-05 physics static checks were not run because an earlier package or material runtime gate blocked."
@@ -269,6 +296,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         or material.return_code
         or material_runtime.return_code
         or role_normalization.return_code
+        or interaction.return_code
         or physics.return_code
         or runtime.return_code
         or benchmark.return_code
@@ -282,6 +310,8 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         overall_status = runtime.overall_status
     elif physics.return_code:
         overall_status = physics.overall_status
+    elif interaction.return_code:
+        overall_status = interaction.overall_status
     elif material_runtime.return_code:
         overall_status = material_runtime.overall_status
     elif role_normalization.return_code:
@@ -302,6 +332,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         *material.blocked_reasons,
         *material_runtime.blocked_reasons,
         *role_normalization.blocked_reasons,
+        *interaction.blocked_reasons,
         *physics.blocked_reasons,
         *runtime.blocked_reasons,
         *benchmark.blocked_reasons,
@@ -323,6 +354,23 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
                 }
             ]
             if request.asset_role == "visual_static"
+            else []
+        ),
+        *(
+            [
+                {
+                    "check_id": "AAN-05I-object-interaction",
+                    "stage": "object_interaction",
+                    "status": interaction.overall_status,
+                    "summary": (
+                        "AAN package-owned object interaction profile was applied."
+                        if interaction.return_code == 0
+                        and interaction.overall_status == "pass"
+                        else "AAN package-owned object interaction normalization did not pass."
+                    ),
+                }
+            ]
+            if request.interaction_profile is not None
             else []
         ),
         physics.stage_gate,
@@ -368,6 +416,16 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         else []
     )
     dynamic_profile_forbidden_claims = _dynamic_profile_forbidden_claims(request, physics.physics_closure)
+    interaction_contract = (
+        finalize_interaction_contract(
+            TargetPackageLayout(request.out_dir), interaction.interaction_contract
+        )
+        if request.out_dir.is_dir()
+        else interaction.interaction_contract
+    )
+    effective_material_closure = (
+        material_runtime.material_closure or material.material_closure
+    )
     manifest = build_manifest(
         request,
         overall_status=overall_status,
@@ -386,7 +444,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         root_usd=closure.root_usd_package_path,
         package_default_prim=closure.static_usd_report.get("root_layer", {}).get("default_prim"),
         dependency_closure=closure.dependency_closure,
-        material_closure=material.material_closure,
+        material_closure=effective_material_closure,
         material_runtime_closure=material_runtime.material_runtime_closure,
         physics_closure=physics.physics_closure,
         articulation_closure=physics.articulation_closure,
@@ -397,7 +455,11 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         static_articulation_report=physics.static_articulation_report,
         source_physics_audit=source_physics_audit,
         output_role_admission=physics.output_role_admission,
-        normalization_actions=role_normalization.normalization_actions,
+        normalization_actions=[
+            *role_normalization.normalization_actions,
+            *interaction.normalization_actions,
+        ],
+        interaction_contract=interaction_contract,
         visual_preservation_fingerprint=role_normalization.visual_preservation_fingerprint,
         source_integrity=source_integrity,
         stage_gates=stage_gates,
@@ -433,6 +495,13 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             ),
             *(
                 [
+                    "The package records one interaction rigid root, declared colliders, and authoritative body-local opening/grasp/support frames."
+                ]
+                if interaction.overall_status == "pass"
+                else []
+            ),
+            *(
+                [
                     "AAN-06 headless Isaac runtime smoke passed under the configured isolated runtime runner.",
                     "Cold load, render readback, physics step, and reset smoke evidence are recorded.",
                 ]
@@ -459,6 +528,15 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             "Full visual material parity beyond recorded source-preservation evidence is achieved.",
             *role_forbidden_claims,
             *dynamic_profile_forbidden_claims,
+            *(
+                [
+                    "The declared open-top collider has passed a runtime aperture probe.",
+                    "The interaction rigid root has passed the required runtime motion probe.",
+                    "Stable support and gripper collision have passed runtime probes.",
+                ]
+                if request.interaction_profile is not None
+                else []
+            ),
         ],
     )
     write_manifest(evidence_out, manifest)
@@ -481,6 +559,8 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         print(f"AAN-05 physics static checks not run; AAN-04 blocked: {evidence_out}")
     elif material_runtime.return_code != 0:
         print(f"AAN-05 physics static checks not run; AAN-11 blocked: {evidence_out}")
+    elif interaction.return_code != 0:
+        print(f"AAN-05 physics static checks not run; object interaction normalization blocked: {evidence_out}")
     elif physics.return_code != 0 and runtime_requested:
         print(f"AAN-06 runtime smoke not run; AAN-05 blocked: {evidence_out}")
     elif physics.return_code != 0:

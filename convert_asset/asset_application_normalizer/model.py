@@ -67,6 +67,9 @@ class NormalizeAssetRequest:
     # than in a consumer-side scene patch.  Keeping this optional preserves the
     # legacy EBench migration path, while Scenario Forge admissions require it.
     physics_profile: Path | None = None
+    # Object topology, collision intent, and named interaction frames are a
+    # separate versioned contract.  Physics profile v1 remains mass-only.
+    interaction_profile: Path | None = None
     gates: list[str] = field(default_factory=lambda: ["static"])
     evidence_out: Path | None = None
     runtime_python: Path | None = None

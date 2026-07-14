@@ -522,6 +522,7 @@ def test_runtime_worker_uses_declared_asset_scope_not_unrelated_required_prim(
     assert prim_values == ["/World/UnrelatedRequiredPrim"]
     assert scope_values == ["/World/OwnedPackageScope"]
     assert argv[argv.index("--process-exit-policy") + 1] == "os-exit"
+    assert argv[argv.index("--render-steps") + 1] == "4"
     assert result.overall_status == "pass"
 
 
@@ -575,6 +576,37 @@ def test_reset_gate_compares_pre_warmup_initial_state() -> None:
     assert gate["status"] == "pass"
     assert gate["max_abs_delta_from_initial"] == 0.0
     assert gate["max_abs_delta_from_pre_step"] == 2.0
+
+
+def test_runtime_smoke_uses_authored_support_and_detects_sdf_gpu_requirement() -> None:
+    from convert_asset.asset_application_normalizer.runtime_smoke import (
+        _runtime_support_surface,
+        _stage_requires_gpu_dynamics,
+    )
+
+    Gf = pytest.importorskip("pxr.Gf")
+    Usd = pytest.importorskip("pxr.Usd")
+    UsdGeom = pytest.importorskip("pxr.UsdGeom")
+    UsdPhysics = pytest.importorskip("pxr.UsdPhysics")
+    stage = Usd.Stage.CreateInMemory()
+    asset = UsdGeom.Xform.Define(stage, "/World/Asset")
+    asset.AddTranslateOp().Set(Gf.Vec3d(0.0, 0.0, 3.0))
+    support = UsdGeom.Xform.Define(stage, "/World/Asset/__aan_frame_support")
+    support.AddTranslateOp().Set(Gf.Vec3d(0.0, 0.0, -0.25))
+    collider = UsdGeom.Mesh.Define(stage, "/World/Asset/collider")
+    UsdPhysics.CollisionAPI.Apply(collider.GetPrim())
+    UsdPhysics.MeshCollisionAPI.Apply(collider.GetPrim()).CreateApproximationAttr(
+        "sdf"
+    )
+
+    surface = _runtime_support_surface(stage, ["/World/Asset"])
+
+    assert surface == {
+        "z_position_stage_units": pytest.approx(2.75),
+        "method": "interaction_support_frame",
+        "frame_paths": ["/World/Asset/__aan_frame_support"],
+    }
+    assert _stage_requires_gpu_dynamics(stage, ["/World/Asset"]) is True
 
 
 def test_scoped_snapshot_rewrites_package_absolute_asset_paths(tmp_path: Path) -> None:

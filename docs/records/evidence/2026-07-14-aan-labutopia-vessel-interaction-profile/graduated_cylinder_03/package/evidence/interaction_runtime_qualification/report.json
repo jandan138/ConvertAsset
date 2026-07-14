@@ -1,0 +1,241 @@
+{
+  "schema_version": "aan.interaction_runtime_qualification_report.v1",
+  "status": "pass",
+  "binding": {
+    "run_id": "e5295a2c3b994b11aa1cfd6c32a54781",
+    "root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
+    "runtime_tree_sha256": "7392a8f21269820fc0adc4dab60489b8004bbab49e39046cf9433304367ba992",
+    "prequalification_contract_payload_sha256": "6f8564d9ca073b171f2962cbc386b4c83c549c34818a6a68470401376d607d7c"
+  },
+  "probes": {
+    "cooked_aperture": {
+      "status": "pass",
+      "errors": [],
+      "observations": {
+        "finite": true,
+        "method": "physx_cooked_sphere_sweep_and_overlap",
+        "probe_radius_m": 0.003514776551095355,
+        "entry_depth_m": 0.04,
+        "entry_center_clear": true,
+        "entry_overlaps": [],
+        "bottom_hit": true,
+        "bottom_depth_m": 0.2662942378452987,
+        "bottom_observation": {
+          "collision": "/World/graduated_cylinder_03/__aan_collision_proxy/bottom",
+          "rigid_body": "/World/graduated_cylinder_03",
+          "distance_m": 0.27156639099121094,
+          "position_m": [
+            9.777277946472168,
+            0.3360222578048706,
+            0.01673877239227295
+          ],
+          "normal": [
+            -6.720516125824361e-07,
+            1.1921058273856033e-07,
+            0.9999999403953552
+          ]
+        },
+        "vessel_height_m": 0.2722941904,
+        "side_hits": {
+          "positive": true,
+          "negative": true
+        },
+        "side_observations": {
+          "positive": [
+            {
+              "collision": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_00",
+              "rigid_body": "/World/graduated_cylinder_03",
+              "distance_m": 0.04998525604605675,
+              "position_m": [
+                9.830778121948242,
+                0.33602219820022583,
+                0.15073885023593903
+              ],
+              "normal": [
+                -0.9999999403953552,
+                1.607851118023973e-06,
+                -6.720517831126926e-07
+              ]
+            }
+          ],
+          "negative": [
+            {
+              "collision": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_06",
+              "rigid_body": "/World/graduated_cylinder_03",
+              "distance_m": 0.049985259771347046,
+              "position_m": [
+                9.723777770996094,
+                0.33602237701416016,
+                0.15073879063129425
+              ],
+              "normal": [
+                1.0,
+                -1.607851118023973e-06,
+                6.720517831126926e-07
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "stable_support": {
+      "status": "pass",
+      "errors": [],
+      "observations": {
+        "finite": true,
+        "settle_steps": 240,
+        "tail_steps": 30,
+        "support_height_error_m": 9.785918117788395e-07,
+        "tail_max_linear_speed_m_s": 9.401475108461455e-05,
+        "tail_max_angular_speed_rad_s": 0.0006164634833112359,
+        "tilt_deg": 4.021808579751079e-05,
+        "lateral_drift_m": 5.066394805908203e-07,
+        "scene_to_rigid_position_error_m": 0.0,
+        "final_root_position_stage_units": [
+          9.777277946472168,
+          0.3360222578048706,
+          0.01073881983757019
+        ],
+        "final_scene_root_position_stage_units": [
+          9.777277946472168,
+          0.3360222578048706,
+          0.01073881983757019
+        ],
+        "final_support_position_stage_units": [
+          9.777277946472168,
+          0.3360222578048706,
+          0.01073881983757019
+        ],
+        "predicted_support_position_stage_units": [
+          9.777277946472168,
+          0.3360222578048706,
+          0.01073881983757019
+        ]
+      }
+    },
+    "root_motion_parity": {
+      "status": "pass",
+      "errors": [],
+      "observations": {
+        "finite": true,
+        "control": {
+          "kind": "rigid_root_pose_delta_plus_velocity",
+          "requested_translation_m": 0.060000000000000005,
+          "linear_velocity_m_s": [
+            0.019999999999969632,
+            -3.2157020380639554e-08,
+            1.3441037349172363e-08
+          ],
+          "steps": 2
+        },
+        "translation_m": 0.05993080307054456,
+        "scene_to_rigid_position_error_m": 0.0,
+        "scene_to_rigid_orientation_error_deg": 1.7075472925031877e-06,
+        "scene_position_stage_units": [
+          9.83720874786377,
+          0.33600807189941406,
+          0.010738849639892578
+        ],
+        "rigid_position_stage_units": [
+          9.83720874786377,
+          0.33600807189941406,
+          0.010738849639892578
+        ],
+        "scene_orientation_wxyz": [
+          0.7071068030008147,
+          0.7071067094802848,
+          0.00018810527399182295,
+          0.00018754822667688102
+        ],
+        "rigid_orientation_wxyz": [
+          0.7071067690849304,
+          0.7071067094802856,
+          0.0001881052739918232,
+          0.0001875482266768813
+        ]
+      }
+    },
+    "bilateral_gripper_proxy_collision": {
+      "status": "pass",
+      "errors": [],
+      "observations": {
+        "finite": true,
+        "method": "physx_cooked_bilateral_sphere_sweep",
+        "probe_radius_m": 0.003514776551095355,
+        "positive_hit": true,
+        "negative_hit": true,
+        "positive_distance_m": 0.04998525604605675,
+        "negative_distance_m": 0.049985259771347046,
+        "positive_observation": {
+          "collision": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_00",
+          "rigid_body": "/World/graduated_cylinder_03",
+          "distance_m": 0.04998525604605675,
+          "position_m": [
+            9.830778121948242,
+            0.33602219820022583,
+            0.15073885023593903
+          ],
+          "normal": [
+            -0.9999999403953552,
+            1.607851118023973e-06,
+            -6.720517831126926e-07
+          ]
+        },
+        "negative_observation": {
+          "collision": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_06",
+          "rigid_body": "/World/graduated_cylinder_03",
+          "distance_m": 0.049985259771347046,
+          "position_m": [
+            9.723777770996094,
+            0.33602237701416016,
+            0.15073879063129425
+          ],
+          "normal": [
+            1.0,
+            -1.607851118023973e-06,
+            6.720517831126926e-07
+          ]
+        },
+        "claim_boundary": "Proxy collision only; no robot finger, contact force, closure, or grasp-retention claim is made."
+      }
+    }
+  },
+  "environment": {
+    "python_executable": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/bin/python3.10",
+    "python_version": "3.10.20",
+    "headless": true,
+    "isaac_sim_root": null,
+    "isaacsim_file": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/isaacsim/__init__.py",
+    "pxr_version": "\nTf -- Tools Foundation\n",
+    "kit_version": "4.1.0-rc.7+4.1.14801.71533b68.gl"
+  },
+  "runtime_profile_gate": {
+    "status": "pass",
+    "expected_version": "4.1",
+    "observed_kit_version": "4.1.0-rc.7+4.1.14801.71533b68.gl",
+    "reason": null
+  },
+  "static_identity_gate": {
+    "status": "pass",
+    "observed_active_rigid_bodies": [
+      "/World/graduated_cylinder_03"
+    ],
+    "expected_active_rigid_bodies": [
+      "/World/graduated_cylinder_03"
+    ]
+  },
+  "physics_scene": {
+    "broadphase_type": "GPU",
+    "gpu_dynamics_enabled": true,
+    "readback_mode": "usd_and_rigid_view"
+  },
+  "shutdown_cleanup": {
+    "status": "pass",
+    "method": "world.clear_instance"
+  },
+  "process_exit": {
+    "policy": "os_exit_after_evidence",
+    "simulation_app_close": "not_called",
+    "reason": "isolated_worker_avoids_isaac41_native_plugin_unload_crash"
+  }
+}

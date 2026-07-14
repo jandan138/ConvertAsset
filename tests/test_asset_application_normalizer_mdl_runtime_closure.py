@@ -1,3 +1,4 @@
+import hashlib
 from pathlib import Path
 
 from convert_asset.asset_application_normalizer.mdl_runtime_closure import (
@@ -383,6 +384,60 @@ def test_material_runtime_closure_resolves_approved_runtime_mdl_modules(
         "nvidia::core_definitions"
     )
     assert len(records["debug"]["runtime_sha256"]) == 64
+
+
+def test_material_runtime_closure_substitutes_explicit_target_root_with_provenance(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "source" / "OmniGlass.mdl"
+    package_root = tmp_path / "package"
+    package_mdl = package_root / "deps" / "mdl" / "OmniGlass.mdl"
+    runtime_root = tmp_path / "isaac41" / "mdl"
+    runtime_mdl = runtime_root / "OmniGlass.mdl"
+    source.parent.mkdir(parents=True)
+    package_mdl.parent.mkdir(parents=True)
+    runtime_root.mkdir(parents=True)
+    source.write_text("mdl 1.7; // source\n", encoding="utf-8")
+    package_mdl.write_bytes(source.read_bytes())
+    runtime_mdl.write_text("mdl 1.7; // target 4.1\n", encoding="utf-8")
+    material_closure = [
+        {
+            "material_prim": "/World/Looks/Glass",
+            "source_assets_preserved": True,
+            "losses": [],
+            "source_mdl_assets": [
+                {
+                    "package_path": "deps/mdl/OmniGlass.mdl",
+                    "resolved_path": str(source),
+                    "source_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+                    "package_sha256": hashlib.sha256(
+                        package_mdl.read_bytes()
+                    ).hexdigest(),
+                }
+            ],
+        }
+    ]
+
+    result = build_material_runtime_closure(
+        package_root,
+        material_closure,
+        runtime_mdl_roots=[runtime_root],
+    )
+
+    assert result.return_code == 0
+    assert package_mdl.read_bytes() == runtime_mdl.read_bytes()
+    archived = package_root / "deps" / "mdl_source" / "OmniGlass.mdl"
+    assert archived.read_bytes() == source.read_bytes()
+    action = result.material_runtime_closure["rewrite_actions"][0]
+    assert action["action_id"] == "aan11_substitute_target_runtime_root_mdl"
+    asset = result.material_closure[0]["source_mdl_assets"][0]
+    assert asset["source_preservation_package_path"] == (
+        "deps/mdl_source/OmniGlass.mdl"
+    )
+    assert asset["package_sha256"] == action["target_runtime_sha256"]
+    assert "target_runtime_mdl_substitution_not_visual_parity" in result.material_closure[
+        0
+    ]["losses"]
 
 
 def test_parse_material_runtime_log_counts_mdlc_and_shader_failures() -> None:

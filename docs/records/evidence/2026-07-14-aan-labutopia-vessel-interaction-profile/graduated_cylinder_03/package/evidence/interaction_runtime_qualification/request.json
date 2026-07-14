@@ -1,0 +1,428 @@
+{
+  "schema_version": "aan.interaction_runtime_qualification_request.v1",
+  "binding": {
+    "run_id": "e5295a2c3b994b11aa1cfd6c32a54781",
+    "root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
+    "runtime_tree_sha256": "7392a8f21269820fc0adc4dab60489b8004bbab49e39046cf9433304367ba992",
+    "prequalification_contract_payload_sha256": "6f8564d9ca073b171f2962cbc386b4c83c549c34818a6a68470401376d607d7c"
+  },
+  "expected_runtime_version": "4.1",
+  "interaction_contract": {
+    "schema_version": "aan.interaction_contract.v1",
+    "status": "pass",
+    "profile": {
+      "schema_version": "aan.object_interaction_profile.v1",
+      "profile_id": "labutopia.lab_001.graduated_cylinder_03.20260707.interaction",
+      "revision": "r2",
+      "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+      "profile_sha256": "136b2a12db88882f00d5e0e016e5f4661074e02d653a0337b890b10df400725a",
+      "package_path": "interaction/profile.json",
+      "overlay_path": "overlays/interaction.usda"
+    },
+    "asset_entry_prim": "/World/graduated_cylinder_03",
+    "runtime_identity": {
+      "rigid_root_prim": "/World/graduated_cylinder_03",
+      "exactly_one_active_rigid_body": true,
+      "active_rigid_body_prims": [
+        "/World/graduated_cylinder_03"
+      ]
+    },
+    "disabled_source_rigid_bodies": [
+      {
+        "prim_path": "/World/graduated_cylinder_03/mesh",
+        "rigid_body_api_removed": true,
+        "rigid_body_disabled": true,
+        "mass_api_removed": true
+      }
+    ],
+    "collider_prims": [
+      {
+        "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/bottom",
+        "mode": "author",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "support"
+        ],
+        "requested_approximation": null,
+        "observed_approximation": null
+      },
+      {
+        "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_00",
+        "mode": "author",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "gripper"
+        ],
+        "requested_approximation": null,
+        "observed_approximation": null
+      },
+      {
+        "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_01",
+        "mode": "author",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "gripper"
+        ],
+        "requested_approximation": null,
+        "observed_approximation": null
+      },
+      {
+        "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_02",
+        "mode": "author",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "gripper"
+        ],
+        "requested_approximation": null,
+        "observed_approximation": null
+      },
+      {
+        "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_03",
+        "mode": "author",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "gripper"
+        ],
+        "requested_approximation": null,
+        "observed_approximation": null
+      },
+      {
+        "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_04",
+        "mode": "author",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "gripper"
+        ],
+        "requested_approximation": null,
+        "observed_approximation": null
+      },
+      {
+        "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_05",
+        "mode": "author",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "gripper"
+        ],
+        "requested_approximation": null,
+        "observed_approximation": null
+      },
+      {
+        "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_06",
+        "mode": "author",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "gripper"
+        ],
+        "requested_approximation": null,
+        "observed_approximation": null
+      },
+      {
+        "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_07",
+        "mode": "author",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "gripper"
+        ],
+        "requested_approximation": null,
+        "observed_approximation": null
+      },
+      {
+        "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_08",
+        "mode": "author",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "gripper"
+        ],
+        "requested_approximation": null,
+        "observed_approximation": null
+      },
+      {
+        "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_09",
+        "mode": "author",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "gripper"
+        ],
+        "requested_approximation": null,
+        "observed_approximation": null
+      },
+      {
+        "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_10",
+        "mode": "author",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "gripper"
+        ],
+        "requested_approximation": null,
+        "observed_approximation": null
+      },
+      {
+        "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_11",
+        "mode": "author",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "gripper"
+        ],
+        "requested_approximation": null,
+        "observed_approximation": null
+      },
+      {
+        "prim_path": "/World/graduated_cylinder_03/mesh",
+        "mode": "disable",
+        "collision_enabled": false,
+        "purpose": [],
+        "requested_approximation": null,
+        "observed_approximation": "convexDecomposition"
+      }
+    ],
+    "open_top": {
+      "required": true,
+      "axis_body_local": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "aperture_frame": "opening",
+      "status": "declared",
+      "evidence": {
+        "status": "declared",
+        "method": "package_owned_open_top_compound_proxy_geometry_intent",
+        "claim_boundary": "The frame and compound proxy geometry are provisional until an Isaac 4.1 cooked-collision aperture probe passes."
+      }
+    },
+    "named_frames": {
+      "grasp": {
+        "prim_path": "/World/graduated_cylinder_03/__aan_frame_grasp",
+        "parent_prim": "/World/graduated_cylinder_03",
+        "translation_body_local_usd": [
+          0.0,
+          0.14,
+          0.0
+        ],
+        "rotation_body_local_wxyz": [
+          0.7071067811865476,
+          -0.7071067811865475,
+          0.0,
+          0.0
+        ],
+        "authoritative": true
+      },
+      "opening": {
+        "prim_path": "/World/graduated_cylinder_03/__aan_frame_opening",
+        "parent_prim": "/World/graduated_cylinder_03",
+        "translation_body_local_usd": [
+          0.0,
+          0.2722941904,
+          0.0
+        ],
+        "rotation_body_local_wxyz": [
+          0.7071067811865476,
+          -0.7071067811865475,
+          0.0,
+          0.0
+        ],
+        "authoritative": true
+      },
+      "support": {
+        "prim_path": "/World/graduated_cylinder_03/__aan_frame_support",
+        "parent_prim": "/World/graduated_cylinder_03",
+        "translation_body_local_usd": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_body_local_wxyz": [
+          0.7071067811865476,
+          -0.7071067811865475,
+          0.0,
+          0.0
+        ],
+        "authoritative": true
+      }
+    },
+    "closure": {
+      "status": "pass",
+      "digest_algorithm": "sha256",
+      "contract_encoding": "canonical_json_interaction_payload_v1",
+      "contract_payload_sha256": "6f8564d9ca073b171f2962cbc386b4c83c549c34818a6a68470401376d607d7c",
+      "tree_encoding": "canonical_json_artifact_list_v1",
+      "runtime_tree_sha256": "7392a8f21269820fc0adc4dab60489b8004bbab49e39046cf9433304367ba992",
+      "artifacts": [
+        {
+          "path": "asset.usd",
+          "sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17"
+        },
+        {
+          "path": "deps/mdl/Aluminum_Anodized_Charcoal.mdl",
+          "sha256": "640855d3890c6faaae6346a850ef9f366d4b397c0f4313e25c7ac0b9230c106a"
+        },
+        {
+          "path": "deps/mdl/OmniGlass.mdl",
+          "sha256": "d71555550deb30af245c0ec939c8647442df5709a2977549cad7f6ddcc8c1182"
+        },
+        {
+          "path": "deps/mdl/OmniGlass_Opacity.mdl",
+          "sha256": "c7083b339c08371c9d8b9acda49e61fec294d380a6ce2b81fa9419583c0ef86d"
+        },
+        {
+          "path": "deps/mdl/OmniPBR.mdl",
+          "sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db"
+        },
+        {
+          "path": "deps/mdl/OmniSurfacePresets.mdl",
+          "sha256": "5c86c8545a1e215ec4b99e60eb66f9112ca5952cc66ca13ec0c26687dcfcb930"
+        },
+        {
+          "path": "deps/mdl/Plastic.mdl",
+          "sha256": "00ff5c95e8f9a97a5f21d0230536b01ac2ab88a8ab0d7eea9780e839be8be215"
+        },
+        {
+          "path": "deps/mdl/Plastic_Thick_Translucent.mdl",
+          "sha256": "e6fc7403fce0da94912d3aa2ced0638a2aafb4c9cd504a745743f4273b7dc333"
+        },
+        {
+          "path": "deps/mdl/Stainless_Steel.mdl",
+          "sha256": "d97fda12c4cb264ee73a9a27772da8a0165c7a149506b6b6a6a6aedeaf23aef5"
+        },
+        {
+          "path": "deps/mdl/Steel_Stainless-dc62db95.mdl",
+          "sha256": "976b0375c79f2c7262d0e4af785db67735260ff457319c62d50427c957cbf2a8"
+        },
+        {
+          "path": "deps/mdl/Steel_Stainless.mdl",
+          "sha256": "4aa967952d1f840438880df500a642e71b385bd537fd077dbf202e98a1573689"
+        },
+        {
+          "path": "deps/mdl/material_06.mdl",
+          "sha256": "a387b9e3f737dbc61653de75538958e95eab77c0ae9093cdc30f8496579214ad"
+        },
+        {
+          "path": "deps/mdl/material_08.mdl",
+          "sha256": "2d340831b68cb0402efac04f53857c8fef5c479f505c7dfbf96fc26525acd6ae"
+        },
+        {
+          "path": "deps/mdl/material_09.mdl",
+          "sha256": "0569e8b1b05810a9c1d0eb604184dbc5450f0ad79307639e0cb0ec44dce26ea8"
+        },
+        {
+          "path": "deps/mdl/material_11.mdl",
+          "sha256": "f91013cdb672bc6670ef09225f378918df2fed2a977de2b3927e4f148ced9a32"
+        },
+        {
+          "path": "deps/mdl/material_12.mdl",
+          "sha256": "c63181bc2f23c090d36e9e3b96672b511a17e03f4362cca130937c6b6d7ec492"
+        },
+        {
+          "path": "deps/mdl/pbr.mdl",
+          "sha256": "08d49f866cba15416a9614776ce3502dd922c3ca5441261496df84ffee1ae0a2"
+        },
+        {
+          "path": "deps/mdl_source/OmniGlass.mdl",
+          "sha256": "cd7c97781dc95f1694f9acc70c0b9ae327361a3b1c84abf917e55a9d672e627a"
+        },
+        {
+          "path": "deps/textures/Steel_Stainless_BaseColor.png",
+          "sha256": "3f8b3b576ce734630625a64faf6266faf411714a59c42c7af395dc0826e52151"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture0.jpg",
+          "sha256": "090cea3716ec138f618190081619ed4516a3403351d378063e15c6c06d2cce46"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture0_1.jpg",
+          "sha256": "090cea3716ec138f618190081619ed4516a3403351d378063e15c6c06d2cce46"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture1.jpg",
+          "sha256": "c993bac14939eb27ab4cf248fee5816a6873885d8a159e0e97c2f4fad0619925"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture1_1.jpg",
+          "sha256": "c993bac14939eb27ab4cf248fee5816a6873885d8a159e0e97c2f4fad0619925"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture2.png",
+          "sha256": "a961a7fb56b25ad1905310f6be55efcb167f241fe2f01836468bc17f7a6602ba"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture2_1.png",
+          "sha256": "a961a7fb56b25ad1905310f6be55efcb167f241fe2f01836468bc17f7a6602ba"
+        },
+        {
+          "path": "deps/usd/scoped_source.usda",
+          "sha256": "10d393ac666c56a7e7f93079badf7f404c3b29ecf8255bcecb3f85b56b52f729"
+        },
+        {
+          "path": "deps/usd/sektion_cabinet_collisions.usd",
+          "sha256": "404c6604a98d719a4af74f489e505e17037e6b0ae5112aeec643675e70e797cb"
+        },
+        {
+          "path": "deps/usd/sektion_cabinet_instanceable.usd",
+          "sha256": "24ff5433c76d39345e0a633e3ec0c39c4c6c9217a1a00b20f2b12cc6f49e38c6"
+        },
+        {
+          "path": "deps/usd/sektion_cabinet_visuals.usd",
+          "sha256": "f9879be54b34eed9ba16928ee14ac0c261f9b7211fdeadd8bd9fe3ace206afd7"
+        },
+        {
+          "path": "deps/usd/source_root.usd",
+          "sha256": "653ed760fc9c85efe6012d1cb58849befba2d35ac02280c8b26d6e7680dde7bb"
+        },
+        {
+          "path": "interaction/profile.json",
+          "sha256": "136b2a12db88882f00d5e0e016e5f4661074e02d653a0337b890b10df400725a"
+        },
+        {
+          "path": "overlays/interaction.usda",
+          "sha256": "b5c68ecad5910d69f5f3de07f3560014aebd4137d31e1ee1e6512e082c24eb19"
+        },
+        {
+          "path": "overlays/physics_profile.usda",
+          "sha256": "cbbc52cdd53e31922c2c1552a78c61b65b01419ef09d0f7edc60e45b29819a72"
+        },
+        {
+          "path": "physics/profile.json",
+          "sha256": "7bf298de5e8ed014d0f37717539dd4b0aa471a29eee2e2bcd1deb9efd62ce67e"
+        }
+      ]
+    },
+    "root_motion_gate": {
+      "status": "not_run",
+      "required": true,
+      "min_translation_m": 0.05,
+      "evidence": {
+        "status": "not_run",
+        "observations": []
+      }
+    },
+    "stable_support_gate": {
+      "status": "not_run",
+      "required": true,
+      "evidence": {
+        "status": "not_run",
+        "observations": []
+      }
+    },
+    "gripper_collision_gate": {
+      "status": "not_run",
+      "required": true,
+      "evidence": {
+        "status": "not_run",
+        "observations": []
+      }
+    }
+  }
+}

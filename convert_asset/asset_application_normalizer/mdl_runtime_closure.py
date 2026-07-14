@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 from dataclasses import dataclass, field
 import hashlib
 from pathlib import Path
@@ -57,6 +58,7 @@ class MaterialRuntimeClosureResult:
     static_material_runtime_report: dict[str, Any]
     stage_gate: dict[str, Any]
     blocked_reasons: list[dict[str, Any]]
+    material_closure: list[dict[str, Any]] = field(default_factory=list)
 
 
 MATERIAL_RUNTIME_NOT_RUN_REPORT = {
@@ -168,13 +170,23 @@ def build_material_runtime_closure(
     required_prims: list[str] | None = None,
     runtime_mdl_roots: list[Path] | None = None,
 ) -> MaterialRuntimeClosureResult:
+    adapted_material_closure = deepcopy(material_closure)
     approved_runtime_roots = _existing_runtime_mdl_roots(runtime_mdl_roots)
+    rewrite_actions = (
+        _substitute_target_runtime_root_mdls(
+            package_root,
+            adapted_material_closure,
+            runtime_mdl_roots=approved_runtime_roots,
+        )
+        if runtime_mdl_roots is not None
+        else []
+    )
     mirror_actions = _mirror_mdl_runtime_dependencies(
         package_root,
-        material_closure,
+        adapted_material_closure,
         runtime_mdl_roots=approved_runtime_roots,
     )
-    roots = discover_mdl_roots(package_root, material_closure)
+    roots = discover_mdl_roots(package_root, adapted_material_closure)
     module_records: list[dict[str, Any]] = []
     texture_records: list[dict[str, Any]] = []
 
@@ -211,11 +223,11 @@ def build_material_runtime_closure(
         ],
         "mirror_actions": mirror_actions,
         "binding_scope": build_binding_scope_report(
-            material_closure,
+            adapted_material_closure,
             required_prims or [],
             package_root=package_root,
         ),
-        "rewrite_actions": [],
+        "rewrite_actions": rewrite_actions,
         "runtime_compiler": {"status": "not_run"},
         "view_evidence": [],
     }
@@ -259,6 +271,7 @@ def build_material_runtime_closure(
             "summary": summary,
         },
         blocked_reasons=blockers,
+        material_closure=adapted_material_closure,
     )
 
 
@@ -371,6 +384,7 @@ def merge_runtime_compiler_result(
             },
             stage_gate=result.stage_gate,
             blocked_reasons=result.blocked_reasons,
+            material_closure=result.material_closure,
         )
 
     blocked_reasons = [
@@ -399,6 +413,7 @@ def merge_runtime_compiler_result(
             "summary": "AAN-11 runtime material compiler evidence found blocking errors.",
         },
         blocked_reasons=blocked_reasons,
+        material_closure=result.material_closure,
     )
 
 
@@ -417,6 +432,7 @@ def merge_material_view_evidence_result(
         static_material_runtime_report=result.static_material_runtime_report,
         stage_gate=result.stage_gate,
         blocked_reasons=result.blocked_reasons,
+        material_closure=result.material_closure,
     )
 
 
@@ -605,6 +621,102 @@ def build_material_view_evidence(records: list[dict[str, Any]]) -> list[dict[str
             raise ValueError(f"material view evidence missing keys: {', '.join(missing)}")
         normalized.append(dict(record))
     return normalized
+
+
+def _substitute_target_runtime_root_mdls(
+    package_root: Path,
+    material_closure: list[dict[str, Any]],
+    *,
+    runtime_mdl_roots: list[Path],
+) -> list[dict[str, Any]]:
+    """Use an explicitly selected runtime's root MDL while retaining source bytes.
+
+    A source package can carry an NVIDIA root module from a newer Isaac Sim
+    release whose helper API is incompatible with the requested target.  This
+    is a target-runtime adaptation, not a visual-parity claim: the original
+    package bytes are archived and both hashes are attached to the material
+    record before the target root is installed at the package-visible path.
+    """
+    actions: list[dict[str, Any]] = []
+    package_root_resolved = package_root.resolve()
+    for material in material_closure:
+        for asset in material.get("source_mdl_assets", []):
+            raw_package_path = asset.get("package_path")
+            if not raw_package_path:
+                continue
+            package_path = Path(str(raw_package_path))
+            if package_path.is_absolute() or package_path.suffix.lower() != ".mdl":
+                continue
+            try:
+                package_mdl = (package_root / package_path).resolve()
+                relative_mdl = package_mdl.relative_to(
+                    (package_root_resolved / "deps" / "mdl").resolve()
+                )
+            except ValueError:
+                continue
+            if not package_mdl.is_file():
+                continue
+
+            runtime_match = _exact_runtime_module_resolution(relative_mdl, runtime_mdl_roots)
+            if runtime_match is None:
+                continue
+            runtime_root, runtime_mdl = runtime_match
+            package_sha = sha256_file(package_mdl)
+            runtime_sha = sha256_file(runtime_mdl)
+            if package_sha == runtime_sha:
+                continue
+
+            archive_rel = Path("deps") / "mdl_source" / relative_mdl
+            archive_path = package_root / archive_rel
+            _copy_package_file(package_mdl, archive_path)
+            source_preservation_sha = sha256_file(archive_path)
+            _copy_package_file(runtime_mdl, package_mdl)
+
+            package_rel = package_mdl.relative_to(package_root_resolved).as_posix()
+            archive_package_path = archive_rel.as_posix()
+            asset.update(
+                {
+                    "package_sha256": runtime_sha,
+                    "source_preservation_package_path": archive_package_path,
+                    "source_preservation_package_sha256": source_preservation_sha,
+                    "runtime_substitution": {
+                        "policy": "explicit_target_runtime_root_mdl",
+                        "target_runtime_root": str(runtime_root),
+                        "target_runtime_path": str(runtime_mdl),
+                        "target_runtime_sha256": runtime_sha,
+                    },
+                }
+            )
+            material["source_assets_preserved"] = True
+            losses = material.setdefault("losses", [])
+            loss = "target_runtime_mdl_substitution_not_visual_parity"
+            if loss not in losses:
+                losses.append(loss)
+            actions.append(
+                {
+                    "action_id": "aan11_substitute_target_runtime_root_mdl",
+                    "package_path": package_rel,
+                    "source_package_sha256": package_sha,
+                    "source_preservation_package_path": archive_package_path,
+                    "source_preservation_package_sha256": source_preservation_sha,
+                    "target_runtime_root": str(runtime_root),
+                    "target_runtime_path": str(runtime_mdl),
+                    "target_runtime_sha256": runtime_sha,
+                    "claim_boundary": "target_runtime_compatibility_not_visual_parity",
+                }
+            )
+    return actions
+
+
+def _exact_runtime_module_resolution(
+    module_file: Path,
+    runtime_mdl_roots: list[Path],
+) -> tuple[Path, Path] | None:
+    for root in runtime_mdl_roots:
+        candidate = root / module_file
+        if candidate.exists() and candidate.is_file():
+            return root, candidate
+    return None
 
 
 def _mirror_mdl_runtime_dependencies(

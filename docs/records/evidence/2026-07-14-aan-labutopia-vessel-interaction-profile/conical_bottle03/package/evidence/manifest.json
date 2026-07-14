@@ -1,0 +1,3654 @@
+{
+  "schema_version": "asset_application_normalizer.v1",
+  "package_id": "labutopia_conical_bottle03_scenario-forge_isaac41",
+  "asset_id": "LabUtopia_conical_bottle03",
+  "asset_role": "dynamic",
+  "task_id": "ScenarioForge.conical_bottle03",
+  "milestone": "AAN-06-runtime-smoke",
+  "overall_status": "pass",
+  "source": {
+    "path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+    "sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+    "source_format": "usd",
+    "source_runtime_lineage": "isaac51"
+  },
+  "target": {
+    "target_runtime_profile": "isaac41",
+    "target_benchmark_profile": "scenario-forge"
+  },
+  "entrypoints": {
+    "root_usd": "asset.usd",
+    "default_prim": "World",
+    "asset_entry_prim": "/World/conical_bottle03",
+    "asset_scope_prims": [
+      "/World/conical_bottle03"
+    ],
+    "consumer_profile": "scenario-forge",
+    "task_config": null,
+    "required_prims": null,
+    "metric_evaluator": null
+  },
+  "normalization_policy": {
+    "material": "preserve_source_then_add_compatibility_fallback",
+    "physics": "visual_static_strip_or_source_bound_profile_or_legacy_provisional_derivation",
+    "allowed_value_sources": [
+      "authored",
+      "derived",
+      "template",
+      "manual_override",
+      "profile"
+    ]
+  },
+  "asset_scope_prim_paths": [
+    "/World/conical_bottle03"
+  ],
+  "source_integrity": {
+    "sha256_before": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+    "sha256_after": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+    "unchanged": true
+  },
+  "required_prim_paths": [
+    {
+      "name": "required_prim_0",
+      "path": "/World/conical_bottle03",
+      "role": "contract_required_prim",
+      "required": true
+    }
+  ],
+  "dependency_closure": {
+    "root_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+    "scope_extraction": {
+      "status": "pass",
+      "strategy": "population_masked_composed_snapshot",
+      "source_root_package_path": "deps/usd/source_root.usd",
+      "package_path": "deps/usd/scoped_source.usda",
+      "scope_prims": [
+        "/World/conical_bottle03"
+      ],
+      "retained_subtree_prims": [
+        "/World/conical_bottle03",
+        "/World/Looks/OmniSurface_Glass"
+      ],
+      "retained_material_prims": [
+        "/World/Looks/OmniSurface_Glass"
+      ],
+      "snapshot_asset_path_rewrite": {
+        "status": "pass",
+        "rewrite_count": 1,
+        "rewrite_actions": [
+          {
+            "raw_asset_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/deps/mdl/OmniSurfacePresets.mdl",
+            "package_relative_asset_path": "../mdl/OmniSurfacePresets.mdl"
+          }
+        ],
+        "external_asset_paths": []
+      },
+      "preserved_stage_metadata": {
+        "meters_per_unit": 1.0,
+        "up_axis": "Z",
+        "kilograms_per_unit": 1.0,
+        "time_codes_per_second": 60.0,
+        "frames_per_second": 24.0
+      }
+    },
+    "scanned_layers": [
+      "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+      "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/0/sektion_cabinet_instanceable.usd",
+      "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/0/sektion_cabinet_visuals.usd",
+      "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/0/sektion_cabinet_collisions.usd"
+    ],
+    "local_files": [
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "3/pbr.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/lounge_booth_table/Looks/Wood_001/Wood_001",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/3/pbr.mdl",
+        "package_path": "deps/mdl/pbr.mdl"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture0_1.jpg",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/lounge_booth_table/Looks/Wood_001/baseColorTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/SubUSDs/textures/lounge_booth_table_texture0_1.jpg",
+        "package_path": "deps/textures/lounge_booth_table_texture0_1.jpg"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture1_1.jpg",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/lounge_booth_table/Looks/Black_Nickel/baseColorTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/SubUSDs/textures/lounge_booth_table_texture1_1.jpg",
+        "package_path": "deps/textures/lounge_booth_table_texture1_1.jpg"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture2_1.png",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/lounge_booth_table/Looks/Black_Nickel/metallicRoughnessTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/SubUSDs/textures/lounge_booth_table_texture2_1.png",
+        "package_path": "deps/textures/lounge_booth_table_texture2_1.png"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniSurfacePresets.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/OmniSurface_Glass/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/OmniSurfacePresets.mdl",
+        "package_path": "deps/mdl/OmniSurfacePresets.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniGlass.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/OmniGlass/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/OmniGlass.mdl",
+        "package_path": "deps/mdl/OmniGlass.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/Plastic_Thick_Translucent.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material1_plastic_dark_blue/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/SubUSDs/materials/Plastic_Thick_Translucent.mdl",
+        "package_path": "deps/mdl/Plastic_Thick_Translucent.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/Plastic.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material4_plastic_light_white/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/SubUSDs/materials/Plastic.mdl",
+        "package_path": "deps/mdl/Plastic.mdl"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture1.jpg",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material5_black/baseColorTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/SubUSDs/textures/lounge_booth_table_texture1.jpg",
+        "package_path": "deps/textures/lounge_booth_table_texture1.jpg"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture2.png",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material5_black/metallicRoughnessTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/SubUSDs/textures/lounge_booth_table_texture2.png",
+        "package_path": "deps/textures/lounge_booth_table_texture2.png"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/Steel_Stainless.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material7_stainless/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/SubUSDs/materials/Steel_Stainless.mdl",
+        "package_path": "deps/mdl/Steel_Stainless.mdl"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/Steel_Stainless_BaseColor.png",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material7_stainless/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/SubUSDs/textures/Steel_Stainless_BaseColor.png",
+        "package_path": "deps/textures/Steel_Stainless_BaseColor.png"
+      },
+      {
+        "kind": "texture",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/textures/lounge_booth_table_texture0.jpg",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Material2_wood/baseColorTex",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/SubUSDs/textures/lounge_booth_table_texture0.jpg",
+        "package_path": "deps/textures/lounge_booth_table_texture0.jpg"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "OmniPBR.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/OmniPBR_Button_Blue/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/OmniPBR.mdl",
+        "package_path": "deps/mdl/OmniPBR.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "2/Aluminum_Anodized_Charcoal.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Aluminum_Anodized_Charcoal/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/2/Aluminum_Anodized_Charcoal.mdl",
+        "package_path": "deps/mdl/Aluminum_Anodized_Charcoal.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "2/Steel_Stainless.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Steel_Stainless/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/2/Steel_Stainless.mdl",
+        "package_path": "deps/mdl/Steel_Stainless-dc62db95.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "1/Stainless_Steel.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/Stainless_Steel/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/1/Stainless_Steel.mdl",
+        "package_path": "deps/mdl/Stainless_Steel.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/material_11.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/mdl_0007/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/SubUSDs/materials/material_11.mdl",
+        "package_path": "deps/mdl/material_11.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/material_09.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/mdl_0009/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/SubUSDs/materials/material_09.mdl",
+        "package_path": "deps/mdl/material_09.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/material_08.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/mdl_0008/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/SubUSDs/materials/material_08.mdl",
+        "package_path": "deps/mdl/material_08.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/material_06.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/mdl_0006/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/SubUSDs/materials/material_06.mdl",
+        "package_path": "deps/mdl/material_06.mdl"
+      },
+      {
+        "kind": "mdl",
+        "arc_kind": "asset_property",
+        "raw_asset_path": "./SubUSDs/materials/material_12.mdl",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "prim_path": "/World/Looks/mdl_0011/Shader",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/SubUSDs/materials/material_12.mdl",
+        "package_path": "deps/mdl/material_12.mdl"
+      },
+      {
+        "kind": "usd",
+        "arc_kind": "payload",
+        "raw_asset_path": "0/sektion_cabinet_instanceable.usd",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+        "status": "packaged",
+        "holder": "/World/Cabinet_01",
+        "prim_path": "/World/Cabinet_01",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/0/sektion_cabinet_instanceable.usd",
+        "package_path": "deps/usd/sektion_cabinet_instanceable.usd"
+      },
+      {
+        "kind": "usd",
+        "arc_kind": "reference",
+        "raw_asset_path": "./sektion_cabinet_visuals.usd",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/0/sektion_cabinet_instanceable.usd",
+        "status": "packaged",
+        "holder": "/cabinet/sektion/visuals",
+        "prim_path": "/cabinet/sektion/visuals",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/0/sektion_cabinet_visuals.usd",
+        "package_path": "deps/usd/sektion_cabinet_visuals.usd"
+      },
+      {
+        "kind": "usd",
+        "arc_kind": "reference",
+        "raw_asset_path": "./sektion_cabinet_collisions.usd",
+        "source_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/0/sektion_cabinet_instanceable.usd",
+        "status": "packaged",
+        "holder": "/cabinet/sektion/collisions",
+        "prim_path": "/cabinet/sektion/collisions",
+        "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/0/sektion_cabinet_collisions.usd",
+        "package_path": "deps/usd/sektion_cabinet_collisions.usd"
+      }
+    ],
+    "missing": [],
+    "remote_uri": [],
+    "unauthorized_remote_uri": [],
+    "unrewritable_layers": [],
+    "resolution_records": [],
+    "resolution_summary": {
+      "mirrored": 0,
+      "pruned": 0,
+      "waived": 0,
+      "blocked": 0
+    }
+  },
+  "material_closure": [
+    {
+      "material_prim": "/World/Looks/OmniSurface_Glass",
+      "owning_layer": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/deps/usd/scoped_source.usda",
+      "closure_mode": "local_mirror",
+      "material_policy": "native-or-mirror",
+      "source_assets_preserved": true,
+      "shader_prims": [
+        {
+          "prim_path": "/World/Looks/OmniSurface_Glass/Shader",
+          "owning_layer": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/deps/usd/scoped_source.usda",
+          "shader_id": null,
+          "implementation_source": "sourceAsset",
+          "source_asset": "../mdl/OmniSurfacePresets.mdl",
+          "source_sub_identifier": "OmniSurface_Glass",
+          "inputs": []
+        }
+      ],
+      "source_mdl_assets": [
+        {
+          "kind": "mdl",
+          "arc_kind": "asset_property",
+          "raw_asset_path": "OmniSurfacePresets.mdl",
+          "resolved_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/OmniSurfacePresets.mdl",
+          "package_path": "deps/mdl/OmniSurfacePresets.mdl",
+          "source_shader_prim": "/World/Looks/OmniSurface_Glass/Shader",
+          "status": "packaged",
+          "resolution": null,
+          "source_sha256": "5c86c8545a1e215ec4b99e60eb66f9112ca5952cc66ca13ec0c26687dcfcb930",
+          "package_sha256": "5c86c8545a1e215ec4b99e60eb66f9112ca5952cc66ca13ec0c26687dcfcb930",
+          "effect_tags": [
+            "opacity_transparency",
+            "normal_bump",
+            "emission"
+          ]
+        }
+      ],
+      "texture_paths": [],
+      "extracted_channels": {
+        "baseColor": {
+          "source": "missing"
+        },
+        "roughness": {
+          "source": "missing"
+        },
+        "metallic": {
+          "source": "missing"
+        },
+        "normal": {
+          "source": "missing"
+        },
+        "opacity": {
+          "source": "missing"
+        }
+      },
+      "color_space": {
+        "baseColor": "sRGB",
+        "roughness": "raw",
+        "metallic": "raw",
+        "normal": "raw",
+        "opacity": "raw"
+      },
+      "roughness_transform": "direct",
+      "transparency_strategy": "opacity_input",
+      "preview_surface_fallback": {
+        "status": "not_generated",
+        "reason": "Source material assets are preserved under the current material policy."
+      },
+      "defaults_used": [
+        "baseColor",
+        "roughness",
+        "metallic",
+        "normal",
+        "opacity"
+      ],
+      "losses": [],
+      "evidence_level": "package_hash",
+      "residual_mdl": {
+        "status": "source_mdl_preserved",
+        "local_count": 1,
+        "external_count": 0,
+        "blocked_count": 0
+      },
+      "visibility_evidence": {
+        "status": "not_run",
+        "required_gate": "AAN-06-runtime-smoke"
+      }
+    }
+  ],
+  "material_runtime_closure": {
+    "status": "pass",
+    "claim_level": "required_surface_runtime_dependency_closure",
+    "full_material_parity_claimed": false,
+    "root_mdl_assets": [
+      "deps/mdl/OmniSurface.mdl",
+      "deps/mdl/OmniSurface/OmniImage.mdl",
+      "deps/mdl/OmniSurface/OmniShared.mdl",
+      "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+      "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+      "deps/mdl/OmniSurfaceLite.mdl",
+      "deps/mdl/OmniSurfacePresets.mdl",
+      "deps/mdl/aux_definitions.mdl",
+      "deps/mdl/limits.mdl",
+      "deps/mdl/nvidia/support_definitions.mdl"
+    ],
+    "imported_mdl_modules": [
+      {
+        "root_mdl": "deps/mdl/OmniSurface.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface.mdl",
+        "module": "limits",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/limits.mdl",
+        "package_sha256": "9025d82e139948d0e64336cdd98754eb9b674fd899085574a282358661562e3e"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface.mdl",
+        "module": "OmniSurface::OmniSurfaceBase",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "package_sha256": "e21589d55655e64d9326b3513ba434cb0199e4266da3ac9256434a13c6a80e99"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface.mdl",
+        "module": "OmniSurface::OmniShared",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/OmniSurface/OmniShared.mdl",
+        "package_sha256": "c52816bc2ecb4cebb36f9e28c14bf21f05cef962dd45e89278508a1e1b551275"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface.mdl",
+        "module": "OmniSurface::OmniImage",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "package_sha256": "25601c038c9cca778506c8434a4cb7e7cb48f2dbd9a4dff848738a702e2de64e"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "module": "df",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "module": "limits",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/limits.mdl",
+        "package_sha256": "9025d82e139948d0e64336cdd98754eb9b674fd899085574a282358661562e3e"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "module": "nvidia::support_definitions",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/nvidia/support_definitions.mdl",
+        "package_sha256": "14183044814a3e227bb2973e1db01892b73456ae12bdbbb2b65bcb44c42738fc"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniShared.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniShared.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniShared.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "module": "df",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "module": "limits",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/limits.mdl",
+        "package_sha256": "9025d82e139948d0e64336cdd98754eb9b674fd899085574a282358661562e3e"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "module": "OmniSurface::OmniShared",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/OmniSurface/OmniShared.mdl",
+        "package_sha256": "c52816bc2ecb4cebb36f9e28c14bf21f05cef962dd45e89278508a1e1b551275"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "module": "df",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "module": "limits",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/limits.mdl",
+        "package_sha256": "9025d82e139948d0e64336cdd98754eb9b674fd899085574a282358661562e3e"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "module": "OmniSurface::OmniShared",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/OmniSurface/OmniShared.mdl",
+        "package_sha256": "c52816bc2ecb4cebb36f9e28c14bf21f05cef962dd45e89278508a1e1b551275"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfaceLite.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfaceLite.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfaceLite.mdl",
+        "module": "limits",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/limits.mdl",
+        "package_sha256": "9025d82e139948d0e64336cdd98754eb9b674fd899085574a282358661562e3e"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfaceLite.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfaceLite.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfaceLite.mdl",
+        "module": "OmniSurface::OmniSurfaceLiteBase",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "package_sha256": "97bb55ab467387ef07a3a94453b17572358b89147f65a95c3f6abb699583e134"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfaceLite.mdl",
+        "module": "OmniSurface::OmniShared",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/OmniSurface/OmniShared.mdl",
+        "package_sha256": "c52816bc2ecb4cebb36f9e28c14bf21f05cef962dd45e89278508a1e1b551275"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfaceLite.mdl",
+        "module": "OmniSurface::OmniImage",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "package_sha256": "25601c038c9cca778506c8434a4cb7e7cb48f2dbd9a4dff848738a702e2de64e"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "module": "limits",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/limits.mdl",
+        "package_sha256": "9025d82e139948d0e64336cdd98754eb9b674fd899085574a282358661562e3e"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "module": "OmniSurface::OmniShared",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/OmniSurface/OmniShared.mdl",
+        "package_sha256": "c52816bc2ecb4cebb36f9e28c14bf21f05cef962dd45e89278508a1e1b551275"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "module": "OmniSurface::OmniImage",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "package_sha256": "25601c038c9cca778506c8434a4cb7e7cb48f2dbd9a4dff848738a702e2de64e"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "module": "OmniSurfaceLite",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/OmniSurfaceLite.mdl",
+        "package_sha256": "58384eeaf4d320dca4babcaabe5457ce84ca1bbc59c09ec9a5a7feab56314df8"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "module": "OmniSurface",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/OmniSurface.mdl",
+        "package_sha256": "6477aaf2f837524e2b4aa52bc86dd4a8b20f17bf5f151fc718098d4a1a59a88c"
+      },
+      {
+        "root_mdl": "deps/mdl/aux_definitions.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/nvidia/support_definitions.mdl",
+        "module": "aux_definitions",
+        "classification": "required_helper_module",
+        "resolution": "mirrored",
+        "package_path": "deps/mdl/aux_definitions.mdl",
+        "package_sha256": "02e27500a7339d2f2400e282736dce88a0719b391b0a3912db8e7be0563e7ff6"
+      },
+      {
+        "root_mdl": "deps/mdl/nvidia/support_definitions.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/nvidia/support_definitions.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/nvidia/support_definitions.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/nvidia/support_definitions.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      }
+    ],
+    "mdl_texture_assets": [],
+    "native_runtime_modules": [
+      {
+        "root_mdl": "deps/mdl/OmniSurface.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "module": "df",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniShared.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniShared.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniShared.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "module": "df",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "module": "df",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfaceLite.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfaceLite.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfaceLite.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfaceLite.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "module": "base",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/aux_definitions.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/nvidia/support_definitions.mdl",
+        "module": "state",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/nvidia/support_definitions.mdl",
+        "module": "tex",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/nvidia/support_definitions.mdl",
+        "module": "anno",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      },
+      {
+        "root_mdl": "deps/mdl/nvidia/support_definitions.mdl",
+        "module": "math",
+        "classification": "native_runtime_module",
+        "resolution": "native_runtime_module"
+      }
+    ],
+    "mirror_actions": [
+      {
+        "action_id": "aan11_mirror_runtime_compatible_helper_mdl",
+        "module": "limits",
+        "runtime_module": "limits",
+        "owner_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "source_path": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/mdl/limits.mdl",
+        "runtime_root": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/mdl",
+        "package_path": "deps/mdl/limits.mdl",
+        "package_sha256": "9025d82e139948d0e64336cdd98754eb9b674fd899085574a282358661562e3e",
+        "resolution_source": "target_runtime_module_mirror"
+      },
+      {
+        "action_id": "aan11_mirror_runtime_compatible_helper_mdl",
+        "module": "OmniSurface::OmniShared",
+        "runtime_module": "OmniSurface::OmniShared",
+        "owner_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "source_path": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/mdl/OmniSurface/OmniShared.mdl",
+        "runtime_root": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/mdl",
+        "package_path": "deps/mdl/OmniSurface/OmniShared.mdl",
+        "package_sha256": "c52816bc2ecb4cebb36f9e28c14bf21f05cef962dd45e89278508a1e1b551275",
+        "resolution_source": "target_runtime_module_mirror"
+      },
+      {
+        "action_id": "aan11_mirror_runtime_compatible_helper_mdl",
+        "module": "OmniSurface::OmniImage",
+        "runtime_module": "OmniSurface::OmniImage",
+        "owner_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "source_path": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/mdl/OmniSurface/OmniImage.mdl",
+        "runtime_root": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/mdl",
+        "package_path": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "package_sha256": "25601c038c9cca778506c8434a4cb7e7cb48f2dbd9a4dff848738a702e2de64e",
+        "resolution_source": "target_runtime_module_mirror"
+      },
+      {
+        "action_id": "aan11_mirror_runtime_compatible_helper_mdl",
+        "module": "OmniSurfaceLite",
+        "runtime_module": "OmniSurfaceLite",
+        "owner_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "source_path": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniSurfaceLite.mdl",
+        "runtime_root": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/Base",
+        "package_path": "deps/mdl/OmniSurfaceLite.mdl",
+        "package_sha256": "58384eeaf4d320dca4babcaabe5457ce84ca1bbc59c09ec9a5a7feab56314df8",
+        "resolution_source": "target_runtime_module_mirror"
+      },
+      {
+        "action_id": "aan11_mirror_runtime_compatible_helper_mdl",
+        "module": "OmniSurface",
+        "runtime_module": "OmniSurface",
+        "owner_mdl": "deps/mdl/OmniSurfacePresets.mdl",
+        "source_path": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniSurface.mdl",
+        "runtime_root": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/Base",
+        "package_path": "deps/mdl/OmniSurface.mdl",
+        "package_sha256": "6477aaf2f837524e2b4aa52bc86dd4a8b20f17bf5f151fc718098d4a1a59a88c",
+        "resolution_source": "target_runtime_module_mirror"
+      },
+      {
+        "action_id": "aan11_mirror_runtime_compatible_helper_mdl",
+        "module": "nvidia::support_definitions",
+        "runtime_module": "nvidia::support_definitions",
+        "owner_mdl": "deps/mdl/OmniSurface/OmniImage.mdl",
+        "source_path": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/mdl/nvidia/support_definitions.mdl",
+        "runtime_root": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/mdl",
+        "package_path": "deps/mdl/nvidia/support_definitions.mdl",
+        "package_sha256": "14183044814a3e227bb2973e1db01892b73456ae12bdbbb2b65bcb44c42738fc",
+        "resolution_source": "target_runtime_module_mirror"
+      },
+      {
+        "action_id": "aan11_mirror_runtime_compatible_helper_mdl",
+        "module": "OmniSurface::OmniSurfaceLiteBase",
+        "runtime_module": "OmniSurface::OmniSurfaceLiteBase",
+        "owner_mdl": "deps/mdl/OmniSurfaceLite.mdl",
+        "source_path": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "runtime_root": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/mdl",
+        "package_path": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+        "package_sha256": "97bb55ab467387ef07a3a94453b17572358b89147f65a95c3f6abb699583e134",
+        "resolution_source": "target_runtime_module_mirror"
+      },
+      {
+        "action_id": "aan11_mirror_runtime_compatible_helper_mdl",
+        "module": "OmniSurface::OmniSurfaceBase",
+        "runtime_module": "OmniSurface::OmniSurfaceBase",
+        "owner_mdl": "deps/mdl/OmniSurface.mdl",
+        "source_path": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "runtime_root": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/mdl",
+        "package_path": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+        "package_sha256": "e21589d55655e64d9326b3513ba434cb0199e4266da3ac9256434a13c6a80e99",
+        "resolution_source": "target_runtime_module_mirror"
+      },
+      {
+        "action_id": "aan11_mirror_helper_mdl",
+        "module": "aux_definitions",
+        "owner_mdl": "deps/mdl/nvidia/support_definitions.mdl",
+        "source_path": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/omni/mdl/core/mdl/nvidia/aux_definitions.mdl",
+        "package_path": "deps/mdl/aux_definitions.mdl",
+        "package_sha256": "02e27500a7339d2f2400e282736dce88a0719b391b0a3912db8e7be0563e7ff6"
+      }
+    ],
+    "binding_scope": {
+      "status": "effective_binding",
+      "required_materials": [
+        {
+          "required_prim": "/World/conical_bottle03",
+          "material_prim": "/World/Looks/OmniSurface_Glass",
+          "binding_source": "UsdShade.MaterialBindingAPI.ComputeBoundMaterial",
+          "binding_strength": "direct",
+          "bound_at_prim": "/World/conical_bottle03/mesh",
+          "render_prim": "/World/conical_bottle03/mesh"
+        }
+      ],
+      "unknown_required_prims": [],
+      "non_render_required_prims": []
+    },
+    "rewrite_actions": [],
+    "runtime_compiler": {
+      "status": "pass",
+      "counters": {
+        "stderr_bytes": 24347,
+        "error_count": 0,
+        "warning_count": 28,
+        "mdlc_count": 0,
+        "usd_mdl_count": 0,
+        "omni_hydra_count": 5,
+        "rtx_mdltranslator_count": 0,
+        "failed_shader_node_count": 0,
+        "missing_texture_count": 0
+      },
+      "missing_modules": [],
+      "exemplars": []
+    },
+    "view_evidence": [
+      {
+        "view_id": "front",
+        "camera_pose": {
+          "position": [
+            10.04137689,
+            0.48720169,
+            0.25300119
+          ],
+          "look_at": [
+            9.61852524,
+            0.48720169,
+            0.09909578
+          ],
+          "distance": 0.44998932,
+          "elevation": 20.0,
+          "azimuth": 0.0
+        },
+        "target_prim": "/World/conical_bottle03",
+        "render_hash": "cd3ecc4fd1a41b1c324a1a0c82fdb8b736872a7d9265af79482711bd8ebab45a",
+        "mean_rgb": [
+          150.842977,
+          183.370748,
+          201.520874
+        ],
+        "foreground_rgb": [
+          158.232509,
+          192.928798,
+          212.288932
+        ],
+        "non_background_ratio": 0.9375,
+        "bbox_ratio": 0.9375,
+        "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/material_views/front.png",
+        "bbox_source": "authored",
+        "bytes": 43885,
+        "resolution": [
+          256,
+          192
+        ]
+      },
+      {
+        "view_id": "orbit_3q",
+        "camera_pose": {
+          "position": [
+            9.87917164,
+            0.74784808,
+            0.35719905
+          ],
+          "look_at": [
+            9.61852524,
+            0.48720169,
+            0.09909578
+          ],
+          "distance": 0.44998932,
+          "elevation": 35.0,
+          "azimuth": 45.0
+        },
+        "target_prim": "/World/conical_bottle03",
+        "render_hash": "d255d58b4406b79ec83581d1636887f709fc65d3a5ed2b30364bc9b3ff748dbd",
+        "mean_rgb": [
+          134.096252,
+          182.296794,
+          207.676147
+        ],
+        "foreground_rgb": [
+          134.096252,
+          182.296794,
+          207.676147
+        ],
+        "non_background_ratio": 1.0,
+        "bbox_ratio": 1.0,
+        "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/material_views/orbit_3q.png",
+        "bbox_source": "authored",
+        "bytes": 47733,
+        "resolution": [
+          256,
+          192
+        ]
+      },
+      {
+        "view_id": "side",
+        "camera_pose": {
+          "position": [
+            9.61852524,
+            0.89503051,
+            0.28926948
+          ],
+          "look_at": [
+            9.61852524,
+            0.48720169,
+            0.09909578
+          ],
+          "distance": 0.44998932,
+          "elevation": 25.0,
+          "azimuth": 90.0
+        },
+        "target_prim": "/World/conical_bottle03",
+        "render_hash": "22c9853e8fd99fa82d7a201ea83221a8a0d9a65a74333ba3ba94d9db67954a06",
+        "mean_rgb": [
+          130.41748,
+          181.368022,
+          207.484741
+        ],
+        "foreground_rgb": [
+          130.41748,
+          181.368022,
+          207.484741
+        ],
+        "non_background_ratio": 1.0,
+        "bbox_ratio": 1.0,
+        "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/material_views/side.png",
+        "bbox_source": "authored",
+        "bytes": 46967,
+        "resolution": [
+          256,
+          192
+        ]
+      }
+    ]
+  },
+  "physics_closure": {
+    "status": "pass",
+    "role": "dynamic",
+    "root_usd": "docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/asset.usd",
+    "scope": {
+      "mode": "asset_scope_prims",
+      "asset_scope_prims": [
+        "/World/conical_bottle03"
+      ]
+    },
+    "value_policy": "source_bound_profile_full_mass_bundle",
+    "profile_admission": {
+      "status": "pass",
+      "schema_version": "aan.physics_profile.v1",
+      "profile_path": "profiles/physics/labutopia_lab001_conical_bottle03_20260707.provisional.json",
+      "profile_sha256": "1042b748ec6e3e4a1e19dec5384637d07912a8219aa107fb0ccb46e585b178c3",
+      "profile_id": "labutopia.lab_001.conical_bottle03.20260707.provisional",
+      "revision": "r1",
+      "source_binding": {
+        "sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+        "stage_metrics": {
+          "meters_per_unit": 1.0,
+          "kilograms_per_unit": 1.0,
+          "up_axis": "Z",
+          "time_codes_per_second": 60.0,
+          "frames_per_second": 24.0
+        }
+      },
+      "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+      "matched_scope_rules": [
+        {
+          "scope": "/World/conical_bottle03",
+          "selector": {
+            "scope_path": "/World/conical_bottle03"
+          }
+        }
+      ],
+      "active_rigid_bodies": [
+        "/World/conical_bottle03"
+      ],
+      "unmatched_rigid_bodies": [],
+      "ambiguous_rigid_bodies": [],
+      "invalid_body_rules": [],
+      "quality_tier": "provisional_geometry",
+      "evidence": {
+        "parameter_status": "provisional_geometry",
+        "claim_boundary": "The mass bundle is a geometry-based simulation candidate, not a weighing, BOM, CAD inertial-property, or material-density calibration.",
+        "center_of_mass_convention": "asset_entry_prim_body_local_usd",
+        "inertia_convention": "canonical SI kg*m^2",
+        "replacement_contract": "Replace the complete mass_properties bundle in a new source-bound profile revision; do not patch package USD or a consumer."
+      },
+      "errors": [],
+      "source_metric_mismatches": [],
+      "package_profile_path": "physics/profile.json",
+      "overlay_path": "overlays/physics_profile.usda",
+      "packaged_profile_sha256": "1042b748ec6e3e4a1e19dec5384637d07912a8219aa107fb0ccb46e585b178c3",
+      "resolved_body_count": 1,
+      "authoring_frame": {
+        "meters_per_unit": 1.0,
+        "kilograms_per_unit": 1.0,
+        "inertia_conversion": "I_usd = I_kg_m2 / (kilogramsPerUnit * metersPerUnit^2)",
+        "center_of_mass_frame": "body_local_usd"
+      }
+    },
+    "profile_normalization_actions": [
+      {
+        "action": "author_physics_profile_bundle",
+        "prim_path": "/World/conical_bottle03",
+        "relative_path": ".",
+        "motion_role": "dynamic",
+        "mass_mode": "explicit",
+        "quality_tier": "provisional_geometry",
+        "mass_kg": 0.25,
+        "mass_usd": 0.25,
+        "diagonal_inertia_kg_m2": [
+          0.001874,
+          0.00214,
+          0.001874
+        ],
+        "diagonal_inertia_usd": [
+          0.001874,
+          0.00214,
+          0.001874
+        ],
+        "center_of_mass_frame": "body_local_usd",
+        "density_cleared": true
+      }
+    ],
+    "source_physics_audit": {
+      "status": "blocked",
+      "source_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+      "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+      "scope": [
+        "/World/conical_bottle03"
+      ],
+      "summary": {
+        "family_member_count": 1,
+        "invalid_rigid_body_count": 1,
+        "rigid_body_count": 1
+      },
+      "family_members": [
+        {
+          "scope": "/World/conical_bottle03",
+          "status": "blocked",
+          "summary": {
+            "rigid_body_count": 1,
+            "collision_count": 1,
+            "mass_record_count": 1,
+            "authored_mass_count": 0,
+            "authored_inertia_count": 0,
+            "derived_mass_count": 0,
+            "derived_inertia_count": 0,
+            "invalid_rigid_body_count": 1
+          },
+          "rigid_bodies": [
+            {
+              "prim_path": "/World/conical_bottle03/mesh",
+              "type_name": "Mesh",
+              "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+              "enabled": {
+                "value": true,
+                "value_source": "authored",
+                "status": "pass",
+                "attribute": "/World/conical_bottle03/mesh.physics:rigidBodyEnabled",
+                "provenance_status": "not_applicable"
+              },
+              "kinematic": {
+                "value": false,
+                "value_source": "authored",
+                "status": "pass",
+                "attribute": "/World/conical_bottle03/mesh.physics:kinematicEnabled",
+                "provenance_status": "not_applicable"
+              }
+            }
+          ],
+          "collisions": [
+            {
+              "prim_path": "/World/conical_bottle03/mesh",
+              "type_name": "Mesh",
+              "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+              "enabled": {
+                "value": true,
+                "value_source": "authored",
+                "status": "pass",
+                "attribute": "/World/conical_bottle03/mesh.physics:collisionEnabled",
+                "provenance_status": "not_applicable"
+              },
+              "approximation": {
+                "value": "convexDecomposition",
+                "value_source": "authored",
+                "status": "pass",
+                "attribute": "/World/conical_bottle03/mesh.physics:approximation",
+                "provenance_status": "not_applicable"
+              }
+            }
+          ],
+          "mass_properties": [
+            {
+              "prim_path": "/World/conical_bottle03/mesh",
+              "type_name": "Mesh",
+              "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+              "mass_api_applied": true,
+              "mass": {
+                "value": 0.0,
+                "value_source": "fallback",
+                "status": "invalid",
+                "attribute": "/World/conical_bottle03/mesh.physics:mass",
+                "provenance_status": "invalid",
+                "provenance": {
+                  "value_source": "fallback",
+                  "reason": "No authored opinion or persistent derived/template provenance was found."
+                }
+              },
+              "density": {
+                "value": 0.05,
+                "value_source": "authored",
+                "status": "pass",
+                "attribute": "/World/conical_bottle03/mesh.physics:density",
+                "provenance_status": "not_applicable"
+              },
+              "center_of_mass": {
+                "value": [
+                  "-inf",
+                  "-inf",
+                  "-inf"
+                ],
+                "value_source": "fallback",
+                "status": "invalid",
+                "attribute": "/World/conical_bottle03/mesh.physics:centerOfMass",
+                "provenance_status": "invalid",
+                "provenance": {
+                  "value_source": "fallback",
+                  "reason": "No authored opinion or persistent derived/template provenance was found."
+                }
+              },
+              "inertia": {
+                "value": [
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "value_source": "fallback",
+                "status": "invalid",
+                "attribute": "/World/conical_bottle03/mesh.physics:diagonalInertia",
+                "provenance_status": "invalid",
+                "provenance": {
+                  "value_source": "fallback",
+                  "reason": "No authored opinion or persistent derived/template provenance was found."
+                }
+              },
+              "principal_axes": {
+                "value": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "value_source": "fallback",
+                "status": "invalid",
+                "attribute": "/World/conical_bottle03/mesh.physics:principalAxes",
+                "provenance_status": "invalid",
+                "provenance": {
+                  "value_source": "fallback",
+                  "reason": "No authored opinion or persistent derived/template provenance was found."
+                }
+              },
+              "provenance_complete": false,
+              "invalid_auto_compute_reliance": true,
+              "status": "blocked"
+            }
+          ],
+          "articulation_roots": [],
+          "joints": [],
+          "blocked_reasons": [
+            {
+              "blocker_id": "aan05_block_invalid_mass_properties",
+              "severity": "blocking",
+              "summary": "Every scoped rigid body requires explicit finite positive mass/inertia, finite COM, a normalizable principal-axes quaternion, and complete provenance.",
+              "count": 1,
+              "prim_paths": [
+                "/World/conical_bottle03/mesh"
+              ],
+              "required_resolution": "Author valid package values or derive them with persistent provenance; do not rely on PhysX auto-compute fallbacks."
+            }
+          ]
+        }
+      ]
+    },
+    "output_role_admission": {
+      "status": "pass",
+      "role": "dynamic",
+      "scope": [
+        "/World/conical_bottle03"
+      ],
+      "summary": {
+        "rigid_body_count": 1,
+        "collision_count": 1,
+        "mass_record_count": 1,
+        "authored_mass_count": 0,
+        "authored_inertia_count": 0,
+        "derived_mass_count": 0,
+        "derived_inertia_count": 0,
+        "invalid_rigid_body_count": 0
+      }
+    },
+    "normalization_actions": [
+      {
+        "action": "author_unique_rigid_root",
+        "prim_path": "/World/conical_bottle03",
+        "motion_role": "dynamic"
+      },
+      {
+        "action": "disable_descendant_rigid_body",
+        "prim_path": "/World/conical_bottle03/mesh",
+        "rigid_body_api_removed": true,
+        "rigid_body_disabled": true,
+        "mass_api_removed": true
+      },
+      {
+        "action": "author_mesh_collision_approximation",
+        "prim_path": "/World/conical_bottle03/mesh",
+        "approximation": "sdf"
+      },
+      {
+        "action": "author_named_interaction_frame",
+        "name": "grasp",
+        "prim_path": "/World/conical_bottle03/__aan_frame_grasp"
+      },
+      {
+        "action": "author_named_interaction_frame",
+        "name": "opening",
+        "prim_path": "/World/conical_bottle03/__aan_frame_opening"
+      },
+      {
+        "action": "author_named_interaction_frame",
+        "name": "support",
+        "prim_path": "/World/conical_bottle03/__aan_frame_support"
+      }
+    ],
+    "required_prims": [
+      {
+        "path": "/World/conical_bottle03",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "rigid_bodies": [
+      {
+        "prim_path": "/World/conical_bottle03",
+        "type_name": "Xform",
+        "owning_layer": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/overlays/physics_profile.usda",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/conical_bottle03.physics:rigidBodyEnabled",
+          "provenance_status": "not_applicable"
+        },
+        "kinematic": {
+          "value": false,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/conical_bottle03.physics:kinematicEnabled",
+          "provenance_status": "not_applicable"
+        }
+      }
+    ],
+    "collisions": [
+      {
+        "prim_path": "/World/conical_bottle03/mesh",
+        "type_name": "Mesh",
+        "owning_layer": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/overlays/interaction.usda",
+        "enabled": {
+          "value": true,
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/conical_bottle03/mesh.physics:collisionEnabled",
+          "provenance_status": "not_applicable"
+        },
+        "approximation": {
+          "value": "sdf",
+          "value_source": "authored",
+          "status": "pass",
+          "attribute": "/World/conical_bottle03/mesh.physics:approximation",
+          "provenance_status": "not_applicable"
+        }
+      }
+    ],
+    "mass_properties": [
+      {
+        "prim_path": "/World/conical_bottle03",
+        "type_name": "Xform",
+        "owning_layer": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/overlays/physics_profile.usda",
+        "mass_api_applied": true,
+        "mass": {
+          "value": 0.25,
+          "value_source": "profile",
+          "status": "pass",
+          "attribute": "/World/conical_bottle03.physics:mass",
+          "provenance_status": "pass",
+          "provenance": {
+            "field": "mass",
+            "frame": "SI",
+            "input_artifacts": [
+              "physics/profile.json",
+              "source_sha256:b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2"
+            ],
+            "mass_basis": {
+              "attribute": "/World/conical_bottle03.physics:mass",
+              "source": "profile",
+              "value": 0.25
+            },
+            "method": "aan_physics_profile_v1",
+            "motion_role": "dynamic",
+            "package_authored": true,
+            "profile_id": "labutopia.lab_001.conical_bottle03.20260707.provisional",
+            "profile_revision": "r1",
+            "profile_sha256": "1042b748ec6e3e4a1e19dec5384637d07912a8219aa107fb0ccb46e585b178c3",
+            "quality_tier": "provisional_geometry",
+            "si_value": 0.25,
+            "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+            "value_source": "profile"
+          },
+          "method": "aan_physics_profile_v1",
+          "input_artifacts": [
+            "physics/profile.json",
+            "source_sha256:b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2"
+          ],
+          "package_authored": true,
+          "mass_basis": {
+            "attribute": "/World/conical_bottle03.physics:mass",
+            "source": "profile",
+            "value": 0.25
+          },
+          "profile_id": "labutopia.lab_001.conical_bottle03.20260707.provisional",
+          "profile_revision": "r1",
+          "profile_sha256": "1042b748ec6e3e4a1e19dec5384637d07912a8219aa107fb0ccb46e585b178c3",
+          "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+          "quality_tier": "provisional_geometry",
+          "frame": "SI",
+          "si_value": 0.25
+        },
+        "density": {
+          "value": 0.0,
+          "value_source": "authored",
+          "status": "invalid",
+          "attribute": "/World/conical_bottle03.physics:density",
+          "provenance_status": "not_applicable"
+        },
+        "center_of_mass": {
+          "value": [
+            0.0,
+            0.075,
+            0.0
+          ],
+          "value_source": "profile",
+          "status": "pass",
+          "attribute": "/World/conical_bottle03.physics:centerOfMass",
+          "provenance_status": "pass",
+          "provenance": {
+            "field": "center_of_mass",
+            "frame": "body_local_usd",
+            "input_artifacts": [
+              "physics/profile.json",
+              "source_sha256:b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2"
+            ],
+            "method": "aan_physics_profile_v1",
+            "motion_role": "dynamic",
+            "package_authored": true,
+            "profile_id": "labutopia.lab_001.conical_bottle03.20260707.provisional",
+            "profile_revision": "r1",
+            "profile_sha256": "1042b748ec6e3e4a1e19dec5384637d07912a8219aa107fb0ccb46e585b178c3",
+            "quality_tier": "provisional_geometry",
+            "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+            "value_source": "profile"
+          },
+          "method": "aan_physics_profile_v1",
+          "input_artifacts": [
+            "physics/profile.json",
+            "source_sha256:b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2"
+          ],
+          "package_authored": true,
+          "profile_id": "labutopia.lab_001.conical_bottle03.20260707.provisional",
+          "profile_revision": "r1",
+          "profile_sha256": "1042b748ec6e3e4a1e19dec5384637d07912a8219aa107fb0ccb46e585b178c3",
+          "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+          "quality_tier": "provisional_geometry",
+          "frame": "body_local_usd"
+        },
+        "inertia": {
+          "value": [
+            0.001874,
+            0.00214,
+            0.001874
+          ],
+          "value_source": "profile",
+          "status": "pass",
+          "attribute": "/World/conical_bottle03.physics:diagonalInertia",
+          "provenance_status": "pass",
+          "provenance": {
+            "field": "inertia",
+            "frame": "SI",
+            "input_artifacts": [
+              "physics/profile.json",
+              "source_sha256:b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2"
+            ],
+            "mass_basis": {
+              "attribute": "/World/conical_bottle03.physics:mass",
+              "source": "profile",
+              "value": 0.25
+            },
+            "method": "aan_physics_profile_v1",
+            "motion_role": "dynamic",
+            "package_authored": true,
+            "profile_id": "labutopia.lab_001.conical_bottle03.20260707.provisional",
+            "profile_revision": "r1",
+            "profile_sha256": "1042b748ec6e3e4a1e19dec5384637d07912a8219aa107fb0ccb46e585b178c3",
+            "quality_tier": "provisional_geometry",
+            "si_value": [
+              0.001874,
+              0.00214,
+              0.001874
+            ],
+            "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+            "value_source": "profile"
+          },
+          "method": "aan_physics_profile_v1",
+          "input_artifacts": [
+            "physics/profile.json",
+            "source_sha256:b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2"
+          ],
+          "package_authored": true,
+          "mass_basis": {
+            "attribute": "/World/conical_bottle03.physics:mass",
+            "source": "profile",
+            "value": 0.25
+          },
+          "profile_id": "labutopia.lab_001.conical_bottle03.20260707.provisional",
+          "profile_revision": "r1",
+          "profile_sha256": "1042b748ec6e3e4a1e19dec5384637d07912a8219aa107fb0ccb46e585b178c3",
+          "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+          "quality_tier": "provisional_geometry",
+          "frame": "SI",
+          "si_value": [
+            0.001874,
+            0.00214,
+            0.001874
+          ]
+        },
+        "principal_axes": {
+          "value": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "value_source": "profile",
+          "status": "pass",
+          "attribute": "/World/conical_bottle03.physics:principalAxes",
+          "provenance_status": "pass",
+          "provenance": {
+            "field": "principal_axes",
+            "frame": "body_local_usd",
+            "input_artifacts": [
+              "physics/profile.json",
+              "source_sha256:b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2"
+            ],
+            "method": "aan_physics_profile_v1",
+            "motion_role": "dynamic",
+            "package_authored": true,
+            "profile_id": "labutopia.lab_001.conical_bottle03.20260707.provisional",
+            "profile_revision": "r1",
+            "profile_sha256": "1042b748ec6e3e4a1e19dec5384637d07912a8219aa107fb0ccb46e585b178c3",
+            "quality_tier": "provisional_geometry",
+            "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+            "value_source": "profile"
+          },
+          "method": "aan_physics_profile_v1",
+          "input_artifacts": [
+            "physics/profile.json",
+            "source_sha256:b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2"
+          ],
+          "package_authored": true,
+          "profile_id": "labutopia.lab_001.conical_bottle03.20260707.provisional",
+          "profile_revision": "r1",
+          "profile_sha256": "1042b748ec6e3e4a1e19dec5384637d07912a8219aa107fb0ccb46e585b178c3",
+          "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+          "quality_tier": "provisional_geometry",
+          "frame": "body_local_usd"
+        },
+        "provenance_complete": true,
+        "invalid_auto_compute_reliance": false,
+        "status": "pass"
+      }
+    ],
+    "scale": {
+      "meters_per_unit": {
+        "value": 1.0,
+        "value_source": "authored"
+      },
+      "up_axis": {
+        "value": "Z",
+        "value_source": "authored"
+      },
+      "mass_derivation_dimensions": "world_bounds_meters"
+    },
+    "physical_frame": {
+      "status": "pass",
+      "source": {
+        "meters_per_unit": 1.0,
+        "kilograms_per_unit": 1.0,
+        "up_axis": "Z",
+        "time_codes_per_second": 60.0,
+        "frames_per_second": 24.0,
+        "start_time_code": 0.0,
+        "end_time_code": 1000000.0
+      },
+      "package": {
+        "meters_per_unit": 1.0,
+        "kilograms_per_unit": 1.0,
+        "up_axis": "Z",
+        "time_codes_per_second": 60.0,
+        "frames_per_second": 24.0,
+        "start_time_code": 0.0,
+        "end_time_code": 1000000.0
+      },
+      "metric_mismatches": [],
+      "scope_bounds": [
+        {
+          "path": "/World/conical_bottle03",
+          "source_world_bound_m": {
+            "min": [
+              9.5384058295,
+              0.4070790931,
+              0.0008126454
+            ],
+            "max": [
+              9.6986434249,
+              0.5673166885,
+              0.1973800633
+            ]
+          },
+          "package_world_bound_m": {
+            "min": [
+              9.5384058295,
+              0.4070790931,
+              0.0008126454
+            ],
+            "max": [
+              9.6986434249,
+              0.5673166885,
+              0.1973800633
+            ]
+          },
+          "status": "pass"
+        }
+      ],
+      "blocked_scope_prims": [],
+      "policy": "source_and_package_stage_metrics_and_world_bounds_must_match"
+    },
+    "reset_pose": {
+      "required_prims": [
+        {
+          "prim_path": "/World/conical_bottle03",
+          "status": "pass",
+          "transform": [
+            [
+              0.70710678,
+              0.70710678,
+              -0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.70710678,
+              -0.70710678,
+              0.0,
+              0.0
+            ],
+            [
+              9.61852458,
+              0.4871978,
+              0.00081261,
+              1.0
+            ]
+          ]
+        }
+      ]
+    },
+    "summary": {
+      "rigid_body_count": 1,
+      "collision_count": 1,
+      "mass_record_count": 1,
+      "authored_mass_count": 0,
+      "authored_inertia_count": 0,
+      "derived_mass_count": 0,
+      "derived_inertia_count": 0,
+      "invalid_rigid_body_count": 0
+    }
+  },
+  "articulation_closure": {
+    "status": "pass",
+    "root_usd": "docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/asset.usd",
+    "scope": {
+      "mode": "asset_scope_prims",
+      "asset_scope_prims": [
+        "/World/conical_bottle03"
+      ]
+    },
+    "articulation_roots": [],
+    "joints": [],
+    "dof_mapping": [],
+    "reset_values": [],
+    "summary": {
+      "articulation_root_count": 0,
+      "joint_count": 0,
+      "controllable_dof_count": 0
+    }
+  },
+  "source_physics_audit": {
+    "status": "blocked",
+    "source_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+    "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+    "scope": [
+      "/World/conical_bottle03"
+    ],
+    "summary": {
+      "family_member_count": 1,
+      "invalid_rigid_body_count": 1,
+      "rigid_body_count": 1
+    },
+    "family_members": [
+      {
+        "scope": "/World/conical_bottle03",
+        "status": "blocked",
+        "summary": {
+          "rigid_body_count": 1,
+          "collision_count": 1,
+          "mass_record_count": 1,
+          "authored_mass_count": 0,
+          "authored_inertia_count": 0,
+          "derived_mass_count": 0,
+          "derived_inertia_count": 0,
+          "invalid_rigid_body_count": 1
+        },
+        "rigid_bodies": [
+          {
+            "prim_path": "/World/conical_bottle03/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "enabled": {
+              "value": true,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/conical_bottle03/mesh.physics:rigidBodyEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "kinematic": {
+              "value": false,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/conical_bottle03/mesh.physics:kinematicEnabled",
+              "provenance_status": "not_applicable"
+            }
+          }
+        ],
+        "collisions": [
+          {
+            "prim_path": "/World/conical_bottle03/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "enabled": {
+              "value": true,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/conical_bottle03/mesh.physics:collisionEnabled",
+              "provenance_status": "not_applicable"
+            },
+            "approximation": {
+              "value": "convexDecomposition",
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/conical_bottle03/mesh.physics:approximation",
+              "provenance_status": "not_applicable"
+            }
+          }
+        ],
+        "mass_properties": [
+          {
+            "prim_path": "/World/conical_bottle03/mesh",
+            "type_name": "Mesh",
+            "owning_layer": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+            "mass_api_applied": true,
+            "mass": {
+              "value": 0.0,
+              "value_source": "fallback",
+              "status": "invalid",
+              "attribute": "/World/conical_bottle03/mesh.physics:mass",
+              "provenance_status": "invalid",
+              "provenance": {
+                "value_source": "fallback",
+                "reason": "No authored opinion or persistent derived/template provenance was found."
+              }
+            },
+            "density": {
+              "value": 0.05,
+              "value_source": "authored",
+              "status": "pass",
+              "attribute": "/World/conical_bottle03/mesh.physics:density",
+              "provenance_status": "not_applicable"
+            },
+            "center_of_mass": {
+              "value": [
+                "-inf",
+                "-inf",
+                "-inf"
+              ],
+              "value_source": "fallback",
+              "status": "invalid",
+              "attribute": "/World/conical_bottle03/mesh.physics:centerOfMass",
+              "provenance_status": "invalid",
+              "provenance": {
+                "value_source": "fallback",
+                "reason": "No authored opinion or persistent derived/template provenance was found."
+              }
+            },
+            "inertia": {
+              "value": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "value_source": "fallback",
+              "status": "invalid",
+              "attribute": "/World/conical_bottle03/mesh.physics:diagonalInertia",
+              "provenance_status": "invalid",
+              "provenance": {
+                "value_source": "fallback",
+                "reason": "No authored opinion or persistent derived/template provenance was found."
+              }
+            },
+            "principal_axes": {
+              "value": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "value_source": "fallback",
+              "status": "invalid",
+              "attribute": "/World/conical_bottle03/mesh.physics:principalAxes",
+              "provenance_status": "invalid",
+              "provenance": {
+                "value_source": "fallback",
+                "reason": "No authored opinion or persistent derived/template provenance was found."
+              }
+            },
+            "provenance_complete": false,
+            "invalid_auto_compute_reliance": true,
+            "status": "blocked"
+          }
+        ],
+        "articulation_roots": [],
+        "joints": [],
+        "blocked_reasons": [
+          {
+            "blocker_id": "aan05_block_invalid_mass_properties",
+            "severity": "blocking",
+            "summary": "Every scoped rigid body requires explicit finite positive mass/inertia, finite COM, a normalizable principal-axes quaternion, and complete provenance.",
+            "count": 1,
+            "prim_paths": [
+              "/World/conical_bottle03/mesh"
+            ],
+            "required_resolution": "Author valid package values or derive them with persistent provenance; do not rely on PhysX auto-compute fallbacks."
+          }
+        ]
+      }
+    ]
+  },
+  "output_role_admission": {
+    "status": "pass",
+    "role": "dynamic",
+    "scope": [
+      "/World/conical_bottle03"
+    ],
+    "summary": {
+      "rigid_body_count": 1,
+      "collision_count": 1,
+      "mass_record_count": 1,
+      "authored_mass_count": 0,
+      "authored_inertia_count": 0,
+      "derived_mass_count": 0,
+      "derived_inertia_count": 0,
+      "invalid_rigid_body_count": 0
+    }
+  },
+  "normalization_actions": [
+    {
+      "action": "author_unique_rigid_root",
+      "prim_path": "/World/conical_bottle03",
+      "motion_role": "dynamic"
+    },
+    {
+      "action": "disable_descendant_rigid_body",
+      "prim_path": "/World/conical_bottle03/mesh",
+      "rigid_body_api_removed": true,
+      "rigid_body_disabled": true,
+      "mass_api_removed": true
+    },
+    {
+      "action": "author_mesh_collision_approximation",
+      "prim_path": "/World/conical_bottle03/mesh",
+      "approximation": "sdf"
+    },
+    {
+      "action": "author_named_interaction_frame",
+      "name": "grasp",
+      "prim_path": "/World/conical_bottle03/__aan_frame_grasp"
+    },
+    {
+      "action": "author_named_interaction_frame",
+      "name": "opening",
+      "prim_path": "/World/conical_bottle03/__aan_frame_opening"
+    },
+    {
+      "action": "author_named_interaction_frame",
+      "name": "support",
+      "prim_path": "/World/conical_bottle03/__aan_frame_support"
+    }
+  ],
+  "interaction_contract": {
+    "schema_version": "aan.interaction_contract.v1",
+    "status": "pass",
+    "profile": {
+      "schema_version": "aan.object_interaction_profile.v1",
+      "profile_id": "labutopia.lab_001.conical_bottle03.20260707.interaction",
+      "revision": "r1",
+      "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+      "profile_sha256": "c700b887cea7c7f0bad34ded178df3e725cc93ef5f30b5af837cf74da81b87c6",
+      "package_path": "interaction/profile.json",
+      "overlay_path": "overlays/interaction.usda"
+    },
+    "asset_entry_prim": "/World/conical_bottle03",
+    "runtime_identity": {
+      "rigid_root_prim": "/World/conical_bottle03",
+      "exactly_one_active_rigid_body": true,
+      "active_rigid_body_prims": [
+        "/World/conical_bottle03"
+      ]
+    },
+    "disabled_source_rigid_bodies": [
+      {
+        "prim_path": "/World/conical_bottle03/mesh",
+        "rigid_body_api_removed": true,
+        "rigid_body_disabled": true,
+        "mass_api_removed": true
+      }
+    ],
+    "collider_prims": [
+      {
+        "prim_path": "/World/conical_bottle03/mesh",
+        "mode": "preserve",
+        "collision_enabled": true,
+        "purpose": [
+          "containment",
+          "gripper",
+          "support"
+        ],
+        "requested_approximation": "sdf",
+        "observed_approximation": "sdf"
+      }
+    ],
+    "open_top": {
+      "required": true,
+      "axis_body_local": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "aperture_frame": "opening",
+      "status": "pass",
+      "evidence": {
+        "status": "pass",
+        "probe_id": "cooked_aperture",
+        "report_path": "evidence/interaction_runtime_qualification/report.json",
+        "report_sha256": "807b89aa1374a4d8cbd211601a69f85a36c81e1554b2c57f81a3eada19ef59aa",
+        "observations": [
+          {
+            "finite": true,
+            "method": "physx_cooked_sphere_sweep_and_overlap",
+            "probe_radius_m": 0.005,
+            "entry_depth_m": 0.03931348358000001,
+            "entry_center_clear": true,
+            "entry_overlaps": [],
+            "bottom_hit": true,
+            "bottom_depth_m": 0.1917396623965525,
+            "bottom_observation": {
+              "collision": "/World/conical_bottle03/mesh",
+              "rigid_body": "/World/conical_bottle03",
+              "distance_m": 0.19923962652683258,
+              "position_m": [
+                9.61868953704834,
+                0.4872204661369324,
+                0.005639987997710705
+              ],
+              "normal": [
+                -0.0001907334226416424,
+                1.192083891510265e-05,
+                0.9999998807907104
+              ]
+            },
+            "vessel_height_m": 0.19656741790000004,
+            "side_hits": {
+              "positive": true,
+              "negative": true
+            },
+            "side_observations": {
+              "positive": [
+                {
+                  "collision": "/World/conical_bottle03/mesh",
+                  "rigid_body": "/World/conical_bottle03",
+                  "distance_m": 0.017390405759215355,
+                  "position_m": [
+                    9.634312629699707,
+                    0.5032556653022766,
+                    0.1609484851360321
+                  ],
+                  "normal": [
+                    -0.6683304905891418,
+                    -0.7433662414550781,
+                    -0.027221258729696274
+                  ]
+                }
+              ],
+              "negative": [
+                {
+                  "collision": "/World/conical_bottle03/mesh",
+                  "rigid_body": "/World/conical_bottle03",
+                  "distance_m": 0.017389733344316483,
+                  "position_m": [
+                    9.603235244750977,
+                    0.4710439145565033,
+                    0.16088011860847473
+                  ],
+                  "normal": [
+                    0.6327954530715942,
+                    0.7741994261741638,
+                    -0.013606389984488487
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "errors": [],
+        "prequalification_contract_payload_sha256": "277cde9796ae85979ca4cd84b00ca92ed17c25887dd39e95a4e7231e33c167ac"
+      }
+    },
+    "named_frames": {
+      "grasp": {
+        "prim_path": "/World/conical_bottle03/__aan_frame_grasp",
+        "parent_prim": "/World/conical_bottle03",
+        "translation_body_local_usd": [
+          0.0,
+          0.16,
+          0.0
+        ],
+        "rotation_body_local_wxyz": [
+          0.7071067811865476,
+          -0.7071067811865475,
+          0.0,
+          0.0
+        ],
+        "authoritative": true
+      },
+      "opening": {
+        "prim_path": "/World/conical_bottle03/__aan_frame_opening",
+        "parent_prim": "/World/conical_bottle03",
+        "translation_body_local_usd": [
+          0.0,
+          0.1965674179,
+          0.0
+        ],
+        "rotation_body_local_wxyz": [
+          0.7071067811865476,
+          -0.7071067811865475,
+          0.0,
+          0.0
+        ],
+        "authoritative": true
+      },
+      "support": {
+        "prim_path": "/World/conical_bottle03/__aan_frame_support",
+        "parent_prim": "/World/conical_bottle03",
+        "translation_body_local_usd": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_body_local_wxyz": [
+          0.7071067811865476,
+          -0.7071067811865475,
+          0.0,
+          0.0
+        ],
+        "authoritative": true
+      }
+    },
+    "closure": {
+      "status": "pass",
+      "digest_algorithm": "sha256",
+      "contract_encoding": "canonical_json_interaction_payload_v1",
+      "contract_payload_sha256": "5327f93240e3221d7e5b67b78e892cc4bfe665aeb4df64328a93a7eb7dea8b42",
+      "tree_encoding": "canonical_json_artifact_list_v1",
+      "runtime_tree_sha256": "c9af6eb83aa2ec685bc987bf14d0ba0fb009988e775644d0c838fb992a6e7f9c",
+      "artifacts": [
+        {
+          "path": "asset.usd",
+          "sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17"
+        },
+        {
+          "path": "deps/mdl/Aluminum_Anodized_Charcoal.mdl",
+          "sha256": "640855d3890c6faaae6346a850ef9f366d4b397c0f4313e25c7ac0b9230c106a"
+        },
+        {
+          "path": "deps/mdl/OmniGlass.mdl",
+          "sha256": "cd7c97781dc95f1694f9acc70c0b9ae327361a3b1c84abf917e55a9d672e627a"
+        },
+        {
+          "path": "deps/mdl/OmniPBR.mdl",
+          "sha256": "685a82c18b381f1cd29831490e4c356e61dbeac2d86803babc115cd6a4a845db"
+        },
+        {
+          "path": "deps/mdl/OmniSurface.mdl",
+          "sha256": "6477aaf2f837524e2b4aa52bc86dd4a8b20f17bf5f151fc718098d4a1a59a88c"
+        },
+        {
+          "path": "deps/mdl/OmniSurface/OmniImage.mdl",
+          "sha256": "25601c038c9cca778506c8434a4cb7e7cb48f2dbd9a4dff848738a702e2de64e"
+        },
+        {
+          "path": "deps/mdl/OmniSurface/OmniShared.mdl",
+          "sha256": "c52816bc2ecb4cebb36f9e28c14bf21f05cef962dd45e89278508a1e1b551275"
+        },
+        {
+          "path": "deps/mdl/OmniSurface/OmniSurfaceBase.mdl",
+          "sha256": "e21589d55655e64d9326b3513ba434cb0199e4266da3ac9256434a13c6a80e99"
+        },
+        {
+          "path": "deps/mdl/OmniSurface/OmniSurfaceLiteBase.mdl",
+          "sha256": "97bb55ab467387ef07a3a94453b17572358b89147f65a95c3f6abb699583e134"
+        },
+        {
+          "path": "deps/mdl/OmniSurfaceLite.mdl",
+          "sha256": "58384eeaf4d320dca4babcaabe5457ce84ca1bbc59c09ec9a5a7feab56314df8"
+        },
+        {
+          "path": "deps/mdl/OmniSurfacePresets.mdl",
+          "sha256": "5c86c8545a1e215ec4b99e60eb66f9112ca5952cc66ca13ec0c26687dcfcb930"
+        },
+        {
+          "path": "deps/mdl/Plastic.mdl",
+          "sha256": "00ff5c95e8f9a97a5f21d0230536b01ac2ab88a8ab0d7eea9780e839be8be215"
+        },
+        {
+          "path": "deps/mdl/Plastic_Thick_Translucent.mdl",
+          "sha256": "e6fc7403fce0da94912d3aa2ced0638a2aafb4c9cd504a745743f4273b7dc333"
+        },
+        {
+          "path": "deps/mdl/Stainless_Steel.mdl",
+          "sha256": "d97fda12c4cb264ee73a9a27772da8a0165c7a149506b6b6a6a6aedeaf23aef5"
+        },
+        {
+          "path": "deps/mdl/Steel_Stainless-dc62db95.mdl",
+          "sha256": "976b0375c79f2c7262d0e4af785db67735260ff457319c62d50427c957cbf2a8"
+        },
+        {
+          "path": "deps/mdl/Steel_Stainless.mdl",
+          "sha256": "4aa967952d1f840438880df500a642e71b385bd537fd077dbf202e98a1573689"
+        },
+        {
+          "path": "deps/mdl/aux_definitions.mdl",
+          "sha256": "02e27500a7339d2f2400e282736dce88a0719b391b0a3912db8e7be0563e7ff6"
+        },
+        {
+          "path": "deps/mdl/limits.mdl",
+          "sha256": "9025d82e139948d0e64336cdd98754eb9b674fd899085574a282358661562e3e"
+        },
+        {
+          "path": "deps/mdl/material_06.mdl",
+          "sha256": "a387b9e3f737dbc61653de75538958e95eab77c0ae9093cdc30f8496579214ad"
+        },
+        {
+          "path": "deps/mdl/material_08.mdl",
+          "sha256": "2d340831b68cb0402efac04f53857c8fef5c479f505c7dfbf96fc26525acd6ae"
+        },
+        {
+          "path": "deps/mdl/material_09.mdl",
+          "sha256": "0569e8b1b05810a9c1d0eb604184dbc5450f0ad79307639e0cb0ec44dce26ea8"
+        },
+        {
+          "path": "deps/mdl/material_11.mdl",
+          "sha256": "f91013cdb672bc6670ef09225f378918df2fed2a977de2b3927e4f148ced9a32"
+        },
+        {
+          "path": "deps/mdl/material_12.mdl",
+          "sha256": "c63181bc2f23c090d36e9e3b96672b511a17e03f4362cca130937c6b6d7ec492"
+        },
+        {
+          "path": "deps/mdl/nvidia/support_definitions.mdl",
+          "sha256": "14183044814a3e227bb2973e1db01892b73456ae12bdbbb2b65bcb44c42738fc"
+        },
+        {
+          "path": "deps/mdl/pbr.mdl",
+          "sha256": "08d49f866cba15416a9614776ce3502dd922c3ca5441261496df84ffee1ae0a2"
+        },
+        {
+          "path": "deps/textures/Steel_Stainless_BaseColor.png",
+          "sha256": "3f8b3b576ce734630625a64faf6266faf411714a59c42c7af395dc0826e52151"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture0.jpg",
+          "sha256": "090cea3716ec138f618190081619ed4516a3403351d378063e15c6c06d2cce46"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture0_1.jpg",
+          "sha256": "090cea3716ec138f618190081619ed4516a3403351d378063e15c6c06d2cce46"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture1.jpg",
+          "sha256": "c993bac14939eb27ab4cf248fee5816a6873885d8a159e0e97c2f4fad0619925"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture1_1.jpg",
+          "sha256": "c993bac14939eb27ab4cf248fee5816a6873885d8a159e0e97c2f4fad0619925"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture2.png",
+          "sha256": "a961a7fb56b25ad1905310f6be55efcb167f241fe2f01836468bc17f7a6602ba"
+        },
+        {
+          "path": "deps/textures/lounge_booth_table_texture2_1.png",
+          "sha256": "a961a7fb56b25ad1905310f6be55efcb167f241fe2f01836468bc17f7a6602ba"
+        },
+        {
+          "path": "deps/usd/scoped_source.usda",
+          "sha256": "43855ae8a37927761a25fc010a4cae40448eb89224b5dc0061c8bf84046a2b2b"
+        },
+        {
+          "path": "deps/usd/sektion_cabinet_collisions.usd",
+          "sha256": "404c6604a98d719a4af74f489e505e17037e6b0ae5112aeec643675e70e797cb"
+        },
+        {
+          "path": "deps/usd/sektion_cabinet_instanceable.usd",
+          "sha256": "24ff5433c76d39345e0a633e3ec0c39c4c6c9217a1a00b20f2b12cc6f49e38c6"
+        },
+        {
+          "path": "deps/usd/sektion_cabinet_visuals.usd",
+          "sha256": "f9879be54b34eed9ba16928ee14ac0c261f9b7211fdeadd8bd9fe3ace206afd7"
+        },
+        {
+          "path": "deps/usd/source_root.usd",
+          "sha256": "653ed760fc9c85efe6012d1cb58849befba2d35ac02280c8b26d6e7680dde7bb"
+        },
+        {
+          "path": "interaction/profile.json",
+          "sha256": "c700b887cea7c7f0bad34ded178df3e725cc93ef5f30b5af837cf74da81b87c6"
+        },
+        {
+          "path": "overlays/interaction.usda",
+          "sha256": "28640b5ebd9a034c19b5114506128ad8fe1f70f564728c2e27e0cbe6eb2b8423"
+        },
+        {
+          "path": "overlays/physics_profile.usda",
+          "sha256": "7648cf045d2de99a0bf9569b9268e1329e9aa0a28b21651cae379f111e8c3174"
+        },
+        {
+          "path": "physics/profile.json",
+          "sha256": "1042b748ec6e3e4a1e19dec5384637d07912a8219aa107fb0ccb46e585b178c3"
+        }
+      ]
+    },
+    "root_motion_gate": {
+      "required": true,
+      "min_translation_m": 0.05,
+      "status": "pass",
+      "evidence": {
+        "status": "pass",
+        "probe_id": "root_motion_parity",
+        "report_path": "evidence/interaction_runtime_qualification/report.json",
+        "report_sha256": "807b89aa1374a4d8cbd211601a69f85a36c81e1554b2c57f81a3eada19ef59aa",
+        "observations": [
+          {
+            "finite": true,
+            "control": {
+              "kind": "rigid_root_pose_delta_plus_velocity",
+              "requested_translation_m": 0.060000000000000005,
+              "linear_velocity_m_s": [
+                0.014127305360999619,
+                0.0141569503497638,
+                1.7718376536635107e-07
+              ],
+              "steps": 2
+            },
+            "translation_m": 0.05933700387043499,
+            "scene_to_rigid_position_error_m": 0.0,
+            "scene_to_rigid_orientation_error_deg": 7.443026089337883e-06,
+            "scene_position_stage_units": [
+              9.660600662231445,
+              0.5292242765426636,
+              0.0008117780089378357
+            ],
+            "rigid_position_stage_units": [
+              9.660600662231445,
+              0.5292242765426636,
+              0.0008117780089378357
+            ],
+            "scene_orientation_wxyz": [
+              0.6539639557135988,
+              0.6522603096776026,
+              0.27303639313005496,
+              0.26895866052839873
+            ],
+            "rigid_orientation_wxyz": [
+              0.6539638638496399,
+              0.6522603034973145,
+              0.273036390542984,
+              0.2689586579799652
+            ]
+          }
+        ],
+        "errors": [],
+        "prequalification_contract_payload_sha256": "277cde9796ae85979ca4cd84b00ca92ed17c25887dd39e95a4e7231e33c167ac"
+      }
+    },
+    "stable_support_gate": {
+      "required": true,
+      "status": "pass",
+      "evidence": {
+        "status": "pass",
+        "probe_id": "stable_support",
+        "report_path": "evidence/interaction_runtime_qualification/report.json",
+        "report_sha256": "807b89aa1374a4d8cbd211601a69f85a36c81e1554b2c57f81a3eada19ef59aa",
+        "observations": [
+          {
+            "finite": true,
+            "settle_steps": 240,
+            "tail_steps": 30,
+            "support_height_error_m": 3.7477250632120696e-07,
+            "tail_max_linear_speed_m_s": 0.0036305515095591545,
+            "tail_max_angular_speed_rad_s": 0.04319300130009651,
+            "tilt_deg": 0.002743764704049117,
+            "lateral_drift_m": 0.00016656161779866614,
+            "scene_to_rigid_position_error_m": 0.0,
+            "final_root_position_stage_units": [
+              9.61868953704834,
+              0.48722025752067566,
+              0.000812232494354248
+            ],
+            "final_scene_root_position_stage_units": [
+              9.61868953704834,
+              0.48722025752067566,
+              0.000812232494354248
+            ],
+            "final_support_position_stage_units": [
+              9.61868953704834,
+              0.48722025752067566,
+              0.000812232494354248
+            ],
+            "predicted_support_position_stage_units": [
+              9.61868953704834,
+              0.48722025752067566,
+              0.000812232494354248
+            ]
+          }
+        ],
+        "errors": [],
+        "prequalification_contract_payload_sha256": "277cde9796ae85979ca4cd84b00ca92ed17c25887dd39e95a4e7231e33c167ac"
+      }
+    },
+    "gripper_collision_gate": {
+      "required": true,
+      "status": "pass",
+      "evidence": {
+        "status": "pass",
+        "probe_id": "bilateral_gripper_proxy_collision",
+        "report_path": "evidence/interaction_runtime_qualification/report.json",
+        "report_sha256": "807b89aa1374a4d8cbd211601a69f85a36c81e1554b2c57f81a3eada19ef59aa",
+        "observations": [
+          {
+            "finite": true,
+            "method": "physx_cooked_bilateral_sphere_sweep",
+            "probe_radius_m": 0.005,
+            "positive_hit": true,
+            "negative_hit": true,
+            "positive_distance_m": 0.017390405759215355,
+            "negative_distance_m": 0.017389733344316483,
+            "positive_observation": {
+              "collision": "/World/conical_bottle03/mesh",
+              "rigid_body": "/World/conical_bottle03",
+              "distance_m": 0.017390405759215355,
+              "position_m": [
+                9.634312629699707,
+                0.5032556653022766,
+                0.1609484851360321
+              ],
+              "normal": [
+                -0.6683304905891418,
+                -0.7433662414550781,
+                -0.027221258729696274
+              ]
+            },
+            "negative_observation": {
+              "collision": "/World/conical_bottle03/mesh",
+              "rigid_body": "/World/conical_bottle03",
+              "distance_m": 0.017389733344316483,
+              "position_m": [
+                9.603235244750977,
+                0.4710439145565033,
+                0.16088011860847473
+              ],
+              "normal": [
+                0.6327954530715942,
+                0.7741994261741638,
+                -0.013606389984488487
+              ]
+            },
+            "claim_boundary": "Proxy collision only; no robot finger, contact force, closure, or grasp-retention claim is made."
+          }
+        ],
+        "errors": [],
+        "claim_boundary": "Bilateral proxy scene-query hits demonstrate cooked vessel-wall collision near the grasp frame; they do not demonstrate a robot grasp.",
+        "prequalification_contract_payload_sha256": "277cde9796ae85979ca4cd84b00ca92ed17c25887dd39e95a4e7231e33c167ac"
+      }
+    }
+  },
+  "visual_preservation_fingerprint": {
+    "status": "pass",
+    "raw_source": {
+      "scope_world_transforms": {
+        "/World/conical_bottle03": [
+          [
+            0.70710678,
+            0.70710678,
+            -0.0,
+            0.0
+          ],
+          [
+            -0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.70710678,
+            -0.70710678,
+            0.0,
+            0.0
+          ],
+          [
+            9.61852458,
+            0.4871978,
+            0.00081261,
+            1.0
+          ]
+        ]
+      },
+      "meshes": [
+        {
+          "path": "/World/conical_bottle03/mesh",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/OmniSurface_Glass"
+          ],
+          "world_transform": [
+            [
+              7.071e-05,
+              7.071e-05,
+              -0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              0.0,
+              0.0001,
+              0.0
+            ],
+            [
+              7.071e-05,
+              -7.071e-05,
+              0.0,
+              0.0
+            ],
+            [
+              9.61852458,
+              0.4871978,
+              0.00081261,
+              1.0
+            ]
+          ]
+        }
+      ],
+      "signature": "f8b7addbfa8f90ffb14a5f7aef9cfb85bfaf465f20b2f7d7644c43994a86e7d2"
+    },
+    "package_before_physics_profile": {
+      "scope_world_transforms": {
+        "/World/conical_bottle03": [
+          [
+            0.70710678,
+            0.70710678,
+            -0.0,
+            0.0
+          ],
+          [
+            -0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.70710678,
+            -0.70710678,
+            0.0,
+            0.0
+          ],
+          [
+            9.61852458,
+            0.4871978,
+            0.00081261,
+            1.0
+          ]
+        ]
+      },
+      "meshes": [
+        {
+          "path": "/World/conical_bottle03/mesh",
+          "visibility": "inherited",
+          "material_targets": [
+            "/World/Looks/OmniSurface_Glass"
+          ],
+          "world_transform": [
+            [
+              7.071e-05,
+              7.071e-05,
+              -0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              0.0,
+              0.0001,
+              0.0
+            ],
+            [
+              7.071e-05,
+              -7.071e-05,
+              0.0,
+              0.0
+            ],
+            [
+              9.61852458,
+              0.4871978,
+              0.00081261,
+              1.0
+            ]
+          ]
+        }
+      ],
+      "signature": "f8b7addbfa8f90ffb14a5f7aef9cfb85bfaf465f20b2f7d7644c43994a86e7d2"
+    },
+    "scope": [
+      "/World/conical_bottle03"
+    ],
+    "policy": "mesh_visibility_material_bindings_and_world_transforms_must_match"
+  },
+  "stage_gates": [
+    {
+      "check_id": "AAN-source-integrity",
+      "stage": "source_integrity",
+      "status": "pass",
+      "summary": "Source SHA-256 remained unchanged during AAN processing."
+    },
+    {
+      "check_id": "AAN-03-usd-closure",
+      "stage": "usd_closure",
+      "status": "pass",
+      "summary": "USD dependency closure produced a package-local USD tree."
+    },
+    {
+      "check_id": "AAN-04-material-closure",
+      "stage": "material_closure",
+      "status": "pass",
+      "summary": "AAN-04 material closure recorded source-preserved material evidence."
+    },
+    {
+      "check_id": "AAN-11-material-runtime-closure",
+      "stage": "material_runtime_closure",
+      "status": "pass",
+      "summary": "AAN-11 material runtime dependency closure passed."
+    },
+    {
+      "check_id": "AAN-05I-object-interaction",
+      "stage": "object_interaction",
+      "status": "pass",
+      "summary": "AAN package-owned object interaction profile was applied."
+    },
+    {
+      "check_id": "AAN-05-physics-static",
+      "stage": "physics_static",
+      "status": "pass",
+      "summary": "AAN-05 recorded strict source/output physics admission evidence."
+    },
+    {
+      "check_id": "AAN-06-runtime-smoke",
+      "stage": "runtime_smoke",
+      "status": "pass",
+      "summary": "AAN-06 Isaac Sim runtime smoke passed."
+    }
+  ],
+  "runtime_evidence": {
+    "status": "pass",
+    "runtime_profile": "isaac41",
+    "expected_runtime_version": "4.1",
+    "run_id": "d38e0666315246789dc77ad0b3175620",
+    "expected_root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
+    "runtime_profile_gate": {
+      "status": "pass",
+      "expected_version": "4.1",
+      "observed_kit_version": "4.1.0-rc.7+4.1.14801.71533b68.gl",
+      "reason": null
+    },
+    "asset_id": "LabUtopia_conical_bottle03",
+    "root_usd": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/asset.usd",
+    "required_prims": [
+      "/World/conical_bottle03"
+    ],
+    "asset_scope_prims": [
+      "/World/conical_bottle03"
+    ],
+    "cold_load": {
+      "status": "pass",
+      "opened": true,
+      "loading_complete": true,
+      "loading_state": {
+        "api": "get_stage_loading_status",
+        "value": [
+          "",
+          0,
+          0
+        ]
+      },
+      "asset_scope_prims": [
+        {
+          "path": "/World/conical_bottle03",
+          "exists": true,
+          "status": "pass"
+        }
+      ],
+      "consumer_required_prims": [
+        "/World/conical_bottle03"
+      ],
+      "default_prim": "/World"
+    },
+    "render_readback": {
+      "mean_rgb": [
+        145.759257,
+        188.809347,
+        211.36381
+      ],
+      "foreground_rgb": [
+        145.759257,
+        188.809347,
+        211.36381
+      ],
+      "non_background_ratio": 1.0,
+      "bbox_ratio": 1.0,
+      "sha256": "cdfbfd5bc5320f6c639771a52f2f5929929128e23e309ba47b89f34a2e62860f",
+      "bytes": 46054,
+      "resolution": [
+        256,
+        192
+      ],
+      "status": "pass",
+      "bbox_source": "authored",
+      "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/render.png"
+    },
+    "material_view_evidence": [
+      {
+        "view_id": "front",
+        "camera_pose": {
+          "position": [
+            10.04137689,
+            0.48720169,
+            0.25300119
+          ],
+          "look_at": [
+            9.61852524,
+            0.48720169,
+            0.09909578
+          ],
+          "distance": 0.44998932,
+          "elevation": 20.0,
+          "azimuth": 0.0
+        },
+        "target_prim": "/World/conical_bottle03",
+        "render_hash": "cd3ecc4fd1a41b1c324a1a0c82fdb8b736872a7d9265af79482711bd8ebab45a",
+        "mean_rgb": [
+          150.842977,
+          183.370748,
+          201.520874
+        ],
+        "foreground_rgb": [
+          158.232509,
+          192.928798,
+          212.288932
+        ],
+        "non_background_ratio": 0.9375,
+        "bbox_ratio": 0.9375,
+        "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/material_views/front.png",
+        "bbox_source": "authored",
+        "bytes": 43885,
+        "resolution": [
+          256,
+          192
+        ]
+      },
+      {
+        "view_id": "orbit_3q",
+        "camera_pose": {
+          "position": [
+            9.87917164,
+            0.74784808,
+            0.35719905
+          ],
+          "look_at": [
+            9.61852524,
+            0.48720169,
+            0.09909578
+          ],
+          "distance": 0.44998932,
+          "elevation": 35.0,
+          "azimuth": 45.0
+        },
+        "target_prim": "/World/conical_bottle03",
+        "render_hash": "d255d58b4406b79ec83581d1636887f709fc65d3a5ed2b30364bc9b3ff748dbd",
+        "mean_rgb": [
+          134.096252,
+          182.296794,
+          207.676147
+        ],
+        "foreground_rgb": [
+          134.096252,
+          182.296794,
+          207.676147
+        ],
+        "non_background_ratio": 1.0,
+        "bbox_ratio": 1.0,
+        "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/material_views/orbit_3q.png",
+        "bbox_source": "authored",
+        "bytes": 47733,
+        "resolution": [
+          256,
+          192
+        ]
+      },
+      {
+        "view_id": "side",
+        "camera_pose": {
+          "position": [
+            9.61852524,
+            0.89503051,
+            0.28926948
+          ],
+          "look_at": [
+            9.61852524,
+            0.48720169,
+            0.09909578
+          ],
+          "distance": 0.44998932,
+          "elevation": 25.0,
+          "azimuth": 90.0
+        },
+        "target_prim": "/World/conical_bottle03",
+        "render_hash": "22c9853e8fd99fa82d7a201ea83221a8a0d9a65a74333ba3ba94d9db67954a06",
+        "mean_rgb": [
+          130.41748,
+          181.368022,
+          207.484741
+        ],
+        "foreground_rgb": [
+          130.41748,
+          181.368022,
+          207.484741
+        ],
+        "non_background_ratio": 1.0,
+        "bbox_ratio": 1.0,
+        "render_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/material_views/side.png",
+        "bbox_source": "authored",
+        "bytes": 46967,
+        "resolution": [
+          256,
+          192
+        ]
+      }
+    ],
+    "physics_step": {
+      "status": "pass",
+      "frames": 120,
+      "finite_transforms": true,
+      "comparison": "pre_step",
+      "max_abs_delta": 4.425e-05,
+      "rigid_body_transforms": {
+        "/World/conical_bottle03": [
+          [
+            0.70709662,
+            0.70711694,
+            -3.257e-05,
+            0.0
+          ],
+          [
+            7.53e-06,
+            3.854e-05,
+            1.0,
+            0.0
+          ],
+          [
+            0.70711694,
+            -0.70709662,
+            2.192e-05,
+            0.0
+          ],
+          [
+            9.6185236,
+            0.48719808,
+            0.00081192,
+            1.0
+          ]
+        ]
+      },
+      "rigid_body_max_abs_delta": 4.425e-05
+    },
+    "reset": {
+      "status": "pass",
+      "cycles": [
+        {
+          "cycle": 1,
+          "scope": {
+            "status": "pass",
+            "finite_transforms": true,
+            "max_abs_delta_from_initial": 5.072e-05,
+            "max_abs_delta_from_pre_step": 1.074e-05,
+            "tolerance_stage_units": 0.001,
+            "restored_to_initial": true
+          },
+          "rigid_bodies": {
+            "status": "pass",
+            "finite_transforms": true,
+            "max_abs_delta_from_initial": 5.072e-05,
+            "max_abs_delta_from_pre_step": 1.074e-05,
+            "tolerance_stage_units": 0.001,
+            "restored_to_initial": true
+          },
+          "rigid_body_transforms": {
+            "/World/conical_bottle03": [
+              [
+                0.70709685,
+                0.70711671,
+                -1.276e-05,
+                0.0
+              ],
+              [
+                3.078e-05,
+                -1.274e-05,
+                1.0,
+                0.0
+              ],
+              [
+                0.70711671,
+                -0.70709685,
+                -3.077e-05,
+                0.0
+              ],
+              [
+                9.61852455,
+                0.48719797,
+                0.00081107,
+                1.0
+              ]
+            ]
+          },
+          "status": "pass"
+        },
+        {
+          "cycle": 2,
+          "scope": {
+            "status": "pass",
+            "finite_transforms": true,
+            "max_abs_delta_from_initial": 5.072e-05,
+            "max_abs_delta_from_pre_step": 1.074e-05,
+            "tolerance_stage_units": 0.001,
+            "restored_to_initial": true
+          },
+          "rigid_bodies": {
+            "status": "pass",
+            "finite_transforms": true,
+            "max_abs_delta_from_initial": 5.072e-05,
+            "max_abs_delta_from_pre_step": 1.074e-05,
+            "tolerance_stage_units": 0.001,
+            "restored_to_initial": true
+          },
+          "rigid_body_transforms": {
+            "/World/conical_bottle03": [
+              [
+                0.70709685,
+                0.70711671,
+                -1.276e-05,
+                0.0
+              ],
+              [
+                3.078e-05,
+                -1.274e-05,
+                1.0,
+                0.0
+              ],
+              [
+                0.70711671,
+                -0.70709685,
+                -3.077e-05,
+                0.0
+              ],
+              [
+                9.61852455,
+                0.48719797,
+                0.00081107,
+                1.0
+              ]
+            ]
+          },
+          "status": "pass"
+        }
+      ],
+      "initial_capture_point": "before_warmup_and_render"
+    },
+    "environment": {
+      "python_executable": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/bin/python3.10",
+      "python_version": "3.10.20",
+      "headless": true,
+      "isaac_sim_root": null,
+      "isaacsim_file": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/isaacsim/__init__.py",
+      "pxr_version": "\nTf -- Tools Foundation\n",
+      "kit_version": "4.1.0-rc.7+4.1.14801.71533b68.gl"
+    },
+    "root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
+    "asset_scope_validation": {
+      "status": "pass",
+      "scope_prims": [
+        "/World/conical_bottle03"
+      ],
+      "errors": []
+    },
+    "physics_context": {
+      "stage_units_in_meters": 1.0,
+      "physics_dt_seconds": 0.01,
+      "rendering_dt_seconds": 0.01,
+      "step_frames": 120,
+      "reset_cycles": 2,
+      "reset_tolerance_m": 0.001,
+      "scope_rigid_bodies": [
+        "/World/conical_bottle03"
+      ],
+      "joint_topology": [],
+      "broadphase_type": "GPU",
+      "gpu_dynamics_enabled": true,
+      "support_surface": {
+        "z_position_stage_units": 0.0008126072668605693,
+        "method": "interaction_support_frame",
+        "frame_paths": [
+          "/World/conical_bottle03/__aan_frame_support"
+        ]
+      }
+    },
+    "initial_state": {
+      "status": "pass",
+      "scope_prims": [
+        "/World/conical_bottle03"
+      ],
+      "capture_point": "before_warmup_and_render",
+      "finite_transforms": true,
+      "rigid_body_transforms": {
+        "/World/conical_bottle03": [
+          [
+            0.70709389,
+            0.70711968,
+            -2.93e-05,
+            0.0
+          ],
+          [
+            6.6e-06,
+            3.483e-05,
+            1.0,
+            0.0
+          ],
+          [
+            0.70711968,
+            -0.70709389,
+            1.995e-05,
+            0.0
+          ],
+          [
+            9.61852455,
+            0.48719817,
+            0.00081203,
+            1.0
+          ]
+        ]
+      }
+    },
+    "shutdown_cleanup": {
+      "status": "pass",
+      "method": "world.clear_instance"
+    },
+    "process_exit": {
+      "policy": "os_exit_after_evidence",
+      "simulation_app_close": "not_called",
+      "reason": "isolated_worker_avoids_isaac41_native_plugin_unload_crash"
+    },
+    "runtime_report_binding": {
+      "status": "pass",
+      "run_id": "d38e0666315246789dc77ad0b3175620",
+      "root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
+      "errors": []
+    },
+    "scope_map": {
+      "source_scope_prims": [
+        "/World/conical_bottle03"
+      ],
+      "package_scope_prims": [
+        "/World/conical_bottle03"
+      ],
+      "runtime_scope_prims": [
+        "/World/conical_bottle03"
+      ],
+      "bindings": [
+        {
+          "package_scope": "/World/conical_bottle03",
+          "runtime_scope": "/World/conical_bottle03"
+        }
+      ],
+      "mapping_kind": "package_direct_identity",
+      "relative_suffix": true
+    },
+    "physics_warning_gate": {
+      "status": "pass",
+      "scope_prims": [
+        "/World/conical_bottle03"
+      ],
+      "scope_validation": {
+        "status": "pass",
+        "scope_prims": [
+          "/World/conical_bottle03"
+        ],
+        "errors": []
+      },
+      "runtime_scope_bindings": [
+        {
+          "package_scope": "/World/conical_bottle03",
+          "runtime_scope": "/World/conical_bottle03"
+        }
+      ],
+      "binding_validation": {
+        "status": "pass",
+        "mapping_kind": "identity",
+        "errors": []
+      },
+      "events": [],
+      "scoped_events": [],
+      "out_of_scope_events": [],
+      "unattributed_events": [],
+      "summary": {
+        "scoped_event_count": 0,
+        "out_of_scope_event_count": 0,
+        "unattributed_event_count": 0,
+        "by_category": {}
+      },
+      "parser_version": "aan06.physx_scope.v3",
+      "log_hashes": {
+        "stdout": "37d25b57dc9a794c1d8670ba997583c4cdef525c8a809221c1efaf2d57b14d69",
+        "stderr": "e23fe7953c782adfa1b26e7854ef10f78cdfdf090a921082e49bb75cdb985ee0"
+      }
+    },
+    "warning_diff": {
+      "status": "not_requested"
+    },
+    "command_id": "runtime_smoke_001",
+    "stdout_path": "evidence/runtime_smoke/stdout.log",
+    "stderr_path": "evidence/runtime_smoke/stderr.log"
+  },
+  "benchmark_contract": {
+    "status": "not_run",
+    "reason": "AAN-07 benchmark contract requires the benchmark gate, e.g. --gates static,benchmark.",
+    "task_files": {},
+    "required_prims": []
+  },
+  "environment": {},
+  "waivers": [],
+  "blocked_reasons": [],
+  "claims_allowed": [
+    "AAN-03 static USD closure inspected the source graph and wrote an evidence manifest.",
+    "Package USD asset paths are local when the AAN-03 gate status is pass.",
+    "AAN-04 material closure recorded package-local source material evidence.",
+    "Source MDL and texture assets are preserved when listed with package hashes.",
+    "AAN-11 material runtime dependency closure passed for package-local MDL roots.",
+    "Required MDL helper modules and MDL-internal texture literals are classified with package evidence.",
+    "AAN-05 static physics and articulation evidence was recorded.",
+    "Authored rigid body, collision, mass, inertia, joint axis, and joint limits are preserved when listed with value_source=authored.",
+    "The package records one interaction rigid root, declared colliders, and authoritative body-local opening/grasp/support frames.",
+    "AAN-06 headless Isaac runtime smoke passed under the configured isolated runtime runner.",
+    "Cold load, render readback, physics step, and reset smoke evidence are recorded."
+  ],
+  "claims_forbidden": [
+    "EBench task readiness is achieved.",
+    "Exact Isaac Sim 4.1 binary conformance is verified without an explicit runtime environment fingerprint.",
+    "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
+    "Full visual material parity beyond recorded source-preservation evidence is achieved.",
+    "The immutable raw source USD was physically repaired in place.",
+    "Any sibling asset outside the declared package scope is physics-ready.",
+    "A pre-repaired overlay proves readiness of the immutable raw source family.",
+    "Measured, BOM, CAD, or real-world physical-parameter parity is verified.",
+    "Real material density was recovered from MDL appearance names or visual textures."
+  ],
+  "commands": {
+    "normalize_asset": {
+      "stage": "runtime_smoke",
+      "dry_run": false,
+      "gates": [
+        "static",
+        "runtime"
+      ],
+      "material_policy": "native-or-mirror",
+      "asset_role": "dynamic",
+      "asset_scope_prims": [
+        "/World/conical_bottle03"
+      ],
+      "contract": null,
+      "allow_waiver": null,
+      "physics_profile": "profiles/physics/labutopia_lab001_conical_bottle03_20260707.provisional.json",
+      "interaction_profile": "profiles/interaction/labutopia_lab001_conical_bottle03_20260707.interaction.json",
+      "runtime_python": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/bin/python",
+      "warning_baseline_log": null,
+      "warning_baseline_scope_prims": [],
+      "runtime_physx_log": null,
+      "runtime_scope_bindings": [],
+      "expected_runtime_version": "4.1",
+      "runtime_timeout_seconds": 600
+    },
+    "runtime_smoke_001": {
+      "stage": "runtime_smoke",
+      "cwd": "/cpfs/user/zhuzihou/dev/ConvertAsset",
+      "argv": [
+        "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/bin/python3.10",
+        "-m",
+        "convert_asset.asset_application_normalizer.runtime_smoke",
+        "--worker",
+        "--root-usd",
+        "docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/asset.usd",
+        "--report-out",
+        "docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/report.json",
+        "--render-out",
+        "docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/render.png",
+        "--material-view-dir",
+        "docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/evidence/runtime_smoke/material_views",
+        "--asset-id",
+        "LabUtopia_conical_bottle03",
+        "--run-id",
+        "d38e0666315246789dc77ad0b3175620",
+        "--expected-root-usd-sha256",
+        "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
+        "--width",
+        "256",
+        "--height",
+        "192",
+        "--warmup-steps",
+        "4",
+        "--render-steps",
+        "4",
+        "--step-frames",
+        "120",
+        "--reset-cycles",
+        "2",
+        "--reset-tolerance-m",
+        "0.001",
+        "--expected-runtime-version",
+        "4.1",
+        "--process-exit-policy",
+        "os-exit",
+        "--required-prim",
+        "/World/conical_bottle03",
+        "--asset-scope-prim",
+        "/World/conical_bottle03"
+      ],
+      "run_id": "d38e0666315246789dc77ad0b3175620",
+      "root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
+      "env_policy": {
+        "allowed_existing_conda_env": "isaac41",
+        "mutation_allowed": false,
+        "headless_only": true,
+        "runner_kind": "explicit_python",
+        "runner": "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/bin/python3.10",
+        "runner_sha256": "30d652d584708e00f995f68d572d3f42c76e814a8cc83ab81e26407e25ff61aa",
+        "expected_runtime_version": "4.1",
+        "status": "pass",
+        "isolated_explicit_runtime_environment": true,
+        "removed_parent_variables": [
+          "ISAAC_PATH",
+          "CARB_APP_PATH",
+          "EXP_PATH",
+          "PYTHONPATH"
+        ],
+        "runtime_library_prefixes": [
+          "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/nvidia/cuda_runtime/lib",
+          "/cpfs/user/zhuzihou/conda-managed/envs/embodied-eval-os-isaacsim41-py310/lib/python3.10/site-packages/torch/lib"
+        ]
+      },
+      "stdout_path": "evidence/runtime_smoke/stdout.log",
+      "stderr_path": "evidence/runtime_smoke/stderr.log",
+      "report_path": "evidence/runtime_smoke/report.json",
+      "render_path": "evidence/runtime_smoke/render.png",
+      "material_view_dir": "evidence/runtime_smoke/material_views",
+      "runtime_physx_log": null,
+      "runtime_scope_bindings": [],
+      "exit_code": 0
+    }
+  },
+  "created_at": "2026-07-14T15:39:51Z",
+  "tool_version": "convert_asset.asset_application_normalizer.v1",
+  "git_commit": null,
+  "static_usd_report": {
+    "root_layer": {
+      "source_path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+      "package_path": "asset.usd",
+      "default_prim": "World"
+    },
+    "scope_extraction": {
+      "status": "pass",
+      "strategy": "population_masked_composed_snapshot",
+      "source_root_package_path": "deps/usd/source_root.usd",
+      "package_path": "deps/usd/scoped_source.usda",
+      "scope_prims": [
+        "/World/conical_bottle03"
+      ],
+      "retained_subtree_prims": [
+        "/World/conical_bottle03",
+        "/World/Looks/OmniSurface_Glass"
+      ],
+      "retained_material_prims": [
+        "/World/Looks/OmniSurface_Glass"
+      ],
+      "snapshot_asset_path_rewrite": {
+        "status": "pass",
+        "rewrite_count": 1,
+        "rewrite_actions": [
+          {
+            "raw_asset_path": "/cpfs/user/zhuzihou/dev/ConvertAsset/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/deps/mdl/OmniSurfacePresets.mdl",
+            "package_relative_asset_path": "../mdl/OmniSurfacePresets.mdl"
+          }
+        ],
+        "external_asset_paths": []
+      },
+      "preserved_stage_metadata": {
+        "meters_per_unit": 1.0,
+        "up_axis": "Z",
+        "kilograms_per_unit": 1.0,
+        "time_codes_per_second": 60.0,
+        "frames_per_second": 24.0
+      }
+    },
+    "required_prims": [
+      {
+        "path": "/World/conical_bottle03",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "dependency_counts": {
+      "total": 25,
+      "usd": 3,
+      "mdl": 15,
+      "texture": 7,
+      "remote": 0,
+      "missing": 0
+    }
+  },
+  "static_material_report": {
+    "status": "pass",
+    "root_usd": "docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/asset.usd",
+    "material_policy": "native-or-mirror",
+    "material_count": 1,
+    "closure_mode_counts": {
+      "native_resolved": 0,
+      "local_mirror": 1,
+      "preview_surface_fallback": 0,
+      "explicit_waiver": 0,
+      "blocked": 0
+    },
+    "blocked_material_count": 0,
+    "mdl_asset_count": 1,
+    "texture_asset_count": 0,
+    "transparency_strategy_counts": {
+      "opacity_input": 1
+    }
+  },
+  "static_material_runtime_report": {
+    "status": "pass",
+    "root_mdl_count": 10,
+    "imported_module_count": 57,
+    "mdl_texture_asset_count": 0,
+    "blocked_dependency_count": 0,
+    "runtime_compiler_status": "pass"
+  },
+  "static_physics_report": {
+    "status": "pass",
+    "root_usd": "docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/asset.usd",
+    "rigid_body_count": 1,
+    "collision_count": 1,
+    "mass_record_count": 1,
+    "authored_mass_count": 0,
+    "authored_inertia_count": 0,
+    "derived_mass_count": 0,
+    "derived_inertia_count": 0,
+    "invalid_rigid_body_count": 0,
+    "required_prims": [
+      {
+        "path": "/World/conical_bottle03",
+        "exists": true,
+        "status": "pass"
+      }
+    ]
+  },
+  "static_articulation_report": {
+    "status": "pass",
+    "root_usd": "docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/conical_bottle03/package/asset.usd",
+    "articulation_root_count": 0,
+    "joint_count": 0,
+    "controllable_dof_count": 0,
+    "required_prims": [
+      {
+        "path": "/World/conical_bottle03",
+        "exists": true,
+        "status": "pass"
+      }
+    ]
+  },
+  "task_contract_report": {
+    "status": "not_run",
+    "reason": "AAN-07 benchmark contract requires the benchmark gate, e.g. --gates static,benchmark.",
+    "task_file_count": 0,
+    "required_prim_role_count": 0
+  }
+}

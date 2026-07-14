@@ -1,0 +1,46 @@
+#usda 1.0
+
+over "World"
+{
+    over "graduated_cylinder_03" (
+        prepend apiSchemas = ["PhysicsMassAPI", "PhysicsRigidBodyAPI"]
+        customData = {
+            dictionary aan = {
+                string physics_profile = '{"mass_mode": "explicit", "motion_role": "dynamic", "profile_id": "labutopia.lab_001.graduated_cylinder_03.20260707.provisional", "profile_sha256": "7bf298de5e8ed014d0f37717539dd4b0aa471a29eee2e2bcd1deb9efd62ce67e", "quality_tier": "provisional_geometry", "revision": "r1", "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2"}'
+            }
+        }
+    )
+    {
+        point3f physics:centerOfMass = (0, 0.136, 0) (
+            customData = {
+                dictionary aan = {
+                    string provenance = '{"field": "center_of_mass", "frame": "body_local_usd", "input_artifacts": ["physics/profile.json", "source_sha256:b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2"], "method": "aan_physics_profile_v1", "motion_role": "dynamic", "package_authored": true, "profile_id": "labutopia.lab_001.graduated_cylinder_03.20260707.provisional", "profile_revision": "r1", "profile_sha256": "7bf298de5e8ed014d0f37717539dd4b0aa471a29eee2e2bcd1deb9efd62ce67e", "quality_tier": "provisional_geometry", "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2", "value_source": "profile"}'
+                }
+            }
+        )
+        float physics:density = 0
+        float3 physics:diagonalInertia = (0.001097, 0.000343, 0.001097) (
+            customData = {
+                dictionary aan = {
+                    string provenance = '{"field": "inertia", "frame": "SI", "input_artifacts": ["physics/profile.json", "source_sha256:b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2"], "mass_basis": {"attribute": "/World/graduated_cylinder_03.physics:mass", "source": "profile", "value": 0.15}, "method": "aan_physics_profile_v1", "motion_role": "dynamic", "package_authored": true, "profile_id": "labutopia.lab_001.graduated_cylinder_03.20260707.provisional", "profile_revision": "r1", "profile_sha256": "7bf298de5e8ed014d0f37717539dd4b0aa471a29eee2e2bcd1deb9efd62ce67e", "quality_tier": "provisional_geometry", "si_value": [0.001097, 0.000343, 0.001097], "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2", "value_source": "profile"}'
+                }
+            }
+        )
+        bool physics:kinematicEnabled = 0
+        float physics:mass = 0.15 (
+            customData = {
+                dictionary aan = {
+                    string provenance = '{"field": "mass", "frame": "SI", "input_artifacts": ["physics/profile.json", "source_sha256:b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2"], "mass_basis": {"attribute": "/World/graduated_cylinder_03.physics:mass", "source": "profile", "value": 0.15}, "method": "aan_physics_profile_v1", "motion_role": "dynamic", "package_authored": true, "profile_id": "labutopia.lab_001.graduated_cylinder_03.20260707.provisional", "profile_revision": "r1", "profile_sha256": "7bf298de5e8ed014d0f37717539dd4b0aa471a29eee2e2bcd1deb9efd62ce67e", "quality_tier": "provisional_geometry", "si_value": 0.15, "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2", "value_source": "profile"}'
+                }
+            }
+        )
+        quatf physics:principalAxes = (1, 0, 0, 0) (
+            customData = {
+                dictionary aan = {
+                    string provenance = '{"field": "principal_axes", "frame": "body_local_usd", "input_artifacts": ["physics/profile.json", "source_sha256:b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2"], "method": "aan_physics_profile_v1", "motion_role": "dynamic", "package_authored": true, "profile_id": "labutopia.lab_001.graduated_cylinder_03.20260707.provisional", "profile_revision": "r1", "profile_sha256": "7bf298de5e8ed014d0f37717539dd4b0aa471a29eee2e2bcd1deb9efd62ce67e", "quality_tier": "provisional_geometry", "source_sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2", "value_source": "profile"}'
+                }
+            }
+        )
+    }
+}
+
