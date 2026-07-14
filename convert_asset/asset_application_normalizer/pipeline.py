@@ -29,9 +29,14 @@ from .model import (
     validate_scope_prim_paths,
 )
 from .package_layout import TargetPackageLayout, default_evidence_out
+from .physics_authoring import apply_physics_profile
 from .physics_checks import audit_source_physics, build_not_run_physics_checks, build_physics_checks
 from .role_normalization import build_not_run_role_normalization, normalize_asset_role
-from .runtime_smoke import build_not_run_runtime_smoke, build_runtime_smoke
+from .runtime_smoke import (
+    build_not_run_runtime_smoke,
+    build_runtime_smoke,
+    validate_runtime_scope_bindings,
+)
 from .usd_closure import build_usd_closure_package
 
 
@@ -53,6 +58,17 @@ def validate_request(request: NormalizeAssetRequest) -> NormalizeAssetResult | N
         return _validation_error(f"unsupported target benchmark for MVP: {request.target_benchmark}")
     if request.asset_role not in ALLOWED_ASSET_ROLES:
         return _validation_error(f"unsupported asset role: {request.asset_role}")
+    if request.physics_profile is not None and not request.physics_profile.is_file():
+        return _validation_error(f"physics profile not found: {request.physics_profile}")
+    if (
+        request.target_benchmark == "scenario-forge"
+        and request.asset_role == "dynamic"
+        and request.physics_profile is None
+    ):
+        return _validation_error(
+            "scenario-forge dynamic admission requires --physics-profile; "
+            "do not rely on automatic mass computation"
+        )
     scope_validation = validate_scope_prim_paths(request.effective_asset_scope_prims)
     if scope_validation["status"] != "pass":
         return _validation_error(
@@ -66,6 +82,29 @@ def validate_request(request: NormalizeAssetRequest) -> NormalizeAssetResult | N
         return _validation_error("runtime timeout seconds must be positive")
     if request.warning_baseline_log is not None and not request.warning_baseline_log.exists():
         return _validation_error(f"warning baseline log not found: {request.warning_baseline_log}")
+    if request.runtime_physx_log is not None and not request.runtime_physx_log.is_file():
+        return _validation_error(f"runtime PhysX log not found: {request.runtime_physx_log}")
+    if request.runtime_physx_log is not None and not request.runtime_scope_bindings:
+        return _validation_error(
+            "--runtime-physx-log requires one or more explicit --runtime-scope-binding values"
+        )
+    if request.runtime_scope_bindings:
+        binding_validation, bindings = validate_runtime_scope_bindings(
+            request.effective_asset_scope_prims,
+            request.runtime_scope_bindings,
+        )
+        if binding_validation["status"] != "pass":
+            return _validation_error(
+                "invalid runtime scope binding: "
+                + "; ".join(str(item) for item in binding_validation["errors"])
+            )
+        has_nonidentity_binding = any(
+            binding["package_scope"] != binding["runtime_scope"] for binding in bindings
+        )
+        if has_nonidentity_binding and request.runtime_physx_log is None:
+            return _validation_error(
+                "non-identity runtime scope binding requires --runtime-physx-log from the instantiated consumer runtime"
+            )
     return None
 
 
@@ -120,11 +159,25 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         layout = TargetPackageLayout(request.out_dir)
         role_normalization = normalize_asset_role(layout, request)
         if role_normalization.return_code == 0:
+            profile_authoring = (
+                apply_physics_profile(layout, request)
+                if request.asset_role == "dynamic" and request.physics_profile is not None
+                else None
+            )
             physics = build_physics_checks(
                 layout,
                 request,
                 source_physics_audit=source_physics_audit,
                 normalization_actions=role_normalization.normalization_actions,
+                physics_profile_admission=(
+                    profile_authoring.profile_admission if profile_authoring is not None else None
+                ),
+                physics_profile_actions=(
+                    profile_authoring.normalization_actions if profile_authoring is not None else None
+                ),
+                physics_profile_blockers=(
+                    profile_authoring.blocked_reasons if profile_authoring is not None else None
+                ),
             )
         else:
             physics = build_not_run_physics_checks(
@@ -314,6 +367,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         if request.asset_role == "visual_static"
         else []
     )
+    dynamic_profile_forbidden_claims = _dynamic_profile_forbidden_claims(request, physics.physics_closure)
     manifest = build_manifest(
         request,
         overall_status=overall_status,
@@ -404,6 +458,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
             "Full visual material parity beyond recorded source-preservation evidence is achieved.",
             *role_forbidden_claims,
+            *dynamic_profile_forbidden_claims,
         ],
     )
     write_manifest(evidence_out, manifest)
@@ -443,6 +498,44 @@ def parse_gates(raw: str | None) -> list[str]:
     if not raw:
         return ["static"]
     return [item.strip() for item in raw.split(",") if item.strip()]
+
+
+def _dynamic_profile_forbidden_claims(
+    request: NormalizeAssetRequest,
+    physics_closure: dict[str, object],
+) -> list[str]:
+    """Project profile-quality limits into machine-readable manifest claims."""
+    if request.asset_role != "dynamic":
+        return []
+    profile = physics_closure.get("profile_admission")
+    quality_tier = profile.get("quality_tier") if isinstance(profile, dict) else None
+    claims = [
+        "The immutable raw source USD was physically repaired in place.",
+        "Any sibling asset outside the declared package scope is physics-ready.",
+        "A pre-repaired overlay proves readiness of the immutable raw source family.",
+    ]
+    if quality_tier == "measured":
+        claims.append(
+            "Measured, BOM, CAD, or real-world physical-parameter parity beyond the declared profile evidence is verified."
+        )
+    elif quality_tier == "approved_estimate":
+        claims.extend(
+            [
+                "Measured real-world physical-parameter parity is verified.",
+                "BOM, CAD, or physical-parameter parity beyond the declared approved profile evidence is verified.",
+            ]
+        )
+    else:
+        # ``mixed``, ``provisional_geometry``, absent, and unknown tiers all
+        # retain the strictest boundary.  A mixed profile cannot inherit the
+        # strongest body's claim for the whole asset.
+        claims.extend(
+            [
+                "Measured, BOM, CAD, or real-world physical-parameter parity is verified.",
+                "Real material density was recovered from MDL appearance names or visual textures.",
+            ]
+        )
+    return claims
 
 
 def _target_runtime_mdl_roots(request: NormalizeAssetRequest) -> list[Path] | None:

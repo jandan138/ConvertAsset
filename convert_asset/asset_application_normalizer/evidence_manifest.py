@@ -133,8 +133,8 @@ def build_manifest(
         "entrypoints": entrypoints,
         "normalization_policy": {
             "material": "preserve_source_then_add_compatibility_fallback",
-            "physics": "visual_static_strip_or_preserve_valid_then_derive_with_provenance",
-            "allowed_value_sources": ["authored", "derived", "template", "manual_override"],
+            "physics": "visual_static_strip_or_source_bound_profile_or_legacy_provisional_derivation",
+            "allowed_value_sources": ["authored", "derived", "template", "manual_override", "profile"],
         },
         "asset_scope_prim_paths": list(request.effective_asset_scope_prims),
         "source_integrity": source_integrity
@@ -212,9 +212,12 @@ def build_manifest(
                 "asset_scope_prims": list(request.effective_asset_scope_prims),
                 "contract": str(request.contract) if request.contract else None,
                 "allow_waiver": str(request.allow_waiver) if request.allow_waiver else None,
+                "physics_profile": str(request.physics_profile) if request.physics_profile else None,
                 "runtime_python": str(request.runtime_python) if request.runtime_python else None,
                 "warning_baseline_log": str(request.warning_baseline_log) if request.warning_baseline_log else None,
                 "warning_baseline_scope_prims": list(request.warning_baseline_scope_prims),
+                "runtime_physx_log": str(request.runtime_physx_log) if request.runtime_physx_log else None,
+                "runtime_scope_bindings": list(request.runtime_scope_bindings),
                 "expected_runtime_version": request.expected_runtime_version,
                 "runtime_timeout_seconds": request.runtime_timeout_seconds,
             }

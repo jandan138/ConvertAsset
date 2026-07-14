@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field, replace
+import math
 from pathlib import Path
 import posixpath
 import re
@@ -12,6 +13,7 @@ from typing import Any
 
 from .model import MILESTONE_AAN03, NormalizeAssetRequest
 from .package_layout import TargetPackageLayout
+from .stage_metrics import read_stage_metrics
 
 
 USD_DEP_EXTENSIONS = {".usd", ".usda", ".usdc", ".usdz"}
@@ -695,21 +697,59 @@ def _write_package(
     package_sublayer = scope_extraction.get("package_path")
     if not isinstance(package_sublayer, str):
         package_sublayer = "deps/usd/source_root.usd"
+    package_sublayers = [package_sublayer]
+    # A dynamic profile is a package-owned, stronger sublayer.  It starts
+    # empty; AAN-05 only fills it after its source binding and exact rigid-body
+    # coverage checks pass.  This keeps the upstream LabUtopia USD immutable.
+    if request.asset_role == "dynamic":
+        layout.physics_overlay_usd.parent.mkdir(parents=True, exist_ok=True)
+        if not layout.physics_overlay_usd.exists():
+            layout.physics_overlay_usd.write_text("#usda 1.0\n", encoding="utf-8")
+        package_sublayers.insert(0, "overlays/physics_profile.usda")
+    source_metrics = read_stage_metrics(layout.source_root_usd)
     layout.root_usd.write_text(
-        _entry_overlay_text(inventory.get("default_prim"), package_sublayer),
+        _entry_overlay_text(
+            inventory.get("default_prim"),
+            package_sublayers,
+            stage_metrics=source_metrics,
+        ),
         encoding="utf-8",
     )
     return scope_extraction
 
 
-def _entry_overlay_text(default_prim: str | None, package_sublayer: str) -> str:
+def _entry_overlay_text(
+    default_prim: str | None,
+    package_sublayers: str | list[str],
+    *,
+    stage_metrics: dict[str, Any] | None = None,
+) -> str:
+    """Build the owned entry layer without changing the source's SI frame."""
+    if isinstance(package_sublayers, str):
+        package_sublayers = [package_sublayers]
     lines = ["#usda 1.0", "("]
     if default_prim:
         lines.append(f'    defaultPrim = "{default_prim}"')
+    if stage_metrics:
+        # These are stage metadata, not formatting hints.  Omitting them from
+        # the strongest layer silently changes the physics interpretation to
+        # USD's defaults (0.01 m/unit and Y-up) even when numeric geometry has
+        # not moved.
+        lines.extend(
+            [
+                f"    metersPerUnit = {_usda_number(stage_metrics.get('meters_per_unit'))}",
+                f"    kilogramsPerUnit = {_usda_number(stage_metrics.get('kilograms_per_unit'))}",
+                f'    upAxis = "{stage_metrics.get("up_axis")}"',
+                f"    timeCodesPerSecond = {_usda_number(stage_metrics.get('time_codes_per_second'))}",
+                f"    framesPerSecond = {_usda_number(stage_metrics.get('frames_per_second'))}",
+                f"    startTimeCode = {_usda_number(stage_metrics.get('start_time_code'))}",
+                f"    endTimeCode = {_usda_number(stage_metrics.get('end_time_code'))}",
+            ]
+        )
     lines.extend(
         [
             "    subLayers = [",
-            f"        @{package_sublayer}@",
+            *[f"        @{package_sublayer}@," for package_sublayer in package_sublayers],
             "    ]",
             ")",
             "",
@@ -718,22 +758,36 @@ def _entry_overlay_text(default_prim: str | None, package_sublayer: str) -> str:
     return "\n".join(lines)
 
 
+def _usda_number(value: Any) -> str:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return "1"
+    if not math.isfinite(number):
+        return "1"
+    return format(number, ".17g")
+
+
 def _build_role_scoped_source(
     layout: TargetPackageLayout,
     request: NormalizeAssetRequest,
 ) -> dict[str, Any]:
-    """Create a standalone visual-static scene from scope and bound materials.
+    """Create a standalone role-scoped scene from scope and bound materials.
 
-    A visual-static package is a consumer-facing background asset, not a whole
-    source scene with unrelated material graphs.  Copying the selected composed
-    prim subtrees into a package-local USDA keeps transforms and bindings at
-    their original absolute paths while preventing unrelated source materials
-    from entering the target runtime.
+    Both dynamic and visual-static packages must avoid inheriting an unrelated
+    laboratory scene.  Copying selected composed prim subtrees into a
+    package-local USDA keeps transforms, joints, collision data, and material
+    bindings at their original absolute paths while preventing unrelated source
+    materials from entering the target runtime.
     """
-    if request.asset_role != "visual_static":
+    dynamic_profiled = request.asset_role == "dynamic" and request.physics_profile is not None
+    if request.asset_role != "visual_static" and not dynamic_profiled:
         return {
             "status": "not_applicable",
-            "reason": "Role-scoped USD extraction is required for visual_static only.",
+            "reason": (
+                "Role-scoped USD extraction is required for visual_static and source-bound "
+                "dynamic-profile packages only."
+            ),
             "scope_prims": list(request.effective_asset_scope_prims),
             "retained_material_prims": [],
             "package_path": "deps/usd/source_root.usd",
@@ -797,7 +851,7 @@ def _build_role_scoped_source(
         if masked_stage is None:
             raise RuntimeError("Could not compose the population-masked source stage")
         flattened = masked_stage.Flatten()
-        scoped = Sdf.Layer.CreateAnonymous("aan_visual_static_scope.usda")
+        scoped = Sdf.Layer.CreateAnonymous("aan_role_scope.usda")
         _copy_layer_timing_metadata(flattened, scoped)
         for root_spec in flattened.rootPrims:
             if not Sdf.CopySpec(
@@ -825,6 +879,18 @@ def _build_role_scoped_source(
             UsdGeom.GetStageMetersPerUnit(source_stage),
         )
         UsdGeom.SetStageUpAxis(scoped_stage, UsdGeom.GetStageUpAxis(source_stage))
+        try:
+            from pxr import UsdPhysics  # type: ignore
+
+            UsdPhysics.SetStageKilogramsPerUnit(
+                scoped_stage,
+                UsdPhysics.GetStageKilogramsPerUnit(source_stage),
+            )
+        except Exception:
+            # The entry layer still owns a strict frame-parity gate.  Older
+            # pxr builds that lack this metadata helper will be blocked there
+            # rather than silently accepted.
+            pass
         scoped_stage.GetRootLayer().Save()
         missing_after_export = [
             path for path in [*scope_prims, *material_paths]
@@ -855,6 +921,13 @@ def _build_role_scoped_source(
         "preserved_stage_metadata": {
             "meters_per_unit": float(UsdGeom.GetStageMetersPerUnit(source_stage)),
             "up_axis": str(UsdGeom.GetStageUpAxis(source_stage)),
+            "kilograms_per_unit": (
+                float(UsdPhysics.GetStageKilogramsPerUnit(source_stage))
+                if "UsdPhysics" in locals()
+                else None
+            ),
+            "time_codes_per_second": float(source_stage.GetTimeCodesPerSecond()),
+            "frames_per_second": float(source_stage.GetFramesPerSecond()),
         },
     }
 

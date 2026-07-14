@@ -1,0 +1,803 @@
+{
+  "status": "pass",
+  "runtime_profile": "isaac41",
+  "expected_runtime_version": "4.1",
+  "run_id": "cc234a11183b41bd90792364e3bcbe36",
+  "expected_root_usd_sha256": "e217cc8857430429648eebd051061a7f2c20bfd94cf43148867327845b73c1cc",
+  "runtime_profile_gate": {
+    "status": "pass",
+    "expected_version": "4.1",
+    "observed_kit_version": "4.1.0-rc.7+4.1.14801.71533b68.gl",
+    "reason": null
+  },
+  "asset_id": "LabUtopia_lab001_DryingBox_03_dynamic_provisional",
+  "root_usd": "/tmp/aan-dryingbox03-dynamic-provisional-runtime/asset.usd",
+  "required_prims": [
+    "/World/DryingBox_03"
+  ],
+  "asset_scope_prims": [
+    "/World/DryingBox_03"
+  ],
+  "cold_load": {
+    "status": "pass",
+    "opened": true,
+    "loading_complete": true,
+    "loading_state": {
+      "api": "get_stage_loading_status",
+      "value": [
+        "",
+        0,
+        0
+      ]
+    },
+    "asset_scope_prims": [
+      {
+        "path": "/World/DryingBox_03",
+        "exists": true,
+        "status": "pass"
+      }
+    ],
+    "consumer_required_prims": [
+      "/World/DryingBox_03"
+    ],
+    "default_prim": "/World"
+  },
+  "render_readback": {
+    "mean_rgb": [
+      110.495443,
+      112.729919,
+      114.282532
+    ],
+    "foreground_rgb": [
+      180.345216,
+      184.794215,
+      187.885603
+    ],
+    "non_background_ratio": 0.50223796,
+    "bbox_ratio": 0.66752116,
+    "sha256": "28d9c729e500b263fc1915537713aeb0c09194f55515e0880195e5d8eb52c805",
+    "bytes": 34602,
+    "resolution": [
+      256,
+      192
+    ],
+    "status": "pass",
+    "bbox_source": "authored",
+    "path": "/tmp/aan-dryingbox03-dynamic-provisional-runtime/evidence/runtime_smoke/render.png"
+  },
+  "material_view_evidence": [
+    {
+      "view_id": "front",
+      "camera_pose": {
+        "position": [
+          46.96790601,
+          3.62058094,
+          0.76371675
+        ],
+        "look_at": [
+          45.73506985,
+          3.62058094,
+          0.31500108
+        ],
+        "distance": 1.31195684,
+        "elevation": 20.0,
+        "azimuth": 0.0
+      },
+      "target_prim": "/World/DryingBox_03",
+      "render_hash": "e45ecddfac904707d8dae4c7c853045bd654e5001ddc1f42b7287ee7b7ec436f",
+      "mean_rgb": [
+        100.849955,
+        103.098958,
+        104.86851
+      ],
+      "foreground_rgb": [
+        161.041164,
+        165.515502,
+        169.035983
+      ],
+      "non_background_ratio": 0.50264486,
+      "bbox_ratio": 0.66752116,
+      "render_path": "/tmp/aan-dryingbox03-dynamic-provisional-runtime/evidence/runtime_smoke/material_views/front.png",
+      "bbox_source": "authored",
+      "bytes": 26059,
+      "resolution": [
+        256,
+        192
+      ]
+    },
+    {
+      "view_id": "orbit_3q",
+      "camera_pose": {
+        "position": [
+          46.49499194,
+          4.38050304,
+          1.06750861
+        ],
+        "look_at": [
+          45.73506985,
+          3.62058094,
+          0.31500108
+        ],
+        "distance": 1.31195684,
+        "elevation": 35.0,
+        "azimuth": 45.0
+      },
+      "target_prim": "/World/DryingBox_03",
+      "render_hash": "ef7a32f802b998654a7f94ad9b94e5bf1fb630adf7c0261104296ffbba78e4d3",
+      "mean_rgb": [
+        103.404826,
+        105.656311,
+        107.504985
+      ],
+      "foreground_rgb": [
+        166.198453,
+        170.68045,
+        174.360577
+      ],
+      "non_background_ratio": 0.50233968,
+      "bbox_ratio": 0.67443848,
+      "render_path": "/tmp/aan-dryingbox03-dynamic-provisional-runtime/evidence/runtime_smoke/material_views/orbit_3q.png",
+      "bbox_source": "authored",
+      "bytes": 26348,
+      "resolution": [
+        256,
+        192
+      ]
+    },
+    {
+      "view_id": "side",
+      "camera_pose": {
+        "position": [
+          45.73506985,
+          4.80961765,
+          0.869458
+        ],
+        "look_at": [
+          45.73506985,
+          3.62058094,
+          0.31500108
+        ],
+        "distance": 1.31195684,
+        "elevation": 25.0,
+        "azimuth": 90.0
+      },
+      "target_prim": "/World/DryingBox_03",
+      "render_hash": "92b603c013b100d74fc0f676627a58ff0d8415a574b0ef173d9a2f311a400578",
+      "mean_rgb": [
+        115.871826,
+        116.830627,
+        117.219299
+      ],
+      "foreground_rgb": [
+        166.429899,
+        168.027735,
+        168.675482
+      ],
+      "non_background_ratio": 0.60003662,
+      "bbox_ratio": 0.69661458,
+      "render_path": "/tmp/aan-dryingbox03-dynamic-provisional-runtime/evidence/runtime_smoke/material_views/side.png",
+      "bbox_source": "authored",
+      "bytes": 26922,
+      "resolution": [
+        256,
+        192
+      ]
+    }
+  ],
+  "physics_step": {
+    "status": "pass",
+    "frames": 120,
+    "finite_transforms": true,
+    "comparison": "pre_step",
+    "max_abs_delta": 0.0,
+    "rigid_body_transforms": {
+      "/World/DryingBox_03/body/Group/door/mesh": [
+        [
+          0.00573577,
+          -0.00819152,
+          0.0,
+          0.0
+        ],
+        [
+          -0.0,
+          0.0,
+          0.01,
+          0.0
+        ],
+        [
+          -0.00819152,
+          -0.00573577,
+          -0.0,
+          0.0
+        ],
+        [
+          45.51467133,
+          3.48522711,
+          0.33000118,
+          1.0
+        ]
+      ],
+      "/World/DryingBox_03/body/body/mesh": [
+        [
+          0.0,
+          -0.01,
+          0.0,
+          0.0
+        ],
+        [
+          0.01,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.01,
+          0.0
+        ],
+        [
+          45.92056656,
+          3.63235998,
+          0.03000107,
+          1.0
+        ]
+      ],
+      "/World/DryingBox_03/handle/mesh": [
+        [
+          0.00086036,
+          -0.00122873,
+          0.0,
+          0.0
+        ],
+        [
+          -0.0,
+          -0.0,
+          0.0015,
+          0.0
+        ],
+        [
+          -0.00122873,
+          -0.00086036,
+          -0.0,
+          0.0
+        ],
+        [
+          45.3183136,
+          3.62421584,
+          0.32859269,
+          1.0
+        ]
+      ]
+    },
+    "rigid_body_max_abs_delta": 0.0
+  },
+  "reset": {
+    "status": "pass",
+    "cycles": [
+      {
+        "cycle": 1,
+        "scope": {
+          "status": "pass",
+          "finite_transforms": true,
+          "max_abs_delta_from_initial": 0.0,
+          "max_abs_delta_from_pre_step": 0.0,
+          "tolerance_stage_units": 0.001,
+          "restored_to_initial": true
+        },
+        "rigid_bodies": {
+          "status": "pass",
+          "finite_transforms": true,
+          "max_abs_delta_from_initial": 0.0,
+          "max_abs_delta_from_pre_step": 0.0,
+          "tolerance_stage_units": 0.001,
+          "restored_to_initial": true
+        },
+        "rigid_body_transforms": {
+          "/World/DryingBox_03/body/Group/door/mesh": [
+            [
+              0.00573577,
+              -0.00819152,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              0.0,
+              0.01,
+              0.0
+            ],
+            [
+              -0.00819152,
+              -0.00573577,
+              -0.0,
+              0.0
+            ],
+            [
+              45.51467133,
+              3.48522711,
+              0.33000118,
+              1.0
+            ]
+          ],
+          "/World/DryingBox_03/body/body/mesh": [
+            [
+              0.0,
+              -0.01,
+              0.0,
+              0.0
+            ],
+            [
+              0.01,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.01,
+              0.0
+            ],
+            [
+              45.92056656,
+              3.63235998,
+              0.03000107,
+              1.0
+            ]
+          ],
+          "/World/DryingBox_03/handle/mesh": [
+            [
+              0.00086036,
+              -0.00122873,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.0015,
+              0.0
+            ],
+            [
+              -0.00122873,
+              -0.00086036,
+              -0.0,
+              0.0
+            ],
+            [
+              45.3183136,
+              3.62421584,
+              0.32859269,
+              1.0
+            ]
+          ]
+        },
+        "status": "pass"
+      },
+      {
+        "cycle": 2,
+        "scope": {
+          "status": "pass",
+          "finite_transforms": true,
+          "max_abs_delta_from_initial": 0.0,
+          "max_abs_delta_from_pre_step": 0.0,
+          "tolerance_stage_units": 0.001,
+          "restored_to_initial": true
+        },
+        "rigid_bodies": {
+          "status": "pass",
+          "finite_transforms": true,
+          "max_abs_delta_from_initial": 0.0,
+          "max_abs_delta_from_pre_step": 0.0,
+          "tolerance_stage_units": 0.001,
+          "restored_to_initial": true
+        },
+        "rigid_body_transforms": {
+          "/World/DryingBox_03/body/Group/door/mesh": [
+            [
+              0.00573577,
+              -0.00819152,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              0.0,
+              0.01,
+              0.0
+            ],
+            [
+              -0.00819152,
+              -0.00573577,
+              -0.0,
+              0.0
+            ],
+            [
+              45.51467133,
+              3.48522711,
+              0.33000118,
+              1.0
+            ]
+          ],
+          "/World/DryingBox_03/body/body/mesh": [
+            [
+              0.0,
+              -0.01,
+              0.0,
+              0.0
+            ],
+            [
+              0.01,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.01,
+              0.0
+            ],
+            [
+              45.92056656,
+              3.63235998,
+              0.03000107,
+              1.0
+            ]
+          ],
+          "/World/DryingBox_03/handle/mesh": [
+            [
+              0.00086036,
+              -0.00122873,
+              0.0,
+              0.0
+            ],
+            [
+              -0.0,
+              -0.0,
+              0.0015,
+              0.0
+            ],
+            [
+              -0.00122873,
+              -0.00086036,
+              -0.0,
+              0.0
+            ],
+            [
+              45.3183136,
+              3.62421584,
+              0.32859269,
+              1.0
+            ]
+          ]
+        },
+        "status": "pass"
+      }
+    ],
+    "initial_capture_point": "before_warmup_and_render"
+  },
+  "environment": {
+    "python_executable": "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/bin/python3.10",
+    "python_version": "3.10.20",
+    "headless": true,
+    "isaac_sim_root": null,
+    "isaacsim_file": "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/isaacsim/__init__.py",
+    "pxr_version": "\nTf -- Tools Foundation\n",
+    "kit_version": "4.1.0-rc.7+4.1.14801.71533b68.gl"
+  },
+  "root_usd_sha256": "e217cc8857430429648eebd051061a7f2c20bfd94cf43148867327845b73c1cc",
+  "asset_scope_validation": {
+    "status": "pass",
+    "scope_prims": [
+      "/World/DryingBox_03"
+    ],
+    "errors": []
+  },
+  "physics_context": {
+    "stage_units_in_meters": 1.0,
+    "physics_dt_seconds": 0.01,
+    "rendering_dt_seconds": 0.01,
+    "step_frames": 120,
+    "reset_cycles": 2,
+    "reset_tolerance_m": 0.001,
+    "scope_rigid_bodies": [
+      "/World/DryingBox_03/body/Group/door/mesh",
+      "/World/DryingBox_03/body/body/mesh",
+      "/World/DryingBox_03/handle/mesh"
+    ],
+    "joint_topology": [
+      {
+        "prim_path": "/World/DryingBox_03/FixedJoint",
+        "type_name": "PhysicsFixedJoint",
+        "body0": [
+          "/World/DryingBox_03/body/Group/door/mesh"
+        ],
+        "body1": [
+          "/World/DryingBox_03/handle/mesh"
+        ],
+        "axis": null,
+        "lower_limit": null,
+        "upper_limit": null
+      },
+      {
+        "prim_path": "/World/DryingBox_03/FixedJoint_01",
+        "type_name": "PhysicsFixedJoint",
+        "body0": [
+          "/World/DryingBox_03/Group_02/group/mesh"
+        ],
+        "body1": [
+          "/World/DryingBox_03/body/body/mesh"
+        ],
+        "axis": null,
+        "lower_limit": null,
+        "upper_limit": null
+      },
+      {
+        "prim_path": "/World/DryingBox_03/RevoluteJoint",
+        "type_name": "PhysicsRevoluteJoint",
+        "body0": [
+          "/World/DryingBox_03/body/body/mesh"
+        ],
+        "body1": [
+          "/World/DryingBox_03/body/Group/door/mesh"
+        ],
+        "axis": "Y",
+        "lower_limit": -35.0,
+        "upper_limit": 90.0
+      }
+    ]
+  },
+  "initial_state": {
+    "status": "pass",
+    "scope_prims": [
+      "/World/DryingBox_03"
+    ],
+    "capture_point": "before_warmup_and_render",
+    "finite_transforms": true,
+    "rigid_body_transforms": {
+      "/World/DryingBox_03/body/Group/door/mesh": [
+        [
+          0.00573577,
+          -0.00819152,
+          0.0,
+          0.0
+        ],
+        [
+          -0.0,
+          0.0,
+          0.01,
+          0.0
+        ],
+        [
+          -0.00819152,
+          -0.00573577,
+          -0.0,
+          0.0
+        ],
+        [
+          45.51467133,
+          3.48522711,
+          0.33000118,
+          1.0
+        ]
+      ],
+      "/World/DryingBox_03/body/body/mesh": [
+        [
+          0.0,
+          -0.01,
+          0.0,
+          0.0
+        ],
+        [
+          0.01,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.01,
+          0.0
+        ],
+        [
+          45.92056656,
+          3.63235998,
+          0.03000107,
+          1.0
+        ]
+      ],
+      "/World/DryingBox_03/handle/mesh": [
+        [
+          0.00086036,
+          -0.00122873,
+          0.0,
+          0.0
+        ],
+        [
+          -0.0,
+          -0.0,
+          0.0015,
+          0.0
+        ],
+        [
+          -0.00122873,
+          -0.00086036,
+          -0.0,
+          0.0
+        ],
+        [
+          45.3183136,
+          3.62421584,
+          0.32859269,
+          1.0
+        ]
+      ]
+    }
+  },
+  "shutdown_cleanup": {
+    "status": "pass",
+    "method": "world.clear_instance"
+  },
+  "process_exit": {
+    "policy": "os_exit_after_evidence",
+    "simulation_app_close": "not_called",
+    "reason": "isolated_worker_avoids_isaac41_native_plugin_unload_crash"
+  },
+  "runtime_report_binding": {
+    "status": "pass",
+    "run_id": "cc234a11183b41bd90792364e3bcbe36",
+    "root_usd_sha256": "e217cc8857430429648eebd051061a7f2c20bfd94cf43148867327845b73c1cc",
+    "errors": []
+  },
+  "scope_map": {
+    "source_scope_prims": [
+      "/World/DryingBox_03"
+    ],
+    "package_scope_prims": [
+      "/World/DryingBox_03"
+    ],
+    "runtime_scope_prims": [
+      "/World/DryingBox_03"
+    ],
+    "bindings": [
+      {
+        "package_scope": "/World/DryingBox_03",
+        "runtime_scope": "/World/DryingBox_03"
+      }
+    ],
+    "mapping_kind": "package_direct_identity",
+    "relative_suffix": true
+  },
+  "physics_warning_gate": {
+    "status": "pass",
+    "scope_prims": [
+      "/World/DryingBox_03"
+    ],
+    "scope_validation": {
+      "status": "pass",
+      "scope_prims": [
+        "/World/DryingBox_03"
+      ],
+      "errors": []
+    },
+    "runtime_scope_bindings": [
+      {
+        "package_scope": "/World/DryingBox_03",
+        "runtime_scope": "/World/DryingBox_03"
+      }
+    ],
+    "binding_validation": {
+      "status": "pass",
+      "mapping_kind": "identity",
+      "errors": []
+    },
+    "events": [],
+    "scoped_events": [],
+    "out_of_scope_events": [],
+    "unattributed_events": [],
+    "summary": {
+      "scoped_event_count": 0,
+      "out_of_scope_event_count": 0,
+      "unattributed_event_count": 0,
+      "by_category": {}
+    },
+    "parser_version": "aan06.physx_scope.v3",
+    "log_hashes": {
+      "stdout": "315be73372f9f09c4cce218ccf4fcabd3f10afd4057bf48b26a7824f3ef82bc7",
+      "stderr": "e23fe7953c782adfa1b26e7854ef10f78cdfdf090a921082e49bb75cdb985ee0"
+    }
+  },
+  "warning_diff": {
+    "status": "pass",
+    "baseline_scope_prims": [
+      "/World/scientific_workbench_bimanual_pour/room/DryingBox_03"
+    ],
+    "candidate_scope_prims": [
+      "/World/DryingBox_03"
+    ],
+    "scope_validation": {
+      "baseline": {
+        "status": "pass",
+        "scope_prims": [
+          "/World/scientific_workbench_bimanual_pour/room/DryingBox_03"
+        ],
+        "errors": []
+      },
+      "candidate": {
+        "status": "pass",
+        "scope_prims": [
+          "/World/DryingBox_03"
+        ],
+        "errors": []
+      },
+      "candidate_runtime_binding": {
+        "status": "pass",
+        "mapping_kind": "identity",
+        "errors": []
+      }
+    },
+    "comparison_basis": "canonical_scope_relative_prim_and_category",
+    "rows": [
+      {
+        "canonical_prim": "scope_0/body/Group/door/mesh",
+        "category": "invalid_inertia",
+        "baseline_count": 2,
+        "candidate_count": 0,
+        "removed": 2,
+        "introduced": 0
+      },
+      {
+        "canonical_prim": "scope_0/body/Group/door/mesh",
+        "category": "negative_mass",
+        "baseline_count": 2,
+        "candidate_count": 0,
+        "removed": 2,
+        "introduced": 0
+      },
+      {
+        "canonical_prim": "scope_0/body/Group/door/mesh",
+        "category": "small_sphere_approximated_inertia",
+        "baseline_count": 2,
+        "candidate_count": 0,
+        "removed": 2,
+        "introduced": 0
+      },
+      {
+        "canonical_prim": "scope_0/handle/mesh",
+        "category": "invalid_inertia",
+        "baseline_count": 2,
+        "candidate_count": 0,
+        "removed": 2,
+        "introduced": 0
+      },
+      {
+        "canonical_prim": "scope_0/handle/mesh",
+        "category": "negative_mass",
+        "baseline_count": 2,
+        "candidate_count": 0,
+        "removed": 2,
+        "introduced": 0
+      },
+      {
+        "canonical_prim": "scope_0/handle/mesh",
+        "category": "small_sphere_approximated_inertia",
+        "baseline_count": 2,
+        "candidate_count": 0,
+        "removed": 2,
+        "introduced": 0
+      }
+    ],
+    "summary": {
+      "baseline_scoped_count": 12,
+      "candidate_scoped_count": 0,
+      "removed_count": 12,
+      "introduced_count": 0
+    },
+    "baseline_log": "/cpfs/user/zhuzihou/dev/scenario-forge/outputs/scientific_workbench_bimanual_pour/adapters/ebench/genmanip/evidence/initial_scene/runtime.log",
+    "baseline_sha256": "cce797479cd8c222770ad661a545d57853d78baa4dd6ded29881e10365ca9c97",
+    "path": "evidence/runtime_smoke/warning_diff.json"
+  }
+}

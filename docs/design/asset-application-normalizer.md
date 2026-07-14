@@ -11,6 +11,9 @@
 > 2026-07-13 scope correction: `DryingBox_01_overlay` evidence does not establish raw
 > `lab_001.usd` DryingBox-family readiness; see
 > `docs/records/2026-07-13-aan-dryingbox-family-admission-and-claim-correction.md`.
+> 2026-07-14 dynamic-physics profile: package metric parity plus source-bound
+> profile-owned physics authoring are required for Scenario Forge dynamic admission;
+> see `docs/records/2026-07-14-aan-dryingbox-dynamic-physics-profile.md`.
 
 ## 一句话定位
 
@@ -238,6 +241,14 @@ evidence。
 - joint axis、joint limit、DOF mapping、reset pose 这类语义强字段不能静默猜测。没有
   source authoring 或 contract 支持时， articulated asset 必须 `blocked` 或进入
   `manual_override` 审核。
+- 对 dynamic package，mass、inertia、COM、principal axes 是一个相干的 property bundle；
+  不能只补其中一个字段后继续依赖 PhysX auto-compute。Scenario Forge dynamic admission
+  必须使用 source SHA 和 stage metrics 绑定的 versioned physics profile，由
+  ConvertAsset-owned overlay author，不允许 consumer 本地修补。
+- 若 mass 已 authored 且正、finite，而 inertia 缺失或无效，profile 只能保留该 authored
+  mass 并以它作为 inertia mass basis；不得为了计算 inertia 再换用 template mass。profile
+  覆盖 mass 时，inertia/COM/axes 也必须作为同一 bundle 一并覆盖，并记录实际胜出的
+  mass basis。
 - 所有 generated physics value 必须记录 method、input artifacts、template id 或 owner，
   并通过 Isaac 4.1 step / reset smoke 后才能进入 `ready` 或 `ready_with_waivers`。
 
@@ -855,17 +866,35 @@ Physics closure 的默认策略是 authored value 优先，其次才是规范生
 | `derived` | 从 mesh、bbox、volume、convex hull、density 等确定性输入推导 | 缺 mass/inertia/collision，且任务不要求真实物理标定 | method、input artifact hash、formula/version、generated value |
 | `template` | 按资产类别使用版本化模板 | 玻璃烧杯、金属箱体、塑料把手等常见类别；需要 asset class 明确 | template id、density/friction/restitution 参数、适用范围 |
 | `manual_override` | 由 task contract 或人工审核给定 | joint axis/limit/reset pose、required prim semantic、特殊 collision proxy | owner、reason、review date、source note、forbidden claims |
+| `profile` | ConvertAsset-owned、source-bound profile author 的 bundle | dynamic package 的显式质量属性；profile 必须精确覆盖每个 active rigid body | `profile_id@revision`、immutable profile/source SHA-256、stage metrics、SI 输入、body-local frame、quality tier、mass basis |
 
 `derived` 和 `template` 不是 waiver；它们是可追溯的生成值。只有当生成值影响结论可信度，
 但目标 task 仍可执行时，才额外附带 waiver 和 forbidden claims。
+
+`profile` 也不自动等同于真实标定。其质量等级只能是
+`provisional_geometry`、`approved_estimate` 或 `measured`：`provisional_geometry` 必须有
+claim boundary 和 replacement contract，且只能声明“显式、稳定性已验证的仿真候选”；
+`approved_estimate` / `measured` 必须提供带 SHA-256 的 evidence artifacts。前者还必须有
+`approved_by` 和 `reviewed_at`，后者还必须有 measurement `method` 和 `recorded_at`。
+profile 混合质量等级时视为 `mixed`，不能从其中某个 higher-tier body 推导整个资产的
+calibrated claim。该 schema gate 验证 evidence reference/hash/metadata 的完整性，不会
+仅凭 tier 名称自动证实测量本身；真实 calibration 仍需可审计的测量或审批流程。
 
 ### Static gate
 
 Static gate 负责“资产声明是否完整、可解释”：
 
 - mass：是否 authored，单位/数量级，缺失时是否有 `derived` / `template` /
-  `manual_override` policy；
+  `manual_override` / `profile` policy；dynamic profile 是否精确匹配每个 active rigid
+  body，是否存在漏配或歧义匹配；
+- `preserve_authored_mass`：profile 必须声明正 finite 的 `authored_mass_kg`，并以当前
+  stage `kilogramsPerUnit` 把 source `physics:mass` 转为 kg 后逐项校验；只有一致时才可
+  作为 inertia 的 authored mass basis；
 - inertia：是否存在、finite、正定/数量级合理；
+- COM / principal axes：是否 finite、位于明确的 body-local frame，axes 是否可归一；
+- physical frame：source 与 composed package 的 `metersPerUnit`、`kilogramsPerUnit`、
+  `upAxis`、time codes / frame rate，以及 declared scope 的 world bounds（以 metres 比较）
+  是否一致；任一不一致直接 `blocked`；
 - collision：collider prim、approximation、enabled、collision group/filter、mesh 是否存在；
 - joint limit：lower/upper 是否存在、顺序是否有效、单位约定；
 - reset pose：root pose、joint default pose、required prim path、DOF mapping；
@@ -890,11 +919,104 @@ mass、inertia、collision proxy、joint limit 或 reset pose 不能通过。
 Runtime gate 负责“Isaac Sim 4.1 是否真的接受并执行”：
 
 - mass/inertia 是否被 physics engine 实际加载，是否导致 warning/error；
+- package scope 或其 declared runtime instantiation scope 中，`negative mass`、`invalid
+  inertia`、`small sphere approximated inertia` 三类 warning 任一出现即 `blocked`；路径
+  不能解析或映射不唯一时也 fail-closed，不能以 global warning count 或 substring 匹配放行；
 - collision 是否产生合理 contact，不穿透、不爆炸；
 - joint limit 是否在 runtime articulation view / dynamic control 层可见并生效；
 - reset pose 是否能在 runtime 应用，step 后保持 finite；
 - articulated DOF 是否可枚举、可控制、可回读；
 - static 看似合法但 runtime 不支持的 schema/extension，必须由 runtime gate 判 fail 或 waiver。
+
+### 2026-07-14 Dynamic physics profile and physical-frame contract
+
+20260707 的原始 `lab_001.usd` DryingBox family 表明，“MassAPI 已 applied”并不等于
+“PhysX 有可用质量”。原始 DB01--DB04 有 14 个 active rigid bodies，均存在零/非有限
+mass、inertia、COM 或 principal-axes 缺口，且 source density/scale 不能作为可信的
+auto-mass 输入。因此 dynamic 修复不是再加一个 DB03 条件分支，也不是向 Scenario Forge
+塞 local patch；它是 AAN 的 package-owned admission path。
+
+```text
+immutable source USD
+  -> stage metric + scope-bound parity gate
+  -> source-bound physics profile JSON resolution
+  -> package-owned overlays/physics_profile.usda authoring
+  -> static property/provenance admission
+  -> Isaac 4.1 cold-load/render/step/reset + scoped warning gate
+```
+
+#### Physical frame first
+
+`asset.usd` 是 composed stage 的 entry layer，因此必须显式作者化 source 的
+`metersPerUnit`、`kilogramsPerUnit`、`upAxis`、`timeCodesPerSecond` 与
+`framesPerSecond`。这不是装饰性 metadata：质量、惯量、重力方向和 body-local values 都在
+这一 physical frame 中解释。缺这些 metadata 的旧 entry 会落到 USD defaults（`0.01`
+metres/unit、Y-up、24 TPS），即使 sublayer 内的坐标数字未变，物理对象也会被解释成
+不同尺寸。AAN 的 `physical_frame` gate 同时比较 source/package metrics 和 scope world
+bounds（metres），阻断这种“数值为正但尺度错误”的 false pass。
+
+#### Source-bound profile and package ownership
+
+`--physics-profile` 接受 JSON schema `aan.physics_profile.v1`。profile 至少绑定 source
+SHA-256、stage metrics、scope selector 和每一个 scoped rigid body 的 relative path。它以
+canonical SI 保存 mass 与 diagonal inertia，以 `body_local_usd` 保存 COM，并给每个
+bundle 标出 motion role、quality tier、strong-overlay density-zero policy 与 mass basis。
+AAN 只读取一次 profile bytes，以该 bytes 的 SHA-256 parse/resolution、author overlay，并把同一 immutable
+bytes 写入 `physics/profile.json`；package copy hash 不一致即 blocked。profile/source hash、
+revision、SI-to-USD conversion 和 authoring action 均写入 manifest。
+
+dynamic package 的分层是：
+
+```text
+asset.usd                         # defaultPrim + preserved stage metrics
+  subLayers = [
+    overlays/physics_profile.usda, # ConvertAsset-owned strong physics layer
+    deps/usd/scoped_source.usda    # package-local dynamic source snapshot
+  ]
+physics/profile.json              # immutable copy of the source-bound input
+```
+
+这样未来有 BOM、称量、CAD inertial properties 或批准的 density/proxy 后，只需发布一个
+新的 complete `mass_properties` bundle/profile revision；不得 patch raw LabUtopia USD，也
+不得在 Scenario Forge 写 asset-name-specific mass/inertia logic。profile rules 可以以 data
+selector 覆盖 family，但 normalizer code 不得包含 DB02/DB03/DB04 name branch。
+
+#### Admission and claim boundary
+
+profile resolution 必须对每个 active rigid body 作 exact-one match；漏配、重复匹配、source
+SHA/metrics 不符或 property bundle 不完整均 blocked。explicit bundle authoring 会在强
+package-owned overlay 作者化 `physics:density = 0`，以停用 explicit mass bundle 下无效的
+auto-compute input；它不删除或 ValueBlock source density。静态 pass 只
+表示 output package 在 declared dynamic scope 内有完整、正 finite、可追溯的物理属性；
+raw source audit 仍保留其原始 defects。
+
+`provisional_geometry` 是仿真稳定性等级，不是现实世界参数 calibration。它可支持
+“package-owned explicit physics passed the recorded dynamic runtime gates”，但不得声称
+material density、BOM mass、CAD inertia、真实关节 friction 或 physical-parameter parity。
+manifest 的 machine-readable `claims_forbidden` 对 `provisional_geometry`、unknown 和
+`mixed` 采用最严格边界，明确禁止 calibrated/BOM/CAD/real-density overclaim；
+`approved_estimate` 和 `measured` 也必须由相应 hash/review/measurement evidence 约束，
+不能只靠 profile 文件名。
+
+dynamic visual preservation 是一个独立静态 gate：它比较 source 与 package declared scope
+的 mesh visibility、effective material binding 和 world transform，并在本次 DB03 evidence
+中通过。这是 stage-composition preservation，不是 source/candidate 的像素级 image diff；
+render readback 和“不主张 full visual-material parity”仍是独立的 claim boundary。
+
+#### Runtime scope and reset evidence
+
+runtime smoke 从 composed stage 读取 `metersPerUnit`，以 120 physics frames 和两个 reset
+cycles 记录 scope 与每个 scoped rigid body's finite transforms。warning parser 使用
+one-to-one package-scope-to-runtime-scope binding 回写 canonical package-relative path；
+例如 `/World/DryingBox_03` 不会误捕获 `/World/DryingBox_030`。candidate 在三类质量/
+惯量 warning 的 scoped count 必须为零；baseline-to-candidate warning diff 只作为解释性
+证据，不能作为 waiver。
+
+当 consumer 将 package 实例化到不同绝对路径时，ConvertAsset（而不是 Scenario Forge
+local patch）可接收 `--runtime-physx-log <log>` 和可重复的
+`--runtime-scope-binding PACKAGE_SCOPE=RUNTIME_SCOPE`。external log 必须显式给出完整、
+one-to-one binding；non-identity binding 没有 external log 也 blocked。最终 runtime gate
+是 package-direct gate 与 external consumer-log gate 的 conjunction，二者都 pass 才可通过。
 
 ## Temporary waiver and blocked policy
 

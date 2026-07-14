@@ -146,10 +146,20 @@ def _find_builtin_hdri() -> str | None:
     return None
 
 
-def _init_world():
+def _init_world(
+    *,
+    stage_units_in_meters: float = 1.0,
+    physics_dt: float = 0.01,
+    rendering_dt: float = 0.01,
+):
+    """Create a World whose metric interpretation matches the open USD stage."""
     from omni.isaac.core import World  # type: ignore
 
-    world = World(stage_units_in_meters=1.0, physics_dt=0.01, rendering_dt=0.01)
+    world = World(
+        stage_units_in_meters=float(stage_units_in_meters),
+        physics_dt=float(physics_dt),
+        rendering_dt=float(rendering_dt),
+    )
     world.reset()
     return world
 

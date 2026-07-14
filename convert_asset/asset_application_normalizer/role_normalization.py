@@ -39,14 +39,7 @@ def normalize_asset_role(
     request: NormalizeAssetRequest,
 ) -> RoleNormalizationResult:
     if request.asset_role == "dynamic":
-        return RoleNormalizationResult(
-            overall_status="pass",
-            return_code=0,
-            visual_preservation_fingerprint={
-                "status": "not_applicable",
-                "reason": "dynamic role preserves physics semantics for AAN-05 admission.",
-            },
-        )
+        return _verify_dynamic_visual_preservation(layout, request)
     if request.asset_role != "visual_static":
         return _blocked(
             f"Unsupported asset role: {request.asset_role}",
@@ -161,6 +154,69 @@ def normalize_asset_role(
         overall_status="pass",
         return_code=0,
         normalization_actions=actions,
+        visual_preservation_fingerprint=preservation,
+    )
+
+
+def _verify_dynamic_visual_preservation(
+    layout: TargetPackageLayout,
+    request: NormalizeAssetRequest,
+) -> RoleNormalizationResult:
+    """Fail closed if a dynamic package changes visible composition or pose.
+
+    A dynamic profile later writes only MassAPI/RigidBody properties into its
+    own overlay, but the package closure itself can still accidentally change
+    a mesh binding, visibility, or transform.  Compare source and composed
+    package here, before physics authoring, then rely on AAN-05 physical-frame
+    bounds parity to protect the profile-owned output layer as well.
+    """
+    scopes = request.effective_asset_scope_prims
+    source_stage = _open_stage(request.source_usd)
+    package_stage = _open_stage(layout.root_usd)
+    if source_stage is None or package_stage is None:
+        return _blocked(
+            "Could not open source and package USD for dynamic visual preservation comparison.",
+            "aan_role_block_dynamic_visual_stage_open",
+        )
+    missing_source = [
+        path for path in scopes if not _valid_prim(source_stage.GetPrimAtPath(path))
+    ]
+    missing_package = [
+        path for path in scopes if not _valid_prim(package_stage.GetPrimAtPath(path))
+    ]
+    if missing_source or missing_package:
+        return _blocked(
+            "One or more dynamic visual-preservation scope prims are missing.",
+            "aan_role_block_dynamic_visual_scope_missing",
+            paths=sorted(set([*missing_source, *missing_package])),
+        )
+    raw_source = _visual_fingerprint(source_stage, scopes)
+    package = _visual_fingerprint(package_stage, scopes)
+    preserved = raw_source["signature"] == package["signature"]
+    preservation = {
+        "status": "pass" if preserved else "blocked",
+        "raw_source": raw_source,
+        "package_before_physics_profile": package,
+        "scope": scopes,
+        "policy": "mesh_visibility_material_bindings_and_world_transforms_must_match",
+    }
+    if not preserved:
+        return RoleNormalizationResult(
+            overall_status="blocked",
+            return_code=5,
+            visual_preservation_fingerprint=preservation,
+            blocked_reasons=[
+                {
+                    "blocker_id": "aan_role_block_dynamic_visual_preservation",
+                    "severity": "blocking",
+                    "summary": "The dynamic package changed a scoped mesh visibility, material binding, or world transform.",
+                    "required_resolution": "Preserve source visual composition while authoring physics only in the package-owned overlay.",
+                }
+            ],
+        )
+    return RoleNormalizationResult(
+        overall_status="pass",
+        return_code=0,
         visual_preservation_fingerprint=preservation,
     )
 

@@ -1,0 +1,182 @@
+{
+  "schema_version": "aan.physics_profile.v1",
+  "profile_id": "labutopia.lab_001.dryingbox.20260707.provisional",
+  "revision": "r1",
+  "source_binding": {
+    "sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+    "stage_metrics": {
+      "meters_per_unit": 1.0,
+      "kilograms_per_unit": 1.0,
+      "up_axis": "Z",
+      "time_codes_per_second": 60.0,
+      "frames_per_second": 24.0
+    }
+  },
+  "evidence": {
+    "parameter_status": "provisional_geometry",
+    "claim_boundary": "Explicit bundles prevent invalid automatic mass computation. They are not a measured BOM, weighing, CAD inertial-property, or material-density calibration.",
+    "center_of_mass_convention": "body_local_usd",
+    "inertia_convention": "canonical SI kg*m^2",
+    "replacement_contract": "Replace a complete mass_properties bundle from a measured or approved profile revision; do not patch package USD or Scenario Forge."
+  },
+  "scope_rules": [
+    {
+      "scope_path_regex": "^/World/DryingBox_0[13]$",
+      "body_rules": [
+        {
+          "relative_path": "body/Group/door/mesh",
+          "motion_role": "dynamic",
+          "clear_density": true,
+          "mass_properties": {
+            "mode": "explicit",
+            "quality_tier": "provisional_geometry",
+            "mass_kg": 0.8,
+            "diagonal_inertia_kg_m2": [0.0434, 0.0236, 0.02],
+            "center_of_mass_body_local": [99.72888124, 0.0, 2.0],
+            "principal_axes": [1.0, 0.0, 0.0, 0.0]
+          }
+        },
+        {
+          "relative_path": "body/body/mesh",
+          "motion_role": "dynamic",
+          "clear_density": true,
+          "mass_properties": {
+            "mode": "preserve_authored_mass",
+            "quality_tier": "provisional_geometry",
+            "authored_mass_kg": 1.0,
+            "diagonal_inertia_kg_m2": [0.076, 0.05, 0.066],
+            "center_of_mass_body_local": [99.35376337, -0.00001621, 29.99999847],
+            "principal_axes": [1.0, 0.0, 0.0, 0.0]
+          }
+        },
+        {
+          "relative_path": "handle/mesh",
+          "motion_role": "fixed_child",
+          "clear_density": true,
+          "mass_properties": {
+            "mode": "explicit",
+            "quality_tier": "provisional_geometry",
+            "mass_kg": 0.15,
+            "diagonal_inertia_kg_m2": [0.00054, 0.00054, 0.00006],
+            "center_of_mass_body_local": [0.0, 24.1834503, 0.00000072],
+            "principal_axes": [1.0, 0.0, 0.0, 0.0]
+          }
+        },
+        {
+          "relative_path": "button",
+          "motion_role": "dynamic",
+          "clear_density": true,
+          "mass_properties": {
+            "mode": "explicit",
+            "quality_tier": "provisional_geometry",
+            "mass_kg": 0.05,
+            "diagonal_inertia_kg_m2": [0.00002, 0.00002, 0.00002],
+            "center_of_mass_body_local": [-262.92496274, -214.97497221, 373.8259791],
+            "principal_axes": [1.0, 0.0, 0.0, 0.0]
+          }
+        }
+      ]
+    },
+    {
+      "scope_path": "/World/DryingBox_02",
+      "body_rules": [
+        {
+          "relative_path": "door",
+          "motion_role": "dynamic",
+          "clear_density": true,
+          "mass_properties": {
+            "mode": "explicit",
+            "quality_tier": "provisional_geometry",
+            "mass_kg": 0.8,
+            "diagonal_inertia_kg_m2": [0.0267, 0.0094, 0.0187],
+            "center_of_mass_body_local": [-127.09567627, 69.96849998, 419.66147291],
+            "principal_axes": [1.0, 0.0, 0.0, 0.0]
+          }
+        },
+        {
+          "relative_path": "body",
+          "motion_role": "dynamic",
+          "clear_density": true,
+          "mass_properties": {
+            "mode": "explicit",
+            "quality_tier": "provisional_geometry",
+            "mass_kg": 10.0,
+            "diagonal_inertia_kg_m2": [1.62, 1.67, 1.59],
+            "center_of_mass_body_local": [395.79685632, -101.03154929, 194.66147291],
+            "principal_axes": [1.0, 0.0, 0.0, 0.0]
+          }
+        },
+        {
+          "relative_path": "handle/mesh",
+          "motion_role": "fixed_child",
+          "clear_density": true,
+          "mass_properties": {
+            "mode": "explicit",
+            "quality_tier": "provisional_geometry",
+            "mass_kg": 0.15,
+            "diagonal_inertia_kg_m2": [0.00118, 0.00122, 0.00012],
+            "center_of_mass_body_local": [8.60942698, 0.00000286, -0.00000725],
+            "principal_axes": [1.0, 0.0, 0.0, 0.0]
+          }
+        }
+      ]
+    },
+    {
+      "scope_path": "/World/DryingBox_04",
+      "body_rules": [
+        {
+          "relative_path": "body/Group/door/mesh",
+          "motion_role": "dynamic",
+          "clear_density": true,
+          "mass_properties": {
+            "mode": "explicit",
+            "quality_tier": "provisional_geometry",
+            "mass_kg": 0.7,
+            "diagonal_inertia_kg_m2": [0.037, 0.021, 0.011],
+            "center_of_mass_body_local": [99.72888124, 0.0, 2.0],
+            "principal_axes": [1.0, 0.0, 0.0, 0.0]
+          }
+        },
+        {
+          "relative_path": "body/body/mesh",
+          "motion_role": "dynamic",
+          "clear_density": true,
+          "mass_properties": {
+            "mode": "preserve_authored_mass",
+            "quality_tier": "provisional_geometry",
+            "authored_mass_kg": 1.0,
+            "diagonal_inertia_kg_m2": [0.06, 0.05, 0.05],
+            "center_of_mass_body_local": [99.35376337, -0.00001621, 29.99999847],
+            "principal_axes": [1.0, 0.0, 0.0, 0.0]
+          }
+        },
+        {
+          "relative_path": "handle/mesh",
+          "motion_role": "fixed_child",
+          "clear_density": true,
+          "mass_properties": {
+            "mode": "explicit",
+            "quality_tier": "provisional_geometry",
+            "mass_kg": 0.12,
+            "diagonal_inertia_kg_m2": [0.00043, 0.00043, 0.000046],
+            "center_of_mass_body_local": [0.0, 24.1834503, 0.00000072],
+            "principal_axes": [1.0, 0.0, 0.0, 0.0]
+          }
+        },
+        {
+          "relative_path": "button",
+          "motion_role": "dynamic",
+          "clear_density": true,
+          "mass_properties": {
+            "mode": "explicit",
+            "quality_tier": "provisional_geometry",
+            "mass_kg": 0.04,
+            "diagonal_inertia_kg_m2": [0.000011, 0.000011, 0.00001],
+            "center_of_mass_body_local": [-262.92496274, -214.97497221, 373.8259791],
+            "principal_axes": [1.0, 0.0, 0.0, 0.0]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -11,6 +11,7 @@ from typing import Any
 
 from .model import MILESTONE_AAN05, NormalizeAssetRequest
 from .package_layout import TargetPackageLayout
+from .stage_metrics import physical_frame_report
 
 
 JOINT_TYPE_NAMES = {
@@ -179,6 +180,9 @@ def build_physics_checks(
     *,
     source_physics_audit: dict[str, Any] | None = None,
     normalization_actions: list[dict[str, Any]] | None = None,
+    physics_profile_admission: dict[str, Any] | None = None,
+    physics_profile_actions: list[dict[str, Any]] | None = None,
+    physics_profile_blockers: list[dict[str, Any]] | None = None,
 ) -> PhysicsCheckResult:
     source_audit = source_physics_audit or audit_source_physics(
         request.source_usd, request.effective_asset_scope_prims
@@ -201,6 +205,7 @@ def build_physics_checks(
     required = _required_prim_records(stage, request.required_prims)
     scope = request.effective_asset_scope_prims
     scoped_required = _required_prim_records(stage, scope)
+    physical_frame = physical_frame_report(request.source_usd, layout.root_usd, scope)
     if request.asset_role == "visual_static":
         output_admission = _visual_static_output_admission(stage, scope)
         blockers = [
@@ -232,6 +237,8 @@ def build_physics_checks(
                     "required_resolution": "Delete applied Physics/Physx APIs and deactivate typed physics joints in the package overlay.",
                 }
             )
+        if physical_frame["status"] != "pass":
+            blockers.append(_physical_frame_blocker(physical_frame))
         status = "blocked" if blockers else "pass"
         inspection = _inspect_stage(stage, scope)
         summary = inspection["summary"]
@@ -248,6 +255,7 @@ def build_physics_checks(
             "collisions": inspection["collisions"],
             "mass_properties": inspection["mass_records"],
             "scale": _scale_record(stage),
+            "physical_frame": physical_frame,
             "summary": summary,
         }
         articulation_closure = {
@@ -266,7 +274,19 @@ def build_physics_checks(
             output_admission,
         )
 
-    generated = _author_invalid_mass_properties(stage, _scoped_prims(stage, scope))
+    profile_requested = request.physics_profile is not None
+    profile_admission = physics_profile_admission or {
+        "status": "not_requested" if not profile_requested else "blocked",
+        "reason": "no profile authoring result was supplied" if profile_requested else None,
+    }
+    # A source-bound profile is the whole dynamic physical property set.  Do
+    # not mix it with legacy bbox/template inference; a profile failure blocks
+    # instead of allowing generic automatic-mass repair to hide the failure.
+    generated = (
+        {}
+        if profile_requested
+        else _author_invalid_mass_properties(stage, _scoped_prims(stage, scope))
+    )
     if generated:
         try:
             stage.GetRootLayer().Save()
@@ -301,7 +321,16 @@ def build_physics_checks(
         scoped_required = _required_prim_records(stage, scope)
 
     inspection = _inspect_stage(stage, scope, generated=generated)
-    blockers = []
+    blockers = list(physics_profile_blockers or [])
+    if profile_requested and profile_admission.get("status") != "pass" and not blockers:
+        blockers.append(
+            {
+                "blocker_id": "aan05_block_physics_profile",
+                "severity": "blocking",
+                "summary": "Dynamic physics profile admission did not pass.",
+                "detail": profile_admission.get("errors") or profile_admission.get("reason"),
+            }
+        )
     if any(item["status"] == "blocked" for item in required):
         blockers.append(
             {
@@ -320,6 +349,8 @@ def build_physics_checks(
             }
         )
     blockers.extend(_physics_blockers(request, inspection))
+    if physical_frame["status"] != "pass":
+        blockers.append(_physical_frame_blocker(physical_frame))
     blockers.extend(
         _articulation_blockers(
             request,
@@ -339,7 +370,13 @@ def build_physics_checks(
         "role": request.asset_role,
         "root_usd": str(layout.root_usd),
         "scope": _scope_record(scope),
-        "value_policy": "preserve_valid_authored_then_derive_with_persistent_provenance",
+        "value_policy": (
+            "source_bound_profile_full_mass_bundle"
+            if profile_requested
+            else "legacy_preserve_valid_authored_then_derive_with_persistent_provenance"
+        ),
+        "profile_admission": profile_admission,
+        "profile_normalization_actions": physics_profile_actions or [],
         "source_physics_audit": source_audit,
         "output_role_admission": output_admission,
         "normalization_actions": normalization_actions or [],
@@ -348,6 +385,7 @@ def build_physics_checks(
         "collisions": inspection["collisions"],
         "mass_properties": inspection["mass_records"],
         "scale": _scale_record(stage),
+        "physical_frame": physical_frame,
         "reset_pose": _reset_pose_record(stage, request.required_prims),
         "summary": inspection["summary"],
     }
@@ -412,6 +450,20 @@ def _result(
         source_physics_audit=source_audit,
         output_role_admission=output_admission,
     )
+
+
+def _physical_frame_blocker(physical_frame: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "blocker_id": "aan05_block_physical_frame_parity",
+        "severity": "blocking",
+        "summary": "Package stage metadata or scoped world bounds changed the source physical frame.",
+        "metric_mismatches": physical_frame.get("metric_mismatches", []),
+        "scope_prims": physical_frame.get("blocked_scope_prims", []),
+        "required_resolution": (
+            "Preserve metersPerUnit, kilogramsPerUnit, upAxis, timing, and scope world bounds "
+            "on the ConvertAsset-owned package entry layer."
+        ),
+    }
 
 
 def _blocked_result(
@@ -692,7 +744,10 @@ def _local_center_of_mass(prim: Any) -> list[float]:
         from pxr import Usd, UsdGeom  # type: ignore
 
         cache = UsdGeom.BBoxCache(Usd.TimeCode.Default(), [UsdGeom.Tokens.default_])
-        center = cache.ComputeLocalBound(prim).ComputeAlignedBox().GetCenter()
+        aligned = cache.ComputeLocalBound(prim).ComputeAlignedBox()
+        minimum = aligned.GetMin()
+        maximum = aligned.GetMax()
+        center = (minimum + maximum) * 0.5
         return [round(float(center[index]), 8) for index in range(3)]
     except Exception:
         return [0.0, 0.0, 0.0]
@@ -871,7 +926,7 @@ def _validate_physics_provenance(
             and bool(attr.HasAuthoredValueOpinion())
         )
         return ("pass" if valid else "invalid"), normalized
-    if value_source not in {"derived", "template", "manual_override"}:
+    if value_source not in {"derived", "template", "manual_override", "profile"}:
         return "invalid", normalized
     common_valid = (
         isinstance(normalized.get("method"), str)
@@ -879,11 +934,17 @@ def _validate_physics_provenance(
         and normalized.get("field") == expected_field
         and isinstance(normalized.get("input_artifacts"), list)
         and bool(normalized["input_artifacts"])
-        and _valid_positive_dimensions(normalized.get("bbox_dimensions_m"))
         and isinstance(normalized.get("package_authored"), bool)
     )
+    if value_source != "profile":
+        common_valid = common_valid and _valid_positive_dimensions(normalized.get("bbox_dimensions_m"))
     if value_source == "template":
         common_valid = common_valid and isinstance(normalized.get("template_id"), str) and bool(normalized["template_id"].strip())
+    if value_source == "profile":
+        common_valid = common_valid and all(
+            isinstance(normalized.get(key), str) and bool(normalized[key].strip())
+            for key in ("profile_id", "profile_revision", "profile_sha256", "source_sha256", "quality_tier", "frame")
+        )
     if expected_field in {"mass", "inertia"}:
         common_valid = common_valid and _valid_mass_basis(normalized.get("mass_basis"))
     return ("pass" if common_valid else "invalid"), normalized
@@ -900,7 +961,7 @@ def _valid_mass_basis(value: Any) -> bool:
     return (
         isinstance(value.get("attribute"), str)
         and value["attribute"].endswith(".physics:mass")
-        and str(value.get("source", "")) in {"authored", "derived", "template", "manual_override"}
+        and str(value.get("source", "")) in {"authored", "derived", "template", "manual_override", "profile"}
         and _valid_positive_scalar(value.get("value"))
     )
 
@@ -926,7 +987,20 @@ def _provenance_fields(provenance: dict[str, Any] | None) -> dict[str, Any]:
         return {}
     result = {
         key: provenance[key]
-        for key in ("method", "input_artifacts", "bbox_dimensions_m", "package_authored", "mass_basis")
+        for key in (
+            "method",
+            "input_artifacts",
+            "bbox_dimensions_m",
+            "package_authored",
+            "mass_basis",
+            "profile_id",
+            "profile_revision",
+            "profile_sha256",
+            "source_sha256",
+            "quality_tier",
+            "frame",
+            "si_value",
+        )
         if key in provenance
     }
     return result

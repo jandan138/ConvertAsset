@@ -25,6 +25,16 @@ class TargetPackageLayout:
         return self.root / "deps" / "usd" / "scoped_source.usda"
 
     @property
+    def physics_overlay_usd(self) -> Path:
+        """Strong, ConvertAsset-owned layer for a dynamic physics profile."""
+        return self.root / "overlays" / "physics_profile.usda"
+
+    @property
+    def physics_profile_json(self) -> Path:
+        """Immutable package copy of the source-bound physics profile."""
+        return self.root / "physics" / "profile.json"
+
+    @property
     def evidence_manifest(self) -> Path:
         return self.root / "evidence" / "manifest.json"
 

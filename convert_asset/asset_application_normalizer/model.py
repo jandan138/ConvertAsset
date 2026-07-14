@@ -63,11 +63,20 @@ class NormalizeAssetRequest:
     asset_scope_prims: list[str] = field(default_factory=list)
     material_policy: str = "native-or-mirror"
     allow_waiver: Path | None = None
+    # Dynamic mass properties live in an explicit, source-bound profile rather
+    # than in a consumer-side scene patch.  Keeping this optional preserves the
+    # legacy EBench migration path, while Scenario Forge admissions require it.
+    physics_profile: Path | None = None
     gates: list[str] = field(default_factory=lambda: ["static"])
     evidence_out: Path | None = None
     runtime_python: Path | None = None
     warning_baseline_log: Path | None = None
     warning_baseline_scope_prims: list[str] = field(default_factory=list)
+    # Optional PhysX log captured after the package was instantiated by a
+    # consumer (for example below a Scenario Forge room Xform).  Its paths are
+    # interpreted only through the declared one-to-one binding below.
+    runtime_physx_log: Path | None = None
+    runtime_scope_bindings: list[dict[str, str]] = field(default_factory=list)
     expected_runtime_version: str = "4.1"
     runtime_timeout_seconds: int = 600
     dry_run: bool = False

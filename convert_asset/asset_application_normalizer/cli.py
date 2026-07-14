@@ -42,6 +42,14 @@ def add_normalize_asset_parser(subparsers: argparse._SubParsersAction) -> None:
         help="native-or-mirror, preview-fallback, waiver-ok, or block-on-gap",
     )
     parser.add_argument("--allow-waiver", default=None, help="Waiver policy YAML path")
+    parser.add_argument(
+        "--physics-profile",
+        default=None,
+        help=(
+            "Source-bound AAN dynamic-physics profile JSON. Required for "
+            "Scenario Forge dynamic admission."
+        ),
+    )
     parser.add_argument("--gates", default="static", help="Comma-separated gates, e.g. static,runtime")
     parser.add_argument("--evidence-out", default=None, help="Manifest output path")
     parser.add_argument(
@@ -59,6 +67,21 @@ def add_normalize_asset_parser(subparsers: argparse._SubParsersAction) -> None:
         action="append",
         default=[],
         help="Baseline-log prim scope; defaults to the package role scope and may repeat.",
+    )
+    parser.add_argument(
+        "--runtime-physx-log",
+        default=None,
+        help="Optional PhysX log from a consumer-instantiated runtime for the scoped warning gate.",
+    )
+    parser.add_argument(
+        "--runtime-scope-binding",
+        action="append",
+        default=[],
+        metavar="PACKAGE_SCOPE=RUNTIME_SCOPE",
+        help=(
+            "Exact package-to-instantiated runtime scope binding; may repeat. "
+            "Non-identity mappings require --runtime-physx-log."
+        ),
     )
     parser.add_argument(
         "--expected-runtime-version",
@@ -90,15 +113,35 @@ def request_from_args(args: argparse.Namespace) -> NormalizeAssetRequest:
         asset_scope_prims=list(args.asset_scope_prim or []),
         material_policy=str(args.material_policy),
         allow_waiver=Path(args.allow_waiver) if args.allow_waiver else None,
+        physics_profile=Path(args.physics_profile) if args.physics_profile else None,
         gates=parse_gates(str(args.gates) if args.gates else None),
         evidence_out=Path(args.evidence_out) if args.evidence_out else None,
         runtime_python=Path(args.runtime_python) if args.runtime_python else None,
         warning_baseline_log=Path(args.warning_baseline_log) if args.warning_baseline_log else None,
         warning_baseline_scope_prims=list(args.warning_baseline_scope_prim or []),
+        runtime_physx_log=Path(args.runtime_physx_log) if args.runtime_physx_log else None,
+        runtime_scope_bindings=_runtime_scope_bindings(args.runtime_scope_binding or []),
         expected_runtime_version=str(args.expected_runtime_version),
         runtime_timeout_seconds=int(args.runtime_timeout_seconds),
         dry_run=bool(args.dry_run),
     )
+
+
+def _runtime_scope_bindings(raw_bindings: list[str]) -> list[dict[str, str]]:
+    """Keep CLI syntax compact while deferring path validation to AAN gates."""
+    bindings: list[dict[str, str]] = []
+    for raw in raw_bindings:
+        package_scope, separator, runtime_scope = str(raw).partition("=")
+        if not separator:
+            bindings.append({"package_scope": package_scope, "runtime_scope": ""})
+            continue
+        bindings.append(
+            {
+                "package_scope": package_scope.strip(),
+                "runtime_scope": runtime_scope.strip(),
+            }
+        )
+    return bindings
 
 
 def run_from_args(args: argparse.Namespace) -> int:

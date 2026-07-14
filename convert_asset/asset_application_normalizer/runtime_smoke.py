@@ -100,6 +100,7 @@ def build_runtime_smoke(
     material_view_dir = evidence_dir / "material_views"
     stdout_path = evidence_dir / "stdout.log"
     stderr_path = evidence_dir / "stderr.log"
+    instantiated_physx_log_path = evidence_dir / "instantiated_physx.log"
     if not layout.root_usd.is_file():
         report = {
             "status": "blocked",
@@ -132,6 +133,7 @@ def build_runtime_smoke(
         material_view_dir=material_view_dir,
         stdout_path=stdout_path,
         stderr_path=stderr_path,
+        instantiated_physx_log_path=instantiated_physx_log_path,
         warning_diff_path=evidence_dir / "warning_diff.json",
     )
     argv = [
@@ -162,7 +164,11 @@ def build_runtime_smoke(
         "--render-steps",
         "1",
         "--step-frames",
+        "120",
+        "--reset-cycles",
         "2",
+        "--reset-tolerance-m",
+        "0.001",
         "--expected-runtime-version",
         request.expected_runtime_version,
         "--process-exit-policy",
@@ -194,6 +200,8 @@ def build_runtime_smoke(
         "report_path": _package_relative(layout.root, report_path),
         "render_path": _package_relative(layout.root, render_path),
         "material_view_dir": _package_relative(layout.root, material_view_dir),
+        "runtime_physx_log": str(request.runtime_physx_log) if request.runtime_physx_log else None,
+        "runtime_scope_bindings": list(request.runtime_scope_bindings),
     }
 
     try:
@@ -246,28 +254,66 @@ def build_runtime_smoke(
                 "status": "blocked",
                 "reason": "runtime worker report did not bind to this invocation",
             }
-    warning_gate = _build_runtime_physx_warning_gate(
+    package_direct_warning_gate = _build_runtime_physx_warning_gate(
         stdout_path,
         stderr_path,
         request.effective_asset_scope_prims,
     )
+    candidate_warning_events = package_direct_warning_gate["events"]
+    candidate_scope_bindings: list[dict[str, str]] | None = None
+    if request.runtime_physx_log is not None:
+        shutil.copy2(request.runtime_physx_log, instantiated_physx_log_path)
+        instantiated_warning_gate = _build_physx_warning_gate_from_logs(
+            [(instantiated_physx_log_path, "instantiated_runtime")],
+            request.effective_asset_scope_prims,
+            runtime_scope_bindings=request.runtime_scope_bindings,
+        )
+        warning_gate = _combine_physx_warning_gates(
+            package_direct_warning_gate,
+            instantiated_warning_gate,
+        )
+        candidate_warning_events = instantiated_warning_gate["events"]
+        candidate_scope_bindings = request.runtime_scope_bindings
+        _, normalized_bindings = validate_runtime_scope_bindings(
+            request.effective_asset_scope_prims,
+            request.runtime_scope_bindings,
+        )
+        report["scope_map"] = {
+            "source_scope_prims": request.effective_asset_scope_prims,
+            "package_scope_prims": request.effective_asset_scope_prims,
+            "runtime_scope_prims": [
+                binding["runtime_scope"] for binding in normalized_bindings
+            ],
+            "bindings": normalized_bindings,
+            "mapping_kind": "declared_one_to_one",
+            "relative_suffix": True,
+            "instantiated_physx_log": _package_relative(layout.root, instantiated_physx_log_path),
+        }
+    else:
+        warning_gate = package_direct_warning_gate
+        _, identity_bindings = validate_runtime_scope_bindings(
+            request.effective_asset_scope_prims,
+            None,
+        )
+        report["scope_map"] = {
+            "source_scope_prims": request.effective_asset_scope_prims,
+            "package_scope_prims": request.effective_asset_scope_prims,
+            "runtime_scope_prims": request.effective_asset_scope_prims,
+            "bindings": identity_bindings,
+            "mapping_kind": "package_direct_identity",
+            "relative_suffix": True,
+        }
     report["physics_warning_gate"] = warning_gate
-    report["scope_map"] = {
-        "source_scope_prims": request.effective_asset_scope_prims,
-        "package_scope_prims": request.effective_asset_scope_prims,
-        "runtime_scope_prims": request.effective_asset_scope_prims,
-        "mapping_kind": "package_direct_identity",
-        "relative_suffix": True,
-    }
     if request.warning_baseline_log is not None:
         diff = build_physx_warning_diff(
             parse_physx_warning_events(
                 request.warning_baseline_log.read_text(encoding="utf-8", errors="replace"),
                 stream="baseline",
             ),
-            warning_gate["events"],
+            candidate_warning_events,
             baseline_scopes=request.warning_baseline_scope_prims or request.effective_asset_scope_prims,
             candidate_scopes=request.effective_asset_scope_prims,
+            candidate_runtime_scope_bindings=candidate_scope_bindings,
         )
         diff["baseline_log"] = str(request.warning_baseline_log)
         diff["baseline_sha256"] = _sha256_file(request.warning_baseline_log)
@@ -294,10 +340,18 @@ def _clear_runtime_evidence_artifacts(
     material_view_dir: Path,
     stdout_path: Path,
     stderr_path: Path,
+    instantiated_physx_log_path: Path,
     warning_diff_path: Path,
 ) -> None:
     """Remove prior worker evidence so an exit-zero process cannot reuse it."""
-    for path in (report_path, render_path, stdout_path, stderr_path, warning_diff_path):
+    for path in (
+        report_path,
+        render_path,
+        stdout_path,
+        stderr_path,
+        instantiated_physx_log_path,
+        warning_diff_path,
+    ):
         try:
             path.unlink()
         except FileNotFoundError:
@@ -487,18 +541,32 @@ def parse_physx_warning_events(text: str, *, stream: str) -> list[dict[str, Any]
 def evaluate_physx_warning_scope(
     events: list[dict[str, Any]],
     scope_prims: list[str],
+    *,
+    runtime_scope_bindings: list[dict[str, str]] | None = None,
 ) -> dict[str, Any]:
-    """Fail closed for scoped or unattributed mass/inertia warnings."""
+    """Fail closed for scoped or unattributed mass/inertia warnings.
+
+    ``scope_prims`` names canonical package scopes.  A consuming scenario may
+    instantiate that package below a different parent, so callers can provide
+    a complete one-to-one package->runtime map.  Matching is segment-aware:
+    ``DryingBox_03`` never captures ``DryingBox_030``.
+    """
     scope_validation = validate_scope_prim_paths(scope_prims)
+    binding_validation, bindings = validate_runtime_scope_bindings(
+        scope_prims,
+        runtime_scope_bindings,
+    )
     scoped = []
     out_of_scope = []
     unattributed = []
     counters = {name: 0 for name in PHYSX_WARNING_PATTERNS}
-    if scope_validation["status"] != "pass":
+    if scope_validation["status"] != "pass" or binding_validation["status"] != "pass":
         return {
             "status": "blocked",
             "scope_prims": scope_prims,
             "scope_validation": scope_validation,
+            "runtime_scope_bindings": bindings,
+            "binding_validation": binding_validation,
             "events": events,
             "scoped_events": [],
             "out_of_scope_events": [],
@@ -509,16 +577,16 @@ def evaluate_physx_warning_scope(
                 "unattributed_event_count": len(events),
                 "by_category": {},
             },
-            "parser_version": "aan06.physx_scope.v2",
+            "parser_version": "aan06.physx_scope.v3",
         }
     for event in events:
         path = event.get("prim_path")
         if not isinstance(path, str) or not path.startswith("/"):
             unattributed.append(event)
             continue
-        matches = _scope_relative_matches(path, scope_prims)
+        matches = _runtime_scope_relative_matches(path, bindings)
         if len(matches) == 1:
-            scoped.append(event)
+            scoped.append({**event, "canonical_package_relative_prim": matches[0]})
             for category in event.get("categories", []):
                 if category in counters:
                     counters[category] += 1
@@ -531,6 +599,8 @@ def evaluate_physx_warning_scope(
         "status": status,
         "scope_prims": scope_prims,
         "scope_validation": scope_validation,
+        "runtime_scope_bindings": bindings,
+        "binding_validation": binding_validation,
         "events": events,
         "scoped_events": scoped,
         "out_of_scope_events": out_of_scope,
@@ -541,8 +611,76 @@ def evaluate_physx_warning_scope(
             "unattributed_event_count": len(unattributed),
             "by_category": {name: count for name, count in counters.items() if count},
         },
-        "parser_version": "aan06.physx_scope.v2",
+        "parser_version": "aan06.physx_scope.v3",
     }
+
+
+def validate_runtime_scope_bindings(
+    package_scopes: list[str],
+    raw_bindings: list[dict[str, str]] | None,
+) -> tuple[dict[str, Any], list[dict[str, str]]]:
+    """Validate a total, one-to-one package/runtime scope correspondence."""
+    canonical = [scope.rstrip("/") or "/" for scope in package_scopes]
+    if not raw_bindings:
+        bindings = [
+            {"package_scope": scope, "runtime_scope": scope}
+            for scope in canonical
+        ]
+        return (
+            {
+                "status": "pass",
+                "mapping_kind": "identity",
+                "errors": [],
+            },
+            bindings,
+        )
+    bindings: list[dict[str, str]] = []
+    errors: list[str] = []
+    for index, raw in enumerate(raw_bindings):
+        package_scope = raw.get("package_scope") if isinstance(raw, dict) else None
+        runtime_scope = raw.get("runtime_scope") if isinstance(raw, dict) else None
+        if not isinstance(package_scope, str) or not isinstance(runtime_scope, str):
+            errors.append(f"binding {index} must contain string package_scope and runtime_scope")
+            continue
+        bindings.append(
+            {
+                "package_scope": package_scope.rstrip("/") or "/",
+                "runtime_scope": runtime_scope.rstrip("/") or "/",
+            }
+        )
+    mapped_packages = [binding["package_scope"] for binding in bindings]
+    runtime_scopes = [binding["runtime_scope"] for binding in bindings]
+    if set(mapped_packages) != set(canonical) or len(mapped_packages) != len(canonical):
+        errors.append("bindings must cover each package scope exactly once")
+    if len(set(mapped_packages)) != len(mapped_packages):
+        errors.append("package scopes must not be duplicated in bindings")
+    runtime_validation = validate_scope_prim_paths(runtime_scopes)
+    if runtime_validation["status"] != "pass":
+        errors.extend(f"runtime scope: {error}" for error in runtime_validation["errors"])
+    # Canonical indices must follow the package request, not arbitrary JSON
+    # binding order, so baseline/candidate warning diffs are stable.
+    by_package = {binding["package_scope"]: binding for binding in bindings}
+    ordered = [by_package[scope] for scope in canonical if scope in by_package]
+    return (
+        {
+            "status": "pass" if not errors else "blocked",
+            "mapping_kind": "declared_one_to_one",
+            "errors": errors,
+            "runtime_scope_validation": runtime_validation,
+        },
+        ordered,
+    )
+
+
+def _runtime_scope_relative_matches(path: str, bindings: list[dict[str, str]]) -> list[str]:
+    matches: list[str] = []
+    for index, binding in enumerate(bindings):
+        scope = binding["runtime_scope"]
+        if path == scope:
+            matches.append(f"scope_{index}")
+        elif path.startswith(scope.rstrip("/") + "/"):
+            matches.append(f"scope_{index}" + path[len(scope) :])
+    return matches
 
 
 def build_physx_warning_diff(
@@ -551,12 +689,21 @@ def build_physx_warning_diff(
     *,
     baseline_scopes: list[str],
     candidate_scopes: list[str],
+    candidate_runtime_scope_bindings: list[dict[str, str]] | None = None,
 ) -> dict[str, Any]:
     """Compare normalized {scope-relative prim, category} counters, not timestamps."""
     baseline_validation = validate_scope_prim_paths(baseline_scopes)
     candidate_validation = validate_scope_prim_paths(candidate_scopes)
+    candidate_binding_validation, candidate_bindings = validate_runtime_scope_bindings(
+        candidate_scopes,
+        candidate_runtime_scope_bindings,
+    )
     baseline = _canonical_warning_counter(baseline_events, baseline_scopes)
-    candidate = _canonical_warning_counter(candidate_events, candidate_scopes)
+    candidate = _canonical_warning_counter(
+        candidate_events,
+        candidate_scopes,
+        runtime_scope_bindings=candidate_bindings,
+    )
     keys = sorted(set(baseline) | set(candidate))
     rows = []
     for key in keys:
@@ -576,6 +723,7 @@ def build_physx_warning_diff(
         "status": "pass"
         if baseline_validation["status"] == "pass"
         and candidate_validation["status"] == "pass"
+        and candidate_binding_validation["status"] == "pass"
         and not candidate
         else "blocked",
         "baseline_scope_prims": baseline_scopes,
@@ -583,6 +731,7 @@ def build_physx_warning_diff(
         "scope_validation": {
             "baseline": baseline_validation,
             "candidate": candidate_validation,
+            "candidate_runtime_binding": candidate_binding_validation,
         },
         "comparison_basis": "canonical_scope_relative_prim_and_category",
         "rows": rows,
@@ -595,15 +744,22 @@ def build_physx_warning_diff(
     }
 
 
-def _canonical_warning_counter(events: list[dict[str, Any]], scopes: list[str]) -> dict[tuple[str, str], int]:
+def _canonical_warning_counter(
+    events: list[dict[str, Any]],
+    scopes: list[str],
+    *,
+    runtime_scope_bindings: list[dict[str, str]] | None = None,
+) -> dict[tuple[str, str], int]:
     counter: dict[tuple[str, str], int] = {}
+    _, bindings = validate_runtime_scope_bindings(scopes, runtime_scope_bindings)
     for event in events:
         path = event.get("prim_path")
         if not isinstance(path, str):
             continue
-        relative = _scope_relative_path(path, scopes)
-        if relative is None:
+        matches = _runtime_scope_relative_matches(path, bindings)
+        if len(matches) != 1:
             continue
+        relative = matches[0]
         for category in event.get("categories", []):
             key = (relative, str(category))
             counter[key] = counter.get(key, 0) + 1
@@ -635,19 +791,60 @@ def _build_runtime_physx_warning_gate(
     stderr_path: Path,
     scope_prims: list[str],
 ) -> dict[str, Any]:
+    return _build_physx_warning_gate_from_logs(
+        [(stdout_path, "stdout"), (stderr_path, "stderr")],
+        scope_prims,
+    )
+
+
+def _build_physx_warning_gate_from_logs(
+    log_paths: list[tuple[Path, str]],
+    scope_prims: list[str],
+    *,
+    runtime_scope_bindings: list[dict[str, str]] | None = None,
+) -> dict[str, Any]:
     events = []
-    for path, stream in ((stdout_path, "stdout"), (stderr_path, "stderr")):
+    log_hashes: dict[str, str | None] = {}
+    for path, stream in log_paths:
         try:
             text = path.read_text(encoding="utf-8", errors="replace")
         except OSError:
             text = ""
         events.extend(parse_physx_warning_events(text, stream=stream))
-    result = evaluate_physx_warning_scope(events, scope_prims)
-    result["log_hashes"] = {
-        "stdout": _sha256_file(stdout_path) if stdout_path.exists() else None,
-        "stderr": _sha256_file(stderr_path) if stderr_path.exists() else None,
-    }
+        log_hashes[stream] = _sha256_file(path) if path.exists() else None
+    result = evaluate_physx_warning_scope(
+        events,
+        scope_prims,
+        runtime_scope_bindings=runtime_scope_bindings,
+    )
+    result["log_hashes"] = log_hashes
     return result
+
+
+def _combine_physx_warning_gates(
+    package_direct_gate: dict[str, Any],
+    instantiated_runtime_gate: dict[str, Any],
+) -> dict[str, Any]:
+    """Require both package-direct and consumer-instantiated warning gates."""
+    direct_summary = package_direct_gate.get("summary", {})
+    instantiated_summary = instantiated_runtime_gate.get("summary", {})
+    return {
+        "status": (
+            "pass"
+            if package_direct_gate.get("status") == "pass"
+            and instantiated_runtime_gate.get("status") == "pass"
+            else "blocked"
+        ),
+        "package_direct_gate": package_direct_gate,
+        "instantiated_runtime_gate": instantiated_runtime_gate,
+        "summary": {
+            "package_direct": direct_summary,
+            "instantiated_runtime": instantiated_summary,
+        },
+        "scope_prims": package_direct_gate.get("scope_prims", []),
+        "runtime_scope_bindings": instantiated_runtime_gate.get("runtime_scope_bindings", []),
+        "parser_version": "aan06.physx_scope.v3",
+    }
 
 
 def _worker_report(
@@ -697,6 +894,12 @@ def _worker_report(
         report["cold_load"] = {
             "status": "blocked",
             "reason": "invalid runtime asset scope: " + "; ".join(scope_validation["errors"]),
+        }
+        return report
+    if not math.isfinite(float(args.reset_tolerance_m)) or float(args.reset_tolerance_m) <= 0.0:
+        report["cold_load"] = {
+            "status": "blocked",
+            "reason": "reset tolerance must be finite and positive",
         }
         return report
 
@@ -793,7 +996,24 @@ def _worker_report(
             "default_prim": _default_prim_path(stage),
         }
 
-        world = _init_world()
+        stage_units_in_meters = float(UsdGeom.GetStageMetersPerUnit(stage))
+        if not math.isfinite(stage_units_in_meters) or stage_units_in_meters <= 0.0:
+            report["cold_load"] = {
+                "status": "blocked",
+                "reason": "stage metersPerUnit must be finite and positive",
+            }
+            return report
+        world = _init_world(stage_units_in_meters=stage_units_in_meters)
+        report["physics_context"] = {
+            "stage_units_in_meters": stage_units_in_meters,
+            "physics_dt_seconds": 0.01,
+            "rendering_dt_seconds": 0.01,
+            "step_frames": int(args.step_frames),
+            "reset_cycles": int(args.reset_cycles),
+            "reset_tolerance_m": float(args.reset_tolerance_m),
+            "scope_rigid_bodies": _scoped_rigid_body_paths(stage, asset_scope_prims),
+            "joint_topology": _scoped_joint_topology(stage, asset_scope_prims),
+        }
         _setup_environment(stage)
         target_prim = _target_prim(stage, asset_scope_prims)
         bbox, bbox_source = _compute_bbox(target_prim)
@@ -816,12 +1036,17 @@ def _worker_report(
         )
         _set_camera_look_at(camera, center, distance=distance, elevation=35.0, azimuth=45.0)
         initial_transforms = _world_transforms(stage, asset_scope_prims)
-        finite_initial = _transforms_finite(initial_transforms)
+        initial_rigid_transforms = _world_transforms(
+            stage,
+            report["physics_context"]["scope_rigid_bodies"],
+        )
+        finite_initial = _transforms_finite(initial_transforms) and _transforms_finite(initial_rigid_transforms)
         report["initial_state"] = {
             "status": "pass" if finite_initial else "blocked",
             "scope_prims": asset_scope_prims,
             "capture_point": "before_warmup_and_render",
             "finite_transforms": finite_initial,
+            "rigid_body_transforms": initial_rigid_transforms,
         }
         if not finite_initial:
             return report
@@ -883,41 +1108,83 @@ def _worker_report(
         )
 
         before_step = _world_transforms(stage, asset_scope_prims)
+        before_step_rigid = _world_transforms(
+            stage,
+            report["physics_context"]["scope_rigid_bodies"],
+        )
         for _ in range(max(1, int(args.step_frames))):
             world.step(render=False)
         after = _world_transforms(stage, asset_scope_prims)
-        finite_step = _transforms_finite(after)
+        after_rigid = _world_transforms(
+            stage,
+            report["physics_context"]["scope_rigid_bodies"],
+        )
+        finite_step = _transforms_finite(after) and _transforms_finite(after_rigid)
         report["physics_step"] = {
             "status": "pass" if finite_step else "blocked",
             "frames": int(args.step_frames),
             "finite_transforms": finite_step,
             "comparison": "pre_step",
             "max_abs_delta": _max_abs_delta(before_step, after),
+            "rigid_body_transforms": after_rigid,
+            "rigid_body_max_abs_delta": _max_abs_delta(before_step_rigid, after_rigid),
         }
         if not finite_step:
             return report
 
-        try:
-            world.reset()
-            simulation_app.update()
-        except Exception as exc:
-            report["reset"] = {
-                "status": "blocked",
-                "reason": f"world.reset failed: {exc}",
+        reset_cycles = []
+        for cycle_index in range(max(1, int(args.reset_cycles))):
+            try:
+                world.reset()
+                simulation_app.update()
+            except Exception as exc:
+                report["reset"] = {
+                    "status": "blocked",
+                    "reason": f"world.reset failed at cycle {cycle_index + 1}: {exc}",
+                    "cycles": reset_cycles,
+                }
+                return report
+            reset = _world_transforms(stage, asset_scope_prims)
+            reset_rigid = _world_transforms(
+                stage,
+                report["physics_context"]["scope_rigid_bodies"],
+            )
+            reset_gate = _build_reset_gate(
+                initial_transforms,
+                reset,
+                pre_step=before_step,
+                tolerance_stage_units=float(args.reset_tolerance_m) / stage_units_in_meters,
+            )
+            rigid_reset_gate = _build_reset_gate(
+                initial_rigid_transforms,
+                reset_rigid,
+                pre_step=before_step_rigid,
+                tolerance_stage_units=float(args.reset_tolerance_m) / stage_units_in_meters,
+            )
+            cycle = {
+                "cycle": cycle_index + 1,
+                "scope": reset_gate,
+                "rigid_bodies": rigid_reset_gate,
+                "rigid_body_transforms": reset_rigid,
+                "status": (
+                    "pass"
+                    if reset_gate["status"] == "pass" and rigid_reset_gate["status"] == "pass"
+                    else "blocked"
+                ),
             }
-            return report
-        reset = _world_transforms(stage, asset_scope_prims)
-        reset_gate = _build_reset_gate(
-            initial_transforms,
-            reset,
-            pre_step=before_step,
-        )
+            reset_cycles.append(cycle)
+            if cycle["status"] != "pass":
+                report["reset"] = {
+                    "status": "blocked",
+                    "cycles": reset_cycles,
+                    "initial_capture_point": "before_warmup_and_render",
+                }
+                return report
         report["reset"] = {
-            **reset_gate,
+            "status": "pass",
+            "cycles": reset_cycles,
             "initial_capture_point": "before_warmup_and_render",
         }
-        if reset_gate["status"] != "pass":
-            return report
 
         report["status"] = "pass"
         return report
@@ -1183,6 +1450,76 @@ def _world_transforms(stage: Any, prim_paths: list[str]) -> dict[str, list[list[
     return transforms
 
 
+def _scoped_rigid_body_paths(stage: Any, scopes: list[str]) -> list[str]:
+    """Return every active rigid body in the package scope, not just its root."""
+    paths: list[str] = []
+    try:
+        prims = list(stage.Traverse())
+    except Exception:
+        return paths
+    for prim in prims:
+        path = prim.GetPath().pathString
+        if not _path_in_scope(path, scopes):
+            continue
+        try:
+            schemas = {str(item) for item in prim.GetAppliedSchemas()}
+        except Exception:
+            schemas = set()
+        if "PhysicsRigidBodyAPI" not in schemas:
+            continue
+        enabled = prim.GetAttribute("physics:rigidBodyEnabled")
+        try:
+            if enabled and enabled.Get() is False:
+                continue
+        except Exception:
+            pass
+        paths.append(path)
+    return sorted(paths)
+
+
+def _scoped_joint_topology(stage: Any, scopes: list[str]) -> list[dict[str, Any]]:
+    """Record the authored joint contract alongside dynamic state snapshots."""
+    joints: list[dict[str, Any]] = []
+    try:
+        prims = list(stage.Traverse())
+    except Exception:
+        return joints
+    for prim in prims:
+        path = prim.GetPath().pathString
+        if not _path_in_scope(path, scopes):
+            continue
+        type_name = str(prim.GetTypeName())
+        if not type_name.startswith("Physics") or not type_name.endswith("Joint"):
+            continue
+        def targets(name: str) -> list[str]:
+            relationship = prim.GetRelationship(name)
+            try:
+                return [target.pathString for target in relationship.GetTargets()] if relationship else []
+            except Exception:
+                return []
+        def value(name: str) -> Any:
+            attribute = prim.GetAttribute(name)
+            try:
+                result = attribute.Get() if attribute else None
+                if result is None or isinstance(result, (str, int, float, bool)):
+                    return result
+                return str(result)
+            except Exception:
+                return None
+        joints.append(
+            {
+                "prim_path": path,
+                "type_name": type_name,
+                "body0": targets("physics:body0"),
+                "body1": targets("physics:body1"),
+                "axis": value("physics:axis"),
+                "lower_limit": value("physics:lowerLimit"),
+                "upper_limit": value("physics:upperLimit"),
+            }
+        )
+    return joints
+
+
 def _matrix_to_lists(matrix: Any) -> list[list[float]]:
     rows = []
     for row_idx in range(4):
@@ -1221,11 +1558,12 @@ def _build_reset_gate(
     reset: dict[str, list[list[float]] | None],
     *,
     pre_step: dict[str, list[list[float]] | None] | None = None,
+    tolerance_stage_units: float = 1.0e-5,
 ) -> dict[str, Any]:
     """Evaluate reset against the state from before warmup or render frames."""
     finite_reset = _transforms_finite(reset)
     reset_delta = _max_abs_delta(initial, reset)
-    restored = reset_delta is not None and reset_delta <= 1.0e-5
+    restored = reset_delta is not None and reset_delta <= float(tolerance_stage_units)
     return {
         "status": "pass" if finite_reset and restored else "blocked",
         "finite_transforms": finite_reset,
@@ -1233,6 +1571,7 @@ def _build_reset_gate(
         "max_abs_delta_from_pre_step": (
             _max_abs_delta(pre_step, reset) if pre_step is not None else None
         ),
+        "tolerance_stage_units": float(tolerance_stage_units),
         "restored_to_initial": restored,
     }
 
@@ -1349,6 +1688,13 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--warmup-steps", type=int, default=8)
     parser.add_argument("--render-steps", type=int, default=2)
     parser.add_argument("--step-frames", type=int, default=4)
+    parser.add_argument("--reset-cycles", type=int, default=2)
+    parser.add_argument(
+        "--reset-tolerance-m",
+        type=float,
+        default=0.001,
+        help="Maximum post-reset transform delta in metres (default: 1 mm).",
+    )
     parser.add_argument("--renderer", default="RayTracedLighting")
     parser.add_argument("--min-non-background-ratio", type=float, default=0.001)
     parser.add_argument("--expected-runtime-version", default="4.1")
