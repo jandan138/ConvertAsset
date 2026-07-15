@@ -45,6 +45,11 @@ class TargetPackageLayout:
         return self.root / "interaction" / "profile.json"
 
     @property
+    def grasp_cross_section_report_json(self) -> Path:
+        """Package-bound static geometry evidence for a declared grasp band."""
+        return self.root / "interaction" / "grasp_cross_section.json"
+
+    @property
     def evidence_manifest(self) -> Path:
         return self.root / "evidence" / "manifest.json"
 

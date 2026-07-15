@@ -1,0 +1,47 @@
+{
+  "status": "pass",
+  "baseline_scope_prims": [
+    "/World/scientific_workbench_bimanual_pour/obj_obj_graduated_cylinder_03"
+  ],
+  "candidate_scope_prims": [
+    "/World/graduated_cylinder_03"
+  ],
+  "scope_validation": {
+    "baseline": {
+      "status": "pass",
+      "scope_prims": [
+        "/World/scientific_workbench_bimanual_pour/obj_obj_graduated_cylinder_03"
+      ],
+      "errors": []
+    },
+    "candidate": {
+      "status": "pass",
+      "scope_prims": [
+        "/World/graduated_cylinder_03"
+      ],
+      "errors": []
+    },
+    "candidate_runtime_binding": {
+      "status": "pass",
+      "mapping_kind": "declared_one_to_one",
+      "errors": [],
+      "runtime_scope_validation": {
+        "status": "pass",
+        "scope_prims": [
+          "/World/scientific_workbench_bimanual_pour/obj_obj_graduated_cylinder_03"
+        ],
+        "errors": []
+      }
+    }
+  },
+  "comparison_basis": "canonical_scope_relative_prim_and_category",
+  "rows": [],
+  "summary": {
+    "baseline_scoped_count": 0,
+    "candidate_scoped_count": 0,
+    "removed_count": 0,
+    "introduced_count": 0
+  },
+  "baseline_log": "/cpfs/user/zhuzihou/dev/scenario-forge/outputs/scientific_workbench_bimanual_pour/adapters/ebench/genmanip/evidence/initial_scene/runtime.log",
+  "baseline_sha256": "43db4020a11d31afa9f654bd324f80768ef8099bbef696bae37662fe0413eecc"
+}

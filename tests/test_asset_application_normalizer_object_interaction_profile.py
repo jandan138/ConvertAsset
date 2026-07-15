@@ -691,6 +691,41 @@ def test_interaction_profile_blocks_when_required_named_frame_is_missing(
     assert manifest["physics_closure"]["status"] == "not_run"
 
 
+def test_interaction_profile_rejects_misaligned_grasp_cross_section_declaration(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "source.usda"
+    source.write_text(_source_usda(), encoding="utf-8")
+    interaction = _interaction_profile(source, tmp_path / "interaction.json")
+    payload = json.loads(interaction.read_text(encoding="utf-8"))
+    payload["grasp_cross_section"] = {
+        "required": True,
+        "frame": "grasp",
+        "axis_body_local": [0.0, 0.0, 1.0],
+        "sample_offsets_body_local_usd": [-0.01, 0.0, 0.01],
+        "source_visual_mesh_relative_paths": ["Body"],
+        "closing_axis_body_local": [0.0, 0.0, 1.0],
+        "expected_visual_width_m": 0.05,
+        "visual_width_tolerance_m": 0.001,
+        "collision_visual_width_tolerance_m": 0.002,
+        "max_gripper_opening_m": 0.08,
+        "minimum_opening_clearance_m": 0.001,
+        "claim_boundary": "Fixture declaration must not bypass vector validation.",
+    }
+    interaction.write_text(json.dumps(payload), encoding="utf-8")
+    physics = _physics_profile(source, tmp_path / "physics.json")
+    evidence_out = tmp_path / "manifest.json"
+
+    result = normalize_asset(
+        _request(source, tmp_path / "package", evidence_out, physics, interaction)
+    )
+
+    assert result.return_code == 5
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    errors = manifest["interaction_contract"]["profile_admission"]["errors"]
+    assert any("closing_axis_body_local must be perpendicular" in error for error in errors)
+
+
 def test_interaction_profile_is_source_bound_and_dynamic_only(tmp_path: Path) -> None:
     source = tmp_path / "source.usda"
     source.write_text(_source_usda(), encoding="utf-8")

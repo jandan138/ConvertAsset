@@ -366,6 +366,136 @@ def test_physx_warning_scope_rejects_empty_or_overlapping_scope_mappings() -> No
     assert "disjoint" in overlapping["scope_validation"]["errors"][0]
 
 
+def test_all_scoped_physx_warning_gate_blocks_non_mass_warning_without_claiming_global_cleanliness() -> None:
+    from convert_asset.asset_application_normalizer.runtime_smoke import (
+        evaluate_all_physx_warning_scope,
+        parse_all_physx_warning_events,
+    )
+
+    events = parse_all_physx_warning_events(
+        "\n".join(
+            [
+                "[Warning] [omni.physx.plugin] Contact report overflow at /World/Room/graduated_cylinder_03/__aan_collision_proxy/wall_00.",
+                "[Warning] [omni.physx.plugin] Contact report overflow at /World/Room/graduated_cylinder_030/__aan_collision_proxy/wall_00.",
+                "[Warning] [omni.physx.plugin] A global diagnostic without a prim path.",
+            ]
+        ),
+        stream="stdout",
+    )
+    gate = evaluate_all_physx_warning_scope(
+        events,
+        ["/World/graduated_cylinder_03"],
+        runtime_scope_bindings=[
+            {
+                "package_scope": "/World/graduated_cylinder_03",
+                "runtime_scope": "/World/Room/graduated_cylinder_03",
+            }
+        ],
+    )
+
+    assert gate["status"] == "blocked"
+    assert gate["summary"]["scoped_event_count"] == 1
+    assert gate["summary"]["out_of_scope_event_count"] == 1
+    assert gate["summary"]["unattributed_event_count"] == 1
+    assert gate["scoped_events"][0]["canonical_package_relative_prim"] == (
+        "scope_0/__aan_collision_proxy/wall_00"
+    )
+    assert "unattributed" in gate["claim_boundary"]
+
+
+def test_all_physx_warning_diff_uses_runtime_scope_mapping() -> None:
+    """The broad warning diff must not attribute robot-only warnings to the asset."""
+    from convert_asset.asset_application_normalizer.runtime_smoke import (
+        build_physx_warning_diff,
+        parse_all_physx_warning_events,
+    )
+
+    baseline = parse_all_physx_warning_events(
+        "[Warning] [omni.physx.plugin] Contact report overflow at "
+        "/World/Room/graduated_cylinder_03/__aan_collision_proxy/wall_00.",
+        stream="baseline",
+    )
+    candidate = parse_all_physx_warning_events(
+        "\n".join(
+            [
+                "[Warning] [omni.physx.plugin] Contact report overflow at "
+                "/World/Room/lift2/link1.",
+                "[Warning] [omni.physx.plugin] Contact report overflow at "
+                "/World/Room/graduated_cylinder_03/__aan_collision_proxy/wall_00.",
+            ]
+        ),
+        stream="candidate",
+    )
+
+    diff = build_physx_warning_diff(
+        baseline,
+        candidate,
+        baseline_scopes=["/World/Room/graduated_cylinder_03"],
+        candidate_scopes=["/World/graduated_cylinder_03"],
+        candidate_runtime_scope_bindings=[
+            {
+                "package_scope": "/World/graduated_cylinder_03",
+                "runtime_scope": "/World/Room/graduated_cylinder_03",
+            }
+        ],
+    )
+
+    assert diff["status"] == "blocked"
+    assert diff["summary"] == {
+        "baseline_scoped_count": 1,
+        "candidate_scoped_count": 1,
+        "removed_count": 0,
+        "introduced_count": 0,
+    }
+    assert diff["rows"] == [
+        {
+            "canonical_prim": "scope_0/__aan_collision_proxy/wall_00",
+            "category": "all_physx_warning",
+            "baseline_count": 1,
+            "candidate_count": 1,
+            "removed": 0,
+            "introduced": 0,
+        }
+    ]
+
+
+def test_combined_physx_warning_gate_preserves_consumer_summary_contract() -> None:
+    """An instantiated-log extension must retain Scenario Forge's v1 fields."""
+    from convert_asset.asset_application_normalizer.runtime_smoke import (
+        _combine_physx_warning_gates,
+        evaluate_physx_warning_scope,
+    )
+
+    scope = "/World/graduated_cylinder_03"
+    direct = evaluate_physx_warning_scope([], [scope])
+    instantiated = evaluate_physx_warning_scope(
+        [],
+        [scope],
+        runtime_scope_bindings=[
+            {
+                "package_scope": scope,
+                "runtime_scope": "/World/Room/obj_graduated_cylinder_03",
+            }
+        ],
+    )
+
+    combined = _combine_physx_warning_gates(direct, instantiated)
+
+    assert combined["status"] == "pass"
+    assert combined["scope_prims"] == [scope]
+    assert combined["scope_validation"]["status"] == "pass"
+    assert combined["scope_validation"]["scope_prims"] == [scope]
+    assert combined["binding_validation"]["status"] == "pass"
+    assert combined["summary"] == {
+        "scoped_event_count": 0,
+        "out_of_scope_event_count": 0,
+        "unattributed_event_count": 0,
+        "by_category": {},
+        "package_direct": direct["summary"],
+        "instantiated_runtime": instantiated["summary"],
+    }
+
+
 def test_explicit_runtime_runner_strips_parent_kit_environment(tmp_path: Path) -> None:
     """A 4.1 Python must not inherit a 4.5 Kit bootstrap from its parent."""
     from convert_asset.asset_application_normalizer.runtime_smoke import (

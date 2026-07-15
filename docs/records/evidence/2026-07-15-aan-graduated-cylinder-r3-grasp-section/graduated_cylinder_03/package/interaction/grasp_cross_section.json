@@ -1,0 +1,734 @@
+{
+  "algorithm_id": "aan.grasp_cross_section.v1",
+  "asset_entry_prim": "/World/graduated_cylinder_03",
+  "check_id": "AAN-05G-grasp-cross-section",
+  "claim_boundary": "A passing static grasp-section measurement proves only this source-bound package's visual/collision envelope and nominal opening preflight; it does not prove cooked PhysX contacts, EOS/GenManip finger aperture, grasp, lift, retention, pouring, or real-world parameter parity.",
+  "configuration": {
+    "axis_body_local": [
+      0.0,
+      1.0,
+      0.0
+    ],
+    "claim_boundary": "A passing static grasp-section measurement proves only this source-bound package's visual/collision envelope and nominal opening preflight; it does not prove cooked PhysX contacts, EOS/GenManip finger aperture, grasp, lift, retention, pouring, or real-world parameter parity.",
+    "closing_axis_body_local": [
+      1.0,
+      0.0,
+      0.0
+    ],
+    "collision_visual_width_tolerance_m": 0.002,
+    "expected_visual_width_m": 0.04701,
+    "frame": "grasp",
+    "max_gripper_opening_m": 0.088,
+    "minimum_opening_clearance_m": 0.001,
+    "plane_origin_body_local_usd": [
+      0.0,
+      0.14,
+      0.0
+    ],
+    "required": true,
+    "sample_offsets_body_local_usd": [
+      -0.01,
+      0.0,
+      0.01
+    ],
+    "source_visual_mesh_relative_paths": [
+      "mesh"
+    ],
+    "visual_width_tolerance_m": 0.001
+  },
+  "errors": [],
+  "package": {
+    "active_collision_prims": [
+      "/World/graduated_cylinder_03/__aan_collision_proxy/bottom",
+      "/World/graduated_cylinder_03/__aan_collision_proxy/wall_00",
+      "/World/graduated_cylinder_03/__aan_collision_proxy/wall_01",
+      "/World/graduated_cylinder_03/__aan_collision_proxy/wall_02",
+      "/World/graduated_cylinder_03/__aan_collision_proxy/wall_03",
+      "/World/graduated_cylinder_03/__aan_collision_proxy/wall_04",
+      "/World/graduated_cylinder_03/__aan_collision_proxy/wall_05",
+      "/World/graduated_cylinder_03/__aan_collision_proxy/wall_06",
+      "/World/graduated_cylinder_03/__aan_collision_proxy/wall_07",
+      "/World/graduated_cylinder_03/__aan_collision_proxy/wall_08",
+      "/World/graduated_cylinder_03/__aan_collision_proxy/wall_09",
+      "/World/graduated_cylinder_03/__aan_collision_proxy/wall_10",
+      "/World/graduated_cylinder_03/__aan_collision_proxy/wall_11"
+    ],
+    "disabled_collision_prims": [
+      "/World/graduated_cylinder_03/mesh"
+    ],
+    "path": "docs/records/evidence/2026-07-15-aan-graduated-cylinder-r3-grasp-section/graduated_cylinder_03/package/asset.usd",
+    "root_usd_sha256": "0eec5db987352912f60c97fa9cffcdc4574d89c81b6290610c19e114cb3add17",
+    "stage_metrics": {
+      "meters_per_unit": 1.0,
+      "up_axis": "Z"
+    },
+    "visual_meshes": [
+      {
+        "point_count": 684,
+        "prim_path": "/World/graduated_cylinder_03/mesh",
+        "topology": "triangles",
+        "triangle_count": 1148
+      }
+    ]
+  },
+  "samples": [
+    {
+      "checks": {
+        "collision_is_complete_and_valid": true,
+        "collision_matches_visual": true,
+        "collision_within_max_gripper_opening": true,
+        "package_visual_is_valid": true,
+        "package_visual_matches_source": true,
+        "source_visual_is_valid": true,
+        "source_visual_matches_expected": true,
+        "support_clear_of_grasp_plane": true
+      },
+      "collision": {
+        "body_local_x_span_m": 0.04701000018998869,
+        "body_local_z_span_m": 0.047010000573349475,
+        "closing_axis_width_m": 0.04701000018998869,
+        "errors": [],
+        "intersection_point_count": 48,
+        "max_in_plane_width_m": 0.04832577115668664,
+        "orthogonal_axis_width_m": 0.047010000573349475,
+        "primitive_kind": "collision_cube",
+        "records": [
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 0,
+            "intersects_plane": false,
+            "minimum_normal_gap_m": 0.12399999997392297,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/bottom",
+            "purpose": [
+              "containment",
+              "support"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_00",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_01",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_02",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_03",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_04",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_05",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_06",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_07",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_08",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_09",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_10",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_11",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          }
+        ],
+        "status": "pass",
+        "support_intersecting_paths": [],
+        "support_min_normal_gap_m": 0.12399999997392297
+      },
+      "errors": [],
+      "offset_body_local_usd": -0.01,
+      "package_visual": {
+        "body_local_x_span_m": 0.04700991549944078,
+        "body_local_z_span_m": 0.047009921602956806,
+        "closing_axis_width_m": 0.04700991549944078,
+        "errors": [],
+        "intersection_point_count": 80,
+        "max_in_plane_width_m": 0.047009932155196686,
+        "orthogonal_axis_width_m": 0.047009921602956806,
+        "primitive_kind": "visual_mesh",
+        "records": [
+          {
+            "coplanar_triangle_count": 0,
+            "intersected_triangle_count": 80,
+            "prim_path": "/World/graduated_cylinder_03/mesh",
+            "triangle_count": 1148
+          }
+        ],
+        "status": "pass"
+      },
+      "source_visual": {
+        "body_local_x_span_m": 0.04700991549944078,
+        "body_local_z_span_m": 0.047009921602956806,
+        "closing_axis_width_m": 0.04700991549944078,
+        "errors": [],
+        "intersection_point_count": 80,
+        "max_in_plane_width_m": 0.047009932155196686,
+        "orthogonal_axis_width_m": 0.047009921602956806,
+        "primitive_kind": "visual_mesh",
+        "records": [
+          {
+            "coplanar_triangle_count": 0,
+            "intersected_triangle_count": 80,
+            "prim_path": "/World/graduated_cylinder_03/mesh",
+            "triangle_count": 1148
+          }
+        ],
+        "status": "pass"
+      },
+      "status": "pass"
+    },
+    {
+      "checks": {
+        "collision_is_complete_and_valid": true,
+        "collision_matches_visual": true,
+        "collision_within_max_gripper_opening": true,
+        "package_visual_is_valid": true,
+        "package_visual_matches_source": true,
+        "source_visual_is_valid": true,
+        "source_visual_matches_expected": true,
+        "support_clear_of_grasp_plane": true
+      },
+      "collision": {
+        "body_local_x_span_m": 0.04701000018998869,
+        "body_local_z_span_m": 0.047010000573349475,
+        "closing_axis_width_m": 0.04701000018998869,
+        "errors": [],
+        "intersection_point_count": 48,
+        "max_in_plane_width_m": 0.04832577115668664,
+        "orthogonal_axis_width_m": 0.047010000573349475,
+        "primitive_kind": "collision_cube",
+        "records": [
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 0,
+            "intersects_plane": false,
+            "minimum_normal_gap_m": 0.13399999997392298,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/bottom",
+            "purpose": [
+              "containment",
+              "support"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_00",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_01",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_02",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_03",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_04",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_05",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_06",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_07",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_08",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_09",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_10",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_11",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          }
+        ],
+        "status": "pass",
+        "support_intersecting_paths": [],
+        "support_min_normal_gap_m": 0.13399999997392298
+      },
+      "errors": [],
+      "offset_body_local_usd": 0.0,
+      "package_visual": {
+        "body_local_x_span_m": 0.04700991549944078,
+        "body_local_z_span_m": 0.047009921602956806,
+        "closing_axis_width_m": 0.04700991549944078,
+        "errors": [],
+        "intersection_point_count": 80,
+        "max_in_plane_width_m": 0.047009932155196686,
+        "orthogonal_axis_width_m": 0.047009921602956806,
+        "primitive_kind": "visual_mesh",
+        "records": [
+          {
+            "coplanar_triangle_count": 0,
+            "intersected_triangle_count": 80,
+            "prim_path": "/World/graduated_cylinder_03/mesh",
+            "triangle_count": 1148
+          }
+        ],
+        "status": "pass"
+      },
+      "source_visual": {
+        "body_local_x_span_m": 0.04700991549944078,
+        "body_local_z_span_m": 0.047009921602956806,
+        "closing_axis_width_m": 0.04700991549944078,
+        "errors": [],
+        "intersection_point_count": 80,
+        "max_in_plane_width_m": 0.047009932155196686,
+        "orthogonal_axis_width_m": 0.047009921602956806,
+        "primitive_kind": "visual_mesh",
+        "records": [
+          {
+            "coplanar_triangle_count": 0,
+            "intersected_triangle_count": 80,
+            "prim_path": "/World/graduated_cylinder_03/mesh",
+            "triangle_count": 1148
+          }
+        ],
+        "status": "pass"
+      },
+      "status": "pass"
+    },
+    {
+      "checks": {
+        "collision_is_complete_and_valid": true,
+        "collision_matches_visual": true,
+        "collision_within_max_gripper_opening": true,
+        "package_visual_is_valid": true,
+        "package_visual_matches_source": true,
+        "source_visual_is_valid": true,
+        "source_visual_matches_expected": true,
+        "support_clear_of_grasp_plane": true
+      },
+      "collision": {
+        "body_local_x_span_m": 0.04701000018998869,
+        "body_local_z_span_m": 0.047010000573349475,
+        "closing_axis_width_m": 0.04701000018998869,
+        "errors": [],
+        "intersection_point_count": 48,
+        "max_in_plane_width_m": 0.04832577115668664,
+        "orthogonal_axis_width_m": 0.047010000573349475,
+        "primitive_kind": "collision_cube",
+        "records": [
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 0,
+            "intersects_plane": false,
+            "minimum_normal_gap_m": 0.143999999973923,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/bottom",
+            "purpose": [
+              "containment",
+              "support"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_00",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_01",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_02",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_03",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_04",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_05",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_06",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_07",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_08",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_09",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_10",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          },
+          {
+            "coplanar_edge_count": 0,
+            "intersection_point_count": 4,
+            "intersects_plane": true,
+            "minimum_normal_gap_m": 0.0,
+            "prim_path": "/World/graduated_cylinder_03/__aan_collision_proxy/wall_11",
+            "purpose": [
+              "containment",
+              "gripper"
+            ]
+          }
+        ],
+        "status": "pass",
+        "support_intersecting_paths": [],
+        "support_min_normal_gap_m": 0.143999999973923
+      },
+      "errors": [],
+      "offset_body_local_usd": 0.01,
+      "package_visual": {
+        "body_local_x_span_m": 0.04700991549944078,
+        "body_local_z_span_m": 0.047009921602956806,
+        "closing_axis_width_m": 0.04700991549944078,
+        "errors": [],
+        "intersection_point_count": 80,
+        "max_in_plane_width_m": 0.047009932155196686,
+        "orthogonal_axis_width_m": 0.047009921602956806,
+        "primitive_kind": "visual_mesh",
+        "records": [
+          {
+            "coplanar_triangle_count": 0,
+            "intersected_triangle_count": 80,
+            "prim_path": "/World/graduated_cylinder_03/mesh",
+            "triangle_count": 1148
+          }
+        ],
+        "status": "pass"
+      },
+      "source_visual": {
+        "body_local_x_span_m": 0.04700991549944078,
+        "body_local_z_span_m": 0.047009921602956806,
+        "closing_axis_width_m": 0.04700991549944078,
+        "errors": [],
+        "intersection_point_count": 80,
+        "max_in_plane_width_m": 0.047009932155196686,
+        "orthogonal_axis_width_m": 0.047009921602956806,
+        "primitive_kind": "visual_mesh",
+        "records": [
+          {
+            "coplanar_triangle_count": 0,
+            "intersected_triangle_count": 80,
+            "prim_path": "/World/graduated_cylinder_03/mesh",
+            "triangle_count": 1148
+          }
+        ],
+        "status": "pass"
+      },
+      "status": "pass"
+    }
+  ],
+  "schema_version": "aan.grasp_cross_section_report.v1",
+  "source": {
+    "path": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd",
+    "sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+    "stage_metrics": {
+      "meters_per_unit": 1.0,
+      "up_axis": "Z"
+    },
+    "visual_meshes": [
+      {
+        "point_count": 684,
+        "prim_path": "/World/graduated_cylinder_03/mesh",
+        "topology": "triangles",
+        "triangle_count": 1148
+      }
+    ]
+  },
+  "status": "pass",
+  "summary": {
+    "error_count": 0,
+    "sample_blocked_count": 0,
+    "sample_count": 3,
+    "support_colliders_intersect_grasp_band": [],
+    "unsupported_active_collision_prims": []
+  }
+}

@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 from typing import Any
 
+from .grasp_cross_section import CHECK_ID, evaluate_grasp_cross_section
 from .model import NormalizeAssetRequest
 from .object_interaction_profile import load_and_resolve_interaction_profile
 from .package_layout import TargetPackageLayout
@@ -29,6 +30,10 @@ class InteractionAuthoringResult:
     interaction_contract: dict[str, Any]
     normalization_actions: list[dict[str, Any]]
     blocked_reasons: list[dict[str, Any]]
+    # Kept outside interaction_contract.v1: Scenario Forge validates that
+    # consumer ABI with exact fields, while this is ConvertAsset admission
+    # evidence carried by the manifest's extensible physics closure.
+    grasp_cross_section: dict[str, Any] | None = None
 
 
 def build_not_requested_interaction_authoring() -> InteractionAuthoringResult:
@@ -100,6 +105,7 @@ def apply_object_interaction_profile(
     resolved = resolution.resolved
     actions: list[dict[str, Any]] = []
     disabled_records: list[dict[str, Any]] = []
+    grasp_cross_section: dict[str, Any] | None = None
     try:
         overlay = Sdf.Layer.FindOrOpen(str(layout.interaction_overlay_usd))
         if overlay is None:
@@ -329,12 +335,47 @@ def apply_object_interaction_profile(
                     f"collider approximation readback mismatch at {collider['prim_path']}: "
                     f"{collider['observed_approximation']!r}"
                 )
+        if resolved.get("grasp_cross_section") is not None:
+            measurement = evaluate_grasp_cross_section(
+                source_usd=request.source_usd,
+                package_usd=layout.root_usd,
+                asset_entry_prim=root_path,
+                grasp_cross_section=resolved["grasp_cross_section"],
+                named_frames=named_frames,
+                declared_colliders=collider_records,
+            )
+            _write_json(layout.grasp_cross_section_report_json, measurement)
+            grasp_cross_section = {
+                **measurement,
+                "report_path": "interaction/grasp_cross_section.json",
+                "report_sha256": _sha256_file(layout.grasp_cross_section_report_json),
+            }
+            actions.append(
+                {
+                    "action": "measure_grasp_cross_section",
+                    "check_id": CHECK_ID,
+                    "status": measurement["status"],
+                    "report_path": grasp_cross_section["report_path"],
+                    "report_sha256": grasp_cross_section["report_sha256"],
+                }
+            )
+            if measurement["status"] != "pass":
+                raise _GraspCrossSectionBlocked(measurement)
+    except _GraspCrossSectionBlocked as exc:
+        return _authoring_blocked(
+            "AAN grasp-section collision/visual admission did not pass.",
+            "; ".join(_cross_section_error_lines(exc.report)),
+            profile_admission=resolution.profile_admission,
+            actions=actions,
+            grasp_cross_section=grasp_cross_section,
+        )
     except Exception as exc:
         return _authoring_blocked(
             "AAN could not author the admitted object interaction profile into its owned overlay.",
             str(exc),
             profile_admission=resolution.profile_admission,
             actions=actions,
+            grasp_cross_section=grasp_cross_section,
         )
 
     contract: dict[str, Any] = {
@@ -376,6 +417,7 @@ def apply_object_interaction_profile(
         interaction_contract=finalize_interaction_contract(layout, contract),
         normalization_actions=actions,
         blocked_reasons=[],
+        grasp_cross_section=grasp_cross_section,
     )
 
 
@@ -533,6 +575,7 @@ def _authoring_blocked(
     *,
     profile_admission: dict[str, Any] | None = None,
     actions: list[dict[str, Any]] | None = None,
+    grasp_cross_section: dict[str, Any] | None = None,
 ) -> InteractionAuthoringResult:
     blocker = {
         "blocker_id": "aan05i_block_interaction_authoring",
@@ -554,6 +597,32 @@ def _authoring_blocked(
         interaction_contract=contract,
         normalization_actions=actions or [],
         blocked_reasons=[blocker],
+        grasp_cross_section=grasp_cross_section,
+    )
+
+
+class _GraspCrossSectionBlocked(RuntimeError):
+    def __init__(self, report: dict[str, Any]) -> None:
+        super().__init__("grasp cross-section static admission blocked")
+        self.report = report
+
+
+def _cross_section_error_lines(report: dict[str, Any]) -> list[str]:
+    errors = [str(item) for item in report.get("errors", [])]
+    for sample in report.get("samples", []):
+        if not isinstance(sample, dict):
+            continue
+        offset = sample.get("offset_body_local_usd")
+        errors.extend(
+            f"offset {offset}: {item}" for item in sample.get("errors", [])
+        )
+    return errors or ["no structured grasp-section error was recorded"]
+
+
+def _write_json(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
 
 

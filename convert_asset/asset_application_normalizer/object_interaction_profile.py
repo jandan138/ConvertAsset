@@ -15,6 +15,7 @@ import math
 from pathlib import Path
 from typing import Any
 
+from .grasp_cross_section import resolve_grasp_cross_section_config
 from .stage_metrics import METRIC_FIELDS, metrics_match, read_stage_metrics
 
 
@@ -160,6 +161,12 @@ def load_and_resolve_interaction_profile(
         profile.get("named_frames"), asset_entry_prim, package_stage, errors
     )
     open_top = _resolve_open_top(profile.get("open_top"), frames, errors)
+    grasp_cross_section = resolve_grasp_cross_section_config(
+        profile.get("grasp_cross_section"),
+        named_frames=frames,
+        open_top=open_top,
+        errors=errors,
+    )
     runtime_gates = _resolve_runtime_gates(profile.get("runtime_gates"), errors)
 
     if errors:
@@ -173,6 +180,7 @@ def load_and_resolve_interaction_profile(
             "source_descendant_mass_prims": descendant_mass_prims,
             "resolved_collider_count": len(colliders),
             "resolved_named_frames": sorted(frames),
+            "grasp_cross_section_required": grasp_cross_section is not None,
         }
     )
     return ObjectInteractionProfileResolution(
@@ -188,6 +196,7 @@ def load_and_resolve_interaction_profile(
             "colliders": colliders,
             "named_frames": frames,
             "open_top": open_top,
+            "grasp_cross_section": grasp_cross_section,
             "runtime_gates": runtime_gates,
         },
         blockers=[],

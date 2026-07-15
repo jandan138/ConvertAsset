@@ -1,0 +1,16 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    metersPerUnit = 1
+    kilogramsPerUnit = 1
+    upAxis = "Z"
+    timeCodesPerSecond = 60
+    framesPerSecond = 24
+    startTimeCode = 0
+    endTimeCode = 1000000
+    subLayers = [
+        @overlays/physics_profile.usda@,
+        @overlays/interaction.usda@,
+        @deps/usd/scoped_source.usda@,
+    ]
+)

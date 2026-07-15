@@ -184,6 +184,7 @@ A ready package must contain:
     physics_profile.usda
   interaction/
     profile.json       # exact admitted source-bound bytes
+    grasp_cross_section.json # optional AAN-05G source/package visual-vs-collision evidence
   physics/
     profile.json
   task/                  # required for EBench; not applicable to visual_static Scenario Forge
@@ -230,6 +231,7 @@ Required top-level fields for consumers:
 | `material_closure` | Source material preservation, MDL/texture mirror, fallback/waiver/block state |
 | `material_runtime_closure` | AAN-11 MDL transitive dependency, binding scope, runtime material compiler, and view evidence when the profile requires material runtime closure |
 | `physics_closure` | Rigid body, collision, mass, inertia, and provenance records |
+| `physics_closure.grasp_cross_section` | Optional AAN-05G source-bound visual/collision section report path, hash, configuration, and result; this deliberately does not extend `interaction_contract.v1` |
 | `articulation_closure` | Articulation root, joint type/axis/limit/DOF records |
 | `source_physics_audit` | Raw source-scoped diagnostic; a blocked source audit must not be relabeled as a family pass |
 | `output_role_admission` | Role-specific package result, including zero active physics residue for `visual_static` |
@@ -237,7 +239,8 @@ Required top-level fields for consumers:
 | `interaction_contract` | Optional dynamic-object unique rigid root, collider/open-top declaration, named frames, runtime-gate states, and runtime-tree closure |
 | `stage_gates` | Per-stage pass/block/not-run evidence |
 | `runtime_evidence` | Cold load, render readback, physics step, reset smoke |
-| `runtime_evidence.physics_warning_gate`, `warning_diff` | Scoped PhysX warning categories, scope map, and baseline/candidate comparison |
+| `runtime_evidence.physics_warning_gate`, `warning_diff` | Legacy strict scoped mass/inertia warning categories, scope map, and baseline/candidate comparison |
+| `runtime_evidence.scoped_physx_warning_gate`, `all_scoped_warning_diff` | Every parsed `[omni.physx]` warning evaluated against the declared package/runtime scope, plus its broad warning diff; not a claim that unrelated runtime warnings are absent |
 | `benchmark_contract` | Task file and evaluator handoff status |
 | `waivers`, `blocked_reasons` | Risk and blocker records |
 | `claims_allowed`, `claims_forbidden` | Reporting boundary |
@@ -312,6 +315,9 @@ Static admission requires:
 6. `opening`, `grasp`, and `support` frames are all authoritative;
 7. each `closure.artifacts[]` file hash and `closure.runtime_tree_sha256` is
    recomputed from the package before use.
+8. when `AAN-05G-grasp-cross-section` is present, it is `pass`, its report path
+   is package-relative and hash-matches, every declared grasp-band sample passed,
+   and the consumer preserves the report's geometry-only claim boundary.
 
 Runtime-ready admission additionally requires open-top, root-motion,
 stable-support, and gripper-collision gates to be `pass` with retained evidence.
@@ -323,7 +329,8 @@ Before accepting those four passes, the consumer must validate the evidence
 binding rather than trusting the copied status strings:
 
 1. `runtime_evidence.status`, cold load, render readback, physics step, reset,
-   `runtime_report_binding.status`, and the scoped PhysX warning gate all pass;
+   `runtime_report_binding.status`, the legacy mass/inertia warning gate, and
+   `scoped_physx_warning_gate` all pass;
 2. every promoted interaction gate names the expected probe and the same
    package-relative `report_path` and lowercase SHA-256;
 3. the path is not absolute, contains no `..` escape, resolves inside the
@@ -349,6 +356,56 @@ recompute the final digest from the promoted contract.
 For a dynamic vessel, bilateral gripper-proxy collision is still a proxy-level
 claim. It does not establish robot-finger contact, force closure, holding,
 retention, dual-arm reachability, pouring success, or benchmark score.
+
+### Graduated-cylinder r3 reference delivery
+
+The retained `graduated_cylinder_03` r3 delivery is
+[`2026-07-15-aan-graduated-cylinder-r3-grasp-section/graduated_cylinder_03`](../records/evidence/2026-07-15-aan-graduated-cylinder-r3-grasp-section/graduated_cylinder_03/).
+It is a dynamic, source-bound package for `/World/graduated_cylinder_03`, not a
+generic permission to modify LabUtopia or a claim for sibling assets. The source
+SHA-256 before and after normalization is
+`b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2`.
+
+Consumers receive only the new package and byte-identical sidecar/package
+manifests. Scenario Forge must point its target-vessel arguments at the delivery;
+it must not create local collider, mass, inertia, or warning-suppression logic.
+The r3 package contains a 117.1587 mm low support base plus twelve narrow,
+open-top wall colliders. At the three declared grasp samples, the retained
+cross-section report measures source/package visual max width 47.0099 mm,
+collision closing width 47.0100 mm, and collision max in-plane width 48.3258 mm;
+the 88 mm number is a nominal profile opening preflight, not a measured robot
+finger aperture.
+
+Use the existing Scenario Forge generator with the replacement pair, for example:
+
+```bash
+R3_DELIVERY="$CONVERT_ASSET_ROOT/docs/records/evidence/2026-07-15-aan-graduated-cylinder-r3-grasp-section/graduated_cylinder_03"
+VESSEL_DELIVERY="$CONVERT_ASSET_ROOT/docs/records/evidence/2026-07-14-aan-labutopia-vessel-interaction-profile"
+
+"$TEST_ENV/bin/python" scripts/generate_scientific_workbench_bimanual_pour.py \
+  --source-usd "$LABUTOPIA_ROOT/outputs/usd_asset_packages/lab_001_localized_20260707/lab_001.usd" \
+  --source-uri "LabUtopia:lab_001_localized_20260707" \
+  --convert-asset-package "$DRYINGBOX_DELIVERY/package" \
+  --convert-asset-manifest "$DRYINGBOX_DELIVERY/manifest.json" \
+  --source-vessel-package "$VESSEL_DELIVERY/conical_bottle03/package" \
+  --source-vessel-manifest "$VESSEL_DELIVERY/conical_bottle03/manifest.json" \
+  --target-vessel-package "$R3_DELIVERY/package" \
+  --target-vessel-manifest "$R3_DELIVERY/manifest.json" \
+  --out outputs/aan_graduated_cylinder_03_r3_consumer \
+  --isaac-python "$ISAAC_ENV/bin/python" \
+  --genmanip-root "$GENMANIP_SOURCE"
+```
+
+The retained Scenario Forge run passes its post-reset, pre-action render only.
+Its runtime log has zero warnings scoped to
+`/World/scientific_workbench_bimanual_pour/obj_obj_graduated_cylinder_03`; robot
+warnings are retained as out-of-scope/unattributed evidence. This is not a
+global warning-free assertion, a genuine EOS/GenManip gripper close, a lift/hold
+result, or a pouring result. A later action-level report must retain contact,
+close command, lift and hold observations, final object state, and the same
+scoped warning log before any such claim is admitted. Independent render QA is
+`WARN`: it confirms visual presence/placement, but transparent low contrast and
+unreadable graduations forbid material-parity or readable-scale claims.
 
 The contract payload digest is SHA-256 over canonical UTF-8 JSON (`sort_keys`,
 compact separators, ASCII escaping) of exactly schema version, entry prim,

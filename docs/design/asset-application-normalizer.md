@@ -17,6 +17,10 @@
 > 2026-07-14 vessel interaction runtime qualification: cooked aperture, stable
 > support, root-motion parity, and bilateral proxy-collision gates are implemented;
 > see `docs/records/2026-07-14-aan-labutopia-vessel-runtime-qualification.md`.
+> 2026-07-15 graduated-cylinder r3: a source-bound grasp-section admission and
+> broad scoped-PhysX-warning gate supersede the r2 full-height proxy for
+> `graduated_cylinder_03`; see
+> `docs/records/2026-07-15-aan-graduated-cylinder-r3-grasp-section-collision.md`.
 
 ## 一句话定位
 
@@ -1138,6 +1142,50 @@ USD hash binding 和 scoped PhysX warning gate。对这类 object，conventional
 cylinder 的 source SDF 则因 cooked virtual cap 被 runtime probe 阻断，最终 profile 改用
 source mesh disable + package-owned bottom/12-wall open-top compound proxy。失败的 SDF report
 继续作为 iteration evidence 保留，不能被 final pass 覆盖。
+
+#### 2026-07-15 AAN-05G grasp-section admission and graduated-cylinder r3
+
+`graduated_cylinder_03` 的 r2 compound proxy 解决的是另一件事：source mesh 的 SDF 在
+target runtime 中会 cook 出 virtual cap。r2 因而停用 source mesh collider，并使用一个底部
+Cube 和十二块贯穿整件物体高度的 open-top wall Cubes。它并不代表 source visual 太宽：真实
+source 在 grasp frame 的 visual cross-section 约为 47.0099 mm。问题在于 r2 将 55.5 mm
+半径的 wall proxy 一直延伸到 grasp height，使 collision closing width 为 115 mm，最大
+in-plane width 为 118.8486 mm，超过 Lift2 profile 声明的 88 mm nominal opening。
+
+r3 仍在 ConvertAsset-owned interaction overlay 中停用 source mesh collision、保留 source
+visual mesh/material/transform，并保留一个 117.1587 mm 宽的低位底部 support Cube；但将
+十二块无顶盖的 wall Cubes 收到 47 mm 视觉筒身附近。这样不能把宽底座误作抓取截面的
+collider，也不需要在 Scenario Forge 或 EOS/GenManip 写 asset-name-specific patch。r3 的
+geometry 是 profile data，不是 `graduated_cylinder_03` 的 Python special case；新的
+source-bound `grasp_cross_section` profile block 才是通用 admission contract。
+
+`AAN-05G-grasp-cross-section` 的输入声明 grasp frame、body-local section normal、closing
+axis、多个 body-local sample offset、source visual Mesh relative paths、visual expectation/
+tolerance、nominal max opening 和 support-clearance。checker 对 source 和 composed package
+分别以 body-local plane 建立 world-space metre 截面，因而不会被 root rotation、child mesh
+scale 或 stage `metersPerUnit` 混淆。它必须同时验证：
+
+- source visual、package visual 和 collision envelope 都有有效有限的截面；
+- package visual 与 source visual 一致，source visual 与 profile expectation 一致；
+- 所有 active collision 都进入测量；当前精确支持 authored `Cube` proxy，任何 active
+  non-Cube collider fail-closed，不能被遗漏；
+- collision closing/max-in-plane width 与 visual tolerance 和 nominal opening 相容；以及
+- `support` purpose 的 collider 不得穿过任何 grasp-band sample plane。
+
+报告固定写到 `interaction/grasp_cross_section.json`，并带 source/package hash、stage metrics、
+所有 active/disabled collider 路径、每个 sample 的 visual/collision width 和 support gap。它是
+package runtime-tree artifact，manifest 的 extensible `physics_closure.grasp_cross_section`
+保留其 path/hash/result；严格的 `aan.interaction_contract.v1` payload 不新增字段，以维持
+Scenario Forge consumer ABI。静态 pass 只说明该 source-bound package 的几何包络和 nominal
+opening preflight，通过它不能宣称 PhysX finger contact、真实 gripper aperture、close/lift/hold、
+retention、pour 或 real-world dimensional/physical parity。
+
+`AAN-06` 同时保留既有严格的 mass/inertia category gate，并增加
+`scoped_physx_warning_gate`：它解析每一条含 `[omni.physx]` 的 Warning，以完整、一对一的
+package-scope -> runtime-scope mapping 匹配。任一可归属于 output scope 的 warning 都阻断；
+`all_scoped_warning_diff.json` 与 legacy `warning_diff.json` 一起保留 package-direct 和
+consumer-instantiated evidence。out-of-scope 或无法安全归属于该资产的 runtime warning 仍保留
+在报告中，但不得被写成“全场景无 warning”或“该 warning 属于资产”的 claim。
 
 #### Explicit target-runtime root MDL substitution
 

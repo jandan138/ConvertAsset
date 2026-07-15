@@ -1,0 +1,42 @@
+{
+  "schema_version": "aan.physics_profile.v1",
+  "profile_id": "labutopia.lab_001.graduated_cylinder_03.20260707.provisional",
+  "revision": "r1",
+  "source_binding": {
+    "sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+    "stage_metrics": {
+      "meters_per_unit": 1.0,
+      "kilograms_per_unit": 1.0,
+      "up_axis": "Z",
+      "time_codes_per_second": 60.0,
+      "frames_per_second": 24.0
+    }
+  },
+  "evidence": {
+    "parameter_status": "provisional_geometry",
+    "claim_boundary": "The mass bundle is a geometry-based simulation candidate, not a weighing, BOM, CAD inertial-property, or material-density calibration.",
+    "center_of_mass_convention": "asset_entry_prim_body_local_usd",
+    "inertia_convention": "canonical SI kg*m^2",
+    "replacement_contract": "Replace the complete mass_properties bundle in a new source-bound profile revision; do not patch package USD or a consumer."
+  },
+  "scope_rules": [
+    {
+      "scope_path": "/World/graduated_cylinder_03",
+      "body_rules": [
+        {
+          "relative_path": ".",
+          "motion_role": "dynamic",
+          "clear_density": true,
+          "mass_properties": {
+            "mode": "explicit",
+            "quality_tier": "provisional_geometry",
+            "mass_kg": 0.15,
+            "diagonal_inertia_kg_m2": [0.001097, 0.000343, 0.001097],
+            "center_of_mass_body_local": [0.0, 0.136, 0.0],
+            "principal_axes": [1.0, 0.0, 0.0, 0.0]
+          }
+        }
+      ]
+    }
+  ]
+}

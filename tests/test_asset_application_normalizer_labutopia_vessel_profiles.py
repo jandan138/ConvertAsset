@@ -49,7 +49,10 @@ VESSELS = (
         "mass_kg": 0.15,
         "center_of_mass": [0.0, 0.136, 0.0],
         "inertia": [0.001097, 0.000343, 0.001097],
-        "collider_strategy": "open_top_compound",
+        "collider_strategy": "open_top_compound_r3",
+        "interaction_profile_filename": (
+            "labutopia_lab001_graduated_cylinder_03_20260707.r3.interaction.json"
+        ),
     },
 )
 
@@ -75,7 +78,12 @@ def test_real_labutopia_vessel_profiles_compile_static_packages(
         ROOT
         / "profiles"
         / "interaction"
-        / f"labutopia_lab001_{name}_20260707.interaction.json"
+        / str(
+            spec.get(
+                "interaction_profile_filename",
+                f"labutopia_lab001_{name}_20260707.interaction.json",
+            )
+        )
     )
     physics_profile = (
         ROOT
@@ -101,7 +109,7 @@ def test_real_labutopia_vessel_profiles_compile_static_packages(
             }
         ]
     else:
-        assert interaction_payload["revision"] == "r2"
+        assert interaction_payload["revision"] == "r3"
         assert colliders[0] == {
             "relative_path": "mesh",
             "mode": "disable",
@@ -116,7 +124,7 @@ def test_real_labutopia_vessel_profiles_compile_static_packages(
             "size": 1.0,
             "translation_body_local_usd": [0.0, 0.003, 0.0],
             "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0],
-            "scale_body_local_usd": [0.117, 0.006, 0.117],
+            "scale_body_local_usd": [0.1171587, 0.006, 0.1171587],
         }
         assert [item["relative_path"] for item in authored[1:]] == [
             f"__aan_collision_proxy/wall_{index:02d}" for index in range(12)
@@ -127,9 +135,23 @@ def test_real_labutopia_vessel_profiles_compile_static_packages(
             and item["geometry"]["type"] == "Cube"
             and item["geometry"]["size"] == 1.0
             and item["geometry"]["scale_body_local_usd"]
-            == [0.004, 0.2722941904, 0.03]
+            == [0.004, 0.2662941904, 0.0112]
             for item in authored[1:]
         )
+        assert interaction_payload["grasp_cross_section"] == {
+            "required": True,
+            "frame": "grasp",
+            "axis_body_local": [0.0, 1.0, 0.0],
+            "sample_offsets_body_local_usd": [-0.01, 0.0, 0.01],
+            "source_visual_mesh_relative_paths": ["mesh"],
+            "closing_axis_body_local": [1.0, 0.0, 0.0],
+            "expected_visual_width_m": 0.04701,
+            "visual_width_tolerance_m": 0.001,
+            "collision_visual_width_tolerance_m": 0.002,
+            "max_gripper_opening_m": 0.088,
+            "minimum_opening_clearance_m": 0.001,
+            "claim_boundary": interaction_payload["grasp_cross_section"]["claim_boundary"],
+        }
     assert interaction_payload["open_top"]["axis_body_local"] == [0.0, 1.0, 0.0]
     assert interaction_payload["named_frames"]["opening"][
         "translation_body_local_usd"
@@ -214,6 +236,33 @@ def test_real_labutopia_vessel_profiles_compile_static_packages(
     assert (out_dir / "physics" / "profile.json").is_file()
     assert _sha256(SOURCE) == SOURCE_SHA256
 
+    if name == "graduated_cylinder_03":
+        section = manifest["physics_closure"]["grasp_cross_section"]
+        assert section["status"] == "pass"
+        assert section["report_path"] == "interaction/grasp_cross_section.json"
+        assert _sha256(out_dir / section["report_path"]) == section["report_sha256"]
+        assert section["summary"] == {
+            "support_colliders_intersect_grasp_band": [],
+            "unsupported_active_collision_prims": [],
+            "sample_count": 3,
+            "sample_blocked_count": 0,
+            "error_count": 0,
+        }
+        for sample in section["samples"]:
+            assert sample["source_visual"]["max_in_plane_width_m"] == pytest.approx(
+                0.04700993, abs=1.0e-6
+            )
+            assert sample["collision"]["closing_axis_width_m"] == pytest.approx(
+                0.04701, abs=1.0e-6
+            )
+            assert sample["collision"]["max_in_plane_width_m"] < 0.049
+            assert sample["checks"]["collision_within_max_gripper_opening"] is True
+        assert next(
+            gate
+            for gate in manifest["stage_gates"]
+            if gate["check_id"] == "AAN-05G-grasp-cross-section"
+        )["status"] == "pass"
+
     Sdf = pytest.importorskip("pxr.Sdf")
     Usd = pytest.importorskip("pxr.Usd")
     UsdShade = pytest.importorskip("pxr.UsdShade")
@@ -262,3 +311,77 @@ def test_real_labutopia_vessel_profiles_compile_static_packages(
         assert source_asset
         assert Path(source_asset.resolvedPath).resolve() == package_mdl.resolve()
         assert _sha256(Path(source_asset.resolvedPath)) == ISAAC41_OMNIGLASS_SHA256
+
+
+@pytest.mark.skipif(
+    os.environ.get("AAN_RUN_REAL_LABUTOPIA_VESSELS") != "1",
+    reason="set AAN_RUN_REAL_LABUTOPIA_VESSELS=1 in the Isaac/PXR environment",
+)
+def test_real_graduated_cylinder_r2_proxy_is_rejected_by_the_generic_grasp_section_gate(
+    tmp_path: Path,
+) -> None:
+    """Exercise the real r2 profile geometry, not a synthetic wide-wall stand-in."""
+
+    assert SOURCE.is_file()
+    assert _sha256(SOURCE) == SOURCE_SHA256
+    r2_profile = ROOT / "profiles" / "interaction" / (
+        "labutopia_lab001_graduated_cylinder_03_20260707.interaction.json"
+    )
+    r3_profile = ROOT / "profiles" / "interaction" / (
+        "labutopia_lab001_graduated_cylinder_03_20260707.r3.interaction.json"
+    )
+    physics_profile = ROOT / "profiles" / "physics" / (
+        "labutopia_lab001_graduated_cylinder_03_20260707.provisional.json"
+    )
+    r2_payload = json.loads(r2_profile.read_text(encoding="utf-8"))
+    r2_payload["revision"] = "r2-grasp-section-regression"
+    r2_payload["grasp_cross_section"] = json.loads(
+        r3_profile.read_text(encoding="utf-8")
+    )["grasp_cross_section"]
+    injected_profile = tmp_path / "r2-with-grasp-section.json"
+    injected_profile.write_text(json.dumps(r2_payload, indent=2), encoding="utf-8")
+    out_dir = tmp_path / "r2_package"
+    manifest_path = tmp_path / "r2_manifest.json"
+
+    result = normalize_asset(
+        NormalizeAssetRequest(
+            source_usd=SOURCE,
+            out_dir=out_dir,
+            asset_id="LabUtopia_graduated_cylinder_03_r2_regression",
+            asset_class="rigid",
+            asset_role="dynamic",
+            source_runtime="isaac51",
+            target_runtime="isaac41",
+            target_benchmark="scenario-forge",
+            task_id="ScenarioForge.graduated_cylinder_03.r2_regression",
+            required_prims=["/World/graduated_cylinder_03"],
+            asset_scope_prims=["/World/graduated_cylinder_03"],
+            gates=["static"],
+            evidence_out=manifest_path,
+            physics_profile=physics_profile,
+            interaction_profile=injected_profile,
+            runtime_python=RUNTIME_PYTHON,
+        )
+    )
+
+    assert result.return_code == 5
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    section = manifest["physics_closure"]["grasp_cross_section"]
+    assert section["status"] == "blocked"
+    assert section["summary"]["support_colliders_intersect_grasp_band"] == []
+    for sample in section["samples"]:
+        assert sample["source_visual"]["max_in_plane_width_m"] == pytest.approx(
+            0.04700993, abs=1.0e-6
+        )
+        assert sample["collision"]["closing_axis_width_m"] == pytest.approx(
+            0.115, abs=1.0e-6
+        )
+        assert sample["collision"]["max_in_plane_width_m"] > 0.118
+        assert sample["checks"]["collision_matches_visual"] is False
+        assert sample["checks"]["collision_within_max_gripper_opening"] is False
+    assert next(
+        gate
+        for gate in manifest["stage_gates"]
+        if gate["check_id"] == "AAN-05G-grasp-cross-section"
+    )["status"] == "blocked"
+    assert _sha256(SOURCE) == SOURCE_SHA256

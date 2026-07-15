@@ -1,0 +1,234 @@
+{
+  "schema_version": "aan.object_interaction_profile.v1",
+  "profile_id": "labutopia.lab_001.graduated_cylinder_03.20260707.interaction",
+  "revision": "r3",
+  "source_binding": {
+    "sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+    "stage_metrics": {
+      "meters_per_unit": 1.0,
+      "kilograms_per_unit": 1.0,
+      "up_axis": "Z",
+      "time_codes_per_second": 60.0,
+      "frames_per_second": 24.0
+    }
+  },
+  "asset_entry_prim": "/World/graduated_cylinder_03",
+  "rigid_root": {
+    "motion_role": "dynamic",
+    "disable_descendant_rigid_bodies": true,
+    "remove_descendant_mass_api": true
+  },
+  "colliders": [
+    {
+      "relative_path": "mesh",
+      "mode": "disable",
+      "purpose": []
+    },
+    {
+      "relative_path": "__aan_collision_proxy/bottom",
+      "mode": "author",
+      "purpose": ["support", "containment"],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "translation_body_local_usd": [0.0, 0.003, 0.0],
+        "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0],
+        "scale_body_local_usd": [0.1171587, 0.006, 0.1171587]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_00",
+      "mode": "author",
+      "purpose": ["gripper", "containment"],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "translation_body_local_usd": [0.021505, 0.1391470952, 0.0],
+        "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0],
+        "scale_body_local_usd": [0.004, 0.2662941904, 0.0112]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_01",
+      "mode": "author",
+      "purpose": ["gripper", "containment"],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "translation_body_local_usd": [0.018623876308, 0.1391470952, 0.0107525],
+        "rotation_body_local_wxyz": [0.9659258262890683, 0.0, -0.25881904510252074, 0.0],
+        "scale_body_local_usd": [0.004, 0.2662941904, 0.0112]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_02",
+      "mode": "author",
+      "purpose": ["gripper", "containment"],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "translation_body_local_usd": [0.0107525, 0.1391470952, 0.018623876308],
+        "rotation_body_local_wxyz": [0.8660254037844386, 0.0, -0.5, 0.0],
+        "scale_body_local_usd": [0.004, 0.2662941904, 0.0112]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_03",
+      "mode": "author",
+      "purpose": ["gripper", "containment"],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "translation_body_local_usd": [0.0, 0.1391470952, 0.021505],
+        "rotation_body_local_wxyz": [0.7071067811865476, 0.0, -0.7071067811865475, 0.0],
+        "scale_body_local_usd": [0.004, 0.2662941904, 0.0112]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_04",
+      "mode": "author",
+      "purpose": ["gripper", "containment"],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "translation_body_local_usd": [-0.0107525, 0.1391470952, 0.018623876308],
+        "rotation_body_local_wxyz": [0.5, 0.0, -0.8660254037844386, 0.0],
+        "scale_body_local_usd": [0.004, 0.2662941904, 0.0112]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_05",
+      "mode": "author",
+      "purpose": ["gripper", "containment"],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "translation_body_local_usd": [-0.018623876308, 0.1391470952, 0.0107525],
+        "rotation_body_local_wxyz": [0.25881904510252074, 0.0, -0.9659258262890683, 0.0],
+        "scale_body_local_usd": [0.004, 0.2662941904, 0.0112]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_06",
+      "mode": "author",
+      "purpose": ["gripper", "containment"],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "translation_body_local_usd": [-0.021505, 0.1391470952, 0.0],
+        "rotation_body_local_wxyz": [0.0, 0.0, -1.0, 0.0],
+        "scale_body_local_usd": [0.004, 0.2662941904, 0.0112]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_07",
+      "mode": "author",
+      "purpose": ["gripper", "containment"],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "translation_body_local_usd": [-0.018623876308, 0.1391470952, -0.0107525],
+        "rotation_body_local_wxyz": [0.25881904510252074, 0.0, 0.9659258262890683, 0.0],
+        "scale_body_local_usd": [0.004, 0.2662941904, 0.0112]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_08",
+      "mode": "author",
+      "purpose": ["gripper", "containment"],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "translation_body_local_usd": [-0.0107525, 0.1391470952, -0.018623876308],
+        "rotation_body_local_wxyz": [0.5, 0.0, 0.8660254037844386, 0.0],
+        "scale_body_local_usd": [0.004, 0.2662941904, 0.0112]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_09",
+      "mode": "author",
+      "purpose": ["gripper", "containment"],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "translation_body_local_usd": [0.0, 0.1391470952, -0.021505],
+        "rotation_body_local_wxyz": [0.7071067811865476, 0.0, 0.7071067811865475, 0.0],
+        "scale_body_local_usd": [0.004, 0.2662941904, 0.0112]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_10",
+      "mode": "author",
+      "purpose": ["gripper", "containment"],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "translation_body_local_usd": [0.0107525, 0.1391470952, -0.018623876308],
+        "rotation_body_local_wxyz": [0.8660254037844386, 0.0, 0.5, 0.0],
+        "scale_body_local_usd": [0.004, 0.2662941904, 0.0112]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_11",
+      "mode": "author",
+      "purpose": ["gripper", "containment"],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "translation_body_local_usd": [0.018623876308, 0.1391470952, -0.0107525],
+        "rotation_body_local_wxyz": [0.9659258262890683, 0.0, 0.25881904510252074, 0.0],
+        "scale_body_local_usd": [0.004, 0.2662941904, 0.0112]
+      }
+    }
+  ],
+  "open_top": {
+    "required": true,
+    "axis_body_local": [0.0, 1.0, 0.0],
+    "aperture_frame": "opening",
+    "evidence": {
+      "status": "declared",
+      "method": "package_owned_open_top_compound_proxy_geometry_intent",
+      "claim_boundary": "The declared open-top compound proxy requires its separate Isaac 4.1 cooked-collision aperture probe."
+    }
+  },
+  "named_frames": {
+    "opening": {
+      "translation_body_local_usd": [0.0, 0.2722941904, 0.0],
+      "rotation_body_local_wxyz": [0.7071067811865476, -0.7071067811865475, 0.0, 0.0]
+    },
+    "grasp": {
+      "translation_body_local_usd": [0.0, 0.14, 0.0],
+      "rotation_body_local_wxyz": [0.7071067811865476, -0.7071067811865475, 0.0, 0.0]
+    },
+    "support": {
+      "translation_body_local_usd": [0.0, 0.0, 0.0],
+      "rotation_body_local_wxyz": [0.7071067811865476, -0.7071067811865475, 0.0, 0.0]
+    }
+  },
+  "grasp_cross_section": {
+    "required": true,
+    "frame": "grasp",
+    "axis_body_local": [0.0, 1.0, 0.0],
+    "sample_offsets_body_local_usd": [-0.01, 0.0, 0.01],
+    "source_visual_mesh_relative_paths": ["mesh"],
+    "closing_axis_body_local": [1.0, 0.0, 0.0],
+    "expected_visual_width_m": 0.04701,
+    "visual_width_tolerance_m": 0.001,
+    "collision_visual_width_tolerance_m": 0.002,
+    "max_gripper_opening_m": 0.088,
+    "minimum_opening_clearance_m": 0.001,
+    "claim_boundary": "A passing static grasp-section measurement proves only this source-bound package's visual/collision envelope and nominal opening preflight; it does not prove cooked PhysX contacts, EOS/GenManip finger aperture, grasp, lift, retention, pouring, or real-world parameter parity."
+  },
+  "runtime_gates": {
+    "root_motion": {
+      "required": true,
+      "min_translation_m": 0.05
+    },
+    "stable_support": {
+      "required": true
+    },
+    "gripper_collision": {
+      "required": true
+    }
+  }
+}

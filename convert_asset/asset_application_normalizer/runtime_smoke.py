@@ -38,6 +38,9 @@ PHYSX_WARNING_PATTERNS = {
     ),
 }
 PHYSX_PRIM_RE = re.compile(r"\b(?:rigid body|body)\s+at\s+(?P<prim>/[^\s,]+)", re.IGNORECASE)
+PHYSX_ANY_PRIM_RE = re.compile(
+    r"(?P<prim>/[A-Za-z_][A-Za-z0-9_:-]*(?:/[A-Za-z_][A-Za-z0-9_:-]*)*)"
+)
 ANSI_ESCAPE_RE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
 
 # AAN normally runs the static USD work through the repository's default Isaac
@@ -101,6 +104,7 @@ def build_runtime_smoke(
     stdout_path = evidence_dir / "stdout.log"
     stderr_path = evidence_dir / "stderr.log"
     instantiated_physx_log_path = evidence_dir / "instantiated_physx.log"
+    all_warning_diff_path = evidence_dir / "all_scoped_warning_diff.json"
     if not layout.root_usd.is_file():
         report = {
             "status": "blocked",
@@ -135,6 +139,7 @@ def build_runtime_smoke(
         stderr_path=stderr_path,
         instantiated_physx_log_path=instantiated_physx_log_path,
         warning_diff_path=evidence_dir / "warning_diff.json",
+        all_warning_diff_path=all_warning_diff_path,
     )
     argv = [
         str(runner),
@@ -259,7 +264,12 @@ def build_runtime_smoke(
         stderr_path,
         request.effective_asset_scope_prims,
     )
+    package_direct_all_warning_gate = _build_all_physx_warning_gate_from_logs(
+        [(stdout_path, "stdout"), (stderr_path, "stderr")],
+        request.effective_asset_scope_prims,
+    )
     candidate_warning_events = package_direct_warning_gate["events"]
+    candidate_all_warning_events = package_direct_all_warning_gate["events"]
     candidate_scope_bindings: list[dict[str, str]] | None = None
     if request.runtime_physx_log is not None:
         shutil.copy2(request.runtime_physx_log, instantiated_physx_log_path)
@@ -268,11 +278,21 @@ def build_runtime_smoke(
             request.effective_asset_scope_prims,
             runtime_scope_bindings=request.runtime_scope_bindings,
         )
+        instantiated_all_warning_gate = _build_all_physx_warning_gate_from_logs(
+            [(instantiated_physx_log_path, "instantiated_runtime")],
+            request.effective_asset_scope_prims,
+            runtime_scope_bindings=request.runtime_scope_bindings,
+        )
         warning_gate = _combine_physx_warning_gates(
             package_direct_warning_gate,
             instantiated_warning_gate,
         )
+        all_warning_gate = _combine_all_physx_warning_gates(
+            package_direct_all_warning_gate,
+            instantiated_all_warning_gate,
+        )
         candidate_warning_events = instantiated_warning_gate["events"]
+        candidate_all_warning_events = instantiated_all_warning_gate["events"]
         candidate_scope_bindings = request.runtime_scope_bindings
         _, normalized_bindings = validate_runtime_scope_bindings(
             request.effective_asset_scope_prims,
@@ -291,6 +311,7 @@ def build_runtime_smoke(
         }
     else:
         warning_gate = package_direct_warning_gate
+        all_warning_gate = package_direct_all_warning_gate
         _, identity_bindings = validate_runtime_scope_bindings(
             request.effective_asset_scope_prims,
             None,
@@ -304,6 +325,7 @@ def build_runtime_smoke(
             "relative_suffix": True,
         }
     report["physics_warning_gate"] = warning_gate
+    report["scoped_physx_warning_gate"] = all_warning_gate
     if request.warning_baseline_log is not None:
         diff = build_physx_warning_diff(
             parse_physx_warning_events(
@@ -323,11 +345,38 @@ def build_runtime_smoke(
             **diff,
             "path": _package_relative(layout.root, diff_path),
         }
+        all_diff = build_physx_warning_diff(
+            parse_all_physx_warning_events(
+                request.warning_baseline_log.read_text(
+                    encoding="utf-8", errors="replace"
+                ),
+                stream="baseline",
+            ),
+            candidate_all_warning_events,
+            baseline_scopes=(
+                request.warning_baseline_scope_prims
+                or request.effective_asset_scope_prims
+            ),
+            candidate_scopes=request.effective_asset_scope_prims,
+            candidate_runtime_scope_bindings=candidate_scope_bindings,
+        )
+        all_diff["baseline_log"] = str(request.warning_baseline_log)
+        all_diff["baseline_sha256"] = _sha256_file(request.warning_baseline_log)
+        _write_report(all_warning_diff_path, all_diff)
+        report["scoped_physx_warning_diff"] = {
+            **all_diff,
+            "path": _package_relative(layout.root, all_warning_diff_path),
+        }
         if diff["status"] != "pass":
+            report["status"] = "blocked"
+        if all_diff["status"] != "pass":
             report["status"] = "blocked"
     else:
         report["warning_diff"] = {"status": "not_requested"}
+        report["scoped_physx_warning_diff"] = {"status": "not_requested"}
     if warning_gate["status"] != "pass":
+        report["status"] = "blocked"
+    if all_warning_gate["status"] != "pass":
         report["status"] = "blocked"
     _write_report(report_path, report)
     return _runtime_result(layout, report, command_record, exit_code)
@@ -342,6 +391,7 @@ def _clear_runtime_evidence_artifacts(
     stderr_path: Path,
     instantiated_physx_log_path: Path,
     warning_diff_path: Path,
+    all_warning_diff_path: Path,
 ) -> None:
     """Remove prior worker evidence so an exit-zero process cannot reuse it."""
     for path in (
@@ -351,6 +401,7 @@ def _clear_runtime_evidence_artifacts(
         stderr_path,
         instantiated_physx_log_path,
         warning_diff_path,
+        all_warning_diff_path,
     ):
         try:
             path.unlink()
@@ -480,6 +531,17 @@ def _runtime_result(
                     "required_resolution": "Remove the package-scoped physics defect or use a declared visual_static role that strips the scoped physics semantics.",
                 }
             )
+        all_warning_gate = report.get("scoped_physx_warning_gate")
+        if isinstance(all_warning_gate, dict) and all_warning_gate.get("status") == "blocked":
+            blockers.append(
+                {
+                    "blocker_id": "aan06_block_all_scoped_physx_warning",
+                    "severity": "blocking",
+                    "summary": "A scoped PhysX warning outside the mass/inertia family was found in runtime output.",
+                    "warning_summary": all_warning_gate.get("summary", {}),
+                    "required_resolution": "Remove the warning from the package-scoped runtime path, or record it outside the declared asset scope with an auditable scope map.",
+                }
+            )
         summary = "AAN-06 Isaac Sim runtime smoke blocked."
         return_code = 5
         report["status"] = "blocked"
@@ -535,6 +597,44 @@ def parse_physx_warning_events(text: str, *, stream: str) -> list[dict[str, Any]
                 "raw_line": line,
             }
         )
+    return events
+
+
+def parse_all_physx_warning_events(text: str, *, stream: str) -> list[dict[str, Any]]:
+    """Parse every ``[omni.physx]`` warning, not only mass/inertia messages.
+
+    A warning can name zero or multiple USD prims.  Each named prim becomes a
+    stable event so a package/runtime scope map can determine whether the
+    warning belongs to the admitted asset.  Unattributed global warnings are
+    recorded but do not falsely assert that they belong to the package.
+    """
+
+    events: list[dict[str, Any]] = []
+    for line_number, raw_line in enumerate(text.splitlines(), start=1):
+        line = ANSI_ESCAPE_RE.sub("", raw_line)
+        lowered = line.lower()
+        if "warning" not in lowered or "omni.physx" not in lowered:
+            continue
+        paths = sorted(
+            {
+                match.group("prim").rstrip(".,;:")
+                for match in PHYSX_ANY_PRIM_RE.finditer(line)
+            }
+        )
+        for prim_path in paths or [None]:
+            events.append(
+                {
+                    "stream": stream,
+                    "line_number": line_number,
+                    "line_sha256": hashlib.sha256(line.encode("utf-8")).hexdigest(),
+                    "prim_path": prim_path,
+                    "category": "all_physx_warning",
+                    # Keep the generic parser compatible with the existing
+                    # scope-normalized warning-diff counter.
+                    "categories": ["all_physx_warning"],
+                    "raw_line": line,
+                }
+            )
     return events
 
 
@@ -612,6 +712,80 @@ def evaluate_physx_warning_scope(
             "by_category": {name: count for name, count in counters.items() if count},
         },
         "parser_version": "aan06.physx_scope.v3",
+    }
+
+
+def evaluate_all_physx_warning_scope(
+    events: list[dict[str, Any]],
+    scope_prims: list[str],
+    *,
+    runtime_scope_bindings: list[dict[str, str]] | None = None,
+) -> dict[str, Any]:
+    """Require zero *scoped* PhysX warnings while retaining global context.
+
+    This is intentionally distinct from ``evaluate_physx_warning_scope``:
+    the legacy gate remains the strict mass/inertia parser required by existing
+    consumers, while this gate broadens the package-local cleanliness claim.
+    Unattributed global warnings remain evidence, but cannot be called scoped
+    without a prim path and are therefore not silently pinned on the asset.
+    """
+
+    scope_validation = validate_scope_prim_paths(scope_prims)
+    binding_validation, bindings = validate_runtime_scope_bindings(
+        scope_prims,
+        runtime_scope_bindings,
+    )
+    scoped: list[dict[str, Any]] = []
+    out_of_scope: list[dict[str, Any]] = []
+    unattributed: list[dict[str, Any]] = []
+    if scope_validation["status"] != "pass" or binding_validation["status"] != "pass":
+        return {
+            "status": "blocked",
+            "scope_prims": scope_prims,
+            "scope_validation": scope_validation,
+            "runtime_scope_bindings": bindings,
+            "binding_validation": binding_validation,
+            "events": events,
+            "scoped_events": [],
+            "out_of_scope_events": [],
+            "unattributed_events": events,
+            "summary": {
+                "scoped_event_count": 0,
+                "out_of_scope_event_count": 0,
+                "unattributed_event_count": len(events),
+            },
+            "parser_version": "aan06.all_scoped_physx.v1",
+            "claim_boundary": "The scope mapping was invalid, so no scoped PhysX warning-cleanliness claim is available.",
+        }
+    for event in events:
+        path = event.get("prim_path")
+        if not isinstance(path, str) or not path.startswith("/"):
+            unattributed.append(event)
+            continue
+        matches = _runtime_scope_relative_matches(path, bindings)
+        if len(matches) == 1:
+            scoped.append({**event, "canonical_package_relative_prim": matches[0]})
+        elif len(matches) > 1:
+            unattributed.append({**event, "scope_mapping": "ambiguous"})
+        else:
+            out_of_scope.append(event)
+    return {
+        "status": "blocked" if scoped else "pass",
+        "scope_prims": scope_prims,
+        "scope_validation": scope_validation,
+        "runtime_scope_bindings": bindings,
+        "binding_validation": binding_validation,
+        "events": events,
+        "scoped_events": scoped,
+        "out_of_scope_events": out_of_scope,
+        "unattributed_events": unattributed,
+        "summary": {
+            "scoped_event_count": len(scoped),
+            "out_of_scope_event_count": len(out_of_scope),
+            "unattributed_event_count": len(unattributed),
+        },
+        "parser_version": "aan06.all_scoped_physx.v1",
+        "claim_boundary": "Pass means no parsed [omni.physx] Warning was attributable to the declared package/runtime scope. unattributed global warnings are retained but are not claimed to be asset-scoped.",
     }
 
 
@@ -821,6 +995,30 @@ def _build_physx_warning_gate_from_logs(
     return result
 
 
+def _build_all_physx_warning_gate_from_logs(
+    log_paths: list[tuple[Path, str]],
+    scope_prims: list[str],
+    *,
+    runtime_scope_bindings: list[dict[str, str]] | None = None,
+) -> dict[str, Any]:
+    events: list[dict[str, Any]] = []
+    log_hashes: dict[str, str | None] = {}
+    for path, stream in log_paths:
+        try:
+            text = path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            text = ""
+        events.extend(parse_all_physx_warning_events(text, stream=stream))
+        log_hashes[stream] = _sha256_file(path) if path.exists() else None
+    result = evaluate_all_physx_warning_scope(
+        events,
+        scope_prims,
+        runtime_scope_bindings=runtime_scope_bindings,
+    )
+    result["log_hashes"] = log_hashes
+    return result
+
+
 def _runtime_support_surface(stage: Any, scope_prims: list[str]) -> dict[str, Any]:
     """Choose a session-only support plane from authored interaction frames."""
     from pxr import Usd, UsdGeom  # type: ignore
@@ -891,9 +1089,38 @@ def _combine_physx_warning_gates(
     package_direct_gate: dict[str, Any],
     instantiated_runtime_gate: dict[str, Any],
 ) -> dict[str, Any]:
-    """Require both package-direct and consumer-instantiated warning gates."""
+    """Require both package-direct and consumer-instantiated warning gates.
+
+    ``physics_warning_gate`` predates instantiated-runtime evidence and is a
+    strict Scenario Forge handoff surface.  Keep its v1 top-level validation
+    and flat summary fields while nesting the two source reports for audit.
+    """
     direct_summary = package_direct_gate.get("summary", {})
     instantiated_summary = instantiated_runtime_gate.get("summary", {})
+    by_category: dict[str, int] = {}
+    for summary in (direct_summary, instantiated_summary):
+        raw_categories = summary.get("by_category", {})
+        if not isinstance(raw_categories, dict):
+            continue
+        for category, value in raw_categories.items():
+            try:
+                by_category[str(category)] = by_category.get(str(category), 0) + int(
+                    value
+                )
+            except (TypeError, ValueError):
+                continue
+    scoped_events = [
+        *list(package_direct_gate.get("scoped_events", [])),
+        *list(instantiated_runtime_gate.get("scoped_events", [])),
+    ]
+    out_of_scope_events = [
+        *list(package_direct_gate.get("out_of_scope_events", [])),
+        *list(instantiated_runtime_gate.get("out_of_scope_events", [])),
+    ]
+    unattributed_events = [
+        *list(package_direct_gate.get("unattributed_events", [])),
+        *list(instantiated_runtime_gate.get("unattributed_events", [])),
+    ]
     return {
         "status": (
             "pass"
@@ -904,12 +1131,78 @@ def _combine_physx_warning_gates(
         "package_direct_gate": package_direct_gate,
         "instantiated_runtime_gate": instantiated_runtime_gate,
         "summary": {
+            "scoped_event_count": len(scoped_events),
+            "out_of_scope_event_count": len(out_of_scope_events),
+            "unattributed_event_count": len(unattributed_events),
+            "by_category": by_category,
             "package_direct": direct_summary,
             "instantiated_runtime": instantiated_summary,
         },
         "scope_prims": package_direct_gate.get("scope_prims", []),
+        "scope_validation": package_direct_gate.get("scope_validation", {}),
         "runtime_scope_bindings": instantiated_runtime_gate.get("runtime_scope_bindings", []),
+        "binding_validation": instantiated_runtime_gate.get("binding_validation", {}),
+        "events": [
+            *list(package_direct_gate.get("events", [])),
+            *list(instantiated_runtime_gate.get("events", [])),
+        ],
+        "scoped_events": scoped_events,
+        "out_of_scope_events": out_of_scope_events,
+        "unattributed_events": unattributed_events,
         "parser_version": "aan06.physx_scope.v3",
+    }
+
+
+def _combine_all_physx_warning_gates(
+    package_direct_gate: dict[str, Any],
+    instantiated_runtime_gate: dict[str, Any],
+) -> dict[str, Any]:
+    """Require warning-clean scope evidence for both direct and instantiated runs."""
+    direct_summary = package_direct_gate.get("summary", {})
+    instantiated_summary = instantiated_runtime_gate.get("summary", {})
+    scoped_events = [
+        *list(package_direct_gate.get("scoped_events", [])),
+        *list(instantiated_runtime_gate.get("scoped_events", [])),
+    ]
+    out_of_scope_events = [
+        *list(package_direct_gate.get("out_of_scope_events", [])),
+        *list(instantiated_runtime_gate.get("out_of_scope_events", [])),
+    ]
+    unattributed_events = [
+        *list(package_direct_gate.get("unattributed_events", [])),
+        *list(instantiated_runtime_gate.get("unattributed_events", [])),
+    ]
+    return {
+        "status": (
+            "pass"
+            if package_direct_gate.get("status") == "pass"
+            and instantiated_runtime_gate.get("status") == "pass"
+            else "blocked"
+        ),
+        "package_direct_gate": package_direct_gate,
+        "instantiated_runtime_gate": instantiated_runtime_gate,
+        "summary": {
+            "scoped_event_count": len(scoped_events),
+            "out_of_scope_event_count": len(out_of_scope_events),
+            "unattributed_event_count": len(unattributed_events),
+            "package_direct": direct_summary,
+            "instantiated_runtime": instantiated_summary,
+        },
+        "scope_prims": package_direct_gate.get("scope_prims", []),
+        "scope_validation": package_direct_gate.get("scope_validation", {}),
+        "runtime_scope_bindings": instantiated_runtime_gate.get(
+            "runtime_scope_bindings", []
+        ),
+        "binding_validation": instantiated_runtime_gate.get("binding_validation", {}),
+        "events": [
+            *list(package_direct_gate.get("events", [])),
+            *list(instantiated_runtime_gate.get("events", [])),
+        ],
+        "scoped_events": scoped_events,
+        "out_of_scope_events": out_of_scope_events,
+        "unattributed_events": unattributed_events,
+        "parser_version": "aan06.all_scoped_physx.v1",
+        "claim_boundary": "Both direct and instantiated logs had zero parsed [omni.physx] warnings attributable to the declared scope; unattributed global warnings remain separately recorded.",
     }
 
 

@@ -338,6 +338,13 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         *benchmark.blocked_reasons,
         *integrity_blockers,
     ]
+    grasp_cross_section = interaction.grasp_cross_section
+    effective_physics_closure = dict(physics.physics_closure)
+    if grasp_cross_section is not None:
+        # Keep the Scenario Forge interaction_contract.v1 ABI unchanged.  This
+        # remains an AAN admission gate and its package-bound report is carried
+        # in the manifest's extensible physics closure instead.
+        effective_physics_closure["grasp_cross_section"] = grasp_cross_section
     stage_gates = [
         *closure.stage_gates,
         material.stage_gate,
@@ -371,6 +378,22 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
                 }
             ]
             if request.interaction_profile is not None
+            else []
+        ),
+        *(
+            [
+                {
+                    "check_id": "AAN-05G-grasp-cross-section",
+                    "stage": "grasp_cross_section",
+                    "status": grasp_cross_section.get("status", "blocked"),
+                    "summary": (
+                        "Declared grasp-band collision and visual envelopes matched in physical metres."
+                        if grasp_cross_section.get("status") == "pass"
+                        else "Declared grasp-band collision and visual envelope admission did not pass."
+                    ),
+                }
+            ]
+            if grasp_cross_section is not None
             else []
         ),
         physics.stage_gate,
@@ -415,7 +438,9 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         if request.asset_role == "visual_static"
         else []
     )
-    dynamic_profile_forbidden_claims = _dynamic_profile_forbidden_claims(request, physics.physics_closure)
+    dynamic_profile_forbidden_claims = _dynamic_profile_forbidden_claims(
+        request, effective_physics_closure
+    )
     interaction_contract = (
         finalize_interaction_contract(
             TargetPackageLayout(request.out_dir), interaction.interaction_contract
@@ -446,7 +471,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         dependency_closure=closure.dependency_closure,
         material_closure=effective_material_closure,
         material_runtime_closure=material_runtime.material_runtime_closure,
-        physics_closure=physics.physics_closure,
+        physics_closure=effective_physics_closure,
         articulation_closure=physics.articulation_closure,
         static_usd_report=closure.static_usd_report,
         static_material_report=material.static_material_report,
@@ -502,6 +527,14 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             ),
             *(
                 [
+                    "AAN-05G measured the declared source-bound grasp band in world-space metres and found the collision envelope consistent with the visual envelope and declared opening contract.",
+                ]
+                if grasp_cross_section is not None
+                and grasp_cross_section.get("status") == "pass"
+                else []
+            ),
+            *(
+                [
                     "AAN-06 headless Isaac runtime smoke passed under the configured isolated runtime runner.",
                     "Cold load, render readback, physics step, and reset smoke evidence are recorded.",
                 ]
@@ -535,6 +568,13 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
                     "Stable support and gripper collision have passed runtime probes.",
                 ]
                 if request.interaction_profile is not None
+                else []
+            ),
+            *(
+                [
+                    "A grasp-section geometry preflight proves an EOS/GenManip physical grasp, lift, retention, task completion, or pouring success.",
+                ]
+                if grasp_cross_section is not None
                 else []
             ),
         ],
