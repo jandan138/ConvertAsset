@@ -18,6 +18,8 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-07-14 AAN LabUtopia Vessel Package And Runtime Evidence](evidence/2026-07-14-aan-labutopia-vessel-interaction-profile/)
 - [2026-07-15 AAN Graduated Cylinder r3 Grasp-Section Collision Admission](2026-07-15-aan-graduated-cylinder-r3-grasp-section-collision.md)
 - [2026-07-15 AAN Graduated Cylinder r3 Evidence](evidence/2026-07-15-aan-graduated-cylinder-r3-grasp-section/)
+- [2026-07-16 AAN Graduated Cylinder r3 EOS/GenManip Target-Grasp Qualification](2026-07-16-aan-graduated-cylinder-r3-eos-genmanip-target-grasp-qualification.md)
+- [2026-07-16 AAN Graduated Cylinder r3 EOS/GenManip Target-Grasp Evidence Summary](evidence/2026-07-16-aan-graduated-cylinder-r3-eos-genmanip-target-grasp/evidence_summary.json)
 - [2026-06-30 AAN-00 Contract Freeze](2026-06-30-aan-00-contract-freeze.md)
 - [2026-06-30 AAN-01 DryingBox Manifest Seed](2026-06-30-aan-01-dryingbox-manifest-seed.md)
 - [2026-06-30 AAN-02 CLI Skeleton](2026-06-30-aan-02-cli-skeleton.md)

@@ -1,0 +1,96 @@
+{
+  "schema_version": "convert_asset.aan.eos_genmanip_target_grasp_summary.v1",
+  "recorded_on": "2026-07-16",
+  "retention": {
+    "summary_only": true,
+    "raw_runtime_artifacts_included": false,
+    "absolute_artifact_paths_included": false
+  },
+  "source": {
+    "source_usd_basename": "lab_001.usd",
+    "source_version": "20260707",
+    "prim_path": "/World/graduated_cylinder_03",
+    "sha256_before": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+    "sha256_after": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2",
+    "unchanged": true
+  },
+  "package": {
+    "tree_digest_algorithm": "sha256-package-tree-v1",
+    "tree_digest_before": "8a646296233e6dbbca42acf2549112d8d47ecd12c60a57fbf360b7a67d68a346",
+    "tree_digest_after": "8a646296233e6dbbca42acf2549112d8d47ecd12c60a57fbf360b7a67d68a346",
+    "tree_digest_current": "8a646296233e6dbbca42acf2549112d8d47ecd12c60a57fbf360b7a67d68a346",
+    "unchanged": true
+  },
+  "revisions": {
+    "scenario_forge": "8e8973789b9aab3cccae6a43d299b3c33f3cc8c4",
+    "convert_asset": "4bb541161a652cc4e5dd63253adffba018f17137",
+    "eos": "d6f1dfc891b4a2248c675c2253d6b7eaa57e703e",
+    "genmanip": "014bf5435a373df9b3bcf5a69aa7fe22d17f613d"
+  },
+  "campaign": {
+    "status": "passed",
+    "candidate_count": 12,
+    "qualified_candidate_indices": [0],
+    "selected_candidate_index": 0,
+    "selected_candidate_key": "positive_closing@0.135m",
+    "selection_rule": "after_all_terminal_choose_lowest_index_qualified",
+    "candidate_outcomes": [
+      {"index": 0, "key": "positive_closing@0.135m", "outcome": "qualified", "failure_class": "none", "blockers": []},
+      {"index": 1, "key": "positive_closing@0.100m", "outcome": "candidate_local_failed", "failure_class": "candidate_local", "blockers": ["target_contact_before_close"]},
+      {"index": 2, "key": "positive_closing@0.170m", "outcome": "candidate_local_failed", "failure_class": "candidate_local", "blockers": ["bilateral_target_contact_not_measured"]},
+      {"index": 3, "key": "negative_closing@0.135m", "outcome": "candidate_local_failed", "failure_class": "candidate_local", "blockers": ["right_arm_motion_planning_failed"]},
+      {"index": 4, "key": "negative_closing@0.100m", "outcome": "candidate_local_failed", "failure_class": "candidate_local", "blockers": ["right_arm_motion_planning_failed"]},
+      {"index": 5, "key": "negative_closing@0.170m", "outcome": "candidate_local_failed", "failure_class": "candidate_local", "blockers": ["right_arm_motion_planning_failed"]},
+      {"index": 6, "key": "positive_transverse@0.135m", "outcome": "candidate_local_failed", "failure_class": "candidate_local", "blockers": ["right_arm_motion_planning_failed"]},
+      {"index": 7, "key": "positive_transverse@0.100m", "outcome": "candidate_local_failed", "failure_class": "candidate_local", "blockers": ["right_arm_motion_planning_failed"]},
+      {"index": 8, "key": "positive_transverse@0.170m", "outcome": "candidate_local_failed", "failure_class": "candidate_local", "blockers": ["right_arm_motion_planning_failed"]},
+      {"index": 9, "key": "negative_transverse@0.135m", "outcome": "candidate_local_failed", "failure_class": "candidate_local", "blockers": ["right_arm_motion_planning_failed"]},
+      {"index": 10, "key": "negative_transverse@0.100m", "outcome": "candidate_local_failed", "failure_class": "candidate_local", "blockers": ["right_arm_motion_planning_failed"]},
+      {"index": 11, "key": "negative_transverse@0.170m", "outcome": "candidate_local_failed", "failure_class": "candidate_local", "blockers": ["right_arm_motion_planning_failed"]}
+    ]
+  },
+  "selected_target_grasp_hold": {
+    "claim_scope": "source_bound_right_arm_target_grasp_hold_qualification",
+    "stage_status": "passed",
+    "command_acknowledgement_pairs": 165,
+    "approach_pose_sample_count": 504,
+    "approach_maximum_translation_delta_m": 6.428258004821239e-07,
+    "approach_maximum_rotation_delta_deg": 0.00027441618481374925,
+    "target_contact": "measured_bilateral",
+    "hold_sample_count": 5,
+    "hold_bilateral_contact_fraction": 1.0,
+    "minimum_lift_m": 0.034568727016448975,
+    "policy_minimum_lift_m": 0.02,
+    "first_table_release_phase": "lift_settle_step_1",
+    "first_table_release_physical_step": 602
+  },
+  "physx_warning_boundary": {
+    "target_scoped_warning_count": 0,
+    "out_of_scope_warning_line_count": 36,
+    "out_of_scope_categories": [
+      "robot dummy-base negative-mass/inertia/small-sphere warnings",
+      "articulation duplicate-link warnings"
+    ],
+    "global_warning_free_claim": false
+  },
+  "canonicalization_correction": {
+    "previous_trial_status": "inconclusive",
+    "previous_blocker": "approach_pose_trace_replay_mismatch",
+    "cause": "live and replayed pose evidence normalized quaternions at different boundaries",
+    "fixed_by_genmanip_revision": "014bf5435a373df9b3bcf5a69aa7fe22d17f613d",
+    "strict_live_replay_equality_retained": true
+  },
+  "claims": {
+    "allowed": [
+      "recorded source-bound package qualified for the declared fixed right-arm target close/lift/hold protocol"
+    ],
+    "forbidden": [
+      "bimanual pouring",
+      "source pick",
+      "policy or benchmark score",
+      "sibling-asset readiness",
+      "global PhysX warning freedom",
+      "calibrated real-world physical parameters"
+    ]
+  }
+}

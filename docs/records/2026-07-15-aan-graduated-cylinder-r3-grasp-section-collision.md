@@ -191,3 +191,22 @@ runtime-scope mapping, then writes an immutable report with at least:
 
 Only after that evidence passes may downstream documentation replace the current
 geometry/pre-action boundary with a scoped grasp or lift claim.
+
+## 2026-07-16 addendum: EOS/GenManip action qualification
+
+The preceding description of the absent close/lift/hold executor was accurate
+when this collision-admission record was written. It is now superseded only for
+the declared target-grasp scope by the
+[2026-07-16 EOS/GenManip target-grasp qualification](2026-07-16-aan-graduated-cylinder-r3-eos-genmanip-target-grasp-qualification.md).
+That follow-up reran the unchanged source-bound r3 package through twelve fixed
+candidates and qualified only `positive_closing@0.135m` for the recorded
+right-arm target close/lift/hold protocol.
+
+The new evidence includes direct bilateral target contact, 165 command and
+acknowledgement pairs, 504 stable approach-pose samples, a five-sample hold, a
+minimum `0.034568727016448975 m` lift, table release at physical step 602, and
+zero target-scoped PhysX warnings. It does not revise this record's geometry
+boundary into a general grasp, bimanual pouring, policy, benchmark, sibling, or
+calibrated-physics claim. The action run also retained 36 out-of-scope robot and
+articulation PhysX warning lines; it must not be described as globally
+warning-free.

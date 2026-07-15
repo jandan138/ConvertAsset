@@ -1187,6 +1187,21 @@ package-scope -> runtime-scope mapping 匹配。任一可归属于 output scope 
 consumer-instantiated evidence。out-of-scope 或无法安全归属于该资产的 runtime warning 仍保留
 在报告中，但不得被写成“全场景无 warning”或“该 warning 属于资产”的 claim。
 
+#### 2026-07-16 EOS/GenManip action claim boundary
+
+AAN-05G 的截面 pass 与 interaction runtime qualification 的 proxy pass 仍然不是机器人抓取
+结果。对 `graduated_cylinder_03` r3，后续 EOS/GenManip campaign 首次补齐了一个独立、
+source/package-bound 的实际 right-arm target close/lift/hold record；其详细 source/package lock、
+12 个固定 candidate、contact/hold/pose evidence、以及 scoped warning boundary 见
+[2026-07-16 action qualification record](../records/2026-07-16-aan-graduated-cylinder-r3-eos-genmanip-target-grasp-qualification.md)。
+
+这个 record 只允许声明该固定 protocol 下的 target grasp/hold qualification。它不改变 AAN
+interaction profile 的通用性要求，不把 one-candidate qualification 推广为 bimanual pour、source
+pick、policy/benchmark score、sibling readiness、global-warning-free 或 real-world calibrated
+physics。一次早期 trace 曾因 live/reducer quaternion canonicalization 边界不同而
+`inconclusive`；修复要求在同一 JSON-safe boundary canonicalize 后保持严格 replay equality，
+而不是放宽 numerical tolerance。
+
 #### Explicit target-runtime root MDL substitution
 
 source package 的 root MDL 可能来自更新的 Isaac release，而 selected target runtime 的 helper

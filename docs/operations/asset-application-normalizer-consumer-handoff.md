@@ -396,16 +396,35 @@ VESSEL_DELIVERY="$CONVERT_ASSET_ROOT/docs/records/evidence/2026-07-14-aan-labuto
   --genmanip-root "$GENMANIP_SOURCE"
 ```
 
-The retained Scenario Forge run passes its post-reset, pre-action render only.
-Its runtime log has zero warnings scoped to
+The retained Scenario Forge run passes its post-reset, pre-action render. Its
+runtime log has zero warnings scoped to
 `/World/scientific_workbench_bimanual_pour/obj_obj_graduated_cylinder_03`; robot
-warnings are retained as out-of-scope/unattributed evidence. This is not a
-global warning-free assertion, a genuine EOS/GenManip gripper close, a lift/hold
-result, or a pouring result. A later action-level report must retain contact,
-close command, lift and hold observations, final object state, and the same
-scoped warning log before any such claim is admitted. Independent render QA is
-`WARN`: it confirms visual presence/placement, but transparent low contrast and
-unreadable graduations forbid material-parity or readable-scale claims.
+warnings are retained as out-of-scope/unattributed evidence. This pre-action
+smoke is not by itself a genuine EOS/GenManip gripper close, lift/hold, or
+pouring result. Independent render QA is `WARN`: it confirms visual
+presence/placement, but transparent low contrast and unreadable graduations
+forbid material-parity or readable-scale claims.
+
+#### 2026-07-16 r3 action-state update
+
+The same source-bound package subsequently passed a separate EOS/GenManip
+fixed-candidate action campaign. All 12 declared candidates were executed; the
+only qualified record was index `0`, `positive_closing@0.135m`. Its declared
+scope is the fixed right-arm target close/lift/hold protocol, not an episode or
+benchmark success: it retained 165 command/acknowledgement pairs, direct
+bilateral target contact, 504 stable approach-pose samples, a five-sample hold,
+`0.034568727016448975 m` minimum lift versus a `0.02 m` policy minimum, and
+table release at physical step 602. Its target-scoped PhysX warning count is
+zero.
+
+Consumers that report this result must bind it to the source SHA-256, package
+tree digest, fixed-candidate selection result, and the explicit action scope in
+the [action-qualification record](../records/2026-07-16-aan-graduated-cylinder-r3-eos-genmanip-target-grasp-qualification.md).
+The 36 global out-of-scope PhysX warning lines remain retained, so the result is
+not globally warning-free. The action report does not permit a local Scenario
+Forge collider/mass/inertia/warning patch, and it does not establish bimanual
+pouring, source pick, policy/benchmark score, sibling readiness, or calibrated
+real-world physical parameters.
 
 The contract payload digest is SHA-256 over canonical UTF-8 JSON (`sort_keys`,
 compact separators, ASCII escaping) of exactly schema version, entry prim,

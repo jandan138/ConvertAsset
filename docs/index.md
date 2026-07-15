@@ -1,6 +1,6 @@
 # ConvertAsset 文档
 
-> 最后更新: 2026-07-05
+> 最后更新: 2026-07-16
 
 ## 快速导航
 
@@ -13,6 +13,8 @@
 - **[AAN Object Interaction Profile](records/2026-07-14-aan-object-interaction-profile.md)** - package-owned unique rigid root、collider/open-top intent、named frames 与 runtime-tree closure 记录
 - **[LabUtopia Vessel Static Packages](records/2026-07-14-aan-labutopia-vessel-static-packages.md)** - 锥形瓶与量筒的 source-bound profiles 和静态准入历史记录
 - **[LabUtopia Vessel Runtime Qualification](records/2026-07-14-aan-labutopia-vessel-runtime-qualification.md)** - 四项 Isaac 4.1 interaction probes、量筒 compound proxy、runtime/MDL 兼容修复与最终证据
+- **[Graduated Cylinder r3 EOS/GenManip Target-Grasp Qualification](records/2026-07-16-aan-graduated-cylinder-r3-eos-genmanip-target-grasp-qualification.md)** - source-bound r3 的固定右臂 target close/lift/hold 证据与严格 claim boundary
+- **[DryingBox Family Admission Claim Correction](records/2026-07-13-aan-dryingbox-family-admission-and-claim-correction.md)** - 预修 `DryingBox_01_overlay` 证据不得外推至原始 `lab_001.usd` DryingBox 资产族
 - **[Vessel Entry-reference Material Closure](records/2026-07-14-aan-vessel-entry-reference-material-closure.md)** - 资产入口 prim 被下游引用时的材质闭包、命名空间迁移与重建证据
 - **[Official EBench Soap-to-Dish Closure Plan](records/2026-07-05-official-ebench-scene-e1cf0d5b4d76-soap-to-dish-material-closure.md)** - `official_ebench_scene@e1cf0d5b4d76` 材质依赖闭包修复计划
 - **[InternNav official evidence runbook](operations/internnav-official-evidence-runbook.md)** - official KuJiaLe downstream evidence 的运行、同步和 claim 边界
