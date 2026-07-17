@@ -259,7 +259,7 @@ def render_latex(rows: list[dict[str, str]]) -> str:
 \resizebox{{\textwidth}}{{!}}{{%
 \begin{{tabular}}{{lllcccp{{0.31\textwidth}}}}
 \toprule
-\textbf{{Probe}} & \textbf{{Format}} & \textbf{{Answer rows}} & \textbf{{Answer O/C}} & \textbf{{Raw point O/C}} & \textbf{{Norm-1000 point O/C}} & \textbf{{Note / boundary}} \\
+\textbf{{Probe}} & \textbf{{Format}} & \textbf{{Answer rows}} & \textbf{{Answer O/C}} & \textbf{{Raw point O/C}} & \textbf{{Norm-1000 point O/C}} & \textbf{{Note / scope}} \\
 \midrule
 {body_text}
 \bottomrule

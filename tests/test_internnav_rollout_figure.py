@@ -57,9 +57,10 @@ def test_internnav_caption_avoids_rollout_linebreak_hotspot() -> None:
     normalized = " ".join(text.split())
 
     assert "Selected InternNav path panels." in normalized
-    assert "selected path panels are qualitative evidence only" in normalized
-    assert "Figure~\\ref{fig:internnav-rollout-supp} shows selected path panels for orientation only." in normalized
-    assert "load/render closure supports stability only, not speedup" in normalized
+    assert "trajectory overlays for orientation only" in normalized
+    assert "Quantitative stack-entry measurements remain tied to the 99-episode paired run" in normalized
+    assert "The rollout panel only orients readers." in normalized
+    assert "Load/render measures stability only, not speedup" in normalized
     assert "Selected qualitative InternNav rollout panel" not in normalized
     assert "Selected InternNav path panel." not in normalized
     assert "representative start/end example for reader orientation" not in normalized

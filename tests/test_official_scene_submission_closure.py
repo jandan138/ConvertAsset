@@ -363,7 +363,7 @@ def test_performance_summary_caption_stays_compact_for_main_pdf(tmp_path: Path) 
     tex = tex_path.read_text(encoding="utf-8")
     caption = tex.split("\\caption{", 1)[1].split("}", 1)[0]
     assert len(caption.split()) <= 30
-    assert "NVIDIA official-scene baseline is omitted" in caption
+    assert "NVIDIA official-scene row is omitted" in caption
     assert "per-scene rows remain" not in caption
 
 

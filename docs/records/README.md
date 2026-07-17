@@ -21,6 +21,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-07-16 AAN Graduated Cylinder r3 EOS/GenManip Target-Grasp Qualification](2026-07-16-aan-graduated-cylinder-r3-eos-genmanip-target-grasp-qualification.md)
 - [2026-07-16 AAN Graduated Cylinder r3 EOS/GenManip Target-Grasp Evidence Summary](evidence/2026-07-16-aan-graduated-cylinder-r3-eos-genmanip-target-grasp/evidence_summary.json)
 - [2026-07-16 Public Pages Visual QA: Graduated Cylinder r3 Target-Grasp Summary](2026-07-16-public-pages-visual-qa.md)
+- [2026-07-17 Paper Test Expectation Resync After ACL27 Consolidation](2026-07-17-paper-test-expectation-resync.md)
 - [2026-06-30 AAN-00 Contract Freeze](2026-06-30-aan-00-contract-freeze.md)
 - [2026-06-30 AAN-01 DryingBox Manifest Seed](2026-06-30-aan-01-dryingbox-manifest-seed.md)
 - [2026-06-30 AAN-02 CLI Skeleton](2026-06-30-aan-02-cli-skeleton.md)

@@ -118,5 +118,5 @@ def test_latex_caption_uses_frozen_stress_set_language() -> None:
         ]
     )
 
-    assert "frozen 30-pair target-centered stress set" in latex
+    assert "Frozen 30-pair GRScenes material-shift stress set" in latex
     assert "stress benchmark" not in latex

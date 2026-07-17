@@ -200,4 +200,4 @@ def test_write_table_outputs_create_csv_and_latex(tmp_path: Path) -> None:
     assert loaded[0]["metric_id"] == "answer_accuracy"
     tex = tex_path.read_text(encoding="utf-8")
     assert "\\label{tab:reviewer_closure_paired_ci}" in tex
-    assert "paired bootstrap confidence intervals" in tex
+    assert "Paired bootstrap confidence intervals" in tex
