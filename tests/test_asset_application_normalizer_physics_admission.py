@@ -785,3 +785,258 @@ def test_real_dryingbox_family_raw_physics_audit() -> None:
     assert by_scope["/World/DryingBox_02"]["summary"]["invalid_rigid_body_count"] == 3
     assert by_scope["/World/DryingBox_03"]["summary"]["invalid_rigid_body_count"] == 3
     assert by_scope["/World/DryingBox_04"]["summary"]["invalid_rigid_body_count"] == 4
+
+
+def test_visual_static_rigid_reset_gate_not_applicable_without_scope_rigid_bodies() -> None:
+    """visual_static with an empty rigid scope must not fail AAN-06 rigid reset."""
+    from convert_asset.asset_application_normalizer.runtime_smoke import (
+        _build_rigid_reset_gate,
+    )
+
+    gate = _build_rigid_reset_gate(
+        {},
+        {},
+        pre_step={},
+        tolerance_stage_units=0.001,
+        asset_role="visual_static",
+        scope_rigid_bodies=[],
+    )
+
+    assert gate["status"] == "not_applicable"
+    assert gate["scope_rigid_bodies"] == []
+
+
+def test_dynamic_rigid_reset_gate_stays_strict_without_scope_rigid_bodies() -> None:
+    """Dynamic admission keeps the strict rigid reset check."""
+    from convert_asset.asset_application_normalizer.runtime_smoke import (
+        _build_rigid_reset_gate,
+    )
+
+    gate = _build_rigid_reset_gate(
+        {},
+        {},
+        pre_step={},
+        tolerance_stage_units=0.001,
+        asset_role="dynamic",
+        scope_rigid_bodies=[],
+    )
+
+    assert gate["status"] == "blocked"
+
+
+def test_rigid_reset_gate_evaluates_bodies_when_present() -> None:
+    from convert_asset.asset_application_normalizer.runtime_smoke import (
+        _build_rigid_reset_gate,
+    )
+
+    matrix = [[0.0] * 4 for _ in range(4)]
+    gate = _build_rigid_reset_gate(
+        {"/World/Asset": matrix},
+        {"/World/Asset": [list(row) for row in matrix]},
+        pre_step=None,
+        tolerance_stage_units=0.001,
+        asset_role="visual_static",
+        scope_rigid_bodies=["/World/Asset"],
+    )
+
+    assert gate["status"] == "pass"
+    assert gate["restored_to_initial"] is True
+
+
+def test_runtime_smoke_argv_declares_asset_role(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    """The isolated runtime worker must know the declared package role."""
+    from convert_asset.asset_application_normalizer import runtime_smoke
+    from convert_asset.asset_application_normalizer.package_layout import TargetPackageLayout
+
+    layout = TargetPackageLayout(tmp_path / "package")
+    layout.root.mkdir(parents=True)
+    layout.root_usd.write_text("#usda 1.0\n", encoding="utf-8")
+    request = NormalizeAssetRequest(
+        source_usd=tmp_path / "source.usda",
+        out_dir=layout.root,
+        asset_id="role-worker-fixture",
+        asset_class="auto",
+        asset_role="visual_static",
+        source_runtime="isaac51",
+        target_runtime="isaac41",
+        target_benchmark="scenario-forge",
+        task_id="AAN.RuntimeRole",
+        required_prims=["/World/Asset"],
+        asset_scope_prims=["/World/Asset"],
+        runtime_python=Path(sys.executable),
+    )
+    captured: dict[str, list[str]] = {}
+
+    def fake_run(argv, **_kwargs):
+        captured["argv"] = list(argv)
+        report_path = Path(argv[argv.index("--report-out") + 1])
+        run_id = argv[argv.index("--run-id") + 1]
+        root_usd_sha256 = argv[argv.index("--expected-root-usd-sha256") + 1]
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        report_path.write_text(
+            json.dumps(
+                {
+                    "status": "pass",
+                    "run_id": run_id,
+                    "root_usd_sha256": root_usd_sha256,
+                    "expected_root_usd_sha256": root_usd_sha256,
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        return SimpleNamespace(returncode=0, stdout="", stderr="")
+
+    monkeypatch.setattr(runtime_smoke.subprocess, "run", fake_run)
+
+    result = runtime_smoke.build_runtime_smoke(layout, request)
+
+    argv = captured["argv"]
+    assert argv[argv.index("--asset-role") + 1] == "visual_static"
+    assert result.overall_status == "pass"
+
+
+def _scope_first_room_usda() -> str:
+    return """#usda 1.0
+(
+    defaultPrim = "Room"
+    metersPerUnit = 0.01
+    upAxis = "Z"
+)
+def Xform "Room"
+{
+    def Mesh "Floor"
+    {
+        rel material:binding = </Room/Looks/RoomMat>
+        point3f[] points = [(0, 0, 0), (100, 0, 0), (0, 100, 0)]
+        int[] faceVertexCounts = [3]
+        int[] faceVertexIndices = [0, 1, 2]
+    }
+    def Scope "Looks"
+    {
+        def Material "RoomMat"
+        {
+            token outputs:surface.connect = </Room/Looks/RoomMat/Texture.outputs:rgb>
+            def Shader "Texture"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @./textures/room_albedo.png@
+                float4 outputs:rgb
+            }
+        }
+    }
+}
+"""
+
+
+def _scope_first_sibling_usda() -> str:
+    return """#usda 1.0
+(
+    defaultPrim = "Table"
+    metersPerUnit = 0.01
+    upAxis = "Z"
+)
+def Xform "Table"
+{
+    def Scope "Looks"
+    {
+        def Material "TableMat"
+        {
+            token outputs:surface.connect = </Table/Looks/TableMat/Texture.outputs:rgb>
+            def Shader "Texture"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @./textures/table_albedo_missing.png@
+                float4 outputs:rgb
+            }
+        }
+    }
+}
+"""
+
+
+def _scope_first_root_usda() -> str:
+    return """#usda 1.0
+(
+    defaultPrim = "World"
+    metersPerUnit = 0.01
+    upAxis = "Z"
+)
+def Xform "World"
+{
+    def "lab_015" (
+        prepend references = @./scope_room.usda@
+    )
+    {
+        double3 xformOp:translate = (120, -30, 0)
+        float3 xformOp:rotateXYZ = (0, 0, 90)
+        float3 xformOp:scale = (2, 2, 2)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+    }
+    def "table_hard" (
+        prepend references = @./sibling_table.usda@
+    )
+    {
+    }
+}
+"""
+
+
+def test_scope_first_closure_ignores_unselected_sibling_missing_texture(
+    tmp_path: Path,
+) -> None:
+    """Scope-first closure must not block on an unselected sibling's texture."""
+    Usd = pytest.importorskip("pxr.Usd")
+    UsdGeom = pytest.importorskip("pxr.UsdGeom")
+    root = tmp_path / "Scene1_hard.usda"
+    root.write_text(_scope_first_root_usda(), encoding="utf-8")
+    (tmp_path / "scope_room.usda").write_text(_scope_first_room_usda(), encoding="utf-8")
+    (tmp_path / "sibling_table.usda").write_text(_scope_first_sibling_usda(), encoding="utf-8")
+    textures = tmp_path / "textures"
+    textures.mkdir()
+    (textures / "room_albedo.png").write_bytes(b"png-fixture")
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+
+    result = normalize_asset(
+        NormalizeAssetRequest(
+            source_usd=root,
+            out_dir=out_dir,
+            asset_id="scope-first-fixture",
+            asset_class="auto",
+            asset_role="visual_static",
+            source_runtime="isaac51",
+            target_runtime="isaac41",
+            target_benchmark="scenario-forge",
+            task_id="AAN.ScopeFirstClosure",
+            required_prims=["/World/lab_015"],
+            asset_scope_prims=["/World/lab_015"],
+            gates=["static"],
+            evidence_out=evidence_out,
+        )
+    )
+
+    assert result.return_code == 0
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    closure = manifest["dependency_closure"]
+    assert closure["missing"] == []
+    scope_filter = closure["scope_dependency_filter"]
+    assert scope_filter["status"] == "applied"
+    assert scope_filter["scope_prims"] == ["/World/lab_015"]
+    out_of_scope_raws = {
+        record["raw_asset_path"] for record in scope_filter["out_of_scope_dependencies"]
+    }
+    assert "./textures/table_albedo_missing.png" in out_of_scope_raws
+    copied_package_files = [str(path) for path in out_dir.rglob("*") if path.is_file()]
+    assert not any("table_albedo_missing" in path for path in copied_package_files)
+    stage = Usd.Stage.Open(str(out_dir / "asset.usd"))
+    scope_prim = stage.GetPrimAtPath("/World/lab_015")
+    assert scope_prim.IsValid()
+    assert scope_prim.GetAttribute("xformOp:translate").Get() == (120.0, -30.0, 0.0)
+    assert tuple(scope_prim.GetAttribute("xformOp:rotateXYZ").Get()) == (0.0, 0.0, 90.0)
+    assert tuple(scope_prim.GetAttribute("xformOp:scale").Get()) == (2.0, 2.0, 2.0)
+    assert UsdGeom.GetStageMetersPerUnit(stage) == 0.01
+    assert str(UsdGeom.GetStageUpAxis(stage)) == "Z"

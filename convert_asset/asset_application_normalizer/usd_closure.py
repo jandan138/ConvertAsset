@@ -161,14 +161,20 @@ def _collect_inventory(request: NormalizeAssetRequest) -> dict[str, Any]:
                     queue.append(dep_path)
 
     dependencies = _resolve_missing_dependencies_from_mirrors(root, dependencies)
-    remote = [dep for dep in dependencies if _is_remote_uri(dep.raw_asset_path)]
-    missing = [
-        dep
-        for dep in dependencies
-        if (not _is_remote_uri(dep.raw_asset_path))
-        and dep.resolved_path is not None
-        and not dep.resolved_path.exists()
-    ]
+    scope_filter = _scope_dependency_filter(root, request, dependencies)
+    if scope_filter is not None:
+        dependencies = scope_filter["dependencies"]
+        remote = scope_filter["remote"]
+        missing = scope_filter["missing"]
+    else:
+        remote = [dep for dep in dependencies if _is_remote_uri(dep.raw_asset_path)]
+        missing = [
+            dep
+            for dep in dependencies
+            if (not _is_remote_uri(dep.raw_asset_path))
+            and dep.resolved_path is not None
+            and not dep.resolved_path.exists()
+        ]
     required_prims = _required_prim_records(
         root,
         request.required_prims,
@@ -188,6 +194,119 @@ def _collect_inventory(request: NormalizeAssetRequest) -> dict[str, Any]:
         "required_prims": required_prims,
         "unrewritable_layers": unrewritable,
         "default_prim": _default_prim(root),
+        "scope_dependency_filter": _scope_filter_record(scope_filter),
+    }
+
+
+def _scope_filter_record(scope_filter: dict[str, Any] | None) -> dict[str, Any]:
+    if scope_filter is None:
+        return {
+            "status": "not_applicable",
+            "scope_prims": [],
+            "out_of_scope_dependencies": [],
+        }
+    return {
+        "status": scope_filter["status"],
+        "scope_prims": scope_filter["scope_prims"],
+        "out_of_scope_dependencies": [
+            dep.to_manifest_record() for dep in scope_filter["out_of_scope_dependencies"]
+        ],
+    }
+
+
+def _scope_dependency_filter(
+    root: Path,
+    request: NormalizeAssetRequest,
+    dependencies: list[AssetDependency],
+) -> dict[str, Any] | None:
+    """Restrict non-USD asset dependencies to the declared scope closure.
+
+    Admission evaluates the declared scope first: an unselected sibling asset
+    (for example a table whose textures are absent) must not block the
+    selected room or asset scope.  USD layers stay unfiltered so the package
+    still composes the complete source layer graph; only non-USD assets are
+    partitioned into in-scope and out-of-scope sets.
+    """
+    role_scoped = request.asset_role == "visual_static" or (
+        request.asset_role == "dynamic"
+        and (request.physics_profile is not None or request.interaction_profile is not None)
+    )
+    scope_prims = list(request.effective_asset_scope_prims)
+    if not role_scoped or not scope_prims:
+        return None
+    try:
+        from pxr import Sdf, Usd  # type: ignore
+    except Exception:
+        return None
+    try:
+        stage = Usd.Stage.Open(str(root))
+    except Exception:
+        stage = None
+    if stage is None:
+        return None
+
+    scope_paths: set[Path] = set()
+    unresolved_raws: set[str] = set()
+    try:
+        from pxr import UsdShade  # type: ignore
+
+        material_paths = _scope_bound_material_paths(stage, scope_prims, Usd, UsdShade)
+        subtree_paths = _minimal_subtree_paths([*scope_prims, *material_paths])
+        population_mask = Usd.StagePopulationMask()
+        for path in subtree_paths:
+            population_mask.Add(Sdf.Path(path))
+        masked_stage = Usd.Stage.OpenMasked(str(root), population_mask, Usd.Stage.LoadAll)
+    except Exception:
+        masked_stage = None
+    if masked_stage is None:
+        return None
+    for layer in masked_stage.GetUsedLayers():
+        identifier = layer.realPath or layer.identifier
+        if identifier:
+            scope_paths.add(Path(identifier).resolve())
+    for prim in masked_stage.Traverse():
+        for prop in prim.GetProperties():
+            if not isinstance(prop, Usd.Attribute):
+                continue
+            if prop.GetTypeName() != Sdf.ValueTypeNames.Asset:
+                continue
+            value = prop.Get()
+            values = value if isinstance(value, (list, tuple)) else [value]
+            for item in values:
+                asset_path = getattr(item, "path", None)
+                if asset_path is None:
+                    continue
+                resolved = getattr(item, "resolvedPath", "") or ""
+                if resolved:
+                    scope_paths.add(Path(resolved).resolve())
+                else:
+                    unresolved_raws.add(str(asset_path))
+
+    kept: list[AssetDependency] = []
+    out_of_scope: list[AssetDependency] = []
+    for dep in dependencies:
+        if dep.kind == "usd":
+            kept.append(dep)
+            continue
+        resolved = dep.resolved_path.resolve() if dep.resolved_path else None
+        in_scope = (resolved is not None and resolved in scope_paths) or (
+            dep.raw_asset_path in unresolved_raws
+        )
+        (kept if in_scope else out_of_scope).append(dep)
+
+    return {
+        "status": "applied",
+        "scope_prims": scope_prims,
+        "dependencies": kept,
+        "missing": [
+            dep
+            for dep in kept
+            if (not _is_remote_uri(dep.raw_asset_path))
+            and dep.resolved_path is not None
+            and not dep.resolved_path.exists()
+        ],
+        "remote": [dep for dep in kept if _is_remote_uri(dep.raw_asset_path)],
+        "out_of_scope_dependencies": out_of_scope,
     }
 
 
@@ -1542,6 +1661,14 @@ def _result(
             for dep in inventory["remote"]
         ],
         "unrewritable_layers": inventory["unrewritable_layers"],
+        "scope_dependency_filter": inventory.get(
+            "scope_dependency_filter",
+            {
+                "status": "not_applicable",
+                "scope_prims": [],
+                "out_of_scope_dependencies": [],
+            },
+        ),
         "resolution_records": resolution_records,
         "resolution_summary": _resolution_summary(resolution_records),
     }

@@ -176,6 +176,8 @@ def build_runtime_smoke(
         "0.001",
         "--expected-runtime-version",
         request.expected_runtime_version,
+        "--asset-role",
+        request.asset_role,
         "--process-exit-policy",
         "os-exit",
     ]
@@ -1537,11 +1539,13 @@ def _worker_report(
                 pre_step=before_step,
                 tolerance_stage_units=float(args.reset_tolerance_m) / stage_units_in_meters,
             )
-            rigid_reset_gate = _build_reset_gate(
+            rigid_reset_gate = _build_rigid_reset_gate(
                 initial_rigid_transforms,
                 reset_rigid,
                 pre_step=before_step_rigid,
                 tolerance_stage_units=float(args.reset_tolerance_m) / stage_units_in_meters,
+                asset_role=str(getattr(args, "asset_role", "") or ""),
+                scope_rigid_bodies=report["physics_context"]["scope_rigid_bodies"],
             )
             cycle = {
                 "cycle": cycle_index + 1,
@@ -1550,7 +1554,8 @@ def _worker_report(
                 "rigid_body_transforms": reset_rigid,
                 "status": (
                     "pass"
-                    if reset_gate["status"] == "pass" and rigid_reset_gate["status"] == "pass"
+                    if reset_gate["status"] == "pass"
+                    and rigid_reset_gate["status"] in ("pass", "not_applicable")
                     else "blocked"
                 ),
             }
@@ -1968,6 +1973,41 @@ def _build_reset_gate(
     }
 
 
+def _build_rigid_reset_gate(
+    initial: dict[str, list[list[float]] | None],
+    reset: dict[str, list[list[float]] | None],
+    *,
+    pre_step: dict[str, list[list[float]] | None] | None = None,
+    tolerance_stage_units: float = 1.0e-5,
+    asset_role: str = "",
+    scope_rigid_bodies: list[str] | None = None,
+) -> dict[str, Any]:
+    """Rigid-body reset gate with role-aware not_applicable semantics.
+
+    A visual_static package owns no rigid-body dynamics, so an empty scoped
+    rigid-body set makes the rigid reset gate not_applicable instead of
+    blocked; the scope-level load/render/step/reset evidence still applies.
+    Dynamic admission keeps the strict check.
+    """
+    bodies = list(scope_rigid_bodies or [])
+    if not bodies and asset_role == "visual_static":
+        return {
+            "status": "not_applicable",
+            "reason": (
+                "visual_static scope declares no scoped rigid bodies; "
+                "rigid-body reset is not applicable"
+            ),
+            "scope_rigid_bodies": bodies,
+            "tolerance_stage_units": float(tolerance_stage_units),
+        }
+    return _build_reset_gate(
+        initial,
+        reset,
+        pre_step=pre_step,
+        tolerance_stage_units=tolerance_stage_units,
+    )
+
+
 def _sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as fh:
@@ -2090,6 +2130,11 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--renderer", default="RayTracedLighting")
     parser.add_argument("--min-non-background-ratio", type=float, default=0.001)
     parser.add_argument("--expected-runtime-version", default="4.1")
+    parser.add_argument(
+        "--asset-role",
+        default="",
+        help="Declared package role; visual_static makes an empty rigid-body scope not_applicable.",
+    )
     parser.add_argument(
         "--process-exit-policy",
         choices=("close", "os-exit"),
