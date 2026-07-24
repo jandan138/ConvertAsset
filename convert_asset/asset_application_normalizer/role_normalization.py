@@ -13,7 +13,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .model import NormalizeAssetRequest
+from .model import NormalizeAssetRequest, is_visual_static_role
 from .package_layout import TargetPackageLayout
 from .usd_closure import SOURCE_MATERIAL_PRIM_CUSTOM_DATA_KEY
 
@@ -41,7 +41,7 @@ def normalize_asset_role(
 ) -> RoleNormalizationResult:
     if request.asset_role == "dynamic":
         return _verify_dynamic_visual_preservation(layout, request)
-    if request.asset_role != "visual_static":
+    if not is_visual_static_role(request.asset_role):
         return _blocked(
             f"Unsupported asset role: {request.asset_role}",
             "aan_role_block_unknown_role",

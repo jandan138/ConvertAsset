@@ -11,7 +11,7 @@ import shutil
 import sys
 from typing import Any
 
-from .model import MILESTONE_AAN03, NormalizeAssetRequest
+from .model import MILESTONE_AAN03, NormalizeAssetRequest, is_visual_static_role
 from .package_layout import TargetPackageLayout
 from .stage_metrics import read_stage_metrics
 
@@ -167,7 +167,11 @@ def _collect_inventory(request: NormalizeAssetRequest) -> dict[str, Any]:
         remote = scope_filter["remote"]
         missing = scope_filter["missing"]
     else:
-        remote = [dep for dep in dependencies if _is_remote_uri(dep.raw_asset_path)]
+        remote = [
+            dep
+            for dep in dependencies
+            if _is_remote_uri(dep.raw_asset_path) and dep.resolution != "mirrored_remote"
+        ]
         missing = [
             dep
             for dep in dependencies
@@ -227,7 +231,7 @@ def _scope_dependency_filter(
     still composes the complete source layer graph; only non-USD assets are
     partitioned into in-scope and out-of-scope sets.
     """
-    role_scoped = request.asset_role == "visual_static" or (
+    role_scoped = is_visual_static_role(request.asset_role) or (
         request.asset_role == "dynamic"
         and (request.physics_profile is not None or request.interaction_profile is not None)
     )
@@ -284,13 +288,24 @@ def _scope_dependency_filter(
 
     kept: list[AssetDependency] = []
     out_of_scope: list[AssetDependency] = []
+    subtree_set = [str(path).rstrip("/") for path in subtree_paths]
+
+    def _holder_in_scope(dep: AssetDependency) -> bool:
+        holder = dep.prim_path
+        if not holder:
+            return False
+        holder = holder.rstrip("/")
+        return any(holder == base or holder.startswith(base + "/") for base in subtree_set)
+
     for dep in dependencies:
         if dep.kind == "usd":
             kept.append(dep)
             continue
         resolved = dep.resolved_path.resolve() if dep.resolved_path else None
-        in_scope = (resolved is not None and resolved in scope_paths) or (
-            dep.raw_asset_path in unresolved_raws
+        in_scope = (
+            (resolved is not None and resolved in scope_paths)
+            or (dep.raw_asset_path in unresolved_raws)
+            or _holder_in_scope(dep)
         )
         (kept if in_scope else out_of_scope).append(dep)
 
@@ -305,7 +320,11 @@ def _scope_dependency_filter(
             and dep.resolved_path is not None
             and not dep.resolved_path.exists()
         ],
-        "remote": [dep for dep in kept if _is_remote_uri(dep.raw_asset_path)],
+        "remote": [
+            dep
+            for dep in kept
+            if _is_remote_uri(dep.raw_asset_path) and dep.resolution != "mirrored_remote"
+        ],
         "out_of_scope_dependencies": out_of_scope,
     }
 
@@ -469,7 +488,39 @@ def _property_asset_dependencies(
             continue
         for raw in _asset_paths_from_value(value, Sdf):
             deps.append(_dependency_from_raw(layer_path, raw, "asset_property", prim_path=prim_path))
+        try:
+            custom_data = prop.GetInfo("customData")
+        except Exception:
+            custom_data = None
+        for raw in _asset_paths_from_custom_data(custom_data, Sdf):
+            deps.append(_dependency_from_raw(layer_path, raw, "asset_custom_data", prim_path=prim_path))
     return deps
+
+
+def _asset_paths_from_custom_data(value: Any, sdf_module: Any) -> list[str]:
+    """Collect asset paths nested in property customData dictionaries.
+
+    LabUtopia/NVIDIA materials keep the original CDN URL under
+    ``customData = { asset default = @...@ }`` while the attribute value points
+    at a local file.  Those nested paths are still dependency evidence and must
+    not hide from closure (binary layers have no text-regex fallback).
+    """
+    if value is None:
+        return []
+    asset_path_type = getattr(sdf_module, "AssetPath", None)
+    if asset_path_type and isinstance(value, asset_path_type):
+        return [value.path] if value.path else []
+    if isinstance(value, dict) or hasattr(value, "values"):
+        paths = []
+        for item in value.values():
+            paths.extend(_asset_paths_from_custom_data(item, sdf_module))
+        return paths
+    if isinstance(value, (list, tuple)):
+        paths = []
+        for item in value:
+            paths.extend(_asset_paths_from_custom_data(item, sdf_module))
+        return paths
+    return []
 
 
 def _asset_paths_from_value(value: Any, sdf_module: Any) -> list[str]:
@@ -539,12 +590,13 @@ def _resolve_missing_dependencies_from_mirrors(
         if mirror is None:
             resolved.append(dep)
         else:
+            remote = _is_remote_uri(dep.raw_asset_path)
             resolved.append(
                 replace(
                     dep,
                     resolved_path=mirror.resolve(),
                     status="mirrored",
-                    resolution="mirrored",
+                    resolution="mirrored_remote" if remote else "mirrored",
                     resolution_source="local_mirror_search",
                 )
             )
@@ -552,15 +604,29 @@ def _resolve_missing_dependencies_from_mirrors(
 
 
 def _find_local_mirror(root: Path, dep: AssetDependency) -> Path | None:
-    if _is_remote_uri(dep.raw_asset_path) or dep.kind == "usd":
+    if dep.kind == "usd":
         return None
 
     raw_path = Path(dep.raw_asset_path.split("?", 1)[0])
-    if not raw_path.name:
+    remote = _is_remote_uri(dep.raw_asset_path)
+    if remote:
+        # AAN-03R prefers a local mirror (Isaac/LabUtopia caches or legally
+        # synchronized content) for remote URIs.  Match URL-path suffixes from
+        # longest to shortest so dataset-level caches mirror the remote layout.
+        url_tail = dep.raw_asset_path.split("?", 1)[0].split("://", 1)[-1]
+        remote_parts = [part for part in url_tail.split("/") if part][1:]
+        if not remote_parts:
+            return None
+    elif not raw_path.name:
         return None
 
     for search_root in _local_mirror_search_roots(root, dep.source_layer):
-        direct_candidates = [search_root / raw_path, search_root / raw_path.name]
+        if remote:
+            direct_candidates = []
+            for length in range(len(remote_parts), 0, -1):
+                direct_candidates.append(search_root.joinpath(*remote_parts[-length:]))
+        else:
+            direct_candidates = [search_root / raw_path, search_root / raw_path.name]
         for candidate in direct_candidates:
             if candidate.exists() and candidate.is_file():
                 return candidate
@@ -936,7 +1002,7 @@ def _build_role_scoped_source(
     dynamic_profiled = request.asset_role == "dynamic" and (
         request.physics_profile is not None or request.interaction_profile is not None
     )
-    if request.asset_role != "visual_static" and not dynamic_profiled:
+    if not is_visual_static_role(request.asset_role) and not dynamic_profiled:
         return {
             "status": "not_applicable",
             "reason": (

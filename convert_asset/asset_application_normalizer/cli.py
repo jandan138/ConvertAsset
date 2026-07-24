@@ -21,7 +21,7 @@ def add_normalize_asset_parser(subparsers: argparse._SubParsersAction) -> None:
     parser.add_argument(
         "--asset-role",
         default="dynamic",
-        choices=("dynamic", "visual_static"),
+        choices=("dynamic", "visual_static", "visual_static_environment"),
         help="Admission role; visual_static strips scoped physics from the owned package.",
     )
     parser.add_argument("--source-runtime", required=True, help="Source runtime lineage, MVP: isaac51")

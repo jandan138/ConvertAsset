@@ -899,6 +899,395 @@ def test_runtime_smoke_argv_declares_asset_role(
     assert result.overall_status == "pass"
 
 
+def test_render_readback_fragment_view_upgrades_to_interior(tmp_path: Path) -> None:
+    """A fragment exterior view is upgraded to the best interior probe."""
+    from convert_asset.asset_application_normalizer import runtime_smoke
+
+    np = pytest.importorskip("numpy")
+    background = (40, 40, 40)
+    render_path = tmp_path / "render.png"
+    render_path.write_bytes(b"initial")
+    fragment = np.full((10, 10, 3), background, dtype=np.uint8)
+    fragment[0] = (210, 210, 210)
+    rich = np.full((10, 10, 3), background, dtype=np.uint8)
+    rich[:7] = (210, 210, 210)
+
+    def fake_look_at(camera, target, *, distance, elevation, azimuth):
+        return None
+
+    def fake_rgba(camera):
+        return np.zeros((10, 10, 4), dtype=np.uint8)
+
+    def fake_to_rgb(rgba, *, background_color):
+        return rich
+
+    def fake_save(path, rgb) -> bool:
+        path.write_bytes(b"retry")
+        return True
+
+    class _World:
+        def step(self, render=True):
+            return None
+
+    initial = runtime_smoke._render_metrics(fragment, render_path, background)
+    assert 0.0 < initial["non_background_ratio"] <= 0.35
+    args = SimpleNamespace(min_non_background_ratio=0.001, render_steps=1)
+
+    result = runtime_smoke._render_readback_with_interior_retry(
+        camera=object(),
+        world=_World(),
+        render_path=render_path,
+        initial_metrics=initial,
+        bbox_min=np.array([0.0, 0.0, 0.0]),
+        bbox_max=np.array([10.0, 8.0, 3.0]),
+        args=args,
+        background_color=background,
+        set_camera_look_at=fake_look_at,
+        camera_rgba=fake_rgba,
+        rgba_to_rgb=fake_to_rgb,
+        save_rgb_png=fake_save,
+    )
+
+    assert result["status"] == "pass"
+    assert result["camera_strategy"] == "interior_center_look_out"
+    assert result["non_background_ratio"] == pytest.approx(0.7, abs=1e-6)
+
+
+def test_render_readback_fragment_view_keeps_exterior_when_no_better_probe(
+    tmp_path: Path,
+) -> None:
+    """A fragment view still passes as exterior when interior probes are worse."""
+    from convert_asset.asset_application_normalizer import runtime_smoke
+
+    np = pytest.importorskip("numpy")
+    background = (40, 40, 40)
+    render_path = tmp_path / "render.png"
+    render_path.write_bytes(b"initial")
+    fragment = np.full((10, 10, 3), background, dtype=np.uint8)
+    fragment[0] = (210, 210, 210)
+    blank = np.full((10, 10, 3), background, dtype=np.uint8)
+
+    def fake_look_at(camera, target, *, distance, elevation, azimuth):
+        return None
+
+    def fake_rgba(camera):
+        return np.zeros((10, 10, 4), dtype=np.uint8)
+
+    def fake_to_rgb(rgba, *, background_color):
+        return blank
+
+    def fake_save(path, rgb) -> bool:
+        path.write_bytes(b"retry")
+        return True
+
+    class _World:
+        def step(self, render=True):
+            return None
+
+    initial = runtime_smoke._render_metrics(fragment, render_path, background)
+    args = SimpleNamespace(min_non_background_ratio=0.001, render_steps=1)
+
+    result = runtime_smoke._render_readback_with_interior_retry(
+        camera=object(),
+        world=_World(),
+        render_path=render_path,
+        initial_metrics=initial,
+        bbox_min=np.array([0.0, 0.0, 0.0]),
+        bbox_max=np.array([10.0, 8.0, 3.0]),
+        args=args,
+        background_color=background,
+        set_camera_look_at=fake_look_at,
+        camera_rgba=fake_rgba,
+        rgba_to_rgb=fake_to_rgb,
+        save_rgb_png=fake_save,
+    )
+
+    assert result["status"] == "pass"
+    assert result["camera_strategy"] == "exterior_orbit"
+    assert len(result["retry_attempts"]) == 4
+
+
+def test_render_readback_interior_retry_recovers_enclosed_scope(tmp_path: Path) -> None:
+    """An enclosed room whose exterior orbit is blank must retry interior views."""
+    from convert_asset.asset_application_normalizer import runtime_smoke
+
+    np = pytest.importorskip("numpy")
+    background = (40, 40, 40)
+    render_path = tmp_path / "render.png"
+    render_path.write_bytes(b"initial")
+    blank = np.full((8, 8, 3), background, dtype=np.uint8)
+    content = np.full((8, 8, 3), background, dtype=np.uint8)
+    content[:4] = (210, 210, 210)
+
+    calls: dict[str, list] = {"look_at": [], "saves": []}
+
+    def fake_look_at(camera, target, *, distance, elevation, azimuth):
+        calls["look_at"].append(
+            {
+                "target": tuple(float(v) for v in target),
+                "distance": float(distance),
+                "elevation": float(elevation),
+                "azimuth": float(azimuth),
+            }
+        )
+
+    def fake_rgba(camera):
+        return np.zeros((8, 8, 4), dtype=np.uint8)
+
+    def fake_to_rgb(rgba, *, background_color):
+        return content
+
+    def fake_save(path, rgb) -> bool:
+        calls["saves"].append(True)
+        path.write_bytes(b"retry")
+        return True
+
+    class _World:
+        def step(self, render=True):
+            return None
+
+    initial = runtime_smoke._render_metrics(blank, render_path, background)
+    assert initial["non_background_ratio"] == 0.0
+    args = SimpleNamespace(min_non_background_ratio=0.001, render_steps=1)
+
+    result = runtime_smoke._render_readback_with_interior_retry(
+        camera=object(),
+        world=_World(),
+        render_path=render_path,
+        initial_metrics=initial,
+        bbox_min=np.array([0.0, 0.0, 0.0]),
+        bbox_max=np.array([10.0, 8.0, 3.0]),
+        args=args,
+        background_color=background,
+        set_camera_look_at=fake_look_at,
+        camera_rgba=fake_rgba,
+        rgba_to_rgb=fake_to_rgb,
+        save_rgb_png=fake_save,
+    )
+
+    assert result["status"] == "pass"
+    assert result["camera_strategy"] == "interior_center_look_out"
+    assert result["retry_attempts"]
+    first = calls["look_at"][0]
+    assert first["target"][2] == pytest.approx(1.5)
+    assert first["distance"] > 0
+    assert calls["saves"]
+
+
+def test_render_readback_interior_retry_stays_blocked_when_all_views_blank(
+    tmp_path: Path,
+) -> None:
+    from convert_asset.asset_application_normalizer import runtime_smoke
+
+    np = pytest.importorskip("numpy")
+    background = (40, 40, 40)
+    render_path = tmp_path / "render.png"
+    render_path.write_bytes(b"initial")
+    blank = np.full((8, 8, 3), background, dtype=np.uint8)
+
+    def fake_look_at(camera, target, *, distance, elevation, azimuth):
+        return None
+
+    def fake_rgba(camera):
+        return np.zeros((8, 8, 4), dtype=np.uint8)
+
+    def fake_to_rgb(rgba, *, background_color):
+        return blank
+
+    def fake_save(path, rgb) -> bool:
+        path.write_bytes(b"retry")
+        return True
+
+    class _World:
+        def step(self, render=True):
+            return None
+
+    initial = runtime_smoke._render_metrics(blank, render_path, background)
+    args = SimpleNamespace(min_non_background_ratio=0.001, render_steps=1)
+
+    result = runtime_smoke._render_readback_with_interior_retry(
+        camera=object(),
+        world=_World(),
+        render_path=render_path,
+        initial_metrics=initial,
+        bbox_min=np.array([0.0, 0.0, 0.0]),
+        bbox_max=np.array([10.0, 8.0, 3.0]),
+        args=args,
+        background_color=background,
+        set_camera_look_at=fake_look_at,
+        camera_rgba=fake_rgba,
+        rgba_to_rgb=fake_to_rgb,
+        save_rgb_png=fake_save,
+    )
+
+    assert result["status"] == "blocked"
+    assert "blank" in result["reason"]
+    assert len(result["retry_attempts"]) == 4
+
+
+def test_scanner_collects_custom_data_asset_paths(tmp_path: Path) -> None:
+    """Asset paths nested in property customData must not hide from closure."""
+    from convert_asset.asset_application_normalizer.usd_closure import (
+        _scan_layer_dependencies,
+    )
+
+    layer = tmp_path / "source.usda"
+    layer.write_text(
+        """#usda 1.0
+(
+    defaultPrim = "World"
+)
+def Xform "World"
+{
+    def Scope "Looks"
+    {
+        def Material "Mat"
+        {
+            def Shader "Shader"
+            {
+                uniform token info:id = "UsdUVTexture"
+                asset inputs:file = @./textures/local.png@ (
+                    colorSpace = "sRGB"
+                    customData = {
+                        asset default = @https://cdn.example.com/Materials/default.png@
+                    }
+                )
+            }
+        }
+    }
+}
+""",
+        encoding="utf-8",
+    )
+
+    deps = _scan_layer_dependencies(layer)
+
+    raws = {dep.raw_asset_path for dep in deps}
+    assert "./textures/local.png" in raws
+    assert "https://cdn.example.com/Materials/default.png" in raws
+
+
+def test_remote_uri_resolves_from_local_mirror_with_provenance(tmp_path: Path) -> None:
+    """AAN-03R prefers a local mirror for remote URIs instead of blocking."""
+    from convert_asset.asset_application_normalizer.usd_closure import (
+        _resolve_missing_dependencies_from_mirrors,
+        _scan_layer_dependencies,
+    )
+
+    mirror_dir = tmp_path / "Materials" / "Base" / "Stone"
+    mirror_dir.mkdir(parents=True)
+    (mirror_dir / "Slate.mdl").write_text("mdl 1.0;\n", encoding="utf-8")
+    layer = tmp_path / "source.usda"
+    layer.write_text(
+        """#usda 1.0
+(
+    defaultPrim = "World"
+)
+def Xform "World"
+{
+    def Scope "Looks"
+    {
+        def Material "Slate"
+        {
+            def Shader "Shader"
+            {
+                uniform asset info:mdl:sourceAsset = @https://cdn.example.com/Materials/Base/Stone/Slate.mdl@
+            }
+        }
+    }
+}
+""",
+        encoding="utf-8",
+    )
+    deps = _scan_layer_dependencies(layer)
+
+    resolved = _resolve_missing_dependencies_from_mirrors(layer, deps)
+
+    remote = [dep for dep in resolved if dep.raw_asset_path.startswith("https://")]
+    assert remote, "remote dependency must be scanned"
+    for dep in remote:
+        assert dep.resolved_path == (mirror_dir / "Slate.mdl").resolve()
+        assert dep.resolution == "mirrored_remote"
+        assert dep.status == "mirrored"
+
+
+def test_remote_uri_without_local_mirror_stays_blocked(tmp_path: Path) -> None:
+    from convert_asset.asset_application_normalizer.usd_closure import (
+        _resolve_missing_dependencies_from_mirrors,
+        _scan_layer_dependencies,
+    )
+
+    layer = tmp_path / "source.usda"
+    layer.write_text(
+        """#usda 1.0
+def Scope "Looks"
+{
+    def Material "Mat"
+    {
+        def Shader "Shader"
+        {
+            uniform asset info:mdl:sourceAsset = @https://cdn.example.com/Materials/Absent.mdl@
+        }
+    }
+}
+""",
+        encoding="utf-8",
+    )
+    deps = _scan_layer_dependencies(layer)
+
+    resolved = _resolve_missing_dependencies_from_mirrors(layer, deps)
+
+    assert resolved[0].resolved_path is None
+    assert resolved[0].resolution is None
+
+
+def test_visual_static_environment_role_runs_full_static_admission(tmp_path: Path) -> None:
+    """visual_static_environment is a visual_static-class role, recorded verbatim."""
+    source = tmp_path / "source.usda"
+    source.write_text(_visual_static_scope_extraction_usda(), encoding="utf-8")
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+
+    result = normalize_asset(
+        _request(
+            source,
+            out_dir,
+            evidence_out,
+            asset_class="auto",
+            asset_role="visual_static_environment",
+            target_benchmark="scenario-forge",
+        )
+    )
+
+    assert result.return_code == 0
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["asset_role"] == "visual_static_environment"
+    assert manifest["output_role_admission"]["status"] == "pass"
+    scope_extraction = manifest["dependency_closure"]["scope_extraction"]
+    assert scope_extraction["status"] == "pass"
+    assert manifest["dependency_closure"]["scope_dependency_filter"]["status"] == "applied"
+    assert manifest["physics_closure"]["role"] == "visual_static_environment"
+    stage_gate_ids = {gate["check_id"] for gate in manifest["stage_gates"]}
+    assert "AAN-05R-role-normalization" in stage_gate_ids
+
+
+def test_visual_static_environment_rigid_reset_gate_not_applicable() -> None:
+    from convert_asset.asset_application_normalizer.runtime_smoke import (
+        _build_rigid_reset_gate,
+    )
+
+    gate = _build_rigid_reset_gate(
+        {},
+        {},
+        pre_step={},
+        tolerance_stage_units=0.001,
+        asset_role="visual_static_environment",
+        scope_rigid_bodies=[],
+    )
+
+    assert gate["status"] == "not_applicable"
+
+
 def _scope_first_room_usda() -> str:
     return """#usda 1.0
 (

@@ -19,8 +19,14 @@ MILESTONE_AAN11 = "AAN-11-material-runtime-closure"
 ALLOWED_SOURCE_RUNTIMES = {"isaac51"}
 ALLOWED_TARGET_RUNTIMES = {"isaac41"}
 ALLOWED_TARGET_BENCHMARKS = {"ebench-lift2", "scenario-forge"}
-ALLOWED_ASSET_ROLES = {"dynamic", "visual_static"}
+ALLOWED_ASSET_ROLES = {"dynamic", "visual_static", "visual_static_environment"}
+VISUAL_STATIC_ROLES = frozenset({"visual_static", "visual_static_environment"})
 USD_EXTENSIONS = {".usd", ".usda", ".usdc"}
+
+
+def is_visual_static_role(role: str) -> bool:
+    """visual_static-class roles share admission semantics; the manifest records the declared role verbatim."""
+    return role in VISUAL_STATIC_ROLES
 
 
 def validate_scope_prim_paths(scope_prims: list[str]) -> dict[str, object]:

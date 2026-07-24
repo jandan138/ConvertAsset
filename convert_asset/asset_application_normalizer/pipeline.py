@@ -31,6 +31,7 @@ from .model import (
     USD_EXTENSIONS,
     NormalizeAssetRequest,
     NormalizeAssetResult,
+    is_visual_static_role,
     validate_scope_prim_paths,
 )
 from .package_layout import TargetPackageLayout, default_evidence_out
@@ -360,7 +361,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
                     else "AAN package-owned role normalization blocked.",
                 }
             ]
-            if request.asset_role == "visual_static"
+            if is_visual_static_role(request.asset_role)
             else []
         ),
         *(
@@ -423,7 +424,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             "AAN-05 records a package-owned visual_static admission for the declared asset scope only.",
             "The visual_static scope has no active rigid body, collision, articulation, or joint semantics.",
         ]
-        if request.asset_role == "visual_static"
+        if is_visual_static_role(request.asset_role)
         else [
             "AAN-05 static physics and articulation evidence was recorded.",
             "Authored rigid body, collision, mass, inertia, joint axis, and joint limits are preserved when listed with value_source=authored.",
@@ -435,7 +436,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             "The visual_static asset is articulated-physics-ready or dynamic-physics-ready.",
             "Any sibling asset outside the declared visual_static scope is ready.",
         ]
-        if request.asset_role == "visual_static"
+        if is_visual_static_role(request.asset_role)
         else []
     )
     dynamic_profile_forbidden_claims = _dynamic_profile_forbidden_claims(

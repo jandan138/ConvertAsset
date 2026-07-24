@@ -16,7 +16,12 @@ import sys
 from typing import Any
 import uuid
 
-from .model import MILESTONE_AAN06, NormalizeAssetRequest, validate_scope_prim_paths
+from .model import (
+    MILESTONE_AAN06,
+    NormalizeAssetRequest,
+    is_visual_static_role,
+    validate_scope_prim_paths,
+)
 from .package_layout import TargetPackageLayout
 
 
@@ -1462,19 +1467,29 @@ def _worker_report(
             return report
 
         render_metrics = _render_metrics(rgb, render_path, DEFAULT_BACKGROUND_COLOR)
-        if render_metrics["non_background_ratio"] <= float(args.min_non_background_ratio):
+        render_readback = _render_readback_with_interior_retry(
+            camera=camera,
+            world=world,
+            render_path=render_path,
+            initial_metrics=render_metrics,
+            bbox_min=bbox_min,
+            bbox_max=bbox_max,
+            args=args,
+            background_color=DEFAULT_BACKGROUND_COLOR,
+            set_camera_look_at=_set_camera_look_at,
+            camera_rgba=_camera_rgba,
+            rgba_to_rgb=_rgba_to_rgb,
+            save_rgb_png=_save_rgb_png,
+        )
+        if render_readback["status"] != "pass":
             report["render_readback"] = {
-                **render_metrics,
-                "status": "blocked",
-                "reason": "render readback appears blank or all background",
+                **render_readback,
                 "bbox_source": bbox_source,
             }
             return report
         report["render_readback"] = {
-            **render_metrics,
-            "status": "pass",
+            **render_readback,
             "bbox_source": bbox_source,
-            "path": str(render_path),
         }
         report["material_view_evidence"] = _capture_material_view_evidence(
             camera=camera,
@@ -1811,6 +1826,134 @@ def _camera_fit_distance(bbox_min: Any, bbox_max: Any) -> float:
     return max(0.25, 1.5 * diagonal)
 
 
+def _interior_retry_camera_specs(bbox_min: Any, bbox_max: Any) -> list[dict[str, Any]]:
+    """Interior look-out viewpoints for enclosed scopes.
+
+    The default exterior orbit can sit outside an enclosed room (single-sided
+    walls cull away and the readback is all background).  Looking outward from
+    the bounding-box center is the honest probe for an interior environment:
+    the render must still show authored content, just from inside the room.
+    """
+    center = [
+        (float(bbox_min[index]) + float(bbox_max[index])) / 2.0
+        for index in range(3)
+    ]
+    extents = [
+        float(bbox_max[index]) - float(bbox_min[index])
+        for index in range(3)
+    ]
+    horizontal_half = max(extents[0], extents[1]) / 2.0
+    distance = max(0.5, 0.6 * horizontal_half)
+    specs = []
+    for azimuth in (0.0, 90.0, 180.0, 270.0):
+        azim_rad = math.radians(azimuth)
+        wall = [
+            center[0] + distance * math.cos(azim_rad),
+            center[1] + distance * math.sin(azim_rad),
+            center[2],
+        ]
+        specs.append(
+            {
+                "strategy": "interior_center_look_out",
+                "wall_target": [round(float(item), 8) for item in wall],
+                "distance": round(float(distance), 8),
+                "elevation": 0.0,
+                "azimuth": round((azimuth + 180.0) % 360.0, 8),
+            }
+        )
+    return specs
+
+
+def _render_readback_with_interior_retry(
+    *,
+    camera: Any,
+    world: Any,
+    render_path: Path,
+    initial_metrics: dict[str, Any],
+    bbox_min: Any,
+    bbox_max: Any,
+    args: argparse.Namespace,
+    background_color: tuple[int, int, int],
+    set_camera_look_at: Any,
+    camera_rgba: Any,
+    rgba_to_rgb: Any,
+    save_rgb_png: Any,
+) -> dict[str, Any]:
+    """Return the render gate, retrying enclosed scopes from inside the bbox.
+
+    The exterior orbit fires interior look-out probes when it reads blank, or
+    when it captures only a fragment (ratio at or below
+    ``fragment_ratio_threshold``) of an enclosed scope.  The best view wins;
+    the gate still requires non-background content, so this never converts a
+    genuinely empty scope into a pass.
+    """
+    fragment_threshold = float(getattr(args, "fragment_ratio_threshold", 0.35))
+    initial_ratio = float(initial_metrics["non_background_ratio"])
+    if initial_ratio > max(float(args.min_non_background_ratio), fragment_threshold):
+        return {
+            **initial_metrics,
+            "status": "pass",
+            "retry_attempts": [],
+            "path": str(render_path),
+        }
+    attempts: list[dict[str, Any]] = []
+    best_metrics: dict[str, Any] | None = None
+    best_rgb: Any | None = None
+    best_spec: dict[str, Any] | None = None
+    for spec in _interior_retry_camera_specs(bbox_min, bbox_max):
+        set_camera_look_at(
+            camera,
+            spec["wall_target"],
+            distance=spec["distance"],
+            elevation=spec["elevation"],
+            azimuth=spec["azimuth"],
+        )
+        for _ in range(max(1, int(args.render_steps))):
+            world.step(render=True)
+        rgba = _wait_for_camera_rgba(
+            camera=camera,
+            world=world,
+            camera_rgba=camera_rgba,
+            max_attempts=10,
+        )
+        rgb = rgba_to_rgb(rgba, background_color=background_color) if rgba is not None else None
+        if rgb is None:
+            attempts.append({**spec, "status": "empty_readback"})
+            continue
+        metrics = _render_metrics(rgb, render_path, background_color)
+        attempts.append({**spec, "non_background_ratio": metrics["non_background_ratio"]})
+        if best_metrics is None or metrics["non_background_ratio"] > best_metrics["non_background_ratio"]:
+            best_metrics = metrics
+            best_rgb = rgb
+            best_spec = spec
+    if best_metrics is not None and best_metrics["non_background_ratio"] > initial_ratio:
+        if not save_rgb_png(render_path, best_rgb):
+            attempts.append({"status": "save_failed"})
+        else:
+            best_metrics = _render_metrics(best_rgb, render_path, background_color)
+            return {
+                **best_metrics,
+                "status": "pass",
+                "camera_strategy": best_spec["strategy"],
+                "retry_attempts": attempts,
+                "path": str(render_path),
+            }
+    if initial_ratio > float(args.min_non_background_ratio):
+        return {
+            **initial_metrics,
+            "status": "pass",
+            "camera_strategy": "exterior_orbit",
+            "retry_attempts": attempts,
+            "path": str(render_path),
+        }
+    return {
+        **initial_metrics,
+        "status": "blocked",
+        "reason": "render readback appears blank or all background",
+        "retry_attempts": attempts,
+    }
+
+
 def _wait_for_camera_rgba(
     *,
     camera: Any,
@@ -1990,11 +2133,11 @@ def _build_rigid_reset_gate(
     Dynamic admission keeps the strict check.
     """
     bodies = list(scope_rigid_bodies or [])
-    if not bodies and asset_role == "visual_static":
+    if not bodies and is_visual_static_role(asset_role):
         return {
             "status": "not_applicable",
             "reason": (
-                "visual_static scope declares no scoped rigid bodies; "
+                f"{asset_role} scope declares no scoped rigid bodies; "
                 "rigid-body reset is not applicable"
             ),
             "scope_rigid_bodies": bodies,

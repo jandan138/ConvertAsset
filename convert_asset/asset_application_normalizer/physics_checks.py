@@ -9,7 +9,7 @@ import math
 from pathlib import Path
 from typing import Any
 
-from .model import MILESTONE_AAN05, NormalizeAssetRequest
+from .model import MILESTONE_AAN05, NormalizeAssetRequest, is_visual_static_role
 from .package_layout import TargetPackageLayout
 from .stage_metrics import physical_frame_report
 
@@ -206,7 +206,7 @@ def build_physics_checks(
     scope = request.effective_asset_scope_prims
     scoped_required = _required_prim_records(stage, scope)
     physical_frame = physical_frame_report(request.source_usd, layout.root_usd, scope)
-    if request.asset_role == "visual_static":
+    if is_visual_static_role(request.asset_role):
         output_admission = _visual_static_output_admission(stage, scope)
         blockers = [
             {
@@ -244,7 +244,7 @@ def build_physics_checks(
         summary = inspection["summary"]
         physics_closure = {
             "status": status,
-            "role": "visual_static",
+            "role": request.asset_role,
             "root_usd": str(layout.root_usd),
             "scope": _scope_record(scope),
             "source_physics_audit": source_audit,
@@ -260,7 +260,7 @@ def build_physics_checks(
         }
         articulation_closure = {
             "status": status,
-            "role": "visual_static",
+            "role": request.asset_role,
             "articulation_roots": inspection["articulation_roots"],
             "joints": inspection["joints"],
             "summary": _articulation_summary(inspection["articulation_roots"], inspection["joints"]),
