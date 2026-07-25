@@ -25,6 +25,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-07-23 AAN Scope-First Closure and Visual-Static Rigid Reset Fixes](2026-07-23-aan-scope-first-closure-and-visual-static-rigid-reset.md)
 - [2026-07-23 Scientific Environment Batch Admission (7 Candidates)](2026-07-23-aan-scientific-environment-batch-admission.md)
 - [2026-07-24 Scientific Environment Source-Fix Round (7/7 Pass)](2026-07-24-aan-scientific-environment-source-fix-round.md)
+- [2026-07-24 Scientific Environment Workspace Integration Profiles](2026-07-24-aan-scientific-environment-workspace-integration-profiles.md)
 - [2026-06-30 AAN-00 Contract Freeze](2026-06-30-aan-00-contract-freeze.md)
 - [2026-06-30 AAN-01 DryingBox Manifest Seed](2026-06-30-aan-01-dryingbox-manifest-seed.md)
 - [2026-06-30 AAN-02 CLI Skeleton](2026-06-30-aan-02-cli-skeleton.md)
