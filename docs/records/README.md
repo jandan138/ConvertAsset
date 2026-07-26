@@ -27,6 +27,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-07-24 Scientific Environment Source-Fix Round (7/7 Pass)](2026-07-24-aan-scientific-environment-source-fix-round.md)
 - [2026-07-24 Scientific Environment Workspace Integration Profiles](2026-07-24-aan-scientific-environment-workspace-integration-profiles.md)
 - [2026-07-24 Workspace Profile Coordinate Mapping (profile-2)](2026-07-24-aan-workspace-profile-coordinate-mapping.md)
+- [2026-07-26 067 Workspace Re-Profile (North Hood Pair)](2026-07-26-aan-067-workspace-reprofile-north-hood-pair.md)
 - [2026-06-30 AAN-00 Contract Freeze](2026-06-30-aan-00-contract-freeze.md)
 - [2026-06-30 AAN-01 DryingBox Manifest Seed](2026-06-30-aan-01-dryingbox-manifest-seed.md)
 - [2026-06-30 AAN-02 CLI Skeleton](2026-06-30-aan-02-cli-skeleton.md)
