@@ -1269,14 +1269,17 @@ def _scope_bound_material_paths(
                 material, _relationship = binding.ComputeBoundMaterial()
             except Exception:
                 material = None
-            if material and material.GetPrim().IsValid():
+            if material and material.GetPrim().IsValid() and material.GetPrim().IsActive():
                 material_paths.add(material.GetPath().pathString)
             for relationship in prim.GetRelationships():
                 if not relationship.GetName().startswith("material:binding"):
                     continue
                 for target in relationship.GetTargets():
                     target_prim = stage.GetPrimAtPath(target)
-                    if target_prim and target_prim.IsValid():
+                    # Bindings to inactive materials are dead variants; the
+                    # flatten step drops inactive prims, so requiring them
+                    # would falsely block the snapshot.
+                    if target_prim and target_prim.IsValid() and target_prim.IsActive():
                         material_paths.add(target.pathString)
     return sorted(material_paths)
 

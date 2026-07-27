@@ -1241,6 +1241,64 @@ def Scope "Looks"
     assert resolved[0].resolution is None
 
 
+def test_scope_extraction_skips_bindings_to_inactive_materials(tmp_path: Path) -> None:
+    """Bindings to inactive material prims are dead and must not block extraction."""
+    Usd = pytest.importorskip("pxr.Usd")
+    source = tmp_path / "source.usda"
+    source.write_text(
+        """#usda 1.0
+(
+    defaultPrim = "World"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+def Xform "World"
+{
+    def Xform "Asset"
+    {
+        def Mesh "Mesh"
+        {
+            rel material:binding = </World/Looks/Active>
+            rel material:binding:variant = </World/Looks/DeadVariant>
+            point3f[] points = [(0, 0, 0), (1, 0, 0), (0, 1, 0)]
+            int[] faceVertexCounts = [3]
+            int[] faceVertexIndices = [0, 1, 2]
+        }
+    }
+    def Scope "Looks"
+    {
+        def Material "Active" {}
+        def Material "DeadVariant" (
+            active = false
+        )
+        {
+        }
+    }
+}
+""",
+        encoding="utf-8",
+    )
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+
+    result = normalize_asset(
+        _request(
+            source,
+            out_dir,
+            evidence_out,
+            asset_class="auto",
+            asset_role="visual_static_environment",
+            target_benchmark="scenario-forge",
+        )
+    )
+
+    assert result.return_code == 0
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert manifest["overall_status"] == "pass"
+    stage = Usd.Stage.Open(str(out_dir / "asset.usd"))
+    assert stage.GetPrimAtPath("/World/Looks/Active").IsValid()
+
+
 def test_visual_static_environment_role_runs_full_static_admission(tmp_path: Path) -> None:
     """visual_static_environment is a visual_static-class role, recorded verbatim."""
     source = tmp_path / "source.usda"
