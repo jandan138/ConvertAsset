@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """CLI entry for convert_asset utilities."""
 import os
-import sys
 import argparse
-import math
+from pathlib import Path
 
 
 def _to_posix(p: str) -> str:
@@ -118,6 +117,48 @@ def main(argv: list[str] | None = None) -> int:
     from .asset_application_normalizer.cli import add_normalize_asset_parser
     add_normalize_asset_parser(sub)
 
+    p_facade = sub.add_parser(
+        "build-facade",
+        help="Build a producer-owned consumer facade for a multi-root source stage",
+    )
+    p_facade.add_argument("src", help="Path to the raw multi-root USD file")
+    p_facade.add_argument("--out", required=True, help="Facade output directory")
+    p_facade.add_argument(
+        "--mount",
+        action="append",
+        required=True,
+        metavar="RAW_NS=MOUNT_PATH",
+        help="Namespace mount, e.g. /world=/World/world; repeat per namespace",
+    )
+    p_facade.add_argument("--consumer-scope", default="/World", help="Consumer scope prim path")
+    p_facade.add_argument("--source-sha256", default=None, help="Pinned raw source SHA-256 for provenance")
+
+    p_ws = sub.add_parser(
+        "workspace-profile",
+        help="Audit an eBench workspace placement and write a v0.1 integration profile",
+    )
+    p_ws.add_argument("src", help="Path to source USD file")
+    p_ws.add_argument("--candidate-id", required=True)
+    p_ws.add_argument("--out", required=True, help="Profile YAML output path")
+    p_ws.add_argument("--assembly", action="append", required=True, help="Assembly root prim path; repeat")
+    p_ws.add_argument("--anchor", nargs=3, type=float, required=True, metavar=("X", "Y", "Z"))
+    p_ws.add_argument("--units-per-meter", type=float, required=True)
+    p_ws.add_argument("--floor-z", type=float, default=0.0)
+    p_ws.add_argument("--scope", default="/World")
+    p_ws.add_argument(
+        "--shell-prefix",
+        action="append",
+        default=[],
+        help="Room-shell prim path prefix kept as background; repeat per prefix",
+    )
+    p_ws.add_argument("--source-sha256", default=None)
+    p_ws.add_argument("--git-commit", default=None)
+    p_ws.add_argument("--revision", default=None)
+    p_ws.add_argument(
+        "--mapping-derivation",
+        default="counter-band measurement with the 0.90 m standard counter reference",
+    )
+
     # If no subcommand provided, default to no-mdl for convenience
     args_ns, extras = parser.parse_known_args(argv)
     if args_ns.cmd is None:
@@ -127,6 +168,84 @@ def main(argv: list[str] | None = None) -> int:
     if args_ns.cmd == "normalize-asset":
         from .asset_application_normalizer.cli import run_from_args
         return run_from_args(args_ns)
+
+    if args_ns.cmd == "build-facade":
+        from .asset_application_normalizer.facade import (
+            NamespaceMount,
+            build_consumer_facade,
+        )
+        mounts = [
+            NamespaceMount(raw_namespace=raw, mount_path=mount)
+            for raw, mount in (pair.split("=", 1) for pair in args_ns.mount)
+        ]
+        result = build_consumer_facade(
+            Path(args_ns.src),
+            Path(args_ns.out),
+            mounts=mounts,
+            consumer_scope=args_ns.consumer_scope,
+            source_sha256=args_ns.source_sha256,
+        )
+        print(f"facade written: {result.facade_path}")
+        print(f"binding retargets: {result.binding_retarget_count}")
+        print(f"provenance: {result.provenance_path}")
+        return 0
+
+    if args_ns.cmd == "workspace-profile":
+        from pxr import Usd  # type: ignore
+
+        from .workspace.audit import ClearanceSpec, audit_clearance
+        from .workspace.profiles import (
+            CoordinateMapping,
+            ProducerInfo,
+            WorkspaceProfile,
+            write_yaml,
+        )
+
+        stage = Usd.Stage.Open(args_ns.src)
+        if stage is None:
+            print("Cannot open source stage:", args_ns.src)
+            return 2
+        shell_prefixes = tuple(args_ns.shell_prefix)
+        spec = ClearanceSpec(
+            assembly_roots=list(args_ns.assembly),
+            anchor_xyz=tuple(float(v) for v in args_ns.anchor),
+            units_per_meter=float(args_ns.units_per_meter),
+            floor_z=float(args_ns.floor_z),
+        )
+        report = audit_clearance(
+            stage,
+            spec,
+            is_room_shell=lambda prim: prim.GetPath().pathString.startswith(shell_prefixes),
+        )
+        profile = WorkspaceProfile(
+            candidate_id=args_ns.candidate_id,
+            source_usd=str(args_ns.src),
+            source_sha256=args_ns.source_sha256 or "",
+            scope=args_ns.scope,
+            producer=ProducerInfo(
+                git_commit=args_ns.git_commit or "unknown",
+                revision=args_ns.revision or "workspace-profile-adhoc",
+            ),
+            coordinate_mapping=CoordinateMapping(
+                units_per_meter=float(args_ns.units_per_meter),
+                derivation=args_ns.mapping_derivation,
+            ),
+            assembly_roots=list(args_ns.assembly),
+            anchor_prim=args_ns.assembly[0],
+            anchor_xyz=tuple(float(v) for v in args_ns.anchor),
+            clearance_aabb=report.clearance_aabb_m,
+            optional_inactives=[
+                item.prim_path for item in report.intruders if item.classification == "flat_item"
+            ],
+            coverage_note=(
+                f"audit verdict: {report.verdict}; loose intruders: "
+                f"{[item.prim_path for item in report.intruders if item.classification == 'loose_prop']}"
+            ),
+            status="profiled" if report.verdict == "clean" else "blocked",
+        )
+        write_yaml(profile.to_document(), Path(args_ns.out))
+        print(f"workspace profile written: {args_ns.out} (verdict: {report.verdict})")
+        return 0 if report.verdict == "clean" else 5
 
     if args_ns.cmd == "no-mdl":
         # Lazy import to avoid requiring pxr unless actually running no-mdl conversion

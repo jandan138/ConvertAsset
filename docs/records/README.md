@@ -30,6 +30,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-07-26 067 Workspace Re-Profile (North Hood Pair)](2026-07-26-aan-067-workspace-reprofile-north-hood-pair.md)
 - [2026-07-26 067 Workspace not_applicable (Geometric Incompatibility)](2026-07-26-aan-067-workspace-not-applicable.md)
 - [2026-07-27 External Room Facade Admission and Zone Profiles (3FO4K5C9JD44)](2026-07-27-aan-external-room-facade-admission-and-zone-profiles.md)
+- [2026-07-27 Workspace Capability Internalization](2026-07-27-workspace-capability-internalization.md)
 - [2026-06-30 AAN-00 Contract Freeze](2026-06-30-aan-00-contract-freeze.md)
 - [2026-06-30 AAN-01 DryingBox Manifest Seed](2026-06-30-aan-01-dryingbox-manifest-seed.md)
 - [2026-06-30 AAN-02 CLI Skeleton](2026-06-30-aan-02-cli-skeleton.md)
