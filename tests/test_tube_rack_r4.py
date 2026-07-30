@@ -52,7 +52,13 @@ def _r3_facade_text() -> str:
         )
     return (
         '#usda 1.0\n'
-        '(\n    defaultPrim = "World"\n    metersPerUnit = 1\n    upAxis = "Z"\n)\n'
+        '(\n'
+        '    defaultPrim = "World"\n'
+        '    framesPerSecond = 24\n'
+        '    metersPerUnit = 1\n'
+        '    timeCodesPerSecond = 60\n'
+        '    upAxis = "Z"\n'
+        ')\n'
         'over "World"\n{\n    over "TubeRack"\n    {\n'
         '        def Xform "__aan_collision_proxy"\n        {\n'
         + "".join(blocks)
@@ -188,6 +194,8 @@ def test_r4_builder_corrects_cube_semantics_and_visual_leakage(
 
     text = out_facade.read_text(encoding="utf-8")
     metadata = json.loads(out_provenance.read_text(encoding="utf-8"))
+    assert "framesPerSecond = 24" in text
+    assert "timeCodesPerSecond = 60" in text
     assert text.count("double size = 1") == len(PROXY_SPECS)
     assert text.count('token visibility = "invisible"') == len(PROXY_SPECS)
     for name, (size, _translation) in PROXY_SPECS.items():

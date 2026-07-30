@@ -214,6 +214,24 @@ def _format_vector(values: tuple[float, float, float]) -> str:
     return ", ".join(_format_number(value) for value in values)
 
 
+def _stage_rate(facade_text: str, field: str) -> float:
+    match = re.search(
+        rf"^\s*{re.escape(field)}\s*=\s*(?P<value>[-+0-9.eE]+)\s*$",
+        facade_text,
+        re.MULTILINE,
+    )
+    if match is None:
+        raise TubeRackR4BuildError(
+            f"predecessor facade is missing authored {field}"
+        )
+    value = float(match.group("value"))
+    if not math.isfinite(value) or value <= 0.0:
+        raise TubeRackR4BuildError(
+            f"predecessor facade has invalid {field}"
+        )
+    return value
+
+
 def _proxy_bounds(
     specs: dict[str, dict[str, tuple[float, float, float]]],
 ) -> tuple[list[float], list[float]]:
@@ -238,6 +256,9 @@ def _facade_text(
     predecessor_facade_path: Path,
     output_facade_path: Path,
     specs: dict[str, dict[str, tuple[float, float, float]]],
+    *,
+    frames_per_second: float,
+    time_codes_per_second: float,
 ) -> str:
     relative_predecessor = Path(
         os.path.relpath(
@@ -264,10 +285,12 @@ def _facade_text(
     return f'''#usda 1.0
 (
     defaultPrim = "World"
+    framesPerSecond = {_format_number(frames_per_second)}
     metersPerUnit = 1
     subLayers = [
         @{relative_predecessor}@
     ]
+    timeCodesPerSecond = {_format_number(time_codes_per_second)}
     upAxis = "Z"
 )
 
@@ -361,6 +384,8 @@ def build_tube_rack_r4_facade(
             "predecessor provenance proxy list differs from the audited ABI"
         )
     specs = _parse_proxy_specs(facade_text)
+    frames_per_second = _stage_rate(facade_text, "framesPerSecond")
+    time_codes_per_second = _stage_rate(facade_text, "timeCodesPerSecond")
     minimum, maximum = _proxy_bounds(specs)
     if not math.isclose(minimum[2], 0.0, abs_tol=1.0e-9):
         raise TubeRackR4BuildError(
@@ -370,6 +395,8 @@ def build_tube_rack_r4_facade(
         predecessor_facade_path,
         output_facade_path,
         specs,
+        frames_per_second=frames_per_second,
+        time_codes_per_second=time_codes_per_second,
     )
     output_bytes = output_text.encode("utf-8")
     output_sha256 = sha256(output_bytes).hexdigest()

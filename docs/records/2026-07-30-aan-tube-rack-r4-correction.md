@@ -283,3 +283,11 @@ python3 scripts/finalize_interaction_task_qualification.py \
 Until all three steps complete, the correct status is: correction tooling
 implemented and negative control verified; final r4 package qualification not
 yet claimed.
+
+The first production normalize attempt exposed one additional facade-authoring
+regression before any runtime claim: an overlay that omitted the predecessor's
+authored `framesPerSecond = 24` and `timeCodesPerSecond = 60` composed with the
+USD defaults and no longer matched the source-bound profile. The builder now
+copies both authored rates into the stronger r4 layer and blocks when either
+rate is absent or invalid. A regression assertion covers the preserved values;
+no profile stage metric was changed to accommodate the bad overlay.
