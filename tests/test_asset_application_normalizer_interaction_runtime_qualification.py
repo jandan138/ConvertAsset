@@ -219,6 +219,70 @@ def test_non_required_aperture_probe_is_not_applicable() -> None:
     assert probes["bilateral_gripper_proxy_collision"]["status"] == "pass"
 
 
+def test_support_height_tolerance_remains_ten_millimetres() -> None:
+    from convert_asset.asset_application_normalizer.interaction_runtime_qualification import (
+        SUPPORT_HEIGHT_TOLERANCE_M,
+        evaluate_probe_observations,
+    )
+
+    assert SUPPORT_HEIGHT_TOLERANCE_M == pytest.approx(0.01)
+    observations = {
+        "cooked_aperture": {},
+        "stable_support": {
+            "finite": True,
+            "support_height_error_m": 0.010001,
+            "tail_max_linear_speed_m_s": 0.0,
+            "tail_max_angular_speed_rad_s": 0.0,
+            "tilt_deg": 0.0,
+            "lateral_drift_m": 0.0,
+            "scene_to_rigid_position_error_m": 0.0,
+        },
+        "root_motion_parity": {
+            "finite": True,
+            "translation_m": 0.01,
+            "scene_to_rigid_position_error_m": 0.0,
+            "scene_to_rigid_orientation_error_deg": 0.0,
+        },
+        "bilateral_gripper_proxy_collision": {
+            "finite": True,
+            "probe_radius_m": 0.001,
+            "positive_hit": True,
+            "negative_hit": True,
+            "positive_distance_m": 0.001,
+            "negative_distance_m": 0.001,
+        },
+    }
+
+    probes = evaluate_probe_observations(
+        observations,
+        root_motion_requirement={"min_translation_m": 0.01},
+        open_top_required=False,
+    )
+
+    assert probes["stable_support"]["status"] == "blocked"
+    assert probes["stable_support"]["errors"] == [
+        "support height error exceeds tolerance"
+    ]
+
+
+def test_only_required_runtime_probes_control_overall_qualification() -> None:
+    from convert_asset.asset_application_normalizer.interaction_runtime_qualification import (
+        _required_probe_ids,
+    )
+
+    contract = {
+        "open_top": {"required": False},
+        "stable_support_gate": {"required": True},
+        "root_motion_gate": {"required": True},
+        "gripper_collision_gate": {"required": False},
+    }
+
+    assert _required_probe_ids(contract) == (
+        "stable_support",
+        "root_motion_parity",
+    )
+
+
 def test_report_promotes_only_the_corresponding_runtime_gate(tmp_path: Path) -> None:
     from convert_asset.asset_application_normalizer.interaction_runtime_qualification import (
         promote_interaction_runtime_gates,
@@ -257,6 +321,57 @@ def test_report_promotes_only_the_corresponding_runtime_gate(tmp_path: Path) -> 
         promoted["closure"]["contract_payload_sha256"]
         != contract["closure"]["contract_payload_sha256"]
     )
+
+
+def test_non_required_open_top_is_promoted_as_not_applicable(
+    tmp_path: Path,
+) -> None:
+    from convert_asset.asset_application_normalizer.interaction_runtime_qualification import (
+        promote_interaction_runtime_gates,
+    )
+
+    contract = _static_contract(tmp_path)
+    contract["open_top"]["required"] = False
+    contract["closure"]["contract_payload_sha256"] = hashlib.sha256(
+        json.dumps(
+            {
+                key: contract[key]
+                for key in (
+                    "schema_version",
+                    "asset_entry_prim",
+                    "runtime_identity",
+                    "disabled_source_rigid_bodies",
+                    "collider_prims",
+                    "open_top",
+                    "named_frames",
+                )
+            },
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=True,
+        ).encode("utf-8")
+    ).hexdigest()
+    probes = {
+        "cooked_aperture": {
+            "status": "not_applicable",
+            "errors": [],
+            "reason": "open_top is not required by the interaction profile",
+        },
+        "stable_support": {"status": "pass", "errors": []},
+        "root_motion_parity": {"status": "pass", "errors": []},
+        "bilateral_gripper_proxy_collision": {"status": "pass", "errors": []},
+    }
+    report = _bound_report(contract, tmp_path, probes)
+
+    promoted = promote_interaction_runtime_gates(
+        contract,
+        report,
+        report_path="evidence/interaction_runtime_qualification/report.json",
+        report_sha256="a" * 64,
+    )
+
+    assert promoted["open_top"]["status"] == "not_applicable"
+    assert promoted["open_top"]["evidence"]["status"] == "not_applicable"
 
 
 def test_report_binding_mismatch_cannot_promote_any_gate(tmp_path: Path) -> None:

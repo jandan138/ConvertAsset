@@ -136,10 +136,29 @@ def _probe_result(observation: Any, errors: list[str]) -> dict[str, Any]:
     }
 
 
+def _required_probe_ids(interaction_contract: dict[str, Any]) -> tuple[str, ...]:
+    """Return only probes whose corresponding interaction claim is required."""
+    probe_ids: list[str] = []
+    open_top = interaction_contract.get("open_top", {})
+    if isinstance(open_top, dict) and open_top.get("required") is True:
+        probe_ids.append("cooked_aperture")
+    gate_to_probe = {
+        "stable_support_gate": "stable_support",
+        "root_motion_gate": "root_motion_parity",
+        "gripper_collision_gate": "bilateral_gripper_proxy_collision",
+    }
+    for gate_name, probe_id in gate_to_probe.items():
+        gate = interaction_contract.get(gate_name, {})
+        if isinstance(gate, dict) and gate.get("required") is True:
+            probe_ids.append(probe_id)
+    return tuple(probe_ids)
+
+
 def evaluate_probe_observations(
     observations: dict[str, Any],
     *,
     root_motion_requirement: dict[str, Any],
+    open_top_required: bool = True,
 ) -> dict[str, dict[str, Any]]:
     """Apply stable, simulator-neutral acceptance thresholds to worker facts."""
     aperture = observations.get("cooked_aperture", {})
@@ -258,8 +277,18 @@ def evaluate_probe_observations(
             "negative gripper proxy starts inside or too near the collider"
         )
 
+    aperture_probe = (
+        _probe_result(aperture, aperture_errors)
+        if open_top_required
+        else {
+            "status": "not_applicable",
+            "errors": [],
+            "observations": aperture if isinstance(aperture, dict) else {},
+            "reason": "open_top is not required by the interaction profile",
+        }
+    )
     return {
-        "cooked_aperture": _probe_result(aperture, aperture_errors),
+        "cooked_aperture": aperture_probe,
         "stable_support": _probe_result(support, support_errors),
         "root_motion_parity": _probe_result(motion, motion_errors),
         "bilateral_gripper_proxy_collision": _probe_result(
@@ -359,7 +388,11 @@ def promote_interaction_runtime_gates(
     contract = deepcopy(interaction_contract)
     open_top = deepcopy(contract.get("open_top", {}))
     aperture = probes["cooked_aperture"]
-    open_top["status"] = aperture.get("status", "blocked")
+    open_top["status"] = (
+        aperture.get("status", "blocked")
+        if open_top.get("required") is True
+        else "not_applicable"
+    )
     previous_aperture_evidence = open_top.get("evidence", {})
     aperture_gate = _promoted_gate(
         previous_aperture_evidence,
@@ -681,15 +714,11 @@ def run_interaction_runtime_qualification(
         manifest,
     )
     probes = report.get("probes", {})
+    required_probe_ids = _required_probe_ids(interaction_contract)
     all_passed = all(
         isinstance(probes.get(probe_id), dict)
         and probes[probe_id].get("status") == "pass"
-        for probe_id in (
-            "cooked_aperture",
-            "stable_support",
-            "root_motion_parity",
-            "bilateral_gripper_proxy_collision",
-        )
+        for probe_id in required_probe_ids
     )
     overall_status = "pass" if exit_code == 0 and all_passed else "blocked"
     blocked_reasons = []
@@ -1352,11 +1381,16 @@ def _qualification_worker_report(
         probes = evaluate_probe_observations(
             observations,
             root_motion_requirement=interaction_contract["root_motion_gate"],
+            open_top_required=interaction_contract["open_top"]["required"],
         )
         report["probes"] = probes
+        required_probe_ids = _required_probe_ids(interaction_contract)
         report["status"] = (
             "pass"
-            if all(probe["status"] == "pass" for probe in probes.values())
+            if all(
+                probes[probe_id]["status"] == "pass"
+                for probe_id in required_probe_ids
+            )
             else "blocked"
         )
         report.pop("host_failure", None)
