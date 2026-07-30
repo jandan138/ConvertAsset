@@ -708,6 +708,24 @@ def test_reset_gate_compares_pre_warmup_initial_state() -> None:
     assert gate["max_abs_delta_from_pre_step"] == 2.0
 
 
+def test_runtime_smoke_reset_sync_updates_after_reset() -> None:
+    from convert_asset.asset_application_normalizer.runtime_smoke import _reset_and_sync
+
+    events: list[str] = []
+
+    class FakeWorld:
+        def reset(self) -> None:
+            events.append("reset")
+
+    class FakeSimulationApp:
+        def update(self) -> None:
+            events.append("update")
+
+    _reset_and_sync(FakeWorld(), FakeSimulationApp())
+
+    assert events == ["reset", "update"]
+
+
 def test_runtime_smoke_uses_authored_support_and_detects_sdf_gpu_requirement() -> None:
     from convert_asset.asset_application_normalizer.runtime_smoke import (
         _runtime_support_surface,

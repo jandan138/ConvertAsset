@@ -31,6 +31,8 @@ MATERIAL_VIEW_SPECS = (
     {"view_id": "side", "elevation": 25.0, "azimuth": 90.0},
 )
 
+_RESET_CAPTURE_POINT = "after_reset_and_app_update_before_warmup_and_render"
+
 PHYSX_WARNING_PATTERNS = {
     "negative_mass": re.compile(r"\bnegative\s+mass\b", re.IGNORECASE),
     "invalid_inertia": re.compile(
@@ -1213,6 +1215,18 @@ def _combine_all_physx_warning_gates(
     }
 
 
+def _reset_and_sync(world: Any, simulation_app: Any) -> None:
+    """Reset physics and advance Kit once before observing reset state.
+
+    An articulation drive can advance during ``SimulationApp.update()``.  Both
+    the baseline and every reset cycle must therefore be sampled after this
+    same lifecycle phase, rather than comparing an immediate reset state to a
+    post-update state.
+    """
+    world.reset()
+    simulation_app.update()
+
+
 def _worker_report(
     args: argparse.Namespace,
     *,
@@ -1389,7 +1403,7 @@ def _worker_report(
             name="aan_runtime_smoke_ground",
             prim_path="/World/__aan_runtime_smoke_ground",
         )
-        world.reset()
+        _reset_and_sync(world, simulation_app)
         report["physics_context"] = {
             "stage_units_in_meters": stage_units_in_meters,
             "physics_dt_seconds": 0.01,
@@ -1397,6 +1411,7 @@ def _worker_report(
             "step_frames": int(args.step_frames),
             "reset_cycles": int(args.reset_cycles),
             "reset_tolerance_m": float(args.reset_tolerance_m),
+            "reset_capture_point": _RESET_CAPTURE_POINT,
             "scope_rigid_bodies": _scoped_rigid_body_paths(stage, asset_scope_prims),
             "joint_topology": _scoped_joint_topology(stage, asset_scope_prims),
             "broadphase_type": physics_context.get_broadphase_type(),
@@ -1433,7 +1448,7 @@ def _worker_report(
         report["initial_state"] = {
             "status": "pass" if finite_initial else "blocked",
             "scope_prims": asset_scope_prims,
-            "capture_point": "before_warmup_and_render",
+            "capture_point": _RESET_CAPTURE_POINT,
             "finite_transforms": finite_initial,
             "rigid_body_transforms": initial_rigid_transforms,
         }
@@ -1534,8 +1549,7 @@ def _worker_report(
         reset_cycles = []
         for cycle_index in range(max(1, int(args.reset_cycles))):
             try:
-                world.reset()
-                simulation_app.update()
+                _reset_and_sync(world, simulation_app)
             except Exception as exc:
                 report["reset"] = {
                     "status": "blocked",
@@ -1564,6 +1578,7 @@ def _worker_report(
             )
             cycle = {
                 "cycle": cycle_index + 1,
+                "capture_point": _RESET_CAPTURE_POINT,
                 "scope": reset_gate,
                 "rigid_bodies": rigid_reset_gate,
                 "rigid_body_transforms": reset_rigid,
@@ -1579,13 +1594,13 @@ def _worker_report(
                 report["reset"] = {
                     "status": "blocked",
                     "cycles": reset_cycles,
-                    "initial_capture_point": "before_warmup_and_render",
+                    "initial_capture_point": _RESET_CAPTURE_POINT,
                 }
                 return report
         report["reset"] = {
             "status": "pass",
             "cycles": reset_cycles,
-            "initial_capture_point": "before_warmup_and_render",
+            "initial_capture_point": _RESET_CAPTURE_POINT,
         }
 
         report["status"] = "pass"
@@ -2100,7 +2115,7 @@ def _build_reset_gate(
     pre_step: dict[str, list[list[float]] | None] | None = None,
     tolerance_stage_units: float = 1.0e-5,
 ) -> dict[str, Any]:
-    """Evaluate reset against the state from before warmup or render frames."""
+    """Evaluate reset against the synchronized pre-warmup baseline."""
     finite_reset = _transforms_finite(reset)
     reset_delta = _max_abs_delta(initial, reset)
     restored = reset_delta is not None and reset_delta <= float(tolerance_stage_units)

@@ -1137,6 +1137,11 @@ USD hash binding 和 scoped PhysX warning gate。对这类 object，conventional
   reset 前选择 GPU broadphase 并开启 GPU dynamics；
 - support plane 和 physics-scene choice 只属于 runtime evidence，不写入 package runtime tree。
 
+首次 reset 基线和每个后续 reset cycle 的 transform snapshot 必须在相同的
+`world.reset()` -> `SimulationApp.update()` 生命周期阶段后、warmup/render 前采集。这个同步
+只消除首轮立即采样与后续 post-update 采样之间的观测时序差异；dynamic package 仍以原有 1 mm
+刚体 world-transform gate 严格比较，不能以 articulation joint state 或较宽容差替代。
+
 这个顺序修复了两类 false result：无 support 时 object 在 first reset 前已下落；动态 SDF
 在 CPU physics scene 中会被 PhysX 拒绝。conical bottle 最终使用 GPU SDF；graduated
 cylinder 的 source SDF 则因 cooked virtual cap 被 runtime probe 阻断，最终 profile 改用
