@@ -49,16 +49,27 @@ r8 joint semantics and five interaction frames, binds them to the r9 source,
 and adds an authoritative root-local `support` frame. It also adds
 `benchtop_stability` to `required_runtime_task_gates`.
 
-`scripts/qualify_articulated_benchtop_stability.py` runs the fixed protocol in a
-short-lived Isaac 4.1 worker:
+`scripts/qualify_articulated_benchtop_stability.py` runs the package's actual
+fixed-base consumer protocol in a short-lived Isaac 4.1 worker:
 
-1. author a session-only static table `10 mm` below the support frame;
-2. reset every DOF to the profile value, including the open lid;
-3. execute 50 zero-action warmup frames;
-4. execute 240 settle frames;
-5. reject tilt above `10 degrees`, support gap above `10 mm`, table penetration
-   above `1 mm`, extent drift above `5%`, source mutation, or an asset-scoped
-   PhysX error.
+1. verify the enabled fixed joint and articulation root without changing them;
+2. author a session-only static table flush with the authoritative support
+   frame;
+3. reset every DOF to the profile value, including the open lid;
+4. execute 50 zero-action warmup frames;
+5. execute 240 settle frames;
+6. reject root rotation above `1 degree`, root translation above `1 mm`,
+   support gap or penetration above `1 mm`, extent drift above `5%`, source
+   mutation, or an asset-scoped PhysX error.
+
+The centrifuge is intentionally a fixed-base benchtop device. It is not
+qualified as a freely movable rigid object. During review, a session-only
+free-release experiment was attempted and rejected: removing the package fixed
+joint changes the physics representation, while moving the articulation root
+onto the source-scaled (`0.175`) base body is not transform-equivalent in Isaac
+4.1. Those rejected observations remain diagnostic evidence and are not used
+for admission. The accepted gate preserves the exact package semantics that
+Scenario Forge consumes.
 
 The public process captures worker stderr and merges the resulting
 `benchtop_stability` gate into the existing
@@ -176,11 +187,31 @@ Feed that newly generated base report to the benchtop qualifier:
 Only the final six-gate report should be passed to
 `finalize_articulated_package.py`.
 
-## Open verification
+## Final qualification
 
-The real r9 AAN package has not been generated in this implementation task, so
-the Isaac worker and finalizer still need to be run on that exact package.
-Acceptance requires the real observation to pass all six stability conditions,
-then rerunning the original five articulation gates and finalizing a manifest
-that hash-binds the r9 profile and merged six-gate report. No eBench consumer
-collider, transform, mass/inertia, or warning-suppression patch is permitted.
+The exact r9 package was qualified in Isaac Sim 4.1 and promoted:
+
+- facade/source SHA-256:
+  `ed3c5e2c8d3cbb32fc1ee6438a5396cf71ff113b5b2ad1dcefa9f8b13f833b2e`;
+- package USD SHA-256:
+  `3573bb0eb474b80f842ea4d70dd2be2c2b5019a181d604bc1e17d4c7b7754926`;
+- device profile SHA-256:
+  `b55918913df6013e31fbc4b2534c5d0f7b1a804b7d7ee5d7a122c5e31b8238cb`;
+- five-gate base report SHA-256:
+  `f3261774f92af7e302d74d26380c6e8f05028c533e47af476b28bb76eff57020`;
+- final six-gate report SHA-256:
+  `919c47df33db1881d56a4087645c1dbb8e17949442144b38e77678c7288c038f`;
+- final manifest SHA-256:
+  `9cd6f2c0f84dc0fe952b96359aba86f5568a20b001fe8fd44ba9178f9ef14281`.
+
+All six gates passed. The mounted observation recorded zero root translation,
+zero root tilt, zero support gap, zero support drift, zero warmup-to-final
+extent drift, and zero asset-scoped PhysX errors. Package `asset.usd`, joint
+drives, colliders, mass/inertia values, and the fixed-base contract were not
+changed by qualification or promotion.
+
+The claim remains limited to the recorded fixed-base device and interaction
+protocols. It does not claim robot policy success, benchmark success, freely
+movable whole-device physics, or real-world physical calibration. No eBench
+consumer collider, scale, mass/inertia, or warning-suppression patch is
+permitted.

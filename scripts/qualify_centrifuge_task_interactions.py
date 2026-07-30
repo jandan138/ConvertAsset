@@ -456,8 +456,16 @@ def _arc_positions(
     return values
 
 
-def _reset_and_sync(world: Any, app: Any, *, steps: int) -> None:
+def _reset_and_sync(
+    world: Any,
+    app: Any,
+    *,
+    steps: int,
+    unregistered_kinematic_views: list[Any] | None = None,
+) -> None:
     world.reset()
+    for view in unregistered_kinematic_views or []:
+        view.initialize()
     app.update()
     for _ in range(steps):
         world.step(render=False)
@@ -696,9 +704,18 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             max_contact_count=128,
             disable_stablization=False,
         )
-        for item in (articulation, button_pusher, lid_pusher, tube):
-            world.scene.add(item)
-        _reset_and_sync(world, app, steps=30)
+        world.scene.add(articulation)
+        kinematic_contact_views = [button_pusher, lid_pusher, tube]
+        _reset_and_sync(
+            world,
+            app,
+            steps=30,
+            unregistered_kinematic_views=kinematic_contact_views,
+        )
+        # RigidPrimView.post_reset writes linear/angular velocity defaults, which
+        # is invalid for these intentionally kinematic qualification probes.
+        # Manual initialization keeps their contact views live without enrolling
+        # them in World.scene reset handling.
         if not articulation.handles_initialized:
             raise RuntimeError("centrifuge Articulation handle did not initialize")
         if articulation.num_dof != len(EXPECTED_DOF_MAPPING):
@@ -713,7 +730,12 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             return np.asarray(articulation.get_joint_positions(), dtype=float)
 
         # First demonstrate the package reset state without any probe contact.
-        _reset_and_sync(world, app, steps=60)
+        _reset_and_sync(
+            world,
+            app,
+            steps=60,
+            unregistered_kinematic_views=kinematic_contact_views,
+        )
         reset_positions = joint_positions()
         button_reset = float(reset_positions[0])
         rotor_reset = float(reset_positions[1])
@@ -731,7 +753,12 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
 
         # The actual tube collider follows the producer-measured profile frame,
         # not a consumer-owned world-coordinate estimate.
-        _reset_and_sync(world, app, steps=30)
+        _reset_and_sync(
+            world,
+            app,
+            steps=30,
+            unregistered_kinematic_views=kinematic_contact_views,
+        )
         socket_aperture, socket_axis = _profile_frame_world_pose(
             stage,
             profile,
@@ -836,7 +863,12 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         )
         button_attempts = []
         for direction_sign in (-1.0, 1.0):
-            _reset_and_sync(world, app, steps=30)
+            _reset_and_sync(
+                world,
+                app,
+                steps=30,
+                unregistered_kinematic_views=kinematic_contact_views,
+            )
             direction = button_axis * direction_sign
             start = button_center - direction * 0.08
             end = button_center + direction * 0.03
@@ -943,7 +975,12 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         # from its open lower state toward its closed upper state. A reverse
         # sweep only pushes into the lower joint limit and is not a closure test.
         for direction_sign in (1.0,):
-            _reset_and_sync(world, app, steps=30)
+            _reset_and_sync(
+                world,
+                app,
+                steps=30,
+                unregistered_kinematic_views=kinematic_contact_views,
+            )
             tube.set_world_poses(
                 positions=np.asarray([tube_target], dtype=np.float32),
                 orientations=np.asarray([[1.0, 0.0, 0.0, 0.0]], dtype=np.float32),

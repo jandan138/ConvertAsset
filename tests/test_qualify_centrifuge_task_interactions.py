@@ -17,6 +17,7 @@ from scripts.qualify_centrifuge_task_interactions import (
     _observed_state_values,
     _orientation_wxyz_for_z_axis,
     _qualified_package_identity,
+    _reset_and_sync,
     _runtime_report_inputs,
     _write_report,
 )
@@ -151,6 +152,42 @@ def test_runtime_report_recursively_replaces_nonfinite_contact_values(
     assert json.loads(report_path.read_text(encoding="utf-8")) == {
         "contact": {"force_n": ["unbounded", 1.0]}
     }
+
+
+def test_reset_reinitializes_unregistered_kinematic_contact_views() -> None:
+    events: list[str] = []
+
+    class _View:
+        def initialize(self) -> None:
+            events.append("initialize")
+
+    class _World:
+        def reset(self) -> None:
+            events.append("reset")
+
+        def step(self, *, render: bool) -> None:
+            assert render is False
+            events.append("step")
+
+    class _App:
+        def update(self) -> None:
+            events.append("update")
+
+    _reset_and_sync(
+        _World(),
+        _App(),
+        steps=2,
+        unregistered_kinematic_views=[_View(), _View()],
+    )
+
+    assert events == [
+        "reset",
+        "initialize",
+        "initialize",
+        "update",
+        "step",
+        "step",
+    ]
 
 
 def test_qualified_package_identity_is_portable_and_hash_bound() -> None:

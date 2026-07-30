@@ -23,11 +23,12 @@ from typing import Any, Iterable, Mapping
 
 PROFILE_SCHEMA_VERSION = "aan.articulated_device_profile.v1"
 REPORT_SCHEMA_VERSION = "aan.articulation_runtime_qualification.v1"
-RELEASE_HEIGHT_M = 0.010
+MOUNTED_SUPPORT_OFFSET_M = 0.0
 WARMUP_FRAMES = 50
 SETTLE_FRAMES = 240
-MAXIMUM_ROOT_TILT_DEG = 10.0
-MAXIMUM_SUPPORT_GAP_M = 0.010
+MAXIMUM_ROOT_TILT_DEG = 1.0
+MAXIMUM_ROOT_TRANSLATION_DRIFT_M = 0.001
+MAXIMUM_SUPPORT_GAP_M = 0.001
 MAXIMUM_TABLE_PENETRATION_M = 0.001
 MAXIMUM_EXTENT_RELATIVE_ERROR = 0.05
 DEFAULT_PHYSICS_DT_SECONDS = 1.0 / 60.0
@@ -213,12 +214,25 @@ def _evaluate_stability_observation(
         final_pose.get("orientation_wxyz"),
         "final_root_pose.orientation_wxyz",
     )
-    _finite_vector(initial_pose.get("position_m"), 3, "initial_root_pose.position_m")
-    _finite_vector(final_pose.get("position_m"), 3, "final_root_pose.position_m")
+    initial_position = _finite_vector(
+        initial_pose.get("position_m"),
+        3,
+        "initial_root_pose.position_m",
+    )
+    final_position = _finite_vector(
+        final_pose.get("position_m"),
+        3,
+        "final_root_pose.position_m",
+    )
     final_support = _finite_vector(
         observation.get("final_support_world_m"),
         3,
         "final_support_world_m",
+    )
+    initial_support = _finite_vector(
+        observation.get("initial_support_world_m"),
+        3,
+        "initial_support_world_m",
     )
     table_top = observation.get("table_top_z_m")
     if (
@@ -228,12 +242,56 @@ def _evaluate_stability_observation(
     ):
         raise ValueError("table_top_z_m must be finite")
     extent_errors = _relative_extent_errors(
-        observation.get("initial_extent_m"),
+        observation.get("warmup_extent_m"),
         observation.get("final_extent_m"),
     )
     tilt = _root_tilt_degrees(initial_orientation, final_orientation)
+    translation_drift = math.sqrt(
+        sum(
+            (final_position[index] - initial_position[index]) ** 2
+            for index in range(3)
+        )
+    )
     support_gap = final_support[2] - float(table_top)
+    support_drift = math.sqrt(
+        sum(
+            (final_support[index] - initial_support[index]) ** 2
+            for index in range(3)
+        )
+    )
     table_penetration = max(0.0, -support_gap)
+    qualification_session = observation.get("qualification_session")
+    fixed_base_contract = (
+        isinstance(qualification_session, Mapping)
+        and isinstance(
+            qualification_session.get("fixed_base_joint_prim"),
+            str,
+        )
+        and qualification_session.get(
+            "fixed_base_joint_enabled_in_package"
+        )
+        is True
+        and qualification_session.get(
+            "fixed_base_joint_enabled_in_session"
+        )
+        is True
+        and qualification_session.get(
+            "fixed_base_joint_active_in_session"
+        )
+        is True
+        and qualification_session.get(
+            "package_articulation_root_enabled_in_session"
+        )
+        is True
+        and isinstance(
+            qualification_session.get("fixed_base_body_prim"),
+            str,
+        )
+        and qualification_session.get("session_physics_representation")
+        == "fixed_base_articulation"
+        and qualification_session.get("asset_physics_mutated_in_session")
+        is False
+    )
     source_integrity = observation.get("source_integrity")
     source_integrity_pass = (
         isinstance(source_integrity, Mapping)
@@ -241,15 +299,20 @@ def _evaluate_stability_observation(
     )
     blocked_reasons: list[str] = []
     if (
-        observation.get("release_height_m") != RELEASE_HEIGHT_M
+        observation.get("mounted_support_offset_m")
+        != MOUNTED_SUPPORT_OFFSET_M
         or observation.get("warmup_frames") != WARMUP_FRAMES
         or observation.get("settle_frames") != SETTLE_FRAMES
     ):
         blocked_reasons.append("protocol_mismatch")
     if tilt > MAXIMUM_ROOT_TILT_DEG:
         blocked_reasons.append("root_tilt_exceeds_limit")
+    if translation_drift > MAXIMUM_ROOT_TRANSLATION_DRIFT_M:
+        blocked_reasons.append("root_translation_drift_exceeds_limit")
     if max(extent_errors) > MAXIMUM_EXTENT_RELATIVE_ERROR:
         blocked_reasons.append("extent_drift_exceeds_limit")
+    if not fixed_base_contract:
+        blocked_reasons.append("fixed_base_contract_missing")
     if abs(support_gap) > MAXIMUM_SUPPORT_GAP_M:
         blocked_reasons.append("support_gap_exceeds_limit")
     if table_penetration > MAXIMUM_TABLE_PENETRATION_M:
@@ -261,32 +324,42 @@ def _evaluate_stability_observation(
     return {
         "status": "pass" if not blocked_reasons else "blocked",
         "method": (
-            "10 mm free release onto a session-only static table, followed by "
-            "50 zero-action warmup frames and 240 settle frames"
+            "fixed-base support frame mounted flush to a session-only static "
+            "table, followed by 50 zero-action warmup frames and 240 settle "
+            "frames"
         ),
-        "release_height_m": observation.get("release_height_m"),
+        "mounted_support_offset_m": observation.get(
+            "mounted_support_offset_m"
+        ),
         "warmup_frames": observation.get("warmup_frames"),
         "settle_frames": observation.get("settle_frames"),
         "thresholds": {
             "maximum_root_tilt_deg": MAXIMUM_ROOT_TILT_DEG,
+            "maximum_root_translation_drift_m": (
+                MAXIMUM_ROOT_TRANSLATION_DRIFT_M
+            ),
             "maximum_support_gap_m": MAXIMUM_SUPPORT_GAP_M,
             "maximum_table_penetration_m": MAXIMUM_TABLE_PENETRATION_M,
             "maximum_extent_relative_error": MAXIMUM_EXTENT_RELATIVE_ERROR,
             "required_scoped_physx_error_count": 0,
         },
         "root_tilt_deg": tilt,
+        "root_translation_drift_m": translation_drift,
+        "support_drift_m": support_drift,
         "support_gap_m": support_gap,
         "table_penetration_m": table_penetration,
         "extent_relative_error_by_axis": extent_errors,
         "maximum_extent_relative_error": max(extent_errors),
         "scoped_physx_error_count": len(scoped_physx_errors),
         "scoped_physx_errors": scoped_physx_errors,
+        "qualification_session": deepcopy(qualification_session),
         "source_integrity": deepcopy(source_integrity),
         "observation": deepcopy(dict(observation)),
         "blocked_reasons": blocked_reasons,
         "claim_boundary": (
-            "This gate proves only the specified Isaac 4.1 benchtop release "
-            "and settle protocol. It does not claim robot-policy success, "
+            "This gate proves only the specified Isaac 4.1 fixed-base "
+            "benchtop mount and settle protocol. It does not claim that the "
+            "device is a freely movable rigid object, robot-policy success, "
             "benchmark success, or real-world physical calibration."
         ),
     }
@@ -323,7 +396,8 @@ def _merge_stability_gate(
     if not isinstance(runtime, dict):
         raise ValueError("base runtime report.runtime must be an object")
     runtime["benchtop_stability_protocol"] = {
-        "release_height_m": RELEASE_HEIGHT_M,
+        "mounted_support_offset_m": MOUNTED_SUPPORT_OFFSET_M,
+        "base_semantics": "fixed_base_articulation",
         "warmup_frames": WARMUP_FRAMES,
         "settle_frames": SETTLE_FRAMES,
     }
@@ -424,10 +498,10 @@ def _profile_support_world(
 
 
 def _pose(articulation: Any) -> dict[str, list[float]]:
-    position, orientation = articulation.get_world_pose()
+    position, orientation = articulation.get_world_poses()
     return {
-        "position_m": [float(value) for value in position],
-        "orientation_wxyz": [float(value) for value in orientation],
+        "position_m": [float(value) for value in position[0]],
+        "orientation_wxyz": [float(value) for value in orientation[0]],
     }
 
 
@@ -443,6 +517,72 @@ def _support_from_base_pose(
         float(pose["position_m"][index]) + rotated[index]
         for index in range(3)
     ]
+
+
+def _verify_fixed_base_contract(
+    stage: Any,
+    asset_entry_prim: str,
+    *,
+    usd: Any,
+    usd_physics: Any,
+) -> dict[str, Any]:
+    """Verify the fixed-base package semantics used by the consumer task."""
+    root = stage.GetPrimAtPath(asset_entry_prim)
+    if not root.IsValid():
+        raise RuntimeError(f"asset entry prim is missing: {asset_entry_prim}")
+    if not root.HasAPI(usd_physics.ArticulationRootAPI):
+        raise RuntimeError(
+            "asset entry prim is not the package articulation root: "
+            f"{asset_entry_prim}"
+        )
+    matches: list[Any] = []
+    for prim in usd.PrimRange(root):
+        if not prim.IsA(usd_physics.FixedJoint):
+            continue
+        joint = usd_physics.FixedJoint(prim)
+        body0 = [str(path) for path in joint.GetBody0Rel().GetTargets()]
+        body1 = [str(path) for path in joint.GetBody1Rel().GetTargets()]
+        if (
+            body0 == [asset_entry_prim]
+            and len(body1) == 1
+            and body1[0].startswith(asset_entry_prim + "/")
+        ):
+            matches.append(joint)
+    if len(matches) != 1:
+        raise RuntimeError(
+            "expected exactly one fixed-base joint from the asset entry "
+            f"prim, found {len(matches)}"
+        )
+    joint = matches[0]
+    if joint.GetJointEnabledAttr().Get() is False:
+        raise RuntimeError("fixed-base joint is disabled in the package")
+    if not joint.GetPrim().IsActive():
+        raise RuntimeError("fixed-base joint is inactive in the package")
+    joint_path = str(joint.GetPrim().GetPath())
+    fixed_base_body_path = str(joint.GetBody1Rel().GetTargets()[0])
+    fixed_base_body = stage.GetPrimAtPath(fixed_base_body_path)
+    if not fixed_base_body.IsValid() or not fixed_base_body.HasAPI(
+        usd_physics.RigidBodyAPI
+    ):
+        raise RuntimeError(
+            "fixed-base body1 must be a valid rigid body: "
+            f"{fixed_base_body_path}"
+        )
+    return {
+        "fixed_base_joint_prim": joint_path,
+        "fixed_base_joint_enabled_in_package": True,
+        "fixed_base_joint_enabled_in_session": True,
+        "fixed_base_joint_active_in_session": True,
+        "package_articulation_root_prim": asset_entry_prim,
+        "package_articulation_root_enabled_in_session": True,
+        "fixed_base_body_prim": fixed_base_body_path,
+        "session_physics_representation": "fixed_base_articulation",
+        "asset_physics_mutated_in_session": False,
+        "purpose": (
+            "verify the package's fixed-base benchtop device semantics without "
+            "consumer-side physics mutation"
+        ),
+    }
 
 
 def _run_worker(args: argparse.Namespace) -> dict[str, Any]:
@@ -475,7 +615,7 @@ def _run_worker(args: argparse.Namespace) -> dict[str, Any]:
         import numpy as np
         import omni.usd
         from omni.isaac.core import World
-        from omni.isaac.core.articulations import Articulation
+        from omni.isaac.core.articulations import ArticulationView
         from pxr import Gf, Usd, UsdGeom, UsdPhysics
 
         context = omni.usd.get_context()
@@ -496,7 +636,9 @@ def _run_worker(args: argparse.Namespace) -> dict[str, Any]:
             usd_geom=UsdGeom,
             gf=Gf,
         )
-        table_top_z = initial_support_world[2] - float(args.release_height)
+        table_top_z = (
+            initial_support_world[2] - float(args.mounted_support_offset)
+        )
         table = UsdGeom.Cube.Define(
             stage,
             "/World/__aan_benchtop_probe/Table",
@@ -514,15 +656,22 @@ def _run_worker(args: argparse.Namespace) -> dict[str, Any]:
         UsdPhysics.CollisionAPI.Apply(table.GetPrim()).GetCollisionEnabledAttr().Set(
             True
         )
+        qualification_session = _verify_fixed_base_contract(
+            stage,
+            entry_prim,
+            usd=Usd,
+            usd_physics=UsdPhysics,
+        )
 
         world = World(
             stage_units_in_meters=1.0,
             physics_dt=float(args.physics_dt),
             rendering_dt=float(args.physics_dt),
         )
-        articulation = Articulation(
-            entry_prim,
+        articulation = ArticulationView(
+            prim_paths_expr=entry_prim,
             name="aan_benchtop_stability_articulation",
+            reset_xform_properties=False,
         )
         world.scene.add(articulation)
         reset_positions = [0.0] * len(profile["semantic_joints"])
@@ -531,11 +680,11 @@ def _run_worker(args: argparse.Namespace) -> dict[str, Any]:
                 semantic["runtime_reset_value"]
             )
         articulation.set_joints_default_state(
-            positions=np.asarray(reset_positions, dtype=np.float32)
+            positions=np.asarray([reset_positions], dtype=np.float32)
         )
         world.reset()
-        if not articulation.handles_initialized:
-            raise RuntimeError("articulation handles did not initialize")
+        if not articulation.is_physics_handle_valid():
+            raise RuntimeError("articulation physics handle did not initialize")
         initial_pose = _pose(articulation)
         initial_bound = _world_bound(
             stage,
@@ -580,7 +729,7 @@ def _run_worker(args: argparse.Namespace) -> dict[str, Any]:
             "runtime_profile": "isaac41",
             "physics_dt_seconds": float(args.physics_dt),
             "asset_entry_prim": entry_prim,
-            "release_height_m": float(args.release_height),
+            "mounted_support_offset_m": float(args.mounted_support_offset),
             "warmup_frames": int(args.warmup_frames),
             "settle_frames": int(args.settle_frames),
             "table_top_z_m": table_top_z,
@@ -593,6 +742,7 @@ def _run_worker(args: argparse.Namespace) -> dict[str, Any]:
             "initial_support_world_m": initial_support_world,
             "final_support_world_m": final_support,
             "support_offset_base_local_m": support_offset_base,
+            "qualification_session": qualification_session,
             "source_integrity": {
                 "status": (
                     "pass"
@@ -624,8 +774,8 @@ def _worker_command(
         str(args.manifest),
         "--device-profile",
         str(args.device_profile),
-        "--release-height",
-        str(args.release_height),
+        "--mounted-support-offset",
+        str(args.mounted_support_offset),
         "--warmup-frames",
         str(args.warmup_frames),
         "--settle-frames",
@@ -727,7 +877,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--out-report", type=Path)
     parser.add_argument("--out-observation", type=Path)
     parser.add_argument("--stderr-log", type=Path)
-    parser.add_argument("--release-height", type=float, default=RELEASE_HEIGHT_M)
+    parser.add_argument(
+        "--mounted-support-offset",
+        type=float,
+        default=MOUNTED_SUPPORT_OFFSET_M,
+    )
     parser.add_argument("--warmup-frames", type=int, default=WARMUP_FRAMES)
     parser.add_argument("--settle-frames", type=int, default=SETTLE_FRAMES)
     parser.add_argument(
@@ -784,13 +938,13 @@ def main() -> int:
     args.out_observation = args.out_observation.resolve()
     args.stderr_log = args.stderr_log.resolve()
     if (
-        args.release_height != RELEASE_HEIGHT_M
+        args.mounted_support_offset != MOUNTED_SUPPORT_OFFSET_M
         or args.warmup_frames != WARMUP_FRAMES
         or args.settle_frames != SETTLE_FRAMES
     ):
         raise SystemExit(
-            "qualification protocol is fixed at 10 mm, 50 warmup frames, "
-            "and 240 settle frames"
+            "qualification protocol is fixed at flush support mounting, "
+            "50 warmup frames, and 240 settle frames"
         )
     if args.physics_dt <= 0.0:
         raise SystemExit("--physics-dt must be positive")
