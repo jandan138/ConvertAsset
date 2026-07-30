@@ -135,6 +135,7 @@ def _rebound_profile_bytes(
     new_revision: str,
     predecessor_facade_sha256: str,
     r4_facade_sha256: str,
+    inserted_bottom_frame_m: list[float] | None = None,
 ) -> bytes:
     profile = _load_profile_object(path, label)
     if profile.get("schema_version") != expected_schema_version:
@@ -164,6 +165,19 @@ def _rebound_profile_bytes(
     rebound["revision"] = new_revision
     rebound_source_binding = rebound["source_binding"]
     rebound_source_binding["sha256"] = r4_facade_sha256
+    if inserted_bottom_frame_m is not None:
+        named_frames = rebound.get("named_frames")
+        frame = (
+            named_frames.get("socket_0_inserted_bottom")
+            if isinstance(named_frames, dict)
+            else None
+        )
+        if not isinstance(frame, dict):
+            raise TubeRackR4BuildError(
+                "audited r3 interaction profile is missing "
+                "socket_0_inserted_bottom"
+            )
+        frame["translation_body_local_usd"] = inserted_bottom_frame_m
     return _standard_json_bytes(rebound)
 
 
@@ -387,6 +401,12 @@ def build_tube_rack_r4_facade(
     frames_per_second = _stage_rate(facade_text, "framesPerSecond")
     time_codes_per_second = _stage_rate(facade_text, "timeCodesPerSecond")
     minimum, maximum = _proxy_bounds(specs)
+    bottom_spec = specs["socket_0_bottom"]
+    inserted_bottom_frame_m = [
+        bottom_spec["translate"][0],
+        bottom_spec["translate"][1],
+        bottom_spec["translate"][2] + 0.5 * bottom_spec["scale"][2],
+    ]
     if not math.isclose(minimum[2], 0.0, abs_tol=1.0e-9):
         raise TubeRackR4BuildError(
             "corrected proxy minimum Z must align with the support frame at 0 m"
@@ -429,6 +449,15 @@ def build_tube_rack_r4_facade(
             ),
         },
     }
+    corrected["interaction_semantic_corrections"] = {
+        "socket_0_inserted_bottom": {
+            "translation_body_local_usd": inserted_bottom_frame_m,
+            "basis": (
+                "top face of the corrected socket_0_bottom Cube; the r3 "
+                "frame was above the physical contact plane"
+            ),
+        }
+    }
     provenance_bytes = (
         _standard_json_bytes(corrected)
     )
@@ -447,6 +476,7 @@ def build_tube_rack_r4_facade(
             new_revision=R4_INTERACTION_REVISION,
             predecessor_facade_sha256=predecessor_sha256,
             r4_facade_sha256=output_sha256,
+            inserted_bottom_frame_m=inserted_bottom_frame_m,
         )
         physics_bytes = _rebound_profile_bytes(
             predecessor_physics_path,
@@ -468,6 +498,7 @@ def build_tube_rack_r4_facade(
         "provenance_path": str(output_provenance_path),
         "proxy_count": len(EXPECTED_PROXY_NAMES),
         "support_min_z_m": minimum[2],
+        "inserted_bottom_frame_m": inserted_bottom_frame_m,
     }
     if profiles_requested:
         assert interaction_bytes is not None

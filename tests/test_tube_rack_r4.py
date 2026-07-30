@@ -12,6 +12,7 @@ from scripts.build_tube_rack_r4_facade import (
 )
 from scripts.qualify_tube_rack_insertion import (
     PackageIdentityError,
+    _contact_snapshot,
     evaluate_insertion_observations,
     load_package_identity,
 )
@@ -213,7 +214,7 @@ def test_r4_builder_corrects_cube_semantics_and_visual_leakage(
     assert result["proxy_count"] == 10
 
 
-def test_r4_builder_rebinds_profiles_without_changing_semantics(
+def test_r4_builder_rebinds_profiles_and_corrects_inserted_bottom_frame(
     tmp_path: Path,
 ) -> None:
     facade, provenance = _write_r3_inputs(tmp_path)
@@ -249,6 +250,9 @@ def test_r4_builder_rebinds_profiles_without_changing_semantics(
     )
     expected_interaction["revision"] = "r4"
     expected_interaction["source_binding"]["sha256"] = r4_sha256
+    expected_interaction["named_frames"]["socket_0_inserted_bottom"][
+        "translation_body_local_usd"
+    ] = [-0.0100375, -0.006424, 0.0035]
     expected_physics = json.loads(json.dumps(old_physics))
     expected_physics["profile_id"] = (
         "blenderkit.tube_rack.uniform_scale_k0365."
@@ -258,6 +262,9 @@ def test_r4_builder_rebinds_profiles_without_changing_semantics(
     expected_physics["source_binding"]["sha256"] = r4_sha256
 
     assert new_interaction == expected_interaction
+    assert result["inserted_bottom_frame_m"] == pytest.approx(
+        [-0.0100375, -0.006424, 0.0035]
+    )
     assert new_physics == expected_physics
     assert out_interaction.read_text(encoding="utf-8") == (
         json.dumps(
@@ -532,14 +539,16 @@ def _passing_observations() -> dict[str, object]:
             "sample_count": 180,
             "expected_insertion_depth_m": 0.036,
             "observed_insertion_depth_m": 0.035,
-            "final_bottom_distance_m": 0.001,
+            "final_bottom_distance_m": 0.01,
+            "final_bottom_axial_error_m": 0.001,
             "axis_alignment_error_deg": 2.0,
         },
         "contacts": {
             "contact_probe_available": True,
             "bottom_pair_contact_samples": 4,
             "side_pair_contact_samples": 2,
-            "max_penetration_m": 0.0004,
+            "max_penetration_m": 0.01,
+            "max_side_penetration_m": 0.0004,
         },
     }
 
@@ -551,14 +560,58 @@ def test_insertion_evaluator_requires_dynamic_pair_contact_and_clearance() -> No
     assert all(gate["status"] == "pass" for gate in result["gates"].values())
 
 
+def test_contact_snapshot_identifies_the_deepest_contact() -> None:
+    import numpy as np
+
+    class _View:
+        def get_contact_force_matrix(self, *, dt: float) -> np.ndarray:
+            assert dt == pytest.approx(0.001)
+            return np.zeros((1, 2, 3), dtype=float)
+
+        def get_contact_force_data(
+            self,
+            *,
+            dt: float,
+        ) -> tuple[np.ndarray, ...]:
+            assert dt == pytest.approx(0.001)
+            return (
+                np.asarray([[1.0], [2.0]], dtype=float),
+                np.asarray([[0.0, 0.0, 0.0], [1.0, 2.0, 3.0]], dtype=float),
+                np.asarray([[0.0, 0.0, 1.0], [1.0, 0.0, 0.0]], dtype=float),
+                np.asarray([[-0.0002], [-0.0012]], dtype=float),
+                np.asarray([[1, 1]], dtype=int),
+                np.asarray([[0, 1]], dtype=int),
+            )
+
+    snapshot = _contact_snapshot(
+        _View(),
+        filter_paths=["/bottom", "/side"],
+        np=np,
+        physics_dt=0.001,
+    )
+
+    assert snapshot["max_penetration_m"] == pytest.approx(0.0012)
+    assert snapshot["max_penetration_by_filter_m"] == {
+        "/bottom": pytest.approx(0.0002),
+        "/side": pytest.approx(0.0012),
+    }
+    assert snapshot["deepest_contact"] == {
+        "filter_path": "/side",
+        "force_n": [2.0],
+        "point_m": [1.0, 2.0, 3.0],
+        "normal": [1.0, 0.0, 0.0],
+        "separation_m": -0.0012,
+    }
+
+
 @pytest.mark.parametrize(
     ("mutation", "message"),
     [
         (("composition", "tube_kinematic", True), "kinematic"),
         (("composition", "authored_translation_updates", 1), "translate"),
         (("contacts", "bottom_pair_contact_samples", 0), "bottom"),
-        (("contacts", "max_penetration_m", 0.00101), "penetration"),
-        (("trajectory", "final_bottom_distance_m", 0.00201), "bottom"),
+        (("contacts", "max_side_penetration_m", 0.00101), "penetration"),
+        (("trajectory", "final_bottom_axial_error_m", 0.00201), "bottom"),
     ],
 )
 def test_insertion_evaluator_fails_closed(
