@@ -169,6 +169,56 @@ def test_probe_evaluation_is_fail_closed_and_diagnostic() -> None:
     )
 
 
+def test_non_required_aperture_probe_is_not_applicable() -> None:
+    from convert_asset.asset_application_normalizer.interaction_runtime_qualification import (
+        evaluate_probe_observations,
+    )
+
+    probes = evaluate_probe_observations(
+        {
+            "cooked_aperture": {
+                "finite": True,
+                "probe_radius_m": 0.002,
+                "entry_center_clear": False,
+                "bottom_hit": False,
+                "bottom_depth_m": None,
+                "vessel_height_m": 0.04,
+                "side_hits": {"positive": False, "negative": False},
+            },
+            "stable_support": {
+                "finite": True,
+                "support_height_error_m": 0.0,
+                "tail_max_linear_speed_m_s": 0.0,
+                "tail_max_angular_speed_rad_s": 0.0,
+                "tilt_deg": 0.0,
+                "lateral_drift_m": 0.0,
+                "scene_to_rigid_position_error_m": 0.0,
+            },
+            "root_motion_parity": {
+                "finite": True,
+                "translation_m": 0.02,
+                "scene_to_rigid_position_error_m": 0.0,
+                "scene_to_rigid_orientation_error_deg": 0.0,
+            },
+            "bilateral_gripper_proxy_collision": {
+                "finite": True,
+                "probe_radius_m": 0.001,
+                "positive_hit": True,
+                "negative_hit": True,
+                "positive_distance_m": 0.002,
+                "negative_distance_m": 0.002,
+            },
+        },
+        root_motion_requirement={"min_translation_m": 0.01},
+        open_top_required=False,
+    )
+
+    assert probes["cooked_aperture"]["status"] == "not_applicable"
+    assert probes["stable_support"]["status"] == "pass"
+    assert probes["root_motion_parity"]["status"] == "pass"
+    assert probes["bilateral_gripper_proxy_collision"]["status"] == "pass"
+
+
 def test_report_promotes_only_the_corresponding_runtime_gate(tmp_path: Path) -> None:
     from convert_asset.asset_application_normalizer.interaction_runtime_qualification import (
         promote_interaction_runtime_gates,

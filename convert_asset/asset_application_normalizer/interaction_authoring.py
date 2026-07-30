@@ -430,22 +430,29 @@ def _define_package_collider_geometry(
 ) -> Any:
     parent_path = prim_path.rsplit("/", 1)[0]
     usd_geom.Xform.Define(stage, parent_path)
-    if geometry["type"] != "Cube":
-        raise RuntimeError(f"unsupported package collider geometry: {geometry['type']}")
-    cube = usd_geom.Cube.Define(stage, prim_path)
-    cube.CreateVisibilityAttr(usd_geom.Tokens.invisible).Set(
+    geometry_type = geometry["type"]
+    if geometry_type == "Cube":
+        shape = usd_geom.Cube.Define(stage, prim_path)
+        shape.CreateSizeAttr(float(geometry["size"]))
+    elif geometry_type == "Cylinder":
+        shape = usd_geom.Cylinder.Define(stage, prim_path)
+        shape.CreateAxisAttr(geometry["axis"])
+        shape.CreateRadiusAttr(float(geometry["radius"]))
+        shape.CreateHeightAttr(float(geometry["height"]))
+    else:
+        raise RuntimeError(f"unsupported package collider geometry: {geometry_type}")
+    shape.CreateVisibilityAttr(usd_geom.Tokens.invisible).Set(
         usd_geom.Tokens.invisible
     )
-    cube.CreateSizeAttr(float(geometry["size"]))
     translation = geometry["translation_body_local_usd"]
     rotation = geometry["rotation_body_local_wxyz"]
-    scale = geometry["scale_body_local_usd"]
-    cube.AddTranslateOp().Set(gf.Vec3d(*translation))
-    cube.AddOrientOp().Set(
+    shape.AddTranslateOp().Set(gf.Vec3d(*translation))
+    shape.AddOrientOp().Set(
         gf.Quatf(rotation[0], gf.Vec3f(rotation[1], rotation[2], rotation[3]))
     )
-    cube.AddScaleOp().Set(gf.Vec3d(*scale))
-    return cube.GetPrim()
+    if geometry_type == "Cube":
+        shape.AddScaleOp().Set(gf.Vec3d(*geometry["scale_body_local_usd"]))
+    return shape.GetPrim()
 
 
 def finalize_interaction_contract(

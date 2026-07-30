@@ -641,6 +641,59 @@ def test_interaction_profile_authors_compound_proxy_and_disables_source_mesh(
     assert "PhysicsCollisionAPI" in wall.GetAppliedSchemas()
 
 
+def test_interaction_profile_authors_cylinder_and_preserves_task_alias_frames(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "source.usda"
+    source.write_text(_source_usda(), encoding="utf-8")
+    interaction = _interaction_profile(source, tmp_path / "interaction.json")
+    payload = json.loads(interaction.read_text(encoding="utf-8"))
+    payload["colliders"] = [
+        {
+            "relative_path": "Body",
+            "mode": "disable",
+            "purpose": [],
+        },
+        {
+            "relative_path": "__aan_collision_proxy/tube_body",
+            "mode": "author",
+            "purpose": ["gripper", "support", "containment"],
+            "geometry": {
+                "type": "Cylinder",
+                "axis": "Z",
+                "radius": 0.02,
+                "height": 1.0,
+                "translation_body_local_usd": [0.0, 0.0, 0.5],
+                "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0],
+            },
+        },
+    ]
+    payload["named_frames"]["tube_socket_0_aperture"] = {
+        "translation_body_local_usd": [0.0, 0.0, 1.0],
+        "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0],
+    }
+    interaction.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    physics = _physics_profile(source, tmp_path / "physics.json")
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+
+    result = normalize_asset(
+        _request(source, out_dir, evidence_out, physics, interaction)
+    )
+
+    assert result.return_code == 0
+    manifest = json.loads(evidence_out.read_text(encoding="utf-8"))
+    assert "tube_socket_0_aperture" in manifest["interaction_contract"]["named_frames"]
+
+    Usd = pytest.importorskip("pxr.Usd")
+    stage = Usd.Stage.Open(str(out_dir / "asset.usd"))
+    cylinder = stage.GetPrimAtPath("/World/Asset/__aan_collision_proxy/tube_body")
+    assert cylinder.GetTypeName() == "Cylinder"
+    assert cylinder.GetAttribute("radius").Get() == pytest.approx(0.02)
+    assert cylinder.GetAttribute("height").Get() == pytest.approx(1.0)
+    assert cylinder.GetAttribute("axis").Get() == "Z"
+
+
 def test_interaction_profile_rebuilds_owned_overlays_idempotently(tmp_path: Path) -> None:
     source = tmp_path / "source.usda"
     source.write_text(_source_usda(), encoding="utf-8")

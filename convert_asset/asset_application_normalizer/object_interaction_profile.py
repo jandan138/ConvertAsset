@@ -347,23 +347,43 @@ def _resolve_authored_geometry(
     if not isinstance(raw, dict):
         errors.append(f"colliders[{index}].geometry must be an object")
         return None
-    if set(raw) != {
+    geometry_type = raw.get("type")
+    common_fields = {
         "type",
-        "size",
         "translation_body_local_usd",
         "rotation_body_local_wxyz",
-        "scale_body_local_usd",
-    }:
+    }
+    if geometry_type == "Cube":
+        expected_fields = common_fields | {"size", "scale_body_local_usd"}
+    elif geometry_type == "Cylinder":
+        expected_fields = common_fields | {"axis", "radius", "height"}
+    else:
+        expected_fields = common_fields
         errors.append(
-            f"colliders[{index}].geometry must contain exactly type, size, translation, rotation, and scale"
+            f"colliders[{index}].geometry.type must be Cube or Cylinder"
         )
-    if raw.get("type") != "Cube":
-        errors.append(f"colliders[{index}].geometry.type must be Cube")
-    if not _positive_finite(raw.get("size")):
+    if set(raw) != expected_fields:
+        errors.append(
+            f"colliders[{index}].geometry fields do not match type {geometry_type!r}"
+        )
+    if geometry_type == "Cube" and not _positive_finite(raw.get("size")):
         errors.append(f"colliders[{index}].geometry.size must be positive and finite")
+    if geometry_type == "Cube":
+        scale = raw.get("scale_body_local_usd")
+        if not _finite_vector(scale, 3) or any(float(item) <= 0.0 for item in scale):
+            errors.append(
+                f"colliders[{index}].geometry.scale_body_local_usd must be positive finite vec3"
+            )
+    if geometry_type == "Cylinder":
+        if raw.get("axis") not in {"X", "Y", "Z"}:
+            errors.append(f"colliders[{index}].geometry.axis must be X, Y, or Z")
+        for field_name in ("radius", "height"):
+            if not _positive_finite(raw.get(field_name)):
+                errors.append(
+                    f"colliders[{index}].geometry.{field_name} must be positive and finite"
+                )
     translation = raw.get("translation_body_local_usd")
     rotation = raw.get("rotation_body_local_wxyz")
-    scale = raw.get("scale_body_local_usd")
     if not _finite_vector(translation, 3):
         errors.append(
             f"colliders[{index}].geometry.translation_body_local_usd must be finite vec3"
@@ -372,21 +392,26 @@ def _resolve_authored_geometry(
         errors.append(
             f"colliders[{index}].geometry.rotation_body_local_wxyz must be a unit quaternion"
         )
-    if not _finite_vector(scale, 3) or any(float(item) <= 0.0 for item in scale):
-        errors.append(
-            f"colliders[{index}].geometry.scale_body_local_usd must be positive finite vec3"
-        )
-    return {
-        "type": raw.get("type"),
-        "size": float(raw.get("size", 0.0)),
+    resolved = {
+        "type": geometry_type,
         "translation_body_local_usd": list(translation)
         if isinstance(translation, list)
         else translation,
         "rotation_body_local_wxyz": list(rotation)
         if isinstance(rotation, list)
         else rotation,
-        "scale_body_local_usd": list(scale) if isinstance(scale, list) else scale,
     }
+    if geometry_type == "Cube":
+        resolved["size"] = float(raw.get("size", 0.0))
+        scale = raw.get("scale_body_local_usd")
+        resolved["scale_body_local_usd"] = (
+            list(scale) if isinstance(scale, list) else scale
+        )
+    elif geometry_type == "Cylinder":
+        resolved["axis"] = raw.get("axis")
+        resolved["radius"] = float(raw.get("radius", 0.0))
+        resolved["height"] = float(raw.get("height", 0.0))
+    return resolved
 
 
 def _resolve_named_frames(
@@ -395,13 +420,16 @@ def _resolve_named_frames(
     stage: Any,
     errors: list[str],
 ) -> dict[str, dict[str, Any]]:
-    if not isinstance(raw_frames, dict) or set(raw_frames) != REQUIRED_NAMED_FRAMES:
+    if (
+        not isinstance(raw_frames, dict)
+        or not REQUIRED_NAMED_FRAMES.issubset(raw_frames)
+    ):
         errors.append(
-            "named_frames must contain exactly the authoritative opening, grasp, and support frames"
+            "named_frames must contain authoritative opening, grasp, and support frames"
         )
         return {}
     frames: dict[str, dict[str, Any]] = {}
-    for name in sorted(REQUIRED_NAMED_FRAMES):
+    for name in sorted(raw_frames):
         raw = raw_frames[name]
         if not isinstance(raw, dict):
             errors.append(f"named_frames.{name} must be an object")
