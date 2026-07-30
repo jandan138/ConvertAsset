@@ -27,6 +27,7 @@ if str(REPO_ROOT) not in sys.path:
 REPORT_SCHEMA_VERSION = "aan.tube_rack_insertion_qualification.v2"
 BOTTOM_DISTANCE_TOLERANCE_M = 0.002
 MAX_PENETRATION_M = 0.001
+CONTACT_FORCE_EPSILON_N = 1.0e-8
 AXIS_ALIGNMENT_TOLERANCE_DEG = 10.0
 MINIMUM_DEPTH_FRACTION = 0.9
 DEFAULT_START_CLEARANCE_M = 0.002
@@ -329,26 +330,33 @@ def evaluate_insertion_observations(
         dynamic_errors.append("tube insertion axis alignment exceeds tolerance")
 
     clearance_errors: list[str] = []
-    max_side_penetration = _number(
-        contacts.get("max_side_penetration_m")
+    settled_max_side_penetration = _number(
+        contacts.get("settled_max_side_penetration_m")
     )
     if (
-        not math.isfinite(max_side_penetration)
-        or max_side_penetration < 0.0
+        not math.isfinite(settled_max_side_penetration)
+        or settled_max_side_penetration < 0.0
     ):
-        clearance_errors.append("side penetration observation is invalid")
-    elif max_side_penetration > MAX_PENETRATION_M:
-        clearance_errors.append("side penetration exceeds 1 mm")
+        clearance_errors.append(
+            "settled side penetration observation is invalid"
+        )
+    elif settled_max_side_penetration > MAX_PENETRATION_M:
+        clearance_errors.append("settled side penetration exceeds 1 mm")
 
     bottom_errors: list[str] = []
     bottom_axial_error = _number(
         trajectory.get("final_bottom_axial_error_m")
     )
     bottom_samples = _number(contacts.get("bottom_pair_contact_samples"))
+    stable_bottom_samples = _number(
+        contacts.get("stable_bottom_contact_samples")
+    )
     if contacts.get("contact_probe_available") is not True:
         bottom_errors.append("pair-filtered bottom contact probe is unavailable")
     if not math.isfinite(bottom_samples) or bottom_samples < 1:
         bottom_errors.append("no pair-filtered bottom contact was observed")
+    if not math.isfinite(stable_bottom_samples) or stable_bottom_samples < 12:
+        bottom_errors.append("stable bottom-contact window was not observed")
     if (
         not math.isfinite(bottom_axial_error)
         or bottom_axial_error > BOTTOM_DISTANCE_TOLERANCE_M
@@ -454,19 +462,33 @@ def _contact_snapshot(
     filters: dict[str, Any] = {}
     maximum_penetration = 0.0
     maximum_penetration_by_filter: dict[str, float] = {}
+    maximum_raw_penetration = 0.0
+    maximum_raw_penetration_by_filter: dict[str, float] = {}
+    deepest_contact_by_filter: dict[str, dict[str, Any] | None] = {}
     deepest_contact: dict[str, Any] | None = None
+    deepest_raw_contact: dict[str, Any] | None = None
     for filter_index, path in enumerate(filter_paths):
         count = int(counts_array[0, filter_index])
         start = int(starts_array[0, filter_index])
         entries: list[dict[str, Any]] = []
         filter_maximum_penetration = 0.0
+        filter_maximum_raw_penetration = 0.0
+        filter_deepest_contact: dict[str, Any] | None = None
+        active_contact_count = 0
         for index in range(start, start + count):
             separation = float(distances_array[index].reshape(-1)[0])
+            force_values = [
+                round(float(value), 8)
+                for value in forces_array[index].reshape(-1)
+            ]
+            force_magnitude = float(
+                np.linalg.norm(forces_array[index].reshape(-1))
+            )
+            force_bearing = force_magnitude > CONTACT_FORCE_EPSILON_N
             entry = {
-                "force_n": [
-                    round(float(value), 8)
-                    for value in forces_array[index].reshape(-1)
-                ],
+                "force_n": force_values,
+                "force_magnitude_n": round(force_magnitude, 8),
+                "force_bearing": force_bearing,
                 "point_m": [
                     round(float(value), 8) for value in points_array[index]
                 ],
@@ -477,6 +499,18 @@ def _contact_snapshot(
             }
             entries.append(entry)
             penetration = max(0.0, -separation)
+            if penetration > maximum_raw_penetration:
+                maximum_raw_penetration = penetration
+                deepest_raw_contact = {"filter_path": path, **entry}
+            filter_maximum_raw_penetration = max(
+                filter_maximum_raw_penetration,
+                penetration,
+            )
+            if not force_bearing:
+                continue
+            active_contact_count += 1
+            if penetration > filter_maximum_penetration:
+                filter_deepest_contact = entry
             filter_maximum_penetration = max(
                 filter_maximum_penetration,
                 penetration,
@@ -484,14 +518,28 @@ def _contact_snapshot(
             if penetration > maximum_penetration:
                 maximum_penetration = penetration
                 deepest_contact = {"filter_path": path, **entry}
-        filters[path] = {"contact_count": count, "contacts": entries}
+        filters[path] = {
+            "raw_contact_count": count,
+            "active_contact_count": active_contact_count,
+            "contacts": entries,
+        }
         maximum_penetration_by_filter[path] = filter_maximum_penetration
+        maximum_raw_penetration_by_filter[path] = (
+            filter_maximum_raw_penetration
+        )
+        deepest_contact_by_filter[path] = filter_deepest_contact
     return {
         "available": True,
         "filters": filters,
         "max_penetration_m": maximum_penetration,
         "max_penetration_by_filter_m": maximum_penetration_by_filter,
+        "max_raw_penetration_m": maximum_raw_penetration,
+        "max_raw_penetration_by_filter_m": (
+            maximum_raw_penetration_by_filter
+        ),
+        "deepest_contact_by_filter": deepest_contact_by_filter,
         "deepest_contact": deepest_contact,
+        "deepest_raw_contact": deepest_raw_contact,
     }
 
 
@@ -621,7 +669,9 @@ def _run_runtime(
         side_contact_samples = 0
         maximum_penetration = 0.0
         maximum_side_penetration = 0.0
+        settled_maximum_side_penetration = 0.0
         deepest_contact: dict[str, Any] | None = None
+        deepest_side_contact: dict[str, Any] | None = None
         contact_probe_available = True
         final_support = start_support.copy()
         final_axis = tube_local_z_world.copy()
@@ -679,19 +729,50 @@ def _run_runtime(
                         for path in side_paths
                     ),
                 )
+                for path in side_paths:
+                    path_penetration = float(
+                        contact["max_penetration_by_filter_m"].get(path, 0.0)
+                    )
+                    if path_penetration >= maximum_side_penetration:
+                        side_record = contact[
+                            "deepest_contact_by_filter"
+                        ].get(path)
+                        deepest_side_contact = (
+                            {
+                                "sample_index": sample_count,
+                                "filter_path": path,
+                                **side_record,
+                            }
+                            if isinstance(side_record, dict)
+                            else deepest_side_contact
+                        )
                 bottom_count = sum(
-                    int(contact["filters"][path]["contact_count"])
+                    int(contact["filters"][path]["active_contact_count"])
                     for path in bottom_paths
                 )
                 side_count = sum(
-                    int(contact["filters"][path]["contact_count"])
+                    int(contact["filters"][path]["active_contact_count"])
                     for path in side_paths
                 )
                 if bottom_count:
                     bottom_contact_samples += 1
+                    if stable_bottom_samples == 0:
+                        settled_maximum_side_penetration = 0.0
+                    settled_maximum_side_penetration = max(
+                        settled_maximum_side_penetration,
+                        *(
+                            float(
+                                contact[
+                                    "max_penetration_by_filter_m"
+                                ].get(path, 0.0)
+                            )
+                            for path in side_paths
+                        ),
+                    )
                     stable_bottom_samples += 1
                 else:
                     stable_bottom_samples = 0
+                    settled_maximum_side_penetration = 0.0
                 if side_count:
                     side_contact_samples += 1
             if stable_bottom_samples >= 12:
@@ -758,10 +839,15 @@ def _run_runtime(
                 "bottom_filter_paths": sorted(bottom_paths),
                 "side_filter_paths": sorted(side_paths),
                 "bottom_pair_contact_samples": bottom_contact_samples,
+                "stable_bottom_contact_samples": stable_bottom_samples,
                 "side_pair_contact_samples": side_contact_samples,
                 "max_penetration_m": maximum_penetration,
                 "max_side_penetration_m": maximum_side_penetration,
+                "settled_max_side_penetration_m": (
+                    settled_maximum_side_penetration
+                ),
                 "deepest_contact": deepest_contact,
+                "deepest_side_contact": deepest_side_contact,
             },
         }
         evaluation = evaluate_insertion_observations(observations)

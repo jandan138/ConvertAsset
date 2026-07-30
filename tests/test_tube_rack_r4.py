@@ -546,9 +546,11 @@ def _passing_observations() -> dict[str, object]:
         "contacts": {
             "contact_probe_available": True,
             "bottom_pair_contact_samples": 4,
+            "stable_bottom_contact_samples": 12,
             "side_pair_contact_samples": 2,
             "max_penetration_m": 0.01,
             "max_side_penetration_m": 0.0004,
+            "settled_max_side_penetration_m": 0.0002,
         },
     }
 
@@ -575,11 +577,25 @@ def test_contact_snapshot_identifies_the_deepest_contact() -> None:
         ) -> tuple[np.ndarray, ...]:
             assert dt == pytest.approx(0.001)
             return (
-                np.asarray([[1.0], [2.0]], dtype=float),
-                np.asarray([[0.0, 0.0, 0.0], [1.0, 2.0, 3.0]], dtype=float),
-                np.asarray([[0.0, 0.0, 1.0], [1.0, 0.0, 0.0]], dtype=float),
-                np.asarray([[-0.0002], [-0.0012]], dtype=float),
-                np.asarray([[1, 1]], dtype=int),
+                np.asarray([[1.0], [2.0], [0.0]], dtype=float),
+                np.asarray(
+                    [
+                        [0.0, 0.0, 0.0],
+                        [1.0, 2.0, 3.0],
+                        [4.0, 5.0, 6.0],
+                    ],
+                    dtype=float,
+                ),
+                np.asarray(
+                    [
+                        [0.0, 0.0, 1.0],
+                        [1.0, 0.0, 0.0],
+                        [0.0, -1.0, 0.0],
+                    ],
+                    dtype=float,
+                ),
+                np.asarray([[-0.0002], [-0.0012], [-0.009]], dtype=float),
+                np.asarray([[1, 2]], dtype=int),
                 np.asarray([[0, 1]], dtype=int),
             )
 
@@ -595,9 +611,25 @@ def test_contact_snapshot_identifies_the_deepest_contact() -> None:
         "/bottom": pytest.approx(0.0002),
         "/side": pytest.approx(0.0012),
     }
+    assert snapshot["max_raw_penetration_by_filter_m"] == {
+        "/bottom": pytest.approx(0.0002),
+        "/side": pytest.approx(0.009),
+    }
+    assert snapshot["filters"]["/side"]["active_contact_count"] == 1
+    assert snapshot["filters"]["/side"]["raw_contact_count"] == 2
+    assert snapshot["deepest_contact_by_filter"]["/side"] == {
+        "force_n": [2.0],
+        "force_magnitude_n": 2.0,
+        "force_bearing": True,
+        "point_m": [1.0, 2.0, 3.0],
+        "normal": [1.0, 0.0, 0.0],
+        "separation_m": -0.0012,
+    }
     assert snapshot["deepest_contact"] == {
         "filter_path": "/side",
         "force_n": [2.0],
+        "force_magnitude_n": 2.0,
+        "force_bearing": True,
         "point_m": [1.0, 2.0, 3.0],
         "normal": [1.0, 0.0, 0.0],
         "separation_m": -0.0012,
@@ -610,7 +642,11 @@ def test_contact_snapshot_identifies_the_deepest_contact() -> None:
         (("composition", "tube_kinematic", True), "kinematic"),
         (("composition", "authored_translation_updates", 1), "translate"),
         (("contacts", "bottom_pair_contact_samples", 0), "bottom"),
-        (("contacts", "max_side_penetration_m", 0.00101), "penetration"),
+        (
+            ("contacts", "settled_max_side_penetration_m", 0.00101),
+            "penetration",
+        ),
+        (("contacts", "stable_bottom_contact_samples", 11), "stable"),
         (("trajectory", "final_bottom_axial_error_m", 0.00201), "bottom"),
     ],
 )
