@@ -1,6 +1,6 @@
 # ConvertAsset 文档
 
-> 最后更新: 2026-07-16
+> 最后更新: 2026-07-31
 
 ## 快速导航
 
@@ -11,6 +11,7 @@
 - **[Asset Application Normalizer](design/asset-application-normalizer.md)** - USD/MJCF 等资产进入 target benchmark 前的资产、材质、物理、铰接、任务契约和证据闭环设计
 - **[AAN Consumer Handoff](operations/asset-application-normalizer-consumer-handoff.md)** - EBench / EOS / LabUtopia / GenManip 等下游项目消费 AAN package、manifest、task files 和 PM evidence table 的接口说明
 - **[Articulated Device Admission And Requalification](operations/articulated-device-admission-requalification.md)** - producer-owned articulated USD/proxy/profile/physics admission, promotion, and Scenario Forge loader handoff
+- **[AAN Qualified Consumer Mounting Contract](records/2026-07-31-aan-qualified-consumer-mounting-contract.md)** - fixed-base articulated asset 的支撑面安装姿态、Isaac 4.1 稳定性资格与 manifest hash 绑定
 - **[AAN Object Interaction Profile](records/2026-07-14-aan-object-interaction-profile.md)** - package-owned unique rigid root、collider/open-top intent、named frames 与 runtime-tree closure 记录
 - **[AAN Articulated Reset Capture Synchronization](records/2026-07-29-aan-articulated-reset-capture-synchronization.md)** - dynamic articulation reset baseline/cycle sampling alignment and Isaac 4.1 evidence
 - **[Blender-generated Environment Admission](records/2026-07-30-aan-blender-generated-environment-admission.md)** - Blender 4.4 visual-static source facade, package closure, and room-zone profiling

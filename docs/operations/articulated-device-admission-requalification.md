@@ -24,7 +24,10 @@ benchmark performance, or real-world physical parity.
    `aan.articulated_device_profile.v1` with measured authoritative frames,
    semantic joints, runtime units, reset states, limits, and required gates. For
    a USD `Cube`, `scale` is its full dimension: its local `+Z` face is
-   `translation + scale / 2` on Z, not `translation + scale`.
+   `translation + scale / 2` on Z, not `translation + scale`. When
+   `benchtop_stability` is required, also supply a measured
+   `aan.articulated_mounting.v1` candidate; do not treat entry-prim identity or
+   an authored support frame as the runtime articulation-root mount pose.
 4. **Isaac session-only qualification.** In the target Isaac session, verify
    load/render/step/reset, runtime DOF order, required contact and state gates,
    drive integrity, and commanded/observed travel within declared safety limits.
@@ -45,6 +48,15 @@ respectively, `aan.articulated_device_profile.v1`, the SHA-256 of the packaged
 `articulation/device_profile.json`, and that packaged profile's source SHA-256
 (which must match the manifest source). The ConvertAsset finalizer and Scenario
 Forge loader reject any mismatch.
+
+If and only if the profile requires `benchtop_stability`, its `mounting`
+candidate is mandatory. A passing report must reproduce it at
+`qualified_consumer_placement` and bind it to the profile and source hashes.
+The finalizer then publishes the verified mapping at
+`articulation_contract.mounting`, additionally bound to the runtime-report
+hash. The profile candidate has no `status`; only independently passing runtime
+evidence and the promoted manifest may declare `status: pass`. See
+[`../records/2026-07-31-aan-qualified-consumer-mounting-contract.md`](../records/2026-07-31-aan-qualified-consumer-mounting-contract.md).
 
 ## Invalidation And Retention
 

@@ -4,6 +4,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 ## Engineering Records
 
+- [2026-07-31 AAN Qualified Consumer Mounting Contract](2026-07-31-aan-qualified-consumer-mounting-contract.md)
 - [2026-07-29 AAN Articulated Reset Capture Synchronization](2026-07-29-aan-articulated-reset-capture-synchronization.md)
 - [2026-07-29 Articulated Package Finalizer](2026-07-29-articulated-package-finalizer.md)
 - [2026-07-30 Blender-generated Environment Admission](2026-07-30-aan-blender-generated-environment-admission.md)

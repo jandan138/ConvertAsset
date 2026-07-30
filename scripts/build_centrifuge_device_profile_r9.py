@@ -18,6 +18,16 @@ import math
 from pathlib import Path
 from typing import Any
 
+if __package__:
+    from .articulated_mounting_contract import (
+        COORDINATE_SEMANTICS,
+        MOUNTING_SCHEMA_VERSION,
+    )
+else:
+    from articulated_mounting_contract import (
+        COORDINATE_SEMANTICS,
+        MOUNTING_SCHEMA_VERSION,
+    )
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_R8_ROOT = Path(
@@ -30,7 +40,7 @@ BENCHTOP_SUPPORT_COLLIDER = (
 )
 PROFILE_SCHEMA_VERSION = "aan.articulated_device_profile.v1"
 MEASUREMENT_SCHEMA_VERSION = "aan.articulated_device_profile_measurement.v1"
-DEFAULT_PROFILE_REVISION = "r5-identity-root-benchtop"
+DEFAULT_PROFILE_REVISION = "r6-identity-root-qualified-mount-candidate"
 
 
 def _sha256_file(path: Path) -> str:
@@ -120,6 +130,147 @@ def _support_frame(support_plane_root_local_z_m: float) -> dict[str, Any]:
         ],
         "rotation_parent_local_wxyz": [1.0, 0.0, 0.0, 0.0],
         "authoritative": True,
+    }
+
+
+def _finite_vector(
+    value: object,
+    length: int,
+    label: str,
+) -> list[float]:
+    if not isinstance(value, list) or len(value) != length:
+        raise ValueError(f"{label} must contain {length} values")
+    result: list[float] = []
+    for item in value:
+        if isinstance(item, bool) or not isinstance(item, (int, float)):
+            raise ValueError(f"{label} must contain finite numbers")
+        parsed = float(item)
+        if not math.isfinite(parsed):
+            raise ValueError(f"{label} must contain finite numbers")
+        result.append(parsed)
+    return result
+
+
+def _mounting_contract(observation: dict[str, Any]) -> dict[str, Any]:
+    """Build an expected consumer mount from source-bound runtime evidence.
+
+    This is deliberately a candidate contract.  It becomes a passing consumer
+    placement only when the new profile is independently rerun through the
+    benchtop qualifier.
+    """
+    runtime_gate = observation.get("runtime_profile_gate")
+    if (
+        observation.get("schema_version")
+        != "aan.articulated_benchtop_observation.v1"
+        or observation.get("status") != "pass"
+        or observation.get("asset_entry_prim") != ROOT
+        or observation.get("runtime_profile") != "isaac41"
+        or not isinstance(runtime_gate, dict)
+        or runtime_gate.get("status") != "pass"
+        or runtime_gate.get("expected_version") != "4.1"
+        or not str(runtime_gate.get("observed_kit_version") or "").startswith(
+            "4.1."
+        )
+        or observation.get("stage_up_axis") != "Z"
+        or not math.isclose(
+            float(observation.get("meters_per_unit", float("nan"))),
+            1.0,
+            rel_tol=0.0,
+            abs_tol=1.0e-9,
+        )
+    ):
+        raise ValueError("mounting candidate observation metadata is invalid")
+    initial_pose = observation.get("initial_root_pose")
+    if not isinstance(initial_pose, dict):
+        raise ValueError("mounting candidate initial_root_pose is missing")
+    reset_positions = observation.get("initial_joint_reset_positions")
+    if (
+        not isinstance(reset_positions, list)
+        or len(reset_positions) != len(_semantic_joints())
+    ):
+        raise ValueError("mounting candidate reset positions are incomplete")
+    parsed_resets: list[dict[str, Any]] = []
+    expected_by_index = {
+        int(value["dof_index"]): float(value["runtime_reset_value"])
+        for value in _semantic_joints().values()
+    }
+    for record in reset_positions:
+        if not isinstance(record, dict) or set(record) != {"dof_index", "position"}:
+            raise ValueError("mounting candidate reset position ABI is invalid")
+        index = record["dof_index"]
+        if isinstance(index, bool) or not isinstance(index, int):
+            raise ValueError("mounting candidate dof_index must be an integer")
+        position = _finite_vector(
+            [record["position"]],
+            1,
+            f"mounting candidate DOF {index}",
+        )[0]
+        expected = expected_by_index.get(index)
+        if expected is None or not math.isclose(
+            position,
+            expected,
+            rel_tol=0.0,
+            abs_tol=1.0e-6,
+        ):
+            raise ValueError("mounting candidate reset positions changed")
+        parsed_resets.append({"dof_index": index, "position": expected})
+    parsed_resets.sort(key=lambda item: item["dof_index"])
+    if [item["dof_index"] for item in parsed_resets] != list(
+        range(len(expected_by_index))
+    ):
+        raise ValueError("mounting candidate reset indices must be contiguous")
+    warmup_frames = observation.get("warmup_frames")
+    settle_frames = observation.get("settle_frames")
+    if (
+        isinstance(warmup_frames, bool)
+        or not isinstance(warmup_frames, int)
+        or warmup_frames <= 0
+        or isinstance(settle_frames, bool)
+        or not isinstance(settle_frames, int)
+        or settle_frames <= 0
+    ):
+        raise ValueError("mounting candidate frame counts are invalid")
+    return {
+        "schema_version": MOUNTING_SCHEMA_VERSION,
+        "motion_mode": "fixed_base",
+        "asset_entry_prim": ROOT,
+        "coordinate_semantics": dict(COORDINATE_SEMANTICS),
+        "support_frame_root_local": {
+            "translation_m": _finite_vector(
+                observation.get("support_offset_base_local_m"),
+                3,
+                "mounting candidate support offset",
+            ),
+            "rotation_wxyz": [1.0, 0.0, 0.0, 0.0],
+        },
+        "support_plane_to_root_mount_pose": {
+            "translation_m": _finite_vector(
+                initial_pose.get("position_m"),
+                3,
+                "mounting candidate root translation",
+            ),
+            "rotation_wxyz": _finite_vector(
+                initial_pose.get("orientation_wxyz"),
+                4,
+                "mounting candidate root orientation",
+            ),
+        },
+        "initial_joint_reset_positions": parsed_resets,
+        "qualified_reset_geometry": {
+            "warmup_frames": warmup_frames,
+            "warmup_extent_world_aabb_m": _finite_vector(
+                observation.get("warmup_extent_m"),
+                3,
+                "mounting candidate warmup extent",
+            ),
+            "settle_frames": settle_frames,
+            "final_extent_world_aabb_m": _finite_vector(
+                observation.get("final_extent_m"),
+                3,
+                "mounting candidate final extent",
+            ),
+        },
+        "verification_required": "benchtop_stability",
     }
 
 
@@ -252,6 +403,37 @@ def _build(args: argparse.Namespace) -> dict[str, Any]:
 
     predecessor = _json_object(predecessor_profile_path)
     _validate_predecessor_profile(predecessor)
+    candidate_profile_path = args.mounting_candidate_profile.resolve()
+    candidate_observation_path = args.mounting_candidate_observation.resolve()
+    candidate_profile = _json_object(candidate_profile_path)
+    candidate_observation = _json_object(candidate_observation_path)
+    if (
+        candidate_profile.get("schema_version") != PROFILE_SCHEMA_VERSION
+        or candidate_profile.get("source_sha256") != source["sha256"]
+        or candidate_profile.get("asset_entry_prim") != ROOT
+        or candidate_profile.get("articulation_root_prim") != ROOT
+    ):
+        raise ValueError("mounting candidate profile is not source-bound to r9")
+    candidate_integrity = candidate_observation.get("source_integrity")
+    if (
+        candidate_observation.get("evidence_role")
+        != "mounting_candidate_measurement"
+        or not isinstance(candidate_integrity, dict)
+        or candidate_integrity.get("status") != "pass"
+        or candidate_integrity.get("asset_usd_sha256_before")
+        != _sha256_file(asset_path)
+        or candidate_integrity.get("asset_usd_sha256_after")
+        != _sha256_file(asset_path)
+        or candidate_integrity.get("device_profile_sha256")
+        != _sha256_file(candidate_profile_path)
+        or candidate_integrity.get("manifest_sha256")
+        != _sha256_file(args.manifest)
+    ):
+        raise ValueError(
+            "mounting candidate observation is not hash-bound to the r9 "
+            "asset and predecessor device profile"
+        )
+    mounting = _mounting_contract(candidate_observation)
     profile = deepcopy(predecessor)
     profile.update(
         {
@@ -260,6 +442,7 @@ def _build(args: argparse.Namespace) -> dict[str, Any]:
             "source_sha256": source["sha256"],
             "semantic_joints": _semantic_joints(),
             "required_runtime_task_gates": _required_runtime_task_gates(),
+            "mounting": mounting,
         }
     )
     frames = deepcopy(predecessor["named_frames"])
@@ -293,11 +476,25 @@ def _build(args: argparse.Namespace) -> dict[str, Any]:
             "visibility": "invisible",
             "collision_enabled": True,
         },
+        "mounting_candidate_evidence": {
+            "observation_path": str(candidate_observation_path),
+            "observation_sha256": _sha256_file(candidate_observation_path),
+            "predecessor_profile_path": str(candidate_profile_path),
+            "predecessor_profile_sha256": _sha256_file(
+                candidate_profile_path
+            ),
+            "package_asset_sha256": _sha256_file(asset_path),
+            "source_sha256": source["sha256"],
+            "status": "candidate_requires_independent_requalification",
+        },
+        "mounting": mounting,
         "required_runtime_task_gates": _required_runtime_task_gates(),
         "claim_boundary": (
             "The profile binds r8's already measured articulation semantics "
             "and interaction frames to the protected-state r9 facade, adds a "
-            "measured support frame, and requires benchtop stability. It does "
+            "measured support frame and an expected mounting candidate from "
+            "hash-bound predecessor evidence, and requires an independent "
+            "benchtop stability rerun. It does "
             "not claim robot-policy success or real-world physical parity."
         ),
     }
@@ -309,6 +506,9 @@ def _build(args: argparse.Namespace) -> dict[str, Any]:
         "profile_sha256": _sha256_file(args.out_profile),
         "measurement": str(args.out_measurement),
         "support_plane_root_local_z_m": support_plane_z,
+        "mounting_candidate_observation_sha256": _sha256_file(
+            candidate_observation_path
+        ),
     }
 
 
@@ -332,16 +532,28 @@ def build_parser() -> argparse.ArgumentParser:
         / "centrifuge.articulated_device_profile_r4_identity_root.json",
     )
     parser.add_argument(
-        "--out-profile",
+        "--mounting-candidate-profile",
         type=Path,
         default=DEFAULT_R9_ROOT
         / "centrifuge.articulated_device_profile_r5_identity_root_benchtop.json",
     )
     parser.add_argument(
+        "--mounting-candidate-observation",
+        type=Path,
+        default=DEFAULT_R9_ROOT
+        / "evidence/mounting_candidate_observation_r6_isaac41.json",
+    )
+    parser.add_argument(
+        "--out-profile",
+        type=Path,
+        default=DEFAULT_R9_ROOT
+        / "centrifuge.articulated_device_profile_r6_qualified_mount.json",
+    )
+    parser.add_argument(
         "--out-measurement",
         type=Path,
         default=DEFAULT_R9_ROOT
-        / "centrifuge.articulated_device_profile_measurement_r5_identity_root_benchtop.json",
+        / "centrifuge.articulated_device_profile_measurement_r6_qualified_mount.json",
     )
     parser.add_argument("--revision", default=DEFAULT_PROFILE_REVISION)
     return parser
@@ -352,6 +564,10 @@ def main() -> int:
     args.package = args.package.resolve()
     args.manifest = args.manifest.resolve()
     args.r8_profile = args.r8_profile.resolve()
+    args.mounting_candidate_profile = args.mounting_candidate_profile.resolve()
+    args.mounting_candidate_observation = (
+        args.mounting_candidate_observation.resolve()
+    )
     args.out_profile = args.out_profile.resolve()
     args.out_measurement = args.out_measurement.resolve()
     try:

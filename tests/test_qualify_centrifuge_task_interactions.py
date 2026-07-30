@@ -18,6 +18,7 @@ from scripts.qualify_centrifuge_task_interactions import (
     _orientation_wxyz_for_z_axis,
     _qualified_package_identity,
     _reset_and_sync,
+    _runtime_profile_gate,
     _runtime_report_inputs,
     _write_report,
 )
@@ -209,6 +210,13 @@ def test_qualified_package_identity_is_portable_and_hash_bound() -> None:
     }
 
 
+def test_interaction_runtime_profile_gate_uses_observed_kit_version() -> None:
+    assert _runtime_profile_gate(
+        "4.1.0-rc.7+4.1.14801.71533b68.gl"
+    )["status"] == "pass"
+    assert _runtime_profile_gate("4.5.0-rc.36+release")["status"] == "blocked"
+
+
 def test_r9_profile_accepts_support_and_requires_five_real_interaction_gates(
     tmp_path: Path,
 ) -> None:
@@ -277,6 +285,7 @@ def test_base_report_inputs_bind_exact_r9_profile_source_and_manifest() -> None:
         profile=profile,
         profile_sha256="6" * 64,
         input_hashes=hashes,
+        runtime_profile="isaac41",
     )
 
     assert inputs["device_profile"] == {
@@ -309,6 +318,7 @@ def test_base_report_inputs_reject_asset_mutation() -> None:
         profile=profile,
         profile_sha256="6" * 64,
         input_hashes=hashes,
+        runtime_profile="isaac41",
     )
 
     assert inputs["integrity"]["status"] == "blocked"

@@ -11,6 +11,10 @@ from pathlib import Path
 from typing import Any, Mapping
 import uuid
 
+if __package__:
+    from .articulated_mounting_contract import validate_mounting
+else:
+    from articulated_mounting_contract import validate_mounting
 
 PROFILE_SCHEMA_VERSION = "aan.articulated_device_profile.v1"
 CONTRACT_SCHEMA_VERSION = "aan.articulation_contract.v1"
@@ -133,6 +137,24 @@ def _require_prim_within(
         allow_root=allow_root,
     ):
         raise ArticulatedPackageFinalizationError(f"{label} must be within {root}")
+
+
+def _validate_mounting(
+    value: object,
+    *,
+    articulation_root: str,
+    runtime_reset_by_index: Mapping[int, float],
+) -> dict[str, Any]:
+    try:
+        return validate_mounting(
+            value,
+            asset_entry_prim=articulation_root,
+            expected_resets_by_index=runtime_reset_by_index,
+        )
+    except ValueError as exc:
+        raise ArticulatedPackageFinalizationError(
+            f"device profile.mounting is invalid: {exc}"
+        ) from exc
 
 
 def _validate_controllable_joint_records(
@@ -402,21 +424,24 @@ def _validate_profile(
     mapping_by_index: Mapping[int, Mapping[str, Any]],
     reset_by_joint: Mapping[str, float],
     joint_limits_by_prim: Mapping[str, tuple[float, float]],
-) -> tuple[str, str, tuple[str, ...]]:
+) -> tuple[str, str, tuple[str, ...], dict[str, Any] | None]:
+    profile_fields = {
+        "schema_version",
+        "profile_id",
+        "revision",
+        "source_sha256",
+        "asset_entry_prim",
+        "articulation_root_prim",
+        "runtime_units",
+        "semantic_joints",
+        "named_frames",
+        "required_runtime_task_gates",
+    }
+    if "mounting" in profile:
+        profile_fields.add("mounting")
     _require_exact_fields(
         profile,
-        {
-            "schema_version",
-            "profile_id",
-            "revision",
-            "source_sha256",
-            "asset_entry_prim",
-            "articulation_root_prim",
-            "runtime_units",
-            "semantic_joints",
-            "named_frames",
-            "required_runtime_task_gates",
-        },
+        profile_fields,
         "device profile",
     )
     if profile.get("schema_version") != PROFILE_SCHEMA_VERSION:
@@ -449,8 +474,15 @@ def _validate_profile(
         raise ArticulatedPackageFinalizationError(
             "device profile required_runtime_task_gates must be a unique non-empty list"
         )
+    requires_mounting = "benchtop_stability" in required_gates_value
+    if requires_mounting != ("mounting" in profile):
+        raise ArticulatedPackageFinalizationError(
+            "device profile.mounting is required exactly when "
+            "benchtop_stability is a required runtime task gate"
+        )
     semantic_joints = _mapping(profile.get("semantic_joints"), "device profile.semantic_joints")
     seen_indices: set[int] = set()
+    runtime_reset_by_index: dict[int, float] = {}
     for semantic_name, raw_semantic in semantic_joints.items():
         if (
             not isinstance(semantic_name, str)
@@ -513,6 +545,7 @@ def _validate_profile(
             raise ArticulatedPackageFinalizationError(
                 f"{label}.runtime_reset_value does not match the static reset"
             )
+        runtime_reset_by_index[dof_index] = runtime_reset
         states = _mapping(semantic.get("states"), f"{label}.states")
         if not states:
             raise ArticulatedPackageFinalizationError(f"{label}.states must not be empty")
@@ -588,7 +621,16 @@ def _validate_profile(
             )
         if frame.get("authoritative") is not True:
             raise ArticulatedPackageFinalizationError(f"{label}.authoritative must be true")
-    return profile_id, revision, tuple(required_gates_value)
+    mounting = (
+        _validate_mounting(
+            profile.get("mounting"),
+            articulation_root=articulation_root,
+            runtime_reset_by_index=runtime_reset_by_index,
+        )
+        if requires_mounting
+        else None
+    )
+    return profile_id, revision, tuple(required_gates_value), mounting
 
 
 def _validate_runtime_report(
@@ -602,6 +644,7 @@ def _validate_runtime_report(
     target_runtime_profile: str,
     mapping_by_index: Mapping[int, Mapping[str, Any]],
     required_gates: tuple[str, ...],
+    mounting: Mapping[str, Any] | None,
 ) -> None:
     if report.get("schema_version") != REPORT_SCHEMA_VERSION:
         raise ArticulatedPackageFinalizationError("runtime report schema_version is unsupported")
@@ -736,6 +779,28 @@ def _validate_runtime_report(
             raise ArticulatedPackageFinalizationError(
                 f"runtime report.task_gates.{gate_name}.status must be pass"
             )
+    if mounting is None:
+        if "qualified_consumer_placement" in report:
+            raise ArticulatedPackageFinalizationError(
+                "runtime report.qualified_consumer_placement is valid only "
+                "for a benchtop_stability mounting contract"
+            )
+    else:
+        qualified_placement = _mapping(
+            report.get("qualified_consumer_placement"),
+            "runtime report.qualified_consumer_placement",
+        )
+        expected_placement = {
+            **dict(mounting),
+            "status": "pass",
+            "profile_sha256": profile_sha256,
+            "source_sha256": source_sha256,
+        }
+        if dict(qualified_placement) != expected_placement:
+            raise ArticulatedPackageFinalizationError(
+                "runtime report.qualified_consumer_placement must exactly "
+                "match the hash-bound device profile mounting candidate"
+            )
 
 
 def _atomic_write(path: Path, value: bytes) -> None:
@@ -809,7 +874,7 @@ def finalize_articulated_package(
     profile = _load_json_object_bytes(profile_bytes, "device profile")
     report = _load_json_object_bytes(report_bytes, "runtime report")
     profile_sha256 = _sha256_bytes(profile_bytes)
-    profile_id, revision, required_gates = _validate_profile(
+    profile_id, revision, required_gates, mounting = _validate_profile(
         profile,
         source_sha=source_sha,
         articulation_root=articulation_root,
@@ -827,6 +892,7 @@ def finalize_articulated_package(
         target_runtime_profile=target_runtime_profile,
         mapping_by_index=mapping_by_index,
         required_gates=required_gates,
+        mounting=mounting,
     )
     package_profile_path = package_root / PROFILE_RELATIVE_PATH
     package_report_path = package_root / REPORT_RELATIVE_PATH
@@ -840,7 +906,7 @@ def finalize_articulated_package(
     ):
         _prepare_new_package_artifact(package_root, path)
     report_sha256 = _sha256_bytes(report_bytes)
-    manifest["articulation_contract"] = {
+    articulation_contract = {
         "schema_version": CONTRACT_SCHEMA_VERSION,
         "status": "pass",
         "profile": {
@@ -857,6 +923,15 @@ def finalize_articulated_package(
             "report_sha256": report_sha256,
         },
     }
+    if mounting is not None:
+        articulation_contract["mounting"] = {
+            **mounting,
+            "status": "pass",
+            "profile_sha256": profile_sha256,
+            "runtime_report_sha256": report_sha256,
+            "source_sha256": source_sha,
+        }
+    manifest["articulation_contract"] = articulation_contract
     final_manifest_bytes = _manifest_bytes(manifest)
     final_manifest_sha256 = _sha256_bytes(final_manifest_bytes)
     promotion = {

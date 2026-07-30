@@ -513,6 +513,29 @@ def _qualified_package_identity(
     }
 
 
+def _runtime_profile_gate(
+    observed_kit_version: object,
+    expected_version: str = "4.1",
+) -> dict[str, Any]:
+    observed = str(observed_kit_version or "")
+    status = (
+        "pass"
+        if observed == expected_version
+        or observed.startswith(expected_version + ".")
+        else "blocked"
+    )
+    return {
+        "status": status,
+        "expected_version": expected_version,
+        "observed_kit_version": observed or None,
+        "reason": (
+            None
+            if status == "pass"
+            else "Runtime does not provide the required Isaac/Kit fingerprint."
+        ),
+    }
+
+
 def _runtime_report_inputs(
     *,
     centrifuge_package: Path,
@@ -520,6 +543,7 @@ def _runtime_report_inputs(
     profile: dict[str, Any],
     profile_sha256: str,
     input_hashes: dict[str, str],
+    runtime_profile: str,
 ) -> dict[str, Any]:
     """Build finalizer-compatible bindings for a freshly executed five-gate run."""
     required_hashes = {
@@ -560,7 +584,7 @@ def _runtime_report_inputs(
         "integrity": source_integrity,
         "qualified_package": _qualified_package_identity(
             asset_entry_prim=CENTRIFUGE_ROOT,
-            runtime_profile="isaac41",
+            runtime_profile=runtime_profile,
             prequalification_manifest_sha256=input_hashes[
                 "centrifuge_manifest_sha256"
             ],
@@ -626,6 +650,7 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
     app = SimulationApp({"headless": True, "renderer": "RayTracedLighting"})
     try:
         import numpy as np
+        import omni.kit.app
         import omni.usd
         from omni.isaac.core import World
         from omni.isaac.core.articulations import Articulation
@@ -654,6 +679,24 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         stage = context.get_stage()
         if stage is None:
             raise RuntimeError("Isaac did not provide an open USD stage")
+        kit_app = omni.kit.app.get_app()
+        observed_kit_version = (
+            str(kit_app.get_app_version()) if kit_app is not None else None
+        )
+        runtime_profile_gate = _runtime_profile_gate(observed_kit_version)
+        if runtime_profile_gate.get("status") != "pass":
+            return {
+                "schema_version": "aan.articulation_runtime_qualification.v1",
+                "status": "blocked",
+                "runtime": {"runtime_profile_gate": runtime_profile_gate},
+                "host_failure": (
+                    "Isaac/Kit runtime fingerprint does not match required 4.1"
+                ),
+            }
+        observed_major_minor = ".".join(
+            str(runtime_profile_gate["observed_kit_version"]).split(".", 2)[:2]
+        )
+        runtime_profile = "isaac" + observed_major_minor.replace(".", "")
         stage.SetEditTarget(stage.GetSessionLayer())
 
         _prepare_tube(stage, tube_asset, UsdPhysics)
@@ -1187,6 +1230,7 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             profile=profile,
             profile_sha256=profile_sha256,
             input_hashes=input_hashes,
+            runtime_profile=runtime_profile,
         )
         source_integrity = report_inputs["integrity"]
         overall = "pass" if all(gate["status"] == "pass" for gate in task_gates.values()) and drive_integrity["status"] == "pass" and source_integrity["status"] == "pass" else "blocked"
@@ -1194,7 +1238,8 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             "schema_version": "aan.articulation_runtime_qualification.v1",
             "status": overall,
             "runtime": {
-                "runtime_profile": "isaac41",
+                "runtime_profile": runtime_profile,
+                "runtime_profile_gate": runtime_profile_gate,
                 "physics_dt_seconds": float(args.physics_dt),
                 "contact_method": "session-layer kinematic collision pushers with RigidContactView pair filtering",
                 "source_mutation": "none",
@@ -1279,7 +1324,6 @@ def main() -> int:
         report = {
             "schema_version": "aan.articulation_runtime_qualification.v1",
             "status": "blocked",
-            "runtime": {"runtime_profile": "isaac41"},
             "host_failure": f"{type(exc).__name__}: {exc}",
         }
     report_path = _write_report(args.out_dir, report)

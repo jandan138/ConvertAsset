@@ -20,6 +20,10 @@ import subprocess
 import sys
 from typing import Any, Iterable, Mapping
 
+if __package__:
+    from .articulated_mounting_contract import validate_mounting
+else:
+    from articulated_mounting_contract import validate_mounting
 
 PROFILE_SCHEMA_VERSION = "aan.articulated_device_profile.v1"
 REPORT_SCHEMA_VERSION = "aan.articulation_runtime_qualification.v1"
@@ -32,6 +36,9 @@ MAXIMUM_SUPPORT_GAP_M = 0.001
 MAXIMUM_TABLE_PENETRATION_M = 0.001
 MAXIMUM_EXTENT_RELATIVE_ERROR = 0.05
 DEFAULT_PHYSICS_DT_SECONDS = 1.0 / 60.0
+MOUNTING_VECTOR_ABSOLUTE_TOLERANCE_M = 1.0e-5
+MOUNTING_QUATERNION_ABSOLUTE_TOLERANCE = 1.0e-6
+MOUNTING_JOINT_RESET_ABSOLUTE_TOLERANCE = 1.0e-3
 
 
 def _sha256_file(path: Path) -> str:
@@ -193,10 +200,147 @@ def _scoped_physx_error_lines(
     return result
 
 
+def _runtime_profile_gate(
+    observed_kit_version: object,
+    expected_version: str = "4.1",
+) -> dict[str, Any]:
+    observed = str(observed_kit_version or "")
+    status = (
+        "pass"
+        if observed == expected_version
+        or observed.startswith(expected_version + ".")
+        else "blocked"
+    )
+    return {
+        "status": status,
+        "expected_version": expected_version,
+        "observed_kit_version": observed or None,
+        "reason": (
+            None
+            if status == "pass"
+            else "Runtime does not provide the required Isaac/Kit fingerprint."
+        ),
+    }
+
+
+def _quaternion_distance(left: object, right: object) -> float:
+    a = _normalise_quaternion(left, "expected quaternion")
+    b = _normalise_quaternion(right, "observed quaternion")
+    direct = max(abs(a[index] - b[index]) for index in range(4))
+    negated = max(abs(a[index] + b[index]) for index in range(4))
+    return min(direct, negated)
+
+
+def _maximum_vector_error(left: object, right: object, label: str) -> float:
+    a = _finite_vector(left, 3, f"expected {label}")
+    b = _finite_vector(right, 3, f"observed {label}")
+    return max(abs(a[index] - b[index]) for index in range(3))
+
+
+def _mounting_candidate_errors(
+    expected: Mapping[str, Any],
+    observation: Mapping[str, Any],
+) -> dict[str, float]:
+    initial_pose = observation["initial_root_pose"]
+    geometry = expected["qualified_reset_geometry"]
+    observed_resets = observation.get("initial_joint_reset_positions")
+    reset_error = float("inf")
+    warmup_reset_error = float("inf")
+    expected_resets = {
+        int(item["dof_index"]): float(item["position"])
+        for item in expected["initial_joint_reset_positions"]
+    }
+    if isinstance(observed_resets, list):
+        actual_resets = {
+            int(item["dof_index"]): float(item["position"])
+            for item in observed_resets
+            if isinstance(item, Mapping)
+            and isinstance(item.get("dof_index"), int)
+            and isinstance(item.get("position"), (int, float))
+        }
+        if set(expected_resets) == set(actual_resets):
+            reset_error = max(
+                abs(expected_resets[index] - actual_resets[index])
+                for index in expected_resets
+            )
+    warmup_positions = observation.get("warmup_joint_positions")
+    if isinstance(warmup_positions, list):
+        actual_warmup = {
+            int(item["dof_index"]): float(item["position"])
+            for item in warmup_positions
+            if isinstance(item, Mapping)
+            and isinstance(item.get("dof_index"), int)
+            and isinstance(item.get("position"), (int, float))
+        }
+        if set(expected_resets) == set(actual_warmup):
+            warmup_reset_error = max(
+                abs(expected_resets[index] - actual_warmup[index])
+                for index in expected_resets
+            )
+    runtime_gate = observation.get("runtime_profile_gate")
+    metadata_error = float(
+        not (
+            observation.get("runtime_profile") == "isaac41"
+            and isinstance(runtime_gate, Mapping)
+            and runtime_gate.get("status") == "pass"
+            and runtime_gate.get("expected_version") == "4.1"
+            and str(runtime_gate.get("observed_kit_version") or "").startswith(
+                "4.1."
+            )
+            and observation.get("stage_up_axis")
+            == expected["coordinate_semantics"]["stage_up_axis"]
+            and math.isclose(
+                float(observation.get("meters_per_unit", float("nan"))),
+                1.0,
+                rel_tol=0.0,
+                abs_tol=1.0e-9,
+            )
+            and observation.get("asset_entry_prim")
+            == expected["asset_entry_prim"]
+            and observation.get("warmup_frames") == geometry["warmup_frames"]
+            and observation.get("settle_frames") == geometry["settle_frames"]
+        )
+    )
+    return {
+        "metadata_error": metadata_error,
+        "support_translation_error_m": _maximum_vector_error(
+            expected["support_frame_root_local"]["translation_m"],
+            observation.get("support_offset_base_local_m"),
+            "support offset",
+        ),
+        "support_rotation_error": _quaternion_distance(
+            expected["support_frame_root_local"]["rotation_wxyz"],
+            [1.0, 0.0, 0.0, 0.0],
+        ),
+        "root_translation_error_m": _maximum_vector_error(
+            expected["support_plane_to_root_mount_pose"]["translation_m"],
+            initial_pose.get("position_m"),
+            "root mount translation",
+        ),
+        "root_rotation_error": _quaternion_distance(
+            expected["support_plane_to_root_mount_pose"]["rotation_wxyz"],
+            initial_pose.get("orientation_wxyz"),
+        ),
+        "joint_reset_error": reset_error,
+        "warmup_joint_reset_error": warmup_reset_error,
+        "warmup_extent_error_m": _maximum_vector_error(
+            geometry["warmup_extent_world_aabb_m"],
+            observation.get("warmup_extent_m"),
+            "warmup extent",
+        ),
+        "final_extent_error_m": _maximum_vector_error(
+            geometry["final_extent_world_aabb_m"],
+            observation.get("final_extent_m"),
+            "final extent",
+        ),
+    }
+
+
 def _evaluate_stability_observation(
     observation: Mapping[str, Any],
     *,
     scoped_physx_errors: list[str],
+    expected_mounting: Mapping[str, Any],
 ) -> dict[str, Any]:
     """Evaluate one runtime observation against the fixed r9 protocol."""
     initial_pose = observation.get("initial_root_pose")
@@ -297,6 +441,30 @@ def _evaluate_stability_observation(
         isinstance(source_integrity, Mapping)
         and source_integrity.get("status") == "pass"
     )
+    mounting = validate_mounting(
+        expected_mounting,
+        asset_entry_prim=str(observation.get("asset_entry_prim")),
+    )
+    mounting_errors = _mounting_candidate_errors(mounting, observation)
+    mounting_matches = (
+        mounting_errors["metadata_error"] == 0.0
+        and mounting_errors["support_translation_error_m"]
+        <= MOUNTING_VECTOR_ABSOLUTE_TOLERANCE_M
+        and mounting_errors["support_rotation_error"]
+        <= MOUNTING_QUATERNION_ABSOLUTE_TOLERANCE
+        and mounting_errors["root_translation_error_m"]
+        <= MOUNTING_VECTOR_ABSOLUTE_TOLERANCE_M
+        and mounting_errors["root_rotation_error"]
+        <= MOUNTING_QUATERNION_ABSOLUTE_TOLERANCE
+        and mounting_errors["joint_reset_error"]
+        <= MOUNTING_VECTOR_ABSOLUTE_TOLERANCE_M
+        and mounting_errors["warmup_joint_reset_error"]
+        <= MOUNTING_JOINT_RESET_ABSOLUTE_TOLERANCE
+        and mounting_errors["warmup_extent_error_m"]
+        <= MOUNTING_VECTOR_ABSOLUTE_TOLERANCE_M
+        and mounting_errors["final_extent_error_m"]
+        <= MOUNTING_VECTOR_ABSOLUTE_TOLERANCE_M
+    )
     blocked_reasons: list[str] = []
     if (
         observation.get("mounted_support_offset_m")
@@ -321,7 +489,9 @@ def _evaluate_stability_observation(
         blocked_reasons.append("scoped_physx_errors")
     if not source_integrity_pass:
         blocked_reasons.append("source_integrity")
-    return {
+    if not mounting_matches:
+        blocked_reasons.append("qualified_mounting_mismatch")
+    result = {
         "status": "pass" if not blocked_reasons else "blocked",
         "method": (
             "fixed-base support frame mounted flush to a session-only static "
@@ -354,6 +524,7 @@ def _evaluate_stability_observation(
         "scoped_physx_errors": scoped_physx_errors,
         "qualification_session": deepcopy(qualification_session),
         "source_integrity": deepcopy(source_integrity),
+        "mounting_candidate_errors": mounting_errors,
         "observation": deepcopy(dict(observation)),
         "blocked_reasons": blocked_reasons,
         "claim_boundary": (
@@ -363,6 +534,9 @@ def _evaluate_stability_observation(
             "benchmark success, or real-world physical calibration."
         ),
     }
+    if not blocked_reasons:
+        result["verified_consumer_placement"] = deepcopy(mounting)
+    return result
 
 
 def _merge_stability_gate(
@@ -410,6 +584,18 @@ def _merge_stability_gate(
         if runtime_report.get("status") == "pass" and all_gates_pass
         else "blocked"
     )
+    if report["status"] == "pass":
+        verified = gate.get("verified_consumer_placement")
+        if not isinstance(verified, Mapping):
+            raise ValueError(
+                "passing benchtop gate lacks verified consumer placement"
+            )
+        report["qualified_consumer_placement"] = {
+            **deepcopy(dict(verified)),
+            "status": "pass",
+            "profile_sha256": profile_sha256,
+            "source_sha256": source_sha256,
+        }
     report["benchtop_stability_claim_boundary"] = gate.get("claim_boundary")
     return report
 
@@ -419,6 +605,7 @@ def _load_profile(
     *,
     source_sha256: str,
     asset_entry_prim: str,
+    require_mounting: bool = True,
 ) -> dict[str, Any]:
     profile = _json_object(path)
     if profile.get("schema_version") != PROFILE_SCHEMA_VERSION:
@@ -446,6 +633,23 @@ def _load_profile(
         support.get("translation_parent_local_m"),
         3,
         "device profile support translation",
+    )
+    if not require_mounting:
+        return profile
+    semantics = profile.get("semantic_joints")
+    if not isinstance(semantics, Mapping):
+        raise ValueError("device profile semantic_joints are missing")
+    reset_by_index = {
+        int(value["dof_index"]): float(value["runtime_reset_value"])
+        for value in semantics.values()
+        if isinstance(value, Mapping)
+        and isinstance(value.get("dof_index"), int)
+        and isinstance(value.get("runtime_reset_value"), (int, float))
+    }
+    validate_mounting(
+        profile.get("mounting"),
+        asset_entry_prim=asset_entry_prim,
+        expected_resets_by_index=reset_by_index,
     )
     return profile
 
@@ -601,6 +805,7 @@ def _run_worker(args: argparse.Namespace) -> dict[str, Any]:
         args.device_profile,
         source_sha256=source["sha256"],
         asset_entry_prim=entry_prim,
+        require_mounting=not args.bootstrap_mounting_candidate,
     )
     asset_path = args.package / "asset.usd"
     if not asset_path.is_file():
@@ -613,6 +818,7 @@ def _run_worker(args: argparse.Namespace) -> dict[str, Any]:
     app = SimulationApp({"headless": True, "renderer": "RayTracedLighting"})
     try:
         import numpy as np
+        import omni.kit.app
         import omni.usd
         from omni.isaac.core import World
         from omni.isaac.core.articulations import ArticulationView
@@ -628,6 +834,33 @@ def _run_worker(args: argparse.Namespace) -> dict[str, Any]:
         stage = context.get_stage()
         if stage is None:
             raise RuntimeError("Isaac did not provide an open USD stage")
+        kit_app = omni.kit.app.get_app()
+        observed_kit_version = (
+            str(kit_app.get_app_version()) if kit_app is not None else None
+        )
+        runtime_profile_gate = _runtime_profile_gate(
+            observed_kit_version,
+        )
+        if runtime_profile_gate.get("status") != "pass":
+            return {
+                "schema_version": "aan.articulated_benchtop_observation.v1",
+                "status": "blocked",
+                "evidence_role": (
+                    "mounting_candidate_measurement"
+                    if args.bootstrap_mounting_candidate
+                    else "runtime_qualification_observation"
+                ),
+                "runtime_profile_gate": runtime_profile_gate,
+                "host_failure": (
+                    "Isaac/Kit runtime fingerprint does not match required 4.1"
+                ),
+            }
+        observed_runtime_version = str(
+            runtime_profile_gate["observed_kit_version"]
+        )
+        observed_major_minor = ".".join(
+            observed_runtime_version.split(".", 2)[:2]
+        )
         stage.SetEditTarget(stage.GetSessionLayer())
         initial_support_world = _profile_support_world(
             stage,
@@ -685,6 +918,20 @@ def _run_worker(args: argparse.Namespace) -> dict[str, Any]:
         world.reset()
         if not articulation.is_physics_handle_valid():
             raise RuntimeError("articulation physics handle did not initialize")
+        actual_reset_positions = articulation.get_joint_positions()
+        if actual_reset_positions is None or len(actual_reset_positions) != 1:
+            raise RuntimeError("articulation reset positions are unavailable")
+        observed_joint_positions_after_reset = [
+            {
+                "dof_index": index,
+                "position": float(value),
+            }
+            for index, value in enumerate(actual_reset_positions[0])
+        ]
+        initial_joint_reset_positions = [
+            {"dof_index": index, "position": float(value)}
+            for index, value in enumerate(reset_positions)
+        ]
         initial_pose = _pose(articulation)
         initial_bound = _world_bound(
             stage,
@@ -702,6 +949,16 @@ def _run_worker(args: argparse.Namespace) -> dict[str, Any]:
         )
         for _ in range(int(args.warmup_frames)):
             world.step(render=False)
+        warmup_joint_positions_raw = articulation.get_joint_positions()
+        if (
+            warmup_joint_positions_raw is None
+            or len(warmup_joint_positions_raw) != 1
+        ):
+            raise RuntimeError("warmup joint positions are unavailable")
+        warmup_joint_positions = [
+            {"dof_index": index, "position": float(value)}
+            for index, value in enumerate(warmup_joint_positions_raw[0])
+        ]
         warmup_pose = _pose(articulation)
         warmup_bound = _world_bound(
             stage,
@@ -726,7 +983,15 @@ def _run_worker(args: argparse.Namespace) -> dict[str, Any]:
         return {
             "schema_version": "aan.articulated_benchtop_observation.v1",
             "status": "pass",
-            "runtime_profile": "isaac41",
+            "evidence_role": (
+                "mounting_candidate_measurement"
+                if args.bootstrap_mounting_candidate
+                else "runtime_qualification_observation"
+            ),
+            "runtime_profile": "isaac" + observed_major_minor.replace(".", ""),
+            "runtime_profile_gate": runtime_profile_gate,
+            "stage_up_axis": str(UsdGeom.GetStageUpAxis(stage)).upper(),
+            "meters_per_unit": float(UsdGeom.GetStageMetersPerUnit(stage)),
             "physics_dt_seconds": float(args.physics_dt),
             "asset_entry_prim": entry_prim,
             "mounted_support_offset_m": float(args.mounted_support_offset),
@@ -742,6 +1007,11 @@ def _run_worker(args: argparse.Namespace) -> dict[str, Any]:
             "initial_support_world_m": initial_support_world,
             "final_support_world_m": final_support,
             "support_offset_base_local_m": support_offset_base,
+            "initial_joint_reset_positions": initial_joint_reset_positions,
+            "observed_joint_positions_after_reset": (
+                observed_joint_positions_after_reset
+            ),
+            "warmup_joint_positions": warmup_joint_positions,
             "qualification_session": qualification_session,
             "source_integrity": {
                 "status": (
@@ -824,13 +1094,19 @@ def _orchestrate(args: argparse.Namespace) -> dict[str, Any]:
             f"exit_code={process.returncode}"
         )
     observation = _json_object(args.out_observation)
-    if observation.get("status") != "pass":
+    if observation.get("status") != "pass" or process.returncode != 0:
         gate = {
             "status": "blocked",
             "method": "Isaac 4.1 benchtop worker",
             "host_failure": observation.get("host_failure"),
             "worker_exit_code": process.returncode,
-            "blocked_reasons": ["worker_failure"],
+            "blocked_reasons": [
+                (
+                    "worker_failure"
+                    if observation.get("status") != "pass"
+                    else "worker_nonzero_exit"
+                )
+            ],
             "claim_boundary": (
                 "No benchtop stability claim is available because the Isaac "
                 "worker did not complete."
@@ -844,6 +1120,7 @@ def _orchestrate(args: argparse.Namespace) -> dict[str, Any]:
         gate = _evaluate_stability_observation(
             observation,
             scoped_physx_errors=errors,
+            expected_mounting=profile["mounting"],
         )
         gate["worker_exit_code"] = process.returncode
     merged = _merge_stability_gate(
@@ -894,6 +1171,11 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         help=argparse.SUPPRESS,
     )
+    parser.add_argument(
+        "--bootstrap-mounting-candidate",
+        action="store_true",
+        help=argparse.SUPPRESS,
+    )
     return parser
 
 
@@ -910,7 +1192,6 @@ def main() -> int:
             observation = {
                 "schema_version": "aan.articulated_benchtop_observation.v1",
                 "status": "blocked",
-                "runtime_profile": "isaac41",
                 "host_failure": f"{type(exc).__name__}: {exc}",
             }
         _write_json(output, observation)
@@ -922,6 +1203,12 @@ def main() -> int:
             flush=True,
         )
         return 0 if observation["status"] == "pass" else 2
+
+    if args.bootstrap_mounting_candidate:
+        raise SystemExit(
+            "--bootstrap-mounting-candidate is valid only with "
+            "--worker-observation"
+        )
 
     if (
         args.base_runtime_report is None

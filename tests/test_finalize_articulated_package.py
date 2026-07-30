@@ -25,6 +25,7 @@ def _write_fixture(
     root: Path,
     *,
     prequalification_manifest_sha256: str | None = None,
+    with_mounting: bool = False,
 ) -> tuple[Path, Path, Path, Path]:
     source = root / "source.usda"
     source.write_text("#usda 1.0\ndef Xform \"World\" {}\n", encoding="utf-8")
@@ -154,6 +155,46 @@ def _write_fixture(
         },
         "required_runtime_task_gates": ["button_contact_cycle", "lid_contact_cycle"],
     }
+    if with_mounting:
+        profile["mounting"] = {
+            "schema_version": "aan.articulated_mounting.v1",
+            "motion_mode": "fixed_base",
+            "asset_entry_prim": root_prim,
+            "coordinate_semantics": {
+                "stage_up_axis": "Z",
+                "linear_units": "meter",
+                "quaternion_order": "wxyz",
+                "support_frame": "runtime_articulation_root_pose_local",
+                "mount_pose": (
+                    "support_plane_to_runtime_articulation_root_pose_"
+                    "world_axes_at_yaw_zero"
+                ),
+                "qualified_extents": (
+                    "world_axis_aligned_at_mount_pose_after_joint_reset"
+                ),
+            },
+            "support_frame_root_local": {
+                "translation_m": [0.0, -0.1, 0.0],
+                "rotation_wxyz": [1.0, 0.0, 0.0, 0.0],
+            },
+            "support_plane_to_root_mount_pose": {
+                "translation_m": [0.0, 0.0, 0.1],
+                "rotation_wxyz": [0.5, 0.5, 0.5, 0.5],
+            },
+            "initial_joint_reset_positions": [
+                {"dof_index": 0, "position": 0.0},
+                {"dof_index": 1, "position": 0.0},
+                {"dof_index": 2, "position": 0.0},
+            ],
+            "qualified_reset_geometry": {
+                "warmup_frames": 50,
+                "warmup_extent_world_aabb_m": [0.4, 0.35, 0.45],
+                "settle_frames": 240,
+                "final_extent_world_aabb_m": [0.4, 0.35, 0.45],
+            },
+            "verification_required": "benchtop_stability",
+        }
+        profile["required_runtime_task_gates"].append("benchtop_stability")
     profile_path = root / "device_profile.json"
     _write_json(profile_path, profile)
     profile_sha = _digest(profile_path)
@@ -210,6 +251,14 @@ def _write_fixture(
             "lid_contact_cycle": {"status": "pass"},
         },
     }
+    if with_mounting:
+        report["task_gates"]["benchtop_stability"] = {"status": "pass"}
+        report["qualified_consumer_placement"] = {
+            **profile["mounting"],
+            "status": "pass",
+            "profile_sha256": profile_sha,
+            "source_sha256": source_sha,
+        }
     report_path = root / "runtime_report.json"
     _write_json(report_path, report)
     return package_root, manifest_path, profile_path, report_path
@@ -236,7 +285,56 @@ def test_finalizer_promotes_a_hash_bound_articulated_package(tmp_path: Path) -> 
     assert contract["runtime_qualification"]["report_sha256"] == _digest(
         package_root / "evidence" / "articulation_runtime_qualification" / "report.json"
     )
+    assert "mounting" not in contract
     assert result["status"] == "pass"
+
+
+def test_finalizer_rejects_unqualified_mounting_geometry(tmp_path: Path) -> None:
+    package_root, manifest_path, profile_path, report_path = _write_fixture(
+        tmp_path,
+        with_mounting=True,
+    )
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    report["qualified_consumer_placement"]["qualified_reset_geometry"][
+        "warmup_extent_world_aabb_m"
+    ][2] += 0.1
+    _write_json(report_path, report)
+
+    with pytest.raises(
+        ArticulatedPackageFinalizationError,
+        match="qualified_consumer_placement",
+    ):
+        finalize_articulated_package(
+            package_root=package_root,
+            manifest_path=manifest_path,
+            profile_path=profile_path,
+            runtime_report_path=report_path,
+        )
+
+
+def test_finalizer_promotes_hash_bound_fixed_base_mounting(tmp_path: Path) -> None:
+    package_root, manifest_path, profile_path, report_path = _write_fixture(
+        tmp_path,
+        with_mounting=True,
+    )
+
+    finalize_articulated_package(
+        package_root=package_root,
+        manifest_path=manifest_path,
+        profile_path=profile_path,
+        runtime_report_path=report_path,
+    )
+
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    contract = manifest["articulation_contract"]
+    report_sha = contract["runtime_qualification"]["report_sha256"]
+    assert contract["mounting"] == {
+        **json.loads(profile_path.read_text(encoding="utf-8"))["mounting"],
+        "status": "pass",
+        "profile_sha256": contract["profile"]["profile_sha256"],
+        "runtime_report_sha256": report_sha,
+        "source_sha256": manifest["source"]["sha256"],
+    }
 
 
 def test_finalizer_rejects_a_report_not_bound_to_the_input_manifest(
