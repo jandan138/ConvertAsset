@@ -29,6 +29,12 @@ REQUIRED_GATES = (
     "bottom_contact",
     "source_integrity",
 )
+REQUIRED_BASE_INTERACTION_GATES = (
+    "root_motion_gate",
+    "stable_support_gate",
+    "gripper_collision_gate",
+    "open_top",
+)
 
 
 class InteractionTaskFinalizationError(ValueError):
@@ -209,6 +215,26 @@ def _validate_finite_json(value: Any, label: str = "report") -> None:
         raise InteractionTaskFinalizationError(f"{label} must be finite")
 
 
+def _validate_base_interaction_gates(
+    manifest: Mapping[str, Any],
+    *,
+    role: str,
+) -> None:
+    contract = _mapping(
+        manifest.get("interaction_contract"),
+        f"{role} manifest.interaction_contract",
+    )
+    for gate_name in REQUIRED_BASE_INTERACTION_GATES:
+        gate = _mapping(
+            contract.get(gate_name),
+            f"{role} interaction_contract.{gate_name}",
+        )
+        if gate.get("status") != "pass":
+            raise InteractionTaskFinalizationError(
+                f"{role} interaction_contract.{gate_name}.status must be pass"
+            )
+
+
 def _validate_report(
     report: Mapping[str, Any],
     *,
@@ -334,6 +360,7 @@ def finalize_interaction_task_qualification(
         rack_manifest_path,
         role="rack",
     )
+    _validate_base_interaction_gates(rack_manifest, role="rack")
     existing_qualifications = rack_manifest.get("task_qualifications", [])
     if isinstance(existing_qualifications, list) and any(
         isinstance(item, dict)

@@ -1033,7 +1033,7 @@ def _collect_scene_query_observations(
     vessel_height_stage_units = float(np.dot(opening - support, axial))
     vessel_height_m = vessel_height_stage_units * stage_units_in_meters
     smallest_radial_m = min(radial_spans) * stage_units_in_meters
-    probe_radius_m = min(0.005, max(0.002, smallest_radial_m * 0.03))
+    probe_radius_m = min(0.005, max(0.00025, smallest_radial_m * 0.03))
     probe_radius_stage_units = probe_radius_m / stage_units_in_meters
     entry_depth_m = min(0.04, max(0.02, vessel_height_m * 0.2))
     entry_depth_stage_units = entry_depth_m / stage_units_in_meters
@@ -1059,15 +1059,16 @@ def _collect_scene_query_observations(
         position=entry_center,
         root_path=root_path,
     )
-    side_distance_stage_units = (
-        max(radial_spans) * 0.75 + 4.0 * probe_radius_stage_units
+    gripper_standoff_stage_units = (
+        0.5 * radial_spans[0] + 2.5 * probe_radius_stage_units
     )
+    side_distance_stage_units = 2.0 * gripper_standoff_stage_units
     positive_hits = _target_sphere_sweep_hits(
         scene_query,
         gf,
         radius_stage_units=probe_radius_stage_units,
-        origin=grasp,
-        direction=closing_axis,
+        origin=grasp + closing_axis * gripper_standoff_stage_units,
+        direction=-closing_axis,
         distance_stage_units=side_distance_stage_units,
         root_path=root_path,
         stage_units_in_meters=stage_units_in_meters,
@@ -1076,8 +1077,8 @@ def _collect_scene_query_observations(
         scene_query,
         gf,
         radius_stage_units=probe_radius_stage_units,
-        origin=grasp,
-        direction=-closing_axis,
+        origin=grasp - closing_axis * gripper_standoff_stage_units,
+        direction=closing_axis,
         distance_stage_units=side_distance_stage_units,
         root_path=root_path,
         stage_units_in_meters=stage_units_in_meters,

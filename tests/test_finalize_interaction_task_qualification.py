@@ -32,6 +32,10 @@ def _write_package(
         "interaction_contract": {
             "status": "pass",
             "asset_entry_prim": entry_prim,
+            "root_motion_gate": {"status": "pass"},
+            "stable_support_gate": {"status": "pass"},
+            "gripper_collision_gate": {"status": "pass"},
+            "open_top": {"status": "pass"},
             "runtime_identity": {
                 "rigid_root_prim": entry_prim,
                 "active_rigid_body_prims": [entry_prim],
@@ -202,6 +206,54 @@ def test_finalizer_rejects_unbound_or_failing_report_without_mutating_package(
     before = rack_manifest.read_bytes()
 
     with pytest.raises(InteractionTaskFinalizationError, match=message):
+        finalize_interaction_task_qualification(
+            rack_package_root=rack_package,
+            rack_manifest_path=rack_manifest,
+            tube_package_root=tube_package,
+            tube_manifest_path=tube_manifest,
+            runtime_report_path=report_path,
+        )
+
+    assert rack_manifest.read_bytes() == before
+    assert not (
+        rack_package / "evidence" / "task_qualifications"
+    ).exists()
+
+
+@pytest.mark.parametrize(
+    "gate_name",
+    (
+        "root_motion_gate",
+        "stable_support_gate",
+        "gripper_collision_gate",
+        "open_top",
+    ),
+)
+def test_finalizer_rejects_rack_without_passing_base_interaction_gate(
+    tmp_path: Path,
+    gate_name: str,
+) -> None:
+    (
+        rack_package,
+        rack_manifest,
+        tube_package,
+        tube_manifest,
+        report_path,
+    ) = _write_fixture(tmp_path)
+    manifest = json.loads(rack_manifest.read_text(encoding="utf-8"))
+    manifest["interaction_contract"][gate_name]["status"] = "blocked"
+    serialized = json.dumps(manifest, indent=2) + "\n"
+    rack_manifest.write_text(serialized, encoding="utf-8")
+    (rack_package / "evidence" / "manifest.json").write_text(
+        serialized,
+        encoding="utf-8",
+    )
+    before = rack_manifest.read_bytes()
+
+    with pytest.raises(
+        InteractionTaskFinalizationError,
+        match=rf"rack interaction_contract\.{gate_name}\.status must be pass",
+    ):
         finalize_interaction_task_qualification(
             rack_package_root=rack_package,
             rack_manifest_path=rack_manifest,

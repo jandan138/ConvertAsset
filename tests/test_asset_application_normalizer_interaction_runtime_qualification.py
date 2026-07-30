@@ -219,6 +219,87 @@ def test_non_required_aperture_probe_is_not_applicable() -> None:
     assert probes["bilateral_gripper_proxy_collision"]["status"] == "pass"
 
 
+def test_scene_query_gripper_probes_sweep_from_outside_toward_grasp(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import numpy as np
+
+    from convert_asset.asset_application_normalizer import (
+        interaction_runtime_qualification as qualification,
+    )
+
+    positions = {
+        "/World/vessel/__aan_frame_opening": np.asarray([0.0, 0.0, 0.04]),
+        "/World/vessel/__aan_frame_grasp": np.asarray([0.0, 0.0, 0.02]),
+        "/World/vessel/__aan_frame_support": np.asarray([0.0, 0.0, 0.0]),
+    }
+    monkeypatch.setattr(
+        qualification,
+        "_prim_world_position",
+        lambda _stage, path, _np: positions[path],
+    )
+    monkeypatch.setattr(
+        qualification,
+        "_prim_world_direction",
+        lambda _stage, path, _direction, _np: (
+            np.asarray([0.0, 0.0, 1.0])
+            if path == "/World/vessel"
+            else np.asarray([1.0, 0.0, 0.0])
+        ),
+    )
+    monkeypatch.setattr(
+        qualification,
+        "_projected_bbox_spans",
+        lambda _stage, _path, _directions, _np: [0.08, 0.01],
+    )
+    sweeps: list[dict] = []
+
+    def fake_sweep(_scene_query, _gf, **kwargs):
+        sweeps.append(kwargs)
+        return [
+            {
+                "distance_m": 0.01,
+                "position_m": [0.0, 0.0, 0.0],
+            }
+        ]
+
+    monkeypatch.setattr(qualification, "_target_sphere_sweep_hits", fake_sweep)
+    monkeypatch.setattr(
+        qualification,
+        "_target_sphere_overlap_hits",
+        lambda *_args, **_kwargs: [],
+    )
+    contract = {
+        "asset_entry_prim": "/World/vessel",
+        "runtime_identity": {"rigid_root_prim": "/World/vessel"},
+        "named_frames": {
+            "opening": {"prim_path": "/World/vessel/__aan_frame_opening"},
+            "grasp": {"prim_path": "/World/vessel/__aan_frame_grasp"},
+            "support": {"prim_path": "/World/vessel/__aan_frame_support"},
+        },
+        "open_top": {"axis_body_local": [0.0, 0.0, 1.0]},
+    }
+
+    qualification._collect_scene_query_observations(
+        stage=object(),
+        scene_query=object(),
+        interaction_contract=contract,
+        stage_units_in_meters=1.0,
+        np=np,
+        gf=object(),
+    )
+
+    assert sweeps[0]["radius_stage_units"] == pytest.approx(0.0003)
+    assert sweeps[1]["origin"][0] > positions[
+        "/World/vessel/__aan_frame_grasp"
+    ][0]
+    assert sweeps[1]["direction"].tolist() == pytest.approx([-1.0, 0.0, 0.0])
+    assert sweeps[2]["origin"][0] < positions[
+        "/World/vessel/__aan_frame_grasp"
+    ][0]
+    assert sweeps[2]["direction"].tolist() == pytest.approx([1.0, 0.0, 0.0])
+
+
 def test_support_height_tolerance_remains_ten_millimetres() -> None:
     from convert_asset.asset_application_normalizer.interaction_runtime_qualification import (
         SUPPORT_HEIGHT_TOLERANCE_M,

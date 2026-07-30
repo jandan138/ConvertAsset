@@ -37,6 +37,13 @@ SUPPORT_HEIGHT_TOLERANCE_M = 0.01
 
 No tolerance was widened.
 
+A second review found that the reconstructed branch had also omitted the
+producer's outside-in scene-query geometry. The regressed worker started both
+radial probes at the grasp frame and swept outward with a fixed 2 mm minimum
+radius. On this compound rack, the negative probe therefore hit an internal
+socket wall after only 0.4375 mm instead of approaching the rack exterior.
+This was a qualification-harness error, not an asset or profile defect.
+
 ## Implemented correction
 
 ### r4 facade and profile builder
@@ -167,13 +174,38 @@ the final stable bottom-contact window. Lateral offset is recorded separately
 because the tube may settle off the nominal socket center while remaining
 inside the declared socket clearance. The 1 mm side threshold is unchanged.
 
+### Generic interaction runtime qualifier
+
+The scene-query worker again sizes its probe from the composed radial extent
+with the original 0.25 mm safety floor, then starts on both sides of the
+object and sweeps inward toward the grasp frame. It does not change the rack
+facade, collider geometry, interaction profile, mass, inertia, or any
+acceptance threshold.
+
+On the rebuilt r4 package, the Isaac Sim 4.1 run selected a 0.805235 mm probe.
+The two exterior sweeps first hit `wall_right` and `wall_left`, respectively,
+and all four required base gates passed:
+
+```text
+open_top                 pass
+stable_support_gate      pass
+root_motion_gate         pass
+gripper_collision_gate   pass
+```
+
+The generic side observations cover the rack exterior only. They do not prove
+socket-wall clearance or insertion-to-bottom; those narrower claims remain
+exclusive to the task-specific `tube_insertion` qualification.
+
 ### Task qualification finalizer
 
-`scripts/finalize_interaction_task_qualification.py` accepts only a passing
-runtime report whose exact rack/tube manifest hashes, `asset.usd` hashes, and
-entry prims match the supplied packages. It also checks the dynamic protocol,
-source integrity, all required gates, and authoritative support-frame
-contracts.
+`scripts/finalize_interaction_task_qualification.py` first requires the rack's
+`open_top`, `stable_support_gate`, `root_motion_gate`, and
+`gripper_collision_gate` to be present and `pass`. It then accepts only a
+passing runtime report whose exact rack/tube manifest hashes, `asset.usd`
+hashes, and entry prims match the supplied packages. It also checks the dynamic
+protocol, source integrity, all required task gates, and authoritative
+support-frame contracts.
 
 It then copies the report without rewriting it to:
 
@@ -234,7 +266,7 @@ python3 -m pytest -q \
 Result:
 
 ```text
-32 passed
+37 passed
 ```
 
 Additional local checks:
@@ -310,23 +342,31 @@ python3 scripts/finalize_interaction_task_qualification.py \
   --runtime-report <runtime-report.json>
 ```
 
-The exact promoted outputs are:
+The exact rebuilt and correctly ordered promoted outputs are:
 
 ```text
 package
   outputs/tube_task_assets_20260730/uniform_scale_k0365/tube_rack_r4/package
 runtime report SHA-256
-  8e0d5473abd8ad01a88810f82188ab9dee690828a5a0a3420c8bb7a5ffa4b950
+  c74ed9da442e790d1705198e6804bd53233b23da7817fa5c425baf54ec1c7dc9
 final manifest SHA-256
-  cb3cff2b755221887d70af2165c518402e5e71635e9206645f4083a31e689550
+  402ef64b0db4dd50ad3652a8266ecc29c7b546788ebee79827a7b15d7acf6fb5
 ```
 
-The Isaac 4.1 qualification observed `38.254` mm of dynamic travel against
-`38.322` mm expected, `0.067` mm final bottom-plane axial error, `1.160`
-degrees axis error, 78 force-bearing bottom-contact samples, a final stable
-12-sample bottom-contact window, and zero settled side penetration. All five
-report gates passed. Peak free-fall side impact (`2.743` mm) and the bottom
-manifold separation remain visible diagnostics and are not silently removed.
+The final package was produced in the enforced order:
+
+```text
+normalize and runtime smoke
+generic interaction qualification (four base gates pass)
+dynamic tube insertion qualification (five task gates pass)
+task qualification promotion
+```
+
+The Isaac 4.1 insertion qualification again observed the required dynamic
+travel, authoritative bottom-plane arrival, pair-filtered bottom contact, a
+final stable 12-sample bottom-contact window, and zero settled side
+penetration. Peak free-fall impact and the bottom manifold remain visible
+diagnostics and are not silently removed.
 
 The promotion claim is intentionally narrow: the delivered rack/tube pair
 supports the recorded fixed-rack gravity insertion protocol. It does not claim
