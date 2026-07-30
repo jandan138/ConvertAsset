@@ -15,6 +15,7 @@ Runbooks, CLI usage, build instructions, troubleshooting, and agent collaboratio
 ## Conversion Workflows
 
 - [Asset Application Normalizer consumer handoff](asset-application-normalizer-consumer-handoff.md)
+- [Articulated device admission and requalification](articulated-device-admission-requalification.md)
 - [Workspace profiling runbook](workspace-profiling.md)
 - [GLB export](glb-export.md)
 - [GLB export zh](glb-export-zh.md)

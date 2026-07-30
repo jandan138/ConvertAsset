@@ -299,6 +299,19 @@ EBench task contract. Instead require all of the following:
 If any visual-static check fails, Scenario Forge must reject the package or ask
 ConvertAsset to re-admit it. It must not repair the scene locally.
 
+### Scenario Forge Articulated-Device Admission
+
+For `usage: articulated_object`, ConvertAsset remains the producer of USD,
+proxy/collider, profile, and physics evidence; Scenario Forge only validates and
+consumes the promoted package. Follow the
+[articulated-device admission and requalification runbook](articulated-device-admission-requalification.md).
+The package must include the packaged device profile, passing runtime report, and
+promotion receipt. The report's `inputs.device_profile` must exactly bind the
+profile schema version, packaged-profile SHA-256, and source SHA-256; both the
+finalizer and the Scenario Forge loader reject mismatches. A consumer must return
+a structured blocker rather than author local collider, drive, scale, frame, or
+physics repairs.
+
 For a Scenario Forge dynamic object that declares an interaction profile, treat
 static contract validity and runtime readiness as two different decisions.
 Static admission requires:
@@ -607,6 +620,8 @@ Forbidden downstream claims unless separately proven:
 - a `visual_static` background package is dynamic-physics-ready,
   articulated-ready, or family-ready;
 - a baseline warning diff permits a scoped warning in the output package.
+- an articulated loader smoke establishes robot-policy success, benchmark
+  performance, or real-world physical parity.
 
 ## Minimal Consumer Pseudocode
 
