@@ -111,6 +111,7 @@ class ZoneProfile:
     source_sha256: str
     producer: ProducerInfo
     coordinate_mapping: CoordinateMapping
+    workspace_mode: str = "replace_assembly"
     assembly_roots: list[str] = field(default_factory=list)
     anchor_prim: str = ""
     anchor_xyz: tuple[float, float, float] | None = None
@@ -121,10 +122,13 @@ class ZoneProfile:
     coverage_note: str = ""
     anchor_frame_note: str = ""
     package_manifest: str = ""
+    facade_provenance: str = ""
     evidence_image: str = ""
+    evidence_camera_position: tuple[float, float, float] | None = None
+    evidence_camera_target: tuple[float, float, float] | None = None
 
     def to_document(self) -> dict:
-        return {
+        document = {
             "schema_version": V02_ZONE_SCHEMA,
             "zone_id": self.zone_id,
             "status": "profiled",
@@ -133,6 +137,11 @@ class ZoneProfile:
                 "source_usd_sha256": self.source_sha256,
                 "consumer_facade_scope": "/World",
                 **({"package_manifest": self.package_manifest} if self.package_manifest else {}),
+                **(
+                    {"facade_provenance": self.facade_provenance}
+                    if self.facade_provenance
+                    else {}
+                ),
             },
             "producer": self.producer.to_document(),
             "coordinate_mapping": self.coordinate_mapping.to_document(),
@@ -147,10 +156,31 @@ class ZoneProfile:
                 "optional_inactive_prim_paths": self.optional_inactives,
                 "coverage_note": self.coverage_note,
             },
-            "workspace": {"clearance_aabb_m": self.clearance_aabb},
-            "yaw": {"reviewed_yaw_deg": self.yaw_deg, "note": self.yaw_note},
+            "workspace": {
+                "mode": self.workspace_mode,
+                "clearance_aabb_m": self.clearance_aabb,
+            },
+            "yaw": {
+                "reviewed_yaw_deg": self.yaw_deg,
+                "rotation_convention": "usd_z_up_right_handed_ccw",
+                "note": self.yaw_note,
+            },
             "evidence": {"image": self.evidence_image},
         }
+        if (
+            self.evidence_camera_position is not None
+            and self.evidence_camera_target is not None
+        ):
+            document["evidence_camera"] = {
+                "frame_convention": "usd_z_up_right_handed_ccw",
+                "position_xyz": [
+                    float(value) for value in self.evidence_camera_position
+                ],
+                "target_xyz": [
+                    float(value) for value in self.evidence_camera_target
+                ],
+            }
+        return document
 
     def to_not_applicable_document(self, reason: str) -> dict:
         return {
@@ -158,7 +188,12 @@ class ZoneProfile:
             "zone_id": self.zone_id,
             "status": "not_applicable",
             "background_asset_id": self.background_asset_id,
-            "source": {"source_usd_sha256": self.source_sha256, "consumer_facade_scope": "/World"},
+            "source": {
+                "source_usd_sha256": self.source_sha256,
+                "consumer_facade_scope": "/World",
+                "package_manifest": self.package_manifest,
+                "facade_provenance": self.facade_provenance,
+            },
             "producer": self.producer.to_document(),
             "not_applicable_reason": reason,
         }
@@ -170,6 +205,8 @@ class ZoneManifest:
     source_sha256: str
     producer: ProducerInfo
     zones: dict[str, dict]
+    package_manifest: str = ""
+    facade_provenance: str = ""
     claim_boundary: str = (
         "Zone profiles are source-bound analysis only; each keeps the complete room USD. "
         "They do not claim task success, background interaction physics, or liquid transfer."
@@ -182,6 +219,8 @@ class ZoneManifest:
             "source": {
                 "source_usd_sha256": self.source_sha256,
                 "consumer_facade_scope": "/World",
+                "package_manifest": self.package_manifest,
+                "facade_provenance": self.facade_provenance,
             },
             "producer": self.producer.to_document(),
             "zones": self.zones,

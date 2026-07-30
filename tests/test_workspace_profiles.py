@@ -69,6 +69,8 @@ def test_zone_profile_and_manifest_schema(tmp_path) -> None:
 
     assert doc["schema_version"] == "scenario-forge-convertasset-workspace-zone-profile/v0.2"
     assert doc["yaw"]["reviewed_yaw_deg"] == 90.0
+    assert doc["yaw"]["rotation_convention"] == "usd_z_up_right_handed_ccw"
+    assert doc["workspace"]["mode"] == "replace_assembly"
     assert doc["status"] == "profiled"
 
     manifest = ZoneManifest(
@@ -100,3 +102,30 @@ def test_not_applicable_zone_document(tmp_path) -> None:
     doc = zone.to_not_applicable_document("measured reason here")
     assert doc["status"] == "not_applicable"
     assert doc["not_applicable_reason"] == "measured reason here"
+
+
+def test_open_floor_zone_has_no_replacement_roots() -> None:
+    zone = ZoneProfile(
+        zone_id="center_open_floor",
+        background_asset_id="scientific_environment_code_room_example4_v1",
+        source_sha256="abc123",
+        producer=ProducerInfo(git_commit="deadbeef", revision="r1"),
+        coordinate_mapping=CoordinateMapping(
+            units_per_meter=1.0,
+            derivation="Blender source declares metersPerUnit=1.0",
+        ),
+        workspace_mode="open_floor",
+        anchor_prim="/World/Floor",
+        anchor_xyz=(0.0, -0.3, 0.772761),
+        clearance_aabb={
+            "min": [-1.1725, -1.6225, 0.0],
+            "max": [1.1725, 1.0225, 2.2],
+        },
+        yaw_deg=0.0,
+    )
+
+    doc = zone.to_document()
+
+    assert doc["workspace"]["mode"] == "open_floor"
+    assert doc["assembly"]["replaceable_assembly_roots"] == []
+    assert doc["inactivation"]["inactive_prim_root_paths"] == []

@@ -1270,6 +1270,50 @@ def test_normalize_asset_exports_binary_usd_dependency_with_rewritten_paths(
     assert ("mdl", "deps/mdl/surface.mdl") in local_files
 
 
+def test_normalize_asset_keeps_explicit_usdc_dependency_binary(
+    tmp_path: Path,
+) -> None:
+    try:
+        from pxr import Sdf  # type: ignore
+    except Exception:
+        return
+
+    source_root = tmp_path / "source"
+    (source_root / "textures").mkdir(parents=True)
+    (source_root / "textures" / "surface.png").write_bytes(b"texture")
+    binary_dep = source_root / "room.usdc"
+    child_layer = Sdf.Layer.CreateAnonymous("room.usda")
+    child_layer.ImportFromString(
+        "#usda 1.0\n"
+        "def Xform \"Room\" {\n"
+        "    def Xform \"DryingBox\" {\n"
+        "        custom asset texture = @./textures/surface.png@\n"
+        "    }\n"
+        "}\n"
+    )
+    child_layer.Export(str(binary_dep))
+    source = source_root / "facade.usda"
+    source.write_text(
+        "#usda 1.0\n"
+        "def Xform \"World\" (\n"
+        "    references = @room.usdc@</Room>\n"
+        ") {}\n",
+        encoding="utf-8",
+    )
+    out_dir = tmp_path / "package"
+    evidence_out = tmp_path / "manifest.json"
+    args = _base_args(source, out_dir, evidence_out)
+    args.remove("--dry-run")
+
+    assert main(args) == 0
+
+    packaged = out_dir / "deps" / "usd" / "room.usdc"
+    assert packaged.read_bytes().startswith(b"PXR-USDC")
+    reopened = Sdf.Layer.FindOrOpen(str(packaged))
+    assert reopened is not None
+    assert "../textures/surface.png" in reopened.ExportToString()
+
+
 def test_normalize_asset_blocks_unauthorized_remote_uri_without_package(
     tmp_path: Path,
 ) -> None:

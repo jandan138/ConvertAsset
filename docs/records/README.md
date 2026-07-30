@@ -4,6 +4,9 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 ## Engineering Records
 
+- [2026-07-29 AAN Articulated Reset Capture Synchronization](2026-07-29-aan-articulated-reset-capture-synchronization.md)
+- [2026-07-29 Articulated Package Finalizer](2026-07-29-articulated-package-finalizer.md)
+- [2026-07-30 Blender-generated Environment Admission](2026-07-30-aan-blender-generated-environment-admission.md)
 - [2026-06-30 Asset Application Normalizer placement](2026-06-30-asset-application-normalizer-placement.md)
 - [2026-07-01 AAN Phase 1 Closeout And Handoff](2026-07-01-aan-phase1-closeout-handoff.md)
 - [2026-07-02 AAN-11 Material Runtime Closure Follow-up](2026-07-02-aan-11-material-runtime-closure.md)

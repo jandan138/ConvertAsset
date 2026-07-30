@@ -1612,7 +1612,19 @@ def _copy_usd_with_rewrites(
             continue
         rel = posixpath.relpath(dep.package_path, start=target_dir)
         text = text.replace(f"@{dep.raw_asset_path}@", f"@{rel}@")
-    target.write_text(text, encoding="utf-8")
+    if target.suffix.lower() == ".usdc":
+        try:
+            from pxr import Sdf  # type: ignore
+
+            layer = Sdf.Layer.CreateAnonymous("rewritten.usda")
+            if not layer.ImportFromString(text) or not layer.Export(str(target)):
+                raise RuntimeError(f"cannot export rewritten binary USD: {target}")
+        except Exception as exc:
+            raise RuntimeError(
+                f"cannot preserve the explicit .usdc format while rewriting {source}"
+            ) from exc
+    else:
+        target.write_text(text, encoding="utf-8")
 
 
 def _can_export_usd_layer_to_text(path: Path) -> bool:

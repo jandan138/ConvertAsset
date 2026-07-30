@@ -64,6 +64,12 @@ def validate_request(request: NormalizeAssetRequest) -> NormalizeAssetResult | N
         return _validation_error(f"unsupported target benchmark for MVP: {request.target_benchmark}")
     if request.asset_role not in ALLOWED_ASSET_ROLES:
         return _validation_error(f"unsupported asset role: {request.asset_role}")
+    if request.source_runtime == "blender44" and not is_visual_static_role(
+        request.asset_role
+    ):
+        return _validation_error(
+            "blender44 source runtime is admitted only for visual-static roles"
+        )
     if request.physics_profile is not None and not request.physics_profile.is_file():
         return _validation_error(f"physics profile not found: {request.physics_profile}")
     if request.interaction_profile is not None and not request.interaction_profile.is_file():

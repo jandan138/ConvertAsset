@@ -24,7 +24,14 @@ def add_normalize_asset_parser(subparsers: argparse._SubParsersAction) -> None:
         choices=("dynamic", "visual_static", "visual_static_environment"),
         help="Admission role; visual_static strips scoped physics from the owned package.",
     )
-    parser.add_argument("--source-runtime", required=True, help="Source runtime lineage, MVP: isaac51")
+    parser.add_argument(
+        "--source-runtime",
+        required=True,
+        help=(
+            "Source runtime lineage: isaac51, or blender44 for visual-static "
+            "roles only"
+        ),
+    )
     parser.add_argument("--target-runtime", required=True, help="Target runtime profile, MVP: isaac41")
     parser.add_argument("--target-benchmark", required=True, help="Target benchmark profile, MVP: ebench-lift2")
     parser.add_argument("--task-id", required=True, help="Target task id, e.g. Lift2.DryingBox")

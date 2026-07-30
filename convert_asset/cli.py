@@ -132,6 +132,16 @@ def main(argv: list[str] | None = None) -> int:
     )
     p_facade.add_argument("--consumer-scope", default="/World", help="Consumer scope prim path")
     p_facade.add_argument("--source-sha256", default=None, help="Pinned raw source SHA-256 for provenance")
+    p_facade.add_argument(
+        "--dome-latlong",
+        action="append",
+        default=[],
+        metavar="SOURCE_PRIM",
+        help=(
+            "Author a source-bound facade override that declares one DomeLight "
+            "texture as latlong; repeat per source prim"
+        ),
+    )
 
     p_ws = sub.add_parser(
         "workspace-profile",
@@ -159,6 +169,15 @@ def main(argv: list[str] | None = None) -> int:
         default="counter-band measurement with the 0.90 m standard counter reference",
     )
 
+    p_zones = sub.add_parser(
+        "profile-room-zones",
+        help="Audit a versioned multi-zone room request and write v0.2 profiles",
+    )
+    p_zones.add_argument("request", help="Workspace-zone request JSON/YAML")
+    p_zones.add_argument("--out", required=True, help="Profile output directory")
+    p_zones.add_argument("--git-commit", required=True)
+    p_zones.add_argument("--revision", required=True)
+
     # If no subcommand provided, default to no-mdl for convenience
     args_ns, extras = parser.parse_known_args(argv)
     if args_ns.cmd is None:
@@ -184,9 +203,11 @@ def main(argv: list[str] | None = None) -> int:
             mounts=mounts,
             consumer_scope=args_ns.consumer_scope,
             source_sha256=args_ns.source_sha256,
+            dome_latlong_prims=list(args_ns.dome_latlong),
         )
         print(f"facade written: {result.facade_path}")
         print(f"binding retargets: {result.binding_retarget_count}")
+        print(f"dome latlong overrides: {result.dome_latlong_override_count}")
         print(f"provenance: {result.provenance_path}")
         return 0
 
@@ -246,6 +267,20 @@ def main(argv: list[str] | None = None) -> int:
         write_yaml(profile.to_document(), Path(args_ns.out))
         print(f"workspace profile written: {args_ns.out} (verdict: {report.verdict})")
         return 0 if report.verdict == "clean" else 5
+
+    if args_ns.cmd == "profile-room-zones":
+        from .workspace.zone_batch import build_zone_profiles
+
+        result = build_zone_profiles(
+            Path(args_ns.request),
+            Path(args_ns.out),
+            git_commit=args_ns.git_commit,
+            revision=args_ns.revision,
+        )
+        print(f"zone manifest written: {result.manifest_path}")
+        print(f"profiled zones: {result.profiled_count}")
+        print(f"not applicable zones: {result.not_applicable_count}")
+        return 0
 
     if args_ns.cmd == "no-mdl":
         # Lazy import to avoid requiring pxr unless actually running no-mdl conversion
