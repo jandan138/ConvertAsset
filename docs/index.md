@@ -10,6 +10,8 @@
 - **[Research asset layout](operations/research-asset-layout.md)** - `/cpfs/user/zhuzihou/assets/convertasset_research` 外部实验资产布局规范
 - **[Asset Application Normalizer](design/asset-application-normalizer.md)** - USD/MJCF 等资产进入 target benchmark 前的资产、材质、物理、铰接、任务契约和证据闭环设计
 - **[AAN Consumer Handoff](operations/asset-application-normalizer-consumer-handoff.md)** - EBench / EOS / LabUtopia / GenManip 等下游项目消费 AAN package、manifest、task files 和 PM evidence table 的接口说明
+- **[Canonical Task-Object Facade](operations/build-canonical-task-object-facade.md)** - source-bound identity-entry object facade 与 interaction profile v2 使用说明
+- **[Scientific Workbench Rigid-Object Packages](records/2026-07-31-aan-scientific-workbench-rigid-object-packages.md)** - 烧杯、漏斗、量筒和锥形瓶的任务资产准入及 claim boundary
 - **[Articulated Device Admission And Requalification](operations/articulated-device-admission-requalification.md)** - producer-owned articulated USD/proxy/profile/physics admission, promotion, and Scenario Forge loader handoff
 - **[AAN Qualified Consumer Mounting Contract](records/2026-07-31-aan-qualified-consumer-mounting-contract.md)** - fixed-base articulated asset 的支撑面安装姿态、Isaac 4.1 稳定性资格与 manifest hash 绑定
 - **[AAN Object Interaction Profile](records/2026-07-14-aan-object-interaction-profile.md)** - package-owned unique rigid root、collider/open-top intent、named frames 与 runtime-tree closure 记录

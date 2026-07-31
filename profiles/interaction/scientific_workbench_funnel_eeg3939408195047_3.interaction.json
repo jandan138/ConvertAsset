@@ -1,0 +1,246 @@
+{
+  "schema_version": "aan.object_interaction_profile.v2",
+  "profile_id": "scientific_workbench.funnel_eeg3939408195047_3.interaction",
+  "revision": "r2",
+  "source_binding": {
+    "sha256": "9add8a23d3419004820e171dc5c62ca08b1710f4e45a587721e1eb95df109bbf",
+    "stage_metrics": {
+      "meters_per_unit": 1.0,
+      "kilograms_per_unit": 1.0,
+      "up_axis": "Z",
+      "time_codes_per_second": 24.0,
+      "frames_per_second": 24.0
+    }
+  },
+  "asset_entry_prim": "/World/Funnel",
+  "rigid_root": {
+    "motion_role": "dynamic",
+    "disable_descendant_rigid_bodies": true,
+    "remove_descendant_mass_api": true
+  },
+  "colliders": [
+    {
+      "relative_path": "__aan_collision_proxy/stem",
+      "mode": "author",
+      "purpose": [
+        "gripper",
+        "support"
+      ],
+      "geometry": {
+        "type": "Cylinder",
+        "axis": "Z",
+        "radius": 0.006,
+        "height": 0.07,
+        "translation_body_local_usd": [
+          0.0,
+          0.0,
+          0.035
+        ],
+        "rotation_body_local_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/bowl_x_negative",
+      "mode": "author",
+      "purpose": [
+        "containment",
+        "gripper"
+      ],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "scale_body_local_usd": [
+          0.004,
+          0.064,
+          0.05
+        ],
+        "translation_body_local_usd": [
+          -0.034,
+          0.0,
+          0.095
+        ],
+        "rotation_body_local_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/bowl_x_positive",
+      "mode": "author",
+      "purpose": [
+        "containment",
+        "gripper"
+      ],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "scale_body_local_usd": [
+          0.004,
+          0.064,
+          0.05
+        ],
+        "translation_body_local_usd": [
+          0.034,
+          0.0,
+          0.095
+        ],
+        "rotation_body_local_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/bowl_y_negative",
+      "mode": "author",
+      "purpose": [
+        "containment",
+        "gripper"
+      ],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "scale_body_local_usd": [
+          0.064,
+          0.004,
+          0.05
+        ],
+        "translation_body_local_usd": [
+          0.0,
+          -0.034,
+          0.095
+        ],
+        "rotation_body_local_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/bowl_y_positive",
+      "mode": "author",
+      "purpose": [
+        "containment",
+        "gripper"
+      ],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "scale_body_local_usd": [
+          0.064,
+          0.004,
+          0.05
+        ],
+        "translation_body_local_usd": [
+          0.0,
+          0.034,
+          0.095
+        ],
+        "rotation_body_local_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "required_named_frames": [
+    "opening",
+    "outlet",
+    "grasp",
+    "support"
+  ],
+  "open_top": {
+    "required": false,
+    "axis_body_local": [
+      0.0,
+      0.0,
+      1.0
+    ],
+    "aperture_frame": "opening",
+    "evidence": {
+      "status": "declared_not_qualified",
+      "method": "facade_bounds_and_visual_review",
+      "claim_boundary": "The inlet and outlet frames are source-derived integration anchors. The vessel cooked-aperture probe is not applicable to a through-funnel, so this profile makes no cooked-throughput, liquid-flow, or insertion-success claim."
+    }
+  },
+  "named_frames": {
+    "opening": {
+      "translation_body_local_usd": [
+        0.0,
+        0.0,
+        0.12
+      ],
+      "rotation_body_local_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "outlet": {
+      "translation_body_local_usd": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_body_local_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "grasp": {
+      "translation_body_local_usd": [
+        0.0,
+        0.0,
+        0.055
+      ],
+      "rotation_body_local_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "support": {
+      "translation_body_local_usd": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_body_local_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "runtime_gates": {
+    "root_motion": {
+      "required": true,
+      "min_translation_m": 0.05
+    },
+    "stable_support": {
+      "required": false
+    },
+    "gripper_collision": {
+      "required": true
+    }
+  }
+}

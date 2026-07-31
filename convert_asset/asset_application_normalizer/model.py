@@ -16,7 +16,7 @@ MILESTONE_AAN06 = "AAN-06-runtime-smoke"
 MILESTONE_AAN07 = "AAN-07-benchmark-contract"
 MILESTONE_AAN11 = "AAN-11-material-runtime-closure"
 
-ALLOWED_SOURCE_RUNTIMES = {"isaac51", "blender44"}
+ALLOWED_SOURCE_RUNTIMES = {"isaac51", "blender44", "generic_usd"}
 ALLOWED_TARGET_RUNTIMES = {"isaac41"}
 ALLOWED_TARGET_BENCHMARKS = {"ebench-lift2", "scenario-forge"}
 ALLOWED_ASSET_ROLES = {"dynamic", "visual_static", "visual_static_environment"}

@@ -126,7 +126,7 @@ def main(argv: list[str] | None = None) -> int:
     p_facade.add_argument(
         "--mount",
         action="append",
-        required=True,
+        default=[],
         metavar="RAW_NS=MOUNT_PATH",
         help="Namespace mount, e.g. /world=/World/world; repeat per namespace",
     )
@@ -140,6 +140,15 @@ def main(argv: list[str] | None = None) -> int:
         help=(
             "Author a source-bound facade override that declares one DomeLight "
             "texture as latlong; repeat per source prim"
+        ),
+    )
+    p_facade.add_argument(
+        "--object-profile",
+        default=None,
+        help=(
+            "Optional aan.object_facade_profile.v1 JSON. When supplied, build "
+            "one canonical identity-root task-object facade instead of a "
+            "namespace-only facade."
         ),
     )
 
@@ -189,6 +198,22 @@ def main(argv: list[str] | None = None) -> int:
         return run_from_args(args_ns)
 
     if args_ns.cmd == "build-facade":
+        if args_ns.object_profile:
+            from .asset_application_normalizer.object_facade import (
+                build_object_facade,
+            )
+
+            result = build_object_facade(
+                Path(args_ns.src),
+                Path(args_ns.out),
+                Path(args_ns.object_profile),
+            )
+            print(f"facade written: {result.facade_path}")
+            print(f"entry prim: {result.entry_prim_path}")
+            print(f"provenance: {result.provenance_path}")
+            return 0
+        if not args_ns.mount:
+            parser.error("build-facade requires --mount unless --object-profile is supplied")
         from .asset_application_normalizer.facade import (
             NamespaceMount,
             build_consumer_facade,

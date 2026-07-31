@@ -1115,6 +1115,14 @@ def _build_role_scoped_source(
         if snapshot_rewrite["status"] != "pass":
             raise RuntimeError(str(snapshot_rewrite["reason"]))
 
+        # ``rewrite_scoped_snapshot_asset_paths`` edits the exported layer by
+        # path.  A layer with the same identifier may already be resident in
+        # USD's process-wide layer registry from a prior normalization pass.
+        # Reload it before admission checks so an already entry-local material
+        # is not falsely reported missing from the just-written snapshot.
+        cached_scoped_layer = Sdf.Layer.Find(str(layout.scoped_source_usd))
+        if cached_scoped_layer is not None:
+            cached_scoped_layer.Reload()
         scoped_stage = Usd.Stage.Open(str(layout.scoped_source_usd))
         if scoped_stage is None:
             raise RuntimeError("Scoped USDA could not be reopened")

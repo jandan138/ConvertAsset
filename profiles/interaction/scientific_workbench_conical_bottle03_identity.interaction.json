@@ -1,0 +1,49 @@
+{
+  "schema_version": "aan.object_interaction_profile.v1",
+  "profile_id": "scientific_workbench.conical_bottle03.identity.interaction",
+  "revision": "r2",
+  "source_binding": {
+    "sha256": "82115bd942c40214fdb2bacc6f4327111b452e67280bb3405b2451ddee6a83b9",
+    "stage_metrics": {
+      "meters_per_unit": 1.0,
+      "kilograms_per_unit": 1.0,
+      "up_axis": "Z",
+      "time_codes_per_second": 24.0,
+      "frames_per_second": 24.0
+    }
+  },
+  "asset_entry_prim": "/World/conical_bottle03",
+  "rigid_root": {
+    "motion_role": "dynamic",
+    "disable_descendant_rigid_bodies": true,
+    "remove_descendant_mass_api": true
+  },
+  "colliders": [
+    {
+      "relative_path": "Visual/Source/mesh",
+      "mode": "preserve",
+      "purpose": ["gripper", "support", "containment"],
+      "approximation": "sdf"
+    }
+  ],
+  "open_top": {
+    "required": true,
+    "axis_body_local": [0.0, 0.0, 1.0],
+    "aperture_frame": "opening",
+    "evidence": {
+      "status": "declared",
+      "method": "identity_facade_over_source_bound_r1_sdf",
+      "claim_boundary": "The canonical facade reuses the source-bound SDF collision intent; cooked aperture remains a required Isaac 4.1 gate."
+    }
+  },
+  "named_frames": {
+    "opening": {"translation_body_local_usd": [0.0, 0.0, 0.1965674179], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]},
+    "grasp": {"translation_body_local_usd": [0.0, 0.0, 0.16], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]},
+    "support": {"translation_body_local_usd": [0.0, 0.0, 0.0], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}
+  },
+  "runtime_gates": {
+    "root_motion": {"required": true, "min_translation_m": 0.05},
+    "stable_support": {"required": true},
+    "gripper_collision": {"required": true}
+  }
+}

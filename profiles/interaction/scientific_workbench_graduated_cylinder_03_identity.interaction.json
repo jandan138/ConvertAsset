@@ -1,0 +1,71 @@
+{
+  "schema_version": "aan.object_interaction_profile.v1",
+  "profile_id": "scientific_workbench.graduated_cylinder_03.identity.interaction",
+  "revision": "r4",
+  "source_binding": {
+    "sha256": "1bddacd9da9d6cc4b8087bbea3d320f41d94f53eb56699f10f0e56557b843cc6",
+    "stage_metrics": {
+      "meters_per_unit": 1.0,
+      "kilograms_per_unit": 1.0,
+      "up_axis": "Z",
+      "time_codes_per_second": 24.0,
+      "frames_per_second": 24.0
+    }
+  },
+  "asset_entry_prim": "/World/graduated_cylinder_03",
+  "rigid_root": {
+    "motion_role": "dynamic",
+    "disable_descendant_rigid_bodies": true,
+    "remove_descendant_mass_api": true
+  },
+  "colliders": [
+    {"relative_path": "Visual/Source/mesh", "mode": "disable", "purpose": []},
+    {"relative_path": "__aan_collision_proxy/bottom", "mode": "author", "purpose": ["support", "containment"], "geometry": {"type": "Cube", "size": 1.0, "scale_body_local_usd": [0.1171587, 0.1171587, 0.006], "translation_body_local_usd": [0.0, 0.0, 0.003], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}},
+    {"relative_path": "__aan_collision_proxy/wall_00", "mode": "author", "purpose": ["gripper", "containment"], "geometry": {"type": "Cube", "size": 1.0, "scale_body_local_usd": [0.004, 0.0112, 0.2662942], "translation_body_local_usd": [0.021505, 0.0, 0.1391471], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}},
+    {"relative_path": "__aan_collision_proxy/wall_01", "mode": "author", "purpose": ["gripper", "containment"], "geometry": {"type": "Cube", "size": 1.0, "scale_body_local_usd": [0.004, 0.0112, 0.2662942], "translation_body_local_usd": [0.018623876308, 0.0107525, 0.1391471], "rotation_body_local_wxyz": [0.9659258263, 0.0, 0.0, 0.2588190451]}},
+    {"relative_path": "__aan_collision_proxy/wall_02", "mode": "author", "purpose": ["gripper", "containment"], "geometry": {"type": "Cube", "size": 1.0, "scale_body_local_usd": [0.004, 0.0112, 0.2662942], "translation_body_local_usd": [0.0107525, 0.018623876308, 0.1391471], "rotation_body_local_wxyz": [0.8660254038, 0.0, 0.0, 0.5]}},
+    {"relative_path": "__aan_collision_proxy/wall_03", "mode": "author", "purpose": ["gripper", "containment"], "geometry": {"type": "Cube", "size": 1.0, "scale_body_local_usd": [0.004, 0.0112, 0.2662942], "translation_body_local_usd": [0.0, 0.021505, 0.1391471], "rotation_body_local_wxyz": [0.7071067812, 0.0, 0.0, 0.7071067812]}},
+    {"relative_path": "__aan_collision_proxy/wall_04", "mode": "author", "purpose": ["gripper", "containment"], "geometry": {"type": "Cube", "size": 1.0, "scale_body_local_usd": [0.004, 0.0112, 0.2662942], "translation_body_local_usd": [-0.0107525, 0.018623876308, 0.1391471], "rotation_body_local_wxyz": [0.5, 0.0, 0.0, 0.8660254038]}},
+    {"relative_path": "__aan_collision_proxy/wall_05", "mode": "author", "purpose": ["gripper", "containment"], "geometry": {"type": "Cube", "size": 1.0, "scale_body_local_usd": [0.004, 0.0112, 0.2662942], "translation_body_local_usd": [-0.018623876308, 0.0107525, 0.1391471], "rotation_body_local_wxyz": [0.2588190451, 0.0, 0.0, 0.9659258263]}},
+    {"relative_path": "__aan_collision_proxy/wall_06", "mode": "author", "purpose": ["gripper", "containment"], "geometry": {"type": "Cube", "size": 1.0, "scale_body_local_usd": [0.004, 0.0112, 0.2662942], "translation_body_local_usd": [-0.021505, 0.0, 0.1391471], "rotation_body_local_wxyz": [0.0, 0.0, 0.0, 1.0]}},
+    {"relative_path": "__aan_collision_proxy/wall_07", "mode": "author", "purpose": ["gripper", "containment"], "geometry": {"type": "Cube", "size": 1.0, "scale_body_local_usd": [0.004, 0.0112, 0.2662942], "translation_body_local_usd": [-0.018623876308, -0.0107525, 0.1391471], "rotation_body_local_wxyz": [0.2588190451, 0.0, 0.0, -0.9659258263]}},
+    {"relative_path": "__aan_collision_proxy/wall_08", "mode": "author", "purpose": ["gripper", "containment"], "geometry": {"type": "Cube", "size": 1.0, "scale_body_local_usd": [0.004, 0.0112, 0.2662942], "translation_body_local_usd": [-0.0107525, -0.018623876308, 0.1391471], "rotation_body_local_wxyz": [0.5, 0.0, 0.0, -0.8660254038]}},
+    {"relative_path": "__aan_collision_proxy/wall_09", "mode": "author", "purpose": ["gripper", "containment"], "geometry": {"type": "Cube", "size": 1.0, "scale_body_local_usd": [0.004, 0.0112, 0.2662942], "translation_body_local_usd": [0.0, -0.021505, 0.1391471], "rotation_body_local_wxyz": [0.7071067812, 0.0, 0.0, -0.7071067812]}},
+    {"relative_path": "__aan_collision_proxy/wall_10", "mode": "author", "purpose": ["gripper", "containment"], "geometry": {"type": "Cube", "size": 1.0, "scale_body_local_usd": [0.004, 0.0112, 0.2662942], "translation_body_local_usd": [0.0107525, -0.018623876308, 0.1391471], "rotation_body_local_wxyz": [0.8660254038, 0.0, 0.0, -0.5]}},
+    {"relative_path": "__aan_collision_proxy/wall_11", "mode": "author", "purpose": ["gripper", "containment"], "geometry": {"type": "Cube", "size": 1.0, "scale_body_local_usd": [0.004, 0.0112, 0.2662942], "translation_body_local_usd": [0.018623876308, -0.0107525, 0.1391471], "rotation_body_local_wxyz": [0.9659258263, 0.0, 0.0, -0.2588190451]}}
+  ],
+  "open_top": {
+    "required": true,
+    "axis_body_local": [0.0, 0.0, 1.0],
+    "aperture_frame": "opening",
+    "evidence": {
+      "status": "declared",
+      "method": "identity_facade_over_source_bound_r3_compound_proxy",
+      "claim_boundary": "The canonical facade reuses the source-bound r3 proxy; cooked aperture remains a required Isaac 4.1 gate."
+    }
+  },
+  "named_frames": {
+    "opening": {"translation_body_local_usd": [0.0, 0.0, 0.2722941904], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]},
+    "grasp": {"translation_body_local_usd": [0.0, 0.0, 0.14], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]},
+    "support": {"translation_body_local_usd": [0.0, 0.0, 0.0], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}
+  },
+  "grasp_cross_section": {
+    "required": true,
+    "frame": "grasp",
+    "axis_body_local": [0.0, 0.0, 1.0],
+    "sample_offsets_body_local_usd": [-0.01, 0.0, 0.01],
+    "source_visual_mesh_relative_paths": ["Visual/Source/mesh"],
+    "closing_axis_body_local": [1.0, 0.0, 0.0],
+    "expected_visual_width_m": 0.04701,
+    "visual_width_tolerance_m": 0.001,
+    "collision_visual_width_tolerance_m": 0.002,
+    "max_gripper_opening_m": 0.088,
+    "minimum_opening_clearance_m": 0.001,
+    "claim_boundary": "This preserves the r3 source-bound grasp-section envelope; it does not claim robot grasp or pouring success."
+  },
+  "runtime_gates": {
+    "root_motion": {"required": true, "min_translation_m": 0.05},
+    "stable_support": {"required": true},
+    "gripper_collision": {"required": true}
+  }
+}

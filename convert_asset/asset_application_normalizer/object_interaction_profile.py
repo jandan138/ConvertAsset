@@ -20,6 +20,11 @@ from .stage_metrics import METRIC_FIELDS, metrics_match, read_stage_metrics
 
 
 PROFILE_SCHEMA_VERSION = "aan.object_interaction_profile.v1"
+PROFILE_SCHEMA_VERSION_V2 = "aan.object_interaction_profile.v2"
+SUPPORTED_PROFILE_SCHEMA_VERSIONS = {
+    PROFILE_SCHEMA_VERSION,
+    PROFILE_SCHEMA_VERSION_V2,
+}
 REQUIRED_NAMED_FRAMES = {"opening", "grasp", "support"}
 COLLIDER_MODES = {"preserve", "author", "disable"}
 COLLIDER_PURPOSES = {"gripper", "support", "containment"}
@@ -94,7 +99,8 @@ def load_and_resolve_interaction_profile(
         return _blocked(admission, profile_bytes)
 
     errors: list[str] = admission["errors"]
-    if profile.get("schema_version") != PROFILE_SCHEMA_VERSION:
+    schema_version = profile.get("schema_version")
+    if schema_version not in SUPPORTED_PROFILE_SCHEMA_VERSIONS:
         errors.append(
             f"unsupported interaction profile schema: {profile.get('schema_version')!r}"
         )
@@ -157,8 +163,15 @@ def load_and_resolve_interaction_profile(
         source_collision_prims,
         errors,
     )
+    required_frames = _resolve_required_named_frames(
+        profile, schema_version, errors
+    )
     frames = _resolve_named_frames(
-        profile.get("named_frames"), asset_entry_prim, package_stage, errors
+        profile.get("named_frames"),
+        required_frames,
+        asset_entry_prim,
+        package_stage,
+        errors,
     )
     open_top = _resolve_open_top(profile.get("open_top"), frames, errors)
     grasp_cross_section = resolve_grasp_cross_section_config(
@@ -180,6 +193,7 @@ def load_and_resolve_interaction_profile(
             "source_descendant_mass_prims": descendant_mass_prims,
             "resolved_collider_count": len(colliders),
             "resolved_named_frames": sorted(frames),
+            "required_named_frames": sorted(required_frames),
             "grasp_cross_section_required": grasp_cross_section is not None,
         }
     )
@@ -195,6 +209,7 @@ def load_and_resolve_interaction_profile(
             "descendant_mass_prims": descendant_mass_prims,
             "colliders": colliders,
             "named_frames": frames,
+            "required_named_frames": sorted(required_frames),
             "open_top": open_top,
             "grasp_cross_section": grasp_cross_section,
             "runtime_gates": runtime_gates,
@@ -414,18 +429,42 @@ def _resolve_authored_geometry(
     return resolved
 
 
+def _resolve_required_named_frames(
+    profile: dict[str, Any],
+    schema_version: Any,
+    errors: list[str],
+) -> set[str]:
+    if schema_version == PROFILE_SCHEMA_VERSION:
+        return set(REQUIRED_NAMED_FRAMES)
+    raw = profile.get("required_named_frames")
+    if (
+        not isinstance(raw, list)
+        or not raw
+        or not all(isinstance(item, str) and item.strip() for item in raw)
+    ):
+        errors.append(
+            "required_named_frames must be a non-empty list of frame names for v2"
+        )
+        return set()
+    normalized = [str(item).strip() for item in raw]
+    if len(set(normalized)) != len(normalized):
+        errors.append("required_named_frames must not contain duplicates")
+    return set(normalized)
+
+
 def _resolve_named_frames(
     raw_frames: Any,
+    required_frames: set[str],
     root: str | None,
     stage: Any,
     errors: list[str],
 ) -> dict[str, dict[str, Any]]:
     if (
         not isinstance(raw_frames, dict)
-        or not REQUIRED_NAMED_FRAMES.issubset(raw_frames)
+        or not required_frames.issubset(raw_frames)
     ):
         errors.append(
-            "named_frames must contain authoritative opening, grasp, and support frames"
+            "named_frames must contain every authoritative required_named_frames entry"
         )
         return {}
     frames: dict[str, dict[str, Any]] = {}

@@ -28,8 +28,8 @@ def add_normalize_asset_parser(subparsers: argparse._SubParsersAction) -> None:
         "--source-runtime",
         required=True,
         help=(
-            "Source runtime lineage: isaac51, or blender44 for visual-static "
-            "roles only"
+            "Source runtime lineage: isaac51, generic_usd, or blender44 for "
+            "visual-static roles only"
         ),
     )
     parser.add_argument("--target-runtime", required=True, help="Target runtime profile, MVP: isaac41")

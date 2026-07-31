@@ -1,0 +1,55 @@
+{
+  "schema_version": "aan.physics_profile.v1",
+  "profile_id": "scientific_workbench.beaker_bci762450811977342_6.provisional",
+  "revision": "r1",
+  "source_binding": {
+    "sha256": "b66829acfcf0fd7f83c52b25c170e8272b34811cc00a87e92bab78962f5045e6",
+    "stage_metrics": {
+      "meters_per_unit": 1.0,
+      "kilograms_per_unit": 1.0,
+      "up_axis": "Z",
+      "time_codes_per_second": 24.0,
+      "frames_per_second": 24.0
+    }
+  },
+  "evidence": {
+    "parameter_status": "provisional_geometry",
+    "claim_boundary": "Mass and inertia are nominal geometry-based simulation values, not measured material properties.",
+    "center_of_mass_convention": "asset_entry_prim_body_local_usd",
+    "inertia_convention": "canonical SI kg*m^2",
+    "replacement_contract": "Replace the complete mass_properties bundle in a new source-bound profile revision; do not patch package USD or a consumer."
+  },
+  "scope_rules": [
+    {
+      "scope_path": "/World/Beaker",
+      "body_rules": [
+        {
+          "relative_path": ".",
+          "motion_role": "dynamic",
+          "clear_density": true,
+          "mass_properties": {
+            "mode": "explicit",
+            "quality_tier": "provisional_geometry",
+            "mass_kg": 0.15,
+            "diagonal_inertia_kg_m2": [
+              0.000185,
+              0.000185,
+              0.00012
+            ],
+            "center_of_mass_body_local": [
+              0.0,
+              0.0,
+              0.05
+            ],
+            "principal_axes": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

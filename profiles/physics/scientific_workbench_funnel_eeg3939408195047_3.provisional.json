@@ -1,0 +1,55 @@
+{
+  "schema_version": "aan.physics_profile.v1",
+  "profile_id": "scientific_workbench.funnel_eeg3939408195047_3.provisional",
+  "revision": "r1",
+  "source_binding": {
+    "sha256": "9add8a23d3419004820e171dc5c62ca08b1710f4e45a587721e1eb95df109bbf",
+    "stage_metrics": {
+      "meters_per_unit": 1.0,
+      "kilograms_per_unit": 1.0,
+      "up_axis": "Z",
+      "time_codes_per_second": 24.0,
+      "frames_per_second": 24.0
+    }
+  },
+  "evidence": {
+    "parameter_status": "provisional_geometry",
+    "claim_boundary": "Mass and inertia are nominal geometry-based simulation values, not measured material properties.",
+    "center_of_mass_convention": "asset_entry_prim_body_local_usd",
+    "inertia_convention": "canonical SI kg*m^2",
+    "replacement_contract": "Replace the complete mass_properties bundle in a new source-bound profile revision; do not patch package USD or a consumer."
+  },
+  "scope_rules": [
+    {
+      "scope_path": "/World/Funnel",
+      "body_rules": [
+        {
+          "relative_path": ".",
+          "motion_role": "dynamic",
+          "clear_density": true,
+          "mass_properties": {
+            "mode": "explicit",
+            "quality_tier": "provisional_geometry",
+            "mass_kg": 0.05,
+            "diagonal_inertia_kg_m2": [
+              0.000078,
+              0.000078,
+              0.000036
+            ],
+            "center_of_mass_body_local": [
+              0.0,
+              0.0,
+              0.065
+            ],
+            "principal_axes": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

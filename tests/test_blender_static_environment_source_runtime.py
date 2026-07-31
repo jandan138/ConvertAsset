@@ -10,6 +10,8 @@ def _request(
     source: Path,
     *,
     role: str,
+    source_runtime: str = "blender44",
+    physics_profile: Path | None = None,
 ) -> NormalizeAssetRequest:
     return NormalizeAssetRequest(
         source_usd=source,
@@ -17,12 +19,13 @@ def _request(
         asset_id="scientific_environment_code_room_example4_v1",
         asset_class="auto",
         asset_role=role,
-        source_runtime="blender44",
+        source_runtime=source_runtime,
         target_runtime="isaac41",
         target_benchmark="scenario-forge",
         task_id="scientific_workbench_bimanual_pour",
         asset_scope_prims=["/World"],
         gates=["static", "runtime"],
+        physics_profile=physics_profile,
     )
 
 
@@ -46,3 +49,24 @@ def test_blender44_source_runtime_is_not_allowed_for_dynamic_assets(
     assert result is not None
     assert result.return_code == 2
     assert result.overall_status == "invalid"
+
+
+def test_generic_usd_source_runtime_is_allowed_for_profiled_dynamic_assets(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "facade.usda"
+    source.write_text('#usda 1.0\ndef Xform "World" {}\n', encoding="utf-8")
+    physics_profile = tmp_path / "physics.json"
+    physics_profile.write_text("{}\n", encoding="utf-8")
+
+    assert (
+        validate_request(
+            _request(
+                source,
+                role="dynamic",
+                source_runtime="generic_usd",
+                physics_profile=physics_profile,
+            )
+        )
+        is None
+    )

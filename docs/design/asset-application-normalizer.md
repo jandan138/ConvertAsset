@@ -21,6 +21,8 @@
 > broad scoped-PhysX-warning gate supersede the r2 full-height proxy for
 > `graduated_cylinder_03`; see
 > `docs/records/2026-07-15-aan-graduated-cylinder-r3-grasp-section-collision.md`.
+> 2026-07-31 canonical task-object facades and interaction-profile v2:
+> `docs/records/2026-07-31-aan-scientific-workbench-rigid-object-packages.md`.
 
 ## 一句话定位
 
@@ -236,6 +238,36 @@ evidence。
 - 透明材质是第一阶段重点验收面。Transparent Beaker 这类资产至少要保留可见轮廓、base
   color / opacity 或等价透明策略、roughness 和核心 texture provenance；render readback
   看不见目标资产时必须 `blocked`。
+
+### Canonical task-object facade
+
+`build-facade --object-profile <profile.json>` creates a source-bound task-object
+facade for a single selected source prim. The facade:
+
+- binds the immutable source USD and source SHA-256;
+- converts the reviewed source axis and uniform scale below a visual child;
+- centers the composed object in entry-local XY and aligns its lower bound with
+  the declared support plane;
+- exposes a direct `/World/<Object>` entry prim with no authored transform ops;
+- records source bounds, normalized bounds, profile hash, facade hash, and the
+  geometry claim in `facade_provenance.json`.
+
+This is canonicalization, not source mutation. Consumers place only the identity
+entry prim and must not repeat the profile's scale or support-plane correction.
+The facade does not by itself qualify physics or interaction; normal admission
+and runtime qualification remain required.
+
+### Interaction profile v2
+
+`aan.object_interaction_profile.v1` keeps the vessel-specific requirement for
+`opening`, `grasp`, and `support`. v2 adds an explicit non-empty
+`required_named_frames` list and requires `named_frames` to contain that set.
+This lets a funnel, device, or future non-vessel object declare its real semantic
+frames without inventing irrelevant vessel semantics.
+
+The schema change does not weaken collider, physics, source-hash, stage-metric,
+or runtime gates. Scenario Forge consumers accept v1 and v2 and still verify the
+profile and qualification artifacts before use.
 
 ### Physics preservation and synthesis
 

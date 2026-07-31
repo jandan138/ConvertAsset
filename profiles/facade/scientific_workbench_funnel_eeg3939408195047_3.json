@@ -1,0 +1,33 @@
+{
+  "schema_version": "aan.object_facade_profile.v1",
+  "source": {
+    "sha256": "6c2246f9786a039c3d3387cf16dd4cabc8ff601a76129ac4bb3bfedc6281a8b1",
+    "archive_sha256": "89f7248e223588fe0a584bdb5033b3b30ff4e055227ec1f40fa03d2531d0f5ea",
+    "prim_path": "/World",
+    "expected_up_axis": "Y",
+    "expected_meters_per_unit": 0.01
+  },
+  "entry": {
+    "prim_path": "/World/Funnel",
+    "visual_child_name": "Visual",
+    "require_identity": true
+  },
+  "normalization": {
+    "rotation_wxyz": [
+      0.7071067811865476,
+      -0.7071067811865475,
+      0.0,
+      0.0
+    ],
+    "uniform_scale": 0.0006,
+    "support_plane_z_m": 0.0,
+    "target_up_axis": "Z",
+    "target_meters_per_unit": 1.0
+  },
+  "geometry_claim": {
+    "status": "provisional_geometry",
+    "basis": "screened visual candidate with a nominal 0.12 m overall height",
+    "source_category": "funnel",
+    "source_archive_member": "funnel/data_buy_EEG3939408195047-3.usd"
+  }
+}

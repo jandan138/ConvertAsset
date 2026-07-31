@@ -1,0 +1,232 @@
+{
+  "schema_version": "aan.object_interaction_profile.v2",
+  "profile_id": "scientific_workbench.beaker_bci762450811977342_6.interaction",
+  "revision": "r1",
+  "source_binding": {
+    "sha256": "b66829acfcf0fd7f83c52b25c170e8272b34811cc00a87e92bab78962f5045e6",
+    "stage_metrics": {
+      "meters_per_unit": 1.0,
+      "kilograms_per_unit": 1.0,
+      "up_axis": "Z",
+      "time_codes_per_second": 24.0,
+      "frames_per_second": 24.0
+    }
+  },
+  "asset_entry_prim": "/World/Beaker",
+  "rigid_root": {
+    "motion_role": "dynamic",
+    "disable_descendant_rigid_bodies": true,
+    "remove_descendant_mass_api": true
+  },
+  "colliders": [
+    {
+      "relative_path": "__aan_collision_proxy/bottom",
+      "mode": "author",
+      "purpose": [
+        "containment",
+        "support"
+      ],
+      "geometry": {
+        "type": "Cylinder",
+        "axis": "Z",
+        "radius": 0.038,
+        "height": 0.006,
+        "translation_body_local_usd": [
+          0.0,
+          0.0,
+          0.003
+        ],
+        "rotation_body_local_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_x_negative",
+      "mode": "author",
+      "purpose": [
+        "containment",
+        "gripper"
+      ],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "scale_body_local_usd": [
+          0.004,
+          0.07,
+          0.094
+        ],
+        "translation_body_local_usd": [
+          -0.037,
+          0.0,
+          0.053
+        ],
+        "rotation_body_local_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_x_positive",
+      "mode": "author",
+      "purpose": [
+        "containment",
+        "gripper"
+      ],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "scale_body_local_usd": [
+          0.004,
+          0.07,
+          0.094
+        ],
+        "translation_body_local_usd": [
+          0.037,
+          0.0,
+          0.053
+        ],
+        "rotation_body_local_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_y_negative",
+      "mode": "author",
+      "purpose": [
+        "containment",
+        "gripper"
+      ],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "scale_body_local_usd": [
+          0.07,
+          0.004,
+          0.094
+        ],
+        "translation_body_local_usd": [
+          0.0,
+          -0.035,
+          0.053
+        ],
+        "rotation_body_local_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "relative_path": "__aan_collision_proxy/wall_y_positive",
+      "mode": "author",
+      "purpose": [
+        "containment",
+        "gripper"
+      ],
+      "geometry": {
+        "type": "Cube",
+        "size": 1.0,
+        "scale_body_local_usd": [
+          0.07,
+          0.004,
+          0.094
+        ],
+        "translation_body_local_usd": [
+          0.0,
+          0.035,
+          0.053
+        ],
+        "rotation_body_local_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "required_named_frames": [
+    "opening",
+    "grasp",
+    "support"
+  ],
+  "open_top": {
+    "required": true,
+    "axis_body_local": [
+      0.0,
+      0.0,
+      1.0
+    ],
+    "aperture_frame": "opening",
+    "evidence": {
+      "status": "declared",
+      "method": "facade_bounds_and_visual_review",
+      "claim_boundary": "The open-top frame and compound proxy are provisional until the Isaac 4.1 cooked-aperture probe passes."
+    }
+  },
+  "named_frames": {
+    "opening": {
+      "translation_body_local_usd": [
+        0.0,
+        0.0,
+        0.1
+      ],
+      "rotation_body_local_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "grasp": {
+      "translation_body_local_usd": [
+        0.0,
+        0.0,
+        0.06
+      ],
+      "rotation_body_local_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "support": {
+      "translation_body_local_usd": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_body_local_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "runtime_gates": {
+    "root_motion": {
+      "required": true,
+      "min_translation_m": 0.05
+    },
+    "stable_support": {
+      "required": true
+    },
+    "gripper_collision": {
+      "required": true
+    }
+  }
+}
