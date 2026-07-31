@@ -191,15 +191,35 @@ def _verify_dynamic_visual_preservation(
             "aan_role_block_dynamic_visual_scope_missing",
             paths=sorted(set([*missing_source, *missing_package])),
         )
+    # A declared profile may intentionally replace material bindings, but it
+    # must not move, hide, or otherwise reshape the visible geometry.  Keep
+    # full fingerprints in the evidence and compare the reduced geometry
+    # fingerprint only for that narrow, explicitly requested exception.
+    allow_material_override = request.visual_material_profile is not None
     raw_source = _visual_fingerprint(source_stage, scopes)
     package = _visual_fingerprint(package_stage, scopes)
-    preserved = raw_source["signature"] == package["signature"]
+    raw_geometry = _visual_fingerprint(
+        source_stage, scopes, include_material_bindings=False
+    )
+    package_geometry = _visual_fingerprint(
+        package_stage, scopes, include_material_bindings=False
+    )
+    compared_source = raw_geometry if allow_material_override else raw_source
+    compared_package = package_geometry if allow_material_override else package
+    preserved = compared_source["signature"] == compared_package["signature"]
     preservation = {
         "status": "pass" if preserved else "blocked",
         "raw_source": raw_source,
         "package_before_physics_profile": package,
+        "raw_source_geometry": raw_geometry,
+        "package_before_physics_profile_geometry": package_geometry,
         "scope": scopes,
-        "policy": "mesh_visibility_material_bindings_and_world_transforms_must_match",
+        "policy": (
+            "mesh_visibility_and_world_transforms_must_match; "
+            "recorded_visual_material_profile_may_replace_material_bindings"
+            if allow_material_override
+            else "mesh_visibility_material_bindings_and_world_transforms_must_match"
+        ),
     }
     if not preserved:
         return RoleNormalizationResult(
@@ -210,8 +230,8 @@ def _verify_dynamic_visual_preservation(
                 {
                     "blocker_id": "aan_role_block_dynamic_visual_preservation",
                     "severity": "blocking",
-                    "summary": "The dynamic package changed a scoped mesh visibility, material binding, or world transform.",
-                    "required_resolution": "Preserve source visual composition while authoring physics only in the package-owned overlay.",
+                    "summary": "The dynamic package changed a scoped mesh visibility or world transform beyond any allowed material-binding override.",
+                    "required_resolution": "Preserve source geometry and transforms while authoring only the recorded profile-owned material binding override.",
                 }
             ],
         )
@@ -331,26 +351,31 @@ def _joint_targets(prim: Any) -> list[Any]:
     return targets
 
 
-def _visual_fingerprint(stage: Any, scopes: list[str]) -> dict[str, Any]:
+def _visual_fingerprint(
+    stage: Any,
+    scopes: list[str],
+    *,
+    include_material_bindings: bool = True,
+) -> dict[str, Any]:
     meshes = []
     for prim in _scope_prims(stage, scopes, include_inactive=True):
         if not prim.IsActive() or prim.GetTypeName() != "Mesh":
             continue
-        material_targets = []
-        for relationship in prim.GetRelationships():
-            if relationship.GetName().startswith("material:binding"):
-                material_targets.extend(
-                    _canonical_material_target(stage, target)
-                    for target in relationship.GetTargets()
-                )
-        meshes.append(
-            {
-                "path": prim.GetPath().pathString,
-                "visibility": _attribute_value(prim, "visibility"),
-                "material_targets": sorted(material_targets),
-                "world_transform": _world_transform(prim),
-            }
-        )
+        record = {
+            "path": prim.GetPath().pathString,
+            "visibility": _attribute_value(prim, "visibility"),
+            "world_transform": _world_transform(prim),
+        }
+        if include_material_bindings:
+            material_targets = []
+            for relationship in prim.GetRelationships():
+                if relationship.GetName().startswith("material:binding"):
+                    material_targets.extend(
+                        _canonical_material_target(stage, target)
+                        for target in relationship.GetTargets()
+                    )
+            record["material_targets"] = sorted(material_targets)
+        meshes.append(record)
     records = {"scope_world_transforms": {}, "meshes": sorted(meshes, key=lambda item: item["path"])}
     for scope in scopes:
         prim = stage.GetPrimAtPath(scope)

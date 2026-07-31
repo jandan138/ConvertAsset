@@ -48,6 +48,14 @@ def add_normalize_asset_parser(subparsers: argparse._SubParsersAction) -> None:
         default="native-or-mirror",
         help="native-or-mirror, preview-fallback, waiver-ok, or block-on-gap",
     )
+    parser.add_argument(
+        "--visual-material-profile",
+        default=None,
+        help=(
+            "Explicit source-bound visual material profile JSON. It may override "
+            "only declared mesh material bindings."
+        ),
+    )
     parser.add_argument("--allow-waiver", default=None, help="Waiver policy YAML path")
     parser.add_argument(
         "--physics-profile",
@@ -127,6 +135,9 @@ def request_from_args(args: argparse.Namespace) -> NormalizeAssetRequest:
         required_prims=list(args.required_prim or []),
         asset_scope_prims=list(args.asset_scope_prim or []),
         material_policy=str(args.material_policy),
+        visual_material_profile=(
+            Path(args.visual_material_profile) if args.visual_material_profile else None
+        ),
         allow_waiver=Path(args.allow_waiver) if args.allow_waiver else None,
         physics_profile=Path(args.physics_profile) if args.physics_profile else None,
         interaction_profile=(

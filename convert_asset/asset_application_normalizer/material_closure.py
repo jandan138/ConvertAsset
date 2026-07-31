@@ -407,6 +407,27 @@ def _asset_records_from_shader_references(
                 record["source_shader_prim"] = shader.get("prim_path")
                 records.append(record)
                 continue
+            # AAN-04 normally discovers every material asset through the
+            # immutable source closure.  A source-bound visual profile is the
+            # deliberate exception: it contributes a package-owned MDL after
+            # AAN-03.  Admit it only when the referenced file is actually
+            # inside this package; do not invent source provenance for it.
+            package_file = package_root / package_path
+            if package_file.is_file():
+                record = {
+                    "kind": kind,
+                    "arc_kind": "visual_material_profile",
+                    "raw_asset_path": raw,
+                    "package_path": package_path,
+                    "source_shader_prim": shader.get("prim_path"),
+                    "status": "packaged",
+                    "resolution": "package_owned_visual_material_profile",
+                    "package_sha256": sha256_file(package_file),
+                }
+                if kind == "mdl":
+                    record["effect_tags"] = _mdl_effect_tags(package_file)
+                records.append(record)
+                continue
             records.append(
                 {
                     "kind": kind,

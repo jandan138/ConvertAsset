@@ -68,6 +68,9 @@ class NormalizeAssetRequest:
     required_prims: list[str] = field(default_factory=list)
     asset_scope_prims: list[str] = field(default_factory=list)
     material_policy: str = "native-or-mirror"
+    # An explicit visual profile may replace material bindings only.  It is
+    # independently source-bound and must never carry physics semantics.
+    visual_material_profile: Path | None = None
     allow_waiver: Path | None = None
     # Dynamic mass properties live in an explicit, source-bound profile rather
     # than in a consumer-side scene patch.  Keeping this optional preserves the

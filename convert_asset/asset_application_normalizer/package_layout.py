@@ -45,6 +45,17 @@ class TargetPackageLayout:
         return self.root / "interaction" / "profile.json"
 
     @property
+    def visual_material_overlay_usd(self) -> Path:
+        return self.root / "overlays" / "visual_material.usda"
+
+    @property
+    def visual_material_profile_json(self) -> Path:
+        return self.root / "visual" / "profile.json"
+
+    def visual_material_mdl(self, filename: str) -> Path:
+        return self.root / "deps" / "mdl" / filename
+
+    @property
     def grasp_cross_section_report_json(self) -> Path:
         """Package-bound static geometry evidence for a declared grasp band."""
         return self.root / "interaction" / "grasp_cross_section.json"

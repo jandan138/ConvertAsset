@@ -1,0 +1,18 @@
+{
+  "schema_version": "aan.visual_material_profile.v1",
+  "profile_id": "scientific_workbench.beaker_bci762450811977342_6.transparent_glass",
+  "revision": "r1",
+  "source_binding": {
+    "sha256": "b66829acfcf0fd7f83c52b25c170e8272b34811cc00a87e92bab78962f5045e6"
+  },
+  "override": {
+    "kind": "mdl_glass",
+    "source_mdl": "/isaac-sim/kit/mdl/core/Base/OmniGlass.mdl",
+    "source_sub_identifier": "OmniGlass",
+    "material_name": "TransparentGlass",
+    "binding_targets": [
+      "/World/Beaker/Visual/Source/Obj3d66_11490791_6_932/Obj3d66_11490791_6_932"
+    ],
+    "claim_boundary": "Intentional visual compatibility override for the declared beaker mesh only. It changes no source USD, mesh, collider, mass, inertia, joint, or interaction-frame semantics."
+  }
+}

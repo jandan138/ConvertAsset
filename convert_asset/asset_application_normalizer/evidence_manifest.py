@@ -65,6 +65,7 @@ def build_manifest(
     normalization_actions: list[dict[str, Any]] | None = None,
     interaction_contract: dict[str, Any] | None = None,
     visual_preservation_fingerprint: dict[str, Any] | None = None,
+    visual_material_profile: dict[str, Any] | None = None,
     source_integrity: dict[str, Any] | None = None,
     stage_gates: list[dict[str, Any]] | None = None,
     runtime_evidence: dict[str, Any] | None = None,
@@ -133,7 +134,7 @@ def build_manifest(
         },
         "entrypoints": entrypoints,
         "normalization_policy": {
-            "material": "preserve_source_then_add_compatibility_fallback",
+            "material": "preserve_source_then_add_compatibility_fallback_or_source_bound_visual_profile",
             "physics": "visual_static_strip_or_source_bound_profile_or_legacy_provisional_derivation",
             "allowed_value_sources": ["authored", "derived", "template", "manual_override", "profile"],
         },
@@ -184,6 +185,7 @@ def build_manifest(
             "status": "not_requested",
         },
         "visual_preservation_fingerprint": visual_preservation_fingerprint or {},
+        "visual_material_profile": visual_material_profile or {"status": "not_requested"},
         "stage_gates": stage_gates or [
             {
                 "check_id": MILESTONE_AAN02,
@@ -221,6 +223,11 @@ def build_manifest(
                 "physics_profile": str(request.physics_profile) if request.physics_profile else None,
                 "interaction_profile": (
                     str(request.interaction_profile) if request.interaction_profile else None
+                ),
+                "visual_material_profile": (
+                    str(request.visual_material_profile)
+                    if request.visual_material_profile
+                    else None
                 ),
                 "runtime_python": str(request.runtime_python) if request.runtime_python else None,
                 "warning_baseline_log": str(request.warning_baseline_log) if request.warning_baseline_log else None,

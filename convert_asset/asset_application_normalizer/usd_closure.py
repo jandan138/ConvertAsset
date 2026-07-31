@@ -910,6 +910,18 @@ def _write_package(
             # is authored earlier in the pipeline, so profile resolution sees
             # the normalized rigid root.
             package_sublayers.insert(1, "overlays/interaction.usda")
+        if request.visual_material_profile is not None:
+            # A visual-material profile is weaker than dynamic interaction and
+            # physics overlays, but stronger than the immutable scoped source.
+            # Its target bindings are authored only after AAN-03 proves the
+            # named meshes survive scope extraction.
+            layout.visual_material_overlay_usd.write_text(
+                "#usda 1.0\n", encoding="utf-8"
+            )
+            package_sublayers.insert(
+                2 if request.interaction_profile is not None else 1,
+                "overlays/visual_material.usda",
+            )
     source_metrics = read_stage_metrics(layout.source_root_usd)
     layout.root_usd.write_text(
         _entry_overlay_text(

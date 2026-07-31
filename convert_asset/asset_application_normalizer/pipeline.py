@@ -44,6 +44,7 @@ from .runtime_smoke import (
     validate_runtime_scope_bindings,
 )
 from .usd_closure import build_usd_closure_package
+from .visual_material_profile import apply_visual_material_profile
 
 
 def _validation_error(message: str) -> NormalizeAssetResult:
@@ -76,6 +77,14 @@ def validate_request(request: NormalizeAssetRequest) -> NormalizeAssetResult | N
         return _validation_error(f"interaction profile not found: {request.interaction_profile}")
     if request.interaction_profile is not None and request.asset_role != "dynamic":
         return _validation_error("--interaction-profile is only valid for the dynamic asset role")
+    if request.visual_material_profile is not None and not request.visual_material_profile.is_file():
+        return _validation_error(
+            f"visual material profile not found: {request.visual_material_profile}"
+        )
+    if request.visual_material_profile is not None and request.asset_role != "dynamic":
+        return _validation_error(
+            "--visual-material-profile is only valid for the dynamic asset role"
+        )
     if (
         request.target_benchmark == "scenario-forge"
         and request.asset_role == "dynamic"
@@ -144,11 +153,30 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         return NormalizeAssetResult(0, evidence_out, "dry_run_incomplete")
 
     closure = build_usd_closure_package(request)
+    layout = TargetPackageLayout(request.out_dir)
     if closure.return_code == 0:
+        visual_material = apply_visual_material_profile(
+            layout,
+            request.visual_material_profile,
+            request.source_usd,
+            request.effective_asset_scope_prims,
+        )
+    else:
+        visual_material = apply_visual_material_profile(
+            layout,
+            None,
+            request.source_usd,
+            request.effective_asset_scope_prims,
+        )
+    if closure.return_code == 0 and visual_material.return_code == 0:
         material = build_material_closure(
-            TargetPackageLayout(request.out_dir),
+            layout,
             closure.dependency_closure,
             request.material_policy,
+        )
+    elif closure.return_code == 0:
+        material = build_not_run_material_closure(
+            "AAN-04 material closure was not run because the requested visual material profile blocked."
         )
     else:
         material = build_not_run_material_closure(
@@ -300,6 +328,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         )
     return_code = (
         closure.return_code
+        or visual_material.return_code
         or material.return_code
         or material_runtime.return_code
         or role_normalization.return_code
@@ -327,6 +356,8 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         overall_status = material.overall_status
     elif closure.return_code:
         overall_status = closure.overall_status
+    elif visual_material.return_code:
+        overall_status = visual_material.overall_status
     elif benchmark_requested:
         overall_status = benchmark.overall_status
     elif runtime_requested:
@@ -336,6 +367,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
 
     blocked_reasons = [
         *closure.blocked_reasons,
+        *visual_material.blocked_reasons,
         *material.blocked_reasons,
         *material_runtime.blocked_reasons,
         *role_normalization.blocked_reasons,
@@ -354,6 +386,24 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         effective_physics_closure["grasp_cross_section"] = grasp_cross_section
     stage_gates = [
         *closure.stage_gates,
+        *(
+            [
+                {
+                    "check_id": "AAN-04V-visual-material-profile",
+                    "stage": "visual_material_profile",
+                    "status": visual_material.overall_status,
+                    "summary": (
+                        "AAN package-owned visual material profile was applied."
+                        if visual_material.overall_status == "pass"
+                        else "No visual material profile was requested."
+                        if visual_material.overall_status == "not_requested"
+                        else "AAN visual material profile admission blocked."
+                    ),
+                }
+            ]
+            if request.visual_material_profile is not None
+            else []
+        ),
         material.stage_gate,
         material_runtime.stage_gate,
         *(
@@ -488,11 +538,13 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         source_physics_audit=source_physics_audit,
         output_role_admission=physics.output_role_admission,
         normalization_actions=[
+            *visual_material.normalization_actions,
             *role_normalization.normalization_actions,
             *interaction.normalization_actions,
         ],
         interaction_contract=interaction_contract,
         visual_preservation_fingerprint=role_normalization.visual_preservation_fingerprint,
+        visual_material_profile=visual_material.profile_record,
         source_integrity=source_integrity,
         stage_gates=stage_gates,
         runtime_evidence=runtime.runtime_evidence,
@@ -508,6 +560,13 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
                     "Source MDL and texture assets are preserved when listed with package hashes.",
                 ]
                 if material_passed
+                else []
+            ),
+            *(
+                [
+                    "The declared source-bound visual material profile replaced bindings only on its recorded mesh targets; geometry and physics semantics were not modified by that profile.",
+                ]
+                if visual_material.overall_status == "pass"
                 else []
             ),
             *(
@@ -566,6 +625,13 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             "Exact Isaac Sim 4.1 binary conformance is verified without an explicit runtime environment fingerprint.",
             "Binary USD layers with dependencies are fully supported by AAN-03 text rewriting.",
             "Full visual material parity beyond recorded source-preservation evidence is achieved.",
+            *(
+                [
+                    "The visual material profile proves liquid appearance, physical glass calibration, robot policy success, or task success.",
+                ]
+                if visual_material.overall_status == "pass"
+                else []
+            ),
             *role_forbidden_claims,
             *dynamic_profile_forbidden_claims,
             *(
