@@ -18,6 +18,11 @@ the reviewed zone yaw before the existing geometry audit.  Requests without
 the field keep the historical table footprint, so previous profiles are
 unchanged.
 
+Optional inactive paths retain assembly-root semantics: a declared root covers
+its full USD descendant subtree during clearance classification. This keeps
+movable stools or carts removable as complete assemblies without weakening the
+rule against anonymous leaf-mesh masks.
+
 This is an audit input, not a geometry repair: ConvertAsset does not scale the
 room, move furniture, or add consumer-side masks.  A room that cannot contain
 the declared envelope is returned as `not_applicable`.
@@ -41,7 +46,7 @@ python -m pytest -q \
   tests/test_workspace_audit.py
 ```
 
-Result: 9 passed.
+Result after the assembly-root regression was added: 10 passed.
 
 ## Claim boundary and follow-up
 

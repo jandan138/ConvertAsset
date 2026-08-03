@@ -160,7 +160,7 @@ def build_zone_profiles(
         blockers = [
             item
             for item in report.intruders
-            if item.prim_path not in optional_inactives
+            if not _covered_by_inactive_root(item.prim_path, optional_inactives)
         ]
         profile = ZoneProfile(
             zone_id=zone_id,
@@ -258,6 +258,15 @@ def _rotated_aabb_footprint(
     return (
         abs(math.cos(angle)) * width + abs(math.sin(angle)) * depth,
         abs(math.sin(angle)) * width + abs(math.cos(angle)) * depth,
+    )
+
+
+def _covered_by_inactive_root(prim_path: str, roots: list[str]) -> bool:
+    """Return whether a reported leaf belongs to a declared assembly root."""
+
+    return any(
+        prim_path == root or prim_path.startswith(f"{root}/")
+        for root in roots
     )
 
 

@@ -26,7 +26,8 @@ an admitted room downstream to manufacture clearance.
 1. **Complete assemblies only.** Inactive sets must be whole assembly roots.
    Flat floor/counter decals may be listed as *optional* inactives with full
    paths; scattered ungrouped props force `not_applicable` (never mask
-   anonymous meshes).
+   anonymous meshes). An optional inactive assembly root covers its complete
+   USD descendant subtree; do not enumerate the assembly's leaf meshes.
 2. **Room shell is always kept.** Floor/walls/ceiling/windows intersecting
    the clearance are background, not blockers.
 3. **Check table depth vs the host row depth.** A centered anchor on a

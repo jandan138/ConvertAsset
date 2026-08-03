@@ -224,3 +224,68 @@ def test_zone_batch_uses_request_clearance_footprint(tmp_path: Path) -> None:
     clearance = profile["workspace"]["clearance_aabb_m"]
     assert clearance["min"][:2] == [-1.9, -2.0]
     assert clearance["max"][:2] == [1.9, 2.0]
+
+
+def test_zone_batch_optional_inactive_root_covers_its_descendants(
+    tmp_path: Path,
+) -> None:
+    """Consumers deactivate complete assemblies, not each leaf mesh."""
+
+    pytest.importorskip("pxr.Usd")
+    source = tmp_path / "facade.usda"
+    source.write_text(
+        ROOM_USDA.replace(
+            '    def Xform "Zone__North_Workbench"',
+            '''    def Xform "MovableStool"
+    {
+        def Mesh "Seat"
+        {
+            point3f[] points = [
+                (-0.2, -0.2, 0), (0.2, -0.2, 0),
+                (0.2, 0.2, 0.5), (-0.2, 0.2, 0.5)
+            ]
+            int[] faceVertexCounts = [4]
+            int[] faceVertexIndices = [0, 1, 2, 3]
+        }
+    }
+    def Xform "Zone__North_Workbench"''',
+        ),
+        encoding="utf-8",
+    )
+    request = tmp_path / "zones.json"
+    request.write_text(
+        json.dumps(
+            {
+                "schema_version": "aan.workspace_zone_request.v1",
+                "background_asset_id": "scientific_environment_code_room_test_v1",
+                "source_usd": str(source),
+                "source_sha256": _sha(source),
+                "scope": "/World",
+                "units_per_meter": 1.0,
+                "floor_z": 0.0,
+                "shell_prefixes": ["/World/Floor"],
+                "zones": {
+                    "center_open_floor": {
+                        "workspace_mode": "open_floor",
+                        "assembly_roots": [],
+                        "anchor_prim": "/World/Floor",
+                        "anchor_xyz": [0.0, 0.0, 0.772761],
+                        "yaw_deg": 0.0,
+                        "optional_inactive_paths": ["/World/MovableStool"],
+                    }
+                },
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+
+    result = build_zone_profiles(
+        request,
+        tmp_path / "profiles",
+        git_commit="a" * 40,
+        revision="generated-room-zone-profile-r1",
+    )
+
+    manifest = json.loads(result.manifest_path.read_text(encoding="utf-8"))
+    assert manifest["zones"]["center_open_floor"]["status"] == "profiled"
