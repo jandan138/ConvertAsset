@@ -62,6 +62,10 @@ def build_zone_profiles(
     scope = _prim_path(_string(request, "scope"))
     units_per_meter = _positive_number(request.get("units_per_meter"), "units_per_meter")
     floor_z = _finite_number(request.get("floor_z", 0.0), "floor_z")
+    clearance_footprint_m = _positive_number2(
+        request.get("clearance_footprint_m", [2.345, 2.645]),
+        "clearance_footprint_m",
+    )
     shell_prefixes = tuple(
         _prim_path(value)
         for value in _string_list(request.get("shell_prefixes", []), "shell_prefixes")
@@ -140,7 +144,10 @@ def build_zone_profiles(
             ClearanceSpec(
                 assembly_roots=assembly_roots,
                 anchor_xyz=anchor_xyz,
-                table_footprint_m=_rotated_aabb_footprint(yaw_deg),
+                table_footprint_m=_rotated_aabb_footprint(
+                    yaw_deg,
+                    clearance_footprint_m,
+                ),
                 units_per_meter=units_per_meter,
                 floor_z=floor_z,
             ),
@@ -242,8 +249,11 @@ def _load_request(path: Path) -> dict[str, object]:
     return dict(_mapping(raw, "request"))
 
 
-def _rotated_aabb_footprint(yaw_deg: float) -> tuple[float, float]:
-    width, depth = (2.345, 2.645)
+def _rotated_aabb_footprint(
+    yaw_deg: float,
+    footprint_m: tuple[float, float],
+) -> tuple[float, float]:
+    width, depth = footprint_m
     angle = math.radians(yaw_deg)
     return (
         abs(math.cos(angle)) * width + abs(math.sin(angle)) * depth,
@@ -306,6 +316,15 @@ def _positive_number(value: object, field: str) -> float:
     if result <= 0:
         raise ValueError(f"{field} must be positive")
     return result
+
+
+def _positive_number2(value: object, field: str) -> tuple[float, float]:
+    if not isinstance(value, list) or len(value) != 2:
+        raise ValueError(f"{field} must contain two positive numbers")
+    return (
+        _positive_number(value[0], field),
+        _positive_number(value[1], field),
+    )
 
 
 def _number3(value: object, field: str) -> tuple[float, float, float]:

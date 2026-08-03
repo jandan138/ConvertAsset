@@ -173,3 +173,54 @@ def test_zone_batch_can_audit_facade_while_binding_raw_source(
 
     manifest = json.loads(result.manifest_path.read_text(encoding="utf-8"))
     assert manifest["source"]["source_usd_sha256"] == "b" * 64
+
+
+def test_zone_batch_uses_request_clearance_footprint(tmp_path: Path) -> None:
+    """Generated rooms may reserve the whole workcell, not only its table."""
+
+    pytest.importorskip("pxr.Usd")
+    source = tmp_path / "facade.usda"
+    source.write_text(ROOM_USDA, encoding="utf-8")
+    request = tmp_path / "zones.json"
+    request.write_text(
+        json.dumps(
+            {
+                "schema_version": "aan.workspace_zone_request.v1",
+                "background_asset_id": "scientific_environment_code_room_test_v1",
+                "source_usd": str(source),
+                "source_sha256": _sha(source),
+                "scope": "/World",
+                "units_per_meter": 1.0,
+                "floor_z": 0.0,
+                "clearance_footprint_m": [3.8, 4.0],
+                "shell_prefixes": ["/World/Floor"],
+                "zones": {
+                    "center_open_floor": {
+                        "workspace_mode": "open_floor",
+                        "assembly_roots": [],
+                        "anchor_prim": "/World/Floor",
+                        "anchor_xyz": [0.0, 0.0, 0.772761],
+                        "yaw_deg": 0.0,
+                    }
+                },
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+
+    result = build_zone_profiles(
+        request,
+        tmp_path / "profiles",
+        git_commit="a" * 40,
+        revision="generated-room-zone-profile-r1",
+    )
+
+    manifest = json.loads(result.manifest_path.read_text(encoding="utf-8"))
+    profile = yaml.safe_load(
+        (result.manifest_path.parent / manifest["zones"]["center_open_floor"]["profile"])
+        .read_text(encoding="utf-8")
+    )
+    clearance = profile["workspace"]["clearance_aabb_m"]
+    assert clearance["min"][:2] == [-1.9, -2.0]
+    assert clearance["max"][:2] == [1.9, 2.0]

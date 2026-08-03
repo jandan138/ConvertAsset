@@ -13,6 +13,14 @@
 - Module API: `convert_asset.workspace.{geometry,audit,profiles,render}`,
   `convert_asset.asset_application_normalizer.{facade,batch}`.
 
+For generated rooms with a deliberately reserved workcell, the v1 zone
+request may declare `clearance_footprint_m: [width, depth]`.  The audit rotates
+that complete consumer envelope by the reviewed zone yaw.  Requests that omit
+the field retain the historical `2.345 x 2.645 m` eBench-table footprint for
+backward compatibility.  Use the larger envelope when the room must prove
+robot landing and circulation space as well as table placement; do not enlarge
+an admitted room downstream to manufacture clearance.
+
 ## Placement rules (learned the hard way)
 
 1. **Complete assemblies only.** Inactive sets must be whole assembly roots.

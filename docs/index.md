@@ -17,6 +17,7 @@
 - **[AAN Object Interaction Profile](records/2026-07-14-aan-object-interaction-profile.md)** - package-owned unique rigid root、collider/open-top intent、named frames 与 runtime-tree closure 记录
 - **[AAN Articulated Reset Capture Synchronization](records/2026-07-29-aan-articulated-reset-capture-synchronization.md)** - dynamic articulation reset baseline/cycle sampling alignment and Isaac 4.1 evidence
 - **[Blender-generated Environment Admission](records/2026-07-30-aan-blender-generated-environment-admission.md)** - Blender 4.4 visual-static source facade, package closure, and room-zone profiling
+- **[Generated-room Full-workcell Clearance](records/2026-08-03-aan-generated-room-workcell-clearance.md)** - request-declared room envelope audit with legacy-compatible defaults
 - **[LabUtopia Vessel Static Packages](records/2026-07-14-aan-labutopia-vessel-static-packages.md)** - 锥形瓶与量筒的 source-bound profiles 和静态准入历史记录
 - **[LabUtopia Vessel Runtime Qualification](records/2026-07-14-aan-labutopia-vessel-runtime-qualification.md)** - 四项 Isaac 4.1 interaction probes、量筒 compound proxy、runtime/MDL 兼容修复与最终证据
 - **[Graduated Cylinder r3 EOS/GenManip Target-Grasp Qualification](records/2026-07-16-aan-graduated-cylinder-r3-eos-genmanip-target-grasp-qualification.md)** - source-bound r3 的固定右臂 target close/lift/hold 证据与严格 claim boundary
