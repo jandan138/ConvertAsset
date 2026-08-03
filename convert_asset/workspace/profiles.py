@@ -126,6 +126,7 @@ class ZoneProfile:
     evidence_image: str = ""
     evidence_camera_position: tuple[float, float, float] | None = None
     evidence_camera_target: tuple[float, float, float] | None = None
+    room_survey: dict | None = None
 
     def to_document(self) -> dict:
         document = {
@@ -180,6 +181,8 @@ class ZoneProfile:
                     float(value) for value in self.evidence_camera_target
                 ],
             }
+        if self.room_survey is not None:
+            document["room_survey"] = self.room_survey
         return document
 
     def to_not_applicable_document(self, reason: str) -> dict:

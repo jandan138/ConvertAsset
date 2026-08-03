@@ -194,6 +194,7 @@ def build_zone_profiles(
                 zone.get("evidence_camera_target"),
                 f"zones.{zone_id}.evidence_camera_target",
             ),
+            room_survey=_room_survey_override(zone, stage, zone_id),
         )
         profile_name = (
             f"{background_asset_id}__{zone_id}_workspace_zone.yaml"
@@ -236,6 +237,64 @@ def build_zone_profiles(
         profiled_count=profiled_count,
         not_applicable_count=not_applicable_count,
     )
+
+
+def _room_survey_override(
+    zone: Mapping[str, Any], stage: Any, zone_id: str
+) -> dict[str, Any] | None:
+    raw = zone.get("room_survey")
+    if raw is None:
+        return None
+    survey = _mapping(raw, f"zones.{zone_id}.room_survey")
+    allowed_views = {
+        "room_topdown",
+        "room_corner_a",
+        "room_corner_b",
+        "room_entrance_eye_level",
+    }
+    views: dict[str, Any] = {}
+    for view_name, raw_view in survey.items():
+        if view_name not in allowed_views:
+            raise ValueError(f"room survey view is unsupported: {view_name}")
+        view = _mapping(raw_view, f"zones.{zone_id}.room_survey.{view_name}")
+        position = _number3(
+            view.get("position_xyz"),
+            f"zones.{zone_id}.room_survey.{view_name}.position_xyz",
+        )
+        target = _number3(
+            view.get("target_xyz"),
+            f"zones.{zone_id}.room_survey.{view_name}.target_xyz",
+        )
+        hidden_paths = [
+            _prim_path(value)
+            for value in _string_list(
+                view.get("temporary_hidden_prim_paths", []),
+                f"zones.{zone_id}.room_survey.{view_name}.temporary_hidden_prim_paths",
+            )
+        ]
+        if hidden_paths and view_name not in {"room_corner_a", "room_corner_b"}:
+            raise ValueError("only room corner survey views may hide wall roots")
+        for prim_path in hidden_paths:
+            prim = stage.GetPrimAtPath(prim_path)
+            if (
+                not prim
+                or str(prim.GetTypeName()) != "Xform"
+                or not prim.GetName().lower().startswith("wall_")
+            ):
+                raise ValueError(
+                    f"room survey hidden path is not a complete wall Xform root: {prim_path}"
+                )
+        views[view_name] = {
+            "position_xyz": [float(value) for value in position],
+            "target_xyz": [float(value) for value in target],
+            "temporary_hidden_prim_paths": hidden_paths,
+        }
+    if not views:
+        raise ValueError(f"zones.{zone_id}.room_survey must contain at least one view")
+    return {
+        "frame_convention": "usd_z_up_right_handed_ccw",
+        "views": views,
+    }
 
 
 def _load_request(path: Path) -> dict[str, object]:

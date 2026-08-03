@@ -18,6 +18,8 @@ ROOM_USDA = """#usda 1.0
 )
 def Xform "World"
 {
+    def Xform "Wall_North" {}
+    def Xform "Wall_East" {}
     def Mesh "Floor"
     {
         point3f[] points = [(-5, -5, 0), (5, -5, 0), (5, 5, 0), (-5, 5, 0)]
@@ -126,6 +128,70 @@ def test_zone_batch_writes_replace_and_open_floor_profiles(tmp_path: Path) -> No
     assert north_profile["yaw"]["rotation_convention"] == (
         "usd_z_up_right_handed_ccw"
     )
+
+
+def test_zone_batch_preserves_reviewed_room_survey_override(tmp_path: Path) -> None:
+    pytest.importorskip("pxr.Usd")
+    source = tmp_path / "facade.usda"
+    source.write_text(ROOM_USDA, encoding="utf-8")
+    request = tmp_path / "zones.json"
+    request.write_text(
+        json.dumps(
+            {
+                "schema_version": "aan.workspace_zone_request.v1",
+                "background_asset_id": "scientific_environment_reviewed_room",
+                "source_usd": str(source),
+                "source_sha256": _sha(source),
+                "scope": "/World",
+                "units_per_meter": 1.0,
+                "shell_prefixes": ["/World/Floor"],
+                "zones": {
+                    "center": {
+                        "workspace_mode": "open_floor",
+                        "anchor_prim": "/World/Floor",
+                        "anchor_xyz": [0.0, 0.0, 0.8],
+                        "room_survey": {
+                            "room_corner_a": {
+                                "position_xyz": [4.0, 4.0, 4.0],
+                                "target_xyz": [0.0, 0.0, 0.8],
+                                "temporary_hidden_prim_paths": [
+                                    "/World/Wall_North",
+                                    "/World/Wall_East",
+                                ],
+                            }
+                        },
+                    }
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    result = build_zone_profiles(
+        request,
+        tmp_path / "profiles",
+        git_commit="b" * 40,
+        revision="room-survey-override-r1",
+    )
+    manifest = json.loads(result.manifest_path.read_text(encoding="utf-8"))
+    profile = yaml.safe_load(
+        (result.manifest_path.parent / manifest["zones"]["center"]["profile"]).read_text(
+            encoding="utf-8"
+        )
+    )
+    assert profile["room_survey"] == {
+        "frame_convention": "usd_z_up_right_handed_ccw",
+        "views": {
+            "room_corner_a": {
+                "position_xyz": [4.0, 4.0, 4.0],
+                "target_xyz": [0.0, 0.0, 0.8],
+                "temporary_hidden_prim_paths": [
+                    "/World/Wall_North",
+                    "/World/Wall_East",
+                ],
+            }
+        },
+    }
 
 
 def test_zone_batch_can_audit_facade_while_binding_raw_source(
