@@ -127,6 +127,7 @@ class ZoneProfile:
     evidence_camera_position: tuple[float, float, float] | None = None
     evidence_camera_target: tuple[float, float, float] | None = None
     room_survey: dict | None = None
+    support_closure: dict[str, list[str]] | None = None
 
     def to_document(self) -> dict:
         document = {
@@ -183,6 +184,8 @@ class ZoneProfile:
             }
         if self.room_survey is not None:
             document["room_survey"] = self.room_survey
+        if self.support_closure is not None:
+            document["support_closure"] = self.support_closure
         return document
 
     def to_not_applicable_document(self, reason: str) -> dict:

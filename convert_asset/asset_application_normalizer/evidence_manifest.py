@@ -61,6 +61,7 @@ def build_manifest(
     static_physics_report: dict[str, Any] | None = None,
     static_articulation_report: dict[str, Any] | None = None,
     source_physics_audit: dict[str, Any] | None = None,
+    support_audit: dict[str, Any] | None = None,
     output_role_admission: dict[str, Any] | None = None,
     normalization_actions: list[dict[str, Any]] | None = None,
     interaction_contract: dict[str, Any] | None = None,
@@ -177,6 +178,7 @@ def build_manifest(
         "physics_closure": physics_closure or {},
         "articulation_closure": articulation_closure or {},
         "source_physics_audit": source_physics_audit or {},
+        "support_audit": support_audit or {"overall_status": "not_requested"},
         "output_role_admission": output_role_admission or {},
         "normalization_actions": normalization_actions or [],
         "interaction_contract": interaction_contract
@@ -223,6 +225,9 @@ def build_manifest(
                 "physics_profile": str(request.physics_profile) if request.physics_profile else None,
                 "interaction_profile": (
                     str(request.interaction_profile) if request.interaction_profile else None
+                ),
+                "support_relations": (
+                    str(request.support_relations) if request.support_relations else None
                 ),
                 "visual_material_profile": (
                     str(request.visual_material_profile)

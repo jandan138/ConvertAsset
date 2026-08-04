@@ -73,6 +73,14 @@ def add_normalize_asset_parser(subparsers: argparse._SubParsersAction) -> None:
             "package rigid root, colliders, and named frames before mass profile resolution."
         ),
     )
+    parser.add_argument(
+        "--support-relations",
+        default=None,
+        help=(
+            "Hash-bound room-support-relations-v1 JSON. Required for Blender "
+            "visual_static_environment admission and independently re-audited by AAN."
+        ),
+    )
     parser.add_argument("--gates", default="static", help="Comma-separated gates, e.g. static,runtime")
     parser.add_argument("--evidence-out", default=None, help="Manifest output path")
     parser.add_argument(
@@ -142,6 +150,9 @@ def request_from_args(args: argparse.Namespace) -> NormalizeAssetRequest:
         physics_profile=Path(args.physics_profile) if args.physics_profile else None,
         interaction_profile=(
             Path(args.interaction_profile) if args.interaction_profile else None
+        ),
+        support_relations=(
+            Path(args.support_relations) if args.support_relations else None
         ),
         gates=parse_gates(str(args.gates) if args.gates else None),
         evidence_out=Path(args.evidence_out) if args.evidence_out else None,

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from .benchmark_contract import build_benchmark_contract, build_not_run_benchmark_contract
@@ -43,6 +44,7 @@ from .runtime_smoke import (
     build_runtime_smoke,
     validate_runtime_scope_bindings,
 )
+from .support_audit import audit_support_relations
 from .usd_closure import build_usd_closure_package
 from .visual_material_profile import apply_visual_material_profile
 
@@ -77,6 +79,22 @@ def validate_request(request: NormalizeAssetRequest) -> NormalizeAssetResult | N
         return _validation_error(f"interaction profile not found: {request.interaction_profile}")
     if request.interaction_profile is not None and request.asset_role != "dynamic":
         return _validation_error("--interaction-profile is only valid for the dynamic asset role")
+    generated_environment = (
+        request.source_runtime == "blender44"
+        and request.asset_role == "visual_static_environment"
+    )
+    if generated_environment and request.support_relations is None:
+        return _validation_error(
+            "blender44 visual_static_environment admission requires --support-relations"
+        )
+    if request.support_relations is not None and not request.support_relations.is_file():
+        return _validation_error(
+            f"support relation sidecar not found: {request.support_relations}"
+        )
+    if request.support_relations is not None and not generated_environment:
+        return _validation_error(
+            "--support-relations is only valid for blender44 visual_static_environment admission"
+        )
     if request.visual_material_profile is not None and not request.visual_material_profile.is_file():
         return _validation_error(
             f"visual material profile not found: {request.visual_material_profile}"
@@ -140,6 +158,19 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
 
     evidence_out = request.evidence_out or default_evidence_out(request.out_dir)
     source_sha_before = sha256_file(request.source_usd)
+    support_audit = (
+        audit_support_relations(request.support_relations)
+        if request.support_relations is not None
+        else {"overall_status": "not_requested", "blocked_reasons": [], "support_closure": {}}
+    )
+    support_return_code = 0 if support_audit["overall_status"] in {"pass", "not_requested"} else 5
+    if request.support_relations is not None and not request.dry_run:
+        support_evidence = request.out_dir / "evidence/support_audit/report.json"
+        support_evidence.parent.mkdir(parents=True, exist_ok=True)
+        support_evidence.write_text(
+            json.dumps(support_audit, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
     # Raw-source admission is independent evidence.  It must be recorded even
     # when a later material/package gate blocks role-specific normalization.
     source_physics_audit = audit_source_physics(
@@ -147,7 +178,11 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         request.effective_asset_scope_prims,
     )
     if request.dry_run:
-        manifest = build_manifest(request, overall_status="dry_run_incomplete")
+        manifest = build_manifest(
+            request,
+            overall_status=("dry_run_incomplete" if not support_return_code else "blocked"),
+            support_audit=support_audit,
+        )
         write_manifest(evidence_out, manifest)
         print(f"AAN-02 dry-run manifest written: {evidence_out}")
         return NormalizeAssetResult(0, evidence_out, "dry_run_incomplete")
@@ -327,7 +362,8 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             }
         )
     return_code = (
-        closure.return_code
+        support_return_code
+        or closure.return_code
         or visual_material.return_code
         or material.return_code
         or material_runtime.return_code
@@ -338,7 +374,9 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         or benchmark.return_code
         or integrity_return_code
     )
-    if integrity_return_code:
+    if support_return_code:
+        overall_status = "blocked"
+    elif integrity_return_code:
         overall_status = "blocked"
     elif benchmark.return_code:
         overall_status = benchmark.overall_status
@@ -366,6 +404,15 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         overall_status = physics.overall_status
 
     blocked_reasons = [
+        *[
+            {
+                "blocker_id": "aan_generated_room_support_audit",
+                "severity": "blocking",
+                "summary": reason,
+                "required_resolution": "Repair the producer room source and re-export a hash-bound support sidecar.",
+            }
+            for reason in support_audit.get("blocked_reasons", [])
+        ],
         *closure.blocked_reasons,
         *visual_material.blocked_reasons,
         *material.blocked_reasons,
@@ -470,6 +517,20 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             else "Source SHA-256 changed during AAN processing.",
         },
     )
+    if request.support_relations is not None:
+        stage_gates.insert(
+            1,
+            {
+                "check_id": "AAN-generated-room-support",
+                "stage": "generated_room_support",
+                "status": support_audit["overall_status"],
+                "summary": (
+                    "Hash-bound producer relations passed independent composed-USD support geometry audit."
+                    if support_audit["overall_status"] == "pass"
+                    else "Generated-room support geometry admission blocked."
+                ),
+            },
+        )
     material_passed = material.stage_gate["status"] == "pass"
     material_runtime_passed = material_runtime.stage_gate["status"] == "pass"
     physics_passed = physics.stage_gate["status"] == "pass"
@@ -536,6 +597,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         static_physics_report=physics.static_physics_report,
         static_articulation_report=physics.static_articulation_report,
         source_physics_audit=source_physics_audit,
+        support_audit=support_audit,
         output_role_admission=physics.output_role_admission,
         normalization_actions=[
             *visual_material.normalization_actions,

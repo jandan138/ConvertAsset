@@ -50,6 +50,17 @@ def test_zone_batch_writes_replace_and_open_floor_profiles(tmp_path: Path) -> No
     pytest.importorskip("pxr.Usd")
     source = tmp_path / "facade.usda"
     source.write_text(ROOM_USDA, encoding="utf-8")
+    support_report = tmp_path / "support_report.json"
+    support_report.write_text(
+        json.dumps(
+            {
+                "overall_status": "pass",
+                "source_sha256": _sha(source),
+                "support_closure": {"/Room/Bench": ["/Room/Bottle"]},
+            }
+        ),
+        encoding="utf-8",
+    )
     request = tmp_path / "zones.json"
     request.write_text(
         json.dumps(
@@ -65,6 +76,7 @@ def test_zone_batch_writes_replace_and_open_floor_profiles(tmp_path: Path) -> No
                 "floor_z": 0.0,
                 "package_manifest": "../package/evidence/manifest.json",
                 "facade_provenance": "../facade/facade_provenance.json",
+                "support_audit_report": str(support_report),
                 "shell_prefixes": ["/World/Floor"],
                 "zones": {
                     "center_open_floor": {
@@ -118,6 +130,9 @@ def test_zone_batch_writes_replace_and_open_floor_profiles(tmp_path: Path) -> No
     assert open_profile["workspace"]["mode"] == "open_floor"
     assert open_profile["assembly"]["replaceable_assembly_roots"] == []
     assert open_profile["inactivation"]["inactive_prim_root_paths"] == []
+    assert open_profile["support_closure"] == {
+        "/Room/Bench": ["/Room/Bottle"]
+    }
     north_profile = yaml.safe_load(
         (
             result.manifest_path.parent

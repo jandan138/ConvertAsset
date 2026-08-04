@@ -72,6 +72,24 @@ def build_zone_profiles(
     )
     package_manifest = str(request.get("package_manifest", ""))
     facade_provenance = str(request.get("facade_provenance", ""))
+    support_closure: dict[str, list[str]] | None = None
+    if request.get("support_audit_report"):
+        support_report_path = Path(str(request["support_audit_report"]))
+        if not support_report_path.is_absolute():
+            support_report_path = (request_file.parent / support_report_path).resolve()
+        support_report = _load_request(support_report_path)
+        if support_report.get("overall_status") != "pass":
+            raise ValueError("workspace zone support audit report is not passing")
+        if support_report.get("source_sha256") != profile_source_sha256:
+            raise ValueError("workspace zone support audit source SHA-256 does not match request")
+        raw_closure = _mapping(support_report.get("support_closure"), "support_closure")
+        support_closure = {
+            _prim_path_allow_room(str(key)): [
+                _prim_path_allow_room(value)
+                for value in _string_list(values, f"support_closure.{key}")
+            ]
+            for key, values in raw_closure.items()
+        }
     raw_zones = _mapping(request.get("zones"), "zones")
     if not raw_zones:
         raise ValueError("workspace zone request must contain at least one zone")
@@ -195,6 +213,7 @@ def build_zone_profiles(
                 f"zones.{zone_id}.evidence_camera_target",
             ),
             room_survey=_room_survey_override(zone, stage, zone_id),
+            support_closure=support_closure,
         )
         profile_name = (
             f"{background_asset_id}__{zone_id}_workspace_zone.yaml"
@@ -366,6 +385,12 @@ def _sha256_value(value: Mapping[str, object], key: str) -> str:
 def _prim_path(value: str) -> str:
     if value != "/World" and not value.startswith("/World/"):
         raise ValueError(f"prim path must be inside /World: {value}")
+    return value
+
+
+def _prim_path_allow_room(value: str) -> str:
+    if value != "/Room" and not value.startswith("/Room/"):
+        raise ValueError(f"support closure prim path must be inside /Room: {value}")
     return value
 
 

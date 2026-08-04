@@ -12,6 +12,7 @@ def _request(
     role: str,
     source_runtime: str = "blender44",
     physics_profile: Path | None = None,
+    support_relations: Path | None = None,
 ) -> NormalizeAssetRequest:
     return NormalizeAssetRequest(
         source_usd=source,
@@ -26,6 +27,7 @@ def _request(
         asset_scope_prims=["/World"],
         gates=["static", "runtime"],
         physics_profile=physics_profile,
+        support_relations=support_relations,
     )
 
 
@@ -34,8 +36,29 @@ def test_blender44_source_runtime_is_allowed_for_visual_static_environment(
 ) -> None:
     source = tmp_path / "facade.usda"
     source.write_text('#usda 1.0\ndef Xform "World" {}\n', encoding="utf-8")
+    support_relations = tmp_path / "support_relations.json"
+    support_relations.write_text("{}\n", encoding="utf-8")
 
-    assert validate_request(_request(source, role="visual_static_environment")) is None
+    assert (
+        validate_request(
+            _request(
+                source,
+                role="visual_static_environment",
+                support_relations=support_relations,
+            )
+        )
+        is None
+    )
+
+
+def test_blender44_environment_requires_support_relations(tmp_path: Path) -> None:
+    source = tmp_path / "facade.usda"
+    source.write_text('#usda 1.0\ndef Xform "World" {}\n', encoding="utf-8")
+
+    result = validate_request(_request(source, role="visual_static_environment"))
+
+    assert result is not None
+    assert result.overall_status == "invalid"
 
 
 def test_blender44_source_runtime_is_not_allowed_for_dynamic_assets(
