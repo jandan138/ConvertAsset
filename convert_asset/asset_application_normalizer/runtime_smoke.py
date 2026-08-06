@@ -192,6 +192,10 @@ def build_runtime_smoke(
         argv.extend(["--required-prim", prim_path])
     for prim_path in request.effective_asset_scope_prims:
         argv.extend(["--asset-scope-prim", prim_path])
+    if request.asset_role == "static_support":
+        argv.extend(
+            ["--static-support-profile", str(layout.static_support_profile_json)]
+        )
 
     command_record = {
         "stage": "runtime_smoke",
@@ -1253,6 +1257,7 @@ def _worker_report(
         "material_view_evidence": [],
         "physics_step": {"status": "not_run"},
         "reset": {"status": "not_run"},
+        "static_support_qualification": {"status": "not_applicable"},
         "environment": {},
     }
     if not root_usd.exists():
@@ -1602,6 +1607,17 @@ def _worker_report(
             "cycles": reset_cycles,
             "initial_capture_point": _RESET_CAPTURE_POINT,
         }
+
+        if str(getattr(args, "asset_role", "")) == "static_support":
+            report["static_support_qualification"] = _run_static_support_qualification(
+                stage,
+                world,
+                simulation_app,
+                Path(str(args.static_support_profile)).resolve(),
+                stage_units_in_meters=stage_units_in_meters,
+            )
+            if report["static_support_qualification"].get("status") != "pass":
+                return report
 
         report["status"] = "pass"
         return report
@@ -2148,7 +2164,7 @@ def _build_rigid_reset_gate(
     Dynamic admission keeps the strict check.
     """
     bodies = list(scope_rigid_bodies or [])
-    if not bodies and is_visual_static_role(asset_role):
+    if not bodies and (is_visual_static_role(asset_role) or asset_role == "static_support"):
         return {
             "status": "not_applicable",
             "reason": (
@@ -2164,6 +2180,241 @@ def _build_rigid_reset_gate(
         pre_step=pre_step,
         tolerance_stage_units=tolerance_stage_units,
     )
+
+
+def _run_static_support_qualification(
+    stage: Any,
+    world: Any,
+    simulation_app: Any,
+    profile_path: Path,
+    *,
+    stage_units_in_meters: float,
+) -> dict[str, Any]:
+    """Exercise the load-bearing tabletop and its four edges in Isaac 4.1."""
+    if not profile_path.is_file():
+        return {
+            "status": "blocked",
+            "reason": f"packaged static support profile is missing: {profile_path}",
+        }
+    try:
+        from pxr import Gf, Sdf, UsdGeom, UsdPhysics  # type: ignore
+
+        profile = json.loads(profile_path.read_text(encoding="utf-8"))
+        surface = profile["support_surface"]
+        top = float(surface["top_z"])
+        xmin, xmax = (float(item) for item in surface["x_range"])
+        ymin, ymax = (float(item) for item in surface["y_range"])
+        edge_band_stage = float(surface["edge_band_m"]) / stage_units_in_meters
+        probe_side_m = 0.04
+        probe_side = probe_side_m / stage_units_in_meters
+        inset = max(edge_band_stage * 0.5, probe_side * 0.75)
+        if xmax - xmin <= 2 * inset or ymax - ymin <= 2 * inset:
+            raise ValueError("support surface is too small for the declared edge probes")
+        cx = (xmin + xmax) * 0.5
+        cy = (ymin + ymax) * 0.5
+        points = {
+            "center_drop": (cx, cy),
+            "north_edge_drop": (cx, ymax - inset),
+            "south_edge_drop": (cx, ymin + inset),
+            "east_edge_drop": (xmax - inset, cy),
+            "west_edge_drop": (xmin + inset, cy),
+        }
+        probe_paths: dict[str, str] = {}
+        expected_rest_z_m = (top + probe_side * 0.5) * stage_units_in_meters
+        for name, (x, y) in points.items():
+            path = f"/World/__aan_static_support_qualification/{name}"
+            cube = UsdGeom.Cube.Define(stage, path)
+            cube.CreateSizeAttr(1.0).Set(1.0)
+            xform = UsdGeom.Xformable(cube.GetPrim())
+            xform.AddTranslateOp().Set(Gf.Vec3d(x, y, top + 0.18 / stage_units_in_meters))
+            xform.AddScaleOp().Set(Gf.Vec3f(probe_side, probe_side, probe_side))
+            UsdPhysics.CollisionAPI.Apply(cube.GetPrim()).CreateCollisionEnabledAttr(True).Set(True)
+            UsdPhysics.RigidBodyAPI.Apply(cube.GetPrim()).CreateRigidBodyEnabledAttr(True).Set(True)
+            UsdPhysics.MassAPI.Apply(cube.GetPrim()).CreateMassAttr(0.05).Set(0.05)
+            probe_paths[name] = path
+
+        side_path = "/World/__aan_static_support_qualification/side_impact"
+        side = UsdGeom.Cube.Define(stage, side_path)
+        side.CreateSizeAttr(1.0).Set(1.0)
+        side_xform = UsdGeom.Xformable(side.GetPrim())
+        side_xform.AddTranslateOp().Set(
+            Gf.Vec3d(cx, ymin - 0.12 / stage_units_in_meters, top - 0.02 / stage_units_in_meters)
+        )
+        side_xform.AddScaleOp().Set(Gf.Vec3f(probe_side, probe_side, probe_side))
+        UsdPhysics.CollisionAPI.Apply(side.GetPrim()).CreateCollisionEnabledAttr(True).Set(True)
+        side_rigid = UsdPhysics.RigidBodyAPI.Apply(side.GetPrim())
+        side_rigid.CreateRigidBodyEnabledAttr(True).Set(True)
+        side_rigid.CreateVelocityAttr(
+            Gf.Vec3f(0.0, 1.0 / stage_units_in_meters, 0.0)
+        ).Set(Gf.Vec3f(0.0, 1.0 / stage_units_in_meters, 0.0))
+        UsdPhysics.MassAPI.Apply(side.GetPrim()).CreateMassAttr(0.05).Set(0.05)
+        side.GetPrim().SetMetadata(
+            "apiSchemas",
+            Sdf.TokenListOp.Create(
+                prependedItems=[
+                    "PhysicsCollisionAPI",
+                    "PhysicsRigidBodyAPI",
+                    "PhysicsMassAPI",
+                    "PhysxRigidBodyAPI",
+                ]
+            ),
+        )
+        side.GetPrim().CreateAttribute(
+            "physxRigidBody:disableGravity", Sdf.ValueTypeNames.Bool
+        ).Set(True)
+        probe_paths["side_impact"] = side_path
+
+        _reset_and_sync(world, simulation_app)
+        initial = {
+            name: _prim_translation_m(stage, path, stage_units_in_meters)
+            for name, path in probe_paths.items()
+        }
+        for _ in range(120):
+            world.step(render=False)
+        mid = {
+            name: _prim_translation_m(stage, path, stage_units_in_meters)
+            for name, path in probe_paths.items()
+        }
+        for _ in range(120):
+            world.step(render=False)
+        final = {
+            name: _prim_translation_m(stage, path, stage_units_in_meters)
+            for name, path in probe_paths.items()
+        }
+        samples: dict[str, dict[str, Any]] = {}
+        for name in points:
+            samples[name] = {
+                "prim_path": probe_paths[name],
+                "initial_xyz_m": initial[name],
+                "mid_xyz_m": mid[name],
+                "final_xyz_m": final[name],
+                "expected_rest_z_m": expected_rest_z_m,
+            }
+        samples["side_impact"] = {
+            "prim_path": side_path,
+            "initial_xyz_m": initial["side_impact"],
+            "mid_xyz_m": mid["side_impact"],
+            "final_xyz_m": final["side_impact"],
+            "maximum_allowed_inward_y_m": (ymin + 0.08 / stage_units_in_meters)
+            * stage_units_in_meters,
+        }
+        result = _evaluate_static_support_probe_samples(samples)
+        return {
+            **result,
+            "schema_version": "aan.static_support_runtime_qualification.v1",
+            "profile_path": str(profile_path),
+            "stage_units_in_meters": stage_units_in_meters,
+            "simulation_seconds": 2.4,
+            "probes": samples,
+            "claim_boundary": (
+                "Qualification covers the declared tabletop and edge collider under the six fixed probes; "
+                "it does not measure real friction or qualify legs and cabinets."
+            ),
+        }
+    except Exception as exc:
+        return {
+            "status": "blocked",
+            "schema_version": "aan.static_support_runtime_qualification.v1",
+            "reason": str(exc),
+        }
+
+
+def _prim_translation_m(stage: Any, path: str, meters_per_unit: float) -> list[float]:
+    from pxr import UsdGeom  # type: ignore
+
+    prim = stage.GetPrimAtPath(path)
+    matrix = UsdGeom.Xformable(prim).ComputeLocalToWorldTransform(0)
+    translation = matrix.ExtractTranslation()
+    return [float(translation[index]) * meters_per_unit for index in range(3)]
+
+
+def _evaluate_static_support_probe_samples(
+    samples: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    required_drops = (
+        "center_drop",
+        "north_edge_drop",
+        "south_edge_drop",
+        "east_edge_drop",
+        "west_edge_drop",
+    )
+    records: list[dict[str, Any]] = []
+    for name in required_drops:
+        sample = samples.get(name, {})
+        final = sample.get("final_xyz_m")
+        initial = sample.get("initial_xyz_m")
+        mid = sample.get("mid_xyz_m", final)
+        expected_z = sample.get("expected_rest_z_m")
+        valid = all(
+            isinstance(value, (int, float)) and math.isfinite(float(value))
+            for value in [*(final or []), *(initial or []), *(mid or []), expected_z]
+        ) and all(len(value) == 3 for value in (final or [], initial or [], mid or []))
+        rest_error = abs(float(final[2]) - float(expected_z)) if valid else None
+        lateral_drift = (
+            math.hypot(float(final[0]) - float(initial[0]), float(final[1]) - float(initial[1]))
+            if valid
+            else None
+        )
+        last_window_motion = (
+            math.sqrt(sum((float(final[i]) - float(mid[i])) ** 2 for i in range(3)))
+            if valid
+            else None
+        )
+        passed = bool(
+            valid
+            and rest_error is not None
+            and rest_error <= 0.015
+            and lateral_drift is not None
+            and lateral_drift <= 0.03
+            and last_window_motion is not None
+            and last_window_motion <= 0.01
+        )
+        records.append(
+            {
+                "probe": name,
+                "status": "pass" if passed else "blocked",
+                "rest_height_error_m": rest_error,
+                "lateral_drift_m": lateral_drift,
+                "last_window_motion_m": last_window_motion,
+            }
+        )
+
+    side = samples.get("side_impact", {})
+    side_initial = side.get("initial_xyz_m")
+    side_final = side.get("final_xyz_m")
+    maximum_y = side.get("maximum_allowed_inward_y_m")
+    side_valid = (
+        isinstance(side_initial, list)
+        and isinstance(side_final, list)
+        and len(side_initial) == 3
+        and len(side_final) == 3
+        and all(
+            isinstance(value, (int, float)) and math.isfinite(float(value))
+            for value in [*side_initial, *side_final, maximum_y]
+        )
+    )
+    side_passed = bool(
+        side_valid
+        and float(side_final[1]) > float(side_initial[1]) + 0.03
+        and float(side_final[1]) <= float(maximum_y)
+        and abs(float(side_final[2]) - float(side_initial[2])) <= 0.03
+    )
+    records.append(
+        {
+            "probe": "side_impact",
+            "status": "pass" if side_passed else "blocked",
+            "advanced_toward_edge_m": (
+                float(side_final[1]) - float(side_initial[1]) if side_valid else None
+            ),
+            "maximum_allowed_inward_y_m": maximum_y,
+            "final_y_m": float(side_final[1]) if side_valid else None,
+        }
+    )
+    return {
+        "status": "pass" if records and all(item["status"] == "pass" for item in records) else "blocked",
+        "probe_count": len(records),
+        "probe_results": records,
+    }
 
 
 def _sha256_file(path: Path) -> str:
@@ -2292,6 +2543,11 @@ def _parser() -> argparse.ArgumentParser:
         "--asset-role",
         default="",
         help="Declared package role; visual_static makes an empty rigid-body scope not_applicable.",
+    )
+    parser.add_argument(
+        "--static-support-profile",
+        default="",
+        help="Package-local static support profile used by the six-probe qualification gate.",
     )
     parser.add_argument(
         "--process-exit-policy",

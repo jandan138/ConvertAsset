@@ -39,7 +39,7 @@ def normalize_asset_role(
     layout: TargetPackageLayout,
     request: NormalizeAssetRequest,
 ) -> RoleNormalizationResult:
-    if request.asset_role == "dynamic":
+    if request.asset_role in {"dynamic", "static_support"}:
         return _verify_dynamic_visual_preservation(layout, request)
     if not is_visual_static_role(request.asset_role):
         return _blocked(

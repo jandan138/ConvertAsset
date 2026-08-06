@@ -1474,9 +1474,15 @@ invalid auto-compute fallback 记成 pass。
 | Role | Source ledger | Package output | Allowed claim |
 |---|---|---|---|
 | `dynamic` | source scoped physics 必须可解释；每个 rigid body 的 mass/inertia/COM/axes 和 provenance 通过 | 保留并验证 physics/articulation | declared dynamic task scope 的 package/runtime evidence |
+| `static_support` | 必须提供 source-bound `aan.static_support_profile.v1`；优先使用已声明且有效的 source collider，否则才允许 package-owned proxy | 保留或生成 declared tabletop collider，绑定 provisional/unmeasured PhysicsMaterial；禁止 rigid body、mass、joint、articulation | tabletop 与四边承载；runtime 必须通过中心/四边落物和侧撞六项 gate |
 | `visual_static` | raw scoped physics 仍如实记录；raw defect 不会被抹去 | ConvertAsset-owned strong overlay 保留 visual/material/transform，删除 scoped Physics/Physx APIs，并停用 typed joint/articulation/rigid/collision semantics | 仅声明 declared background scope 的 visual-static package |
 
 `visual_static` 不是对 source dynamic physics 的 waiver，也不是 “整族 ready” 的快捷方式。
+`static_support` 也不改变这条语义：旧 `visual_static` 包仍然是零物理；承载桌必须重新走
+`static_support` 准入。v1 默认材质为 static/dynamic friction 0.5/0.5、restitution 0、
+friction combine `max`、restitution combine `multiply`，全部明确标为
+`provisional_unmeasured`。consumer 若用更强 layer 替换碰撞，必须先显式关闭 manifest
+列出的默认 collider；不得静默叠加第二套 collider。
 它要求 output scope 中没有 active rigid body、collision、articulation 或 joint semantics，
 同时使用 source/package-before/package-after 的 mesh、material binding、visibility 和
 transform fingerprint 阻断视觉漂移。source USD SHA-256 在 package run 前后必须一致。

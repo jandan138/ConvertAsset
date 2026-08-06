@@ -231,7 +231,7 @@ def _scope_dependency_filter(
     still composes the complete source layer graph; only non-USD assets are
     partitioned into in-scope and out-of-scope sets.
     """
-    role_scoped = is_visual_static_role(request.asset_role) or (
+    role_scoped = request.asset_role == "static_support" or is_visual_static_role(request.asset_role) or (
         request.asset_role == "dynamic"
         and (request.physics_profile is not None or request.interaction_profile is not None)
     )
@@ -897,6 +897,10 @@ def _write_package(
     # A dynamic profile is a package-owned, stronger sublayer.  It starts
     # empty; AAN-05 only fills it after its source binding and exact rigid-body
     # coverage checks pass.  This keeps the upstream LabUtopia USD immutable.
+    if request.asset_role == "static_support":
+        layout.static_support_overlay_usd.parent.mkdir(parents=True, exist_ok=True)
+        layout.static_support_overlay_usd.write_text("#usda 1.0\n", encoding="utf-8")
+        package_sublayers.insert(0, "overlays/static_support.usda")
     if request.asset_role == "dynamic":
         layout.physics_overlay_usd.parent.mkdir(parents=True, exist_ok=True)
         layout.physics_overlay_usd.write_text("#usda 1.0\n", encoding="utf-8")
@@ -1014,12 +1018,16 @@ def _build_role_scoped_source(
     dynamic_profiled = request.asset_role == "dynamic" and (
         request.physics_profile is not None or request.interaction_profile is not None
     )
-    if not is_visual_static_role(request.asset_role) and not dynamic_profiled:
+    if (
+        request.asset_role != "static_support"
+        and not is_visual_static_role(request.asset_role)
+        and not dynamic_profiled
+    ):
         return {
             "status": "not_applicable",
             "reason": (
-                "Role-scoped USD extraction is required for visual_static and source-bound "
-                "dynamic-profile packages only."
+                "Role-scoped USD extraction is required for static_support, visual_static, "
+                "and source-bound dynamic-profile packages only."
             ),
             "scope_prims": list(request.effective_asset_scope_prims),
             "retained_material_prims": [],

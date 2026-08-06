@@ -45,6 +45,11 @@ from .runtime_smoke import (
     validate_runtime_scope_bindings,
 )
 from .support_audit import audit_support_relations
+from .static_support_authoring import (
+    apply_static_support_profile,
+    build_not_run_static_support,
+    finalize_static_support_contract,
+)
 from .usd_closure import build_usd_closure_package
 from .visual_material_profile import apply_visual_material_profile
 
@@ -75,6 +80,16 @@ def validate_request(request: NormalizeAssetRequest) -> NormalizeAssetResult | N
         )
     if request.physics_profile is not None and not request.physics_profile.is_file():
         return _validation_error(f"physics profile not found: {request.physics_profile}")
+    if request.static_support_profile is not None and not request.static_support_profile.is_file():
+        return _validation_error(
+            f"static support profile not found: {request.static_support_profile}"
+        )
+    if request.asset_role == "static_support" and request.static_support_profile is None:
+        return _validation_error("static_support admission requires --static-support-profile")
+    if request.static_support_profile is not None and request.asset_role != "static_support":
+        return _validation_error(
+            "--static-support-profile is only valid for the static_support asset role"
+        )
     if request.interaction_profile is not None and not request.interaction_profile.is_file():
         return _validation_error(f"interaction profile not found: {request.interaction_profile}")
     if request.interaction_profile is not None and request.asset_role != "dynamic":
@@ -238,8 +253,9 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         layout = TargetPackageLayout(request.out_dir)
         role_normalization = normalize_asset_role(layout, request)
         if role_normalization.return_code == 0:
+            static_support = apply_static_support_profile(layout, request)
             interaction = apply_object_interaction_profile(layout, request)
-            if interaction.return_code == 0:
+            if interaction.return_code == 0 and static_support.return_code == 0:
                 # Interaction topology is intentionally applied first.  The
                 # unchanged mass-only physics_profile.v1 resolver therefore
                 # sees the package's normalized, unique rigid root.
@@ -265,12 +281,18 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
                     physics_profile_blockers=(
                         profile_authoring.blocked_reasons if profile_authoring is not None else None
                     ),
+                    static_support_contract=static_support.contract,
+                    static_support_actions=static_support.normalization_actions,
+                    static_support_blockers=static_support.blocked_reasons,
                 )
             else:
                 physics = build_not_run_physics_checks(
-                    "AAN-05 physics output admission was not run because object interaction normalization blocked."
+                    "AAN-05 physics output admission was not run because static support or object interaction normalization blocked."
                 )
         else:
+            static_support = build_not_run_static_support(
+                "Static support normalization was not run because role normalization blocked."
+            )
             interaction = build_not_run_interaction_authoring(
                 "Object interaction normalization was not run because role normalization blocked."
             )
@@ -278,6 +300,9 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
                 "AAN-05 physics output admission was not run because role normalization blocked."
             )
     else:
+        static_support = build_not_run_static_support(
+            "Static support normalization was not run because an earlier package or material runtime gate blocked."
+        )
         role_normalization = build_not_run_role_normalization(
             "Role normalization was not run because an earlier package or material runtime gate blocked."
         )
@@ -368,6 +393,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         or material.return_code
         or material_runtime.return_code
         or role_normalization.return_code
+        or static_support.return_code
         or interaction.return_code
         or physics.return_code
         or runtime.return_code
@@ -384,6 +410,8 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         overall_status = runtime.overall_status
     elif physics.return_code:
         overall_status = physics.overall_status
+    elif static_support.return_code:
+        overall_status = static_support.overall_status
     elif interaction.return_code:
         overall_status = interaction.overall_status
     elif material_runtime.return_code:
@@ -418,6 +446,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         *material.blocked_reasons,
         *material_runtime.blocked_reasons,
         *role_normalization.blocked_reasons,
+        *static_support.blocked_reasons,
         *interaction.blocked_reasons,
         *physics.blocked_reasons,
         *runtime.blocked_reasons,
@@ -465,6 +494,22 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
                 }
             ]
             if is_visual_static_role(request.asset_role)
+            else []
+        ),
+        *(
+            [
+                {
+                    "check_id": "AAN-05S-static-support",
+                    "stage": "static_support",
+                    "status": static_support.overall_status,
+                    "summary": (
+                        "AAN source-bound static support collider and provisional material were admitted."
+                        if static_support.overall_status == "pass"
+                        else "AAN static support admission did not pass."
+                    ),
+                }
+            ]
+            if request.asset_role == "static_support"
             else []
         ),
         *(
@@ -543,6 +588,11 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         ]
         if is_visual_static_role(request.asset_role)
         else [
+            "AAN-05 records a source-bound static_support admission for the declared asset scope only.",
+            "The static_support scope owns its declared tabletop collider and provisional contact material without rigid body, mass, articulation, or joint semantics.",
+        ]
+        if request.asset_role == "static_support"
+        else [
             "AAN-05 static physics and articulation evidence was recorded.",
             "Authored rigid body, collision, mass, inertia, joint axis, and joint limits are preserved when listed with value_source=authored.",
         ]
@@ -554,6 +604,12 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             "Any sibling asset outside the declared visual_static scope is ready.",
         ]
         if is_visual_static_role(request.asset_role)
+        else [
+            "The static_support package has measured real-world friction or restitution.",
+            "The static_support package qualifies table legs, cabinets, drawers, or other geometry outside its declared tabletop and edges.",
+            "A consumer may silently add or replace colliders without explicitly disabling the contract-declared collider paths in a stronger USD layer.",
+        ]
+        if request.asset_role == "static_support"
         else []
     )
     dynamic_profile_forbidden_claims = _dynamic_profile_forbidden_claims(
@@ -568,6 +624,11 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
     )
     effective_material_closure = (
         material_runtime.material_closure or material.material_closure
+    )
+    static_support_contract = finalize_static_support_contract(
+        TargetPackageLayout(request.out_dir),
+        static_support,
+        runtime.runtime_evidence,
     )
     manifest = build_manifest(
         request,
@@ -603,8 +664,10 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             *visual_material.normalization_actions,
             *role_normalization.normalization_actions,
             *interaction.normalization_actions,
+            *static_support.normalization_actions,
         ],
         interaction_contract=interaction_contract,
+        static_support_contract=static_support_contract,
         visual_preservation_fingerprint=role_normalization.visual_preservation_fingerprint,
         visual_material_profile=visual_material.profile_record,
         source_integrity=source_integrity,

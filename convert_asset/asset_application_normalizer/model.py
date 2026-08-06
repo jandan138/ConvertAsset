@@ -19,7 +19,12 @@ MILESTONE_AAN11 = "AAN-11-material-runtime-closure"
 ALLOWED_SOURCE_RUNTIMES = {"isaac51", "blender44", "generic_usd"}
 ALLOWED_TARGET_RUNTIMES = {"isaac41"}
 ALLOWED_TARGET_BENCHMARKS = {"ebench-lift2", "scenario-forge"}
-ALLOWED_ASSET_ROLES = {"dynamic", "visual_static", "visual_static_environment"}
+ALLOWED_ASSET_ROLES = {
+    "dynamic",
+    "static_support",
+    "visual_static",
+    "visual_static_environment",
+}
 VISUAL_STATIC_ROLES = frozenset({"visual_static", "visual_static_environment"})
 USD_EXTENSIONS = {".usd", ".usda", ".usdc"}
 
@@ -76,6 +81,10 @@ class NormalizeAssetRequest:
     # than in a consumer-side scene patch.  Keeping this optional preserves the
     # legacy EBench migration path, while Scenario Forge admissions require it.
     physics_profile: Path | None = None
+    # Static load-bearing assets (for example a work table) use a separate
+    # source-bound contract.  This keeps visual_static's zero-physics meaning
+    # intact while preventing downstream consumers from inventing colliders.
+    static_support_profile: Path | None = None
     # Object topology, collision intent, and named interaction frames are a
     # separate versioned contract.  Physics profile v1 remains mass-only.
     interaction_profile: Path | None = None

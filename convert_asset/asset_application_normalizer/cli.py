@@ -21,8 +21,11 @@ def add_normalize_asset_parser(subparsers: argparse._SubParsersAction) -> None:
     parser.add_argument(
         "--asset-role",
         default="dynamic",
-        choices=("dynamic", "visual_static", "visual_static_environment"),
-        help="Admission role; visual_static strips scoped physics from the owned package.",
+        choices=("dynamic", "static_support", "visual_static", "visual_static_environment"),
+        help=(
+            "Admission role; visual_static strips scoped physics, while "
+            "static_support preserves or authors a qualified load-bearing collider."
+        ),
     )
     parser.add_argument(
         "--source-runtime",
@@ -63,6 +66,14 @@ def add_normalize_asset_parser(subparsers: argparse._SubParsersAction) -> None:
         help=(
             "Source-bound AAN dynamic-physics profile JSON. Required for "
             "Scenario Forge dynamic admission."
+        ),
+    )
+    parser.add_argument(
+        "--static-support-profile",
+        default=None,
+        help=(
+            "Source-bound AAN static-support profile JSON. Required for the "
+            "static_support role."
         ),
     )
     parser.add_argument(
@@ -148,6 +159,9 @@ def request_from_args(args: argparse.Namespace) -> NormalizeAssetRequest:
         ),
         allow_waiver=Path(args.allow_waiver) if args.allow_waiver else None,
         physics_profile=Path(args.physics_profile) if args.physics_profile else None,
+        static_support_profile=(
+            Path(args.static_support_profile) if args.static_support_profile else None
+        ),
         interaction_profile=(
             Path(args.interaction_profile) if args.interaction_profile else None
         ),

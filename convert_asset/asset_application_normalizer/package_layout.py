@@ -35,6 +35,20 @@ class TargetPackageLayout:
         return self.root / "physics" / "profile.json"
 
     @property
+    def static_support_overlay_usd(self) -> Path:
+        """Strong package-owned layer for static support collision semantics."""
+        return self.root / "overlays" / "static_support.usda"
+
+    @property
+    def static_support_profile_json(self) -> Path:
+        """Immutable package copy of the source-bound static support profile."""
+        return self.root / "static_support" / "profile.json"
+
+    @property
+    def static_support_qualification_json(self) -> Path:
+        return self.root / "evidence" / "static_support" / "runtime_qualification.json"
+
+    @property
     def interaction_overlay_usd(self) -> Path:
         """Strong package-owned layer for rigid-root and interaction semantics."""
         return self.root / "overlays" / "interaction.usda"

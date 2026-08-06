@@ -1,0 +1,45 @@
+{
+  "schema_version": "aan.static_support_profile.v1",
+  "profile_id": "labutopia.lab001.table.static_support",
+  "revision": "r1",
+  "source_binding": {
+    "sha256": "b3861b5a17945abe401062a04125969c3a63b0f8a0a5ce0026a461dbdfc935f2"
+  },
+  "asset_entry_prim": "/World/table",
+  "collider_policy": "prefer_source_then_proxy",
+  "source_collider_prim": "/World/table/surface/mesh",
+  "proxy": {
+    "prim_path": "/World/table/__aan_static_support_proxy",
+    "center_xyz": [
+      0.2485532,
+      -0.0098641,
+      0.7317668
+    ],
+    "size_xyz": [
+      2.3449434,
+      2.6447101,
+      0.0819876
+    ]
+  },
+  "support_surface": {
+    "top_z": 0.7727606,
+    "x_range": [
+      -0.9239185,
+      1.4210249
+    ],
+    "y_range": [
+      -1.3322192,
+      1.3124909
+    ],
+    "edge_band_m": 0.05
+  },
+  "physics_material": {
+    "prim_path": "/World/table/__aan_static_support_material",
+    "static_friction": 0.5,
+    "dynamic_friction": 0.5,
+    "restitution": 0.0,
+    "friction_combine_mode": "max",
+    "restitution_combine_mode": "multiply",
+    "calibration_status": "provisional_unmeasured"
+  }
+}

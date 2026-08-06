@@ -183,6 +183,9 @@ def build_physics_checks(
     physics_profile_admission: dict[str, Any] | None = None,
     physics_profile_actions: list[dict[str, Any]] | None = None,
     physics_profile_blockers: list[dict[str, Any]] | None = None,
+    static_support_contract: dict[str, Any] | None = None,
+    static_support_actions: list[dict[str, Any]] | None = None,
+    static_support_blockers: list[dict[str, Any]] | None = None,
 ) -> PhysicsCheckResult:
     source_audit = source_physics_audit or audit_source_physics(
         request.source_usd, request.effective_asset_scope_prims
@@ -264,6 +267,129 @@ def build_physics_checks(
             "articulation_roots": inspection["articulation_roots"],
             "joints": inspection["joints"],
             "summary": _articulation_summary(inspection["articulation_roots"], inspection["joints"]),
+        }
+        return _result(
+            status,
+            blockers,
+            physics_closure,
+            articulation_closure,
+            source_audit,
+            output_admission,
+        )
+
+    if request.asset_role == "static_support":
+        inspection = _inspect_stage(stage, scope)
+        contract = static_support_contract or {
+            "schema_version": "aan.static_support_contract.v1",
+            "status": "blocked",
+            "reason": "no static support authoring result was supplied",
+        }
+        blockers = list(static_support_blockers or [])
+        for item in required:
+            if item["status"] == "blocked":
+                blockers.append(
+                    {
+                        "blocker_id": "aan05_block_required_prim_missing",
+                        "severity": "blocking",
+                        "summary": "One or more required prim paths are absent in the packaged USD.",
+                    }
+                )
+        if any(item["status"] == "blocked" for item in scoped_required):
+            blockers.append(
+                {
+                    "blocker_id": "aan05_block_asset_scope_missing",
+                    "severity": "blocking",
+                    "summary": "One or more declared asset-scope prim paths are absent in the packaged USD.",
+                }
+            )
+        active_collision_paths = {
+            item["prim_path"]
+            for item in inspection["collisions"]
+            if item.get("enabled", {}).get("value") is not False
+        }
+        declared_collision_paths = {
+            item.get("prim_path")
+            for item in contract.get("colliders", [])
+            if item.get("collision_enabled") is True
+        }
+        if contract.get("status") != "pass" or not declared_collision_paths:
+            blockers.append(
+                {
+                    "blocker_id": "aan05_block_static_support_contract",
+                    "severity": "blocking",
+                    "summary": "Static support authoring did not declare an active support collider.",
+                }
+            )
+        elif not declared_collision_paths.issubset(active_collision_paths):
+            blockers.append(
+                {
+                    "blocker_id": "aan05_block_static_support_collider_missing",
+                    "severity": "blocking",
+                    "summary": "One or more contract-declared support colliders are not active in the package.",
+                    "declared": sorted(declared_collision_paths),
+                    "observed": sorted(active_collision_paths),
+                }
+            )
+        if any(
+            (
+                inspection["rigid_bodies"],
+                inspection["mass_records"],
+                inspection["articulation_roots"],
+                inspection["joints"],
+            )
+        ):
+            blockers.append(
+                {
+                    "blocker_id": "aan05_block_static_support_dynamic_residue",
+                    "severity": "blocking",
+                    "summary": "static_support may own collisions but not rigid body, mass, articulation, or joint semantics.",
+                }
+            )
+        if physical_frame["status"] != "pass":
+            blockers.append(_physical_frame_blocker(physical_frame))
+        status = "blocked" if blockers else "pass"
+        output_admission = {
+            "status": status,
+            "role": "static_support",
+            "declared_colliders": sorted(declared_collision_paths),
+            "observed_active_colliders": sorted(active_collision_paths),
+            "zero_dynamic_semantics": not any(
+                (
+                    inspection["rigid_bodies"],
+                    inspection["mass_records"],
+                    inspection["articulation_roots"],
+                    inspection["joints"],
+                )
+            ),
+        }
+        physics_closure = {
+            "status": status,
+            "role": request.asset_role,
+            "root_usd": str(layout.root_usd),
+            "scope": _scope_record(scope),
+            "source_physics_audit": source_audit,
+            "output_role_admission": output_admission,
+            "normalization_actions": [
+                *(normalization_actions or []),
+                *(static_support_actions or []),
+            ],
+            "static_support_contract": contract,
+            "required_prims": required,
+            "rigid_bodies": inspection["rigid_bodies"],
+            "collisions": inspection["collisions"],
+            "mass_properties": inspection["mass_records"],
+            "scale": _scale_record(stage),
+            "physical_frame": physical_frame,
+            "summary": inspection["summary"],
+        }
+        articulation_closure = {
+            "status": status,
+            "role": request.asset_role,
+            "articulation_roots": inspection["articulation_roots"],
+            "joints": inspection["joints"],
+            "summary": _articulation_summary(
+                inspection["articulation_roots"], inspection["joints"]
+            ),
         }
         return _result(
             status,

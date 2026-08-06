@@ -65,6 +65,7 @@ def build_manifest(
     output_role_admission: dict[str, Any] | None = None,
     normalization_actions: list[dict[str, Any]] | None = None,
     interaction_contract: dict[str, Any] | None = None,
+    static_support_contract: dict[str, Any] | None = None,
     visual_preservation_fingerprint: dict[str, Any] | None = None,
     visual_material_profile: dict[str, Any] | None = None,
     source_integrity: dict[str, Any] | None = None,
@@ -186,6 +187,11 @@ def build_manifest(
             "schema_version": "aan.interaction_contract.v1",
             "status": "not_requested",
         },
+        "static_support_contract": static_support_contract
+        or {
+            "schema_version": "aan.static_support_contract.v1",
+            "status": "not_requested",
+        },
         "visual_preservation_fingerprint": visual_preservation_fingerprint or {},
         "visual_material_profile": visual_material_profile or {"status": "not_requested"},
         "stage_gates": stage_gates or [
@@ -223,6 +229,11 @@ def build_manifest(
                 "contract": str(request.contract) if request.contract else None,
                 "allow_waiver": str(request.allow_waiver) if request.allow_waiver else None,
                 "physics_profile": str(request.physics_profile) if request.physics_profile else None,
+                "static_support_profile": (
+                    str(request.static_support_profile)
+                    if request.static_support_profile
+                    else None
+                ),
                 "interaction_profile": (
                     str(request.interaction_profile) if request.interaction_profile else None
                 ),
