@@ -300,6 +300,79 @@ def test_scene_query_gripper_probes_sweep_from_outside_toward_grasp(
     assert sweeps[2]["direction"].tolist() == pytest.approx([1.0, 0.0, 0.0])
 
 
+def test_scene_query_skips_aperture_for_non_open_top_asset(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import numpy as np
+
+    from convert_asset.asset_application_normalizer import (
+        interaction_runtime_qualification as qualification,
+    )
+
+    positions = {
+        "/World/tool/__aan_frame_grasp": np.asarray([0.0, 0.0, 0.2]),
+    }
+    monkeypatch.setattr(
+        qualification,
+        "_prim_world_position",
+        lambda _stage, path, _np: positions[path],
+    )
+    monkeypatch.setattr(
+        qualification,
+        "_prim_world_direction",
+        lambda _stage, _path, direction, _np: np.asarray(direction, dtype=float),
+    )
+    monkeypatch.setattr(
+        qualification,
+        "_projected_bbox_spans",
+        lambda _stage, _path, _directions, _np: [0.01, 0.01],
+    )
+    sweeps: list[dict] = []
+
+    def fake_sweep(_scene_query, _gf, **kwargs):
+        sweeps.append(kwargs)
+        return [{"distance_m": 0.005, "position_m": [0.0, 0.0, 0.0]}]
+
+    monkeypatch.setattr(qualification, "_target_sphere_sweep_hits", fake_sweep)
+    contract = {
+        "asset_entry_prim": "/World/tool",
+        "runtime_identity": {"rigid_root_prim": "/World/tool"},
+        "named_frames": {
+            "grasp": {"prim_path": "/World/tool/__aan_frame_grasp"},
+            "support": {"prim_path": "/World/tool/__aan_frame_support"},
+        },
+        "open_top": {
+            "required": False,
+            "axis_body_local": None,
+            "aperture_frame": None,
+        },
+    }
+
+    aperture, gripper = qualification._collect_scene_query_observations(
+        stage=object(),
+        scene_query=object(),
+        interaction_contract=contract,
+        stage_units_in_meters=1.0,
+        np=np,
+        gf=object(),
+    )
+
+    assert aperture == {}
+    assert len(sweeps) == 2
+    assert gripper["positive_hit"] is True
+    assert gripper["negative_hit"] is True
+
+
+def test_non_open_top_support_axis_defaults_to_body_up() -> None:
+    from convert_asset.asset_application_normalizer.interaction_runtime_qualification import (
+        _support_body_axis_local,
+    )
+
+    assert _support_body_axis_local(
+        {"open_top": {"required": False, "axis_body_local": None}}
+    ) == [0.0, 0.0, 1.0]
+
+
 def test_support_height_tolerance_remains_ten_millimetres() -> None:
     from convert_asset.asset_application_normalizer.interaction_runtime_qualification import (
         SUPPORT_HEIGHT_TOLERANCE_M,
@@ -362,6 +435,39 @@ def test_only_required_runtime_probes_control_overall_qualification() -> None:
         "stable_support",
         "root_motion_parity",
     )
+
+
+def test_non_required_runtime_probes_are_explicitly_not_applicable() -> None:
+    from convert_asset.asset_application_normalizer.interaction_runtime_qualification import (
+        _mark_non_required_probes_not_applicable,
+    )
+
+    contract = {
+        "open_top": {"required": False},
+        "stable_support_gate": {"required": True},
+        "root_motion_gate": {"required": False},
+        "gripper_collision_gate": {"required": False},
+    }
+    probes = {
+        probe_id: {"status": "blocked", "errors": ["not executed"]}
+        for probe_id in (
+            "cooked_aperture",
+            "stable_support",
+            "root_motion_parity",
+            "bilateral_gripper_proxy_collision",
+        )
+    }
+
+    result = _mark_non_required_probes_not_applicable(probes, contract)
+
+    assert result["stable_support"]["status"] == "blocked"
+    for probe_id in (
+        "cooked_aperture",
+        "root_motion_parity",
+        "bilateral_gripper_proxy_collision",
+    ):
+        assert result[probe_id]["status"] == "not_applicable"
+        assert result[probe_id]["errors"] == []
 
 
 def test_report_promotes_only_the_corresponding_runtime_gate(tmp_path: Path) -> None:
@@ -453,6 +559,30 @@ def test_non_required_open_top_is_promoted_as_not_applicable(
 
     assert promoted["open_top"]["status"] == "not_applicable"
     assert promoted["open_top"]["evidence"]["status"] == "not_applicable"
+
+
+def test_runtime_payload_digest_preserves_optional_interaction_regions(
+    tmp_path: Path,
+) -> None:
+    from convert_asset.asset_application_normalizer.interaction_runtime_qualification import (
+        _interaction_payload_sha256,
+    )
+
+    contract = _static_contract(tmp_path)
+    before = _interaction_payload_sha256(contract)
+    contract["interaction_regions"] = {
+        "interior_safe": {
+            "shape": "cylinder",
+            "frame": "opening",
+            "axis_frame_local": [0.0, 0.0, 1.0],
+            "radius_body_local_usd": 0.02,
+            "half_height_body_local_usd": 0.03,
+            "purpose": ["containment", "tool_motion"],
+            "authoritative": True,
+        }
+    }
+
+    assert _interaction_payload_sha256(contract) != before
 
 
 def test_report_binding_mismatch_cannot_promote_any_gate(tmp_path: Path) -> None:

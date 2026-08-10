@@ -1,0 +1,13 @@
+{
+  "schema_version": "aan.object_facade_profile.v1",
+  "source": {
+    "sha256": "64d2b2d7a21a0d5bf748c9391ec735b52ef4e9b24711fe09840e1bf38eea46bb",
+    "archive_sha256": "ab0e286972551f728f73d62054c5b46c00e9056c99e1d402eccb6819cad5f955",
+    "prim_path": "/root",
+    "expected_up_axis": "Z",
+    "expected_meters_per_unit": 1.0
+  },
+  "entry": {"prim_path": "/World/TubeRack", "visual_child_name": "Visual", "require_identity": true},
+  "normalization": {"rotation_wxyz": [1.0, 0.0, 0.0, 0.0], "uniform_scale": 1.25, "support_plane_z_m": 0.0, "target_up_axis": "Z", "target_meters_per_unit": 1.0},
+  "geometry_claim": {"status": "source_bound_uniform_scale_candidate", "basis": "k=1.25 expands the measured 28.33 mm large apertures to 35.4125 mm for the measured 33.91 mm 50 mL tube body; runtime insertion and support probes remain required", "uniform_scale_k": 1.25, "scaled_large_hole_diameter_mm": 35.4125, "radial_clearance_mm": 0.75125}
+}

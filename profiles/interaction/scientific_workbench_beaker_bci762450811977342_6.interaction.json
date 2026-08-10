@@ -1,9 +1,9 @@
 {
   "schema_version": "aan.object_interaction_profile.v2",
   "profile_id": "scientific_workbench.beaker_bci762450811977342_6.interaction",
-  "revision": "r1",
+  "revision": "r3",
   "source_binding": {
-    "sha256": "b66829acfcf0fd7f83c52b25c170e8272b34811cc00a87e92bab78962f5045e6",
+    "sha256": "db9f57934c268ace6826b18622a5dbfee3b88b2a7edc82d28acc84e578dde1f0",
     "stage_metrics": {
       "meters_per_unit": 1.0,
       "kilograms_per_unit": 1.0,
@@ -160,7 +160,8 @@
   "required_named_frames": [
     "opening",
     "grasp",
-    "support"
+    "support",
+    "interior_center"
   ],
   "open_top": {
     "required": true,
@@ -214,6 +215,36 @@
         0.0,
         0.0,
         0.0
+      ]
+    },
+    "interior_center": {
+      "translation_body_local_usd": [
+        0.0,
+        0.0,
+        0.052
+      ],
+      "rotation_body_local_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "interaction_regions": {
+    "interior_safe": {
+      "shape": "cylinder",
+      "frame": "interior_center",
+      "axis_frame_local": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "radius_body_local_usd": 0.029,
+      "half_height_body_local_usd": 0.039,
+      "purpose": [
+        "containment",
+        "tool_motion"
       ]
     }
   },

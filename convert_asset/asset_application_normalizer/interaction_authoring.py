@@ -411,6 +411,11 @@ def apply_object_interaction_profile(
             resolved["runtime_gates"].get("gripper_collision", {})
         ),
     }
+    if resolved["interaction_regions"]:
+        contract["interaction_regions"] = {
+            name: {**region, "authoritative": True}
+            for name, region in sorted(resolved["interaction_regions"].items())
+        }
     return InteractionAuthoringResult(
         overall_status="pass",
         return_code=0,
@@ -480,6 +485,8 @@ def finalize_interaction_contract(
             "named_frames",
         )
     }
+    if "interaction_regions" in contract:
+        payload["interaction_regions"] = contract["interaction_regions"]
     payload_digest = hashlib.sha256(_canonical_json(payload)).hexdigest()
     artifacts = _runtime_artifacts(layout.root)
     tree_digest = hashlib.sha256(_canonical_json(artifacts)).hexdigest()

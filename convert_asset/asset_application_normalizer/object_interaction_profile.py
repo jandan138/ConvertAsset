@@ -28,6 +28,7 @@ SUPPORTED_PROFILE_SCHEMA_VERSIONS = {
 REQUIRED_NAMED_FRAMES = {"opening", "grasp", "support"}
 COLLIDER_MODES = {"preserve", "author", "disable"}
 COLLIDER_PURPOSES = {"gripper", "support", "containment"}
+INTERACTION_REGION_PURPOSES = {"containment", "tool_motion"}
 MOTION_ROLES = {"dynamic", "kinematic"}
 AUTHORABLE_COLLIDER_TYPES = {
     "Capsule",
@@ -173,6 +174,12 @@ def load_and_resolve_interaction_profile(
         package_stage,
         errors,
     )
+    interaction_regions = _resolve_interaction_regions(
+        profile.get("interaction_regions"),
+        schema_version,
+        frames,
+        errors,
+    )
     open_top = _resolve_open_top(profile.get("open_top"), frames, errors)
     grasp_cross_section = resolve_grasp_cross_section_config(
         profile.get("grasp_cross_section"),
@@ -194,6 +201,7 @@ def load_and_resolve_interaction_profile(
             "resolved_collider_count": len(colliders),
             "resolved_named_frames": sorted(frames),
             "required_named_frames": sorted(required_frames),
+            "resolved_interaction_regions": sorted(interaction_regions),
             "grasp_cross_section_required": grasp_cross_section is not None,
         }
     )
@@ -210,6 +218,7 @@ def load_and_resolve_interaction_profile(
             "colliders": colliders,
             "named_frames": frames,
             "required_named_frames": sorted(required_frames),
+            "interaction_regions": interaction_regions,
             "open_top": open_top,
             "grasp_cross_section": grasp_cross_section,
             "runtime_gates": runtime_gates,
@@ -541,6 +550,88 @@ def _resolve_open_top(
         "status": "declared" if required else "not_applicable",
         "evidence": evidence if isinstance(evidence, dict) else {},
     }
+
+
+def _resolve_interaction_regions(
+    raw_regions: Any,
+    schema_version: Any,
+    frames: dict[str, dict[str, Any]],
+    errors: list[str],
+) -> dict[str, dict[str, Any]]:
+    """Resolve optional source-bound task regions for v2 profiles.
+
+    Regions are logical geometry only.  They are not colliders and do not
+    mutate the source or package stage.  Their pose is anchored exclusively by
+    an authoritative named frame from the same profile.
+    """
+    if raw_regions is None:
+        return {}
+    if schema_version != PROFILE_SCHEMA_VERSION_V2:
+        errors.append("interaction_regions is only supported by v2 profiles")
+        return {}
+    if not isinstance(raw_regions, dict) or not raw_regions:
+        errors.append("interaction_regions must be a non-empty object when present")
+        return {}
+
+    resolved: dict[str, dict[str, Any]] = {}
+    expected_fields = {
+        "shape",
+        "frame",
+        "axis_frame_local",
+        "radius_body_local_usd",
+        "half_height_body_local_usd",
+        "purpose",
+    }
+    for name in sorted(raw_regions):
+        raw = raw_regions[name]
+        prefix = f"interaction_regions.{name}"
+        if not isinstance(name, str) or not name.strip() or "/" in name:
+            errors.append("interaction region names must be non-empty path-safe strings")
+            continue
+        if not isinstance(raw, dict):
+            errors.append(f"{prefix} must be an object")
+            continue
+        if set(raw) != expected_fields:
+            errors.append(
+                f"{prefix} must contain exactly {sorted(expected_fields)}"
+            )
+        if raw.get("shape") != "cylinder":
+            errors.append(f"{prefix}.shape must be cylinder")
+        frame = raw.get("frame")
+        if frame not in frames:
+            errors.append(
+                f"{prefix}.frame must name an authoritative named frame"
+            )
+        axis = raw.get("axis_frame_local")
+        if not _unit_vector(axis, 3):
+            errors.append(f"{prefix}.axis_frame_local must be a finite unit vec3")
+        for field in ("radius_body_local_usd", "half_height_body_local_usd"):
+            if not _positive_finite(raw.get(field)):
+                errors.append(f"{prefix}.{field} must be positive and finite")
+        purpose = raw.get("purpose")
+        if (
+            not isinstance(purpose, list)
+            or not purpose
+            or len(purpose) != len(set(purpose))
+            or any(item not in INTERACTION_REGION_PURPOSES for item in purpose)
+        ):
+            errors.append(
+                f"{prefix}.purpose must be a non-empty unique subset of "
+                f"{sorted(INTERACTION_REGION_PURPOSES)}"
+            )
+        resolved[name] = {
+            "shape": raw.get("shape"),
+            "frame": frame,
+            "axis_frame_local": [float(item) for item in axis]
+            if _finite_vector(axis, 3)
+            else axis,
+            "radius_body_local_usd": float(raw.get("radius_body_local_usd", 0.0)),
+            "half_height_body_local_usd": float(
+                raw.get("half_height_body_local_usd", 0.0)
+            ),
+            "purpose": sorted(purpose) if isinstance(purpose, list) else [],
+        }
+    return resolved
 
 
 def _resolve_runtime_gates(raw: Any, errors: list[str]) -> dict[str, dict[str, Any]]:

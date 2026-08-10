@@ -33,67 +33,86 @@ def Xform "World"
     )
 
 
+def _profile_payload(source: Path) -> dict[str, object]:
+    metrics = read_stage_metrics(source)
+    assert metrics is not None
+    return {
+        "schema_version": "aan.object_interaction_profile.v2",
+        "profile_id": "stirrer-test-v2",
+        "revision": "test",
+        "source_binding": {
+            "sha256": sha256(source.read_bytes()).hexdigest(),
+            "stage_metrics": metrics,
+        },
+        "asset_entry_prim": "/World/Stirrer",
+        "rigid_root": {
+            "motion_role": "kinematic",
+            "disable_descendant_rigid_bodies": True,
+            "remove_descendant_mass_api": True,
+        },
+        "colliders": [
+            {
+                "relative_path": "__aan_collision_proxy/body",
+                "mode": "author",
+                "purpose": ["support"],
+                "geometry": {
+                    "type": "Cube",
+                    "size": 1.0,
+                    "scale_body_local_usd": [0.2, 0.2, 0.1],
+                    "translation_body_local_usd": [0, 0, 0.05],
+                    "rotation_body_local_wxyz": [1, 0, 0, 0],
+                },
+            }
+        ],
+        "required_named_frames": [
+            "support",
+            "work_surface_center",
+            "interior_center",
+        ],
+        "named_frames": {
+            "support": {
+                "translation_body_local_usd": [0, 0, 0],
+                "rotation_body_local_wxyz": [1, 0, 0, 0],
+            },
+            "work_surface_center": {
+                "translation_body_local_usd": [0, 0, 0.1],
+                "rotation_body_local_wxyz": [1, 0, 0, 0],
+            },
+            "interior_center": {
+                "translation_body_local_usd": [0, 0, 0.12],
+                "rotation_body_local_wxyz": [1, 0, 0, 0],
+            },
+        },
+        "interaction_regions": {
+            "interior_safe": {
+                "shape": "cylinder",
+                "frame": "interior_center",
+                "axis_frame_local": [0, 0, 1],
+                "radius_body_local_usd": 0.07,
+                "half_height_body_local_usd": 0.08,
+                "purpose": ["containment", "tool_motion"],
+            }
+        },
+        "open_top": {"required": False},
+        "runtime_gates": {
+            "root_motion": {
+                "required": True,
+                "min_translation_m": 0.001,
+            },
+            "stable_support": {"required": True},
+            "gripper_collision": {"required": True},
+        },
+    }
+
+
 def test_v2_profile_allows_device_specific_required_frames(tmp_path: Path) -> None:
     from pxr import Usd
 
     source = tmp_path / "stirrer.usda"
     _source(source)
-    metrics = read_stage_metrics(source)
-    assert metrics is not None
     profile = tmp_path / "interaction.json"
     profile.write_text(
-        json.dumps(
-            {
-                "schema_version": "aan.object_interaction_profile.v2",
-                "profile_id": "stirrer-test-v2",
-                "revision": "test",
-                "source_binding": {
-                    "sha256": sha256(source.read_bytes()).hexdigest(),
-                    "stage_metrics": metrics,
-                },
-                "asset_entry_prim": "/World/Stirrer",
-                "rigid_root": {
-                    "motion_role": "kinematic",
-                    "disable_descendant_rigid_bodies": True,
-                    "remove_descendant_mass_api": True,
-                },
-                "colliders": [
-                    {
-                        "relative_path": "__aan_collision_proxy/body",
-                        "mode": "author",
-                        "purpose": ["support"],
-                        "geometry": {
-                            "type": "Cube",
-                            "size": 1.0,
-                            "scale_body_local_usd": [0.2, 0.2, 0.1],
-                            "translation_body_local_usd": [0, 0, 0.05],
-                            "rotation_body_local_wxyz": [1, 0, 0, 0],
-                        },
-                    }
-                ],
-                "required_named_frames": ["support", "work_surface_center"],
-                "named_frames": {
-                    "support": {
-                        "translation_body_local_usd": [0, 0, 0],
-                        "rotation_body_local_wxyz": [1, 0, 0, 0],
-                    },
-                    "work_surface_center": {
-                        "translation_body_local_usd": [0, 0, 0.1],
-                        "rotation_body_local_wxyz": [1, 0, 0, 0],
-                    },
-                },
-                "open_top": {"required": False},
-                "runtime_gates": {
-                    "root_motion": {
-                        "required": True,
-                        "min_translation_m": 0.001,
-                    },
-                    "stable_support": {"required": True},
-                    "gripper_collision": {"required": True},
-                },
-            },
-            indent=2,
-        )
+        json.dumps(_profile_payload(source), indent=2)
         + "\n",
         encoding="utf-8",
     )
@@ -107,6 +126,41 @@ def test_v2_profile_allows_device_specific_required_frames(tmp_path: Path) -> No
     assert result.status == "pass"
     assert result.resolved is not None
     assert sorted(result.resolved["named_frames"]) == [
+        "interior_center",
         "support",
         "work_surface_center",
     ]
+    assert result.resolved["interaction_regions"] == {
+        "interior_safe": {
+            "shape": "cylinder",
+            "frame": "interior_center",
+            "axis_frame_local": [0.0, 0.0, 1.0],
+            "radius_body_local_usd": 0.07,
+            "half_height_body_local_usd": 0.08,
+            "purpose": ["containment", "tool_motion"],
+        }
+    }
+
+
+def test_v2_profile_rejects_interaction_region_with_unknown_frame(
+    tmp_path: Path,
+) -> None:
+    from pxr import Usd
+
+    source = tmp_path / "stirrer.usda"
+    _source(source)
+    payload = _profile_payload(source)
+    payload["interaction_regions"]["interior_safe"]["frame"] = "guessed_center"  # type: ignore[index]
+    profile = tmp_path / "interaction.json"
+    profile.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+    stage = Usd.Stage.Open(str(source))
+    assert stage
+    result = load_and_resolve_interaction_profile(
+        profile, source, stage, ["/World/Stirrer"]
+    )
+
+    assert result.status == "blocked"
+    assert "interaction_regions.interior_safe.frame" in " ".join(
+        result.profile_admission["errors"]
+    )

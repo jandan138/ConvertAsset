@@ -1,0 +1,17 @@
+{
+  "schema_version": "aan.object_interaction_profile.v2",
+  "profile_id": "scientific_workbench.petri_dish_base.interaction",
+  "revision": "r1",
+  "source_binding": {"sha256": "ba4b70904577a1a0b48c98ecc0dd97afbe1188161d41dbd0e8cd170bf88fe014", "stage_metrics": {"meters_per_unit": 1.0, "kilograms_per_unit": 1.0, "up_axis": "Z", "time_codes_per_second": 24.0, "frames_per_second": 24.0}},
+  "asset_entry_prim": "/World/PetriDish",
+  "rigid_root": {"motion_role": "dynamic", "disable_descendant_rigid_bodies": true, "remove_descendant_mass_api": true},
+  "colliders": [{"relative_path": "__aan_collision_proxy/dish", "mode": "author", "purpose": ["gripper", "support"], "geometry": {"type": "Cylinder", "axis": "Z", "radius": 0.048545, "height": 0.02032, "translation_body_local_usd": [0.0, 0.0, 0.01016], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}}],
+  "required_named_frames": ["support", "grasp", "dish_center"],
+  "named_frames": {
+    "support": {"translation_body_local_usd": [0.0, 0.0, 0.0], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]},
+    "grasp": {"translation_body_local_usd": [0.0, 0.0, 0.01016], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]},
+    "dish_center": {"translation_body_local_usd": [0.0, 0.0, 0.02032], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}
+  },
+  "open_top": {"required": false},
+  "runtime_gates": {"root_motion": {"required": true, "min_translation_m": 0.01}, "stable_support": {"required": true}, "gripper_collision": {"required": false}}
+}

@@ -10,6 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import hashlib
 import json
+import math
 from pathlib import Path
 import shutil
 from typing import Any
@@ -28,11 +29,16 @@ class VisualMaterialProfileResolution:
     revision: str | None = None
     profile_sha256: str | None = None
     profile_bytes: bytes | None = None
+    override_kind: str | None = None
     source_mdl: Path | None = None
     source_sub_identifier: str | None = None
     material_name: str | None = None
     binding_targets: tuple[str, ...] = ()
     claim_boundary: str | None = None
+    diffuse_color: tuple[float, float, float] | None = None
+    opacity: float | None = None
+    roughness: float | None = None
+    metallic: float | None = None
 
 
 @dataclass(frozen=True)
@@ -74,23 +80,52 @@ def load_visual_material_profile(
         )
     if not isinstance(override, dict):
         return _blocked("visual material profile requires an override object")
-    if override.get("kind") != "mdl_glass":
-        return _blocked("visual material profile override.kind must be mdl_glass")
-    source_mdl_raw = override.get("source_mdl")
-    if not isinstance(source_mdl_raw, str) or not source_mdl_raw:
-        return _blocked("visual material profile requires override.source_mdl")
-    source_mdl = Path(source_mdl_raw)
-    if not source_mdl.is_absolute():
-        source_mdl = profile_path.parent / source_mdl
-    source_mdl = source_mdl.resolve()
-    if not source_mdl.is_file() or source_mdl.suffix.lower() != ".mdl":
-        return _blocked(f"visual material profile MDL is unavailable: {source_mdl}")
-    sub_identifier = override.get("source_sub_identifier")
+    kind = override.get("kind")
+    if kind not in {"mdl_glass", "usd_preview_surface"}:
+        return _blocked(
+            "visual material profile override.kind must be mdl_glass or usd_preview_surface"
+        )
+    source_mdl = None
+    sub_identifier = None
+    diffuse_color = None
+    opacity = None
+    roughness = None
+    metallic = None
+    if kind == "mdl_glass":
+        source_mdl_raw = override.get("source_mdl")
+        if not isinstance(source_mdl_raw, str) or not source_mdl_raw:
+            return _blocked("visual material profile requires override.source_mdl")
+        source_mdl = Path(source_mdl_raw)
+        if not source_mdl.is_absolute():
+            source_mdl = profile_path.parent / source_mdl
+        source_mdl = source_mdl.resolve()
+        if not source_mdl.is_file() or source_mdl.suffix.lower() != ".mdl":
+            return _blocked(f"visual material profile MDL is unavailable: {source_mdl}")
+        sub_identifier = override.get("source_sub_identifier")
+        if not isinstance(sub_identifier, str) or not sub_identifier:
+            return _blocked("visual material profile requires override.source_sub_identifier")
+    else:
+        raw_color = override.get("diffuse_color")
+        if (
+            not isinstance(raw_color, list)
+            or len(raw_color) != 3
+            or any(not _unit_number(value) for value in raw_color)
+        ):
+            return _blocked(
+                "usd_preview_surface requires a three-number override.diffuse_color in [0, 1]"
+            )
+        diffuse_color = tuple(float(value) for value in raw_color)
+        for field_name in ("opacity", "roughness", "metallic"):
+            if not _unit_number(override.get(field_name)):
+                return _blocked(
+                    f"usd_preview_surface requires override.{field_name} in [0, 1]"
+                )
+        opacity = float(override["opacity"])
+        roughness = float(override["roughness"])
+        metallic = float(override["metallic"])
     material_name = override.get("material_name")
     targets = override.get("binding_targets")
     claim_boundary = override.get("claim_boundary")
-    if not isinstance(sub_identifier, str) or not sub_identifier:
-        return _blocked("visual material profile requires override.source_sub_identifier")
     if not isinstance(material_name, str) or not material_name:
         return _blocked("visual material profile requires override.material_name")
     if (
@@ -108,11 +143,16 @@ def load_visual_material_profile(
         revision=revision,
         profile_sha256=_sha256_bytes(profile_bytes),
         profile_bytes=profile_bytes,
+        override_kind=kind,
         source_mdl=source_mdl,
         source_sub_identifier=sub_identifier,
         material_name=material_name,
         binding_targets=tuple(targets),
         claim_boundary=claim_boundary,
+        diffuse_color=diffuse_color,
+        opacity=opacity,
+        roughness=roughness,
+        metallic=metallic,
     )
 
 
@@ -133,12 +173,11 @@ def apply_visual_material_profile(
     resolution = load_visual_material_profile(profile_path, source_usd)
     if resolution.status != "pass":
         return _authoring_blocked(resolution.reason or "visual material profile blocked")
-    assert resolution.source_mdl is not None
     assert resolution.profile_bytes is not None
+    assert resolution.override_kind is not None
     assert resolution.profile_id is not None
     assert resolution.revision is not None
     assert resolution.profile_sha256 is not None
-    assert resolution.source_sub_identifier is not None
     assert resolution.material_name is not None
     assert resolution.claim_boundary is not None
     if not scope_prims:
@@ -172,15 +211,19 @@ def apply_visual_material_profile(
     except Exception as exc:
         return _authoring_blocked(f"visual material profile could not inspect package stage: {exc}")
 
-    destination_mdl = layout.visual_material_mdl(resolution.source_mdl.name)
+    destination_mdl = None
     try:
-        destination_mdl.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(resolution.source_mdl, destination_mdl)
+        if resolution.override_kind == "mdl_glass":
+            assert resolution.source_mdl is not None
+            assert resolution.source_sub_identifier is not None
+            destination_mdl = layout.visual_material_mdl(resolution.source_mdl.name)
+            destination_mdl.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(resolution.source_mdl, destination_mdl)
         layout.visual_material_profile_json.parent.mkdir(parents=True, exist_ok=True)
         layout.visual_material_profile_json.write_bytes(resolution.profile_bytes)
         layout.visual_material_overlay_usd.parent.mkdir(parents=True, exist_ok=True)
-        layout.visual_material_overlay_usd.write_text(
-            _overlay_text(
+        overlay_text = (
+            _mdl_overlay_text(
                 scope=scope,
                 material_name=resolution.material_name,
                 mdl_relpath="../deps/mdl/" + destination_mdl.name,
@@ -188,9 +231,21 @@ def apply_visual_material_profile(
                 profile_id=resolution.profile_id,
                 profile_sha256=resolution.profile_sha256,
                 binding_targets=resolution.binding_targets,
-            ),
-            encoding="utf-8",
+            )
+            if destination_mdl is not None
+            else _preview_surface_overlay_text(
+                scope=scope,
+                material_name=resolution.material_name,
+                profile_id=resolution.profile_id,
+                profile_sha256=resolution.profile_sha256,
+                binding_targets=resolution.binding_targets,
+                diffuse_color=resolution.diffuse_color,
+                opacity=resolution.opacity,
+                roughness=resolution.roughness,
+                metallic=resolution.metallic,
+            )
         )
+        layout.visual_material_overlay_usd.write_text(overlay_text, encoding="utf-8")
     except OSError as exc:
         return _authoring_blocked(f"could not write visual material profile package files: {exc}")
 
@@ -202,17 +257,31 @@ def apply_visual_material_profile(
         "profile_sha256": resolution.profile_sha256,
         "profile_package_path": "visual/profile.json",
         "overlay_package_path": "overlays/visual_material.usda",
-        "source_mdl": str(resolution.source_mdl),
-        "package_mdl_path": destination_mdl.relative_to(layout.root).as_posix(),
-        "source_mdl_sha256": _sha256(resolution.source_mdl),
-        "package_mdl_sha256": _sha256(destination_mdl),
-        "source_sub_identifier": resolution.source_sub_identifier,
+        "override_kind": resolution.override_kind,
         "material_name": resolution.material_name,
         "binding_targets": list(resolution.binding_targets),
         "claim_boundary": resolution.claim_boundary,
         "source_material_preserved": True,
         "visual_override": "intentional",
     }
+    if destination_mdl is not None:
+        assert resolution.source_mdl is not None
+        record.update(
+            {
+                "source_mdl": str(resolution.source_mdl),
+                "package_mdl_path": destination_mdl.relative_to(layout.root).as_posix(),
+                "source_mdl_sha256": _sha256(resolution.source_mdl),
+                "package_mdl_sha256": _sha256(destination_mdl),
+                "source_sub_identifier": resolution.source_sub_identifier,
+            }
+        )
+    else:
+        record["preview_surface"] = {
+            "diffuse_color": list(resolution.diffuse_color or ()),
+            "opacity": resolution.opacity,
+            "roughness": resolution.roughness,
+            "metallic": resolution.metallic,
+        }
     return VisualMaterialAuthoringResult(
         overall_status="pass",
         return_code=0,
@@ -229,7 +298,7 @@ def apply_visual_material_profile(
     )
 
 
-def _overlay_text(
+def _mdl_overlay_text(
     *,
     scope: str,
     material_name: str,
@@ -299,6 +368,81 @@ def _overlay_text(
     return "\n".join(lines) + "\n"
 
 
+def _preview_surface_overlay_text(
+    *,
+    scope: str,
+    material_name: str,
+    profile_id: str,
+    profile_sha256: str,
+    binding_targets: tuple[str, ...],
+    diffuse_color: tuple[float, float, float] | None,
+    opacity: float | None,
+    roughness: float | None,
+    metallic: float | None,
+) -> str:
+    assert diffuse_color is not None
+    assert opacity is not None
+    assert roughness is not None
+    assert metallic is not None
+    scope_parts = [part for part in scope.split("/") if part]
+    lines = ["#usda 1.0", ""]
+    indent = ""
+    for part in scope_parts:
+        lines.extend([f'{indent}over "{part}"', f"{indent}{{"])
+        indent += "    "
+    material_path = scope + "/__aan_visual_materials/" + material_name
+    color = ", ".join(str(value) for value in diffuse_color)
+    lines.extend(
+        [
+            f'{indent}def Scope "__aan_visual_materials"',
+            f"{indent}{{",
+            f'{indent}    def Material "{material_name}" (',
+            f"{indent}        customData = {{",
+            f"{indent}            dictionary aan = {{",
+            f'                    string visualMaterialProfileId = "{profile_id}"',
+            f'                    string visualMaterialProfileSha256 = "{profile_sha256}"',
+            f"{indent}            }}",
+            f"{indent}        }}",
+            f"{indent}    )",
+            f"{indent}    {{",
+            f"{indent}        token outputs:surface.connect = <{material_path}/Shader.outputs:surface>",
+            f'{indent}        def Shader "Shader"',
+            f"{indent}        {{",
+            f'{indent}            uniform token info:id = "UsdPreviewSurface"',
+            f"{indent}            color3f inputs:diffuseColor = ({color})",
+            f"{indent}            float inputs:metallic = {metallic}",
+            f"{indent}            float inputs:opacity = {opacity}",
+            f"{indent}            float inputs:roughness = {roughness}",
+            f"{indent}            token outputs:surface",
+            f"{indent}        }}",
+            f"{indent}    }}",
+            f"{indent}}}",
+        ]
+    )
+    target_tree: dict[str, Any] = {}
+    for path in binding_targets:
+        node = target_tree
+        for part in [item for item in path.split("/") if item][len(scope_parts):]:
+            node = node.setdefault(part, {})
+        node["__binding__"] = True
+
+    def emit(children: dict[str, Any], current_indent: str) -> None:
+        for name, child in children.items():
+            if name == "__binding__":
+                continue
+            lines.extend([f'{current_indent}over "{name}"', f"{current_indent}{{"])
+            if child.get("__binding__"):
+                lines.append(f"{current_indent}    rel material:binding = <{material_path}>")
+            emit(child, current_indent + "    ")
+            lines.append(f"{current_indent}}}")
+
+    emit(target_tree, indent)
+    for _ in reversed(scope_parts):
+        indent = indent[:-4]
+        lines.append(f"{indent}}}")
+    return "\n".join(lines) + "\n"
+
+
 def _authoring_blocked(reason: str) -> VisualMaterialAuthoringResult:
     return VisualMaterialAuthoringResult(
         overall_status="blocked",
@@ -330,3 +474,12 @@ def _sha256_bytes(value: bytes) -> str:
 
 def _is_under_scope(path: str, scope: str) -> bool:
     return path == scope or path.startswith(scope.rstrip("/") + "/")
+
+
+def _unit_number(value: Any) -> bool:
+    return (
+        not isinstance(value, bool)
+        and isinstance(value, (int, float))
+        and math.isfinite(float(value))
+        and 0.0 <= float(value) <= 1.0
+    )

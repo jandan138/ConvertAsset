@@ -1,0 +1,8 @@
+{
+  "schema_version": "aan.physics_profile.v1",
+  "profile_id": "scientific_workbench.glass_stirring_rod_300mm.provisional",
+  "revision": "r1",
+  "source_binding": {"sha256": "33970ff932dee6f4f093d09d2aa0f618c5402f5e6ed9961c071cc5d242b21a49", "stage_metrics": {"meters_per_unit": 1.0, "kilograms_per_unit": 1.0, "up_axis": "Z", "time_codes_per_second": 24.0, "frames_per_second": 24.0}},
+  "evidence": {"parameter_status": "provisional_geometry", "claim_boundary": "Nominal soda-lime glass density applied to measured geometry; not a physical measurement.", "center_of_mass_convention": "asset_entry_prim_body_local_usd", "inertia_convention": "canonical SI kg*m^2", "replacement_contract": "Replace the complete source-bound mass bundle in a new profile revision."},
+  "scope_rules": [{"scope_path": "/World/GlassStirringRod", "body_rules": [{"relative_path": ".", "motion_role": "dynamic", "clear_density": true, "mass_properties": {"mode": "explicit", "quality_tier": "provisional_geometry", "mass_kg": 0.031, "diagonal_inertia_kg_m2": [0.0002326, 0.0002326, 0.000000203], "center_of_mass_body_local": [0.0, 0.0, 0.15], "principal_axes": [1.0, 0.0, 0.0, 0.0]}}]}]
+}

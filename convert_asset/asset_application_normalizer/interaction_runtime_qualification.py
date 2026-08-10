@@ -154,6 +154,28 @@ def _required_probe_ids(interaction_contract: dict[str, Any]) -> tuple[str, ...]
     return tuple(probe_ids)
 
 
+def _mark_non_required_probes_not_applicable(
+    probes: dict[str, dict[str, Any]],
+    interaction_contract: dict[str, Any],
+) -> dict[str, dict[str, Any]]:
+    required = set(_required_probe_ids(interaction_contract))
+    result = deepcopy(probes)
+    for probe_id in (
+        "cooked_aperture",
+        "stable_support",
+        "root_motion_parity",
+        "bilateral_gripper_proxy_collision",
+    ):
+        if probe_id not in required:
+            result[probe_id] = {
+                "status": "not_applicable",
+                "errors": [],
+                "observations": {},
+                "reason": "probe is not required by the interaction profile",
+            }
+    return result
+
+
 def evaluate_probe_observations(
     observations: dict[str, Any],
     *,
@@ -335,6 +357,10 @@ def _interaction_payload_sha256(interaction_contract: dict[str, Any]) -> str:
             "named_frames",
         )
     }
+    if "interaction_regions" in interaction_contract:
+        payload["interaction_regions"] = interaction_contract[
+            "interaction_regions"
+        ]
     return hashlib.sha256(_canonical_json(payload)).hexdigest()
 
 
@@ -755,6 +781,24 @@ def _normalized(vector: Any, np: Any) -> Any:
     return result / norm
 
 
+def _support_body_axis_local(
+    interaction_contract: dict[str, Any],
+) -> list[float]:
+    """Return the body-up direction used by the stable-support probe.
+
+    Open-top assets bind this direction explicitly. Non-vessel assets do not
+    have an aperture axis, so their authored Z-up body frame is the support
+    orientation reference instead.
+    """
+    open_top = interaction_contract.get("open_top", {})
+    axis = open_top.get("axis_body_local") if isinstance(open_top, dict) else None
+    if isinstance(axis, list) and len(axis) == 3:
+        return [float(value) for value in axis]
+    if isinstance(open_top, dict) and open_top.get("required") is False:
+        return [0.0, 0.0, 1.0]
+    raise ValueError("required open-top asset has no valid body-local axis")
+
+
 def _prim_world_position(stage: Any, prim_path: str, np: Any) -> Any:
     from pxr import Usd, UsdGeom  # type: ignore
 
@@ -1014,13 +1058,12 @@ def _collect_scene_query_observations(
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     root_path = interaction_contract["runtime_identity"]["rigid_root_prim"]
     named_frames = interaction_contract["named_frames"]
-    opening_path = named_frames["opening"]["prim_path"]
     grasp_path = named_frames["grasp"]["prim_path"]
-    support_path = named_frames["support"]["prim_path"]
-    body_axis = interaction_contract["open_top"]["axis_body_local"]
-    opening = _prim_world_position(stage, opening_path, np)
     grasp = _prim_world_position(stage, grasp_path, np)
-    support = _prim_world_position(stage, support_path, np)
+    open_top_required = interaction_contract.get("open_top", {}).get(
+        "required", True
+    ) is True
+    body_axis = _support_body_axis_local(interaction_contract)
     axial = _prim_world_direction(stage, root_path, body_axis, np)
     closing_axis = _prim_world_direction(stage, grasp_path, [1.0, 0.0, 0.0], np)
     second_radial = _normalized(np.cross(axial, closing_axis), np)
@@ -1030,35 +1073,46 @@ def _collect_scene_query_observations(
         [closing_axis, second_radial],
         np,
     )
-    vessel_height_stage_units = float(np.dot(opening - support, axial))
-    vessel_height_m = vessel_height_stage_units * stage_units_in_meters
     smallest_radial_m = min(radial_spans) * stage_units_in_meters
     probe_radius_m = min(0.005, max(0.00025, smallest_radial_m * 0.03))
     probe_radius_stage_units = probe_radius_m / stage_units_in_meters
-    entry_depth_m = min(0.04, max(0.02, vessel_height_m * 0.2))
-    entry_depth_stage_units = entry_depth_m / stage_units_in_meters
-    axial_origin = opening + axial * (2.5 * probe_radius_stage_units)
-    axial_distance_stage_units = (
-        vessel_height_m + 5.0 * probe_radius_m
-    ) / stage_units_in_meters
-    axial_hits = _target_sphere_sweep_hits(
-        scene_query,
-        gf,
-        radius_stage_units=probe_radius_stage_units,
-        origin=axial_origin,
-        direction=-axial,
-        distance_stage_units=axial_distance_stage_units,
-        root_path=root_path,
-        stage_units_in_meters=stage_units_in_meters,
-    )
-    entry_center = opening - axial * entry_depth_stage_units
-    entry_overlaps = _target_sphere_overlap_hits(
-        scene_query,
-        gf,
-        radius_stage_units=probe_radius_stage_units,
-        position=entry_center,
-        root_path=root_path,
-    )
+    opening = None
+    support = None
+    vessel_height_m = None
+    entry_depth_m = None
+    entry_overlaps: list[dict[str, str]] = []
+    axial_hits: list[dict[str, Any]] = []
+    if open_top_required:
+        opening_path = named_frames["opening"]["prim_path"]
+        support_path = named_frames["support"]["prim_path"]
+        opening = _prim_world_position(stage, opening_path, np)
+        support = _prim_world_position(stage, support_path, np)
+        vessel_height_stage_units = float(np.dot(opening - support, axial))
+        vessel_height_m = vessel_height_stage_units * stage_units_in_meters
+        entry_depth_m = min(0.04, max(0.02, vessel_height_m * 0.2))
+        entry_depth_stage_units = entry_depth_m / stage_units_in_meters
+        axial_origin = opening + axial * (2.5 * probe_radius_stage_units)
+        axial_distance_stage_units = (
+            vessel_height_m + 5.0 * probe_radius_m
+        ) / stage_units_in_meters
+        axial_hits = _target_sphere_sweep_hits(
+            scene_query,
+            gf,
+            radius_stage_units=probe_radius_stage_units,
+            origin=axial_origin,
+            direction=-axial,
+            distance_stage_units=axial_distance_stage_units,
+            root_path=root_path,
+            stage_units_in_meters=stage_units_in_meters,
+        )
+        entry_center = opening - axial * entry_depth_stage_units
+        entry_overlaps = _target_sphere_overlap_hits(
+            scene_query,
+            gf,
+            radius_stage_units=probe_radius_stage_units,
+            position=entry_center,
+            root_path=root_path,
+        )
     gripper_standoff_stage_units = (
         0.5 * radial_spans[0] + 2.5 * probe_radius_stage_units
     )
@@ -1083,24 +1137,8 @@ def _collect_scene_query_observations(
         root_path=root_path,
         stage_units_in_meters=stage_units_in_meters,
     )
-    bottom_hit = axial_hits[0] if axial_hits else None
-    if bottom_hit is None:
-        bottom_depth_m = None
-    else:
-        bottom_position_stage_units = (
-            np.asarray(bottom_hit["position_m"], dtype=float)
-            / stage_units_in_meters
-        )
-        bottom_depth_m = float(
-            np.dot(opening - bottom_position_stage_units, axial)
-            * stage_units_in_meters
-        )
     finite = bool(
-        np.isfinite(
-            np.concatenate(
-                [opening, grasp, support, axial, closing_axis, radial_spans]
-            )
-        ).all()
+        np.isfinite(np.concatenate([grasp, axial, closing_axis, radial_spans])).all()
     )
     positive_side_hit = bool(positive_hits) and (
         positive_hits[0]["distance_m"] >= 0.5 * probe_radius_m
@@ -1108,26 +1146,43 @@ def _collect_scene_query_observations(
     negative_side_hit = bool(negative_hits) and (
         negative_hits[0]["distance_m"] >= 0.5 * probe_radius_m
     )
-    aperture = {
-        "finite": finite,
-        "method": "physx_cooked_sphere_sweep_and_overlap",
-        "probe_radius_m": probe_radius_m,
-        "entry_depth_m": entry_depth_m,
-        "entry_center_clear": not entry_overlaps,
-        "entry_overlaps": entry_overlaps,
-        "bottom_hit": bottom_hit is not None,
-        "bottom_depth_m": bottom_depth_m,
-        "bottom_observation": bottom_hit,
-        "vessel_height_m": vessel_height_m,
-        "side_hits": {
-            "positive": positive_side_hit,
-            "negative": negative_side_hit,
-        },
-        "side_observations": {
-            "positive": positive_hits[:1],
-            "negative": negative_hits[:1],
-        },
-    }
+    aperture: dict[str, Any] = {}
+    if open_top_required:
+        bottom_hit = axial_hits[0] if axial_hits else None
+        if bottom_hit is None:
+            bottom_depth_m = None
+        else:
+            bottom_position_stage_units = (
+                np.asarray(bottom_hit["position_m"], dtype=float)
+                / stage_units_in_meters
+            )
+            bottom_depth_m = float(
+                np.dot(opening - bottom_position_stage_units, axial)
+                * stage_units_in_meters
+            )
+        assert opening is not None and support is not None
+        assert vessel_height_m is not None and entry_depth_m is not None
+        finite = finite and bool(np.isfinite(np.concatenate([opening, support])).all())
+        aperture = {
+            "finite": finite,
+            "method": "physx_cooked_sphere_sweep_and_overlap",
+            "probe_radius_m": probe_radius_m,
+            "entry_depth_m": entry_depth_m,
+            "entry_center_clear": not entry_overlaps,
+            "entry_overlaps": entry_overlaps,
+            "bottom_hit": bottom_hit is not None,
+            "bottom_depth_m": bottom_depth_m,
+            "bottom_observation": bottom_hit,
+            "vessel_height_m": vessel_height_m,
+            "side_hits": {
+                "positive": positive_side_hit,
+                "negative": negative_side_hit,
+            },
+            "side_observations": {
+                "positive": positive_hits[:1],
+                "negative": negative_hits[:1],
+            },
+        }
     gripper = {
         "finite": finite,
         "method": "physx_cooked_bilateral_sphere_sweep",
@@ -1334,58 +1389,71 @@ def _qualification_worker_report(
         world.reset()
         for _ in range(8):
             world.step(render=False)
-        support_observation = _collect_support_observation(
-            world=world,
-            rigid=rigid,
-            stage=stage,
-            root_path=root_path,
-            support_path=support_path,
-            body_axis_local=interaction_contract["open_top"]["axis_body_local"],
-            ground_height_stage_units=ground_height,
-            stage_units_in_meters=stage_units_in_meters,
-            np=np,
-        )
-        aperture_observation, gripper_observation = (
-            _collect_scene_query_observations(
+        required_probe_ids = _required_probe_ids(interaction_contract)
+        support_observation: dict[str, Any] = {}
+        if "stable_support" in required_probe_ids:
+            support_observation = _collect_support_observation(
+                world=world,
+                rigid=rigid,
                 stage=stage,
-                scene_query=get_physx_scene_query_interface(),
-                interaction_contract=interaction_contract,
+                root_path=root_path,
+                support_path=support_path,
+                body_axis_local=_support_body_axis_local(interaction_contract),
+                ground_height_stage_units=ground_height,
                 stage_units_in_meters=stage_units_in_meters,
                 np=np,
-                gf=Gf,
             )
-        )
-        control_direction = _prim_world_direction(
-            stage,
-            interaction_contract["named_frames"]["grasp"]["prim_path"],
-            [1.0, 0.0, 0.0],
-            np,
-        )
-        root_motion_observation = _collect_root_motion_observation(
-            world=world,
-            rigid=rigid,
-            stage=stage,
-            root_path=root_path,
-            control_direction=control_direction,
-            min_translation_m=float(
-                interaction_contract["root_motion_gate"]["min_translation_m"]
-            ),
-            stage_units_in_meters=stage_units_in_meters,
-            np=np,
-        )
+        aperture_observation: dict[str, Any] = {}
+        gripper_observation: dict[str, Any] = {}
+        if (
+            "cooked_aperture" in required_probe_ids
+            or "bilateral_gripper_proxy_collision" in required_probe_ids
+        ):
+            aperture_observation, gripper_observation = (
+                _collect_scene_query_observations(
+                    stage=stage,
+                    scene_query=get_physx_scene_query_interface(),
+                    interaction_contract=interaction_contract,
+                    stage_units_in_meters=stage_units_in_meters,
+                    np=np,
+                    gf=Gf,
+                )
+            )
+        root_motion_observation: dict[str, Any] = {}
+        if "root_motion_parity" in required_probe_ids:
+            control_direction = _prim_world_direction(
+                stage,
+                interaction_contract["named_frames"]["grasp"]["prim_path"],
+                [1.0, 0.0, 0.0],
+                np,
+            )
+            root_motion_observation = _collect_root_motion_observation(
+                world=world,
+                rigid=rigid,
+                stage=stage,
+                root_path=root_path,
+                control_direction=control_direction,
+                min_translation_m=float(
+                    interaction_contract["root_motion_gate"]["min_translation_m"]
+                ),
+                stage_units_in_meters=stage_units_in_meters,
+                np=np,
+            )
         observations = {
             "cooked_aperture": aperture_observation,
             "stable_support": support_observation,
             "root_motion_parity": root_motion_observation,
             "bilateral_gripper_proxy_collision": gripper_observation,
         }
-        probes = evaluate_probe_observations(
-            observations,
-            root_motion_requirement=interaction_contract["root_motion_gate"],
-            open_top_required=interaction_contract["open_top"]["required"],
+        probes = _mark_non_required_probes_not_applicable(
+            evaluate_probe_observations(
+                observations,
+                root_motion_requirement=interaction_contract["root_motion_gate"],
+                open_top_required=interaction_contract["open_top"]["required"],
+            ),
+            interaction_contract,
         )
         report["probes"] = probes
-        required_probe_ids = _required_probe_ids(interaction_contract)
         report["status"] = (
             "pass"
             if all(

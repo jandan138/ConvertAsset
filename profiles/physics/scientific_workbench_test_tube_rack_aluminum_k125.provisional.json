@@ -1,0 +1,8 @@
+{
+  "schema_version": "aan.physics_profile.v1",
+  "profile_id": "scientific_workbench.test_tube_rack_aluminum_k125.provisional",
+  "revision": "r1",
+  "source_binding": {"sha256": "f9b5373cdb95ce8e12603b58fa99786820cf77313b4ffe58d9643901781104d9", "stage_metrics": {"meters_per_unit": 1.0, "kilograms_per_unit": 1.0, "up_axis": "Z", "time_codes_per_second": 24.0, "frames_per_second": 24.0}},
+  "evidence": {"parameter_status": "provisional_geometry", "claim_boundary": "Kinematic fixture mass is nominal and not measured; aperture fit requires runtime evidence.", "center_of_mass_convention": "asset_entry_prim_body_local_usd", "inertia_convention": "canonical SI kg*m^2", "replacement_contract": "Replace the complete source-bound mass bundle in a new profile revision."},
+  "scope_rules": [{"scope_path": "/World/TubeRack", "body_rules": [{"relative_path": ".", "motion_role": "kinematic", "clear_density": true, "mass_properties": {"mode": "explicit", "quality_tier": "provisional_geometry", "mass_kg": 0.85, "diagonal_inertia_kg_m2": [0.0017, 0.0049, 0.0056], "center_of_mass_body_local": [0.0, 0.0, 0.0415], "principal_axes": [1.0, 0.0, 0.0, 0.0]}}]}]
+}

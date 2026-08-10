@@ -1,0 +1,8 @@
+{
+  "schema_version": "aan.physics_profile.v1",
+  "profile_id": "scientific_workbench.petri_dish_base.provisional",
+  "revision": "r1",
+  "source_binding": {"sha256": "ba4b70904577a1a0b48c98ecc0dd97afbe1188161d41dbd0e8cd170bf88fe014", "stage_metrics": {"meters_per_unit": 1.0, "kilograms_per_unit": 1.0, "up_axis": "Z", "time_codes_per_second": 24.0, "frames_per_second": 24.0}},
+  "evidence": {"parameter_status": "provisional_geometry", "claim_boundary": "Nominal glass simulation values; not measured.", "center_of_mass_convention": "asset_entry_prim_body_local_usd", "inertia_convention": "canonical SI kg*m^2", "replacement_contract": "Replace the complete source-bound mass bundle in a new profile revision."},
+  "scope_rules": [{"scope_path": "/World/PetriDish", "body_rules": [{"relative_path": ".", "motion_role": "dynamic", "clear_density": true, "mass_properties": {"mode": "explicit", "quality_tier": "provisional_geometry", "mass_kg": 0.12, "diagonal_inertia_kg_m2": [0.000071, 0.000071, 0.000141], "center_of_mass_body_local": [0.0, 0.0, 0.01016], "principal_axes": [1.0, 0.0, 0.0, 0.0]}}]}]
+}

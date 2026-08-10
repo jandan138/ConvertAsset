@@ -1,0 +1,18 @@
+{
+  "schema_version": "aan.visual_material_profile.v1",
+  "profile_id": "scientific_workbench.centrifuge_tube_50ml_body.transparent",
+  "revision": "r1",
+  "source_binding": {
+    "sha256": "434cd578b7073d59e74b95a6e2399573eba42b50d6f0eebddd8e80f1a5de8eb9"
+  },
+  "override": {
+    "kind": "mdl_glass",
+    "source_mdl": "/isaac-sim/kit/mdl/core/Base/OmniGlass.mdl",
+    "source_sub_identifier": "OmniGlass",
+    "material_name": "TransparentTube",
+    "binding_targets": [
+      "/World/CentrifugeTube50mlBody/Visual/Source/Tube_Body_Hollow_Mesh"
+    ],
+    "claim_boundary": "Intentional transparent visual compatibility override for the declared tube-body mesh only. The polymer optical response is representative rather than measured; geometry, collision, mass, inertia, and interaction frames are unchanged."
+  }
+}

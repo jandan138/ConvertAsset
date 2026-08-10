@@ -1,0 +1,17 @@
+{
+  "schema_version": "aan.object_interaction_profile.v2",
+  "profile_id": "scientific_workbench.glass_stirring_rod_300mm.interaction",
+  "revision": "r1",
+  "source_binding": {"sha256": "33970ff932dee6f4f093d09d2aa0f618c5402f5e6ed9961c071cc5d242b21a49", "stage_metrics": {"meters_per_unit": 1.0, "kilograms_per_unit": 1.0, "up_axis": "Z", "time_codes_per_second": 24.0, "frames_per_second": 24.0}},
+  "asset_entry_prim": "/World/GlassStirringRod",
+  "rigid_root": {"motion_role": "dynamic", "disable_descendant_rigid_bodies": true, "remove_descendant_mass_api": true},
+  "colliders": [{"relative_path": "__aan_collision_proxy/rod", "mode": "author", "purpose": ["gripper", "support"], "geometry": {"type": "Cylinder", "axis": "Z", "radius": 0.003615, "height": 0.3, "translation_body_local_usd": [0.0, 0.0, 0.15], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}}],
+  "required_named_frames": ["support", "grasp", "working_tip"],
+  "named_frames": {
+    "support": {"translation_body_local_usd": [0.0, 0.0, 0.0], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]},
+    "grasp": {"translation_body_local_usd": [0.0, 0.0, 0.225], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]},
+    "working_tip": {"translation_body_local_usd": [0.0, 0.0, 0.008], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}
+  },
+  "open_top": {"required": false},
+  "runtime_gates": {"root_motion": {"required": true, "min_translation_m": 0.02}, "stable_support": {"required": true}, "gripper_collision": {"required": true}}
+}

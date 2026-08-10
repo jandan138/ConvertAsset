@@ -1,0 +1,23 @@
+{
+  "schema_version": "aan.object_interaction_profile.v2",
+  "profile_id": "scientific_workbench.test_tube_rack_aluminum_k125.interaction",
+  "revision": "r2",
+  "source_binding": {"sha256": "f9b5373cdb95ce8e12603b58fa99786820cf77313b4ffe58d9643901781104d9", "stage_metrics": {"meters_per_unit": 1.0, "kilograms_per_unit": 1.0, "up_axis": "Z", "time_codes_per_second": 24.0, "frames_per_second": 24.0}},
+  "asset_entry_prim": "/World/TubeRack",
+  "rigid_root": {"motion_role": "kinematic", "disable_descendant_rigid_bodies": true, "remove_descendant_mass_api": true},
+  "colliders": [
+    {"relative_path": "__aan_collision_proxy/socket_0_bottom", "mode": "author", "purpose": ["containment", "support"], "geometry": {"type": "Cube", "size": 1.0, "translation_body_local_usd": [0.0, -0.0425, 0.0015], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0], "scale_body_local_usd": [0.0354125, 0.0354125, 0.003]}},
+    {"relative_path": "__aan_collision_proxy/socket_0_wall_pos_x", "mode": "author", "purpose": ["containment"], "geometry": {"type": "Cube", "size": 1.0, "translation_body_local_usd": [0.01870625, -0.0425, 0.04156875], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0], "scale_body_local_usd": [0.002, 0.0394125, 0.0831375]}},
+    {"relative_path": "__aan_collision_proxy/socket_0_wall_neg_x", "mode": "author", "purpose": ["containment"], "geometry": {"type": "Cube", "size": 1.0, "translation_body_local_usd": [-0.01870625, -0.0425, 0.04156875], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0], "scale_body_local_usd": [0.002, 0.0394125, 0.0831375]}},
+    {"relative_path": "__aan_collision_proxy/socket_0_wall_pos_y", "mode": "author", "purpose": ["containment"], "geometry": {"type": "Cube", "size": 1.0, "translation_body_local_usd": [0.0, -0.02379375, 0.04156875], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0], "scale_body_local_usd": [0.0394125, 0.002, 0.0831375]}},
+    {"relative_path": "__aan_collision_proxy/socket_0_wall_neg_y", "mode": "author", "purpose": ["containment"], "geometry": {"type": "Cube", "size": 1.0, "translation_body_local_usd": [0.0, -0.06120625, 0.04156875], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0], "scale_body_local_usd": [0.0394125, 0.002, 0.0831375]}}
+  ],
+  "required_named_frames": ["support", "socket_0_aperture", "socket_0_inserted_bottom"],
+  "named_frames": {
+    "support": {"translation_body_local_usd": [0.0, 0.0, 0.0], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]},
+    "socket_0_aperture": {"translation_body_local_usd": [0.0, -0.0425, 0.0831375], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]},
+    "socket_0_inserted_bottom": {"translation_body_local_usd": [0.0, -0.0425, 0.003], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}
+  },
+  "open_top": {"required": false},
+  "runtime_gates": {"root_motion": {"required": false, "min_translation_m": 0.001}, "stable_support": {"required": false}, "gripper_collision": {"required": false}}
+}

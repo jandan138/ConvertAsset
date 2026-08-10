@@ -1,0 +1,8 @@
+{
+  "schema_version": "aan.physics_profile.v1",
+  "profile_id": "scientific_workbench.centrifuge_tube_50ml_cap.provisional",
+  "revision": "r1",
+  "source_binding": {"sha256": "3aa9a90bdd65822137f4e6c9924728d9ae70ae2c383a68765da0962adaf1ad1e", "stage_metrics": {"meters_per_unit": 1.0, "kilograms_per_unit": 1.0, "up_axis": "Z", "time_codes_per_second": 24.0, "frames_per_second": 24.0}},
+  "evidence": {"parameter_status": "provisional_geometry", "claim_boundary": "Nominal polypropylene cap mass and inertia; not measured.", "center_of_mass_convention": "asset_entry_prim_body_local_usd", "inertia_convention": "canonical SI kg*m^2", "replacement_contract": "Replace the complete source-bound mass bundle in a new profile revision."},
+  "scope_rules": [{"scope_path": "/World/CentrifugeTube50mlCap", "body_rules": [{"relative_path": ".", "motion_role": "dynamic", "clear_density": true, "mass_properties": {"mode": "explicit", "quality_tier": "provisional_geometry", "mass_kg": 0.004, "diagonal_inertia_kg_m2": [0.00000043, 0.00000043, 0.00000057], "center_of_mass_body_local": [0.0, 0.0, 0.00625], "principal_axes": [1.0, 0.0, 0.0, 0.0]}}]}]
+}

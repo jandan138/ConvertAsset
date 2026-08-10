@@ -1,0 +1,17 @@
+{
+  "schema_version": "aan.object_interaction_profile.v2",
+  "profile_id": "scientific_workbench.centrifuge_tube_50ml_cap.interaction",
+  "revision": "r1",
+  "source_binding": {"sha256": "3aa9a90bdd65822137f4e6c9924728d9ae70ae2c383a68765da0962adaf1ad1e", "stage_metrics": {"meters_per_unit": 1.0, "kilograms_per_unit": 1.0, "up_axis": "Z", "time_codes_per_second": 24.0, "frames_per_second": 24.0}},
+  "asset_entry_prim": "/World/CentrifugeTube50mlCap",
+  "rigid_root": {"motion_role": "dynamic", "disable_descendant_rigid_bodies": true, "remove_descendant_mass_api": true},
+  "colliders": [{"relative_path": "__aan_collision_proxy/cap", "mode": "author", "purpose": ["gripper", "support"], "geometry": {"type": "Cylinder", "axis": "Z", "radius": 0.016905, "height": 0.0125, "translation_body_local_usd": [0.0, 0.0, 0.00625], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}}],
+  "required_named_frames": ["support", "grasp", "seat"],
+  "named_frames": {
+    "support": {"translation_body_local_usd": [0.0, 0.0, 0.0], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]},
+    "grasp": {"translation_body_local_usd": [0.0, 0.0, 0.00625], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]},
+    "seat": {"translation_body_local_usd": [0.0, 0.0, 0.0], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}
+  },
+  "open_top": {"required": false},
+  "runtime_gates": {"root_motion": {"required": true, "min_translation_m": 0.005}, "stable_support": {"required": true}, "gripper_collision": {"required": true}}
+}

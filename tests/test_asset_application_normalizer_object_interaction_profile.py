@@ -350,6 +350,26 @@ def test_interaction_profile_runs_before_mass_profile_and_compiles_runtime_ident
     source = tmp_path / "source.usda"
     source.write_text(_source_usda(), encoding="utf-8")
     interaction = _interaction_profile(source, tmp_path / "interaction.json")
+    interaction_payload = json.loads(interaction.read_text(encoding="utf-8"))
+    interaction_payload["schema_version"] = "aan.object_interaction_profile.v2"
+    interaction_payload["required_named_frames"] = [
+        "opening",
+        "grasp",
+        "support",
+    ]
+    interaction_payload["interaction_regions"] = {
+        "interior_safe": {
+            "shape": "cylinder",
+            "frame": "opening",
+            "axis_frame_local": [0.0, 0.0, 1.0],
+            "radius_body_local_usd": 0.3,
+            "half_height_body_local_usd": 0.4,
+            "purpose": ["containment", "tool_motion"],
+        }
+    }
+    interaction.write_text(
+        json.dumps(interaction_payload, indent=2) + "\n", encoding="utf-8"
+    )
     physics = _physics_profile(source, tmp_path / "physics.json")
     out_dir = tmp_path / "package"
     evidence_out = tmp_path / "manifest.json"
@@ -386,6 +406,17 @@ def test_interaction_profile_runs_before_mass_profile_and_compiles_runtime_ident
     assert contract["open_top"]["status"] == "declared"
     assert set(contract["named_frames"]) == {"opening", "grasp", "support"}
     assert all(frame["authoritative"] for frame in contract["named_frames"].values())
+    assert contract["interaction_regions"] == {
+        "interior_safe": {
+            "shape": "cylinder",
+            "frame": "opening",
+            "axis_frame_local": [0.0, 0.0, 1.0],
+            "radius_body_local_usd": 0.3,
+            "half_height_body_local_usd": 0.4,
+            "purpose": ["containment", "tool_motion"],
+            "authoritative": True,
+        }
+    }
     assert contract["root_motion_gate"]["status"] == "not_run"
     assert contract["stable_support_gate"]["status"] == "not_run"
     assert contract["gripper_collision_gate"]["status"] == "not_run"

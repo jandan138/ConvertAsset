@@ -4,6 +4,8 @@ import hashlib
 import json
 from pathlib import Path
 
+import pytest
+
 from convert_asset.asset_application_normalizer.visual_material_profile import (
     apply_visual_material_profile,
     load_visual_material_profile,
@@ -30,6 +32,31 @@ def _write_profile(path: Path, source: Path, mdl: Path) -> None:
                     "material_name": "TransparentGlass",
                     "binding_targets": ["/World/Beaker/Visual/Source/mesh"],
                     "claim_boundary": "Intentional visual compatibility override; physics is unchanged.",
+                },
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
+def _write_preview_surface_profile(path: Path, source: Path) -> None:
+    path.write_text(
+        json.dumps(
+            {
+                "schema_version": "aan.visual_material_profile.v1",
+                "profile_id": "scientific_workbench.centrifuge_tube_cap.red",
+                "revision": "r1",
+                "source_binding": {"sha256": _sha256(source)},
+                "override": {
+                    "kind": "usd_preview_surface",
+                    "material_name": "RedPolypropylene",
+                    "binding_targets": ["/World/Cap/Visual/Source/mesh"],
+                    "diffuse_color": [0.65, 0.02, 0.02],
+                    "opacity": 1.0,
+                    "roughness": 0.35,
+                    "metallic": 0.0,
+                    "claim_boundary": "Visual color override only; physics is unchanged.",
                 },
             }
         )
@@ -122,3 +149,57 @@ def Xform \"World\"
     assert mesh.GetRelationship("material:binding").GetTargets() == [
         "/World/Beaker/__aan_visual_materials/TransparentGlass"
     ]
+
+
+def test_profile_authors_package_local_usd_preview_surface(tmp_path: Path) -> None:
+    source = tmp_path / "cap.usda"
+    source.write_text("#usda 1.0\n", encoding="utf-8")
+    profile = tmp_path / "red_cap.json"
+    _write_preview_surface_profile(profile, source)
+    resolution = load_visual_material_profile(profile, source)
+
+    assert resolution.status == "pass"
+    assert resolution.override_kind == "usd_preview_surface"
+    assert resolution.diffuse_color == (0.65, 0.02, 0.02)
+
+    layout = TargetPackageLayout(tmp_path / "package")
+    layout.root.mkdir()
+    (layout.root / "base.usda").write_text(
+        """#usda 1.0
+def Xform "World"
+{
+    def Xform "Cap"
+    {
+        def Xform "Visual"
+        {
+            def Xform "Source"
+            {
+                def Mesh "mesh" {}
+            }
+        }
+    }
+}
+""",
+        encoding="utf-8",
+    )
+    layout.root_usd.write_text(
+        "#usda 1.0\n( subLayers = [ @overlays/visual_material.usda@, @base.usda@ ] )\n",
+        encoding="utf-8",
+    )
+
+    result = apply_visual_material_profile(layout, profile, source, ["/World/Cap"])
+
+    assert result.overall_status == "pass"
+    assert result.profile_record["override_kind"] == "usd_preview_surface"
+    assert "package_mdl_path" not in result.profile_record
+    from pxr import Gf, Usd, UsdShade  # type: ignore
+
+    stage = Usd.Stage.Open(str(layout.root_usd))
+    material = UsdShade.Material.Get(
+        stage, "/World/Cap/__aan_visual_materials/RedPolypropylene"
+    )
+    shader = UsdShade.Shader.Get(stage, material.GetPath().AppendChild("Shader"))
+    assert shader.GetIdAttr().Get() == "UsdPreviewSurface"
+    assert shader.GetInput("diffuseColor").Get() == Gf.Vec3f(0.65, 0.02, 0.02)
+    assert shader.GetInput("roughness").Get() == pytest.approx(0.35)
+    assert shader.GetInput("metallic").Get() == pytest.approx(0.0)

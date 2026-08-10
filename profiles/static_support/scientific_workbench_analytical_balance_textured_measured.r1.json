@@ -1,0 +1,12 @@
+{
+  "schema_version": "aan.static_support_profile.v1",
+  "profile_id": "scientific_workbench.analytical_balance_textured_measured.static_support",
+  "revision": "r1",
+  "source_binding": {"sha256": "6d438ed522bc59c678980b94ff014f2ce8307ce71e77270db11e10af58c9a6a5"},
+  "asset_entry_prim": "/World/AnalyticalBalance",
+  "collider_policy": "prefer_source_then_proxy",
+  "source_collider_prim": null,
+  "proxy": {"prim_path": "/World/AnalyticalBalance/__aan_static_support_proxy", "center_xyz": [0.0, 0.0, 0.038], "size_xyz": [0.11617, 0.11617, 0.076]},
+  "support_surface": {"top_z": 0.076, "x_range": [-0.058085, 0.058085], "y_range": [-0.058085, 0.058085], "edge_band_m": 0.004},
+  "physics_material": {"prim_path": "/World/AnalyticalBalance/__aan_static_support_material", "static_friction": 0.5, "dynamic_friction": 0.5, "restitution": 0.0, "friction_combine_mode": "max", "restitution_combine_mode": "multiply", "calibration_status": "provisional_unmeasured"}
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": "aan.visual_material_profile.v1",
+  "profile_id": "scientific_workbench.centrifuge_tube_50ml_cap.red_preview",
+  "revision": "r1",
+  "source_binding": {
+    "sha256": "3aa9a90bdd65822137f4e6c9924728d9ae70ae2c383a68765da0962adaf1ad1e"
+  },
+  "override": {
+    "kind": "usd_preview_surface",
+    "material_name": "RedPolypropylene",
+    "binding_targets": [
+      "/World/CentrifugeTube50mlCap/Visual/Source/Cap_Shell_Mesh"
+    ],
+    "diffuse_color": [0.65, 0.02, 0.02],
+    "opacity": 1.0,
+    "roughness": 0.35,
+    "metallic": 0.0,
+    "claim_boundary": "Intentional red visual compatibility override for the declared cap mesh only. Color and roughness are representative rather than measured; geometry, collision, mass, inertia, and interaction frames are unchanged."
+  }
+}
