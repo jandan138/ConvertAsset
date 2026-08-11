@@ -49,6 +49,7 @@ ConvertAsset 是面向 NVIDIA Isaac Sim / USD 资产的转换与优化工具集�
 - GLB：纯 Python 导出，支持 face-varying UV flattening 与 PBR 贴图；
 - camera/rendering：为资产缩略图和单资产本地 Isaac 出图提供 orbit camera framing；
 - AAN：Phase 1 USD -> EBench Isaac 4.1 normalization MVP 已完成阶段收口；下游集成从 [AAN Consumer Handoff](operations/asset-application-normalizer-consumer-handoff.md) 开始；
+- scientific workbench：[2.000 × 0.800 × 0.755 m 标准桌与 29/42 闭合资产交付](records/2026-08-11-scientific-workbench-table-and-closure-assets.md)；
 - docs：采用 Genesis-LLM 风格的 purpose-based taxonomy。
 
 ## 论文修订入口
