@@ -65,6 +65,7 @@ def build_manifest(
     output_role_admission: dict[str, Any] | None = None,
     normalization_actions: list[dict[str, Any]] | None = None,
     interaction_contract: dict[str, Any] | None = None,
+    dynamic_context_contract: dict[str, Any] | None = None,
     static_support_contract: dict[str, Any] | None = None,
     visual_preservation_fingerprint: dict[str, Any] | None = None,
     visual_material_profile: dict[str, Any] | None = None,
@@ -187,6 +188,11 @@ def build_manifest(
             "schema_version": "aan.interaction_contract.v1",
             "status": "not_requested",
         },
+        "dynamic_context_contract": dynamic_context_contract
+        or {
+            "schema_version": "aan.dynamic_context_contract.v1",
+            "status": "not_requested",
+        },
         "static_support_contract": static_support_contract
         or {
             "schema_version": "aan.static_support_contract.v1",
@@ -236,6 +242,9 @@ def build_manifest(
                 ),
                 "interaction_profile": (
                     str(request.interaction_profile) if request.interaction_profile else None
+                ),
+                "context_profile": (
+                    str(request.context_profile) if request.context_profile else None
                 ),
                 "support_relations": (
                     str(request.support_relations) if request.support_relations else None

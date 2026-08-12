@@ -11,7 +11,9 @@ from .material_closure import build_material_closure, build_not_run_material_clo
 from .interaction_authoring import (
     apply_object_interaction_profile,
     build_not_run_interaction_authoring,
+    dynamic_context_contract,
     finalize_interaction_contract,
+    InteractionAuthoringResult,
 )
 from .mdl_runtime_closure import (
     build_material_runtime_closure,
@@ -94,6 +96,14 @@ def validate_request(request: NormalizeAssetRequest) -> NormalizeAssetResult | N
         return _validation_error(f"interaction profile not found: {request.interaction_profile}")
     if request.interaction_profile is not None and request.asset_role != "dynamic":
         return _validation_error("--interaction-profile is only valid for the dynamic asset role")
+    if request.context_profile is not None and not request.context_profile.is_file():
+        return _validation_error(f"context profile not found: {request.context_profile}")
+    if request.context_profile is not None and request.asset_role != "dynamic":
+        return _validation_error("--context-profile is only valid for the dynamic asset role")
+    if request.context_profile is not None and request.interaction_profile is not None:
+        return _validation_error(
+            "--context-profile and --interaction-profile are mutually exclusive"
+        )
     generated_environment = (
         request.source_runtime == "blender44"
         and request.asset_role == "visual_static_environment"
@@ -526,7 +536,7 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
                     ),
                 }
             ]
-            if request.interaction_profile is not None
+            if request.interaction_profile is not None or request.context_profile is not None
             else []
         ),
         *(
@@ -622,6 +632,20 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
         if request.out_dir.is_dir()
         else interaction.interaction_contract
     )
+    context_contract = (
+        dynamic_context_contract(
+            InteractionAuthoringResult(
+                interaction.overall_status,
+                interaction.return_code,
+                interaction_contract,
+                interaction.normalization_actions,
+                interaction.blocked_reasons,
+                interaction.grasp_cross_section,
+            )
+        )
+        if request.context_profile is not None
+        else None
+    )
     effective_material_closure = (
         material_runtime.material_closure or material.material_closure
     )
@@ -666,7 +690,10 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
             *interaction.normalization_actions,
             *static_support.normalization_actions,
         ],
-        interaction_contract=interaction_contract,
+        interaction_contract=(
+            None if request.context_profile is not None else interaction_contract
+        ),
+        dynamic_context_contract=context_contract,
         static_support_contract=static_support_contract,
         visual_preservation_fingerprint=role_normalization.visual_preservation_fingerprint,
         visual_material_profile=visual_material.profile_record,
@@ -714,6 +741,14 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
                     "The package records one interaction rigid root, declared colliders, and authoritative body-local opening/grasp/support frames."
                 ]
                 if interaction.overall_status == "pass"
+                and request.context_profile is None
+                else []
+            ),
+            *(
+                [
+                    "The package records one dynamic context rigid root, declared colliders, and an authoritative support frame."
+                ]
+                if context_contract is not None and context_contract.get("status") == "pass"
                 else []
             ),
             *(
@@ -766,6 +801,13 @@ def normalize_asset(request: NormalizeAssetRequest) -> NormalizeAssetResult:
                     "Stable support and gripper collision have passed runtime probes.",
                 ]
                 if request.interaction_profile is not None
+                else []
+            ),
+            *(
+                [
+                    "The dynamic context package is grasp-ready, task-interaction-ready, or benchmark-ready."
+                ]
+                if request.context_profile is not None
                 else []
             ),
             *(

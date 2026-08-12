@@ -21,9 +21,11 @@ from .stage_metrics import METRIC_FIELDS, metrics_match, read_stage_metrics
 
 PROFILE_SCHEMA_VERSION = "aan.object_interaction_profile.v1"
 PROFILE_SCHEMA_VERSION_V2 = "aan.object_interaction_profile.v2"
+CONTEXT_PROFILE_SCHEMA_VERSION = "aan.dynamic_context_profile.v1"
 SUPPORTED_PROFILE_SCHEMA_VERSIONS = {
     PROFILE_SCHEMA_VERSION,
     PROFILE_SCHEMA_VERSION_V2,
+    CONTEXT_PROFILE_SCHEMA_VERSION,
 }
 REQUIRED_NAMED_FRAMES = {"opening", "grasp", "support"}
 COLLIDER_MODES = {"preserve", "author", "disable"}
@@ -566,7 +568,7 @@ def _resolve_interaction_regions(
     """
     if raw_regions is None:
         return {}
-    if schema_version != PROFILE_SCHEMA_VERSION_V2:
+    if schema_version not in {PROFILE_SCHEMA_VERSION_V2, CONTEXT_PROFILE_SCHEMA_VERSION}:
         errors.append("interaction_regions is only supported by v2 profiles")
         return {}
     if not isinstance(raw_regions, dict) or not raw_regions:

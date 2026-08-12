@@ -59,6 +59,10 @@ class TargetPackageLayout:
         return self.root / "interaction" / "profile.json"
 
     @property
+    def context_profile_json(self) -> Path:
+        return self.root / "context" / "profile.json"
+
+    @property
     def visual_material_overlay_usd(self) -> Path:
         return self.root / "overlays" / "visual_material.usda"
 

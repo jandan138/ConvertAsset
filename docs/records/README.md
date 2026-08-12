@@ -6,6 +6,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 ## Engineering Records
 
+- [2026-08-12 AAN Dynamic Context Profile](2026-08-12-aan-dynamic-context-profile.md)
 - [2026-08-10 AAN Scientific Workbench Asset Library Admission](2026-08-10-aan-scientific-workbench-asset-library.md)
 - [2026-07-31 AAN Scientific Workbench Rigid-Object Packages](2026-07-31-aan-scientific-workbench-rigid-object-packages.md)
 - [2026-07-31 AAN Qualified Consumer Mounting Contract](2026-07-31-aan-qualified-consumer-mounting-contract.md)

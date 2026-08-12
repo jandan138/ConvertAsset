@@ -16,6 +16,7 @@ from .package_layout import TargetPackageLayout
 
 
 CONTRACT_SCHEMA_VERSION = "aan.interaction_contract.v1"
+CONTEXT_CONTRACT_SCHEMA_VERSION = "aan.dynamic_context_contract.v1"
 PROFILE_PACKAGE_PATH = "interaction/profile.json"
 OVERLAY_PACKAGE_PATH = "overlays/interaction.usda"
 RUNTIME_ARTIFACT_ROOTS = ("deps/", "interaction/", "overlays/", "physics/")
@@ -70,7 +71,8 @@ def apply_object_interaction_profile(
     request: NormalizeAssetRequest,
 ) -> InteractionAuthoringResult:
     """Normalize rigid identity and frames before mass-profile resolution."""
-    if request.interaction_profile is None:
+    selected_profile = request.interaction_profile or request.context_profile
+    if selected_profile is None:
         return build_not_requested_interaction_authoring()
     try:
         from pxr import Gf, Sdf, Usd, UsdGeom, UsdPhysics  # type: ignore
@@ -84,7 +86,7 @@ def apply_object_interaction_profile(
         )
 
     resolution = load_and_resolve_interaction_profile(
-        request.interaction_profile,
+        selected_profile,
         request.source_usd,
         stage,
         request.effective_asset_scope_prims,
@@ -252,7 +254,11 @@ def apply_object_interaction_profile(
                 "admitted interaction profile bytes or digest are missing"
             )
         _write_immutable_copy(
-            layout.interaction_profile_json,
+            (
+                layout.context_profile_json
+                if request.context_profile is not None
+                else layout.interaction_profile_json
+            ),
             profile_bytes,
             expected_sha256=profile_sha,
         )
@@ -387,7 +393,11 @@ def apply_object_interaction_profile(
             "revision": resolution.profile_admission["revision"],
             "source_sha256": resolution.profile_admission["source_sha256"],
             "profile_sha256": resolution.profile_admission["profile_sha256"],
-            "package_path": PROFILE_PACKAGE_PATH,
+            "package_path": (
+                "context/profile.json"
+                if request.context_profile is not None
+                else PROFILE_PACKAGE_PATH
+            ),
             "overlay_path": OVERLAY_PACKAGE_PATH,
         },
         "asset_entry_prim": root_path,
@@ -424,6 +434,33 @@ def apply_object_interaction_profile(
         blocked_reasons=[],
         grasp_cross_section=grasp_cross_section,
     )
+
+
+def dynamic_context_contract(
+    result: InteractionAuthoringResult,
+) -> dict[str, Any]:
+    """Project shared rigid authoring evidence into the narrow context ABI."""
+    source = result.interaction_contract
+    if source.get("status") != "pass":
+        return {
+            "schema_version": CONTEXT_CONTRACT_SCHEMA_VERSION,
+            "status": source.get("status", result.overall_status),
+        }
+    return {
+        "schema_version": CONTEXT_CONTRACT_SCHEMA_VERSION,
+        "status": "pass",
+        "profile": dict(source["profile"]),
+        "asset_entry_prim": source["asset_entry_prim"],
+        "runtime_identity": dict(source["runtime_identity"]),
+        "collider_prims": list(source["collider_prims"]),
+        "support_frame": dict(source["named_frames"]["support"]),
+        "stable_support_gate": dict(source["stable_support_gate"]),
+        "closure": dict(source["closure"]),
+        "claim_boundary": (
+            "Dynamic scene-context physics only; no grasp, manipulation, task, "
+            "policy, or benchmark-readiness claim."
+        ),
+    }
 
 
 def _define_package_collider_geometry(

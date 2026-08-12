@@ -273,6 +273,101 @@ def _interaction_profile(source: Path, path: Path) -> Path:
     return path
 
 
+def _context_profile(source: Path, path: Path) -> Path:
+    payload = {
+        "schema_version": "aan.dynamic_context_profile.v1",
+        "profile_id": "tests.dynamic-context",
+        "revision": "r1",
+        "source_binding": {
+            "sha256": _sha256(source),
+            "stage_metrics": {
+                "meters_per_unit": 1.0,
+                "kilograms_per_unit": 1.0,
+                "up_axis": "Z",
+                "time_codes_per_second": 60.0,
+                "frames_per_second": 24.0,
+            },
+        },
+        "asset_entry_prim": "/World/Asset",
+        "rigid_root": {
+            "motion_role": "dynamic",
+            "disable_descendant_rigid_bodies": True,
+            "remove_descendant_mass_api": True,
+        },
+        "colliders": [
+            {
+                "relative_path": "Body",
+                "mode": "preserve",
+                "purpose": ["support"],
+            }
+        ],
+        "required_named_frames": ["support"],
+        "named_frames": {
+            "support": {
+                "translation_body_local_usd": [0.0, 0.0, 0.0],
+                "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0],
+            }
+        },
+        "open_top": {"required": False},
+        "runtime_gates": {
+            "root_motion": {"required": False, "min_translation_m": 0.01},
+            "stable_support": {"required": True},
+            "gripper_collision": {"required": False},
+        },
+    }
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    return path
+
+
+def test_dynamic_context_profile_is_mutually_exclusive_with_interaction(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "source.usda"
+    source.write_text(_source_usda(), encoding="utf-8")
+    interaction = _interaction_profile(source, tmp_path / "interaction.json")
+    context = _context_profile(source, tmp_path / "context.json")
+    physics = _physics_profile(source, tmp_path / "physics.json")
+    request = _request(
+        source,
+        tmp_path / "out",
+        tmp_path / "manifest.json",
+        physics,
+        interaction,
+    )
+    result = normalize_asset(
+        replace(
+            request,
+            interaction_profile=interaction,
+            context_profile=context,
+        )
+    )
+    assert result.overall_status == "invalid"
+
+
+def test_dynamic_context_contract_does_not_claim_task_interaction(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "source.usda"
+    source.write_text(_source_usda(), encoding="utf-8")
+    context = _context_profile(source, tmp_path / "context.json")
+    physics = _physics_profile(source, tmp_path / "physics.json")
+    out = tmp_path / "out"
+    request = _request(source, out, tmp_path / "manifest.json", physics, context)
+    result = normalize_asset(
+        replace(request, context_profile=context, interaction_profile=None)
+    )
+    assert result.overall_status == "pass"
+    manifest = json.loads((out / "evidence/manifest.json").read_text())
+    contract = manifest["dynamic_context_contract"]
+    assert contract["schema_version"] == "aan.dynamic_context_contract.v1"
+    assert contract["status"] == "pass"
+    assert contract["asset_entry_prim"] == "/World/Asset"
+    assert contract["support_frame"]["parent_prim"] == "/World/Asset"
+    assert "named_frames" not in contract
+    assert manifest["interaction_contract"]["status"] == "not_requested"
+    assert any("grasp-ready" in item.lower() for item in manifest["claims_forbidden"])
+
+
 def _physics_profile(source: Path, path: Path) -> Path:
     payload = {
         "schema_version": "aan.physics_profile.v1",

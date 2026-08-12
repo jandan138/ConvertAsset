@@ -16,6 +16,7 @@
 - **[Articulated Device Admission And Requalification](operations/articulated-device-admission-requalification.md)** - producer-owned articulated USD/proxy/profile/physics admission, promotion, and Scenario Forge loader handoff
 - **[AAN Qualified Consumer Mounting Contract](records/2026-07-31-aan-qualified-consumer-mounting-contract.md)** - fixed-base articulated asset 的支撑面安装姿态、Isaac 4.1 稳定性资格与 manifest hash 绑定
 - **[AAN Object Interaction Profile](records/2026-07-14-aan-object-interaction-profile.md)** - package-owned unique rigid root、collider/open-top intent、named frames 与 runtime-tree closure 记录
+- **[AAN Dynamic Context Profile](records/2026-08-12-aan-dynamic-context-profile.md)** - 动态桌面背景物的窄合同：保留物理与碰撞，不声明抓取、任务或计分语义
 - **[AAN Articulated Reset Capture Synchronization](records/2026-07-29-aan-articulated-reset-capture-synchronization.md)** - dynamic articulation reset baseline/cycle sampling alignment and Isaac 4.1 evidence
 - **[Blender-generated Environment Admission](records/2026-07-30-aan-blender-generated-environment-admission.md)** - Blender 4.4 visual-static source facade, package closure, and room-zone profiling
 - **[Generated-room Full-workcell Clearance](records/2026-08-03-aan-generated-room-workcell-clearance.md)** - request-declared room envelope audit with legacy-compatible defaults

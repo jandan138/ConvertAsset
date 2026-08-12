@@ -88,6 +88,10 @@ class NormalizeAssetRequest:
     # Object topology, collision intent, and named interaction frames are a
     # separate versioned contract.  Physics profile v1 remains mass-only.
     interaction_profile: Path | None = None
+    # Dynamic scene dressing uses the same rigid-root/collider authoring
+    # machinery as manipulable objects, but carries a deliberately narrower
+    # consumer contract: physical context, not task interaction readiness.
+    context_profile: Path | None = None
     # Blender-generated static rooms carry producer support relations, but AAN
     # independently recomputes their geometry before package admission.
     support_relations: Path | None = None

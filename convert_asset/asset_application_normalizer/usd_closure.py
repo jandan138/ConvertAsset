@@ -233,7 +233,11 @@ def _scope_dependency_filter(
     """
     role_scoped = request.asset_role == "static_support" or is_visual_static_role(request.asset_role) or (
         request.asset_role == "dynamic"
-        and (request.physics_profile is not None or request.interaction_profile is not None)
+        and (
+            request.physics_profile is not None
+            or request.interaction_profile is not None
+            or request.context_profile is not None
+        )
     )
     scope_prims = list(request.effective_asset_scope_prims)
     if not role_scoped or not scope_prims:
@@ -905,7 +909,7 @@ def _write_package(
         layout.physics_overlay_usd.parent.mkdir(parents=True, exist_ok=True)
         layout.physics_overlay_usd.write_text("#usda 1.0\n", encoding="utf-8")
         package_sublayers.insert(0, "overlays/physics_profile.usda")
-        if request.interaction_profile is not None:
+        if request.interaction_profile is not None or request.context_profile is not None:
             layout.interaction_overlay_usd.write_text(
                 "#usda 1.0\n", encoding="utf-8"
             )
@@ -923,7 +927,10 @@ def _write_package(
                 "#usda 1.0\n", encoding="utf-8"
             )
             package_sublayers.insert(
-                2 if request.interaction_profile is not None else 1,
+                2
+                if request.interaction_profile is not None
+                or request.context_profile is not None
+                else 1,
                 "overlays/visual_material.usda",
             )
     source_metrics = read_stage_metrics(layout.source_root_usd)
@@ -936,7 +943,10 @@ def _write_package(
         encoding="utf-8",
     )
     if (
-        request.interaction_profile is not None
+        (
+            request.interaction_profile is not None
+            or request.context_profile is not None
+        )
         and scope_extraction.get("status") == "pass"
     ):
         qualification = _qualify_entry_reference_materials(
@@ -947,7 +957,7 @@ def _write_package(
         if qualification["status"] != "pass":
             scope_extraction["status"] = "blocked"
             scope_extraction["reason"] = (
-                "Interaction asset_entry_prim material reference closure failed: "
+                "Dynamic profile asset_entry_prim material reference closure failed: "
                 + "; ".join(qualification["errors"])
             )
     return scope_extraction
@@ -1016,7 +1026,9 @@ def _build_role_scoped_source(
     materials from entering the target runtime.
     """
     dynamic_profiled = request.asset_role == "dynamic" and (
-        request.physics_profile is not None or request.interaction_profile is not None
+        request.physics_profile is not None
+        or request.interaction_profile is not None
+        or request.context_profile is not None
     )
     if (
         request.asset_role != "static_support"
@@ -1104,7 +1116,7 @@ def _build_role_scoped_source(
                 raise RuntimeError(f"Sdf.CopySpec returned false for {root_spec.path}")
         reference_scope_material_relocations: list[dict[str, str]] = []
         material_output_paths = list(material_paths)
-        if request.interaction_profile is not None:
+        if request.interaction_profile is not None or request.context_profile is not None:
             scoped_stage_for_relocation = Usd.Stage.Open(scoped)
             if scoped_stage_for_relocation is None:
                 raise RuntimeError("Scoped USDA could not be opened for material relocation")
@@ -1202,7 +1214,7 @@ def _build_role_scoped_source(
             "frames_per_second": float(source_stage.GetFramesPerSecond()),
         },
     }
-    if request.interaction_profile is not None:
+    if request.interaction_profile is not None or request.context_profile is not None:
         result["reference_scope_material_relocations"] = (
             reference_scope_material_relocations
         )

@@ -85,6 +85,14 @@ def add_normalize_asset_parser(subparsers: argparse._SubParsersAction) -> None:
         ),
     )
     parser.add_argument(
+        "--context-profile",
+        default=None,
+        help=(
+            "Source-bound dynamic-context profile JSON. It authors the unique "
+            "rigid root and colliders without claiming grasp or task interaction readiness."
+        ),
+    )
+    parser.add_argument(
         "--support-relations",
         default=None,
         help=(
@@ -165,6 +173,7 @@ def request_from_args(args: argparse.Namespace) -> NormalizeAssetRequest:
         interaction_profile=(
             Path(args.interaction_profile) if args.interaction_profile else None
         ),
+        context_profile=(Path(args.context_profile) if args.context_profile else None),
         support_relations=(
             Path(args.support_relations) if args.support_relations else None
         ),
