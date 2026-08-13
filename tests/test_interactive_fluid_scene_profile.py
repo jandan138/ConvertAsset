@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Callable
 
 import pytest
 
@@ -75,6 +76,70 @@ def _profile(tmp_path: Path) -> dict[str, object]:
     }
 
 
+def _profile_v2(tmp_path: Path) -> dict[str, object]:
+    payload = _profile(tmp_path)
+    payload["schema_version"] = "aan.interactive_fluid_scene_profile.v2"
+    payload["profile_id"] = "example.fluid.v2"
+    payload["revision"] = "r8.1"
+    payload["container_collision"] = {
+        "strategy": "visual_mesh_partitioned_convex_decomposition",
+        "disable_existing_proxy_paths": [
+            "/World/FluidWorkcell/SourceContainer/__aan_collision_proxy"
+        ],
+        "partition_candidates": [12, 24, 48],
+        "selected_partition_count": 24,
+        "source_visual_mesh": (
+            "/World/FluidWorkcell/SourceContainer/Visual/HollowBody"
+        ),
+        "meshes": [
+            {
+                "prim_path": (
+                    "/World/FluidWorkcell/SourceContainer/"
+                    "VisibleCollisionPartitions/sector_000"
+                ),
+                "approximation": "convexDecomposition",
+                "error_percentage": 10.0,
+                "render_visible": True,
+                "source_face_indices": [0, 1],
+            },
+            {
+                "prim_path": (
+                    "/World/FluidWorkcell/TargetContainer/Visual/HollowBody"
+                ),
+                "approximation": "convexDecomposition",
+                "error_percentage": 10.0,
+                "render_visible": True,
+                "source_face_indices": [],
+            },
+        ],
+    }
+    payload["qualification"] = {
+        "static_hold_seconds": 8.0,
+        "minimum_source_retention_ratio": 0.95,
+        "maximum_below_support_count": 0,
+        "minimum_final_target_ratio": 0.8,
+        "maximum_tabletop_spill_ratio": 0.05,
+        "required_cold_runs": 3,
+        "oracle": {
+            "pivot_inside_target_rim_m": 0.025,
+            "pivot_above_target_rim_m": 0.06,
+            "tilt_axis": "local_y",
+            "tilt_degrees": -110.0,
+            "tilt_seconds": 3.0,
+            "hold_seconds": 3.0,
+            "settle_seconds": 2.0,
+        },
+        "performance": {
+            "width": 960,
+            "height": 540,
+            "minimum_rtx_fps": 40.0,
+            "required_repeats": 3,
+            "gpu": "NVIDIA GeForce RTX 4090",
+        },
+    }
+    return payload
+
+
 def test_profile_accepts_arbitrary_fixed_particle_count(tmp_path: Path) -> None:
     payload = _profile(tmp_path)
     profile_path = tmp_path / "profile.json"
@@ -127,4 +192,47 @@ def test_profile_rejects_absolute_entrypoint_and_unapproved_composition(tmp_path
     payload["allowed_consumer_composition"] = ["arbitrary_usd_overlay"]
     profile_path.write_text(json.dumps(payload))
     with pytest.raises(InteractiveFluidSceneProfileError, match="composition"):
+        load_interactive_fluid_scene_profile(profile_path)
+
+
+def test_v2_profile_accepts_visible_partitioned_convex_decomposition(
+    tmp_path: Path,
+) -> None:
+    payload = _profile_v2(tmp_path)
+    profile_path = tmp_path / "profile.json"
+    profile_path.write_text(json.dumps(payload))
+
+    profile = load_interactive_fluid_scene_profile(profile_path)
+
+    assert profile.schema_version.endswith(".v2")
+    assert profile.collision_strategy == (
+        "visual_mesh_partitioned_convex_decomposition"
+    )
+    assert profile.selected_partition_count == 24
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        (lambda p: p["container_collision"].update(selected_partition_count=16), "partition"),
+        (
+            lambda p: p["container_collision"]["meshes"][0].update(render_visible=False),
+            "render_visible",
+        ),
+        (lambda p: p["qualification"].update(required_cold_runs=1), "cold runs"),
+        (
+            lambda p: p["qualification"].update(minimum_final_target_ratio=0.05),
+            "target ratio",
+        ),
+    ],
+)
+def test_v2_profile_rejects_weaker_or_hidden_partition_contract(
+    tmp_path: Path, mutation: Callable[[dict[str, object]], None], message: str
+) -> None:
+    payload = _profile_v2(tmp_path)
+    mutation(payload)
+    profile_path = tmp_path / "profile.json"
+    profile_path.write_text(json.dumps(payload))
+
+    with pytest.raises(InteractiveFluidSceneProfileError, match=message):
         load_interactive_fluid_scene_profile(profile_path)

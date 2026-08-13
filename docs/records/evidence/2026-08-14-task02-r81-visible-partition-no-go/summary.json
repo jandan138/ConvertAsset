@@ -1,0 +1,241 @@
+{
+  "candidate_contract": {
+    "partition_counts": [
+      12,
+      24,
+      48
+    ],
+    "required_cold_runs_for_promotion": 3,
+    "runtime": "Isaac Sim 4.1 EOS GenManip managed environment",
+    "timeout_seconds": 45.0
+  },
+  "candidate_failures": {
+    "p12": true,
+    "p24": true,
+    "p48": true
+  },
+  "claim_boundary": "Five-update admission only. No static retention, transfer, FPS, robot, policy, or benchmark success is claimed.",
+  "evidence_root": "outputs/scientific_workbench_task02_fluid_component_r81_20260814/evidence/five_update_sweep_20260814_012535",
+  "full_report_sha256": "d232c650fcaaf65b8ab27f6becd4747af069446e89e4278585c4dc835f74e68c",
+  "negative_control_passed": true,
+  "overall_status": "measured_no_go",
+  "promotion": {
+    "allowed": false,
+    "reason": "all_partition_candidates_block_before_physics_qualification"
+  },
+  "runs": {
+    "negative_control_no_partitions": [
+      {
+        "blocked_reason": null,
+        "completed_update_count": 5,
+        "elapsed_seconds": 32.22431464120746,
+        "returncode": -6,
+        "run_index": 1,
+        "scene_dependency_sha256": {
+          "component.usda": "33546fae085da8f8fd5c0dac54cfa993dd04b478e8c44404b639bf4731dc2b37"
+        },
+        "scene_sha256": "a4d470254b12e1654e1d53a115370a110d96b9daff7de927ab2d839050254bf4",
+        "status": "five_updates_completed",
+        "stderr_sha256": "aee800b8fbc42ec659bc64d7a1dbe432f8650216f50e6d43f2b036046c8282c8",
+        "stdout_sha256": "8830c5544be6a015377ea12b2b7b01a0e7e8fcfdc4482d52d84b0d32b6ed9108",
+        "timeout_seconds": 45.0,
+        "timings": {
+          "app_ready_seconds": 28.584493,
+          "open_return_seconds": 0.289501,
+          "update_01_seconds": 1.219613,
+          "update_02_seconds": 0.058055,
+          "update_03_seconds": 0.005564,
+          "update_04_seconds": 0.013317,
+          "update_05_seconds": 0.020836
+        }
+      }
+    ],
+    "p12": [
+      {
+        "blocked_reason": "five_rtx_updates_did_not_complete_before_timeout",
+        "completed_update_count": 1,
+        "elapsed_seconds": 55.37876904755831,
+        "returncode": -9,
+        "run_index": 1,
+        "scene_dependency_sha256": {
+          "component.usda": "33546fae085da8f8fd5c0dac54cfa993dd04b478e8c44404b639bf4731dc2b37"
+        },
+        "scene_sha256": "c8522bc56b91f0765528643735e74b52848403cb74dc16b2554c7017e10b6af4",
+        "status": "blocked_update_timeout",
+        "stderr_sha256": "e23fe7953c782adfa1b26e7854ef10f78cdfdf090a921082e49bb75cdb985ee0",
+        "stdout_sha256": "5880fb0023e5c639849a7f174cdf99f9ad6d13e468f9d880f9e56f7dd75db4a7",
+        "timeout_seconds": 45.0,
+        "timings": {
+          "app_ready_seconds": 18.242886,
+          "open_return_seconds": 0.259046,
+          "update_01_seconds": 1.172847
+        }
+      },
+      {
+        "blocked_reason": "five_rtx_updates_did_not_complete_before_timeout",
+        "completed_update_count": 1,
+        "elapsed_seconds": 55.360317565500736,
+        "returncode": -9,
+        "run_index": 2,
+        "scene_dependency_sha256": {
+          "component.usda": "33546fae085da8f8fd5c0dac54cfa993dd04b478e8c44404b639bf4731dc2b37"
+        },
+        "scene_sha256": "c8522bc56b91f0765528643735e74b52848403cb74dc16b2554c7017e10b6af4",
+        "status": "blocked_update_timeout",
+        "stderr_sha256": "e23fe7953c782adfa1b26e7854ef10f78cdfdf090a921082e49bb75cdb985ee0",
+        "stdout_sha256": "dc59cfb609e0fbd97ea14bab969d95293406374e8edadb4022a9c67ad8c413ef",
+        "timeout_seconds": 45.0,
+        "timings": {
+          "app_ready_seconds": 18.997497,
+          "open_return_seconds": 0.291474,
+          "update_01_seconds": 1.200061
+        }
+      },
+      {
+        "blocked_reason": "five_rtx_updates_did_not_complete_before_timeout",
+        "completed_update_count": 1,
+        "elapsed_seconds": 55.31631987914443,
+        "returncode": -9,
+        "run_index": 3,
+        "scene_dependency_sha256": {
+          "component.usda": "33546fae085da8f8fd5c0dac54cfa993dd04b478e8c44404b639bf4731dc2b37"
+        },
+        "scene_sha256": "c8522bc56b91f0765528643735e74b52848403cb74dc16b2554c7017e10b6af4",
+        "status": "blocked_update_timeout",
+        "stderr_sha256": "e23fe7953c782adfa1b26e7854ef10f78cdfdf090a921082e49bb75cdb985ee0",
+        "stdout_sha256": "2fe94a7cf3120d308445dce15e12f969cd6eb099f4d3983e4bc0182642d28918",
+        "timeout_seconds": 45.0,
+        "timings": {
+          "app_ready_seconds": 20.281255,
+          "open_return_seconds": 0.231475,
+          "update_01_seconds": 1.16509
+        }
+      }
+    ],
+    "p24": [
+      {
+        "blocked_reason": "five_rtx_updates_did_not_complete_before_timeout",
+        "completed_update_count": 1,
+        "elapsed_seconds": 55.34203517623246,
+        "returncode": -9,
+        "run_index": 1,
+        "scene_dependency_sha256": {
+          "component.usda": "b6151e93380c3724da3ab2ffb3de8e7a778de86367aa7a253ed8e0ec0fb4b647"
+        },
+        "scene_sha256": "c8522bc56b91f0765528643735e74b52848403cb74dc16b2554c7017e10b6af4",
+        "status": "blocked_update_timeout",
+        "stderr_sha256": "e23fe7953c782adfa1b26e7854ef10f78cdfdf090a921082e49bb75cdb985ee0",
+        "stdout_sha256": "0a3d6a314deb168872b6cd567efcc1e34c204fc210a6a2a1b98c603c436efce5",
+        "timeout_seconds": 45.0,
+        "timings": {
+          "app_ready_seconds": 19.143387,
+          "open_return_seconds": 0.253061,
+          "update_01_seconds": 1.292909
+        }
+      },
+      {
+        "blocked_reason": "five_rtx_updates_did_not_complete_before_timeout",
+        "completed_update_count": 1,
+        "elapsed_seconds": 55.89531293325126,
+        "returncode": -9,
+        "run_index": 2,
+        "scene_dependency_sha256": {
+          "component.usda": "b6151e93380c3724da3ab2ffb3de8e7a778de86367aa7a253ed8e0ec0fb4b647"
+        },
+        "scene_sha256": "c8522bc56b91f0765528643735e74b52848403cb74dc16b2554c7017e10b6af4",
+        "status": "blocked_update_timeout",
+        "stderr_sha256": "e23fe7953c782adfa1b26e7854ef10f78cdfdf090a921082e49bb75cdb985ee0",
+        "stdout_sha256": "742c0b125e4ba75b88b4bac2bbab581956b7b8f20fd96e2128ebeb548263e65d",
+        "timeout_seconds": 45.0,
+        "timings": {
+          "app_ready_seconds": 26.391168,
+          "open_return_seconds": 0.264094,
+          "update_01_seconds": 1.177601
+        }
+      },
+      {
+        "blocked_reason": "five_rtx_updates_did_not_complete_before_timeout",
+        "completed_update_count": 1,
+        "elapsed_seconds": 55.31137244403362,
+        "returncode": -9,
+        "run_index": 3,
+        "scene_dependency_sha256": {
+          "component.usda": "b6151e93380c3724da3ab2ffb3de8e7a778de86367aa7a253ed8e0ec0fb4b647"
+        },
+        "scene_sha256": "c8522bc56b91f0765528643735e74b52848403cb74dc16b2554c7017e10b6af4",
+        "status": "blocked_update_timeout",
+        "stderr_sha256": "e23fe7953c782adfa1b26e7854ef10f78cdfdf090a921082e49bb75cdb985ee0",
+        "stdout_sha256": "f444a445f8004f86b37372ce60f404002c54b716b4559cdb79bad5db8b2775dc",
+        "timeout_seconds": 45.0,
+        "timings": {
+          "app_ready_seconds": 24.246798,
+          "open_return_seconds": 0.276301,
+          "update_01_seconds": 1.164642
+        }
+      }
+    ],
+    "p48": [
+      {
+        "blocked_reason": "five_rtx_updates_did_not_complete_before_timeout",
+        "completed_update_count": 1,
+        "elapsed_seconds": 55.335103845223784,
+        "returncode": -9,
+        "run_index": 1,
+        "scene_dependency_sha256": {
+          "component.usda": "52aa0159db5db13b1a3c5d32ea57e79b189ff4b3550b6991ea3adcd449c97995"
+        },
+        "scene_sha256": "c8522bc56b91f0765528643735e74b52848403cb74dc16b2554c7017e10b6af4",
+        "status": "blocked_update_timeout",
+        "stderr_sha256": "e23fe7953c782adfa1b26e7854ef10f78cdfdf090a921082e49bb75cdb985ee0",
+        "stdout_sha256": "cc9eda31e29b542b28af418654dc3b832f73bc9974b792215bbdff18462df9c3",
+        "timeout_seconds": 45.0,
+        "timings": {
+          "app_ready_seconds": 25.529243,
+          "open_return_seconds": 0.270434,
+          "update_01_seconds": 1.183012
+        }
+      },
+      {
+        "blocked_reason": "five_rtx_updates_did_not_complete_before_timeout",
+        "completed_update_count": 1,
+        "elapsed_seconds": 55.325195748358965,
+        "returncode": -9,
+        "run_index": 2,
+        "scene_dependency_sha256": {
+          "component.usda": "52aa0159db5db13b1a3c5d32ea57e79b189ff4b3550b6991ea3adcd449c97995"
+        },
+        "scene_sha256": "c8522bc56b91f0765528643735e74b52848403cb74dc16b2554c7017e10b6af4",
+        "status": "blocked_update_timeout",
+        "stderr_sha256": "e23fe7953c782adfa1b26e7854ef10f78cdfdf090a921082e49bb75cdb985ee0",
+        "stdout_sha256": "46103bf043b14f8a1260a79f351cdc09175aaf054204d480822f9194fab99a19",
+        "timeout_seconds": 45.0,
+        "timings": {
+          "app_ready_seconds": 22.986481,
+          "open_return_seconds": 0.300988,
+          "update_01_seconds": 1.299993
+        }
+      },
+      {
+        "blocked_reason": "five_rtx_updates_did_not_complete_before_timeout",
+        "completed_update_count": 1,
+        "elapsed_seconds": 55.33560850843787,
+        "returncode": -9,
+        "run_index": 3,
+        "scene_dependency_sha256": {
+          "component.usda": "52aa0159db5db13b1a3c5d32ea57e79b189ff4b3550b6991ea3adcd449c97995"
+        },
+        "scene_sha256": "c8522bc56b91f0765528643735e74b52848403cb74dc16b2554c7017e10b6af4",
+        "status": "blocked_update_timeout",
+        "stderr_sha256": "e23fe7953c782adfa1b26e7854ef10f78cdfdf090a921082e49bb75cdb985ee0",
+        "stdout_sha256": "050c012fac1cd8b6b233e79fd5ad69d1f0ea39883d3e292be867d8b47b6421d3",
+        "timeout_seconds": 45.0,
+        "timings": {
+          "app_ready_seconds": 28.579123,
+          "open_return_seconds": 0.276655,
+          "update_01_seconds": 1.278288
+        }
+      }
+    ]
+  },
+  "schema_version": "aan.task02_r81_stage_update_sweep.v2"
+}

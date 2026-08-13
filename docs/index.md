@@ -13,6 +13,7 @@
 - **[Canonical Task-Object Facade](operations/build-canonical-task-object-facade.md)** - source-bound identity-entry object facade 与 interaction profile v2 使用说明
 - **[Scientific Workbench Rigid-Object Packages](records/2026-07-31-aan-scientific-workbench-rigid-object-packages.md)** - 烧杯、漏斗、量筒和锥形瓶的任务资产准入及 claim boundary
 - **[Scientific Workbench Asset Library Admission](records/2026-08-10-aan-scientific-workbench-asset-library.md)** - 新增搅拌棒、50 mL 离心管/盖、试管架、磁子、天平、培养皿、药匙与烧杯 r3 的 source-bound 准入
+- **[Task 02 r8.1 Visible-Partition Collision Measured No-Go](records/2026-08-14-task02-r81-visible-partition-measured-no-go.md)** - 量筒可见薄壳 12/24/48 分区 convexDecomposition 的 Isaac 4.1 三轮冷启动否定证据与不晋级结论
 - **[Articulated Device Admission And Requalification](operations/articulated-device-admission-requalification.md)** - producer-owned articulated USD/proxy/profile/physics admission, promotion, and Scenario Forge loader handoff
 - **[AAN Qualified Consumer Mounting Contract](records/2026-07-31-aan-qualified-consumer-mounting-contract.md)** - fixed-base articulated asset 的支撑面安装姿态、Isaac 4.1 稳定性资格与 manifest hash 绑定
 - **[AAN Object Interaction Profile](records/2026-07-14-aan-object-interaction-profile.md)** - package-owned unique rigid root、collider/open-top intent、named frames 与 runtime-tree closure 记录
