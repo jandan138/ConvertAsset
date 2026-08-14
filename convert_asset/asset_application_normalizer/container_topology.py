@@ -31,6 +31,56 @@ class AnnularRimRepair:
     inner_loop: tuple[int, ...]
 
 
+@dataclass(frozen=True)
+class UnifiedCylindricalVesselSpec:
+    """Source-measured dimensions for an 0812-style unified vessel surface."""
+
+    outer_radius: float
+    inner_radius: float
+    bottom_z: float
+    floor_z: float
+    rim_center_z: float
+    rim_major_radius: float
+    rim_radial_radius: float
+    rim_vertical_radius: float
+    sides: int = 96
+    rim_arc_segments: int = 8
+
+
+@dataclass(frozen=True)
+class UnifiedCylindricalVesselMesh:
+    """One render-visible, all-triangle glass surface with an open cavity."""
+
+    points: tuple[tuple[float, float, float], ...]
+    face_vertex_counts: tuple[int, ...]
+    face_vertex_indices: tuple[int, ...]
+    cross_section: tuple[tuple[float, float], ...]
+    radial_side_count: int
+    cavity_radius: float
+    cavity_floor_z: float
+    maximum_rim_chord_error_m: float
+
+
+@dataclass(frozen=True)
+class ConvexVesselPiece:
+    """One closed, low-vertex convex candidate derived from the vessel surface."""
+
+    name: str
+    role: str
+    points: tuple[tuple[float, float, float], ...]
+    face_vertex_counts: tuple[int, ...]
+    face_vertex_indices: tuple[int, ...]
+    rotation_z_degrees: float = 0.0
+
+
+@dataclass(frozen=True)
+class GPUConvexVesselPartition:
+    pieces: tuple[ConvexVesselPiece, ...]
+    wall_piece_count: int
+    bottom_piece_count: int
+    maximum_surface_error_m: float
+
+
 def _faces(
     face_vertex_counts: Sequence[int], face_vertex_indices: Sequence[int]
 ) -> Iterable[tuple[int, ...]]:
@@ -216,4 +266,287 @@ def close_annular_wall_rim(
         added_face_count=len(outer),
         outer_loop=outer,
         inner_loop=inner,
+    )
+
+
+def _validate_unified_vessel_spec(spec: UnifiedCylindricalVesselSpec) -> None:
+    dimensions = (
+        spec.outer_radius,
+        spec.inner_radius,
+        spec.bottom_z,
+        spec.floor_z,
+        spec.rim_center_z,
+        spec.rim_major_radius,
+        spec.rim_radial_radius,
+        spec.rim_vertical_radius,
+    )
+    if not all(math.isfinite(value) for value in dimensions):
+        raise ContainerTopologyError("vessel dimensions must be finite")
+    if spec.inner_radius <= 0.0 or spec.inner_radius >= spec.outer_radius:
+        raise ContainerTopologyError(
+            "inner radius must be positive and smaller than outer radius"
+        )
+    if spec.floor_z <= spec.bottom_z or spec.rim_center_z <= spec.floor_z:
+        raise ContainerTopologyError(
+            "vessel floor and rim heights must be strictly increasing"
+        )
+    if spec.rim_radial_radius <= 0.0 or spec.rim_vertical_radius <= 0.0:
+        raise ContainerTopologyError("rim radii must be positive")
+    if spec.sides < 12 or spec.sides % 4:
+        raise ContainerTopologyError(
+            "radial side count must be a multiple of four and at least twelve"
+        )
+    if spec.rim_arc_segments < 4:
+        raise ContainerTopologyError("rim arc requires at least four segments")
+
+
+def build_unified_cylindrical_vessel_mesh(
+    spec: UnifiedCylindricalVesselSpec,
+) -> UnifiedCylindricalVesselMesh:
+    """Build a source-measured unified vessel in the style of liquid_0812.
+
+    The generated surface represents the glass solid, not the liquid cavity:
+    the underside and interior floor are capped while the top remains open.
+    Its only faces are triangles, and the thickened rim is part of the same
+    connected mesh as the wall and floor.
+    """
+
+    _validate_unified_vessel_spec(spec)
+    arc_start = -math.pi / 6.0
+    arc_span = 4.0 * math.pi / 3.0
+    arc_step = arc_span / spec.rim_arc_segments
+    join_z = spec.rim_center_z + spec.rim_vertical_radius * math.sin(arc_start)
+    lip = tuple(
+        (
+            spec.rim_major_radius
+            + spec.rim_radial_radius * math.cos(arc_start + index * arc_step),
+            spec.rim_center_z
+            + spec.rim_vertical_radius * math.sin(arc_start + index * arc_step),
+        )
+        for index in range(spec.rim_arc_segments + 1)
+    )
+    if lip[0][0] <= spec.outer_radius or lip[-1][0] <= spec.inner_radius:
+        raise ContainerTopologyError(
+            "rim profile must connect outside both measured vessel walls"
+        )
+    cross_section = (
+        (spec.outer_radius, spec.bottom_z),
+        (spec.outer_radius, join_z),
+        *lip,
+        (spec.inner_radius, join_z),
+        (spec.inner_radius, spec.floor_z),
+    )
+
+    points: list[tuple[float, float, float]] = []
+    for radius, height in cross_section:
+        for index in range(spec.sides):
+            angle = 2.0 * math.pi * index / spec.sides
+            points.append(
+                (radius * math.cos(angle), radius * math.sin(angle), height)
+            )
+    bottom_center = len(points)
+    points.append((0.0, 0.0, spec.bottom_z))
+    floor_center = len(points)
+    points.append((0.0, 0.0, spec.floor_z))
+
+    faces: list[tuple[int, int, int]] = []
+    for ring in range(len(cross_section) - 1):
+        left = ring * spec.sides
+        right = (ring + 1) * spec.sides
+        for index in range(spec.sides):
+            nxt = (index + 1) % spec.sides
+            faces.append((left + index, left + nxt, right + nxt))
+            faces.append((left + index, right + nxt, right + index))
+    first_ring = 0
+    last_ring = (len(cross_section) - 1) * spec.sides
+    for index in range(spec.sides):
+        nxt = (index + 1) % spec.sides
+        faces.append((bottom_center, first_ring + nxt, first_ring + index))
+        faces.append((floor_center, last_ring + index, last_ring + nxt))
+
+    counts = tuple(3 for _ in faces)
+    indices = tuple(vertex for face in faces for vertex in face)
+    audit = analyze_mesh_topology(counts, indices)
+    if audit.boundary_edge_count or audit.non_manifold_edge_count:
+        raise ContainerTopologyError(
+            "unified vessel generation did not produce a closed manifold"
+        )
+    chord_error = max(spec.rim_radial_radius, spec.rim_vertical_radius) * (
+        1.0 - math.cos(arc_step / 2.0)
+    )
+    return UnifiedCylindricalVesselMesh(
+        points=tuple(points),
+        face_vertex_counts=counts,
+        face_vertex_indices=indices,
+        cross_section=tuple(cross_section),
+        radial_side_count=spec.sides,
+        cavity_radius=spec.inner_radius,
+        cavity_floor_z=spec.floor_z,
+        maximum_rim_chord_error_m=chord_error,
+    )
+
+
+def _triangulated_prism_faces(vertex_count_per_cap: int) -> tuple[int, ...]:
+    if vertex_count_per_cap < 3:
+        raise ContainerTopologyError("convex prism caps require at least three vertices")
+    faces: list[tuple[int, int, int]] = []
+    top = vertex_count_per_cap
+    for index in range(1, vertex_count_per_cap - 1):
+        faces.append((0, index + 1, index))
+        faces.append((top, top + index, top + index + 1))
+    for index in range(vertex_count_per_cap):
+        nxt = (index + 1) % vertex_count_per_cap
+        faces.append((index, nxt, top + nxt))
+        faces.append((index, top + nxt, top + index))
+    return tuple(vertex for face in faces for vertex in face)
+
+
+def build_gpu_convex_vessel_partition(
+    spec: UnifiedCylindricalVesselSpec,
+    *,
+    support_bottom_z: float | None = None,
+    wall_segments: int = 31,
+    wall_vertical_segments: int = 8,
+    bottom_segments: int = 1,
+    bottom_arc_subdivisions: int = 32,
+    angular_phase_fraction: float = 0.25,
+    reuse_rotated_wall_geometry: bool = False,
+) -> GPUConvexVesselPartition:
+    """Partition the measured vessel into deterministic GPU-convex pieces.
+
+    This is a collision topology derived from the canonical visible surface,
+    not a primitive proxy. Wall pieces use eight vertices and are split along
+    height to avoid the GPU cooker's thin/tall convex failure. The default
+    single bottom piece uses 64 vertices. Every authored face is a triangle.
+    """
+
+    _validate_unified_vessel_spec(spec)
+    if support_bottom_z is None:
+        support_bottom_z = spec.bottom_z
+    if not math.isfinite(support_bottom_z) or support_bottom_z > spec.bottom_z:
+        raise ContainerTopologyError(
+            "support bottom must be finite and no higher than the vessel bottom"
+        )
+    if (
+        wall_segments < 8
+        or wall_vertical_segments < 1
+        or bottom_segments < 1
+        or bottom_arc_subdivisions < 3
+    ):
+        raise ContainerTopologyError("convex partition resolution is too low")
+    if not 0.0 <= angular_phase_fraction < 1.0:
+        raise ContainerTopologyError("angular phase fraction must be in [0, 1)")
+    pieces: list[ConvexVesselPiece] = []
+    wall_step = 2.0 * math.pi / wall_segments
+    outer_top_radius = spec.rim_major_radius + spec.rim_radial_radius
+    outer_top_z = spec.rim_center_z + spec.rim_vertical_radius
+    wall_indices = _triangulated_prism_faces(4)
+    wall_counts = tuple(3 for _ in range(len(wall_indices) // 3))
+    phase = angular_phase_fraction * wall_step
+    usable_height = outer_top_z - spec.floor_z
+    for segment in range(wall_segments):
+        if reuse_rotated_wall_geometry:
+            angles = (-wall_step / 2.0, wall_step / 2.0)
+            rotation = math.degrees(
+                phase + (segment + 0.5) * wall_step
+            )
+            rotation = (rotation + 180.0) % 360.0 - 180.0
+        else:
+            angles = (
+                phase + segment * wall_step,
+                phase + (segment + 1) * wall_step,
+            )
+            rotation = 0.0
+        for vertical in range(wall_vertical_segments):
+            inner_lower_z = (
+                spec.floor_z + usable_height * vertical / wall_vertical_segments
+            )
+            outer_lower_z = spec.bottom_z if vertical == 0 else inner_lower_z
+            upper_z = (
+                spec.floor_z
+                + usable_height * (vertical + 1) / wall_vertical_segments
+            )
+
+            def outer_radius_at(z: float) -> float:
+                fraction = (z - spec.bottom_z) / (outer_top_z - spec.bottom_z)
+                return spec.outer_radius + fraction * (
+                    outer_top_radius - spec.outer_radius
+                )
+
+            cross_section = (
+                (outer_radius_at(outer_lower_z), outer_lower_z),
+                (outer_radius_at(upper_z), upper_z),
+                (spec.inner_radius, upper_z),
+                (spec.inner_radius, inner_lower_z),
+            )
+            points = tuple(
+                (
+                    round(radius * math.cos(angle), 7),
+                    round(radius * math.sin(angle), 7),
+                    round(height, 7),
+                )
+                for angle in angles
+                for radius, height in cross_section
+            )
+            pieces.append(
+                ConvexVesselPiece(
+                    name=f"wall_{segment:02d}_{vertical:02d}",
+                    role="wall",
+                    points=points,
+                    face_vertex_counts=wall_counts,
+                    face_vertex_indices=wall_indices,
+                    rotation_z_degrees=rotation,
+                )
+            )
+
+    bottom_step = 2.0 * math.pi / bottom_segments
+    cap_vertex_count = (
+        bottom_arc_subdivisions
+        if bottom_segments == 1
+        else bottom_arc_subdivisions + 2
+    )
+    bottom_indices = _triangulated_prism_faces(cap_vertex_count)
+    bottom_counts = tuple(3 for _ in range(len(bottom_indices) // 3))
+    for segment in range(bottom_segments):
+        start = angular_phase_fraction * bottom_step + segment * bottom_step
+        sample_count = (
+            bottom_arc_subdivisions
+            if bottom_segments == 1
+            else bottom_arc_subdivisions + 1
+        )
+        angles = tuple(
+            start + bottom_step * index / bottom_arc_subdivisions
+            for index in range(sample_count)
+        )
+        perimeter = tuple(
+            (
+                spec.inner_radius * math.cos(angle),
+                spec.inner_radius * math.sin(angle),
+            )
+            for angle in angles
+        )
+        cap_xy = perimeter if bottom_segments == 1 else ((0.0, 0.0),) + perimeter
+        points = tuple(
+            (round(x, 7), round(y, 7), round(height, 7))
+            for height in (support_bottom_z, spec.floor_z)
+            for x, y in cap_xy
+        )
+        pieces.append(
+            ConvexVesselPiece(
+                name=f"bottom_{segment:02d}",
+                role="bottom",
+                points=points,
+                face_vertex_counts=bottom_counts,
+                face_vertex_indices=bottom_indices,
+            )
+        )
+
+    inner_wall_error = spec.inner_radius * (1.0 - math.cos(wall_step / 2.0))
+    bottom_interval = bottom_step / bottom_arc_subdivisions
+    bottom_error = spec.inner_radius * (1.0 - math.cos(bottom_interval / 2.0))
+    return GPUConvexVesselPartition(
+        pieces=tuple(pieces),
+        wall_piece_count=wall_segments * wall_vertical_segments,
+        bottom_piece_count=bottom_segments,
+        maximum_surface_error_m=max(inner_wall_error, bottom_error),
     )

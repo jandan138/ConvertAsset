@@ -6,7 +6,10 @@ import pytest
 
 from convert_asset.asset_application_normalizer.container_topology import (
     ContainerTopologyError,
+    UnifiedCylindricalVesselSpec,
     analyze_mesh_topology,
+    build_gpu_convex_vessel_partition,
+    build_unified_cylindrical_vessel_mesh,
     close_annular_wall_rim,
 )
 
@@ -66,3 +69,125 @@ def test_rejects_non_coplanar_boundary_loops() -> None:
 
     with pytest.raises(ContainerTopologyError, match="coplanar"):
         close_annular_wall_rim(points, counts, indices)
+
+
+def test_builds_one_closed_all_triangle_unified_vessel_surface() -> None:
+    mesh = build_unified_cylindrical_vessel_mesh(
+        UnifiedCylindricalVesselSpec(
+            outer_radius=0.02099,
+            inner_radius=0.019185,
+            bottom_z=0.0099,
+            floor_z=0.011705,
+            rim_center_z=0.27659,
+            rim_major_radius=0.020825,
+            rim_radial_radius=0.0011,
+            rim_vertical_radius=0.00165,
+            sides=96,
+            rim_arc_segments=8,
+        )
+    )
+
+    audit = analyze_mesh_topology(
+        mesh.face_vertex_counts, mesh.face_vertex_indices
+    )
+
+    assert set(mesh.face_vertex_counts) == {3}
+    assert audit.boundary_edge_count == 0
+    assert audit.non_manifold_edge_count == 0
+    assert mesh.radial_side_count == 96
+    assert mesh.maximum_rim_chord_error_m <= 0.0001
+    radii = [math.hypot(point[0], point[1]) for point in mesh.points]
+    heights = [point[2] for point in mesh.points]
+    assert max(radii) == pytest.approx(0.021925)
+    assert min(heights) == pytest.approx(0.0099)
+    assert max(heights) == pytest.approx(0.27824)
+    assert mesh.cavity_radius == pytest.approx(0.019185)
+    assert mesh.cavity_floor_z == pytest.approx(0.011705)
+
+
+def test_unified_vessel_rejects_invalid_dimensions() -> None:
+    with pytest.raises(ContainerTopologyError, match="inner radius"):
+        build_unified_cylindrical_vessel_mesh(
+            UnifiedCylindricalVesselSpec(
+                outer_radius=0.02,
+                inner_radius=0.02,
+                bottom_z=0.0,
+                floor_z=0.002,
+                rim_center_z=0.2,
+                rim_major_radius=0.02,
+                rim_radial_radius=0.001,
+                rim_vertical_radius=0.001,
+            )
+        )
+
+
+def test_builds_low_vertex_source_derived_gpu_convex_partition() -> None:
+    spec = UnifiedCylindricalVesselSpec(
+        outer_radius=0.02099,
+        inner_radius=0.019185,
+        bottom_z=0.0099,
+        floor_z=0.011705,
+        rim_center_z=0.27659,
+        rim_major_radius=0.020825,
+        rim_radial_radius=0.0011,
+        rim_vertical_radius=0.00165,
+    )
+
+    partition = build_gpu_convex_vessel_partition(spec, support_bottom_z=0.0)
+
+    assert len(partition.pieces) == 249
+    assert partition.wall_piece_count == 248
+    assert partition.bottom_piece_count == 1
+    assert partition.maximum_surface_error_m <= 0.0001
+    first_wall = partition.pieces[0]
+    assert all(abs(point[1]) > 1.0e-12 for point in first_wall.points)
+    assert partition.pieces[1].points != first_wall.points
+    assert all(piece.rotation_z_degrees == 0.0 for piece in partition.pieces)
+    bottom = next(piece for piece in partition.pieces if piece.role == "bottom")
+    assert min(point[2] for point in bottom.points) == pytest.approx(0.0)
+    assert max(point[2] for point in bottom.points) == pytest.approx(spec.floor_z)
+    assert all(
+        coordinate == round(coordinate, 7)
+        for piece in partition.pieces
+        for point in piece.points
+        for coordinate in point
+    )
+    for piece in partition.pieces:
+        assert len(piece.points) <= 64
+        assert set(piece.face_vertex_counts) == {3}
+        audit = analyze_mesh_topology(
+            piece.face_vertex_counts, piece.face_vertex_indices
+        )
+        assert audit.boundary_edge_count == 0
+        assert audit.non_manifold_edge_count == 0
+
+
+def test_reuses_one_full_height_wall_hull_with_source_exact_rotations() -> None:
+    spec = UnifiedCylindricalVesselSpec(
+        outer_radius=0.02099,
+        inner_radius=0.019185,
+        bottom_z=0.0099,
+        floor_z=0.011705,
+        rim_center_z=0.27659,
+        rim_major_radius=0.020825,
+        rim_radial_radius=0.0011,
+        rim_vertical_radius=0.00165,
+    )
+
+    partition = build_gpu_convex_vessel_partition(
+        spec,
+        support_bottom_z=0.0,
+        wall_vertical_segments=1,
+        reuse_rotated_wall_geometry=True,
+    )
+
+    walls = [piece for piece in partition.pieces if piece.role == "wall"]
+    assert len(partition.pieces) == 32
+    assert len({piece.points for piece in walls}) == 1
+    assert len({piece.rotation_z_degrees for piece in walls}) == 31
+    assert min(
+        point[2]
+        for piece in partition.pieces
+        if piece.role == "bottom"
+        for point in piece.points
+    ) == pytest.approx(0.0)
