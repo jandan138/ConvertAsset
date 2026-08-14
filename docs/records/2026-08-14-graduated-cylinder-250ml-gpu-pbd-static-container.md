@@ -7,7 +7,7 @@ Date: 2026-08-14
 ConvertAsset produced a source-bound `gpu_pbd_static_container` package for the
 250 mL graduated cylinder:
 
-`outputs/graduated_cylinder_250ml_gpu_pbd_remesh_20260814_v3/final_package/graduated_cylinder_250ml_gpu_pbd_static_r1`
+`outputs/graduated_cylinder_250ml_gpu_pbd_remesh_20260814_v3/final_package/graduated_cylinder_250ml_gpu_pbd_static_r2_visual_bound`
 
 The package uses 31 source-derived wall wedges plus one source-derived bottom
 piece. Each piece is a closed triangle mesh cooked with
@@ -44,7 +44,11 @@ package. Three independent Isaac Sim 4.1 cold runs each observed:
 - 960 x 540 RTX throughput of 90.56, 91.62, and 88.74 FPS.
 
 The package also contains the exact fixture profile, normalized initial
-particle state, promotion receipt, and three source runtime-smoke views.
+particle state, promotion receipt, and three 960 x 540 runtime-smoke views
+rendered from the final promoted package. The final-package runtime-smoke
+report passed; the views were also reviewed for framing, geometry, and material
+visibility before being bound into r2. The earlier r1 remains immutable and is
+superseded for handoff by r2.
 
 ## Claim boundary
 
