@@ -1,13 +1,16 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 from pathlib import Path
 
 
-SCRIPT = Path(__file__).resolve().parents[1] / "scripts/qualify_task02_r81_fluid_component.py"
-SWEEP_SCRIPT = (
+SCRIPT = (
     Path(__file__).resolve().parents[1]
-    / "scripts/run_task02_r81_stage_update_sweep.py"
+    / "scripts/qualify_task02_r81_fluid_component.py"
+)
+SWEEP_SCRIPT = (
+    Path(__file__).resolve().parents[1] / "scripts/run_task02_r81_stage_update_sweep.py"
 )
 
 
@@ -109,3 +112,30 @@ def test_stage_probe_does_not_call_partial_fast_run_a_pass() -> None:
     )
 
     assert observation["status"] == "blocked_runtime"
+
+
+def test_observation_is_persisted_before_runtime_teardown(tmp_path: Path) -> None:
+    module = _module()
+    target = tmp_path / "evidence" / "observation.json"
+
+    module._write_observation(target, {"overall_status": "blocked"})
+
+    assert json.loads(target.read_text()) == {"overall_status": "blocked"}
+
+
+def test_gpu_particle_disable_error_is_a_hard_runtime_error() -> None:
+    module = _module()
+
+    errors = module._hard_runtime_errors(
+        "Particles feature is only supported on GPU. Please enable GPU dynamics flag"
+    )
+
+    assert len(errors) == 1
+
+
+def test_qualifier_binds_world_to_authored_gpu_physics_scene() -> None:
+    text = SCRIPT.read_text()
+
+    assert 'physics_prim_path="/World/PhysicsScene"' in text
+    assert "set_defaults=False" in text
+    assert "overwrite_gpu_setting(1)" in text

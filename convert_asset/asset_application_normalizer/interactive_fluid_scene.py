@@ -17,7 +17,8 @@ from typing import Any, Mapping
 
 SCHEMA_VERSION_V1 = "aan.interactive_fluid_scene_profile.v1"
 SCHEMA_VERSION_V2 = "aan.interactive_fluid_scene_profile.v2"
-SCHEMA_VERSIONS = {SCHEMA_VERSION_V1, SCHEMA_VERSION_V2}
+SCHEMA_VERSION_V3 = "aan.interactive_fluid_scene_profile.v3"
+SCHEMA_VERSIONS = {SCHEMA_VERSION_V1, SCHEMA_VERSION_V2, SCHEMA_VERSION_V3}
 _ALLOWED_COMPOSITION = {
     "visual_static_environment",
     "static_support",
@@ -74,7 +75,9 @@ def load_interactive_fluid_scene_profile(
     for name, value in members.items():
         member = _prim_path(value, f"members.{name}")
         if not (member == root or member.startswith(root + "/")):
-            raise InteractiveFluidSceneProfileError(f"members.{name} is outside component root")
+            raise InteractiveFluidSceneProfileError(
+                f"members.{name} is outside component root"
+            )
 
     particles = _mapping(data.get("particles"), "particles")
     if particles.get("kind") != "PhysX_PBD":
@@ -89,9 +92,13 @@ def load_interactive_fluid_scene_profile(
     try:
         points = json.loads(points_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
-        raise InteractiveFluidSceneProfileError("cannot read authored particle points") from exc
+        raise InteractiveFluidSceneProfileError(
+            "cannot read authored particle points"
+        ) from exc
     if not isinstance(points, list) or len(points) != count:
-        raise InteractiveFluidSceneProfileError("particle count does not match authored points")
+        raise InteractiveFluidSceneProfileError(
+            "particle count does not match authored points"
+        )
     for index, point in enumerate(points):
         if (
             not isinstance(point, list)
@@ -104,24 +111,31 @@ def load_interactive_fluid_scene_profile(
     points_digest = sha256(points_path.read_bytes()).hexdigest()
     expected_digest = particles.get("authored_points_sha256")
     if expected_digest != "AUTO" and expected_digest != points_digest:
-        raise InteractiveFluidSceneProfileError("authored particle points hash mismatch")
+        raise InteractiveFluidSceneProfileError(
+            "authored particle points hash mismatch"
+        )
     if particles.get("display") != "physx_isosurface":
-        raise InteractiveFluidSceneProfileError("only physx_isosurface display is supported")
+        raise InteractiveFluidSceneProfileError(
+            "only physx_isosurface display is supported"
+        )
 
     collision = _mapping(data.get("container_collision"), "container_collision")
     collision_strategy = collision.get("strategy")
     if collision_strategy not in {
         "visual_mesh_convex_decomposition",
         "visual_mesh_partitioned_convex_decomposition",
+        "visual_mesh_closed_wall_convex_decomposition",
     }:
-        raise InteractiveFluidSceneProfileError("unsupported container collision strategy")
+        raise InteractiveFluidSceneProfileError(
+            "unsupported container collision strategy"
+        )
     selected_partition_count: int | None = None
     if schema_version == SCHEMA_VERSION_V1:
         if collision_strategy != "visual_mesh_convex_decomposition":
             raise InteractiveFluidSceneProfileError(
                 "v1 collision strategy must be visual_mesh_convex_decomposition"
             )
-    else:
+    elif schema_version == SCHEMA_VERSION_V2:
         if collision_strategy != "visual_mesh_partitioned_convex_decomposition":
             raise InteractiveFluidSceneProfileError(
                 "v2 collision strategy must be partitioned convex decomposition"
@@ -137,18 +151,40 @@ def load_interactive_fluid_scene_profile(
                 "selected partition count is not an approved partition candidate"
             )
         _prim_path(collision.get("source_visual_mesh"), "source_visual_mesh")
+    else:
+        if collision_strategy != "visual_mesh_closed_wall_convex_decomposition":
+            raise InteractiveFluidSceneProfileError(
+                "v3 collision strategy must be closed-wall convex decomposition"
+            )
+        _prim_path(collision.get("source_visual_mesh"), "source_visual_mesh")
+        topology_path = _relative_path(
+            collision.get("topology_evidence"), "container_collision.topology_evidence"
+        )
+        if not (path.parent / topology_path).is_file():
+            raise InteractiveFluidSceneProfileError("topology evidence is missing")
     raw_meshes = collision.get("meshes")
     if not isinstance(raw_meshes, list) or not raw_meshes:
-        raise InteractiveFluidSceneProfileError("container collision meshes must not be empty")
+        raise InteractiveFluidSceneProfileError(
+            "container collision meshes must not be empty"
+        )
     collision_meshes: list[str] = []
     for index, raw_mesh in enumerate(raw_meshes):
         mesh = _mapping(raw_mesh, f"container_collision.meshes[{index}]")
-        prim = _prim_path(mesh.get("prim_path"), f"container_collision.meshes[{index}].prim_path")
+        prim = _prim_path(
+            mesh.get("prim_path"), f"container_collision.meshes[{index}].prim_path"
+        )
         if not prim.startswith(root + "/"):
-            raise InteractiveFluidSceneProfileError("collision mesh is outside component root")
+            raise InteractiveFluidSceneProfileError(
+                "collision mesh is outside component root"
+            )
         if mesh.get("approximation") != "convexDecomposition":
-            raise InteractiveFluidSceneProfileError("collision approximation must be convexDecomposition")
-        if schema_version == SCHEMA_VERSION_V2 and mesh.get("render_visible") is not True:
+            raise InteractiveFluidSceneProfileError(
+                "collision approximation must be convexDecomposition"
+            )
+        if (
+            schema_version in {SCHEMA_VERSION_V2, SCHEMA_VERSION_V3}
+            and mesh.get("render_visible") is not True
+        ):
             raise InteractiveFluidSceneProfileError(
                 "v2 collision meshes must set render_visible true"
             )
@@ -165,24 +201,34 @@ def load_interactive_fluid_scene_profile(
     entrypoint_hz: dict[str, int] = {}
     for name, raw_entrypoint in entrypoints.items():
         if not isinstance(name, str) or not name:
-            raise InteractiveFluidSceneProfileError("entrypoint names must be non-empty")
+            raise InteractiveFluidSceneProfileError(
+                "entrypoint names must be non-empty"
+            )
         entrypoint = _mapping(raw_entrypoint, f"entrypoints.{name}")
         _relative_path(entrypoint.get("path"), f"entrypoints.{name}.path")
         rate = entrypoint.get("physics_hz")
         if not isinstance(rate, int) or isinstance(rate, bool) or rate <= 0:
-            raise InteractiveFluidSceneProfileError("entrypoint physics_hz must be positive")
+            raise InteractiveFluidSceneProfileError(
+                "entrypoint physics_hz must be positive"
+            )
         entrypoint_hz[name] = rate
 
     allowed = data.get("allowed_consumer_composition")
     if not isinstance(allowed, list) or not allowed:
-        raise InteractiveFluidSceneProfileError("allowed consumer composition must not be empty")
+        raise InteractiveFluidSceneProfileError(
+            "allowed consumer composition must not be empty"
+        )
     if any(item not in _ALLOWED_COMPOSITION for item in allowed):
-        raise InteractiveFluidSceneProfileError("unsupported consumer composition capability")
+        raise InteractiveFluidSceneProfileError(
+            "unsupported consumer composition capability"
+        )
 
     qualification = _mapping(data.get("qualification"), "qualification")
     retention = qualification.get("minimum_source_retention_ratio")
     if not _ratio(retention):
-        raise InteractiveFluidSceneProfileError("qualification ratios must be in [0, 1]")
+        raise InteractiveFluidSceneProfileError(
+            "qualification ratios must be in [0, 1]"
+        )
     if schema_version == SCHEMA_VERSION_V1:
         peak = qualification.get("minimum_peak_target_ratio")
         if not _ratio(peak):
@@ -230,12 +276,18 @@ def load_interactive_fluid_scene_profile(
                 raise InteractiveFluidSceneProfileError(
                     f"qualification.oracle.{field} must be finite"
                 )
-    performance = _mapping(qualification.get("performance"), "qualification.performance")
+    performance = _mapping(
+        qualification.get("performance"), "qualification.performance"
+    )
     for field in ("width", "height", "required_repeats"):
         if not isinstance(performance.get(field), int) or performance[field] <= 0:
-            raise InteractiveFluidSceneProfileError(f"performance.{field} must be positive")
+            raise InteractiveFluidSceneProfileError(
+                f"performance.{field} must be positive"
+            )
     if not _finite_number(performance.get("minimum_rtx_fps")):
-        raise InteractiveFluidSceneProfileError("performance.minimum_rtx_fps must be finite")
+        raise InteractiveFluidSceneProfileError(
+            "performance.minimum_rtx_fps must be finite"
+        )
 
     return InteractiveFluidSceneProfile(
         path=path,
@@ -312,7 +364,9 @@ def _string(value: object, field: str) -> str:
 def _prim_path(value: object, field: str) -> str:
     text = _string(value, field)
     if not text.startswith("/") or "//" in text or text.endswith("/"):
-        raise InteractiveFluidSceneProfileError(f"{field} must be an absolute USD prim path")
+        raise InteractiveFluidSceneProfileError(
+            f"{field} must be an absolute USD prim path"
+        )
     return text
 
 

@@ -36,7 +36,9 @@ def _write(path: Path, text: str) -> Path:
 
 
 def _write_json(path: Path, payload: Any) -> Path:
-    return _write(path, json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True))
+    return _write(
+        path, json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True)
+    )
 
 
 def _copy_package(source: Path, destination: Path) -> None:
@@ -82,7 +84,7 @@ def _component_usda(points: list[list[float]]) -> str:
     positions = _vec3_array(points)
     zeros = ", ".join("(0, 0, 0)" for _ in points)
     widths = ", ".join("0.005" for _ in points)
-    return f'''#usda 1.0
+    return f"""#usda 1.0
 (
     defaultPrim = "World"
     metersPerUnit = 1
@@ -138,7 +140,7 @@ def Xform "World"
                             uint physxConvexDecompositionCollision:maxConvexHulls = 32
                             float physxConvexDecompositionCollision:minThickness = 0.001
                             bool physxConvexDecompositionCollision:shrinkWrap = 1
-                            uint physxConvexDecompositionCollision:voxelResolution = 50000
+                            uint physxConvexDecompositionCollision:voxelResolution = 500000
                             uint physxConvexHullCollision:hullVertexLimit = 32
                             float physxConvexHullCollision:minThickness = 0.001
                         }}
@@ -154,7 +156,7 @@ def Xform "World"
                             float physxConvexDecompositionCollision:errorPercentage = 10
                             uint physxConvexDecompositionCollision:hullVertexLimit = 32
                             uint physxConvexDecompositionCollision:maxConvexHulls = 8
-                            uint physxConvexDecompositionCollision:voxelResolution = 50000
+                            uint physxConvexDecompositionCollision:voxelResolution = 500000
                         }}
                     }}
                 }}
@@ -205,7 +207,7 @@ def Xform "World"
                             uint physxConvexDecompositionCollision:maxConvexHulls = 32
                             float physxConvexDecompositionCollision:minThickness = 0.001
                             bool physxConvexDecompositionCollision:shrinkWrap = 1
-                            uint physxConvexDecompositionCollision:voxelResolution = 50000
+                            uint physxConvexDecompositionCollision:voxelResolution = 500000
                             uint physxConvexHullCollision:hullVertexLimit = 32
                             float physxConvexHullCollision:minThickness = 0.001
                         }}
@@ -257,11 +259,12 @@ def Xform "World"
         }}
     }}
 }}
-'''
+"""
 
 
 def _entrypoint(rate: int, *, qualification: bool) -> str:
-    support = '''
+    support = (
+        """
     def Cube "QualificationSupport" (
         prepend apiSchemas = ["PhysicsCollisionAPI"]
     )
@@ -271,8 +274,11 @@ def _entrypoint(rate: int, *, qualification: bool) -> str:
         double3 xformOp:translate = (0, 0, -0.02)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
     }
-''' if qualification else ""
-    return f'''#usda 1.0
+"""
+        if qualification
+        else ""
+    )
+    return f"""#usda 1.0
 (
     defaultPrim = "World"
     metersPerUnit = 1
@@ -285,7 +291,9 @@ def _entrypoint(rate: int, *, qualification: bool) -> str:
 
 over "World"
 {{
-    def PhysicsScene "PhysicsScene"
+    def PhysicsScene "PhysicsScene" (
+        prepend apiSchemas = ["PhysxSceneAPI"]
+    )
     {{
         vector3f physics:gravityDirection = (0, 0, -1)
         float physics:gravityMagnitude = 9.81
@@ -296,10 +304,12 @@ over "World"
         uint physxScene:timeStepsPerSecond = {rate}
     }}
 {support}}}
-'''
+"""
 
 
-def build(*, cylinder_package: Path, beaker_package: Path, out: Path) -> dict[str, Path]:
+def build(
+    *, cylinder_package: Path, beaker_package: Path, out: Path
+) -> dict[str, Path]:
     cylinder_package = Path(cylinder_package).resolve()
     beaker_package = Path(beaker_package).resolve()
     out = Path(out).resolve()
@@ -310,7 +320,9 @@ def build(*, cylinder_package: Path, beaker_package: Path, out: Path) -> dict[st
     points = authored_points()
     points_path = _write_json(out / "authored_particle_points.json", points)
     component = _write(out / "component.usda", _component_usda(points))
-    qualification = _write(out / "qualification_30hz.usda", _entrypoint(30, qualification=True))
+    qualification = _write(
+        out / "qualification_30hz.usda", _entrypoint(30, qualification=True)
+    )
     consumer = _write(out / "consumer_60hz.usda", _entrypoint(60, qualification=False))
     asset = _write(out / "asset.usd", _entrypoint(60, qualification=False))
 
@@ -346,7 +358,11 @@ def build(*, cylinder_package: Path, beaker_package: Path, out: Path) -> dict[st
                 f"{TARGET}/__aan_collision_proxy",
             ],
             "meshes": [
-                {"prim_path": path, "approximation": "convexDecomposition", "error_percentage": 10.0}
+                {
+                    "prim_path": path,
+                    "approximation": "convexDecomposition",
+                    "error_percentage": 10.0,
+                }
                 for path in collision_meshes
             ],
         },
@@ -355,8 +371,18 @@ def build(*, cylinder_package: Path, beaker_package: Path, out: Path) -> dict[st
             "consumer_60hz": {"path": consumer.name, "physics_hz": 60},
         },
         "classification_regions": {
-            "source": {"kind": "cylinder", "center_xyz_m": list(SOURCE_XYZ), "radius_m": 0.018, "height_m": 0.268},
-            "target": {"kind": "cylinder", "center_xyz_m": list(TARGET_XYZ), "radius_m": 0.039, "height_m": 0.108},
+            "source": {
+                "kind": "cylinder",
+                "center_xyz_m": list(SOURCE_XYZ),
+                "radius_m": 0.018,
+                "height_m": 0.268,
+            },
+            "target": {
+                "kind": "cylinder",
+                "center_xyz_m": list(TARGET_XYZ),
+                "radius_m": 0.039,
+                "height_m": 0.108,
+            },
         },
         "qualification": {
             "static_hold_seconds": 8.0,
@@ -388,7 +414,9 @@ def build(*, cylinder_package: Path, beaker_package: Path, out: Path) -> dict[st
     load_interactive_fluid_scene_profile(profile)
 
     closure = []
-    for path in sorted(p for p in out.rglob("*") if p.is_file() and "evidence" not in p.parts):
+    for path in sorted(
+        p for p in out.rglob("*") if p.is_file() and "evidence" not in p.parts
+    ):
         closure.append({"path": path.relative_to(out).as_posix(), "sha256": _sha(path)})
     manifest = _write_json(
         out / "evidence/manifest.json",
@@ -402,15 +430,26 @@ def build(*, cylinder_package: Path, beaker_package: Path, out: Path) -> dict[st
             "entrypoints": profile_payload["entrypoints"],
             "profile": {"path": profile.name, "sha256": _sha(profile)},
             "source_packages": {
-                "source_container": {"asset_sha256": _sha(cylinder_package / "asset.usd")},
-                "target_container": {"asset_sha256": _sha(beaker_package / "asset.usd")},
+                "source_container": {
+                    "asset_sha256": _sha(cylinder_package / "asset.usd")
+                },
+                "target_container": {
+                    "asset_sha256": _sha(beaker_package / "asset.usd")
+                },
             },
             "closure": {"files": closure},
             "runtime_qualification": {"status": "not_run"},
             "claims": profile_payload["claim_boundary"],
         },
     )
-    return {"asset": asset, "component": component, "qualification": qualification, "consumer": consumer, "profile": profile, "manifest": manifest}
+    return {
+        "asset": asset,
+        "component": component,
+        "qualification": qualification,
+        "consumer": consumer,
+        "profile": profile,
+        "manifest": manifest,
+    }
 
 
 def main() -> int:
@@ -419,7 +458,11 @@ def main() -> int:
     parser.add_argument("--beaker-package", required=True, type=Path)
     parser.add_argument("--out", required=True, type=Path)
     args = parser.parse_args()
-    result = build(cylinder_package=args.cylinder_package, beaker_package=args.beaker_package, out=args.out)
+    result = build(
+        cylinder_package=args.cylinder_package,
+        beaker_package=args.beaker_package,
+        out=args.out,
+    )
     print(json.dumps({key: path.as_posix() for key, path in result.items()}, indent=2))
     return 0
 

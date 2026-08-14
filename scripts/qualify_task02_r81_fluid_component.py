@@ -24,10 +24,18 @@ def _progress(message: str) -> None:
     print(f"[task02-r81] {message}", flush=True)
 
 
+def _write_observation(path: Path, result: dict[str, Any]) -> None:
+    """Persist evidence before Kit teardown, which may abort in Isaac 4.1."""
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+
+
 def _hard_runtime_errors(log_text: str) -> list[str]:
     markers = (
         "failed to cook GPU-compatible mesh",
         "Non-GPU-compatible convex mesh",
+        "Particles feature is only supported on GPU",
         "CUDA error",
         "illegal memory access",
     )
@@ -122,6 +130,7 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         import carb
         import numpy as np
         import omni.kit.app
+        import omni.physx
         import omni.usd
         from omni.isaac.core import World
         from omni.isaac.core.prims import RigidPrimView
@@ -154,9 +163,14 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             source_prim.GetAttribute("physics:kinematicEnabled").Set(True)
             world = World(
                 stage_units_in_meters=1.0,
+                physics_prim_path="/World/PhysicsScene",
+                set_defaults=False,
+                backend="numpy",
+                device="cpu",
                 physics_dt=1 / PHYSICS_HZ,
                 rendering_dt=1 / PHYSICS_HZ,
             )
+            omni.physx.get_physx_interface().overwrite_gpu_setting(1)
             source_view = RigidPrimView(SOURCE, name="task02_r81_source")
             world.scene.add(source_view)
             world.reset()
@@ -207,7 +221,9 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
                 world.step(render=False)
             _progress("hold and settle complete")
             final_positions = _read_positions(stage, np)
-            final_source_positions, final_source_orientations = source_view.get_world_poses()
+            final_source_positions, final_source_orientations = (
+                source_view.get_world_poses()
+            )
             final_matrix = _source_matrix(
                 np.asarray(final_source_positions[0], dtype=float),
                 np.asarray(final_source_orientations[0], dtype=float),
@@ -260,6 +276,7 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         }
         result["checks"] = checks
         result["overall_status"] = "pass" if all(checks.values()) else "blocked"
+        _write_observation(args.out, result)
         return result
     finally:
         app.close()
@@ -273,8 +290,7 @@ def main() -> int:
     parser.add_argument("--out", required=True, type=Path)
     args = parser.parse_args()
     result = _run(args)
-    args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+    _write_observation(args.out, result)
     print(args.out)
     return 0 if result["overall_status"] == "pass" else 2
 

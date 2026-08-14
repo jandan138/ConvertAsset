@@ -103,9 +103,7 @@ def _profile_v2(tmp_path: Path) -> dict[str, object]:
                 "source_face_indices": [0, 1],
             },
             {
-                "prim_path": (
-                    "/World/FluidWorkcell/TargetContainer/Visual/HollowBody"
-                ),
+                "prim_path": ("/World/FluidWorkcell/TargetContainer/Visual/HollowBody"),
                 "approximation": "convexDecomposition",
                 "error_percentage": 10.0,
                 "render_visible": True,
@@ -180,7 +178,9 @@ def test_profile_rejects_particle_count_or_hash_mismatch(tmp_path: Path) -> None
         load_interactive_fluid_scene_profile(profile_path)
 
 
-def test_profile_rejects_absolute_entrypoint_and_unapproved_composition(tmp_path: Path) -> None:
+def test_profile_rejects_absolute_entrypoint_and_unapproved_composition(
+    tmp_path: Path,
+) -> None:
     payload = _profile(tmp_path)
     payload["entrypoints"]["consumer_60hz"]["path"] = "/tmp/scene.usd"  # type: ignore[index]
     profile_path = tmp_path / "profile.json"
@@ -214,9 +214,14 @@ def test_v2_profile_accepts_visible_partitioned_convex_decomposition(
 @pytest.mark.parametrize(
     ("mutation", "message"),
     [
-        (lambda p: p["container_collision"].update(selected_partition_count=16), "partition"),
         (
-            lambda p: p["container_collision"]["meshes"][0].update(render_visible=False),
+            lambda p: p["container_collision"].update(selected_partition_count=16),
+            "partition",
+        ),
+        (
+            lambda p: p["container_collision"]["meshes"][0].update(
+                render_visible=False
+            ),
             "render_visible",
         ),
         (lambda p: p["qualification"].update(required_cold_runs=1), "cold runs"),
@@ -236,3 +241,35 @@ def test_v2_profile_rejects_weaker_or_hidden_partition_contract(
 
     with pytest.raises(InteractiveFluidSceneProfileError, match=message):
         load_interactive_fluid_scene_profile(profile_path)
+
+
+def test_v3_accepts_visible_closed_wall_convex_decomposition(tmp_path: Path) -> None:
+    payload = _profile_v2(tmp_path)
+    payload["schema_version"] = "aan.interactive_fluid_scene_profile.v3"
+    payload["profile_id"] = "example.fluid.v3"
+    payload["container_collision"] = {
+        "strategy": "visual_mesh_closed_wall_convex_decomposition",
+        "source_visual_mesh": "/World/FluidWorkcell/SourceContainer/Visual/HollowBody",
+        "topology_evidence": "evidence/source_container_topology.json",
+        "meshes": [
+            {
+                "prim_path": "/World/FluidWorkcell/SourceContainer/Visual/HollowBody",
+                "approximation": "convexDecomposition",
+                "render_visible": True,
+                "error_percentage": 1.0,
+            }
+        ],
+    }
+    evidence = tmp_path / "evidence/source_container_topology.json"
+    evidence.parent.mkdir()
+    evidence.write_text("{}\n", encoding="utf-8")
+    profile_path = tmp_path / "profile.json"
+    profile_path.write_text(json.dumps(payload))
+
+    profile = load_interactive_fluid_scene_profile(profile_path)
+
+    assert profile.schema_version.endswith(".v3")
+    assert profile.collision_strategy == (
+        "visual_mesh_closed_wall_convex_decomposition"
+    )
+    assert profile.selected_partition_count is None

@@ -105,6 +105,11 @@ def _summary_run(run: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _scene_dependency_sha256(scene: Path) -> dict[str, str]:
+    component = scene.parent / "component.usda"
+    return {"component.usda": _sha(component)} if component.is_file() else {}
+
+
 def _run_one(
     *, scene: Path, root: Path, run_index: int, timeout_seconds: float
 ) -> dict[str, Any]:
@@ -146,9 +151,7 @@ def _run_one(
             "run_index": run_index,
             "scene": str(scene),
             "scene_sha256": _sha(scene),
-            "scene_dependency_sha256": {
-                "component.usda": _sha(scene.parent / "component.usda"),
-            },
+            "scene_dependency_sha256": _scene_dependency_sha256(scene),
             "stdout_sha256": _sha(output_root / "stdout.log"),
             "stderr_sha256": _sha(output_root / "stderr.log"),
         }
@@ -232,8 +235,7 @@ def main() -> int:
     summary = {
         **{key: value for key, value in report.items() if key != "runs"},
         "runs": {
-            name: [_summary_run(run) for run in runs]
-            for name, runs in results.items()
+            name: [_summary_run(run) for run in runs] for name, runs in results.items()
         },
         "evidence_root": str(out),
         "full_report_sha256": _sha(out / "report.json"),

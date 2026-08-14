@@ -6,6 +6,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 ## Engineering Records
 
+- [2026-08-14 Scientific Workbench Role Audit and Task 02 r8.2 Measured No-Go](2026-08-14-scientific-workbench-role-audit-and-task02-r82-no-go.md)
 - [2026-08-14 Task 02 r8.1 Visible-Partition Collision Measured No-Go](2026-08-14-task02-r81-visible-partition-measured-no-go.md)
 - [2026-08-12 AAN Dynamic Context Profile](2026-08-12-aan-dynamic-context-profile.md)
 - [2026-08-10 AAN Scientific Workbench Asset Library Admission](2026-08-10-aan-scientific-workbench-asset-library.md)

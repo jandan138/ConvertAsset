@@ -5,11 +5,15 @@ import json
 from pathlib import Path
 
 
-SCRIPT = Path(__file__).resolve().parents[1] / "scripts/build_task02_r8_fluid_component.py"
+SCRIPT = (
+    Path(__file__).resolve().parents[1] / "scripts/build_task02_r8_fluid_component.py"
+)
 
 
 def _module() -> object:
-    spec = importlib.util.spec_from_file_location("build_task02_r8_fluid_component", SCRIPT)
+    spec = importlib.util.spec_from_file_location(
+        "build_task02_r8_fluid_component", SCRIPT
+    )
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -67,11 +71,15 @@ def test_component_uses_visual_mesh_convex_decomposition_and_disables_old_proxie
     assert 'token physics:approximation = "convexDecomposition"' in text
     assert "physxConvexDecompositionCollision:errorPercentage = 10" in text
     assert "physxConvexDecompositionCollision:maxConvexHulls = 32" in text
+    assert "physxConvexDecompositionCollision:voxelResolution = 500000" in text
     assert 'over "__aan_collision_proxy"' in text
     assert text.count("bool physics:collisionEnabled = 0") == 12
     assert text.count('over "wall_pos_x"') == 2
     assert "Hollow_Body_Mesh_002" in text
     assert "Beaker_Hollow_Body_Mesh" in text
+
+    qualification = (out / "qualification_30hz.usda").read_text()
+    assert 'prepend apiSchemas = ["PhysxSceneAPI"]' in qualification
 
 
 def test_component_closure_is_package_relative(tmp_path: Path) -> None:
@@ -81,7 +89,12 @@ def test_component_closure_is_package_relative(tmp_path: Path) -> None:
     out = tmp_path / "out"
     module.build(cylinder_package=cylinder, beaker_package=beaker, out=out)
 
-    for name in ("asset.usd", "component.usda", "qualification_30hz.usda", "consumer_60hz.usda"):
+    for name in (
+        "asset.usd",
+        "component.usda",
+        "qualification_30hz.usda",
+        "consumer_60hz.usda",
+    ):
         text = (out / name).read_text()
         assert str(tmp_path) not in text
         assert "@/" not in text

@@ -1940,6 +1940,22 @@ EOS 侧详细验收文档：
   warning 不能单独触发 whole-package UsdPreviewSurface；只有 required-scope runtime/visual
   evidence 失败才 fallback。
 
+## Visible closed-wall container candidates
+
+`aan.interactive_fluid_scene_profile.v3` covers a narrow collision experiment:
+the render-visible vessel wall is a closed manifold and is itself assigned
+`convexDecomposition`. The package must carry topology evidence proving that a
+source-bound repair preserved all points and existing faces, added only an
+annular bridge between two coplanar concentric wall-rim loops, and did not cap
+the vessel aperture.
+
+Topology closure is only an input gate. Promotion still requires measured GPU
+cooking, retention, transfer, spill, and performance gates in the target
+runtime. A closed mesh that completes stage updates may still be incompatible
+with GPU particles. ConvertAsset records that result as blocked; Scenario Forge
+and other consumers must not substitute hidden collision geometry, change
+scale, or suppress the warning locally.
+
 ## References
 
 - OpenUSD Toolset / `usdchecker`: https://openusd.org/dev/toolset.html
