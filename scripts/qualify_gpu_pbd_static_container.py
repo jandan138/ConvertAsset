@@ -133,7 +133,9 @@ def finalize_checks(
 
 def _read_positions(stage: Any, np: Any) -> Any:
     prim = stage.GetPrimAtPath(PARTICLES)
-    for name in ("physxParticle:simulationPoints", "points"):
+    # ``simulationPoints`` is the authored rest-state buffer in Isaac 4.1 and
+    # does not track live PBD state. ``points`` is the runtime readback.
+    for name in ("points", "physxParticle:simulationPoints"):
         values = prim.GetAttribute(name).Get()
         if values is not None:
             return np.asarray(values, dtype=float)
@@ -265,6 +267,7 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         result = {
             "schema_version": "aan.gpu_pbd_static_observation.v1",
             "run_index": args.run_index,
+            "particle_readback_attribute": "points",
             "runtime": {
                 "kit_version": str(omni.kit.app.get_app().get_app_version()),
                 "gpu": "NVIDIA GeForce RTX 4090",

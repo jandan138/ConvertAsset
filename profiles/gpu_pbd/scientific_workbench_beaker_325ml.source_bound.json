@@ -1,0 +1,41 @@
+{
+  "schema_version": "aan.source_bound_cylindrical_container_recipe.v1",
+  "profile_id": "scientific-workbench.beaker-325ml.gpu-pbd-static.r1",
+  "vessel_root": "/World/Beaker325ml",
+  "replaced_prim_paths": [
+    "/World/Beaker325ml/Visual/Source/Beaker_Hollow_Body",
+    "/World/Beaker325ml/Visual/Source/Rolled_Rim",
+    "/World/Beaker325ml/__aan_collision_proxy"
+  ],
+  "glass_material_path": "/World/Beaker325ml/Visual/Source/_materials/USD_Borosilicate_Glass",
+  "support_bottom_source_prims": [
+    "/World/Beaker325ml/Visual/Source/Beaker_Hollow_Body/Beaker_Hollow_Body_Mesh"
+  ],
+  "geometry": {
+    "outer_radius": 0.03727,
+    "inner_radius": 0.03527,
+    "outer_top_radius": 0.03869,
+    "inner_top_radius": 0.03669,
+    "bottom_z": 0.0,
+    "floor_z": 0.003,
+    "rim_center_z": 0.11349,
+    "rim_major_radius": 0.0389675,
+    "rim_radial_radius": 0.0022775,
+    "rim_vertical_radius": 0.0016,
+    "sides": 128,
+    "rim_arc_segments": 8
+  },
+  "partition": {
+    "wall_segments": 48,
+    "wall_vertical_segments": 1,
+    "bottom_segments": 1,
+    "bottom_arc_subdivisions": 48,
+    "reuse_rotated_wall_geometry": true,
+    "contact_offset_m": 0.001,
+    "rest_offset_m": 0.0,
+    "support_bottom_z_m": 0.0,
+    "voxel_resolution": 10000,
+    "piece_approximation": "convexDecomposition",
+    "collision_render_mode": "guide"
+  }
+}

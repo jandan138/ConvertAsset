@@ -41,8 +41,12 @@ def build_partitioned_package(
     piece_approximation: str = "convexDecomposition",
     collision_render_mode: str = "guide",
     support_bottom_z_m: float = 0.0,
+    wall_segments: int = 31,
     wall_vertical_segments: int = 8,
+    bottom_segments: int = 1,
+    bottom_arc_subdivisions: int = 32,
     reuse_rotated_wall_geometry: bool = False,
+    support_bottom_source_prims: tuple[str, ...] = (),
 ) -> dict[str, Any]:
     from pxr import Sdf, Usd, UsdGeom, UsdPhysics
 
@@ -70,7 +74,10 @@ def build_partitioned_package(
     partition = build_gpu_convex_vessel_partition(
         spec,
         support_bottom_z=support_bottom_z_m,
+        wall_segments=wall_segments,
         wall_vertical_segments=wall_vertical_segments,
+        bottom_segments=bottom_segments,
+        bottom_arc_subdivisions=bottom_arc_subdivisions,
         reuse_rotated_wall_geometry=reuse_rotated_wall_geometry,
     )
     stage = Usd.Stage.Open(str(output / "asset.usd"))
@@ -170,12 +177,23 @@ def build_partitioned_package(
             "piece_approximation": piece_approximation,
             "collision_render_mode": collision_render_mode,
             "support_bottom_z_m": support_bottom_z_m,
+            "wall_segments": wall_segments,
             "wall_vertical_segments": wall_vertical_segments,
+            "bottom_segments": bottom_segments,
+            "bottom_arc_subdivisions": bottom_arc_subdivisions,
             "reuse_rotated_wall_geometry": reuse_rotated_wall_geometry,
-            "support_bottom_source_prims": [
-                f"{vessel_root}/Visual/Source/Hex_Base/Cylinder_004",
-                f"{vessel_root}/Visual/Source/Base_Connector/Cylinder_005",
-            ],
+            "support_bottom_source_prims": list(support_bottom_source_prims),
+        },
+        "cavity": {
+            "center_xy_m": [0.0, 0.0],
+            "radius_m": spec.inner_radius,
+            "floor_z_m": spec.floor_z,
+            "rim_z_m": spec.rim_center_z + spec.rim_vertical_radius,
+            "support_z_m": support_bottom_z_m,
+            "radial_profile": {
+                "bottom_radius_m": spec.inner_radius,
+                "top_radius_m": spec.inner_top_radius or spec.inner_radius,
+            },
         },
         "promotion": {
             "status": "candidate",
@@ -283,6 +301,10 @@ def main() -> None:
         collision_render_mode=args.collision_render_mode,
         wall_vertical_segments=args.wall_vertical_segments,
         reuse_rotated_wall_geometry=args.reuse_rotated_wall_geometry,
+        support_bottom_source_prims=(
+            f"{root}/Visual/Source/Hex_Base/Cylinder_004",
+            f"{root}/Visual/Source/Base_Connector/Cylinder_005",
+        ),
     )
     print(json.dumps(result, indent=2, sort_keys=True))
 

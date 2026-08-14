@@ -38,6 +38,8 @@ def authored_points(
     count: int = PARTICLE_COUNT,
     *,
     container_contact_offset_m: float = DEFAULT_CONTAINER_CONTACT_OFFSET_M,
+    inner_radius_m: float = INNER_RADIUS_M,
+    floor_z_m: float = FLOOR_Z_M,
 ) -> list[list[float]]:
     """Pack 0812-sized particles above the measured cylinder floor."""
 
@@ -47,14 +49,14 @@ def authored_points(
     # impulse and can eject particles through otherwise valid thin walls.
     spacing = 0.00582
     radial_limit = (
-        INNER_RADIUS_M
+        inner_radius_m
         - PARTICLE_CONTACT_OFFSET_M
         - container_contact_offset_m
         - INITIAL_CLEARANCE_MARGIN_M
     )
     if radial_limit <= 0:
         raise ValueError("combined contact offsets leave no usable cavity radius")
-    z = FLOOR_Z_M + PARTICLE_CONTACT_OFFSET_M
+    z = floor_z_m + PARTICLE_CONTACT_OFFSET_M
     layer = 0
     while len(points) < count:
         phase = 0.5 * spacing if layer % 2 else 0.0
@@ -79,6 +81,8 @@ def remap_reference_particle_cloud(
     *,
     source_center_xy_m: tuple[float, float],
     target_radial_limit_m: float,
+    target_floor_z_m: float = FLOOR_Z_M,
+    target_rim_z_m: float = 0.27824,
 ) -> tuple[list[list[float]], dict[str, Any]]:
     """Fit a settled reference cloud while preserving its occupied volume.
 
@@ -101,7 +105,7 @@ def remap_reference_particle_cloud(
     radial_scale = effective_radial_limit / source_radius
     vertical_scale = 1.0 / (radial_scale * radial_scale)
     source_floor = min(point[2] for point in reference_points)
-    target_floor = FLOOR_Z_M + PARTICLE_CONTACT_OFFSET_M
+    target_floor = target_floor_z_m + PARTICLE_CONTACT_OFFSET_M
     remapped = [
         [
             round((point[0] - cx) * radial_scale, 7),
@@ -110,7 +114,7 @@ def remap_reference_particle_cloud(
         ]
         for point in reference_points
     ]
-    if max(point[2] for point in remapped) >= 0.27824 - PARTICLE_CONTACT_OFFSET_M:
+    if max(point[2] for point in remapped) >= target_rim_z_m - PARTICLE_CONTACT_OFFSET_M:
         raise ValueError("volume-preserving reference cloud does not fit below rim")
     return remapped, {
         "mapping": "volume_preserving_radial_fit",
@@ -267,6 +271,18 @@ def build_fixture(
         raise FileNotFoundError("container package is missing asset.usd or profile")
     profile = json.loads(profile_path.read_text(encoding="utf-8"))
     entry_prim = str(profile["entry_prim"])
+    cavity = profile.get("cavity") or {
+        "center_xy_m": [0.0, 0.0],
+        "radius_m": INNER_RADIUS_M,
+        "floor_z_m": FLOOR_Z_M,
+        "rim_z_m": 0.27824,
+        "support_z_m": 0.0,
+    }
+    center_xy_m = [float(value) for value in cavity["center_xy_m"]]
+    inner_radius_m = float(cavity["radius_m"])
+    floor_z_m = float(cavity["floor_z_m"])
+    rim_z_m = float(cavity["rim_z_m"])
+    support_z_m = float(cavity["support_z_m"])
     container_contact_offset_m = float(
         profile["collision"].get(
             "contact_offset_m", DEFAULT_CONTAINER_CONTACT_OFFSET_M
@@ -287,15 +303,22 @@ def build_fixture(
         bounds_payload = bounds_payload.get("containment_bounds", bounds_payload)
         source_center = bounds_payload["center_xy_m"]
         radial_limit = (
-            INNER_RADIUS_M
+            inner_radius_m
             - PARTICLE_CONTACT_OFFSET_M
             - container_contact_offset_m
             - INITIAL_CLEARANCE_MARGIN_M
         )
+        seed_positions = (
+            seed_payload["positions"]
+            if isinstance(seed_payload, dict)
+            else seed_payload
+        )
         points, transform = remap_reference_particle_cloud(
-            seed_payload["positions"],
+            seed_positions,
             source_center_xy_m=(float(source_center[0]), float(source_center[1])),
             target_radial_limit_m=radial_limit,
+            target_floor_z_m=floor_z_m,
+            target_rim_z_m=rim_z_m,
         )
         initial_state = {
             "kind": "normalized_reference_particle_cloud",
@@ -309,9 +332,11 @@ def build_fixture(
         points = authored_points(
             count=particle_count,
             container_contact_offset_m=container_contact_offset_m,
+            inner_radius_m=inner_radius_m,
+            floor_z_m=floor_z_m,
         )
         initial_state = {"kind": "deterministic_reference_pitch_lattice"}
-    if max(point[2] for point in points) >= 0.27824 - PARTICLE_CONTACT_OFFSET_M:
+    if max(point[2] for point in points) >= rim_z_m - PARTICLE_CONTACT_OFFSET_M:
         raise ValueError("548 reference particles do not fit below the measured rim")
     points_path = _write_json(output / "authored_particle_points.json", points)
     component = _write(
@@ -342,15 +367,15 @@ def build_fixture(
             "solver_position_iteration_count": "isaac41_default",
         },
         "cavity": {
-            "radius_m": INNER_RADIUS_M,
-            "floor_z_m": FLOOR_Z_M,
+            "radius_m": inner_radius_m,
+            "floor_z_m": floor_z_m,
         },
         "containment_bounds": {
-            "center_xy_m": [0.0, 0.0],
-            "radius_m": INNER_RADIUS_M,
-            "floor_z_m": FLOOR_Z_M,
-            "rim_z_m": 0.27824,
-            "support_z_m": 0.0,
+            "center_xy_m": center_xy_m,
+            "radius_m": inner_radius_m,
+            "floor_z_m": floor_z_m,
+            "rim_z_m": rim_z_m,
+            "support_z_m": support_z_m,
         },
         "files": {
             "component": {"path": component.name, "sha256": _sha(component)},

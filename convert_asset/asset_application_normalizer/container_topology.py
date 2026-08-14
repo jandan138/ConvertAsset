@@ -43,6 +43,8 @@ class UnifiedCylindricalVesselSpec:
     rim_major_radius: float
     rim_radial_radius: float
     rim_vertical_radius: float
+    outer_top_radius: float | None = None
+    inner_top_radius: float | None = None
     sides: int = 96
     rim_arc_segments: int = 8
 
@@ -270,6 +272,8 @@ def close_annular_wall_rim(
 
 
 def _validate_unified_vessel_spec(spec: UnifiedCylindricalVesselSpec) -> None:
+    outer_top_radius = spec.outer_top_radius or spec.outer_radius
+    inner_top_radius = spec.inner_top_radius or spec.inner_radius
     dimensions = (
         spec.outer_radius,
         spec.inner_radius,
@@ -279,12 +283,18 @@ def _validate_unified_vessel_spec(spec: UnifiedCylindricalVesselSpec) -> None:
         spec.rim_major_radius,
         spec.rim_radial_radius,
         spec.rim_vertical_radius,
+        outer_top_radius,
+        inner_top_radius,
     )
     if not all(math.isfinite(value) for value in dimensions):
         raise ContainerTopologyError("vessel dimensions must be finite")
     if spec.inner_radius <= 0.0 or spec.inner_radius >= spec.outer_radius:
         raise ContainerTopologyError(
             "inner radius must be positive and smaller than outer radius"
+        )
+    if inner_top_radius <= 0.0 or inner_top_radius >= outer_top_radius:
+        raise ContainerTopologyError(
+            "top inner radius must be positive and smaller than top outer radius"
         )
     if spec.floor_z <= spec.bottom_z or spec.rim_center_z <= spec.floor_z:
         raise ContainerTopologyError(
@@ -312,6 +322,8 @@ def build_unified_cylindrical_vessel_mesh(
     """
 
     _validate_unified_vessel_spec(spec)
+    outer_top_radius = spec.outer_top_radius or spec.outer_radius
+    inner_top_radius = spec.inner_top_radius or spec.inner_radius
     arc_start = -math.pi / 6.0
     arc_span = 4.0 * math.pi / 3.0
     arc_step = arc_span / spec.rim_arc_segments
@@ -325,15 +337,15 @@ def build_unified_cylindrical_vessel_mesh(
         )
         for index in range(spec.rim_arc_segments + 1)
     )
-    if lip[0][0] <= spec.outer_radius or lip[-1][0] <= spec.inner_radius:
+    if lip[0][0] <= outer_top_radius or lip[-1][0] <= inner_top_radius:
         raise ContainerTopologyError(
             "rim profile must connect outside both measured vessel walls"
         )
     cross_section = (
         (spec.outer_radius, spec.bottom_z),
-        (spec.outer_radius, join_z),
+        (outer_top_radius, join_z),
         *lip,
-        (spec.inner_radius, join_z),
+        (inner_top_radius, join_z),
         (spec.inner_radius, spec.floor_z),
     )
 
@@ -438,6 +450,8 @@ def build_gpu_convex_vessel_partition(
         raise ContainerTopologyError("angular phase fraction must be in [0, 1)")
     pieces: list[ConvexVesselPiece] = []
     wall_step = 2.0 * math.pi / wall_segments
+    body_outer_top_radius = spec.outer_top_radius or spec.outer_radius
+    inner_top_radius = spec.inner_top_radius or spec.inner_radius
     outer_top_radius = spec.rim_major_radius + spec.rim_radial_radius
     outer_top_z = spec.rim_center_z + spec.rim_vertical_radius
     wall_indices = _triangulated_prism_faces(4)
@@ -469,15 +483,35 @@ def build_gpu_convex_vessel_partition(
 
             def outer_radius_at(z: float) -> float:
                 fraction = (z - spec.bottom_z) / (outer_top_z - spec.bottom_z)
-                return spec.outer_radius + fraction * (
-                    outer_top_radius - spec.outer_radius
+                body_fraction = min(
+                    1.0,
+                    fraction
+                    * (outer_top_z - spec.bottom_z)
+                    / (spec.rim_center_z - spec.bottom_z),
+                )
+                body_radius = spec.outer_radius + body_fraction * (
+                    body_outer_top_radius - spec.outer_radius
+                )
+                if z <= spec.rim_center_z:
+                    return body_radius
+                rim_fraction = (z - spec.rim_center_z) / (
+                    outer_top_z - spec.rim_center_z
+                )
+                return body_outer_top_radius + rim_fraction * (
+                    outer_top_radius - body_outer_top_radius
+                )
+
+            def inner_radius_at(z: float) -> float:
+                fraction = (z - spec.floor_z) / (outer_top_z - spec.floor_z)
+                return spec.inner_radius + fraction * (
+                    inner_top_radius - spec.inner_radius
                 )
 
             cross_section = (
                 (outer_radius_at(outer_lower_z), outer_lower_z),
                 (outer_radius_at(upper_z), upper_z),
-                (spec.inner_radius, upper_z),
-                (spec.inner_radius, inner_lower_z),
+                (inner_radius_at(upper_z), upper_z),
+                (inner_radius_at(inner_lower_z), inner_lower_z),
             )
             points = tuple(
                 (
@@ -541,7 +575,9 @@ def build_gpu_convex_vessel_partition(
             )
         )
 
-    inner_wall_error = spec.inner_radius * (1.0 - math.cos(wall_step / 2.0))
+    inner_wall_error = max(spec.inner_radius, inner_top_radius) * (
+        1.0 - math.cos(wall_step / 2.0)
+    )
     bottom_interval = bottom_step / bottom_arc_subdivisions
     bottom_error = spec.inner_radius * (1.0 - math.cos(bottom_interval / 2.0))
     return GPUConvexVesselPartition(

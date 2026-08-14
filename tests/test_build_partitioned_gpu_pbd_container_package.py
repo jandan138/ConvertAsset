@@ -70,6 +70,9 @@ def test_authors_source_derived_gpu_convex_hulls_and_removes_render_mesh_collisi
             rim_vertical_radius=0.00165,
         ),
         profile_id="graduated-cylinder-250ml.gpu-pbd-static.partitioned-r1",
+        support_bottom_source_prims=(
+            "/World/GraduatedCylinder250ml/Visual/Source/Bottom",
+        ),
     )
 
     assert result["piece_count"] == 249
@@ -106,6 +109,20 @@ def test_authors_source_derived_gpu_convex_hulls_and_removes_render_mesh_collisi
         (tmp_path / "partitioned/gpu_pbd_static_container_profile.json").read_text()
     )
     assert profile["collision"]["support_bottom_z_m"] == pytest.approx(0.0)
+    assert profile["collision"]["support_bottom_source_prims"] == [
+        "/World/GraduatedCylinder250ml/Visual/Source/Bottom"
+    ]
+    assert profile["cavity"] == {
+        "center_xy_m": [0.0, 0.0],
+        "floor_z_m": pytest.approx(0.011705),
+        "radius_m": pytest.approx(0.019185),
+        "radial_profile": {
+            "bottom_radius_m": pytest.approx(0.019185),
+            "top_radius_m": pytest.approx(0.019185),
+        },
+        "rim_z_m": pytest.approx(0.27824),
+        "support_z_m": pytest.approx(0.0),
+    }
     assert all(
         prim.GetAttribute(
             "physxConvexDecompositionCollision:voxelResolution"

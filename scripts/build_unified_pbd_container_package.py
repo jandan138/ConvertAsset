@@ -235,6 +235,17 @@ def build_unified_pbd_container_package(
             "render_and_collision_same_prim": True,
             "cooking_recipe": cooking_recipe,
         },
+        "cavity": {
+            "center_xy_m": [0.0, 0.0],
+            "radius_m": spec.inner_radius,
+            "floor_z_m": spec.floor_z,
+            "rim_z_m": spec.rim_center_z + spec.rim_vertical_radius,
+            "support_z_m": spec.bottom_z,
+            "radial_profile": {
+                "bottom_radius_m": spec.inner_radius,
+                "top_radius_m": spec.inner_top_radius or spec.inner_radius,
+            },
+        },
         "topology_evidence": "evidence/unified_vessel_topology.json",
         "promotion": {
             "status": "candidate",

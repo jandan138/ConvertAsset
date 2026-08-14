@@ -121,6 +121,50 @@ def test_unified_vessel_rejects_invalid_dimensions() -> None:
         )
 
 
+def test_builds_source_measured_tapered_beaker_surface_and_partition() -> None:
+    spec = UnifiedCylindricalVesselSpec(
+        outer_radius=0.03727,
+        inner_radius=0.03527,
+        bottom_z=0.0,
+        floor_z=0.003,
+        rim_center_z=0.11349,
+        rim_major_radius=0.0389675,
+        rim_radial_radius=0.0022775,
+        rim_vertical_radius=0.0016,
+        outer_top_radius=0.03869,
+        inner_top_radius=0.03669,
+        sides=128,
+    )
+
+    mesh = build_unified_cylindrical_vessel_mesh(spec)
+    assert mesh.cross_section[0] == pytest.approx((0.03727, 0.0))
+    assert mesh.cross_section[1][0] == pytest.approx(0.03869)
+    assert mesh.cross_section[-2][0] == pytest.approx(0.03669)
+    assert mesh.cross_section[-1] == pytest.approx((0.03527, 0.003))
+
+    partition = build_gpu_convex_vessel_partition(
+        spec,
+        wall_segments=48,
+        wall_vertical_segments=1,
+        bottom_arc_subdivisions=48,
+        reuse_rotated_wall_geometry=True,
+    )
+    wall = next(piece for piece in partition.pieces if piece.role == "wall")
+    lower_inner_radii = sorted(
+        math.hypot(point[0], point[1])
+        for point in wall.points
+        if point[2] == pytest.approx(spec.floor_z)
+    )
+    upper_inner_radii = sorted(
+        math.hypot(point[0], point[1])
+        for point in wall.points
+        if point[2] > 0.11
+    )
+    assert lower_inner_radii[0] == pytest.approx(spec.inner_radius)
+    assert upper_inner_radii[0] == pytest.approx(spec.inner_top_radius, abs=1e-7)
+    assert partition.maximum_surface_error_m <= 0.0001
+
+
 def test_builds_low_vertex_source_derived_gpu_convex_partition() -> None:
     spec = UnifiedCylindricalVesselSpec(
         outer_radius=0.02099,

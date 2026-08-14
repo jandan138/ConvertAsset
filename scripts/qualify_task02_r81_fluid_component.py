@@ -97,7 +97,7 @@ def _source_matrix(position: Any, orientation_wxyz: Any, np: Any) -> Any:
 
 def _read_positions(stage: Any, np: Any) -> Any:
     prim = stage.GetPrimAtPath(PARTICLES)
-    for name in ("physxParticle:simulationPoints", "points"):
+    for name in ("points", "physxParticle:simulationPoints"):
         values = prim.GetAttribute(name).Get()
         if values is not None:
             return np.asarray(values, dtype=float)

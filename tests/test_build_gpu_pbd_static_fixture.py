@@ -129,6 +129,52 @@ def test_fixture_records_complete_world_space_containment_bounds(
     }
 
 
+def test_fixture_uses_container_profile_cavity_instead_of_cylinder_constants(
+    tmp_path: Path,
+) -> None:
+    module = _module()
+    package = tmp_path / "container"
+    package.mkdir()
+    (package / "asset.usd").write_text("#usda 1.0\n")
+    (package / "gpu_pbd_static_container_profile.json").write_text(
+        json.dumps(
+            {
+                "entry_prim": "/World/Beaker325ml",
+                "collision": {
+                    "root_prim": "/World/Beaker325ml/PBD_GPU_Collision",
+                    "contact_offset_m": 0.001,
+                },
+                "cavity": {
+                    "center_xy_m": [0.0, 0.0],
+                    "radius_m": 0.03527,
+                    "floor_z_m": 0.003,
+                    "rim_z_m": 0.11509,
+                    "support_z_m": 0.0,
+                },
+            }
+        )
+    )
+
+    result = module.build_fixture(container_package=package, output=tmp_path / "out")
+
+    assert result["particle_count"] == 548
+    fixture = json.loads((tmp_path / "out/fixture_profile.json").read_text())
+    assert fixture["entry_prim"] == "/World/Beaker325ml"
+    assert fixture["containment_bounds"] == {
+        "center_xy_m": [0.0, 0.0],
+        "radius_m": 0.03527,
+        "floor_z_m": 0.003,
+        "rim_z_m": 0.11509,
+        "support_z_m": 0.0,
+    }
+    points = json.loads((tmp_path / "out/authored_particle_points.json").read_text())
+    assert min(point[2] for point in points) >= 0.003 + 0.005
+    assert max(point[2] for point in points) < 0.11509 - 0.005
+    assert max(math.hypot(point[0], point[1]) for point in points) <= (
+        0.03527 - 0.005 - 0.001 - 0.0005
+    )
+
+
 def test_can_build_single_particle_collider_probe(tmp_path: Path) -> None:
     module = _module()
     package = tmp_path / "container"
@@ -223,3 +269,41 @@ def test_fixture_can_use_provenanced_reference_particle_state(tmp_path: Path) ->
         "normalized_reference_particle_cloud"
     )
     assert fixture["particle_parameters"]["initial_state"]["source_sha256"]
+
+
+def test_fixture_accepts_promoted_plain_list_particle_state(tmp_path: Path) -> None:
+    module = _module()
+    package = tmp_path / "container"
+    package.mkdir()
+    (package / "asset.usd").write_text("#usda 1.0\n")
+    (package / "gpu_pbd_static_container_profile.json").write_text(
+        json.dumps(
+            {
+                "entry_prim": "/World/Beaker325ml",
+                "collision": {
+                    "root_prim": "/World/Beaker325ml/PBD_GPU_Collision",
+                    "contact_offset_m": 0.001,
+                },
+                "cavity": {
+                    "center_xy_m": [0.0, 0.0],
+                    "radius_m": 0.03527,
+                    "floor_z_m": 0.003,
+                    "rim_z_m": 0.11509,
+                    "support_z_m": 0.0,
+                },
+            }
+        )
+    )
+    seed = tmp_path / "promoted_points.json"
+    seed.write_text(json.dumps([[0.30, 0.10, 0.78], [0.32, 0.10, 0.80]]))
+    bounds = tmp_path / "reference_bounds.json"
+    bounds.write_text(json.dumps({"center_xy_m": [0.31, 0.10]}))
+
+    result = module.build_fixture(
+        container_package=package,
+        output=tmp_path / "out",
+        particle_seed=seed,
+        particle_seed_bounds=bounds,
+    )
+
+    assert result["particle_count"] == 2

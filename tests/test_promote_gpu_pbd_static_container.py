@@ -34,6 +34,7 @@ def test_promotes_only_three_cold_run_static_claim(tmp_path: Path) -> None:
     report = tmp_path / "report.json"
     run = {
         "overall_status": "pass",
+        "particle_readback_attribute": "points",
         "resolved_particle_semantics": {"fluid": True, "self_collision": True},
         "static_hold": {"minimum_inside_ratio": 1.0, "maximum_below_support": 0},
         "performance": {"mean_rtx_fps": 80.0},
@@ -71,3 +72,27 @@ def test_rejects_less_than_three_runs(tmp_path: Path) -> None:
         assert "three cold" in str(exc)
     else:
         raise AssertionError("expected report rejection")
+
+
+def test_rejects_rest_state_particle_readback() -> None:
+    module = _module()
+    run = {
+        "overall_status": "pass",
+        "particle_readback_attribute": "physxParticle:simulationPoints",
+        "resolved_particle_semantics": {"fluid": True, "self_collision": True},
+        "static_hold": {"minimum_inside_ratio": 1.0, "maximum_below_support": 0},
+        "performance": {"mean_rtx_fps": 80.0},
+        "hard_runtime_errors": [],
+    }
+    report = {
+        "overall_status": "pass",
+        "required_cold_runs": 3,
+        "runs": [run, run, run],
+    }
+
+    try:
+        module.validate_report(report)
+    except ValueError as exc:
+        assert "cold run 1" in str(exc)
+    else:
+        raise AssertionError("expected rest-state readback rejection")

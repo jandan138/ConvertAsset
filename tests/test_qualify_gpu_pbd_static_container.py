@@ -106,3 +106,25 @@ def test_summarizes_particle_distribution() -> None:
 
     assert result["radial_max_m"] == 0.05
     assert result["z_range_m"] == [0.01, 0.02]
+
+
+def test_runtime_reader_prefers_live_points_over_rest_state() -> None:
+    module = _module()
+
+    class Attribute:
+        def __init__(self, value: object) -> None:
+            self.value = value
+
+        def Get(self) -> object:
+            return self.value
+
+    class Prim:
+        def GetAttribute(self, name: str) -> Attribute:
+            value = [[1.0, 0.0, 0.0]] if name == "points" else [[9.0, 0.0, 0.0]]
+            return Attribute(value)
+
+    class Stage:
+        def GetPrimAtPath(self, path: str) -> Prim:
+            return Prim()
+
+    assert module._read_positions(Stage(), np).tolist() == [[1.0, 0.0, 0.0]]
