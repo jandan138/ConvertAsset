@@ -47,6 +47,8 @@ class UnifiedCylindricalVesselSpec:
     inner_top_radius: float | None = None
     sides: int = 96
     rim_arc_segments: int = 8
+    body_axial_segments: int = 1
+    rim_style: str = "rolled"
 
 
 @dataclass(frozen=True)
@@ -308,6 +310,24 @@ def _validate_unified_vessel_spec(spec: UnifiedCylindricalVesselSpec) -> None:
         )
     if spec.rim_arc_segments < 4:
         raise ContainerTopologyError("rim arc requires at least four segments")
+    if spec.body_axial_segments < 1:
+        raise ContainerTopologyError("body axial segments must be positive")
+    if spec.rim_style not in ("rolled", "flat_join"):
+        raise ContainerTopologyError("rim style must be rolled or flat_join")
+
+
+def _linear_profile(
+    start: tuple[float, float],
+    end: tuple[float, float],
+    segments: int,
+) -> tuple[tuple[float, float], ...]:
+    return tuple(
+        (
+            start[0] + (end[0] - start[0]) * index / segments,
+            start[1] + (end[1] - start[1]) * index / segments,
+        )
+        for index in range(segments + 1)
+    )
 
 
 def build_unified_cylindrical_vessel_mesh(
@@ -324,30 +344,47 @@ def build_unified_cylindrical_vessel_mesh(
     _validate_unified_vessel_spec(spec)
     outer_top_radius = spec.outer_top_radius or spec.outer_radius
     inner_top_radius = spec.inner_top_radius or spec.inner_radius
-    arc_start = -math.pi / 6.0
-    arc_span = 4.0 * math.pi / 3.0
-    arc_step = arc_span / spec.rim_arc_segments
-    join_z = spec.rim_center_z + spec.rim_vertical_radius * math.sin(arc_start)
-    lip = tuple(
-        (
-            spec.rim_major_radius
-            + spec.rim_radial_radius * math.cos(arc_start + index * arc_step),
-            spec.rim_center_z
-            + spec.rim_vertical_radius * math.sin(arc_start + index * arc_step),
+    if spec.rim_style == "rolled":
+        arc_start = -math.pi / 6.0
+        arc_span = 4.0 * math.pi / 3.0
+        arc_step = arc_span / spec.rim_arc_segments
+        join_z = spec.rim_center_z + spec.rim_vertical_radius * math.sin(arc_start)
+        lip = tuple(
+            (
+                spec.rim_major_radius
+                + spec.rim_radial_radius * math.cos(arc_start + index * arc_step),
+                spec.rim_center_z
+                + spec.rim_vertical_radius * math.sin(arc_start + index * arc_step),
+            )
+            for index in range(spec.rim_arc_segments + 1)
         )
-        for index in range(spec.rim_arc_segments + 1)
-    )
-    if lip[0][0] <= outer_top_radius or lip[-1][0] <= inner_top_radius:
-        raise ContainerTopologyError(
-            "rim profile must connect outside both measured vessel walls"
+        if lip[0][0] <= outer_top_radius or lip[-1][0] <= inner_top_radius:
+            raise ContainerTopologyError(
+                "rim profile must connect outside both measured vessel walls"
+            )
+        chord_error = max(spec.rim_radial_radius, spec.rim_vertical_radius) * (
+            1.0 - math.cos(arc_step / 2.0)
         )
-    cross_section = (
+    else:
+        join_z = spec.rim_center_z + spec.rim_vertical_radius
+        lip = ()
+        chord_error = 0.0
+    outer_body = _linear_profile(
         (spec.outer_radius, spec.bottom_z),
-        (outer_top_radius, join_z),
-        *lip,
+        (
+            spec.rim_major_radius + spec.rim_radial_radius
+            if spec.rim_style == "flat_join"
+            else outer_top_radius,
+            join_z,
+        ),
+        spec.body_axial_segments,
+    )
+    inner_body = _linear_profile(
         (inner_top_radius, join_z),
         (spec.inner_radius, spec.floor_z),
+        spec.body_axial_segments,
     )
+    cross_section = (*outer_body, *lip, *inner_body)
 
     points: list[tuple[float, float, float]] = []
     for radius, height in cross_section:
@@ -383,9 +420,6 @@ def build_unified_cylindrical_vessel_mesh(
         raise ContainerTopologyError(
             "unified vessel generation did not produce a closed manifold"
         )
-    chord_error = max(spec.rim_radial_radius, spec.rim_vertical_radius) * (
-        1.0 - math.cos(arc_step / 2.0)
-    )
     return UnifiedCylindricalVesselMesh(
         points=tuple(points),
         face_vertex_counts=counts,

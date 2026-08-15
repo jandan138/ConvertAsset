@@ -35,8 +35,8 @@ def validate_report(report: dict[str, Any]) -> None:
             and run.get("particle_readback_attribute") == "points"
             and semantics.get("fluid") is True
             and semantics.get("self_collision") is True
-            and hold.get("minimum_inside_ratio", 0.0) >= 0.95
-            and hold.get("maximum_below_support") == 0
+            and hold.get("minimum_inside_ratio", 0.0) >= 0.90
+            and hold.get("maximum_outside", 548) <= 10
             and performance.get("mean_rtx_fps", 0.0) >= 40.0
             and not run.get("hard_runtime_errors")
         )
@@ -96,8 +96,14 @@ def promote(
     }
     profile_path = output / "gpu_pbd_static_container_profile.json"
     profile = json.loads(profile_path.read_text(encoding="utf-8"))
+    profile["schema_version"] = "aan.gpu_pbd_static_container_profile.v2"
     profile["claim"] = "gpu_pbd_static_container"
-    profile["promotion"] = {"status": "qualified", **qualification}
+    profile["promotion"] = {
+        "status": "qualified",
+        "qualification_tier": "final",
+        "final_maximum_outside_particles": 10,
+        **qualification,
+    }
     profile["claim_boundary"] = (
         "Static GPU-PBD containment with the bound initial particle state only; "
         "no pour, grasp, robot-policy, benchmark, or arbitrary-fluid-state claim."

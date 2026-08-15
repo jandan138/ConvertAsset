@@ -21,6 +21,7 @@ def test_requires_three_passing_cold_runs() -> None:
     module = _module()
     passing = {
         "overall_status": "pass",
+        "qualification_tier": "final",
         "static_hold": {"minimum_inside_ratio": 0.98},
         "performance": {"mean_rtx_fps": 45.0},
         "hard_runtime_errors": [],
@@ -30,9 +31,28 @@ def test_requires_three_passing_cold_runs() -> None:
 
     assert report["overall_status"] == "pass"
     assert report["promotion"]["allowed"] is True
-    blocked = module.build_report([passing, {**passing, "overall_status": "blocked"}], required_runs=3)
+    blocked = module.build_report(
+        [passing, {**passing, "overall_status": "blocked"}], required_runs=3
+    )
     assert blocked["overall_status"] == "blocked"
     assert blocked["promotion"]["allowed"] is False
+
+
+def test_records_candidate_without_allowing_promotion() -> None:
+    module = _module()
+    candidate = {
+        "overall_status": "pass",
+        "qualification_tier": "candidate",
+        "static_hold": {"minimum_inside_ratio": 0.91},
+        "performance": {"mean_rtx_fps": 45.0},
+        "hard_runtime_errors": [],
+    }
+
+    report = module.build_report([candidate] * 3, required_runs=3)
+
+    assert report["overall_status"] == "candidate"
+    assert report["promotion"]["allowed"] is False
+    assert report["promotion"]["reason"] == "candidate_retention_only"
 
 
 def test_parent_log_scan_blocks_gpu_cooking_warning() -> None:

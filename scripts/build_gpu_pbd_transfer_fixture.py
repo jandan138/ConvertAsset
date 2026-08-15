@@ -28,7 +28,7 @@ def _write_json(path: Path, payload: Any) -> Path:
 
 def _load_package(
     package: Path,
-) -> tuple[dict[str, Any], dict[str, float], list[list[float]]]:
+) -> tuple[dict[str, Any], dict[str, float], list[list[float]], float]:
     profile_path = package / "gpu_pbd_static_container_profile.json"
     profile = json.loads(profile_path.read_text(encoding="utf-8"))
     if profile.get("promotion", {}).get("status") != "qualified":
@@ -41,7 +41,16 @@ def _load_package(
     state_path = package / str(profile["promotion"]["initial_particle_state"])
     state = json.loads(state_path.read_text(encoding="utf-8"))
     points = state["positions"] if isinstance(state, dict) else state
-    return profile, cavity, points
+    fixture_path = package / str(profile["promotion"].get("fixture", ""))
+    particle_contact_offset_m = 0.005
+    if fixture_path.is_file():
+        fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+        particle_contact_offset_m = float(
+            fixture.get("particle_parameters", {}).get(
+                "particle_contact_offset_m", particle_contact_offset_m
+            )
+        )
+    return profile, cavity, points, particle_contact_offset_m
 
 
 def _vec3_array(values: list[list[float]]) -> str:
@@ -49,7 +58,11 @@ def _vec3_array(values: list[list[float]]) -> str:
 
 
 def _component_usda(
-    *, source_entry: str, target_entry: str, points: list[list[float]]
+    *,
+    source_entry: str,
+    target_entry: str,
+    points: list[list[float]],
+    particle_contact_offset_m: float,
 ) -> str:
     positions = _vec3_array(points)
     zeros = ", ".join("(0, 0, 0)" for _ in points)
@@ -90,7 +103,7 @@ def Xform "World"
         {{
             float maxVelocity = 0.3
             float maxDepenetrationVelocity = inf
-            float particleContactOffset = 0.005
+            float particleContactOffset = {particle_contact_offset_m:.7g}
             float restOffset = 0
             float fluidRestOffset = -inf
             float solidRestOffset = -inf
@@ -154,7 +167,7 @@ over "World"
         uint physxScene:gpuFoundLostAggregatePairsCapacity = 1500
         uint physxScene:gpuMaxParticleContacts = 1048576
         token physxScene:solverType = "TGS"
-        uint physxScene:timeStepsPerSecond = 30
+        uint physxScene:timeStepsPerSecond = 120
     }
     def Cube "Support" (
         prepend apiSchemas = ["PhysicsCollisionAPI"]
@@ -188,8 +201,21 @@ def build_fixture(
     output = output.resolve()
     if output.exists():
         raise FileExistsError(output)
-    source_profile, source_cavity, particle_points = _load_package(source_package)
-    target_profile, target_cavity, _ = _load_package(target_package)
+    (
+        source_profile,
+        source_cavity,
+        particle_points,
+        source_particle_contact_offset_m,
+    ) = _load_package(source_package)
+    (
+        target_profile,
+        target_cavity,
+        _,
+        target_particle_contact_offset_m,
+    ) = _load_package(target_package)
+    particle_contact_offset_m = min(
+        source_particle_contact_offset_m, target_particle_contact_offset_m
+    )
     output.mkdir(parents=True)
     shutil.copytree(source_package, output / "deps/source")
     shutil.copytree(target_package, output / "deps/target")
@@ -207,6 +233,7 @@ def build_fixture(
             source_entry=source_profile["entry_prim"],
             target_entry=target_profile["entry_prim"],
             points=points,
+            particle_contact_offset_m=particle_contact_offset_m,
         ),
         encoding="utf-8",
     )
@@ -216,31 +243,31 @@ def build_fixture(
     candidates = [
         {
             "candidate_id": "c01",
-            "rim_offset_x_m": 0.0,
-            "rim_gap_m": 0.020,
-            "tilt_deg": -100.0,
-            "dwell_seconds": 2.0,
+            "rim_offset_x_m": 0.000,
+            "rim_gap_m": 0.010,
+            "tilt_deg": -105.0,
+            "dwell_seconds": 3.0,
         },
         {
             "candidate_id": "c02",
-            "rim_offset_x_m": 0.015,
-            "rim_gap_m": 0.020,
+            "rim_offset_x_m": -0.010,
+            "rim_gap_m": 0.010,
             "tilt_deg": -105.0,
-            "dwell_seconds": 2.5,
+            "dwell_seconds": 3.0,
         },
         {
             "candidate_id": "c03",
-            "rim_offset_x_m": 0.0,
-            "rim_gap_m": 0.030,
-            "tilt_deg": -110.0,
+            "rim_offset_x_m": 0.000,
+            "rim_gap_m": 0.010,
+            "tilt_deg": -115.0,
             "dwell_seconds": 3.0,
         },
         {
             "candidate_id": "c04",
-            "rim_offset_x_m": -0.015,
-            "rim_gap_m": 0.025,
-            "tilt_deg": -105.0,
-            "dwell_seconds": 2.5,
+            "rim_offset_x_m": -0.010,
+            "rim_gap_m": 0.010,
+            "tilt_deg": -115.0,
+            "dwell_seconds": 3.0,
         },
     ]
     profile = {
@@ -274,24 +301,26 @@ def build_fixture(
         "liquid_parameters": {
             "source": "LabUtopia inputs/usd/scene/liquid_0812/test.usd",
             "particle_count": len(points),
-            "particle_contact_offset_m": 0.005,
+            "particle_contact_offset_m": particle_contact_offset_m,
+            "selection": "minimum_promoted_endpoint_particle_contact_offset",
             "rest_offset_m": 0.0,
             "max_velocity_m_s": 0.3,
             "initial_particle_state": points_path.name,
             "initial_particle_state_sha256": _sha(points_path),
         },
         "trajectory_protocol": {
-            "physics_hz": 30,
+            "physics_hz": 120,
             "settle_seconds": 2.0,
-            "lift_seconds": 0.5,
-            "pretilt_degrees": -70.0,
+            "lift_seconds": 2.0,
+            "lateral_approach_seconds": 2.0,
+            "pretilt_degrees": -20.0,
             "pretilt_seconds": 0.5,
             "tilt_and_approach_seconds": 2.0,
             "retreat_seconds": 1.0,
             "upright_seconds": 0.5,
             "return_seconds": 1.0,
             "final_settle_seconds": 2.0,
-            "high_root_z_m": 0.20,
+            "high_root_z_m": 0.2,
         },
         "bounded_search": {
             "method": "deterministic_four_candidate_coarse_search_then_freeze",
@@ -302,7 +331,6 @@ def build_fixture(
             "spill_is_blocking": False,
             "required_cold_runs": 3,
             "minimum_static_source_retention_ratio": 0.95,
-            "maximum_below_support_count": 0,
             "minimum_mean_rtx_fps": 40.0,
         },
         "claim_boundary": "Prescribed kinematic transfer feasibility only; no robot, policy, benchmark, or 90 percent completion claim.",

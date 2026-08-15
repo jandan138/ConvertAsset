@@ -4,6 +4,8 @@ import importlib.util
 import json
 from pathlib import Path
 
+import pytest
+
 
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts/promote_gpu_pbd_static_container.py"
 
@@ -36,7 +38,11 @@ def test_promotes_only_three_cold_run_static_claim(tmp_path: Path) -> None:
         "overall_status": "pass",
         "particle_readback_attribute": "points",
         "resolved_particle_semantics": {"fluid": True, "self_collision": True},
-        "static_hold": {"minimum_inside_ratio": 1.0, "maximum_below_support": 0},
+        "static_hold": {
+            "minimum_inside_ratio": 1.0,
+            "maximum_outside": 0,
+            "maximum_below_support": 0,
+        },
         "performance": {"mean_rtx_fps": 80.0},
         "hard_runtime_errors": [],
     }
@@ -61,6 +67,47 @@ def test_promotes_only_three_cold_run_static_claim(tmp_path: Path) -> None:
     profile = json.loads((tmp_path / "final/gpu_pbd_static_container_profile.json").read_text())
     assert profile["promotion"]["status"] == "qualified"
     assert profile["claim"] == "gpu_pbd_static_container"
+    assert profile["schema_version"] == "aan.gpu_pbd_static_container_profile.v2"
+    assert profile["promotion"]["qualification_tier"] == "final"
+
+
+def test_v2_final_gate_rejects_more_than_ten_live_particles_outside() -> None:
+    module = _module()
+    run = {
+        "overall_status": "pass",
+        "particle_readback_attribute": "points",
+        "resolved_particle_semantics": {"fluid": True, "self_collision": True},
+        "static_hold": {
+            "minimum_inside_ratio": 0.97,
+            "maximum_outside": 16,
+            "maximum_below_support": 0,
+        },
+        "performance": {"mean_rtx_fps": 80.0},
+        "hard_runtime_errors": [],
+    }
+    report = {"overall_status": "pass", "required_cold_runs": 3, "runs": [run] * 3}
+
+    with pytest.raises(ValueError, match="cold run 1"):
+        module.validate_report(report)
+
+
+def test_v2_final_gate_allows_below_support_within_total_outside_budget() -> None:
+    module = _module()
+    run = {
+        "overall_status": "pass",
+        "particle_readback_attribute": "points",
+        "resolved_particle_semantics": {"fluid": True, "self_collision": True},
+        "static_hold": {
+            "minimum_inside_ratio": 546 / 548,
+            "maximum_outside": 2,
+            "maximum_below_support": 1,
+        },
+        "performance": {"mean_rtx_fps": 80.0},
+        "hard_runtime_errors": [],
+    }
+    report = {"overall_status": "pass", "required_cold_runs": 3, "runs": [run] * 3}
+
+    module.validate_report(report)
 
 
 def test_rejects_less_than_three_runs(tmp_path: Path) -> None:

@@ -20,7 +20,13 @@ def _module() -> object:
     return module
 
 
-def _package(root: Path, *, entry_prim: str, cavity: dict[str, float]) -> Path:
+def _package(
+    root: Path,
+    *,
+    entry_prim: str,
+    cavity: dict[str, float],
+    particle_contact_offset_m: float = 0.005,
+) -> Path:
     root.mkdir(parents=True)
     (root / "asset.usd").write_text("usd", encoding="utf-8")
     (root / "gpu_pbd_static_container_profile.json").write_text(
@@ -34,6 +40,7 @@ def _package(root: Path, *, entry_prim: str, cavity: dict[str, float]) -> Path:
                 "cavity": cavity,
                 "promotion": {
                     "status": "qualified",
+                    "fixture": "evidence/gpu_pbd_static_fixture.json",
                     "initial_particle_state": "evidence/gpu_pbd_initial_particle_state.json",
                 },
             }
@@ -44,6 +51,16 @@ def _package(root: Path, *, entry_prim: str, cavity: dict[str, float]) -> Path:
     evidence.mkdir()
     (evidence / "gpu_pbd_initial_particle_state.json").write_text(
         json.dumps([[0.0, 0.0, 0.01], [0.001, 0.0, 0.01]]),
+        encoding="utf-8",
+    )
+    (evidence / "gpu_pbd_static_fixture.json").write_text(
+        json.dumps(
+            {
+                "particle_parameters": {
+                    "particle_contact_offset_m": particle_contact_offset_m
+                }
+            }
+        ),
         encoding="utf-8",
     )
     return root
@@ -72,6 +89,7 @@ def test_builds_fixed_target_kinematic_source_fixture(tmp_path: Path) -> None:
             "rim_z_m": 0.11509,
             "support_z_m": 0.0,
         },
+        particle_contact_offset_m=0.0015,
     )
 
     result = module.build_fixture(
@@ -90,7 +108,7 @@ def test_builds_fixed_target_kinematic_source_fixture(tmp_path: Path) -> None:
         "prepend references = @deps/target/asset.usd@</World/Beaker325ml>" in component
     )
     assert component.count("bool physics:kinematicEnabled = 1") == 2
-    assert "particleContactOffset = 0.005" in component
+    assert "particleContactOffset = 0.0015" in component
     profile = json.loads((tmp_path / "out/transfer_fixture_profile.json").read_text())
     assert profile["target_actor_mode"] == "fixed_kinematic_rigid_body"
     assert profile["source_actor_mode"] == "prescribed_kinematic_trajectory"
@@ -101,3 +119,9 @@ def test_builds_fixed_target_kinematic_source_fixture(tmp_path: Path) -> None:
     assert len(profile["bounded_search"]["candidates"]) == 4
     assert profile["qualification"]["minimum_target_reception_ratio"] == 0.5
     assert profile["qualification"]["spill_is_blocking"] is False
+    assert profile["liquid_parameters"]["particle_contact_offset_m"] == 0.0015
+    assert profile["trajectory_protocol"]["lift_seconds"] == 2.0
+    assert profile["trajectory_protocol"]["physics_hz"] == 120
+    assert profile["trajectory_protocol"]["high_root_z_m"] == 0.2
+    assert profile["trajectory_protocol"]["lateral_approach_seconds"] == 2.0
+    assert profile["trajectory_protocol"]["pretilt_degrees"] == -20.0

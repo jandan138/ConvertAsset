@@ -73,7 +73,25 @@ def test_spill_is_reported_but_not_a_blocking_gate() -> None:
 
     assert checks["target_reception"] is True
     assert "spill" not in checks
-    assert all(checks.values())
+    assert checks["below_support_observed"] is False
+    assert all(
+        value for key, value in checks.items() if key != "below_support_observed"
+    )
+
+
+def test_below_support_is_part_of_nonblocking_spill_observation() -> None:
+    module = _module()
+    checks = module.qualification_checks(
+        static_source_ratio=1.0,
+        maximum_below_support=120,
+        final={"particle_count": 548, "target": 300, "below_support": 100, "spill": 148},
+        hard_runtime_errors=[],
+        mean_rtx_fps=60.0,
+    )
+
+    assert checks["below_support_observed"] is True
+    assert checks["target_reception"] is True
+    assert all(value for key, value in checks.items() if key != "below_support_observed")
 
 
 def test_runtime_reader_prefers_live_points_over_rest_state() -> None:

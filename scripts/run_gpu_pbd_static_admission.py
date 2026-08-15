@@ -47,18 +47,24 @@ def _sha(path: Path) -> str:
 def build_report(
     runs: list[dict[str, Any]], *, required_runs: int
 ) -> dict[str, Any]:
-    allowed = len(runs) == required_runs and all(
+    candidate = len(runs) == required_runs and all(
         run.get("overall_status") == "pass" for run in runs
     )
+    allowed = candidate and all(
+        run.get("qualification_tier") == "final" for run in runs
+    )
     return {
-        "schema_version": "aan.gpu_pbd_static_admission.v1",
-        "overall_status": "pass" if allowed else "blocked",
+        "schema_version": "aan.gpu_pbd_static_admission.v2",
+        "overall_status": "pass" if allowed else "candidate" if candidate else "blocked",
+        "qualification_tier": "final" if allowed else "candidate" if candidate else "blocked",
         "required_cold_runs": required_runs,
         "runs": runs,
         "promotion": {
             "allowed": allowed,
             "claim": "gpu_pbd_static_container" if allowed else None,
-            "reason": None if allowed else "one_or_more_static_runs_failed",
+            "reason": None if allowed else (
+                "candidate_retention_only" if candidate else "one_or_more_static_runs_failed"
+            ),
         },
         "claim_boundary": (
             "Static GPU-PBD containment only; no pour, grasp, policy, or "

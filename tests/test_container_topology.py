@@ -84,6 +84,7 @@ def test_builds_one_closed_all_triangle_unified_vessel_surface() -> None:
             rim_vertical_radius=0.00165,
             sides=96,
             rim_arc_segments=8,
+            body_axial_segments=24,
         )
     )
 
@@ -103,6 +104,15 @@ def test_builds_one_closed_all_triangle_unified_vessel_surface() -> None:
     assert max(heights) == pytest.approx(0.27824)
     assert mesh.cavity_radius == pytest.approx(0.019185)
     assert mesh.cavity_floor_z == pytest.approx(0.011705)
+    # The 0812-style repair must not leave one 26 cm tall triangle strip.
+    body_levels = sorted(
+        {
+            round(point[2], 7)
+            for point in mesh.points
+            if point[2] < 0.27
+        }
+    )
+    assert len(body_levels) >= 24
 
 
 def test_unified_vessel_rejects_invalid_dimensions() -> None:
@@ -119,6 +129,34 @@ def test_unified_vessel_rejects_invalid_dimensions() -> None:
                 rim_vertical_radius=0.001,
             )
         )
+
+
+def test_builds_closed_flat_join_rim_for_thin_gpu_pbd_container() -> None:
+    spec = UnifiedCylindricalVesselSpec(
+        outer_radius=0.02099,
+        inner_radius=0.019185,
+        bottom_z=0.0099,
+        floor_z=0.011705,
+        rim_center_z=0.27659,
+        rim_major_radius=0.020825,
+        rim_radial_radius=0.0011,
+        rim_vertical_radius=0.00165,
+        sides=12,
+        body_axial_segments=1,
+        rim_style="flat_join",
+    )
+
+    mesh = build_unified_cylindrical_vessel_mesh(spec)
+    audit = analyze_mesh_topology(
+        mesh.face_vertex_counts, mesh.face_vertex_indices
+    )
+
+    assert audit.boundary_edge_count == 0
+    assert audit.non_manifold_edge_count == 0
+    assert len(mesh.cross_section) == 4
+    assert mesh.cross_section[1] == pytest.approx((0.021925, 0.27824))
+    assert mesh.cross_section[2] == pytest.approx((0.019185, 0.27824))
+    assert mesh.maximum_rim_chord_error_m == 0.0
 
 
 def test_builds_source_measured_tapered_beaker_surface_and_partition() -> None:

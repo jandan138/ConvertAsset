@@ -1,12 +1,12 @@
 {
   "schema_version": "aan.source_bound_cylindrical_container_recipe.v1",
-  "profile_id": "scientific-workbench.beaker-325ml.gpu-pbd-static.r1",
+  "profile_id": "scientific-workbench.beaker-325ml.gpu-pbd-static.0812-exact-diagnostic",
   "collision_strategy": "single_mesh",
-  "cooking_recipe": "liquid_0812_promotable",
+  "cooking_recipe": "liquid_0812_exact_diagnostic",
   "template": {
     "usd": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/inputs/usd/scene/liquid_0812/test.usd",
     "prim": "/World/beaker2/mesh",
-    "seal_boundaries": true,
+    "seal_boundaries": false,
     "dimension_mapping": "clone_authored_xform_stack_recentered",
     "copy_mass_properties": true,
     "copy_authored_properties": true
@@ -37,16 +37,11 @@
     "body_axial_segments": 24
   },
   "partition": {
-    "wall_segments": 48,
-    "wall_vertical_segments": 1,
-    "bottom_segments": 1,
-    "bottom_arc_subdivisions": 48,
-    "reuse_rotated_wall_geometry": true,
     "contact_offset_m": 0.01,
     "rest_offset_m": 0.005,
     "support_bottom_z_m": 0.0,
     "voxel_resolution": 500000,
     "piece_approximation": "convexDecomposition",
-    "collision_render_mode": "hidden_default_purpose"
+    "collision_render_mode": "source_parity_visible"
   }
 }

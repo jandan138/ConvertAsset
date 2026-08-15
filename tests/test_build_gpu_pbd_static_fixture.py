@@ -5,6 +5,9 @@ import json
 import math
 from pathlib import Path
 
+import pytest
+from pxr import Usd, UsdGeom
+
 
 SCRIPT = (
     Path(__file__).resolve().parents[1] / "scripts/build_gpu_pbd_static_fixture.py"
@@ -99,6 +102,83 @@ def test_accepts_partition_collision_root(tmp_path: Path) -> None:
     fixture = json.loads((tmp_path / "out/fixture_profile.json").read_text())
     assert fixture["container_actor_mode"] == "kinematic_rigid_body"
     assert fixture["collision_mesh_prim"].endswith("/PBD_GPU_Collision")
+
+
+def test_can_match_0812_dynamic_container_actor_mode(tmp_path: Path) -> None:
+    module = _module()
+    package = tmp_path / "container"
+    package.mkdir()
+    (package / "asset.usd").write_text("#usda 1.0\n")
+    (package / "gpu_pbd_static_container_profile.json").write_text(
+        json.dumps(
+            {
+                "entry_prim": "/World/Beaker325ml",
+                "collision": {"root_prim": "/World/Beaker325ml/Collision"},
+            }
+        )
+    )
+
+    module.build_fixture(
+        container_package=package,
+        output=tmp_path / "out",
+        actor_mode="dynamic_rigid_body",
+    )
+
+    component = (tmp_path / "out/component.usda").read_text()
+    assert "physics:kinematicEnabled = 0" in component
+    fixture = json.loads((tmp_path / "out/fixture_profile.json").read_text())
+    assert fixture["container_actor_mode"] == "dynamic_rigid_body"
+
+
+def test_can_clone_authored_0812_particle_seed_from_usd(tmp_path: Path) -> None:
+    module = _module()
+    package = tmp_path / "container"
+    package.mkdir()
+    (package / "asset.usd").write_text("#usda 1.0\n")
+    (package / "gpu_pbd_static_container_profile.json").write_text(
+        json.dumps(
+            {
+                "entry_prim": "/World/Beaker325ml",
+                "collision": {"root_prim": "/World/Beaker325ml/Collision"},
+                "cavity": {
+                    "center_xy_m": [0.0, 0.0],
+                    "radius_m": 0.05,
+                    "floor_z_m": 0.003,
+                    "rim_z_m": 0.12,
+                    "support_z_m": 0.0,
+                },
+            }
+        )
+    )
+    seed_usd = tmp_path / "seed.usda"
+    stage = Usd.Stage.CreateNew(str(seed_usd))
+    particles = UsdGeom.Points.Define(stage, "/World/ParticleSet")
+    particles.GetPointsAttr().Set(
+        [(0.28, 0.06, 0.78), (0.29, 0.06, 0.78), (0.28, 0.07, 0.79)]
+    )
+    stage.GetRootLayer().Save()
+    bounds = tmp_path / "bounds.json"
+    bounds.write_text(json.dumps({"center_xy_m": [0.28, 0.06]}))
+
+    module.build_fixture(
+        container_package=package,
+        output=tmp_path / "out",
+        particle_seed_usd=seed_usd,
+        particle_seed_prim="/World/ParticleSet",
+        particle_seed_bounds=bounds,
+        particle_seed_mapping="rigid_translate_authored_cloud",
+    )
+
+    points = json.loads((tmp_path / "out/authored_particle_points.json").read_text())
+    assert len(points) == 3
+    assert points[0] == pytest.approx([0.0, 0.0, 0.008], abs=1e-8)
+    fixture = json.loads((tmp_path / "out/fixture_profile.json").read_text())
+    assert fixture["particle_parameters"]["initial_state"]["kind"] == (
+        "source_authored_particle_cloud"
+    )
+    assert fixture["particle_parameters"]["initial_state"]["source_prim"] == (
+        "/World/ParticleSet"
+    )
 
 
 def test_fixture_records_complete_world_space_containment_bounds(
@@ -224,6 +304,31 @@ def test_remaps_stable_reference_cloud_into_cylinder_without_density_squash() ->
     assert transform["vertical_scale"] == 1 / transform["radial_scale"] ** 2
 
 
+def test_translates_stable_reference_cloud_without_changing_pairwise_spacing() -> None:
+    module = _module()
+    reference = [
+        [0.30, 0.10, 0.78],
+        [0.32, 0.10, 0.78],
+        [0.30, 0.12, 0.80],
+    ]
+
+    translated, transform = module.translate_reference_particle_cloud(
+        reference,
+        source_center_xy_m=(0.31, 0.11),
+        target_center_xy_m=(0.0, 0.0),
+        target_floor_z_m=0.003,
+        target_cavity_radius_m=0.04,
+        target_rim_z_m=0.115,
+    )
+
+    assert math.isclose(
+        math.dist(translated[0], translated[1]),
+        math.dist(reference[0], reference[1]),
+    )
+    assert math.isclose(min(point[2] for point in translated), 0.008)
+    assert transform["mapping"] == "rigid_translate_settled_cloud"
+
+
 def test_fixture_can_use_provenanced_reference_particle_state(tmp_path: Path) -> None:
     module = _module()
     package = tmp_path / "container"
@@ -307,3 +412,32 @@ def test_fixture_accepts_promoted_plain_list_particle_state(tmp_path: Path) -> N
     )
 
     assert result["particle_count"] == 2
+
+
+def test_fixture_authors_scaled_particle_contact_offset(tmp_path: Path) -> None:
+    module = _module()
+    package = tmp_path / "container"
+    package.mkdir()
+    (package / "asset.usd").write_text("#usda 1.0\n")
+    (package / "gpu_pbd_static_container_profile.json").write_text(
+        json.dumps(
+            {
+                "entry_prim": "/World/GraduatedCylinder250ml",
+                "collision": {
+                    "root_prim": "/World/GraduatedCylinder250ml/Collision",
+                    "contact_offset_m": 0.004,
+                },
+            }
+        )
+    )
+
+    module.build_fixture(
+        container_package=package,
+        output=tmp_path / "out",
+        particle_contact_offset_m=0.0025,
+    )
+
+    component = (tmp_path / "out/component.usda").read_text()
+    fixture = json.loads((tmp_path / "out/fixture_profile.json").read_text())
+    assert "float particleContactOffset = 0.0025" in component
+    assert fixture["particle_parameters"]["particle_contact_offset_m"] == 0.0025

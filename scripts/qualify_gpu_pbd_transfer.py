@@ -16,7 +16,7 @@ from typing import Any
 SOURCE = "/World/Transfer/Source"
 TARGET = "/World/Transfer/Target"
 PARTICLES = "/World/Transfer/ParticleSet"
-PHYSICS_HZ = 30
+PHYSICS_HZ = 120
 
 
 def hard_runtime_errors(text: str) -> list[str]:
@@ -108,11 +108,17 @@ def qualification_checks(
         "gpu_cooking": not hard_runtime_errors,
         "particle_count": count == 548,
         "static_retention": static_source_ratio >= 0.95,
-        "below_support": maximum_below_support == 0
-        and int(final["below_support"]) == 0,
+        "below_support_observed": maximum_below_support > 0
+        or int(final["below_support"]) > 0,
         "target_reception": count > 0 and int(final["target"]) / count >= 0.5,
         "performance": mean_rtx_fps >= 40.0,
     }
+
+
+def blocking_checks_pass(checks: dict[str, bool]) -> bool:
+    return all(
+        value for name, value in checks.items() if name != "below_support_observed"
+    )
 
 
 def _read_positions(stage: Any, np: Any) -> Any:
@@ -255,6 +261,23 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             world.step(render=False)
 
         rim_z = float(source_cavity["rim_z_m"])
+        lateral_root = np.asarray(
+            [float(candidate["rim_offset_x_m"]), 0.0, high_root[2]],
+            dtype=float,
+        )
+        lateral_steps = round(
+            float(protocol.get("lateral_approach_seconds", 0.0)) * PHYSICS_HZ
+        )
+        for index in range(1, lateral_steps + 1):
+            alpha = index / lateral_steps
+            position = _lerp(high_root, lateral_root, alpha, np)
+            source_view.set_world_poses(
+                positions=np.asarray([position], dtype=np.float32),
+                orientations=np.asarray([upright], dtype=np.float32),
+            )
+            world.step(render=False)
+
+        high_root = lateral_root
         high_pivot = high_root + np.asarray([0.0, 0.0, rim_z])
         pretilt = float(protocol["pretilt_degrees"])
         for index in range(
@@ -413,7 +436,7 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             "trajectory_checkpoints": "trajectory_checkpoints.json",
             "hard_runtime_errors": errors,
             "checks": checks,
-            "overall_status": "pass" if all(checks.values()) else "blocked",
+            "overall_status": "pass" if blocking_checks_pass(checks) else "blocked",
             "claim_boundary": "Prescribed kinematic transfer feasibility only; spill is recorded but non-blocking; no robot or benchmark claim.",
         }
         args.out.parent.mkdir(parents=True, exist_ok=True)

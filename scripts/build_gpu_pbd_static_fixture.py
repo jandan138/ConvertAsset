@@ -40,6 +40,7 @@ def authored_points(
     container_contact_offset_m: float = DEFAULT_CONTAINER_CONTACT_OFFSET_M,
     inner_radius_m: float = INNER_RADIUS_M,
     floor_z_m: float = FLOOR_Z_M,
+    particle_contact_offset_m: float = PARTICLE_CONTACT_OFFSET_M,
 ) -> list[list[float]]:
     """Pack 0812-sized particles above the measured cylinder floor."""
 
@@ -50,13 +51,13 @@ def authored_points(
     spacing = 0.00582
     radial_limit = (
         inner_radius_m
-        - PARTICLE_CONTACT_OFFSET_M
+        - particle_contact_offset_m
         - container_contact_offset_m
         - INITIAL_CLEARANCE_MARGIN_M
     )
     if radial_limit <= 0:
         raise ValueError("combined contact offsets leave no usable cavity radius")
-    z = floor_z_m + PARTICLE_CONTACT_OFFSET_M
+    z = floor_z_m + particle_contact_offset_m
     layer = 0
     while len(points) < count:
         phase = 0.5 * spacing if layer % 2 else 0.0
@@ -83,6 +84,7 @@ def remap_reference_particle_cloud(
     target_radial_limit_m: float,
     target_floor_z_m: float = FLOOR_Z_M,
     target_rim_z_m: float = 0.27824,
+    particle_contact_offset_m: float = PARTICLE_CONTACT_OFFSET_M,
 ) -> tuple[list[list[float]], dict[str, Any]]:
     """Fit a settled reference cloud while preserving its occupied volume.
 
@@ -105,7 +107,7 @@ def remap_reference_particle_cloud(
     radial_scale = effective_radial_limit / source_radius
     vertical_scale = 1.0 / (radial_scale * radial_scale)
     source_floor = min(point[2] for point in reference_points)
-    target_floor = target_floor_z_m + PARTICLE_CONTACT_OFFSET_M
+    target_floor = target_floor_z_m + particle_contact_offset_m
     remapped = [
         [
             round((point[0] - cx) * radial_scale, 7),
@@ -114,7 +116,9 @@ def remap_reference_particle_cloud(
         ]
         for point in reference_points
     ]
-    if max(point[2] for point in remapped) >= target_rim_z_m - PARTICLE_CONTACT_OFFSET_M:
+    if max(point[2] for point in remapped) >= (
+        target_rim_z_m - particle_contact_offset_m
+    ):
         raise ValueError("volume-preserving reference cloud does not fit below rim")
     return remapped, {
         "mapping": "volume_preserving_radial_fit",
@@ -129,11 +133,67 @@ def remap_reference_particle_cloud(
     }
 
 
+def translate_reference_particle_cloud(
+    reference_points: list[list[float]],
+    *,
+    source_center_xy_m: tuple[float, float],
+    target_center_xy_m: tuple[float, float],
+    target_floor_z_m: float,
+    target_cavity_radius_m: float,
+    target_rim_z_m: float,
+    particle_contact_offset_m: float = PARTICLE_CONTACT_OFFSET_M,
+) -> tuple[list[list[float]], dict[str, Any]]:
+    """Move an already-settled cloud without introducing new PBD overlap."""
+
+    if not reference_points:
+        raise ValueError("reference particle cloud is empty")
+    source_x, source_y = source_center_xy_m
+    target_x, target_y = target_center_xy_m
+    source_floor = min(point[2] for point in reference_points)
+    source_radius = max(
+        math.hypot(point[0] - source_x, point[1] - source_y)
+        for point in reference_points
+    )
+    source_height = max(point[2] for point in reference_points) - source_floor
+    if source_radius > target_cavity_radius_m:
+        raise ValueError("settled reference cloud does not fit target cavity radius")
+    target_floor = target_floor_z_m + particle_contact_offset_m
+    if target_floor + source_height >= target_rim_z_m:
+        raise ValueError("settled reference cloud does not fit below target rim")
+    translated = [
+        [
+            target_x + point[0] - source_x,
+            target_y + point[1] - source_y,
+            target_floor + point[2] - source_floor,
+        ]
+        for point in reference_points
+    ]
+    return translated, {
+        "mapping": "rigid_translate_settled_cloud",
+        "source_center_xy_m": [source_x, source_y],
+        "target_center_xy_m": [target_x, target_y],
+        "source_radial_extent_m": source_radius,
+        "target_cavity_radius_m": target_cavity_radius_m,
+        "source_floor_z_m": source_floor,
+        "target_floor_z_m": target_floor,
+        "pairwise_spacing_preserved": True,
+    }
+
+
 def _vec3_array(values: list[list[float]]) -> str:
     return ", ".join(f"({x:.7g}, {y:.7g}, {z:.7g})" for x, y, z in values)
 
 
-def _component_usda(*, entry_prim: str, points: list[list[float]]) -> str:
+def _component_usda(
+    *,
+    entry_prim: str,
+    points: list[list[float]],
+    actor_mode: str,
+    particle_contact_offset_m: float = PARTICLE_CONTACT_OFFSET_M,
+) -> str:
+    if actor_mode not in ("kinematic_rigid_body", "dynamic_rigid_body"):
+        raise ValueError(f"unsupported container actor mode: {actor_mode}")
+    kinematic = 1 if actor_mode == "kinematic_rigid_body" else 0
     positions = _vec3_array(points)
     zeros = ", ".join("(0, 0, 0)" for _ in points)
     widths = ", ".join("0.005" for _ in points)
@@ -152,7 +212,7 @@ def Xform "World"
         prepend references = @deps/container/asset.usd@<{entry_prim}>
     )
     {{
-        bool physics:kinematicEnabled = 1
+        bool physics:kinematicEnabled = {kinematic}
         bool physics:rigidBodyEnabled = 1
     }}
 
@@ -162,7 +222,7 @@ def Xform "World"
     {{
         float maxVelocity = 0.3
         float maxDepenetrationVelocity = inf
-        float particleContactOffset = 0.005
+        float particleContactOffset = {particle_contact_offset_m:.7g}
         float restOffset = 0
         float fluidRestOffset = -inf
         float solidRestOffset = -inf
@@ -259,12 +319,19 @@ def build_fixture(
     output: Path,
     particle_count: int = PARTICLE_COUNT,
     particle_seed: Path | None = None,
+    particle_seed_usd: Path | None = None,
+    particle_seed_prim: str = "/World/ParticleSet",
     particle_seed_bounds: Path | None = None,
+    actor_mode: str = "kinematic_rigid_body",
+    particle_seed_mapping: str = "volume_preserving_radial_fit",
+    particle_contact_offset_m: float = PARTICLE_CONTACT_OFFSET_M,
 ) -> dict[str, Any]:
     container_package = container_package.resolve()
     output = output.resolve()
     if output.exists():
         raise FileExistsError(f"refusing to overwrite fixture: {output}")
+    if not math.isfinite(particle_contact_offset_m) or particle_contact_offset_m <= 0:
+        raise ValueError("particle contact offset must be finite and positive")
     entrypoint = container_package / "asset.usd"
     profile_path = container_package / "gpu_pbd_static_container_profile.json"
     if not entrypoint.is_file() or not profile_path.is_file():
@@ -291,57 +358,110 @@ def build_fixture(
     output.mkdir(parents=True)
     shutil.copytree(container_package, output / "deps/container")
     initial_state: dict[str, Any]
-    if particle_seed is not None:
+    if particle_seed is not None and particle_seed_usd is not None:
+        raise ValueError("particle_seed and particle_seed_usd are mutually exclusive")
+    if particle_seed is not None or particle_seed_usd is not None:
         if particle_seed_bounds is None:
-            raise ValueError("particle_seed_bounds is required with particle_seed")
-        particle_seed = particle_seed.resolve()
+            raise ValueError("particle_seed_bounds is required with a particle seed")
         particle_seed_bounds = particle_seed_bounds.resolve()
-        seed_payload = json.loads(particle_seed.read_text(encoding="utf-8"))
+        if particle_seed_usd is not None:
+            from pxr import Usd, UsdGeom
+
+            particle_seed_usd = particle_seed_usd.resolve()
+            seed_stage = Usd.Stage.Open(str(particle_seed_usd))
+            if seed_stage is None:
+                raise ValueError(f"cannot open particle seed USD: {particle_seed_usd}")
+            seed_points = UsdGeom.Points(
+                seed_stage.GetPrimAtPath(particle_seed_prim)
+            )
+            if not seed_points.GetPrim().IsValid():
+                raise ValueError(
+                    f"particle seed prim is not Points: {particle_seed_prim}"
+                )
+            seed_positions = [
+                [float(value) for value in point]
+                for point in (seed_points.GetPointsAttr().Get() or [])
+            ]
+            seed_source = particle_seed_usd
+            seed_kind = "source_authored_particle_cloud"
+        else:
+            assert particle_seed is not None
+            particle_seed = particle_seed.resolve()
+            seed_payload = json.loads(particle_seed.read_text(encoding="utf-8"))
+            seed_positions = (
+                seed_payload["positions"]
+                if isinstance(seed_payload, dict)
+                else seed_payload
+            )
+            seed_source = particle_seed
+            seed_kind = "normalized_reference_particle_cloud"
         bounds_payload = json.loads(
             particle_seed_bounds.read_text(encoding="utf-8")
         )
         bounds_payload = bounds_payload.get("containment_bounds", bounds_payload)
         source_center = bounds_payload["center_xy_m"]
-        radial_limit = (
-            inner_radius_m
-            - PARTICLE_CONTACT_OFFSET_M
-            - container_contact_offset_m
-            - INITIAL_CLEARANCE_MARGIN_M
-        )
-        seed_positions = (
-            seed_payload["positions"]
-            if isinstance(seed_payload, dict)
-            else seed_payload
-        )
-        points, transform = remap_reference_particle_cloud(
-            seed_positions,
-            source_center_xy_m=(float(source_center[0]), float(source_center[1])),
-            target_radial_limit_m=radial_limit,
-            target_floor_z_m=floor_z_m,
-            target_rim_z_m=rim_z_m,
-        )
+        if particle_seed_mapping == "volume_preserving_radial_fit":
+            radial_limit = (
+                inner_radius_m
+                - particle_contact_offset_m
+                - container_contact_offset_m
+                - INITIAL_CLEARANCE_MARGIN_M
+            )
+            points, transform = remap_reference_particle_cloud(
+                seed_positions,
+                source_center_xy_m=(float(source_center[0]), float(source_center[1])),
+                target_radial_limit_m=radial_limit,
+                target_floor_z_m=floor_z_m,
+                target_rim_z_m=rim_z_m,
+                particle_contact_offset_m=particle_contact_offset_m,
+            )
+        elif particle_seed_mapping in (
+            "rigid_translate_settled_cloud",
+            "rigid_translate_authored_cloud",
+        ):
+            points, transform = translate_reference_particle_cloud(
+                seed_positions,
+                source_center_xy_m=(float(source_center[0]), float(source_center[1])),
+                target_center_xy_m=(center_xy_m[0], center_xy_m[1]),
+                target_floor_z_m=floor_z_m,
+                target_cavity_radius_m=inner_radius_m,
+                target_rim_z_m=rim_z_m,
+                particle_contact_offset_m=particle_contact_offset_m,
+            )
+        else:
+            raise ValueError(
+                f"unsupported particle seed mapping: {particle_seed_mapping}"
+            )
         initial_state = {
-            "kind": "normalized_reference_particle_cloud",
-            "source": str(particle_seed),
-            "source_sha256": _sha(particle_seed),
+            "kind": seed_kind,
+            "source": str(seed_source),
+            "source_sha256": _sha(seed_source),
             "source_bounds": str(particle_seed_bounds),
             "source_bounds_sha256": _sha(particle_seed_bounds),
             "transform": transform,
         }
+        if particle_seed_usd is not None:
+            initial_state["source_prim"] = particle_seed_prim
     else:
         points = authored_points(
             count=particle_count,
             container_contact_offset_m=container_contact_offset_m,
             inner_radius_m=inner_radius_m,
             floor_z_m=floor_z_m,
+            particle_contact_offset_m=particle_contact_offset_m,
         )
         initial_state = {"kind": "deterministic_reference_pitch_lattice"}
-    if max(point[2] for point in points) >= rim_z_m - PARTICLE_CONTACT_OFFSET_M:
-        raise ValueError("548 reference particles do not fit below the measured rim")
+    if max(point[2] for point in points) >= rim_z_m - particle_contact_offset_m:
+        raise ValueError("reference particles do not fit below the measured rim")
     points_path = _write_json(output / "authored_particle_points.json", points)
     component = _write(
         output / "component.usda",
-        _component_usda(entry_prim=entry_prim, points=points),
+        _component_usda(
+            entry_prim=entry_prim,
+            points=points,
+            actor_mode=actor_mode,
+            particle_contact_offset_m=particle_contact_offset_m,
+        ),
     )
     qualification = _write(output / "qualification.usda", _qualification_usda())
     fixture = {
@@ -350,7 +470,7 @@ def build_fixture(
         "container_entrypoint_sha256": _sha(entrypoint),
         "container_profile_sha256": _sha(profile_path),
         "entry_prim": entry_prim,
-        "container_actor_mode": "kinematic_rigid_body",
+        "container_actor_mode": actor_mode,
         "collision_mesh_prim": (
             profile["collision"].get("mesh_prim")
             or profile["collision"]["root_prim"]
@@ -359,7 +479,7 @@ def build_fixture(
         "particle_parameters": {
             "source": "LabUtopia inputs/usd/scene/liquid_0812/test.usd",
             "initial_state": initial_state,
-            "particle_contact_offset_m": PARTICLE_CONTACT_OFFSET_M,
+            "particle_contact_offset_m": particle_contact_offset_m,
             "container_contact_offset_m": container_contact_offset_m,
             "initial_clearance_margin_m": INITIAL_CLEARANCE_MARGIN_M,
             "rest_offset_m": 0.0,
@@ -404,7 +524,28 @@ def main() -> None:
     parser.add_argument("--out", required=True, type=Path)
     parser.add_argument("--particle-count", type=int, default=PARTICLE_COUNT)
     parser.add_argument("--particle-seed", type=Path)
+    parser.add_argument("--particle-seed-usd", type=Path)
+    parser.add_argument("--particle-seed-prim", default="/World/ParticleSet")
     parser.add_argument("--particle-seed-bounds", type=Path)
+    parser.add_argument(
+        "--particle-contact-offset-m",
+        type=float,
+        default=PARTICLE_CONTACT_OFFSET_M,
+    )
+    parser.add_argument(
+        "--actor-mode",
+        choices=("kinematic_rigid_body", "dynamic_rigid_body"),
+        default="kinematic_rigid_body",
+    )
+    parser.add_argument(
+        "--particle-seed-mapping",
+        choices=(
+            "volume_preserving_radial_fit",
+            "rigid_translate_settled_cloud",
+            "rigid_translate_authored_cloud",
+        ),
+        default="volume_preserving_radial_fit",
+    )
     args = parser.parse_args()
     print(
         json.dumps(
@@ -413,7 +554,12 @@ def main() -> None:
                 output=args.out,
                 particle_count=args.particle_count,
                 particle_seed=args.particle_seed,
+                particle_seed_usd=args.particle_seed_usd,
+                particle_seed_prim=args.particle_seed_prim,
                 particle_seed_bounds=args.particle_seed_bounds,
+                actor_mode=args.actor_mode,
+                particle_seed_mapping=args.particle_seed_mapping,
+                particle_contact_offset_m=args.particle_contact_offset_m,
             ),
             indent=2,
             sort_keys=True,

@@ -1,0 +1,52 @@
+{
+  "schema_version": "aan.source_bound_cylindrical_container_recipe.v1",
+  "profile_id": "scientific-workbench.graduated-cylinder-250ml.gpu-pbd-static.r3",
+  "collision_strategy": "single_mesh",
+  "cooking_recipe": "liquid_0812_promotable",
+  "template": {
+    "usd": "/cpfs/shared/simulation/zhuzihou/dev/LabUtopia/inputs/usd/scene/liquid_0812/test.usd",
+    "prim": "/World/beaker2/mesh",
+    "seal_boundaries": false,
+    "dimension_mapping": "remesh_measured_vessel",
+    "copy_mass_properties": true,
+    "copy_authored_properties": true,
+    "authored_property_scope": "physics_cooking"
+  },
+  "vessel_root": "/World/GraduatedCylinder250ml",
+  "replaced_prim_paths": [
+    "/World/GraduatedCylinder250ml/Visual/Source/Hollow_Body",
+    "/World/GraduatedCylinder250ml/Visual/Source/Closed_Inner_Bottom",
+    "/World/GraduatedCylinder250ml/Visual/Source/Thickened_Rim"
+  ],
+  "glass_material_path": "/World/GraduatedCylinder250ml/Visual/Source/_materials/USD_Glass_002",
+  "geometry": {
+    "outer_radius": 0.02099,
+    "inner_radius": 0.0165,
+    "bottom_z": 0.0099,
+    "floor_z": 0.016,
+    "rim_center_z": 0.27659,
+    "rim_major_radius": 0.020825,
+    "rim_radial_radius": 0.0011,
+    "rim_vertical_radius": 0.00165,
+    "rim_style": "flat_join",
+    "sides": 12,
+    "rim_arc_segments": 4,
+    "body_axial_segments": 1
+  },
+  "partition": {
+    "contact_offset_m": 0.005,
+    "rest_offset_m": 0.003,
+    "voxel_resolution": 500000,
+    "piece_approximation": "convexDecomposition",
+    "collision_render_mode": "hidden_default_purpose"
+  },
+  "collision_geometry_adjustment": {
+    "kind": "inward_wall_thickening_for_gpu_cooking",
+    "source_inner_radius_m": 0.019185,
+    "cooked_inner_radius_m": 0.0165,
+    "source_floor_z_m": 0.011705,
+    "cooked_floor_z_m": 0.016,
+    "visual_geometry_unchanged": true,
+    "claim_boundary": "Hidden single-mesh collision geometry only; capacity metrics must use the cooked cavity profile."
+  }
+}

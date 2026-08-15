@@ -88,6 +88,23 @@ def test_gpu_error_blocks_otherwise_passing_observation() -> None:
     assert result["overall_status"] == "blocked"
 
 
+def test_final_gate_counts_below_support_particles_in_total_outside_budget() -> None:
+    module = _module()
+
+    result = module.finalize_checks(
+        minimum_inside=546,
+        maximum_below=1,
+        particle_count=548,
+        mean_rtx_fps=50.0,
+        hard_runtime_errors=[],
+    )
+
+    assert result["below_support_observed"] is True
+    assert result["final_maximum_outside_10"] is True
+    assert result["qualification_tier"] == "final"
+    assert result["overall_status"] == "pass"
+
+
 def test_summarizes_particle_distribution() -> None:
     module = _module()
     positions = np.asarray([[0.0, 0.0, 0.01], [0.03, 0.04, 0.02]])
