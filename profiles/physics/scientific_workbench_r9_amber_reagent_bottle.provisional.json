@@ -1,0 +1,8 @@
+{
+  "schema_version": "aan.physics_profile.v1",
+  "profile_id": "scientific_workbench.r9.amber_reagent_bottle.provisional",
+  "revision": "r1",
+  "source_binding": {"sha256": "9334ba06e6244ac594d3a4c852c3b1ac03632c59ddc4d20ed6d9770af47a64a5", "stage_metrics": {"meters_per_unit": 1.0, "kilograms_per_unit": 1.0, "up_axis": "Z", "time_codes_per_second": 24.0, "frames_per_second": 24.0}},
+  "evidence": {"parameter_status": "provisional_geometry", "claim_boundary": "Geometry-based empty-bottle simulation values; not a physical measurement.", "center_of_mass_convention": "asset_entry_prim_body_local_usd", "inertia_convention": "canonical SI kg*m^2", "replacement_contract": "Replace the complete source-bound mass bundle in a new profile revision; do not patch a consumer."},
+  "scope_rules": [{"scope_path": "/ObjectRoot", "body_rules": [{"relative_path": ".", "motion_role": "dynamic", "clear_density": true, "mass_properties": {"mode": "explicit", "quality_tier": "provisional_geometry", "mass_kg": 0.2, "diagonal_inertia_kg_m2": [0.000687, 0.000686, 0.000233], "center_of_mass_body_local": [0.0, 0.0, 0.085], "principal_axes": [1.0, 0.0, 0.0, 0.0]}}]}]
+}

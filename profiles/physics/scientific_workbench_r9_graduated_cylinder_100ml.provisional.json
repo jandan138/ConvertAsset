@@ -1,0 +1,8 @@
+{
+  "schema_version": "aan.physics_profile.v1",
+  "profile_id": "scientific_workbench.r9.graduated_cylinder_100ml.provisional",
+  "revision": "r1",
+  "source_binding": {"sha256": "92fcc899594da0eb34da057a8f0ac81958986ccdda122845cc171eecee368c89", "stage_metrics": {"meters_per_unit": 1.0, "kilograms_per_unit": 1.0, "up_axis": "Z", "time_codes_per_second": 24.0, "frames_per_second": 24.0}},
+  "evidence": {"parameter_status": "provisional_geometry", "claim_boundary": "Geometry-based empty-cylinder simulation values; not a physical measurement.", "center_of_mass_convention": "asset_entry_prim_body_local_usd", "inertia_convention": "canonical SI kg*m^2", "replacement_contract": "Replace the complete source-bound mass bundle in a new profile revision; do not patch a consumer."},
+  "scope_rules": [{"scope_path": "/ObjectRoot", "body_rules": [{"relative_path": ".", "motion_role": "dynamic", "clear_density": true, "mass_properties": {"mode": "explicit", "quality_tier": "provisional_geometry", "mass_kg": 0.1, "diagonal_inertia_kg_m2": [0.000401, 0.000398, 0.000099], "center_of_mass_body_local": [0.0, 0.0, 0.10], "principal_axes": [1.0, 0.0, 0.0, 0.0]}}]}]
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": "aan.dynamic_context_profile.v1",
+  "profile_id": "scientific_workbench.r9.pipette_carousel.context",
+  "revision": "r1",
+  "source_binding": {
+    "sha256": "46e7e7a73f7838983f8becd212999db71ee7e78629e1303f37ab422fd33396ff",
+    "stage_metrics": {"meters_per_unit": 1.0, "kilograms_per_unit": 1.0, "up_axis": "Z", "time_codes_per_second": 60.0, "frames_per_second": 60.0}
+  },
+  "asset_entry_prim": "/ObjectRoot",
+  "rigid_root": {"motion_role": "dynamic", "disable_descendant_rigid_bodies": true, "remove_descendant_mass_api": true},
+  "colliders": [
+    {"relative_path": "__aan_collision_proxy/base", "mode": "author", "purpose": ["support"], "geometry": {"type": "Cylinder", "axis": "Z", "radius": 0.081, "height": 0.025, "translation_body_local_usd": [0.0, 0.0, 0.0125], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}},
+    {"relative_path": "__aan_collision_proxy/mast", "mode": "author", "purpose": ["support"], "geometry": {"type": "Cylinder", "axis": "Z", "radius": 0.022, "height": 0.235, "translation_body_local_usd": [0.0, 0.0, 0.1425], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}},
+    {"relative_path": "__aan_collision_proxy/upper", "mode": "author", "purpose": ["support"], "geometry": {"type": "Cylinder", "axis": "Z", "radius": 0.068, "height": 0.085, "translation_body_local_usd": [0.0, 0.0, 0.205], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}}
+  ],
+  "required_named_frames": ["support"],
+  "named_frames": {"support": {"translation_body_local_usd": [0.0, 0.0, 0.0], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}},
+  "open_top": {"required": false},
+  "runtime_gates": {"root_motion": {"required": true, "min_translation_m": 0.01}, "stable_support": {"required": true}, "gripper_collision": {"required": false}}
+}

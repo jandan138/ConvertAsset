@@ -1,0 +1,19 @@
+{
+  "schema_version": "aan.dynamic_context_profile.v1",
+  "profile_id": "scientific_workbench.r9.amber_reagent_bottle.context",
+  "revision": "r1",
+  "source_binding": {
+    "sha256": "9334ba06e6244ac594d3a4c852c3b1ac03632c59ddc4d20ed6d9770af47a64a5",
+    "stage_metrics": {"meters_per_unit": 1.0, "kilograms_per_unit": 1.0, "up_axis": "Z", "time_codes_per_second": 24.0, "frames_per_second": 24.0}
+  },
+  "asset_entry_prim": "/ObjectRoot",
+  "rigid_root": {"motion_role": "dynamic", "disable_descendant_rigid_bodies": true, "remove_descendant_mass_api": true},
+  "colliders": [
+    {"relative_path": "__aan_collision_proxy/body", "mode": "author", "purpose": ["support"], "geometry": {"type": "Cylinder", "axis": "Z", "radius": 0.0417, "height": 0.14, "translation_body_local_usd": [0.0, 0.0, 0.07], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}},
+    {"relative_path": "__aan_collision_proxy/neck", "mode": "author", "purpose": ["support"], "geometry": {"type": "Cylinder", "axis": "Z", "radius": 0.024, "height": 0.045, "translation_body_local_usd": [0.0, 0.0, 0.1625], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}}
+  ],
+  "required_named_frames": ["support"],
+  "named_frames": {"support": {"translation_body_local_usd": [0.0, 0.0, 0.0], "rotation_body_local_wxyz": [1.0, 0.0, 0.0, 0.0]}},
+  "open_top": {"required": false},
+  "runtime_gates": {"root_motion": {"required": true, "min_translation_m": 0.01}, "stable_support": {"required": true}, "gripper_collision": {"required": false}}
+}
