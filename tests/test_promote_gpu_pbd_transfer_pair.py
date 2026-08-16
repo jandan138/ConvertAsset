@@ -18,7 +18,7 @@ def _module() -> object:
     return module
 
 
-def _delivery(tmp_path: Path) -> tuple[Path, Path]:
+def _delivery(tmp_path: Path, *, particle_count: int = 548) -> tuple[Path, Path]:
     fixture = tmp_path / "fixture"
     (fixture / "deps/source").mkdir(parents=True)
     (fixture / "deps/target").mkdir(parents=True)
@@ -42,7 +42,7 @@ def _delivery(tmp_path: Path) -> tuple[Path, Path]:
             "particles": "/World/Transfer/ParticleSet",
             "particle_system": "/World/Transfer/ParticleSystem",
         },
-        "liquid_parameters": {"particle_count": 548},
+        "liquid_parameters": {"particle_count": particle_count},
         "qualification": {
             "minimum_target_reception_ratio": 0.5,
             "required_cold_runs": 3,
@@ -58,7 +58,11 @@ def _delivery(tmp_path: Path) -> tuple[Path, Path]:
         "overall_status": "pass",
         "particle_readback_attribute": "points",
         "static_hold": {"minimum_source_ratio": 1.0},
-        "pour": {"particle_count": 548, "target": 520, "target_ratio": 520 / 548},
+        "pour": {
+            "particle_count": particle_count,
+            "target": int(particle_count * 0.95),
+            "target_ratio": 0.95,
+        },
         "performance": {"mean_rtx_fps": 80.0},
         "hard_runtime_errors": [],
     }
@@ -95,6 +99,21 @@ def test_promotes_self_contained_prescribed_transfer_pair(tmp_path: Path) -> Non
     assert (package / "component.usda").is_file()
     assert (package / "deps/source/asset.usd").is_file()
     assert (package / "deps/target/asset.usd").is_file()
+
+
+def test_promotes_dynamic_particle_count_from_profile(tmp_path: Path) -> None:
+    module = _module()
+    fixture, report = _delivery(tmp_path, particle_count=6000)
+
+    package = module.promote(
+        fixture=fixture,
+        report_path=report,
+        output=tmp_path / "package",
+        package_id="task02-cylinder-to-beaker.gpu-pbd-transfer.r2",
+    )
+
+    manifest = json.loads((package / "evidence/manifest.json").read_text())
+    assert manifest["gpu_pbd_transfer_pair"]["particle_count"] == 6000
 
 
 def test_rejects_transfer_pair_without_three_cold_passes(tmp_path: Path) -> None:

@@ -6,6 +6,8 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 ## Engineering Records
 
+- [2026-08-16 Task 02 Dynamic-loaded-start Qualification](2026-08-16-task02-dynamic-loaded-start.md)
+- [2026-08-16 Task 02 40% Fill and Grasp-material Transfer](2026-08-16-task02-40pct-grasp-material-transfer.md)
 - [2026-08-15 0812-style GPU-PBD Containers and Task 02 Transfer](2026-08-15-0812-gpu-pbd-container-and-task02-transfer.md)
 - [2026-08-14 Scientific Workbench Role Audit and Task 02 r8.2 Measured No-Go](2026-08-14-scientific-workbench-role-audit-and-task02-r82-no-go.md)
 - [2026-08-14 Task 02 r8.1 Visible-Partition Collision Measured No-Go](2026-08-14-task02-r81-visible-partition-measured-no-go.md)

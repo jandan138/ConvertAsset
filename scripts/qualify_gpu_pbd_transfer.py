@@ -102,16 +102,28 @@ def qualification_checks(
     final: dict[str, int],
     hard_runtime_errors: list[str],
     mean_rtx_fps: float,
+    settled_fill_ratio: float | None = None,
+    target_fill_ratio: float | None = None,
+    fill_ratio_tolerance: float = 0.05,
+    expected_particle_count: int = 548,
+    minimum_target_reception_ratio: float = 0.5,
+    minimum_mean_rtx_fps: float = 40.0,
 ) -> dict[str, bool]:
     count = int(final["particle_count"])
     return {
         "gpu_cooking": not hard_runtime_errors,
-        "particle_count": count == 548,
+        "particle_count": count == expected_particle_count,
         "static_retention": static_source_ratio >= 0.95,
+        "settled_fill": target_fill_ratio is None
+        or (
+            settled_fill_ratio is not None
+            and abs(settled_fill_ratio - target_fill_ratio) <= fill_ratio_tolerance
+        ),
         "below_support_observed": maximum_below_support > 0
         or int(final["below_support"]) > 0,
-        "target_reception": count > 0 and int(final["target"]) / count >= 0.5,
-        "performance": mean_rtx_fps >= 40.0,
+        "target_reception": count > 0
+        and int(final["target"]) / count >= minimum_target_reception_ratio,
+        "performance": mean_rtx_fps >= minimum_mean_rtx_fps,
     }
 
 
@@ -130,6 +142,53 @@ def _read_positions(stage: Any, np: Any) -> Any:
         if values is not None:
             return np.asarray(values, dtype=float)
     raise RuntimeError("particle positions unavailable")
+
+
+def settled_particle_state(
+    *, positions: Any, source_position: Any, source_orientation_wxyz: Any
+) -> dict[str, Any]:
+    """Describe a reusable, already-settled particle cloud in world space."""
+
+    points = [[float(value) for value in point] for point in positions]
+    return {
+        "schema_version": "aan.gpu_pbd_settled_particle_state.v1",
+        "coordinate_space": "world",
+        "particle_count": len(points),
+        "positions": points,
+        "source_pose": {
+            "xyz_m": [float(value) for value in source_position],
+            "wxyz": [float(value) for value in source_orientation_wxyz],
+        },
+        "claim_boundary": (
+            "Particle positions captured after the prescribed static hold; "
+            "this is an initialization state, not dynamic-vessel evidence."
+        ),
+    }
+
+
+def settled_fill_ratio(
+    positions: Any,
+    *,
+    source_matrix_value: Any,
+    source_cavity: dict[str, float],
+    np: Any,
+) -> float:
+    """Measure a robust free-surface height from particles inside the source."""
+
+    local = np.c_[positions, np.ones((len(positions), 1))] @ np.linalg.inv(
+        source_matrix_value
+    )
+    floor = float(source_cavity["floor_z_m"])
+    rim = float(source_cavity["rim_z_m"])
+    inside = (
+        (np.linalg.norm(local[:, :2], axis=1) <= float(source_cavity["radius_m"]))
+        & (local[:, 2] >= floor)
+        & (local[:, 2] <= rim)
+    )
+    if not bool(inside.any()):
+        return 0.0
+    surface = float(np.quantile(local[inside, 2], 0.95))
+    return max(0.0, min(1.0, (surface - floor) / (rim - floor)))
 
 
 def _checkpoint(stage: Any, source_view: Any, *, name: str, np: Any) -> dict[str, Any]:
@@ -232,21 +291,48 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         upright = np.asarray([1.0, 0.0, 0.0, 0.0], dtype=float)
 
         static_scores = []
+        fill_scores = []
         initial_matrix = source_matrix(initial_position, upright, np)
         for _ in range(round(float(protocol["settle_seconds"]) * PHYSICS_HZ)):
             world.step(render=False)
+            live_positions = _read_positions(stage, np)
             static_scores.append(
                 classify_particles(
-                    _read_positions(stage, np),
+                    live_positions,
                     source_matrix=initial_matrix,
                     source_cavity=source_cavity,
                     target_cavity=target_cavity,
                     np=np,
                 )
             )
+            fill_scores.append(
+                settled_fill_ratio(
+                    live_positions,
+                    source_matrix_value=initial_matrix,
+                    source_cavity=source_cavity,
+                    np=np,
+                )
+            )
         static_min = min(score["source"] for score in static_scores)
+        settled_fill = float(np.median(fill_scores[-PHYSICS_HZ:]))
         maximum_below = max(score["below_support"] for score in static_scores)
         checkpoints = [_checkpoint(stage, source_view, name="after_static_hold", np=np)]
+        settled_positions = _read_positions(stage, np)
+        settled_source_positions, settled_source_orientations = source_view.get_world_poses()
+        settled_state_path = args.out.with_name("settled_particle_state.json")
+        settled_state_path.write_text(
+            json.dumps(
+                settled_particle_state(
+                    positions=settled_positions,
+                    source_position=settled_source_positions[0],
+                    source_orientation_wxyz=settled_source_orientations[0],
+                ),
+                indent=2,
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
 
         high_root = np.asarray(
             [initial_position[0], initial_position[1], float(protocol["high_root_z_m"])]
@@ -402,8 +488,20 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             log_path.read_text(encoding="utf-8", errors="replace")
         )
         static_ratio = static_min / int(final["particle_count"])
+        liquid_parameters = fixture["liquid_parameters"]
+        qualification = fixture["qualification"]
         checks = qualification_checks(
             static_source_ratio=static_ratio,
+            settled_fill_ratio=settled_fill,
+            target_fill_ratio=liquid_parameters.get("target_settled_fill_ratio"),
+            fill_ratio_tolerance=float(
+                liquid_parameters.get("settled_fill_ratio_tolerance", 0.05)
+            ),
+            expected_particle_count=int(liquid_parameters["particle_count"]),
+            minimum_target_reception_ratio=float(
+                qualification["minimum_target_reception_ratio"]
+            ),
+            minimum_mean_rtx_fps=float(qualification["minimum_mean_rtx_fps"]),
             maximum_below_support=maximum_below,
             final=final,
             hard_runtime_errors=errors,
@@ -423,6 +521,10 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             "static_hold": {
                 "minimum_source_count": static_min,
                 "minimum_source_ratio": static_ratio,
+                "settled_fill_ratio": settled_fill,
+                "target_settled_fill_ratio": liquid_parameters.get(
+                    "target_settled_fill_ratio"
+                ),
                 "maximum_below_support_count": maximum_below,
             },
             "pour": {
@@ -432,8 +534,23 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             },
             "target_actor_mode": "fixed_kinematic_rigid_body",
             "source_actor_mode": "prescribed_kinematic_trajectory",
-            "performance": {"mean_rtx_fps": fps, "sample_count": 60},
+            "performance": {
+                "mean_rtx_fps": fps,
+                "sample_count": 60,
+                "target_mean_rtx_fps": qualification.get(
+                    "target_mean_rtx_fps",
+                    qualification["minimum_mean_rtx_fps"],
+                ),
+                "target_met": fps
+                >= float(
+                    qualification.get(
+                        "target_mean_rtx_fps",
+                        qualification["minimum_mean_rtx_fps"],
+                    )
+                ),
+            },
             "trajectory_checkpoints": "trajectory_checkpoints.json",
+            "settled_particle_state": settled_state_path.name,
             "hard_runtime_errors": errors,
             "checks": checks,
             "overall_status": "pass" if blocking_checks_pass(checks) else "blocked",

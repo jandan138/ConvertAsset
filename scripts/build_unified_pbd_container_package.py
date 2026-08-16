@@ -382,8 +382,17 @@ def build_unified_pbd_container_package(
     copy_template_authored_properties: bool = False,
     template_authored_property_scope: str = "all",
     collision_render_mode: str = "hidden_default_purpose",
+    grasp_static_friction: float | None = None,
+    grasp_dynamic_friction: float | None = None,
 ) -> dict[str, Any]:
-    from pxr import Sdf, Usd, UsdGeom, UsdPhysics
+    from pxr import Sdf, Usd, UsdGeom, UsdPhysics, UsdShade
+
+    if (grasp_static_friction is None) != (grasp_dynamic_friction is None):
+        raise ValueError("both grasp friction coefficients must be provided together")
+    if grasp_static_friction is not None and (
+        grasp_static_friction < 0.0 or grasp_dynamic_friction < 0.0
+    ):
+        raise ValueError("grasp friction coefficients must be non-negative")
 
     source_package = source_package.resolve()
     source_entrypoint = source_package / "asset.usd"
@@ -538,6 +547,39 @@ def build_unified_pbd_container_package(
         contact_offset_m=contact_offset_m,
         rest_offset_m=rest_offset_m,
     )
+    grasp_material: dict[str, Any] | None = None
+    if grasp_static_friction is not None and grasp_dynamic_friction is not None:
+        material_path = f"{vessel_root}/__aan_pbd_grasp_material"
+        material = UsdShade.Material.Define(stage, material_path)
+        material_prim = material.GetPrim()
+        material_prim.SetMetadata(
+            "apiSchemas",
+            Sdf.TokenListOp.Create(
+                prependedItems=["PhysicsMaterialAPI", "PhysxMaterialAPI"]
+            ),
+        )
+        material_prim.CreateAttribute(
+            "physics:staticFriction", Sdf.ValueTypeNames.Float
+        ).Set(float(grasp_static_friction))
+        material_prim.CreateAttribute(
+            "physics:dynamicFriction", Sdf.ValueTypeNames.Float
+        ).Set(float(grasp_dynamic_friction))
+        material_prim.CreateAttribute(
+            "physics:restitution", Sdf.ValueTypeNames.Float
+        ).Set(0.0)
+        material_prim.CreateAttribute(
+            "physxMaterial:frictionCombineMode", Sdf.ValueTypeNames.Token
+        ).Set("max")
+        UsdShade.MaterialBindingAPI.Apply(mesh.GetPrim()).Bind(
+            material,
+            materialPurpose="physics",
+        )
+        grasp_material = {
+            "static_friction": float(grasp_static_friction),
+            "dynamic_friction": float(grasp_dynamic_friction),
+            "restitution": 0.0,
+            "friction_combine_mode": "max",
+        }
     overlay_layer.Save()
 
     composed = Usd.Stage.Open(str(output_entrypoint))
@@ -647,6 +689,8 @@ def build_unified_pbd_container_package(
             "benchmark, or full task success is claimed."
         ),
     }
+    if grasp_material is not None:
+        profile["collision"]["grasp_material"] = grasp_material
     _write_json(output / "gpu_pbd_static_container_profile.json", profile)
     manifest = {
         "schema_version": "aan.source_bound_package_manifest.v1",
@@ -686,20 +730,47 @@ def main() -> None:
         ),
         required=True,
     )
+    parser.add_argument("--grasp-static-friction", type=float)
+    parser.add_argument("--grasp-dynamic-friction", type=float)
+    parser.add_argument("--inner-radius-m", type=float, default=0.019185)
+    parser.add_argument("--floor-z-m", type=float, default=0.011705)
+    parser.add_argument("--contact-offset-m", type=float, default=0.01)
+    parser.add_argument("--rest-offset-m", type=float, default=0.001)
+    parser.add_argument("--sides", type=int, default=32)
+    parser.add_argument("--body-axial-segments", type=int, default=32)
+    parser.add_argument("--template-usd", type=Path)
+    parser.add_argument("--template-prim")
+    parser.add_argument(
+        "--seal-template-boundaries",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+    )
+    parser.add_argument(
+        "--template-dimension-mapping",
+        choices=("fit_target_dimensions", "remesh_measured_vessel"),
+        default="fit_target_dimensions",
+    )
+    parser.add_argument("--copy-template-mass-properties", action="store_true")
+    parser.add_argument("--copy-template-authored-properties", action="store_true")
+    parser.add_argument(
+        "--template-authored-property-scope",
+        choices=("all", "physics_cooking"),
+        default="all",
+    )
     args = parser.parse_args()
     root = "/World/GraduatedCylinder250ml"
     source = f"{root}/Visual/Source"
     spec = UnifiedCylindricalVesselSpec(
         outer_radius=0.02099,
-        inner_radius=0.019185,
+        inner_radius=args.inner_radius_m,
         bottom_z=0.0099,
-        floor_z=0.011705,
+        floor_z=args.floor_z_m,
         rim_center_z=0.27659,
         rim_major_radius=0.020825,
         rim_radial_radius=0.0011,
         rim_vertical_radius=0.00165,
-        sides=32,
-        body_axial_segments=32,
+        sides=args.sides,
+        body_axial_segments=args.body_axial_segments,
     )
     result = build_unified_pbd_container_package(
         source_package=args.source_package,
@@ -714,6 +785,17 @@ def main() -> None:
         spec=spec,
         profile_id=args.profile_id,
         cooking_recipe=args.cooking_recipe,
+        contact_offset_m=args.contact_offset_m,
+        rest_offset_m=args.rest_offset_m,
+        grasp_static_friction=args.grasp_static_friction,
+        grasp_dynamic_friction=args.grasp_dynamic_friction,
+        template_usd=args.template_usd,
+        template_prim=args.template_prim,
+        seal_template_boundaries=args.seal_template_boundaries,
+        template_dimension_mapping=args.template_dimension_mapping,
+        copy_template_mass_properties=args.copy_template_mass_properties,
+        copy_template_authored_properties=args.copy_template_authored_properties,
+        template_authored_property_scope=args.template_authored_property_scope,
     )
     print(json.dumps(result, indent=2, sort_keys=True))
 

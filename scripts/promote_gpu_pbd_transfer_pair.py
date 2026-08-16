@@ -31,20 +31,35 @@ def _load(path: Path) -> dict[str, Any]:
     return value
 
 
-def _valid_cold_run(run: Mapping[str, Any]) -> bool:
+def _valid_cold_run(
+    run: Mapping[str, Any],
+    *,
+    particle_count: int,
+    minimum_target_ratio: float,
+    minimum_fps: float,
+    target_fill_ratio: float | None,
+    fill_tolerance: float,
+) -> bool:
     hold = run.get("static_hold")
     pour = run.get("pour")
     performance = run.get("performance")
+    fill_ok = target_fill_ratio is None or (
+        isinstance(hold, Mapping)
+        and hold.get("settled_fill_ratio") is not None
+        and abs(float(hold["settled_fill_ratio"]) - target_fill_ratio)
+        <= fill_tolerance
+    )
     return bool(
         run.get("overall_status") == "pass"
         and run.get("particle_readback_attribute") == "points"
         and isinstance(hold, Mapping)
         and float(hold.get("minimum_source_ratio", 0.0)) >= 0.95
         and isinstance(pour, Mapping)
-        and pour.get("particle_count") == 548
-        and float(pour.get("target_ratio", 0.0)) >= 0.5
+        and pour.get("particle_count") == particle_count
+        and float(pour.get("target_ratio", 0.0)) >= minimum_target_ratio
         and isinstance(performance, Mapping)
-        and float(performance.get("mean_rtx_fps", 0.0)) >= 40.0
+        and float(performance.get("mean_rtx_fps", 0.0)) >= minimum_fps
+        and fill_ok
         and run.get("hard_runtime_errors") == []
     )
 
@@ -65,8 +80,21 @@ def promote(
             raise ValueError(f"transfer fixture is incomplete: {required}")
     profile = _load(profile_path)
     report = _load(report_path)
-    if profile.get("schema_version") != "aan.gpu_pbd_transfer_fixture.v1":
+    if profile.get("schema_version") not in {
+        "aan.gpu_pbd_transfer_fixture.v1",
+        "aan.gpu_pbd_transfer_fixture.v2",
+    }:
         raise ValueError("unsupported transfer fixture profile")
+    liquid = profile.get("liquid_parameters", {})
+    qualification = profile.get("qualification", {})
+    particle_count = int(liquid.get("particle_count", 0))
+    minimum_target_ratio = float(
+        qualification.get("minimum_target_reception_ratio", 0.5)
+    )
+    minimum_fps = float(qualification.get("minimum_mean_rtx_fps", 40.0))
+    target_fill = liquid.get("target_settled_fill_ratio")
+    target_fill_ratio = float(target_fill) if target_fill is not None else None
+    fill_tolerance = float(liquid.get("settled_fill_ratio_tolerance", 0.05))
     promotion = report.get("promotion")
     cold_runs = report.get("cold_runs")
     if (
@@ -80,7 +108,18 @@ def promote(
     if (
         not isinstance(cold_runs, list)
         or len(cold_runs) != 3
-        or not all(isinstance(run, Mapping) and _valid_cold_run(run) for run in cold_runs)
+        or not all(
+            isinstance(run, Mapping)
+            and _valid_cold_run(
+                run,
+                particle_count=particle_count,
+                minimum_target_ratio=minimum_target_ratio,
+                minimum_fps=minimum_fps,
+                target_fill_ratio=target_fill_ratio,
+                fill_tolerance=fill_tolerance,
+            )
+            for run in cold_runs
+        )
     ):
         raise ValueError("transfer cold run failed a required gate")
     selected = report.get("selected_candidate")
@@ -95,9 +134,8 @@ def promote(
     shutil.copy2(report_path, promoted_report)
     copied_profile = output / profile_path.name
     copied_component = output / component_path.name
-    particle_count = int(profile.get("liquid_parameters", {}).get("particle_count", 0))
-    if particle_count != 548:
-        raise ValueError("transfer fixture particle_count must be 548")
+    if particle_count <= 0:
+        raise ValueError("transfer fixture particle_count must be positive")
     manifest = {
         "schema_version": "aan.gpu_pbd_transfer_pair_manifest.v1",
         "package_id": package_id,

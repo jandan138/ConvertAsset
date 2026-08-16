@@ -141,6 +141,8 @@ def test_builds_tapered_source_bound_container_from_recipe(tmp_path: Path) -> No
                     "rest_offset_m": 0.0,
                     "support_bottom_z_m": 0.0,
                     "collision_render_mode": "source_parity_visible",
+                    "grasp_static_friction": 1.0,
+                    "grasp_dynamic_friction": 0.9,
                 },
             }
         )
@@ -161,6 +163,12 @@ def test_builds_tapered_source_bound_container_from_recipe(tmp_path: Path) -> No
     assert profile["schema_version"] == "aan.gpu_pbd_static_container_profile.v2"
     assert profile["collision"]["piece_count"] == 1
     assert profile["collision"]["cooking_recipe"] == "liquid_0812_exact_diagnostic"
+    assert profile["collision"]["grasp_material"] == {
+        "dynamic_friction": 0.9,
+        "friction_combine_mode": "max",
+        "restitution": 0.0,
+        "static_friction": 1.0,
+    }
     assert profile["collision"]["strategy"] == (
         "source_derived_single_mesh_open_boundary_diagnostic"
     )

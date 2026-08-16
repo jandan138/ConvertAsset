@@ -114,3 +114,41 @@ def test_runtime_reader_prefers_live_points_over_rest_state() -> None:
             return Prim()
 
     assert module._read_positions(Stage(), np).tolist() == [[1.0, 0.0, 0.0]]
+
+
+def test_settled_particle_state_records_world_space_points_and_source_pose() -> None:
+    module = _module()
+
+    state = module.settled_particle_state(
+        positions=np.asarray([[0.25, 0.0, 0.02], [0.251, 0.0, 0.021]]),
+        source_position=np.asarray([0.25, 0.0, 0.0]),
+        source_orientation_wxyz=np.asarray([1.0, 0.0, 0.0, 0.0]),
+    )
+
+    assert state["schema_version"] == "aan.gpu_pbd_settled_particle_state.v1"
+    assert state["coordinate_space"] == "world"
+    assert state["particle_count"] == 2
+    assert state["positions"][1] == [0.251, 0.0, 0.021]
+    assert state["source_pose"]["xyz_m"] == [0.25, 0.0, 0.0]
+
+
+def test_qualification_uses_profile_particle_count_fill_and_performance_floor() -> None:
+    module = _module()
+    checks = module.qualification_checks(
+        static_source_ratio=0.99,
+        settled_fill_ratio=0.41,
+        target_fill_ratio=0.4,
+        fill_ratio_tolerance=0.05,
+        expected_particle_count=6000,
+        minimum_target_reception_ratio=0.5,
+        minimum_mean_rtx_fps=20.0,
+        maximum_below_support=0,
+        final={"particle_count": 6000, "target": 3300, "below_support": 0, "spill": 0},
+        hard_runtime_errors=[],
+        mean_rtx_fps=24.0,
+    )
+
+    assert checks["particle_count"] is True
+    assert checks["settled_fill"] is True
+    assert checks["target_reception"] is True
+    assert checks["performance"] is True

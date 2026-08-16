@@ -112,6 +112,8 @@ def test_builds_source_bound_unified_visible_collision_mesh(tmp_path: Path) -> N
         ),
         profile_id="graduated-cylinder-250ml.gpu-pbd-static.r1",
         cooking_recipe="current_r82",
+        grasp_static_friction=1.0,
+        grasp_dynamic_friction=0.9,
     )
 
     assert (source / "asset.usd").read_bytes() == before
@@ -161,6 +163,21 @@ def test_builds_source_bound_unified_visible_collision_mesh(tmp_path: Path) -> N
     assert profile["collision"]["piece_approximation"] == "convexDecomposition"
     assert profile["collision"]["piece_count"] == 1
     assert profile["visual_source_unchanged"] is True
+    assert profile["collision"]["grasp_material"] == {
+        "static_friction": 1.0,
+        "dynamic_friction": 0.9,
+        "restitution": 0.0,
+        "friction_combine_mode": "max",
+    }
+    binding = mesh.GetPrim().GetRelationship("material:binding:physics")
+    assert binding.GetTargets() == [
+        "/World/GraduatedCylinder250ml/__aan_pbd_grasp_material"
+    ]
+    material = stage.GetPrimAtPath(
+        "/World/GraduatedCylinder250ml/__aan_pbd_grasp_material"
+    )
+    assert material.GetAttribute("physics:staticFriction").Get() == pytest.approx(1.0)
+    assert material.GetAttribute("physics:dynamicFriction").Get() == pytest.approx(0.9)
     assert (output / "evidence/unified_vessel_topology.json").is_file()
 
 

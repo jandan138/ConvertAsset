@@ -102,6 +102,16 @@ def build_source_bound_container(
         cooking_recipe=cooking_recipe,
         contact_offset_m=float(partition.get("contact_offset_m", 0.01)),
         rest_offset_m=float(partition.get("rest_offset_m", 0.001)),
+        grasp_static_friction=(
+            float(partition["grasp_static_friction"])
+            if "grasp_static_friction" in partition
+            else None
+        ),
+        grasp_dynamic_friction=(
+            float(partition["grasp_dynamic_friction"])
+            if "grasp_dynamic_friction" in partition
+            else None
+        ),
         template_usd=template_usd,
         template_prim=template_prim,
         seal_template_boundaries=seal_template_boundaries,
