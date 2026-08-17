@@ -20,10 +20,13 @@ intent, and named grasp/closure frames.  The final package is:
 
 `outputs/scientific_workbench_task05_task09_assets_r11_20260817/packages/flat_bottom_flask_250ml_29_42_r11/`
 
-Its AAN manifest has `overall_status: pass` and no blocked reason.  This
+Its AAN manifest has `overall_status: pass` and no blocked reason.  The final
+Isaac Sim 4.1 interaction qualification also passes cooked aperture, stable
+support, root-motion parity, and bilateral gripper-proxy collision.  This
 qualification covers source binding, package closure, load/render/step/reset,
-and the declared provisional-geometry profile.  It does not claim robot-policy
-success or a real-world calibrated stopper fit.
+and the declared provisional-geometry interaction profile.  It does not claim
+a real robot grasp, robot-policy success, or a real-world calibrated stopper
+fit.
 
 ## Analog oven facade
 
@@ -70,6 +73,12 @@ The benchtop run observed zero root drift, zero support gap/penetration, zero
 scoped PhysX errors, and no consumer-side physics mutation.  Qualified visual
 extents are 0.875 x 0.770 x 0.9332 m.  Scenario layout should distinguish the
 smaller support footprint from the full visual and door-sweep envelopes.
+
+The recorded 90-degree root rotation and 0.4666 m root offset describe the
+package's already-authored, qualified mount.  A consumer that references this
+package must place the wrapper at the desired support-plane position with an
+identity local orientation; it must not apply that root mount a second time.
+Doing so would rotate and lift the oven twice.
 
 ## Claim boundary
 

@@ -76,6 +76,14 @@ def test_r11_builder_declares_identity_oven_and_reviewed_controls(tmp_path: Path
     assert profile["mounting"]["support_plane_to_root_mount_pose"][
         "rotation_wxyz"
     ] == [0.7071067811865476, 0.7071067811865475, 0.0, 0.0]
+    assert profile["mounting"]["support_plane_to_root_mount_pose"][
+        "translation_m"
+    ] == [0.0, 0.0, 0.4666]
+    assert profile["mounting"]["support_frame_root_local"]["translation_m"] == [
+        0.0,
+        -0.4666,
+        0.0,
+    ]
     assert provenance["source_modified"] is False
     assert provenance["source_stage_metadata"]["meters_per_unit"] == 0.01
     assert provenance["geometry_interpretation"]["effective_meters_per_unit"] == 1.0
