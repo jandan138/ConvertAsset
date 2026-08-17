@@ -6,6 +6,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 ## Engineering Records
 
+- [2026-08-18 Analog Oven r11 Robot-contact Audit](2026-08-18-analog-oven-r11-robot-contact-audit.md)
 - [2026-08-17 Task 02 GPU-PBD Four-fill Qualification v2](2026-08-17-task02-gpu-pbd-fill-sweep-v2.md)
 - [2026-08-17 Acrylic Spoon Rack Central Insertion](2026-08-17-aan-acrylic-spoon-rack-central-insertion.md)
 - [2026-08-16 Scientific Workbench r9 Dynamic Context Assets](2026-08-16-scientific-workbench-r9-dynamic-context-assets.md)
