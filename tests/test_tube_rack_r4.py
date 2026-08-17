@@ -15,6 +15,7 @@ from scripts.qualify_tube_rack_insertion import (
     _contact_snapshot,
     evaluate_insertion_observations,
     load_package_identity,
+    qualify_tube_rack_insertion,
 )
 
 
@@ -560,6 +561,20 @@ def test_insertion_evaluator_requires_dynamic_pair_contact_and_clearance() -> No
 
     assert result["status"] == "pass"
     assert all(gate["status"] == "pass" for gate in result["gates"].values())
+
+
+def test_insertion_qualifier_rejects_observation_window_longer_than_run(
+    tmp_path: Path,
+) -> None:
+    with pytest.raises(ValueError, match="minimum_observation_steps"):
+        qualify_tube_rack_insertion(
+            rack_package_root=tmp_path / "rack",
+            rack_manifest_path=tmp_path / "rack/manifest.json",
+            tube_package_root=tmp_path / "tube",
+            tube_manifest_path=tmp_path / "tube/manifest.json",
+            max_steps=120,
+            minimum_observation_steps=121,
+        )
 
 
 def test_contact_snapshot_identifies_the_deepest_contact() -> None:

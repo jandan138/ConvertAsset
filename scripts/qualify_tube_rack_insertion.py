@@ -550,6 +550,7 @@ def _run_runtime(
     expected_runtime_version: str,
     physics_dt: float,
     max_steps: int,
+    minimum_observation_steps: int,
     start_clearance_m: float,
 ) -> dict[str, Any]:
     from isaacsim import SimulationApp  # type: ignore
@@ -775,7 +776,10 @@ def _run_runtime(
                     settled_maximum_side_penetration = 0.0
                 if side_count:
                     side_contact_samples += 1
-            if stable_bottom_samples >= 12:
+            if (
+                stable_bottom_samples >= 12
+                and sample_count >= minimum_observation_steps
+            ):
                 break
 
         observed_depth = float(np.dot(start_support - final_support, -insertion_axis))
@@ -874,6 +878,7 @@ def qualify_tube_rack_insertion(
     expected_runtime_version: str = "4.1",
     physics_dt: float = DEFAULT_PHYSICS_DT,
     max_steps: int = DEFAULT_MAX_STEPS,
+    minimum_observation_steps: int = 0,
     start_clearance_m: float = DEFAULT_START_CLEARANCE_M,
 ) -> dict[str, Any]:
     """Run a source-bound dynamic insertion qualification and return its report."""
@@ -881,6 +886,8 @@ def qualify_tube_rack_insertion(
         raise ValueError("physics_dt must be finite and positive")
     if max_steps < 2:
         raise ValueError("max_steps must be at least 2")
+    if minimum_observation_steps < 0 or minimum_observation_steps > max_steps:
+        raise ValueError("minimum_observation_steps must be in [0, max_steps]")
     if not math.isfinite(start_clearance_m) or start_clearance_m <= 0.0:
         raise ValueError("start_clearance_m must be finite and positive")
     rack = load_package_identity(
@@ -907,6 +914,7 @@ def qualify_tube_rack_insertion(
         expected_runtime_version=expected_runtime_version,
         physics_dt=physics_dt,
         max_steps=max_steps,
+        minimum_observation_steps=minimum_observation_steps,
         start_clearance_m=start_clearance_m,
     )
     after = {
@@ -972,6 +980,7 @@ def qualify_tube_rack_insertion(
             "authored_translation_updates": 0,
             "tube_motion": "single initial pose followed by unconstrained gravity",
             "max_steps": max_steps,
+            "minimum_observation_steps": minimum_observation_steps,
             "start_clearance_m": start_clearance_m,
             "bottom_distance_tolerance_m": BOTTOM_DISTANCE_TOLERANCE_M,
             "maximum_penetration_m": MAX_PENETRATION_M,
@@ -1016,6 +1025,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--expected-runtime-version", default="4.1")
     parser.add_argument("--physics-dt", type=float, default=DEFAULT_PHYSICS_DT)
     parser.add_argument("--max-steps", type=int, default=DEFAULT_MAX_STEPS)
+    parser.add_argument("--minimum-observation-steps", type=int, default=0)
     parser.add_argument(
         "--start-clearance-m",
         type=float,
@@ -1035,6 +1045,7 @@ def main() -> int:
             expected_runtime_version=str(args.expected_runtime_version),
             physics_dt=float(args.physics_dt),
             max_steps=int(args.max_steps),
+            minimum_observation_steps=int(args.minimum_observation_steps),
             start_clearance_m=float(args.start_clearance_m),
         )
     except Exception as exc:
