@@ -85,6 +85,26 @@ def _inside_source(
     )
 
 
+def _source_local_positions(
+    positions: Any,
+    *,
+    source_position: Any,
+    source_orientation: Any,
+    np: Any,
+) -> Any:
+    return (
+        np.c_[positions, np.ones((len(positions), 1))]
+        @ np.linalg.inv(_matrix(source_position, source_orientation, np))
+    )[:, :3]
+
+
+def _settled_fill_ratio(local_positions: Any, cavity: dict[str, Any], np: Any) -> float:
+    floor = float(cavity["floor_z_m"])
+    rim = float(cavity["rim_z_m"])
+    surface = float(np.quantile(local_positions[:, 2], 0.95))
+    return max(0.0, min(1.0, (surface - floor) / (rim - floor)))
+
+
 def _set_source_pose(stage: Any, pose: dict[str, Any], *, Gf: Any, UsdGeom: Any) -> None:
     prim = stage.GetPrimAtPath(SOURCE)
     prim.GetAttribute("xformOp:translate").Set(
@@ -208,6 +228,8 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         root_positions = []
         root_orientations = []
         outside_counts = []
+        below_floor_counts = []
+        fill_ratios = []
         for _ in range(OBSERVATION_STEPS):
             world.step(render=False)
             positions, orientations = source_view.get_world_poses()
@@ -225,6 +247,16 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
                     np=np,
                 )
                 outside_counts.append(int(len(live) - int(inside.sum())))
+                local = _source_local_positions(
+                    live,
+                    source_position=position,
+                    source_orientation=orientation,
+                    np=np,
+                )
+                below_floor_counts.append(
+                    int((local[:, 2] < float(cavity["floor_z_m"])).sum())
+                )
+                fill_ratios.append(_settled_fill_ratio(local, cavity, np))
 
         tail_positions = np.asarray(root_positions[-TAIL_STEPS:], dtype=float)
         stable_xyz = np.median(tail_positions, axis=0)
@@ -275,6 +307,10 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
                 "particle_count": int(len(live)),
                 "positions": source_local[:, :3].tolist(),
                 "outside_source_count": max(outside_counts),
+                "below_source_floor_count": max(below_floor_counts),
+                "settled_fill_ratio": _settled_fill_ratio(
+                    source_local[:, :3], cavity, np
+                ),
                 "source_pose_used": {
                     "xyz_m": [float(value) for value in pose["xyz_m"]],
                     "wxyz": [float(value) for value in pose["wxyz"]],
@@ -290,6 +326,10 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
                 "particle_count": len(outside_counts)
                 and int(len(_read_positions(stage, np))),
                 "maximum_outside_source_count": max(outside_counts),
+                "maximum_below_source_floor_count": max(below_floor_counts),
+                "settled_fill_ratio": float(
+                    statistics.median(fill_ratios[-TAIL_STEPS:])
+                ),
                 "entry_root_tail_drift_m": tail_drift,
                 "maximum_entry_root_tilt_deg": maximum_tilt,
                 "hard_runtime_errors": errors,

@@ -25,7 +25,7 @@ def _load(path: Path) -> dict[str, Any]:
 def _valid_cold_run(
     run: Mapping[str, Any], *, particle_count: int, qualification: Mapping[str, Any]
 ) -> bool:
-    return bool(
+    valid = bool(
         run.get("overall_status") == "pass"
         and int(run.get("particle_count", -1)) == particle_count
         and int(run.get("maximum_outside_source_count", 10**9))
@@ -36,6 +36,17 @@ def _valid_cold_run(
         <= float(qualification["maximum_entry_root_tilt_deg"])
         and run.get("hard_runtime_errors") == []
     )
+    if "target_settled_fill_ratio" in qualification:
+        target = float(qualification["target_settled_fill_ratio"])
+        tolerance = float(qualification["settled_fill_ratio_tolerance"])
+        valid = bool(
+            valid
+            and int(run.get("maximum_below_source_floor_count", 10**9))
+            <= int(qualification["maximum_below_source_floor_count"])
+            and abs(float(run.get("settled_fill_ratio", float("inf"))) - target)
+            <= tolerance
+        )
+    return valid
 
 
 def promote(
@@ -61,8 +72,17 @@ def promote(
     report = _load(report_path)
     if manifest.get("overall_status") != "pass":
         raise ValueError("base package is not qualified")
-    if contract.get("schema_version") != "aan.gpu_pbd_dynamic_loaded_start.v1":
+    contract_schema = contract.get("schema_version")
+    if contract_schema not in {
+        "aan.gpu_pbd_dynamic_loaded_start.v1",
+        "aan.gpu_pbd_dynamic_loaded_start.v2",
+    }:
         raise ValueError("unsupported dynamic loaded-start contract")
+    expected_report_schema = contract_schema.replace(
+        "dynamic_loaded_start.v", "dynamic_loaded_start_report.v"
+    )
+    if report.get("schema_version") != expected_report_schema:
+        raise ValueError("dynamic loaded-start report schema does not match contract")
     if contract.get("particle_state_sha256") != _sha(particle_state_path):
         raise ValueError("particle state hash does not match contract")
     if state.get("schema_version") != "aan.gpu_pbd_source_local_particle_state.v1":
@@ -126,6 +146,17 @@ def promote(
         "support_plane_to_entry_root": contract["support_plane_to_entry_root"],
         "runtime": "isaac41",
     }
+    if contract_schema.endswith(".v2"):
+        ratios = [float(run["settled_fill_ratio"]) for run in cold_runs]
+        manifest["gpu_pbd_dynamic_loaded_start"].update(
+            {
+                "fill_profile": contract["fill_profile"],
+                "measured_settled_fill_ratio_range": [min(ratios), max(ratios)],
+                "maximum_below_source_floor_count": int(
+                    qualification["maximum_below_source_floor_count"]
+                ),
+            }
+        )
     (output / "evidence/manifest.json").write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )

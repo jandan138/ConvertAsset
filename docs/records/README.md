@@ -6,6 +6,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 ## Engineering Records
 
+- [2026-08-17 Task 02 GPU-PBD Four-fill Qualification v2](2026-08-17-task02-gpu-pbd-fill-sweep-v2.md)
 - [2026-08-16 Scientific Workbench r9 Dynamic Context Assets](2026-08-16-scientific-workbench-r9-dynamic-context-assets.md)
 - [2026-08-16 Task 02 Dynamic-loaded-start Qualification](2026-08-16-task02-dynamic-loaded-start.md)
 - [2026-08-16 Task 02 40% Fill and Grasp-material Transfer](2026-08-16-task02-40pct-grasp-material-transfer.md)

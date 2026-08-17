@@ -31,7 +31,7 @@ def _sha(path: Path) -> str:
 def cold_run_checks(
     run: Mapping[str, Any], *, thresholds: Mapping[str, Any]
 ) -> dict[str, bool]:
-    return {
+    checks = {
         "particle_count": int(run.get("particle_count", -1))
         == int(thresholds["particle_count"]),
         "outside_source": int(run.get("maximum_outside_source_count", 10**9))
@@ -46,6 +46,15 @@ def cold_run_checks(
         <= float(thresholds["maximum_entry_root_tilt_deg"]),
         "runtime_errors": run.get("hard_runtime_errors") == [],
     }
+    if "target_settled_fill_ratio" in thresholds:
+        target = float(thresholds["target_settled_fill_ratio"])
+        tolerance = float(thresholds["settled_fill_ratio_tolerance"])
+        measured = float(run.get("settled_fill_ratio", float("inf")))
+        checks["settled_fill_ratio"] = abs(measured - target) <= tolerance
+        checks["below_source_floor"] = int(
+            run.get("maximum_below_source_floor_count", 10**9)
+        ) <= int(thresholds["maximum_below_source_floor_count"])
+    return checks
 
 
 def cold_run_passes(
@@ -61,11 +70,24 @@ def dynamic_loaded_start_contract(
     particle_state_name: str,
     particle_state_sha256: str,
     particle_count: int,
+    fill_level_id: str | None = None,
+    target_settled_fill_ratio: float | None = None,
+    settled_fill_ratio_tolerance: float | None = None,
 ) -> dict[str, Any]:
+    fill_values = (
+        fill_level_id,
+        target_settled_fill_ratio,
+        settled_fill_ratio_tolerance,
+    )
+    if any(value is not None for value in fill_values) and not all(
+        value is not None for value in fill_values
+    ):
+        raise ValueError("fill profile fields must be supplied together")
+    is_v2 = fill_level_id is not None
     xyz = [float(value) for value in stable_pose["xyz_m"]]
     wxyz = [float(value) for value in stable_pose["wxyz"]]
-    return {
-        "schema_version": "aan.gpu_pbd_dynamic_loaded_start.v1",
+    contract = {
+        "schema_version": f"aan.gpu_pbd_dynamic_loaded_start.v{2 if is_v2 else 1}",
         "support_plane_z_m": float(support_plane_z_m),
         "support_plane_to_entry_root": {
             "xyz_m": [xyz[0], xyz[1], xyz[2] - float(support_plane_z_m)],
@@ -92,6 +114,25 @@ def dynamic_loaded_start_contract(
             "no robot, pour, benchmark, or general physical-accuracy claim."
         ),
     }
+    if is_v2:
+        target = float(target_settled_fill_ratio)
+        tolerance = float(settled_fill_ratio_tolerance)
+        if not 0.0 < target < 1.0 or not 0.0 < tolerance < 0.5:
+            raise ValueError("fill target/tolerance is outside the supported range")
+        contract["fill_profile"] = {
+            "fill_level_id": str(fill_level_id),
+            "measurement": "live_points_source_local_z_q95",
+            "target_settled_fill_ratio": target,
+            "settled_fill_ratio_tolerance": tolerance,
+        }
+        contract["qualification"].update(
+            {
+                "maximum_below_source_floor_count": 0,
+                "target_settled_fill_ratio": target,
+                "settled_fill_ratio_tolerance": tolerance,
+            }
+        )
+    return contract
 
 
 def _load(path: Path) -> dict[str, Any]:
@@ -144,6 +185,9 @@ def qualify(
     support_plane_z_m: float,
     wrapper: Path,
     worker: Path,
+    fill_level_id: str | None = None,
+    target_settled_fill_ratio: float | None = None,
+    settled_fill_ratio_tolerance: float | None = None,
 ) -> dict[str, Any]:
     output.mkdir(parents=True, exist_ok=False)
     dry_runs: list[dict[str, Any]] = []
@@ -208,6 +252,9 @@ def qualify(
         particle_state_name=state_path.name,
         particle_state_sha256=_sha(state_path),
         particle_count=particle_count,
+        fill_level_id=fill_level_id,
+        target_settled_fill_ratio=target_settled_fill_ratio,
+        settled_fill_ratio_tolerance=settled_fill_ratio_tolerance,
     )
     contract_path.write_text(
         json.dumps(contract, indent=2, sort_keys=True) + "\n", encoding="utf-8"
@@ -239,8 +286,9 @@ def qualify(
         path.write_text(json.dumps(run, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         cold_runs.append(run)
     passed = all(cold_run_passes(run, thresholds=thresholds) for run in cold_runs)
+    schema_version = 2 if fill_level_id is not None else 1
     report = {
-        "schema_version": "aan.gpu_pbd_dynamic_loaded_start_report.v1",
+        "schema_version": f"aan.gpu_pbd_dynamic_loaded_start_report.v{schema_version}",
         "overall_status": "pass" if passed else "blocked",
         "contract_sha256": _sha(contract_path),
         "particle_state_sha256": _sha(state_path),
@@ -252,6 +300,12 @@ def qualify(
         },
         "claim_boundary": contract["claim_boundary"],
     }
+    if schema_version == 2:
+        report["fill_profile"] = contract["fill_profile"]
+        report["measured_settled_fill_ratio_range"] = [
+            min(float(run["settled_fill_ratio"]) for run in cold_runs),
+            max(float(run["settled_fill_ratio"]) for run in cold_runs),
+        ]
     report_path = output / "dynamic_loaded_start_report.json"
     report_path.write_text(
         json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
@@ -265,6 +319,9 @@ def main() -> int:
     parser.add_argument("--out", required=True, type=Path)
     parser.add_argument("--particle-count", required=True, type=int)
     parser.add_argument("--support-plane-z-m", type=float, default=0.0)
+    parser.add_argument("--fill-level-id")
+    parser.add_argument("--target-settled-fill-ratio", type=float)
+    parser.add_argument("--settled-fill-ratio-tolerance", type=float)
     parser.add_argument(
         "--wrapper",
         type=Path,
@@ -283,6 +340,9 @@ def main() -> int:
         support_plane_z_m=args.support_plane_z_m,
         wrapper=args.wrapper.resolve(),
         worker=args.worker.resolve(),
+        fill_level_id=args.fill_level_id,
+        target_settled_fill_ratio=args.target_settled_fill_ratio,
+        settled_fill_ratio_tolerance=args.settled_fill_ratio_tolerance,
     )
     print(args.out.resolve())
     return 0 if report["overall_status"] == "pass" else 2

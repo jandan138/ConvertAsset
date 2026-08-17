@@ -23,7 +23,9 @@ def _module() -> object:
     return module
 
 
-def _delivery(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
+def _delivery(
+    tmp_path: Path, *, schema_version: int = 1
+) -> tuple[Path, Path, Path, Path]:
     package = tmp_path / "package"
     (package / "evidence").mkdir(parents=True)
     (package / "component.usda").write_text("component", encoding="utf-8")
@@ -62,7 +64,7 @@ def _delivery(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
     contract.write_text(
         json.dumps(
             {
-                "schema_version": "aan.gpu_pbd_dynamic_loaded_start.v1",
+                "schema_version": f"aan.gpu_pbd_dynamic_loaded_start.v{schema_version}",
                 "support_plane_z_m": 0.0,
                 "support_plane_to_entry_root": {
                     "xyz_m": [0.25, 0.0, -0.0069],
@@ -76,7 +78,28 @@ def _delivery(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
                     "maximum_outside_source_before_lift": 2,
                     "maximum_entry_root_tail_drift_m": 0.001,
                     "maximum_entry_root_tilt_deg": 2.0,
+                    **(
+                        {
+                            "maximum_below_source_floor_count": 0,
+                            "target_settled_fill_ratio": 0.6,
+                            "settled_fill_ratio_tolerance": 0.05,
+                        }
+                        if schema_version == 2
+                        else {}
+                    ),
                 },
+                **(
+                    {
+                        "fill_profile": {
+                            "fill_level_id": "fill60",
+                            "measurement": "live_points_source_local_z_q95",
+                            "target_settled_fill_ratio": 0.6,
+                            "settled_fill_ratio_tolerance": 0.05,
+                        }
+                    }
+                    if schema_version == 2
+                    else {}
+                ),
             }
         ),
         encoding="utf-8",
@@ -89,11 +112,19 @@ def _delivery(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
         "entry_root_tail_drift_m": 0.0004,
         "maximum_entry_root_tilt_deg": 0.3,
         "hard_runtime_errors": [],
+        **(
+            {
+                "maximum_below_source_floor_count": 0,
+                "settled_fill_ratio": 0.59,
+            }
+            if schema_version == 2
+            else {}
+        ),
     }
     report.write_text(
         json.dumps(
             {
-                "schema_version": "aan.gpu_pbd_dynamic_loaded_start_report.v1",
+                "schema_version": f"aan.gpu_pbd_dynamic_loaded_start_report.v{schema_version}",
                 "overall_status": "pass",
                 "contract_sha256": module._sha(contract),
                 "particle_state_sha256": module._sha(state),
@@ -168,4 +199,42 @@ def test_rejects_unbound_particle_state(tmp_path: Path) -> None:
             report_path=report,
             output=tmp_path / "promoted",
             package_id="task02.r5",
+        )
+
+
+def test_v2_promotion_binds_measured_fill_range(tmp_path: Path) -> None:
+    module = _module()
+    package, contract, state, report = _delivery(tmp_path, schema_version=2)
+
+    promoted = module.promote(
+        package=package,
+        contract_path=contract,
+        particle_state_path=state,
+        report_path=report,
+        output=tmp_path / "promoted",
+        package_id="task02.fill60.r10",
+    )
+
+    binding = json.loads(
+        (promoted / "evidence/manifest.json").read_text()
+    )["gpu_pbd_dynamic_loaded_start"]
+    assert binding["fill_profile"]["fill_level_id"] == "fill60"
+    assert binding["measured_settled_fill_ratio_range"] == [0.59, 0.59]
+
+
+def test_v2_promotion_rejects_out_of_tolerance_fill(tmp_path: Path) -> None:
+    module = _module()
+    package, contract, state, report_path = _delivery(tmp_path, schema_version=2)
+    report = json.loads(report_path.read_text())
+    report["cold_runs"][0]["settled_fill_ratio"] = 0.49
+    report_path.write_text(json.dumps(report), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="cold run"):
+        module.promote(
+            package=package,
+            contract_path=contract,
+            particle_state_path=state,
+            report_path=report_path,
+            output=tmp_path / "promoted",
+            package_id="task02.fill60.r10",
         )

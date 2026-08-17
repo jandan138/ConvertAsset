@@ -67,3 +67,55 @@ def test_contract_keeps_pose_and_particles_as_separate_bound_artifacts() -> None
     assert contract["particle_state_sha256"] == "abc"
     assert contract["qualification"]["maximum_outside_source_before_lift"] == 2
     assert contract["claim_boundary"].startswith("Dynamic loaded-start initialization")
+
+
+def test_v2_contract_binds_a_measured_fill_profile() -> None:
+    module = _module()
+    contract = module.dynamic_loaded_start_contract(
+        support_plane_z_m=0.755,
+        stable_pose={"xyz_m": [0.25, 0.0, 0.7481], "wxyz": [1, 0, 0, 0]},
+        particle_state_name="dynamic_loaded_particle_state.json",
+        particle_state_sha256="abc",
+        particle_count=870,
+        fill_level_id="fill60",
+        target_settled_fill_ratio=0.60,
+        settled_fill_ratio_tolerance=0.05,
+    )
+
+    assert contract["schema_version"] == "aan.gpu_pbd_dynamic_loaded_start.v2"
+    assert contract["fill_profile"] == {
+        "fill_level_id": "fill60",
+        "measurement": "live_points_source_local_z_q95",
+        "settled_fill_ratio_tolerance": 0.05,
+        "target_settled_fill_ratio": 0.6,
+    }
+
+
+def test_v2_cold_run_gate_checks_live_fill_and_support_escape() -> None:
+    module = _module()
+    thresholds = {
+        "particle_count": 870,
+        "maximum_outside_source_before_lift": 2,
+        "maximum_below_source_floor_count": 0,
+        "maximum_entry_root_tail_drift_m": 0.001,
+        "maximum_entry_root_tilt_deg": 2.0,
+        "target_settled_fill_ratio": 0.60,
+        "settled_fill_ratio_tolerance": 0.05,
+    }
+    passing = {
+        "particle_count": 870,
+        "maximum_outside_source_count": 0,
+        "maximum_below_source_floor_count": 0,
+        "settled_fill_ratio": 0.56,
+        "entry_root_tail_drift_m": 0.0004,
+        "maximum_entry_root_tilt_deg": 0.3,
+        "hard_runtime_errors": [],
+    }
+
+    assert module.cold_run_passes(passing, thresholds=thresholds) is True
+    assert module.cold_run_passes(
+        dict(passing, settled_fill_ratio=0.54), thresholds=thresholds
+    ) is False
+    assert module.cold_run_passes(
+        dict(passing, maximum_below_source_floor_count=1), thresholds=thresholds
+    ) is False
