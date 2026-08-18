@@ -1,0 +1,32 @@
+{
+  "schema_version": "aan.visual_material_profile.v2",
+  "profile_id": "scientific_workbench.graduated_cylinder_250ml.glass_v1",
+  "revision": "glass_v1",
+  "source_binding": {
+    "source_path": "outputs/scientific_workbench_r7_task_assets_20260813/input/facades/graduated_cylinder_250ml/facade.usda",
+    "sha256": "31285c0f09542059c80437d46855f7b5b55676632d25a47128613c1bd70bc077"
+  },
+  "override": {
+    "kind": "mdl_glass",
+    "source_mdl": "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass.mdl",
+    "source_mdl_dependencies": [
+      "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass_Opacity.mdl"
+    ],
+    "source_sub_identifier": "OmniGlass",
+    "material_name": "OmniGlassRenderChangeV1",
+    "binding_targets": [
+      "/World/GraduatedCylinder250ml/Visual/Source/Hollow_Body/Hollow_Body_Mesh_002",
+      "/World/GraduatedCylinder250ml/Visual/Source/Closed_Inner_Bottom/Cylinder_006",
+      "/World/GraduatedCylinder250ml/Visual/Source/Pour_Spout/Pour_Spout_Mesh_002",
+      "/World/GraduatedCylinder250ml/Visual/Source/Thickened_Rim/Torus_002"
+    ],
+    "mdl_inputs": {
+      "cutout_opacity": {"type": "float", "value": 0.0},
+      "enable_opacity": {"type": "bool", "value": false},
+      "frosting_roughness": {"type": "float", "value": 0.0},
+      "reflection_color": {"type": "color3f", "value": [0.86629593, 0.97533488, 0.98841697]},
+      "roughness_texture_influence": {"type": "float", "value": 1.0}
+    },
+    "claim_boundary": "Intentional visual override on the four declared glass meshes only. Graduations, labels, plastic base, source geometry, collision, mass, inertia, and interaction semantics are unchanged."
+  }
+}

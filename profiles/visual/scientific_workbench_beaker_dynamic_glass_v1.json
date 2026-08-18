@@ -1,0 +1,29 @@
+{
+  "schema_version": "aan.visual_material_profile.v2",
+  "profile_id": "scientific_workbench.beaker_bci762450811977342_6.glass_v1",
+  "revision": "glass_v1",
+  "source_binding": {
+    "source_path": "outputs/scientific_workbench_asset_library_20260810/facades/beaker_transparent_r3/facade.usda",
+    "sha256": "db9f57934c268ace6826b18622a5dbfee3b88b2a7edc82d28acc84e578dde1f0"
+  },
+  "override": {
+    "kind": "mdl_glass",
+    "source_mdl": "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass.mdl",
+    "source_mdl_dependencies": [
+      "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass_Opacity.mdl"
+    ],
+    "source_sub_identifier": "OmniGlass",
+    "material_name": "OmniGlassRenderChangeV1",
+    "binding_targets": [
+      "/World/Beaker/Visual/Source/Obj3d66_11490791_6_932/Obj3d66_11490791_6_932"
+    ],
+    "mdl_inputs": {
+      "cutout_opacity": {"type": "float", "value": 0.0},
+      "enable_opacity": {"type": "bool", "value": false},
+      "frosting_roughness": {"type": "float", "value": 0.0},
+      "reflection_color": {"type": "color3f", "value": [0.86629593, 0.97533488, 0.98841697]},
+      "roughness_texture_influence": {"type": "float", "value": 1.0}
+    },
+    "claim_boundary": "Intentional visual override on the declared beaker mesh only. Source geometry, collision, mass, inertia, and interaction-region semantics are unchanged."
+  }
+}

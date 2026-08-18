@@ -65,6 +65,44 @@ def _write_preview_surface_profile(path: Path, source: Path) -> None:
     )
 
 
+def _write_parameterized_glass_profile(
+    path: Path, source: Path, mdl: Path, mdl_dependency: Path | None = None
+) -> None:
+    path.write_text(
+        json.dumps(
+            {
+                "schema_version": "aan.visual_material_profile.v2",
+                "profile_id": "scientific_workbench.glass.render_change.v1",
+                "revision": "glass_v1",
+                "source_binding": {"sha256": _sha256(source)},
+                "override": {
+                    "kind": "mdl_glass",
+                    "source_mdl": str(mdl),
+                    "source_mdl_dependencies": (
+                        [str(mdl_dependency)] if mdl_dependency is not None else []
+                    ),
+                    "source_sub_identifier": "OmniGlass",
+                    "material_name": "OmniGlassRenderChangeV1",
+                    "binding_targets": ["/World/Beaker/Visual/Source/mesh"],
+                    "mdl_inputs": {
+                        "reflection_color": {
+                            "type": "color3f",
+                            "value": [0.86629593, 0.97533488, 0.98841697],
+                        },
+                        "frosting_roughness": {"type": "float", "value": 0.0},
+                        "roughness_texture_influence": {"type": "float", "value": 1.0},
+                        "enable_opacity": {"type": "bool", "value": False},
+                        "cutout_opacity": {"type": "float", "value": 0.0},
+                    },
+                    "claim_boundary": "Visual material override only; physics is unchanged.",
+                },
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
 def test_loads_source_bound_transparent_glass_profile(tmp_path: Path) -> None:
     source = tmp_path / "beaker.usda"
     source.write_text("#usda 1.0\n", encoding="utf-8")
@@ -149,6 +187,106 @@ def Xform \"World\"
     assert mesh.GetRelationship("material:binding").GetTargets() == [
         "/World/Beaker/__aan_visual_materials/TransparentGlass"
     ]
+
+
+def test_v2_profile_authors_typed_mdl_inputs_and_records_them(tmp_path: Path) -> None:
+    source = tmp_path / "beaker.usda"
+    source.write_text("#usda 1.0\n", encoding="utf-8")
+    mdl = tmp_path / "OmniGlass.mdl"
+    mdl.write_text("mdl 1.6;\nexport material OmniGlass() = material();\n", encoding="utf-8")
+    mdl_dependency = tmp_path / "OmniGlass_Opacity.mdl"
+    mdl_dependency.write_text(
+        "mdl 1.6;\nexport material OmniGlass_Opacity() = material();\n",
+        encoding="utf-8",
+    )
+    profile = tmp_path / "transparent_glass_v2.json"
+    _write_parameterized_glass_profile(profile, source, mdl, mdl_dependency)
+
+    resolution = load_visual_material_profile(profile, source)
+
+    assert resolution.status == "pass"
+    assert resolution.schema_version == "aan.visual_material_profile.v2"
+    assert resolution.mdl_inputs == {
+        "cutout_opacity": {"type": "float", "value": 0.0},
+        "enable_opacity": {"type": "bool", "value": False},
+        "frosting_roughness": {"type": "float", "value": 0.0},
+        "reflection_color": {
+            "type": "color3f",
+            "value": [0.86629593, 0.97533488, 0.98841697],
+        },
+        "roughness_texture_influence": {"type": "float", "value": 1.0},
+    }
+
+    layout = TargetPackageLayout(tmp_path / "package")
+    layout.root.mkdir()
+    (layout.root / "base.usda").write_text(
+        """#usda 1.0
+def Xform "World"
+{
+    def Xform "Beaker"
+    {
+        def Xform "Visual"
+        {
+            def Xform "Source"
+            {
+                def Mesh "mesh" {}
+            }
+        }
+    }
+}
+""",
+        encoding="utf-8",
+    )
+    layout.root_usd.write_text(
+        "#usda 1.0\n( subLayers = [ @overlays/visual_material.usda@, @base.usda@ ] )\n",
+        encoding="utf-8",
+    )
+
+    result = apply_visual_material_profile(layout, profile, source, ["/World/Beaker"])
+
+    assert result.overall_status == "pass"
+    assert layout.visual_material_mdl("OmniGlass_Opacity.mdl").is_file()
+    assert result.profile_record["schema_version"] == "aan.visual_material_profile.v2"
+    assert result.profile_record["mdl_inputs"] == resolution.mdl_inputs
+    assert result.profile_record["package_mdl_dependencies"] == [
+        {
+            "package_path": "deps/mdl/OmniGlass_Opacity.mdl",
+            "package_sha256": _sha256(mdl_dependency),
+            "source_mdl": str(mdl_dependency),
+            "source_sha256": _sha256(mdl_dependency),
+        }
+    ]
+    from pxr import Gf, Usd, UsdShade  # type: ignore
+
+    stage = Usd.Stage.Open(str(layout.root_usd))
+    shader = UsdShade.Shader.Get(
+        stage,
+        "/World/Beaker/__aan_visual_materials/OmniGlassRenderChangeV1/Shader",
+    )
+    assert shader.GetInput("reflection_color").Get() == Gf.Vec3f(
+        0.86629593, 0.97533488, 0.98841697
+    )
+    assert shader.GetInput("frosting_roughness").Get() == pytest.approx(0.0)
+    assert shader.GetInput("roughness_texture_influence").Get() == pytest.approx(1.0)
+    assert shader.GetInput("enable_opacity").Get() is False
+    assert shader.GetInput("cutout_opacity").Get() == pytest.approx(0.0)
+
+
+def test_v2_profile_rejects_unknown_mdl_input_type(tmp_path: Path) -> None:
+    source = tmp_path / "beaker.usda"
+    source.write_text("#usda 1.0\n", encoding="utf-8")
+    mdl = tmp_path / "OmniGlass.mdl"
+    mdl.write_text("mdl 1.6;\n", encoding="utf-8")
+    profile = tmp_path / "transparent_glass_v2.json"
+    _write_parameterized_glass_profile(profile, source, mdl)
+    payload = json.loads(profile.read_text(encoding="utf-8"))
+    payload["override"]["mdl_inputs"]["reflection_color"]["type"] = "vector3f"
+    profile.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+
+    resolution = load_visual_material_profile(profile, source)
+
+    assert resolution.status == "blocked"
+    assert "mdl_inputs.reflection_color.type" in resolution.reason
 
 
 def test_profile_authors_package_local_usd_preview_surface(tmp_path: Path) -> None:

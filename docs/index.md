@@ -138,6 +138,10 @@ ConvertAsset 是面向 NVIDIA Isaac Sim / USD 资产的转换与优化工具集�
 - [ACL private author-gate status](records/2026-05-26-acl-private-author-gate-status.md)
 - [GRScenes retake and zoom evidence expansion](records/2026-05-22-grscenes-retake-pass-pool-expansion.md)
 
+## 近期交付
+
+- [参数化 OmniGlass glass_v1 交付记录](records/2026-08-18-aan-parameterized-omniglass-glass-v1.md)
+
 ## 结构说明
 
 主导航遵循 `design/`、`operations/`、`records/`、`reference/`、`archive/` 的用途分类。

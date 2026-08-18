@@ -12,25 +12,32 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import re
 import shutil
 from typing import Any
 
 from .package_layout import TargetPackageLayout
 
 
-SCHEMA_VERSION = "aan.visual_material_profile.v1"
+SCHEMA_VERSION_V1 = "aan.visual_material_profile.v1"
+SCHEMA_VERSION_V2 = "aan.visual_material_profile.v2"
+SCHEMA_VERSIONS = {SCHEMA_VERSION_V1, SCHEMA_VERSION_V2}
+SCHEMA_VERSION = SCHEMA_VERSION_V1
+_MDL_INPUT_NAME = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 
 
 @dataclass(frozen=True)
 class VisualMaterialProfileResolution:
     status: str
     reason: str | None = None
+    schema_version: str | None = None
     profile_id: str | None = None
     revision: str | None = None
     profile_sha256: str | None = None
     profile_bytes: bytes | None = None
     override_kind: str | None = None
     source_mdl: Path | None = None
+    source_mdl_dependencies: tuple[Path, ...] = ()
     source_sub_identifier: str | None = None
     material_name: str | None = None
     binding_targets: tuple[str, ...] = ()
@@ -39,6 +46,7 @@ class VisualMaterialProfileResolution:
     opacity: float | None = None
     roughness: float | None = None
     metallic: float | None = None
+    mdl_inputs: dict[str, dict[str, Any]] | None = None
 
 
 @dataclass(frozen=True)
@@ -61,8 +69,12 @@ def load_visual_material_profile(
         return _blocked(f"could not read visual material profile: {exc}")
     if not isinstance(payload, dict):
         return _blocked("visual material profile must be a JSON object")
-    if payload.get("schema_version") != SCHEMA_VERSION:
-        return _blocked(f"visual material profile schema_version must be {SCHEMA_VERSION}")
+    schema_version = payload.get("schema_version")
+    if schema_version not in SCHEMA_VERSIONS:
+        return _blocked(
+            "visual material profile schema_version must be one of "
+            + ", ".join(sorted(SCHEMA_VERSIONS))
+        )
     profile_id = payload.get("profile_id")
     revision = payload.get("revision")
     source_binding = payload.get("source_binding")
@@ -86,11 +98,13 @@ def load_visual_material_profile(
             "visual material profile override.kind must be mdl_glass or usd_preview_surface"
         )
     source_mdl = None
+    source_mdl_dependencies: tuple[Path, ...] = ()
     sub_identifier = None
     diffuse_color = None
     opacity = None
     roughness = None
     metallic = None
+    mdl_inputs = None
     if kind == "mdl_glass":
         source_mdl_raw = override.get("source_mdl")
         if not isinstance(source_mdl_raw, str) or not source_mdl_raw:
@@ -104,6 +118,16 @@ def load_visual_material_profile(
         sub_identifier = override.get("source_sub_identifier")
         if not isinstance(sub_identifier, str) or not sub_identifier:
             return _blocked("visual material profile requires override.source_sub_identifier")
+        if schema_version == SCHEMA_VERSION_V2:
+            mdl_inputs, reason = _load_mdl_inputs(override.get("mdl_inputs"))
+            if reason is not None:
+                return _blocked(reason)
+            dependencies, reason = _load_mdl_dependencies(
+                override.get("source_mdl_dependencies", []), profile_path
+            )
+            if reason is not None:
+                return _blocked(reason)
+            source_mdl_dependencies = dependencies or ()
     else:
         raw_color = override.get("diffuse_color")
         if (
@@ -139,12 +163,14 @@ def load_visual_material_profile(
         return _blocked("visual material profile requires override.claim_boundary")
     return VisualMaterialProfileResolution(
         status="pass",
+        schema_version=schema_version,
         profile_id=profile_id,
         revision=revision,
         profile_sha256=_sha256_bytes(profile_bytes),
         profile_bytes=profile_bytes,
         override_kind=kind,
         source_mdl=source_mdl,
+        source_mdl_dependencies=source_mdl_dependencies,
         source_sub_identifier=sub_identifier,
         material_name=material_name,
         binding_targets=tuple(targets),
@@ -153,6 +179,7 @@ def load_visual_material_profile(
         opacity=opacity,
         roughness=roughness,
         metallic=metallic,
+        mdl_inputs=mdl_inputs,
     )
 
 
@@ -180,6 +207,7 @@ def apply_visual_material_profile(
     assert resolution.profile_sha256 is not None
     assert resolution.material_name is not None
     assert resolution.claim_boundary is not None
+    assert resolution.schema_version is not None
     if not scope_prims:
         return _authoring_blocked("visual material profile requires an asset scope")
     scope = scope_prims[0]
@@ -212,6 +240,7 @@ def apply_visual_material_profile(
         return _authoring_blocked(f"visual material profile could not inspect package stage: {exc}")
 
     destination_mdl = None
+    dependency_records: list[dict[str, str]] = []
     try:
         if resolution.override_kind == "mdl_glass":
             assert resolution.source_mdl is not None
@@ -219,6 +248,17 @@ def apply_visual_material_profile(
             destination_mdl = layout.visual_material_mdl(resolution.source_mdl.name)
             destination_mdl.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(resolution.source_mdl, destination_mdl)
+            for source_dependency in resolution.source_mdl_dependencies:
+                destination_dependency = layout.visual_material_mdl(source_dependency.name)
+                shutil.copy2(source_dependency, destination_dependency)
+                dependency_records.append(
+                    {
+                        "source_mdl": str(source_dependency),
+                        "source_sha256": _sha256(source_dependency),
+                        "package_path": destination_dependency.relative_to(layout.root).as_posix(),
+                        "package_sha256": _sha256(destination_dependency),
+                    }
+                )
         layout.visual_material_profile_json.parent.mkdir(parents=True, exist_ok=True)
         layout.visual_material_profile_json.write_bytes(resolution.profile_bytes)
         layout.visual_material_overlay_usd.parent.mkdir(parents=True, exist_ok=True)
@@ -231,6 +271,7 @@ def apply_visual_material_profile(
                 profile_id=resolution.profile_id,
                 profile_sha256=resolution.profile_sha256,
                 binding_targets=resolution.binding_targets,
+                mdl_inputs=resolution.mdl_inputs or {},
             )
             if destination_mdl is not None
             else _preview_surface_overlay_text(
@@ -251,7 +292,7 @@ def apply_visual_material_profile(
 
     record = {
         "status": "pass",
-        "schema_version": SCHEMA_VERSION,
+        "schema_version": resolution.schema_version,
         "profile_id": resolution.profile_id,
         "revision": resolution.revision,
         "profile_sha256": resolution.profile_sha256,
@@ -273,6 +314,8 @@ def apply_visual_material_profile(
                 "source_mdl_sha256": _sha256(resolution.source_mdl),
                 "package_mdl_sha256": _sha256(destination_mdl),
                 "source_sub_identifier": resolution.source_sub_identifier,
+                "mdl_inputs": resolution.mdl_inputs or {},
+                "package_mdl_dependencies": dependency_records,
             }
         )
     else:
@@ -307,6 +350,7 @@ def _mdl_overlay_text(
     profile_id: str,
     profile_sha256: str,
     binding_targets: tuple[str, ...],
+    mdl_inputs: dict[str, dict[str, Any]],
 ) -> str:
     scope_parts = [part for part in scope.split("/") if part]
     lines = ["#usda 1.0", ""]
@@ -336,6 +380,12 @@ def _mdl_overlay_text(
             f'{indent}            uniform token info:implementationSource = "sourceAsset"',
             f"{indent}            uniform asset info:mdl:sourceAsset = @{mdl_relpath}@",
             f'                    uniform token info:mdl:sourceAsset:subIdentifier = "{source_sub_identifier}"',
+        ]
+    )
+    for input_name, input_spec in mdl_inputs.items():
+        lines.append(f"{indent}            {_mdl_input_usda(input_name, input_spec)}")
+    lines.extend(
+        [
             f"{indent}            token outputs:out (",
             '                    renderType = "material"',
             f"{indent}            )",
@@ -441,6 +491,85 @@ def _preview_surface_overlay_text(
         indent = indent[:-4]
         lines.append(f"{indent}}}")
     return "\n".join(lines) + "\n"
+
+
+def _load_mdl_inputs(raw_inputs: Any) -> tuple[dict[str, dict[str, Any]] | None, str | None]:
+    if not isinstance(raw_inputs, dict) or not raw_inputs:
+        return None, "mdl_glass v2 requires non-empty override.mdl_inputs"
+    parsed: dict[str, dict[str, Any]] = {}
+    for name in sorted(raw_inputs):
+        spec = raw_inputs[name]
+        prefix = f"visual material profile override.mdl_inputs.{name}"
+        if not isinstance(name, str) or not _MDL_INPUT_NAME.fullmatch(name):
+            return None, f"{prefix} must use a valid USD input identifier"
+        if not isinstance(spec, dict):
+            return None, f"{prefix} must be an object"
+        input_type = spec.get("type")
+        value = spec.get("value")
+        if input_type not in {"bool", "float", "color3f"}:
+            return None, f"{prefix}.type must be bool, float, or color3f"
+        if input_type == "bool":
+            if not isinstance(value, bool):
+                return None, f"{prefix}.value must be a boolean"
+            normalized: Any = value
+        elif input_type == "float":
+            if (
+                isinstance(value, bool)
+                or not isinstance(value, (int, float))
+                or not math.isfinite(float(value))
+            ):
+                return None, f"{prefix}.value must be a finite number"
+            normalized = float(value)
+        else:
+            if (
+                not isinstance(value, list)
+                or len(value) != 3
+                or any(
+                    isinstance(component, bool)
+                    or not isinstance(component, (int, float))
+                    or not math.isfinite(float(component))
+                    for component in value
+                )
+            ):
+                return None, f"{prefix}.value must be three finite numbers"
+            normalized = [float(component) for component in value]
+        parsed[name] = {"type": input_type, "value": normalized}
+    return parsed, None
+
+
+def _load_mdl_dependencies(
+    raw_dependencies: Any, profile_path: Path
+) -> tuple[tuple[Path, ...] | None, str | None]:
+    if not isinstance(raw_dependencies, list) or not all(
+        isinstance(value, str) and value for value in raw_dependencies
+    ):
+        return None, "override.source_mdl_dependencies must be a list of MDL paths"
+    dependencies: list[Path] = []
+    destination_names: set[str] = set()
+    for raw_path in raw_dependencies:
+        dependency = Path(raw_path)
+        if not dependency.is_absolute():
+            dependency = profile_path.parent / dependency
+        dependency = dependency.resolve()
+        if not dependency.is_file() or dependency.suffix.lower() != ".mdl":
+            return None, f"visual material profile MDL dependency is unavailable: {dependency}"
+        if dependency.name in destination_names:
+            return None, f"duplicate visual material profile MDL dependency name: {dependency.name}"
+        destination_names.add(dependency.name)
+        dependencies.append(dependency)
+    return tuple(dependencies), None
+
+
+def _mdl_input_usda(name: str, spec: dict[str, Any]) -> str:
+    input_type = spec["type"]
+    value = spec["value"]
+    if input_type == "bool":
+        rendered = "true" if value else "false"
+    elif input_type == "color3f":
+        rendered = "(" + ", ".join(repr(component) for component in value) + ")"
+    else:
+        rendered = repr(value)
+    return f"{input_type} inputs:{name} = {rendered}"
 
 
 def _authoring_blocked(reason: str) -> VisualMaterialAuthoringResult:

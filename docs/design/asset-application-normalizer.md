@@ -1733,6 +1733,21 @@ MJCF route 的推荐原则：
   finite；它不等同于 full material parity。若 MDL 在 runtime 中有 fallback 或编译 warning，
   manifest 仍必须禁止 full visual material parity claim，直到 material/render parity 有单独证据。
 
+### 参数化 visual material profile v2
+
+`aan.visual_material_profile.v2` 在 v1 的 source-bound、明确 binding scope 和
+package-owned MDL 基础上，增加两项可复现能力：
+
+- `override.mdl_inputs` 以 `bool`、`float`、`color3f` 三种显式类型记录并 author
+  `inputs:*`，不能依赖 GUI session 中未落盘的参数；
+- `override.source_mdl_dependencies` 将 OmniGlass helper 等直接依赖按原字节镜像到
+  `deps/mdl/`，并在 manifest 记录 source/package 双 SHA-256。
+
+v2 不扩大改动边界：overlay 仍只能新增 Material/Shader 和目标 mesh 的
+`material:binding`。几何、xform、collision、mass、inertia 与 interaction profile
+必须保持不变；可用 `scripts/audit_visual_material_only_package.py` 生成机器可读审计。
+v1 继续兼容，已有 profile 不需要迁移。
+
 ### AAN-11 implementation contract
 
 AAN-11 不是重新启动 AAN，而是一个编号清晰的 follow-up。它的目标是解决“静态 package
