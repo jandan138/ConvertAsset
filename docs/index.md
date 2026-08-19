@@ -17,6 +17,8 @@
 - **[Task 02 40% Fill and Grasp-material Transfer](records/2026-08-16-task02-40pct-grasp-material-transfer.md)** - 保持 0812 粒子参数、以 580 粒子形成约 40% 液面，并为既有量筒碰撞拓扑增加 package-owned 抓取材质
 - **[Task 02 Dynamic-loaded-start Qualification](records/2026-08-16-task02-dynamic-loaded-start.md)** - 量筒稳定根位姿与 580 粒子根局部初态的三次 Isaac 4.1 冷启动准入
 - **[Task 02 GPU-PBD Four-fill Qualification v2](records/2026-08-17-task02-gpu-pbd-fill-sweep-v2.md)** - 20/40/60/80% 四档粒子初态的 live q95、三次冷启动和晋级绑定
+- **[GPU-PBD Liquid Autofill](design/gpu-pbd-liquid-autofill.md)** - 将 Task 02 r10.3 经验固化为任意场景精确容器 prim 的 fail-closed 液体生产者
+- **[GPU-PBD Liquid Autofill Runbook](operations/liquid-autofill.md)** - inspect、producer qualification 与 source closure 命令
 - **[Acrylic Spoon Rack Central Insertion](records/2026-08-17-aan-acrylic-spoon-rack-central-insertion.md)** - 透明七孔架的 source-bound 碰撞代理、中央孔插入证据与长时观察边界
 - **[Scientific Workbench r9 Dynamic Context Assets](records/2026-08-16-scientific-workbench-r9-dynamic-context-assets.md)** - 6 个桌面丰富化资产的 source-bound 动态背景准入与消费边界
 - **[Scientific Workbench Task 05 / Task 09 r11 Assets](records/2026-08-18-scientific-workbench-task05-task09-r11-assets.md)** - 原底烧瓶 29/42 闭合资产与模拟烘箱 identity facade、Isaac 4.1 交互/桌面稳定准入和 claim boundary

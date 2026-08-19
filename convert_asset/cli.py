@@ -2,6 +2,7 @@
 """CLI entry for convert_asset utilities."""
 import os
 import argparse
+import json
 from pathlib import Path
 
 
@@ -187,6 +188,41 @@ def main(argv: list[str] | None = None) -> int:
     p_zones.add_argument("--git-commit", required=True)
     p_zones.add_argument("--revision", required=True)
 
+    p_liquid_inspect = sub.add_parser(
+        "liquid-inspect",
+        help="Inspect a USD scene for high-confidence liquid-container candidates",
+    )
+    p_liquid_inspect.add_argument("src", help="Path to the source USD scene")
+    p_liquid_inspect.add_argument("--out", required=True, help="Inspection JSON path")
+
+    p_liquid_autofill = sub.add_parser(
+        "liquid-autofill",
+        help="Build and qualify one source-bound Task 02 r10.3 GPU-PBD liquid start",
+    )
+    p_liquid_autofill.add_argument(
+        "--request", required=True, help="aan.gpu_pbd_autofill_request.v1 JSON"
+    )
+    p_liquid_autofill.add_argument("--out", required=True, help="Producer package directory")
+    p_liquid_autofill.add_argument(
+        "--isaac-python",
+        help="Pinned Isaac Sim Python used for cold-run qualification",
+    )
+    p_liquid_autofill.add_argument(
+        "--no-runtime-qualification",
+        action="store_true",
+        help="Retain a diagnostic candidate without the required Isaac 4.1 cold runs",
+    )
+
+    p_usd_closure = sub.add_parser(
+        "package-usd-closure",
+        help="Copy a package-local USD/MDL/texture closure without role normalization",
+    )
+    p_usd_closure.add_argument("src", help="Path to the source USD scene")
+    p_usd_closure.add_argument("--out", required=True, help="Closure package directory")
+    p_usd_closure.add_argument(
+        "--scope", required=True, help="Absolute root scope retained in the closure"
+    )
+
     # If no subcommand provided, default to no-mdl for convenience
     args_ns, extras = parser.parse_known_args(argv)
     if args_ns.cmd is None:
@@ -306,6 +342,90 @@ def main(argv: list[str] | None = None) -> int:
         print(f"profiled zones: {result.profiled_count}")
         print(f"not applicable zones: {result.not_applicable_count}")
         return 0
+
+    if args_ns.cmd == "liquid-inspect":
+        from .liquid_autofill_runtime import inspect_scene
+
+        src = Path(args_ns.src).resolve()
+        out = Path(args_ns.out).resolve()
+        try:
+            result = inspect_scene(src)
+        except Exception as error:
+            print(f"ERROR: {error}")
+            return 5
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(
+            json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        print(out)
+        return 0
+
+    if args_ns.cmd == "liquid-autofill":
+        from .liquid_autofill_runtime import (
+            build_autofill_candidate,
+            qualify_candidate,
+        )
+
+        request_path = Path(args_ns.request).resolve()
+        output = Path(args_ns.out).resolve()
+        try:
+            request = json.loads(request_path.read_text(encoding="utf-8"))
+            build_autofill_candidate(request=request, output=output)
+            if not args_ns.no_runtime_qualification:
+                root = Path(__file__).resolve().parents[1]
+                qualify_candidate(
+                    output=output,
+                    launcher=(
+                        Path(args_ns.isaac_python).resolve()
+                        if args_ns.isaac_python
+                        else root / "scripts/isaac_python.sh"
+                    ),
+                    worker=root / "scripts/observe_gpu_pbd_autofill.py",
+                )
+        except Exception as error:
+            print(f"ERROR: {error}")
+            return 5
+        print(output / "manifest.json")
+        return 0
+
+    if args_ns.cmd == "package-usd-closure":
+        from .asset_application_normalizer.model import NormalizeAssetRequest
+        from .asset_application_normalizer.usd_closure import build_usd_closure_package
+
+        source = Path(args_ns.src).resolve()
+        output = Path(args_ns.out).resolve()
+        request = NormalizeAssetRequest(
+            source_usd=source,
+            out_dir=output,
+            asset_id="ScenarioForgePortableScene",
+            asset_class="portable_scene",
+            source_runtime="generic_usd",
+            target_runtime="isaac41",
+            target_benchmark="scenario-forge",
+            task_id="scenario_forge.liquid_alias",
+            asset_role="dynamic",
+            required_prims=[args_ns.scope],
+            asset_scope_prims=[args_ns.scope],
+            gates=["static"],
+        )
+        result = build_usd_closure_package(request)
+        report = {
+            "schema_version": "aan.usd_closure_handoff.v1",
+            "overall_status": result.overall_status,
+            "blocked_reasons": result.blocked_reasons,
+            "root_usd": result.root_usd_package_path,
+            "dependency_closure": result.dependency_closure,
+            "static_usd_report": result.static_usd_report,
+        }
+        report_path = output / "usd_closure_handoff.json"
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        report_path.write_text(
+            json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        print(report_path)
+        return result.return_code
 
     if args_ns.cmd == "no-mdl":
         # Lazy import to avoid requiring pxr unless actually running no-mdl conversion
