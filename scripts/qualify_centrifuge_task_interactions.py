@@ -35,6 +35,9 @@ LID_JOINT = f"{LID_BODY}/RevoluteJoint"
 BUTTON_PROXY = f"{BUTTON_BODY}/__aan_collision_proxy/button_face"
 LID_PROXY = f"{LID_BODY}/__aan_collision_proxy/lid_shell"
 TUBE_PROBE_ROOT = "/World/__aan_task_contact_probe/TestTube"
+PARKED_TUBE_PROBE_ROOT = "/World/__aan_task_contact_probe/TestTubeParked"
+DEFAULT_TUBE_ENTRY_PRIM = "/World/TestTube"
+DEFAULT_SOCKET_NAME = "tube_socket_0"
 
 EXPECTED_DOF_MAPPING = (
     (0, "PrismaticJoint", BUTTON_JOINT),
@@ -53,12 +56,21 @@ LID_PUSHER_SIZE_M = (0.08, 0.08, 0.04)
 LID_PUSHER_HALF_DEPTH_M = LID_PUSHER_SIZE_M[2] / 2.0
 LID_PUSHER_CLEARANCE_M = 0.0005
 PROFILE_SCHEMA_VERSION = "aan.articulated_device_profile.v1"
-REQUIRED_PROFILE_FRAMES = {
-    "tube_socket_0_aperture": f"{ROTOR_BODY}",
-    "tube_socket_0_inserted_bottom_parked_root": CENTRIFUGE_ROOT,
+BASE_REQUIRED_PROFILE_FRAMES = {
     "lid_close_contact": f"{LID_BODY}",
     "start_button_press": f"{BUTTON_BODY}",
 }
+
+
+def _required_profile_frames(socket_names: tuple[str, ...]) -> dict[str, str]:
+    frames = dict(BASE_REQUIRED_PROFILE_FRAMES)
+    for socket_name in socket_names:
+        frames[f"{socket_name}_aperture"] = ROTOR_BODY
+        frames[f"{socket_name}_inserted_bottom_parked_root"] = CENTRIFUGE_ROOT
+    return frames
+
+
+REQUIRED_PROFILE_FRAMES = _required_profile_frames((DEFAULT_SOCKET_NAME,))
 FIVE_INTERACTION_GATES = (
     "lid_contact_cycle",
     "button_contact_cycle",
@@ -87,6 +99,7 @@ def _load_device_profile(
     *,
     source_sha256: str,
     articulation_root_prim: str,
+    socket_names: tuple[str, ...] = (DEFAULT_SOCKET_NAME,),
 ) -> dict[str, Any]:
     """Load the producer profile before starting Isaac qualification."""
     try:
@@ -114,7 +127,7 @@ def _load_device_profile(
     frames = value.get("named_frames")
     if not isinstance(frames, dict):
         raise ValueError("device profile.named_frames must be an object")
-    for frame_name, expected_parent in REQUIRED_PROFILE_FRAMES.items():
+    for frame_name, expected_parent in _required_profile_frames(socket_names).items():
         frame = frames.get(frame_name)
         if not isinstance(frame, dict):
             raise ValueError(f"device profile is missing {frame_name}")
@@ -275,7 +288,7 @@ def _joint_drive_snapshot(stage: Any) -> dict[str, Any]:
     return dict(sorted(snapshot.items()))
 
 
-def _contact_summary(view: Any, *, np: Any, dt: float) -> dict[str, Any]:
+def _contact_summary(view: Any, *, np: Any, dt: float, channel: int = 0) -> dict[str, Any]:
     matrix = view.get_contact_force_matrix(dt=dt)
     if matrix is None:
         return {
@@ -290,8 +303,8 @@ def _contact_summary(view: Any, *, np: Any, dt: float) -> dict[str, Any]:
             "reason": "RigidContactView detailed contact data was unavailable",
         }
     forces, points, normals, distances, counts, starts = details
-    count = int(np.asarray(counts)[0, 0])
-    start = int(np.asarray(starts)[0, 0])
+    count = int(np.asarray(counts)[0, channel])
+    start = int(np.asarray(starts)[0, channel])
     entries = []
     for index in range(start, start + count):
         entries.append(
@@ -306,9 +319,9 @@ def _contact_summary(view: Any, *, np: Any, dt: float) -> dict[str, Any]:
         "status": "pass",
         "pair_contact_count": count,
         "force_vector_n": [
-            round(float(value), 8) for value in force_matrix[0, 0].reshape(-1)
+            round(float(value), 8) for value in force_matrix[0, channel].reshape(-1)
         ],
-        "force_norm_n": round(float(np.linalg.norm(force_matrix[0, 0])), 8),
+        "force_norm_n": round(float(np.linalg.norm(force_matrix[0, channel])), 8),
         "contacts": entries,
     }
 
@@ -471,9 +484,16 @@ def _reset_and_sync(
         world.step(render=False)
 
 
-def _prepare_tube(stage: Any, tube_asset: Path, usd_physics: Any) -> None:
-    tube = stage.DefinePrim(TUBE_PROBE_ROOT, "Xform")
-    tube.GetReferences().AddReference(str(tube_asset), "/World/TestTube")
+def _prepare_tube(
+    stage: Any,
+    tube_asset: Path,
+    usd_physics: Any,
+    *,
+    entry_prim: str = DEFAULT_TUBE_ENTRY_PRIM,
+    probe_path: str = TUBE_PROBE_ROOT,
+) -> None:
+    tube = stage.DefinePrim(probe_path, "Xform")
+    tube.GetReferences().AddReference(str(tube_asset), entry_prim)
     rigid = usd_physics.RigidBodyAPI.Apply(tube)
     rigid.CreateRigidBodyEnabledAttr().Set(True)
     rigid.CreateKinematicEnabledAttr().Set(True)
@@ -638,10 +658,16 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         or entrypoints.get("asset_entry_prim") != CENTRIFUGE_ROOT
     ):
         raise ValueError("centrifuge manifest does not describe the expected articulation root")
+    socket_names = (str(args.socket_name),) + (
+        (str(args.additional_parked_socket),)
+        if args.additional_parked_socket is not None
+        else ()
+    )
     profile = _load_device_profile(
         args.device_profile,
         source_sha256=source["sha256"],
         articulation_root_prim=CENTRIFUGE_ROOT,
+        socket_names=socket_names,
     )
     profile_sha256 = _sha256_file(args.device_profile)
     # Isaac Sim must be constructed before importing omni or pxr modules.
@@ -699,7 +725,20 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         runtime_profile = "isaac" + observed_major_minor.replace(".", "")
         stage.SetEditTarget(stage.GetSessionLayer())
 
-        _prepare_tube(stage, tube_asset, UsdPhysics)
+        _prepare_tube(
+            stage,
+            tube_asset,
+            UsdPhysics,
+            entry_prim=str(args.tube_entry_prim),
+        )
+        if args.additional_parked_socket is not None:
+            _prepare_tube(
+                stage,
+                tube_asset,
+                UsdPhysics,
+                entry_prim=str(args.tube_entry_prim),
+                probe_path=PARKED_TUBE_PROBE_ROOT,
+            )
         _create_kinematic_cube(
             stage,
             "/World/__aan_task_contact_probe/button_pusher",
@@ -747,8 +786,20 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             max_contact_count=128,
             disable_stablization=False,
         )
+        parked_tube = None
+        if args.additional_parked_socket is not None:
+            parked_tube = RigidPrimView(
+                PARKED_TUBE_PROBE_ROOT,
+                name="tube_parked_balance_probe",
+                track_contact_forces=True,
+                contact_filter_prim_paths_expr=[ROTOR_BODY, LID_BODY],
+                max_contact_count=128,
+                disable_stablization=False,
+            )
         world.scene.add(articulation)
         kinematic_contact_views = [button_pusher, lid_pusher, tube]
+        if parked_tube is not None:
+            kinematic_contact_views.append(parked_tube)
         _reset_and_sync(
             world,
             app,
@@ -805,7 +856,7 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         socket_aperture, socket_axis = _profile_frame_world_pose(
             stage,
             profile,
-            "tube_socket_0_aperture",
+            f"{args.socket_name}_aperture",
             usd=Usd,
             usd_geom=UsdGeom,
             gf=Gf,
@@ -814,12 +865,27 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         tube_target, _ = _profile_frame_world_pose(
             stage,
             profile,
-            "tube_socket_0_inserted_bottom_parked_root",
+            f"{args.socket_name}_inserted_bottom_parked_root",
             usd=Usd,
             usd_geom=UsdGeom,
             gf=Gf,
             np=np,
         )
+        parked_tube_target = None
+        if args.additional_parked_socket is not None:
+            parked_tube_target, _ = _profile_frame_world_pose(
+                stage,
+                profile,
+                f"{args.additional_parked_socket}_inserted_bottom_parked_root",
+                usd=Usd,
+                usd_geom=UsdGeom,
+                gf=Gf,
+                np=np,
+            )
+            parked_tube.set_world_poses(
+                positions=np.asarray([parked_tube_target], dtype=np.float32),
+                orientations=np.asarray([[1.0, 0.0, 0.0, 0.0]], dtype=np.float32),
+            )
         aperture_to_target = tube_target - socket_aperture
         insertion_depth = -float(np.dot(aperture_to_target, socket_axis))
         lateral_error = float(
@@ -866,9 +932,16 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             ),
             "method": "session-only kinematic sweep of the delivered tube collider",
             "claim_boundary": "Collider path qualification only; no robot-policy success claim.",
+            "socket_name": str(args.socket_name),
+            "additional_parked_socket": (
+                str(args.additional_parked_socket)
+                if args.additional_parked_socket is not None
+                else None
+            ),
             "tube_package_asset_usd_sha256": input_hashes["tube_asset_usd_sha256_before"],
-            "tube_radius_m": TUBE_RADIUS_M,
-            "tube_height_m": TUBE_HEIGHT_M,
+            "tube_entry_prim": str(args.tube_entry_prim),
+            "tube_radius_m": float(args.tube_radius_m),
+            "tube_height_m": float(args.tube_height_m),
             "profile_aperture_world_m": [
                 round(float(value), 8) for value in socket_aperture
             ],
@@ -1028,6 +1101,11 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
                 positions=np.asarray([tube_target], dtype=np.float32),
                 orientations=np.asarray([[1.0, 0.0, 0.0, 0.0]], dtype=np.float32),
             )
+            if parked_tube is not None and parked_tube_target is not None:
+                parked_tube.set_world_poses(
+                    positions=np.asarray([parked_tube_target], dtype=np.float32),
+                    orientations=np.asarray([[1.0, 0.0, 0.0, 0.0]], dtype=np.float32),
+                )
             world.step(render=False)
             lid_center, _ = _profile_frame_world_pose(
                 stage,
@@ -1089,7 +1167,22 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
                 np=np,
                 on_step=lambda: {
                     "lid_runtime_position_rad": float(joint_positions()[2]),
-                    "tube_lid_pair_contact": _contact_summary(tube, np=np, dt=float(args.physics_dt)),
+                    # Channel 1 is the LID_BODY filter entry; channel 0 is the
+                    # rotor. A tube seated on a package cup-floor collider
+                    # registers expected rotor contact, so the lid gate reads
+                    # the lid channel directly.
+                    "tube_lid_pair_contact": _contact_summary(
+                        tube, np=np, dt=float(args.physics_dt), channel=1
+                    ),
+                    **(
+                        {
+                            "parked_tube_lid_pair_contact": _contact_summary(
+                                parked_tube, np=np, dt=float(args.physics_dt), channel=1
+                            )
+                        }
+                        if parked_tube is not None
+                        else {}
+                    ),
                 },
                 stop_when=lambda record: _within(
                     float(record.get("lid_runtime_position_rad", float("nan"))),
@@ -1125,6 +1218,12 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
                 for record in records
                 if record.get("tube_lid_pair_contact", {}).get("status") == "pass"
                 and record["tube_lid_pair_contact"].get("pair_contact_count", 0) > 0
+            ]
+            parked_tube_lid_contacts = [
+                record["parked_tube_lid_pair_contact"]
+                for record in records
+                if record.get("parked_tube_lid_pair_contact", {}).get("status") == "pass"
+                and record["parked_tube_lid_pair_contact"].get("pair_contact_count", 0) > 0
             ]
             executed_positions = positions[: len(records)]
             executed_orientations = orientations[: len(records)]
@@ -1179,6 +1278,10 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
                     ],
                     "tube_lid_pair_contact_samples": len(tube_lid_contacts),
                     "peak_tube_lid_pair_contact": _max_contact_record(tube_lid_contacts),
+                    "parked_tube_lid_pair_contact_samples": len(parked_tube_lid_contacts),
+                    "peak_parked_tube_lid_pair_contact": _max_contact_record(
+                        parked_tube_lid_contacts
+                    ),
                     "closed": bool(closed_values),
                     "returned_open": _within(returned, LID_OPEN_BAND),
                 }
@@ -1191,6 +1294,7 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             and item["returned_open"]
             and item["stayed_within_travel_range"]
             and item["tube_lid_pair_contact_samples"] == 0
+            and item["parked_tube_lid_pair_contact_samples"] == 0
         ]
         lid_gate = {
             "status": "pass" if successful_lid_attempts else "blocked",
@@ -1199,6 +1303,11 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             "required_open_band_rad": list(LID_OPEN_BAND),
             "required_travel_band_rad": list(LID_TRAVEL_BAND),
             "tube_at_inserted_target_during_lid_probe": True,
+            "additional_parked_tube_socket": (
+                str(args.additional_parked_socket)
+                if args.additional_parked_socket is not None
+                else None
+            ),
             "attempts": lid_attempts,
         }
 
@@ -1276,6 +1385,36 @@ def build_parser() -> argparse.ArgumentParser:
         default=DEFAULT_CENTRIFUGE_PACKAGE,
     )
     parser.add_argument("--tube-package", type=Path, default=DEFAULT_TUBE_PACKAGE)
+    parser.add_argument(
+        "--socket-name",
+        default=DEFAULT_SOCKET_NAME,
+        help="Profile socket frame prefix swept by the tube probe.",
+    )
+    parser.add_argument(
+        "--additional-parked-socket",
+        default=None,
+        help=(
+            "Optional second profile socket whose inserted target holds an "
+            "additional parked tube during the sweep and the lid cycle."
+        ),
+    )
+    parser.add_argument(
+        "--tube-entry-prim",
+        default=DEFAULT_TUBE_ENTRY_PRIM,
+        help="Package entry prim referenced under the session-only tube probe.",
+    )
+    parser.add_argument(
+        "--tube-radius-m",
+        type=float,
+        default=TUBE_RADIUS_M,
+        help="Report-only delivered tube radius; the sweep uses the package collider.",
+    )
+    parser.add_argument(
+        "--tube-height-m",
+        type=float,
+        default=TUBE_HEIGHT_M,
+        help="Report-only delivered tube height; the sweep uses the package collider.",
+    )
     parser.add_argument("--centrifuge-manifest", type=Path)
     parser.add_argument("--tube-manifest", type=Path)
     parser.add_argument(
@@ -1302,6 +1441,8 @@ def main() -> int:
     args.device_profile = args.device_profile.resolve()
     if args.lid_sweep_rad <= 0.0:
         raise SystemExit("--lid-sweep-rad must be positive")
+    if args.tube_radius_m <= 0.0 or args.tube_height_m <= 0.0:
+        raise SystemExit("--tube-radius-m and --tube-height-m must be positive")
     args.centrifuge_manifest = (
         args.centrifuge_manifest.resolve()
         if args.centrifuge_manifest is not None

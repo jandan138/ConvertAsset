@@ -1,6 +1,6 @@
 # ConvertAsset 文档
 
-> 最后更新: 2026-07-31
+> 最后更新: 2026-08-18
 
 ## 快速导航
 
@@ -20,6 +20,8 @@
 - **[Acrylic Spoon Rack Central Insertion](records/2026-08-17-aan-acrylic-spoon-rack-central-insertion.md)** - 透明七孔架的 source-bound 碰撞代理、中央孔插入证据与长时观察边界
 - **[Scientific Workbench r9 Dynamic Context Assets](records/2026-08-16-scientific-workbench-r9-dynamic-context-assets.md)** - 6 个桌面丰富化资产的 source-bound 动态背景准入与消费边界
 - **[Scientific Workbench Task 05 / Task 09 r11 Assets](records/2026-08-18-scientific-workbench-task05-task09-r11-assets.md)** - 原底烧瓶 29/42 闭合资产与模拟烘箱 identity facade、Isaac 4.1 交互/桌面稳定准入和 claim boundary
+- **[LICHEN Analytical-Balance r1 Sliding Doors](records/2026-08-18-analytical-balance-lichen-r1-doors.md)** - 程序化天平四扇滑动防风罩的 source-bound articulated 准入、Isaac 4.1 开关门资格与 Playable 时间轴
+- **[LICHEN Front-Door Block Contact Opening](records/2026-08-18-analytical-balance-lichen-r1-front-door-contact.md)** - release5 前门把手凸包碰撞与 Isaac 4.1 挡块接触开关门资格
 - **[Articulated Device Admission And Requalification](operations/articulated-device-admission-requalification.md)** - producer-owned articulated USD/proxy/profile/physics admission, promotion, and Scenario Forge loader handoff
 - **[AAN Qualified Consumer Mounting Contract](records/2026-07-31-aan-qualified-consumer-mounting-contract.md)** - fixed-base articulated asset 的支撑面安装姿态、Isaac 4.1 稳定性资格与 manifest hash 绑定
 - **[AAN Object Interaction Profile](records/2026-07-14-aan-object-interaction-profile.md)** - package-owned unique rigid root、collider/open-top intent、named frames 与 runtime-tree closure 记录
@@ -57,7 +59,7 @@ ConvertAsset 是面向 NVIDIA Isaac Sim / USD 资产的转换与优化工具集�
 - GLB：纯 Python 导出，支持 face-varying UV flattening 与 PBR 贴图；
 - camera/rendering：为资产缩略图和单资产本地 Isaac 出图提供 orbit camera framing；
 - AAN：Phase 1 USD -> EBench Isaac 4.1 normalization MVP 已完成阶段收口；下游集成从 [AAN Consumer Handoff](operations/asset-application-normalizer-consumer-handoff.md) 开始；
-- scientific workbench：[2.000 × 0.800 × 0.755 m 标准桌与 29/42 闭合资产交付](records/2026-08-11-scientific-workbench-table-and-closure-assets.md)；
+- scientific workbench：[2.000 × 0.800 × 0.755 m 标准桌与 29/42 闭合资产交付](records/2026-08-11-scientific-workbench-table-and-closure-assets.md)；[承重 cube 不可见与中灰台面](records/2026-08-19-scientific-workbench-table-invisible-proxy-gray-top.md)；
 - docs：采用 Genesis-LLM 风格的 purpose-based taxonomy。
 
 ## 论文修订入口
@@ -141,6 +143,10 @@ ConvertAsset 是面向 NVIDIA Isaac Sim / USD 资产的转换与优化工具集�
 ## 近期交付
 
 - [参数化 OmniGlass glass_v1 交付记录](records/2026-08-18-aan-parameterized-omniglass-glass-v1.md)
+- [HCI 视觉杯孔物理插入+关盖交付（r2）](records/2026-08-19-hci-15ml-physical-cup-insert-lid.md) - 短管变体、r10 包级杯孔碰撞、双管配平物理落管与两版 Isaac 4.1 mp4
+- [HCI 适配闭合 15 mL 离心管交付](records/2026-08-18-hci-15ml-closed-insert-lid-delivery.md) - 非均匀缩放烘焙 closed 包、r9 插管/关盖门禁 pass 与 Isaac 4.1 演示 mp4
+- [LICHEN 电子分析天平 r1 滑动门准入](records/2026-08-18-analytical-balance-lichen-r1-doors.md)
+- [LICHEN 前门挡块接触开关门](records/2026-08-18-analytical-balance-lichen-r1-front-door-contact.md)
 
 ## 结构说明
 
