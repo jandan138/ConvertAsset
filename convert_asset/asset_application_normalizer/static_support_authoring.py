@@ -111,6 +111,7 @@ def apply_static_support_profile(
             xform.AddScaleOp().Set(Gf.Vec3f(*proxy["size_xyz"]))
             collider = cube.GetPrim()
             UsdPhysics.CollisionAPI.Apply(collider).CreateCollisionEnabledAttr(True).Set(True)
+            UsdGeom.Imageable(collider).CreateVisibilityAttr().Set(UsdGeom.Tokens.invisible)
             selection = "authored_proxy"
             collider_source = "package_owned_proxy"
             actions = [
@@ -119,6 +120,7 @@ def apply_static_support_profile(
                     "prim_path": proxy["prim_path"],
                     "center_xyz": list(proxy["center_xyz"]),
                     "size_xyz": list(proxy["size_xyz"]),
+                    "visibility": "invisible",
                 }
             ]
 

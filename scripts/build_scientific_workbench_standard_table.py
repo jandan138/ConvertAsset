@@ -17,15 +17,91 @@ from convert_asset.asset_application_normalizer.component_facade import (  # noq
     build_component_facade,
 )
 
+TABLETOP_DIFFUSE_COLOR = (0.70, 0.72, 0.74)
+TABLETOP_ROUGHNESS = 0.40
+TABLETOP_METALLIC = 0.0
+TABLETOP_OPACITY = 1.0
+STATIC_SUPPORT_REVISION = "r2"
+
+
+def workbench_table_visual_overlay_text() -> str:
+    color = ", ".join(f"{component:.2f}" for component in TABLETOP_DIFFUSE_COLOR)
+    return f'''#usda 1.0
+
+over "World"
+{{
+    over "table"
+    {{
+        over "Body" (active = false)
+        {{
+        }}
+
+        def Material "WorkbenchTableTop"
+        {{
+            token outputs:surface.connect = </World/table/WorkbenchTableTop/Preview.outputs:surface>
+            def Shader "Preview"
+            {{
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = ({color})
+                float inputs:metallic = {TABLETOP_METALLIC:g}
+                float inputs:opacity = {TABLETOP_OPACITY:g}
+                float inputs:roughness = {TABLETOP_ROUGHNESS:.2f}
+                token outputs:surface
+            }}
+        }}
+
+        over "Surface"
+        {{
+            over "Source"
+            {{
+                over "mesh"
+                {{
+                    rel material:binding = </World/table/WorkbenchTableTop> (
+                        bindMaterialAs = "strongerThanDescendants"
+                    )
+                }}
+            }}
+        }}
+    }}
+}}
+'''
+
+
+def author_workbench_table_visual(*, facade_path: Path, out: Path) -> tuple[Path, Path]:
+    expected_facade = (out / "facade" / "facade.usda").resolve()
+    if facade_path.resolve() != expected_facade:
+        raise ValueError(f"facade must live at {expected_facade}")
+    overlay = out / "overlays" / "workbench_table_visual.usda"
+    source = out / "source.usda"
+    overlay.parent.mkdir(parents=True, exist_ok=True)
+    overlay.write_text(workbench_table_visual_overlay_text(), encoding="utf-8")
+    source.write_text(
+        """#usda 1.0
+(
+    defaultPrim = "World"
+    metersPerUnit = 1
+    upAxis = "Z"
+    subLayers = [
+        @overlays/workbench_table_visual.usda@,
+        @facade/facade.usda@,
+    ]
+)
+""",
+        encoding="utf-8",
+    )
+    return overlay, source
+
 
 def build(source: Path, profile: Path, out: Path) -> tuple[Path, Path]:
     result = build_component_facade(source, out / "facade", profile)
-    facade_sha = sha256(result.facade_path.read_bytes()).hexdigest()
+    _overlay, composed = author_workbench_table_visual(
+        facade_path=result.facade_path, out=out
+    )
     support = {
         "schema_version": "aan.static_support_profile.v1",
         "profile_id": "scientific_workbench.lab001.table.2000x800x755.static_support",
-        "revision": "r1",
-        "source_binding": {"sha256": facade_sha},
+        "revision": STATIC_SUPPORT_REVISION,
+        "source_binding": {"sha256": sha256(composed.read_bytes()).hexdigest()},
         "asset_entry_prim": "/World/table",
         "collider_policy": "prefer_source_then_proxy",
         "source_collider_prim": None,
@@ -52,7 +128,7 @@ def build(source: Path, profile: Path, out: Path) -> tuple[Path, Path]:
     }
     support_path = out / "static_support_profile.json"
     support_path.write_text(json.dumps(support, indent=2) + "\n", encoding="utf-8")
-    return result.facade_path, support_path
+    return composed, support_path
 
 
 def main() -> int:
@@ -61,8 +137,8 @@ def main() -> int:
     parser.add_argument("--profile", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
-    facade, support = build(args.source, args.profile, args.out)
-    print(f"facade: {facade}")
+    source, support = build(args.source, args.profile, args.out)
+    print(f"composed source: {source}")
     print(f"static support profile: {support}")
     return 0
 

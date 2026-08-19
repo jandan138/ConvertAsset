@@ -1474,7 +1474,7 @@ invalid auto-compute fallback 记成 pass。
 | Role | Source ledger | Package output | Allowed claim |
 |---|---|---|---|
 | `dynamic` | source scoped physics 必须可解释；每个 rigid body 的 mass/inertia/COM/axes 和 provenance 通过 | 保留并验证 physics/articulation | declared dynamic task scope 的 package/runtime evidence |
-| `static_support` | 必须提供 source-bound `aan.static_support_profile.v1`；优先使用已声明且有效的 source collider，否则才允许 package-owned proxy | 保留或生成 declared tabletop collider，绑定 provisional/unmeasured PhysicsMaterial；禁止 rigid body、mass、joint、articulation | tabletop 与四边承载；runtime 必须通过中心/四边落物和侧撞六项 gate |
+| `static_support` | 必须提供 source-bound `aan.static_support_profile.v1`；优先使用已声明且有效的 source collider，否则才允许 package-owned proxy。proxy Cube 一律 `visibility=invisible`，只保留碰撞 | 保留或生成 declared tabletop collider，绑定 provisional/unmeasured PhysicsMaterial；禁止 rigid body、mass、joint、articulation | tabletop 与四边承载；runtime 必须通过中心/四边落物和侧撞六项 gate |
 | `visual_static` | raw scoped physics 仍如实记录；raw defect 不会被抹去 | ConvertAsset-owned strong overlay 保留 visual/material/transform，删除 scoped Physics/Physx APIs，并停用 typed joint/articulation/rigid/collision semantics | 仅声明 declared background scope 的 visual-static package |
 
 `visual_static` 不是对 source dynamic physics 的 waiver，也不是 “整族 ready” 的快捷方式。

@@ -131,10 +131,12 @@ def test_static_support_preserves_qualified_source_collider_and_authors_material
     assert (out_dir / "static_support" / "profile.json").is_file()
 
     Usd = pytest.importorskip("pxr.Usd")
+    UsdGeom = pytest.importorskip("pxr.UsdGeom")
     stage = Usd.Stage.Open(str(out_dir / "asset.usd"))
     top = stage.GetPrimAtPath("/World/Table/Top")
     assert "PhysicsCollisionAPI" in set(top.GetAppliedSchemas())
     assert top.GetAttribute("physics:collisionEnabled").Get() is True
+    assert UsdGeom.Imageable(top).GetVisibilityAttr().Get() != UsdGeom.Tokens.invisible
     material = stage.GetPrimAtPath("/World/Table/__aan_static_support_material")
     assert material.IsValid()
     assert material.GetAttribute("physics:staticFriction").Get() == pytest.approx(0.5)
@@ -155,10 +157,14 @@ def test_static_support_falls_back_to_package_owned_proxy(tmp_path: Path) -> Non
     assert contract["collider_selection"] == "authored_proxy"
     assert contract["colliders"][0]["prim_path"] == "/World/Table/__aan_static_support_proxy"
     Usd = pytest.importorskip("pxr.Usd")
+    UsdGeom = pytest.importorskip("pxr.UsdGeom")
     stage = Usd.Stage.Open(str(out_dir / "asset.usd"))
     proxy = stage.GetPrimAtPath("/World/Table/__aan_static_support_proxy")
     assert proxy.GetTypeName() == "Cube"
     assert "PhysicsCollisionAPI" in set(proxy.GetAppliedSchemas())
+    assert UsdGeom.Imageable(proxy).GetVisibilityAttr().Get() == UsdGeom.Tokens.invisible
+    overlay = (out_dir / "overlays" / "static_support.usda").read_text(encoding="utf-8")
+    assert 'token visibility = "invisible"' in overlay
 
 
 def test_static_support_profile_is_source_bound(tmp_path: Path) -> None:
