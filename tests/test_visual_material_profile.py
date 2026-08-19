@@ -272,6 +272,64 @@ def Xform "World"
     assert shader.GetInput("cutout_opacity").Get() == pytest.approx(0.0)
 
 
+def test_v2_profile_can_bind_a_geometry_subset_without_overriding_sibling_subset(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "vessel.usda"
+    source.write_text("#usda 1.0\n", encoding="utf-8")
+    mdl = tmp_path / "OmniGlass.mdl"
+    mdl.write_text("mdl 1.6;\nexport material OmniGlass() = material();\n", encoding="utf-8")
+    profile = tmp_path / "transparent_glass_v2.json"
+    _write_parameterized_glass_profile(profile, source, mdl)
+    payload = json.loads(profile.read_text(encoding="utf-8"))
+    payload["override"]["binding_targets"] = [
+        "/World/Vessel/Visual/Source/mesh/ClearGlass"
+    ]
+    profile.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+
+    layout = TargetPackageLayout(tmp_path / "package")
+    layout.root.mkdir()
+    (layout.root / "base.usda").write_text(
+        '''#usda 1.0
+def Xform "World"
+{
+    def Xform "Vessel"
+    {
+        def Xform "Visual"
+        {
+            def Xform "Source"
+            {
+                def Mesh "mesh"
+                {
+                    def GeomSubset "ClearGlass" {}
+                    def GeomSubset "GroundGlass" {}
+                }
+            }
+        }
+    }
+}
+''',
+        encoding="utf-8",
+    )
+    layout.root_usd.write_text(
+        "#usda 1.0\n( subLayers = [ @overlays/visual_material.usda@, @base.usda@ ] )\n",
+        encoding="utf-8",
+    )
+
+    result = apply_visual_material_profile(layout, profile, source, ["/World/Vessel"])
+
+    assert result.overall_status == "pass"
+    from pxr import Usd  # type: ignore
+
+    stage = Usd.Stage.Open(str(layout.root_usd))
+    clear = stage.GetPrimAtPath("/World/Vessel/Visual/Source/mesh/ClearGlass")
+    ground = stage.GetPrimAtPath("/World/Vessel/Visual/Source/mesh/GroundGlass")
+    assert clear.GetRelationship("material:binding").GetTargets() == [
+        "/World/Vessel/__aan_visual_materials/OmniGlassRenderChangeV1"
+    ]
+    assert not ground.GetRelationship("material:binding").HasAuthoredTargets()
+
+
 def test_v2_profile_rejects_unknown_mdl_input_type(tmp_path: Path) -> None:
     source = tmp_path / "beaker.usda"
     source.write_text("#usda 1.0\n", encoding="utf-8")

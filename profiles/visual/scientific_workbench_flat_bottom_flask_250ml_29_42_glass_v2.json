@@ -1,0 +1,31 @@
+{
+  "schema_version": "aan.visual_material_profile.v2",
+  "profile_id": "scientific_workbench.flat_bottom_flask_250ml_29_42.glass_v2",
+  "revision": "glass_v2",
+  "source_binding": {
+    "source_path": "outputs/scientific_workbench_task05_task09_assets_r11_20260817/flat_bottom_flask_250ml_29_42/facade.usda",
+    "sha256": "5b42c4ae5e4f1435a27b789f3986e924e01f2298dcb84e9644d96bb267b969f0"
+  },
+  "override": {
+    "kind": "mdl_glass",
+    "source_mdl": "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass.mdl",
+    "source_mdl_dependencies": [
+      "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass_Opacity.mdl"
+    ],
+    "source_sub_identifier": "OmniGlass",
+    "material_name": "ClearBorosilicateV2",
+    "binding_targets": [
+      "/World/FlatBottomFlask2942/Visual/Source/Flat_Bottom_Flask_Hollow_Body/Flat_Bottom_Flask_Hollow_Body_Mesh",
+      "/World/FlatBottomFlask2942/Visual/Source/Flask_Rolled_Rim/Torus"
+    ],
+    "mdl_inputs": {
+      "depth": {"type": "float", "value": 0.002},
+      "frosting_roughness": {"type": "float", "value": 0.035},
+      "glass_color": {"type": "color3f", "value": [0.99, 0.998, 1.0]},
+      "glass_ior": {"type": "float", "value": 1.47},
+      "reflection_color": {"type": "color3f", "value": [1.0, 1.0, 1.0]},
+      "thin_walled": {"type": "bool", "value": false}
+    },
+    "claim_boundary": "Intentional ClearBorosilicate v2 visual override on the flask body and rolled rim only. The frosted 29/42 ground joint, stopper, printed labels, source geometry, collision, mass, inertia, and interaction semantics are unchanged."
+  }
+}

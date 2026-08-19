@@ -1,0 +1,30 @@
+{
+  "schema_version": "aan.visual_material_profile.v2",
+  "profile_id": "scientific_workbench.reagent_bottle_90x55.glass_v2",
+  "revision": "glass_v2",
+  "source_binding": {
+    "source_path": "outputs/scientific_workbench_glass_material_v2_20260818/input/reagent_bottle_90x55/facade.usda",
+    "sha256": "6262a58a2bbc8da582d95017e79ee50d7a385e95a3aa67849d9f094548e12eec"
+  },
+  "override": {
+    "kind": "mdl_glass",
+    "source_mdl": "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass.mdl",
+    "source_mdl_dependencies": [
+      "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass_Opacity.mdl"
+    ],
+    "source_sub_identifier": "OmniGlass",
+    "material_name": "ClearBorosilicateV2",
+    "binding_targets": [
+      "/World/ReagentBottle90x55/Visual/Source/VIS_ReagentBottle_ClearGlass/VIS_ReagentBottle_ClearGlass_Mesh/MAT_Borosilicate_Clear"
+    ],
+    "mdl_inputs": {
+      "depth": {"type": "float", "value": 0.002},
+      "frosting_roughness": {"type": "float", "value": 0.035},
+      "glass_color": {"type": "color3f", "value": [0.99, 0.998, 1.0]},
+      "glass_ior": {"type": "float", "value": 1.47},
+      "reflection_color": {"type": "color3f", "value": [1.0, 1.0, 1.0]},
+      "thin_walled": {"type": "bool", "value": false}
+    },
+    "claim_boundary": "Intentional ClearBorosilicate v2 override on the transparent body subset only. The frosted ground-glass subset, source geometry, collision proxies, mass, inertia, and interaction semantics are unchanged."
+  }
+}

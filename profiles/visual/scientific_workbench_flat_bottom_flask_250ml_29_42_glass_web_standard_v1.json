@@ -1,0 +1,34 @@
+{
+  "schema_version": "aan.visual_material_profile.v2",
+  "profile_id": "scientific_workbench.flat_bottom_flask_250ml_29_42.glass_web_standard_v1",
+  "revision": "glass_web_standard_v1",
+  "source_binding": {
+    "source_path": "outputs/scientific_workbench_task05_task09_assets_r11_20260817/flat_bottom_flask_250ml_29_42/facade.usda",
+    "sha256": "5b42c4ae5e4f1435a27b789f3986e924e01f2298dcb84e9644d96bb267b969f0"
+  },
+  "override": {
+    "kind": "mdl_glass",
+    "source_mdl": "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass.mdl",
+    "source_mdl_dependencies": [
+      "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass_Opacity.mdl"
+    ],
+    "source_sub_identifier": "OmniGlass",
+    "material_name": "WebStandardClearBorosilicate",
+    "binding_targets": [
+      "/World/FlatBottomFlask2942/Visual/Source/Flat_Bottom_Flask_Hollow_Body/Flat_Bottom_Flask_Hollow_Body_Mesh",
+      "/World/FlatBottomFlask2942/Visual/Source/Flask_Rolled_Rim/Torus"
+    ],
+    "mdl_inputs": {
+      "cutout_opacity": {"type": "float", "value": 0.0},
+      "depth": {"type": "float", "value": 0.002},
+      "enable_opacity": {"type": "bool", "value": false},
+      "frosting_roughness": {"type": "float", "value": 0.035},
+      "glass_color": {"type": "color3f", "value": [0.99, 0.998, 1.0]},
+      "glass_ior": {"type": "float", "value": 1.47},
+      "reflection_color": {"type": "color3f", "value": [1.0, 1.0, 1.0]},
+      "roughness_texture_influence": {"type": "float", "value": 1.0},
+      "thin_walled": {"type": "bool", "value": false}
+    },
+    "claim_boundary": "Formal reproduction of the glass-material-guide fixed-page material state on the clear body and rolled rim. The frosted 29/42 ground joint remains on its original material; geometry and physics are unchanged."
+  }
+}

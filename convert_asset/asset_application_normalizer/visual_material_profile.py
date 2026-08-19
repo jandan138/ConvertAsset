@@ -227,14 +227,14 @@ def apply_visual_material_profile(
             prim = stage.GetPrimAtPath(target)
             if not prim or not prim.IsValid():
                 missing.append(target)
-            elif not prim.IsA(UsdGeom.Mesh):
+            elif not (prim.IsA(UsdGeom.Mesh) or prim.IsA(UsdGeom.Subset)):
                 wrong_type.append(target)
         if missing or wrong_type:
             detail = []
             if missing:
                 detail.append("missing targets: " + ", ".join(missing))
             if wrong_type:
-                detail.append("non-mesh targets: " + ", ".join(wrong_type))
+                detail.append("non-mesh-or-geometry-subset targets: " + ", ".join(wrong_type))
             return _authoring_blocked("visual material profile target validation failed: " + "; ".join(detail))
     except Exception as exc:
         return _authoring_blocked(f"visual material profile could not inspect package stage: {exc}")

@@ -1,0 +1,34 @@
+{
+  "schema_version": "aan.visual_material_profile.v2",
+  "profile_id": "scientific_workbench.graduated_cylinder_250ml.glass_v2",
+  "revision": "glass_v2",
+  "source_binding": {
+    "source_path": "outputs/scientific_workbench_r7_task_assets_20260813/input/facades/graduated_cylinder_250ml/facade.usda",
+    "sha256": "31285c0f09542059c80437d46855f7b5b55676632d25a47128613c1bd70bc077"
+  },
+  "override": {
+    "kind": "mdl_glass",
+    "source_mdl": "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass.mdl",
+    "source_mdl_dependencies": [
+      "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass_Opacity.mdl"
+    ],
+    "source_sub_identifier": "OmniGlass",
+    "material_name": "ClearBorosilicateV2",
+    "binding_targets": [
+      "/World/GraduatedCylinder250ml/Visual/Source/Hollow_Body/Hollow_Body_Mesh_002",
+      "/World/GraduatedCylinder250ml/Visual/Source/Closed_Inner_Bottom/Cylinder_006",
+      "/World/GraduatedCylinder250ml/Visual/Source/Pour_Spout/Pour_Spout_Mesh_002",
+      "/World/GraduatedCylinder250ml/Visual/Source/Thickened_Rim/Torus_002",
+      "/World/GraduatedCylinder250ml/Visual/Source/Hex_Base/Cylinder_004"
+    ],
+    "mdl_inputs": {
+      "depth": {"type": "float", "value": 0.002},
+      "frosting_roughness": {"type": "float", "value": 0.035},
+      "glass_color": {"type": "color3f", "value": [0.99, 0.998, 1.0]},
+      "glass_ior": {"type": "float", "value": 1.47},
+      "reflection_color": {"type": "color3f", "value": [1.0, 1.0, 1.0]},
+      "thin_walled": {"type": "bool", "value": true}
+    },
+    "claim_boundary": "Intentional ClearBorosilicate v2 visual override on the cylinder body, inner bottom, spout, rim, and hexagonal support base. The cylinder uses the thin-walled rendering mode after fixed-room Isaac 4.1 evidence showed the shared thick-volume mode produced near-black axial reflections; the other color, roughness, IOR, and depth inputs remain aligned. Graduations, labels, source geometry, collision, mass, inertia, and interaction semantics are unchanged."
+  }
+}

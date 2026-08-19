@@ -1,0 +1,32 @@
+{
+  "schema_version": "aan.visual_material_profile.v2",
+  "profile_id": "scientific_workbench.beaker_325ml.glass_v2",
+  "revision": "glass_v2",
+  "source_binding": {
+    "source_path": "outputs/scientific_workbench_r7_task_assets_20260813/input/facades/beaker_325ml/facade.usda",
+    "sha256": "9b8c1ba01b6669331cbb8b3257d0e0bbb56695e369283e68eb7987170ad88ffd"
+  },
+  "override": {
+    "kind": "mdl_glass",
+    "source_mdl": "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass.mdl",
+    "source_mdl_dependencies": [
+      "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass_Opacity.mdl"
+    ],
+    "source_sub_identifier": "OmniGlass",
+    "material_name": "ClearBorosilicateV2",
+    "binding_targets": [
+      "/World/Beaker325ml/Visual/Source/Rolled_Rim/Torus",
+      "/World/Beaker325ml/Visual/Source/Beaker_Hollow_Body/Beaker_Hollow_Body_Mesh",
+      "/World/Beaker325ml/Visual/Source/Pour_Spout/Pour_Spout_Mesh"
+    ],
+    "mdl_inputs": {
+      "depth": {"type": "float", "value": 0.002},
+      "frosting_roughness": {"type": "float", "value": 0.035},
+      "glass_color": {"type": "color3f", "value": [0.99, 0.998, 1.0]},
+      "glass_ior": {"type": "float", "value": 1.47},
+      "reflection_color": {"type": "color3f", "value": [1.0, 1.0, 1.0]},
+      "thin_walled": {"type": "bool", "value": false}
+    },
+    "claim_boundary": "Intentional ClearBorosilicate v2 visual override on the body, rolled rim, and spout only. Printed graduations, labels, source geometry, collision, mass, inertia, and interaction semantics are unchanged."
+  }
+}
