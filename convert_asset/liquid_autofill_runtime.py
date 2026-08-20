@@ -585,6 +585,7 @@ def build_autofill_candidate(
                 "scene": str(scene.resolve()),
                 "scene_sha256": _sha(scene),
                 "container_prim": request["container_prim"],
+                "fluid_interaction_profile": request.get("fluid_interaction_profile"),
             },
             "recipe": {
                 "recipe_id": request["recipe_id"],

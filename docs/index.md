@@ -144,6 +144,7 @@ ConvertAsset 是面向 NVIDIA Isaac Sim / USD 资产的转换与优化工具集�
 
 ## 近期交付
 
+- [流体交互资产 producer v1](records/2026-08-20-fluid-interaction-asset-producer-v1.md) - reservoir/conduit/surface-guide 碰撞提案、人工复核与 Isaac 4.1 fail-closed 资格验证
 - [参数化 OmniGlass glass_v1 交付记录](records/2026-08-18-aan-parameterized-omniglass-glass-v1.md)
 - [HCI 视觉杯孔物理插入+关盖交付（r2）](records/2026-08-19-hci-15ml-physical-cup-insert-lid.md) - 短管变体、r10 包级杯孔碰撞、双管配平物理落管与两版 Isaac 4.1 mp4
 - [HCI 适配闭合 15 mL 离心管交付](records/2026-08-18-hci-15ml-closed-insert-lid-delivery.md) - 非均匀缩放烘焙 closed 包、r9 插管/关盖门禁 pass 与 Isaac 4.1 演示 mp4

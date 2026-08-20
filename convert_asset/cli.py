@@ -202,6 +202,33 @@ def main(argv: list[str] | None = None) -> int:
     p_liquid_autofill.add_argument(
         "--request", required=True, help="aan.gpu_pbd_autofill_request.v1 JSON"
     )
+
+    p_fluid_propose = sub.add_parser(
+        "fluid-interaction-propose",
+        help="Analyze one exact prim and emit a review-required fluid interaction proposal",
+    )
+    p_fluid_propose.add_argument("src", help="Raw or admitted source USD")
+    p_fluid_propose.add_argument("--prim", required=True, help="Exact source scope prim")
+    p_fluid_propose.add_argument("--out", required=True, help="Review directory")
+    p_fluid_derive = sub.add_parser(
+        "fluid-interaction-derive-partitions",
+        help="Create a second-review package-local collision partition proposal",
+    )
+    p_fluid_derive.add_argument("--proposal", required=True, help="Approved fast-path proposal")
+    p_fluid_derive.add_argument("--out", required=True, help="Second review directory")
+
+    p_fluid_qualify = sub.add_parser(
+        "fluid-interaction-qualify",
+        help="Build and qualify one approved empty fluid-interaction asset package",
+    )
+    p_fluid_qualify.add_argument("--proposal", required=True, help="Approved proposal YAML")
+    p_fluid_qualify.add_argument("--out", required=True, help="Package output directory")
+    p_fluid_qualify.add_argument("--isaac-python", help="Pinned Isaac Sim 4.1 Python")
+    p_fluid_qualify.add_argument(
+        "--no-runtime-qualification",
+        action="store_true",
+        help="Build a diagnostics-only candidate; never promote it as pass",
+    )
     p_liquid_autofill.add_argument("--out", required=True, help="Producer package directory")
     p_liquid_autofill.add_argument(
         "--isaac-python",
@@ -387,6 +414,66 @@ def main(argv: list[str] | None = None) -> int:
             print(f"ERROR: {error}")
             return 5
         print(output / "manifest.json")
+        return 0
+
+    if args_ns.cmd == "fluid-interaction-propose":
+        from .fluid_interaction_runtime import propose_fluid_interaction
+
+        try:
+            result = propose_fluid_interaction(
+                source=Path(args_ns.src),
+                scope_prim=args_ns.prim,
+                output=Path(args_ns.out),
+            )
+        except Exception as error:
+            print(f"ERROR: {error}")
+            return 5
+        print(result)
+        return 0
+
+    if args_ns.cmd == "fluid-interaction-derive-partitions":
+        from .fluid_interaction_runtime import derive_partition_proposal
+
+        try:
+            result = derive_partition_proposal(
+                proposal_path=Path(args_ns.proposal), output=Path(args_ns.out)
+            )
+        except Exception as error:
+            print(f"ERROR: {error}")
+            return 5
+        print(result)
+        return 0
+
+    if args_ns.cmd == "fluid-interaction-qualify":
+        from .fluid_interaction_runtime import (
+            build_unqualified_asset_package,
+            qualify_asset_package,
+        )
+
+        try:
+            result = build_unqualified_asset_package(
+                proposal_path=Path(args_ns.proposal),
+                output=Path(args_ns.out),
+            )
+            if not args_ns.no_runtime_qualification:
+                root = Path(__file__).resolve().parents[1]
+                report = qualify_asset_package(
+                    output=Path(args_ns.out),
+                    proposal_path=Path(args_ns.proposal),
+                    launcher=(
+                        Path(args_ns.isaac_python).resolve()
+                        if args_ns.isaac_python
+                        else root / "scripts/isaac_python.sh"
+                    ),
+                    worker=root / "scripts/observe_fluid_interaction_asset.py",
+                )
+                if report["overall_status"] not in {"pass", "not_applicable"}:
+                    print(result)
+                    return 5
+        except Exception as error:
+            print(f"ERROR: {error}")
+            return 5
+        print(result)
         return 0
 
     if args_ns.cmd == "package-usd-closure":

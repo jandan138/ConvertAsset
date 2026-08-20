@@ -123,6 +123,28 @@ def validate_request(request: Mapping[str, Any]) -> None:
         raise LiquidAutofillError("request recipe hash does not match producer recipe")
     if request.get("runtime") != "isaac41":
         raise LiquidAutofillError("liquid autofill v1 supports Isaac Sim 4.1 only")
+    binding = request.get("fluid_interaction_profile")
+    if binding is not None:
+        if not isinstance(binding, Mapping):
+            raise LiquidAutofillError("fluid-interaction profile binding must be a mapping")
+        profile_path = Path(str(binding.get("path", "")))
+        if not profile_path.is_file():
+            raise LiquidAutofillError("fluid-interaction profile does not exist")
+        if sha256(profile_path.read_bytes()).hexdigest() != binding.get("sha256"):
+            raise LiquidAutofillError("fluid-interaction profile hash mismatch")
+        try:
+            profile = json.loads(profile_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            raise LiquidAutofillError("cannot read fluid-interaction profile") from error
+        if (
+            not isinstance(profile, Mapping)
+            or profile.get("schema_version") != "aan.fluid_interaction_asset_profile.v1"
+            or profile.get("behavior") != "reservoir"
+            or profile.get("claim") != "qualified_fluid_interaction_asset"
+        ):
+            raise LiquidAutofillError(
+                "liquid starts require a qualified reservoir interaction profile"
+            )
 
 
 def _quantile(values: list[float], q: float) -> float:
