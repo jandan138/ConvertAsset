@@ -6,6 +6,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 ## Engineering Records
 
+- [2026-08-20 Simple-SDF Multi-liquid Route](2026-08-20-simple-sdf-multi-liquid-route.md)
 - [2026-08-19 Scientific Workbench Table Invisible Proxy and Gray Top](2026-08-19-scientific-workbench-table-invisible-proxy-gray-top.md)
 - [2026-08-18 LICHEN Front-Door Block Contact Opening](2026-08-18-analytical-balance-lichen-r1-front-door-contact.md)
 - [2026-08-18 LICHEN Analytical-Balance r1 Sliding Doors](2026-08-18-analytical-balance-lichen-r1-doors.md)

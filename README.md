@@ -69,6 +69,8 @@ export ISAAC_SIM_ROOT=/abs/path/to/isaac-sim
 | `inspect` | 只读检查 MDL 或 UsdPreviewSurface 材质网络 |
 | `export-mdl-materials` | 将场景中的 MDL 材质导出为独立材质球 USD |
 | `thumbnails` | 批量渲染带背景的资产缩略图 |
+| `simple-sdf-propose` / `simple-sdf-build` | 审核并生成 visual-Mesh SDF 容器碰撞包 |
+| `multi-liquid-sample` | 为多个采样体生成独立 ParticleSet，并绑定同一 ParticleSystem |
 
 ## 文档
 

@@ -19,6 +19,8 @@
 - **[Task 02 GPU-PBD Four-fill Qualification v2](records/2026-08-17-task02-gpu-pbd-fill-sweep-v2.md)** - 20/40/60/80% 四档粒子初态的 live q95、三次冷启动和晋级绑定
 - **[GPU-PBD Liquid Autofill](design/gpu-pbd-liquid-autofill.md)** - 将 Task 02 r10.3 经验固化为任意场景精确容器 prim 的 fail-closed 液体生产者
 - **[GPU-PBD Liquid Autofill Runbook](operations/liquid-autofill.md)** - inspect、producer qualification 与 source closure 命令
+- **[Simple-SDF Multi-liquid Producer](design/simple-sdf-multi-liquid.md)** - reviewed visual-Mesh SDF、独立 ParticleSet、共享 ParticleSystem 的窄路径
+- **[Simple-SDF Multi-liquid CLI](operations/simple-sdf-multi-liquid.md)** - 两阶段 build、运行时验证与 claim 边界
 - **[Acrylic Spoon Rack Central Insertion](records/2026-08-17-aan-acrylic-spoon-rack-central-insertion.md)** - 透明七孔架的 source-bound 碰撞代理、中央孔插入证据与长时观察边界
 - **[Scientific Workbench r9 Dynamic Context Assets](records/2026-08-16-scientific-workbench-r9-dynamic-context-assets.md)** - 6 个桌面丰富化资产的 source-bound 动态背景准入与消费边界
 - **[Scientific Workbench Task 05 / Task 09 r11 Assets](records/2026-08-18-scientific-workbench-task05-task09-r11-assets.md)** - 原底烧瓶 29/42 闭合资产与模拟烘箱 identity facade、Isaac 4.1 交互/桌面稳定准入和 claim boundary
@@ -144,6 +146,7 @@ ConvertAsset 是面向 NVIDIA Isaac Sim / USD 资产的转换与优化工具集�
 
 ## 近期交付
 
+- [Simple-SDF multi-liquid route](records/2026-08-20-simple-sdf-multi-liquid-route.md) - 独立 ParticleSet、共享 ParticleSystem 的试剂瓶/15 mL 管 golden regression
 - [流体交互资产 producer v1](records/2026-08-20-fluid-interaction-asset-producer-v1.md) - reservoir/conduit/surface-guide 碰撞提案、人工复核与 Isaac 4.1 fail-closed 资格验证
 - [参数化 OmniGlass glass_v1 交付记录](records/2026-08-18-aan-parameterized-omniglass-glass-v1.md)
 - [HCI 视觉杯孔物理插入+关盖交付（r2）](records/2026-08-19-hci-15ml-physical-cup-insert-lid.md) - 短管变体、r10 包级杯孔碰撞、双管配平物理落管与两版 Isaac 4.1 mp4

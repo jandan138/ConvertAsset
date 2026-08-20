@@ -17,6 +17,7 @@ Runbooks, CLI usage, build instructions, troubleshooting, and agent collaboratio
 - [Asset Application Normalizer consumer handoff](asset-application-normalizer-consumer-handoff.md)
 - [Canonical task-object facade](build-canonical-task-object-facade.md)
 - [Articulated device admission and requalification](articulated-device-admission-requalification.md)
+- [Simple-SDF and multi-liquid CLI](simple-sdf-multi-liquid.md)
 - [Workspace profiling runbook](workspace-profiling.md)
 - [GLB export](glb-export.md)
 - [GLB export zh](glb-export-zh.md)

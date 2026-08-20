@@ -240,6 +240,38 @@ def main(argv: list[str] | None = None) -> int:
         help="Retain a diagnostic candidate without the required Isaac 4.1 cold runs",
     )
 
+    p_simple_sdf_propose = sub.add_parser(
+        "simple-sdf-propose",
+        help="Propose the reviewed visual-mesh SDF route for one reservoir container",
+    )
+    p_simple_sdf_propose.add_argument("src")
+    p_simple_sdf_propose.add_argument("--container", required=True)
+    p_simple_sdf_propose.add_argument("--visual-mesh", required=True)
+    p_simple_sdf_propose.add_argument(
+        "--particle-scale",
+        choices=["task02_compatible", "small_required"],
+        default="task02_compatible",
+    )
+    p_simple_sdf_propose.add_argument("--out", required=True)
+    p_simple_sdf_build = sub.add_parser(
+        "simple-sdf-build",
+        help="Build a source-bound package from an explicitly approved simple-SDF spec",
+    )
+    p_simple_sdf_build.add_argument("--spec", required=True)
+    p_simple_sdf_build.add_argument("--out", required=True)
+    p_multi_liquid = sub.add_parser(
+        "multi-liquid-sample",
+        help="Bake one ParticleSet per exact sampler Mesh on one shared ParticleSystem",
+    )
+    p_multi_liquid.add_argument("--request", required=True)
+    p_multi_liquid.add_argument("--out", required=True)
+    p_multi_liquid.add_argument("--isaac-python")
+    p_multi_liquid.add_argument(
+        "--no-runtime-validation",
+        action="store_true",
+        help="Keep a candidate for diagnostics without quick or qualified promotion",
+    )
+
     p_usd_closure = sub.add_parser(
         "package-usd-closure",
         help="Copy a package-local USD/MDL/texture closure without role normalization",
@@ -414,6 +446,64 @@ def main(argv: list[str] | None = None) -> int:
             print(f"ERROR: {error}")
             return 5
         print(output / "manifest.json")
+        return 0
+
+    if args_ns.cmd == "simple-sdf-propose":
+        from .simple_sdf_liquid_runtime import propose_simple_sdf
+
+        try:
+            result = propose_simple_sdf(
+                source=Path(args_ns.src),
+                container_prim=args_ns.container,
+                visual_mesh_prim=args_ns.visual_mesh,
+                particle_scale=args_ns.particle_scale,
+                output=Path(args_ns.out),
+            )
+        except Exception as error:
+            print(f"ERROR: {error}")
+            return 5
+        print(result)
+        return 0
+
+    if args_ns.cmd == "simple-sdf-build":
+        from .simple_sdf_liquid_runtime import build_simple_sdf_package
+
+        try:
+            result = build_simple_sdf_package(
+                spec_path=Path(args_ns.spec), output=Path(args_ns.out)
+            )
+        except Exception as error:
+            print(f"ERROR: {error}")
+            return 5
+        print(result)
+        return 0
+
+    if args_ns.cmd == "multi-liquid-sample":
+        from .simple_sdf_liquid_runtime import (
+            build_multi_liquid_candidate,
+            validate_multi_liquid_candidate,
+        )
+
+        try:
+            output = Path(args_ns.out).resolve()
+            result = build_multi_liquid_candidate(
+                request_path=Path(args_ns.request), output=output
+            )
+            if not args_ns.no_runtime_validation:
+                root = Path(__file__).resolve().parents[1]
+                validate_multi_liquid_candidate(
+                    output=output,
+                    launcher=(
+                        Path(args_ns.isaac_python).resolve()
+                        if args_ns.isaac_python
+                        else root / "scripts/isaac_python.sh"
+                    ),
+                    worker=root / "scripts/observe_multi_liquid.py",
+                )
+        except Exception as error:
+            print(f"ERROR: {error}")
+            return 5
+        print(result)
         return 0
 
     if args_ns.cmd == "fluid-interaction-propose":
