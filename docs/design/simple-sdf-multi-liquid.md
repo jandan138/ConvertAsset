@@ -29,6 +29,21 @@ Every sampler produces exactly one independent ParticleSet with a unique
 small recipe for the whole shared system, avoiding incompatible particle
 scales in one PhysX system.
 
+`aan.multi_liquid_sample_request.v2` adds reviewed automatic cylindrical
+samplers. The producer analyzes an upright axial hollow mesh, recovers its
+inner opening and cavity floor, and supports two modes:
+
+- `inside_fill` suspends a short column inside the upper cavity so it can
+  settle without starting on the SDF floor or wall;
+- `mouth_drop` authors a narrower column above the detected opening and
+  calibrates its discrete lattice count from the requested liquid volume.
+
+`fill_ratio` is constrained to 0.10 through 0.80. The generated sampler USD is
+evidence under `/__ScenarioForgeAutoSamplers`; only baked ParticleSets compose
+into the runtime scene. Every container still receives its own ParticleSet and
+all sets still share one ParticleSystem. Version 1 explicit meshes remain
+supported unchanged.
+
 ## Package preservation
 
 When liquid is added to a passed `aan.simple_sdf_collision_result.v1` package,
@@ -42,7 +57,8 @@ layer also authors the source `metersPerUnit` and `upAxis`.
 Quick mode runs one cold Isaac Sim 4.1 process for three seconds. Qualified mode
 runs three cold processes for eight seconds each. Acceptance is per set: at
 least 99% retention, zero particles below the initial set floor, and no hard
-runtime errors. Runtime validation freezes the named containers only in an
+runtime errors. Version 2 additionally checks settled liquid height against
+the requested ratio with a ±0.05 tolerance. Runtime validation freezes the named containers only in an
 ephemeral evidence fixture; it does not alter the delivered source-bound
 package.
 

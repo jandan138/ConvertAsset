@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 from pathlib import Path
 
 import pytest
@@ -8,10 +9,12 @@ import yaml
 
 from convert_asset.simple_sdf_liquid import (
     SimpleSdfLiquidError,
+    auto_cylinder_profile,
     evaluate_multi_set_runs,
     load_approved_collision_spec,
     load_multi_liquid_request,
     select_shared_recipe,
+    target_particle_count,
 )
 from convert_asset.simple_sdf_liquid_runtime import (
     build_multi_liquid_candidate,
@@ -128,6 +131,133 @@ def test_multi_set_request_preserves_one_sampler_to_one_unique_set(tmp_path: Pat
     assert parsed.sets[1].particle_prim == "/__ScenarioForgeFluid/ParticleSets/b"
 
 
+def test_v2_request_accepts_inside_and_mouth_drop_auto_samplers(tmp_path: Path) -> None:
+    scene = _scene(tmp_path / "scene.usda")
+    request = tmp_path / "request.yaml"
+    request.write_text(
+        yaml.safe_dump(
+            {
+                "schema_version": "aan.multi_liquid_sample_request.v2",
+                "scene": str(scene),
+                "validation": "quick",
+                "sets": [
+                    {
+                        "id": "beaker",
+                        "container_prim": "/World/Beaker",
+                        "sampler": {
+                            "mode": "inside_fill",
+                            "fill_ratio": 0.4,
+                            "visual_mesh_prim": "/World/Beaker/Visual",
+                        },
+                        "particle_scale": "task02_compatible",
+                    },
+                    {
+                        "id": "bottle",
+                        "container_prim": "/World/Bottle",
+                        "sampler": {"mode": "mouth_drop", "fill_ratio": 0.8},
+                        "particle_scale": "small_required",
+                    },
+                ],
+            },
+            sort_keys=False,
+        )
+    )
+
+    parsed = load_multi_liquid_request(request)
+
+    assert parsed.schema_version == "aan.multi_liquid_sample_request.v2"
+    assert parsed.sets[0].sampler_mode == "inside_fill"
+    assert parsed.sets[0].fill_ratio == pytest.approx(0.4)
+    assert parsed.sets[0].visual_mesh_prim == "/World/Beaker/Visual"
+    assert parsed.sets[1].sampler_mode == "mouth_drop"
+    assert parsed.sets[1].fill_ratio == pytest.approx(0.8)
+    assert parsed.sets[1].sampler_mesh_prim is None
+
+
+def test_auto_cylinder_profile_keeps_inside_fill_in_vessel() -> None:
+    profile = auto_cylinder_profile(
+        {
+            "center_xy_m": [0.1, -0.2],
+            "radius_x_m": 0.03,
+            "radius_y_m": 0.025,
+            "floor_m": 0.01,
+            "rim_m": 0.11,
+        },
+        mode="inside_fill",
+        fill_ratio=0.4,
+        spacing_m=0.001,
+        particle_rest_offset_m=0.005,
+    )
+
+    assert profile.center_xy_m == pytest.approx((0.1, -0.2))
+    assert profile.bottom_m == pytest.approx(0.0762)
+    assert profile.top_m == pytest.approx(0.105)
+    assert profile.radius_x_m < 0.03
+    assert profile.radius_y_m < 0.025
+    assert profile.initially_above_rim is False
+
+
+def test_auto_cylinder_profile_stacks_mouth_drop_above_rim() -> None:
+    low = auto_cylinder_profile(
+        {
+            "center_xy_m": [0.0, 0.0],
+            "radius_x_m": 0.03,
+            "radius_y_m": 0.03,
+            "floor_m": 0.0,
+            "rim_m": 0.1,
+        },
+        mode="mouth_drop",
+        fill_ratio=0.2,
+        spacing_m=0.001,
+    )
+    high = auto_cylinder_profile(
+        {
+            "center_xy_m": [0.0, 0.0],
+            "radius_x_m": 0.03,
+            "radius_y_m": 0.03,
+            "floor_m": 0.0,
+            "rim_m": 0.1,
+        },
+        mode="mouth_drop",
+        fill_ratio=0.8,
+        spacing_m=0.001,
+    )
+
+    assert low.bottom_m > 0.1
+    assert high.bottom_m == pytest.approx(low.bottom_m)
+    assert high.height_m > low.height_m
+    assert high.top_m > 0.175
+    assert high.initially_above_rim is True
+
+
+def test_auto_cylinder_profile_falls_back_when_capacity_is_absent() -> None:
+    cavity = {
+        "center_xy_m": [0.0, 0.0],
+        "radius_x_m": 0.007,
+        "radius_y_m": 0.007,
+        "floor_m": 0.002,
+        "rim_m": 0.100,
+    }
+
+    profile = auto_cylinder_profile(
+        cavity,
+        mode="inside_fill",
+        fill_ratio=0.4,
+        spacing_m=0.001,
+        capacity=None,
+    )
+
+    assert profile.target_volume_m3 == pytest.approx(
+        math.pi * 0.007 * 0.007 * (0.002 + 0.4 * 0.098 - 0.002)
+    )
+
+
+def test_target_particle_count_uses_existing_spacing_lattice() -> None:
+    assert target_particle_count(
+        target_volume_m3=0.0003795, spacing_m=0.00582, limit=10_000
+    ) == 1925
+
+
 def test_qualified_gate_is_per_set_not_only_aggregate() -> None:
     runs = [
         {
@@ -174,6 +304,39 @@ def Xform "World"
 ''',
         encoding="utf-8",
     )
+    return path
+
+
+def _hollow_cylinder_scene(path: Path) -> Path:
+    from pxr import Gf, Usd, UsdGeom
+
+    stage = Usd.Stage.CreateNew(str(path))
+    UsdGeom.SetStageMetersPerUnit(stage, 1.0)
+    UsdGeom.SetStageUpAxis(stage, UsdGeom.Tokens.z)
+    world = UsdGeom.Xform.Define(stage, "/World")
+    stage.SetDefaultPrim(world.GetPrim())
+    UsdGeom.Xform.Define(stage, "/World/Container")
+    mesh = UsdGeom.Mesh.Define(stage, "/World/Container/Hollow_Body")
+    points = []
+    segments = 16
+    for z, radius in ((0.0, 0.02), (0.1, 0.02), (0.0, 0.018), (0.1, 0.018)):
+        points.extend(
+            Gf.Vec3f(radius * math.cos(2 * math.pi * i / segments),
+                     radius * math.sin(2 * math.pi * i / segments), z)
+            for i in range(segments)
+        )
+    counts = []
+    indices = []
+    for lower, upper in ((0, segments), (2 * segments, 3 * segments)):
+        for i in range(segments):
+            j = (i + 1) % segments
+            counts.append(4)
+            indices.extend([lower + i, lower + j, upper + j, upper + i])
+    mesh.CreatePointsAttr(points)
+    mesh.CreateFaceVertexCountsAttr(counts)
+    mesh.CreateFaceVertexIndicesAttr(indices)
+    mesh.CreateSubdivisionSchemeAttr(UsdGeom.Tokens.none)
+    stage.GetRootLayer().Save()
     return path
 
 
@@ -319,3 +482,45 @@ def test_multi_liquid_preserves_collision_package_overlay_and_stage_units(
     ).IsValid()
     assert UsdGeom.GetStageMetersPerUnit(stage) == pytest.approx(1.0)
     assert UsdGeom.GetStageUpAxis(stage) == UsdGeom.Tokens.z
+
+
+def test_v2_candidate_authors_package_local_mouth_drop_sampler(tmp_path: Path) -> None:
+    scene = _hollow_cylinder_scene(tmp_path / "hollow.usda")
+    request = tmp_path / "liquid.yaml"
+    request.write_text(
+        yaml.safe_dump(
+            {
+                "schema_version": "aan.multi_liquid_sample_request.v2",
+                "scene": str(scene),
+                "validation": "quick",
+                "sets": [
+                    {
+                        "id": "liquid",
+                        "container_prim": "/World/Container",
+                        "sampler": {
+                            "mode": "mouth_drop",
+                            "fill_ratio": 0.2,
+                            "visual_mesh_prim": "/World/Container/Hollow_Body",
+                        },
+                        "particle_scale": "task02_compatible",
+                    }
+                ],
+            },
+            sort_keys=False,
+        )
+    )
+
+    output = tmp_path / "candidate"
+    build_multi_liquid_candidate(request_path=request, output=output)
+
+    manifest = json.loads((output / "manifest.json").read_text())
+    assert manifest["schema_version"] == "aan.multi_liquid_sample_result.v2"
+    assert manifest["entrypoints"]["auto_samplers_usd"] == "evidence/auto_samplers.usda"
+    assert manifest["sets"][0]["sampler_mode"] == "mouth_drop"
+    assert manifest["sets"][0]["profile"]["initially_above_rim"] is True
+    assert manifest["sets"][0]["opening"]["method"] == "highest_concentric_inner_ring"
+    assert manifest["sets"][0]["capacity"]["method"] == "longest_repeated_inner_wall_ring"
+    assert manifest["sets"][0]["particle_count"] > 0
+    assert (output / "evidence/auto_samplers.usda").is_file()
+    scene_text = (output / "scene.usda").read_text()
+    assert "auto_samplers.usda" not in scene_text

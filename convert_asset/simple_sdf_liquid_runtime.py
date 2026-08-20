@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from hashlib import sha256
 import json
+import math
 import os
 from pathlib import Path
 import shutil
@@ -16,14 +17,20 @@ from .simple_sdf_liquid import (
     COLLISION_SCHEMA,
     FLUID_ROOT,
     RESULT_SCHEMA,
+    RESULT_SCHEMA_V2,
     CollisionSpec,
     MultiLiquidRequest,
     SimpleSdfLiquidError,
+    auto_cylinder_profile,
     load_approved_collision_spec,
     load_multi_liquid_request,
     evaluate_multi_set_runs,
     select_shared_recipe,
+    target_particle_count,
 )
+
+
+AUTO_SAMPLER_ROOT = "/__ScenarioForgeAutoSamplers"
 
 
 def _sha(path: Path) -> str:
@@ -353,6 +360,170 @@ def sample_closed_mesh(stage: Any, mesh_path: str, *, spacing_stage: float, limi
     return result
 
 
+def _analysis_to_target_stage(
+    point_m: tuple[float, float, float], *, up_axis: str, meters_per_unit: float
+) -> tuple[float, float, float]:
+    x, y, z = (float(value) / meters_per_unit for value in point_m)
+    return (x, y, z) if up_axis == "Z" else (x, z, y)
+
+
+def _author_auto_samplers(
+    *, source_stage: Any, request: MultiLiquidRequest, recipe: dict[str, Any], path: Path
+) -> tuple[Any | None, dict[str, dict[str, Any]]]:
+    """Author package-local evidence meshes and return their analysis records."""
+    from pxr import Gf, Sdf, Usd, UsdGeom  # type: ignore
+
+    automatic = [item for item in request.sets if item.sampler_mode != "explicit_mesh"]
+    if not automatic:
+        return None, {}
+    from .liquid_autofill_runtime import analyze_container
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    stage = Usd.Stage.CreateNew(str(path))
+    meters_per_unit = float(UsdGeom.GetStageMetersPerUnit(source_stage))
+    up_axis = str(UsdGeom.GetStageUpAxis(source_stage)).upper()
+    UsdGeom.SetStageMetersPerUnit(stage, meters_per_unit)
+    UsdGeom.SetStageUpAxis(stage, UsdGeom.GetStageUpAxis(source_stage))
+    UsdGeom.Scope.Define(stage, AUTO_SAMPLER_ROOT)
+    xforms = UsdGeom.XformCache()
+    records: dict[str, dict[str, Any]] = {}
+    spacing_m = float(recipe["particle_set"]["spacing_m"])
+    segments = 32
+    for item in automatic:
+        analysis = analyze_container(request.scene, item.container_prim)
+        cavity = analysis["cavity"]
+        if item.visual_mesh_prim and cavity["prim_path"] != item.visual_mesh_prim:
+            raise SimpleSdfLiquidError(
+                "automatic sampler cavity does not match visual_mesh_prim: "
+                f"{cavity['prim_path']} != {item.visual_mesh_prim}"
+            )
+        profile = auto_cylinder_profile(
+            cavity,
+            mode=item.sampler_mode,
+            fill_ratio=float(item.fill_ratio),
+            spacing_m=spacing_m,
+            opening=analysis.get("opening"),
+            particle_rest_offset_m=float(
+                recipe["particle_system"]["effective_rest_offset_m"]
+            ),
+            capacity=analysis.get("capacity"),
+        )
+        target = source_stage.GetPrimAtPath(item.container_prim)
+        target_world = xforms.GetLocalToWorldTransform(target)
+
+        def world_point(angle: float, vertical_m: float) -> Any:
+            local = _analysis_to_target_stage(
+                (
+                    profile.center_xy_m[0] + profile.radius_x_m * math.cos(angle),
+                    profile.center_xy_m[1] + profile.radius_y_m * math.sin(angle),
+                    vertical_m,
+                ),
+                up_axis=up_axis,
+                meters_per_unit=meters_per_unit,
+            )
+            return target_world.Transform(Gf.Vec3d(*local))
+
+        authored_top_m = profile.top_m
+
+        def cylinder_points(top_m: float) -> list[Any]:
+            result = []
+            for vertical in (profile.bottom_m, top_m):
+                result.extend(
+                    world_point(2.0 * math.pi * index / segments, vertical)
+                    for index in range(segments)
+                )
+            return result
+
+        points = cylinder_points(authored_top_m)
+        counts = [segments, segments] + [4] * segments
+        indices = list(reversed(range(segments))) + list(range(segments, 2 * segments))
+        for index in range(segments):
+            following = (index + 1) % segments
+            indices.extend([index, following, segments + following, segments + index])
+        mesh_path = f"{AUTO_SAMPLER_ROOT}/{item.set_id}"
+        mesh = UsdGeom.Mesh.Define(stage, mesh_path)
+        mesh.CreatePointsAttr(points)
+        mesh.CreateFaceVertexCountsAttr(counts)
+        mesh.CreateFaceVertexIndicesAttr(indices)
+        mesh.CreateSubdivisionSchemeAttr(UsdGeom.Tokens.none)
+        target_count = None
+        if item.sampler_mode == "mouth_drop":
+            target_count = target_particle_count(
+                target_volume_m3=profile.target_volume_m3,
+                spacing_m=spacing_m,
+                limit=int(recipe["particle_set"]["maximum_count_per_set"]),
+            )
+            spacing_stage = spacing_m / meters_per_unit
+            for _ in range(3):
+                preview_count = len(
+                    sample_closed_mesh(
+                        stage,
+                        mesh_path,
+                        spacing_stage=spacing_stage,
+                        limit=int(recipe["particle_set"]["maximum_count_per_set"]),
+                    )
+                )
+                if abs(preview_count - target_count) <= max(1, round(target_count * 0.01)):
+                    break
+                authored_height = authored_top_m - profile.bottom_m
+                authored_top_m = profile.bottom_m + authored_height * target_count / preview_count
+                mesh.CreatePointsAttr(cylinder_points(authored_top_m))
+        prim = mesh.GetPrim()
+        prim.CreateAttribute("scenarioForge:samplerMode", Sdf.ValueTypeNames.String).Set(
+            item.sampler_mode
+        )
+        prim.CreateAttribute("scenarioForge:targetFillRatio", Sdf.ValueTypeNames.Float).Set(
+            float(item.fill_ratio)
+        )
+        vertical_axis = 2 if up_axis == "Z" else 1
+        floor_world = target_world.Transform(
+            Gf.Vec3d(
+                *_analysis_to_target_stage(
+                    (profile.center_xy_m[0], profile.center_xy_m[1], float(cavity["floor_m"])),
+                    up_axis=up_axis,
+                    meters_per_unit=meters_per_unit,
+                )
+            )
+        )
+        rim_world = target_world.Transform(
+            Gf.Vec3d(
+                *_analysis_to_target_stage(
+                    (profile.center_xy_m[0], profile.center_xy_m[1], float(cavity["rim_m"])),
+                    up_axis=up_axis,
+                    meters_per_unit=meters_per_unit,
+                )
+            )
+        )
+        records[item.set_id] = {
+            "sampler_mode": item.sampler_mode,
+            "sampler_mesh_prim": mesh_path,
+            "target_fill_ratio": float(item.fill_ratio),
+            "profile": {
+                "center_xy_m": list(profile.center_xy_m),
+                "radius_xy_m": [profile.radius_x_m, profile.radius_y_m],
+                "bottom_m": profile.bottom_m,
+                "top_m": authored_top_m,
+                "height_m": authored_top_m - profile.bottom_m,
+                "rim_m": profile.rim_m,
+                "target_volume_m3": profile.target_volume_m3,
+                "initially_above_rim": profile.initially_above_rim,
+            },
+            "cavity": cavity,
+            "opening": analysis.get("opening"),
+            "capacity": analysis.get("capacity"),
+            "cavity_floor_world_stage": float(floor_world[vertical_axis]),
+            "cavity_rim_world_stage": float(rim_world[vertical_axis]),
+            "fall_height_m": max(0.0, authored_top_m - profile.rim_m),
+            **(
+                {"target_particle_count": target_count}
+                if target_count is not None
+                else {}
+            ),
+        }
+    stage.GetRootLayer().Save()
+    return stage, records
+
+
 def build_multi_liquid_candidate(*, request_path: Path, output: Path) -> Path:
     """Bake one Points prim per sampler and bind all sets to one system."""
     from pxr import Gf, Sdf, Usd, UsdGeom, UsdPhysics, UsdShade  # type: ignore
@@ -375,13 +546,25 @@ def build_multi_liquid_candidate(*, request_path: Path, output: Path) -> Path:
         )
         spacing_stage = float(recipe["particle_set"]["spacing_m"]) / meters_per_unit
         per_set_limit = int(recipe["particle_set"]["maximum_count_per_set"])
+        auto_sampler_path = output / "evidence" / "auto_samplers.usda"
+        auto_sampler_stage, auto_records = _author_auto_samplers(
+            source_stage=source_stage,
+            request=request,
+            recipe=recipe,
+            path=auto_sampler_path,
+        )
         sampled: dict[str, list[list[float]]] = {}
         for item in request.sets:
-            sampler_stage = (
-                Usd.Stage.Open(str(item.sampler_usd)) if item.sampler_usd else source_stage
-            )
+            if item.sampler_mode == "explicit_mesh":
+                sampler_stage = (
+                    Usd.Stage.Open(str(item.sampler_usd)) if item.sampler_usd else source_stage
+                )
+                sampler_mesh_prim = str(item.sampler_mesh_prim)
+            else:
+                sampler_stage = auto_sampler_stage
+                sampler_mesh_prim = auto_records[item.set_id]["sampler_mesh_prim"]
             sampled[item.set_id] = sample_closed_mesh(
-                sampler_stage, item.sampler_mesh_prim,
+                sampler_stage, sampler_mesh_prim,
                 spacing_stage=spacing_stage, limit=per_set_limit,
             )
         total = sum(len(points) for points in sampled.values())
@@ -439,7 +622,13 @@ def build_multi_liquid_candidate(*, request_path: Path, output: Path) -> Path:
             prim.CreateAttribute("physxParticle:selfCollision", Sdf.ValueTypeNames.Bool).Set(True)
             prim.CreateAttribute("physxParticle:particleGroup", Sdf.ValueTypeNames.Int).Set(item.particle_group)
             prim.CreateAttribute("scenarioForge:setId", Sdf.ValueTypeNames.String).Set(item.set_id)
-            prim.CreateAttribute("scenarioForge:samplerMeshPrim", Sdf.ValueTypeNames.String).Set(item.sampler_mesh_prim)
+            sampler_mesh_prim = (
+                str(item.sampler_mesh_prim)
+                if item.sampler_mode == "explicit_mesh"
+                else auto_records[item.set_id]["sampler_mesh_prim"]
+            )
+            prim.CreateAttribute("scenarioForge:samplerMeshPrim", Sdf.ValueTypeNames.String).Set(sampler_mesh_prim)
+            prim.CreateAttribute("scenarioForge:samplerMode", Sdf.ValueTypeNames.String).Set(item.sampler_mode)
             if item.preview_color is not None:
                 points.CreateDisplayColorPrimvar(UsdGeom.Tokens.constant).Set([Gf.Vec3f(*item.preview_color)])
             UsdPhysics.MassAPI.Apply(prim).CreateMassAttr(recipe["particle_set"]["mass_kg"])
@@ -450,18 +639,24 @@ def build_multi_liquid_candidate(*, request_path: Path, output: Path) -> Path:
                     prependedItems=["PhysxParticleSetAPI", "PhysicsMassAPI", "MaterialBindingAPI"]
                 ),
             )
-            set_records.append(
-                {
+            record = {
                     "id": item.set_id,
                     "particle_prim": item.particle_prim,
                     "particle_group": item.particle_group,
                     "particle_count": len(values),
-                    "sampler_mesh_prim": item.sampler_mesh_prim,
-                    "sampler_usd": str(item.sampler_usd or request.scene),
+                    "sampler_mesh_prim": sampler_mesh_prim,
+                    "sampler_usd": (
+                        str(item.sampler_usd or request.scene)
+                        if item.sampler_mode == "explicit_mesh"
+                        else "evidence/auto_samplers.usda"
+                    ),
+                    "sampler_mode": item.sampler_mode,
                     "container_prim": item.container_prim,
                     "initial_min_z_stage": min(point[2] for point in sampled[item.set_id]),
                 }
-            )
+            if item.sampler_mode != "explicit_mesh":
+                record.update(auto_records[item.set_id])
+            set_records.append(record)
         if not any(prim.GetTypeName() == "PhysicsScene" for prim in source_stage.Traverse()):
             scene = UsdPhysics.Scene.Define(stage, FLUID_ROOT + "/PhysicsScene")
             scene.CreateGravityDirectionAttr(Gf.Vec3f(0, 0, -1))
@@ -503,6 +698,12 @@ def build_multi_liquid_candidate(*, request_path: Path, output: Path) -> Path:
             "validation": {"mode": request.validation, "status": "not_run"},
             "claim_boundary": "No robot, pour, metric, or benchmark success claim.",
         }
+        if auto_records:
+            manifest["schema_version"] = RESULT_SCHEMA_V2
+            manifest["entrypoints"]["auto_samplers_usd"] = "evidence/auto_samplers.usda"
+            manifest["sampling"]["automatic_modes"] = sorted(
+                {record["sampler_mode"] for record in auto_records.values()}
+            )
         manifest_path = output / "manifest.json"
         _write_json(manifest_path, manifest)
         return manifest_path
@@ -522,6 +723,13 @@ def validate_multi_liquid_candidate(
         raise SimpleSdfLiquidError("only a candidate can be runtime validated")
     mode = str(manifest["validation"]["mode"])
     count, seconds = (1, 3.0) if mode == "quick" else (3, 8.0)
+    maximum_fall = max(
+        (float(item.get("fall_height_m", 0.0)) for item in manifest["sets"]),
+        default=0.0,
+    )
+    maximum_velocity = float(json.loads((output / "recipe.json").read_text())["particle_system"]["max_velocity_m_s"])
+    if maximum_fall > 0.0:
+        seconds = max(seconds, maximum_fall / maximum_velocity + 4.0)
     evidence = output / "evidence/runtime_validation"
     evidence.mkdir(parents=True, exist_ok=False)
     environment = dict(os.environ)
@@ -553,7 +761,14 @@ def validate_multi_liquid_candidate(
             )
         runs.append(json.loads(destination.read_text()))
     evaluation = evaluate_multi_set_runs(
-        runs, set_ids=[item["id"] for item in manifest["sets"]], mode=mode
+        runs,
+        set_ids=[item["id"] for item in manifest["sets"]],
+        mode=mode,
+        target_fill_ratios={
+            item["id"]: float(item["target_fill_ratio"])
+            for item in manifest["sets"]
+            if item.get("sampler_mode") in {"inside_fill", "mouth_drop"}
+        },
     )
     report = {
         "schema_version": "aan.multi_liquid_validation_report.v1",

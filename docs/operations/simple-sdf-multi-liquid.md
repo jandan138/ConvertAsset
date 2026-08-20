@@ -22,6 +22,34 @@ pose and size before setting `approved: true`.
 The liquid request lists one set per sampler mesh. Multiple sets share one
 ParticleSystem but retain independent identities, groups, counts, and evidence.
 
+To infer a sampler from a reviewed upright hollow container, use request v2:
+
+```yaml
+schema_version: aan.multi_liquid_sample_request.v2
+scene: /abs/path/collision_package/asset.usda
+validation: quick
+sets:
+  - id: bottle_liquid
+    container_prim: /World/obj_reagent_bottle
+    sampler:
+      mode: mouth_drop
+      fill_ratio: 0.40
+      visual_mesh_prim: /World/obj_reagent_bottle/Visual/HollowMesh
+    particle_scale: task02_compatible
+  - id: tube_liquid
+    container_prim: /World/obj_tube15
+    sampler:
+      mode: inside_fill
+      fill_ratio: 0.40
+    particle_scale: small_required
+```
+
+Use `mouth_drop` when the opening admits the selected effective particle
+radius. Use `inside_fill` for narrow vessels such as the qualified 15 mL tube.
+The producer rejects ambiguous hollow geometry, tilted containers, unsupported
+openings, or particle budgets above the recipe limit. It never changes the
+particle recipe merely to force a pass.
+
 ```bash
 ./scripts/isaac_python.sh ./main.py multi-liquid-sample \
   --request /abs/path/liquid.yaml \

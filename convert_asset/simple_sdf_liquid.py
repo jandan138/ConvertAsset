@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import json
+import math
 from pathlib import Path
 import re
 from typing import Any, Mapping, Sequence
@@ -17,10 +18,13 @@ import yaml
 
 COLLISION_SCHEMA = "aan.simple_sdf_collision_spec.v1"
 MULTI_LIQUID_SCHEMA = "aan.multi_liquid_sample_request.v1"
+MULTI_LIQUID_SCHEMA_V2 = "aan.multi_liquid_sample_request.v2"
 RESULT_SCHEMA = "aan.multi_liquid_sample_result.v1"
+RESULT_SCHEMA_V2 = "aan.multi_liquid_sample_result.v2"
 FLUID_ROOT = "/__ScenarioForgeFluid"
 _ID = re.compile(r"^[A-Za-z][A-Za-z0-9_]*$")
 _SCALES = {"task02_compatible", "small_required"}
+_AUTO_MODES = {"inside_fill", "mouth_drop"}
 
 
 class SimpleSdfLiquidError(ValueError):
@@ -54,8 +58,11 @@ class CollisionSpec:
 class LiquidSet:
     set_id: str
     container_prim: str
-    sampler_mesh_prim: str
+    sampler_mesh_prim: str | None
     sampler_usd: Path | None
+    sampler_mode: str
+    fill_ratio: float | None
+    visual_mesh_prim: str | None
     particle_scale: str
     preview_color: tuple[float, float, float] | None
     particle_group: int
@@ -68,9 +75,126 @@ class LiquidSet:
 @dataclass(frozen=True)
 class MultiLiquidRequest:
     path: Path
+    schema_version: str
     scene: Path
     validation: str
     sets: tuple[LiquidSet, ...]
+
+
+@dataclass(frozen=True)
+class AutoCylinderProfile:
+    """Container-local metre dimensions for one generated sampler mesh."""
+
+    mode: str
+    center_xy_m: tuple[float, float]
+    radius_x_m: float
+    radius_y_m: float
+    bottom_m: float
+    top_m: float
+    rim_m: float
+    target_fill_ratio: float
+    target_volume_m3: float
+    initially_above_rim: bool
+
+    @property
+    def height_m(self) -> float:
+        return self.top_m - self.bottom_m
+
+
+def target_particle_count(*, target_volume_m3: float, spacing_m: float, limit: int) -> int:
+    """Convert requested liquid volume to the established lattice count."""
+
+    if min(float(target_volume_m3), float(spacing_m)) <= 0.0 or limit <= 0:
+        raise SimpleSdfLiquidError("target volume, spacing, and particle limit must be positive")
+    count = max(1, round(float(target_volume_m3) / float(spacing_m) ** 3))
+    if count > limit:
+        raise SimpleSdfLiquidError(
+            f"automatic liquid needs {count} particles, above the per-set limit {limit}"
+        )
+    return count
+
+
+def auto_cylinder_profile(
+    cavity: Mapping[str, Any], *, mode: str, fill_ratio: float, spacing_m: float,
+    opening: Mapping[str, Any] | None = None, particle_rest_offset_m: float = 0.0,
+    capacity: Mapping[str, Any] | None = None,
+) -> AutoCylinderProfile:
+    """Turn one reviewed axial cavity into a safe closed sampler cylinder."""
+
+    if mode not in _AUTO_MODES:
+        raise SimpleSdfLiquidError(f"unsupported automatic sampler mode: {mode}")
+    if not 0.10 <= float(fill_ratio) <= 0.80:
+        raise SimpleSdfLiquidError("automatic fill_ratio must be 0.10 through 0.80")
+    source = opening if mode == "mouth_drop" and opening is not None else cavity
+    center = tuple(float(value) for value in source["center_xy_m"])
+    radius_x = float(source["radius_x_m"])
+    radius_y = float(source["radius_y_m"])
+    floor = float(cavity["floor_m"])
+    rim = float(source["rim_m"])
+    if len(center) != 2 or min(radius_x, radius_y, spacing_m) <= 0.0 or rim <= floor:
+        raise SimpleSdfLiquidError("detected cavity cannot define an automatic cylinder")
+
+    # The volume sampler applies another 1.2-spacing inset to particle centres.
+    # Shrinking the authored mouth projection by one spacing also keeps the
+    # source column clear of imperfect visual/SDF rim estimates.
+    if mode == "mouth_drop":
+        # The authored mesh bounds particle centres, while the opening must
+        # admit each particle's effective physical radius as well.
+        clearance = max(float(spacing_m), float(particle_rest_offset_m))
+        safe_x = radius_x - clearance
+        safe_y = radius_y - clearance
+    else:
+        # The proven 15 mL sampler uses a two-spacing radial inset. Its source
+        # points then receive the sampler's additional 1.2-spacing boundary
+        # margin, keeping the initial lattice away from the SDF wall.
+        safe_x = radius_x - 2.0 * float(spacing_m)
+        safe_y = radius_y - 2.0 * float(spacing_m)
+    if min(safe_x, safe_y) <= 1.2 * float(spacing_m):
+        raise SimpleSdfLiquidError("container opening is too small for the selected particle scale")
+    cavity_rim = float(cavity["rim_m"])
+    target_surface = floor + float(fill_ratio) * (cavity_rim - floor)
+    capacity_source = capacity or cavity
+    target_volume = (
+        math.pi
+        * float(capacity_source["radius_x_m"])
+        * float(capacity_source["radius_y_m"])
+        * (target_surface - floor)
+    )
+    if mode == "inside_fill":
+        # Match the proven narrow-tube loaded start: suspend a short column in
+        # the upper cavity and let it settle, rather than authoring particles
+        # against the floor. When the 5 mm effective rest radius dominates the
+        # 1 mm lattice, apply the established 0.72 loaded-height correction.
+        dense_small_regime = particle_rest_offset_m / spacing_m >= 4.0
+        settling_scale = 0.72 if dense_small_regime else 1.0
+        requested_height = (target_surface - floor) * settling_scale
+        top = cavity_rim - max(float(particle_rest_offset_m), float(spacing_m))
+        bottom = top - requested_height
+        minimum_bottom = floor + max(float(particle_rest_offset_m), 1.2 * float(spacing_m))
+        if bottom < minimum_bottom:
+            bottom = minimum_bottom
+        if top <= bottom:
+            raise SimpleSdfLiquidError(
+                "container is too short for a safely inset inside-fill sampler"
+            )
+        above = False
+    else:
+        bottom = rim + 1.2 * float(spacing_m)
+        height = target_volume / (math.pi * safe_x * safe_y)
+        top = bottom + height
+        above = True
+    return AutoCylinderProfile(
+        mode=mode,
+        center_xy_m=(center[0], center[1]),
+        radius_x_m=safe_x,
+        radius_y_m=safe_y,
+        bottom_m=bottom,
+        top_m=top,
+        rim_m=rim,
+        target_fill_ratio=float(fill_ratio),
+        target_volume_m3=target_volume,
+        initially_above_rim=above,
+    )
 
 
 def _load(path: Path) -> Mapping[str, Any]:
@@ -167,7 +291,8 @@ def load_approved_collision_spec(path: Path) -> CollisionSpec:
 def load_multi_liquid_request(path: Path) -> MultiLiquidRequest:
     request_path = Path(path).expanduser().resolve()
     raw = _load(request_path)
-    if raw.get("schema_version") != MULTI_LIQUID_SCHEMA:
+    schema_version = str(raw.get("schema_version", ""))
+    if schema_version not in {MULTI_LIQUID_SCHEMA, MULTI_LIQUID_SCHEMA_V2}:
         raise SimpleSdfLiquidError("unsupported multi-liquid request schema")
     scene = Path(str(raw.get("scene", "")))
     if not scene.is_absolute():
@@ -188,9 +313,29 @@ def load_multi_liquid_request(path: Path) -> MultiLiquidRequest:
         if not isinstance(value, Mapping):
             raise SimpleSdfLiquidError("set entry must be a mapping")
         set_id = _identifier(value.get("id"), seen)
-        sampler_prim = _prim(value.get("sampler_mesh_prim"), "sampler_mesh_prim")
+        sampler_mode = "explicit_mesh"
+        fill_ratio = None
+        visual_mesh_prim = None
+        sampler_prim: str | None = None
+        sampler_raw = value.get("sampler")
+        if sampler_raw is not None:
+            if schema_version != MULTI_LIQUID_SCHEMA_V2 or not isinstance(sampler_raw, Mapping):
+                raise SimpleSdfLiquidError("automatic sampler requires the v2 request schema")
+            sampler_mode = str(sampler_raw.get("mode", ""))
+            if sampler_mode not in _AUTO_MODES:
+                raise SimpleSdfLiquidError(f"unsupported automatic sampler mode: {sampler_mode}")
+            fill_ratio = float(sampler_raw.get("fill_ratio", -1.0))
+            if not 0.10 <= fill_ratio <= 0.80:
+                raise SimpleSdfLiquidError("automatic fill_ratio must be 0.10 through 0.80")
+            visual_value = sampler_raw.get("visual_mesh_prim")
+            if visual_value is not None:
+                visual_mesh_prim = _prim(visual_value, "visual_mesh_prim")
+        else:
+            sampler_prim = _prim(value.get("sampler_mesh_prim"), "sampler_mesh_prim")
         sampler_usd_value = value.get("sampler_usd")
         sampler_usd = None
+        if sampler_mode != "explicit_mesh" and sampler_usd_value:
+            raise SimpleSdfLiquidError("automatic sampler cannot also provide sampler_usd")
         if sampler_usd_value:
             sampler_usd = Path(str(sampler_usd_value))
             if not sampler_usd.is_absolute():
@@ -198,10 +343,11 @@ def load_multi_liquid_request(path: Path) -> MultiLiquidRequest:
             sampler_usd = sampler_usd.resolve()
             if not sampler_usd.is_file():
                 raise SimpleSdfLiquidError(f"sampler USD does not exist: {sampler_usd}")
-        key = (str(sampler_usd or scene), sampler_prim)
-        if key in samplers:
-            raise SimpleSdfLiquidError("each sampler mesh must map to exactly one ParticleSet")
-        samplers.add(key)
+        if sampler_prim is not None:
+            key = (str(sampler_usd or scene), sampler_prim)
+            if key in samplers:
+                raise SimpleSdfLiquidError("each sampler mesh must map to exactly one ParticleSet")
+            samplers.add(key)
         color_value = value.get("preview_color")
         color = _vec3(color_value, "preview_color") if color_value is not None else None
         sets.append(
@@ -210,17 +356,20 @@ def load_multi_liquid_request(path: Path) -> MultiLiquidRequest:
                 container_prim=_prim(value.get("container_prim"), "container_prim"),
                 sampler_mesh_prim=sampler_prim,
                 sampler_usd=sampler_usd,
+                sampler_mode=sampler_mode,
+                fill_ratio=fill_ratio,
+                visual_mesh_prim=visual_mesh_prim,
                 particle_scale=_scale(value.get("particle_scale")),
                 preview_color=color,
                 particle_group=group,
             )
         )
-    return MultiLiquidRequest(request_path, scene, validation, tuple(sets))
+    return MultiLiquidRequest(request_path, schema_version, scene, validation, tuple(sets))
 
 
 def select_shared_recipe(sets: Sequence[LiquidSet]) -> dict[str, Any]:
     if any(item.particle_scale == "small_required" for item in sets):
-        return {
+        recipe = {
             "schema_version": "aan.gpu_pbd_liquid_recipe.v1",
             "recipe_id": "colleague_small_gpu_pbd_v1",
             "runtime": "isaac41",
@@ -250,6 +399,10 @@ def select_shared_recipe(sets: Sequence[LiquidSet]) -> dict[str, Any]:
                 "roughness": 0.02,
             },
         }
+        if any(item.sampler_mode == "mouth_drop" for item in sets):
+            recipe["recipe_id"] = "colleague_small_gpu_pbd_mouth_drop_v1"
+            recipe["particle_system"]["max_velocity_m_s"] = 0.05
+        return recipe
     from .liquid_autofill import recipe_payload
 
     recipe = recipe_payload()
@@ -257,11 +410,15 @@ def select_shared_recipe(sets: Sequence[LiquidSet]) -> dict[str, Any]:
         "maximum_count"
     )
     recipe["particle_set"]["maximum_count_total"] = 100_000
+    if any(item.sampler_mode == "mouth_drop" for item in sets):
+        recipe["recipe_id"] = "task02_r10_3_blue_gpu_pbd_mouth_drop_v1"
+        recipe["particle_system"]["max_velocity_m_s"] = 0.05
     return recipe
 
 
 def evaluate_multi_set_runs(
-    runs: Sequence[Mapping[str, Any]], *, set_ids: Sequence[str], mode: str
+    runs: Sequence[Mapping[str, Any]], *, set_ids: Sequence[str], mode: str,
+    target_fill_ratios: Mapping[str, float] | None = None,
 ) -> dict[str, Any]:
     required = 1 if mode == "quick" else 3
     blockers: list[str] = []
@@ -283,6 +440,10 @@ def evaluate_multi_set_runs(
                 blockers.append(f"{set_id}:retention_below_0.99")
             if int(item.get("below_floor_count", 1)) != 0:
                 blockers.append(f"{set_id}:below_floor_or_leak")
+            if target_fill_ratios and set_id in target_fill_ratios:
+                measured = item.get("settled_fill_ratio")
+                if measured is None or abs(float(measured) - target_fill_ratios[set_id]) > 0.05:
+                    blockers.append(f"{set_id}:settled_fill_ratio_outside_0.05")
     blockers = list(dict.fromkeys(blockers))
     return {
         "overall_status": "pass" if not blockers else "blocked",

@@ -53,7 +53,17 @@ def main() -> int:
     fixture_layer = Sdf.Layer.CreateNew(str(fixture_path))
     fixture_layer.subLayerPaths = [str(args.scene.resolve())]
     fixture_layer.Save()
+    source_stage = Usd.Stage.Open(str(args.scene.resolve()))
+    if source_stage is None:
+        raise RuntimeError(f"cannot inspect source stage metadata: {args.scene}")
     fixture_stage = Usd.Stage.Open(str(fixture_path))
+    # Stage metadata is owned by the root layer and is not inherited from a
+    # sublayer.  Preserve the source authority instead of silently falling
+    # back to centimetre/Y-up defaults in the qualification fixture.
+    UsdGeom.SetStageMetersPerUnit(
+        fixture_stage, float(UsdGeom.GetStageMetersPerUnit(source_stage))
+    )
+    UsdGeom.SetStageUpAxis(fixture_stage, UsdGeom.GetStageUpAxis(source_stage))
     for item in manifest["sets"]:
         fixture_stage.OverridePrim(item["container_prim"]).CreateAttribute(
             "physics:kinematicEnabled", Sdf.ValueTypeNames.Bool
@@ -105,10 +115,20 @@ def main() -> int:
             for point in values
         )
         below = sum(float(point[vertical]) < minimum[vertical] - spacing for point in values)
+        settled_fill_ratio = None
+        if "target_fill_ratio" in item:
+            floor = float(item["cavity_floor_world_stage"])
+            rim = float(item["cavity_rim_world_stage"])
+            heights = sorted(float(point[vertical]) for point in values)
+            q95_index = round(0.95 * (len(heights) - 1))
+            settled_fill_ratio = (
+                (heights[q95_index] - floor) / (rim - floor) if rim > floor else None
+            )
         sets[item["id"]] = {
             "particle_count": len(values),
             "retention_ratio": inside / int(item["particle_count"]),
             "below_floor_count": below,
+            "settled_fill_ratio": settled_fill_ratio,
             "container_world_bounds_stage": [minimum, maximum],
             "final_points_bounds_stage": [
                 [min(float(point[i]) for point in values) for i in range(3)],
@@ -134,6 +154,8 @@ def main() -> int:
             "kit_version": str(omni.kit.app.get_app().get_app_version()),
         },
         "duration_seconds": args.seconds,
+        "up_axis": up_axis,
+        "vertical_axis_index": vertical,
         "physics_steps_per_wall_second": steps / elapsed if elapsed else None,
         "sets": sets,
         "hard_errors": [line.strip() for line in text.splitlines() if any(marker in line for marker in markers)],

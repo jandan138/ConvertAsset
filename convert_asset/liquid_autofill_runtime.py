@@ -187,6 +187,114 @@ def _mesh_cavity_candidate(
     }
 
 
+def _mesh_opening_candidate(points: list[list[float]]) -> dict[str, Any] | None:
+    """Recover the inner ring from the highest concentric open-rim samples."""
+    if len(points) < 24:
+        return None
+    minimum_z = min(point[2] for point in points)
+    maximum_z = max(point[2] for point in points)
+    height = maximum_z - minimum_z
+    if height <= 0.0:
+        return None
+    tolerance = max(1e-7, height * 0.002)
+    top = [point for point in points if point[2] >= maximum_z - tolerance]
+    if len(top) < 12:
+        return None
+    center_x = sum(point[0] for point in top) / len(top)
+    center_y = sum(point[1] for point in top) / len(top)
+    radial = [math.hypot(point[0] - center_x, point[1] - center_y) for point in top]
+    try:
+        inner_peak, outer_peak, inner_count, outer_count = _two_means(radial)
+    except LiquidAutofillError:
+        return None
+    if inner_peak <= 0.0 or outer_peak <= inner_peak or min(inner_count, outer_count) < 6:
+        return None
+    inner = [
+        point
+        for point, radius in zip(top, radial)
+        if abs(radius - inner_peak) <= abs(radius - outer_peak)
+    ]
+    radius_x = max(abs(point[0] - center_x) for point in inner)
+    radius_y = max(abs(point[1] - center_y) for point in inner)
+    if min(radius_x, radius_y) <= 0.0:
+        return None
+    return {
+        "center_xy_m": [center_x, center_y],
+        "radius_x_m": radius_x,
+        "radius_y_m": radius_y,
+        "rim_m": maximum_z,
+        "inner_outer_radial_ratio": inner_peak / outer_peak,
+        "inner_sample_count": inner_count,
+        "outer_sample_count": outer_count,
+        "method": "highest_concentric_inner_ring",
+    }
+
+
+def _mesh_capacity_candidate(points: list[list[float]]) -> dict[str, Any] | None:
+    """Find the longest repeated inner-wall ring used by the main vessel body."""
+    if len(points) < 24:
+        return None
+    minimum = [min(point[axis] for point in points) for axis in range(3)]
+    maximum = [max(point[axis] for point in points) for axis in range(3)]
+    center_x = 0.5 * (minimum[0] + maximum[0])
+    center_y = 0.5 * (minimum[1] + maximum[1])
+    levels: dict[float, list[list[float]]] = {}
+    for point in points:
+        levels.setdefault(round(point[2], 6), []).append(point)
+    sections: list[dict[str, Any]] = []
+    for z, ring in levels.items():
+        if len(ring) < 12:
+            continue
+        radial = [math.hypot(p[0] - center_x, p[1] - center_y) for p in ring]
+        try:
+            inner_peak, outer_peak, inner_count, outer_count = _two_means(radial)
+        except LiquidAutofillError:
+            continue
+        separation = (outer_peak - inner_peak) / outer_peak if outer_peak > 0.0 else 0.0
+        if (
+            inner_peak <= 0.0
+            or outer_peak <= inner_peak
+            or separation < 0.03
+            or min(inner_count, outer_count) < 6
+        ):
+            continue
+        inner = [
+            point
+            for point, radius in zip(ring, radial)
+            if abs(radius - inner_peak) <= abs(radius - outer_peak)
+        ]
+        sections.append(
+            {
+                "z_m": z,
+                "radius_x_m": max(abs(point[0] - center_x) for point in inner),
+                "radius_y_m": max(abs(point[1] - center_y) for point in inner),
+                "inner_peak_m": inner_peak,
+            }
+        )
+    sections.sort(key=lambda item: float(item["z_m"]))
+    best: tuple[float, dict[str, Any], dict[str, Any]] | None = None
+    for index, lower in enumerate(sections):
+        for upper in sections[index + 1 :]:
+            relative = abs(lower["inner_peak_m"] - upper["inner_peak_m"]) / max(
+                lower["inner_peak_m"], upper["inner_peak_m"]
+            )
+            span = float(upper["z_m"] - lower["z_m"])
+            if relative <= 0.05 and span > 0.0 and (best is None or span > best[0]):
+                best = (span, lower, upper)
+    if best is None:
+        return None
+    span, lower, upper = best
+    return {
+        "center_xy_m": [center_x, center_y],
+        "radius_x_m": 0.5 * (lower["radius_x_m"] + upper["radius_x_m"]),
+        "radius_y_m": 0.5 * (lower["radius_y_m"] + upper["radius_y_m"]),
+        "lower_ring_m": lower["z_m"],
+        "upper_ring_m": upper["z_m"],
+        "repeated_span_m": span,
+        "method": "longest_repeated_inner_wall_ring",
+    }
+
+
 def analyze_container(scene: Path, container_prim: str) -> dict[str, Any]:
     from pxr import Usd, UsdGeom  # type: ignore
 
@@ -308,6 +416,18 @@ def analyze_container(scene: Path, container_prim: str) -> dict[str, Any]:
         selected = candidates[0]
         selection_method = "single_geometry_candidate"
 
+    opening = _mesh_opening_candidate(mesh_points[str(selected["prim_path"])])
+    if opening is None:
+        raise LiquidAutofillError("selected hollow shell has no trustworthy open-rim inner ring")
+    capacity = _mesh_capacity_candidate(mesh_points[str(selected["prim_path"])])
+    if capacity is not None:
+        cavity_height = float(selected["rim_m"]) - float(selected["floor_m"])
+        if float(capacity["repeated_span_m"]) < 0.25 * cavity_height:
+            # Short paired rings commonly describe a threaded lip, not the
+            # vessel's usable body. Falling back to the full cavity estimate is
+            # safer than turning that local detail into a fill-volume claim.
+            capacity = None
+
     collision_prims: list[dict[str, str]] = []
     for path in mesh_paths:
         lower = path.lower()
@@ -343,6 +463,8 @@ def analyze_container(scene: Path, container_prim: str) -> dict[str, Any]:
         "dominant_cavity_volume_ratio": dominance,
         "cavity_selection_method": selection_method,
         "cavity": selected,
+        "opening": opening,
+        "capacity": capacity,
         "collision_prims": collision_prims,
         "existing_collider_prims": existing_colliders,
         "confidence": "high",
