@@ -146,6 +146,7 @@ ConvertAsset 是面向 NVIDIA Isaac Sim / USD 资产的转换与优化工具集�
 
 ## 近期交付
 
+- [Task 02 量筒简单碰撞 A/B](records/2026-08-21-task02-simple-collision-ab.md) - 同一580粒fixture证明视觉组件SDF与视觉mesh直接convex均失败，闭合统一代理静置/抬升通过
 - [锥形瓶 90/35 玻璃轴对称 warp 交付](records/2026-08-21-conical-flask-90x35-glass-warp.md) - 烘焙 k_r(z)/k_h、identity 根缩放、Isaac 4.1 AAN 与开口/支撑/夹爪门禁 pass
 - [Simple-SDF multi-liquid route](records/2026-08-20-simple-sdf-multi-liquid-route.md) - 独立 ParticleSet、共享 ParticleSystem 的试剂瓶/15 mL 管 golden regression
 - [流体交互资产 producer v1](records/2026-08-20-fluid-interaction-asset-producer-v1.md) - reservoir/conduit/surface-guide 碰撞提案、人工复核与 Isaac 4.1 fail-closed 资格验证
