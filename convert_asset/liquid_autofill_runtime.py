@@ -295,6 +295,45 @@ def _mesh_capacity_candidate(points: list[list[float]]) -> dict[str, Any] | None
     }
 
 
+def _mesh_inner_radial_profile(
+    points: list[list[float]], *, floor_m: float
+) -> list[dict[str, float]]:
+    """Recover a conservative 5 mm-binned inner-radius curve."""
+
+    levels: dict[float, list[list[float]]] = {}
+    for point in points:
+        levels.setdefault(round(point[2], 6), []).append(point)
+    rows: list[tuple[float, float]] = []
+    for z, ring in levels.items():
+        if z < floor_m or len(ring) < 12:
+            continue
+        center_x = sum(point[0] for point in ring) / len(ring)
+        center_y = sum(point[1] for point in ring) / len(ring)
+        radial = [
+            math.hypot(point[0] - center_x, point[1] - center_y)
+            for point in ring
+        ]
+        try:
+            inner, outer, inner_count, outer_count = _two_means(radial)
+        except LiquidAutofillError:
+            continue
+        separation = (outer - inner) / outer if outer > 0.0 else 0.0
+        if inner <= 0.0 or min(inner_count, outer_count) < 6 or separation < 0.03:
+            continue
+        rows.append((z, inner))
+    bins: dict[int, list[tuple[float, float]]] = {}
+    for z, radius in rows:
+        bins.setdefault(math.floor((z - floor_m) / 0.005), []).append((z, radius))
+    profile = [
+        {
+            "z_m": sum(z for z, _ in values) / len(values),
+            "inner_radius_m": min(radius for _, radius in values),
+        }
+        for _, values in sorted(bins.items())
+    ]
+    return profile if len(profile) >= 3 else []
+
+
 def analyze_container(scene: Path, container_prim: str) -> dict[str, Any]:
     from pxr import Usd, UsdGeom  # type: ignore
 
@@ -427,6 +466,9 @@ def analyze_container(scene: Path, container_prim: str) -> dict[str, Any]:
             # vessel's usable body. Falling back to the full cavity estimate is
             # safer than turning that local detail into a fill-volume claim.
             capacity = None
+    radial_profile = _mesh_inner_radial_profile(
+        mesh_points[str(selected["prim_path"])], floor_m=float(selected["floor_m"])
+    )
 
     collision_prims: list[dict[str, str]] = []
     for path in mesh_paths:
@@ -465,6 +507,7 @@ def analyze_container(scene: Path, container_prim: str) -> dict[str, Any]:
         "cavity": selected,
         "opening": opening,
         "capacity": capacity,
+        "radial_profile": radial_profile,
         "collision_prims": collision_prims,
         "existing_collider_prims": existing_colliders,
         "confidence": "high",
@@ -523,8 +566,9 @@ def inspect_scene(scene: Path) -> dict[str, Any]:
 
 
 def _define_overlay(
-    *, scene: Path, output: Path, analysis: Mapping[str, Any], points_m: list[list[float]]
-) -> tuple[Path, str, str]:
+    *, scene: Path, output: Path, analysis: Mapping[str, Any], points_m: list[list[float]],
+    collision_profile: str | None,
+) -> tuple[Path, str, str, str | None]:
     from pxr import Gf, Sdf, Usd, UsdGeom, UsdPhysics, UsdShade  # type: ignore
 
     source_stage = Usd.Stage.Open(str(scene.resolve()))
@@ -564,6 +608,47 @@ def _define_overlay(
         UsdPhysics.MeshCollisionAPI.Apply(prim).CreateApproximationAttr(
             item["approximation"]
         )
+    pbd_proxy_path = None
+    if collision_profile == "task02_visual_mesh_convex_decomposition_v1":
+        source_mesh_path = str(analysis["cavity"]["prim_path"])
+        source_mesh = UsdGeom.Mesh(source_stage.GetPrimAtPath(source_mesh_path))
+        source_points = source_mesh.GetPointsAttr().Get() or []
+        source_counts = source_mesh.GetFaceVertexCountsAttr().Get() or []
+        source_indices = source_mesh.GetFaceVertexIndicesAttr().Get() or []
+        if not source_points or not source_counts or not source_indices:
+            raise LiquidAutofillError(
+                "PBD collision proxy source mesh has no authored closed geometry"
+            )
+        cache = UsdGeom.XformCache()
+        source_world = cache.GetLocalToWorldTransform(source_mesh.GetPrim())
+        target_inverse = target_world.GetInverse()
+        pbd_proxy_path = (
+            str(analysis["container_prim"])
+            + "/__aan_pbd_collision_proxy/PBD_Unified_Vessel_Mesh"
+        )
+        proxy = UsdGeom.Mesh.Define(stage, pbd_proxy_path)
+        proxy.CreatePointsAttr(
+            [target_inverse.Transform(source_world.Transform(point)) for point in source_points]
+        )
+        proxy.CreateFaceVertexCountsAttr(source_counts)
+        proxy.CreateFaceVertexIndicesAttr(source_indices)
+        proxy.CreateSubdivisionSchemeAttr(UsdGeom.Tokens.none)
+        proxy.CreateVisibilityAttr(UsdGeom.Tokens.invisible)
+        proxy.CreateDoubleSidedAttr(True)
+        proxy_prim = proxy.GetPrim()
+        UsdPhysics.CollisionAPI.Apply(proxy_prim).CreateCollisionEnabledAttr(True).Set(True)
+        UsdPhysics.MeshCollisionAPI.Apply(proxy_prim).CreateApproximationAttr(
+            "convexDecomposition"
+        )
+        for name, value, value_type in (
+            ("physxCollision:contactOffset", 0.01 / meters_per_unit, Sdf.ValueTypeNames.Float),
+            ("physxCollision:restOffset", 0.005 / meters_per_unit, Sdf.ValueTypeNames.Float),
+            ("physxConvexDecompositionCollision:errorPercentage", 0.1, Sdf.ValueTypeNames.Float),
+            ("physxConvexDecompositionCollision:minThickness", 0.001 / meters_per_unit, Sdf.ValueTypeNames.Float),
+            ("physxConvexDecompositionCollision:shrinkWrap", True, Sdf.ValueTypeNames.Bool),
+            ("physxConvexDecompositionCollision:voxelResolution", 500_000, Sdf.ValueTypeNames.Int),
+        ):
+            proxy_prim.CreateAttribute(name, value_type).Set(value)
 
     liquid_root = f"/__ScenarioForgeLiquid_{_slug(str(analysis['container_prim']))}"
     particle_system_path = liquid_root + "/ParticleSystem"
@@ -654,7 +739,7 @@ def _define_overlay(
         )
         physics_scene.CreateGravityMagnitudeAttr(9.81 / meters_per_unit)
     stage.GetRootLayer().Save()
-    return overlay, particle_system_path, particles_path
+    return overlay, particle_system_path, particles_path, pbd_proxy_path
 
 
 def _qualification_scene(scene: Path, overlay: Path, destination: Path) -> None:
@@ -678,10 +763,33 @@ def build_autofill_candidate(
     try:
         analysis = analyze_container(scene, str(request["container_prim"]))
         points = build_particle_lattice(
-            analysis["cavity"], fill=float(request["target_settled_fill_ratio"])
+            analysis["cavity"],
+            fill=float(request["target_settled_fill_ratio"]),
+            radial_profile=(
+                analysis.get("radial_profile")
+                if request.get("collision_profile")
+                == "task02_visual_mesh_convex_decomposition_v1"
+                else None
+            ),
+            wall_clearance_m=(
+                float(recipe_payload()["particle_system"]["effective_rest_offset_m"])
+                if request.get("collision_profile")
+                == "task02_visual_mesh_convex_decomposition_v1"
+                else None
+            ),
+            target_particle_count=(
+                int(request["initial_particle_count"])
+                if request.get("initial_particle_count") is not None
+                else None
+            ),
         )
-        overlay, particle_system, particles = _define_overlay(
-            scene=scene, output=output, analysis=analysis, points_m=points
+        collision_profile = request.get("collision_profile")
+        overlay, particle_system, particles, pbd_proxy = _define_overlay(
+            scene=scene,
+            output=output,
+            analysis=analysis,
+            points_m=points,
+            collision_profile=(str(collision_profile) if collision_profile else None),
         )
         qualification_scene = output / "qualification_scene.usda"
         _qualification_scene(scene, overlay, qualification_scene)
@@ -693,8 +801,10 @@ def build_autofill_candidate(
                 "schema_version": "aan.gpu_pbd_initial_particle_state.v1",
                 "coordinate_space": "target_prim_local_analysis_meters",
                 "particle_count": len(points),
+                "requested_initial_particle_count": request.get("initial_particle_count"),
                 "positions": points,
                 "target_settled_fill_ratio": request["target_settled_fill_ratio"],
+                "initialization_profile": "task02_q95_lattice_v1",
                 "state_semantics": "deterministic_pre_simulation_lattice",
                 "runtime_qualification_required": True,
             },
@@ -725,8 +835,20 @@ def build_autofill_candidate(
                 "target_settled_fill_ratio": request["target_settled_fill_ratio"],
                 "tolerance": 0.05,
                 "particle_count": len(points),
+                "initialization_profile": "task02_q95_lattice_v1",
             },
             "analysis": "analysis.json",
+            "validation_fixture": request.get("validation_fixture"),
+            "collision_profile": (
+                {
+                    "id": collision_profile,
+                    "proxy_prim": pbd_proxy,
+                    "source_visual_mesh": analysis["cavity"]["prim_path"],
+                    "source_sdf_preserved": True,
+                }
+                if collision_profile
+                else None
+            ),
             "qualification": {"status": "not_run"},
             "claim_boundary": (
                 "Candidate only until three Isaac 4.1 live-points cold runs pass; "

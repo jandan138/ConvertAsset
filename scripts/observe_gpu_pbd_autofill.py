@@ -18,6 +18,7 @@ from typing import Any
 STEPS = 960
 PHYSICS_HZ = 120
 TAIL_SAMPLES = 12
+PARTICLE_MARGIN_M = 0.00582
 
 
 def _hard_runtime_errors(text: str) -> list[str]:
@@ -43,6 +44,19 @@ def _quantile(values: list[float], q: float) -> float:
     if lower == upper:
         return ordered[lower]
     return ordered[lower] * (upper - index) + ordered[upper] * (index - lower)
+
+
+def _profile_radius(profile: list[dict[str, float]], z: float) -> float:
+    ordered = sorted(
+        (float(item["z_m"]), float(item["inner_radius_m"])) for item in profile
+    )
+    if z <= ordered[0][0]:
+        return ordered[0][1]
+    for (lower_z, lower_r), (upper_z, upper_r) in zip(ordered, ordered[1:]):
+        if z <= upper_z:
+            ratio = (z - lower_z) / (upper_z - lower_z)
+            return lower_r + ratio * (upper_r - lower_r)
+    return ordered[-1][1]
 
 
 def _analysis_point(point: Any, *, up_axis: str, meters_per_unit: float) -> list[float]:
@@ -120,13 +134,14 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
     import omni.physx.bindings._physx as pb
     import omni.usd
     from omni.isaac.core import World
-    from pxr import UsdGeom
+    from pxr import Sdf, Usd, UsdGeom
 
     analysis = json.loads(args.analysis.read_text(encoding="utf-8"))
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
     particle_path = manifest["entrypoints"]["particle_set_prim"]
     target_path = analysis["container_prim"]
     cavity = analysis["cavity"]
+    radial_profile = analysis.get("radial_profile") or []
     fill_target = float(manifest["fill_profile"]["target_settled_fill_ratio"])
     meters_per_unit = float(analysis["meters_per_unit"])
     up_axis = str(analysis["up_axis"])
@@ -139,8 +154,31 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
     settings.set(pb.SETTING_UPDATE_VELOCITIES_TO_USD, True)
     settings.set_bool(pb.SETTING_SUPPRESS_READBACK, False)
     settings.set_bool("/physics/suppressReadback", False)
+    scene_to_open = args.scene.resolve()
+    validation_fixture = manifest.get("validation_fixture")
+    if validation_fixture == {
+        "container_motion": "kinematic",
+        "scope": "evidence_only",
+    }:
+        fixture_path = args.out.parent / f"fixed_container_fixture_{args.run_index}.usda"
+        fixture_layer = Sdf.Layer.CreateNew(str(fixture_path))
+        fixture_layer.subLayerPaths = [str(scene_to_open)]
+        fixture_layer.Save()
+        source_stage = Usd.Stage.Open(str(scene_to_open))
+        fixture_stage = Usd.Stage.Open(str(fixture_path))
+        if source_stage is None or fixture_stage is None:
+            raise RuntimeError("could not create fixed-container validation fixture")
+        UsdGeom.SetStageMetersPerUnit(
+            fixture_stage, float(UsdGeom.GetStageMetersPerUnit(source_stage))
+        )
+        UsdGeom.SetStageUpAxis(fixture_stage, UsdGeom.GetStageUpAxis(source_stage))
+        fixture_stage.OverridePrim(target_path).CreateAttribute(
+            "physics:kinematicEnabled", Sdf.ValueTypeNames.Bool
+        ).Set(True)
+        fixture_stage.GetRootLayer().Save()
+        scene_to_open = fixture_path.resolve()
     context = omni.usd.get_context()
-    if not context.open_stage(str(args.scene.resolve())):
+    if not context.open_stage(str(scene_to_open)):
         raise RuntimeError(f"could not open {args.scene}")
     for _ in range(40):
         app.update()
@@ -187,16 +225,40 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             meters_per_unit=meters_per_unit,
             UsdGeom=UsdGeom,
         )
-        inside = [
-            point
-            for point in local
-            if (
-                ((point[0] - float(cavity["center_xy_m"][0])) / float(cavity["radius_x_m"])) ** 2
-                + ((point[1] - float(cavity["center_xy_m"][1])) / float(cavity["radius_y_m"])) ** 2
-                <= 1.0
-                and float(cavity["floor_m"]) <= point[2] <= float(cavity["rim_m"])
-            )
-        ]
+        if radial_profile:
+            center_x, center_y = [float(value) for value in cavity["center_xy_m"]]
+            inside = [
+                point
+                for point in local
+                if (
+                    math.hypot(point[0] - center_x, point[1] - center_y)
+                    <= _profile_radius(radial_profile, point[2]) + PARTICLE_MARGIN_M
+                    and float(cavity["floor_m"])
+                    <= point[2]
+                    <= float(cavity["rim_m"])
+                )
+            ]
+        else:
+            inside = [
+                point
+                for point in local
+                if (
+                    (
+                        (point[0] - float(cavity["center_xy_m"][0]))
+                        / float(cavity["radius_x_m"])
+                    )
+                    ** 2
+                    + (
+                        (point[1] - float(cavity["center_xy_m"][1]))
+                        / float(cavity["radius_y_m"])
+                    )
+                    ** 2
+                    <= 1.0
+                    and float(cavity["floor_m"])
+                    <= point[2]
+                    <= float(cavity["rim_m"])
+                )
+            ]
         observations.append(
             {
                 "retention_ratio": len(inside) / len(local),
@@ -248,6 +310,11 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             "kit_version": str(omni.kit.app.get_app().get_app_version()),
         },
         "measurement": "live_points_target_local_up_q95",
+        "containment_geometry": (
+            "profiled_inner_radius_plus_particle_margin"
+            if radial_profile
+            else "constant_elliptical_cavity"
+        ),
         "particle_readback_attribute": "points",
         "particle_count": particle_count,
         "minimum_tail_retention_ratio": retention,

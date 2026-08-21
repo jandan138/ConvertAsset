@@ -52,6 +52,26 @@ def test_request_requires_absolute_prim_path(tmp_path: Path) -> None:
         validate_request(request)
 
 
+def test_request_accepts_evidence_only_kinematic_container_fixture(tmp_path: Path) -> None:
+    scene = tmp_path / "scene.usd"
+    scene.write_text("#usda 1.0\n", encoding="utf-8")
+    request = build_request(
+        scene=scene,
+        container="/World/Flask",
+        fill=0.4,
+        fixed_container_validation=True,
+        initial_particle_count=747,
+    )
+
+    validate_request(request)
+
+    assert request["validation_fixture"] == {
+        "container_motion": "kinematic",
+        "scope": "evidence_only",
+    }
+    assert request["initial_particle_count"] == 747
+
+
 def test_particle_lattice_targets_q95_height_and_is_deterministic() -> None:
     cavity = {
         "center_xy_m": [0.0, 0.0],
@@ -81,6 +101,32 @@ def test_particle_lattice_blocks_the_fixed_budget() -> None:
 
     with pytest.raises(LiquidAutofillError, match="10,000"):
         build_particle_lattice(cavity, fill=0.8)
+
+
+def test_profiled_lattice_uses_varying_inner_radius_and_wall_clearance() -> None:
+    cavity = {
+        "center_xy_m": [0.0, 0.0],
+        "radius_x_m": 0.025,
+        "radius_y_m": 0.025,
+        "floor_m": 0.01,
+        "rim_m": 0.15,
+    }
+    profile = [
+        {"z_m": 0.01, "inner_radius_m": 0.04},
+        {"z_m": 0.06, "inner_radius_m": 0.03},
+        {"z_m": 0.12, "inner_radius_m": 0.018},
+    ]
+
+    points = build_particle_lattice(
+        cavity,
+        fill=0.4,
+        radial_profile=profile,
+        wall_clearance_m=0.009,
+        target_particle_count=747,
+    )
+
+    assert len(points) == 747
+    assert max(point[2] for point in points) <= cavity["rim_m"] - 0.009
 
 
 def test_two_ring_hollow_body_matches_the_task02_mesh_topology() -> None:
@@ -133,8 +179,8 @@ def _write_hollow_axial_fixture(path: Path) -> None:
                     Gf.Vec3f(radius * __import__("math").cos(angle), radius * __import__("math").sin(angle), z)
                 )
     mesh.GetPointsAttr().Set(points)
-    mesh.GetFaceVertexCountsAttr().Set([])
-    mesh.GetFaceVertexIndicesAttr().Set([])
+    mesh.GetFaceVertexCountsAttr().Set([3])
+    mesh.GetFaceVertexIndicesAttr().Set([0, 1, 2])
     stage.GetRootLayer().Save()
 
 
@@ -163,3 +209,30 @@ def test_runtime_analysis_and_candidate_build_fail_closed_but_need_no_scene_patc
     assert "PhysxParticleSetAPI" in overlay
     assert "restOffset = 0.009" in overlay
     assert "gridSmoothingRadius = 0.005" in overlay
+
+
+def test_candidate_records_fixed_container_as_evidence_only(tmp_path: Path) -> None:
+    scene = tmp_path / "scene.usda"
+    _write_hollow_axial_fixture(scene)
+    request = build_request(
+        scene=scene,
+        container="/World/Beaker",
+        fill=0.4,
+        fixed_container_validation=True,
+        initial_particle_count=747,
+    )
+
+    result = build_autofill_candidate(request=request, output=tmp_path / "producer")
+
+    assert result["validation_fixture"] == {
+        "container_motion": "kinematic",
+        "scope": "evidence_only",
+    }
+    assert result["collision_profile"]["id"] == (
+        "task02_visual_mesh_convex_decomposition_v1"
+    )
+    assert result["collision_profile"]["source_sdf_preserved"] is True
+    overlay = (tmp_path / "producer/producer_overlay.usda").read_text()
+    assert "PBD_Unified_Vessel_Mesh" in overlay
+    assert 'physics:approximation = "convexDecomposition"' in overlay
+    assert "physxConvexDecompositionCollision:voxelResolution = 500000" in overlay

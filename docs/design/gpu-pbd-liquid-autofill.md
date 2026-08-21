@@ -27,6 +27,15 @@ Walls and rims use SDF collision. Base, bottom, connector, foot, pedestal, and s
 use convex-hull collision. Labels, graduations, and unrelated visual meshes are not promoted into
 colliders. There is no hidden closed-box fallback.
 
+Standalone dynamic vessels may opt into
+`task02_visual_mesh_convex_decomposition_v1`. This keeps the source SDF and adds
+an invisible, package-owned convex-decomposition copy of the selected hollow
+visual mesh using the proven Task 02 voxel/contact/rest settings. Axisymmetric
+non-cylindrical vessels also receive a conservative 5 mm-binned inner-radius
+curve, used both for layer-wise particle authoring and containment measurement.
+An evidence-calibrated initial particle count may be supplied on this route; it
+does not change the pinned particle recipe.
+
 ## Qualification
 
 The authored seed is not evidence. Qualification reads the simulated `points` attribute after
@@ -40,6 +49,11 @@ The authored seed is not evidence. Qualification reads the simulated `points` at
 - no selected hard CUDA/GPU-PhysX errors.
 
 An Isaac version mismatch blocks promotion even when all physical measurements pass.
+
+When the source is a standalone dynamic asset with no support scene, the request
+may declare an evidence-only kinematic container fixture. The temporary layer is
+used only by qualification and full-scene integration and is excluded from the
+deliverable. The source rigid body remains dynamic in the output package.
 
 Each observation runs in its own disposable worker. After the JSON evidence has
 been flushed and `fsync`ed, the worker exits directly instead of calling

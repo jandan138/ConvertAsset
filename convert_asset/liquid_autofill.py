@@ -88,8 +88,12 @@ def recipe_sha256() -> str:
     return sha256(encoded.encode("utf-8")).hexdigest()
 
 
-def build_request(*, scene: Path, container: str, fill: float) -> dict[str, Any]:
-    return {
+def build_request(
+    *, scene: Path, container: str, fill: float,
+    fixed_container_validation: bool = False,
+    initial_particle_count: int | None = None,
+) -> dict[str, Any]:
+    request = {
         "schema_version": AUTOFILL_REQUEST_SCHEMA,
         "scene": str(Path(scene).resolve()),
         "container_prim": str(container),
@@ -103,6 +107,15 @@ def build_request(*, scene: Path, container: str, fill: float) -> dict[str, Any]
             "maximum_particle_count": MAXIMUM_PARTICLES,
         },
     }
+    if fixed_container_validation:
+        request["validation_fixture"] = {
+            "container_motion": "kinematic",
+            "scope": "evidence_only",
+        }
+        request["collision_profile"] = "task02_visual_mesh_convex_decomposition_v1"
+    if initial_particle_count is not None:
+        request["initial_particle_count"] = int(initial_particle_count)
+    return request
 
 
 def validate_request(request: Mapping[str, Any]) -> None:
@@ -145,6 +158,34 @@ def validate_request(request: Mapping[str, Any]) -> None:
             raise LiquidAutofillError(
                 "liquid starts require a qualified reservoir interaction profile"
             )
+    validation_fixture = request.get("validation_fixture")
+    if validation_fixture is not None and validation_fixture != {
+        "container_motion": "kinematic",
+        "scope": "evidence_only",
+    }:
+        raise LiquidAutofillError(
+            "validation_fixture must be evidence-only kinematic container motion"
+        )
+    collision_profile = request.get("collision_profile")
+    if collision_profile not in {
+        None,
+        "task02_visual_mesh_convex_decomposition_v1",
+    }:
+        raise LiquidAutofillError("unsupported liquid collision_profile")
+    if collision_profile is not None and validation_fixture is None:
+        raise LiquidAutofillError(
+            "PBD collision proxy requires the evidence-only validation fixture"
+        )
+    initial_particle_count = request.get("initial_particle_count")
+    if initial_particle_count is not None:
+        if not isinstance(initial_particle_count, int) or not 1 <= initial_particle_count <= 10_000:
+            raise LiquidAutofillError(
+                "initial_particle_count must be an integer from 1 through 10,000"
+            )
+        if collision_profile != "task02_visual_mesh_convex_decomposition_v1":
+            raise LiquidAutofillError(
+                "initial_particle_count requires the profiled PBD collision route"
+            )
 
 
 def _quantile(values: list[float], q: float) -> float:
@@ -172,7 +213,10 @@ def settled_fill_ratio(
 
 
 def build_particle_lattice(
-    cavity: Mapping[str, Any], *, fill: float
+    cavity: Mapping[str, Any], *, fill: float,
+    radial_profile: list[Mapping[str, Any]] | None = None,
+    wall_clearance_m: float | None = None,
+    target_particle_count: int | None = None,
 ) -> list[list[float]]:
     """Build one deterministic local-metre seed and align its q95 to ``fill``."""
 
@@ -188,6 +232,14 @@ def build_particle_lattice(
     usable_x = radius_x - margin
     usable_y = radius_y - margin
     target_surface = floor + float(fill) * (rim - floor)
+    if radial_profile is not None:
+        return _profiled_particle_lattice(
+            cavity,
+            radial_profile=radial_profile,
+            target_surface=target_surface,
+            wall_clearance_m=float(wall_clearance_m or 0.55 * spacing),
+            target_particle_count=target_particle_count,
+        )
     if usable_x <= spacing or usable_y <= spacing or target_surface <= floor + spacing:
         raise LiquidAutofillError("detected cavity is too small for the Task 02 particle scale")
 
@@ -226,3 +278,66 @@ def build_particle_lattice(
     return [
         [point[0], point[1], round(point[2] + shift, 7)] for point in points
     ]
+
+
+def _profiled_particle_lattice(
+    cavity: Mapping[str, Any], *, radial_profile: list[Mapping[str, Any]],
+    target_surface: float, wall_clearance_m: float,
+    target_particle_count: int | None = None,
+) -> list[list[float]]:
+    """Seed an axisymmetric vessel from its measured inner-radius curve."""
+
+    profile = sorted(
+        (float(item["z_m"]), float(item["inner_radius_m"]))
+        for item in radial_profile
+    )
+    if len(profile) < 3:
+        raise LiquidAutofillError("radial profile needs at least three height samples")
+
+    def radius_at(z: float) -> float:
+        if z <= profile[0][0]:
+            return profile[0][1]
+        for (lower_z, lower_r), (upper_z, upper_r) in zip(profile, profile[1:]):
+            if z <= upper_z:
+                ratio = (z - lower_z) / (upper_z - lower_z)
+                return lower_r + ratio * (upper_r - lower_r)
+        return profile[-1][1]
+
+    center_x, center_y = [float(value) for value in cavity["center_xy_m"]]
+    floor = float(cavity["floor_m"])
+    spacing = PARTICLE_SPACING_M
+    points: list[list[float]] = []
+    z = floor + 0.5 * spacing
+    rim = float(cavity["rim_m"])
+    while z <= target_surface + 1e-9 or (
+        target_particle_count is not None and len(points) < target_particle_count
+    ):
+        if z > rim - wall_clearance_m + 1e-9:
+            raise LiquidAutofillError(
+                "requested profiled particle count does not fit below the rim clearance"
+            )
+        usable = radius_at(z) - wall_clearance_m
+        if usable <= spacing:
+            raise LiquidAutofillError(
+                "profiled cavity is too narrow for the selected wall clearance"
+            )
+        steps = math.floor(usable / spacing)
+        for x_index in range(-steps, steps + 1):
+            for y_index in range(-steps, steps + 1):
+                x = x_index * spacing
+                y = y_index * spacing
+                if (x / usable) ** 2 + (y / usable) ** 2 > 1.0:
+                    continue
+                points.append(
+                    [round(center_x + x, 7), round(center_y + y, 7), round(z, 7)]
+                )
+                if len(points) > MAXIMUM_PARTICLES:
+                    raise LiquidAutofillError(
+                        "profiled Task 02 lattice exceeds the 10,000 particle budget"
+                    )
+                if target_particle_count is not None and len(points) == target_particle_count:
+                    return points
+        z += spacing
+    if not points:
+        raise LiquidAutofillError("profiled cavity produced no liquid particles")
+    return points

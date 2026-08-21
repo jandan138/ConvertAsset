@@ -33,6 +33,25 @@ On pass, consume `manifest.json`, `producer_overlay.usda`, `analysis.json`, `rec
 `evidence/runtime_qualification/report.json` together. On block, retain the directory only as
 diagnostics.
 
+For a standalone dynamic vessel, the request may include:
+
+```json
+{
+  "validation_fixture": {
+    "container_motion": "kinematic",
+    "scope": "evidence_only"
+  },
+  "collision_profile": "task02_visual_mesh_convex_decomposition_v1",
+  "initial_particle_count": 731
+}
+```
+
+This profile preserves the source SDF, adds the invisible Task-02-derived PBD
+proxy, and uses the measured inner-radius curve for particle layers and
+containment. `initial_particle_count` must be 1–10,000 and is accepted only with
+this profile. Temporary fixed-container USD layers must never enter the final
+closure or ZIP.
+
 The observer is a process-isolated worker. It writes and `fsync`s its observation
 before a controlled process exit, so use the JSON `overall_status` and the parent
 command exit code—not Kit plugin-unload output—as the qualification result.
