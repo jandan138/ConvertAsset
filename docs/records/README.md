@@ -1,5 +1,7 @@
 # Records
 
+- [2026-08-23 Task 11 static asset candidates](2026-08-23-task11-static-asset-candidates.md)
+
 - [2026-08-04 Generated-room support admission](2026-08-04-aan-generated-room-support-admission.md)
 
 Dated change logs, implementation records, audits, and route decisions for ConvertAsset.
