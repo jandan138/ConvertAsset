@@ -1,5 +1,6 @@
 # Records
 
+- [2026-08-24 LABSPIN X8 r3 embedded lid behavior](2026-08-24-labspin-x8-r3-embedded-lid-behavior.md)
 - [2026-08-23 Task 11 static asset candidates](2026-08-23-task11-static-asset-candidates.md)
 
 - [2026-08-04 Generated-room support admission](2026-08-04-aan-generated-room-support-admission.md)
