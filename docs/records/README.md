@@ -1,5 +1,6 @@
 # Records
 
+- [2026-08-24 29.77 mm magnetic stir-bar admission](2026-08-24-magnetic-stir-bar-29-77-admission.md)
 - [2026-08-24 LABSPIN X8 r4 contact controls](2026-08-24-labspin-x8-r4-contact-controls.md)
 - [2026-08-24 LABSPIN X8 r3 embedded lid behavior](2026-08-24-labspin-x8-r3-embedded-lid-behavior.md)
 - [2026-08-23 Task 11 static asset candidates](2026-08-23-task11-static-asset-candidates.md)
