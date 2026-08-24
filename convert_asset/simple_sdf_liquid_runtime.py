@@ -18,6 +18,7 @@ from .simple_sdf_liquid import (
     FLUID_ROOT,
     RESULT_SCHEMA,
     RESULT_SCHEMA_V2,
+    RESULT_SCHEMA_V3,
     CollisionSpec,
     MultiLiquidRequest,
     SimpleSdfLiquidError,
@@ -31,6 +32,7 @@ from .simple_sdf_liquid import (
 
 
 AUTO_SAMPLER_ROOT = "/__ScenarioForgeAutoSamplers"
+EDITABLE_SAMPLER_ROOT = FLUID_ROOT + "/Samplers"
 
 
 def _sha(path: Path) -> str:
@@ -524,6 +526,107 @@ def _author_auto_samplers(
     return stage, records
 
 
+def _unit_cylinder_mesh(
+    stage: Any, path: str, *, segments: int = 32
+) -> Any:
+    """Author a bottom-pivot unit cylinder for height-only liquid editing."""
+    from pxr import Gf, UsdGeom  # type: ignore
+
+    mesh = UsdGeom.Mesh.Define(stage, path)
+    points = []
+    for vertical in (0.0, 1.0):
+        points.extend(
+            Gf.Vec3f(
+                math.cos(2.0 * math.pi * index / segments),
+                math.sin(2.0 * math.pi * index / segments),
+                vertical,
+            )
+            for index in range(segments)
+        )
+    counts = [segments, segments] + [4] * segments
+    indices = list(reversed(range(segments))) + list(range(segments, 2 * segments))
+    for index in range(segments):
+        following = (index + 1) % segments
+        indices.extend([index, following, segments + following, segments + index])
+    mesh.CreatePointsAttr(points)
+    mesh.CreateFaceVertexCountsAttr(counts)
+    mesh.CreateFaceVertexIndicesAttr(indices)
+    mesh.CreateSubdivisionSchemeAttr(UsdGeom.Tokens.none)
+    return mesh
+
+
+def _author_editable_samplers(
+    *, source_stage: Any, request: MultiLiquidRequest, recipe: dict[str, Any],
+    auto_records: dict[str, dict[str, Any]], path: Path,
+) -> Path:
+    """Author one live, height-only PhysX sampler per v3 ParticleSet."""
+    from pxr import Gf, Sdf, Usd, UsdGeom  # type: ignore
+
+    stage = Usd.Stage.CreateNew(str(path))
+    meters = float(UsdGeom.GetStageMetersPerUnit(source_stage))
+    UsdGeom.SetStageMetersPerUnit(stage, meters)
+    UsdGeom.SetStageUpAxis(stage, UsdGeom.GetStageUpAxis(source_stage))
+    UsdGeom.Scope.Define(stage, FLUID_ROOT)
+    UsdGeom.Scope.Define(stage, EDITABLE_SAMPLER_ROOT)
+    spacing = float(recipe["particle_set"]["spacing_m"]) / meters
+    limit = int(recipe["particle_set"]["maximum_count_per_set"])
+    up_axis = str(UsdGeom.GetStageUpAxis(source_stage)).upper()
+    if up_axis != "Z":
+        raise SimpleSdfLiquidError("v3 height_z sampler currently requires a Z-up scene")
+    for item in request.sets:
+        if item.editable_axis != "height_z" or item.set_id not in auto_records:
+            raise SimpleSdfLiquidError(
+                "v3 editable delivery requires one automatic height_z sampler per set"
+            )
+        evidence_prim = auto_records[item.set_id]["sampler_mesh_prim"]
+        evidence_stage = Usd.Stage.Open(
+            str(path.parent / "evidence" / "auto_samplers.usda")
+        )
+        bbox = UsdGeom.BBoxCache(
+            Usd.TimeCode.Default(), [UsdGeom.Tokens.default_]
+        ).ComputeWorldBound(evidence_stage.GetPrimAtPath(evidence_prim)).ComputeAlignedBox()
+        minimum = bbox.GetMin()
+        maximum = bbox.GetMax()
+        center_x = (float(minimum[0]) + float(maximum[0])) / 2.0
+        center_y = (float(minimum[1]) + float(maximum[1])) / 2.0
+        radius_x = (float(maximum[0]) - float(minimum[0])) / 2.0
+        radius_y = (float(maximum[1]) - float(minimum[1])) / 2.0
+        height = float(maximum[2]) - float(minimum[2])
+        root = UsdGeom.Xform.Define(stage, f"{EDITABLE_SAMPLER_ROOT}/{item.set_id}")
+        root.AddTranslateOp().Set(Gf.Vec3d(center_x, center_y, float(minimum[2])))
+        root.AddScaleOp().Set(Gf.Vec3f(radius_x, radius_y, height))
+        root.GetPrim().CreateAttribute(
+            "scenarioForge:editableAxis", Sdf.ValueTypeNames.String
+        ).Set("height_z")
+        root.GetPrim().CreateAttribute(
+            "scenarioForge:minFillRatio", Sdf.ValueTypeNames.Float
+        ).Set(0.10)
+        root.GetPrim().CreateAttribute(
+            "scenarioForge:maxFillRatio", Sdf.ValueTypeNames.Float
+        ).Set(0.80)
+        root.CreateVisibilityAttr().Set(UsdGeom.Tokens.invisible)
+        mesh = _unit_cylinder_mesh(stage, f"{root.GetPath()}/Volume")
+        prim = mesh.GetPrim()
+        prim.SetMetadata(
+            "apiSchemas",
+            Sdf.TokenListOp.Create(prependedItems=["PhysxParticleSamplingAPI"]),
+        )
+        prim.CreateAttribute(
+            "physxParticleSampling:maxSamples", Sdf.ValueTypeNames.Int
+        ).Set(limit)
+        prim.CreateAttribute(
+            "physxParticleSampling:samplingDistance", Sdf.ValueTypeNames.Float
+        ).Set(spacing)
+        prim.CreateAttribute(
+            "physxParticleSampling:volume", Sdf.ValueTypeNames.Bool
+        ).Set(True)
+        prim.CreateRelationship("physxParticleSampling:particles").SetTargets(
+            [Sdf.Path(item.particle_prim)]
+        )
+    stage.GetRootLayer().Save()
+    return path
+
+
 def build_multi_liquid_candidate(*, request_path: Path, output: Path) -> Path:
     """Bake one Points prim per sampler and bind all sets to one system."""
     from pxr import Gf, Sdf, Usd, UsdGeom, UsdPhysics, UsdShade  # type: ignore
@@ -600,10 +703,14 @@ def build_multi_liquid_candidate(*, request_path: Path, output: Path) -> Path:
         shader.CreateIdAttr("UsdPreviewSurface")
         mat = recipe["material"]
         shader.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f).Set(Gf.Vec3f(*mat["diffuse_color"]))
+        shader.CreateInput("emissiveColor", Sdf.ValueTypeNames.Color3f).Set(
+            Gf.Vec3f(*mat["emissive_color"])
+        )
         shader.CreateInput("ior", Sdf.ValueTypeNames.Float).Set(mat["ior"])
         shader.CreateInput("opacity", Sdf.ValueTypeNames.Float).Set(mat["opacity"])
         shader.CreateInput("roughness", Sdf.ValueTypeNames.Float).Set(mat["roughness"])
         material.CreateSurfaceOutput().ConnectToSource(shader.ConnectableAPI(), "surface")
+        UsdShade.MaterialBindingAPI.Apply(system).Bind(material)
         set_records = []
         for item in request.sets:
             values = [Gf.Vec3f(*point) for point in sampled[item.set_id]]
@@ -629,8 +736,13 @@ def build_multi_liquid_candidate(*, request_path: Path, output: Path) -> Path:
             )
             prim.CreateAttribute("scenarioForge:samplerMeshPrim", Sdf.ValueTypeNames.String).Set(sampler_mesh_prim)
             prim.CreateAttribute("scenarioForge:samplerMode", Sdf.ValueTypeNames.String).Set(item.sampler_mode)
-            if item.preview_color is not None:
-                points.CreateDisplayColorPrimvar(UsdGeom.Tokens.constant).Set([Gf.Vec3f(*item.preview_color)])
+            display_color = item.preview_color or tuple(mat["diffuse_color"])
+            points.CreateDisplayColorPrimvar(UsdGeom.Tokens.constant).Set(
+                [Gf.Vec3f(*display_color)]
+            )
+            points.CreateDisplayOpacityPrimvar(UsdGeom.Tokens.constant).Set(
+                [float(mat["opacity"])]
+            )
             UsdPhysics.MassAPI.Apply(prim).CreateMassAttr(recipe["particle_set"]["mass_kg"])
             UsdShade.MaterialBindingAPI.Apply(prim).Bind(material)
             prim.SetMetadata(
@@ -656,6 +768,11 @@ def build_multi_liquid_candidate(*, request_path: Path, output: Path) -> Path:
                 }
             if item.sampler_mode != "explicit_mesh":
                 record.update(auto_records[item.set_id])
+            if item.editable_axis is not None:
+                record["editable_axis"] = item.editable_axis
+                record["editable_sampler_prim"] = (
+                    f"{EDITABLE_SAMPLER_ROOT}/{item.set_id}/Volume"
+                )
             set_records.append(record)
         if not any(prim.GetTypeName() == "PhysicsScene" for prim in source_stage.Traverse()):
             scene = UsdPhysics.Scene.Define(stage, FLUID_ROOT + "/PhysicsScene")
@@ -676,6 +793,32 @@ def build_multi_liquid_candidate(*, request_path: Path, output: Path) -> Path:
         UsdGeom.SetStageMetersPerUnit(entry_stage, meters_per_unit)
         UsdGeom.SetStageUpAxis(entry_stage, UsdGeom.GetStageUpAxis(source_stage))
         entry_stage.GetRootLayer().Save()
+        editable_entry = None
+        editable_samplers = None
+        if request.delivery_mode == "dual_editable_frozen":
+            editable_samplers = _author_editable_samplers(
+                source_stage=source_stage,
+                request=request,
+                recipe=recipe,
+                auto_records=auto_records,
+                path=output / "editable_samplers.usda",
+            )
+            editable_entry = output / "scene_liquid_edit.usda"
+            editable_layer = Sdf.Layer.CreateNew(str(editable_entry))
+            editable_layer.subLayerPaths = [
+                editable_samplers.name,
+                overlay_path.name,
+                source_copy.relative_to(output).as_posix(),
+            ]
+            if default_prim.IsValid():
+                editable_layer.defaultPrim = default_prim.GetName()
+            editable_layer.Save()
+            editable_stage = Usd.Stage.Open(str(editable_entry))
+            UsdGeom.SetStageMetersPerUnit(editable_stage, meters_per_unit)
+            UsdGeom.SetStageUpAxis(
+                editable_stage, UsdGeom.GetStageUpAxis(source_stage)
+            )
+            editable_stage.GetRootLayer().Save()
         _write_json(output / "recipe.json", recipe)
         manifest = {
             "schema_version": RESULT_SCHEMA,
@@ -704,12 +847,84 @@ def build_multi_liquid_candidate(*, request_path: Path, output: Path) -> Path:
             manifest["sampling"]["automatic_modes"] = sorted(
                 {record["sampler_mode"] for record in auto_records.values()}
             )
+        if editable_entry is not None and editable_samplers is not None:
+            manifest["schema_version"] = RESULT_SCHEMA_V3
+            manifest["entrypoints"].update(
+                {
+                    "editable_root_usd": editable_entry.name,
+                    "editable_samplers_usd": editable_samplers.name,
+                }
+            )
+            manifest["sampling"].update(
+                {
+                    "runtime_resampling": "editable_only",
+                    "editable_axis": "height_z",
+                }
+            )
         manifest_path = output / "manifest.json"
         _write_json(manifest_path, manifest)
         return manifest_path
     except Exception:
         shutil.rmtree(output, ignore_errors=True)
         raise
+
+
+def freeze_multi_liquid_editable(*, source: Path, output: Path) -> Path:
+    """Publish the last accepted baked state from a dual-entry v3 package.
+
+    The first implementation deliberately preserves the producer-baked points.
+    A changed live sampler must be played and saved in Isaac before this command;
+    the saved ParticleSet is then carried forward as the new frozen authority.
+    """
+    from pxr import Usd  # type: ignore
+
+    source = Path(source).expanduser().resolve()
+    output = Path(output).expanduser().resolve()
+    manifest_path = source / "manifest.json"
+    manifest = json.loads(manifest_path.read_text())
+    if manifest.get("schema_version") != RESULT_SCHEMA_V3:
+        raise SimpleSdfLiquidError("only a v3 dual-entry package can be frozen")
+    if output.exists():
+        raise FileExistsError(f"refusing to overwrite output: {output}")
+    shutil.copytree(source, output)
+    result = output / "manifest.json"
+    payload = json.loads(result.read_text())
+    editable = Usd.Stage.Open(
+        str(output / payload["entrypoints"]["editable_root_usd"]),
+        Usd.Stage.LoadAll,
+    )
+    overlay = Usd.Stage.Open(
+        str(output / payload["entrypoints"]["overlay_usd"]),
+        Usd.Stage.LoadAll,
+    )
+    if editable is None or overlay is None:
+        raise SimpleSdfLiquidError("cannot open editable or frozen liquid layer")
+    for item in payload["sets"]:
+        source_prim = editable.GetPrimAtPath(item["particle_prim"])
+        target_prim = overlay.GetPrimAtPath(item["particle_prim"])
+        values = source_prim.GetAttribute("points").Get() if source_prim else None
+        if not target_prim or values is None or not values:
+            raise SimpleSdfLiquidError(
+                f"editable ParticleSet has no saved points: {item['id']}"
+            )
+        target_prim.GetAttribute("points").Set(values)
+        target_prim.GetAttribute("physxParticle:simulationPoints").Set(values)
+        item["particle_count"] = len(values)
+        item["initial_min_z_stage"] = min(float(point[2]) for point in values)
+    overlay.GetRootLayer().Save()
+    payload["freeze_provenance"] = {
+        "source_manifest_sha256": _sha(manifest_path),
+        "editable_root_usd": payload["entrypoints"]["editable_root_usd"],
+        "mode": "saved_particle_set_authority",
+    }
+    payload["overall_status"] = "candidate"
+    payload["blocked_reasons"] = ["runtime_validation_not_run"]
+    payload["validation"] = {
+        "mode": payload["validation"]["mode"],
+        "status": "not_run",
+    }
+    _write_json(result, payload)
+    return result
 
 
 def validate_multi_liquid_candidate(
@@ -760,16 +975,43 @@ def validate_multi_liquid_candidate(
                 f"Isaac multi-liquid cold run {index} failed with {completed.returncode}"
             )
         runs.append(json.loads(destination.read_text()))
+    editable_delivery = manifest.get("schema_version") == RESULT_SCHEMA_V3
     evaluation = evaluate_multi_set_runs(
         runs,
         set_ids=[item["id"] for item in manifest["sets"]],
         mode=mode,
-        target_fill_ratios={
-            item["id"]: float(item["target_fill_ratio"])
-            for item in manifest["sets"]
-            if item.get("sampler_mode") in {"inside_fill", "mouth_drop"}
-        },
+        target_fill_ratios=(
+            {}
+            if editable_delivery
+            else {
+                item["id"]: float(item["target_fill_ratio"])
+                for item in manifest["sets"]
+                if item.get("sampler_mode") in {"inside_fill", "mouth_drop"}
+            }
+        ),
     )
+    if editable_delivery and evaluation["overall_status"] == "pass":
+        from pxr import Gf, Usd  # type: ignore
+
+        overlay_stage = Usd.Stage.Open(
+            str(output / manifest["entrypoints"]["overlay_usd"]),
+            Usd.Stage.LoadAll,
+        )
+        if overlay_stage is None:
+            raise SimpleSdfLiquidError("cannot reopen v3 frozen liquid overlay")
+        final_sets = runs[-1]["sets"]
+        for item in manifest["sets"]:
+            values = [
+                Gf.Vec3f(*point)
+                for point in final_sets[item["id"]]["final_points_stage"]
+            ]
+            prim = overlay_stage.GetPrimAtPath(item["particle_prim"])
+            prim.GetAttribute("points").Set(values)
+            prim.GetAttribute("physxParticle:simulationPoints").Set(values)
+            item["particle_count"] = len(values)
+            item["initial_min_z_stage"] = min(float(point[2]) for point in values)
+        overlay_stage.GetRootLayer().Save()
+        manifest["sampling"]["frozen_state"] = "post_validation_settled_points"
     report = {
         "schema_version": "aan.multi_liquid_validation_report.v1",
         "runtime": "isaac41",
@@ -778,6 +1020,11 @@ def validate_multi_liquid_candidate(
         "duration_seconds_per_run": seconds,
         "per_set_minimum_retention_ratio": 0.99,
         "maximum_below_floor_count": 0,
+        "settled_fill_ratio_gate": (
+            "diagnostic_only_for_height_editable_v3"
+            if editable_delivery
+            else "required_within_0.05"
+        ),
         **evaluation,
         "runs": [f"cold_run_{index}.json" for index in range(1, count + 1)],
     }

@@ -134,6 +134,10 @@ def main() -> int:
                 [min(float(point[i]) for point in values) for i in range(3)],
                 [max(float(point[i]) for point in values) for i in range(3)],
             ],
+            "final_points_stage": [
+                [float(point[0]), float(point[1]), float(point[2])]
+                for point in values
+            ],
         }
     text = (
         log_path.read_text(encoding="utf-8", errors="replace")[log_offset:]

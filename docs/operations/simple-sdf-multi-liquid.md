@@ -61,3 +61,14 @@ Use `validation: quick` for a one-run provisional check and
 `validation: qualified` for the three-run qualification. Read `manifest.json`
 and `evidence/runtime_validation/report.json`; never infer robot or benchmark
 success from either result.
+
+For an editable liquid package use request v3 with
+`delivery_mode: dual_editable_frozen` and `editable_axis: height_z` on every
+automatic sampler. Open `scene_liquid_edit.usda`, change only the sampler
+root's Z scale, run and save, then publish a new immutable candidate with:
+
+```bash
+./scripts/isaac_python.sh ./main.py multi-liquid-freeze \
+  --package /abs/path/editable_package --out /abs/path/new_frozen_package \
+  --isaac-python /path/to/eos-managed-isaac41/python
+```

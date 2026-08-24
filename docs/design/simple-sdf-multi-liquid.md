@@ -44,6 +44,17 @@ into the runtime scene. Every container still receives its own ParticleSet and
 all sets still share one ParticleSystem. Version 1 explicit meshes remain
 supported unchanged.
 
+`aan.multi_liquid_sample_request.v3` adds
+`delivery_mode: dual_editable_frozen`. The frozen entry contains the
+post-validation settled ParticleSets. The editable entry additionally composes
+one invisible, bottom-pivot cylinder per set under
+`/__ScenarioForgeFluid/Samplers`; each cylinder has
+`PhysxParticleSamplingAPI`, targets only its matching ParticleSet, and exposes
+height-Z as its sole supported edit. All sets still share one ParticleSystem
+and one transparent-blue material. The material is bound to both each
+ParticleSet and the ParticleSystem because the generated isosurface resolves
+its render material from the system.
+
 ## Package preservation
 
 When liquid is added to a passed `aan.simple_sdf_collision_result.v1` package,

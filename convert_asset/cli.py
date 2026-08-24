@@ -271,6 +271,18 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Keep a candidate for diagnostics without quick or qualified promotion",
     )
+    p_multi_liquid_freeze = sub.add_parser(
+        "multi-liquid-freeze",
+        help="Publish the saved ParticleSets from a dual-entry editable liquid package",
+    )
+    p_multi_liquid_freeze.add_argument("--package", required=True)
+    p_multi_liquid_freeze.add_argument("--out", required=True)
+    p_multi_liquid_freeze.add_argument("--isaac-python")
+    p_multi_liquid_freeze.add_argument(
+        "--no-runtime-validation",
+        action="store_true",
+        help="Keep the frozen edit as an unpromoted diagnostic candidate",
+    )
 
     p_usd_closure = sub.add_parser(
         "package-usd-closure",
@@ -493,6 +505,33 @@ def main(argv: list[str] | None = None) -> int:
                 root = Path(__file__).resolve().parents[1]
                 validate_multi_liquid_candidate(
                     output=output,
+                    launcher=(
+                        Path(args_ns.isaac_python).resolve()
+                        if args_ns.isaac_python
+                        else root / "scripts/isaac_python.sh"
+                    ),
+                    worker=root / "scripts/observe_multi_liquid.py",
+                )
+        except Exception as error:
+            print(f"ERROR: {error}")
+            return 5
+        print(result)
+        return 0
+
+    if args_ns.cmd == "multi-liquid-freeze":
+        from .simple_sdf_liquid_runtime import (
+            freeze_multi_liquid_editable,
+            validate_multi_liquid_candidate,
+        )
+
+        try:
+            result = freeze_multi_liquid_editable(
+                source=Path(args_ns.package), output=Path(args_ns.out)
+            )
+            if not args_ns.no_runtime_validation:
+                root = Path(__file__).resolve().parents[1]
+                validate_multi_liquid_candidate(
+                    output=Path(args_ns.out).resolve(),
                     launcher=(
                         Path(args_ns.isaac_python).resolve()
                         if args_ns.isaac_python

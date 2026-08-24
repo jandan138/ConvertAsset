@@ -19,8 +19,10 @@ import yaml
 COLLISION_SCHEMA = "aan.simple_sdf_collision_spec.v1"
 MULTI_LIQUID_SCHEMA = "aan.multi_liquid_sample_request.v1"
 MULTI_LIQUID_SCHEMA_V2 = "aan.multi_liquid_sample_request.v2"
+MULTI_LIQUID_SCHEMA_V3 = "aan.multi_liquid_sample_request.v3"
 RESULT_SCHEMA = "aan.multi_liquid_sample_result.v1"
 RESULT_SCHEMA_V2 = "aan.multi_liquid_sample_result.v2"
+RESULT_SCHEMA_V3 = "aan.multi_liquid_sample_result.v3"
 FLUID_ROOT = "/__ScenarioForgeFluid"
 _ID = re.compile(r"^[A-Za-z][A-Za-z0-9_]*$")
 _SCALES = {"task02_compatible", "small_required"}
@@ -66,6 +68,7 @@ class LiquidSet:
     particle_scale: str
     preview_color: tuple[float, float, float] | None
     particle_group: int
+    editable_axis: str | None = None
 
     @property
     def particle_prim(self) -> str:
@@ -79,6 +82,7 @@ class MultiLiquidRequest:
     scene: Path
     validation: str
     sets: tuple[LiquidSet, ...]
+    delivery_mode: str = "frozen_only"
 
 
 @dataclass(frozen=True)
@@ -292,8 +296,20 @@ def load_multi_liquid_request(path: Path) -> MultiLiquidRequest:
     request_path = Path(path).expanduser().resolve()
     raw = _load(request_path)
     schema_version = str(raw.get("schema_version", ""))
-    if schema_version not in {MULTI_LIQUID_SCHEMA, MULTI_LIQUID_SCHEMA_V2}:
+    if schema_version not in {
+        MULTI_LIQUID_SCHEMA,
+        MULTI_LIQUID_SCHEMA_V2,
+        MULTI_LIQUID_SCHEMA_V3,
+    }:
         raise SimpleSdfLiquidError("unsupported multi-liquid request schema")
+    delivery_mode = str(raw.get("delivery_mode", "frozen_only"))
+    if schema_version == MULTI_LIQUID_SCHEMA_V3:
+        if delivery_mode != "dual_editable_frozen":
+            raise SimpleSdfLiquidError(
+                "v3 delivery_mode must be dual_editable_frozen"
+            )
+    elif delivery_mode != "frozen_only":
+        raise SimpleSdfLiquidError("editable delivery requires the v3 request schema")
     scene = Path(str(raw.get("scene", "")))
     if not scene.is_absolute():
         scene = request_path.parent / scene
@@ -319,8 +335,13 @@ def load_multi_liquid_request(path: Path) -> MultiLiquidRequest:
         sampler_prim: str | None = None
         sampler_raw = value.get("sampler")
         if sampler_raw is not None:
-            if schema_version != MULTI_LIQUID_SCHEMA_V2 or not isinstance(sampler_raw, Mapping):
-                raise SimpleSdfLiquidError("automatic sampler requires the v2 request schema")
+            if schema_version not in {
+                MULTI_LIQUID_SCHEMA_V2,
+                MULTI_LIQUID_SCHEMA_V3,
+            } or not isinstance(sampler_raw, Mapping):
+                raise SimpleSdfLiquidError(
+                    "automatic sampler requires the v2 or v3 request schema"
+                )
             sampler_mode = str(sampler_raw.get("mode", ""))
             if sampler_mode not in _AUTO_MODES:
                 raise SimpleSdfLiquidError(f"unsupported automatic sampler mode: {sampler_mode}")
@@ -330,8 +351,19 @@ def load_multi_liquid_request(path: Path) -> MultiLiquidRequest:
             visual_value = sampler_raw.get("visual_mesh_prim")
             if visual_value is not None:
                 visual_mesh_prim = _prim(visual_value, "visual_mesh_prim")
+            editable_axis = sampler_raw.get("editable_axis")
+            if schema_version == MULTI_LIQUID_SCHEMA_V3:
+                if editable_axis != "height_z":
+                    raise SimpleSdfLiquidError(
+                        "v3 automatic sampler editable_axis must be height_z"
+                    )
+            elif editable_axis is not None:
+                raise SimpleSdfLiquidError(
+                    "editable_axis requires the v3 request schema"
+                )
         else:
             sampler_prim = _prim(value.get("sampler_mesh_prim"), "sampler_mesh_prim")
+            editable_axis = None
         sampler_usd_value = value.get("sampler_usd")
         sampler_usd = None
         if sampler_mode != "explicit_mesh" and sampler_usd_value:
@@ -362,9 +394,17 @@ def load_multi_liquid_request(path: Path) -> MultiLiquidRequest:
                 particle_scale=_scale(value.get("particle_scale")),
                 preview_color=color,
                 particle_group=group,
+                editable_axis=(str(editable_axis) if editable_axis else None),
             )
         )
-    return MultiLiquidRequest(request_path, schema_version, scene, validation, tuple(sets))
+    return MultiLiquidRequest(
+        request_path,
+        schema_version,
+        scene,
+        validation,
+        tuple(sets),
+        delivery_mode,
+    )
 
 
 def select_shared_recipe(sets: Sequence[LiquidSet]) -> dict[str, Any]:
@@ -394,6 +434,7 @@ def select_shared_recipe(sets: Sequence[LiquidSet]) -> dict[str, Any]:
             "material": {
                 "shader": "UsdPreviewSurface",
                 "diffuse_color": [0.32, 0.72, 0.95],
+                "emissive_color": [0.02, 0.12, 0.28],
                 "ior": 1.333,
                 "opacity": 0.34,
                 "roughness": 0.02,
@@ -406,6 +447,7 @@ def select_shared_recipe(sets: Sequence[LiquidSet]) -> dict[str, Any]:
     from .liquid_autofill import recipe_payload
 
     recipe = recipe_payload()
+    recipe["material"]["emissive_color"] = [0.02, 0.12, 0.28]
     recipe["particle_set"]["maximum_count_per_set"] = recipe["particle_set"].pop(
         "maximum_count"
     )

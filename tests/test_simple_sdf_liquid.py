@@ -19,6 +19,7 @@ from convert_asset.simple_sdf_liquid import (
 from convert_asset.simple_sdf_liquid_runtime import (
     build_multi_liquid_candidate,
     build_simple_sdf_package,
+    freeze_multi_liquid_editable,
 )
 
 
@@ -524,3 +525,110 @@ def test_v2_candidate_authors_package_local_mouth_drop_sampler(tmp_path: Path) -
     assert (output / "evidence/auto_samplers.usda").is_file()
     scene_text = (output / "scene.usda").read_text()
     assert "auto_samplers.usda" not in scene_text
+
+
+def test_v3_candidate_delivers_frozen_and_height_editable_sampler(tmp_path: Path) -> None:
+    from pxr import Usd
+
+    scene = _hollow_cylinder_scene(tmp_path / "hollow.usda")
+    request = tmp_path / "liquid.yaml"
+    request.write_text(
+        yaml.safe_dump(
+            {
+                "schema_version": "aan.multi_liquid_sample_request.v3",
+                "scene": str(scene),
+                "validation": "quick",
+                "delivery_mode": "dual_editable_frozen",
+                "sets": [
+                    {
+                        "id": "beaker_liquid",
+                        "container_prim": "/World/Container",
+                        "sampler": {
+                            "mode": "mouth_drop",
+                            "fill_ratio": 0.4,
+                            "editable_axis": "height_z",
+                            "visual_mesh_prim": "/World/Container/Hollow_Body",
+                        },
+                        "particle_scale": "task02_compatible",
+                    }
+                ],
+            },
+            sort_keys=False,
+        )
+    )
+
+    output = tmp_path / "candidate"
+    build_multi_liquid_candidate(request_path=request, output=output)
+
+    manifest = json.loads((output / "manifest.json").read_text())
+    assert manifest["schema_version"] == "aan.multi_liquid_sample_result.v3"
+    assert manifest["entrypoints"]["root_usd"] == "scene.usda"
+    assert manifest["entrypoints"]["editable_root_usd"] == "scene_liquid_edit.usda"
+    assert manifest["sampling"]["runtime_resampling"] == "editable_only"
+    assert manifest["sets"][0]["editable_axis"] == "height_z"
+    assert manifest["sets"][0]["particle_prim"].endswith("/beaker_liquid")
+
+    editable = Usd.Stage.Open(str(output / "scene_liquid_edit.usda"))
+    sampler = editable.GetPrimAtPath(
+        "/__ScenarioForgeFluid/Samplers/beaker_liquid/Volume"
+    )
+    assert sampler.IsValid()
+    assert "PhysxParticleSamplingAPI" in (
+        output / "editable_samplers.usda"
+    ).read_text()
+    assert [
+        str(path)
+        for path in sampler.GetRelationship(
+            "physxParticleSampling:particles"
+        ).GetTargets()
+    ] == [manifest["sets"][0]["particle_prim"]]
+
+
+def test_v3_freeze_preserves_one_set_per_sampler_and_shared_system(tmp_path: Path) -> None:
+    scene = _hollow_cylinder_scene(tmp_path / "hollow.usda")
+    request = tmp_path / "liquid.yaml"
+    request.write_text(
+        yaml.safe_dump(
+            {
+                "schema_version": "aan.multi_liquid_sample_request.v3",
+                "scene": str(scene),
+                "validation": "quick",
+                "delivery_mode": "dual_editable_frozen",
+                "sets": [
+                    {
+                        "id": "first",
+                        "container_prim": "/World/Container",
+                        "sampler": {
+                            "mode": "mouth_drop",
+                            "fill_ratio": 0.2,
+                            "editable_axis": "height_z",
+                        },
+                        "particle_scale": "task02_compatible",
+                    },
+                    {
+                        "id": "second",
+                        "container_prim": "/World/Container",
+                        "sampler": {
+                            "mode": "mouth_drop",
+                            "fill_ratio": 0.4,
+                            "editable_axis": "height_z",
+                        },
+                        "particle_scale": "task02_compatible",
+                    },
+                ],
+            },
+            sort_keys=False,
+        )
+    )
+    source = tmp_path / "candidate"
+    build_multi_liquid_candidate(request_path=request, output=source)
+
+    frozen = tmp_path / "frozen"
+    freeze_multi_liquid_editable(source=source, output=frozen)
+    manifest = json.loads((frozen / "manifest.json").read_text())
+
+    assert len({item["particle_prim"] for item in manifest["sets"]}) == 2
+    assert len({item["particle_group"] for item in manifest["sets"]}) == 2
+    assert manifest["entrypoints"]["particle_system_prim"] == (
+        "/__ScenarioForgeFluid/ParticleSystem"
+    )
