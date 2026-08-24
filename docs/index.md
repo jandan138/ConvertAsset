@@ -146,6 +146,7 @@ ConvertAsset 是面向 NVIDIA Isaac Sim / USD 资产的转换与优化工具集�
 
 ## 近期交付
 
+- [Task 11 r5 static context and rack support](records/2026-08-24-task11-r5-static-context-and-rack-support.md) - 闭合 visual-static 背景管、目标孔底托与三次 Isaac 4.1 规定轨迹插管验证
 - [29.77 mm magnetic stir-bar admission](records/2026-08-24-magnetic-stir-bar-29-77-admission.md) - source-bound identity package、圆柱抓取/承托碰撞与 Isaac 4.1 自由落体稳定性
 - [LABSPIN X8 r4 contact controls](records/2026-08-24-labspin-x8-r4-contact-controls.md) - 真接触 OPEN/STOP、约 78° 自动开盖保持、转子互锁与可观测关机状态
 - [Task 02 量筒简单碰撞 A/B](records/2026-08-21-task02-simple-collision-ab.md) - 同一580粒fixture证明视觉组件SDF与视觉mesh直接convex均失败，闭合统一代理静置/抬升通过
