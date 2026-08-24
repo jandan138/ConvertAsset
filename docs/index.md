@@ -146,6 +146,7 @@ ConvertAsset 是面向 NVIDIA Isaac Sim / USD 资产的转换与优化工具集�
 
 ## 近期交付
 
+- [LABSPIN X8 r5 关节满足的默认姿态](records/2026-08-24-labspin-x8-r5-rest-pose.md) - 未运行即组装、首步零跳变，并复跑 OPEN/互锁/STOP 接触门禁
 - [双入口液体与标准 SDF 烧杯](records/2026-08-24-dual-editable-liquid-and-sdf-beaker.md) - 冻结/高度可编辑 Cylinder 双入口、独立 ParticleSet、透明蓝共享系统材质与米制 source-bound 烧杯
 - [Task 11 r5 static context and rack support](records/2026-08-24-task11-r5-static-context-and-rack-support.md) - 闭合 visual-static 背景管、目标孔底托与三次 Isaac 4.1 规定轨迹插管验证
 - [29.77 mm magnetic stir-bar admission](records/2026-08-24-magnetic-stir-bar-29-77-admission.md) - source-bound identity package、圆柱抓取/承托碰撞与 Isaac 4.1 自由落体稳定性

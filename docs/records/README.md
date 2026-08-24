@@ -1,5 +1,6 @@
 # Records
 
+- [2026-08-24 LABSPIN X8 r5 joint-satisfied rest pose](2026-08-24-labspin-x8-r5-rest-pose.md)
 - [2026-08-24 Dual-entry liquid and standard SDF beaker](2026-08-24-dual-editable-liquid-and-sdf-beaker.md)
 - [2026-08-24 Task 11 r5 static context and rack support](2026-08-24-task11-r5-static-context-and-rack-support.md)
 - [2026-08-24 29.77 mm magnetic stir-bar admission](2026-08-24-magnetic-stir-bar-29-77-admission.md)
