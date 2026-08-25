@@ -528,7 +528,7 @@ def test_v2_candidate_authors_package_local_mouth_drop_sampler(tmp_path: Path) -
 
 
 def test_v3_candidate_delivers_frozen_and_height_editable_sampler(tmp_path: Path) -> None:
-    from pxr import Usd
+    from pxr import Usd, UsdShade
 
     scene = _hollow_cylinder_scene(tmp_path / "hollow.usda")
     request = tmp_path / "liquid.yaml"
@@ -550,6 +550,7 @@ def test_v3_candidate_delivers_frozen_and_height_editable_sampler(tmp_path: Path
                             "visual_mesh_prim": "/World/Container/Hollow_Body",
                         },
                         "particle_scale": "task02_compatible",
+                        "preview_color": [0.11, 0.22, 0.33],
                     }
                 ],
             },
@@ -565,8 +566,35 @@ def test_v3_candidate_delivers_frozen_and_height_editable_sampler(tmp_path: Path
     assert manifest["entrypoints"]["root_usd"] == "scene.usda"
     assert manifest["entrypoints"]["editable_root_usd"] == "scene_liquid_edit.usda"
     assert manifest["sampling"]["runtime_resampling"] == "editable_only"
+    assert manifest["rendering"]["color_source"] == (
+        "shared_particle_system_material"
+    )
     assert manifest["sets"][0]["editable_axis"] == "height_z"
     assert manifest["sets"][0]["particle_prim"].endswith("/beaker_liquid")
+    assert manifest["sets"][0]["preview_color_requested"] == [0.11, 0.22, 0.33]
+
+    frozen = Usd.Stage.Open(str(output / "liquid_overlay.usda"))
+    particle_set = frozen.GetPrimAtPath(manifest["sets"][0]["particle_prim"])
+    assert particle_set.IsValid()
+    assert not particle_set.GetAttribute(
+        "primvars:displayColor"
+    ).HasAuthoredValueOpinion()
+    assert not particle_set.GetAttribute(
+        "primvars:displayOpacity"
+    ).HasAuthoredValueOpinion()
+    particle_material, _ = UsdShade.MaterialBindingAPI(
+        particle_set
+    ).ComputeBoundMaterial()
+    system_material, _ = UsdShade.MaterialBindingAPI(
+        frozen.GetPrimAtPath(manifest["entrypoints"]["particle_system_prim"])
+    ).ComputeBoundMaterial()
+    assert particle_material.GetPath() == system_material.GetPath()
+    shader = UsdShade.Shader(
+        frozen.GetPrimAtPath(str(particle_material.GetPath()) + "/PreviewSurface")
+    )
+    assert tuple(shader.GetInput("diffuseColor").Get()) == pytest.approx(
+        (0.11, 0.22, 0.33)
+    )
 
     editable = Usd.Stage.Open(str(output / "scene_liquid_edit.usda"))
     sampler = editable.GetPrimAtPath(
@@ -632,3 +660,52 @@ def test_v3_freeze_preserves_one_set_per_sampler_and_shared_system(tmp_path: Pat
     assert manifest["entrypoints"]["particle_system_prim"] == (
         "/__ScenarioForgeFluid/ParticleSystem"
     )
+
+
+def test_shared_particle_system_rejects_distinct_preview_colors(tmp_path: Path) -> None:
+    scene = _hollow_cylinder_scene(tmp_path / "hollow.usda")
+    request = tmp_path / "liquid.yaml"
+    request.write_text(
+        yaml.safe_dump(
+            {
+                "schema_version": "aan.multi_liquid_sample_request.v3",
+                "scene": str(scene),
+                "validation": "quick",
+                "delivery_mode": "dual_editable_frozen",
+                "sets": [
+                    {
+                        "id": "first",
+                        "container_prim": "/World/Container",
+                        "sampler": {
+                            "mode": "mouth_drop",
+                            "fill_ratio": 0.2,
+                            "editable_axis": "height_z",
+                        },
+                        "particle_scale": "task02_compatible",
+                        "preview_color": [0.1, 0.2, 0.3],
+                    },
+                    {
+                        "id": "second",
+                        "container_prim": "/World/Container",
+                        "sampler": {
+                            "mode": "mouth_drop",
+                            "fill_ratio": 0.4,
+                            "editable_axis": "height_z",
+                        },
+                        "particle_scale": "task02_compatible",
+                        "preview_color": [0.3, 0.2, 0.1],
+                    },
+                ],
+            },
+            sort_keys=False,
+        )
+    )
+
+    with pytest.raises(
+        SimpleSdfLiquidError,
+        match="shared ParticleSystem cannot render distinct preview colors",
+    ):
+        build_multi_liquid_candidate(
+            request_path=request,
+            output=tmp_path / "candidate",
+        )

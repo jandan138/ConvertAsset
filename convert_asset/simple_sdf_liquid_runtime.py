@@ -642,6 +642,17 @@ def build_multi_liquid_candidate(*, request_path: Path, output: Path) -> Path:
             raise SimpleSdfLiquidError(f"cannot open scene: {request.scene}")
         meters_per_unit = float(UsdGeom.GetStageMetersPerUnit(source_stage))
         recipe = select_shared_recipe(request.sets)
+        preview_colors = {
+            tuple(float(value) for value in item.preview_color)
+            for item in request.sets
+            if item.preview_color is not None
+        }
+        if len(preview_colors) > 1:
+            raise SimpleSdfLiquidError(
+                "one shared ParticleSystem cannot render distinct preview colors"
+            )
+        if preview_colors:
+            recipe["material"]["diffuse_color"] = list(next(iter(preview_colors)))
         source_copy = _copy_full_scene_closure(
             scene=request.scene,
             required_prims=[item.container_prim for item in request.sets],
@@ -736,13 +747,6 @@ def build_multi_liquid_candidate(*, request_path: Path, output: Path) -> Path:
             )
             prim.CreateAttribute("scenarioForge:samplerMeshPrim", Sdf.ValueTypeNames.String).Set(sampler_mesh_prim)
             prim.CreateAttribute("scenarioForge:samplerMode", Sdf.ValueTypeNames.String).Set(item.sampler_mode)
-            display_color = item.preview_color or tuple(mat["diffuse_color"])
-            points.CreateDisplayColorPrimvar(UsdGeom.Tokens.constant).Set(
-                [Gf.Vec3f(*display_color)]
-            )
-            points.CreateDisplayOpacityPrimvar(UsdGeom.Tokens.constant).Set(
-                [float(mat["opacity"])]
-            )
             UsdPhysics.MassAPI.Apply(prim).CreateMassAttr(recipe["particle_set"]["mass_kg"])
             UsdShade.MaterialBindingAPI.Apply(prim).Bind(material)
             prim.SetMetadata(
@@ -766,6 +770,8 @@ def build_multi_liquid_candidate(*, request_path: Path, output: Path) -> Path:
                     "container_prim": item.container_prim,
                     "initial_min_z_stage": min(point[2] for point in sampled[item.set_id]),
                 }
+            if item.preview_color is not None:
+                record["preview_color_requested"] = list(item.preview_color)
             if item.sampler_mode != "explicit_mesh":
                 record.update(auto_records[item.set_id])
             if item.editable_axis is not None:
@@ -837,6 +843,10 @@ def build_multi_liquid_candidate(*, request_path: Path, output: Path) -> Path:
                 "spacing_m": recipe["particle_set"]["spacing_m"],
             },
             "recipe": {"id": recipe["recipe_id"], "path": "recipe.json"},
+            "rendering": {
+                "color_source": "shared_particle_system_material",
+                "particle_display_primvars_authored": False,
+            },
             "sets": set_records,
             "validation": {"mode": request.validation, "status": "not_run"},
             "claim_boundary": "No robot, pour, metric, or benchmark success claim.",

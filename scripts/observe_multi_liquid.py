@@ -98,9 +98,10 @@ def main() -> int:
         bounds[item["id"]] = ([float(v) for v in box.GetMin()], [float(v) for v in box.GetMax()])
     world.reset()
     steps = round(args.seconds * 120)
+    rendered_steps = min(60, steps)
     started = time.monotonic()
-    for _ in range(steps):
-        world.step(render=False)
+    for step in range(steps):
+        world.step(render=step < rendered_steps)
     elapsed = time.monotonic() - started
     spacing = float(manifest["sampling"]["spacing_m"]) / meters
     sets = {}
@@ -149,6 +150,8 @@ def main() -> int:
         "Particles feature is only supported on GPU",
         "CUDA error",
         "illegal memory access",
+        "Unrecognized primvar 'displayColor'",
+        "Unrecognized primvar 'displayOpacity'",
     )
     result = {
         "schema_version": "aan.multi_liquid_cold_observation.v1",
@@ -158,6 +161,7 @@ def main() -> int:
             "kit_version": str(omni.kit.app.get_app().get_app_version()),
         },
         "duration_seconds": args.seconds,
+        "rendered_steps": rendered_steps,
         "up_axis": up_axis,
         "vertical_axis_index": vertical,
         "physics_steps_per_wall_second": steps / elapsed if elapsed else None,
