@@ -14,7 +14,16 @@ from convert_asset.fluid_interaction_asset import (
     normalized_collision_presets,
     qualification_policy,
 )
-from convert_asset.fluid_interaction_runtime import build_unqualified_asset_package
+from convert_asset.fluid_interaction_runtime import (
+    _conduit_outlet_outer_radius,
+    build_unqualified_asset_package,
+)
+from convert_asset.liquid_recipe import load_liquid_recipe, liquid_recipe_sha256
+
+
+REPO = Path(__file__).resolve().parents[1]
+COLLEAGUE_RECIPE = REPO / "profiles/gpu_pbd/colleague_small_gpu_pbd_v1.json"
+SMALL_V2_RECIPE = REPO / "profiles/gpu_pbd/scientific_workbench_small_gpu_pbd_v2.json"
 
 
 def _proposal(tmp_path: Path, *, behavior: str = "reservoir") -> Path:
@@ -180,3 +189,70 @@ def test_candidate_package_authors_collision_without_shipping_particles(tmp_path
     assert 'physics:approximation = "sdf"' in stage_text
     assert "PhysxParticleSystem" not in stage_text
     assert "ParticleSet" not in stage_text
+
+
+def test_colleague_small_recipe_is_explicit_and_hashable() -> None:
+    recipe = load_liquid_recipe(COLLEAGUE_RECIPE)
+
+    assert recipe["recipe_id"] == "colleague_small_gpu_pbd_v1"
+    assert recipe["particle_set"]["spacing_m"] == pytest.approx(0.001)
+    assert recipe["particle_set"]["width_m"] == pytest.approx(0.001188)
+    assert recipe["particle_system"]["particle_contact_offset_m"] == pytest.approx(
+        0.001
+    )
+    assert recipe["particle_system"]["effective_rest_offset_m"] == pytest.approx(
+        0.005
+    )
+    assert len(liquid_recipe_sha256(recipe)) == 64
+
+
+def test_small_v2_changes_only_offsets_from_colleague_recipe() -> None:
+    colleague = load_liquid_recipe(COLLEAGUE_RECIPE)
+    revised = load_liquid_recipe(SMALL_V2_RECIPE)
+
+    assert revised["particle_set"] == colleague["particle_set"]
+    assert revised["material"] == colleague["material"]
+    assert revised["particle_system"]["max_velocity_m_s"] == colleague[
+        "particle_system"
+    ]["max_velocity_m_s"]
+    assert revised["particle_system"]["particle_contact_offset_m"] == pytest.approx(
+        0.0007
+    )
+    assert revised["particle_system"]["effective_rest_offset_m"] == pytest.approx(
+        0.00055
+    )
+
+
+def test_conduit_outlet_uses_outer_shell_radius_not_inner_throat() -> None:
+    geometry = {
+        "minimum_clearance_radius_m": 0.0035,
+        "cavity": {"inner_outer_radial_ratio": 0.7},
+    }
+
+    assert _conduit_outlet_outer_radius(geometry) == pytest.approx(0.005)
+
+
+def test_candidate_copies_and_hash_binds_selected_liquid_recipe(tmp_path: Path) -> None:
+    proposal = _proposal(tmp_path, behavior="conduit")
+
+    manifest_path = build_unqualified_asset_package(
+        proposal_path=proposal,
+        output=tmp_path / "package",
+        liquid_recipe_path=COLLEAGUE_RECIPE,
+    )
+
+    manifest = json.loads(manifest_path.read_text())
+    copied = tmp_path / "package/interaction/liquid_recipe.json"
+    profile = json.loads(
+        (tmp_path / "package/interaction/fluid_profile.json").read_text()
+    )
+    recipe = load_liquid_recipe(copied)
+    assert manifest["liquid_recipe"]["id"] == "colleague_small_gpu_pbd_v1"
+    assert manifest["liquid_recipe"]["sha256"] == liquid_recipe_sha256(recipe)
+    assert profile["liquid_recipe"] == manifest["liquid_recipe"]
+    assert profile["collision_parameters"]["contact_offset_m"] == pytest.approx(
+        0.0005
+    )
+    assert profile["collision_parameters"]["selection"] == (
+        "small_recipe_half_particle_contact_cap"
+    )

@@ -1,0 +1,31 @@
+{
+  "schema_version": "aan.visual_material_profile.v2",
+  "profile_id": "scientific_workbench.funnel_15ml.glass_web_standard_v1",
+  "revision": "glass_web_standard_v1",
+  "source_binding": {
+    "source_path": "/cpfs/user/zhuzihou/dev/scenario-forge/outputs/funnel_15ml_small_particle_20260824/funnel_15ml_small_particle.usda",
+    "sha256": "bfae2509a9856bac82e11c2d41d84e2a849db6ffc7a465b0077b399af6cf2ad6"
+  },
+  "override": {
+    "kind": "mdl_glass",
+    "source_mdl": "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass.mdl",
+    "source_mdl_dependencies": [
+      "/cpfs/shared/simulation/zhuzihou/dev/conda-managed/envs/embodied-eval-os-sim-isaacsim41-genmanip-py310/lib/python3.10/site-packages/omni/mdl/core/Base/OmniGlass_Opacity.mdl"
+    ],
+    "source_sub_identifier": "OmniGlass",
+    "material_name": "WebStandardClearBorosilicate",
+    "binding_targets": ["/World/Funnel/Visual"],
+    "mdl_inputs": {
+      "cutout_opacity": {"type": "float", "value": 0.0},
+      "depth": {"type": "float", "value": 0.002},
+      "enable_opacity": {"type": "bool", "value": false},
+      "frosting_roughness": {"type": "float", "value": 0.035},
+      "glass_color": {"type": "color3f", "value": [0.99, 0.998, 1.0]},
+      "glass_ior": {"type": "float", "value": 1.47},
+      "reflection_color": {"type": "color3f", "value": [1.0, 1.0, 1.0]},
+      "roughness_texture_influence": {"type": "float", "value": 1.0},
+      "thin_walled": {"type": "bool", "value": false}
+    },
+    "claim_boundary": "Webpage-standard thick-wall clear borosilicate on the generated funnel visual only; geometry, collision and physics are unchanged."
+  }
+}

@@ -145,6 +145,7 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         "schema_version": "aan.fluid_interaction_cold_observation.v1",
         "run_index": args.run_index,
         "behavior": behavior,
+        "liquid_recipe": fixture["liquid_recipe"],
     }
     if behavior == "reservoir":
         cavity = fixture["cavity"]
@@ -154,6 +155,9 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         static_local = _local_points(stage, target_path, _live_points(stage, particle_path), UsdGeom)
         static_inside = sum(
             _inside_cavity(point, cavity, retention_profile) for point in static_local
+        )
+        static_below_floor = sum(
+            point[2] < float(cavity["floor_m"]) - 0.001 for point in static_local
         )
         structural = sum(
             point[2] < float(cavity["floor_m"]) - 0.001
@@ -185,6 +189,8 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         report.update(
             {
                 "static_retention_ratio": static_inside / initial_count,
+                "static_below_floor_count": static_below_floor,
+                "static_outside_wall_count": structural - static_below_floor,
                 "motion_retention_ratio": motion_inside / initial_count,
                 "pour_outflow_ratio": 1.0 - pour_inside / initial_count,
                 "structural_leak_count": structural,

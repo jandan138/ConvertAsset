@@ -567,7 +567,8 @@ def inspect_scene(scene: Path) -> dict[str, Any]:
 
 def _define_overlay(
     *, scene: Path, output: Path, analysis: Mapping[str, Any], points_m: list[list[float]],
-    collision_profile: str | None,
+    collision_profile: str | None = None,
+    recipe_override: Mapping[str, Any] | None = None,
 ) -> tuple[Path, str, str, str | None]:
     from pxr import Gf, Sdf, Usd, UsdGeom, UsdPhysics, UsdShade  # type: ignore
 
@@ -605,9 +606,11 @@ def _define_overlay(
     for item in analysis["collision_prims"]:
         prim = stage.OverridePrim(item["prim_path"])
         UsdPhysics.CollisionAPI.Apply(prim).CreateCollisionEnabledAttr(True).Set(True)
-        UsdPhysics.MeshCollisionAPI.Apply(prim).CreateApproximationAttr(
-            item["approximation"]
-        )
+        source_prim = source_stage.GetPrimAtPath(str(item["prim_path"]))
+        if source_prim.IsA(UsdGeom.Mesh):
+            UsdPhysics.MeshCollisionAPI.Apply(prim).CreateApproximationAttr(
+                item["approximation"]
+            )
     pbd_proxy_path = None
     if collision_profile == "task02_visual_mesh_convex_decomposition_v1":
         source_mesh_path = str(analysis["cavity"]["prim_path"])
@@ -654,7 +657,7 @@ def _define_overlay(
     particle_system_path = liquid_root + "/ParticleSystem"
     particles_path = liquid_root + "/ParticleSet"
     UsdGeom.Scope.Define(stage, liquid_root)
-    recipe = recipe_payload()
+    recipe = dict(recipe_override) if recipe_override is not None else recipe_payload()
     system = stage.DefinePrim(particle_system_path, "PhysxParticleSystem")
     system.SetMetadata(
         "apiSchemas",

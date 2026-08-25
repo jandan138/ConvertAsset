@@ -1,0 +1,37 @@
+{
+  "schema_version": "aan.gpu_pbd_liquid_recipe.v1",
+  "recipe_id": "scientific_workbench_small_gpu_pbd_v2",
+  "runtime": "isaac41",
+  "particle_system": {
+    "max_velocity_m_s": 0.2,
+    "particle_contact_offset_m": 0.0007,
+    "effective_rest_offset_m": 0.00055,
+    "grid_filtering_passes": 1,
+    "grid_smoothing_radius_m": 0.005,
+    "mesh_smoothing_passes": 1,
+    "surface_distance_m": 0.008
+  },
+  "particle_set": {
+    "spacing_m": 0.001,
+    "width_m": 0.001188,
+    "mass_kg": 2.282672253187432e-06,
+    "maximum_count": 50000,
+    "fluid": true,
+    "self_collision": true
+  },
+  "material": {
+    "shader": "UsdPreviewSurface",
+    "diffuse_color": [0.32, 0.72, 0.95],
+    "emissive_color": [0.02, 0.12, 0.28],
+    "ior": 1.333,
+    "opacity": 0.34,
+    "roughness": 0.02
+  },
+  "provenance": {
+    "source": "colleague_small_gpu_pbd_v1 controlled narrow-throat revision",
+    "only_changed_fields": [
+      "particle_system.particle_contact_offset_m",
+      "particle_system.effective_rest_offset_m"
+    ]
+  }
+}

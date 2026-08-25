@@ -22,6 +22,15 @@ from .fluid_interaction_asset import (
     normalized_collision_presets,
     qualification_policy,
 )
+from .liquid_recipe import (
+    liquid_recipe_sha256,
+    load_liquid_recipe,
+    validate_liquid_recipe,
+)
+from .asset_application_normalizer.visual_material_profile import (
+    _mdl_overlay_text,
+    load_visual_material_profile,
+)
 
 
 _SOLID_HINTS = ("bottom", "base", "connector", "foot", "pedestal", "spout")
@@ -512,7 +521,13 @@ def derive_partition_proposal(*, proposal_path: Path, output: Path) -> Path:
     return derived
 
 
-def build_unqualified_asset_package(*, proposal_path: Path, output: Path) -> Path:
+def build_unqualified_asset_package(
+    *,
+    proposal_path: Path,
+    output: Path,
+    liquid_recipe_path: Path | None = None,
+    visual_material_profile_path: Path | None = None,
+) -> Path:
     """Build a diagnostics-only package; formal pass requires runtime evidence."""
 
     proposal = load_approved_proposal(proposal_path)
@@ -556,7 +571,40 @@ def build_unqualified_asset_package(*, proposal_path: Path, output: Path) -> Pat
         if not source_copy.is_absolute():
             source_copy = source_dir / source_copy
     source_relative = source_copy.relative_to(output).as_posix()
+    if liquid_recipe_path is None:
+        from .liquid_autofill import recipe_payload
+
+        recipe = validate_liquid_recipe(recipe_payload())
+    else:
+        recipe = load_liquid_recipe(liquid_recipe_path)
     selected = normalized_collision_presets(proposal.minimum_clearance_radius_m)[1]
+    if float(recipe["particle_set"]["width_m"]) <= 0.002:
+        selected = dict(selected)
+        collision_limit = 0.5 * float(
+            recipe["particle_system"]["particle_contact_offset_m"]
+        )
+        selected["contact_offset_m"] = min(
+            float(selected["contact_offset_m"]), collision_limit
+        )
+        selected["rest_offset_m"] = min(
+            float(selected["rest_offset_m"]), 0.5 * collision_limit
+        )
+        selected["sdf_margin_m"] = min(
+            float(selected["sdf_margin_m"]), collision_limit
+        )
+        selected["sdf_narrow_band_m"] = min(
+            float(selected["sdf_narrow_band_m"]), collision_limit
+        )
+        selected["selection"] = "small_recipe_half_particle_contact_cap"
+    interaction = output / "interaction"
+    interaction.mkdir()
+    recipe_path = interaction / "liquid_recipe.json"
+    recipe_path.write_text(json.dumps(recipe, indent=2, sort_keys=True) + "\n")
+    recipe_record = {
+        "id": recipe["recipe_id"],
+        "path": "interaction/liquid_recipe.json",
+        "sha256": liquid_recipe_sha256(recipe),
+    }
     profile = {
         "schema_version": PROFILE_SCHEMA,
         "profile_id": f"{_slug(proposal.scope_prim.rsplit('/', 1)[-1])}.fluid_interaction.candidate.v1",
@@ -570,12 +618,11 @@ def build_unqualified_asset_package(*, proposal_path: Path, output: Path) -> Pat
         "collision_parameters": selected,
         "physics": proposal.payload["physics"],
         "qualification_policy": qualification_policy(proposal.behavior),
+        "liquid_recipe": recipe_record,
         "claim": None,
         "robot_policy_success": False,
         "benchmark_success": False,
     }
-    interaction = output / "interaction"
-    interaction.mkdir()
     profile_path = interaction / "fluid_profile.json"
     profile_path.write_text(json.dumps(profile, indent=2, sort_keys=True) + "\n")
     # The entrypoint contains only a source reference plus collision opinions;
@@ -616,11 +663,15 @@ def build_unqualified_asset_package(*, proposal_path: Path, output: Path) -> Pat
             continue
         prim = stage.OverridePrim(_remap(str(item["prim_path"])))
         UsdPhysics.CollisionAPI.Apply(prim).CreateCollisionEnabledAttr(True).Set(True)
-        UsdPhysics.MeshCollisionAPI.Apply(prim).CreateApproximationAttr(
-            str(item["approximation"])
-        )
-        schemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI", "PhysicsMeshCollisionAPI"]
-        if item["approximation"] == "sdf":
+        source_prim = source_stage.GetPrimAtPath(str(item["prim_path"]))
+        is_mesh = source_prim.IsA(UsdGeom.Mesh)
+        schemas = ["PhysicsCollisionAPI", "PhysxCollisionAPI"]
+        if is_mesh:
+            UsdPhysics.MeshCollisionAPI.Apply(prim).CreateApproximationAttr(
+                str(item["approximation"])
+            )
+            schemas.append("PhysicsMeshCollisionAPI")
+        if is_mesh and item["approximation"] == "sdf":
             schemas.append("PhysxSDFMeshCollisionAPI")
         prim.SetMetadata("apiSchemas", Sdf.TokenListOp.CreateExplicit(schemas))
         prim.CreateAttribute(
@@ -794,6 +845,15 @@ def build_unqualified_asset_package(*, proposal_path: Path, output: Path) -> Pat
                 "physxCollision:restOffset", Sdf.ValueTypeNames.Float
             ).Set(selected["rest_offset_m"])
     stage.GetRootLayer().Save()
+    visual_record = _apply_fluid_visual_material_profile(
+        output=output,
+        entry=entry,
+        source_usd=proposal.source_usd,
+        source_scope=proposal.scope_prim,
+        profile_path=visual_material_profile_path,
+    )
+    profile["visual_material_profile"] = visual_record
+    profile_path.write_text(json.dumps(profile, indent=2, sort_keys=True) + "\n")
     manifest = {
         "schema_version": "aan.fluid_interaction_asset_result.v1",
         "overall_status": "candidate",
@@ -808,11 +868,86 @@ def build_unqualified_asset_package(*, proposal_path: Path, output: Path) -> Pat
             "scope_prim": proposal.scope_prim,
         },
         "qualification": {"status": "not_run"},
+        "liquid_recipe": recipe_record,
+        "visual_material_profile": visual_record,
         "claim": None,
     }
     manifest_path = output / "manifest.json"
     manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
     return manifest_path
+
+
+def _apply_fluid_visual_material_profile(
+    *,
+    output: Path,
+    entry: Path,
+    source_usd: Path,
+    source_scope: str,
+    profile_path: Path | None,
+) -> dict[str, Any]:
+    if profile_path is None:
+        return {"status": "not_requested"}
+    resolution = load_visual_material_profile(profile_path, source_usd)
+    if resolution.status != "pass":
+        raise ValueError(
+            "fluid visual material profile blocked: "
+            + str(resolution.reason or "unknown reason")
+        )
+    if resolution.override_kind != "mdl_glass":
+        raise ValueError("fluid visual material profile must use mdl_glass")
+    assert resolution.source_mdl is not None
+    assert resolution.source_sub_identifier is not None
+    assert resolution.material_name is not None
+    assert resolution.profile_id is not None
+    assert resolution.profile_sha256 is not None
+    assert resolution.profile_bytes is not None
+    assert resolution.mdl_inputs is not None
+    from pxr import Usd  # type: ignore
+
+    source_stage = Usd.Stage.Open(str(source_usd))
+    for target in resolution.binding_targets:
+        if not target.startswith(source_scope + "/") or not source_stage.GetPrimAtPath(
+            target
+        ):
+            raise ValueError(f"fluid visual material target is invalid: {target}")
+    mdl_dir = output / "deps/mdl"
+    mdl_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(resolution.source_mdl, mdl_dir / resolution.source_mdl.name)
+    for dependency in resolution.source_mdl_dependencies:
+        shutil.copy2(dependency, mdl_dir / dependency.name)
+    remapped = tuple(
+        "/FluidInteractionAsset" + target[len(source_scope) :]
+        for target in resolution.binding_targets
+    )
+    overlay = output / "overlays/visual_material.usda"
+    overlay.parent.mkdir(parents=True, exist_ok=True)
+    overlay.write_text(
+        _mdl_overlay_text(
+            scope="/FluidInteractionAsset",
+            material_name=resolution.material_name,
+            mdl_relpath="../deps/mdl/" + resolution.source_mdl.name,
+            source_sub_identifier=resolution.source_sub_identifier,
+            profile_id=resolution.profile_id,
+            profile_sha256=resolution.profile_sha256,
+            binding_targets=remapped,
+            mdl_inputs=resolution.mdl_inputs,
+        ),
+        encoding="utf-8",
+    )
+    profile_copy = output / "visual/profile.json"
+    profile_copy.parent.mkdir(parents=True, exist_ok=True)
+    profile_copy.write_bytes(resolution.profile_bytes)
+    stage = Usd.Stage.Open(str(entry))
+    stage.GetRootLayer().subLayerPaths.insert(0, "overlays/visual_material.usda")
+    stage.GetRootLayer().Save()
+    return {
+        "status": "pass",
+        "profile_id": resolution.profile_id,
+        "profile_sha256": resolution.profile_sha256,
+        "path": "visual/profile.json",
+        "overlay": "overlays/visual_material.usda",
+        "binding_targets": list(remapped),
+    }
 
 
 def _canonical_rotation(axis: list[float]) -> tuple[float, float, float]:
@@ -852,10 +987,9 @@ def _source_position(point: tuple[float, float, float], axis: list[float]) -> tu
     return (result[0], result[1], result[2])
 
 
-def _seed_cylinder(*, center: list[float], radius: float, z0: float, z1: float) -> list[list[float]]:
-    from .liquid_autofill import PARTICLE_SPACING_M
-
-    spacing = PARTICLE_SPACING_M
+def _seed_cylinder(
+    *, center: list[float], radius: float, z0: float, z1: float, spacing: float
+) -> list[list[float]]:
     points: list[list[float]] = []
     x = -radius
     while x <= radius + 1e-9:
@@ -884,12 +1018,23 @@ def _station_radius(stations: list[dict[str, Any]], z: float, key: str) -> float
     return float(stations[-1][key])
 
 
-def _seed_profiled_reservoir(
-    *, stations: list[dict[str, Any]], floor: float, rim: float, fill: float
-) -> list[list[float]]:
-    from .liquid_autofill import PARTICLE_SPACING_M
+def _conduit_outlet_outer_radius(geometry: dict[str, Any]) -> float:
+    wall_profile = geometry.get("partition_model", {}).get("stations", [])
+    if wall_profile:
+        return float(wall_profile[0]["outer_radius_m"])
+    inner = float(geometry["minimum_clearance_radius_m"])
+    ratio = float(geometry.get("cavity", {}).get("inner_outer_radial_ratio", 0.0))
+    return inner / ratio if 0.0 < ratio <= 1.0 else inner
 
-    spacing = PARTICLE_SPACING_M
+
+def _seed_profiled_reservoir(
+    *,
+    stations: list[dict[str, Any]],
+    floor: float,
+    rim: float,
+    fill: float,
+    spacing: float,
+) -> list[list[float]]:
     top = floor + fill * (rim - floor)
     maximum = max(float(item["inner_radius_m"]) for item in stations)
     points: list[list[float]] = []
@@ -919,6 +1064,8 @@ def _runtime_fixture(
     from .liquid_autofill_runtime import _define_overlay, _qualification_scene
 
     proposal = load_approved_proposal(proposal_path)
+    recipe = load_liquid_recipe(package / "interaction/liquid_recipe.json")
+    spacing = float(recipe["particle_set"]["spacing_m"])
     geometry = proposal.payload["geometry"]
     behavior = proposal.behavior
     root.mkdir(parents=True, exist_ok=True)
@@ -974,9 +1121,15 @@ def _runtime_fixture(
                 floor=float(cavity["floor_m"]),
                 rim=float(cavity["rim_m"]),
                 fill=0.40,
+                spacing=spacing,
             )
             if reservoir_profile
-            else build_particle_lattice(cavity, fill=0.40)
+            else build_particle_lattice(
+                cavity,
+                fill=0.40,
+                spacing_m=spacing,
+                maximum_particles=int(recipe["particle_set"]["maximum_count"]),
+            )
         )
         receiver = None
     elif behavior == "conduit":
@@ -992,6 +1145,7 @@ def _runtime_fixture(
             radius=radius,
             z0=inlet[2] + 0.008,
             z1=inlet[2] + 0.032,
+            spacing=spacing,
         )
         cavity = geometry["cavity"]
         receiver = {
@@ -1015,6 +1169,7 @@ def _runtime_fixture(
             radius=0.008,
             z0=upper[2] + 0.008,
             z1=upper[2] + 0.026,
+            spacing=spacing,
         )
         cavity = {
             "center_xy_m": [0.0, 0.0],
@@ -1037,8 +1192,12 @@ def _runtime_fixture(
         "existing_collider_prims": existing,
         "physics_scene_path": physics_path,
     }
-    overlay, _, particle_path = _define_overlay(
-        scene=source, output=root, analysis=analysis, points_m=points
+    overlay, _, particle_path, _ = _define_overlay(
+        scene=source,
+        output=root,
+        analysis=analysis,
+        points_m=points,
+        recipe_override=recipe,
     )
     scene = root / "fixture.usda"
     _qualification_scene(source, overlay, scene)
@@ -1050,6 +1209,10 @@ def _runtime_fixture(
         "particle_set_prim": particle_path,
         "particle_count": len(points),
         "physics_scene_path": physics_path,
+        "liquid_recipe": {
+            "id": recipe["recipe_id"],
+            "sha256": liquid_recipe_sha256(recipe),
+        },
         "cavity": cavity,
         "retention_profile": (
             geometry.get("partition_model", {}).get("stations", [])
@@ -1060,15 +1223,8 @@ def _runtime_fixture(
     if receiver is not None:
         fixture["receiver"] = receiver
     if behavior == "conduit":
-        from .liquid_autofill import recipe_payload
-
         wall_profile = geometry.get("partition_model", {}).get("stations", [])
-        outlet_outer_radius = (
-            float(wall_profile[0]["outer_radius_m"])
-            if wall_profile
-            else float(geometry["minimum_clearance_radius_m"])
-        )
-        recipe = recipe_payload()
+        outlet_outer_radius = _conduit_outlet_outer_radius(geometry)
         fixture.update(
             {
                 "inlet_z_m": inlet[2],
@@ -1140,6 +1296,11 @@ def qualify_asset_package(
 
     output = Path(output).resolve()
     proposal = load_approved_proposal(proposal_path)
+    recipe = load_liquid_recipe(output / "interaction/liquid_recipe.json")
+    recipe_record = {
+        "id": recipe["recipe_id"],
+        "sha256": liquid_recipe_sha256(recipe),
+    }
     evidence = output / "evidence/qualification"
     evidence.mkdir(parents=True, exist_ok=True)
     runs: list[dict[str, Any]] = []
@@ -1197,7 +1358,10 @@ def qualify_asset_package(
                     output=run_root / "observation.json",
                 )
             )
+    if any(item.get("liquid_recipe") != recipe_record for item in runs):
+        raise RuntimeError("cold observation liquid recipe disagrees with package")
     report = evaluate_qualification_runs(proposal.behavior, runs)
+    report["liquid_recipe"] = recipe_record
     report_path = evidence / "report.json"
     report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     manifest_path = output / "manifest.json"

@@ -217,6 +217,8 @@ def build_particle_lattice(
     radial_profile: list[Mapping[str, Any]] | None = None,
     wall_clearance_m: float | None = None,
     target_particle_count: int | None = None,
+    spacing_m: float | None = None,
+    maximum_particles: int = MAXIMUM_PARTICLES,
 ) -> list[list[float]]:
     """Build one deterministic local-metre seed and align its q95 to ``fill``."""
 
@@ -227,7 +229,7 @@ def build_particle_lattice(
     radius_y = float(cavity["radius_y_m"])
     floor = float(cavity["floor_m"])
     rim = float(cavity["rim_m"])
-    spacing = PARTICLE_SPACING_M
+    spacing = float(spacing_m or PARTICLE_SPACING_M)
     margin = 0.55 * spacing
     usable_x = radius_x - margin
     usable_y = radius_y - margin
@@ -239,6 +241,8 @@ def build_particle_lattice(
             target_surface=target_surface,
             wall_clearance_m=float(wall_clearance_m or 0.55 * spacing),
             target_particle_count=target_particle_count,
+            spacing_m=spacing,
+            maximum_particles=maximum_particles,
         )
     if usable_x <= spacing or usable_y <= spacing or target_surface <= floor + spacing:
         raise LiquidAutofillError("detected cavity is too small for the Task 02 particle scale")
@@ -259,7 +263,7 @@ def build_particle_lattice(
                             round(z, 7),
                         ]
                     )
-                    if len(points) > MAXIMUM_PARTICLES:
+                    if len(points) > maximum_particles:
                         raise LiquidAutofillError(
                             "Task 02 particle scale would exceed the 10,000 particle budget"
                         )
@@ -284,6 +288,8 @@ def _profiled_particle_lattice(
     cavity: Mapping[str, Any], *, radial_profile: list[Mapping[str, Any]],
     target_surface: float, wall_clearance_m: float,
     target_particle_count: int | None = None,
+    spacing_m: float = PARTICLE_SPACING_M,
+    maximum_particles: int = MAXIMUM_PARTICLES,
 ) -> list[list[float]]:
     """Seed an axisymmetric vessel from its measured inner-radius curve."""
 
@@ -305,7 +311,7 @@ def _profiled_particle_lattice(
 
     center_x, center_y = [float(value) for value in cavity["center_xy_m"]]
     floor = float(cavity["floor_m"])
-    spacing = PARTICLE_SPACING_M
+    spacing = float(spacing_m)
     points: list[list[float]] = []
     z = floor + 0.5 * spacing
     rim = float(cavity["rim_m"])
@@ -331,7 +337,7 @@ def _profiled_particle_lattice(
                 points.append(
                     [round(center_x + x, 7), round(center_y + y, 7), round(z, 7)]
                 )
-                if len(points) > MAXIMUM_PARTICLES:
+                if len(points) > maximum_particles:
                     raise LiquidAutofillError(
                         "profiled Task 02 lattice exceeds the 10,000 particle budget"
                     )

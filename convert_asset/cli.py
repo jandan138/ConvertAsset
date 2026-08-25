@@ -225,6 +225,14 @@ def main(argv: list[str] | None = None) -> int:
     p_fluid_qualify.add_argument("--out", required=True, help="Package output directory")
     p_fluid_qualify.add_argument("--isaac-python", help="Pinned Isaac Sim 4.1 Python")
     p_fluid_qualify.add_argument(
+        "--liquid-recipe",
+        help="Hash-bound aan.gpu_pbd_liquid_recipe.v1 JSON; defaults to Task 02",
+    )
+    p_fluid_qualify.add_argument(
+        "--visual-material-profile",
+        help="Source-bound aan.visual_material_profile.v2 JSON for the fluid asset",
+    )
+    p_fluid_qualify.add_argument(
         "--no-runtime-qualification",
         action="store_true",
         help="Build a diagnostics-only candidate; never promote it as pass",
@@ -583,6 +591,16 @@ def main(argv: list[str] | None = None) -> int:
             result = build_unqualified_asset_package(
                 proposal_path=Path(args_ns.proposal),
                 output=Path(args_ns.out),
+                liquid_recipe_path=(
+                    Path(args_ns.liquid_recipe).resolve()
+                    if args_ns.liquid_recipe
+                    else None
+                ),
+                visual_material_profile_path=(
+                    Path(args_ns.visual_material_profile).resolve()
+                    if args_ns.visual_material_profile
+                    else None
+                ),
             )
             if not args_ns.no_runtime_qualification:
                 root = Path(__file__).resolve().parents[1]
