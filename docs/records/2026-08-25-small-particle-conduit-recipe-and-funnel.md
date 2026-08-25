@@ -18,9 +18,13 @@ inner/outer shell ratio when no partition profile exists. The previous fallback
 used the inner throat radius and falsely classified two legal near-wall outlet
 crossings as structural leaks.
 
-The tube15 receiver remains blocked. A source-bound facade preserved the
-admitted visual/material and explored the colleague bottom-Cube method with
-small-recipe-scaled offsets and a unified SDF. Best static retention was about
-92.7%, below the 99% reservoir policy, and funnel-to-tube gravity feed captured
-0% after the particles legally exited the funnel. No tube reservoir or pair
-claim was promoted.
+The first tube15 receiver attempts remained blocked because constant-radius
+seeding placed particles inside the round bottom and because separate Cube
+colliders did not form a reliable GPU-PBD container. The final source-bound
+route removes the Cube and uses one connected visual-topology collision copy.
+Its bottom is thickened, its inner wall is offset inward by 1 mm, and an exact
+axisymmetric retention profile drives both seeding and judging. Three Isaac 4.1
+runs passed with 0.99237 static retention, 0.96004 motion retention, 0.98801
+pour outflow and zero structural leaks. The final funnel-to-tube gravity fixture
+measured 1.0 legal funnel outlet ratio and 0.98632 tube capture with zero
+structural leaks.

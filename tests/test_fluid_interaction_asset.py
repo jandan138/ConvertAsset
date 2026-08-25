@@ -16,9 +16,12 @@ from convert_asset.fluid_interaction_asset import (
 )
 from convert_asset.fluid_interaction_runtime import (
     _conduit_outlet_outer_radius,
+    _reservoir_retention_profile,
+    _seed_profiled_reservoir,
     build_unqualified_asset_package,
 )
 from convert_asset.liquid_recipe import load_liquid_recipe, liquid_recipe_sha256
+from scripts.observe_fluid_interaction_asset import _inside_cavity
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -191,6 +194,23 @@ def test_candidate_package_authors_collision_without_shipping_particles(tmp_path
     assert "ParticleSet" not in stage_text
 
 
+def test_candidate_honors_reviewed_high_sdf_preset(tmp_path: Path) -> None:
+    proposal = _proposal(tmp_path)
+    payload = yaml.safe_load(proposal.read_text())
+    payload["geometry"]["collision_parameter_preset"] = "high"
+    proposal.write_text(yaml.safe_dump(payload, sort_keys=False))
+
+    manifest_path = build_unqualified_asset_package(
+        proposal_path=proposal, output=tmp_path / "package"
+    )
+
+    profile = json.loads(
+        (manifest_path.parent / "interaction/fluid_profile.json").read_text()
+    )
+    assert profile["collision_parameters"]["id"] == "high"
+    assert profile["collision_parameters"]["sdf_resolution"] == 512
+
+
 def test_colleague_small_recipe_is_explicit_and_hashable() -> None:
     recipe = load_liquid_recipe(COLLEAGUE_RECIPE)
 
@@ -230,6 +250,81 @@ def test_conduit_outlet_uses_outer_shell_radius_not_inner_throat() -> None:
     }
 
     assert _conduit_outlet_outer_radius(geometry) == pytest.approx(0.005)
+
+
+def test_round_bottom_retention_profile_controls_particle_seed() -> None:
+    profile = [
+        {"z_m": 0.001, "inner_radius_m": 0.00045},
+        {"z_m": 0.0022, "inner_radius_m": 0.0011},
+        {"z_m": 0.009736, "inner_radius_m": 0.0032852},
+        {"z_m": 0.018035, "inner_radius_m": 0.006112},
+        {"z_m": 0.02324, "inner_radius_m": 0.00764},
+        {"z_m": 0.0945, "inner_radius_m": 0.00764},
+        {"z_m": 0.101, "inner_radius_m": 0.006555},
+    ]
+
+    points = _seed_profiled_reservoir(
+        stations=profile,
+        floor=0.001,
+        rim=0.101,
+        fill=0.4,
+        spacing=0.001,
+    )
+
+    assert points
+    assert min(point[2] for point in points) > 0.0022
+    for x, y, z in points:
+        allowed = next(
+            item["inner_radius_m"]
+            for item in profile
+            if item["z_m"] >= z
+        )
+        assert (x * x + y * y) ** 0.5 <= allowed
+
+
+def test_explicit_retention_profile_does_not_enable_partition_collision() -> None:
+    profile = [{"z_m": 0.001, "inner_radius_m": 0.001}]
+    geometry = {
+        "retention_profile": {"kind": "axisymmetric_inner_wall", "stations": profile},
+        "partition_model": {"stations": [{"z_m": 0.0, "inner_radius_m": 9.0}]},
+    }
+
+    assert _reservoir_retention_profile(geometry) == profile
+
+
+def test_reservoir_contact_tolerance_accepts_wall_contact_not_real_leak() -> None:
+    cavity = {
+        "center_xy_m": [0.0, 0.0],
+        "radius_x_m": 0.006,
+        "radius_y_m": 0.006,
+        "floor_m": 0.01,
+        "rim_m": 0.10,
+    }
+    profile = [
+        {"z_m": 0.01, "inner_radius_m": 0.006},
+        {"z_m": 0.10, "inner_radius_m": 0.006},
+    ]
+
+    point = [0.0065, 0.0, 0.05]
+    assert not _inside_cavity(point, cavity, profile)
+    assert _inside_cavity(point, cavity, profile, tolerance_m=0.0007)
+
+
+def test_structural_bounds_are_outer_shell_not_inner_cavity_floor() -> None:
+    geometry = {
+        "bounds": {
+            "minimum_m": [-0.00861, -0.00861, -0.002],
+            "maximum_m": [0.00861, 0.00861, 0.101],
+        }
+    }
+    bounds = geometry["bounds"]
+
+    structural_floor = min(bounds["minimum_m"][2], bounds["maximum_m"][2])
+    structural_radius = 0.5 * (
+        bounds["maximum_m"][0] - bounds["minimum_m"][0]
+    )
+    assert structural_floor == pytest.approx(-0.002)
+    assert structural_radius == pytest.approx(0.00861)
 
 
 def test_candidate_copies_and_hash_binds_selected_liquid_recipe(tmp_path: Path) -> None:

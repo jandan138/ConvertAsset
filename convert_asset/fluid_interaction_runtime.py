@@ -577,7 +577,13 @@ def build_unqualified_asset_package(
         recipe = validate_liquid_recipe(recipe_payload())
     else:
         recipe = load_liquid_recipe(liquid_recipe_path)
-    selected = normalized_collision_presets(proposal.minimum_clearance_radius_m)[1]
+    presets = normalized_collision_presets(proposal.minimum_clearance_radius_m)
+    selected_id = str(
+        proposal.payload["geometry"].get("collision_parameter_preset", "medium")
+    )
+    selected = next((item for item in presets if item["id"] == selected_id), None)
+    if selected is None:
+        raise ValueError(f"unsupported collision parameter preset: {selected_id}")
     if float(recipe["particle_set"]["width_m"]) <= 0.002:
         selected = dict(selected)
         collision_limit = 0.5 * float(
@@ -1053,6 +1059,15 @@ def _seed_profiled_reservoir(
     return points or [[0.0, 0.0, floor + 0.55 * spacing]]
 
 
+def _reservoir_retention_profile(
+    geometry: dict[str, Any],
+) -> list[dict[str, Any]]:
+    explicit = geometry.get("retention_profile", {}).get("stations", [])
+    if explicit:
+        return list(explicit)
+    return list(geometry.get("partition_model", {}).get("stations", []))
+
+
 def _runtime_fixture(
     *, package: Path, proposal_path: Path, root: Path, guide_enabled: bool = True
 ) -> tuple[Path, Path]:
@@ -1114,7 +1129,7 @@ def _runtime_fixture(
     axis = [float(value) for value in geometry["axis_local"]]
     if behavior == "reservoir":
         cavity = dict(geometry["cavity"])
-        reservoir_profile = geometry.get("partition_model", {}).get("stations", [])
+        reservoir_profile = _reservoir_retention_profile(geometry)
         points = (
             _seed_profiled_reservoir(
                 stations=reservoir_profile,
@@ -1212,16 +1227,32 @@ def _runtime_fixture(
         "liquid_recipe": {
             "id": recipe["recipe_id"],
             "sha256": liquid_recipe_sha256(recipe),
+            "particle_contact_offset_m": recipe["particle_system"][
+                "particle_contact_offset_m"
+            ],
         },
         "cavity": cavity,
         "retention_profile": (
-            geometry.get("partition_model", {}).get("stations", [])
+            _reservoir_retention_profile(geometry)
             if behavior == "reservoir"
             else []
         ),
     }
     if receiver is not None:
         fixture["receiver"] = receiver
+    if behavior == "reservoir":
+        bounds = geometry["bounds"]
+        fixture["structural_bounds"] = {
+            "floor_m": min(
+                float(bounds["minimum_m"][2]),
+                float(bounds["maximum_m"][2]),
+            ),
+            "outer_radius_m": 0.5
+            * max(
+                float(bounds["maximum_m"][0]) - float(bounds["minimum_m"][0]),
+                float(bounds["maximum_m"][1]) - float(bounds["minimum_m"][1]),
+            ),
+        }
     if behavior == "conduit":
         wall_profile = geometry.get("partition_model", {}).get("stations", [])
         outlet_outer_radius = _conduit_outlet_outer_radius(geometry)

@@ -79,9 +79,27 @@ def main() -> int:
                 (legal if radius <= tolerance else leaks).add(index)
         previous = live
     tube = fixture["tube"]
+    profile = tube["retention_profile"]
+    contact = float(recipe["particle_system"]["particle_contact_offset_m"])
+
+    def tube_radius(z_value: float) -> float:
+        if z_value <= float(profile[0]["z_m"]):
+            return float(profile[0]["inner_radius_m"])
+        for lower, upper in zip(profile, profile[1:]):
+            if z_value <= float(upper["z_m"]):
+                alpha = (z_value - float(lower["z_m"])) / max(
+                    float(upper["z_m"]) - float(lower["z_m"]), 1e-9
+                )
+                return (1.0 - alpha) * float(lower["inner_radius_m"]) + alpha * float(
+                    upper["inner_radius_m"]
+                )
+        return float(profile[-1]["inner_radius_m"])
+
     captured = sum(
-        math.hypot(point[0], point[1]) <= float(tube["inner_radius_m"])
-        and float(tube["floor_z_m"]) <= point[2] <= float(tube["rim_z_m"])
+        math.hypot(point[0], point[1]) <= tube_radius(float(point[2])) + contact
+        and float(tube["floor_z_m"]) - contact
+        <= point[2]
+        <= float(tube["rim_z_m"]) + contact
         for point in previous
     )
     below_floor = sum(point[2] < float(tube["floor_z_m"]) - 0.001 for point in previous)

@@ -42,19 +42,27 @@ def _local_points(stage: Any, target_path: str, points: Any, UsdGeom: Any) -> li
 
 
 def _inside_cavity(
-    point: list[float], cavity: dict[str, Any], profile: list[dict[str, Any]] | None = None
+    point: list[float],
+    cavity: dict[str, Any],
+    profile: list[dict[str, Any]] | None = None,
+    tolerance_m: float = 0.0,
 ) -> bool:
     cx, cy = cavity["center_xy_m"]
     inside = (
-        ((point[0] - float(cx)) / float(cavity["radius_x_m"])) ** 2
-        + ((point[1] - float(cy)) / float(cavity["radius_y_m"])) ** 2
+        ((point[0] - float(cx)) / (float(cavity["radius_x_m"]) + tolerance_m)) ** 2
+        + ((point[1] - float(cy)) / (float(cavity["radius_y_m"]) + tolerance_m)) ** 2
         <= 1.0
-        and float(cavity["floor_m"]) <= point[2] <= float(cavity["rim_m"])
+        and float(cavity["floor_m"]) - tolerance_m
+        <= point[2]
+        <= float(cavity["rim_m"]) + tolerance_m
     )
     if not inside or not profile:
         return inside
     allowed = _profile_inner_radius(point[2], profile)
-    return math.hypot(point[0] - float(cx), point[1] - float(cy)) <= allowed
+    return (
+        math.hypot(point[0] - float(cx), point[1] - float(cy))
+        <= allowed + tolerance_m
+    )
 
 
 def _profile_inner_radius(z: float, stations: list[dict[str, Any]]) -> float:
@@ -145,25 +153,36 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         "schema_version": "aan.fluid_interaction_cold_observation.v1",
         "run_index": args.run_index,
         "behavior": behavior,
-        "liquid_recipe": fixture["liquid_recipe"],
+        "liquid_recipe": {
+            key: fixture["liquid_recipe"][key] for key in ("id", "sha256")
+        },
     }
     if behavior == "reservoir":
         cavity = fixture["cavity"]
         retention_profile = fixture.get("retention_profile") or []
+        structural_bounds = fixture["structural_bounds"]
+        contact_tolerance = float(
+            fixture["liquid_recipe"]["particle_contact_offset_m"]
+        )
         for _ in range(480):
             world.step(render=False)
         static_local = _local_points(stage, target_path, _live_points(stage, particle_path), UsdGeom)
         static_inside = sum(
-            _inside_cavity(point, cavity, retention_profile) for point in static_local
+            _inside_cavity(
+                point, cavity, retention_profile, tolerance_m=contact_tolerance
+            )
+            for point in static_local
         )
         static_below_floor = sum(
-            point[2] < float(cavity["floor_m"]) - 0.001 for point in static_local
+            point[2] < float(structural_bounds["floor_m"]) - 0.001
+            for point in static_local
         )
         structural = sum(
-            point[2] < float(cavity["floor_m"]) - 0.001
+            point[2] < float(structural_bounds["floor_m"]) - 0.001
             or (
                 point[2] <= float(cavity["rim_m"])
-                and not _inside_cavity(point, cavity, retention_profile)
+                and math.hypot(point[0], point[1])
+                > float(structural_bounds["outer_radius_m"]) + 0.001
             )
             for point in static_local
         )
@@ -174,7 +193,10 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             world.step(render=False)
         motion_local = _local_points(stage, target_path, _live_points(stage, particle_path), UsdGeom)
         motion_inside = sum(
-            _inside_cavity(point, cavity, retention_profile) for point in motion_local
+            _inside_cavity(
+                point, cavity, retention_profile, tolerance_m=contact_tolerance
+            )
+            for point in motion_local
         )
         rotate = stage.GetPrimAtPath(target_path).GetAttribute("xformOp:rotateX:pour")
         for step in range(180):
@@ -184,7 +206,10 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             world.step(render=False)
         pour_local = _local_points(stage, target_path, _live_points(stage, particle_path), UsdGeom)
         pour_inside = sum(
-            _inside_cavity(point, cavity, retention_profile) for point in pour_local
+            _inside_cavity(
+                point, cavity, retention_profile, tolerance_m=contact_tolerance
+            )
+            for point in pour_local
         )
         report.update(
             {

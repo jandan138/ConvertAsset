@@ -39,6 +39,11 @@ def build(
         "deps/funnel/asset.usda", "/FluidInteractionAsset"
     )
     funnel_root.AddTranslateOp().Set(Gf.Vec3d(0.0, 0.0, 0.086))
+    for rigid in (tube_root.GetPrim(), funnel_root.GetPrim()):
+        UsdPhysics.RigidBodyAPI.Apply(rigid).CreateRigidBodyEnabledAttr(True).Set(True)
+        rigid.CreateAttribute("physics:kinematicEnabled", Sdf.ValueTypeNames.Bool).Set(
+            True
+        )
     physics = UsdPhysics.Scene.Define(stage, "/World/PhysicsScene")
     physics.CreateGravityDirectionAttr(Gf.Vec3f(0.0, 0.0, -1.0))
     physics.CreateGravityMagnitudeAttr(9.81)
@@ -88,10 +93,20 @@ def build(
         "funnel_outlet_z_m": 0.086,
         "funnel_outer_outlet_radius_m": 0.005,
         "tube": {
-            "floor_z_m": 0.002,
+            "floor_z_m": 0.015,
             "rim_z_m": 0.101,
-            "inner_radius_m": 0.006977871568779651,
+            "inner_radius_m": 0.00664,
             "insertion_depth_m": 0.015,
+            "retention_profile": [
+                {"z_m": 0.015, "inner_radius_m": 0.0001},
+                {"z_m": 0.016, "inner_radius_m": 0.0001},
+                {"z_m": 0.020, "inner_radius_m": 0.0022852},
+                {"z_m": 0.026, "inner_radius_m": 0.005112},
+                {"z_m": 0.031, "inner_radius_m": 0.00664},
+                {"z_m": 0.0945, "inner_radius_m": 0.00664},
+                {"z_m": 0.098, "inner_radius_m": 0.005555},
+                {"z_m": 0.101, "inner_radius_m": 0.005555},
+            ],
         },
         "liquid_recipe": {
             "id": recipe["recipe_id"],
