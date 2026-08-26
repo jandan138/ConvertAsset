@@ -26,6 +26,7 @@
 - **[Scientific Workbench r9 Dynamic Context Assets](records/2026-08-16-scientific-workbench-r9-dynamic-context-assets.md)** - 6 个桌面丰富化资产的 source-bound 动态背景准入与消费边界
 - **[Scientific Workbench Task 05 / Task 09 r11 Assets](records/2026-08-18-scientific-workbench-task05-task09-r11-assets.md)** - 原底烧瓶 29/42 闭合资产与模拟烘箱 identity facade、Isaac 4.1 交互/桌面稳定准入和 claim boundary
 - **[LABSPIN X8 r6 Visual-fitted Lid Collision](records/2026-08-26-labspin-x8-r6-visual-fitted-lid-collision.md)** - 盖后空气墙诊断、命名视觉件 compound 代理和 Isaac 4.1 机械重验
+- **[Wangshuai Funnel/Tube Exact Asset Set](records/2026-08-26-wangshuai-funnel-tube15-exact-asset-set.md)** - 螺纹管体/封闭管盖/漏斗/1948 粒子 overlay 的无物理调参拆分与重组回归
 - **[LICHEN Analytical-Balance r1 Sliding Doors](records/2026-08-18-analytical-balance-lichen-r1-doors.md)** - 程序化天平四扇滑动防风罩的 source-bound articulated 准入、Isaac 4.1 开关门资格与 Playable 时间轴
 - **[LICHEN Front-Door Block Contact Opening](records/2026-08-18-analytical-balance-lichen-r1-front-door-contact.md)** - release5 前门把手凸包碰撞与 Isaac 4.1 挡块接触开关门资格
 - **[Articulated Device Admission And Requalification](operations/articulated-device-admission-requalification.md)** - producer-owned articulated USD/proxy/profile/physics admission, promotion, and Scenario Forge loader handoff
