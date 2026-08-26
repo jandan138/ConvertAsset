@@ -33,6 +33,7 @@ def test_r5_qualifier_requires_preview_and_first_step_continuity():
     assert "static_rest_pose_assembled" in source
     assert "first_step_pose_continuity" in source
     assert "maximum_first_step_jump_m" in source
+    assert "asset_usd_sha256" in source
     assert "0.001" in source
 
 

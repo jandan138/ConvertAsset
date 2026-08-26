@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from hashlib import sha256
 import json
 import os
 from pathlib import Path
@@ -107,6 +108,7 @@ def main() -> int:
             "schema_version": "aan.labspin_x8_r5_rest_pose_qualification.v1",
             "status": "pass" if passed else "blocked",
             "runtime": "isaac41",
+            "asset_usd_sha256": sha256(args.asset.read_bytes()).hexdigest(),
             "observations": {
                 "expected_link_xyz_m": expected,
                 "authored_link_xyz_m": before,

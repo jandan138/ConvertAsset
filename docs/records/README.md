@@ -1,5 +1,6 @@
 # Records
 
+- [2026-08-26 LABSPIN X8 r6 visual-fitted lid collision](2026-08-26-labspin-x8-r6-visual-fitted-lid-collision.md)
 - [2026-08-26 Threaded 15 mL original-scale gravity phase sweep](2026-08-26-threaded-tube15-original-phase-sweep.md)
 - [2026-08-25 Funnel-to-tube live Isaac video evidence](2026-08-25-funnel-tube15-live-isaac-video.md)
 - [2026-08-24 LABSPIN X8 r5 joint-satisfied rest pose](2026-08-24-labspin-x8-r5-rest-pose.md)
