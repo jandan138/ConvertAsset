@@ -28,3 +28,7 @@ runs passed with 0.99237 static retention, 0.96004 motion retention, 0.98801
 pour outflow and zero structural leaks. The final funnel-to-tube gravity fixture
 measured 1.0 legal funnel outlet ratio and 0.98632 tube capture with zero
 structural leaks.
+
+The durable human-readable parameter card is
+[`docs/operations/funnel-tube15-small-particle-pbd.md`](../operations/funnel-tube15-small-particle-pbd.md).
+The JSON recipe remains the sole machine source of truth.

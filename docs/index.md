@@ -21,6 +21,7 @@
 - **[GPU-PBD Liquid Autofill Runbook](operations/liquid-autofill.md)** - inspect、producer qualification 与 source closure 命令
 - **[Simple-SDF Multi-liquid Producer](design/simple-sdf-multi-liquid.md)** - reviewed visual-Mesh SDF、独立 ParticleSet、共享 ParticleSystem 的窄路径
 - **[Simple-SDF Multi-liquid CLI](operations/simple-sdf-multi-liquid.md)** - 两阶段 build、运行时验证与 claim 边界
+- **[漏斗与 15 mL 离心管 small-v2 PBD 参数卡](operations/funnel-tube15-small-particle-pbd.md)** - 粒子配方、容器 SDF、ParticleSystem 材质绑定、组合运行条件与验证边界
 - **[Acrylic Spoon Rack Central Insertion](records/2026-08-17-aan-acrylic-spoon-rack-central-insertion.md)** - 透明七孔架的 source-bound 碰撞代理、中央孔插入证据与长时观察边界
 - **[Scientific Workbench r9 Dynamic Context Assets](records/2026-08-16-scientific-workbench-r9-dynamic-context-assets.md)** - 6 个桌面丰富化资产的 source-bound 动态背景准入与消费边界
 - **[Scientific Workbench Task 05 / Task 09 r11 Assets](records/2026-08-18-scientific-workbench-task05-task09-r11-assets.md)** - 原底烧瓶 29/42 闭合资产与模拟烘箱 identity facade、Isaac 4.1 交互/桌面稳定准入和 claim boundary
