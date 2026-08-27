@@ -15,6 +15,9 @@
 这里的 SHA 是 `liquid_recipe_sha256()` 对排序、紧凑 JSON 的语义哈希，
 不是文件排版字节哈希。package、fixture 和资格报告都应绑定这个语义哈希。
 
+同事螺纹离心管倒液场景是另一套冻结 overlay，不要用本卡替换：
+[螺纹管/漏斗 exact-source PBD 参数卡](wangshuai-threaded-tube-funnel-pbd.md)。
+
 ## 液体粒子参数
 
 ### ParticleSystem
