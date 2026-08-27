@@ -29,6 +29,7 @@
 - **[LABSPIN X8 r6 Visual-fitted Lid Collision](records/2026-08-26-labspin-x8-r6-visual-fitted-lid-collision.md)** - 盖后空气墙诊断、命名视觉件 compound 代理和 Isaac 4.1 机械重验
 - **[Wangshuai Funnel/Tube Exact Asset Set](records/2026-08-26-wangshuai-funnel-tube15-exact-asset-set.md)** - 螺纹管体/封闭管盖/漏斗/1948 粒子 overlay 的无物理调参拆分与重组回归
 - **[Wangshuai Funnel/Tube Dynamic v2](records/2026-08-27-wangshuai-funnel-tube15-dynamic-v2.md)** - exact-source v1 保留，默认 dynamic v2 的 provisional 质量、三轮刚体/静止导流证据与装液搬运边界
+- **[Threaded 15 mL Red Closed Single-Rigid Assembly](records/2026-08-27-threaded-tube15-red-closed-single-rigid-assembly.md)** - 新封顶螺纹盖与管体合为单一动态刚体，红盖材质、provisional 合并质量及三轮 Isaac 4.1 证据
 - **[LICHEN Analytical-Balance r1 Sliding Doors](records/2026-08-18-analytical-balance-lichen-r1-doors.md)** - 程序化天平四扇滑动防风罩的 source-bound articulated 准入、Isaac 4.1 开关门资格与 Playable 时间轴
 - **[LICHEN Front-Door Block Contact Opening](records/2026-08-18-analytical-balance-lichen-r1-front-door-contact.md)** - release5 前门把手凸包碰撞与 Isaac 4.1 挡块接触开关门资格
 - **[Articulated Device Admission And Requalification](operations/articulated-device-admission-requalification.md)** - producer-owned articulated USD/proxy/profile/physics admission, promotion, and Scenario Forge loader handoff

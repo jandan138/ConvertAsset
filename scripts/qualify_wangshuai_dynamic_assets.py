@@ -36,6 +36,11 @@ ASSETS = {
         "entry_prim": "/FunnelSmallV2LiquidReady",
         "height": 0.12,
     },
+    "assembly": {
+        "package": "threaded_tube15_red_closed_assembly",
+        "entry_prim": "/ThreadedTube15RedClosed",
+        "height": 0.1168,
+    },
 }
 
 
@@ -192,6 +197,11 @@ def main() -> int:
 
         stage, world = open_world(drop_fixture)
         body = stage.GetPrimAtPath("/World/Asset")
+        cap_local_before = None
+        if args.asset == "assembly":
+            cap_local_before = UsdGeom.Xformable(
+                stage.GetPrimAtPath("/World/Asset/Cap")
+            ).GetLocalTransformation()
         cache = UsdGeom.XformCache()
         initial = cache.GetLocalToWorldTransform(body).ExtractTranslation()
         minimum_z = float(initial[2])
@@ -206,6 +216,12 @@ def main() -> int:
             maximum_abs = max(maximum_abs, *(abs(float(v)) for v in point))
             final_speed = math.sqrt(sum(((float(point[i]) - float(previous[i])) * 120) ** 2 for i in range(3)))
             previous = point
+        cap_relative_pose_invariant = True
+        if args.asset == "assembly":
+            cap_local_after = UsdGeom.Xformable(
+                stage.GetPrimAtPath("/World/Asset/Cap")
+            ).GetLocalTransformation()
+            cap_relative_pose_invariant = cap_local_after == cap_local_before
 
         stage, world = open_world(transport_fixture)
         body = stage.GetPrimAtPath("/World/Asset")
@@ -233,6 +249,10 @@ def main() -> int:
             transport_error=error,
             hard_errors=hard,
         )
+        result["checks"]["cap_relative_pose_invariant"] = cap_relative_pose_invariant
+        result["overall_status"] = (
+            "pass" if all(result["checks"].values()) else "blocked"
+        )
         report = {
             "schema_version": "aan.wangshuai_dynamic_rigid_run.v1",
             "overall_status": result["overall_status"],
@@ -254,6 +274,7 @@ def main() -> int:
                 "effective_kinematic": False,
                 "gravity_response": result["checks"]["gravity_motion"],
                 "dynamic_fixed_joint_transport": result["checks"]["dynamic_fixed_joint_transport"],
+                "cap_relative_pose_invariant": cap_relative_pose_invariant,
                 "robot_policy_success": False,
                 "task_success": False,
                 "benchmark_success": False,
