@@ -1,6 +1,7 @@
-# 螺纹 15 mL 离心管与漏斗 exact-source PBD 参数卡
+# 螺纹 15 mL 离心管与漏斗 PBD 参数卡
 
-这篇文档记录同事倒液场景拆分后、已经在 Isaac Sim 4.1 重组通过的液体配置。
+这篇文档记录同事倒液场景拆分后、已经在 Isaac Sim 4.1 重组通过的液体配置，
+并区分 exact-source kinematic v1 与默认消费的 dynamic v2。
 它只适用于：
 
 - 螺纹版 15 mL 离心管体 `tube15_threaded_liquid_ready`
@@ -21,6 +22,18 @@
 - overlay manifest：同目录 `evidence/manifest.json`
 - Scenario Forge 目录副本：`scenario-forge/outputs/scientific_workbench_funnel_tube15_liquid_asset_set_20260826/`
 - runtime：`isaac41`
+
+## 两个版本的职责
+
+- `outputs/wangshuai_funnel_tube15_exact_asset_set_20260826/` 是不可变来源夹具。
+  它保留同事原 USD 中管体和漏斗的 `kinematicEnabled=true`，用于证明拆分没有改变源行为。
+- `outputs/wangshuai_funnel_tube15_dynamic_asset_set_20260827/` 是下游默认版本。
+  三件器材根均为 dynamic，入口 identity；碰撞、SDF、视觉和液体 overlay 与 v1 相同，
+  只增加版本化的 provisional-geometry 质量、质心和惯量。
+
+动态版的质量不是实测值：管体沿用 `0.015 kg` provisional profile，管盖为
+`0.002 kg`，漏斗按闭合网格体积与 `2230 kg/m³` 玻璃密度计算为约
+`0.0315034 kg`。更换真实 profile 不应改碰撞。
 
 ## 液体 ParticleSystem
 
@@ -66,11 +79,13 @@
 | bits per subgrid pixel | `BitsPerPixel16` |
 | remeshing | `false` |
 
-漏斗 mesh 与旧 pass 包相同，但旧包没有这个 kinematic 刚体根。倒液应保留 kinematic。
+漏斗 mesh 与旧 pass 包相同。上面的 kinematic 描述只对应 exact-source v1；任务集成
+默认使用 dynamic v2，不要在 Scenario Forge 把它重新锁成 kinematic。
 
 ## 螺纹离心管碰撞（液体可交互几何，不含液体）
 
-根节点 `/Tube15ThreadedLiquidReady`：`RigidBodyAPI`，`kinematicEnabled = true`。
+exact-source v1 根节点 `/Tube15ThreadedLiquidReady`：`RigidBodyAPI`，
+`kinematicEnabled = true`；dynamic v2 的同名入口不作者该锁定，并带 MassAPI。
 
 | prim | approximation | 已作者偏移 |
 |---|---|---|
@@ -96,8 +111,11 @@ GPU dynamics、TGS、`120 Hz`。overlay 自身不含 PhysicsScene，由消费场
 合格窗口是 16 秒：源场景和三次重组均为 `1948/1948` 入管、零漏地。8 秒只有
 `1653/1948`，这是 `maxVelocity = 0.1` 的结果，不是失败。
 
-本卡不声明 robot-policy、拧盖、任务或 benchmark 成功。倒液重组只证明机器人不在场时
-粒子能进入 kinematic 螺纹管。
+动态 v2 中，管体、盖子和漏斗各三次冷启动均响应重力，并可在自身保持 dynamic 的条件下
+通过 fixed-joint 测试载具平移 10 cm。三次静止导流均保持 1948 粒子身份，漏斗到管体接收
+超过 95%。但是装液管体抬高 10 cm 的保留率有明显波动，曾低于 90%；因此
+`dynamic_loaded_liquid_transport=false`。本卡不声明 robot-policy、装液搬运、拧盖、任务或
+benchmark 成功。
 
 ## 不要混用
 
