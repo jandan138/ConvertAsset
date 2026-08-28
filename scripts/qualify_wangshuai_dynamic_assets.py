@@ -41,6 +41,11 @@ ASSETS = {
         "entry_prim": "/ThreadedTube15RedClosed",
         "height": 0.1168,
     },
+    "nonthreaded_fit": {
+        "package": "closed_assembly",
+        "entry_prim": "/Tube15NonThreadedNeckCapFit",
+        "height": 0.1025,
+    },
 }
 
 
@@ -198,7 +203,7 @@ def main() -> int:
         stage, world = open_world(drop_fixture)
         body = stage.GetPrimAtPath("/World/Asset")
         cap_local_before = None
-        if args.asset == "assembly":
+        if args.asset in ("assembly", "nonthreaded_fit"):
             cap_local_before = UsdGeom.Xformable(
                 stage.GetPrimAtPath("/World/Asset/Cap")
             ).GetLocalTransformation()
@@ -217,7 +222,7 @@ def main() -> int:
             final_speed = math.sqrt(sum(((float(point[i]) - float(previous[i])) * 120) ** 2 for i in range(3)))
             previous = point
         cap_relative_pose_invariant = True
-        if args.asset == "assembly":
+        if args.asset in ("assembly", "nonthreaded_fit"):
             cap_local_after = UsdGeom.Xformable(
                 stage.GetPrimAtPath("/World/Asset/Cap")
             ).GetLocalTransformation()
