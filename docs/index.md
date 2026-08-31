@@ -4,6 +4,8 @@
 
 ## 快速导航
 
+- **[IKA OVEN 125 Task 09/12 Fixed-Benchtop Admission](records/2026-08-31-ika-oven-125-task0912-fixed-benchtop.md)** - direct-stage、0.755 m baked mount、OmniGraph 与 Isaac 4.1 完整功能证据
+
 - **[设计文档](design/README.md)** - 架构、模块职责、算法与实现深挖
 - **[运维文档](operations/README.md)** - 运行环境、CLI、构建、排障与 agent 协作
 - **[Setup](setup.md)** - Isaac Sim Python 与可选 native backend 环境说明

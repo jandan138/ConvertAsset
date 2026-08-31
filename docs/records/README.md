@@ -1,5 +1,7 @@
 # Records
 
+- [2026-08-31 IKA OVEN 125 Task 09/12 fixed-benchtop admission](2026-08-31-ika-oven-125-task0912-fixed-benchtop.md)
+
 - [2026-08-26 Wangshuai funnel/tube exact-source asset set](2026-08-26-wangshuai-funnel-tube15-exact-asset-set.md)
 - [Threaded tube/funnel exact-source PBD card](../operations/wangshuai-threaded-tube-funnel-pbd.md)
 - [2026-08-26 LABSPIN X8 r6 visual-fitted lid collision](2026-08-26-labspin-x8-r6-visual-fitted-lid-collision.md)
