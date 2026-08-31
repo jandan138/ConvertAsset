@@ -4,6 +4,7 @@
 
 ## 快速导航
 
+- **[Task 09 r13 烘箱架与 materialized 烘箱](records/2026-08-31-task09-r13-oven-cart-and-materialized-oven.md)** - 紧凑承重架、100 kg 仿真载荷、直接 authored OmniGraph 与烧杯闭包修复
 - **[复杂铰接家电 identity-root 迁移](design/articulated-appliance-relocation.md)** - 世界锚关节局部化、hash-bound ScriptNode hook 与 full/task-scoped 晋级边界
 - **[IKA OVEN 125 identity-root 交付](records/2026-08-31-articulated-relocation-and-ika-oven.md)** - 三命名空间 Isaac 4.1 证据与 relocatable_task_scoped 结论
 - **[IKA OVEN 125 Task 09/12 Fixed-Benchtop Admission](records/2026-08-31-ika-oven-125-task0912-fixed-benchtop.md)** - direct-stage、0.755 m baked mount、OmniGraph 与 Isaac 4.1 完整功能证据
