@@ -1,5 +1,6 @@
 # Records
 
+- [2026-08-31 Articulated relocation and IKA OVEN 125](2026-08-31-articulated-relocation-and-ika-oven.md)
 - [2026-08-31 IKA OVEN 125 Task 09/12 fixed-benchtop admission](2026-08-31-ika-oven-125-task0912-fixed-benchtop.md)
 
 - [2026-08-26 Wangshuai funnel/tube exact-source asset set](2026-08-26-wangshuai-funnel-tube15-exact-asset-set.md)

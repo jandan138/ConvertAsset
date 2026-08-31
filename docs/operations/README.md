@@ -17,6 +17,7 @@ Runbooks, CLI usage, build instructions, troubleshooting, and agent collaboratio
 - [Asset Application Normalizer consumer handoff](asset-application-normalizer-consumer-handoff.md)
 - [Canonical task-object facade](build-canonical-task-object-facade.md)
 - [Articulated device admission and requalification](articulated-device-admission-requalification.md)
+- [Normalize an articulated appliance](normalize-articulated-appliance.md)
 - [Simple-SDF and multi-liquid CLI](simple-sdf-multi-liquid.md)
 - [Funnel and 15 mL tube small-v2 PBD parameter card](funnel-tube15-small-particle-pbd.md)
 - [Threaded 15 mL tube and funnel exact-source PBD parameter card](wangshuai-threaded-tube-funnel-pbd.md)

@@ -4,6 +4,8 @@
 
 ## 快速导航
 
+- **[复杂铰接家电 identity-root 迁移](design/articulated-appliance-relocation.md)** - 世界锚关节局部化、hash-bound ScriptNode hook 与 full/task-scoped 晋级边界
+- **[IKA OVEN 125 identity-root 交付](records/2026-08-31-articulated-relocation-and-ika-oven.md)** - 三命名空间 Isaac 4.1 证据与 relocatable_task_scoped 结论
 - **[IKA OVEN 125 Task 09/12 Fixed-Benchtop Admission](records/2026-08-31-ika-oven-125-task0912-fixed-benchtop.md)** - direct-stage、0.755 m baked mount、OmniGraph 与 Isaac 4.1 完整功能证据
 
 - **[设计文档](design/README.md)** - 架构、模块职责、算法与实现深挖

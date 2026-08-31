@@ -1,0 +1,37 @@
+{
+  "schema_version": "aan.articulated_relocation_profile.v1",
+  "profile_id": "ika_oven_125_identity_root_v1",
+  "source": {
+    "usd_sha256": "8bbd61f9d987a38fc582d218d01c33dd23cfe006ebaa4a1776b18b6b6d63e310"
+  },
+  "entry_prim": "/World/Oven125",
+  "chassis_prim": "/World/Oven125/Body",
+  "joint_scope_prim": "/World/Oven125",
+  "topology": "jointed_rigid_graph",
+  "support_frame": {
+    "prim": "/World/Oven125",
+    "local_support_z_m": 0.0
+  },
+  "controller_hooks": [
+    {
+      "kind": "scriptnode_root_from_node_path",
+      "strategy": "contextvar_node_path_v1",
+      "controller_prim": "/World/Oven125/ControlPanel/Runtime/ControllerGraph/Controller",
+      "controller_suffix": "/ControlPanel/Runtime/ControllerGraph/Controller",
+      "source_root": "/World/Oven125",
+      "source_script_sha256": "ad83c8ff4c1d9a5595ac5eef3d8a1d407d4fe3cf21e44f57350063d99c60eaba"
+    }
+  ],
+  "promotion": {
+    "requested_tier": "relocatable_full",
+    "required_functions": [
+      "door_right_force_open_close",
+      "door_left_force_open_close",
+      "knob_press_rotate_return",
+      "ten_buttons_press_return",
+      "mains_rocker_toggle_return",
+      "two_shelves_loaded_and_removable",
+      "controller_instance_path_binding"
+    ]
+  }
+}

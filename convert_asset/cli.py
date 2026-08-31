@@ -115,8 +115,12 @@ def main(argv: list[str] | None = None) -> int:
     p_pipe.add_argument("--out", required=True, help="Path to output .glb file")
     p_pipe.add_argument("--keep-intermediate", action="store_true", help="Do not delete the intermediate *_noMDL.usd file")
 
-    from .asset_application_normalizer.cli import add_normalize_asset_parser
+    from .asset_application_normalizer.cli import (
+        add_normalize_articulated_parser,
+        add_normalize_asset_parser,
+    )
     add_normalize_asset_parser(sub)
+    add_normalize_articulated_parser(sub)
 
     p_facade = sub.add_parser(
         "build-facade",
@@ -311,6 +315,11 @@ def main(argv: list[str] | None = None) -> int:
     if args_ns.cmd == "normalize-asset":
         from .asset_application_normalizer.cli import run_from_args
         return run_from_args(args_ns)
+
+    if args_ns.cmd == "normalize-articulated":
+        from .asset_application_normalizer.cli import run_articulated_from_args
+
+        return run_articulated_from_args(args_ns)
 
     if args_ns.cmd == "build-facade":
         if args_ns.object_profile:
