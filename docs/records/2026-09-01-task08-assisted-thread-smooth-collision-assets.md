@@ -28,6 +28,18 @@ Output:
 The output remains `candidate_runtime_pending`; the coupled controller and
 runtime interaction belong to Scenario Forge's simulator adapter package.
 
+## r2 grasp profiles
+
+The 2026-09-02 r2 package adds two source-bound hidden grasp proxies after
+Lift2 evidence showed that the smooth cylindrical shell was not a repeatable
+pickup surface:
+
+- cap: an 18 x 18 x 14 mm high-friction pickup box; the shell starts disabled
+  and Scenario Forge switches to the shell at `capture`;
+- tube: an 18 mm cube centered at local Z 85 mm, retained throughout handling.
+
+No visible mesh, mass profile, or fine-thread contact claim changed.
+
 ## Verification
 
 - `python -m pytest -q tests/test_build_task08_assisted_thread_assets.py`

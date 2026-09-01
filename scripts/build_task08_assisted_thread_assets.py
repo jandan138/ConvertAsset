@@ -18,12 +18,12 @@ SOURCE_SET = Path(
 )
 DEFAULT_OUT = Path(
     "/cpfs/user/zhuzihou/dev/ConvertAsset/outputs/"
-    "scientific_workbench_task08_assisted_thread_r1_20260901"
+    "scientific_workbench_task08_assisted_thread_r2_20260902"
 )
 TUBE_SOURCE_PACKAGE = "tube15_long_neck_threaded_body_glass_v1_2"
 CAP_SOURCE_PACKAGE = "tube15_long_neck_threaded_closed_cap_red_v1_2"
-TUBE_PACKAGE = "tube15_long_neck_assisted_thread_body_r1"
-CAP_PACKAGE = "tube15_long_neck_assisted_thread_cap_r1"
+TUBE_PACKAGE = "tube15_long_neck_assisted_thread_body_r2"
+CAP_PACKAGE = "tube15_long_neck_assisted_thread_cap_r2"
 TUBE_ENTRY = "/World/Tube15LongNeckThreadedBody"
 CAP_ENTRY = "/World/Tube15LongNeckThreadedClosedCap"
 CONTACT_OFFSET_M = 0.0002
@@ -86,7 +86,7 @@ def _box(
     xyz: tuple[float, float, float],
     size_xyz: tuple[float, float, float],
     yaw_deg: float,
-) -> None:
+) -> Any:
     from pxr import Gf, UsdGeom
 
     geom = UsdGeom.Cube.Define(stage, path)
@@ -95,6 +95,27 @@ def _box(
     geom.AddRotateZOp().Set(yaw_deg)
     geom.AddScaleOp().Set(Gf.Vec3d(*size_xyz))
     _make_collider(geom)
+    return geom
+
+
+def _grasp_material(stage: Any, entry: str) -> Any:
+    from pxr import Sdf, UsdShade
+
+    material = UsdShade.Material.Define(stage, entry + "/__aan_grasp_material")
+    prim = material.GetPrim()
+    prim.SetMetadata(
+        "apiSchemas",
+        Sdf.TokenListOp.Create(
+            prependedItems=["PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        ),
+    )
+    prim.CreateAttribute("physics:staticFriction", Sdf.ValueTypeNames.Float).Set(1.0)
+    prim.CreateAttribute("physics:dynamicFriction", Sdf.ValueTypeNames.Float).Set(0.9)
+    prim.CreateAttribute("physics:restitution", Sdf.ValueTypeNames.Float).Set(0.0)
+    prim.CreateAttribute(
+        "physxMaterial:frictionCombineMode", Sdf.ValueTypeNames.Token
+    ).Set("max")
+    return material
 
 
 def _build_wrapper(
@@ -105,7 +126,7 @@ def _build_wrapper(
     entry: str,
     role: str,
 ) -> dict[str, Any]:
-    from pxr import Sdf, Usd, UsdGeom
+    from pxr import Sdf, Usd, UsdGeom, UsdShade
 
     dep = package / "deps" / dep_name
     shutil.copytree(source_package, dep)
@@ -141,6 +162,19 @@ def _build_wrapper(
             height=0.010,
             z=0.096,
         )
+        tube_grasp = _box(
+            stage,
+            entry + "/__aan_collision_proxy/grasp_box",
+            xyz=(0.0, 0.0, 0.085),
+            size_xyz=(0.018, 0.018, 0.018),
+            yaw_deg=0.0,
+        )
+        tube_grasp.GetPrim().CreateAttribute(
+            "scenarioForge:graspOnly", Sdf.ValueTypeNames.Bool
+        ).Set(False)
+        UsdShade.MaterialBindingAPI.Apply(tube_grasp.GetPrim()).Bind(
+            _grasp_material(stage, entry), materialPurpose="physics"
+        )
     else:
         segment_count = 12
         ring_radius = 0.00972
@@ -169,6 +203,26 @@ def _build_wrapper(
             height=0.0016,
             z=0.0085,
         )
+        for collider_name in (
+            *(f"shell_{index:02d}" for index in range(segment_count)),
+            "top",
+        ):
+            stage.GetPrimAtPath(
+                entry + "/__aan_collision_proxy/" + collider_name
+            ).GetAttribute("physics:collisionEnabled").Set(False)
+        grasp = _box(
+            stage,
+            entry + "/__aan_collision_proxy/grasp_box",
+            xyz=(0.0, 0.0, 0.0),
+            size_xyz=(0.018, 0.018, 0.014),
+            yaw_deg=0.0,
+        )
+        grasp.GetPrim().CreateAttribute(
+            "scenarioForge:graspOnly", Sdf.ValueTypeNames.Bool
+        ).Set(True)
+        UsdShade.MaterialBindingAPI.Apply(grasp.GetPrim()).Bind(
+            _grasp_material(stage, entry), materialPurpose="physics"
+        )
     stage.GetRootLayer().Save()
     colliders = [
         str(prim.GetPath())
@@ -188,6 +242,17 @@ def _build_wrapper(
         "proxy_colliders": colliders,
         "contact_offset_m": CONTACT_OFFSET_M,
         "rest_offset_m": REST_OFFSET_M,
+        "grasp_proxy": (
+            None
+            if role == "tube_body"
+            else {
+                "relative_path": "__aan_collision_proxy/grasp_box",
+                "disable_state": "capture",
+                "size_xyz_m": [0.018, 0.018, 0.014],
+                "initial_collision_mode": "pickup_box_only",
+                "capture_collision_mode": "smooth_shell_only",
+            }
+        ),
         "claim_boundary": (
             "Smooth collision candidate for assisted VR threading; does not claim "
             "fine-thread contact, robot policy success, or benchmark success."
@@ -240,6 +305,9 @@ def build(output: Path = DEFAULT_OUT, source_set: Path = SOURCE_SET) -> Path:
                 "visual_thread_preserved": True,
                 "fine_thread_contact_enabled": False,
                 "smooth_proxy_collision": True,
+                "grasp_proxy_collision_path": "__aan_collision_proxy/grasp_box",
+                "tube_grasp_proxy_collision_path": "__aan_collision_proxy/grasp_box",
+                "grasp_proxy_disable_state": "capture",
                 "effective_lead_m_per_turn": 0.0076,
                 "physical_thread_contact_claimed": False,
             },

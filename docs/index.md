@@ -4,7 +4,7 @@
 
 ## 快速导航
 
-- **[Task 08 Assisted-thread Smooth Collision Assets](records/2026-09-01-task08-assisted-thread-smooth-collision-assets.md)** - 保留细牙视觉、禁用细牙接触并提供一圈式辅助交互光滑代理
+- **[Task 08 Assisted-thread Smooth Collision Assets](records/2026-09-01-task08-assisted-thread-smooth-collision-assets.md)** - r2 保留细牙视觉，提供一圈式光滑代理与盖/管专用抓取代理
 - **[Task 09 r14 双旋钮与60°门限位](records/2026-09-01-task09-r14-dual-knob-and-door-limit.md)** - 两套独立物理旋钮共享控制状态、缩放按压阈值与门阻尼/限位证据
 - **[Task 09 r13 烘箱架与 materialized 烘箱](records/2026-08-31-task09-r13-oven-cart-and-materialized-oven.md)** - 紧凑承重架、100 kg 仿真载荷、直接 authored OmniGraph 与烧杯闭包修复
 - **[复杂铰接家电 identity-root 迁移](design/articulated-appliance-relocation.md)** - 世界锚关节局部化、hash-bound ScriptNode hook 与 full/task-scoped 晋级边界
