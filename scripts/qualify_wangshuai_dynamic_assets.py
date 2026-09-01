@@ -21,6 +21,16 @@ from typing import Any
 
 
 ASSETS = {
+    "long_neck_threaded_body": {
+        "package": "tube15_long_neck_threaded_body_v1",
+        "entry_prim": "/World/Tube15LongNeckThreadedBody",
+        "height": 0.101,
+    },
+    "long_neck_threaded_cap": {
+        "package": "tube15_long_neck_threaded_closed_cap_v1",
+        "entry_prim": "/World/Tube15LongNeckThreadedClosedCap",
+        "height": 0.01874,
+    },
     "tube": {
         "package": "tube15_threaded_liquid_dynamic",
         "entry_prim": "/Tube15ThreadedLiquidReady",
@@ -167,7 +177,10 @@ def main() -> int:
 
         spec = ASSETS[args.asset]
         asset_set = args.asset_set.resolve()
-        package = asset_set / "packages" / spec["package"] / "asset.usda"
+        package_root = asset_set / "packages" / spec["package"]
+        package = package_root / "asset.usd"
+        if not package.is_file():
+            package = package_root / "asset.usda"
         out = args.out.resolve()
         out.parent.mkdir(parents=True, exist_ok=True)
         drop_fixture = out.parent / f"{args.asset}_drop_fixture.usda"
