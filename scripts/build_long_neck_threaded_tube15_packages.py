@@ -9,21 +9,24 @@ from hashlib import sha256
 import json
 from pathlib import Path
 import shutil
+import sys
 from typing import Any, Sequence
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 DEFAULT_SOURCE = Path(
     "/cpfs/user/zhuzihou/dev/scenario-forge/external_artifacts/incoming/"
     "from_wangshuai/tube.usd"
 )
-DEFAULT_OUTPUT = REPO_ROOT / "outputs/tube15_long_neck_threaded_geometry_v1_20260901"
+DEFAULT_OUTPUT = REPO_ROOT / "outputs/tube15_long_neck_threaded_geometry_v1_1_20260901"
 SOURCE_SHA256 = "0f279e39685656b508ed6b359f8dc56be099263364084e04ab812170c9ca3be0"
 ASSETS = {
     "body": {
         "source_prim": "/World/tube",
         "entry": "/World/Tube15LongNeckThreadedBody",
-        "package": "tube15_long_neck_threaded_body_v1",
+        "package": "tube15_long_neck_threaded_body_v1_1",
         "mass": 0.015,
         "com": [0.0, 0.0, 0.052],
         "inertia": [1.3e-05, 1.3e-05, 5.2e-07],
@@ -31,7 +34,7 @@ ASSETS = {
     "cap": {
         "source_prim": "/World/cap",
         "entry": "/World/Tube15LongNeckThreadedClosedCap",
-        "package": "tube15_long_neck_threaded_closed_cap_v1",
+        "package": "tube15_long_neck_threaded_closed_cap_v1_1",
         "mass": 0.002,
         "com": [0.0, 0.0, 0.00157037164052563],
         "inertia": [1.451261904108106e-07, 1.451285854728665e-07, 1.656781579265902e-07],
@@ -78,6 +81,8 @@ def _retarget(stage: Any, old_prefix: Any, new_prefix: Any) -> None:
 def _package(source_layer: Any, destination: Path, spec: dict[str, Any]) -> None:
     from pxr import Gf, Sdf, Usd, UsdGeom, UsdPhysics, UsdShade
 
+    from convert_asset.no_mdl.convert import convert_and_strip_mdl_in_this_file_only
+
     destination.mkdir(parents=True)
     asset = destination / "asset.usd"
     stage = Usd.Stage.CreateNew(str(asset))
@@ -117,7 +122,7 @@ def _package(source_layer: Any, destination: Path, spec: dict[str, Any]) -> None
         material, materialPurpose="physics"
     )
     frames = UsdGeom.Scope.Define(stage, spec["entry"] + "/Frames")
-    if spec["package"].endswith("body_v1"):
+    if spec["entry"].endswith("Body"):
         for name, z in (("Opening", 0.101), ("ThreadAxis", 0.0962), ("Grasp", 0.055)):
             frame = UsdGeom.Xform.Define(stage, str(frames.GetPath()) + "/" + name)
             frame.AddTranslateOp().Set(Gf.Vec3d(0.0, 0.0, z))
@@ -127,6 +132,9 @@ def _package(source_layer: Any, destination: Path, spec: dict[str, Any]) -> None
             frame.AddTranslateOp().Set(Gf.Vec3d(0.0, 0.0, z))
     root.SetCustomDataByKey("aan:motionRole", "dynamic")
     root.SetCustomDataByKey("aan:qualityTier", "provisional_geometry")
+    material_stats = convert_and_strip_mdl_in_this_file_only(stage)
+    root.SetCustomDataByKey("aan:materialClosure", "usd_preview_surface")
+    root.SetCustomDataByKey("aan:materialClosureConvertedMdlCount", material_stats["mdl"])
     stage.GetRootLayer().Save()
     _write_json(
         destination / "physics/profile.json",

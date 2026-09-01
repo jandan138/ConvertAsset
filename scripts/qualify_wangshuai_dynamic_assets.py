@@ -22,12 +22,12 @@ from typing import Any
 
 ASSETS = {
     "long_neck_threaded_body": {
-        "package": "tube15_long_neck_threaded_body_v1",
+        "package": "tube15_long_neck_threaded_body_v1_1",
         "entry_prim": "/World/Tube15LongNeckThreadedBody",
         "height": 0.101,
     },
     "long_neck_threaded_cap": {
-        "package": "tube15_long_neck_threaded_closed_cap_v1",
+        "package": "tube15_long_neck_threaded_closed_cap_v1_1",
         "entry_prim": "/World/Tube15LongNeckThreadedClosedCap",
         "height": 0.01874,
     },

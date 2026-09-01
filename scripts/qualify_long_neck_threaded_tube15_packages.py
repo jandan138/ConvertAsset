@@ -13,7 +13,7 @@ from typing import Any, Sequence
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUTPUT = REPO_ROOT / "outputs/tube15_long_neck_threaded_geometry_v1_20260901"
+DEFAULT_OUTPUT = REPO_ROOT / "outputs/tube15_long_neck_threaded_geometry_v1_1_20260901"
 DEFAULT_ISAAC = Path(
     "/cpfs/user/zhuzihou/conda-managed/envs/"
     "embodied-eval-os-isaacsim41-py310/bin/python"
@@ -194,8 +194,8 @@ def qualify(
     _write_json(manifest_path, manifest)
     if classification["overall_status"] == "pass":
         for name, package in (
-            ("body", output / "packages/tube15_long_neck_threaded_body_v1"),
-            ("cap", output / "packages/tube15_long_neck_threaded_closed_cap_v1"),
+            ("body", output / "packages/tube15_long_neck_threaded_body_v1_1"),
+            ("cap", output / "packages/tube15_long_neck_threaded_closed_cap_v1_1"),
         ):
             receipt = package / "promotion_receipt.json"
             _write_json(
@@ -236,7 +236,11 @@ def qualify(
                     {
                         "path": "evidence/render/visual_review.json",
                         "sha256": _sha(output / "evidence/render/visual_review.json"),
-                        "status": "pass_with_warning",
+                        "status": json.loads(
+                            (output / "evidence/render/visual_review.json").read_text(
+                                encoding="utf-8"
+                            )
+                        )["overall_status"],
                     }
                     if (output / "evidence/render/visual_review.json").is_file()
                     else {"status": "not_run"}

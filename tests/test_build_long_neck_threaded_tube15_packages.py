@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 
 import pytest
-from pxr import Usd, UsdGeom, UsdPhysics
+from pxr import Usd, UsdGeom, UsdPhysics, UsdUtils
 
 from scripts.build_long_neck_threaded_tube15_packages import build_packages
 
@@ -31,6 +31,13 @@ def test_builder_splits_identity_dynamic_body_and_closed_cap(tmp_path) -> None:
         ]
         assert len(colliders) == 1
         assert colliders[0].GetAttribute("physics:approximation").Get() == "sdf"
+        _, _, unresolved = UsdUtils.ComputeAllDependencies(
+            str(result.packages[name] / "asset.usd")
+        )
+        assert list(unresolved) == []
+        assert not any(
+            prim.HasAttribute("info:mdl:sourceAsset") for prim in stage.Traverse()
+        )
 
 
 def test_manifest_truthfully_promotes_geometry_and_blocks_thread_interaction(

@@ -34,7 +34,8 @@ published in this revision.
 - `scripts/build_long_neck_threaded_tube15_packages.py` removes the unresolved
   stage sublayer through source-bound scope extraction and produces independent
   body/cap packages with identity entry roots, package-local physics material,
-  SDF collision, named frames, and provisional physics profiles.
+  SDF collision, named frames, provisional physics profiles, and a
+  UsdPreviewSurface material closure produced by the existing no-MDL module.
 - `scripts/qualify_long_neck_threaded_tube15_packages.py` runs three Isaac Sim
   4.1 cold starts per asset, preserves two true-contact thread probes, emits
   package manifests and promotion receipts, and supports evidence reuse when
@@ -42,8 +43,10 @@ published in this revision.
 - `scripts/qualify_wangshuai_dynamic_assets.py` accepts the two new asset roles
   and resolves either `asset.usd` or legacy `asset.usda` package entries.
 
-The immutable output is
-`outputs/tube15_long_neck_threaded_geometry_v1_20260901/`.
+The consumer output is
+`outputs/tube15_long_neck_threaded_geometry_v1_1_20260901/`. It supersedes the
+initial v1 output by replacing the runtime-only `OmniPBR.mdl` dependency with a
+package-local UsdPreviewSurface network. Geometry and physics are unchanged.
 
 ## Evidence
 
@@ -63,10 +66,11 @@ meets the reversible thread gate. `thread_interaction_ready`, `task08_ready`,
 `liquid_container_ready`, robot-policy success, and benchmark success therefore
 remain false.
 
-Local render review passed gross geometry with a warning: the white source
-material and neutral lighting make thread contrast weak. The renders establish
-the open body, long neck, external thread shape, and closed cap top; they do not
-establish polished material quality or thread functionality.
+Local render review passed gross geometry after material closure. The renders
+establish the open body, long neck, external thread shape, and closed cap top;
+they do not establish polished material quality or thread functionality.
+
+USD dependency closure reports zero unresolved paths for both v1.1 packages.
 
 ## Validation
 
