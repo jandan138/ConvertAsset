@@ -38,6 +38,7 @@
 - **[Threaded 15 mL Red Closed Single-Rigid Assembly](records/2026-08-27-threaded-tube15-red-closed-single-rigid-assembly.md)** - 新封顶螺纹盖与管体合为单一动态刚体，红盖材质、provisional 合并质量及三轮 Isaac 4.1 证据
 - **[Non-threaded 15 mL Neck/Cap-fit Geometry Master](records/2026-08-28-nonthreaded-tube15-neck-cap-fit-master.md)** - 旧非螺纹管颈/帽套筒轴向失配诊断、17.24 mm 分段 mesh warp、闭合母版与三轮 Isaac 4.1 证据
 - **[Long-neck Threaded 15 mL Geometry Admission](records/2026-09-01-long-neck-threaded-tube15-geometry-admission.md)** - 新长粗段管体与封顶螺纹管帽拆分为 identity-root 动态包；几何/SDF 晋级，旋合与 Task 08 明确 blocked
+- **[Task 08 r12 Rack and Threaded-tube Visual Assets](records/2026-09-01-task08-r12-rack-and-threaded-tube-visual-assets.md)** - 18+4 架烘焙 1.1/1.1/1.3 与 SDF/18孔底托，长粗段管体统一玻璃材质和红色封顶管帽视觉变体
 - **[LICHEN Analytical-Balance r1 Sliding Doors](records/2026-08-18-analytical-balance-lichen-r1-doors.md)** - 程序化天平四扇滑动防风罩的 source-bound articulated 准入、Isaac 4.1 开关门资格与 Playable 时间轴
 - **[LICHEN Front-Door Block Contact Opening](records/2026-08-18-analytical-balance-lichen-r1-front-door-contact.md)** - release5 前门把手凸包碰撞与 Isaac 4.1 挡块接触开关门资格
 - **[Articulated Device Admission And Requalification](operations/articulated-device-admission-requalification.md)** - producer-owned articulated USD/proxy/profile/physics admission, promotion, and Scenario Forge loader handoff

@@ -21,6 +21,16 @@ from typing import Any
 
 
 ASSETS = {
+    "task08_r12_body_glass": {
+        "package": "tube15_long_neck_threaded_body_glass_v1_2",
+        "entry_prim": "/World/Tube15LongNeckThreadedBody",
+        "height": 0.101,
+    },
+    "task08_r12_cap_red": {
+        "package": "tube15_long_neck_threaded_closed_cap_red_v1_2",
+        "entry_prim": "/World/Tube15LongNeckThreadedClosedCap",
+        "height": 0.01874,
+    },
     "long_neck_threaded_body": {
         "package": "tube15_long_neck_threaded_body_v1_1",
         "entry_prim": "/World/Tube15LongNeckThreadedBody",
