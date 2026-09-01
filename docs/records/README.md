@@ -1,5 +1,6 @@
 # Records
 
+- [2026-09-01 Articulated Instance Scope and IKA OVEN r15](2026-09-01-articulated-instance-scope-and-ika-oven-r15.md)
 - [2026-09-01 Task 08 r12 rack and threaded-tube visual assets](2026-09-01-task08-r12-rack-and-threaded-tube-visual-assets.md)
 - [2026-09-01 Long-neck threaded 15 mL tube geometry admission](2026-09-01-long-neck-threaded-tube15-geometry-admission.md)
 - [2026-09-01 Task 09 r14 dual knob and 60-degree door](2026-09-01-task09-r14-dual-knob-and-door-limit.md)
