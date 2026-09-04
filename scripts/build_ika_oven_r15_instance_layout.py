@@ -75,7 +75,9 @@ def build(
     source_stage = Usd.Stage.Open(str(source / "package/asset.usd"))
     source_stage.Flatten(False).Export(str(asset))
     stage = Usd.Stage.Open(str(asset))
-    instance = move_asset_contents_under_instance(stage, ASSET_ROOT)
+    instance = move_asset_contents_under_instance(
+        stage, ASSET_ROOT, instance_type="scope"
+    )
     stage.GetRootLayer().Save()
     audit = audit_instance_layout(stage, ASSET_ROOT)
     if audit["status"] != "pass":
