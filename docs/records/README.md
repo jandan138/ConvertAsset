@@ -1,5 +1,6 @@
 # Records
 
+- [2026-09-04 OVEN 125 r17 teleoperation knob hardening](2026-09-04-ika-oven-r17-teleop-knob-hardening.md)
 - [2026-09-04 articulated v2 durable producer policy](2026-09-04-articulated-v2-durable-policy.md)
 - [2026-09-04 OVEN 125 r16 fixed-base articulation](2026-09-04-ika-oven-r16-fixed-base-articulation.md)
 
