@@ -9,7 +9,7 @@ Architecture, module responsibilities, algorithms, and implementation deep dives
 - [Module responsibilities](architecture-modules.md)
 - [Callstack analysis](architecture-callstack.md)
 - [Asset Application Normalizer](asset-application-normalizer.md) - design contract; downstream integration starts from [AAN consumer handoff](../operations/asset-application-normalizer-consumer-handoff.md)
-- [Articulated appliance relocation](articulated-appliance-relocation.md) - identity-root joint rebinding, controller hooks, and strict promotion tiers
+- [Articulated appliance relocation](articulated-appliance-relocation.md) - identity-root joint rebinding, fixed-base v2 final packages, controller hooks, and strict promotion tiers
 - [Simple-SDF multi-liquid producer](simple-sdf-multi-liquid.md) - reviewed visual-mesh SDF and independent liquid-set contract
 
 ## no-MDL

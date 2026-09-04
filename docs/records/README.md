@@ -1,5 +1,6 @@
 # Records
 
+- [2026-09-04 articulated v2 durable producer policy](2026-09-04-articulated-v2-durable-policy.md)
 - [2026-09-04 OVEN 125 r16 fixed-base articulation](2026-09-04-ika-oven-r16-fixed-base-articulation.md)
 
 - [2026-09-01 Articulated Instance Scope and IKA OVEN r15](2026-09-01-articulated-instance-scope-and-ika-oven-r15.md)

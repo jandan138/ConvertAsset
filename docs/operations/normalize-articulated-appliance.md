@@ -29,3 +29,26 @@ Consumers must read `promotion_receipt.json`. They may reference the declared
 asset entry and author transforms on their own `obj_*` root only after the
 receipt is promoted. They must not copy joint anchors, bake a table height into
 descendants, or rewrite the controller again.
+
+## New VR/eBench fixed-base acceptance
+
+`normalize-articulated` v1 alone produces a relocation candidate. Before a new
+VR or eBench task consumes it, an asset-specific producer build must call the
+shared Instance/fixed-base authoring helpers and emit a promoted receipt whose
+audit proves:
+
+```text
+obj_device                         enabled Articulation Root
+└── Instance                       identity Xform
+    ├── Body                       non-kinematic rigid base
+    ├── <all other rigid links>    non-kinematic
+    └── Joints/BaseFixed           obj_device -> Instance/Body
+```
+
+Use the OVEN 125 r16 builder and qualifier as the maintained example. Runtime
+qualification must initialize the public object root as an articulation and
+exercise the task-scoped controls under canonical, prefixed, and VR mount paths.
+
+Consumers must not add an articulation root, must not toggle kinematic state,
+and must not add or replace `BaseFixed`. A failure in any of those properties is
+a producer-side requalification request, not a downstream scene patch.

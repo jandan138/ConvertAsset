@@ -53,6 +53,33 @@ Candidate creation never implies qualification. Promotion is resolved by
 This prevents a task-scoped claim from becoming a waiver for rename, parent
 mount, local translation, reset, or controller-path defects.
 
+## Fixed-base v2 final packages
+
+The kinematic-chassis output above is a legacy candidate representation, not the
+final shape for a newly generated VR or eBench articulated-object package. A new
+final package must add a producer-owned fixed-base promotion step and satisfy:
+
+- the public `obj_*` entry is an enabled articulation root and remains the only
+  placement, uniform-scale, and randomization owner;
+- the complete device subtree is below an identity `Xform` named `Instance`;
+- every rigid link below `Instance` is non-kinematic;
+- `Instance/Joints/BaseFixed` connects body0 at the public object root to body1
+  at `Instance/Body`;
+- every other internal joint body target stays below `Instance`;
+- existing link, joint, control, collider, and runtime-graph paths are preserved
+  when promoting a legacy asset.
+
+`move_asset_contents_under_instance` and `author_fixed_base_articulation` own
+this authoring in ConvertAsset. The corresponding fixed-base audit must pass
+before runtime qualification. Scenario Forge and VR consumers may enumerate
+the resulting rigid links, but they do not repair this structure.
+
+Isaac Sim 4.1 is the formal qualification runtime. Qualification must cover the
+canonical root, an arbitrary parent prefix, and `/World/_scene`; it must prove
+articulation initialization, DOF discovery, fixed-base rest stability, and the
+task-scoped controls being claimed. A later-runtime compatibility probe does not
+replace the 4.1 evidence.
+
 ## Unsupported v1 cases
 
 Multiple chassis candidates, closed-loop/cyclic joint graphs, cross-entry joint
