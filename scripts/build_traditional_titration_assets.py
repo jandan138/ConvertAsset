@@ -508,7 +508,62 @@ def _extend_station_clamp_for_stirrer(stage: Any) -> None:
     set_xyz(INSTANCE + "/Burette", (0.22, 0.0, 0.515))
 
 
-def _build_station(source: Path, package: Path) -> Path:
+def _author_scaled_stopcock_handle(
+    stage: Any, handle_path: str, visible_span_m: float
+) -> None:
+    """Lengthen only the handle children while preserving its rigid-body root."""
+
+    from pxr import Gf, Sdf, UsdGeom, UsdPhysics
+
+    span = float(visible_span_m)
+    if not 0.05 <= span <= 0.12:
+        raise ValueError("handle_visible_span_m must be between 0.05 and 0.12")
+    end_radius = 0.005
+    end_center = span / 2.0 - end_radius
+    wing_half_span = end_center
+    for side, sign in (("left", -1.0), ("right", 1.0)):
+        for scope, x_scale, z_scale in (
+            ("Visual", 0.008, 0.008),
+            ("Collision", 0.009, 0.0088),
+        ):
+            wing = stage.GetPrimAtPath(f"{handle_path}/{scope}/wing_{side}")
+            wing.GetAttribute("xformOp:translate").Set(
+                Gf.Vec3d(0.026, sign * wing_half_span / 2.0, 0.0)
+            )
+            wing.GetAttribute("xformOp:scale").Set(
+                Gf.Vec3f(x_scale, wing_half_span, z_scale)
+            )
+        visual_end = stage.GetPrimAtPath(f"{handle_path}/Visual/end_{side}")
+        visual_end.GetAttribute("xformOp:translate").Set(
+            Gf.Vec3d(0.026, sign * end_center, 0.0)
+        )
+        collision_end = UsdGeom.Sphere.Define(
+            stage, f"{handle_path}/Collision/end_{side}"
+        )
+        collision_end.CreateRadiusAttr(end_radius)
+        collision_end.AddTranslateOp().Set(
+            Gf.Vec3d(0.026, sign * end_center, 0.0)
+        )
+        collision_end.CreateVisibilityAttr(UsdGeom.Tokens.invisible)
+        collision = UsdPhysics.CollisionAPI.Apply(collision_end.GetPrim())
+        collision.CreateCollisionEnabledAttr(True)
+        collision_end.GetPrim().CreateAttribute(
+            "asset:collision_role", Sdf.ValueTypeNames.String, custom=True
+        ).Set("visual_matched_endpoint")
+    handle = stage.GetPrimAtPath(handle_path)
+    handle.SetCustomDataByKey("aan:handleVisibleSpanM", span)
+    handle.SetCustomDataByKey(
+        "aan:handleScalePolicy", "children_only_local_y_rigid_root_unchanged"
+    )
+
+
+def _build_station(
+    source: Path,
+    package: Path,
+    *,
+    handle_visible_span_m: float | None,
+    package_revision: str,
+) -> Path:
     from pxr import Gf, Sdf, Usd, UsdGeom, UsdPhysics
 
     package.mkdir(parents=True)
@@ -557,6 +612,12 @@ def _build_station(source: Path, package: Path) -> Path:
         stage, "/World/BuretteStand/Materials", INSTANCE + "/StandMaterials"
     )
     _extend_station_clamp_for_stirrer(stage)
+    if handle_visible_span_m is not None:
+        _author_scaled_stopcock_handle(
+            stage,
+            INSTANCE + "/Burette/stopcock_handle_link",
+            handle_visible_span_m,
+        )
     burette_body = stage.GetPrimAtPath(INSTANCE + "/Burette/body_link")
     burette_body.RemoveAPI(UsdPhysics.ArticulationRootAPI)
     for prop in list(stage.GetPrimAtPath(INSTANCE + "/Burette").GetProperties()):
@@ -584,7 +645,7 @@ def _build_station(source: Path, package: Path) -> Path:
     _author_glass(stage, package, INSTANCE + "/Burette")
     root = stage.GetPrimAtPath(STATION_ROOT)
     root.SetCustomDataByKey("aan:assetRole", "articulated_object")
-    root.SetCustomDataByKey("aan:controllerRevision", "titration-r1")
+    root.SetCustomDataByKey("aan:controllerRevision", f"titration-{package_revision}")
     stage.GetRootLayer().Save()
     audit = audit_fixed_base_articulation_layout(
         stage,
@@ -640,6 +701,8 @@ def build(
     *,
     archive: Path = DEFAULT_ARCHIVE,
     reference_doc: Path = DEFAULT_REFERENCE_DOC,
+    package_revision: str = "r1",
+    handle_visible_span_m: float | None = None,
 ) -> TitrationAssetsResult:
     output = output.resolve()
     archive = archive.resolve()
@@ -675,31 +738,40 @@ def build(
     from pxr import Usd
 
     burette_stage = Usd.Stage.Open(str(burette_asset))
+    if handle_visible_span_m is not None:
+        _author_scaled_stopcock_handle(
+            burette_stage,
+            "/World/Burette/stopcock_handle_link",
+            handle_visible_span_m,
+        )
     _author_glass(burette_stage, burette_package, "/World/Burette")
     burette_stage.GetRootLayer().Save()
     station_asset = _build_station(
-        source_root / "usd/titration_station_test.usd", station_package
+        source_root / "usd/titration_station_test.usd",
+        station_package,
+        handle_visible_span_m=handle_visible_span_m,
+        package_revision=package_revision,
     )
 
     manifests = []
     specs = (
         (
             burette_package,
-            "traditional_titration_burette_r1",
+            f"traditional_titration_burette_{package_revision}",
             "floating_articulated_component",
             "/World/Burette",
             "traditional_titration_v1/usd/burette.usd",
         ),
         (
             stand_package,
-            "traditional_titration_stand_r1",
+            f"traditional_titration_stand_{package_revision}",
             "static_support_component",
             "/World/BuretteStand",
             "traditional_titration_v1/usd/burette_stand.usd",
         ),
         (
             station_package,
-            "traditional_titration_station_r1",
+            f"traditional_titration_station_{package_revision}",
             "articulated_object",
             STATION_ROOT,
             "traditional_titration_v1/usd/titration_station_test.usd",
@@ -722,6 +794,14 @@ def build(
                     "falling_liquid_visuals_removed": True,
                 }
             )
+        if handle_visible_span_m is not None and role != "static_support_component":
+            manifest["package_transform"] = {
+                "kind": "visible_stopcock_handle_local_y_scale",
+                "handle_visible_span_m": float(handle_visible_span_m),
+                "visual_and_collision_matched": True,
+                "rigid_body_root_scaled": False,
+                "joint_structure_changed": False,
+            }
         path = package / "evidence/manifest.json"
         _write_json(path, manifest)
         manifests.append(path)
@@ -740,10 +820,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--archive", type=Path, default=DEFAULT_ARCHIVE)
     parser.add_argument("--reference-doc", type=Path, default=DEFAULT_REFERENCE_DOC)
+    parser.add_argument("--package-revision", default="r1")
+    parser.add_argument("--handle-visible-span-m", type=float)
     args = parser.parse_args(argv)
     print(
         build(
-            args.output, archive=args.archive, reference_doc=args.reference_doc
+            args.output,
+            archive=args.archive,
+            reference_doc=args.reference_doc,
+            package_revision=args.package_revision,
+            handle_visible_span_m=args.handle_visible_span_m,
         ).station_asset
     )
     return 0

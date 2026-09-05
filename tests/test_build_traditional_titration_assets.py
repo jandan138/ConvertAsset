@@ -137,3 +137,87 @@ def test_promotion_rejects_blocked_runtime_report(tmp_path) -> None:
         reports.append(path)
     with pytest.raises(ValueError, match="must pass"):
         promote(result.output, reports)
+
+
+def test_long_handle_variant_reaches_90mm_without_changing_articulation(
+    tmp_path,
+) -> None:
+    baseline = build(tmp_path / "baseline")
+    variant = build(
+        tmp_path / "long_handle",
+        package_revision="r2",
+        handle_visible_span_m=0.09,
+    )
+    baseline_stage = Usd.Stage.Open(str(baseline.station_asset))
+    stage = Usd.Stage.Open(str(variant.station_asset))
+    handle_path = (
+        "/World/TitrationStation/Instance/Burette/stopcock_handle_link"
+    )
+    handle = stage.GetPrimAtPath(handle_path)
+    assert tuple(handle.GetAttribute("xformOp:translate").Get()) == pytest.approx(
+        (0.0, 0.0, -0.18)
+    )
+    assert not handle.GetAttribute("xformOp:scale")
+
+    for side, sign in (("left", -1.0), ("right", 1.0)):
+        visual_wing = stage.GetPrimAtPath(f"{handle_path}/Visual/wing_{side}")
+        visual_end = stage.GetPrimAtPath(f"{handle_path}/Visual/end_{side}")
+        collision_wing = stage.GetPrimAtPath(
+            f"{handle_path}/Collision/wing_{side}"
+        )
+        collision_end = stage.GetPrimAtPath(f"{handle_path}/Collision/end_{side}")
+        assert tuple(visual_wing.GetAttribute("xformOp:scale").Get()) == pytest.approx(
+            (0.008, 0.04, 0.008)
+        )
+        assert tuple(
+            visual_wing.GetAttribute("xformOp:translate").Get()
+        ) == pytest.approx((0.026, sign * 0.02, 0.0))
+        assert tuple(
+            visual_end.GetAttribute("xformOp:translate").Get()
+        ) == pytest.approx((0.026, sign * 0.04, 0.0))
+        assert collision_end.HasAPI(UsdPhysics.CollisionAPI)
+        assert tuple(
+            collision_end.GetAttribute("xformOp:translate").Get()
+        ) == pytest.approx((0.026, sign * 0.04, 0.0))
+        assert tuple(
+            collision_wing.GetAttribute("xformOp:scale").Get()
+        ) == pytest.approx((0.009, 0.04, 0.0088))
+
+    joint_path = handle_path.rsplit("/", 1)[0] + "/stopcock_joint"
+    baseline_joint = baseline_stage.GetPrimAtPath(joint_path)
+    joint = stage.GetPrimAtPath(joint_path)
+    for attribute in (
+        "physics:axis",
+        "physics:localPos0",
+        "physics:localPos1",
+        "physics:lowerLimit",
+        "physics:upperLimit",
+        "drive:angular:physics:damping",
+        "drive:angular:physics:maxForce",
+        "drive:angular:physics:stiffness",
+    ):
+        assert joint.GetAttribute(attribute).Get() == baseline_joint.GetAttribute(
+            attribute
+        ).Get()
+
+    manifest = json.loads(variant.station_manifest.read_text())
+    assert manifest["package_id"] == "traditional_titration_station_r2"
+    assert manifest["package_transform"]["handle_visible_span_m"] == 0.09
+    assert manifest["package_transform"]["rigid_body_root_scaled"] is False
+
+
+def test_long_handle_promotion_uses_r2_handoff_identity(tmp_path) -> None:
+    result = build(
+        tmp_path / "long_handle",
+        package_revision="r2",
+        handle_visible_span_m=0.09,
+    )
+    reports = []
+    for index in range(3):
+        path = tmp_path / f"cold_r2_{index}.json"
+        path.write_text(json.dumps({"status": "pass", "runtime_version": "4.5.0"}))
+        reports.append(path)
+    receipt = promote(result.output, reports)
+    receipt_payload = json.loads(receipt.read_text())
+    assert receipt_payload["package_id"] == "traditional_titration_station_r2"
+    assert (result.output / "handoff/traditional_titration_assets_r2.zip").is_file()

@@ -48,6 +48,11 @@ def promote(output: Path, reports: Sequence[Path]) -> Path:
             }
         )
 
+    station_manifest_path = output / "packages/station/evidence/manifest.json"
+    station_package_id = json.loads(
+        station_manifest_path.read_text(encoding="utf-8")
+    )["package_id"]
+    package_revision = station_package_id.rsplit("_", 1)[-1]
     for name in ("burette", "stand", "station"):
         manifest_path = output / f"packages/{name}/evidence/manifest.json"
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -68,6 +73,7 @@ def promote(output: Path, reports: Sequence[Path]) -> Path:
 
     receipt = {
         "schema_version": "aan.traditional_titration_promotion.v1",
+        "package_id": station_package_id,
         "status": "promoted",
         "package": "packages/station",
         "runtime": "Isaac Sim 4.5.0",
@@ -87,8 +93,9 @@ def promote(output: Path, reports: Sequence[Path]) -> Path:
 
     handoff = output / "handoff"
     handoff.mkdir(exist_ok=True)
-    archive = handoff / "traditional_titration_assets_r1.zip"
-    archive_root = Path("traditional_titration_assets_r1")
+    archive_name = f"traditional_titration_assets_{package_revision}"
+    archive = handoff / f"{archive_name}.zip"
+    archive_root = Path(archive_name)
     with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as handle:
         handle.write(receipt_path, archive_root / "promotion_receipt.json")
         for path in sorted((output / "packages").rglob("*")):
