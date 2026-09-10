@@ -19,6 +19,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 ## Engineering Records
 
+- [2026-09-09 刚体粉末 producer fixture 与天平联合夹具](2026-09-09-rigid-powder-fixture.md)
 - [2026-09-09 Task 09 天平受力 producer r1](2026-09-09-balance-force-r1.md)
 - [2026-08-22 LABSPIN X8 Source-bound Interaction Packages](2026-08-22-labspin-x8-source-bound-interaction-packages.md)
 - [2026-08-20 Simple-SDF Multi-liquid Route](2026-08-20-simple-sdf-multi-liquid-route.md)
