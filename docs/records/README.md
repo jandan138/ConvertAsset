@@ -19,6 +19,8 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 ## Engineering Records
 
+- [2026-09-11 Task09 紧凑粉末瓶场景 producer r3](2026-09-11-compact-powder-scene-r3.md)
+- [2026-09-10 Task09 浅粉瓶与重建称量舟 producer r2](2026-09-10-task09-powder-bottle-r2.md)
 - [2026-09-09 刚体粉末 producer fixture 与天平联合夹具](2026-09-09-rigid-powder-fixture.md)
 - [2026-09-09 Task 09 天平受力 producer r1](2026-09-09-balance-force-r1.md)
 - [2026-08-22 LABSPIN X8 Source-bound Interaction Packages](2026-08-22-labspin-x8-source-bound-interaction-packages.md)
