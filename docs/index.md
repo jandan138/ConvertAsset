@@ -4,6 +4,8 @@
 
 ## 快速导航
 
+- [18×150 mm Blender 玻璃试管](records/2026-09-12-chemistry-test-tube-18x150.md) - 圆底卷口、玻璃材质与斐林 r7 架子/水浴限定资格
+
 - [Task09 紧凑粉末瓶场景 producer r3](records/2026-09-11-compact-powder-scene-r3.md) - Blender model_r2 集成、深粉床与 Isaac 4.5 规定轨迹证据
 - [Task 09 天平受力 producer r1](records/2026-09-09-balance-force-r1.md)
 - **[设计文档](design/README.md)** - 架构、模块职责、算法与实现深挖
