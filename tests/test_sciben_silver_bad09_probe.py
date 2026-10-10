@@ -81,3 +81,10 @@ def test_spherical_bottom_proxy_vertices_follow_both_source_surfaces():
             radii=np.linalg.norm(v-[0,0,.009],axis=1)
             assert np.all(np.isclose(radii,.008)|np.isclose(radii,.009))
             assert v[:,2].min()>=-1e-12 and v[:,2].max()<=.009+1e-12
+
+def test_measured_native_cadence_waits_only_during_passive_warmup():
+    assert m.native_step_decision(10,11,True)
+    assert m.native_step_decision(10,11,False)
+    assert not m.native_step_decision(10,10,True)
+    for before,after,warm in [(10,10,False),(10,12,False),(10,12,True),(10,9,True)]:
+        with pytest.raises(RuntimeError):m.native_step_decision(before,after,warm)

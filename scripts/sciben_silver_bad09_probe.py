@@ -34,6 +34,14 @@ def skip_contact_sampling(source):
 
 
 
+def native_step_decision(before,after,warmup):
+    """Only passive startup may render without physics; actions require one tick."""
+    delta=after-before
+    if delta==1:return True
+    if delta==0 and warmup:return False
+    raise RuntimeError('Expected one native physics tick, observed '+str(delta))
+
+
 def case_inputs(baseline,case):
     """Bind a mixed case to its own YAML scene and task metadata."""
     import re,yaml
@@ -180,6 +188,7 @@ def run(args):
     robot_asset=baseline/'saved/assets/robot_usds/lift2/robot.usd'
     inputs={'scene':str(scene),'metadata':str(meta),'robot':str(robot_asset),'actions':str(Path(args.actions).resolve())}
     if bound:inputs['case_yaml']=str(bound['case_yaml'])
+    if args.bottom_hybrid_manifest:inputs['bottom_hybrid_manifest']=str(Path(args.bottom_hybrid_manifest).resolve())
     if args.bad_case_matrix:
         entries=json.loads(Path(args.bad_case_matrix).read_text());matches=[v for v in entries if v['task']=='task_z4_silver_mirror_reaction' and v['case']==args.case and Path(v['path'])/'meta_record.pkl'==Path(args.actions)]
         if len(matches)!=1:raise ValueError('Action source does not match case matrix')
@@ -249,8 +258,27 @@ def run(args):
         original=a.Get();patched=patch_source(original,keep_tensor_view=not args.no_contact_tensor_view,persistent=args.persistent_contact_events);a.Set(patched)
         (out/'reaction_event_sampling.py').write_text(patched)
         intervention=dict(intervention or {},contact_event_sampling=True,tensor_view_creation_retained=not args.no_contact_tensor_view,wall_guard_active=True,persistent_active_pair_records=args.persistent_contact_events)
+    if args.bottom_hybrid_manifest:
+        if args.shared_tube_colliders or args.bath_rigid_proxy:raise ValueError('Use one tube boundary candidate; preserve beaker')
+        from sciben_waterbath_recovery_bottom_proxy import author as author_bottom_hybrid
+        profile=json.loads(Path(args.bottom_hybrid_manifest).read_text())['liquids']['Sample']['cavity_profile_m']
+        intervention=dict(intervention or {},bottom_hybrid_colliders=author_bottom_hybrid(stage,root,profile))
+    if args.shared_tube_colliders:
+        if args.bath_rigid_proxy:raise ValueError('Shared-tube candidate keeps beaker unchanged')
+        from sciben_waterbath_recovery_shared_tube import author as author_shared_tube
+        intervention=dict(intervention or {},shared_tube_colliders=author_shared_tube(stage,root))
+    if args.body_ccd:
+        for path in [tube,bath]:
+            prim=stage.GetPrimAtPath(path)
+            if UsdPhysics.RigidBodyAPI(prim).GetKinematicEnabledAttr().Get():raise ValueError('CCD diagnostic requires dynamic bodies')
+            PhysxSchema.PhysxRigidBodyAPI.Apply(prim).CreateEnableCCDAttr(True)
+        intervention=dict(intervention or {},body_CCD_enabled=[tube,bath],scene_CCD_already_enabled=True)
     if args.disable_graph:stage.GetPrimAtPath(tube+'/ReactionRuntime').SetActive(False)
     stage.GetRootLayer().Save()
+    loaded_code=stage.GetPrimAtPath(tube+'/ReactionRuntime/TollensGraph/FlowController').GetAttribute('inputs:script').Get()
+    (out/'loaded_reaction_script.py').write_text(loaded_code)
+    loaded_binding={'USD_script_sha256':hashlib.sha256(loaded_code.encode()).hexdigest(),'fixture_sha256':sha(out/'fixture.usda'),'source_input_hash_scope':list(inputs),'warmup_contract':'300 measured native ticks after SDK reset; zero-advance render calls only allowed during passive startup; original actions require exactly one tick each'}
+    (out/'loaded_script_binding.json').write_text(json.dumps(loaded_binding,indent=2)+'\n')
     if args.case:
         layers={l.realPath:sha(l.realPath) for l in stage.GetUsedLayers() if l.realPath and Path(l.realPath).is_file() and Path(l.realPath).resolve()!=out/'fixture.usda'}
         (out/'bound_scene_layers.json').write_text(json.dumps(layers,indent=2)+'\n')
@@ -302,12 +330,20 @@ def run(args):
         p=stage.GetPrimAtPath(tube);state={k:p.GetAttribute('tollens:'+k).Get() for k in ['pbd_valid','runtime_error','heated_seconds','heating_enabled','heating_block_reason','wall_contact_count']}
         return {'step':step,'native_count':len(native),'poses':poses,'state':state,'joints':robot.get_joint_positions().tolist(),'rack_matrix_rowmajor':np.asarray(UsdGeom.XformCache().GetLocalToWorldTransform(stage.GetPrimAtPath(root+'/obj_tube_rack'))).tolist()}
     dense=open(out/'poses_each_step.jsonl','w') if args.dense_pose_trace else None
-    for step in range(-300,args.steps):
+    native_before_warmup=len(native);warmup_native_steps=0;startup_no_advance_calls=0;clock_failure=False;step=-300
+    while step<args.steps:
         active_step=step
         if step>=0:
             action,base=normalized[step];robot._articulation_view.set_joint_position_targets(action.astype(np.float32),joint_indices=indices);robot._articulation_view.set_joint_position_targets(sdk_base_targets(base,args.legacy_raw_yaw).astype(np.float32),joint_indices=np.asarray([0,1,2]))
-        world.step(render=True)
+        before_native=len(native);world.step(render=True)
         if errors:failure='PhysX error';break
+        try:advanced=native_step_decision(before_native,len(native),step<0)
+        except RuntimeError as exc:failure=str(exc);clock_failure=True;break
+        if not advanced:
+            startup_no_advance_calls+=1
+            if startup_no_advance_calls>600:failure='Startup did not advance native physics';clock_failure=True;break
+            continue
+        if step<0:warmup_native_steps+=1
         q=robot.get_joint_positions()
         if not np.isfinite(q).all():failure='Nonfinite joints';break
         if step>=0:completed=step+1
@@ -317,12 +353,15 @@ def run(args):
             if dense:dense.flush()
             if contact_stream:contact_stream.flush()
             row=dense_row or snapshot(step);trace.append(row);print('BAD09',json.dumps(row),flush=True);(out/'progress.json').write_text(json.dumps({'completed_actions':completed,'trace':trace,'errors':errors},indent=2)+'\n')
+        step+=1
     if dense:dense.close()
     if contact_stream:contact_stream.close()
     report={'status':'PASS_BOUNDED_ENGINE' if not failure else 'FAIL_ENGINE','failure':failure,'completed_actions':completed,'requested_actions':args.steps,'native_clock':{'count':len(native),'min_s':min(native),'max_s':max(native),'wrong_dt':sum(abs(v-1/120)>1e-8 for v in native)},'errors':errors,'intervention':intervention,'graph_enabled':not args.disable_graph,'input_hashes':hashes,'source_inputs_unchanged':all(sha(inputs[k])==h for k,h in hashes.items()),'contact_events':contact_events,'trace':trace,'limits':['No task success claim',('Supplement-only filtering removes necessary beaker contact' if args.filter_supplement_robot and not args.restore_bath_sdf else 'Diagnostic only; separate containment and full baseline qualification required'),'No camera/FK pipeline replication']}
-    if report['native_clock']['wrong_dt']:report['status']='FAIL_CLOCK'
+    report.update(native_before_warmup=native_before_warmup,warmup_native_steps=warmup_native_steps,startup_no_advance_calls=startup_no_advance_calls,action_native_cadence_checked=True,loaded_script_binding=loaded_binding,fixture_file_unchanged=sha(out/'fixture.usda')==loaded_binding['fixture_sha256'])
+    if not failure and (warmup_native_steps!=300 or len(native)!=native_before_warmup+300+completed):clock_failure=True;report['failure']='Native warmup/action total mismatch'
+    if report['native_clock']['wrong_dt'] or clock_failure:report['status']='FAIL_CLOCK'
     (out/'report.json').write_text(json.dumps(report,indent=2)+'\n');print('REPORT',json.dumps({k:v for k,v in report.items() if k!='trace'}),flush=True);app.close()
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--case');p.add_argument('--bad-case-matrix');p.add_argument('--dense-pose-trace',action='store_true');p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--tube-rigid-proxy',action='store_true');p.add_argument('--proxy-curved-bottom',action='store_true');p.add_argument('--bath-rigid-proxy',action='store_true');p.add_argument('--contact-event-sampling',action='store_true');p.add_argument('--no-contact-tensor-view',action='store_true');p.add_argument('--persistent-contact-events',action='store_true');p.add_argument('--record-contacts',action='store_true');p.add_argument('--contact-timeline',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())
+    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--case');p.add_argument('--bad-case-matrix');p.add_argument('--dense-pose-trace',action='store_true');p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--tube-rigid-proxy',action='store_true');p.add_argument('--proxy-curved-bottom',action='store_true');p.add_argument('--bath-rigid-proxy',action='store_true');p.add_argument('--contact-event-sampling',action='store_true');p.add_argument('--no-contact-tensor-view',action='store_true');p.add_argument('--persistent-contact-events',action='store_true');p.add_argument('--body-ccd',action='store_true');p.add_argument('--shared-tube-colliders',action='store_true');p.add_argument('--bottom-hybrid-manifest');p.add_argument('--record-contacts',action='store_true');p.add_argument('--contact-timeline',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())

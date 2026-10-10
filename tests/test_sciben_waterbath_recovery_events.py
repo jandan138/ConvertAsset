@@ -35,3 +35,44 @@ def test_persistent_pairs_sleep_lost_and_late_initialization_fail_closed():
  late=m.PersistentContactCounts('/tube','/bath',8192)
  with pytest.raises(RuntimeError,match='uninitialized'):late.read([],str,True)
  assert late.read([],str,False)==0
+
+def test_late_sleep_partial_reports_never_establish_complete_clear_state():
+ c=m.PersistentContactCounts('/tube','/bath',8192)
+ h=header('/tube','/bath',0);h.collider0='/t';h.collider1='/b';h.type='CONTACT_LOST'
+ with pytest.raises(RuntimeError,match='uninitialized'):c.read([h],str,True)
+ h.type='CONTACT_FOUND';h.num_contact_data=4
+ assert c.read([h],str,True)==4
+ assert not c.initialized
+ h.type='CONTACT_LOST';h.num_contact_data=0
+ with pytest.raises(RuntimeError,match='uninitialized'):c.read([h],str,True)
+ assert c.read([],str,False)==0
+
+def pair_header(collider,n,kind='CONTACT_PERSIST'):
+ h=header('/tube','/bath',n);h.collider0='/tube/'+collider;h.collider1='/bath/'+collider;h.type=kind;return h
+
+def test_awake_first_persist_multiple_pairs_partial_lost_and_ordered_events():
+ c=m.PersistentContactCounts('/tube','/bath',8192)
+ assert c.read([pair_header('a',3),pair_header('b',5)],str,False)==8
+ assert c.initialized
+ assert c.read([pair_header('a',0,'CONTACT_LOST')],str,True)==5
+ assert c.read([],str,True)==5
+ assert c.read([pair_header('b',0,'CONTACT_LOST')],str,False)==0
+ # A real within-step touch blocks heating even if the same pair is lost later.
+ assert c.read([pair_header('c',2,'CONTACT_FOUND'),pair_header('c',0,'CONTACT_LOST')],str,False)>0
+ assert c.read([],str,False)==0
+ assert c.read([pair_header('c',0,'CONTACT_LOST'),pair_header('c',4,'CONTACT_FOUND')],str,False)==4
+
+def test_bad_sample_cannot_leave_false_known_clear_state_for_sleeping_tick():
+ c=m.PersistentContactCounts('/tube','/bath',8192)
+ assert c.read([],str,False)==0
+ with pytest.raises(RuntimeError):c.read([pair_header('a',-1)],str,False)
+ with pytest.raises(RuntimeError,match='uninitialized'):c.read([],str,True)
+ assert c.read([pair_header('a',3)],str,False)==3
+
+@pytest.mark.parametrize('count,kind',[(0,'CONTACT_FOUND'),(-1,'CONTACT_PERSIST'),(5,'CONTACT_PERSIST'),(1,'UNRECOGNIZED')])
+def test_invalid_active_report_resets_knowledge_and_fails_closed(count,kind):
+ c=m.PersistentContactCounts('/tube','/bath',4)
+ assert c.read([],str,False)==0
+ with pytest.raises(RuntimeError):c.read([pair_header('a',count,kind)],str,False)
+ assert not c.initialized and c.pairs=={}
+ with pytest.raises(RuntimeError,match='uninitialized'):c.read([],str,True)

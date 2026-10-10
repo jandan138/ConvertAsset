@@ -11,25 +11,30 @@ def contact_header_count(headers,tube,bath,capacity,decode):
 
 
 class PersistentContactCounts:
-    """Active pair records: retain sleeping contacts until explicit LOST."""
+    """Block on current reported contacts or retained sleeping active pairs."""
     def __init__(self,tube,bath,capacity):
         self.actors=frozenset((tube,bath));self.capacity=capacity;self.pairs={};self.initialized=False
 
     def read(self,headers,decode,tube_sleeping):
-        observed=False
-        for h in headers:
-            if frozenset((decode(h.actor0),decode(h.actor1)))!=self.actors:continue
-            observed=True;key=tuple(sorted((decode(h.collider0),decode(h.collider1))));kind=str(h.type)
-            if kind.endswith('CONTACT_LOST'):self.pairs.pop(key,None)
-            elif kind.endswith(('CONTACT_FOUND','CONTACT_PERSIST')):
-                n=int(h.num_contact_data)
-                if n<0:raise RuntimeError('Negative active contact count')
-                self.pairs[key]=n
-            else:raise RuntimeError('Unknown contact event type: '+kind)
-        if observed or not tube_sleeping:self.initialized=True
-        if not self.initialized:raise RuntimeError('Contact state uninitialized while sample tube sleeps; heating blocked')
-        count=sum(self.pairs.values())
-        if count>self.capacity:raise RuntimeError('Active contact record capacity exceeded: '+str(count))
+        pairs=self.pairs.copy();reported=0
+        try:
+            for h in headers:
+                if frozenset((decode(h.actor0),decode(h.actor1)))!=self.actors:continue
+                key=tuple(sorted((decode(h.collider0),decode(h.collider1))));kind=str(h.type)
+                if kind.endswith('CONTACT_LOST'):pairs.pop(key,None)
+                elif kind.endswith(('CONTACT_FOUND','CONTACT_PERSIST')):
+                    n=int(h.num_contact_data)
+                    if n<=0:raise RuntimeError('Active contact report has no valid contact points')
+                    pairs[key]=n;reported+=n
+                else:raise RuntimeError('Unknown contact event type: '+kind)
+            known=self.initialized or not tube_sleeping
+            count=max(sum(pairs.values()),reported)
+            if count>self.capacity:raise RuntimeError('Active contact record capacity exceeded: '+str(count))
+            if not known and count==0:raise RuntimeError('Contact state uninitialized while sample tube sleeps; heating blocked')
+        except Exception:
+            self.pairs={};self.initialized=False
+            raise
+        self.pairs=pairs;self.initialized=known
         return count
 
 
@@ -104,8 +109,8 @@ def build_delta(source,out,persistent=False):
     receipt={'status':'DIAGNOSTIC_PENDING','source_wrapper':str(source),'source_wrapper_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'source_script_sha256':hashlib.sha256(original.encode()).hexdigest(),'new_script_sha256':hashlib.sha256(patched.encode()).hexdigest(),'delta':str(target),'delta_sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'authoring_root':'/World','runtime_root':'/World/_scene','patched_attribute':str(a.GetPath()).replace(root,'/World',1),'change':'Only detailed tensor contact read and its unused view initialization replaced by stateless immediate PhysX header point count; same heating_gate and capacity.','tensor_contact_view_created':False,'collision_geometry_changed':False,'threshold_requirement':'tube and bath PhysxContactReportAPI threshold0; already authored in D v2','lifecycle':'No contact subscriptions or persistent contact count state added; live sleeping-touch/reset qualification pending.'}
     if persistent:
         receipt['change']='Only contact readout backend changes: active collider-pair records from immediate native reports, kept across sleeping ticks, explicit LOST release, epoch/index/cleanup resets; original heating gate remains.'
-        receipt['lifecycle']='State keyed by stage id, episode revision, actor paths; native index rollback and cleanup clear state. Late initialization while tube sleeps and no report fails closed.'
-        receipt['wall_contact_count_semantics']='Sum of most recent point counts for active collider-pair records, including sleeping contacts; not newly measured points each frame.'
+        receipt['lifecycle']='State keyed by stage id, episode revision, actor paths; native index rollback and cleanup clear state. Only awake sampling establishes complete clear state. Partial reports during late sleeping initialization may block on positive evidence but never establish clearance; unknown empty state and invalid data fail closed.'
+        receipt['wall_contact_count_semantics']='Maximum of current-step reported contact points and retained active-pair point counts (including sleep). A transient FOUND then LOST still blocks that step. Not newly measured points each frame.'
     (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     return receipt
 
