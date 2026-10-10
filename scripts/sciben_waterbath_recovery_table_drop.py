@@ -13,7 +13,7 @@ def json_scalar(value):
     if isinstance(value,np.generic):return value.item()
     raise TypeError(type(value).__name__)
 
-def run(source,out,steps):
+def run(source,out,steps,body_ccd=False):
     from isaacsim import SimulationApp
     app=SimulationApp({'headless':True})
     import numpy as np,carb,omni.usd,omni.physx
@@ -35,6 +35,7 @@ def run(source,out,steps):
         for rel in visuals:
             mesh=stage.GetPrimAtPath(path+'/'+rel);mat=cache.GetLocalToWorldTransform(mesh)*old.GetInverse();vertices.extend([mat.Transform(Gf.Vec3d(*v)) for v in mesh.GetAttribute('points').Get()])
         vertices=np.asarray(vertices,float);start=np.array([xy[0],xy[1],table_top+.05-vertices[:,2].min()]);new=Gf.Matrix4d().SetTranslate(Gf.Vec3d(*start));x=UsdGeom.Xformable(p);x.ClearXformOpOrder();x.AddTransformOp(opSuffix='dropFixture').Set(new);assert not UsdPhysics.RigidBodyAPI(p).GetKinematicEnabledAttr().Get()
+        if body_ccd:PhysxSchema.PhysxRigidBodyAPI.Apply(p).CreateEnableCCDAttr(True)
         # Explicit initial rest is part of the fixture, authored before Play only.
         UsdPhysics.RigidBodyAPI(p).CreateVelocityAttr(Gf.Vec3f(0));UsdPhysics.RigidBodyAPI(p).CreateAngularVelocityAttr(Gf.Vec3f(0));transform=old.GetInverse()*new;points=stage.GetPrimAtPath(root+'/WaterbathFluid/'+label+'Particles')
         for name in ['points','physxParticle:simulationPoints']:
@@ -64,7 +65,7 @@ def run(source,out,steps):
     for label,o in objects.items():
         data=[r['objects'][label] for r in rows];table_events=[e for e in events if o['path'] in e['actors'] and any(p.startswith(root+'/table') for p in e['actors']) and e['points']>0];peak=max(r['mechanical_energy_J'] for r in data)
         summary[label]={'mass_kg':o['mass'],'particle_mass_total_kg':o['particle_mass']*o['particle_count'],'initial_energy_J':initial_energy[label],'peak_energy_J':peak,'peak_energy_ratio':peak/initial_energy[label],'maximum_COM_rise_above_release_m':max(r['COM_z'] for r in data)-o['initial_com_z'],'minimum_visible_table_gap_m':min(r['visible_bottom_gap_m'] for r in data),'table_contact_headers':len(table_events),'first_table_contact_step':min((r['step'] for r in table_events),default=None),'final':data[-1],'gates':{'finite_inventory':all(r['finite'] and r['particle_count']==o['particle_count'] for r in data),'actual_table_contact':bool(table_events),'no_visible_crossing_gt1mm':min(r['visible_bottom_gap_m'] for r in data)>=-.001,'no_upward_launch_gt10mm':bool(max(r['COM_z'] for r in data)<=o['initial_com_z']+.01),'mechanical_energy_budget':peak<=initial_energy[label]*1.05+1e-4}}
-    report={'status':'PASS' if not errors and len(rows)==steps and all(abs(d-1/120)<1e-8 for d in native) and all(all(v['gates'].values()) for v in summary.values()) else 'FAIL','scope':'Independent 50mm upright release, original table, exact input composed physical assets, bodyCCD remains off, not rack placement or robot success','source':str(source),'table_top_m':table_top,'release_bottom_gap_m':.05,'post_play_writes':False,'reaction_graph_disabled_in_fixture':True,'energy_budget_rule':'Per filled container mechanical energy <= initial*1.05+0.0001 J; includes body translation/rotation, fluid kinetic and gravity relative to original table. Numerical fixture tolerance, not a universal rule.','native_clock':{'count':len(native),'min_s':min(native),'max_s':max(native),'wrong_dt':sum(abs(d-1/120)>1e-8 for d in native)},'errors':errors,'summary':summary,'rows':rows,'contacts':events};(out/'report.json').write_text(json.dumps(report,indent=2,default=json_scalar)+'\n');print(json.dumps({k:v for k,v in report.items() if k not in ['rows','contacts']},default=json_scalar),flush=True);sub=None;app.close()
+    report={'status':'PASS' if not errors and len(rows)==steps and all(abs(d-1/120)<1e-8 for d in native) and all(all(v['gates'].values()) for v in summary.values()) else 'FAIL','scope':'Independent 50mm upright release, original table, exact input composed physical assets, bodyCCD setting separately recorded, not rack placement or robot success','source':str(source),'body_ccd_diagnostic':body_ccd,'table_top_m':table_top,'release_bottom_gap_m':.05,'post_play_writes':False,'reaction_graph_disabled_in_fixture':True,'energy_budget_rule':'Per filled container mechanical energy <= initial*1.05+0.0001 J; includes body translation/rotation, fluid kinetic and gravity relative to original table. Numerical fixture tolerance, not a universal rule.','native_clock':{'count':len(native),'min_s':min(native),'max_s':max(native),'wrong_dt':sum(abs(d-1/120)>1e-8 for d in native)},'errors':errors,'summary':summary,'rows':rows,'contacts':events};(out/'report.json').write_text(json.dumps(report,indent=2,default=json_scalar)+'\n');print(json.dumps({k:v for k,v in report.items() if k not in ['rows','contacts']},default=json_scalar),flush=True);sub=None;app.close()
 
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--source',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=480);a=p.parse_args();run(a.source,a.out,a.steps)
+ p=argparse.ArgumentParser();p.add_argument('--source',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=480);p.add_argument('--body-ccd',action='store_true');a=p.parse_args();run(a.source,a.out,a.steps,a.body_ccd)
