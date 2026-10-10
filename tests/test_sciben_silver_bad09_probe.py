@@ -43,3 +43,12 @@ def test_fluid_only_groups_preserve_rigid_and_particle_membership():
         assert walls.IsPathIncluded(path) and not rigid.IsPathIncluded(path)
     assert not rigid.IsPathIncluded('/World/WaterbathFluid/Particles')
     assert not walls.IsPathIncluded('/World/WaterbathFluid/Particles')
+
+def test_case_binding_uses_yaml_scene_and_matching_metadata(tmp_path):
+    task='task_z4_silver_mirror_reaction';case='mixed_17'
+    y=tmp_path/f'configs/tasks/scientific_experiments/{task}/test/mixed/{case}.yml';y.parent.mkdir(parents=True)
+    y.write_text('evaluation_configs:\n- task_name: scientific_experiments/'+task+'/'+case+'\n  usd_name: scene_usds/scientific_experiments/'+task+'/unseen_scene_7/scene\n  warmup_steps: 300\n  physics_dt: 0.008333333333333333\n  rendering_dt: 0.008333333333333333\n')
+    result=m.case_inputs(tmp_path,case)
+    assert str(result['scene']).endswith('/unseen_scene_7/scene.usda')
+    assert str(result['metadata']).endswith('/mixed_17/000/meta_info.pkl')
+    with pytest.raises(ValueError):m.case_inputs(tmp_path,'../mixed_1')

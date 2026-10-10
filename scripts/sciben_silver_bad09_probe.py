@@ -33,6 +33,20 @@ def skip_contact_sampling(source):
     return source.replace(needle,"    count=0  # DIAGNOSTIC ONLY: wall sampling bypassed, never deliver",1)
 
 
+
+def case_inputs(baseline,case):
+    """Bind a mixed case to its own YAML scene and task metadata."""
+    import re,yaml
+    if not re.fullmatch(r'mixed_[0-9]+',case):raise ValueError('Expected mixed_N case')
+    baseline=Path(baseline);task='task_z4_silver_mirror_reaction'
+    config=baseline/f'configs/tasks/scientific_experiments/{task}/test/mixed/{case}.yml'
+    value=yaml.safe_load(config.read_text())['evaluation_configs'][0]
+    if value['task_name']!=f'scientific_experiments/{task}/{case}':raise ValueError('Mismatched YAML task case')
+    if value.get('warmup_steps')!=300 or any(abs(value[k]-1/120)>1e-10 for k in ['physics_dt','rendering_dt']):raise ValueError('Case requires different initialization/clock')
+    scene=baseline/'saved/assets'/Path(value['usd_name']+'.usda')
+    return {'scene':scene,'metadata':baseline/f'saved/tasks/scientific_experiments/{task}/{case}/000/meta_info.pkl','case_yaml':config}
+
+
 def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -90,8 +104,16 @@ def run(args):
     out=Path(args.out).resolve();out.mkdir(parents=True,exist_ok=False)
     baseline=Path(args.baseline).resolve();scene=baseline/'saved/assets/scene_usds/scientific_experiments/task_z4_silver_mirror_reaction/unseen_scene_1/scene.usda'
     meta=baseline/'saved/tasks/scientific_experiments/task_z4_silver_mirror_reaction/mixed_1/000/meta_info.pkl'
+    bound=case_inputs(baseline,args.case) if args.case else None
+    if bound:scene=bound['scene'];meta=bound['metadata']
     robot_asset=baseline/'saved/assets/robot_usds/lift2/robot.usd'
-    inputs={'scene':str(scene),'metadata':str(meta),'robot':str(robot_asset),'actions':str(Path(args.actions).resolve())};hashes={k:sha(v) for k,v in inputs.items()}
+    inputs={'scene':str(scene),'metadata':str(meta),'robot':str(robot_asset),'actions':str(Path(args.actions).resolve())}
+    if bound:inputs['case_yaml']=str(bound['case_yaml'])
+    if args.bad_case_matrix:
+        entries=json.loads(Path(args.bad_case_matrix).read_text());matches=[v for v in entries if v['task']=='task_z4_silver_mirror_reaction' and v['case']==args.case and Path(v['path'])/'meta_record.pkl'==Path(args.actions)]
+        if len(matches)!=1:raise ValueError('Action source does not match case matrix')
+        inputs['bad_case_matrix']=str(Path(args.bad_case_matrix).resolve())
+    hashes={k:sha(v) for k,v in inputs.items()}
     metadata=load_pickle(meta)['task_data'];actions=load_pickle(args.actions)['model_output'];assert args.steps<=len(actions)
     normalized=[normalize_action(a) for a in actions[:args.steps]]
     root='/World/_scene';tube=root+'/obj_sample_tube';bath=root+'/obj_beaker';robot_path=root+'/lift2'
@@ -146,6 +168,9 @@ def run(args):
         intervention=dict(intervention or {},contact_sampling_skipped=True,wall_guard_disabled_diagnostic_only=True)
     if args.disable_graph:stage.GetPrimAtPath(tube+'/ReactionRuntime').SetActive(False)
     stage.GetRootLayer().Save()
+    if args.case:
+        layers={l.realPath:sha(l.realPath) for l in stage.GetUsedLayers() if l.realPath and Path(l.realPath).is_file() and Path(l.realPath).resolve()!=out/'fixture.usda'}
+        (out/'bound_scene_layers.json').write_text(json.dumps(layers,indent=2)+'\n')
     (out/'inputs.json').write_text(json.dumps({'inputs':inputs,'sha256':hashes,'script_sha256':sha(__file__),'graph_enabled':not args.disable_graph,'intervention':intervention,'warmup':300,'action_cadence':'one original action per native120Hz step','base_mode':'absolute','legacy_raw_yaw':args.legacy_raw_yaw,'limits':'Direct SDK reproducer; no GenManip metric/FK/camera pipeline. Metadata particles restored with zero velocities exactly as baseline loader.'},indent=2)+'\n')
     contact_events={};contact_subscription=None
     if args.record_contacts:
@@ -158,6 +183,10 @@ def run(args):
                 key=' | '.join(sorted(actor))
                 row=contact_events.setdefault(key,{'headers':0,'max_contact_points':0,'events':{},'collider_pairs':[]})
                 row['headers']+=1;row['max_contact_points']=max(row['max_contact_points'],int(h.num_contact_data))
+                if int(h.num_contact_data):
+                    depth=min(float(data[i].separation) for i in range(h.contact_data_offset,h.contact_data_offset+h.num_contact_data))
+                    row['min_separation_m']=min(row.get('min_separation_m',float('inf')),depth)
+                row.setdefault('first_native_tick',len(native));row['last_native_tick']=len(native)
                 kind=str(h.type);row['events'][kind]=row['events'].get(kind,0)+1
                 pair=sorted(colliders)
                 if pair not in row['collider_pairs'] and len(row['collider_pairs'])<32:row['collider_pairs'].append(pair)
@@ -180,7 +209,8 @@ def run(args):
             if not h:continue
             v=dc.get_rigid_body_pose(h);poses[path]={'position':[v.p.x,v.p.y,v.p.z],'orientation_xyzw':[v.r.x,v.r.y,v.r.z,v.r.w]}
         p=stage.GetPrimAtPath(tube);state={k:p.GetAttribute('tollens:'+k).Get() for k in ['pbd_valid','runtime_error','heated_seconds','heating_enabled','heating_block_reason','wall_contact_count']}
-        return {'step':step,'native_count':len(native),'poses':poses,'state':state,'joints':robot.get_joint_positions().tolist()}
+        return {'step':step,'native_count':len(native),'poses':poses,'state':state,'joints':robot.get_joint_positions().tolist(),'rack_matrix_rowmajor':np.asarray(UsdGeom.XformCache().GetLocalToWorldTransform(stage.GetPrimAtPath(root+'/obj_tube_rack'))).tolist()}
+    dense=open(out/'poses_each_step.jsonl','w') if args.dense_pose_trace else None
     for step in range(-300,args.steps):
         if step>=0:
             action,base=normalized[step];robot._articulation_view.set_joint_position_targets(action.astype(np.float32),joint_indices=indices);robot._articulation_view.set_joint_position_targets(sdk_base_targets(base,args.legacy_raw_yaw).astype(np.float32),joint_indices=np.asarray([0,1,2]))
@@ -189,12 +219,16 @@ def run(args):
         q=robot.get_joint_positions()
         if not np.isfinite(q).all():failure='Nonfinite joints';break
         if step>=0:completed=step+1
+        dense_row=snapshot(step) if dense else None
+        if dense:dense.write(json.dumps(dense_row)+'\n')
         if step==args.steps-1 or step%30==0 or (1900<=step<=2200 and step%5==0):
-            row=snapshot(step);trace.append(row);print('BAD09',json.dumps(row),flush=True);(out/'progress.json').write_text(json.dumps({'completed_actions':completed,'trace':trace,'errors':errors},indent=2)+'\n')
+            if dense:dense.flush()
+            row=dense_row or snapshot(step);trace.append(row);print('BAD09',json.dumps(row),flush=True);(out/'progress.json').write_text(json.dumps({'completed_actions':completed,'trace':trace,'errors':errors},indent=2)+'\n')
+    if dense:dense.close()
     report={'status':'PASS_BOUNDED_ENGINE' if not failure else 'FAIL_ENGINE','failure':failure,'completed_actions':completed,'requested_actions':args.steps,'native_clock':{'count':len(native),'min_s':min(native),'max_s':max(native),'wrong_dt':sum(abs(v-1/120)>1e-8 for v in native)},'errors':errors,'intervention':intervention,'graph_enabled':not args.disable_graph,'input_hashes':hashes,'source_inputs_unchanged':all(sha(inputs[k])==h for k,h in hashes.items()),'contact_events':contact_events,'trace':trace,'limits':['No task success claim',('Supplement-only filtering removes necessary beaker contact' if args.filter_supplement_robot and not args.restore_bath_sdf else 'Diagnostic only; separate containment and full baseline qualification required'),'No camera/FK pipeline replication']}
     if report['native_clock']['wrong_dt']:report['status']='FAIL_CLOCK'
     (out/'report.json').write_text(json.dumps(report,indent=2)+'\n');print('REPORT',json.dumps({k:v for k,v in report.items() if k!='trace'}),flush=True);app.close()
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--record-contacts',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())
+    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--case');p.add_argument('--bad-case-matrix');p.add_argument('--dense-pose-trace',action='store_true');p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--record-contacts',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())
