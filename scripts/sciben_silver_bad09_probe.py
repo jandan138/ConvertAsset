@@ -229,6 +229,9 @@ def run(args):
         intervention=fluid_only_supplements(stage,root)
     if args.tube_rigid_proxy:
         intervention=author_tube_rigid_proxy(stage,root,args.proxy_curved_bottom)
+    if args.bath_rigid_proxy:
+        from sciben_waterbath_recovery_bath import author as author_bath_proxy
+        intervention=dict(intervention or {},bath_proxy=author_bath_proxy(stage,root))
     if args.restore_bath_sdf:
         p=stage.GetPrimAtPath(bath+'/Visual/Source/Beaker_Hollow_Body/Beaker_Hollow_Body_Mesh')
         assert p and p.HasAPI(UsdPhysics.CollisionAPI)
@@ -315,4 +318,4 @@ def run(args):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--case');p.add_argument('--bad-case-matrix');p.add_argument('--dense-pose-trace',action='store_true');p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--tube-rigid-proxy',action='store_true');p.add_argument('--proxy-curved-bottom',action='store_true');p.add_argument('--record-contacts',action='store_true');p.add_argument('--contact-timeline',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())
+    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--case');p.add_argument('--bad-case-matrix');p.add_argument('--dense-pose-trace',action='store_true');p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--tube-rigid-proxy',action='store_true');p.add_argument('--proxy-curved-bottom',action='store_true');p.add_argument('--bath-rigid-proxy',action='store_true');p.add_argument('--record-contacts',action='store_true');p.add_argument('--contact-timeline',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())
