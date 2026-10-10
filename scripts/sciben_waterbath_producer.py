@@ -269,6 +269,12 @@ def robot_probe(package,out,episode,steps=900,filter_tube=False,composed_scene=N
     omni.usd.get_context().open_stage(str(entry))
     for _ in range(5):app.update()
     stage=omni.usd.get_context().get_stage();stage.GetPrimAtPath(tube+'/ReactionRuntime').SetActive(False)
+    composed_overrides=[]
+    if composed_scene:
+        for change in manifest.get('only_physical_changes',[]):
+            path=Sdf.Path(change['path'].replace('/World/',scene_root+'/'));attr=stage.GetPrimAtPath(path.GetPrimPath()).GetAttribute(path.name);before=attr.Get()
+            if before not in (change['before'],change['after']):raise ValueError('Composed asset differs from candidate parent: '+str(path))
+            attr.Set(change['after']);composed_overrides.append({'path':str(path),'before':before,'after':attr.Get()})
     scene=stage.GetPrimAtPath('/World/PhysicsScene');scene.CreateAttribute('physxScene:gpuMaxParticleContacts',Sdf.ValueTypeNames.UInt).Set(4194304)
     scene.CreateAttribute('physxScene:enableStabilization',Sdf.ValueTypeNames.Bool).Set(True)
     cache=UsdGeom.XformCache();old={k:cache.GetLocalToWorldTransform(stage.GetPrimAtPath(v['container'])) for k,v in manifest['liquids'].items()}
@@ -310,9 +316,23 @@ def robot_probe(package,out,episode,steps=900,filter_tube=False,composed_scene=N
     contact_sim=tensors.create_simulation_view('numpy');contact_sim.set_subspace_roots('/')
     contact_view=contact_sim.create_rigid_contact_view([tube],filter_patterns=[[scene_root+'/obj_beaker']],max_contact_data_count=contact_capacity) if contact_capacity>0 else None
     max_contacts=0
+    rack=stage.GetPrimAtPath(scene_root+'/obj_tube_rack');rack_inverse=np.linalg.inv(np.asarray(UsdGeom.Xformable(rack).ComputeLocalToWorldTransform(0)))
+    slot_data=json.load(open(ROOT/'outputs/sciben_waterbath_120hz_20261010/consumer_geometry.json'))['rack']['slots']
+    final_valid_run=0;first_return_valid=None;ever_left=False
+    def slot_snapshot(full_mesh=False):
+        q=dc.get_rigid_body_pose(dc.get_rigid_body(tube));usd=np.asarray(UsdGeom.Xformable(stage.GetPrimAtPath(tube)).ComputeLocalToWorldTransform(0));scale=np.linalg.norm(usd[:3,:3],axis=1)
+        mat=np.asarray(Gf.Matrix4d().SetScale(Gf.Vec3d(*scale))*Gf.Matrix4d().SetRotate(Gf.Quatd(q.r.w,Gf.Vec3d(q.r.x,q.r.y,q.r.z)))*Gf.Matrix4d().SetTranslate(Gf.Vec3d(q.p.x,q.p.y,q.p.z)))
+        relative=mat@rack_inverse;origin=relative[3,:3];axis=relative[2,:3]/np.linalg.norm(relative[2,:3]);world_axis=mat[2,:3]/np.linalg.norm(mat[2,:3]);radius=.009*max(np.linalg.norm(relative[0,:3]),np.linalg.norm(relative[1,:3]));records=[]
+        for slot in slot_data:
+            toppt=origin+axis*((slot['aperture_top_z_m']-origin[2])/axis[2]);dist=max(np.linalg.norm(origin[:2]-slot['center_xy_m']),np.linalg.norm(toppt[:2]-slot['center_xy_m']));margin=slot['aperture_radius_m']+.0005-dist-radius/axis[2];height=origin[2]-slot['seat_bottom_z_m'];upright=axis[2]>=math.cos(math.radians(20)) and world_axis[2]>=math.cos(math.radians(20));passed=upright and -.001<=height<=.005 and margin>=0
+            records.append({'slot':slot['id'],'passed':bool(passed),'height_above_seat_mm':float(height*1000),'radial_margin_mm':float(margin*1000),'distance':float(dist)})
+        nearest=min(records,key=lambda x:x['distance']);result={'inserted':any(r['passed'] for r in records),'nearest':nearest,'nearest_by_origin':min(slot_data,key=lambda v:np.linalg.norm(origin[:2]-v['center_xy_m']))['id'],'tilt_rack_deg':float(np.degrees(np.arccos(np.clip(axis[2],-1,1)))),'world_position':[q.p.x,q.p.y,q.p.z],'world_orientation_xyzw':[q.r.x,q.r.y,q.r.z,q.r.w],'rack_local_origin':origin.tolist(),'usd_vs_dc_position_delta_mm':float(np.linalg.norm(usd[3,:3]-mat[3,:3])*1000)}
+        if full_mesh:
+            mesh=stage.GetPrimAtPath(tube+'/Visual/GlassShell');mc=UsdGeom.XformCache();to_body=mc.GetLocalToWorldTransform(mesh)*mc.GetLocalToWorldTransform(stage.GetPrimAtPath(tube)).GetInverse();points=np.array([to_body.Transform(Gf.Vec3d(*p)) for p in mesh.GetAttribute('points').Get()]);local=(np.c_[points,np.ones(len(points))]@relative)[:,:3];slot=next(v for v in slot_data if v['id']==nearest['slot']);result['visual_lowest_above_seat_mm']=float((local[:,2].min()-slot['seat_bottom_z_m'])*1000);result['actual_tube_world_matrix']=mat.tolist();result['rack_world_matrix']=np.linalg.inv(rack_inverse).tolist()
+        return result
     failed=None
     for i in range(300+steps):
-        source=max(0,((i-300)//3)*2+(((i-300)%3)>=1)) if i>=300 else None
+        source=min(len(arm)-1,max(0,((i-300)//3)*2+(((i-300)%3)>=1))) if i>=300 else None
         if source is not None:
             action=np.r_[arm[source,:6],grip[source,:2],arm[source,6:],grip[source,2:]].astype(np.float32)
             robot._articulation_view.set_joint_position_targets(action,joint_indices=indices)
@@ -322,11 +342,18 @@ def robot_probe(package,out,episode,steps=900,filter_tube=False,composed_scene=N
         contact_count=int(np.asarray(contact_view.get_contact_data(1/120)[4]).sum()) if contact_view is not None else 0;max_contacts=max(max_contacts,contact_count)
         pos=robot.get_joint_positions()
         if not np.isfinite(pos).all():failed='nonfinite joint state';break
+        slot_state=slot_snapshot()
+        if i>=300:
+            if not slot_state['inserted']:ever_left=True
+            if slot_state['inserted']:
+                final_valid_run+=1
+                if ever_left and first_return_valid is None:first_return_valid=i-300
+            else:final_valid_run=0
         if i%30==0:
-            bp=dc.get_rigid_body_pose(dc.get_rigid_body(tube));row={'step':i,'contact_count':contact_count,'source_frame':source,'tube_position':[bp.p.x,bp.p.y,bp.p.z],'left_finger_positions':pos[[23,24]].tolist(),'joint_max_abs':float(np.max(np.abs(pos)))}
+            bp=dc.get_rigid_body_pose(dc.get_rigid_body(tube));row={'step':i,'slot':slot_state,'contact_count':contact_count,'source_frame':source,'tube_position':[bp.p.x,bp.p.y,bp.p.z],'left_finger_positions':pos[[23,24]].tolist(),'joint_max_abs':float(np.max(np.abs(pos)))}
             trace.append(row);print('ROBOT',json.dumps(row),flush=True);(out/'progress.json').write_text(json.dumps({'trace':trace,'errors':errors},indent=2))
     if failed is None and (len(dt)!=reset_native_steps+300+steps or not all(abs(v-1/120)<1e-8 for v in dt)):failed='native physics clock mismatch'
-    result={'status':'PASS' if failed is None else 'FAIL','scope':'isolated_Lift2_recorded_contact_replay_no_GenManip','composed_scene':str(composed_scene) if composed_scene else None,'composed_scene_sha256':sha(composed_scene) if composed_scene else None,'filter_tube':filter_tube,'filters':filters,'failure':failed,'errors':errors,'max_contact_count':max_contacts,'contact_capacity':contact_capacity,'last_step':i,'requested_steps':steps,'warmup_steps':300,'native_clock':{'count':len(dt),'min_s':min(dt),'max_s':max(dt)},'source_step_pattern':[1,2],'scene_sha256':sha(package/'scene.usda'),'metadata_sha256':sha(episode/'meta_info.pkl'),'robot_usd':str(robot_usd),'robot_usd_sha256':sha(robot_usd),'trace':trace,'caveat':'Isolated source scene, no background or GenManip task logic. Not task-success or liquid-containment qualification.'}
+    result={'status':'PASS' if failed is None else 'FAIL','scope':'isolated_Lift2_recorded_contact_replay_no_GenManip','composed_candidate_overrides':composed_overrides,'composed_scene':str(composed_scene) if composed_scene else None,'composed_scene_sha256':sha(composed_scene) if composed_scene else None,'filter_tube':filter_tube,'filters':filters,'failure':failed,'errors':errors,'final_slot':slot_snapshot(True),'final_valid_consecutive_physics_steps':final_valid_run,'first_return_valid_replay_step':first_return_valid,'max_contact_count':max_contacts,'contact_capacity':contact_capacity,'last_step':i,'requested_steps':steps,'warmup_steps':300,'native_clock':{'count':len(dt),'min_s':min(dt),'max_s':max(dt)},'source_step_pattern':[1,2],'scene_sha256':sha(package/'scene.usda'),'metadata_sha256':sha(episode/'meta_info.pkl'),'robot_usd':str(robot_usd),'robot_usd_sha256':sha(robot_usd),'trace':trace,'caveat':'Isolated source scene, no background or GenManip task logic. Not task-success or liquid-containment qualification.'}
     (out/'report.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result),flush=True);app.close()
 
 

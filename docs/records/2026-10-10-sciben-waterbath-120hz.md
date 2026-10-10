@@ -136,3 +136,37 @@ python scripts/sciben_waterbath_producer.py wall_probe \
 ```
 
 The diagnostic and this record are the only substantive source changes in this follow-up. Unit suite remains7 passed; compilation and diff checks passed. These measured capacities are scoped operational evidence, not a new general scene-authoring rule.
+
+## Source-recording rack audit and full-return diagnostics
+
+The read-only `recording_rack_audit` output examines all60 original Task12 JSON/NPZ recordings using the converter's lexicographic index order. All60 final poses pass the exact current consumer insertion predicate, including all40 training-eligible indices10–49. Extracted predicate AST checks found no discrepancies; matrix construction agrees with pxr to4.44e-16. Actual glass mesh intersections at all four rack-plate surfaces fit the measured apertures in every final recording, with worst physical clearance+0.883 mm.
+
+Original `15.json` is training index11. Its final origin is1.014 mm above the seat, tilt1.068°, predicate radial margin+1.407 mm and physical upper-aperture clearance+0.908 mm. The final86 source frames are valid. It is not an originally hovering tube. Its opening interval near return is frames3864–3887, followed by empty closed fingers. The audit does not justify changing the origin convention or relaxing the metric.
+
+The source-pose ranking is in `ranked_training.csv`; `budget7000.json` also applies the unmodified1/2 hold pattern. Source40/index42 reaches its stable final insertion at replay tick6831, leaving169 nominal valid ticks within7000. Source36/index39 begins its final valid tail at6282. These are source-pose screens only, not new replay or reaction success.
+
+### Source15: candidate13 baseline
+
+A direct-SDK replay of the full source15 training episode against the consumer's seen_scene_1 composition completed7000 replay steps plus300 warmup and2 reset callbacks (7302 native120 Hz callbacks), without an engine error. Reaction graphs were disabled. However, the actual rack-return predicate failed: the tube ended89.57° tilted, its visual lowest point0.358 mm above the upper rack plate, with6.01 mm origin XY offset from the intended nearby aperture. Dynamic-control and USD positions agreed exactly. The tube had missed the opening and come to rest on the rack, rather than remaining upright in its slot. The engine-only PASS in the primary report is explicitly distinguished from `FAIL_RACK_RETURN` in `return_audit.json`.
+
+Divergence began during grasp: held finger gaps were approximately9.22 mm versus the original9.97 mm, and the held tube differed vertically and laterally from the recorded pose. This motivated a controlled contact-offset comparison, not a predicate change or action rewrite.
+
+### Candidate14: original SDF offsets restored, not promoted
+
+`fehling_candidate14` changes exactly two composed attributes: original tube SDF restOffset1 mm and contactOffset10 mm are restored from the immutable source. Supplemental contacts, particles, velocities, counts, masses, materials and every other property/relationship are unchanged. Only scene.usda and manifest.json differ from13; `candidate14_change_audit.json` verifies this.
+
+Candidate14 passed the10 s cold and17 s prescribed lift/return containment tests (1202/2042 native callbacks, both liquids0 outside under the existing1 mm tolerance, no errors). Its full source15 countercomparison explicitly applied those two offsets at the mounted consumer paths. Held finger gaps returned to approximately9.94 mm, but the mechanical rack return still failed: after7302 callbacks the tube lay nearly horizontally (89.80°) beside the rack/table. No actual/USD position mismatch was observed. Restoring the offsets alone is insufficient.
+
+**Candidate14 is not promoted. Candidate13 remains the primary asset with its previously stated cold/lift scope.** `candidate14_countercomparison.json` preserves both full-return failures and the exact applied offsets. Successful robot demonstrations and positive regenerated training data are not inferred from the bare physical passes.
+
+The already-authorized backup source40/index42 was converted under producer outputs only, using the original converter and unchanged actions; no GenManip file was written. Its bounded7000-step diagnostic is tracked separately. Following the clarified delivery boundary, producer/test/conversion scripts remain development tools in this repository; they are not deployment dependencies. Final baseline-GenManip acceptance belongs to the root integration work, restricted to task YAML, USD, task data, scientific_experiments metrics and LeRobot data. Prior core-modified consumer runs remain diagnostic evidence.
+
+### Backup40 bounded diagnostic completed (2026-10-11)
+
+The unchanged candidate13 replay of source40/index42 completed the agreed7000 replay steps,300 warmup steps and2 reset callbacks without an engine error (7302 native120 Hz callbacks). At the cutoff, the tube was geometrically inserted in `slot_15ml_r02_c04`: origin0.865 mm above the seat, visual minimum0.859 mm above the seat, tilt2.263°, radial margin+0.964 mm, and zero dynamic-control/USD position difference.
+
+This is a **successful final mechanical placement**, not a qualified successful task demonstration. Reaction graphs were disabled; the full consumer metrics were not executed. The final continuous valid-insertion run was95 physics steps, and the first return-valid tick was6828, so the result does not establish the100-count consumer criterion. The7000-tick budget ends at source frame4666, before the end of the4888-frame recording. No action, metric, timestep pattern or geometry was changed to manufacture a pass.
+
+Evidence is `robot13_source40_return/return_audit.json`, SHA-256 `bf762156f1ce6fd7c171d5039bc8eedcde342517703a8c8ec6f76c11b7cf4809`. The converted episode has an explicit diagnostic-only usage marker. `return_diagnostics_handoff.json`, SHA-256 `98947251c0c51e65cbe1a66c0222a7dd5ed7c6416aaa48f33f4f963319d5789e`, summarizes the source60 audit, two source15 return failures, unpromoted14, and bounded40 result. Both candidate13 inventories and its original qualification receipt remain unchanged.
+
+As requested, further geometry/trajectory exploration stops here. First delivery may explicitly lack a qualified successful waterbath demonstration or regenerated positive training sample, pending baseline five-item acceptance and, if necessary, recapture. The producer does not reinterpret this diagnostic as a positive LeRobot training result. Candidate13 remains the primary bounded cold/lift asset;14 is retained only as a failed-return counterexample.
