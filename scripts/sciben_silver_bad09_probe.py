@@ -204,7 +204,7 @@ def run(args):
     omni.usd.get_context().open_stage(str(out/'fixture.usda'))
     for _ in range(5):app.update()
     stage=omni.usd.get_context().get_stage();physics=UsdPhysics.Scene.Define(stage,'/World/PhysicsScene');physics.CreateGravityDirectionAttr(Gf.Vec3f(0,0,-1));physics.CreateGravityMagnitudeAttr(9.81);pa=PhysxSchema.PhysxSceneAPI.Apply(physics.GetPrim())
-    for key,value in {'EnableGPUDynamics':True,'EnableCCD':True,'EnableStabilization':True,'BroadphaseType':'GPU','SolverType':'TGS','TimeStepsPerSecond':120,'MinPositionIterationCount':64,'MaxPositionIterationCount':64,'GpuFoundLostAggregatePairsCapacity':16384,'GpuTotalAggregatePairsCapacity':16384,'GpuMaxParticleContacts':4194304}.items():getattr(pa,'Create'+key+'Attr')().Set(value)
+    for key,value in {'EnableGPUDynamics':True,'EnableCCD':True,'EnableStabilization':True,'BroadphaseType':'GPU','SolverType':args.solver,'TimeStepsPerSecond':120,'MinPositionIterationCount':64,'MaxPositionIterationCount':64,'GpuFoundLostAggregatePairsCapacity':16384,'GpuTotalAggregatePairsCapacity':16384,'GpuMaxParticleContacts':4194304}.items():getattr(pa,'Create'+key+'Attr')().Set(value)
     def pose(prim,info):
         x=UsdGeom.Xformable(prim);x.ClearXformOpOrder();x.AddTranslateOp(opSuffix='bad09').Set(Gf.Vec3d(*map(float,info['position'])));q=info['orientation'];x.AddOrientOp(opSuffix='bad09').Set(Gf.Quatf(float(q[0]),Gf.Vec3f(*map(float,q[1:]))));x.AddScaleOp(opSuffix='bad09').Set(Gf.Vec3f(*map(float,info.get('scale',[1,1,1]))))
     for name,info in metadata['initial_layout'].items():
@@ -267,17 +267,18 @@ def run(args):
         if args.bath_rigid_proxy:raise ValueError('Shared-tube candidate keeps beaker unchanged')
         from sciben_waterbath_recovery_shared_tube import author as author_shared_tube
         intervention=dict(intervention or {},shared_tube_colliders=author_shared_tube(stage,root))
-    if args.body_ccd:
+    if args.body_ccd or args.speculative_ccd:
+        if args.body_ccd and args.speculative_ccd:raise ValueError('Keep sweep and speculative CCD diagnostics separate')
         for path in [tube,bath]:
             prim=stage.GetPrimAtPath(path)
             if UsdPhysics.RigidBodyAPI(prim).GetKinematicEnabledAttr().Get():raise ValueError('CCD diagnostic requires dynamic bodies')
-            PhysxSchema.PhysxRigidBodyAPI.Apply(prim).CreateEnableCCDAttr(True)
-        intervention=dict(intervention or {},body_CCD_enabled=[tube,bath],scene_CCD_already_enabled=True)
+            api=PhysxSchema.PhysxRigidBodyAPI.Apply(prim);api.CreateEnableCCDAttr(args.body_ccd);api.CreateEnableSpeculativeCCDAttr(args.speculative_ccd)
+        intervention=dict(intervention or {},body_sweep_CCD=args.body_ccd,body_speculative_CCD=args.speculative_ccd,CCD_bodies=[tube,bath],scene_CCD_already_enabled=True)
     if args.disable_graph:stage.GetPrimAtPath(tube+'/ReactionRuntime').SetActive(False)
     stage.GetRootLayer().Save()
     loaded_code=stage.GetPrimAtPath(tube+'/ReactionRuntime/TollensGraph/FlowController').GetAttribute('inputs:script').Get()
     (out/'loaded_reaction_script.py').write_text(loaded_code)
-    loaded_binding={'USD_script_sha256':hashlib.sha256(loaded_code.encode()).hexdigest(),'fixture_sha256':sha(out/'fixture.usda'),'source_input_hash_scope':list(inputs),'warmup_contract':'300 measured native ticks after SDK reset; zero-advance render calls only allowed during passive startup; original actions require exactly one tick each'}
+    loaded_binding={'USD_script_sha256':hashlib.sha256(loaded_code.encode()).hexdigest(),'fixture_sha256':sha(out/'fixture.usda'),'source_input_hash_scope':list(inputs),'solver':args.solver,'external_substeps':1,'warmup_contract':'300 measured native ticks after SDK reset; zero-advance render calls only allowed during passive startup; original actions require exactly one tick each'}
     (out/'loaded_script_binding.json').write_text(json.dumps(loaded_binding,indent=2)+'\n')
     if args.case:
         layers={l.realPath:sha(l.realPath) for l in stage.GetUsedLayers() if l.realPath and Path(l.realPath).is_file() and Path(l.realPath).resolve()!=out/'fixture.usda'}
@@ -364,4 +365,4 @@ def run(args):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--case');p.add_argument('--bad-case-matrix');p.add_argument('--dense-pose-trace',action='store_true');p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--tube-rigid-proxy',action='store_true');p.add_argument('--proxy-curved-bottom',action='store_true');p.add_argument('--bath-rigid-proxy',action='store_true');p.add_argument('--contact-event-sampling',action='store_true');p.add_argument('--no-contact-tensor-view',action='store_true');p.add_argument('--persistent-contact-events',action='store_true');p.add_argument('--body-ccd',action='store_true');p.add_argument('--shared-tube-colliders',action='store_true');p.add_argument('--bottom-hybrid-manifest');p.add_argument('--record-contacts',action='store_true');p.add_argument('--contact-timeline',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())
+    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--case');p.add_argument('--bad-case-matrix');p.add_argument('--dense-pose-trace',action='store_true');p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--tube-rigid-proxy',action='store_true');p.add_argument('--proxy-curved-bottom',action='store_true');p.add_argument('--bath-rigid-proxy',action='store_true');p.add_argument('--contact-event-sampling',action='store_true');p.add_argument('--no-contact-tensor-view',action='store_true');p.add_argument('--persistent-contact-events',action='store_true');p.add_argument('--body-ccd',action='store_true');p.add_argument('--speculative-ccd',action='store_true');p.add_argument('--solver',choices=['TGS','PGS'],default='TGS');p.add_argument('--shared-tube-colliders',action='store_true');p.add_argument('--bottom-hybrid-manifest');p.add_argument('--record-contacts',action='store_true');p.add_argument('--contact-timeline',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())
