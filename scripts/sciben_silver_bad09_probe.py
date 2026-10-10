@@ -242,6 +242,13 @@ def run(args):
         original=a.Get();patched=skip_contact_sampling(original);a.Set(patched)
         (out/'reaction_original.py').write_text(original);(out/'reaction_no_contact_sampling.py').write_text(patched)
         intervention=dict(intervention or {},contact_sampling_skipped=True,wall_guard_disabled_diagnostic_only=True)
+    if args.contact_event_sampling:
+        from sciben_waterbath_recovery_events import patch_source
+        if args.skip_contact_sampling:raise ValueError('Event sampling and bypass are mutually exclusive')
+        a=stage.GetPrimAtPath(tube+'/ReactionRuntime/TollensGraph/FlowController').GetAttribute('inputs:script')
+        original=a.Get();patched=patch_source(original,keep_tensor_view=not args.no_contact_tensor_view,persistent=args.persistent_contact_events);a.Set(patched)
+        (out/'reaction_event_sampling.py').write_text(patched)
+        intervention=dict(intervention or {},contact_event_sampling=True,tensor_view_creation_retained=not args.no_contact_tensor_view,wall_guard_active=True,persistent_active_pair_records=args.persistent_contact_events)
     if args.disable_graph:stage.GetPrimAtPath(tube+'/ReactionRuntime').SetActive(False)
     stage.GetRootLayer().Save()
     if args.case:
@@ -318,4 +325,4 @@ def run(args):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--case');p.add_argument('--bad-case-matrix');p.add_argument('--dense-pose-trace',action='store_true');p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--tube-rigid-proxy',action='store_true');p.add_argument('--proxy-curved-bottom',action='store_true');p.add_argument('--bath-rigid-proxy',action='store_true');p.add_argument('--record-contacts',action='store_true');p.add_argument('--contact-timeline',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())
+    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--case');p.add_argument('--bad-case-matrix');p.add_argument('--dense-pose-trace',action='store_true');p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--tube-rigid-proxy',action='store_true');p.add_argument('--proxy-curved-bottom',action='store_true');p.add_argument('--bath-rigid-proxy',action='store_true');p.add_argument('--contact-event-sampling',action='store_true');p.add_argument('--no-contact-tensor-view',action='store_true');p.add_argument('--persistent-contact-events',action='store_true');p.add_argument('--record-contacts',action='store_true');p.add_argument('--contact-timeline',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())
