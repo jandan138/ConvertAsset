@@ -25,6 +25,14 @@ def sdk_base_targets(base, legacy_raw=False):
     return value
 
 
+
+def skip_contact_sampling(source):
+    """Diagnostic only: keep view creation and all other reaction/PBD code."""
+    needle="    contact=state.repair_contacts.get_contact_data(1/120)\n    count=bounded_contact_count(contact[4],config['contact_capacity'])"
+    if source.count(needle)!=1:raise ValueError('Expected exactly one known contact sampling block')
+    return source.replace(needle,"    count=0  # DIAGNOSTIC ONLY: wall sampling bypassed, never deliver",1)
+
+
 def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -47,6 +55,27 @@ def filter_supplement_robot(stage,root,robot):
     other.GetCollidersCollectionAPI().CreateIncludesRel().SetTargets([robot])
     group.CreateFilteredGroupsRel().SetTargets([other.GetPath()]);other.CreateFilteredGroupsRel().SetTargets([group.GetPath()])
     return {'supplemental_paths':paths,'excluded_against':robot,'original_tube_SDF_retained':True,'bath_rigid_contact_missing_by_design':True,'qualified_asset':False}
+
+
+
+def fluid_only_supplements(stage,root):
+    """Candidate diagnosis: original hollow SDFs carry every rigid contact."""
+    from pxr import UsdPhysics
+    paths=[root+'/obj_sample_tube/WaterbathCollision',root+'/obj_beaker/WaterbathCollision']
+    g=root+'/Bad09FluidOnlyGroups'
+    walls=UsdPhysics.CollisionGroup.Define(stage,g+'/Supplement')
+    rigid=UsdPhysics.CollisionGroup.Define(stage,g+'/RigidScene')
+    walls.GetCollidersCollectionAPI().CreateIncludesRel().SetTargets(paths)
+    rigid.GetCollidersCollectionAPI().CreateIncludesRel().SetTargets([root])
+    rigid.GetCollidersCollectionAPI().CreateExcludesRel().SetTargets(paths+[root+'/WaterbathFluid'])
+    walls.CreateFilteredGroupsRel().SetTargets([walls.GetPath(),rigid.GetPath()])
+    rigid.CreateFilteredGroupsRel().SetTargets([walls.GetPath()])
+    sdf=[root+'/obj_sample_tube/Visual/GlassShell',root+'/obj_beaker/Visual/Source/Beaker_Hollow_Body/Beaker_Hollow_Body_Mesh']
+    for path in sdf:
+        p=stage.GetPrimAtPath(path)
+        if not p or not p.HasAPI(UsdPhysics.CollisionAPI):raise ValueError('Missing original rigid SDF '+path)
+        UsdPhysics.CollisionAPI(p).CreateCollisionEnabledAttr(True)
+    return {'supplemental_paths':paths,'rigid_scene_root':root,'particle_exclusion':root+'/WaterbathFluid','original_rigid_sdfs':sdf,'supplement_rigid_and_self_filtered':True,'qualified_asset':False}
 
 
 def run(args):
@@ -102,14 +131,37 @@ def run(args):
     mat=stage.GetPrimAtPath(robot_path+'/lift2/lift2/PhysicsMaterial');pm=UsdPhysics.MaterialAPI(mat);pm.CreateStaticFrictionAttr(2.5);pm.CreateDynamicFrictionAttr(2.5);pm.CreateRestitutionAttr(0.);px=PhysxSchema.PhysxMaterialAPI.Apply(mat);px.CreateFrictionCombineModeAttr('max');px.CreateRestitutionCombineModeAttr('multiply');px.CreateImprovePatchFrictionAttr(True)
     drive=UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath(robot_path+'/lift2/lift2/base_link/joint4'),'linear');drive.CreateStiffnessAttr(1e6);drive.CreateDampingAttr(1e4);drive.CreateMaxForceAttr(1e6)
     intervention=filter_supplement_robot(stage,root,robot_path) if args.filter_supplement_robot else None
+    if args.fluid_only_supplements:
+        if args.filter_supplement_robot:raise ValueError('Use only one collision intervention')
+        intervention=fluid_only_supplements(stage,root)
     if args.restore_bath_sdf:
         p=stage.GetPrimAtPath(bath+'/Visual/Source/Beaker_Hollow_Body/Beaker_Hollow_Body_Mesh')
         assert p and p.HasAPI(UsdPhysics.CollisionAPI)
         UsdPhysics.CollisionAPI(p).CreateCollisionEnabledAttr(True)
         intervention=dict(intervention or {},bath_hollow_SDF_restored=True,bath_rigid_contact_missing_by_design=False)
+    if args.skip_contact_sampling:
+        a=stage.GetPrimAtPath(tube+'/ReactionRuntime/TollensGraph/FlowController').GetAttribute('inputs:script')
+        original=a.Get();patched=skip_contact_sampling(original);a.Set(patched)
+        (out/'reaction_original.py').write_text(original);(out/'reaction_no_contact_sampling.py').write_text(patched)
+        intervention=dict(intervention or {},contact_sampling_skipped=True,wall_guard_disabled_diagnostic_only=True)
     if args.disable_graph:stage.GetPrimAtPath(tube+'/ReactionRuntime').SetActive(False)
     stage.GetRootLayer().Save()
     (out/'inputs.json').write_text(json.dumps({'inputs':inputs,'sha256':hashes,'script_sha256':sha(__file__),'graph_enabled':not args.disable_graph,'intervention':intervention,'warmup':300,'action_cadence':'one original action per native120Hz step','base_mode':'absolute','legacy_raw_yaw':args.legacy_raw_yaw,'limits':'Direct SDK reproducer; no GenManip metric/FK/camera pipeline. Metadata particles restored with zero velocities exactly as baseline loader.'},indent=2)+'\n')
+    contact_events={};contact_subscription=None
+    if args.record_contacts:
+        from pxr import PhysicsSchemaTools
+        def contact_event(headers,data):
+            for h in headers:
+                actor=[str(PhysicsSchemaTools.intToSdfPath(h.actor0)),str(PhysicsSchemaTools.intToSdfPath(h.actor1))]
+                if tube not in actor and bath not in actor:continue
+                colliders=[str(PhysicsSchemaTools.intToSdfPath(h.collider0)),str(PhysicsSchemaTools.intToSdfPath(h.collider1))]
+                key=' | '.join(sorted(actor))
+                row=contact_events.setdefault(key,{'headers':0,'max_contact_points':0,'events':{},'collider_pairs':[]})
+                row['headers']+=1;row['max_contact_points']=max(row['max_contact_points'],int(h.num_contact_data))
+                kind=str(h.type);row['events'][kind]=row['events'].get(kind,0)+1
+                pair=sorted(colliders)
+                if pair not in row['collider_pairs'] and len(row['collider_pairs'])<32:row['collider_pairs'].append(pair)
+        contact_subscription=omni.physx.get_physx_simulation_interface().subscribe_contact_report_events(contact_event)
     errors=[];native=[]
     def error(event):
         message=str(event.payload)
@@ -139,10 +191,10 @@ def run(args):
         if step>=0:completed=step+1
         if step==args.steps-1 or step%30==0 or (1900<=step<=2200 and step%5==0):
             row=snapshot(step);trace.append(row);print('BAD09',json.dumps(row),flush=True);(out/'progress.json').write_text(json.dumps({'completed_actions':completed,'trace':trace,'errors':errors},indent=2)+'\n')
-    report={'status':'PASS_BOUNDED_ENGINE' if not failure else 'FAIL_ENGINE','failure':failure,'completed_actions':completed,'requested_actions':args.steps,'native_clock':{'count':len(native),'min_s':min(native),'max_s':max(native),'wrong_dt':sum(abs(v-1/120)>1e-8 for v in native)},'errors':errors,'intervention':intervention,'graph_enabled':not args.disable_graph,'input_hashes':hashes,'source_inputs_unchanged':all(sha(inputs[k])==h for k,h in hashes.items()),'trace':trace,'limits':['No task success claim',('Supplement-only filtering removes necessary beaker contact' if args.filter_supplement_robot and not args.restore_bath_sdf else 'Diagnostic only; separate containment and full baseline qualification required'),'No camera/FK pipeline replication']}
+    report={'status':'PASS_BOUNDED_ENGINE' if not failure else 'FAIL_ENGINE','failure':failure,'completed_actions':completed,'requested_actions':args.steps,'native_clock':{'count':len(native),'min_s':min(native),'max_s':max(native),'wrong_dt':sum(abs(v-1/120)>1e-8 for v in native)},'errors':errors,'intervention':intervention,'graph_enabled':not args.disable_graph,'input_hashes':hashes,'source_inputs_unchanged':all(sha(inputs[k])==h for k,h in hashes.items()),'contact_events':contact_events,'trace':trace,'limits':['No task success claim',('Supplement-only filtering removes necessary beaker contact' if args.filter_supplement_robot and not args.restore_bath_sdf else 'Diagnostic only; separate containment and full baseline qualification required'),'No camera/FK pipeline replication']}
     if report['native_clock']['wrong_dt']:report['status']='FAIL_CLOCK'
     (out/'report.json').write_text(json.dumps(report,indent=2)+'\n');print('REPORT',json.dumps({k:v for k,v in report.items() if k!='trace'}),flush=True);app.close()
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())
+    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--record-contacts',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())

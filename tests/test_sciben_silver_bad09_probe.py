@@ -19,3 +19,27 @@ def test_invalid_action_fails_before_simulation():
 def test_baseline_absolute_yaw_uses_degrees():
     np.testing.assert_allclose(m.sdk_base_targets([.1,-.2,90]),[.1,-.2,np.pi/2])
     np.testing.assert_allclose(m.sdk_base_targets([.1,-.2,90],legacy_raw=True),[.1,-.2,90])
+
+def test_contact_sampling_is_only_removed_call():
+    source="state.repair_contacts=create_view()\n    contact=state.repair_contacts.get_contact_data(1/120)\n    count=bounded_contact_count(contact[4],config['contact_capacity'])\n    valid=read_particles()\n"
+    result=m.skip_contact_sampling(source)
+    assert 'create_view()' in result and 'read_particles()' in result
+    assert 'get_contact_data(' not in result
+    assert 'count=0' in result
+    with pytest.raises(ValueError):m.skip_contact_sampling('different source')
+
+def test_fluid_only_groups_preserve_rigid_and_particle_membership():
+    Usd=pytest.importorskip('pxr.Usd'); from pxr import UsdPhysics
+    stage=Usd.Stage.CreateInMemory();stage.DefinePrim('/World','Xform')
+    for path in ['/World/obj_sample_tube/Visual/GlassShell','/World/obj_beaker/Visual/Source/Beaker_Hollow_Body/Beaker_Hollow_Body_Mesh','/World/obj_sample_tube/WaterbathCollision/cell','/World/obj_beaker/WaterbathCollision/cell','/World/WaterbathFluid/Particles','/World/lift2/finger','/World/obj_test_tube_rack/body']:
+        p=stage.DefinePrim(path,'Mesh');UsdPhysics.CollisionAPI.Apply(p)
+    m.fluid_only_supplements(stage,'/World')
+    groups='/World/Bad09FluidOnlyGroups'
+    rigid=UsdPhysics.CollisionGroup(stage.GetPrimAtPath(groups+'/RigidScene')).GetCollidersCollectionAPI().ComputeMembershipQuery()
+    walls=UsdPhysics.CollisionGroup(stage.GetPrimAtPath(groups+'/Supplement')).GetCollidersCollectionAPI().ComputeMembershipQuery()
+    for path in ['/World/lift2/finger','/World/obj_test_tube_rack/body','/World/obj_sample_tube/Visual/GlassShell']:
+        assert rigid.IsPathIncluded(path) and not walls.IsPathIncluded(path)
+    for path in ['/World/obj_sample_tube/WaterbathCollision/cell','/World/obj_beaker/WaterbathCollision/cell']:
+        assert walls.IsPathIncluded(path) and not rigid.IsPathIncluded(path)
+    assert not rigid.IsPathIncluded('/World/WaterbathFluid/Particles')
+    assert not walls.IsPathIncluded('/World/WaterbathFluid/Particles')
