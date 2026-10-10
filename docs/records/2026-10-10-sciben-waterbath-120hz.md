@@ -108,3 +108,31 @@ python scripts/sciben_waterbath_producer.py robot_probe \
 ```
 
 Final pure test suite:7 passed; Python compilation passed. Candidate13's34-file inventories and original `qualification13.json` remain unchanged. Root owns the full remote consumer qualification and any resulting integration changes. No new general scene-authoring rule is inferred from these scoped comparisons.
+
+## Bounded actual bottom/side contact capacity comparison
+
+Added the `wall_probe` diagnostic on unchanged candidate13. Before Play, it moves the tube and its particle seed above the beaker. Native kinematic targets then lower the upright tube to bottom contact, raise it, approach the side wall, hold contact and withdraw. The beaker and both fluids remain dynamic. All original collision geometry remains enabled; no collision filtering is applied. This is a12-second controlled fixture, not a robot action or reaction test.
+
+Both runs used ContactReportAPI on both bodies, explicit simulation owners, native120 Hz,64 scene/particle position iterations,4194304 GPU particle contacts and the same tube–beaker rigid contact view except its data capacity.
+
+| Contact-view capacity | Bottom-hold peak | Side-hold peak | Overall peak | SDK truncation warnings | Capacity result |
+|---|---:|---:|---:|---:|---|
+|128|1290|2839|2839|392|FAIL|
+|8192|1290|2848|2854|0|PASS for this fixture|
+
+Each run produced1442 native callbacks (1440 trajectory steps plus2 SDK reset steps), all0.008333333767950535s. Particle positions stayed finite and counts unchanged; beaker positions stayed finite. Neither run produced CUDA700 or a PhysX error. The dynamic beaker moved laterally by about1.8 mm under the side push.
+
+The128 run originally reported PASS for contact existence, finite positions and native-clock gates; that original JSON is retained. Its separate `wall13_contacts128/capacity_audit.json` explicitly marks `FAIL_CONTACT_BUFFER_CAPACITY`. The probe now includes the capacity gate in its result, and the8192 run passed both the programmatic gate and complete-log audit. No historical report was overwritten to hide this distinction.
+
+Recommendation: use8192 for the consumer contact view and fail clearly if its reported count exceeds capacity. This is approximately2.87 times the observed2854 peak, not a guarantee for arbitrary poses or every future wall-contact workload. The128 overflow is confirmed, but truncation alone did **not** reproduce the remote CUDA crash and is not established as its unique cause. No liquid-containment, hydrodynamic, reaction or robot-wall-contact qualification is implied.
+
+Receipt: `outputs/sciben_waterbath_120hz_20261010/wall_contact_capacity13.json`, SHA-256 `21954e1b3cced41a71492c5e223af2bb436256a87c19c25120268b5b61751284`. Exact report/log/validator hashes and both failures/successes are retained. Candidate13 package inventories and its previous physical qualification receipt remain unchanged.
+
+```bash
+# Same cleared Isaac4.1 SDK environment as above.
+python scripts/sciben_waterbath_producer.py wall_probe \
+  --package outputs/sciben_waterbath_120hz_20261010/fehling_candidate13 \
+  --out <new-output> --contact-capacity 8192
+```
+
+The diagnostic and this record are the only substantive source changes in this follow-up. Unit suite remains7 passed; compilation and diff checks passed. These measured capacities are scoped operational evidence, not a new general scene-authoring rule.

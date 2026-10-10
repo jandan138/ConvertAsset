@@ -330,11 +330,73 @@ def robot_probe(package,out,episode,steps=900,filter_tube=False,composed_scene=N
     (out/'report.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result),flush=True);app.close()
 
 
+def wall_probe(package,out,contact_capacity=128):
+    """Bounded bottom/side contacts; kinematic tube, dynamic bath and real fluids."""
+    from isaacsim import SimulationApp
+    app=SimulationApp({'headless':True})
+    import numpy as np,carb,omni.usd,omni.physx,omni.physics.tensors as tensors
+    import omni.physx.bindings._physx as pb
+    from omni.isaac.core import World
+    from omni.isaac.dynamic_control import _dynamic_control
+    from pxr import UsdGeom,UsdPhysics,PhysxSchema,Gf,Sdf
+    package=Path(package).resolve();out=Path(out).resolve();out.mkdir(parents=True,exist_ok=False);manifest=json.load(open(package/'manifest.json'))
+    settings=carb.settings.get_settings()
+    for key in [pb.SETTING_UPDATE_TO_USD,pb.SETTING_UPDATE_PARTICLES_TO_USD,pb.SETTING_UPDATE_VELOCITIES_TO_USD]:settings.set(key,True)
+    settings.set(pb.SETTING_SUPPRESS_READBACK,False);omni.physx.get_physx_interface().overwrite_gpu_setting(1)
+    omni.usd.get_context().open_stage(str(package/'probe.usda'))
+    for _ in range(5):app.update()
+    stage=omni.usd.get_context().get_stage();stage.GetPrimAtPath(TUBE+'/ReactionRuntime').SetActive(False)
+    scene=stage.GetPrimAtPath('/World/PhysicsScene');scene.CreateAttribute('physxScene:gpuMaxParticleContacts',Sdf.ValueTypeNames.UInt).Set(4194304)
+    cache=UsdGeom.XformCache();old=cache.GetLocalToWorldTransform(stage.GetPrimAtPath(TUBE));bath_home=cache.GetLocalToWorldTransform(stage.GetPrimAtPath(BATH)).ExtractTranslation()
+    start=Gf.Vec3d(bath_home[0],bath_home[1],bath_home[2]+.13)
+    x=UsdGeom.Xformable(stage.GetPrimAtPath(TUBE));x.ClearXformOpOrder();x.AddTranslateOp(opSuffix='wallProbe').Set(start)
+    UsdPhysics.RigidBodyAPI(stage.GetPrimAtPath(TUBE)).CreateKinematicEnabledAttr(True)
+    transform=old.GetInverse()*Gf.Matrix4d().SetTranslate(start);geom=UsdGeom.Points(stage.GetPrimAtPath(manifest['liquids']['Sample']['points']))
+    geom.GetPointsAttr().Set([Gf.Vec3f(*transform.Transform(Gf.Vec3d(*p))) for p in geom.GetPointsAttr().Get()]);geom.GetVelocitiesAttr().Set([Gf.Vec3f(*transform.TransformDir(Gf.Vec3d(*v))) for v in geom.GetVelocitiesAttr().Get()])
+    for v in manifest['liquids'].values():
+        PhysxSchema.PhysxContactReportAPI.Apply(stage.GetPrimAtPath(v['container'])).CreateThresholdAttr(0.)
+        stage.GetPrimAtPath(v['system']).CreateRelationship('simulationOwner').SetTargets(['/World/PhysicsScene'])
+    world=World(physics_dt=1/120,rendering_dt=1/120,stage_units_in_meters=1.,physics_prim_path='/World/PhysicsScene',set_defaults=False)
+    for key in [pb.SETTING_UPDATE_TO_USD,pb.SETTING_UPDATE_PARTICLES_TO_USD,pb.SETTING_UPDATE_VELOCITIES_TO_USD]:settings.set(key,True)
+    settings.set(pb.SETTING_SUPPRESS_READBACK,False)
+    errors=[];dt=[];error_sub=omni.physx.get_physx_interface().get_error_event_stream().create_subscription_to_push(lambda e:errors.append(str(e.payload)) if len(errors)<32 else None)
+    clock=omni.physx.get_physx_interface().subscribe_physics_step_events(lambda d:dt.append(float(d)))
+    world.reset();reset_count=len(dt)
+    view=tensors.create_simulation_view('numpy');view.set_subspace_roots('/');body=view.create_rigid_body_view(TUBE);contacts=view.create_rigid_contact_view([TUBE],filter_patterns=[[BATH]],max_contact_data_count=contact_capacity)
+    dc=_dynamic_control.acquire_dynamic_control_interface();trace=[];max_counts={};failure=None;finite=True
+    # Absolute bounded fixture trajectory; the dynamic beaker may move under contact.
+    segments=[('settle',1.,0.,.13),('lower_bottom',3.,0.,.0035),('bottom_hold',1.,0.,.0035),('clear_bottom',1.,0.,.025),('approach_side',3.,.028,.025),('side_hold',1.,.028,.025),('withdraw_side',2.,0.,.025)]
+    prev=np.array([0.,.13]);step=0
+    for phase,duration,tx,tz in segments:
+        max_counts[phase]=0;target=np.array([tx,tz]);n=round(duration*120)
+        for j in range(n):
+            alpha=(j+1)/n;smooth=alpha*alpha*(3-2*alpha);local=prev+(target-prev)*smooth
+            pos=np.array([bath_home[0]+local[0],bath_home[1],bath_home[2]+local[1]],dtype=np.float32)
+            body.set_kinematic_targets(np.asarray([[*pos,0,0,0,1]],dtype=np.float32),np.asarray([0],dtype=np.uint32));world.step(render=True);step+=1
+            if errors:failure='PhysX error';break
+            data=contacts.get_contact_data(1/120);count=int(np.asarray(data[4]).sum());max_counts[phase]=max(max_counts[phase],count)
+            for v in manifest['liquids'].values():
+                pts=np.asarray(stage.GetPrimAtPath(v['points']).GetAttribute('points').Get());finite &= bool(np.isfinite(pts).all() and len(pts)==v['particle_count'])
+            bp=dc.get_rigid_body_pose(dc.get_rigid_body(BATH));finite &= bool(np.isfinite([bp.p.x,bp.p.y,bp.p.z]).all())
+            if not finite:failure='Nonfinite state or changed particle count';break
+            if step%30==0 or count>0 and max_counts[phase]==count and step%10==0:
+                row={'step':step,'phase':phase,'contact_count':count,'bath_position':[bp.p.x,bp.p.y,bp.p.z],'tube_target':pos.tolist()};trace.append(row);print('WALL',json.dumps(row),flush=True)
+                (out/'progress.json').write_text(json.dumps({'trace':trace,'max_counts':max_counts,'errors':errors},indent=2))
+        if failure:break
+        prev=target
+    contact_gate=max_counts.get('bottom_hold',0)>0 and max_counts.get('side_hold',0)>0
+    capacity_gate=max(max_counts.values(),default=0)<=contact_capacity
+    clock_gate=len(dt)==reset_count+step and all(abs(d-1/120)<1e-8 for d in dt)
+    result={'status':'PASS' if not failure and contact_gate and clock_gate and capacity_gate else 'FAIL','scope':'bounded_kinematic_tube_dynamic_beaker_actual_bottom_and_side_contact','contact_capacity':contact_capacity,'max_contact_counts':max_counts,'contact_gate':contact_gate,'capacity_gate':capacity_gate,'finite_states_and_particle_counts':finite,'errors':errors,'failure':failure,'native_clock':{'count':len(dt),'min_s':min(dt),'max_s':max(dt)},'steps':step,'reset_native_steps':reset_count,'scene_sha256':sha(package/'scene.usda'),'manifest_sha256':sha(package/'manifest.json'),'script_sha256':sha(__file__),'trace':trace,'limits':['No robot or reaction qualification','No collision filtering or geometry changes','Tube initial pose and particle seed remapped beforePlay; tube then moves bynativekinematictargets','No liquid-containment qualification from this contact stress fixture']}
+    (out/'report.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result),flush=True);app.close()
+
+
 def main():
     parser=argparse.ArgumentParser();sub=parser.add_subparsers(dest='command',required=True)
     p=sub.add_parser('build');p.add_argument('--source',required=True);p.add_argument('--out',required=True);p.add_argument('--seed-from')
     p=sub.add_parser('probe');p.add_argument('--package',required=True);p.add_argument('--out',required=True);p.add_argument('--seconds',type=float,default=15);p.add_argument('--motion',action='store_true');p.add_argument('--render',action='store_true')
     p=sub.add_parser('robot_probe');p.add_argument('--package',required=True);p.add_argument('--out',required=True);p.add_argument('--episode',required=True);p.add_argument('--steps',type=int,default=900);p.add_argument('--filter-tube',action='store_true');p.add_argument('--composed-scene');p.add_argument('--contact-capacity',type=int,default=128)
+    p=sub.add_parser('wall_probe');p.add_argument('--package',required=True);p.add_argument('--out',required=True);p.add_argument('--contact-capacity',type=int,default=128)
     args=parser.parse_args();values=vars(args);command=values.pop('command');globals()[command](**values)
 
 if __name__=='__main__':main()
