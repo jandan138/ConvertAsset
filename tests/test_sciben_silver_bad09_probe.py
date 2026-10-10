@@ -52,3 +52,32 @@ def test_case_binding_uses_yaml_scene_and_matching_metadata(tmp_path):
     assert str(result['scene']).endswith('/unseen_scene_7/scene.usda')
     assert str(result['metadata']).endswith('/mixed_17/000/meta_info.pkl')
     with pytest.raises(ValueError):m.case_inputs(tmp_path,'../mixed_1')
+
+def test_small_rigid_proxy_is_open_and_does_not_change_body_mass():
+    cells=m.tube_proxy_cells()
+    assert len(cells)==193
+    assert max(v[:,2].max() for _,v in cells)==pytest.approx(.15)
+    assert min(v[:,2].min() for _,v in cells)==pytest.approx(0)
+    for name,v in cells:
+        if name!='BottomCap':
+            high=v[v[:,2]>.01,:2]
+            if len(high):
+                direction=high.mean(0);direction/=np.linalg.norm(direction)
+                assert (high@direction).min()>.0079  # no slab crosses the open cavity
+    Usd=pytest.importorskip('pxr.Usd');from pxr import UsdPhysics
+    stage=Usd.Stage.CreateInMemory();body=stage.DefinePrim('/World/obj_sample_tube','Xform');UsdPhysics.MassAPI.Apply(body).CreateMassAttr(.01800892)
+    glass=stage.DefinePrim('/World/obj_sample_tube/Visual/GlassShell','Mesh');UsdPhysics.CollisionAPI.Apply(glass)
+    for label in ['Sample','Bath']:stage.DefinePrim('/World/WaterbathFluid/'+label+'System','Xform')
+    m.author_tube_rigid_proxy(stage,'/World')
+    assert UsdPhysics.MassAPI(body).GetMassAttr().Get()==pytest.approx(.01800892)
+    assert not UsdPhysics.CollisionAPI(glass).GetCollisionEnabledAttr().Get()
+    for label in ['Sample','Bath']:
+        assert len(UsdPhysics.FilteredPairsAPI(stage.GetPrimAtPath('/World/WaterbathFluid/'+label+'System')).GetFilteredPairsRel().GetTargets())==193
+
+def test_spherical_bottom_proxy_vertices_follow_both_source_surfaces():
+    cells=m.tube_proxy_cells_v2();assert len(cells)==264
+    for name,v in cells:
+        if name.startswith('Bottom_'):
+            radii=np.linalg.norm(v-[0,0,.009],axis=1)
+            assert np.all(np.isclose(radii,.008)|np.isclose(radii,.009))
+            assert v[:,2].min()>=-1e-12 and v[:,2].max()<=.009+1e-12

@@ -92,6 +92,77 @@ def fluid_only_supplements(stage,root):
     return {'supplemental_paths':paths,'rigid_scene_root':root,'particle_exclusion':root+'/WaterbathFluid','original_rigid_sdfs':sdf,'supplement_rigid_and_self_filtered':True,'qualified_asset':False}
 
 
+
+def tube_proxy_cells(sectors=24):
+    """Source-matched1mm glass wall, hemispherical bottom and open rolled lip."""
+    import math,numpy as np
+    import importlib.util
+    spec=importlib.util.spec_from_file_location("_readonly_task10_geometry",Path(__file__).with_name("task10_pbd_producer.py"));helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper);annular_wedge=helper.annular_wedge
+    levels=[.001,.003,.006,.009,.147,.148,.149,.149+math.sqrt(.5)*.001,.15]
+    def radii(z):
+        if z<=.009:return math.sqrt(max(0,.008**2-(z-.009)**2)),math.sqrt(max(0,.009**2-(z-.009)**2))
+        if z<=.147:return .008,.009
+        if z<=.149:
+            t=(z-.147)/.002
+            return .008,.009+.001*(t*t*(3-2*t))
+        span=math.sqrt(max(0,.001**2-(z-.149)**2))
+        return .009-span,.009+span
+    cells=[]
+    for j,(lo,hi) in enumerate(zip(levels,levels[1:])):
+        ri0,ro0=radii(lo);ri1,ro1=radii(hi)
+        for i in range(sectors):
+            v,_,_=annular_wedge(ri0,ro0,ri1,ro1,lo,hi,2*math.pi*i/sectors,2*math.pi*(i+1)/sectors)
+            cells.append((f'Wall_{j:02d}_{i:02d}',np.unique(np.asarray(v,float),axis=0)))
+    cap=[[0.,0.,0.]]
+    for z in [.0005,.001]:
+        r=math.sqrt(.009**2-(z-.009)**2)
+        cap.extend([[r*math.cos(2*math.pi*i/sectors),r*math.sin(2*math.pi*i/sectors),z] for i in range(sectors)])
+    cells.append(('BottomCap',np.asarray(cap,float)))
+    return cells
+
+
+
+def tube_proxy_cells_v2(sectors=24):
+    """Spherical inner/outer bottom surfaces share the measured9mm-center height."""
+    import math,numpy as np
+    cells=[(n,v) for n,v in tube_proxy_cells(sectors) if n.startswith('Wall_') and int(n.split('_')[1])>=3]
+    for j in range(6):
+        polar=[math.pi*j/12,math.pi*(j+1)/12]
+        for i in range(sectors):
+            angles=[2*math.pi*i/sectors,2*math.pi*(i+1)/sectors]
+            xyz=[[r*math.sin(theta)*math.cos(a),r*math.sin(theta)*math.sin(a),.009-r*math.cos(theta)] for r in [.008,.009] for theta in polar for a in angles]
+            cells.append((f'Bottom_{j:02d}_{i:02d}',np.unique(np.asarray(xyz,float),axis=0)))
+    return cells
+
+
+def author_tube_rigid_proxy(stage,root,curved_bottom=False):
+    """Replace rigid SDF duty with193 open-wall convex cells; preserve PBD walls."""
+    import numpy as np
+    from scipy.spatial import ConvexHull
+    from pxr import UsdGeom,UsdPhysics,UsdShade,Gf,Sdf
+    tube=root+'/obj_sample_tube';glass=stage.GetPrimAtPath(tube+'/Visual/GlassShell')
+    if not glass or not glass.HasAPI(UsdPhysics.CollisionAPI):raise ValueError('Missing original glass collision mesh')
+    material=UsdShade.MaterialBindingAPI(glass).ComputeBoundMaterial('physics')[0]
+    paths=[]
+    for name,xyz in (tube_proxy_cells_v2() if curved_bottom else tube_proxy_cells()):
+        hull=ConvexHull(xyz);center=(xyz.min(0)+xyz.max(0))/2;scale=np.maximum(xyz.max(0)-xyz.min(0),1e-9);faces=[]
+        for face,equation in zip(hull.simplices,hull.equations):
+            face=list(map(int,face))
+            if np.dot(np.cross(xyz[face[1]]-xyz[face[0]],xyz[face[2]]-xyz[face[0]]),equation[:3])<0:face[1],face[2]=face[2],face[1]
+            faces.append(face)
+        mesh=UsdGeom.Mesh.Define(stage,tube+'/RigidWallProxy/'+name);mesh.CreatePointsAttr([Gf.Vec3f(*v) for v in (xyz-center)/scale]);mesh.CreateFaceVertexCountsAttr([3]*len(faces));mesh.CreateFaceVertexIndicesAttr([i for f in faces for i in f]);mesh.CreateSubdivisionSchemeAttr('none');mesh.CreateVisibilityAttr('invisible');mesh.AddTranslateOp().Set(Gf.Vec3d(*center));mesh.AddScaleOp().Set(Gf.Vec3f(*scale));p=mesh.GetPrim()
+        p.SetMetadata('apiSchemas',Sdf.TokenListOp.Create(prependedItems=['PhysicsCollisionAPI','PhysicsMeshCollisionAPI','PhysxCollisionAPI','PhysxConvexHullCollisionAPI']))
+        for key,typ,value in [('physics:collisionEnabled',Sdf.ValueTypeNames.Bool,True),('physics:approximation',Sdf.ValueTypeNames.Token,'convexHull'),('physxConvexHullCollision:minThickness',Sdf.ValueTypeNames.Float,0.),('physxCollision:contactOffset',Sdf.ValueTypeNames.Float,.0008),('physxCollision:restOffset',Sdf.ValueTypeNames.Float,0.)]:p.CreateAttribute(key,typ).Set(value)
+        if material:UsdShade.MaterialBindingAPI.Apply(p).Bind(material,materialPurpose='physics')
+        paths.append(mesh.GetPath())
+    UsdPhysics.CollisionAPI(glass).CreateCollisionEnabledAttr(False)
+    for label in ['Sample','Bath']:
+        prim=stage.GetPrimAtPath(root+'/WaterbathFluid/'+label+'System')
+        if not prim:raise ValueError('Missing particle system '+label)
+        api=UsdPhysics.FilteredPairsAPI.Apply(prim);existing=api.GetFilteredPairsRel().GetTargets();api.CreateFilteredPairsRel().SetTargets(list(dict.fromkeys(existing+paths)))
+    return {'original_visible_glass_unchanged':True,'original_rigid_SDF_replaced':True,'rigid_proxy_count':len(paths),'profile_variant':'spherical_bottom_v2' if curved_bottom else 'axial_bottom_v1','particle_systems_filtered_only_against_new_proxies':True,'tube_mass_inertia_unchanged':True,'open_mouth':True,'qualified_asset':False}
+
+
 def run(args):
     from isaacsim import SimulationApp
     app=SimulationApp({'headless':True})
@@ -156,6 +227,8 @@ def run(args):
     if args.fluid_only_supplements:
         if args.filter_supplement_robot:raise ValueError('Use only one collision intervention')
         intervention=fluid_only_supplements(stage,root)
+    if args.tube_rigid_proxy:
+        intervention=author_tube_rigid_proxy(stage,root,args.proxy_curved_bottom)
     if args.restore_bath_sdf:
         p=stage.GetPrimAtPath(bath+'/Visual/Source/Beaker_Hollow_Body/Beaker_Hollow_Body_Mesh')
         assert p and p.HasAPI(UsdPhysics.CollisionAPI)
@@ -172,7 +245,8 @@ def run(args):
         layers={l.realPath:sha(l.realPath) for l in stage.GetUsedLayers() if l.realPath and Path(l.realPath).is_file() and Path(l.realPath).resolve()!=out/'fixture.usda'}
         (out/'bound_scene_layers.json').write_text(json.dumps(layers,indent=2)+'\n')
     (out/'inputs.json').write_text(json.dumps({'inputs':inputs,'sha256':hashes,'script_sha256':sha(__file__),'graph_enabled':not args.disable_graph,'intervention':intervention,'warmup':300,'action_cadence':'one original action per native120Hz step','base_mode':'absolute','legacy_raw_yaw':args.legacy_raw_yaw,'limits':'Direct SDK reproducer; no GenManip metric/FK/camera pipeline. Metadata particles restored with zero velocities exactly as baseline loader.'},indent=2)+'\n')
-    contact_events={};contact_subscription=None
+    contact_events={};contact_subscription=None;active_step=None
+    contact_stream=open(out/'contact_events_each_header.jsonl','w') if args.contact_timeline else None
     if args.record_contacts:
         from pxr import PhysicsSchemaTools
         def contact_event(headers,data):
@@ -187,6 +261,13 @@ def run(args):
                     depth=min(float(data[i].separation) for i in range(h.contact_data_offset,h.contact_data_offset+h.num_contact_data))
                     row['min_separation_m']=min(row.get('min_separation_m',float('inf')),depth)
                 row.setdefault('first_native_tick',len(native));row['last_native_tick']=len(native)
+                if contact_stream:
+                    record={'action_step':active_step,'native_tick_before_callback':len(native),'actors':actor,'colliders':colliders,'type':str(h.type),'contact_points':int(h.num_contact_data),'minimum_separation_m':None}
+                    if int(h.num_contact_data):
+                        worst=min(range(h.contact_data_offset,h.contact_data_offset+h.num_contact_data),key=lambda i:float(data[i].separation))
+                        record.update(minimum_separation_m=float(data[worst].separation),worst_position=list(map(float,data[worst].position)),worst_normal=list(map(float,data[worst].normal)))
+                    contact_stream.write(json.dumps(record)+'\n')
+
                 kind=str(h.type);row['events'][kind]=row['events'].get(kind,0)+1
                 pair=sorted(colliders)
                 if pair not in row['collider_pairs'] and len(row['collider_pairs'])<32:row['collider_pairs'].append(pair)
@@ -212,6 +293,7 @@ def run(args):
         return {'step':step,'native_count':len(native),'poses':poses,'state':state,'joints':robot.get_joint_positions().tolist(),'rack_matrix_rowmajor':np.asarray(UsdGeom.XformCache().GetLocalToWorldTransform(stage.GetPrimAtPath(root+'/obj_tube_rack'))).tolist()}
     dense=open(out/'poses_each_step.jsonl','w') if args.dense_pose_trace else None
     for step in range(-300,args.steps):
+        active_step=step
         if step>=0:
             action,base=normalized[step];robot._articulation_view.set_joint_position_targets(action.astype(np.float32),joint_indices=indices);robot._articulation_view.set_joint_position_targets(sdk_base_targets(base,args.legacy_raw_yaw).astype(np.float32),joint_indices=np.asarray([0,1,2]))
         world.step(render=True)
@@ -223,12 +305,14 @@ def run(args):
         if dense:dense.write(json.dumps(dense_row)+'\n')
         if step==args.steps-1 or step%30==0 or (1900<=step<=2200 and step%5==0):
             if dense:dense.flush()
+            if contact_stream:contact_stream.flush()
             row=dense_row or snapshot(step);trace.append(row);print('BAD09',json.dumps(row),flush=True);(out/'progress.json').write_text(json.dumps({'completed_actions':completed,'trace':trace,'errors':errors},indent=2)+'\n')
     if dense:dense.close()
+    if contact_stream:contact_stream.close()
     report={'status':'PASS_BOUNDED_ENGINE' if not failure else 'FAIL_ENGINE','failure':failure,'completed_actions':completed,'requested_actions':args.steps,'native_clock':{'count':len(native),'min_s':min(native),'max_s':max(native),'wrong_dt':sum(abs(v-1/120)>1e-8 for v in native)},'errors':errors,'intervention':intervention,'graph_enabled':not args.disable_graph,'input_hashes':hashes,'source_inputs_unchanged':all(sha(inputs[k])==h for k,h in hashes.items()),'contact_events':contact_events,'trace':trace,'limits':['No task success claim',('Supplement-only filtering removes necessary beaker contact' if args.filter_supplement_robot and not args.restore_bath_sdf else 'Diagnostic only; separate containment and full baseline qualification required'),'No camera/FK pipeline replication']}
     if report['native_clock']['wrong_dt']:report['status']='FAIL_CLOCK'
     (out/'report.json').write_text(json.dumps(report,indent=2)+'\n');print('REPORT',json.dumps({k:v for k,v in report.items() if k!='trace'}),flush=True);app.close()
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--case');p.add_argument('--bad-case-matrix');p.add_argument('--dense-pose-trace',action='store_true');p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--record-contacts',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())
+    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--case');p.add_argument('--bad-case-matrix');p.add_argument('--dense-pose-trace',action='store_true');p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--tube-rigid-proxy',action='store_true');p.add_argument('--proxy-curved-bottom',action='store_true');p.add_argument('--record-contacts',action='store_true');p.add_argument('--contact-timeline',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())
