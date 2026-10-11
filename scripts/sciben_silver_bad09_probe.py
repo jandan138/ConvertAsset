@@ -189,6 +189,7 @@ def run(args):
     inputs={'scene':str(scene),'metadata':str(meta),'robot':str(robot_asset),'actions':str(Path(args.actions).resolve())}
     if bound:inputs['case_yaml']=str(bound['case_yaml'])
     if args.bottom_hybrid_manifest:inputs['bottom_hybrid_manifest']=str(Path(args.bottom_hybrid_manifest).resolve())
+    if args.bottom_reduced_manifest:inputs['bottom_reduced_manifest']=str(Path(args.bottom_reduced_manifest).resolve())
     if args.bad_case_matrix:
         entries=json.loads(Path(args.bad_case_matrix).read_text());matches=[v for v in entries if v['task']=='task_z4_silver_mirror_reaction' and v['case']==args.case and Path(v['path'])/'meta_record.pkl'==Path(args.actions)]
         if len(matches)!=1:raise ValueError('Action source does not match case matrix')
@@ -263,6 +264,12 @@ def run(args):
         from sciben_waterbath_recovery_bottom_proxy import author as author_bottom_hybrid
         profile=json.loads(Path(args.bottom_hybrid_manifest).read_text())['liquids']['Sample']['cavity_profile_m']
         intervention=dict(intervention or {},bottom_hybrid_colliders=author_bottom_hybrid(stage,root,profile))
+    if args.bottom_reduced_manifest:
+        if args.bottom_hybrid_manifest or args.shared_tube_colliders:raise ValueError('Reduced bottom requires precomposed353-cell baseline')
+        from sciben_waterbath_recovery_bottom_reduced import author as author_bottom_reduced
+        from sciben_waterbath_recovery_bottom_proxy import bottom_profile
+        profile=bottom_profile(json.loads(Path(args.bottom_reduced_manifest).read_text())['liquids']['Sample']['cavity_profile_m'])[1]
+        intervention=dict(intervention or {},reduced_bottom=author_bottom_reduced(stage,root,profile))
     if args.shared_tube_colliders:
         if args.bath_rigid_proxy:raise ValueError('Shared-tube candidate keeps beaker unchanged')
         from sciben_waterbath_recovery_shared_tube import author as author_shared_tube
@@ -365,4 +372,4 @@ def run(args):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--case');p.add_argument('--bad-case-matrix');p.add_argument('--dense-pose-trace',action='store_true');p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--tube-rigid-proxy',action='store_true');p.add_argument('--proxy-curved-bottom',action='store_true');p.add_argument('--bath-rigid-proxy',action='store_true');p.add_argument('--contact-event-sampling',action='store_true');p.add_argument('--no-contact-tensor-view',action='store_true');p.add_argument('--persistent-contact-events',action='store_true');p.add_argument('--body-ccd',action='store_true');p.add_argument('--speculative-ccd',action='store_true');p.add_argument('--solver',choices=['TGS','PGS'],default='TGS');p.add_argument('--max-particle-contacts',type=int,default=4194304);p.add_argument('--shared-tube-colliders',action='store_true');p.add_argument('--bottom-hybrid-manifest');p.add_argument('--record-contacts',action='store_true');p.add_argument('--contact-timeline',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())
+    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--case');p.add_argument('--bad-case-matrix');p.add_argument('--dense-pose-trace',action='store_true');p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--tube-rigid-proxy',action='store_true');p.add_argument('--proxy-curved-bottom',action='store_true');p.add_argument('--bath-rigid-proxy',action='store_true');p.add_argument('--contact-event-sampling',action='store_true');p.add_argument('--no-contact-tensor-view',action='store_true');p.add_argument('--persistent-contact-events',action='store_true');p.add_argument('--body-ccd',action='store_true');p.add_argument('--speculative-ccd',action='store_true');p.add_argument('--solver',choices=['TGS','PGS'],default='TGS');p.add_argument('--max-particle-contacts',type=int,default=4194304);p.add_argument('--shared-tube-colliders',action='store_true');p.add_argument('--bottom-hybrid-manifest');p.add_argument('--bottom-reduced-manifest');p.add_argument('--record-contacts',action='store_true');p.add_argument('--contact-timeline',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())
