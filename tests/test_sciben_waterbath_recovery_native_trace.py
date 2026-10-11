@@ -15,3 +15,11 @@ def test_trace_fragment_has_no_physics_or_usd_write_calls():
     from sciben_waterbath_recovery_native_trace import TRACE
     calls=[n.func.attr for n in ast.walk(ast.parse(TRACE)) if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute)]
     assert not any(v in ['Set','Apply','Define','set_rigid_body_pose','set_joint_positions','set_kinematic_targets','create_simulation_view'] for v in calls)
+
+
+def test_case_specific_trace_window_and_palms_preserve_source_prefix():
+    from sciben_waterbath_recovery_native_trace import wrap_trace_script
+    source='def compute(db): return True\ndef cleanup(db): pass\n'
+    result=wrap_trace_script(source,1200,2600,True)
+    assert result.startswith(source) and '1200<=index<=2600' in result
+    assert "for link in ['link6','link7','link8']" in result

@@ -70,9 +70,13 @@ def cleanup(db):
     return _wb_diag_original_cleanup(db)
 '''
 
-def wrap_trace_script(source):
+def wrap_trace_script(source,trace_start=2500,trace_end=3800,include_palms=False):
     import ast
-    ast.parse(source);code=source+'\n'+TRACE;compile(code,'diagnostic_trace','exec');return code
+    ast.parse(source)
+    if not 0<=trace_start<=trace_end:raise ValueError('Invalid native trace interval')
+    fragment=TRACE.replace('2500<=index<=3800',str(trace_start)+'<=index<='+str(trace_end))
+    if include_palms:fragment=fragment.replace("for link in ['link7','link8']","for link in ['link6','link7','link8']")
+    code=source+'\n'+fragment;compile(code,'diagnostic_trace','exec');return code
 
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -85,12 +89,13 @@ def snapshot(stage):
             if not r.GetName().startswith('physxContactReport:'):values[str(p.GetPath())+'::'+r.GetName()]=list(map(str,r.GetTargets()))
     return values
 
-def build(runtime,out):
+def build(runtime,out,task='task_12_fehling_test',case='mixed_5',trace_start=2500,trace_end=3800,include_palms=False):
     from pxr import Usd,Sdf
     runtime=Path(runtime).resolve();out=Path(out).resolve();out.mkdir(parents=True,exist_ok=False)
-    scene=runtime/'saved/assets/scene_usds/scientific_experiments/task_12_fehling_test/unseen_scene_5/scene.usda';robot=runtime/'saved/assets/robot_usds/lift2/robot.usd'
-    src=Usd.Stage.Open(str(scene));node='/World/_scene/obj_sample_tube/ReactionRuntime/FehlingsGraph/FlowController';original=src.GetPrimAtPath(node).GetAttribute('inputs:script').Get();patched=wrap_trace_script(original)
-    layer=Usd.Stage.CreateNew(str(out/'scene_trace_delta.usda'));layer.OverridePrim('/World/obj_sample_tube/ReactionRuntime/FehlingsGraph/FlowController').CreateAttribute('inputs:script',Sdf.ValueTypeNames.String).Set(patched);layer.GetRootLayer().Save();(out/'original_script.py').write_text(original);(out/'diagnostic_script.py').write_text(patched)
+    from sciben_silver_bad09_probe import case_inputs,reaction_names
+    inputs=case_inputs(runtime,case,task);scene=inputs['scene'];robot=runtime/'saved/assets/robot_usds/lift2/robot.usd';graph=reaction_names(task)[1]
+    src=Usd.Stage.Open(str(scene));node='/World/_scene/obj_sample_tube/ReactionRuntime/'+graph+'/FlowController';original=src.GetPrimAtPath(node).GetAttribute('inputs:script').Get();patched=wrap_trace_script(original,trace_start,trace_end,include_palms)
+    layer=Usd.Stage.CreateNew(str(out/'scene_trace_delta.usda'));layer.OverridePrim('/World/obj_sample_tube/ReactionRuntime/'+graph+'/FlowController').CreateAttribute('inputs:script',Sdf.ValueTypeNames.String).Set(patched);layer.GetRootLayer().Save();(out/'original_script.py').write_text(original);(out/'diagnostic_script.py').write_text(patched)
     delta=Usd.Stage.CreateNew(str(out/'robot_report_delta.usda'));paths=[]
     for side in ['fl','fr']:
         for link in ['link7','link8']:
@@ -98,7 +103,7 @@ def build(runtime,out):
     delta.GetRootLayer().Save();wrapper=Usd.Stage.CreateNew(str(out/'robot_observer.usda'));wrapper.GetRootLayer().subLayerPaths=[str(out/'robot_report_delta.usda'),str(robot)];wrapper.SetDefaultPrim(wrapper.GetPrimAtPath('/Root'));wrapper.GetRootLayer().Save();source_robot=Usd.Stage.Open(str(robot));before=snapshot(source_robot);after=snapshot(wrapper);assert before==after
     # No robot ancestor over enters the scene before original create_robot.
     inspect=Usd.Stage.CreateInMemory();inspect.GetRootLayer().subLayerPaths=[str(scene)];p=inspect.OverridePrim('/World/_scene');p.GetReferences().AddReference(str(out/'scene_trace_delta.usda'),'/World');assert not inspect.GetPrimAtPath('/World/_scene/lift2').IsValid()
-    receipt={'status':'DIAGNOSTIC_ONLY_STATIC_PASS_NATIVE_SMOKE_PENDING','runtime_source':str(runtime),'scene_trace_delta':str(out/'scene_trace_delta.usda'),'scene_trace_sha256':sha(out/'scene_trace_delta.usda'),'original_task_script_sha256':hashlib.sha256(original.encode()).hexdigest(),'diagnostic_task_script_sha256':hashlib.sha256(patched.encode()).hexdigest(),'original_compute_and_cleanup_bodies_preserved':patched.startswith(original),'trace_window':'native index2500..3800 every index; before/after every60 plus first10, keyed by stage+epoch+index','trace_sinks':['stdout WB_NATIVE_POSE','stdout WB_NATIVE_CONTACT','stdout WB_NATIVE_DIAG_ERROR'],'robot_wrapper':str(out/'robot_observer.usda'),'robot_wrapper_sha256':sha(out/'robot_observer.usda'),'robot_delta':str(out/'robot_report_delta.usda'),'robot_delta_sha256':sha(out/'robot_report_delta.usda'),'original_robot':str(robot),'original_robot_sha256':sha(robot),'original_loader_expected_entry':'saved/assets/robot_usds/lift2/robot.usd','robot_default_prim':'/Root','predeclared_finger_paths':paths,'non_report_attributes_and_relationships_identical':before==after,'compared_properties':len(before),'scene_composition':'Reference scene_trace_delta /World at /World/_scene strongest, above unchanged table17 physical stack; no robot overs in scene','robot_composition':'New isolated diagnostic robot.usd entry can reference/layer robot_observer.usda. Its layers are robot_report_delta then untouched original robot; keep other URDF/config/material dependencies available unchanged. Never replace shared robot source.','no_play_time_API_authoring':True,'no_tensor_contact_view':True,'no_physics_or_action_or_metric_changes':True,'not_delivery_artifact':True};(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');return receipt
+    receipt={'status':'DIAGNOSTIC_ONLY_STATIC_PASS_NATIVE_SMOKE_PENDING','runtime_source':str(runtime),'task':task,'case':case,'source_binding':{k:{'path':str(v),'sha256':sha(v)} for k,v in inputs.items()},'dense_native_interval':[trace_start,trace_end],'palm_pose_readout':include_palms,'scene_trace_delta':str(out/'scene_trace_delta.usda'),'scene_trace_sha256':sha(out/'scene_trace_delta.usda'),'original_task_script_sha256':hashlib.sha256(original.encode()).hexdigest(),'diagnostic_task_script_sha256':hashlib.sha256(patched.encode()).hexdigest(),'original_compute_and_cleanup_bodies_preserved':patched.startswith(original),'trace_window':'native index'+str(trace_start)+'..'+str(trace_end)+' every index; before/after every60 plus first10, keyed by stage+epoch+index','trace_sinks':['stdout WB_NATIVE_POSE','stdout WB_NATIVE_CONTACT','stdout WB_NATIVE_DIAG_ERROR'],'robot_wrapper':str(out/'robot_observer.usda'),'robot_wrapper_sha256':sha(out/'robot_observer.usda'),'robot_delta':str(out/'robot_report_delta.usda'),'robot_delta_sha256':sha(out/'robot_report_delta.usda'),'original_robot':str(robot),'original_robot_sha256':sha(robot),'original_loader_expected_entry':'saved/assets/robot_usds/lift2/robot.usd','robot_default_prim':'/Root','predeclared_finger_paths':paths,'non_report_attributes_and_relationships_identical':before==after,'compared_properties':len(before),'scene_composition':'Reference scene_trace_delta /World at /World/_scene strongest, above unchanged source physical stack; no robot overs in scene','robot_composition':'New isolated diagnostic robot.usd entry can reference/layer robot_observer.usda. Its layers are robot_report_delta then untouched original robot; keep other URDF/config/material dependencies available unchanged. Never replace shared robot source.','no_play_time_API_authoring':True,'no_tensor_contact_view':True,'no_physics_or_action_or_metric_changes':True,'not_delivery_artifact':True};(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');return receipt
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--runtime',required=True);p.add_argument('--out',required=True);a=p.parse_args();print(json.dumps(build(a.runtime,a.out),indent=2))
+    p=argparse.ArgumentParser();p.add_argument('--runtime',required=True);p.add_argument('--out',required=True);p.add_argument('--task',default='task_12_fehling_test');p.add_argument('--case',default='mixed_5');p.add_argument('--trace-start',type=int,default=2500);p.add_argument('--trace-end',type=int,default=3800);p.add_argument('--include-palms',action='store_true');a=p.parse_args();print(json.dumps(build(a.runtime,a.out,a.task,a.case,a.trace_start,a.trace_end,a.include_palms),indent=2))
