@@ -7,7 +7,7 @@ then fluid and bath remain dynamic. No post-Play particle writes.
 import argparse,json,math
 from pathlib import Path
 
-def run(source,out,bottom_manifest=None,expected_script_sha=None):
+def run(source,out,bottom_manifest=None,expected_script_sha=None,max_particle_contacts=4194304):
     from isaacsim import SimulationApp
     app=SimulationApp({'headless':True})
     import numpy as np,carb,omni.usd,omni.physx
@@ -15,7 +15,7 @@ def run(source,out,bottom_manifest=None,expected_script_sha=None):
     import omni.physx.bindings._physx as pb
     from omni.isaac.core import World
     from omni.isaac.dynamic_control import _dynamic_control
-    from pxr import Usd,UsdGeom,UsdPhysics,PhysxSchema,Gf,Sdf,Vt
+    from pxr import Usd,UsdGeom,UsdPhysics,PhysxSchema,Gf,Sdf,Vt,PhysicsSchemaTools
     from sciben_waterbath_recovery_events import patch_source
     out=Path(out).resolve();out.mkdir(parents=True,exist_ok=False);source=Path(source).resolve()
     fixture=Usd.Stage.CreateNew(str(out/'fixture.usda'));fixture.GetRootLayer().subLayerPaths=[str(source)];fixture.GetRootLayer().Save();fixture=None
@@ -39,7 +39,7 @@ def run(source,out,bottom_manifest=None,expected_script_sha=None):
     (out/'loaded_reaction_script.py').write_text(code)
 
     scene=UsdPhysics.Scene.Define(stage,'/World/PhysicsScene');scene.CreateGravityDirectionAttr(Gf.Vec3f(0,0,-1));scene.CreateGravityMagnitudeAttr(9.81);pa=PhysxSchema.PhysxSceneAPI.Apply(scene.GetPrim())
-    for k,v in {'EnableGPUDynamics':True,'EnableCCD':True,'EnableStabilization':True,'BroadphaseType':'GPU','SolverType':'TGS','TimeStepsPerSecond':120,'MinPositionIterationCount':64,'MaxPositionIterationCount':64,'GpuFoundLostAggregatePairsCapacity':16384,'GpuTotalAggregatePairsCapacity':16384,'GpuMaxParticleContacts':4194304}.items():getattr(pa,'Create'+k+'Attr')().Set(v)
+    for k,v in {'EnableGPUDynamics':True,'EnableCCD':True,'EnableStabilization':True,'BroadphaseType':'GPU','SolverType':'TGS','TimeStepsPerSecond':120,'MinPositionIterationCount':64,'MaxPositionIterationCount':64,'GpuFoundLostAggregatePairsCapacity':16384,'GpuTotalAggregatePairsCapacity':16384,'GpuMaxParticleContacts':max_particle_contacts}.items():getattr(pa,'Create'+k+'Attr')().Set(v)
     cache=UsdGeom.XformCache();old=cache.GetLocalToWorldTransform(tp);bp=np.array(cache.GetLocalToWorldTransform(stage.GetPrimAtPath(bath)).ExtractTranslation());hm=cache.GetLocalToWorldTransform(stage.GetPrimAtPath(heater));hp=np.array(hm.ExtractTranslation());hq=hm.ExtractRotationQuat();heater_q=np.array([*hq.GetImaginary(),hq.GetReal()],np.float32)
     start=bp+np.array([0,0,.02]);x=UsdGeom.Xformable(tp);x.ClearXformOpOrder();x.AddTranslateOp(opSuffix='gateFixture').Set(Gf.Vec3d(*start));x.AddOrientOp(opSuffix='gateFixture').Set(Gf.Quatf(1));UsdPhysics.RigidBodyAPI(tp).CreateKinematicEnabledAttr(True);UsdPhysics.RigidBodyAPI.Apply(stage.GetPrimAtPath(heater)).CreateKinematicEnabledAttr(True)
     for path in [tube,heater]:PhysxSchema.PhysxRigidBodyAPI.Apply(stage.GetPrimAtPath(path)).CreateEnableCCDAttr(False)  # Kinematic-only fixture; unsupported CCD is not ignored.
@@ -71,7 +71,8 @@ def run(source,out,bottom_manifest=None,expected_script_sha=None):
             state={k:tp.GetAttribute(namespace+':'+k).Get() for k in ['pbd_valid','heating_enabled','heating_block_reason','wall_contact_count','heated_seconds','runtime_error','immersed']};poses={}
             for label,path in [('bath',bath),('heater',heater),('tube',tube)]:
                 pose=dc.get_rigid_body_pose(dc.get_rigid_body(path));poses[label]={'position':[pose.p.x,pose.p.y,pose.p.z],'orientation_xyzw':[pose.r.x,pose.r.y,pose.r.z,pose.r.w]}
-            r={'poses':poses,'phase':phase,'phase_step':i,'native_tick':len(native),'state':state};rows.append(r)
+            sleeping={name:bool(omni.physx.get_physx_simulation_interface().is_sleeping(omni.usd.get_context().get_stage_id(),PhysicsSchemaTools.sdfPathToInt(path))) for name,path in [('tube',tube),('bath',bath)]}
+            r={'sleeping':sleeping,'poses':poses,'phase':phase,'phase_step':i,'native_tick':len(native),'state':state};rows.append(r)
             if errors:break
             if i%120==0 or i==steps-1:(out/'progress.json').write_text(json.dumps({'last':r,'errors':errors},indent=2)+'\n')
         previous=goal
@@ -86,7 +87,7 @@ def run(source,out,bottom_manifest=None,expected_script_sha=None):
         if reason:return all(not r['heating_enabled'] and r['heating_block_reason']==reason for r in tail) and abs(elapsed)<1e-8
         return all(r['heating_enabled'] for r in tail) and elapsed>.2
     gates.update(centered_hold=hold_pass('centered'),wall_hold=hold_pass('touch_wall','tube_touches_beaker'),offcenter_hold=hold_pass('off_center','bath_off_center'),tilt_hold=hold_pass('tilt_plate','tilted_bath_or_heater'),restore_center_hold=hold_pass('restore_center'),restore_plate_hold=hold_pass('restore_plate'),restore_level_hold=hold_pass('restore_level'),epoch_hold=hold_pass('epoch_reset'))
-    result={'status':'PASS' if all(gates.values()) and not errors and all(abs(d-1/120)<1e-8 for d in native) else 'FAIL','scope':'Actual task reaction graph and dynamic fluid under isolated kinematic tube/heater interventions; no task success claim','source':str(source),'namespace':namespace,'loaded_script_sha256':loaded_script_sha,'native_count':len(native),'native_clock':{'min_s':min(native),'max_s':max(native),'wrong_dt':sum(abs(d-1/120)>1e-8 for d in native)},'bottom_hybrid_manifest':str(bottom_manifest) if bottom_manifest else None,'errors':errors,'gates':gates,'phase_summary':summary,'inventory':inventory,'particle_seed_remap_before_play_only':True,'fixture_constraints':'Tube and heater prescribed throughout; bath dynamic for centered/wall/restore_center, then explicitly held kinematic for offcenter and later pose-gate isolation. Liquid remains dynamic. Not free-body qualification.','rows':rows};(out/'report.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({k:v for k,v in result.items() if k!='rows'}),flush=True);app.close()
+    result={'status':'PASS' if all(gates.values()) and not errors and all(abs(d-1/120)<1e-8 for d in native) else 'FAIL','scope':'Actual task reaction graph and dynamic fluid under isolated kinematic tube/heater interventions; no task success claim','source':str(source),'namespace':namespace,'loaded_script_sha256':loaded_script_sha,'native_count':len(native),'native_clock':{'min_s':min(native),'max_s':max(native),'wrong_dt':sum(abs(d-1/120)>1e-8 for d in native)},'max_particle_contacts':max_particle_contacts,'bottom_hybrid_manifest':str(bottom_manifest) if bottom_manifest else None,'errors':errors,'gates':gates,'phase_summary':summary,'inventory':inventory,'particle_seed_remap_before_play_only':True,'fixture_constraints':'Tube and heater prescribed throughout; bath dynamic for centered/wall/restore_center, then explicitly held kinematic for offcenter and later pose-gate isolation. Liquid remains dynamic. Not free-body qualification.','rows':rows};(out/'report.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({k:v for k,v in result.items() if k!='rows'}),flush=True);app.close()
 
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--source',required=True);p.add_argument('--out',required=True);p.add_argument('--bottom-hybrid-manifest');p.add_argument('--expected-script-sha');a=p.parse_args();run(a.source,a.out,a.bottom_hybrid_manifest,a.expected_script_sha)
+ p=argparse.ArgumentParser();p.add_argument('--source',required=True);p.add_argument('--out',required=True);p.add_argument('--bottom-hybrid-manifest');p.add_argument('--expected-script-sha');p.add_argument('--max-particle-contacts',type=int,default=4194304);a=p.parse_args();run(a.source,a.out,a.bottom_hybrid_manifest,a.expected_script_sha,a.max_particle_contacts)
