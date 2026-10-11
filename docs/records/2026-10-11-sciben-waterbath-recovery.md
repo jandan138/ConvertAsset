@@ -402,3 +402,23 @@ Two limits remain explicit. Bath PBD validity is false at actions277/279 with cu
 `recovery_rim_partition_v2_producer_layers` contains three independent portable raw deltas and a relative-reference combination. The new-rim SHA is `f23b5b371be09f13c98b63788194e503ebd909a4f5977d079f44d54aa049a4a1`; spec/table SHA remain4ab36351…/450f2f82…. Strong order is[newrim,spec,table,unchanged existing soleSDF payload]. Two-task read-only composition checks assert498 tube colliders=25 rigid+473 PBD-only, exact25 per-system filter targets, RigidScene/Supplement membership, full five-token lowerSDF metadata, and unchanged mass/COM/I. Producer receipt SHA256 `97508d3507de93b3604526fb7080581f57d47612f3d79f4f767cad0099929366`. Neither local fixture nor full runtime scene is the producer entry.
 
 Controlling short-gate receipt `recovery_rim_partition_v2/short_gate_receipt.json` SHA256 `30ef6dd22cf798118665b08ead75d347e19168b793bb970cfeefff8bccbdb70e` binds parse/drop/rack/strict plus warning logs and v1 revocation. Only `short_gates_passed` is true: full producer and delivery flags remain false. Still required are both task cold1202/lift2042, both actual-controller gate1562 fixtures on the exact consumer composition, fresh native parser/closure checks, and root-owned original-core known-failure windows/full7000 acceptance. Same-code counter lifecycle evidence can cover logic only, not these new physical conditions. GPU is empty, and no remote or broad qualification queue was launched by this producer. Focused regression tests(3) and compilation pass; no general standard change is introduced.
+
+
+## Corrected rim v2: six new task fixtures complete (2026-10-11)
+
+A serial local queue runs both tasks independently on the immutable portable v2 three-layer composition, with every source layer/manifest/probe hash checked before and after each run. Liquid state and production controllers remain unchanged. Input binding SHA256 is `e2721d60721196c49d8b8c69858d0dbab8e5222ea384f99179bd81f726df62d3`; all six groups pass their fixed native tick, containment/inventory or reaction-gate criteria and the mandatory collision-downgrade gate.
+
+| New group | Native ticks | Result | Face-index warnings | Report SHA prefix |
+|---|---:|---|---:|---|
+| Fehling cold |1202|outside0, inventory constant|92958|2d8244fc1f96|
+| Fehling lift |2042|outside0, inventory constant|0|b679cb63de9a|
+| Silver cold |1202|outside0, inventory constant|105928|e4d0836fbfe65|
+| Silver lift |2042|outside0, inventory constant|0|504fb6b9f8c9|
+| Fehling actual gate |1562|16/16 checks|0|a92416e5959e|
+| Silver actual gate |1562|16/16 checks|0|99c1f8c805ce|
+
+Both actual gate fixtures record PBD-invalid rows0 and runtime script errors0 across all phases; loaded controllers remain Fehling17f49e9d… and silver767ceee5…. Every cold/lift step retains Bath96649 and Sample13905, with no non-finite/count/containment failure. All six plus the same-byte short drop/rack/strict evidence have no critical PhysX/CUDA log error and no collision downgrade. Material-face-index warnings are explicitly retained in the two cold runs, and earlier same-byte rack/strict counts55846/30194 remain part of the receipt. The strict prefix's two PBD-invalid actions277/279 remain separate evidence; successful prescribed fixtures do not erase them or establish arbitrary-pose validity.
+
+Final scoped receipt: `recovery_rim_partition_v2_scoped_qualification.json`, SHA256 `b07f2ce3c6dd39788e32eb584e192b3c4674a0e6ceb561d2955487ef713fcace`. It binds nine physical evidence groups, the parser gate, all portable raw layers, source/launch/log hashes, full API-metadata correction, and the v1 qualification revocation. `bounded_producer_qualified=true`, **`delivery_qualified=false`**. Construction and short-gate receipts retain their historical pending flags; this new scoped receipt controls the completed local qualification scope.
+
+Remaining work belongs to root's consumer acceptance:40-entry pure composition and closure checks preserving all authored API tokens, then original-core/original-robot/production-controller native failure windows and full7000 bad-case validation on exactly these bytes. Counter sleep/lifecycle inheritance is limited to unchanged controller logic; no v1 fallback physical PASS is inherited. Controlled5mm rack placement is still not a successful original-action return, and the old120mm free-return failure is retained. Local GPU is empty after the six-run queue; this producer started no remote queue and changed no W/runtime/core/robot/action input. No general standards or shared index change is required: this is dated source/runtime-scoped evidence under the existing physical-validation rules.
