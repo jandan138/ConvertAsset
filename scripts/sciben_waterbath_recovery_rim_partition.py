@@ -6,6 +6,22 @@ import json
 from pathlib import Path
 
 
+def authored_api_tokens(prim):
+    """Preserve runtime-specific API tokens even when this USD registry lacks them."""
+    metadata = prim.GetMetadata('apiSchemas')
+    if metadata is None:
+        return []
+    assert metadata.isExplicit, 'Composed API metadata must be explicit'
+    return list(metadata.explicitItems)
+
+
+def is_collision_downgrade(line):
+    text = line.lower()
+    return (('falling back' in text or 'downgrade' in text)
+            and ('convexhull' in text or 'convex hull' in text
+                 or 'parse collision' in text or 'collision approximation' in text))
+
+
 def build(source, audit_dir, out):
     import numpy as np
     from pxr import Usd, UsdGeom, UsdPhysics, Sdf, Gf, Vt
@@ -24,7 +40,8 @@ def build(source, audit_dir, out):
     assert len(parts) == 24 and proof['all24pieces_closed_consistently_wound']
     physics_attrs = [(a.GetName(), a.GetTypeName(), a.Get()) for a in original.GetAttributes()
                      if a.GetName().startswith(('physics:', 'physx'))]
-    schemas = original.GetAppliedSchemas()
+    schemas = authored_api_tokens(original)
+    assert {'PhysxCollisionAPI', 'PhysxSDFMeshCollisionAPI'} <= set(schemas)
 
     def author(stage, root):
         targets = []
@@ -67,7 +84,7 @@ def build(source, audit_dir, out):
     attr_changes, rel_changes = [], []
     for p in old.Traverse():
         new = stage.GetPrimAtPath(p.GetPath())
-        assert new and p.GetAppliedSchemas() == new.GetAppliedSchemas()
+        assert new and authored_api_tokens(p) == authored_api_tokens(new)
         for a in p.GetAttributes():
             if str(a.Get()) != str(new.GetAttribute(a.GetName()).Get()):
                 attr_changes.append(str(a.GetPath()))
@@ -79,6 +96,7 @@ def build(source, audit_dir, out):
     enabled = [p for p in Usd.PrimRange(stage.GetPrimAtPath('/World/_scene/obj_sample_tube'))
                if p.HasAPI(UsdPhysics.CollisionAPI) and p.GetAttribute('physics:collisionEnabled').Get()]
     assert len(enabled) == 498, len(enabled)
+    assert authored_api_tokens(stage.GetPrimAtPath('/World/_scene/obj_sample_tube/RimPartition/LowerSDF')) == schemas
     assert sum(str(p.GetPath()).startswith('/World/_scene/obj_sample_tube/RimPartition/') for p in enabled) == 25
     for t in ['Sample', 'Bath']:
         assert [str(x) for x in stage.GetPrimAtPath('/World/_scene/WaterbathFluid/' + t + 'System').GetRelationship('physics:filteredPairs').GetTargets()] == targets
@@ -90,7 +108,7 @@ def build(source, audit_dir, out):
               'old_attr_changes': attr_changes, 'old_rel_changes': rel_changes,
               'tube_enabled_colliders': 498, 'tube_rigid': 25, 'tube_PBD_only': 473,
               'particle_filter_count_each': 25, 'targets': targets,
-              'original_full_SDF_disabled': True, 'visual_mass_COM_I_unchanged': True,
+              'lower_SDF_complete_apiSchemas': schemas, 'original_full_SDF_disabled': True, 'visual_mass_COM_I_unchanged': True,
               'margin': .01, 'narrowBand': .01, 'resolution': 512, 'speculativeCCD': True,
               'static_geometry_proof': str(audit_dir / 'feasibility.json'),
               'static_geometry_proof_sha256': sha(audit_dir / 'feasibility.json'),
