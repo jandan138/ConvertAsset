@@ -42,11 +42,17 @@ def native_step_decision(before,after,warmup):
     raise RuntimeError('Expected one native physics tick, observed '+str(delta))
 
 
-def case_inputs(baseline,case):
+def reaction_names(task):
+    names={'task_z4_silver_mirror_reaction':('tollens','TollensGraph'),'task_12_fehling_test':('fehlings','FehlingsGraph')}
+    if task not in names:raise ValueError('Unsupported waterbath task')
+    return names[task]
+
+
+def case_inputs(baseline,case,task='task_z4_silver_mirror_reaction'):
     """Bind a mixed case to its own YAML scene and task metadata."""
     import re,yaml
     if not re.fullmatch(r'mixed_[0-9]+',case):raise ValueError('Expected mixed_N case')
-    baseline=Path(baseline);task='task_z4_silver_mirror_reaction'
+    baseline=Path(baseline);reaction_names(task)
     config=baseline/f'configs/tasks/scientific_experiments/{task}/test/mixed/{case}.yml'
     value=yaml.safe_load(config.read_text())['evaluation_configs'][0]
     if value['task_name']!=f'scientific_experiments/{task}/{case}':raise ValueError('Mismatched YAML task case')
@@ -183,22 +189,27 @@ def run(args):
     out=Path(args.out).resolve();out.mkdir(parents=True,exist_ok=False)
     baseline=Path(args.baseline).resolve();scene=baseline/'saved/assets/scene_usds/scientific_experiments/task_z4_silver_mirror_reaction/unseen_scene_1/scene.usda'
     meta=baseline/'saved/tasks/scientific_experiments/task_z4_silver_mirror_reaction/mixed_1/000/meta_info.pkl'
-    bound=case_inputs(baseline,args.case) if args.case else None
+    namespace,graph_name=reaction_names(args.task)
+    if args.task!='task_z4_silver_mirror_reaction' and not args.case:raise ValueError('Explicit case required for Fehling')
+    bound=case_inputs(baseline,args.case,args.task) if args.case else None
     if bound:scene=bound['scene'];meta=bound['metadata']
-    robot_asset=baseline/'saved/assets/robot_usds/lift2/robot.usd'
+    robot_asset=Path(args.robot_observer_wrapper).resolve() if args.robot_observer_wrapper else baseline/'saved/assets/robot_usds/lift2/robot.usd'
     inputs={'scene':str(scene),'metadata':str(meta),'robot':str(robot_asset),'actions':str(Path(args.actions).resolve())}
     if bound:inputs['case_yaml']=str(bound['case_yaml'])
+    if args.scene_observer_delta:inputs['scene_observer_delta']=str(Path(args.scene_observer_delta).resolve())
     if args.bottom_hybrid_manifest:inputs['bottom_hybrid_manifest']=str(Path(args.bottom_hybrid_manifest).resolve())
     if args.bottom_reduced_manifest:inputs['bottom_reduced_manifest']=str(Path(args.bottom_reduced_manifest).resolve())
     if args.bad_case_matrix:
-        entries=json.loads(Path(args.bad_case_matrix).read_text());matches=[v for v in entries if v['task']=='task_z4_silver_mirror_reaction' and v['case']==args.case and Path(v['path'])/'meta_record.pkl'==Path(args.actions)]
+        entries=json.loads(Path(args.bad_case_matrix).read_text());matches=[v for v in entries if v['task']==args.task and v['case']==args.case and Path(v['path'])/'meta_record.pkl'==Path(args.actions)]
         if len(matches)!=1:raise ValueError('Action source does not match case matrix')
         inputs['bad_case_matrix']=str(Path(args.bad_case_matrix).resolve())
     hashes={k:sha(v) for k,v in inputs.items()}
     metadata=load_pickle(meta)['task_data'];actions=load_pickle(args.actions)['model_output'];assert args.steps<=len(actions)
     normalized=[normalize_action(a) for a in actions[:args.steps]]
     root='/World/_scene';tube=root+'/obj_sample_tube';bath=root+'/obj_beaker';robot_path=root+'/lift2'
-    fixture=Usd.Stage.CreateNew(str(out/'fixture.usda'));fixture.GetRootLayer().subLayerPaths=[str(scene)];UsdGeom.SetStageMetersPerUnit(fixture,1.);UsdGeom.SetStageUpAxis(fixture,'Z');fixture.GetRootLayer().Save();fixture=None
+    fixture=Usd.Stage.CreateNew(str(out/'fixture.usda'));fixture.GetRootLayer().subLayerPaths=[str(scene)]
+    if args.scene_observer_delta:fixture.OverridePrim('/World/_scene').GetReferences().AddReference(str(Path(args.scene_observer_delta).resolve()),'/World')
+    UsdGeom.SetStageMetersPerUnit(fixture,1.);UsdGeom.SetStageUpAxis(fixture,'Z');fixture.GetRootLayer().Save();fixture=None
     settings=carb.settings.get_settings();settings.set_bool('/app/omni.graph.scriptnode/enable_opt_in',False);settings.set_bool('/app/omni.graph.scriptnode/opt_in',True)
     for key in [pb.SETTING_UPDATE_TO_USD,pb.SETTING_UPDATE_PARTICLES_TO_USD,pb.SETTING_UPDATE_VELOCITIES_TO_USD]:settings.set(key,True)
     settings.set(pb.SETTING_SUPPRESS_READBACK,False);omni.physx.get_physx_interface().overwrite_gpu_setting(1)
@@ -251,14 +262,14 @@ def run(args):
         UsdPhysics.CollisionAPI(p).CreateCollisionEnabledAttr(True)
         intervention=dict(intervention or {},bath_hollow_SDF_restored=True,bath_rigid_contact_missing_by_design=False)
     if args.skip_contact_sampling:
-        a=stage.GetPrimAtPath(tube+'/ReactionRuntime/TollensGraph/FlowController').GetAttribute('inputs:script')
+        a=stage.GetPrimAtPath(tube+'/ReactionRuntime/'+graph_name+'/FlowController').GetAttribute('inputs:script')
         original=a.Get();patched=skip_contact_sampling(original);a.Set(patched)
         (out/'reaction_original.py').write_text(original);(out/'reaction_no_contact_sampling.py').write_text(patched)
         intervention=dict(intervention or {},contact_sampling_skipped=True,wall_guard_disabled_diagnostic_only=True)
     if args.contact_event_sampling:
         from sciben_waterbath_recovery_events import patch_source
         if args.skip_contact_sampling:raise ValueError('Event sampling and bypass are mutually exclusive')
-        a=stage.GetPrimAtPath(tube+'/ReactionRuntime/TollensGraph/FlowController').GetAttribute('inputs:script')
+        a=stage.GetPrimAtPath(tube+'/ReactionRuntime/'+graph_name+'/FlowController').GetAttribute('inputs:script')
         original=a.Get();patched=patch_source(original,keep_tensor_view=not args.no_contact_tensor_view,persistent=args.persistent_contact_events);a.Set(patched)
         (out/'reaction_event_sampling.py').write_text(patched)
         intervention=dict(intervention or {},contact_event_sampling=True,tensor_view_creation_retained=not args.no_contact_tensor_view,wall_guard_active=True,persistent_active_pair_records=args.persistent_contact_events)
@@ -288,9 +299,16 @@ def run(args):
         if args.body_ccd or args.speculative_ccd:raise ValueError('Table-margin diagnostic disables both body CCD modes')
         from sciben_waterbath_recovery_contact_margin import author as author_table_margin
         intervention=dict(intervention or {},table_margin_no_ccd=author_table_margin(stage,root,args.table_contact_offset))
+    finger_report_paths=[robot_path+'/lift2/lift2/'+side+'/'+link for side in ['fl','fr'] for link in ['link7','link8']]
+    if args.finger_contact_reports:
+        for path in finger_report_paths:
+            p=stage.GetPrimAtPath(path)
+            if not p or not p.HasAPI(UsdPhysics.RigidBodyAPI):raise ValueError('Missing finger rigid body '+path)
+            PhysxSchema.PhysxContactReportAPI.Apply(p).CreateThresholdAttr(0.)
+        intervention=dict(intervention or {},diagnostic_finger_contact_reports=finger_report_paths,robot_physics_unchanged=True,observer_not_deliverable=True)
     if args.disable_graph:stage.GetPrimAtPath(tube+'/ReactionRuntime').SetActive(False)
     stage.GetRootLayer().Save()
-    loaded_code=stage.GetPrimAtPath(tube+'/ReactionRuntime/TollensGraph/FlowController').GetAttribute('inputs:script').Get()
+    loaded_code=stage.GetPrimAtPath(tube+'/ReactionRuntime/'+graph_name+'/FlowController').GetAttribute('inputs:script').Get()
     (out/'loaded_reaction_script.py').write_text(loaded_code)
     loaded_binding={'USD_script_sha256':hashlib.sha256(loaded_code.encode()).hexdigest(),'fixture_sha256':sha(out/'fixture.usda'),'source_input_hash_scope':list(inputs),'solver':args.solver,'max_particle_contacts':args.max_particle_contacts,'external_substeps':1,'warmup_contract':'300 measured native ticks after SDK reset; zero-advance render calls only allowed during passive startup; original actions require exactly one tick each'}
     (out/'loaded_script_binding.json').write_text(json.dumps(loaded_binding,indent=2)+'\n')
@@ -305,7 +323,7 @@ def run(args):
         def contact_event(headers,data):
             for h in headers:
                 actor=[str(PhysicsSchemaTools.intToSdfPath(h.actor0)),str(PhysicsSchemaTools.intToSdfPath(h.actor1))]
-                if tube not in actor and bath not in actor:continue
+                if tube not in actor and bath not in actor and not (args.finger_contact_reports and any(p in actor for p in finger_report_paths)):continue
                 colliders=[str(PhysicsSchemaTools.intToSdfPath(h.collider0)),str(PhysicsSchemaTools.intToSdfPath(h.collider1))]
                 key=' | '.join(sorted(actor))
                 row=contact_events.setdefault(key,{'headers':0,'max_contact_points':0,'events':{},'collider_pairs':[]})
@@ -338,11 +356,12 @@ def run(args):
     dc=_dynamic_control.acquire_dynamic_control_interface();indices=np.asarray([10,12,14,16,18,20,23,24,9,11,13,15,17,19,21,22],dtype=np.int32);trace=[];failure=None;completed=0
     def snapshot(step):
         poses={}
-        for path in [tube,bath,robot_path+'/lift2/lift2/fl/link7',robot_path+'/lift2/lift2/fl/link8']:
+        for path in [tube,bath,robot_path+'/lift2/lift2/fl/link7',robot_path+'/lift2/lift2/fl/link8',robot_path+'/lift2/lift2/fr/link7',robot_path+'/lift2/lift2/fr/link8']:
             h=dc.get_rigid_body(path)
             if not h:continue
             v=dc.get_rigid_body_pose(h);poses[path]={'position':[v.p.x,v.p.y,v.p.z],'orientation_xyzw':[v.r.x,v.r.y,v.r.z,v.r.w]}
-        p=stage.GetPrimAtPath(tube);state={k:p.GetAttribute('tollens:'+k).Get() for k in ['pbd_valid','runtime_error','heated_seconds','heating_enabled','heating_block_reason','wall_contact_count']}
+            lv=dc.get_rigid_body_linear_velocity(h);av=dc.get_rigid_body_angular_velocity(h);poses[path].update(linear_velocity_m_s=[lv.x,lv.y,lv.z],angular_velocity_rad_s=[av.x,av.y,av.z])
+        p=stage.GetPrimAtPath(tube);state={k:p.GetAttribute(namespace+':'+k).Get() for k in ['pbd_valid','runtime_error','heated_seconds','heating_enabled','heating_block_reason','wall_contact_count']}
         return {'step':step,'native_count':len(native),'poses':poses,'state':state,'joints':robot.get_joint_positions().tolist(),'rack_matrix_rowmajor':np.asarray(UsdGeom.XformCache().GetLocalToWorldTransform(stage.GetPrimAtPath(root+'/obj_tube_rack'))).tolist()}
     dense=open(out/'poses_each_step.jsonl','w') if args.dense_pose_trace else None
     native_before_warmup=len(native);warmup_native_steps=0;startup_no_advance_calls=0;clock_failure=False;step=-300
@@ -379,4 +398,4 @@ def run(args):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--case');p.add_argument('--bad-case-matrix');p.add_argument('--dense-pose-trace',action='store_true');p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--tube-rigid-proxy',action='store_true');p.add_argument('--proxy-curved-bottom',action='store_true');p.add_argument('--bath-rigid-proxy',action='store_true');p.add_argument('--merge-bath-floor',action='store_true');p.add_argument('--table-margin-no-ccd',action='store_true');p.add_argument('--table-contact-offset',type=float,default=.009);p.add_argument('--contact-event-sampling',action='store_true');p.add_argument('--no-contact-tensor-view',action='store_true');p.add_argument('--persistent-contact-events',action='store_true');p.add_argument('--body-ccd',action='store_true');p.add_argument('--speculative-ccd',action='store_true');p.add_argument('--solver',choices=['TGS','PGS'],default='TGS');p.add_argument('--max-particle-contacts',type=int,default=4194304);p.add_argument('--shared-tube-colliders',action='store_true');p.add_argument('--bottom-hybrid-manifest');p.add_argument('--bottom-reduced-manifest');p.add_argument('--record-contacts',action='store_true');p.add_argument('--contact-timeline',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())
+    p=argparse.ArgumentParser();p.add_argument('--task',choices=['task_z4_silver_mirror_reaction','task_12_fehling_test'],default='task_z4_silver_mirror_reaction');p.add_argument('--baseline',required=True);p.add_argument('--case');p.add_argument('--bad-case-matrix');p.add_argument('--dense-pose-trace',action='store_true');p.add_argument('--actions',required=True);p.add_argument('--out',required=True);p.add_argument('--steps',type=int,default=2300);p.add_argument('--filter-supplement-robot',action='store_true');p.add_argument('--disable-graph',action='store_true');p.add_argument('--skip-contact-sampling',action='store_true');p.add_argument('--restore-bath-sdf',action='store_true');p.add_argument('--fluid-only-supplements',action='store_true');p.add_argument('--tube-rigid-proxy',action='store_true');p.add_argument('--proxy-curved-bottom',action='store_true');p.add_argument('--bath-rigid-proxy',action='store_true');p.add_argument('--merge-bath-floor',action='store_true');p.add_argument('--table-margin-no-ccd',action='store_true');p.add_argument('--table-contact-offset',type=float,default=.009);p.add_argument('--contact-event-sampling',action='store_true');p.add_argument('--no-contact-tensor-view',action='store_true');p.add_argument('--persistent-contact-events',action='store_true');p.add_argument('--body-ccd',action='store_true');p.add_argument('--speculative-ccd',action='store_true');p.add_argument('--solver',choices=['TGS','PGS'],default='TGS');p.add_argument('--max-particle-contacts',type=int,default=4194304);p.add_argument('--shared-tube-colliders',action='store_true');p.add_argument('--bottom-hybrid-manifest');p.add_argument('--bottom-reduced-manifest');p.add_argument('--record-contacts',action='store_true');p.add_argument('--finger-contact-reports',action='store_true');p.add_argument('--robot-observer-wrapper');p.add_argument('--scene-observer-delta');p.add_argument('--contact-timeline',action='store_true');p.add_argument('--legacy-raw-yaw',action='store_true');run(p.parse_args())

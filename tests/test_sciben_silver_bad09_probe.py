@@ -88,3 +88,13 @@ def test_measured_native_cadence_waits_only_during_passive_warmup():
     assert not m.native_step_decision(10,10,True)
     for before,after,warm in [(10,10,False),(10,12,False),(10,12,True),(10,9,True)]:
         with pytest.raises(RuntimeError):m.native_step_decision(before,after,warm)
+
+def test_fehling_case_binding_does_not_reuse_silver_paths(tmp_path):
+    task='task_12_fehling_test';case='mixed_5'
+    y=tmp_path/f'configs/tasks/scientific_experiments/{task}/test/mixed/{case}.yml';y.parent.mkdir(parents=True)
+    y.write_text('evaluation_configs:\n- task_name: scientific_experiments/'+task+'/'+case+'\n  usd_name: scene_usds/scientific_experiments/'+task+'/unseen_scene_5/scene\n  warmup_steps: 300\n  physics_dt: 0.008333333333333333\n  rendering_dt: 0.008333333333333333\n')
+    result=m.case_inputs(tmp_path,case,task=task)
+    assert str(result['scene']).endswith('/task_12_fehling_test/unseen_scene_5/scene.usda')
+    assert str(result['metadata']).endswith('/task_12_fehling_test/mixed_5/000/meta_info.pkl')
+    assert m.reaction_names(task)==('fehlings','FehlingsGraph')
+    assert m.reaction_names('task_z4_silver_mirror_reaction')==('tollens','TollensGraph')
