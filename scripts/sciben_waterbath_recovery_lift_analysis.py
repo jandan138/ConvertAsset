@@ -18,7 +18,7 @@ def summarize(rows):
         for p in r['selected_particles']:history[p['index']].append({'native_tick':r['native_tick'],'particle':p,'container_position':r['container_position'],'container_orientation_xyzw':r['container_orientation_xyzw']})
     per={}
     for i,ts in bad.items():
-        first=ts[0];around=[r for r in history[i] if first-6<=r['native_tick']<=first+6];per[str(i)]={'intervals':intervals(ts),'first_crossing_neighborhood':around,'last_observation':history[i][-1]}
+        first=ts[0];around=[r for r in history[i] if first-6<=r['native_tick']<=first+6];per[str(i)]={'intervals':intervals(ts),'first_crossing_neighborhood':around,'last_observation':history[i][-1] if history[i] else None}
     return {'sample_count':len(rows),'native_tick_range':[min(ticks),max(ticks)] if ticks else None,'all_callback_ticks_consecutive':all(b==a+1 for a,b in zip(ticks,ticks[1:])),'outside_native_steps':sum(r['outside_count']>0 for r in rows),'max_outside_count':max((r['outside_count'] for r in rows),default=0),'outside_intervals':intervals(r['native_tick'] for r in rows if r['outside_count']),'bad_particle_ids':sorted(bad),'per_particle':per,'pose_first':rows[0]['container_position'] if rows else None,'pose_last':rows[-1]['container_position'] if rows else None,'all_container_orientation_identity':all(r['container_orientation_xyzw']==[0.,0.,0.,1.] for r in rows),'limits':'One matched diagnostic per candidate. Selected particle history includes lowest and currently outside particles; absence before first recorded selection is not inferred. Velocity is expressed in body axes but retains container translation.'}
 
 
