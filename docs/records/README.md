@@ -1,5 +1,7 @@
 # Records
 
+- [2026-10-13 Task12 标准SDF与粗粒浴液诊断](2026-10-13-task12-runtime-stability-diagnostic.md)
+
 - [2026-09-12 Blender 18×150 mm 玻璃试管及 r7 限定资格](2026-09-12-chemistry-test-tube-18x150.md)
 
 - [2026-08-26 Wangshuai funnel/tube exact-source asset set](2026-08-26-wangshuai-funnel-tube15-exact-asset-set.md)

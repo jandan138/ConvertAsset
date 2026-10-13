@@ -4,6 +4,8 @@
 
 ## 快速导航
 
+- [Task12 标准SDF与粗粒浴液诊断](records/2026-10-13-task12-runtime-stability-diagnostic.md) - 当前候选、旧配方对照与未完成的运行资格；不是已发布资产
+
 - [18×150 mm Blender 玻璃试管](records/2026-09-12-chemistry-test-tube-18x150.md) - 圆底卷口、玻璃材质与斐林 r7 架子/水浴限定资格
 
 - [Task09 紧凑粉末瓶场景 producer r3](records/2026-09-11-compact-powder-scene-r3.md) - Blender model_r2 集成、深粉床与 Isaac 4.5 规定轨迹证据
