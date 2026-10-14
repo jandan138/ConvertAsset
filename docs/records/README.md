@@ -1,5 +1,6 @@
 # Records
 
+- [2026-10-14 Task12 抓取接触回归对比](2026-10-14-task12-grasp-contact-comparison.md)
 - [2026-10-13 Task12 标准SDF与粗粒浴液诊断](2026-10-13-task12-runtime-stability-diagnostic.md)
 
 - [2026-09-12 Blender 18×150 mm 玻璃试管及 r7 限定资格](2026-09-12-chemistry-test-tube-18x150.md)

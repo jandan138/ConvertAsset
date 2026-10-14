@@ -4,6 +4,7 @@
 
 ## 快速导航
 
+- [Task12 抓取接触回归对比](records/2026-10-14-task12-grasp-contact-comparison.md) - 静态参数差异、过滤范围及待验证的最小对照
 - [Task12 标准SDF与粗粒浴液诊断](records/2026-10-13-task12-runtime-stability-diagnostic.md) - 当前候选、旧配方对照与未完成的运行资格；不是已发布资产
 
 - [18×150 mm Blender 玻璃试管](records/2026-09-12-chemistry-test-tube-18x150.md) - 圆底卷口、玻璃材质与斐林 r7 架子/水浴限定资格
