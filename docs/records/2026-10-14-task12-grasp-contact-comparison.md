@@ -36,3 +36,16 @@ SDF分辨率512/subgrid6相同；margin/narrowBand旧0.00035、新0.01，是AABB
 
 主线程承担本记录及消费者文档同步。规范无需通用变化，ASSET-001/003、STATE-002与VAL-001/003已覆盖
 单变量、来源身份与证据边界；不将上述偏移建议提升为通用默认。不修改同事目录、机器人源码或称量生产。
+
+
+## 后续静态作者与排队验证
+
+主线程随后作者`outputs/sciben_waterbath_120hz_20261010/task12_original_rigid_offsets_diagnostic_20261014`，
+继承2320/13905粒生产者物理候选，仅覆盖25项LowerSDF/rim的contact10mm、rest1mm；组合差异恰为50属性，
+材料、质量、几何、CCD、粒子与关系不变。属性custom标记检查无差异。
+这是引用式诊断资产，不是便携交付；基础层对外PhysicsScene作用域警告已记录，probe显式绑定Owner至
+/World/PhysicsScene，仍为120Hz/TGS/64–128/128MiB。场景/manifest/receipt保留在产物目录。
+
+`original_rigid_offsets_bounded_queue.json`等待消费者计时及配置对照释放GPU后执行三冷态和一次升降，
+首错停止，尚未运行/准入。计时层的独立候选不同时引入该物理delta，以便区分反应时长与接触效果。
+所有辅助作者/探针仍在本人工作区；没有写入接收方正式候选、建通资产或机器人源码。
