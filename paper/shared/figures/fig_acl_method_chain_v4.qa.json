@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "reviewed_at": "2026-09-04",
+  "scope": "ACL main-paper Figure 1 v4",
+  "backend": {
+    "authoring": "Python 3.10.15 / python-pptx 1.0.2",
+    "paper_pdf": "LibreOffice Impress 7.3.7.2 with Ghostscript 9.55.0 PDF 1.5 normalization",
+    "raster_review": "pdftocairo 22.02.0 at 300 dpi"
+  },
+  "communication_job": "Show that ConvertAsset rewrites material representation while scene and camera remain fixed, then routes the matched pair to four separate evidence checks.",
+  "archetype": "asymmetric image-led schematic",
+  "outputs": [
+    "paper/shared/figures/fig_acl_method_chain_v4.pptx",
+    "paper/shared/figures/fig_acl_method_chain_v4.svg",
+    "paper/shared/figures/fig_acl_method_chain_v4.pdf",
+    "paper/shared/figures/fig_acl_method_chain_v4.png"
+  ],
+  "layout_preflight": {
+    "slide_inches": [7.2, 3.3],
+    "text_shapes": 20,
+    "pictures": 19,
+    "font_sizes_pt": [6.0, 6.8, 7.2, 9.0],
+    "minimum_font_pt": 6.0,
+    "text_or_image_overflow": 0,
+    "unexpected_text_image_overlap": 0
+  },
+  "component_extraction": {
+    "method": "whole_atlas_alpha_connected_components",
+    "significant_components": 8,
+    "truncated_silhouettes": 0,
+    "maximum_top_edge_width_fraction": 0.108,
+    "maximum_bottom_edge_width_fraction": 0.105,
+    "repaired_slots": [
+      "ceramic_source",
+      "ceramic_simplified",
+      "metal_source",
+      "metal_simplified"
+    ]
+  },
+  "pptx_audit": {
+    "report": "paper/shared/figures/fig_acl_method_chain_v4.pptx.audit.json",
+    "slides": 1,
+    "shapes": 73,
+    "words": 54,
+    "external_relationships": 0,
+    "machine_path_hits": 0,
+    "nonzero_theme_effect_refs": 0,
+    "outer_shadows": 0,
+    "rounded_cards": 0,
+    "violations": []
+  },
+  "round_trip": {
+    "pptx_to_pdf": "pass",
+    "pdf_to_png": "pass",
+    "standalone_png_pixels": [2160, 990],
+    "figure_pdf_pages": 1,
+    "figure_pdf_points": [518.4, 237.6],
+    "figure_pdf_version": "1.5",
+    "integrated_main_pdf_pages": 9,
+    "integrated_main_raster_ppi_range": [340, 346],
+    "page_review": "ACL main page 2 reviewed after the whole-atlas component repair; all eight sphere silhouettes are complete, and no clipped title, detached arrow, overflow, or missing glyph was observed."
+  },
+  "findings": {
+    "critical": [],
+    "major": [],
+    "minor": [
+      "Evidence-strip notes use the approved 6 pt minimum at final paper width."
+    ]
+  },
+  "claim_boundary": "The material spheres are explanatory. Recorded render thumbnails and the later registered figures and tables carry evidence and measurements."
+}

@@ -1,0 +1,31 @@
+\section{Extended Counterfactual Stratification and Zero-VLM Risk-Gate Diagnostics}
+\label{app:mechanisms_risk}
+
+\begin{table*}[!t]
+\centering
+\caption{Side-by-side dual-family pixel-exact counterfactual evaluation across \textsc{Qwen3-VL-8B} ($1{,}440$ evaluations) and \textsc{InternVL3.5-8B-HF} ($1{,}440$ evaluations), spanning factorial contrasts ($480$ all vs.\ $473$ bit-identical mask subset, $\mathrm{IoU}{=}1.000$), prior optical regimes, and objective pixel-distortion groupings.}
+\label{tab:app-counterfactual-dual}
+\resizebox{\textwidth}{!}{\input{tables/app_counterfactual_dual}}
+\end{table*}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.97\textwidth]{app_fig5_features_and_counterfactuals.pdf}
+\caption{\textbf{Full 21-feature standardized risk-gate coefficients and dual-family counterfactual residual invariance.}
+\emph{(a)} Standardized $\ell_2$ logistic regression weights ($C{=}0.01$) predicting family-calibrated \textsc{Qwen3-VL} regressions (\texttt{any\_8b\_32b\_loss}), separated into simulator mask geometry (5 cues), paired appearance/edge deltas (13 cues), and coarse category priors (3 cues).
+\emph{(b)} Side-by-side comparison across \textsc{Qwen3-VL-8B} and \textsc{InternVL3.5-8B-HF}: identical $+3.54\%$ ($+3.38\%$ on bit-identical masks) non-photometric \textsc{BSDF} residual above $\mathrm{CIE}~L^*a^*b^*$ matching alongside diverging regime gains.}
+\label{fig:app-features-cf}
+\end{figure*}
+
+\subsection{Cross-family counterfactual invariance and mask-support sensitivity}
+Table~\ref{tab:app-counterfactual-dual} and Figure~\ref{fig:app-features-cf}(b) expand Section~\ref{sec:mechanisms} with full confidence intervals across all $2{,}880$ counterfactual evaluations (\textsc{Qwen3-VL-8B} and \textsc{InternVL3.5-8B-HF}). Although \textsc{InternVL3.5-8B-HF} starts from slightly higher baseline photometric sensitivity ($7.08\%$ vs.\ $5.83\%$ flip rate on $I^{\text{photo}}$) and full conversion turnover ($10.62\%$ vs.\ $9.38\%$), subtracting the $\mathrm{CIE}~L^*a^*b^*$-matched luminance/chromatic control reveals an identical \textbf{$+3.54\%$ non-photometric shader residual} ($[+1.25\%, +5.83\%]$ and $[+1.04\%, +6.04\%]$). Restricting the comparison to the $473/480$ pairs with bit-identical simulator masks ($\mathrm{IoU}{=}1.000$) yields virtually unchanged residuals of \textbf{$+3.38\%$} on both architectures ($[+1.26\%, +5.70\%]$ and $[+0.84\%, +5.97\%]$), confirming that silhouette boundary anti-aliasing on the remaining $7$ pairs does not confound the optical finding. Under objective pixel-distortion grouping (Panel~C), \emph{Low-Distortion} targets gain $+3.76\%$ (\textsc{Qwen3}) and $+3.01\%$ (\textsc{InternVL3.5}), whereas heavily \emph{Specular-Stripped} targets suffer $-7.14\%$ net drop on \textsc{Qwen3-VL-8B}.
+
+\begin{table*}[!t]
+\centering
+\caption{Complete 21-feature zero-\textsc{VLM} risk-gate inventory (\texttt{deploy\_auto}), reporting group membership, mean $\pm$ SD stratified by \textsc{Qwen3-VL} regression status (\texttt{any\_8b\_32b\_loss}: $455$ non-loss vs.\ $25$ loss pairs), direction-aligned univariate \textsc{AUROC}, and fitted standardized $\ell_2$ weights ($C{=}0.01$).}
+\label{tab:app-features21}
+\resizebox{\textwidth}{!}{\input{tables/app_features21}}
+\end{table*}
+
+\subsection{Per-feature breakdown of the 21-cue zero-VLM risk gate}
+Table~\ref{tab:app-features21} and Figure~\ref{fig:app-features-cf}(a) dissect why lightweight pre-deployment risk gating achieves $0.743$ test \textsc{AUROC} ($0.732$ 30-scene \textsc{LOSO} with \texttt{geometry\_only}, catching $52.0\%$ of regressions in the top $20\%$ triage budget) while global \textsc{RGB MAE} fails ($0.432$ test \textsc{AUROC}). Regression targets are systematically smaller (\texttt{log\_area\_frac}: $-2.888$ vs.\ $-2.432$, weight $-0.0585$), positioned closer to frame peripheries (\texttt{center\_dist\_norm}: $0.378$ vs.\ $0.331$, univariate \textsc{AUROC} $= 0.703$, weight $+0.0584$), and undergo stronger local structural degradation inside the target mask (\texttt{target\_ssim}: $0.560$ vs.\ $0.652$, weight $-0.0353$) alongside negative boundary contrast shifts (\texttt{boundary\_contrast\_delta}: $-5.479$ vs.\ $-0.445$, univariate \textsc{AUROC} $= 0.623$). By contrast, \texttt{global\_rgb\_mae} carries near-random univariate separability ($0.510$) because global metallic reflections inflate pixel differences on easy scenes where glare removal improves grounding.

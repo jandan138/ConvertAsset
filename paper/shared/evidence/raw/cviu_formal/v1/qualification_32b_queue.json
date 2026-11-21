@@ -1,0 +1,23 @@
+{
+  "pid": 3262134,
+  "command": [
+    "python",
+    "-u",
+    "paper/shared/evidence/experiments/13_cviu_formal/queue_model_qualification.py",
+    "--wait-pid",
+    "3235644",
+    "--gpu",
+    "0",
+    "1",
+    "--model",
+    "32b",
+    "--checkpoint",
+    "/cpfs/user/zhuzihou/models/hf_cache/models--Qwen--Qwen3-VL-32B-Instruct/snapshots/0cfaf48183f594c314753d30a4c4974bc75f3ccb",
+    "--download-receipt",
+    "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/cviu_formal/v1/model_32b_parallel_download.json",
+    "--out",
+    "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/cviu_formal/v1/qualification_32b_v1"
+  ],
+  "scope": "Held-out qualification only; wait for repaired candidate controller and completed download before GPU load.",
+  "status": "queued_not_run"
+}

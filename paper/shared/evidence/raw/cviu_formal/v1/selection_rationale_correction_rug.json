@@ -1,0 +1,40 @@
+{
+  "scene_id": "MVSYCXYKTKJ66AABAAAAACY8_usd",
+  "status": "CORRECTED_SELECTION_RATIONALE",
+  "incorrect_claim": "Rug target mask includes the separate coffee tables.",
+  "correction": "Contour lines around tables mark occlusion holes, not membership. Checked table centers are outside mask, while rug surface is inside. The previous annotation-invalid rationale is withdrawn.",
+  "evidence_mask": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_original_candidates_glass_repaired_v1/MVSYCXYKTKJ66AABAAAAACY8_usd/017/target_mask.npy",
+  "mask_sha256": "6ac4e546b42e248ad2c82ecb748535c0cd4e14e488ed4e7cff06f3121c5fc08a",
+  "pixel_checks": [
+    {
+      "region": "left_table",
+      "x": 550,
+      "y": 465,
+      "mask_value": false
+    },
+    {
+      "region": "right_table",
+      "x": 800,
+      "y": 465,
+      "mask_value": false
+    },
+    {
+      "region": "rug",
+      "x": 700,
+      "y": 530,
+      "mask_value": true
+    },
+    {
+      "region": "sofa",
+      "x": 580,
+      "y": 380,
+      "mask_value": false
+    }
+  ],
+  "affected_records": [
+    "original_visual_reviews/MVSYCXYKTKJ66AABAAAAACY8_usd.json",
+    "original_visual_reviews/MVSYCXYKTKJ66AABAAAAACY8_usd_replacement_v2.json"
+  ],
+  "selection_disposition": "Retain the already selected book, whose original-only qualification and final paired-image qualification remain valid. The rug is an unselected candidate, not proven annotation-invalid. Final eight-target scope is unchanged; no formal model predictions have been generated.",
+  "limitation": "Point checks refute the previous inclusion claim; they are not an exhaustive mask-quality certification."
+}

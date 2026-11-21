@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "scope": "Three-scene pilot goal only; full CVIU revision remains pending",
+  "requirements": {
+    "three_restored_scene_pairs_and_geometry_audit": "PASS",
+    "two_targets_two_views_per_scene": "PASS",
+    "12_same_camera_pairs_visually_reviewed": "PASS",
+    "24_images_masks_and_hashes_verified": "PASS",
+    "72_real_predictions_three_independent_runs": "PASS",
+    "raw_responses_configs_and_script_snapshots": "PASS",
+    "independent_rescoring_matches_report": "PASS",
+    "hit_rates_directional_flips_repeat_differences_cases": "PASS",
+    "experiment_record_and_review_tracker_updated": "PASS"
+  },
+  "counts": {
+    "scenes": 3,
+    "objects": 6,
+    "pairs": 12,
+    "images": 24,
+    "predictions": 72
+  },
+  "evidence": {
+    "manifest.json": "66c348e071251d61d724af9a772978646203338520c13958a73e4eaf54bec9e3",
+    "selected_qa.json": "c2cc374c8fd3abac7afce89c5b4731c23949ee66fb02b361176aa67bbce9ed33",
+    "completion_stage_audit.json": "eeb9cac1b3c3e2af660f8c42b9c1776677ca890e9d1953841c476fee20d2e489",
+    "inference/campaign.json": "72c4d387de2ff09d70db0487ea755eb7c34940df8504a97b9654fe27716b35c1",
+    "analysis/results.json": "8b41f672b7c2fe67aff03953a14a51429295cfc5fef2e5bc60193c10537d20b1",
+    "analysis/report.md": "11a6c260efc58ce1741a6bc6c0ebf09b111b1b1e29ac1818694090eb1ed8267e"
+  },
+  "documentation": {
+    "docs/records/2026-11-14-cviu-three-scene-pilot-results.md": "ff182f4666cf562cd19be40c65dea814f4859416ece4d8bfceda0a466ee0ead2",
+    "paper/venues/cviu/REVIEW_RESPONSE_TRACKER.md": "11bc66bbf58a5c35f009814452d9d7240efb0e3c1e00ca57e8a64cc161ae9f15"
+  }
+}

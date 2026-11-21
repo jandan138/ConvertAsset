@@ -1,0 +1,1430 @@
+{
+  "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+  "status": "TECHNICALLY_CHECKED_VISUAL_QA_PENDING",
+  "errors": [],
+  "log_audits": {
+    "original": {
+      "log": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original.log",
+      "log_sha256": "46ba5dc2909051b93c7bf68c5887a48eac70b095aabd657fe20a8b6dff62586a",
+      "material_error_count": 0,
+      "material_errors": [],
+      "status": "NO_MATCHED_MATERIAL_ERRORS"
+    },
+    "converted": {
+      "log": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted.log",
+      "log_sha256": "b33259d0f23014f6a648d6d93bc7ff96571f621131932094fb9fe96242176e84",
+      "material_error_count": 0,
+      "material_errors": [],
+      "status": "NO_MATCHED_MATERIAL_ERRORS"
+    }
+  },
+  "capture_metadata": {
+    "original": {
+      "script_sha256": "edbe0bc7cb0194858c4aae06cd013999f94c8230074f7645e9515a09c8f89012",
+      "jobs_sha256": "a7c92fdf21162308164c2669f51090607b756a1a89e108ff2ae2a54cb81f45de",
+      "stage_open_count": 1,
+      "process_start_count": 1
+    },
+    "converted": {
+      "script_sha256": "edbe0bc7cb0194858c4aae06cd013999f94c8230074f7645e9515a09c8f89012",
+      "jobs_sha256": "f7ca87da0c9bae66edb8628bb551c3777853da47a18e78ebbbba539499e612a8",
+      "stage_open_count": 1,
+      "process_start_count": 1
+    }
+  },
+  "pairs": [
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:dfa373273abd3d59:v1",
+      "target_prim": "/Root/Meshes/Animation/oven/model_a6bd1f04a24fd158fa8e3f2a54eb706f_0",
+      "query": "Point to the upper oven in the stacked pair in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:dfa373273abd3d59:v1",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/oven/model_a6bd1f04a24fd158fa8e3f2a54eb706f_0",
+        "category": "oven",
+        "condition": "original",
+        "query": "Point to the upper oven in the stacked pair in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/dfa373273abd3d59/v1_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.46049928528111933,
+          0.34268323972683146,
+          0.9395007147188809,
+          0.8688985507899476
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "3f1069e53e50f1039a228cf3a44a23488e404be26eef215ff96142e78839fa71",
+        "original_selection_image_sha256": "9b8464b7948aa124357494032f7b6319537dde514542f4c8bf10c577f880f7a1",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/000",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (0, 1, 0, 0), (-0.6246950475544245, 0, 0.7808688094430304, -0), (0.7808688094430304, -0, 0.6246950475544245, 0), (-262.1744214871577, 183.21028837106545, 193.56697676870888, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_2",
+        "mask_pixels": 137382,
+        "elapsed_s": 303.4392923042178,
+        "rgb_blank": false,
+        "image_sha256": "48968dbf247b38aba3913ad398a190388dce3c359ae183286290d5e3b45d459d",
+        "mask_sha256": "b93ed0fb0e1f12f5785398bb62eb066b78158e18094b711af5bd3f56f31ab1cc"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:dfa373273abd3d59:v1",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/oven/model_a6bd1f04a24fd158fa8e3f2a54eb706f_0",
+        "category": "oven",
+        "condition": "converted",
+        "query": "Point to the upper oven in the stacked pair in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/dfa373273abd3d59/v1_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.46049928528111933,
+          0.34268323972683146,
+          0.9395007147188809,
+          0.8688985507899476
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "6029577432f3f6d3df28dde059ee196abfea8e6e48a57e9fb6322b40fa05a9e3",
+        "original_selection_image_sha256": "9b8464b7948aa124357494032f7b6319537dde514542f4c8bf10c577f880f7a1",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/000",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (0, 1, 0, 0), (-0.6246950475544245, 0, 0.7808688094430304, -0), (0.7808688094430304, -0, 0.6246950475544245, 0), (-262.1744214871577, 183.21028837106545, 193.56697676870888, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_2",
+        "mask_pixels": 137382,
+        "elapsed_s": 20.262202244251966,
+        "rgb_blank": false,
+        "image_sha256": "7ee73c4359cb1453e7f881c78ca4f22ed84dd097eed758b4ef69ec5a2c4193e2",
+        "mask_sha256": "b93ed0fb0e1f12f5785398bb62eb066b78158e18094b711af5bd3f56f31ab1cc"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:dfa373273abd3d59:v2",
+      "target_prim": "/Root/Meshes/Animation/oven/model_a6bd1f04a24fd158fa8e3f2a54eb706f_0",
+      "query": "Point to the upper oven in the stacked pair in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:dfa373273abd3d59:v2",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/oven/model_a6bd1f04a24fd158fa8e3f2a54eb706f_0",
+        "category": "oven",
+        "condition": "original",
+        "query": "Point to the upper oven in the stacked pair in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/dfa373273abd3d59/v2_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.03224956259634376,
+          0.13378573468858185,
+          0.6031128426444381,
+          0.8469886985308179
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "f66e3367fdbf364888ee9609e2bc4c5c1d897c686f46195bb4485c9ca9f6d153",
+        "original_selection_image_sha256": "9c0eaebdc9d2360e0511e626ce61aec54b2c4b43d2bb188d16c236a28c75f909",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/001",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0.5000000000000007, 0.8660254037844384, 0, 0), (-0.21004201260420138, 0.12126781251816662, 0.9701425001453321, -0), (0.8401680504168058, -0.4850712500726666, 0.24253562503633297, 0), (-272.8494861224846, 143.37040477794383, 149.74310481627518, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_2",
+        "mask_pixels": 198166,
+        "elapsed_s": 4.2354005090892315,
+        "rgb_blank": false,
+        "image_sha256": "dbb1edbdfa94778705f37282e9108127abe92fd3c20ff2f42b82f5039e5d1873",
+        "mask_sha256": "f09b8c2471a7af351359a8583f0a863822dd807cb098948b5e983f905019acea"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:dfa373273abd3d59:v2",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/oven/model_a6bd1f04a24fd158fa8e3f2a54eb706f_0",
+        "category": "oven",
+        "condition": "converted",
+        "query": "Point to the upper oven in the stacked pair in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/dfa373273abd3d59/v2_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.03224956259634376,
+          0.13378573468858185,
+          0.6031128426444381,
+          0.8469886985308179
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "39294fbe7acaf9767b9094db45f7a69a8236183e93984e08b4e8121869d81656",
+        "original_selection_image_sha256": "9c0eaebdc9d2360e0511e626ce61aec54b2c4b43d2bb188d16c236a28c75f909",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/001",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0.5000000000000007, 0.8660254037844384, 0, 0), (-0.21004201260420138, 0.12126781251816662, 0.9701425001453321, -0), (0.8401680504168058, -0.4850712500726666, 0.24253562503633297, 0), (-272.8494861224846, 143.37040477794383, 149.74310481627518, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_2",
+        "mask_pixels": 198318,
+        "elapsed_s": 2.68611728772521,
+        "rgb_blank": false,
+        "image_sha256": "94092e999a62fdc01de00c675d0902564a88cdc715d4612f9c89887f3877534f",
+        "mask_sha256": "16978a021fcbce3eabfd496ea3722b248cf4c352059ba483c0b10c18978f7659"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:55350c88611d28d4:v1",
+      "target_prim": "/Root/Meshes/Furnitures/shelf/model_f77fd766ccc897b26b487f679f215d2f_0",
+      "query": "Point to the small stand holding keys and jewelry in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:55350c88611d28d4:v1",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/shelf/model_f77fd766ccc897b26b487f679f215d2f_0",
+        "category": "shelf",
+        "condition": "original",
+        "query": "Point to the small stand holding keys and jewelry in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/55350c88611d28d4/v1_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.5528253021741825,
+          0.3989012494913757,
+          0.8094992889207063,
+          0.8818662707281661
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "c7b5936a63f6c57a37f4123a0b186fbb87a51579c9bf4039b15208d751f88b38",
+        "original_selection_image_sha256": "77bdcd702566df9063f113d5f21f6918a7956b70cd461b634238f5af632ebd8d",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/002",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (0.4999999999999998, -0.8660254037844387, 0, 0), (0.21004201260420138, 0.12126781251816637, 0.9701425001453317, 0), (-0.8401680504168059, -0.4850712500726657, 0.24253562503633286, 0), (-345.0799999450813, -136.81330992706296, 134.61297999999996, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_5",
+        "mask_pixels": 22185,
+        "elapsed_s": 2.927737571299076,
+        "rgb_blank": false,
+        "image_sha256": "805c5123fc5740e713f33740f0e93f446082114d124009573b2e56113092e8e9",
+        "mask_sha256": "629ff02b21446ad9957b77a407077c7d2f74ee3227619e581790ae1c03163ecb"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:55350c88611d28d4:v1",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/shelf/model_f77fd766ccc897b26b487f679f215d2f_0",
+        "category": "shelf",
+        "condition": "converted",
+        "query": "Point to the small stand holding keys and jewelry in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/55350c88611d28d4/v1_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.5528253021741825,
+          0.3989012494913757,
+          0.8094992889207063,
+          0.8818662707281661
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "a05f688935bfcc9425073af9688ec4323a2330fa11776be3a8421ca93045efe7",
+        "original_selection_image_sha256": "77bdcd702566df9063f113d5f21f6918a7956b70cd461b634238f5af632ebd8d",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/002",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (0.4999999999999998, -0.8660254037844387, 0, 0), (0.21004201260420138, 0.12126781251816637, 0.9701425001453317, 0), (-0.8401680504168059, -0.4850712500726657, 0.24253562503633286, 0), (-345.0799999450813, -136.81330992706296, 134.61297999999996, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_5",
+        "mask_pixels": 22185,
+        "elapsed_s": 2.6541038677096367,
+        "rgb_blank": false,
+        "image_sha256": "1c7982ef59afa83e9c02fec111dae532ac959f89467a5fde3f9cc3a83f95edbb",
+        "mask_sha256": "629ff02b21446ad9957b77a407077c7d2f74ee3227619e581790ae1c03163ecb"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:55350c88611d28d4:v2",
+      "target_prim": "/Root/Meshes/Furnitures/shelf/model_f77fd766ccc897b26b487f679f215d2f_0",
+      "query": "Point to the small stand holding keys and jewelry in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:55350c88611d28d4:v2",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/shelf/model_f77fd766ccc897b26b487f679f215d2f_0",
+        "category": "shelf",
+        "condition": "original",
+        "query": "Point to the small stand holding keys and jewelry in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/55350c88611d28d4/v2_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.13491608737364288,
+          0.1997747728136182,
+          0.4536875437382014,
+          0.6552879514484625
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "594b8636098de0e71ca8fc0ce29c5dde0a7f7f3c7fedb764c67905b043918151",
+        "original_selection_image_sha256": "bccc9cc1011b8376ce3fb1a00a821a65d1374893b48035c5ec434466f2efd3e5",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/003",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0.8660254037844387, -0.5000000000000001, 0, 0), (0.12126781251816655, 0.21004201260420152, 0.9701425001453321, 0), (-0.48507125007266605, -0.8401680504168059, 0.24253562503633302, 0), (-326.7787297558595, -155.11458011628488, 134.61298000000002, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_5",
+        "mask_pixels": 21822,
+        "elapsed_s": 3.163793619722128,
+        "rgb_blank": false,
+        "image_sha256": "55312f00c907dfef61e6eae3b9cbdbdecd73d51b077bdb7471ce37e04d01aeab",
+        "mask_sha256": "44718c7cabe1df0c09aec9062b8d273b5c94515d2813bb90d9e0ac8f057c9503"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:55350c88611d28d4:v2",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/shelf/model_f77fd766ccc897b26b487f679f215d2f_0",
+        "category": "shelf",
+        "condition": "converted",
+        "query": "Point to the small stand holding keys and jewelry in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/55350c88611d28d4/v2_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.13491608737364288,
+          0.1997747728136182,
+          0.4536875437382014,
+          0.6552879514484625
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "c117029eb623346a11b83cd263400c6d8caf57fe013dc85aa8c2ca1840e2f2ae",
+        "original_selection_image_sha256": "bccc9cc1011b8376ce3fb1a00a821a65d1374893b48035c5ec434466f2efd3e5",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/003",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0.8660254037844387, -0.5000000000000001, 0, 0), (0.12126781251816655, 0.21004201260420152, 0.9701425001453321, 0), (-0.48507125007266605, -0.8401680504168059, 0.24253562503633302, 0), (-326.7787297558595, -155.11458011628488, 134.61298000000002, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_5",
+        "mask_pixels": 21822,
+        "elapsed_s": 2.541408631950617,
+        "rgb_blank": false,
+        "image_sha256": "96febfa342601be114fbbbafaf2267e9801a242d4888d55cba1e6c908ebbafee",
+        "mask_sha256": "44718c7cabe1df0c09aec9062b8d273b5c94515d2813bb90d9e0ac8f057c9503"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2d0e5d4b5dc671a1:v0",
+      "target_prim": "/Root/Meshes/Furnitures/tray/model_7b28e356bf88a9d7528655c0c0b62883_0",
+      "query": "Point to the round tray on the side table in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2d0e5d4b5dc671a1:v0",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/tray/model_7b28e356bf88a9d7528655c0c0b62883_0",
+        "category": "tray",
+        "condition": "original",
+        "query": "Point to the round tray on the side table in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/2d0e5d4b5dc671a1/v0_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.047326722989741554,
+          0.3333403261686354,
+          0.5526732770102585,
+          0.51368137607393
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "2652ee83091dd853b1687dee5065478898304561e45cd03c3823b34543a765f7",
+        "original_selection_image_sha256": "33f9cba4ac3dcb9f71e79d635377d47edcf24377c851c949bf63545d4cea69c5",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/004",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (-1, -0, 0, 0), (0, -0.242535625036333, 0.970142500145332, -0), (0, 0.970142500145332, 0.242535625036333, -0), (38.79534784832054, -250.04385005777803, 68.51268989013674, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_7",
+        "mask_pixels": 27859,
+        "elapsed_s": 3.847993917763233,
+        "rgb_blank": false,
+        "image_sha256": "34ba2505b853b4f3f3d9bdb3988c8e17edfdd9664914c3507af3ecdf359f4b3d",
+        "mask_sha256": "5a62efb93952a62bc2ee009f5c978cbdd3eff43f91504afb19cf2144e6843a85"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2d0e5d4b5dc671a1:v0",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/tray/model_7b28e356bf88a9d7528655c0c0b62883_0",
+        "category": "tray",
+        "condition": "converted",
+        "query": "Point to the round tray on the side table in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/2d0e5d4b5dc671a1/v0_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.047326722989741554,
+          0.3333403261686354,
+          0.5526732770102585,
+          0.51368137607393
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "fbae45ecb3f8a94562076b25c9ec699281ad66e56b3c1b2d91495f652868f388",
+        "original_selection_image_sha256": "33f9cba4ac3dcb9f71e79d635377d47edcf24377c851c949bf63545d4cea69c5",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/004",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (-1, -0, 0, 0), (0, -0.242535625036333, 0.970142500145332, -0), (0, 0.970142500145332, 0.242535625036333, -0), (38.79534784832054, -250.04385005777803, 68.51268989013674, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_7",
+        "mask_pixels": 27859,
+        "elapsed_s": 2.545398000627756,
+        "rgb_blank": false,
+        "image_sha256": "c63025ee9c7b451e1ed985ee5a3f11c774a234ad28cf11c78c17776549eb9d46",
+        "mask_sha256": "5a62efb93952a62bc2ee009f5c978cbdd3eff43f91504afb19cf2144e6843a85"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2d0e5d4b5dc671a1:v1",
+      "target_prim": "/Root/Meshes/Furnitures/tray/model_7b28e356bf88a9d7528655c0c0b62883_0",
+      "query": "Point to the round tray on the side table in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2d0e5d4b5dc671a1:v1",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/tray/model_7b28e356bf88a9d7528655c0c0b62883_0",
+        "category": "tray",
+        "condition": "original",
+        "query": "Point to the round tray on the side table in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/2d0e5d4b5dc671a1/v1_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4199140936331244,
+          0.5222072096890248,
+          0.930154757137273,
+          0.7645220202278824
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "34e9d23edfa19b3c4352ae20ef4598aa48e9e55cf3cc31a62fb3ad8c38d0f166",
+        "original_selection_image_sha256": "fe6651a50638fd0243df0050a57b3bbbfd4a1974f710466e70d3d9935db3f74d",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/005",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.5, 0.8660254037844388, 0, 0), (-0.2100420126042015, -0.12126781251816648, 0.9701425001453321, 0), (0.8401680504168061, 0.485071250072666, 0.24253562503633297, -0), (82.09661803754244, -275.04385005777806, 68.51268989013671, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_7",
+        "mask_pixels": 25318,
+        "elapsed_s": 3.6879838816821575,
+        "rgb_blank": false,
+        "image_sha256": "e2960c3fa2595cb0b96031a33ffc42718a5212d2efd1270200664b110884bbd7",
+        "mask_sha256": "7c7adc9f150112b94290f55c5e3ce392140e07852923e9acaac10a7c1cbf094e"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2d0e5d4b5dc671a1:v1",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/tray/model_7b28e356bf88a9d7528655c0c0b62883_0",
+        "category": "tray",
+        "condition": "converted",
+        "query": "Point to the round tray on the side table in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/2d0e5d4b5dc671a1/v1_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4199140936331244,
+          0.5222072096890248,
+          0.930154757137273,
+          0.7645220202278824
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "a93d2a3d162509627bd5318161aef0bf5d89d906600a1876d4a60e394eccfb14",
+        "original_selection_image_sha256": "fe6651a50638fd0243df0050a57b3bbbfd4a1974f710466e70d3d9935db3f74d",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/005",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.5, 0.8660254037844388, 0, 0), (-0.2100420126042015, -0.12126781251816648, 0.9701425001453321, 0), (0.8401680504168061, 0.485071250072666, 0.24253562503633297, -0), (82.09661803754244, -275.04385005777806, 68.51268989013671, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_7",
+        "mask_pixels": 25318,
+        "elapsed_s": 2.416446555405855,
+        "rgb_blank": false,
+        "image_sha256": "b84ffeef2972f26bec51663fdfb3358b4e67e46f5ee7c2359a69a2debfa32fa7",
+        "mask_sha256": "7c7adc9f150112b94290f55c5e3ce392140e07852923e9acaac10a7c1cbf094e"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:98abe07efb6eb5c7:v0",
+      "target_prim": "/Root/Meshes/Animation/teatable/model_388442417fc310a54a7f23cbf51c32ef_0",
+      "query": "Point to the coffee table in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:98abe07efb6eb5c7:v0",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/teatable/model_388442417fc310a54a7f23cbf51c32ef_0",
+        "category": "teatable",
+        "condition": "original",
+        "query": "Point to the coffee table in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/98abe07efb6eb5c7/v0_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.07167933423883643,
+          0.2766068331108725,
+          0.6686676580424225,
+          0.7187562172721054
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "e3b44817d17568fc82860c0f4c07b20c650753b6159173a336a53d959063ec4b",
+        "original_selection_image_sha256": "49b7ffaa71f42c56320389dd7f3fd4d425caf08ece63d9e80946bd25ff0c572d",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/006",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (-0.8660254037844386, 0.5000000000000002, -1.387778780781446e-17, 0), (-0.12126781251816658, -0.21004201260420152, 0.9701425001453321, 0), (0.48507125007266627, 0.8401680504168061, 0.24253562503633308, -0), (-32.96601198647978, -413.5950486179186, 49.50852531391754, 1.0000000000000002) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_3",
+        "mask_pixels": 209126,
+        "elapsed_s": 3.3835324086248875,
+        "rgb_blank": false,
+        "image_sha256": "79210df92fd79315bfc00312bf054b4d7289586dba0644fbbf3fbba8ee0f2ea3",
+        "mask_sha256": "5c5f41e5d9117fdc35cc2c3469cb2742e48e0b6097bb49ecee19b71362336cf4"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:98abe07efb6eb5c7:v0",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/teatable/model_388442417fc310a54a7f23cbf51c32ef_0",
+        "category": "teatable",
+        "condition": "converted",
+        "query": "Point to the coffee table in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/98abe07efb6eb5c7/v0_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.07167933423883643,
+          0.2766068331108725,
+          0.6686676580424225,
+          0.7187562172721054
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "a6cd1533b3f9f8262e791ef4be2fa17daad0e0064829984555be385d1a96d8ce",
+        "original_selection_image_sha256": "49b7ffaa71f42c56320389dd7f3fd4d425caf08ece63d9e80946bd25ff0c572d",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/006",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (-0.8660254037844386, 0.5000000000000002, -1.387778780781446e-17, 0), (-0.12126781251816658, -0.21004201260420152, 0.9701425001453321, 0), (0.48507125007266627, 0.8401680504168061, 0.24253562503633308, -0), (-32.96601198647978, -413.5950486179186, 49.50852531391754, 1.0000000000000002) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_3",
+        "mask_pixels": 209126,
+        "elapsed_s": 2.4661572128534317,
+        "rgb_blank": false,
+        "image_sha256": "fd5f45747df7ee6528a4566e4a49de99ed2855fb59a40fae086b535045198af2",
+        "mask_sha256": "5c5f41e5d9117fdc35cc2c3469cb2742e48e0b6097bb49ecee19b71362336cf4"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:98abe07efb6eb5c7:v1",
+      "target_prim": "/Root/Meshes/Animation/teatable/model_388442417fc310a54a7f23cbf51c32ef_0",
+      "query": "Point to the coffee table in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:98abe07efb6eb5c7:v1",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/teatable/model_388442417fc310a54a7f23cbf51c32ef_0",
+        "category": "teatable",
+        "condition": "original",
+        "query": "Point to the coffee table in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/98abe07efb6eb5c7/v1_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4235540028125967,
+          0.4811074403784343,
+          0.9764459971874033,
+          0.8640436096401851
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "2421b9bacbc70c4c8a388731b858fb8a91eef27a2a36740771e7dadd9dd7bc18",
+        "original_selection_image_sha256": "44b923d6b461ab90670c6100d18f003662151149a08c0a4c6e2226d5728a077a",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/007",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-1, 8.78846835956635e-17, 0, 0), (-2.1315166666994607e-17, -0.24253562503633297, 0.9701425001453319, 0), (8.526066666797843e-17, 0.9701425001453319, 0.24253562503633297, -0), (-113.81545089771694, -391.9315067531431, 49.508525313917545, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_3",
+        "mask_pixels": 230761,
+        "elapsed_s": 3.9804401881992817,
+        "rgb_blank": false,
+        "image_sha256": "342c08ce43f4ec9087fe9bed921667d90177f9274dc1cadb229605b233f6887f",
+        "mask_sha256": "756550a7015d9cd57a0711b0d0e9dfaabc0d42ff57e53850e3dcfd36ecca55de"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:98abe07efb6eb5c7:v1",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/teatable/model_388442417fc310a54a7f23cbf51c32ef_0",
+        "category": "teatable",
+        "condition": "converted",
+        "query": "Point to the coffee table in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/98abe07efb6eb5c7/v1_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4235540028125967,
+          0.4811074403784343,
+          0.9764459971874033,
+          0.8640436096401851
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "2bd0a530cf67804ecf741f64e49335e95fc3d05f7113fd7dea0c10e795158585",
+        "original_selection_image_sha256": "44b923d6b461ab90670c6100d18f003662151149a08c0a4c6e2226d5728a077a",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/007",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-1, 8.78846835956635e-17, 0, 0), (-2.1315166666994607e-17, -0.24253562503633297, 0.9701425001453319, 0), (8.526066666797843e-17, 0.9701425001453319, 0.24253562503633297, -0), (-113.81545089771694, -391.9315067531431, 49.508525313917545, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_3",
+        "mask_pixels": 230761,
+        "elapsed_s": 2.338701408356428,
+        "rgb_blank": false,
+        "image_sha256": "58be75d8cfe433b793f8d79e98b616f889f37247710d2e3f11a7a2d5a92b9dbb",
+        "mask_sha256": "756550a7015d9cd57a0711b0d0e9dfaabc0d42ff57e53850e3dcfd36ecca55de"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2ebe444648c68965:v1",
+      "target_prim": "/Root/Meshes/Furnitures/mirror/model_668d10b44e1db5e55b0c31528582ce03_0",
+      "query": "Point to the round bathroom mirror in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2ebe444648c68965:v1",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/mirror/model_668d10b44e1db5e55b0c31528582ce03_0",
+        "category": "mirror",
+        "condition": "original",
+        "query": "Point to the round bathroom mirror in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/2ebe444648c68965/v1_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4461530844711281,
+          0.2757475579846103,
+          0.953846915528872,
+          0.880628987251633
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "abaf0a4a44385954248ed218da9aa48817933573fab2ddb05b5e252d052f421e",
+        "original_selection_image_sha256": "ecc01186afa7110732855559936b561746ec7f384835eb57edd66092fd76c935",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/008",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (1, -2.5105823727151014e-16, 0, 0), (6.089056649716568e-17, 0.2425356250363329, 0.9701425001453321, 0), (-2.435622659886628e-16, -0.9701425001453321, 0.2425356250363329, 0), (249.314351171875, -296.39708556412216, 188.30181006290556, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_4",
+        "mask_pixels": 173758,
+        "elapsed_s": 2.746287204325199,
+        "rgb_blank": false,
+        "image_sha256": "3598e6fa3c2cbe6ac6b869e034b4a1c0d061e59044bfaa2aec2fc0ed5172282f",
+        "mask_sha256": "2d801f22616370e6dcb8925197262f332b5ef8d3c57f81b516c247f88829f647"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2ebe444648c68965:v1",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/mirror/model_668d10b44e1db5e55b0c31528582ce03_0",
+        "category": "mirror",
+        "condition": "converted",
+        "query": "Point to the round bathroom mirror in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/2ebe444648c68965/v1_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4461530844711281,
+          0.2757475579846103,
+          0.953846915528872,
+          0.880628987251633
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "7626300c2f5f5969595f8f32ba354ab5d1ad716c9a1b49394b9cbc5d71d25f7b",
+        "original_selection_image_sha256": "ecc01186afa7110732855559936b561746ec7f384835eb57edd66092fd76c935",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/008",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (1, -2.5105823727151014e-16, 0, 0), (6.089056649716568e-17, 0.2425356250363329, 0.9701425001453321, 0), (-2.435622659886628e-16, -0.9701425001453321, 0.2425356250363329, 0), (249.314351171875, -296.39708556412216, 188.30181006290556, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_4",
+        "mask_pixels": 173758,
+        "elapsed_s": 2.343229204416275,
+        "rgb_blank": false,
+        "image_sha256": "a733152668387c11706db433e4402a147ba800a9b331cae31224127d95a0601f",
+        "mask_sha256": "2d801f22616370e6dcb8925197262f332b5ef8d3c57f81b516c247f88829f647"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2ebe444648c68965:v2",
+      "target_prim": "/Root/Meshes/Furnitures/mirror/model_668d10b44e1db5e55b0c31528582ce03_0",
+      "query": "Point to the round bathroom mirror in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2ebe444648c68965:v2",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/mirror/model_668d10b44e1db5e55b0c31528582ce03_0",
+        "category": "mirror",
+        "condition": "original",
+        "query": "Point to the round bathroom mirror in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/2ebe444648c68965/v2_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.10947711680105518,
+          0.05301195084122429,
+          0.566172508275745,
+          0.7720354833339458
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "e53649fba6861f9347fc891c208e88aea724dc89487401db22d8fefb737b0ae9",
+        "original_selection_image_sha256": "43f044c134dc95b20b966bd7e499515329c1bb4b1d089dd1698c6bcb0bf80286",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/009",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0.8660254037844385, 0.5000000000000002, 0, 0), (-0.12126781251816646, 0.2100420126042013, 0.9701425001453319, -0), (0.48507125007266616, -0.8401680504168058, 0.24253562503633283, 0), (305.9181689539361, -281.23013830090036, 188.30181006290556, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_4",
+        "mask_pixels": 156253,
+        "elapsed_s": 2.940056409686804,
+        "rgb_blank": false,
+        "image_sha256": "1cdb4a1d3de451c4f4c4495fc5e03558fc6e96da16dbd23e29023a74606409ce",
+        "mask_sha256": "5511c5e73cee6a827284a609271e4049bb59824d9a58635307eafddbe49726fb"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2ebe444648c68965:v2",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/mirror/model_668d10b44e1db5e55b0c31528582ce03_0",
+        "category": "mirror",
+        "condition": "converted",
+        "query": "Point to the round bathroom mirror in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/2ebe444648c68965/v2_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.10947711680105518,
+          0.05301195084122429,
+          0.566172508275745,
+          0.7720354833339458
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "8a874ab0817a3cba007f10f6de435f9be873f97cfa819d7615c30afec3dd7c30",
+        "original_selection_image_sha256": "43f044c134dc95b20b966bd7e499515329c1bb4b1d089dd1698c6bcb0bf80286",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/009",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0.8660254037844385, 0.5000000000000002, 0, 0), (-0.12126781251816646, 0.2100420126042013, 0.9701425001453319, -0), (0.48507125007266616, -0.8401680504168058, 0.24253562503633283, 0), (305.9181689539361, -281.23013830090036, 188.30181006290556, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_4",
+        "mask_pixels": 156253,
+        "elapsed_s": 2.387590691447258,
+        "rgb_blank": false,
+        "image_sha256": "b2174265483a975c16f0c2860a0ab1ca747023fef9c8edaa6e17f71177f63a45",
+        "mask_sha256": "5511c5e73cee6a827284a609271e4049bb59824d9a58635307eafddbe49726fb"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:1e2d460ebb6ba611:v0",
+      "target_prim": "/Root/Meshes/Furnitures/sofachair/model_2693953b9397456c49376b75629a59ab_0",
+      "query": "Point to the chair beside the desk in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:1e2d460ebb6ba611:v0",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/sofachair/model_2693953b9397456c49376b75629a59ab_0",
+        "category": "sofachair",
+        "condition": "original",
+        "query": "Point to the chair beside the desk in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/1e2d460ebb6ba611/v0_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.044912972449410504,
+          0.07130295197909692,
+          0.5550870275505893,
+          0.8009424369004513
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "70257f711038c1d526d8fc402ee3f9677b4a6417171444fc95b63e34cc7e2b84",
+        "original_selection_image_sha256": "32633c1d38252f4842403634c9d2bd91143a7b90a7efc11a8dbae887828980b1",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/010",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (-1, 0, 0, 0), (0, -0.24253562503633302, 0.9701425001453318, -0), (0, 0.9701425001453318, 0.24253562503633302, -0), (285.1806599999999, 373.5939340426557, 87.28765101066394, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_6",
+        "mask_pixels": 73181,
+        "elapsed_s": 3.259296104311943,
+        "rgb_blank": false,
+        "image_sha256": "ae9119f71d9a23d0776b8529fc47580058556531a94c12b84465acaed4d2e661",
+        "mask_sha256": "c018cfc2ae3bb5c957229160217ea1c24360874b53f6a672e3e36e9d4fa0e712"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:1e2d460ebb6ba611:v0",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/sofachair/model_2693953b9397456c49376b75629a59ab_0",
+        "category": "sofachair",
+        "condition": "converted",
+        "query": "Point to the chair beside the desk in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/1e2d460ebb6ba611/v0_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.044912972449410504,
+          0.07130295197909692,
+          0.5550870275505893,
+          0.8009424369004513
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "680ec7149649eb5bd9fb4428baf5f24189a5833356ff4f9131152e326caf5a61",
+        "original_selection_image_sha256": "32633c1d38252f4842403634c9d2bd91143a7b90a7efc11a8dbae887828980b1",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/010",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (-1, 0, 0, 0), (0, -0.24253562503633302, 0.9701425001453318, -0), (0, 0.9701425001453318, 0.24253562503633302, -0), (285.1806599999999, 373.5939340426557, 87.28765101066394, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_6",
+        "mask_pixels": 73181,
+        "elapsed_s": 2.305561725050211,
+        "rgb_blank": false,
+        "image_sha256": "2f77fc59fd8908c70ad89adb6b3d638a3fa9c92552b47daf6d0358810e37a425",
+        "mask_sha256": "c018cfc2ae3bb5c957229160217ea1c24360874b53f6a672e3e36e9d4fa0e712"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:1e2d460ebb6ba611:v3",
+      "target_prim": "/Root/Meshes/Furnitures/sofachair/model_2693953b9397456c49376b75629a59ab_0",
+      "query": "Point to the chair beside the desk in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:1e2d460ebb6ba611:v3",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/sofachair/model_2693953b9397456c49376b75629a59ab_0",
+        "category": "sofachair",
+        "condition": "original",
+        "query": "Point to the chair beside the desk in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/1e2d460ebb6ba611/v3_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4587239545251074,
+          0.2950124021021846,
+          0.9412760454748927,
+          0.9580183005685983
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "496e41fc9d0b07b7960fa8b1ffcd800b37cd9d489b254d86becfd4b6f3e1adab",
+        "original_selection_image_sha256": "8f04bec69b9c5ee4cd5e369a749556e99f18359902c3d0f55a455ff9adc834f4",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/011",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (1, -0, 0, 0), (0, 0.44721359549995804, 0.8944271909999161, 0), (0, -0.8944271909999161, 0.44721359549995804, 0), (285.18065999999993, 72.89352595734435, 124.87520202132785, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_6",
+        "mask_pixels": 65000,
+        "elapsed_s": 3.7352807335555553,
+        "rgb_blank": false,
+        "image_sha256": "7f8d803d7429f3b96915b0960efefe61f6cb304ba7258b431f4087594f690883",
+        "mask_sha256": "9bb18c9524b58a495fcbfd5286328163e650f28e0a96ea9c0a9abd6c2b472065"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:1e2d460ebb6ba611:v3",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/sofachair/model_2693953b9397456c49376b75629a59ab_0",
+        "category": "sofachair",
+        "condition": "converted",
+        "query": "Point to the chair beside the desk in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MWBGLKQKTKJZ2AABAAAAACA8_usd/1e2d460ebb6ba611/v3_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4587239545251074,
+          0.2950124021021846,
+          0.9412760454748927,
+          0.9580183005685983
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "975ae5072506941123eb65e71ce8f82921deda0617aacba9871cccde569ede32",
+        "original_selection_image_sha256": "8f04bec69b9c5ee4cd5e369a749556e99f18359902c3d0f55a455ff9adc834f4",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/011",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (1, -0, 0, 0), (0, 0.44721359549995804, 0.8944271909999161, 0), (0, -0.8944271909999161, 0.44721359549995804, 0), (285.18065999999993, 72.89352595734435, 124.87520202132785, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_6",
+        "mask_pixels": 65000,
+        "elapsed_s": 2.855380792170763,
+        "rgb_blank": false,
+        "image_sha256": "a15e12fbec2c6f41debecee84111ce8139bce514c1e9399daaa64f29e9af62e6",
+        "mask_sha256": "9bb18c9524b58a495fcbfd5286328163e650f28e0a96ea9c0a9abd6c2b472065"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:9d7597974bf214a6:v0",
+      "target_prim": "/Root/Meshes/Animation/faucet/model_863538db1fb21a54dbc28796d5f17a51_0",
+      "query": "Point to the bathroom faucet in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:9d7597974bf214a6:v0",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/faucet/model_863538db1fb21a54dbc28796d5f17a51_0",
+        "category": "faucet",
+        "condition": "original",
+        "query": "Point to the bathroom faucet in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_control_home_reserves_v1/views/9d7597974bf214a6/v0_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.27629408527455807,
+          0.2507972200994101,
+          0.3237059147254419,
+          0.5848276425615048
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "433f40147407b466fb682a1c4088e19ca67f0bc96d7815745934c73aac321988",
+        "original_selection_image_sha256": "110c0451276a1a22bdb2b6c5226910a7dd3b8a1cfe474a8db40a8221b7368436",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/012",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (-1, -0, 0, 0), (0, -0.242535625036333, 0.970142500145332, -0), (0, 0.970142500145332, 0.242535625036333, -0), (361.84483670105976, -65.07406970359655, 113.16795582273205, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_1",
+        "mask_pixels": 15699,
+        "elapsed_s": 2.7506424449384212,
+        "rgb_blank": false,
+        "image_sha256": "45e6a39594d945daf2ca21158695524a055d31948cc76ced00fb7b2f4b9eac96",
+        "mask_sha256": "b01fe31408845df878946e213a507d2b0f04987b1c3874e157356942e90c0ac6"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:9d7597974bf214a6:v0",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/faucet/model_863538db1fb21a54dbc28796d5f17a51_0",
+        "category": "faucet",
+        "condition": "converted",
+        "query": "Point to the bathroom faucet in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_control_home_reserves_v1/views/9d7597974bf214a6/v0_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.27629408527455807,
+          0.2507972200994101,
+          0.3237059147254419,
+          0.5848276425615048
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "b416a9803f6100a1864cc3272fb5ae959868eeb6ea90fad5018324ea3cd9b7c1",
+        "original_selection_image_sha256": "110c0451276a1a22bdb2b6c5226910a7dd3b8a1cfe474a8db40a8221b7368436",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/012",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (-1, -0, 0, 0), (0, -0.242535625036333, 0.970142500145332, -0), (0, 0.970142500145332, 0.242535625036333, -0), (361.84483670105976, -65.07406970359655, 113.16795582273205, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_1",
+        "mask_pixels": 15699,
+        "elapsed_s": 2.4051290713250637,
+        "rgb_blank": false,
+        "image_sha256": "41a693d69810d3aacf9beaf8d06eaa333f4f56566dac2f35336c8633a78f9955",
+        "mask_sha256": "b01fe31408845df878946e213a507d2b0f04987b1c3874e157356942e90c0ac6"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:9d7597974bf214a6:v1",
+      "target_prim": "/Root/Meshes/Animation/faucet/model_863538db1fb21a54dbc28796d5f17a51_0",
+      "query": "Point to the bathroom faucet in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:9d7597974bf214a6:v1",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/faucet/model_863538db1fb21a54dbc28796d5f17a51_0",
+        "category": "faucet",
+        "condition": "original",
+        "query": "Point to the bathroom faucet in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_control_home_reserves_v1/views/9d7597974bf214a6/v1_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.6221626996757706,
+          0.45114102052952354,
+          0.7617852815605235,
+          0.782478271366751
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "a1d8491b3235a4e1692e0b6c2ad1897e296f5da2ad82ca1334fccf8624879e9f",
+        "original_selection_image_sha256": "3e302244a644a67bf3ae56704fa209f4d65c5148b8a47d1be063592179d1cf0c",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/013",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.8660254037844388, -0.5, 0, 0), (0.12126781251816648, -0.2100420126042015, 0.9701425001453321, -0), (-0.485071250072666, 0.8401680504168061, 0.24253562503633297, 0), (336.84483670105976, -71.77279951437463, 113.16795582273207, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_1",
+        "mask_pixels": 13384,
+        "elapsed_s": 2.490799441933632,
+        "rgb_blank": false,
+        "image_sha256": "f1c8f78758a028f7926982a0b70eab42b07fdd7a684c554396af560f6010e2f4",
+        "mask_sha256": "ac27ed257830ae7f5e3bd6ecf0045e588ea5c1cf1c6dd73c1acef8000fcc9cdb"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:9d7597974bf214a6:v1",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/faucet/model_863538db1fb21a54dbc28796d5f17a51_0",
+        "category": "faucet",
+        "condition": "converted",
+        "query": "Point to the bathroom faucet in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_control_home_reserves_v1/views/9d7597974bf214a6/v1_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.6221626996757706,
+          0.45114102052952354,
+          0.7617852815605235,
+          0.782478271366751
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "ff58916db96f58a5218e807272d4165ac4c195a8ace0345a946838bc1f5c05c3",
+        "original_selection_image_sha256": "3e302244a644a67bf3ae56704fa209f4d65c5148b8a47d1be063592179d1cf0c",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/013",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.8660254037844388, -0.5, 0, 0), (0.12126781251816648, -0.2100420126042015, 0.9701425001453321, -0), (-0.485071250072666, 0.8401680504168061, 0.24253562503633297, 0), (336.84483670105976, -71.77279951437463, 113.16795582273207, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_1",
+        "mask_pixels": 13384,
+        "elapsed_s": 2.170503918081522,
+        "rgb_blank": false,
+        "image_sha256": "1dacdd7c48fc167a4f7c7db3a7fd9b878b0fa60ce3c4a1d953575c3f339a476b",
+        "mask_sha256": "ac27ed257830ae7f5e3bd6ecf0045e588ea5c1cf1c6dd73c1acef8000fcc9cdb"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:5d5137605e556401:v0",
+      "target_prim": "/Root/Meshes/Animation/electriccooker/model_5b54c4ec723ff61c82b0c108f4d93c66_0",
+      "query": "Point to the electric cooker beside the cooktop in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:5d5137605e556401:v0",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/electriccooker/model_5b54c4ec723ff61c82b0c108f4d93c66_0",
+        "category": "electriccooker",
+        "condition": "original",
+        "query": "Point to the electric cooker beside the cooktop in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_control_home_reserves_v1/views/5d5137605e556401/v0_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.034886727484970625,
+          0.10881135532573677,
+          0.5651132725150294,
+          0.7973273251605332
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "49a89dd03fd63a733e763e35195fdeda4ea99b09cc339210282b1c697d032240",
+        "original_selection_image_sha256": "b346cfb230a95e57f3bd9911e97f24f2c0f75f9fce3e6f1e38f815288a610e8d",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/014",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0, 1, 0, 0), (-0.24253562503633325, 0, 0.970142500145332, -0), (0.970142500145332, -0, 0.24253562503633325, 0), (-281.67950297220057, 4.026328865567497, 129.14989102862194, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_0",
+        "mask_pixels": 151201,
+        "elapsed_s": 3.6896089129149914,
+        "rgb_blank": false,
+        "image_sha256": "7b360add6203a71dec93886f4e832870346e4be5e96b19b5fd093582f1c7bb97",
+        "mask_sha256": "a8a6794d9232daf7801b3b3f6207c8893dbfde493b48d1e912f3ece0ed3351a6"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:5d5137605e556401:v0",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/electriccooker/model_5b54c4ec723ff61c82b0c108f4d93c66_0",
+        "category": "electriccooker",
+        "condition": "converted",
+        "query": "Point to the electric cooker beside the cooktop in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_control_home_reserves_v1/views/5d5137605e556401/v0_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.034886727484970625,
+          0.10881135532573677,
+          0.5651132725150294,
+          0.7973273251605332
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "c25eff21620ba3e12ec05146431d43056a56666489a3782f9f87a08ccbf3d9f8",
+        "original_selection_image_sha256": "b346cfb230a95e57f3bd9911e97f24f2c0f75f9fce3e6f1e38f815288a610e8d",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/014",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0, 1, 0, 0), (-0.24253562503633325, 0, 0.970142500145332, -0), (0.970142500145332, -0, 0.24253562503633325, 0), (-281.67950297220057, 4.026328865567497, 129.14989102862194, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_0",
+        "mask_pixels": 151201,
+        "elapsed_s": 2.401226796209812,
+        "rgb_blank": false,
+        "image_sha256": "531077e803664f3b929b6cf41fcf679eff689e7cafb90c86ba4b49c34e623d90",
+        "mask_sha256": "a8a6794d9232daf7801b3b3f6207c8893dbfde493b48d1e912f3ece0ed3351a6"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:5d5137605e556401:v1",
+      "target_prim": "/Root/Meshes/Animation/electriccooker/model_5b54c4ec723ff61c82b0c108f4d93c66_0",
+      "query": "Point to the electric cooker beside the cooktop in the image.",
+      "original": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:5d5137605e556401:v1",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/electriccooker/model_5b54c4ec723ff61c82b0c108f4d93c66_0",
+        "category": "electriccooker",
+        "condition": "original",
+        "query": "Point to the electric cooker beside the cooktop in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_control_home_reserves_v1/views/5d5137605e556401/v1_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4330914729074393,
+          0.31805067995161745,
+          0.9669085270925606,
+          0.9393912073655304
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "67a4e3f434254284515b49674766df924a9558d83a829fa499b16cbc9335d034",
+        "original_selection_image_sha256": "13a7c76862b09a227f8b2c18e0c85d3c8898757774599236caea685c4e783767",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/015",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-1, 0, 0, 0), (0, -0.44721359549995787, 0.8944271909999157, -0), (0, 0.8944271909999157, 0.44721359549995787, -0), (-338.8780811354012, 61.22490702876814, 143.44953556942204, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_0",
+        "mask_pixels": 123948,
+        "elapsed_s": 3.3633963875472546,
+        "rgb_blank": false,
+        "image_sha256": "9d023ef70e228f5fb8119050407ee155674f9fea9db30659179780f2eeb73bd5",
+        "mask_sha256": "34f8f693c2d73d777411740585c09eb64fce829ca3a1630faa120114e11702df"
+      },
+      "converted": {
+        "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:5d5137605e556401:v1",
+        "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+        "target_prim": "/Root/Meshes/Animation/electriccooker/model_5b54c4ec723ff61c82b0c108f4d93c66_0",
+        "category": "electriccooker",
+        "condition": "converted",
+        "query": "Point to the electric cooker beside the cooktop in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_control_home_reserves_v1/views/5d5137605e556401/v1_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4330914729074393,
+          0.31805067995161745,
+          0.9669085270925606,
+          0.9393912073655304
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "6b6a138aabf95721dceca2bf1bc21493a54dacf58057a66d4615e333c669eb9a",
+        "original_selection_image_sha256": "13a7c76862b09a227f8b2c18e0c85d3c8898757774599236caea685c4e783767",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/015",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-1, 0, 0, 0), (0, -0.44721359549995787, 0.8944271909999157, -0), (0, 0.8944271909999157, 0.44721359549995787, -0), (-338.8780811354012, 61.22490702876814, 143.44953556942204, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_0",
+        "mask_pixels": 123948,
+        "elapsed_s": 2.1605322808027267,
+        "rgb_blank": false,
+        "image_sha256": "2a2ae4324c4397593c37babf1617424a73aa2255387440f0940285acfa5389de",
+        "mask_sha256": "34f8f693c2d73d777411740585c09eb64fce829ca3a1630faa120114e11702df"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    }
+  ],
+  "scope": "Technical checks only; final RGB/mask visual qualification and global cohort freezing still required."
+}

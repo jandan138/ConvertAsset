@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "reviewed_at": "2026-09-04",
+  "scope": "ACL main-paper Figure 1, Table 1 visual strip, Figures 2-4, and four high-priority supplement atlases",
+  "backend": "Python 3.10.15 / Matplotlib 3.10.3 / Pillow 11.2.1 / SciPy 1.15.3",
+  "semantic_graph": {
+    "spec": "paper/shared/figures/specs/fig_acl_method_chain_v3.spec.json",
+    "strict_validation": "pass",
+    "approved_topology": "material intervention -> matched evidence -> four parallel proxy, VLM, material, and stack checks"
+  },
+  "generated_components": {
+    "asset": "paper/shared/figures/generated_components/fig1_material_pairs_v1/atlas_selected.png",
+    "manifest": "paper/shared/figures/generated_components/fig1_material_pairs_v1/manifest.yaml",
+    "slot_count": 8,
+    "pair_count": 4,
+    "materials": ["wood", "stone", "ceramic", "metal"],
+    "extraction_method": "whole_atlas_alpha_connected_components",
+    "truncated_silhouettes": 0,
+    "replaceable": true,
+    "claim_boundary": "The material spheres are explanatory cues only; they are not experimental renders, measured evidence, or support for quantitative claims."
+  },
+  "iteration": {
+    "rounds": 4,
+    "round_1": "Detected alpha fringe and detached shadows in Figure 1, label overflow in Figure 4, and text collisions in the VLM and material atlases.",
+    "round_2": "Corrected text geometry and layout; retained Figure 1 for another component-isolation pass.",
+    "round_3": "Kept only the largest connected alpha component in every sphere slot, removing detached generated shadows and completing the page-scale review.",
+    "round_4": "Replaced fixed atlas-row slicing with whole-atlas component mapping, restoring the complete metal and ceramic sphere silhouettes."
+  },
+  "figure_1_complexity": {
+    "shapes": 70,
+    "text_nodes": 27,
+    "words": 45,
+    "font_sizes": 4,
+    "minimum_font_size_pt": 6.0,
+    "budget_result": "pass"
+  },
+  "rendering": {
+    "figure_count": 9,
+    "formats": ["svg", "pdf", "png"],
+    "svg_editable_text": true,
+    "png_dpi": 300,
+    "embedded_main_pdf_raster_ppi_range": [343, 365],
+    "acl_main_pdf_pages": 9,
+    "acl_supplement_pdf_pages": 45,
+    "page_size": "A4",
+    "pdf_version": "1.5",
+    "focused_acl_tests": "185 passed",
+    "preupload_gate": "pass"
+  },
+  "page_review": {
+    "main_pages": {
+      "figure_1": 2,
+      "table_1_strip": 4,
+      "figure_2": 5,
+      "figure_3": 6,
+      "figure_4": 7
+    },
+    "supplement_pages": {
+      "evidence_quickstart": 1,
+      "vlm_coordinate_protocol": 15,
+      "material_diagnostic": 25,
+      "navigation_media": 29
+    },
+    "verdict": "No clipping, truncated sphere silhouette, overlap, detached caption, missing glyph, or broken image asset was observed at integrated-paper scale."
+  },
+  "findings": {
+    "critical": [],
+    "major": [],
+    "minor": [
+      "The navigation summary reuses the registered selected-case view and remains scoped to the reported evidence package.",
+      "The Figure 3 source evidence is intrinsically bright; the redesign preserves it rather than altering experimental pixels."
+    ]
+  },
+  "claim_boundary": "The refresh changes visual hierarchy, composition, crops, labels, and spacing. It adds no experiments, metrics, or broader benchmark claims."
+}

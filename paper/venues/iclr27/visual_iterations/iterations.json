@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "no_new_experiments": true,
+  "analysis_sha256": "dea5ca75206bdaed906db00876357db0ff8c82558c1818f3e3977d7766e0babc",
+  "rounds": [
+    {
+      "id": "round1",
+      "purpose": "Three hero candidates",
+      "directory": "round1",
+      "candidates": [
+        "balanced",
+        "detail",
+        "compact"
+      ],
+      "selected": "balanced",
+      "reason": "Large material images with inspectable point predictions and a compact transition arrow."
+    },
+    {
+      "id": "round2",
+      "purpose": "Unified four evidence panels",
+      "directory": "panel_work/round2",
+      "review": "Image crops, consistent grids and separated navigation view/map fields."
+    },
+    {
+      "id": "round3",
+      "purpose": "Independent aesthetic refinement",
+      "directory": "round3",
+      "changes": [
+        "Clearer branch stem",
+        "Larger 99-episode grid",
+        "White crop / green target key",
+        "Parsed-points label",
+        "Turnover balanced with net change"
+      ]
+    },
+    {
+      "id": "round4",
+      "purpose": "Integrated PDF and additional float refinement",
+      "directory": "round4",
+      "changes": [
+        "Retained roomy figure geometry",
+        "Replaced forced H placement with a normal float",
+        "Shortened repetitive captions",
+        "Main-end barrier retains all figures in counted pages"
+      ],
+      "verdict": "PASS"
+    }
+  ],
+  "baseline": "round0",
+  "reference_notes": "DESIGN_REVIEW.md",
+  "comparisons": "comparison/all_figures.pdf",
+  "final_pdf_sha256": "e6580c4d6b86704f9fad2e747a623c7fe628282e6f3058f8d4287145fff4c0f5",
+  "final_figure_hashes": {
+    "paper/venues/iclr27/figures/grounding.pdf": "cfd729b01825342f82fe90db82c5cf95af7e308e7a57ee1484fe87c1ac8ad186",
+    "paper/venues/iclr27/figures/grounding.png": "fb95df212fe5ed6c62ad65823637dd64e243188abf2e15c314b7c690b624183e",
+    "paper/venues/iclr27/figures/grounding.svg": "bde3412b2c71ec5d64789d4d3326936703db6ea6902a4a56d94cc2a85ac7a7ac",
+    "paper/venues/iclr27/figures/interventions.pdf": "56f3fee60a06a63773b51f467282dd3fbc8ea8911c702b46428dc51f7f190edb",
+    "paper/venues/iclr27/figures/interventions.png": "80262decbaff18ab0e752fc5dbf5b2b1e7146163588e612a14450053c8b231b8",
+    "paper/venues/iclr27/figures/interventions.svg": "ec6f56ad17c1c0fc9fca7c7426ad46770aa7e46ef24f4b6090b1a2c815e8fe71",
+    "paper/venues/iclr27/figures/navigation.pdf": "26257e482ef9999cfaf7bfe8d35b8445d37013497a47e78036b592fd42775c66",
+    "paper/venues/iclr27/figures/navigation.png": "b74cfc7aba94c9ac7b61a3d4848b979bd0797bfabf3bf4f572356811a7c35270",
+    "paper/venues/iclr27/figures/navigation.svg": "ac5c6770fc24b96096b81f693f8394b8170f461b558b0dd3cc1bcd897cec636e",
+    "paper/venues/iclr27/figures/overview.pdf": "37f9a99ade25c2f8e4794d9308d4b9cd4cd2e545e7a5897cbcebb27783fd4272",
+    "paper/venues/iclr27/figures/overview.png": "6711ad7898685d7276e9f02e5e992effa14c0fe57a16dfc8206da59bab8eec76",
+    "paper/venues/iclr27/figures/overview.svg": "7f99f99cf8e39cfae83d062f3a3687dfc2780b6eee9451f8e35951fd81541f24",
+    "paper/venues/iclr27/figures/protocol.pdf": "7a0973c07f333ef03e6628e4d2dd6630fddc13135d10c6a5d560ddb4fa10af6b",
+    "paper/venues/iclr27/figures/protocol.png": "0947364e10d71d8e311fb1c80cf7e4a760278423df29164da9155e35264e2255",
+    "paper/venues/iclr27/figures/protocol.svg": "e893c66e14b66dd3c0102e2a4d19c901b317acce0157cefcdb301ca363b668af",
+    "paper/venues/iclr27/figures/trajectories.pdf": "97031a71d29361c09f92984fe178c100b0e5e0585524534c1edaaeb5f0b53bd9",
+    "paper/venues/iclr27/figures/trajectories.png": "52d3bccd6734b3eb9048a0aaf2d1af3865b51a7d5233fd81eaa83d81e6270ada",
+    "paper/venues/iclr27/figures/trajectories.svg": "091550fd50b3a21133cea6eeac756e0bc17eb20fb09679122ee03b5c23a7ae50"
+  },
+  "validation": {
+    "tests": "97 passed",
+    "strict_spec": "0 errors, 0 warnings",
+    "minimum_font_pt": 7,
+    "explicit_crops": 17,
+    "source_hashes": "PASS",
+    "svg_safety": "PASS"
+  }
+}

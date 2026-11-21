@@ -15,7 +15,7 @@ tables.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{figures/fig_render_scene_evidence_wide.png}
+\includegraphics[width=\textwidth]{figures/fig_render_scene_evidence_wide_v3.pdf}
 \caption{Actual render examples for the measured tasks. Top: a representative
 cropped single-object proxy detail pair. Bottom: a representative GRScenes
 original/noMDL commercial-interior render pair. These panels orient readers;
@@ -76,7 +76,7 @@ checked bins.
 
 \begin{figure*}[b]
 \centering
-\includegraphics[width=0.94\textwidth]{figures/fig_material_effect_baseline_qualitative.png}
+\includegraphics[width=0.94\textwidth]{figures/fig_material_effect_baseline_qualitative_v3.pdf}
 \caption{Selected material-effect qualitative comparison for the four
 GRScenes-covered bins. Columns show original MDL, ConvertAsset noMDL, and the
 NVIDIA PreviewSurface baseline after source-MDL cells passed the clean
@@ -118,3 +118,16 @@ finish in fresh launches for both asset families (18/18). Warm-up ready time is
 similar for the two families. This check covers load/run stability only; speed
 is outside the reported measurement. We omit the NVIDIA row until its converted scenes pass this load/render
 check.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_internnav_rollout_main_v4.pdf}
+  \caption{Selected InternNav path panels. These selected official KuJiaLe
+  examples show original/noMDL start and end frames with trajectory overlays for
+  orientation only: purple executed paths and action arrows, with overlay color
+  changed for readability; green reference paths. O/N in the row labels denotes
+  original/noMDL success. Quantitative stack-entry
+  measurements remain tied to the 99-episode paired run and official-scene load/render
+  checks.}
+  \label{fig:internnav-rollout-supp}
+\end{figure*}

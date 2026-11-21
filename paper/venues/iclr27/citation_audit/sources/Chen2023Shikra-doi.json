@@ -1,0 +1,222 @@
+{
+  "data": {
+    "id": "10.48550/arxiv.2306.15195",
+    "type": "dois",
+    "attributes": {
+      "doi": "10.48550/arxiv.2306.15195",
+      "prefix": "10.48550",
+      "suffix": "arxiv.2306.15195",
+      "identifiers": [
+        {
+          "identifier": "2306.15195",
+          "identifierType": "arXiv"
+        }
+      ],
+      "alternateIdentifiers": [
+        {
+          "alternateIdentifierType": "arXiv",
+          "alternateIdentifier": "2306.15195"
+        }
+      ],
+      "creators": [
+        {
+          "name": "Chen, Keqin",
+          "nameType": "Personal",
+          "givenName": "Keqin",
+          "familyName": "Chen",
+          "affiliation": [],
+          "nameIdentifiers": []
+        },
+        {
+          "name": "Zhang, Zhao",
+          "nameType": "Personal",
+          "givenName": "Zhao",
+          "familyName": "Zhang",
+          "affiliation": [],
+          "nameIdentifiers": []
+        },
+        {
+          "name": "Zeng, Weili",
+          "nameType": "Personal",
+          "givenName": "Weili",
+          "familyName": "Zeng",
+          "affiliation": [],
+          "nameIdentifiers": []
+        },
+        {
+          "name": "Zhang, Richong",
+          "nameType": "Personal",
+          "givenName": "Richong",
+          "familyName": "Zhang",
+          "affiliation": [],
+          "nameIdentifiers": []
+        },
+        {
+          "name": "Zhu, Feng",
+          "nameType": "Personal",
+          "givenName": "Feng",
+          "familyName": "Zhu",
+          "affiliation": [],
+          "nameIdentifiers": []
+        },
+        {
+          "name": "Zhao, Rui",
+          "nameType": "Personal",
+          "givenName": "Rui",
+          "familyName": "Zhao",
+          "affiliation": [],
+          "nameIdentifiers": []
+        }
+      ],
+      "titles": [
+        {
+          "title": "Shikra: Unleashing Multimodal LLM's Referential Dialogue Magic"
+        }
+      ],
+      "publisher": "arXiv",
+      "container": {},
+      "publicationYear": 2023,
+      "subjects": [
+        {
+          "lang": "en",
+          "subject": "Computer Vision and Pattern Recognition (cs.CV)",
+          "subjectScheme": "arXiv"
+        },
+        {
+          "subject": "FOS: Computer and information sciences",
+          "subjectScheme": "Fields of Science and Technology (FOS)"
+        },
+        {
+          "subject": "FOS: Computer and information sciences",
+          "schemeUri": "http://www.oecd.org/science/inno/38235147.pdf",
+          "subjectScheme": "Fields of Science and Technology (FOS)"
+        }
+      ],
+      "contributors": [],
+      "dates": [
+        {
+          "date": "2023-06-27T04:31:52Z",
+          "dateType": "Submitted",
+          "dateInformation": "v1"
+        },
+        {
+          "date": "2023-06-28T00:13:30Z",
+          "dateType": "Updated",
+          "dateInformation": "v1"
+        },
+        {
+          "date": "2023-07-03T16:08:00Z",
+          "dateType": "Submitted",
+          "dateInformation": "v2"
+        },
+        {
+          "date": "2023-07-04T00:53:50Z",
+          "dateType": "Updated",
+          "dateInformation": "v2"
+        },
+        {
+          "date": "2023-06",
+          "dateType": "Available",
+          "dateInformation": "v1"
+        },
+        {
+          "date": "2023",
+          "dateType": "Issued"
+        }
+      ],
+      "language": null,
+      "types": {
+        "ris": "GEN",
+        "bibtex": "misc",
+        "citeproc": "article",
+        "schemaOrg": "CreativeWork",
+        "resourceType": "Article",
+        "resourceTypeGeneral": "Preprint"
+      },
+      "relatedIdentifiers": [],
+      "relatedItems": [],
+      "sizes": [],
+      "formats": [],
+      "version": "2",
+      "rightsList": [
+        {
+          "rights": "Creative Commons Attribution 4.0 International",
+          "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
+          "schemeUri": "https://spdx.org/licenses/",
+          "rightsIdentifier": "cc-by-4.0",
+          "rightsIdentifierScheme": "SPDX"
+        }
+      ],
+      "descriptions": [
+        {
+          "description": "In human conversations, individuals can indicate relevant regions within a scene while addressing others. In turn, the other person can then respond by referring to specific regions if necessary. This natural referential ability in dialogue remains absent in current Multimodal Large Language Models (MLLMs). To fill this gap, this paper proposes an MLLM called Shikra, which can handle spatial coordinate inputs and outputs in natural language. Its architecture consists of a vision encoder, an alignment layer, and a LLM. It is designed to be straightforward and simple, without the need for extra vocabularies, position encoder, pre-/post-detection modules, or external plug-in models. All inputs and outputs are in natural language form. Referential dialogue is a superset of various vision-language (VL) tasks. Shikra can naturally handle location-related tasks like REC and PointQA, as well as conventional VL tasks such as Image Captioning and VQA. Experimental results showcase Shikra's promising performance. Furthermore, it enables numerous exciting applications, like providing mentioned objects' coordinates in chains of thoughts and comparing user-pointed regions similarities. Our code, model and dataset are accessed at https://github.com/shikras/shikra.",
+          "descriptionType": "Abstract"
+        }
+      ],
+      "geoLocations": [],
+      "fundingReferences": [],
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtNCIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtNCBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC00LjMvbWV0YWRhdGEueHNkIj4KICA8aWRlbnRpZmllciBpZGVudGlmaWVyVHlwZT0iRE9JIj4xMC40ODU1MC9BUlhJVi4yMzA2LjE1MTk1PC9pZGVudGlmaWVyPgogIDxhbHRlcm5hdGVJZGVudGlmaWVycz4KICAgIDxhbHRlcm5hdGVJZGVudGlmaWVyIGFsdGVybmF0ZUlkZW50aWZpZXJUeXBlPSJhclhpdiI+MjMwNi4xNTE5NTwvYWx0ZXJuYXRlSWRlbnRpZmllcj4KICA8L2FsdGVybmF0ZUlkZW50aWZpZXJzPgogIDxjcmVhdG9ycz4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWUgbmFtZVR5cGU9IlBlcnNvbmFsIj5DaGVuLCBLZXFpbjwvY3JlYXRvck5hbWU+CiAgICAgIDxnaXZlbk5hbWU+S2VxaW48L2dpdmVuTmFtZT4KICAgICAgPGZhbWlseU5hbWU+Q2hlbjwvZmFtaWx5TmFtZT4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWUgbmFtZVR5cGU9IlBlcnNvbmFsIj5aaGFuZywgWmhhbzwvY3JlYXRvck5hbWU+CiAgICAgIDxnaXZlbk5hbWU+WmhhbzwvZ2l2ZW5OYW1lPgogICAgICA8ZmFtaWx5TmFtZT5aaGFuZzwvZmFtaWx5TmFtZT4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWUgbmFtZVR5cGU9IlBlcnNvbmFsIj5aZW5nLCBXZWlsaTwvY3JlYXRvck5hbWU+CiAgICAgIDxnaXZlbk5hbWU+V2VpbGk8L2dpdmVuTmFtZT4KICAgICAgPGZhbWlseU5hbWU+WmVuZzwvZmFtaWx5TmFtZT4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWUgbmFtZVR5cGU9IlBlcnNvbmFsIj5aaGFuZywgUmljaG9uZzwvY3JlYXRvck5hbWU+CiAgICAgIDxnaXZlbk5hbWU+UmljaG9uZzwvZ2l2ZW5OYW1lPgogICAgICA8ZmFtaWx5TmFtZT5aaGFuZzwvZmFtaWx5TmFtZT4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWUgbmFtZVR5cGU9IlBlcnNvbmFsIj5aaHUsIEZlbmc8L2NyZWF0b3JOYW1lPgogICAgICA8Z2l2ZW5OYW1lPkZlbmc8L2dpdmVuTmFtZT4KICAgICAgPGZhbWlseU5hbWU+Wmh1PC9mYW1pbHlOYW1lPgogICAgPC9jcmVhdG9yPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZSBuYW1lVHlwZT0iUGVyc29uYWwiPlpoYW8sIFJ1aTwvY3JlYXRvck5hbWU+CiAgICAgIDxnaXZlbk5hbWU+UnVpPC9naXZlbk5hbWU+CiAgICAgIDxmYW1pbHlOYW1lPlpoYW88L2ZhbWlseU5hbWU+CiAgICA8L2NyZWF0b3I+CiAgPC9jcmVhdG9ycz4KICA8dGl0bGVzPgogICAgPHRpdGxlPlNoaWtyYTogVW5sZWFzaGluZyBNdWx0aW1vZGFsIExMTSdzIFJlZmVyZW50aWFsIERpYWxvZ3VlIE1hZ2ljPC90aXRsZT4KICA8L3RpdGxlcz4KICA8cHVibGlzaGVyPmFyWGl2PC9wdWJsaXNoZXI+CiAgPHB1YmxpY2F0aW9uWWVhcj4yMDIzPC9wdWJsaWNhdGlvblllYXI+CiAgPHN1YmplY3RzPgogICAgPHN1YmplY3QgeG1sOmxhbmc9ImVuIiBzdWJqZWN0U2NoZW1lPSJhclhpdiI+Q29tcHV0ZXIgVmlzaW9uIGFuZCBQYXR0ZXJuIFJlY29nbml0aW9uIChjcy5DVik8L3N1YmplY3Q+CiAgICA8c3ViamVjdCBzdWJqZWN0U2NoZW1lPSJGaWVsZHMgb2YgU2NpZW5jZSBhbmQgVGVjaG5vbG9neSAoRk9TKSI+Rk9TOiBDb21wdXRlciBhbmQgaW5mb3JtYXRpb24gc2NpZW5jZXM8L3N1YmplY3Q+CiAgPC9zdWJqZWN0cz4KICA8ZGF0ZXM+CiAgICA8ZGF0ZSBkYXRlVHlwZT0iU3VibWl0dGVkIiBkYXRlSW5mb3JtYXRpb249InYxIj4yMDIzLTA2LTI3VDA0OjMxOjUyWjwvZGF0ZT4KICAgIDxkYXRlIGRhdGVUeXBlPSJVcGRhdGVkIiBkYXRlSW5mb3JtYXRpb249InYxIj4yMDIzLTA2LTI4VDAwOjEzOjMwWjwvZGF0ZT4KICAgIDxkYXRlIGRhdGVUeXBlPSJTdWJtaXR0ZWQiIGRhdGVJbmZvcm1hdGlvbj0idjIiPjIwMjMtMDctMDNUMTY6MDg6MDBaPC9kYXRlPgogICAgPGRhdGUgZGF0ZVR5cGU9IlVwZGF0ZWQiIGRhdGVJbmZvcm1hdGlvbj0idjIiPjIwMjMtMDctMDRUMDA6NTM6NTBaPC9kYXRlPgogICAgPGRhdGUgZGF0ZVR5cGU9IkF2YWlsYWJsZSIgZGF0ZUluZm9ybWF0aW9uPSJ2MSI+MjAyMy0wNjwvZGF0ZT4KICA8L2RhdGVzPgogIDxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iUHJlcHJpbnQiPkFydGljbGU8L3Jlc291cmNlVHlwZT4KICA8dmVyc2lvbj4yPC92ZXJzaW9uPgogIDxyaWdodHNMaXN0PgogICAgPHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzQuMC8iIHJpZ2h0c0lkZW50aWZpZXJTY2hlbWU9IlNQRFgiIHJpZ2h0c0lkZW50aWZpZXI9IkNDLUJZLTQuMCI+Q3JlYXRpdmUgQ29tbW9ucyBBdHRyaWJ1dGlvbiA0LjAgSW50ZXJuYXRpb25hbDwvcmlnaHRzPgogIDwvcmlnaHRzTGlzdD4KICA8ZGVzY3JpcHRpb25zPgogICAgPGRlc2NyaXB0aW9uIGRlc2NyaXB0aW9uVHlwZT0iQWJzdHJhY3QiPkluIGh1bWFuIGNvbnZlcnNhdGlvbnMsIGluZGl2aWR1YWxzIGNhbiBpbmRpY2F0ZSByZWxldmFudCByZWdpb25zIHdpdGhpbiBhIHNjZW5lIHdoaWxlIGFkZHJlc3Npbmcgb3RoZXJzLiBJbiB0dXJuLCB0aGUgb3RoZXIgcGVyc29uIGNhbiB0aGVuIHJlc3BvbmQgYnkgcmVmZXJyaW5nIHRvIHNwZWNpZmljIHJlZ2lvbnMgaWYgbmVjZXNzYXJ5LiBUaGlzIG5hdHVyYWwgcmVmZXJlbnRpYWwgYWJpbGl0eSBpbiBkaWFsb2d1ZSByZW1haW5zIGFic2VudCBpbiBjdXJyZW50IE11bHRpbW9kYWwgTGFyZ2UgTGFuZ3VhZ2UgTW9kZWxzIChNTExNcykuIFRvIGZpbGwgdGhpcyBnYXAsIHRoaXMgcGFwZXIgcHJvcG9zZXMgYW4gTUxMTSBjYWxsZWQgU2hpa3JhLCB3aGljaCBjYW4gaGFuZGxlIHNwYXRpYWwgY29vcmRpbmF0ZSBpbnB1dHMgYW5kIG91dHB1dHMgaW4gbmF0dXJhbCBsYW5ndWFnZS4gSXRzIGFyY2hpdGVjdHVyZSBjb25zaXN0cyBvZiBhIHZpc2lvbiBlbmNvZGVyLCBhbiBhbGlnbm1lbnQgbGF5ZXIsIGFuZCBhIExMTS4gSXQgaXMgZGVzaWduZWQgdG8gYmUgc3RyYWlnaHRmb3J3YXJkIGFuZCBzaW1wbGUsIHdpdGhvdXQgdGhlIG5lZWQgZm9yIGV4dHJhIHZvY2FidWxhcmllcywgcG9zaXRpb24gZW5jb2RlciwgcHJlLS9wb3N0LWRldGVjdGlvbiBtb2R1bGVzLCBvciBleHRlcm5hbCBwbHVnLWluIG1vZGVscy4gQWxsIGlucHV0cyBhbmQgb3V0cHV0cyBhcmUgaW4gbmF0dXJhbCBsYW5ndWFnZSBmb3JtLiBSZWZlcmVudGlhbCBkaWFsb2d1ZSBpcyBhIHN1cGVyc2V0IG9mIHZhcmlvdXMgdmlzaW9uLWxhbmd1YWdlIChWTCkgdGFza3MuIFNoaWtyYSBjYW4gbmF0dXJhbGx5IGhhbmRsZSBsb2NhdGlvbi1yZWxhdGVkIHRhc2tzIGxpa2UgUkVDIGFuZCBQb2ludFFBLCBhcyB3ZWxsIGFzIGNvbnZlbnRpb25hbCBWTCB0YXNrcyBzdWNoIGFzIEltYWdlIENhcHRpb25pbmcgYW5kIFZRQS4gRXhwZXJpbWVudGFsIHJlc3VsdHMgc2hvd2Nhc2UgU2hpa3JhJ3MgcHJvbWlzaW5nIHBlcmZvcm1hbmNlLiBGdXJ0aGVybW9yZSwgaXQgZW5hYmxlcyBudW1lcm91cyBleGNpdGluZyBhcHBsaWNhdGlvbnMsIGxpa2UgcHJvdmlkaW5nIG1lbnRpb25lZCBvYmplY3RzJyBjb29yZGluYXRlcyBpbiBjaGFpbnMgb2YgdGhvdWdodHMgYW5kIGNvbXBhcmluZyB1c2VyLXBvaW50ZWQgcmVnaW9ucyBzaW1pbGFyaXRpZXMuIE91ciBjb2RlLCBtb2RlbCBhbmQgZGF0YXNldCBhcmUgYWNjZXNzZWQgYXQgaHR0cHM6Ly9naXRodWIuY29tL3NoaWtyYXMvc2hpa3JhLjwvZGVzY3JpcHRpb24+CiAgPC9kZXNjcmlwdGlvbnM+CjwvcmVzb3VyY2U+",
+      "url": "https://arxiv.org/abs/2306.15195",
+      "contentUrl": null,
+      "metadataVersion": 1,
+      "schemaVersion": "http://datacite.org/schema/kernel-4",
+      "source": "mds",
+      "isActive": true,
+      "state": "findable",
+      "reason": null,
+      "viewCount": 0,
+      "viewsOverTime": [],
+      "downloadCount": 0,
+      "downloadsOverTime": [],
+      "referenceCount": 0,
+      "citationCount": 0,
+      "citationsOverTime": [],
+      "partCount": 0,
+      "partOfCount": 0,
+      "versionCount": 0,
+      "versionOfCount": 0,
+      "created": "2023-06-28T01:21:32.000Z",
+      "registered": "2023-06-28T01:21:33.000Z",
+      "published": "2023",
+      "updated": "2023-07-04T02:31:31.000Z"
+    },
+    "relationships": {
+      "client": {
+        "data": {
+          "id": "arxiv.content",
+          "type": "clients"
+        }
+      },
+      "provider": {
+        "data": {
+          "id": "arxiv",
+          "type": "providers"
+        }
+      },
+      "media": {
+        "data": {
+          "id": "10.48550/arxiv.2306.15195",
+          "type": "media"
+        }
+      },
+      "references": {
+        "data": []
+      },
+      "citations": {
+        "data": []
+      },
+      "parts": {
+        "data": []
+      },
+      "partOf": {
+        "data": []
+      },
+      "versions": {
+        "data": []
+      },
+      "versionOf": {
+        "data": []
+      }
+    }
+  }
+}

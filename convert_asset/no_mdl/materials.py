@@ -294,18 +294,20 @@ def copy_textures(
         anchor_dir = _anchor_dir_for_attr(sa_attr) if sa_attr else None
         mdl_abs = _resolve_abs_path(anchor_dir, mdl_rel) if mdl_rel else None
         parsed = parse_mdl_text(mdl_abs) if (mdl_abs and os.path.exists(mdl_abs)) else {}
+        # Paths parsed from MDL source are relative to that MDL file, not its USD owner.
+        mdl_texture_dir = os.path.dirname(mdl_abs) if mdl_abs else None
         tex = parsed.get("textures", {}) if parsed else {}
         if (not filled.get("BaseColor")) and "BaseColor" in tex:
-            _set_tex("BaseColor", tex["BaseColor"], colorspace="sRGB", anchor_dir=anchor_dir)
+            _set_tex("BaseColor", tex["BaseColor"], colorspace="sRGB", anchor_dir=mdl_texture_dir)
         if not filled.get("Roughness"):
             if "Roughness" in tex:
-                _set_tex("Roughness", tex["Roughness"], colorspace="raw", invert_r_to_rough=False, anchor_dir=anchor_dir)
+                _set_tex("Roughness", tex["Roughness"], colorspace="raw", invert_r_to_rough=False, anchor_dir=mdl_texture_dir)
             elif "Roughness_fromGloss" in tex:
-                _set_tex("Roughness", tex["Roughness_fromGloss"], colorspace="raw", invert_r_to_rough=True, anchor_dir=anchor_dir)
+                _set_tex("Roughness", tex["Roughness_fromGloss"], colorspace="raw", invert_r_to_rough=True, anchor_dir=mdl_texture_dir)
         if (not filled.get("Metallic")) and "Metallic" in tex:
-            _set_tex("Metallic", tex["Metallic"], colorspace="raw", anchor_dir=anchor_dir)
+            _set_tex("Metallic", tex["Metallic"], colorspace="raw", anchor_dir=mdl_texture_dir)
         if (not filled.get("Normal")) and "Normal" in tex:
-            _set_tex("Normal", tex["Normal"], colorspace="raw", anchor_dir=anchor_dir)
+            _set_tex("Normal", tex["Normal"], colorspace="raw", anchor_dir=mdl_texture_dir)
 
     # 3) 常量色：优先从 MDL pin 取；否则尝试从 .mdl 文本的 `diffuse_const` 中提取
     has_c, c_rgb = read_mdl_basecolor_const(mdl_shader)

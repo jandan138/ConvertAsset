@@ -1,0 +1,1263 @@
+{
+  "pair_count": 480,
+  "scene_count": 30,
+  "bootstrap": {
+    "unit": "scene",
+    "draws": 10000,
+    "seed": 20261114
+  },
+  "models": {
+    "qwen3_vl_8b_r0": {
+      "metrics": {
+        "original_hit_rate": {
+          "estimate": 0.8125,
+          "numerator": 390.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.7624479166666667,
+            0.8625
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "converted_hit_rate": {
+          "estimate": 0.83125,
+          "numerator": 399.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.7833333333333333,
+            0.875
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "hit_rate_difference": {
+          "estimate": 0.01875,
+          "numerator": 9.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            -0.004166666666666667,
+            0.041666666666666664
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "loss_rate": {
+          "estimate": 0.0375,
+          "numerator": 18.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.022916666666666665,
+            0.05416666666666667
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "gain_rate": {
+          "estimate": 0.05625,
+          "numerator": 27.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.03958333333333333,
+            0.07291666666666667
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "flip_rate": {
+          "estimate": 0.09375,
+          "numerator": 45.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.07083333333333333,
+            0.11666666666666667
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "loss_given_original_success": {
+          "estimate": 0.046153846153846156,
+          "numerator": 18.0,
+          "denominator": 390.0,
+          "scene_bootstrap_ci95": [
+            0.02736318407960199,
+            0.06704223296923201
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "gain_given_original_failure": {
+          "estimate": 0.3,
+          "numerator": 27.0,
+          "denominator": 90.0,
+          "scene_bootstrap_ci95": [
+            0.2289156626506024,
+            0.3783783783783784
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "original_valid_point_rate": {
+          "estimate": 0.9958333333333333,
+          "numerator": 478.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.9875,
+            1.0
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "converted_valid_point_rate": {
+          "estimate": 0.99375,
+          "numerator": 477.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.9833333333333333,
+            1.0
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "cross_condition_point_displacement_px": {
+          "estimate": 27.232917000004097,
+          "numerator": 12990.101409001954,
+          "denominator": 477.0,
+          "scene_bootstrap_ci95": [
+            22.8787499232495,
+            32.34132225928543
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        }
+      },
+      "hf_repo": "Qwen/Qwen3-VL-8B-Instruct",
+      "family": "Qwen3-VL",
+      "predictions_loaded": 960
+    },
+    "qwen3_vl_32b_r0": {
+      "metrics": {
+        "original_hit_rate": {
+          "estimate": 0.9166666666666666,
+          "numerator": 440.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.8770833333333333,
+            0.9520833333333333
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "converted_hit_rate": {
+          "estimate": 0.9208333333333333,
+          "numerator": 442.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.8875,
+            0.9520833333333333
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "hit_rate_difference": {
+          "estimate": 0.004166666666666667,
+          "numerator": 2.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            -0.0125,
+            0.022916666666666665
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "loss_rate": {
+          "estimate": 0.01875,
+          "numerator": 9.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.008333333333333333,
+            0.029166666666666667
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "gain_rate": {
+          "estimate": 0.022916666666666665,
+          "numerator": 11.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.008333333333333333,
+            0.03958333333333333
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "flip_rate": {
+          "estimate": 0.041666666666666664,
+          "numerator": 20.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.025,
+            0.06041666666666667
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "loss_given_original_success": {
+          "estimate": 0.020454545454545454,
+          "numerator": 9.0,
+          "denominator": 440.0,
+          "scene_bootstrap_ci95": [
+            0.009111617312072893,
+            0.03211009174311927
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "gain_given_original_failure": {
+          "estimate": 0.275,
+          "numerator": 11.0,
+          "denominator": 40.0,
+          "scene_bootstrap_ci95": [
+            0.1388888888888889,
+            0.42105263157894735
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "original_valid_point_rate": {
+          "estimate": 0.9979166666666667,
+          "numerator": 479.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.99375,
+            1.0
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "converted_valid_point_rate": {
+          "estimate": 0.9979166666666667,
+          "numerator": 479.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.99375,
+            1.0
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "cross_condition_point_displacement_px": {
+          "estimate": 20.777413123490074,
+          "numerator": 9931.603473028255,
+          "denominator": 478.0,
+          "scene_bootstrap_ci95": [
+            16.799735056548407,
+            25.18545432224463
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        }
+      },
+      "hf_repo": "Qwen/Qwen3-VL-32B-Instruct",
+      "family": "Qwen3-VL",
+      "predictions_loaded": 960
+    },
+    "internvl3_5_8b": {
+      "metrics": {
+        "original_hit_rate": {
+          "estimate": 0.7854166666666667,
+          "numerator": 377.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.74375,
+            0.825
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "converted_hit_rate": {
+          "estimate": 0.8,
+          "numerator": 384.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.7604166666666666,
+            0.8395833333333333
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "hit_rate_difference": {
+          "estimate": 0.014583333333333334,
+          "numerator": 7.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            -0.004166666666666667,
+            0.03333333333333333
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "loss_rate": {
+          "estimate": 0.04583333333333333,
+          "numerator": 22.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.029166666666666667,
+            0.06458333333333334
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "gain_rate": {
+          "estimate": 0.06041666666666667,
+          "numerator": 29.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.04375,
+            0.07708333333333334
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "flip_rate": {
+          "estimate": 0.10625,
+          "numerator": 51.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.07916666666666666,
+            0.13541666666666666
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "loss_given_original_success": {
+          "estimate": 0.058355437665782495,
+          "numerator": 22.0,
+          "denominator": 377.0,
+          "scene_bootstrap_ci95": [
+            0.03617571059431524,
+            0.08264517906336087
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "gain_given_original_failure": {
+          "estimate": 0.2815533980582524,
+          "numerator": 29.0,
+          "denominator": 103.0,
+          "scene_bootstrap_ci95": [
+            0.2079207920792079,
+            0.3663448844884487
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "original_valid_point_rate": {
+          "estimate": 1.0,
+          "numerator": 480.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            1.0,
+            1.0
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": true
+        },
+        "converted_valid_point_rate": {
+          "estimate": 1.0,
+          "numerator": 480.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            1.0,
+            1.0
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": true
+        },
+        "cross_condition_point_displacement_px": {
+          "estimate": 47.11445945119792,
+          "numerator": 22614.940536575,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            42.229762454093716,
+            52.14698762233773
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        }
+      },
+      "hf_repo": "OpenGVLab/InternVL3_5-8B-HF",
+      "family": "InternVL3.5",
+      "predictions_loaded": 960
+    },
+    "llava_next_mistral_7b": {
+      "metrics": {
+        "original_hit_rate": {
+          "estimate": 0.675,
+          "numerator": 324.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.6166666666666667,
+            0.7354166666666667
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "converted_hit_rate": {
+          "estimate": 0.6791666666666667,
+          "numerator": 326.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.625,
+            0.7354166666666667
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "hit_rate_difference": {
+          "estimate": 0.004166666666666667,
+          "numerator": 2.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            -0.03333333333333333,
+            0.03958333333333333
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "loss_rate": {
+          "estimate": 0.08125,
+          "numerator": 39.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.05416666666666667,
+            0.11041666666666666
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "gain_rate": {
+          "estimate": 0.08541666666666667,
+          "numerator": 41.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.058333333333333334,
+            0.11458333333333333
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "flip_rate": {
+          "estimate": 0.16666666666666666,
+          "numerator": 80.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.125,
+            0.2125
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "loss_given_original_success": {
+          "estimate": 0.12037037037037036,
+          "numerator": 39.0,
+          "denominator": 324.0,
+          "scene_bootstrap_ci95": [
+            0.07831194342587743,
+            0.16831683168316833
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "gain_given_original_failure": {
+          "estimate": 0.26282051282051283,
+          "numerator": 41.0,
+          "denominator": 156.0,
+          "scene_bootstrap_ci95": [
+            0.19852941176470587,
+            0.32941176470588235
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "original_valid_point_rate": {
+          "estimate": 0.9916666666666667,
+          "numerator": 476.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.9833333333333333,
+            0.9979166666666667
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "converted_valid_point_rate": {
+          "estimate": 0.9916666666666667,
+          "numerator": 476.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.9833333333333333,
+            0.9979166666666667
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "cross_condition_point_displacement_px": {
+          "estimate": 65.07903379888992,
+          "numerator": 30977.620088271604,
+          "denominator": 476.0,
+          "scene_bootstrap_ci95": [
+            53.0107625872313,
+            77.65099510661364
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        }
+      },
+      "hf_repo": "llava-hf/llava-v1.6-mistral-7b-hf",
+      "family": "LLaVA-NeXT-Mistral",
+      "predictions_loaded": 960
+    },
+    "molmo2_8b": {
+      "metrics": {
+        "original_hit_rate": {
+          "estimate": 0.9395833333333333,
+          "numerator": 451.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.9041666666666667,
+            0.96875
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "converted_hit_rate": {
+          "estimate": 0.94375,
+          "numerator": 453.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.9125,
+            0.9708333333333333
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "hit_rate_difference": {
+          "estimate": 0.004166666666666667,
+          "numerator": 2.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            -0.016666666666666666,
+            0.025
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "loss_rate": {
+          "estimate": 0.020833333333333332,
+          "numerator": 10.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.00625,
+            0.0375
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "gain_rate": {
+          "estimate": 0.025,
+          "numerator": 12.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.010416666666666666,
+            0.041666666666666664
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "flip_rate": {
+          "estimate": 0.04583333333333333,
+          "numerator": 22.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.025,
+            0.07083333333333333
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "loss_given_original_success": {
+          "estimate": 0.022172949002217297,
+          "numerator": 10.0,
+          "denominator": 451.0,
+          "scene_bootstrap_ci95": [
+            0.006681143281365999,
+            0.04045099542416327
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "gain_given_original_failure": {
+          "estimate": 0.41379310344827586,
+          "numerator": 12.0,
+          "denominator": 29.0,
+          "scene_bootstrap_ci95": [
+            0.2608695652173913,
+            0.6086956521739131
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "original_valid_point_rate": {
+          "estimate": 0.9875,
+          "numerator": 474.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.975,
+            0.9958333333333333
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "converted_valid_point_rate": {
+          "estimate": 0.99375,
+          "numerator": 477.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.9833333333333333,
+            1.0
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "cross_condition_point_displacement_px": {
+          "estimate": 33.80490610103973,
+          "numerator": 16023.52549189283,
+          "denominator": 474.0,
+          "scene_bootstrap_ci95": [
+            26.0946217892201,
+            42.06691266742724
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        }
+      },
+      "hf_repo": "allenai/Molmo2-8B",
+      "family": "Molmo2",
+      "predictions_loaded": 960
+    },
+    "qwen3_vl_2b": {
+      "metrics": {
+        "original_hit_rate": {
+          "estimate": 0.6666666666666666,
+          "numerator": 320.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.60625,
+            0.725
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "converted_hit_rate": {
+          "estimate": 0.63125,
+          "numerator": 303.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.5686979166666667,
+            0.69375
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "hit_rate_difference": {
+          "estimate": -0.035416666666666666,
+          "numerator": -17.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            -0.08333333333333333,
+            0.0125
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "loss_rate": {
+          "estimate": 0.13333333333333333,
+          "numerator": 64.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.10625,
+            0.16041666666666668
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "gain_rate": {
+          "estimate": 0.09791666666666667,
+          "numerator": 47.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.06666666666666667,
+            0.12916666666666668
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "flip_rate": {
+          "estimate": 0.23125,
+          "numerator": 111.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.19791666666666666,
+            0.26666666666666666
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "loss_given_original_success": {
+          "estimate": 0.2,
+          "numerator": 64.0,
+          "denominator": 320.0,
+          "scene_bootstrap_ci95": [
+            0.1577348602484472,
+            0.2468354430379747
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "gain_given_original_failure": {
+          "estimate": 0.29375,
+          "numerator": 47.0,
+          "denominator": 160.0,
+          "scene_bootstrap_ci95": [
+            0.21341463414634146,
+            0.38
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "original_valid_point_rate": {
+          "estimate": 0.96875,
+          "numerator": 465.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.9541666666666667,
+            0.9833333333333333
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "converted_valid_point_rate": {
+          "estimate": 0.9604166666666667,
+          "numerator": 461.0,
+          "denominator": 480.0,
+          "scene_bootstrap_ci95": [
+            0.9416666666666667,
+            0.9770833333333333
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        },
+        "cross_condition_point_displacement_px": {
+          "estimate": 69.70382639073539,
+          "numerator": 31784.944834175334,
+          "denominator": 456.0,
+          "scene_bootstrap_ci95": [
+            59.78285186076247,
+            79.82931756975323
+          ],
+          "finite_bootstrap_draws": 10000,
+          "degenerate_bootstrap": false
+        }
+      },
+      "hf_repo": "Qwen/Qwen3-VL-2B-Instruct",
+      "family": "Qwen3-VL",
+      "predictions_loaded": 960
+    }
+  },
+  "contrasts": {
+    "qwen3_vl_32b_r0__minus__qwen3_vl_8b_r0": {
+      "original_hit_rate": {
+        "difference": 0.10416666666666663,
+        "paired_scene_bootstrap_ci95": [
+          0.06458333333333344,
+          0.14374999999999993
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "converted_hit_rate": {
+        "difference": 0.08958333333333324,
+        "paired_scene_bootstrap_ci95": [
+          0.060416666666666674,
+          0.11875000000000002
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "flip_rate": {
+        "difference": -0.052083333333333336,
+        "paired_scene_bootstrap_ci95": [
+          -0.07708333333333334,
+          -0.027083333333333327
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "loss_rate": {
+        "difference": -0.01875,
+        "paired_scene_bootstrap_ci95": [
+          -0.03958333333333333,
+          0.0
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "gain_rate": {
+        "difference": -0.03333333333333334,
+        "paired_scene_bootstrap_ci95": [
+          -0.056249999999999994,
+          -0.010416666666666664
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "cross_condition_point_displacement_px": {
+        "difference": -6.4555038765140225,
+        "paired_scene_bootstrap_ci95": [
+          -12.078979837051593,
+          -1.1194150192263284
+        ],
+        "finite_bootstrap_draws": 10000
+      }
+    },
+    "qwen3_vl_8b_r0__minus__qwen3_vl_2b": {
+      "original_hit_rate": {
+        "difference": 0.14583333333333337,
+        "paired_scene_bootstrap_ci95": [
+          0.09375,
+          0.19999999999999996
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "converted_hit_rate": {
+        "difference": 0.20000000000000007,
+        "paired_scene_bootstrap_ci95": [
+          0.15625,
+          0.24583333333333335
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "flip_rate": {
+        "difference": -0.1375,
+        "paired_scene_bootstrap_ci95": [
+          -0.18125000000000002,
+          -0.09375
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "loss_rate": {
+        "difference": -0.09583333333333333,
+        "paired_scene_bootstrap_ci95": [
+          -0.12916666666666665,
+          -0.0625
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "gain_rate": {
+        "difference": -0.041666666666666664,
+        "paired_scene_bootstrap_ci95": [
+          -0.08124999999999999,
+          -0.004166666666666666
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "cross_condition_point_displacement_px": {
+        "difference": -42.47090939073129,
+        "paired_scene_bootstrap_ci95": [
+          -52.07164389721803,
+          -32.900002421258144
+        ],
+        "finite_bootstrap_draws": 10000
+      }
+    },
+    "qwen3_vl_32b_r0__minus__qwen3_vl_2b": {
+      "original_hit_rate": {
+        "difference": 0.25,
+        "paired_scene_bootstrap_ci95": [
+          0.20416666666666672,
+          0.29999999999999993
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "converted_hit_rate": {
+        "difference": 0.2895833333333333,
+        "paired_scene_bootstrap_ci95": [
+          0.24375000000000002,
+          0.3374999999999999
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "flip_rate": {
+        "difference": -0.18958333333333335,
+        "paired_scene_bootstrap_ci95": [
+          -0.22916666666666669,
+          -0.15
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "loss_rate": {
+        "difference": -0.11458333333333333,
+        "paired_scene_bootstrap_ci95": [
+          -0.14583333333333331,
+          -0.08541666666666667
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "gain_rate": {
+        "difference": -0.075,
+        "paired_scene_bootstrap_ci95": [
+          -0.10625,
+          -0.043750000000000004
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "cross_condition_point_displacement_px": {
+        "difference": -48.92641326724531,
+        "paired_scene_bootstrap_ci95": [
+          -59.59001296496355,
+          -38.50790341148196
+        ],
+        "finite_bootstrap_draws": 10000
+      }
+    },
+    "internvl3_5_8b__minus__qwen3_vl_8b_r0": {
+      "original_hit_rate": {
+        "difference": -0.027083333333333348,
+        "paired_scene_bootstrap_ci95": [
+          -0.06666666666666665,
+          0.01041666666666663
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "converted_hit_rate": {
+        "difference": -0.03125,
+        "paired_scene_bootstrap_ci95": [
+          -0.06458333333333333,
+          0.002083333333333437
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "flip_rate": {
+        "difference": 0.012499999999999997,
+        "paired_scene_bootstrap_ci95": [
+          -0.02291666666666667,
+          0.04791666666666668
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "loss_rate": {
+        "difference": 0.008333333333333331,
+        "paired_scene_bootstrap_ci95": [
+          -0.012500000000000004,
+          0.03125
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "gain_rate": {
+        "difference": 0.004166666666666666,
+        "paired_scene_bootstrap_ci95": [
+          -0.01666666666666667,
+          0.027083333333333327
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "cross_condition_point_displacement_px": {
+        "difference": 19.88154245119382,
+        "paired_scene_bootstrap_ci95": [
+          15.77093497119143,
+          24.21341000261321
+        ],
+        "finite_bootstrap_draws": 10000
+      }
+    },
+    "internvl3_5_8b__minus__qwen3_vl_32b_r0": {
+      "original_hit_rate": {
+        "difference": -0.13124999999999998,
+        "paired_scene_bootstrap_ci95": [
+          -0.1645833333333333,
+          -0.09999999999999998
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "converted_hit_rate": {
+        "difference": -0.12083333333333324,
+        "paired_scene_bootstrap_ci95": [
+          -0.15000000000000002,
+          -0.09375
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "flip_rate": {
+        "difference": 0.06458333333333333,
+        "paired_scene_bootstrap_ci95": [
+          0.031197916666666707,
+          0.1
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "loss_rate": {
+        "difference": 0.02708333333333333,
+        "paired_scene_bootstrap_ci95": [
+          0.006249999999999999,
+          0.05
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "gain_rate": {
+        "difference": 0.037500000000000006,
+        "paired_scene_bootstrap_ci95": [
+          0.01458333333333333,
+          0.06041666666666667
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "cross_condition_point_displacement_px": {
+        "difference": 26.337046327707842,
+        "paired_scene_bootstrap_ci95": [
+          20.693600012537964,
+          32.12780245073192
+        ],
+        "finite_bootstrap_draws": 10000
+      }
+    },
+    "molmo2_8b__minus__qwen3_vl_8b_r0": {
+      "original_hit_rate": {
+        "difference": 0.12708333333333333,
+        "paired_scene_bootstrap_ci95": [
+          0.08125000000000004,
+          0.1708333333333334
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "converted_hit_rate": {
+        "difference": 0.11249999999999993,
+        "paired_scene_bootstrap_ci95": [
+          0.07291666666666663,
+          0.15208333333333335
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "flip_rate": {
+        "difference": -0.04791666666666667,
+        "paired_scene_bootstrap_ci95": [
+          -0.07083333333333333,
+          -0.02500000000000001
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "loss_rate": {
+        "difference": -0.016666666666666666,
+        "paired_scene_bootstrap_ci95": [
+          -0.03333333333333334,
+          0.0
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "gain_rate": {
+        "difference": -0.03125,
+        "paired_scene_bootstrap_ci95": [
+          -0.05416666666666667,
+          -0.008333333333333338
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "cross_condition_point_displacement_px": {
+        "difference": 6.57198910103563,
+        "paired_scene_bootstrap_ci95": [
+          1.0426805994660038,
+          12.547800103367031
+        ],
+        "finite_bootstrap_draws": 10000
+      }
+    },
+    "molmo2_8b__minus__qwen3_vl_32b_r0": {
+      "original_hit_rate": {
+        "difference": 0.022916666666666696,
+        "paired_scene_bootstrap_ci95": [
+          -0.004166666666666763,
+          0.05208333333333326
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "converted_hit_rate": {
+        "difference": 0.022916666666666696,
+        "paired_scene_bootstrap_ci95": [
+          -0.006249999999999978,
+          0.05208333333333337
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "flip_rate": {
+        "difference": 0.004166666666666666,
+        "paired_scene_bootstrap_ci95": [
+          -0.01666666666666667,
+          0.027083333333333334
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "loss_rate": {
+        "difference": 0.002083333333333333,
+        "paired_scene_bootstrap_ci95": [
+          -0.01666666666666667,
+          0.022916666666666665
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "gain_rate": {
+        "difference": 0.0020833333333333363,
+        "paired_scene_bootstrap_ci95": [
+          -0.012499999999999999,
+          0.014583333333333334
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "cross_condition_point_displacement_px": {
+        "difference": 13.027492977549652,
+        "paired_scene_bootstrap_ci95": [
+          5.894102052259708,
+          20.648253245189174
+        ],
+        "finite_bootstrap_draws": 10000
+      }
+    },
+    "llava_next_mistral_7b__minus__qwen3_vl_8b_r0": {
+      "original_hit_rate": {
+        "difference": -0.13749999999999996,
+        "paired_scene_bootstrap_ci95": [
+          -0.18958333333333333,
+          -0.08333333333333337
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "converted_hit_rate": {
+        "difference": -0.15208333333333335,
+        "paired_scene_bootstrap_ci95": [
+          -0.20833333333333326,
+          -0.09583333333333344
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "flip_rate": {
+        "difference": 0.07291666666666666,
+        "paired_scene_bootstrap_ci95": [
+          0.033333333333333326,
+          0.11666666666666665
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "loss_rate": {
+        "difference": 0.043750000000000004,
+        "paired_scene_bootstrap_ci95": [
+          0.014583333333333337,
+          0.07291666666666667
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "gain_rate": {
+        "difference": 0.029166666666666667,
+        "paired_scene_bootstrap_ci95": [
+          0.006249999999999999,
+          0.05416666666666666
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "cross_condition_point_displacement_px": {
+        "difference": 37.84611679888583,
+        "paired_scene_bootstrap_ci95": [
+          26.06510805569841,
+          50.329791194326674
+        ],
+        "finite_bootstrap_draws": 10000
+      }
+    },
+    "llava_next_mistral_7b__minus__qwen3_vl_32b_r0": {
+      "original_hit_rate": {
+        "difference": -0.24166666666666659,
+        "paired_scene_bootstrap_ci95": [
+          -0.2979166666666667,
+          -0.18333333333333335
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "converted_hit_rate": {
+        "difference": -0.24166666666666659,
+        "paired_scene_bootstrap_ci95": [
+          -0.29166666666666663,
+          -0.18958333333333333
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "flip_rate": {
+        "difference": 0.125,
+        "paired_scene_bootstrap_ci95": [
+          0.08124999999999999,
+          0.17083333333333334
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "loss_rate": {
+        "difference": 0.0625,
+        "paired_scene_bootstrap_ci95": [
+          0.03125,
+          0.09583333333333333
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "gain_rate": {
+        "difference": 0.0625,
+        "paired_scene_bootstrap_ci95": [
+          0.03125,
+          0.09166666666666667
+        ],
+        "finite_bootstrap_draws": 10000
+      },
+      "cross_condition_point_displacement_px": {
+        "difference": 44.301620675399846,
+        "paired_scene_bootstrap_ci95": [
+          33.23519902258783,
+          55.99672638144343
+        ],
+        "finite_bootstrap_draws": 10000
+      }
+    }
+  },
+  "family_overlap_4x8b": {
+    "models": [
+      "qwen3_vl_8b_r0",
+      "internvl3_5_8b",
+      "molmo2_8b",
+      "llava_next_mistral_7b"
+    ],
+    "pair_count": 480,
+    "loss_count_histogram": {
+      "0": 403,
+      "1": 66,
+      "2": 10,
+      "3": 1,
+      "4": 0
+    },
+    "gain_count_histogram": {
+      "0": 390,
+      "1": 77,
+      "2": 8,
+      "3": 4,
+      "4": 1
+    },
+    "flip_count_histogram": {
+      "0": 326,
+      "1": 120,
+      "2": 26,
+      "3": 6,
+      "4": 2
+    },
+    "any_loss_pairs": 77,
+    "single_family_only_share_of_losses": 0.8571428571428571
+  }
+}

@@ -1,0 +1,21 @@
+% Verified from paper/shared/evidence/raw/cviu_v3/risk_auditor.json
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+Target Regressions & Zero-VLM Predictor / Feature Set & \multicolumn{3}{c}{Held-Out Test (10 scenes, $n{=}160$)} & \multicolumn{3}{c}{30-Scene LOSO ($n{=}480$)} \\
+\cmidrule(lr){3-5} \cmidrule(lr){6-8}
+ & & AUROC & AUPRC & R@20\% & AUROC & AUPRC & R@20\% \\
+\midrule
+\multirow{6}{*}{Any 8B/32B Loss (\textsc{Qwen3-VL})} & \texttt{deploy\_auto} (21 automated features) & \textbf{0.743} & 0.195 & 0.417 & 0.653 & 0.137 & 0.360 \\
+ & \texttt{geometry\_only} (5 mask features) & 0.742 & \textbf{0.216} & 0.417 & \textbf{0.732} & \textbf{0.184} & \textbf{0.520} \\
+ & \texttt{pixel\_only} (13 appearance deltas) & 0.606 & 0.130 & 0.333 & 0.502 & 0.102 & 0.320 \\
+ & \texttt{all\_with\_review\_priors} (24 features) & 0.713 & 0.171 & 0.417 & 0.644 & 0.127 & 0.320 \\
+ & \texttt{baseline\_target\_rgb\_mae} & 0.557 & 0.172 & 0.417 & 0.577 & 0.140 & 0.280 \\
+ & \texttt{baseline\_global\_rgb\_mae} & 0.432 & 0.150 & 0.167 & 0.490 & 0.090 & 0.240 \\
+\midrule
+\multirow{2}{*}{Qwen3-VL-8B Loss} & \texttt{deploy\_auto} / \texttt{geometry\_only} & 0.632 / 0.650 & 0.080 / 0.092 & 0.286 / 0.143 & 0.594 / 0.666 & 0.077 / 0.096 & 0.389 / 0.389 \\
+ & \texttt{baseline\_global\_rgb\_mae} & 0.413 & 0.177 & 0.143 & 0.496 & 0.070 & 0.222 \\
+\midrule
+Any-Family Loss (6 ckpts pooled) & \texttt{deploy\_auto} / \texttt{geometry\_only} & 0.582 / 0.627 & 0.305 / 0.343 & 0.233 / 0.233 & 0.536 / 0.555 & 0.296 / 0.304 & 0.234 / 0.223 \\
+Qwen3-VL-8B Flip (undirected) & \texttt{deploy\_auto} / \texttt{geometry\_only} & 0.501 / 0.601 & 0.103 / 0.130 & 0.062 / 0.250 & 0.545 / 0.537 & 0.117 / 0.125 & 0.244 / 0.200 \\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,342 @@
+{
+  "version": "1.0",
+  "mode": "inspired",
+  "title": "Material conversion as a controlled perturbation",
+  "canvas": {
+    "width": 1800,
+    "height": 900,
+    "background": "#FFFFFF"
+  },
+  "theme": {
+    "font_family": "DejaVu Sans",
+    "font_fallbacks": [
+      "Liberation Sans",
+      "Arial",
+      "sans-serif"
+    ],
+    "palette": {
+      "structure": "#0F4D92",
+      "original": "#0F4D92",
+      "converted": "#E67E22",
+      "pass": "#168A45",
+      "trajectory": "#7A40C8",
+      "neutral": "#6B7280",
+      "surface": "#FFFFFF",
+      "soft": "#F4F7FB"
+    },
+    "panel_radius": 18,
+    "panel_stroke_width": 2,
+    "connector_width": 3
+  },
+  "panels": [
+    {
+      "id": "source-assets",
+      "x": 28,
+      "y": 54,
+      "width": 340,
+      "height": 792,
+      "title": "Source assets",
+      "subtitle": "USD composition and MDL materials",
+      "semantic_role": "input",
+      "fill": "#F4F7FB",
+      "stroke": "#0F4D92"
+    },
+    {
+      "id": "conversion",
+      "x": 405,
+      "y": 54,
+      "width": 720,
+      "height": 330,
+      "title": "Composition-preserving conversion",
+      "subtitle": "Rewrite materials and paths without flattening",
+      "semantic_role": "transformation",
+      "fill": "#F4F7FB",
+      "stroke": "#0F4D92"
+    },
+    {
+      "id": "matched-evidence",
+      "x": 405,
+      "y": 414,
+      "width": 720,
+      "height": 432,
+      "title": "Matched original / noMDL evidence",
+      "subtitle": "Paired views keep the scene and target contract fixed",
+      "semantic_role": "paired-output",
+      "fill": "#FFFFFF",
+      "stroke": "#0F4D92"
+    },
+    {
+      "id": "gate-proxy",
+      "x": 1198,
+      "y": 54,
+      "width": 560,
+      "height": 178,
+      "title": "Proxy similarity",
+      "subtitle": "PSNR / SSIM / LPIPS / CLIP / DINOv2",
+      "semantic_role": "independent-evaluation-gate",
+      "fill": "#FFFFFF",
+      "stroke": "#0F4D92"
+    },
+    {
+      "id": "gate-vlm",
+      "x": 1198,
+      "y": 258,
+      "width": 560,
+      "height": 178,
+      "title": "VLM grounding",
+      "subtitle": "Answer and point checks under one prompt contract",
+      "semantic_role": "independent-evaluation-gate",
+      "fill": "#FFFFFF",
+      "stroke": "#0F4D92"
+    },
+    {
+      "id": "gate-material",
+      "x": 1198,
+      "y": 462,
+      "width": 560,
+      "height": 178,
+      "title": "Material audit",
+      "subtitle": "Original MDL / noMDL / NVIDIA selected cases",
+      "semantic_role": "independent-evaluation-gate",
+      "fill": "#FFFFFF",
+      "stroke": "#0F4D92"
+    },
+    {
+      "id": "gate-stack",
+      "x": 1198,
+      "y": 666,
+      "width": 560,
+      "height": 178,
+      "title": "Stack entry",
+      "subtitle": "Official InternNav rollouts and paired metrics",
+      "semantic_role": "independent-evaluation-gate",
+      "fill": "#FFFFFF",
+      "stroke": "#0F4D92"
+    }
+  ],
+  "ports": [
+    {"id": "source.out", "owner": "source-assets", "x": 368, "y": 219, "scope": "external"},
+    {"id": "conversion.in", "owner": "conversion", "x": 405, "y": 219, "scope": "external"},
+    {"id": "conversion.out", "owner": "conversion", "x": 765, "y": 384, "scope": "external"},
+    {"id": "matched.in", "owner": "matched-evidence", "x": 765, "y": 414, "scope": "external"},
+    {"id": "matched.out.proxy", "owner": "matched-evidence", "x": 1125, "y": 510, "scope": "external"},
+    {"id": "matched.out.vlm", "owner": "matched-evidence", "x": 1125, "y": 570, "scope": "external"},
+    {"id": "matched.out.material", "owner": "matched-evidence", "x": 1125, "y": 630, "scope": "external"},
+    {"id": "matched.out.stack", "owner": "matched-evidence", "x": 1125, "y": 690, "scope": "external"},
+    {"id": "proxy.in", "owner": "gate-proxy", "x": 1198, "y": 143, "scope": "external"},
+    {"id": "vlm.in", "owner": "gate-vlm", "x": 1198, "y": 347, "scope": "external"},
+    {"id": "material.in", "owner": "gate-material", "x": 1198, "y": 551, "scope": "external"},
+    {"id": "stack.in", "owner": "gate-stack", "x": 1198, "y": 755, "scope": "external"}
+  ],
+  "edges": [
+    {
+      "id": "source-to-conversion",
+      "from": "source.out",
+      "to": "conversion.in",
+      "scope": "external",
+      "meaning": "The source USD hierarchy enters the material conversion intervention.",
+      "arrowhead": "end",
+      "route": "straight",
+      "color": "@structure",
+      "width": 3,
+      "dash": "solid"
+    },
+    {
+      "id": "conversion-to-matched-evidence",
+      "from": "conversion.out",
+      "to": "matched.in",
+      "scope": "external",
+      "meaning": "Conversion produces a paired noMDL counterpart for matched evidence collection.",
+      "arrowhead": "end",
+      "route": "straight",
+      "color": "@structure",
+      "width": 3,
+      "dash": "solid"
+    },
+    {
+      "id": "matched-to-proxy",
+      "from": "matched.out.proxy",
+      "to": "proxy.in",
+      "scope": "external",
+      "meaning": "Matched renders feed the proxy-similarity check independently.",
+      "arrowhead": "end",
+      "route": "orthogonal",
+      "color": "@converted",
+      "width": 3,
+      "dash": "dashed"
+    },
+    {
+      "id": "matched-to-vlm",
+      "from": "matched.out.vlm",
+      "to": "vlm.in",
+      "scope": "external",
+      "meaning": "Matched target-centered renders feed the VLM grounding check independently.",
+      "arrowhead": "end",
+      "route": "orthogonal",
+      "color": "@converted",
+      "width": 3,
+      "dash": "dashed"
+    },
+    {
+      "id": "matched-to-material",
+      "from": "matched.out.material",
+      "to": "material.in",
+      "scope": "external",
+      "meaning": "Selected matched material cases feed the material audit independently.",
+      "arrowhead": "end",
+      "route": "orthogonal",
+      "color": "@converted",
+      "width": 3,
+      "dash": "dashed"
+    },
+    {
+      "id": "matched-to-stack",
+      "from": "matched.out.stack",
+      "to": "stack.in",
+      "scope": "external",
+      "meaning": "Converted scenes feed the official stack-entry check independently.",
+      "arrowhead": "end",
+      "route": "orthogonal",
+      "color": "@converted",
+      "width": 3,
+      "dash": "dashed"
+    }
+  ],
+  "assets": [
+    {
+      "id": "source-scene-render",
+      "path": "../out_tmp/mdl_images/orbit_mdl_01.png",
+      "x": 54,
+      "y": 350,
+      "width": 286,
+      "height": 188,
+      "fit": "cover",
+      "alt": "Representative source scene rendered with MDL materials",
+      "owner": "source-assets"
+    },
+    {
+      "id": "paired-original-render",
+      "path": "../out_tmp/mdl_images/orbit_mdl_01.png",
+      "x": 444,
+      "y": 518,
+      "width": 298,
+      "height": 226,
+      "fit": "cover",
+      "alt": "Original MDL scene view in a matched pair",
+      "owner": "matched-evidence"
+    },
+    {
+      "id": "paired-nomdl-render",
+      "path": "../out_tmp/nomdl_images/orbit_01.png",
+      "x": 784,
+      "y": 518,
+      "width": 298,
+      "height": 226,
+      "fit": "cover",
+      "alt": "Converted noMDL scene view in a matched pair",
+      "owner": "matched-evidence"
+    },
+    {
+      "id": "proxy-gate-render",
+      "path": "../../evidence/raw/renders/chestofdrawers_0011/A_top_front_right.png",
+      "x": 1235,
+      "y": 94,
+      "width": 150,
+      "height": 100,
+      "fit": "cover",
+      "alt": "Representative proxy-similarity object render",
+      "owner": "gate-proxy"
+    },
+    {
+      "id": "vlm-gate-render",
+      "path": "../../evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png",
+      "x": 1235,
+      "y": 298,
+      "width": 150,
+      "height": 100,
+      "fit": "cover",
+      "alt": "Target-centered GRScenes render used to orient the VLM grounding gate",
+      "owner": "gate-vlm"
+    },
+    {
+      "id": "material-gate-original",
+      "path": "../../evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png",
+      "x": 1235,
+      "y": 502,
+      "width": 48,
+      "height": 100,
+      "fit": "cover",
+      "alt": "Original MDL bottle case used in the selected material audit",
+      "owner": "gate-material"
+    },
+    {
+      "id": "material-gate-nomdl",
+      "path": "../../evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png",
+      "x": 1285,
+      "y": 502,
+      "width": 48,
+      "height": 100,
+      "fit": "cover",
+      "alt": "ConvertAsset noMDL bottle case used in the selected material audit",
+      "owner": "gate-material"
+    },
+    {
+      "id": "material-gate-nvidia",
+      "path": "../../evidence/raw/material_effect_baseline/qualitative_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/nvidia/nvidia_0000.png",
+      "x": 1335,
+      "y": 502,
+      "width": 48,
+      "height": 100,
+      "fit": "cover",
+      "alt": "NVIDIA baseline bottle case used in the selected material audit",
+      "owner": "gate-material"
+    },
+    {
+      "id": "stack-gate-render",
+      "path": "../../evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0036_0066/kujiale0036_0066_597_597_nomdl_end_000101.png",
+      "x": 1235,
+      "y": 706,
+      "width": 150,
+      "height": 100,
+      "fit": "cover",
+      "alt": "Selected noMDL InternNav end frame used to orient the stack-entry gate",
+      "owner": "gate-stack"
+    }
+  ],
+  "outputs": {
+    "formats": ["svg", "pdf", "png"],
+    "basename": "fig_acl_method_chain_v2"
+  },
+  "review": {
+    "semantic_graph_approved": true,
+    "approved_by": "paper author",
+    "approved_at": "2026-08-30",
+    "notes": "Approved topology: source and conversion are sequential; proxy, VLM, material, and stack checks are parallel evidence gates after matched evidence is available."
+  },
+  "provenance": [
+    {
+      "id": "paper-story",
+      "source": "paper/venues/acl27/sections/intro.tex and method.tex",
+      "section": "Introduction and Method",
+      "claim": "Material conversion is a controlled intervention followed by four bounded checks.",
+      "applies_to": ["source-assets", "conversion", "matched-evidence", "gate-proxy", "gate-vlm", "gate-material", "gate-stack"],
+      "status": "verified"
+    },
+    {
+      "id": "render-assets",
+      "source": "paper/shared/evidence/raw and paper/shared/figures/out_tmp",
+      "section": "Recorded render evidence",
+      "claim": "Raster panels are selected project render artifacts, not generated measurements.",
+      "applies_to": ["source-scene-render", "paired-original-render", "paired-nomdl-render"],
+      "status": "verified"
+    },
+    {
+      "id": "gate-render-assets",
+      "source": "paper/shared/evidence/raw render, material-effect, and InternNav records",
+      "section": "Recorded gate-specific visual evidence",
+      "claim": "Gate thumbnails orient the four checks; they do not introduce new measurements.",
+      "applies_to": ["proxy-gate-render", "vlm-gate-render", "material-gate-original", "material-gate-nomdl", "material-gate-nvidia", "stack-gate-render"],
+      "status": "verified"
+    }
+  ]
+}

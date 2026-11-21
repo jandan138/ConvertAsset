@@ -1,0 +1,72 @@
+{
+  "reviews": [
+    {
+      "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:couch:v1",
+      "condition": "converted",
+      "verdict": "PASS",
+      "image_sha256": "2b32e665480cfff2425099a5dd3ea006cd7617254c0587aad736be518c1e2f71",
+      "mask_sha256": "cce8a278dc5b77e2113cce626f36e96d2b1b5ab582f9e224aafc8dc2c23c7495",
+      "review_type": "local_visual_inspection",
+      "evidence": "Couch clearly identifiable in unobstructed living-room view; visible mask excludes pillows and coffee table.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/00"
+    },
+    {
+      "pair_id": "MVSYCXYKTKJ66AABAAAAADA8_usd:toy:v1",
+      "condition": "converted",
+      "verdict": "PASS",
+      "image_sha256": "aaf1c3729067fa3a6cbd3fa6641ea74af6f3cbb949889ed14ecb1b25f5f308ee",
+      "mask_sha256": "8944d230d4294e8c772651243742e23042671bb5f46525ee266d4a9f119a58aa",
+      "review_type": "local_visual_inspection",
+      "evidence": "Cat body and ears identifiable in dim side/back view, partially occluded by chair leg; mask excludes bed and foreground leg. Natural low light retained.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/01",
+      "query_override": "Point to the cat in the image."
+    },
+    {
+      "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:microwave:v0",
+      "condition": "converted",
+      "verdict": "FAIL",
+      "image_sha256": null,
+      "evidence": "Blank RGB rejected by capture; no accepted image.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/02"
+    },
+    {
+      "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:microwave:v1",
+      "condition": "converted",
+      "verdict": "FAIL",
+      "image_sha256": "41eb37e31ef9b7f5c943a88f2e5072a765e4b2b25fb2b71a287b91ebad6315a0",
+      "evidence": "Cabinet rear surface dominates image; microwave not identifiable.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/03"
+    },
+    {
+      "pair_id": "MVSYCXYKTKJ66AABAAAAADA8_usd:toy:v1",
+      "condition": "original",
+      "verdict": "PASS",
+      "query_override": "Point to the cat in the image.",
+      "image_sha256": "1180b8bd01b71766188e70a2c3f57a7cd772535c794e1337defb47e8b442c01e",
+      "mask_sha256": "8944d230d4294e8c772651243742e23042671bb5f46525ee266d4a9f119a58aa",
+      "review_type": "local_visual_inspection",
+      "evidence": "Cat body and ears discernible in dim, partially occluded view; matches converted camera and has pixel-identical target mask.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/04"
+    },
+    {
+      "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:couch:v0",
+      "condition": "original",
+      "verdict": "PASS",
+      "image_sha256": "f26d223f7067fd1900ccaa1f0336abfbd748b47f6ef4ebcac1d5cf4606b7080f",
+      "mask_sha256": "bedeec10c428f29f767b3fb5faed156f3dda1199bf9d41229af71482a12814f1",
+      "review_type": "local_visual_inspection",
+      "evidence": "Couch clear in living room; matches converted camera and pixel-identical target mask; material reflections differ.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/05"
+    },
+    {
+      "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:couch:v1",
+      "condition": "original",
+      "verdict": "PASS",
+      "image_sha256": "b9f568f8e8eb5183de9ace68f5c8735faeeb0b5bb4744303d9ffba7ea63bd2c9",
+      "mask_sha256": "cce8a278dc5b77e2113cce626f36e96d2b1b5ab582f9e224aafc8dc2c23c7495",
+      "review_type": "local_visual_inspection",
+      "evidence": "Repaired couch angle clear; matches replacement converted camera and mask; no wall obstruction.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/06"
+    }
+  ]
+}

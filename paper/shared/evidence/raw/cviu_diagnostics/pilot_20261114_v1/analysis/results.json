@@ -1,0 +1,1850 @@
+{
+  "n_pairs": 12,
+  "n_predictions": 72,
+  "by_repeat": [
+    {
+      "repeat": 0,
+      "n_pairs": 12,
+      "original_hits": 11,
+      "converted_hits": 11,
+      "losses": 0,
+      "gains": 0,
+      "flips": 0,
+      "original_hit_rate": 0.9166666666666666,
+      "original_valid_point_rate": 1.0,
+      "original_visible_bbox_hit_rate": 1.0,
+      "converted_hit_rate": 0.9166666666666666,
+      "converted_valid_point_rate": 1.0,
+      "converted_visible_bbox_hit_rate": 1.0,
+      "flip_rate": 0.0,
+      "hit_rate_difference": 0.0
+    },
+    {
+      "repeat": 1,
+      "n_pairs": 12,
+      "original_hits": 11,
+      "converted_hits": 11,
+      "losses": 0,
+      "gains": 0,
+      "flips": 0,
+      "original_hit_rate": 0.9166666666666666,
+      "original_valid_point_rate": 1.0,
+      "original_visible_bbox_hit_rate": 1.0,
+      "converted_hit_rate": 0.9166666666666666,
+      "converted_valid_point_rate": 1.0,
+      "converted_visible_bbox_hit_rate": 1.0,
+      "flip_rate": 0.0,
+      "hit_rate_difference": 0.0
+    },
+    {
+      "repeat": 2,
+      "n_pairs": 12,
+      "original_hits": 11,
+      "converted_hits": 11,
+      "losses": 0,
+      "gains": 0,
+      "flips": 0,
+      "original_hit_rate": 0.9166666666666666,
+      "original_valid_point_rate": 1.0,
+      "original_visible_bbox_hit_rate": 1.0,
+      "converted_hit_rate": 0.9166666666666666,
+      "converted_valid_point_rate": 1.0,
+      "converted_visible_bbox_hit_rate": 1.0,
+      "flip_rate": 0.0,
+      "hit_rate_difference": 0.0
+    }
+  ],
+  "within_condition": {
+    "original": {
+      "disagreements": 0,
+      "comparisons": 36,
+      "rate": 0.0
+    },
+    "converted": {
+      "disagreements": 0,
+      "comparisons": 36,
+      "rate": 0.0
+    }
+  },
+  "cases": [
+    {
+      "pair_id": "MVSYCXYKTKJ66AABAAAAADA8_usd:stool:v0",
+      "scene_id": "MVSYCXYKTKJ66AABAAAAADA8_usd",
+      "query": "Point to the stool in the image.",
+      "original_hits": [
+        false,
+        false,
+        false
+      ],
+      "converted_hits": [
+        false,
+        false,
+        false
+      ],
+      "images": {
+        "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/16/rgb.png",
+        "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/17/rgb.png"
+      },
+      "points_normalized": {
+        "original": [
+          [
+            496.0,
+            375.0
+          ],
+          [
+            496.0,
+            375.0
+          ],
+          [
+            496.0,
+            375.0
+          ]
+        ],
+        "converted": [
+          [
+            496.0,
+            427.0
+          ],
+          [
+            496.0,
+            427.0
+          ],
+          [
+            496.0,
+            427.0
+          ]
+        ]
+      },
+      "raw_responses": {
+        "original": [
+          "Point: 496, 375",
+          "Point: 496, 375",
+          "Point: 496, 375"
+        ],
+        "converted": [
+          "Point: 496, 427",
+          "Point: 496, 427",
+          "Point: 496, 427"
+        ]
+      },
+      "center_baseline": {
+        "original": false,
+        "converted": false
+      }
+    },
+    {
+      "pair_id": "MVSYCXYKTKJ66AABAAAAADA8_usd:stool:v1",
+      "scene_id": "MVSYCXYKTKJ66AABAAAAADA8_usd",
+      "query": "Point to the stool in the image.",
+      "original_hits": [
+        true,
+        true,
+        true
+      ],
+      "converted_hits": [
+        true,
+        true,
+        true
+      ],
+      "images": {
+        "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/18/rgb.png",
+        "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/19/rgb.png"
+      },
+      "points_normalized": {
+        "original": [
+          [
+            477.0,
+            477.0
+          ],
+          [
+            477.0,
+            477.0
+          ],
+          [
+            477.0,
+            477.0
+          ]
+        ],
+        "converted": [
+          [
+            474.0,
+            375.0
+          ],
+          [
+            474.0,
+            375.0
+          ],
+          [
+            474.0,
+            375.0
+          ]
+        ]
+      },
+      "raw_responses": {
+        "original": [
+          "Point: 477, 477",
+          "Point: 477, 477",
+          "Point: 477, 477"
+        ],
+        "converted": [
+          "Point: 474, 375",
+          "Point: 474, 375",
+          "Point: 474, 375"
+        ]
+      },
+      "center_baseline": {
+        "original": false,
+        "converted": false
+      }
+    },
+    {
+      "pair_id": "MVSYCXYKTKJ66AABAAAAADA8_usd:toy:v0",
+      "scene_id": "MVSYCXYKTKJ66AABAAAAADA8_usd",
+      "query": "Point to the cat in the image.",
+      "original_hits": [
+        true,
+        true,
+        true
+      ],
+      "converted_hits": [
+        true,
+        true,
+        true
+      ],
+      "images": {
+        "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/20/rgb.png",
+        "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/21/rgb.png"
+      },
+      "points_normalized": {
+        "original": [
+          [
+            476.0,
+            542.0
+          ],
+          [
+            476.0,
+            542.0
+          ],
+          [
+            476.0,
+            542.0
+          ]
+        ],
+        "converted": [
+          [
+            450.0,
+            540.0
+          ],
+          [
+            450.0,
+            540.0
+          ],
+          [
+            450.0,
+            540.0
+          ]
+        ]
+      },
+      "raw_responses": {
+        "original": [
+          "Point: 476, 542",
+          "Point: 476, 542",
+          "Point: 476, 542"
+        ],
+        "converted": [
+          "Point: 450, 540",
+          "Point: 450, 540",
+          "Point: 450, 540"
+        ]
+      },
+      "center_baseline": {
+        "original": false,
+        "converted": false
+      }
+    },
+    {
+      "pair_id": "MVSYCXYKTKJ66AABAAAAADA8_usd:toy:v1",
+      "scene_id": "MVSYCXYKTKJ66AABAAAAADA8_usd",
+      "query": "Point to the cat in the image.",
+      "original_hits": [
+        true,
+        true,
+        true
+      ],
+      "converted_hits": [
+        true,
+        true,
+        true
+      ],
+      "images": {
+        "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/04/rgb.png",
+        "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/01/rgb.png"
+      },
+      "points_normalized": {
+        "original": [
+          [
+            437.0,
+            537.0
+          ],
+          [
+            437.0,
+            537.0
+          ],
+          [
+            437.0,
+            537.0
+          ]
+        ],
+        "converted": [
+          [
+            426.0,
+            527.0
+          ],
+          [
+            426.0,
+            527.0
+          ],
+          [
+            426.0,
+            527.0
+          ]
+        ]
+      },
+      "raw_responses": {
+        "original": [
+          "Point: 437, 537",
+          "Point: 437, 537",
+          "Point: 437, 537"
+        ],
+        "converted": [
+          "Point: 426, 527",
+          "Point: 426, 527",
+          "Point: 426, 527"
+        ]
+      },
+      "center_baseline": {
+        "original": false,
+        "converted": false
+      }
+    },
+    {
+      "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:couch:v0",
+      "scene_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd",
+      "query": "Point to the couch in the image.",
+      "original_hits": [
+        true,
+        true,
+        true
+      ],
+      "converted_hits": [
+        true,
+        true,
+        true
+      ],
+      "images": {
+        "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/05/rgb.png",
+        "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/01/rgb.png"
+      },
+      "points_normalized": {
+        "original": [
+          [
+            427.0,
+            520.0
+          ],
+          [
+            427.0,
+            520.0
+          ],
+          [
+            427.0,
+            520.0
+          ]
+        ],
+        "converted": [
+          [
+            437.0,
+            520.0
+          ],
+          [
+            437.0,
+            520.0
+          ],
+          [
+            437.0,
+            520.0
+          ]
+        ]
+      },
+      "raw_responses": {
+        "original": [
+          "Point: 427, 520",
+          "Point: 427, 520",
+          "Point: 427, 520"
+        ],
+        "converted": [
+          "Point: 437, 520",
+          "Point: 437, 520",
+          "Point: 437, 520"
+        ]
+      },
+      "center_baseline": {
+        "original": false,
+        "converted": false
+      }
+    },
+    {
+      "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:couch:v1",
+      "scene_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd",
+      "query": "Point to the couch in the image.",
+      "original_hits": [
+        true,
+        true,
+        true
+      ],
+      "converted_hits": [
+        true,
+        true,
+        true
+      ],
+      "images": {
+        "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/06/rgb.png",
+        "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/00/rgb.png"
+      },
+      "points_normalized": {
+        "original": [
+          [
+            437.0,
+            500.0
+          ],
+          [
+            437.0,
+            500.0
+          ],
+          [
+            437.0,
+            500.0
+          ]
+        ],
+        "converted": [
+          [
+            450.0,
+            500.0
+          ],
+          [
+            450.0,
+            500.0
+          ],
+          [
+            450.0,
+            500.0
+          ]
+        ]
+      },
+      "raw_responses": {
+        "original": [
+          "Point: 437, 500",
+          "Point: 437, 500",
+          "Point: 437, 500"
+        ],
+        "converted": [
+          "Point: 450, 500",
+          "Point: 450, 500",
+          "Point: 450, 500"
+        ]
+      },
+      "center_baseline": {
+        "original": false,
+        "converted": false
+      }
+    },
+    {
+      "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:laptop:v0",
+      "scene_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd",
+      "query": "Point to the laptop in the image.",
+      "original_hits": [
+        true,
+        true,
+        true
+      ],
+      "converted_hits": [
+        true,
+        true,
+        true
+      ],
+      "images": {
+        "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/04/rgb.png",
+        "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/05/rgb.png"
+      },
+      "points_normalized": {
+        "original": [
+          [
+            477.0,
+            537.0
+          ],
+          [
+            477.0,
+            537.0
+          ],
+          [
+            477.0,
+            537.0
+          ]
+        ],
+        "converted": [
+          [
+            500.0,
+            550.0
+          ],
+          [
+            500.0,
+            550.0
+          ],
+          [
+            500.0,
+            550.0
+          ]
+        ]
+      },
+      "raw_responses": {
+        "original": [
+          "Point: 477, 537",
+          "Point: 477, 537",
+          "Point: 477, 537"
+        ],
+        "converted": [
+          "Point: 500, 550",
+          "Point: 500, 550",
+          "Point: 500, 550"
+        ]
+      },
+      "center_baseline": {
+        "original": true,
+        "converted": true
+      }
+    },
+    {
+      "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:laptop:v1",
+      "scene_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd",
+      "query": "Point to the laptop in the image.",
+      "original_hits": [
+        true,
+        true,
+        true
+      ],
+      "converted_hits": [
+        true,
+        true,
+        true
+      ],
+      "images": {
+        "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/06/rgb.png",
+        "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/07/rgb.png"
+      },
+      "points_normalized": {
+        "original": [
+          [
+            478.0,
+            500.0
+          ],
+          [
+            478.0,
+            500.0
+          ],
+          [
+            478.0,
+            500.0
+          ]
+        ],
+        "converted": [
+          [
+            478.0,
+            528.0
+          ],
+          [
+            478.0,
+            528.0
+          ],
+          [
+            478.0,
+            528.0
+          ]
+        ]
+      },
+      "raw_responses": {
+        "original": [
+          "Point: 478, 500",
+          "Point: 478, 500",
+          "Point: 478, 500"
+        ],
+        "converted": [
+          "Point: 478, 528",
+          "Point: 478, 528",
+          "Point: 478, 528"
+        ]
+      },
+      "center_baseline": {
+        "original": true,
+        "converted": true
+      }
+    },
+    {
+      "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:couch:v0",
+      "scene_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd",
+      "query": "Point to the couch in the image.",
+      "original_hits": [
+        true,
+        true,
+        true
+      ],
+      "converted_hits": [
+        true,
+        true,
+        true
+      ],
+      "images": {
+        "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/08/rgb.png",
+        "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/09/rgb.png"
+      },
+      "points_normalized": {
+        "original": [
+          [
+            472.0,
+            527.0
+          ],
+          [
+            472.0,
+            527.0
+          ],
+          [
+            472.0,
+            527.0
+          ]
+        ],
+        "converted": [
+          [
+            477.0,
+            537.0
+          ],
+          [
+            477.0,
+            537.0
+          ],
+          [
+            477.0,
+            537.0
+          ]
+        ]
+      },
+      "raw_responses": {
+        "original": [
+          "Point: 472, 527",
+          "Point: 472, 527",
+          "Point: 472, 527"
+        ],
+        "converted": [
+          "Point: 477, 537",
+          "Point: 477, 537",
+          "Point: 477, 537"
+        ]
+      },
+      "center_baseline": {
+        "original": true,
+        "converted": true
+      }
+    },
+    {
+      "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:couch:v1",
+      "scene_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd",
+      "query": "Point to the couch in the image.",
+      "original_hits": [
+        true,
+        true,
+        true
+      ],
+      "converted_hits": [
+        true,
+        true,
+        true
+      ],
+      "images": {
+        "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/10/rgb.png",
+        "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/11/rgb.png"
+      },
+      "points_normalized": {
+        "original": [
+          [
+            427.0,
+            527.0
+          ],
+          [
+            427.0,
+            527.0
+          ],
+          [
+            427.0,
+            527.0
+          ]
+        ],
+        "converted": [
+          [
+            427.0,
+            537.0
+          ],
+          [
+            427.0,
+            537.0
+          ],
+          [
+            427.0,
+            537.0
+          ]
+        ]
+      },
+      "raw_responses": {
+        "original": [
+          "Point: 427, 527",
+          "Point: 427, 527",
+          "Point: 427, 527"
+        ],
+        "converted": [
+          "Point: 427, 537",
+          "Point: 427, 537",
+          "Point: 427, 537"
+        ]
+      },
+      "center_baseline": {
+        "original": false,
+        "converted": false
+      }
+    },
+    {
+      "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:microwave:v0",
+      "scene_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd",
+      "query": "Point to the built-in oven in the image.",
+      "original_hits": [
+        true,
+        true,
+        true
+      ],
+      "converted_hits": [
+        true,
+        true,
+        true
+      ],
+      "images": {
+        "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_repairs_v1/00/rgb.png",
+        "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_repairs_v1/01/rgb.png"
+      },
+      "points_normalized": {
+        "original": [
+          [
+            532.0,
+            532.0
+          ],
+          [
+            532.0,
+            532.0
+          ],
+          [
+            532.0,
+            532.0
+          ]
+        ],
+        "converted": [
+          [
+            537.0,
+            537.0
+          ],
+          [
+            537.0,
+            537.0
+          ],
+          [
+            537.0,
+            537.0
+          ]
+        ]
+      },
+      "raw_responses": {
+        "original": [
+          "Point: 532, 532",
+          "Point: 532, 532",
+          "Point: 532, 532"
+        ],
+        "converted": [
+          "Point: 537, 537",
+          "Point: 537, 537",
+          "Point: 537, 537"
+        ]
+      },
+      "center_baseline": {
+        "original": true,
+        "converted": true
+      }
+    },
+    {
+      "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:microwave:v1",
+      "scene_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd",
+      "query": "Point to the built-in oven in the image.",
+      "original_hits": [
+        true,
+        true,
+        true
+      ],
+      "converted_hits": [
+        true,
+        true,
+        true
+      ],
+      "images": {
+        "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_repairs_v1/02/rgb.png",
+        "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_repairs_v1/03/rgb.png"
+      },
+      "points_normalized": {
+        "original": [
+          [
+            475.0,
+            575.0
+          ],
+          [
+            475.0,
+            575.0
+          ],
+          [
+            475.0,
+            575.0
+          ]
+        ],
+        "converted": [
+          [
+            477.0,
+            577.0
+          ],
+          [
+            477.0,
+            577.0
+          ],
+          [
+            477.0,
+            577.0
+          ]
+        ]
+      },
+      "raw_responses": {
+        "original": [
+          "Point: 475, 575",
+          "Point: 475, 575",
+          "Point: 475, 575"
+        ],
+        "converted": [
+          "Point: 477, 577",
+          "Point: 477, 577",
+          "Point: 477, 577"
+        ]
+      },
+      "center_baseline": {
+        "original": true,
+        "converted": true
+      }
+    }
+  ],
+  "interpretation": "Descriptive three-scene pilot. Repeats are not independent scenes; cross-condition flips are not automatically attributable to materials.",
+  "by_scene": {
+    "MVSYCXYKTKJ66AABAAAAADA8_usd": {
+      "n_pairs": 4,
+      "n_predictions": 24,
+      "by_repeat": [
+        {
+          "repeat": 0,
+          "n_pairs": 4,
+          "original_hits": 3,
+          "converted_hits": 3,
+          "losses": 0,
+          "gains": 0,
+          "flips": 0,
+          "original_hit_rate": 0.75,
+          "original_valid_point_rate": 1.0,
+          "original_visible_bbox_hit_rate": 1.0,
+          "converted_hit_rate": 0.75,
+          "converted_valid_point_rate": 1.0,
+          "converted_visible_bbox_hit_rate": 1.0,
+          "flip_rate": 0.0,
+          "hit_rate_difference": 0.0
+        },
+        {
+          "repeat": 1,
+          "n_pairs": 4,
+          "original_hits": 3,
+          "converted_hits": 3,
+          "losses": 0,
+          "gains": 0,
+          "flips": 0,
+          "original_hit_rate": 0.75,
+          "original_valid_point_rate": 1.0,
+          "original_visible_bbox_hit_rate": 1.0,
+          "converted_hit_rate": 0.75,
+          "converted_valid_point_rate": 1.0,
+          "converted_visible_bbox_hit_rate": 1.0,
+          "flip_rate": 0.0,
+          "hit_rate_difference": 0.0
+        },
+        {
+          "repeat": 2,
+          "n_pairs": 4,
+          "original_hits": 3,
+          "converted_hits": 3,
+          "losses": 0,
+          "gains": 0,
+          "flips": 0,
+          "original_hit_rate": 0.75,
+          "original_valid_point_rate": 1.0,
+          "original_visible_bbox_hit_rate": 1.0,
+          "converted_hit_rate": 0.75,
+          "converted_valid_point_rate": 1.0,
+          "converted_visible_bbox_hit_rate": 1.0,
+          "flip_rate": 0.0,
+          "hit_rate_difference": 0.0
+        }
+      ],
+      "within_condition": {
+        "original": {
+          "disagreements": 0,
+          "comparisons": 12,
+          "rate": 0.0
+        },
+        "converted": {
+          "disagreements": 0,
+          "comparisons": 12,
+          "rate": 0.0
+        }
+      },
+      "cases": [
+        {
+          "pair_id": "MVSYCXYKTKJ66AABAAAAADA8_usd:stool:v0",
+          "scene_id": "MVSYCXYKTKJ66AABAAAAADA8_usd",
+          "query": "Point to the stool in the image.",
+          "original_hits": [
+            false,
+            false,
+            false
+          ],
+          "converted_hits": [
+            false,
+            false,
+            false
+          ],
+          "images": {
+            "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/16/rgb.png",
+            "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/17/rgb.png"
+          },
+          "points_normalized": {
+            "original": [
+              [
+                496.0,
+                375.0
+              ],
+              [
+                496.0,
+                375.0
+              ],
+              [
+                496.0,
+                375.0
+              ]
+            ],
+            "converted": [
+              [
+                496.0,
+                427.0
+              ],
+              [
+                496.0,
+                427.0
+              ],
+              [
+                496.0,
+                427.0
+              ]
+            ]
+          },
+          "raw_responses": {
+            "original": [
+              "Point: 496, 375",
+              "Point: 496, 375",
+              "Point: 496, 375"
+            ],
+            "converted": [
+              "Point: 496, 427",
+              "Point: 496, 427",
+              "Point: 496, 427"
+            ]
+          },
+          "center_baseline": {
+            "original": false,
+            "converted": false
+          }
+        },
+        {
+          "pair_id": "MVSYCXYKTKJ66AABAAAAADA8_usd:stool:v1",
+          "scene_id": "MVSYCXYKTKJ66AABAAAAADA8_usd",
+          "query": "Point to the stool in the image.",
+          "original_hits": [
+            true,
+            true,
+            true
+          ],
+          "converted_hits": [
+            true,
+            true,
+            true
+          ],
+          "images": {
+            "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/18/rgb.png",
+            "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/19/rgb.png"
+          },
+          "points_normalized": {
+            "original": [
+              [
+                477.0,
+                477.0
+              ],
+              [
+                477.0,
+                477.0
+              ],
+              [
+                477.0,
+                477.0
+              ]
+            ],
+            "converted": [
+              [
+                474.0,
+                375.0
+              ],
+              [
+                474.0,
+                375.0
+              ],
+              [
+                474.0,
+                375.0
+              ]
+            ]
+          },
+          "raw_responses": {
+            "original": [
+              "Point: 477, 477",
+              "Point: 477, 477",
+              "Point: 477, 477"
+            ],
+            "converted": [
+              "Point: 474, 375",
+              "Point: 474, 375",
+              "Point: 474, 375"
+            ]
+          },
+          "center_baseline": {
+            "original": false,
+            "converted": false
+          }
+        },
+        {
+          "pair_id": "MVSYCXYKTKJ66AABAAAAADA8_usd:toy:v0",
+          "scene_id": "MVSYCXYKTKJ66AABAAAAADA8_usd",
+          "query": "Point to the cat in the image.",
+          "original_hits": [
+            true,
+            true,
+            true
+          ],
+          "converted_hits": [
+            true,
+            true,
+            true
+          ],
+          "images": {
+            "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/20/rgb.png",
+            "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/21/rgb.png"
+          },
+          "points_normalized": {
+            "original": [
+              [
+                476.0,
+                542.0
+              ],
+              [
+                476.0,
+                542.0
+              ],
+              [
+                476.0,
+                542.0
+              ]
+            ],
+            "converted": [
+              [
+                450.0,
+                540.0
+              ],
+              [
+                450.0,
+                540.0
+              ],
+              [
+                450.0,
+                540.0
+              ]
+            ]
+          },
+          "raw_responses": {
+            "original": [
+              "Point: 476, 542",
+              "Point: 476, 542",
+              "Point: 476, 542"
+            ],
+            "converted": [
+              "Point: 450, 540",
+              "Point: 450, 540",
+              "Point: 450, 540"
+            ]
+          },
+          "center_baseline": {
+            "original": false,
+            "converted": false
+          }
+        },
+        {
+          "pair_id": "MVSYCXYKTKJ66AABAAAAADA8_usd:toy:v1",
+          "scene_id": "MVSYCXYKTKJ66AABAAAAADA8_usd",
+          "query": "Point to the cat in the image.",
+          "original_hits": [
+            true,
+            true,
+            true
+          ],
+          "converted_hits": [
+            true,
+            true,
+            true
+          ],
+          "images": {
+            "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/04/rgb.png",
+            "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/01/rgb.png"
+          },
+          "points_normalized": {
+            "original": [
+              [
+                437.0,
+                537.0
+              ],
+              [
+                437.0,
+                537.0
+              ],
+              [
+                437.0,
+                537.0
+              ]
+            ],
+            "converted": [
+              [
+                426.0,
+                527.0
+              ],
+              [
+                426.0,
+                527.0
+              ],
+              [
+                426.0,
+                527.0
+              ]
+            ]
+          },
+          "raw_responses": {
+            "original": [
+              "Point: 437, 537",
+              "Point: 437, 537",
+              "Point: 437, 537"
+            ],
+            "converted": [
+              "Point: 426, 527",
+              "Point: 426, 527",
+              "Point: 426, 527"
+            ]
+          },
+          "center_baseline": {
+            "original": false,
+            "converted": false
+          }
+        }
+      ],
+      "interpretation": "Descriptive three-scene pilot. Repeats are not independent scenes; cross-condition flips are not automatically attributable to materials."
+    },
+    "MVUCSQAKTKJ5EAABAAAAAAA8_usd": {
+      "n_pairs": 4,
+      "n_predictions": 24,
+      "by_repeat": [
+        {
+          "repeat": 0,
+          "n_pairs": 4,
+          "original_hits": 4,
+          "converted_hits": 4,
+          "losses": 0,
+          "gains": 0,
+          "flips": 0,
+          "original_hit_rate": 1.0,
+          "original_valid_point_rate": 1.0,
+          "original_visible_bbox_hit_rate": 1.0,
+          "converted_hit_rate": 1.0,
+          "converted_valid_point_rate": 1.0,
+          "converted_visible_bbox_hit_rate": 1.0,
+          "flip_rate": 0.0,
+          "hit_rate_difference": 0.0
+        },
+        {
+          "repeat": 1,
+          "n_pairs": 4,
+          "original_hits": 4,
+          "converted_hits": 4,
+          "losses": 0,
+          "gains": 0,
+          "flips": 0,
+          "original_hit_rate": 1.0,
+          "original_valid_point_rate": 1.0,
+          "original_visible_bbox_hit_rate": 1.0,
+          "converted_hit_rate": 1.0,
+          "converted_valid_point_rate": 1.0,
+          "converted_visible_bbox_hit_rate": 1.0,
+          "flip_rate": 0.0,
+          "hit_rate_difference": 0.0
+        },
+        {
+          "repeat": 2,
+          "n_pairs": 4,
+          "original_hits": 4,
+          "converted_hits": 4,
+          "losses": 0,
+          "gains": 0,
+          "flips": 0,
+          "original_hit_rate": 1.0,
+          "original_valid_point_rate": 1.0,
+          "original_visible_bbox_hit_rate": 1.0,
+          "converted_hit_rate": 1.0,
+          "converted_valid_point_rate": 1.0,
+          "converted_visible_bbox_hit_rate": 1.0,
+          "flip_rate": 0.0,
+          "hit_rate_difference": 0.0
+        }
+      ],
+      "within_condition": {
+        "original": {
+          "disagreements": 0,
+          "comparisons": 12,
+          "rate": 0.0
+        },
+        "converted": {
+          "disagreements": 0,
+          "comparisons": 12,
+          "rate": 0.0
+        }
+      },
+      "cases": [
+        {
+          "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:couch:v0",
+          "scene_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd",
+          "query": "Point to the couch in the image.",
+          "original_hits": [
+            true,
+            true,
+            true
+          ],
+          "converted_hits": [
+            true,
+            true,
+            true
+          ],
+          "images": {
+            "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/05/rgb.png",
+            "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/01/rgb.png"
+          },
+          "points_normalized": {
+            "original": [
+              [
+                427.0,
+                520.0
+              ],
+              [
+                427.0,
+                520.0
+              ],
+              [
+                427.0,
+                520.0
+              ]
+            ],
+            "converted": [
+              [
+                437.0,
+                520.0
+              ],
+              [
+                437.0,
+                520.0
+              ],
+              [
+                437.0,
+                520.0
+              ]
+            ]
+          },
+          "raw_responses": {
+            "original": [
+              "Point: 427, 520",
+              "Point: 427, 520",
+              "Point: 427, 520"
+            ],
+            "converted": [
+              "Point: 437, 520",
+              "Point: 437, 520",
+              "Point: 437, 520"
+            ]
+          },
+          "center_baseline": {
+            "original": false,
+            "converted": false
+          }
+        },
+        {
+          "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:couch:v1",
+          "scene_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd",
+          "query": "Point to the couch in the image.",
+          "original_hits": [
+            true,
+            true,
+            true
+          ],
+          "converted_hits": [
+            true,
+            true,
+            true
+          ],
+          "images": {
+            "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/06/rgb.png",
+            "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/00/rgb.png"
+          },
+          "points_normalized": {
+            "original": [
+              [
+                437.0,
+                500.0
+              ],
+              [
+                437.0,
+                500.0
+              ],
+              [
+                437.0,
+                500.0
+              ]
+            ],
+            "converted": [
+              [
+                450.0,
+                500.0
+              ],
+              [
+                450.0,
+                500.0
+              ],
+              [
+                450.0,
+                500.0
+              ]
+            ]
+          },
+          "raw_responses": {
+            "original": [
+              "Point: 437, 500",
+              "Point: 437, 500",
+              "Point: 437, 500"
+            ],
+            "converted": [
+              "Point: 450, 500",
+              "Point: 450, 500",
+              "Point: 450, 500"
+            ]
+          },
+          "center_baseline": {
+            "original": false,
+            "converted": false
+          }
+        },
+        {
+          "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:laptop:v0",
+          "scene_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd",
+          "query": "Point to the laptop in the image.",
+          "original_hits": [
+            true,
+            true,
+            true
+          ],
+          "converted_hits": [
+            true,
+            true,
+            true
+          ],
+          "images": {
+            "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/04/rgb.png",
+            "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/05/rgb.png"
+          },
+          "points_normalized": {
+            "original": [
+              [
+                477.0,
+                537.0
+              ],
+              [
+                477.0,
+                537.0
+              ],
+              [
+                477.0,
+                537.0
+              ]
+            ],
+            "converted": [
+              [
+                500.0,
+                550.0
+              ],
+              [
+                500.0,
+                550.0
+              ],
+              [
+                500.0,
+                550.0
+              ]
+            ]
+          },
+          "raw_responses": {
+            "original": [
+              "Point: 477, 537",
+              "Point: 477, 537",
+              "Point: 477, 537"
+            ],
+            "converted": [
+              "Point: 500, 550",
+              "Point: 500, 550",
+              "Point: 500, 550"
+            ]
+          },
+          "center_baseline": {
+            "original": true,
+            "converted": true
+          }
+        },
+        {
+          "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:laptop:v1",
+          "scene_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd",
+          "query": "Point to the laptop in the image.",
+          "original_hits": [
+            true,
+            true,
+            true
+          ],
+          "converted_hits": [
+            true,
+            true,
+            true
+          ],
+          "images": {
+            "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/06/rgb.png",
+            "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/07/rgb.png"
+          },
+          "points_normalized": {
+            "original": [
+              [
+                478.0,
+                500.0
+              ],
+              [
+                478.0,
+                500.0
+              ],
+              [
+                478.0,
+                500.0
+              ]
+            ],
+            "converted": [
+              [
+                478.0,
+                528.0
+              ],
+              [
+                478.0,
+                528.0
+              ],
+              [
+                478.0,
+                528.0
+              ]
+            ]
+          },
+          "raw_responses": {
+            "original": [
+              "Point: 478, 500",
+              "Point: 478, 500",
+              "Point: 478, 500"
+            ],
+            "converted": [
+              "Point: 478, 528",
+              "Point: 478, 528",
+              "Point: 478, 528"
+            ]
+          },
+          "center_baseline": {
+            "original": true,
+            "converted": true
+          }
+        }
+      ],
+      "interpretation": "Descriptive three-scene pilot. Repeats are not independent scenes; cross-condition flips are not automatically attributable to materials."
+    },
+    "MVUHLWYKTKJ5EAABAAAAADI8_usd": {
+      "n_pairs": 4,
+      "n_predictions": 24,
+      "by_repeat": [
+        {
+          "repeat": 0,
+          "n_pairs": 4,
+          "original_hits": 4,
+          "converted_hits": 4,
+          "losses": 0,
+          "gains": 0,
+          "flips": 0,
+          "original_hit_rate": 1.0,
+          "original_valid_point_rate": 1.0,
+          "original_visible_bbox_hit_rate": 1.0,
+          "converted_hit_rate": 1.0,
+          "converted_valid_point_rate": 1.0,
+          "converted_visible_bbox_hit_rate": 1.0,
+          "flip_rate": 0.0,
+          "hit_rate_difference": 0.0
+        },
+        {
+          "repeat": 1,
+          "n_pairs": 4,
+          "original_hits": 4,
+          "converted_hits": 4,
+          "losses": 0,
+          "gains": 0,
+          "flips": 0,
+          "original_hit_rate": 1.0,
+          "original_valid_point_rate": 1.0,
+          "original_visible_bbox_hit_rate": 1.0,
+          "converted_hit_rate": 1.0,
+          "converted_valid_point_rate": 1.0,
+          "converted_visible_bbox_hit_rate": 1.0,
+          "flip_rate": 0.0,
+          "hit_rate_difference": 0.0
+        },
+        {
+          "repeat": 2,
+          "n_pairs": 4,
+          "original_hits": 4,
+          "converted_hits": 4,
+          "losses": 0,
+          "gains": 0,
+          "flips": 0,
+          "original_hit_rate": 1.0,
+          "original_valid_point_rate": 1.0,
+          "original_visible_bbox_hit_rate": 1.0,
+          "converted_hit_rate": 1.0,
+          "converted_valid_point_rate": 1.0,
+          "converted_visible_bbox_hit_rate": 1.0,
+          "flip_rate": 0.0,
+          "hit_rate_difference": 0.0
+        }
+      ],
+      "within_condition": {
+        "original": {
+          "disagreements": 0,
+          "comparisons": 12,
+          "rate": 0.0
+        },
+        "converted": {
+          "disagreements": 0,
+          "comparisons": 12,
+          "rate": 0.0
+        }
+      },
+      "cases": [
+        {
+          "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:couch:v0",
+          "scene_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd",
+          "query": "Point to the couch in the image.",
+          "original_hits": [
+            true,
+            true,
+            true
+          ],
+          "converted_hits": [
+            true,
+            true,
+            true
+          ],
+          "images": {
+            "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/08/rgb.png",
+            "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/09/rgb.png"
+          },
+          "points_normalized": {
+            "original": [
+              [
+                472.0,
+                527.0
+              ],
+              [
+                472.0,
+                527.0
+              ],
+              [
+                472.0,
+                527.0
+              ]
+            ],
+            "converted": [
+              [
+                477.0,
+                537.0
+              ],
+              [
+                477.0,
+                537.0
+              ],
+              [
+                477.0,
+                537.0
+              ]
+            ]
+          },
+          "raw_responses": {
+            "original": [
+              "Point: 472, 527",
+              "Point: 472, 527",
+              "Point: 472, 527"
+            ],
+            "converted": [
+              "Point: 477, 537",
+              "Point: 477, 537",
+              "Point: 477, 537"
+            ]
+          },
+          "center_baseline": {
+            "original": true,
+            "converted": true
+          }
+        },
+        {
+          "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:couch:v1",
+          "scene_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd",
+          "query": "Point to the couch in the image.",
+          "original_hits": [
+            true,
+            true,
+            true
+          ],
+          "converted_hits": [
+            true,
+            true,
+            true
+          ],
+          "images": {
+            "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/10/rgb.png",
+            "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/11/rgb.png"
+          },
+          "points_normalized": {
+            "original": [
+              [
+                427.0,
+                527.0
+              ],
+              [
+                427.0,
+                527.0
+              ],
+              [
+                427.0,
+                527.0
+              ]
+            ],
+            "converted": [
+              [
+                427.0,
+                537.0
+              ],
+              [
+                427.0,
+                537.0
+              ],
+              [
+                427.0,
+                537.0
+              ]
+            ]
+          },
+          "raw_responses": {
+            "original": [
+              "Point: 427, 527",
+              "Point: 427, 527",
+              "Point: 427, 527"
+            ],
+            "converted": [
+              "Point: 427, 537",
+              "Point: 427, 537",
+              "Point: 427, 537"
+            ]
+          },
+          "center_baseline": {
+            "original": false,
+            "converted": false
+          }
+        },
+        {
+          "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:microwave:v0",
+          "scene_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd",
+          "query": "Point to the built-in oven in the image.",
+          "original_hits": [
+            true,
+            true,
+            true
+          ],
+          "converted_hits": [
+            true,
+            true,
+            true
+          ],
+          "images": {
+            "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_repairs_v1/00/rgb.png",
+            "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_repairs_v1/01/rgb.png"
+          },
+          "points_normalized": {
+            "original": [
+              [
+                532.0,
+                532.0
+              ],
+              [
+                532.0,
+                532.0
+              ],
+              [
+                532.0,
+                532.0
+              ]
+            ],
+            "converted": [
+              [
+                537.0,
+                537.0
+              ],
+              [
+                537.0,
+                537.0
+              ],
+              [
+                537.0,
+                537.0
+              ]
+            ]
+          },
+          "raw_responses": {
+            "original": [
+              "Point: 532, 532",
+              "Point: 532, 532",
+              "Point: 532, 532"
+            ],
+            "converted": [
+              "Point: 537, 537",
+              "Point: 537, 537",
+              "Point: 537, 537"
+            ]
+          },
+          "center_baseline": {
+            "original": true,
+            "converted": true
+          }
+        },
+        {
+          "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:microwave:v1",
+          "scene_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd",
+          "query": "Point to the built-in oven in the image.",
+          "original_hits": [
+            true,
+            true,
+            true
+          ],
+          "converted_hits": [
+            true,
+            true,
+            true
+          ],
+          "images": {
+            "original": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_repairs_v1/02/rgb.png",
+            "converted": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_repairs_v1/03/rgb.png"
+          },
+          "points_normalized": {
+            "original": [
+              [
+                475.0,
+                575.0
+              ],
+              [
+                475.0,
+                575.0
+              ],
+              [
+                475.0,
+                575.0
+              ]
+            ],
+            "converted": [
+              [
+                477.0,
+                577.0
+              ],
+              [
+                477.0,
+                577.0
+              ],
+              [
+                477.0,
+                577.0
+              ]
+            ]
+          },
+          "raw_responses": {
+            "original": [
+              "Point: 475, 575",
+              "Point: 475, 575",
+              "Point: 475, 575"
+            ],
+            "converted": [
+              "Point: 477, 577",
+              "Point: 477, 577",
+              "Point: 477, 577"
+            ]
+          },
+          "center_baseline": {
+            "original": true,
+            "converted": true
+          }
+        }
+      ],
+      "interpretation": "Descriptive three-scene pilot. Repeats are not independent scenes; cross-condition flips are not automatically attributable to materials."
+    }
+  }
+}

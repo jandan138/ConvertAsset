@@ -1,0 +1,26 @@
+% Generated automatically by build_cviu_appendix_assets.py from optical_mechanisms.json
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Subgroup / Counterfactual Contrast & Pairs ($n$) & Metric & \textsc{Qwen3-VL-8B} (\% / 95\% CI) & \textsc{InternVL3.5-8B-HF} (\% / 95\% CI) \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Panel A: Factorial Counterfactual Contrast (All 480 Pairs vs.\ Exact-Mask 473 Subset, $\mathrm{IoU}=1.000$)}} \\
+Photometric Matched ($I^{\text{photo}}$ vs.\ $I^O$) & 480 & Flip\% & 5.83 [3.75, 8.12] & 7.08 [5.00, 9.38] \\
+Background Swap Only ($I^B$ vs.\ $I^O$) & 480 & Flip\% & 6.46 [4.58, 8.54] & 9.17 [6.67, 11.88] \\
+Target Silhouette Only ($I^T$ vs.\ $I^O$) & 480 & Flip\% & 8.12 [5.62, 10.83] & 9.79 [7.29, 12.50] \\
+Full Conversion ($I^F$ vs.\ $I^O$) & 480 & Flip\% & 9.38 [7.08, 11.67] & 10.62 [7.92, 13.54] \\
+Non-Photometric Residual ($I^F - I^{\text{photo}}$) & 480 & $\Delta$Flip & +3.54 [+1.25, +5.83] & +3.54 [+1.04, +6.04] \\
+Exact-Mask Residual ($\mathrm{IoU}=1.000$, $n{=}473$) & 473 & $\Delta$Flip & +3.38 [+1.26, +5.70] & +3.38 [+0.84, +5.97] \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Panel B: Prior Surface Optical Regimes ($\Delta H = H_C - H_O$ and Flip Rate)}} \\
+Reflective/Metallic & 158 & $\Delta H$ (Flip) & +4.43\% (10.76\%) & +0.63\% (10.76\%) \\
+Emissive/Screen & 58 & $\Delta H$ (Flip) & +0.00\% (3.45\%) & +6.90\% (13.79\%) \\
+Transparent/Glass & 176 & $\Delta H$ (Flip) & +0.57\% (9.66\%) & +1.70\% (9.66\%) \\
+Matte/Diffuse & 88 & $\Delta H$ (Flip) & +1.14\% (10.23\%) & -1.14\% (10.23\%) \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Panel C: Objective Pixel-Distortion Regimes (Independent of Category Labels)}} \\
+Low-Distortion & 133 & $\Delta H$ (Flip) & +3.76\% (6.77\%) & +3.01\% (10.53\%) \\
+Texture/Detail-Degraded & 327 & $\Delta H$ (Flip) & +0.92\% (10.09\%) & +0.61\% (10.40\%) \\
+Specular-Stripped & 14 & $\Delta H$ (Flip) & -7.14\% (7.14\%) & +0.00\% (14.29\%) \\
+Mask/Opacity-Shift & 6 & $\Delta H$ (Flip) & +33.33\% (33.33\%) & +16.67\% (16.67\%) \\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,641 @@
+{
+  "version": "1.0",
+  "mode": "inspired",
+  "title": "Structured reconstruction of hero A",
+  "canvas": {
+    "width": 1200,
+    "height": 600,
+    "background": "#FFFFFF"
+  },
+  "theme": {
+    "font_family": "Liberation Sans",
+    "palette": {
+      "original": "#0F4D92",
+      "converted": "#E67E22",
+      "ink": "#243247"
+    }
+  },
+  "panels": [
+    {
+      "id": "materials",
+      "x": 10,
+      "y": 60,
+      "width": 240,
+      "height": 535,
+      "title": "Material rewrites"
+    },
+    {
+      "id": "hub",
+      "x": 275,
+      "y": 160,
+      "width": 255,
+      "height": 395,
+      "title": "ConvertAsset"
+    },
+    {
+      "id": "grounding",
+      "x": 555,
+      "y": 60,
+      "width": 248,
+      "height": 286,
+      "title": "Paired grounding observations"
+    },
+    {
+      "id": "probes",
+      "x": 1035,
+      "y": 90,
+      "width": 155,
+      "height": 255,
+      "title": "Region probes"
+    },
+    {
+      "id": "vlm",
+      "x": 826,
+      "y": 138,
+      "width": 52,
+      "height": 170,
+      "title": "Independent VLM evaluations"
+    },
+    {
+      "id": "readout",
+      "x": 890,
+      "y": 90,
+      "width": 135,
+      "height": 250,
+      "title": "Spatial readout"
+    },
+    {
+      "id": "navigation",
+      "x": 555,
+      "y": 355,
+      "width": 632,
+      "height": 240,
+      "title": "Navigation"
+    }
+  ],
+  "ports": [
+    {
+      "id": "wood.association.out",
+      "owner": "materials",
+      "x": 231.99999999999997,
+      "y": 164.0,
+      "scope": "external"
+    },
+    {
+      "id": "wood.association.in",
+      "owner": "hub",
+      "x": 258.0,
+      "y": 164.0,
+      "scope": "external"
+    },
+    {
+      "id": "stone.association.out",
+      "owner": "materials",
+      "x": 231.99999999999997,
+      "y": 257.99999999999994,
+      "scope": "external"
+    },
+    {
+      "id": "stone.association.in",
+      "owner": "hub",
+      "x": 258.0,
+      "y": 257.99999999999994,
+      "scope": "external"
+    },
+    {
+      "id": "ceramic.association.out",
+      "owner": "materials",
+      "x": 231.99999999999997,
+      "y": 352.0,
+      "scope": "external"
+    },
+    {
+      "id": "ceramic.association.in",
+      "owner": "hub",
+      "x": 258.0,
+      "y": 352.0,
+      "scope": "external"
+    },
+    {
+      "id": "metal.association.out",
+      "owner": "materials",
+      "x": 231.99999999999997,
+      "y": 446.0,
+      "scope": "external"
+    },
+    {
+      "id": "metal.association.in",
+      "owner": "hub",
+      "x": 258.0,
+      "y": 446.0,
+      "scope": "external"
+    },
+    {
+      "id": "hub-grounding.out",
+      "owner": "hub",
+      "x": 518.0,
+      "y": 291.0,
+      "scope": "external"
+    },
+    {
+      "id": "hub-grounding.in",
+      "owner": "grounding",
+      "x": 561.0,
+      "y": 77.0,
+      "scope": "external"
+    },
+    {
+      "id": "hub-navigation.out",
+      "owner": "hub",
+      "x": 518.0,
+      "y": 318.0,
+      "scope": "external"
+    },
+    {
+      "id": "hub-navigation.in",
+      "owner": "navigation",
+      "x": 561.0,
+      "y": 374.0,
+      "scope": "external"
+    },
+    {
+      "id": "full-input-0.out",
+      "owner": "grounding",
+      "x": 802.0,
+      "y": 161.67000000000002,
+      "scope": "external"
+    },
+    {
+      "id": "full-input-0.in",
+      "owner": "vlm",
+      "x": 827.9999999999999,
+      "y": 161.67000000000002,
+      "scope": "external"
+    },
+    {
+      "id": "full-readout-0.out",
+      "owner": "vlm",
+      "x": 876.0,
+      "y": 161.67000000000002,
+      "scope": "external"
+    },
+    {
+      "id": "full-readout-0.in",
+      "owner": "readout",
+      "x": 898.0,
+      "y": 161.67000000000002,
+      "scope": "external"
+    },
+    {
+      "id": "full-input-1.out",
+      "owner": "grounding",
+      "x": 802.0,
+      "y": 284.67,
+      "scope": "external"
+    },
+    {
+      "id": "full-input-1.in",
+      "owner": "vlm",
+      "x": 827.9999999999999,
+      "y": 284.67,
+      "scope": "external"
+    },
+    {
+      "id": "full-readout-1.out",
+      "owner": "vlm",
+      "x": 876.0,
+      "y": 284.67,
+      "scope": "external"
+    },
+    {
+      "id": "full-readout-1.in",
+      "owner": "readout",
+      "x": 898.0,
+      "y": 284.67,
+      "scope": "external"
+    }
+  ],
+  "edges": [
+    {
+      "id": "wood.association",
+      "from": "wood.association.out",
+      "to": "wood.association.in",
+      "scope": "external",
+      "meaning": "Illustrative wood pair describes material rewrite behavior; not an input/output processing step.",
+      "arrowhead": "none",
+      "route": "explicit",
+      "points": [
+        {
+          "x": 231.99999999999997,
+          "y": 164.0
+        },
+        {
+          "x": 258.0,
+          "y": 164.0
+        }
+      ],
+      "color": "#8B9EB5",
+      "width": 1.0,
+      "dash": "solid"
+    },
+    {
+      "id": "stone.association",
+      "from": "stone.association.out",
+      "to": "stone.association.in",
+      "scope": "external",
+      "meaning": "Illustrative stone pair describes material rewrite behavior; not an input/output processing step.",
+      "arrowhead": "none",
+      "route": "explicit",
+      "points": [
+        {
+          "x": 231.99999999999997,
+          "y": 257.99999999999994
+        },
+        {
+          "x": 258.0,
+          "y": 257.99999999999994
+        }
+      ],
+      "color": "#8B9EB5",
+      "width": 1.0,
+      "dash": "solid"
+    },
+    {
+      "id": "ceramic.association",
+      "from": "ceramic.association.out",
+      "to": "ceramic.association.in",
+      "scope": "external",
+      "meaning": "Illustrative ceramic pair describes material rewrite behavior; not an input/output processing step.",
+      "arrowhead": "none",
+      "route": "explicit",
+      "points": [
+        {
+          "x": 231.99999999999997,
+          "y": 352.0
+        },
+        {
+          "x": 258.0,
+          "y": 352.0
+        }
+      ],
+      "color": "#8B9EB5",
+      "width": 1.0,
+      "dash": "solid"
+    },
+    {
+      "id": "metal.association",
+      "from": "metal.association.out",
+      "to": "metal.association.in",
+      "scope": "external",
+      "meaning": "Illustrative metal pair describes material rewrite behavior; not an input/output processing step.",
+      "arrowhead": "none",
+      "route": "explicit",
+      "points": [
+        {
+          "x": 231.99999999999997,
+          "y": 446.0
+        },
+        {
+          "x": 258.0,
+          "y": 446.0
+        }
+      ],
+      "color": "#8B9EB5",
+      "width": 1.0,
+      "dash": "solid"
+    },
+    {
+      "id": "hub-grounding",
+      "from": "hub-grounding.out",
+      "to": "hub-grounding.in",
+      "scope": "external",
+      "meaning": "The conversion protocol supports paired GRScenes grounding evaluation.",
+      "arrowhead": "end",
+      "route": "explicit",
+      "points": [
+        {
+          "x": 518.0,
+          "y": 291.0
+        },
+        {
+          "x": 537.0,
+          "y": 291.0
+        },
+        {
+          "x": 537.0,
+          "y": 77.0
+        },
+        {
+          "x": 561.0,
+          "y": 77.0
+        }
+      ],
+      "color": "#E67E22",
+      "width": 1.1,
+      "dash": "solid"
+    },
+    {
+      "id": "hub-navigation",
+      "from": "hub-navigation.out",
+      "to": "hub-navigation.in",
+      "scope": "external",
+      "meaning": "The same intervention protocol is evaluated separately in KuJiaLe navigation.",
+      "arrowhead": "end",
+      "route": "explicit",
+      "points": [
+        {
+          "x": 518.0,
+          "y": 318.0
+        },
+        {
+          "x": 537.0,
+          "y": 318.0
+        },
+        {
+          "x": 537.0,
+          "y": 374.0
+        },
+        {
+          "x": 561.0,
+          "y": 374.0
+        }
+      ],
+      "color": "#E67E22",
+      "width": 1.1,
+      "dash": "solid"
+    },
+    {
+      "id": "full-input-0",
+      "from": "full-input-0.out",
+      "to": "full-input-0.in",
+      "scope": "external",
+      "meaning": "Independent evaluation of the saved two_view_category_original input with the same model and query.",
+      "arrowhead": "end",
+      "route": "explicit",
+      "points": [
+        {
+          "x": 802.0,
+          "y": 161.67000000000002
+        },
+        {
+          "x": 827.9999999999999,
+          "y": 161.67000000000002
+        }
+      ],
+      "color": "#0F4D92",
+      "width": 0.9,
+      "dash": "solid"
+    },
+    {
+      "id": "full-readout-0",
+      "from": "full-readout-0.out",
+      "to": "full-readout-0.in",
+      "scope": "external",
+      "meaning": "Saved two_view_category_original point projected in the full image coordinate frame.",
+      "arrowhead": "end",
+      "route": "explicit",
+      "points": [
+        {
+          "x": 876.0,
+          "y": 161.67000000000002
+        },
+        {
+          "x": 898.0,
+          "y": 161.67000000000002
+        }
+      ],
+      "color": "#0F4D92",
+      "width": 0.9,
+      "dash": "solid"
+    },
+    {
+      "id": "full-input-1",
+      "from": "full-input-1.out",
+      "to": "full-input-1.in",
+      "scope": "external",
+      "meaning": "Independent evaluation of the saved two_view_category_converted input with the same model and query.",
+      "arrowhead": "end",
+      "route": "explicit",
+      "points": [
+        {
+          "x": 802.0,
+          "y": 284.67
+        },
+        {
+          "x": 827.9999999999999,
+          "y": 284.67
+        }
+      ],
+      "color": "#E67E22",
+      "width": 0.9,
+      "dash": "solid"
+    },
+    {
+      "id": "full-readout-1",
+      "from": "full-readout-1.out",
+      "to": "full-readout-1.in",
+      "scope": "external",
+      "meaning": "Saved two_view_category_converted point projected in the full image coordinate frame.",
+      "arrowhead": "end",
+      "route": "explicit",
+      "points": [
+        {
+          "x": 876.0,
+          "y": 284.67
+        },
+        {
+          "x": 898.0,
+          "y": 284.67
+        }
+      ],
+      "color": "#E67E22",
+      "width": 0.9,
+      "dash": "solid"
+    }
+  ],
+  "assets": [
+    {
+      "id": "wood.original",
+      "path": "data/materials/wood_source.png",
+      "x": 26.5,
+      "y": 132.0,
+      "width": 67.0,
+      "height": 67.0,
+      "fit": "contain",
+      "alt": "wood.original"
+    },
+    {
+      "id": "wood.converted",
+      "path": "data/materials/wood_simplified.png",
+      "x": 152.5,
+      "y": 132.0,
+      "width": 67.0,
+      "height": 67.0,
+      "fit": "contain",
+      "alt": "wood.converted"
+    },
+    {
+      "id": "stone.original",
+      "path": "data/materials/stone_source.png",
+      "x": 26.5,
+      "y": 225.99999999999997,
+      "width": 67.0,
+      "height": 67.0,
+      "fit": "contain",
+      "alt": "stone.original"
+    },
+    {
+      "id": "stone.converted",
+      "path": "data/materials/stone_simplified.png",
+      "x": 152.5,
+      "y": 225.99999999999997,
+      "width": 67.0,
+      "height": 67.0,
+      "fit": "contain",
+      "alt": "stone.converted"
+    },
+    {
+      "id": "ceramic.original",
+      "path": "data/materials/ceramic_source.png",
+      "x": 26.5,
+      "y": 320.0,
+      "width": 67.0,
+      "height": 67.0,
+      "fit": "contain",
+      "alt": "ceramic.original"
+    },
+    {
+      "id": "ceramic.converted",
+      "path": "data/materials/ceramic_simplified.png",
+      "x": 152.5,
+      "y": 320.0,
+      "width": 67.0,
+      "height": 67.0,
+      "fit": "contain",
+      "alt": "ceramic.converted"
+    },
+    {
+      "id": "metal.original",
+      "path": "data/materials/metal_source.png",
+      "x": 26.5,
+      "y": 413.99999999999994,
+      "width": 67.0,
+      "height": 67.0,
+      "fit": "contain",
+      "alt": "metal.original"
+    },
+    {
+      "id": "metal.converted",
+      "path": "data/materials/metal_simplified.png",
+      "x": 152.5,
+      "y": 413.99999999999994,
+      "width": 67.0,
+      "height": 67.0,
+      "fit": "contain",
+      "alt": "metal.converted"
+    },
+    {
+      "id": "hub-art",
+      "path": "assets/hub_glass_contained.png",
+      "x": 283.2366634335596,
+      "y": 178.0,
+      "width": 243.52667313288072,
+      "height": 294.0,
+      "fit": "contain",
+      "alt": "hub-art"
+    },
+    {
+      "id": "two_view_category_original",
+      "path": "data/grounding/two_view_category_original.png",
+      "x": 566.0,
+      "y": 118.00223684210525,
+      "width": 236.0,
+      "height": 87.33552631578947,
+      "fit": "contain",
+      "alt": "two_view_category_original"
+    },
+    {
+      "id": "two_view_category_converted",
+      "path": "data/grounding/two_view_category_converted.png",
+      "x": 566.0,
+      "y": 241.00223684210528,
+      "width": 236.0,
+      "height": 87.33552631578947,
+      "fit": "contain",
+      "alt": "two_view_category_converted"
+    },
+    {
+      "id": "target_window_converted",
+      "path": "assets/target_window_converted_detail.png",
+      "x": 1077.8461538461538,
+      "y": 162.0,
+      "width": 68.3076923076923,
+      "height": 74.0,
+      "fit": "contain",
+      "alt": "target_window_converted"
+    },
+    {
+      "id": "context_window_converted",
+      "path": "assets/context_window_converted_detail.png",
+      "x": 1077.8461538461538,
+      "y": 273.00000000000006,
+      "width": 68.3076923076923,
+      "height": 74.0,
+      "fit": "contain",
+      "alt": "context_window_converted"
+    },
+    {
+      "id": "nav-original",
+      "path": "data/navigation/original_map.png",
+      "x": 591.0,
+      "y": 426.99999999999994,
+      "width": 159.0,
+      "height": 159.0,
+      "fit": "contain",
+      "alt": "nav-original"
+    },
+    {
+      "id": "nav-nomdl",
+      "path": "data/navigation/nomdl_map.png",
+      "x": 819.0,
+      "y": 426.99999999999994,
+      "width": 159.0,
+      "height": 159.0,
+      "fit": "contain",
+      "alt": "nav-nomdl"
+    }
+  ],
+  "outputs": {
+    "formats": [
+      "svg",
+      "pptx",
+      "pdf",
+      "png"
+    ],
+    "basename": "hero_A_glass"
+  },
+  "review": {
+    "semantic_graph_approved": true,
+    "approved_by": "user-approved design plan; lead checked against recorded input/output metadata",
+    "approved_at": "2026-09-15",
+    "notes": "Left pairs are material illustrations linked without causal arrowheads to the converter. Grounding and navigation use separate source scenes. Separate blue/orange paths preserve independent Original/Converted inputs and outputs. Region probes are actual extra crossover inputs shown as a side panel; their predictions do not replace the main readouts."
+  },
+  "provenance": [
+    {
+      "id": "evidence",
+      "source": "evidence_manifest.json",
+      "status": "verified"
+    },
+    {
+      "id": "layout-reference",
+      "source": "assets/reference_A.png",
+      "status": "user-provided"
+    },
+    {
+      "id": "generated-hub",
+      "source": "assets/hub_prompt.txt",
+      "status": "user-provided",
+      "claim": "Explanatory 3D component only, not experimental evidence."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "task": "counterfactual",
+  "model_key": "qwen3_vl_8b",
+  "hf_repo": "Qwen/Qwen3-VL-8B-Instruct",
+  "family": "Qwen3-VL",
+  "parser_mode": "strict",
+  "manifest_path": "/content/cviu_v3_work/counterfactuals/counterfactual_manifest.json",
+  "manifest_sha256": "e055fb22710f480f26a8f1945e1d5de2d30a15f39d414d57e7071993332e9148",
+  "repeat": 0,
+  "num_draws": 1,
+  "temperature": 0.0,
+  "top_p": 0.95,
+  "max_new_tokens": 64,
+  "dtype": "bfloat16",
+  "placement": {
+    "gpu_count": 1,
+    "total_vram_gb": 22.03,
+    "device_map": {},
+    "parameter_devices": [
+      "cuda:0"
+    ],
+    "parameter_dtypes": [
+      "torch.bfloat16"
+    ],
+    "attn_implementation": "sdpa",
+    "torch": "2.14.1+cu130",
+    "transformers": "5.22.1"
+  }
+}

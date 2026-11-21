@@ -1,14 +1,37 @@
 # ConvertAsset 文档
 
-> 最后更新: 2026-08-18
+- [CVIU 正式候选采集](records/2026-11-14-cviu-formal-candidate-capture.md) — 同序batch资格通过，30场景原始预览采集中。
+
+- [CVIU 正式30场景资源闭包](records/2026-11-14-cviu-formal-resource-closure.md) — 30场景已审计，批量渲染资格待完成。
+
+- [CVIU 正式跨场景与容量对照启动](records/2026-11-14-cviu-formal-capacity-start.md) — 30场景、480对、8B/32B、5760预测目标，资源准备中。
+
+- [CVIU 三场景试验结果：12 对输入与 72 条预测完成](records/2026-11-14-cviu-three-scene-pilot-results.md) — 两条件均11/12、零成功状态翻转；含案例与审计。
+
+> 最后更新: 2026-09-03
 
 ## 快速导航
 
 - [Task12 抓取接触回归对比](records/2026-10-14-task12-grasp-contact-comparison.md) - 静态参数差异、过滤范围及待验证的最小对照
 - [Task12 标准SDF与粗粒浴液诊断](records/2026-10-13-task12-runtime-stability-diagnostic.md) - 当前候选、旧配方对照与未完成的运行资格；不是已发布资产
 
+- [Task10 原生 120 Hz PBD 操作说明](operations/task10-pbd-120hz.md) - revision16 冻结入口、运行契约与双版静态冷启动回执复核
+- [Task10 原生 120 Hz 生产者记录](records/2026-10-10-task10-pbd-120hz.md) - Receiver 运动修复、09/16 静态证据范围、冻结哈希与重建命令
+
 - [18×150 mm Blender 玻璃试管](records/2026-09-12-chemistry-test-tube-18x150.md) - 圆底卷口、玻璃材质与斐林 r7 架子/水浴限定资格
 
+- [EBench 齿轮内侧支撑诊断](records/2026-09-12-ebench-gear-support-probe.md)
+
+- [EBench 齿轮下缘入齿几何](records/2026-09-12-ebench-gear-leadin.md)
+
+- [EBench 惯性属性单项匹配](records/2026-09-12-ebench-inertia-components.md)
+
+- [EBench 原几何／加宽惯性互补变体](records/2026-09-12-ebench-reverse-inertia.md)
+
+- [EBench 勺子惯性匹配诊断变体](records/2026-09-11-ebench-spoon-inertia-match.md) - 保持加宽网格、匹配控制惯性；运行验证待完成
+
+- [EBench 勺柄几何干预资产](records/2026-09-11-ebench-spoon-handle-interventions.md) - Blender 对照／加宽变体及 Isaac 4.1 运行检查
+- [Task09 近满瓶粉末场景 producer r4](records/2026-09-11-full-powder-scene-r4.md) - 高位薄内托、预沉降初态与 Isaac 4.5 规定轨迹证据
 - [Task09 紧凑粉末瓶场景 producer r3](records/2026-09-11-compact-powder-scene-r3.md) - Blender model_r2 集成、深粉床与 Isaac 4.5 规定轨迹证据
 - [Task 09 天平受力 producer r1](records/2026-09-09-balance-force-r1.md)
 - **[设计文档](design/README.md)** - 架构、模块职责、算法与实现深挖
@@ -82,6 +105,28 @@ ConvertAsset 是面向 NVIDIA Isaac Sim / USD 资产的转换与优化工具集�
 
 ## 论文修订入口
 
+- [ICLR 三份评审全文与 CVIU 逐条修改跟踪](records/2026-11-14-iclr-reviews-archive-and-tracker.md) — 用户提供原文、25 项修改状态与证据、10 条引用核验待办。
+
+- [ICLR27 附录异常红色渲染修复](records/2026-09-22-iclr27-appendix-render-repair.md) — 五组定性展示重渲染完成、历史实验数据保留、33 页 PDF 验证通过
+
+- [ICLR 标题、系统总览与扩展附录集成](records/2026-09-16-iclr-title-hero-supplement-integration.md) — 新系统图、保留原总览、既有 ACL 证据迁移
+
+- [Hero A 结构化复刻](records/2026-09-15-hero-a-structured-reconstruction.md) — 玻璃／矢量双版、真实记录替换与可编辑候选
+
+- [ICLR 顶会参考驱动的多轮图表精修](records/2026-09-15-iclr-reference-led-figure-polish.md) — 三种总览候选、逐图美化与实尺寸复查
+
+- [ICLR 论文图表、叙事与引用提质](records/2026-09-15-iclr-paper-quality-refresh.md) — 既有实验的图文重设计与引用审计
+
+- **[ICLR 2027 投稿准备](operations/iclr27-submission-preparation.md)** — 模型行为—机制—导航主线、实验与构建入口
+- [ICLR 迁移与实验重算记录](records/2026-09-15-iclr-model-behavior-migration.md)
+
+- [ACL Figure 1 material-sphere crop repair](records/2026-09-04-acl-fig1-sphere-crop-repair.md)
+- [ACL/ARR Figure 4 counted-content compliance](records/2026-09-04-acl-arr-figure4-counted-content.md)
+- [ACL Fig.3 float balance and nine-page layout](records/2026-09-03-acl-fig3-float-balance.md)
+- [ACL Figure 4 left-label overlap repair v4](records/2026-09-03-acl-fig4-label-overlap-v4.md)
+- [ACL Figure 1 PPTX-native v4](records/2026-09-03-acl-fig1-pptx-v4.md)
+- [ACL story-first Figure v3 and supplement atlas refresh](records/2026-09-03-acl-story-first-figure-v3.md)
+- [ACL main-figure visual-system redesign](records/2026-08-30-acl-main-figure-redesign.md)
 - [Workshop review ingestion for AAAI 2027](records/2026-05-14-workshop-review-aaai27-roadmap.md)
 - [Workshop-to-AAAI revision roadmap](../paper/shared/evidence/reviews/2026-05-workshop-to-aaai27-revision-roadmap.md)
 - [CVPR review status and ACL goals](records/2026-05-23-cvpr-review-status-and-acl-goals.md)
@@ -179,3 +224,11 @@ ConvertAsset 是面向 NVIDIA Isaac Sim / USD 资产的转换与优化工具集�
 
 主导航遵循 `design/`、`operations/`、`records/`、`reference/`、`archive/` 的用途分类。
 `docs/superpowers/` 是内部流程例外，用于保存 superpowers 设计与执行计划证据，不作为用户功能文档分类。
+
+- [CVIU 转投初始化](records/2026-11-09-cviu-revision-bootstrap.md)：独立稿件与重复运行协议，新增实验待执行。
+
+- [CVIU 自然场景实验基础](records/2026-11-09-cviu-experiment-foundation.md)：划分、测试与依赖检查。
+
+- [CVIU MDL 纹理路径修复](records/2026-11-14-cviu-mdl-texture-anchor-fix.md)：真实 USD 回归与柜子资产重转验证。
+
+- [CVIU 三场景恢复运行记录](records/2026-11-14-cviu-pilot-restoration-running.md)：独立层闭包与渲染启动定位。

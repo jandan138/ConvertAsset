@@ -1,0 +1,24 @@
+{
+  "pid": 3235644,
+  "wait_for_alternate_capture_controller": 3181781,
+  "command": [
+    "python",
+    "-u",
+    "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/13_cviu_formal/render_original_candidates.py",
+    "--views",
+    "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3",
+    "--ready",
+    "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/cviu_formal/v1/home_material_rebinding/ready_scenes.json",
+    "--out",
+    "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_original_candidates_repaired_v1",
+    "--gpus",
+    "0",
+    "1"
+  ],
+  "status": "queued",
+  "log": "/tmp/cviu-repaired-candidate-controller.log",
+  "gpus": [
+    0,
+    1
+  ]
+}

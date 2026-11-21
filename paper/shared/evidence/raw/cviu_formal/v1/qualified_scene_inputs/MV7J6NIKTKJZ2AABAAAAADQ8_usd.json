@@ -1,0 +1,1163 @@
+{
+  "schema_version": 1,
+  "status": "qualified_scene_inputs",
+  "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+  "review": "paper/shared/evidence/raw/cviu_formal/v1/final_visual_reviews/MV7J6NIKTKJZ2AABAAAAADQ8_usd.json",
+  "review_sha256": "336bf588b13a76ff7f015f6b0be0f8a5db4023e16609cf35633fdb39010599c3",
+  "audit_sha256": "291c5a52cd55767d75c5d468eb29c91b442903e1e7d1e9b96b21672873401883",
+  "scope": "One scene only; global 30-scene freeze required before formal inference.",
+  "records": [
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:9184788c34a16a84:v0",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/tv/model_0447f41447fd21a0c4ab04f1dd3d04c2_0",
+      "view_id": "v0",
+      "query": "Point to the wall-mounted screen in the image.",
+      "source_category": "tv",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/000/rgb.png",
+        "sha256": "7aa301ea3c2bd5bbc5679440899d8ae6d07c15bdca7e2cda09d8617e872bdfb1",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/000/target_mask.npy",
+        "sha256": "2b83bcbd9fd9fcabe0e10307a6640a62ffab55ac9c715b5d5405bf01cba14410",
+        "pixels": 180879
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.22999954223632812,
+      "visible_bbox": [
+        78,
+        138,
+        643,
+        544
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/000/receipt.json",
+      "capture_receipt_sha256": "45cea5b03f157e9a43100b9e54fc1b223d9ab1e3c43b87f8608d65b12078eeb6",
+      "camera_stage_sha256": "44abb8d6ef0508f939e0fa5bc3f7a4e4fb5cb1bba69b3d0240a5d1f5ab2192c5"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:9184788c34a16a84:v0",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/tv/model_0447f41447fd21a0c4ab04f1dd3d04c2_0",
+      "view_id": "v0",
+      "query": "Point to the wall-mounted screen in the image.",
+      "source_category": "tv",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/000/rgb.png",
+        "sha256": "ca80fad4c4c73ba48979a5ef7c16855e4b0bb2c2848544b650b347a6eb0077f6",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/000/target_mask.npy",
+        "sha256": "2b83bcbd9fd9fcabe0e10307a6640a62ffab55ac9c715b5d5405bf01cba14410",
+        "pixels": 180879
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.22999954223632812,
+      "visible_bbox": [
+        78,
+        138,
+        643,
+        544
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/000/receipt.json",
+      "capture_receipt_sha256": "db3ed30da0f6f7f55c59adaa8930ea6124bcf1316c025825feb8357f1b828d33",
+      "camera_stage_sha256": "1920b37dcb4db32ead50336b61e58952697bac346833ec260a59cbe722d1bb7c"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:9184788c34a16a84:v1",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/tv/model_0447f41447fd21a0c4ab04f1dd3d04c2_0",
+      "view_id": "v1",
+      "query": "Point to the wall-mounted screen in the image.",
+      "source_category": "tv",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/001/rgb.png",
+        "sha256": "6085e93d81003429fb6c502edf91e42ede88d00d6c70809b6438f8c897acf560",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/001/target_mask.npy",
+        "sha256": "c74062b5e35af15eecda27e2d77e27113bc95c5d78d03521d603c7f143ebcbb8",
+        "pixels": 180858
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.22997283935546875,
+      "visible_bbox": [
+        381,
+        292,
+        946,
+        698
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/001/receipt.json",
+      "capture_receipt_sha256": "ca06720e26e299ed54d44af988565702b278d90d6a99aed5756cd92bf2781197",
+      "camera_stage_sha256": "6f26a97fdab81f3016793b43f570d6039987539f2a9901d4256502b127d56a20"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:9184788c34a16a84:v1",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/tv/model_0447f41447fd21a0c4ab04f1dd3d04c2_0",
+      "view_id": "v1",
+      "query": "Point to the wall-mounted screen in the image.",
+      "source_category": "tv",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/001/rgb.png",
+        "sha256": "a65d5bd22f2437a0a4935781e8459a8ec0efbbc99f43c438c4c172d6482302c0",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/001/target_mask.npy",
+        "sha256": "c74062b5e35af15eecda27e2d77e27113bc95c5d78d03521d603c7f143ebcbb8",
+        "pixels": 180858
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.22997283935546875,
+      "visible_bbox": [
+        381,
+        292,
+        946,
+        698
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/001/receipt.json",
+      "capture_receipt_sha256": "f298f556341dd4dd3d7631ee7a583402a9f9af55a160e28fa2628bd8e04ea555",
+      "camera_stage_sha256": "8b9fa988a47c0eb4b5991efd15a6b9828f69f29d2fc4d5bba6546c5b4fc01491"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:012c0d6872a222a8:v0",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/basket/model_8c0af0d3adf96acb7a4a3b16d06bf353_0",
+      "view_id": "v0",
+      "query": "Point to the woven basket holding towels in the image.",
+      "source_category": "basket",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/002/rgb.png",
+        "sha256": "8455705a7b22b757110e36a8dac6ccd2f9adc76b951f65bd5a021eb6743e9480",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/002/target_mask.npy",
+        "sha256": "96431e2ff90211e5c2996afe2dc72c75d30627d3a37ab80dedb7d46027fd0076",
+        "pixels": 68750
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.08742014567057292,
+      "visible_bbox": [
+        124,
+        195,
+        490,
+        483
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/002/receipt.json",
+      "capture_receipt_sha256": "a91c230cb9475c86c50d62b5d8e2a119e37b7e76cfd0e19035162e2fcd68026f",
+      "camera_stage_sha256": "cb74aef555a951f0b6530dd6a62dfa1825e7d8c0a60d5243d33a3078645cd9ef"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:012c0d6872a222a8:v0",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/basket/model_8c0af0d3adf96acb7a4a3b16d06bf353_0",
+      "view_id": "v0",
+      "query": "Point to the woven basket holding towels in the image.",
+      "source_category": "basket",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/002/rgb.png",
+        "sha256": "805427a6fc71c422b3faf81ae4379cd64f2a37f77f8036312356facef5975c31",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/002/target_mask.npy",
+        "sha256": "96431e2ff90211e5c2996afe2dc72c75d30627d3a37ab80dedb7d46027fd0076",
+        "pixels": 68750
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.08742014567057292,
+      "visible_bbox": [
+        124,
+        195,
+        490,
+        483
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/002/receipt.json",
+      "capture_receipt_sha256": "175a886a1d657f0129fdcbf1ce79aa60bd7f8afd5ae3b807e454281ccd9fdd3d",
+      "camera_stage_sha256": "3ed7fe12f5039a13ef34d02322f4bf0ec478b820bf957cd10bce682a9f92f15a"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:012c0d6872a222a8:v1",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/basket/model_8c0af0d3adf96acb7a4a3b16d06bf353_0",
+      "view_id": "v1",
+      "query": "Point to the woven basket holding towels in the image.",
+      "source_category": "basket",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/003/rgb.png",
+        "sha256": "972c5dbcf75d8a815cba984be405bf25b61fc11cd4133432b20f92641f20a281",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/003/target_mask.npy",
+        "sha256": "5c0f59a2609c470d11ab92d02bdf779ffa037efbfa3301043e3d6cac01ce9c8d",
+        "pixels": 96300
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.1224517822265625,
+      "visible_bbox": [
+        480,
+        350,
+        955,
+        638
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/003/receipt.json",
+      "capture_receipt_sha256": "db9a5e375141dffae0c9b4adf77045d16f358910712d64739fd8dd913410a7f7",
+      "camera_stage_sha256": "ea3ef1660337b8f0b054f1e10cf09228a549dc4a143b8961eadd38528f22ac75"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:012c0d6872a222a8:v1",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/basket/model_8c0af0d3adf96acb7a4a3b16d06bf353_0",
+      "view_id": "v1",
+      "query": "Point to the woven basket holding towels in the image.",
+      "source_category": "basket",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/003/rgb.png",
+        "sha256": "8fd790caff24417723def83e1db0de0afe6bbbdc2d9e3e8ed9316c4b0d23586a",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/003/target_mask.npy",
+        "sha256": "5c0f59a2609c470d11ab92d02bdf779ffa037efbfa3301043e3d6cac01ce9c8d",
+        "pixels": 96300
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.1224517822265625,
+      "visible_bbox": [
+        480,
+        350,
+        955,
+        638
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/003/receipt.json",
+      "capture_receipt_sha256": "262fda2a27925dd3c84c6c05438b3665d4d27accc3aa176d49525f80106495fa",
+      "camera_stage_sha256": "3a4a4ee4100f444e2cabcb122d8d900ce5000fd80f101c4d919403a91c868bb9"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:8eace0948ce805c7:v0",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/teatable/model_64cdcb0b12dc0bca00ef5ce133da283b_0",
+      "view_id": "v0",
+      "query": "Point to the coffee table in the image.",
+      "source_category": "teatable",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/004/rgb.png",
+        "sha256": "d880617a9609765c9c819087f47e41ba0c2071dccd5494680fb4c5dd38ef17a3",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/004/target_mask.npy",
+        "sha256": "95e4401988ef2cc7f411b922203a844703600386340c55ec3835803d63fbc322",
+        "pixels": 80959
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.10294469197591145,
+      "visible_bbox": [
+        198,
+        298,
+        667,
+        552
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/004/receipt.json",
+      "capture_receipt_sha256": "a7ebbd81070b7e1118c11bd913fbd7b487450d968c6afde2478f96d63ac853ad",
+      "camera_stage_sha256": "e279a6fe5db8ebeed3b8a30d73e4e422db9916bfbbaac7a70a983d57b404e952"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:8eace0948ce805c7:v0",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/teatable/model_64cdcb0b12dc0bca00ef5ce133da283b_0",
+      "view_id": "v0",
+      "query": "Point to the coffee table in the image.",
+      "source_category": "teatable",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/004/rgb.png",
+        "sha256": "591a79b34de21951ea1fd631b646eeb69d2f3915561d1d7cd487343f470124ee",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/004/target_mask.npy",
+        "sha256": "95e4401988ef2cc7f411b922203a844703600386340c55ec3835803d63fbc322",
+        "pixels": 80959
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.10294469197591145,
+      "visible_bbox": [
+        198,
+        298,
+        667,
+        552
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/004/receipt.json",
+      "capture_receipt_sha256": "aa264e55bce27e1a2fc92ac5a776e1631e9548dfb5da184daea521f45749ab2b",
+      "camera_stage_sha256": "f53e677fe6988c8aa7c951f48cd9b5d3db45cdfc93b96bd61fa799b48a89f743"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:8eace0948ce805c7:v1",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/teatable/model_64cdcb0b12dc0bca00ef5ce133da283b_0",
+      "view_id": "v1",
+      "query": "Point to the coffee table in the image.",
+      "source_category": "teatable",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/005/rgb.png",
+        "sha256": "cfd89fa001b1295881a92eee7207c307f520925503e6c576bd9230a21387d08e",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/005/target_mask.npy",
+        "sha256": "65965ef08124cb2118981fa8282f31f011e60d8bce7e54cbebf1f46167bcb796",
+        "pixels": 62288
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.07920328776041667,
+      "visible_bbox": [
+        627,
+        429,
+        1024,
+        607
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/005/receipt.json",
+      "capture_receipt_sha256": "cf585ba1658f32321a1bab15fb49b38da05e280e7344235d0730fa5769bdca38",
+      "camera_stage_sha256": "0ef4f71b039a5ae83322dc73bdd1fa8008d30fdd8ad83462eea100299bbebc89"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:8eace0948ce805c7:v1",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/teatable/model_64cdcb0b12dc0bca00ef5ce133da283b_0",
+      "view_id": "v1",
+      "query": "Point to the coffee table in the image.",
+      "source_category": "teatable",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/005/rgb.png",
+        "sha256": "06c719a0df99006e2a2dec2dbe9216bd0149c258d0db9c3ca455418503c57180",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/005/target_mask.npy",
+        "sha256": "65965ef08124cb2118981fa8282f31f011e60d8bce7e54cbebf1f46167bcb796",
+        "pixels": 62288
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.07920328776041667,
+      "visible_bbox": [
+        627,
+        429,
+        1024,
+        607
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/005/receipt.json",
+      "capture_receipt_sha256": "39c7ef2b07c29513077f93d4847449282b0569da0bb9b840be9baf7a91983b75",
+      "camera_stage_sha256": "b74d65952be2f98ef31ba1e51d82584592091db2eec4118e6d9ce4c25eb5e88f"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:2f1090fe062b7da3:v0",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/mouse/model_4e80a4fc01bd871d4f8ab09cdc897aa9_0",
+      "view_id": "v0",
+      "query": "Point to the computer mouse beside the keyboard in the image.",
+      "source_category": "mouse",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/006/rgb.png",
+        "sha256": "bff2cb209378db426fb6ffc6e77810502d35d4cb407e6c5820d34cab0eadc7ac",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/006/target_mask.npy",
+        "sha256": "a0e701e00b2ec065a850c383fce780083ca95ad01b85d2457f08d189c247b4de",
+        "pixels": 4059
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.005161285400390625,
+      "visible_bbox": [
+        260,
+        286,
+        352,
+        346
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/006/receipt.json",
+      "capture_receipt_sha256": "8476df5a9c7404e750f92f2750af89df25086033cf6ed3e504a85d6e645d942e",
+      "camera_stage_sha256": "df1a095ec75559cc8ce77e5866cb07b8b62a683ed4d495597df02b2d127d6717"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:2f1090fe062b7da3:v0",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/mouse/model_4e80a4fc01bd871d4f8ab09cdc897aa9_0",
+      "view_id": "v0",
+      "query": "Point to the computer mouse beside the keyboard in the image.",
+      "source_category": "mouse",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/006/rgb.png",
+        "sha256": "3620dca3b15b64ee97c977863e0010b8b6f55a4bd4e9c3b80f47f258736bcc15",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/006/target_mask.npy",
+        "sha256": "a0e701e00b2ec065a850c383fce780083ca95ad01b85d2457f08d189c247b4de",
+        "pixels": 4059
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.005161285400390625,
+      "visible_bbox": [
+        260,
+        286,
+        352,
+        346
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/006/receipt.json",
+      "capture_receipt_sha256": "b16e2a0481b4594fe56d43d5ae6a786b2407913c5a09d41b641a39e30376eff8",
+      "camera_stage_sha256": "22ba9a420fede7425a665fcaf43718c2816f0f4202737d2df5479aa55019871f"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:2f1090fe062b7da3:v1",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/mouse/model_4e80a4fc01bd871d4f8ab09cdc897aa9_0",
+      "view_id": "v1",
+      "query": "Point to the computer mouse beside the keyboard in the image.",
+      "source_category": "mouse",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/007/rgb.png",
+        "sha256": "c88746754e381c66ee522fc32ee9b58bdd25762196f25b93db41dd3735dabd3f",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/007/target_mask.npy",
+        "sha256": "8745bf90553b9dcd7998f3301d6f1cf34cb325a606d97e535613b626aee997a1",
+        "pixels": 4429
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.005631764729817708,
+      "visible_bbox": [
+        659,
+        439,
+        759,
+        499
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/007/receipt.json",
+      "capture_receipt_sha256": "f410638111e40d5e9039cb9e88c91954e2c7468705c0d4d45496e6cb8efbfcb5",
+      "camera_stage_sha256": "07a73edba40a5508c3bb983376dc29d038105e209e471714cdd7d50bb89ab167"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:2f1090fe062b7da3:v1",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/mouse/model_4e80a4fc01bd871d4f8ab09cdc897aa9_0",
+      "view_id": "v1",
+      "query": "Point to the computer mouse beside the keyboard in the image.",
+      "source_category": "mouse",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/007/rgb.png",
+        "sha256": "42fa445ccd7349d56adf134e53e786802b2acfb77f0334c71bfbabbf3fed0f77",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/007/target_mask.npy",
+        "sha256": "8745bf90553b9dcd7998f3301d6f1cf34cb325a606d97e535613b626aee997a1",
+        "pixels": 4429
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.005631764729817708,
+      "visible_bbox": [
+        659,
+        439,
+        759,
+        499
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/007/receipt.json",
+      "capture_receipt_sha256": "7790a299fb99deb1d33d79fb51f9b27da4027a60734c5cccdaff1428e72a9947",
+      "camera_stage_sha256": "9c7d51c9a3d753fe8ba88841539b01b357e19bf5bae6d04259bae1d3b7ff0ab9"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:04228816fef83ba5:v0",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/monitor/model_c00272321c322d0733ee8388af1ae79d_0",
+      "view_id": "v0",
+      "query": "Point to the computer monitor on the desk in the image.",
+      "source_category": "monitor",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/008/rgb.png",
+        "sha256": "f7fcace3595975b7ea62d36f4d47e7b285a1fc5afa331537dbba70f34d655c3e",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/008/target_mask.npy",
+        "sha256": "452fb27493482086007603651fb6a71f8628abde4364eb241a50333f3313ef4e",
+        "pixels": 177965
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.22629419962565103,
+      "visible_bbox": [
+        81,
+        97,
+        599,
+        538
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/008/receipt.json",
+      "capture_receipt_sha256": "37ffe76f9a6824395fca855c9ee491573a2a930c1f1067bae764f22818e70204",
+      "camera_stage_sha256": "f19afaba165c1fe0098085a165f5c27b80a57693d6eb037ebcb4464a4ab73fbe"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:04228816fef83ba5:v0",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/monitor/model_c00272321c322d0733ee8388af1ae79d_0",
+      "view_id": "v0",
+      "query": "Point to the computer monitor on the desk in the image.",
+      "source_category": "monitor",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/008/rgb.png",
+        "sha256": "86b78a58158f4d4390d96d19dc766b9bd5e8eb726b59880445e0786b46e46091",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/008/target_mask.npy",
+        "sha256": "452fb27493482086007603651fb6a71f8628abde4364eb241a50333f3313ef4e",
+        "pixels": 177965
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.22629419962565103,
+      "visible_bbox": [
+        81,
+        97,
+        599,
+        538
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/008/receipt.json",
+      "capture_receipt_sha256": "7f2b1f07e6b3e5327f6f98fe0c0d638d5df092ee5d84e9818160b5d54c5345e9",
+      "camera_stage_sha256": "e51ede94e7a87706dce521866c5bdb56454f8144692bb77ed03829aa80ff8e28"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:04228816fef83ba5:v1",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/monitor/model_c00272321c322d0733ee8388af1ae79d_0",
+      "view_id": "v1",
+      "query": "Point to the computer monitor on the desk in the image.",
+      "source_category": "monitor",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/009/rgb.png",
+        "sha256": "cbc15e42d38f337421dd824b1d0f6e697e4e4c69dfe381c9c07bab6f40dcc515",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/009/target_mask.npy",
+        "sha256": "7b36039f88cbd9af1bd64918d9b91c10516211123b44a6883ade8a8929ce6f6a",
+        "pixels": 133470
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.16971588134765625,
+      "visible_bbox": [
+        428,
+        252,
+        897,
+        663
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/009/receipt.json",
+      "capture_receipt_sha256": "e3cf4e0048048f4c6713bf7400fe867f8cd442bebf227672f932ffe39c3e7ef7",
+      "camera_stage_sha256": "1619ead14ebb8dbdfd47ca11565069f9439c4e6a3d620e836e2b871f00cfd3b8"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:04228816fef83ba5:v1",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/monitor/model_c00272321c322d0733ee8388af1ae79d_0",
+      "view_id": "v1",
+      "query": "Point to the computer monitor on the desk in the image.",
+      "source_category": "monitor",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/009/rgb.png",
+        "sha256": "b6f3c16a248dc75809400c1824a471cea71d86fff4e89bd6f48a8e4858f92e16",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/009/target_mask.npy",
+        "sha256": "7b36039f88cbd9af1bd64918d9b91c10516211123b44a6883ade8a8929ce6f6a",
+        "pixels": 133470
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.16971588134765625,
+      "visible_bbox": [
+        428,
+        252,
+        897,
+        663
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/009/receipt.json",
+      "capture_receipt_sha256": "ec666c0e80e52b422600e1fd7082d3a8d482b08657309c4fdc340dd9dbc10e92",
+      "camera_stage_sha256": "6f72d031b1082e213ea8db3ee5db4821cef67f9d60c92d4abb79223041a62cc8"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:d0c74457eac0f473:v0",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/hearth/model_ca6a75fcf35c4faff9bf9073bc57890c_0",
+      "view_id": "v0",
+      "query": "Point to the gas cooktop beneath the pan in the image.",
+      "source_category": "hearth",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/010/rgb.png",
+        "sha256": "83ebf00ae39940c9f34d55d4595be20b5b500301df6d812191e0a3f037371a1f",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/010/target_mask.npy",
+        "sha256": "815ed9307910e55a60c83d496503b746a66ca3d51a71b5c14969a5513bddf988",
+        "pixels": 65511
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.08330154418945312,
+      "visible_bbox": [
+        81,
+        283,
+        674,
+        496
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/010/receipt.json",
+      "capture_receipt_sha256": "b1065dfa94f5f466b533827c2a4b8169176cfcd364158942324b4409019c200c",
+      "camera_stage_sha256": "71d2d6594d2d0ab775623b41d3d2c8ac711aa73d9b909365ce89bc6092492889"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:d0c74457eac0f473:v0",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/hearth/model_ca6a75fcf35c4faff9bf9073bc57890c_0",
+      "view_id": "v0",
+      "query": "Point to the gas cooktop beneath the pan in the image.",
+      "source_category": "hearth",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/010/rgb.png",
+        "sha256": "7643936f6fc5bcf949a01c5e096102d6e57ebde83b162796a9790fa4c4fe80d9",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/010/target_mask.npy",
+        "sha256": "815ed9307910e55a60c83d496503b746a66ca3d51a71b5c14969a5513bddf988",
+        "pixels": 65511
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.08330154418945312,
+      "visible_bbox": [
+        81,
+        283,
+        674,
+        496
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/010/receipt.json",
+      "capture_receipt_sha256": "bc7143923f4dfe6c91c42cf21954a1c27dff5b8e513fd51f522c3e5dbc79adcd",
+      "camera_stage_sha256": "fdca6cc6e5d40c7f7905596d7874797e5c177a35be3bd0d6b4a0a116fc1b8d67"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:d0c74457eac0f473:v1",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/hearth/model_ca6a75fcf35c4faff9bf9073bc57890c_0",
+      "view_id": "v1",
+      "query": "Point to the gas cooktop beneath the pan in the image.",
+      "source_category": "hearth",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/011/rgb.png",
+        "sha256": "9c07c6ff298c916160522e35187938e072947c583377515f6e24395b2ce22396",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/011/target_mask.npy",
+        "sha256": "460576ab651b77ad949743f9e46420f84752665ad800c387eaaeea3dbbc97acd",
+        "pixels": 80059
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.10180028279622395,
+      "visible_bbox": [
+        495,
+        403,
+        939,
+        668
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/011/receipt.json",
+      "capture_receipt_sha256": "01b032adcd5a1862e43b4fa6409857e086f5cc54e18419d712d734f3efd81bd1",
+      "camera_stage_sha256": "3f24a15512d7bfc290de76c875bfa013ad124e6dba9a05151e7db5d6144f1b46"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:d0c74457eac0f473:v1",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/hearth/model_ca6a75fcf35c4faff9bf9073bc57890c_0",
+      "view_id": "v1",
+      "query": "Point to the gas cooktop beneath the pan in the image.",
+      "source_category": "hearth",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/011/rgb.png",
+        "sha256": "961530272d697860ee897ed02e0e1e942c6f5284a5ac1df62c5d428ad28b4a49",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/011/target_mask.npy",
+        "sha256": "460576ab651b77ad949743f9e46420f84752665ad800c387eaaeea3dbbc97acd",
+        "pixels": 80059
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.10180028279622395,
+      "visible_bbox": [
+        495,
+        403,
+        939,
+        668
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/011/receipt.json",
+      "capture_receipt_sha256": "b3b9c3a0d4253b08389cf422f1ae39089043a5b5f9f1b48cbecc944b76e33af5",
+      "camera_stage_sha256": "c847e18354b7fd989dea0fdfebca604f1a26a0f20f7487c33b20101a5eca893f"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:31fe6908cd7d5220:v0",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/refrigerator/model_2f15cc64fde3b15b194d6a15c84d0180_0",
+      "view_id": "v0",
+      "query": "Point to the white refrigerator in the kitchen in the image.",
+      "source_category": "refrigerator",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/012/rgb.png",
+        "sha256": "8c21cebbb21f41d2389816486b4a12b485852791c520fe06dd122fc74b0ec8d5",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/012/target_mask.npy",
+        "sha256": "7e1cd3be5944da2c1770a46acccec5511ce19bbde4bc8bc1362faffae2d99243",
+        "pixels": 70647
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.08983230590820312,
+      "visible_bbox": [
+        247,
+        90,
+        438,
+        540
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/012/receipt.json",
+      "capture_receipt_sha256": "a9d741b02fdb475b3b45aa8753664036c50fb010e60523c7e782971dfea05468",
+      "camera_stage_sha256": "6bcc480985ade80c50914fa81bce3005e7b03132d78a3f3a6eba460a0cd1d32b"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:31fe6908cd7d5220:v0",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/refrigerator/model_2f15cc64fde3b15b194d6a15c84d0180_0",
+      "view_id": "v0",
+      "query": "Point to the white refrigerator in the kitchen in the image.",
+      "source_category": "refrigerator",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/012/rgb.png",
+        "sha256": "b157af1b829da3ab74b364e66445143d43f9086703ff37624d6d9bbf383b6df3",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/012/target_mask.npy",
+        "sha256": "7e1cd3be5944da2c1770a46acccec5511ce19bbde4bc8bc1362faffae2d99243",
+        "pixels": 70647
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.08983230590820312,
+      "visible_bbox": [
+        247,
+        90,
+        438,
+        540
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/012/receipt.json",
+      "capture_receipt_sha256": "e7ee247a62f039f8c68e68a065844a92d49d8e6ddb211986f1bc3d55599d082c",
+      "camera_stage_sha256": "ba4f1103745e5ff93ecd5cae3ceae99bad4cfcf923bfd75b216e96fe59831957"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:31fe6908cd7d5220:v1",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/refrigerator/model_2f15cc64fde3b15b194d6a15c84d0180_0",
+      "view_id": "v1",
+      "query": "Point to the white refrigerator in the kitchen in the image.",
+      "source_category": "refrigerator",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/013/rgb.png",
+        "sha256": "74708211875754d1b8a04dc658f7ab4482ee54304a0944fe1aa8b87c220f1cbe",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/013/target_mask.npy",
+        "sha256": "5df52fc0c4e440455559a56a5fd91b5b3c14355ace0c0305133f07262e50c35a",
+        "pixels": 39468
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.0501861572265625,
+      "visible_bbox": [
+        683,
+        300,
+        807,
+        637
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/013/receipt.json",
+      "capture_receipt_sha256": "2689aebb07c477338579291ea858e1a611e166c17abdf00ba1dd6e8a7af54b12",
+      "camera_stage_sha256": "1b04759f4bfeec0a2e8fba202dc0007593cb6903fa49b9a16d7b9e50b26390bb"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:31fe6908cd7d5220:v1",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/refrigerator/model_2f15cc64fde3b15b194d6a15c84d0180_0",
+      "view_id": "v1",
+      "query": "Point to the white refrigerator in the kitchen in the image.",
+      "source_category": "refrigerator",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/013/rgb.png",
+        "sha256": "3a98e05a3c9908ffb94ad03122cacc5652676d4468be4d749c6bea04511b13a8",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/013/target_mask.npy",
+        "sha256": "5df52fc0c4e440455559a56a5fd91b5b3c14355ace0c0305133f07262e50c35a",
+        "pixels": 39468
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.0501861572265625,
+      "visible_bbox": [
+        683,
+        300,
+        807,
+        637
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/013/receipt.json",
+      "capture_receipt_sha256": "5179e766aca02f299a04b3c722639dcba36edb5b0cd044ad18af62dd33046b4c",
+      "camera_stage_sha256": "502a36b170ad89eef91522471a8329993709242a3ce629650ff6ede30cf198e2"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:f0ccfe2ef0f4d825:v0",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/trashcan/model_1de609b28b3311deb063358e3a7ecffd_0",
+      "view_id": "v0",
+      "query": "Point to the waste bin beside the desk chair in the image.",
+      "source_category": "trashcan",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/014/rgb.png",
+        "sha256": "9d375d2806c70653c578baff4bd8e4f5d96bd56f0f69170148608a35dbf39aaa",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/014/target_mask.npy",
+        "sha256": "2fe2582a21d9db6e19c50399fa42e7ac142490e71523fcbac3163ddebf5cfc6f",
+        "pixels": 194344
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.24712117513020834,
+      "visible_bbox": [
+        12,
+        75,
+        443,
+        593
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/014/receipt.json",
+      "capture_receipt_sha256": "a743292f1fb43ef69ab84e916ca973a89b7cc123bbb4c9623d1f48bbf5071940",
+      "camera_stage_sha256": "0248bdb8a0ceb124835c1232e7f7f5e7b8c4ae1509e4e298a08c4108e73c1de3"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:f0ccfe2ef0f4d825:v0",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/trashcan/model_1de609b28b3311deb063358e3a7ecffd_0",
+      "view_id": "v0",
+      "query": "Point to the waste bin beside the desk chair in the image.",
+      "source_category": "trashcan",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/014/rgb.png",
+        "sha256": "b9a35d97100aebee545b922ab04eccab39e3d328135b265975df407571077fed",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/014/target_mask.npy",
+        "sha256": "2fe2582a21d9db6e19c50399fa42e7ac142490e71523fcbac3163ddebf5cfc6f",
+        "pixels": 194344
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.24712117513020834,
+      "visible_bbox": [
+        12,
+        75,
+        443,
+        593
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/014/receipt.json",
+      "capture_receipt_sha256": "8838d125ee8e0667aa59ce3cf93beb8821e38c107db445eb6e10bc1bb38bb115",
+      "camera_stage_sha256": "f0fe67d64c5f224129018c19b1b853202b4f07b80386345b029d8c5291ed97d8"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:f0ccfe2ef0f4d825:v1",
+      "condition": "original",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/trashcan/model_1de609b28b3311deb063358e3a7ecffd_0",
+      "view_id": "v1",
+      "query": "Point to the waste bin beside the desk chair in the image.",
+      "source_category": "trashcan",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/015/rgb.png",
+        "sha256": "dd50562c3967d3e157c3748dbb6becca8f0cd8d92c54845fd90d3549acf4b34d",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/015/target_mask.npy",
+        "sha256": "07ad3514b5f24277f9ce13b1b1ddbbdbc0ecbdb6cc4699f6358522a2d7f76366",
+        "pixels": 178743
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.22728347778320312,
+      "visible_bbox": [
+        435,
+        230,
+        857,
+        740
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/original/015/receipt.json",
+      "capture_receipt_sha256": "24869404021aea8ec698b532b395ca4350d1dbb4fae1a7613835815188195fdb",
+      "camera_stage_sha256": "c12ed10b561874dcf8e0786478a1c45b320b8b8d6f1e986f9c87364cd1b981c2"
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:f0ccfe2ef0f4d825:v1",
+      "condition": "converted",
+      "scene_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd",
+      "target_prim": "/Root/Meshes/Animation/trashcan/model_1de609b28b3311deb063358e3a7ecffd_0",
+      "view_id": "v1",
+      "query": "Point to the waste bin beside the desk chair in the image.",
+      "source_category": "trashcan",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/015/rgb.png",
+        "sha256": "826d9147b4508b10d97eb9d6cdc4a0b59c09992d5cf4a826b7d07db5a14499c2",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/015/target_mask.npy",
+        "sha256": "07ad3514b5f24277f9ce13b1b1ddbbdbc0ecbdb6cc4699f6358522a2d7f76366",
+        "pixels": 178743
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.22728347778320312,
+      "visible_bbox": [
+        435,
+        230,
+        857,
+        740
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV7J6NIKTKJZ2AABAAAAADQ8_usd/converted/015/receipt.json",
+      "capture_receipt_sha256": "188c50a28086bb873ece18fa0a3fcc9c544547212219d0ebcf8175091fef00e7",
+      "camera_stage_sha256": "622aafcbacc2573889684278609cf72c44916ed057542b477863af0904535daf"
+    }
+  ]
+}

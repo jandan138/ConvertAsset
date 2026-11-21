@@ -1,0 +1,82 @@
+{
+  "status": "prepared_not_evaluated",
+  "scene_count": 30,
+  "objects_per_scene": 8,
+  "views_per_object": 2,
+  "pair_count": 480,
+  "conditions": [
+    "original",
+    "converted"
+  ],
+  "models": {
+    "8b": {
+      "repo": "Qwen/Qwen3-VL-8B-Instruct",
+      "revision": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b"
+    },
+    "32b": {
+      "repo": "Qwen/Qwen3-VL-32B-Instruct",
+      "revision": "0cfaf48183f594c314753d30a4c4974bc75f3ccb"
+    }
+  },
+  "repeats": 3,
+  "prediction_count": 5760,
+  "precision": "bfloat16",
+  "do_sample": false,
+  "max_new_tokens": 128,
+  "selection_rules": [
+    "No model predictions used in scene/target/view selection",
+    "Document all technical failures, visibility exclusions and label corrections",
+    "Do not silently substitute frozen scenes",
+    "Use both mask and visible-box scores plus fixed-center baseline"
+  ],
+  "analysis": [
+    "scene-clustered uncertainty",
+    "paired directional flips",
+    "same-condition repeat differences",
+    "point displacement",
+    "old ICLR protocol comparison",
+    "fixed-original/fixed-converted mask rescoring and symmetric prediction/mask score decomposition"
+  ],
+  "rendering": {
+    "runtime": "Isaac Sim 4.1",
+    "renderer": "RayTracedLighting",
+    "anti_aliasing": 3,
+    "sync_loads": false,
+    "process_policy": "one isolated process per scene/condition; new render product for each view",
+    "view_order": "same final frozen ordered views for both conditions",
+    "qualification": "matched_batch_repeat_qualification.json",
+    "status": "matched-workflow repeatability qualified; formal images still require QA"
+  },
+  "visibility_policy": {
+    "selection_population": "qualify and freeze original-condition targets/views before model inference",
+    "converted_visibility_loss": "retain technically valid converted images with empty target masks; report visibility loss separately",
+    "primary_denominator": "all original-qualified paired queries; visible-mask end-to-end task success",
+    "secondary_analysis": "both-visible subset with the same IDs for both conditions; do not attribute visibility loss to model reasoning errors",
+    "infrastructure_failure": "separate status, repair/retry exact input; never score as task miss",
+    "selection_note": "Pilot used both-visible qualification; formal population differs and must not be pooled with pilot"
+  },
+  "render_qualification": {
+    "fresh_vs_batch_equivalence": "not established; preserve measured differences, do not mix pipelines",
+    "matched_workflow": "same ordered camera list and settings for O/C, final recapture after view selection",
+    "repeatability_gate": "independent identical batch runs: masks equal and RGB MAE <= 1 intensity level; pending",
+    "render_noise_control": "after qualification, repeat full final batches for 3 deterministically selected formal scenes (2 home/1 commercial), separately from 5760 primary predictions"
+  },
+  "render_noise_control_scene_ids": [
+    "MV7J6NIKTKJZ2AABAAAAADY8_usd",
+    "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+    "MVSGSAIKTKJ66AABAAAAAEA8_usd"
+  ],
+  "scoring_diagnostics": {
+    "registered_before_formal_inference": true,
+    "reason": "Opacity changes can alter visible-instance masks, as observed during input QA.",
+    "primary_metric_unchanged": "condition-specific visible-mask end-to-end success on all 480 pairs",
+    "secondary_metrics": [
+      "mask IoU and changed-support pair count",
+      "converted prediction scored against original mask",
+      "original prediction scored against converted mask",
+      "fixed-mask flip rates",
+      "symmetric arithmetic prediction/mask score components"
+    ],
+    "interpretation": "Scoring decomposition only, not causal mechanism attribution."
+  }
+}

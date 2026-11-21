@@ -1,0 +1,311 @@
+{
+ "A_orig_photo": {
+  "source": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png",
+  "crop_rect": [
+   120,
+   0,
+   455,
+   450
+  ],
+  "fit": "cover",
+  "focus": [
+   0.48,
+   0.5
+  ],
+  "sha256": "b72235030a3d8fe98b73fc7652c1a0711a42154f3d8ed0faf769ea91de084fdc"
+ },
+ "A_conv_photo": {
+  "source": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png",
+  "crop_rect": [
+   126,
+   0,
+   449,
+   450
+  ],
+  "fit": "cover",
+  "focus": [
+   0.48,
+   0.5
+  ],
+  "sha256": "7f206cfeb96ff5aafe38a0d3bd2c29b3e55d67c2ee89d63a128d6814c4ed2f47"
+ },
+ "B_thumb_orig": {
+  "source": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/figures/iclr_system_hero/data/grounding/two_view_category_original.png",
+  "crop_rect": [
+   151,
+   75,
+   448,
+   386
+  ],
+  "overlays": [
+   {
+    "type": "bbox",
+    "value": [
+     230.385,
+     89.121,
+     369.378,
+     372.696
+    ],
+    "color": "#31EFBA"
+   }
+  ],
+  "sha256": "e42d2eb737dff1ad554154aa8ff4d5dca59777be7892235ba9098d16481d4239"
+ },
+ "B_thumb_swap": {
+  "source": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/interventions_clean_v2/images/board02.q0.side1.two_view_category.original.png",
+  "sample_id": "board02.q0.side1.two_view_category.original",
+  "crop_rect": [
+   615,
+   15,
+   965,
+   385
+  ],
+  "overlays": [
+   {
+    "type": "bbox",
+    "value": [
+     885,
+     85,
+     955,
+     350
+    ],
+    "color": "#31EFBA",
+    "note": "bottle bbox measured on side1 image"
+   }
+  ],
+  "sha256": "e451045b735f5cbd75f6e12d152d6be2e23b2e0e09dc2aa228761ccfb2076683"
+ },
+ "B_thumb_pred": {
+  "source": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/figures/iclr_system_hero/data/grounding/two_view_category_original.png",
+  "crop_rect": [
+   158,
+   84,
+   441,
+   374
+  ],
+  "overlays": [
+   {
+    "type": "point",
+    "value": [
+     304.0,
+     180.0
+    ],
+    "color": "#4EF864",
+    "hit": true
+   }
+  ],
+  "sha256": "e1c2f9dc01d25c732ce332debeee35e2e50d21cc5ac185313fbab58bc2a35a2b"
+ },
+ "B_align_composite": {
+  "source": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/figures/iclr_system_hero/data/grounding/two_view_category_original.png",
+  "crop_rect": [
+   164,
+   103,
+   435,
+   328
+  ],
+  "overlays": [
+   {
+    "type": "point",
+    "value": [
+     304.0,
+     180.0
+    ]
+   },
+   {
+    "type": "axes",
+    "color": "#0066FB"
+   }
+  ],
+  "sha256": "b84ff8186a33f8e85e7de7877835e76d12154104cbaf97794c03bd8d62985290"
+ },
+ "B_score_photo": {
+  "source": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/figures/iclr_system_hero/data/grounding/two_view_category_original.png",
+  "crop_rect": [
+   144,
+   80,
+   456,
+   380
+  ],
+  "overlays": [
+   {
+    "type": "bbox",
+    "value": [
+     230.385,
+     89.121,
+     369.378,
+     372.696
+    ]
+   },
+   {
+    "type": "point",
+    "value": [
+     304.0,
+     180.0
+    ]
+   }
+  ],
+  "sha256": "0b2e159b1f6b64eef46bafbeecc450c1a00324e5b5c37f0b6d13b41cda2c756c"
+ },
+ "B_probe1": {
+  "source": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/figures/iclr_system_hero/data/grounding/two_view_category_original.png",
+  "crop_rect": [
+   120,
+   64,
+   479,
+   385
+  ],
+  "sha256": "93b88a43fe8510a4236410b0e155eee85c953784eeb2dbf396fb9374832e1f00"
+ },
+ "B_probe2": {
+  "source": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/figures/iclr_system_hero/data/grounding/target_window_converted.png",
+  "crop_rect": [
+   124,
+   64,
+   476,
+   385
+  ],
+  "overlays": [
+   {
+    "type": "bbox",
+    "value": [
+     230.385,
+     89.121,
+     369.378,
+     372.696
+    ],
+    "color": "#31EFBA",
+    "dash": null
+   }
+  ],
+  "sha256": "500048cc69cae7479bc0a688234bfba708786c0f22524d5ab1ca29413c775bc0"
+ },
+ "B_probe3": {
+  "source": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/figures/iclr_system_hero/data/grounding/context_window_converted.png",
+  "crop_rect": [
+   123,
+   64,
+   477,
+   385
+  ],
+  "overlays": [
+   {
+    "type": "bbox",
+    "value": [
+     230.385,
+     89.121,
+     369.378,
+     372.696
+    ],
+    "color": "#FF9216",
+    "dash": [
+     8,
+     6
+    ]
+   }
+  ],
+  "sha256": "6052de2d4cdc27c714fe8f806a2983a6b3a2ce0ac8012e3eb049004abf6290ae"
+ },
+ "B_probe4": {
+  "source": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/figures/iclr_system_hero/data/grounding/two_view_category_converted.png",
+  "crop_rect": [
+   124,
+   64,
+   476,
+   385
+  ],
+  "sha256": "f5583cef3c82173d43c913d08d2f35f71ab7e533aa081a75c8fcbb4db46a5971"
+ },
+ "C_end_orig": {
+  "source": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/figures/iclr_system_hero/data/navigation/original_end_composite.png",
+  "crop_rect": [
+   0,
+   35,
+   512,
+   394
+  ],
+  "fit": "cover",
+  "sha256": "3bb11c1459d37d7828f5759a9c328ebd3bc7067f992d9de0748a2866bc9c5de3"
+ },
+ "C_end_conv": {
+  "source": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/figures/iclr_system_hero/data/navigation/nomdl_end_composite.png",
+  "crop_rect": [
+   0,
+   38,
+   512,
+   391
+  ],
+  "fit": "cover",
+  "sha256": "bc812089b2a92f4eb1acd35ccf7710e2719acd6e10aaf17f563ff14d49961d35"
+ },
+ "C_map_orig": {
+  "source": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/figures/iclr_system_hero/data/navigation/original_map.png",
+  "crop_rect": [
+   85,
+   91,
+   512,
+   512
+  ],
+  "overlays": [
+   {
+    "type": "start_pill",
+    "at": [
+     22.95714527149376,
+     179
+    ],
+    "source_xy": [
+     134.5085910652921,
+     485.159793814433
+    ]
+   },
+   {
+    "type": "goal_star",
+    "at": [
+     152.65552399355303,
+     116.52425421999042
+    ],
+    "source_xy": [
+     414.21166032953107,
+     342.57287705956907
+    ]
+   }
+  ],
+  "note": "trajectories baked by habitat TopDownMap; start/goal markers at green path endpoints",
+  "sha256": "8878f1cd180090dbca115847aa0ad4bec756740f5c895113374ed2ad45770ea3"
+ },
+ "C_map_conv": {
+  "source": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/figures/iclr_system_hero/data/navigation/nomdl_map.png",
+  "crop_rect": [
+   59,
+   0,
+   452,
+   376
+  ],
+  "overlays": [
+   {
+    "type": "start_pill",
+    "at": [
+     55.94256814350387,
+     88.0490734385724
+    ],
+    "source_xy": [
+     166.77171215880892,
+     169.77667493796525
+    ]
+   },
+   {
+    "type": "goal_star",
+    "at": [
+     174,
+     16
+    ],
+    "source_xy": [
+     416.40413533834584,
+     28.451127819548873
+    ]
+   }
+  ],
+  "note": "trajectories baked by habitat TopDownMap; start/goal markers at green path endpoints",
+  "sha256": "82fd5aead7a6e94875025864bf9b593497e59cbcd074bb28ea4a99615c3cc075"
+ }
+}

@@ -43,17 +43,27 @@ def test_integrity_fingerprint_tracks_expected_current_sources() -> None:
     assert "venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md" in source_paths
     assert "venues/acl27/ARTIFACT_PROVENANCE_DRAFT.md" in source_paths
     assert "venues/acl27/TARGET_CALL_POLICY_AUDIT.md" in source_paths
-    assert "shared/figures/fig_acl_method_chain_imagegen_v18.png" in source_paths
-    assert "shared/figures/prompts/fig_acl_method_chain_gpt_image2_v18.prompt.txt" in source_paths
+    assert "shared/figures/specs/fig_acl_method_chain_v3.spec.json" in source_paths
+    assert "shared/figures/gen_acl_paper_figures_v3.py" in source_paths
+    assert "shared/figures/acl_paper_visual_v3.qa.json" in source_paths
+    assert "shared/figures/generated_components/fig1_material_pairs_v1/manifest.yaml" in source_paths
+    assert "shared/figures/fig_acl_method_chain_v3.pdf" in source_paths
+    assert "shared/figures/specs/fig_acl_method_chain_v4.spec.json" in source_paths
+    assert "shared/figures/gen_acl_method_chain_v4_pptx.py" in source_paths
+    assert "shared/figures/fig_acl_method_chain_v4.pptx" in source_paths
+    assert "shared/figures/fig_acl_method_chain_v4.pdf" in source_paths
+    assert "shared/figures/fig_acl_method_chain_v4.qa.json" in source_paths
+    assert "shared/figures/fig_acl_method_chain_v4.pptx.audit.json" in source_paths
+    assert "shared/figures/fig_acl_evidence_registry_strip_v2.pdf" in source_paths
     assert "shared/figures/gen_figures.py" in source_paths
-    assert "shared/figures/gen_render_scene_evidence_wide.py" in source_paths
-    assert "shared/figures/fig_render_scene_evidence_wide.png" in source_paths
-    assert "shared/figures/gen_material_effect_qualitative.py" in source_paths
-    assert "shared/figures/fig_material_effect_baseline_qualitative.png" in source_paths
-    assert "shared/figures/fig_material_effect_baseline_qualitative.report.json" in source_paths
-    assert "shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png" in source_paths
-    assert "shared/figures/fig_internnav_rollout_0036_0066_column.png" in source_paths
-    assert "shared/figures/gen_internnav_main_readable.py" in source_paths
+    assert "shared/figures/fig_render_scene_evidence_wide_v3.pdf" in source_paths
+    assert "shared/figures/fig_material_effect_baseline_qualitative_v3.pdf" in source_paths
+    assert "shared/figures/fig_internnav_rollout_main_v3.pdf" in source_paths
+    assert "shared/figures/gen_acl_internnav_rollout_v4.py" in source_paths
+    assert "shared/figures/fig_internnav_rollout_main_v4.pdf" in source_paths
+    assert "shared/figures/fig_internnav_rollout_main_v4.qa.json" in source_paths
+    assert "shared/figures/fig_supplement_vlm_coordinate_protocol_atlas_v2.pdf" in source_paths
+    assert "venues/acl27/sections/supplement/05_internnav_visuals.tex" in source_paths
     assert "shared/evidence/references/verification_report.md" in source_paths
     assert "shared/tables/grscenes_vlm_stress_expanded30.csv" in source_paths
     assert "shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json" in source_paths

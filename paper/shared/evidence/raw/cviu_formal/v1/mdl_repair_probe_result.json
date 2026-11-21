@@ -1,0 +1,39 @@
+{
+  "status": "PASS_THREE_VIEW_RUNTIME_PROBE",
+  "scope": "KooPbr relative-import repair on one scene; other scenes require recapture and QA",
+  "reviewer": "local Codex visual inspection, not independent human review",
+  "exit_code": 0,
+  "log_audit": "mdl_repair_probe_log_audit.json",
+  "views": [
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:9184788c34a16a84:v0",
+      "image": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_mdl_repair_probe_v1/000/rgb.png",
+      "image_sha256": "0d07698309a8f1759f466e4d2e4c71b47ea55737c90ba9b8bb44992b2fbb158d",
+      "mask_sha256": "2b83bcbd9fd9fcabe0e10307a6640a62ffab55ac9c715b5d5405bf01cba14410",
+      "mask_equal_to_before": true,
+      "camera_equal_to_before": true,
+      "visual_verdict": "PASS",
+      "visual_evidence": "Screen unchanged in identity; background cabinetry now shows wood/neutral materials rather than red fallback."
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:8eace0948ce805c7:v0",
+      "image": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_mdl_repair_probe_v1/001/rgb.png",
+      "image_sha256": "fc6effc6b55068cb1a310e71cb7d49ac11e7a001c9441012acc32e0d3a82baf1",
+      "mask_sha256": "95e4401988ef2cc7f411b922203a844703600386340c55ec3835803d63fbc322",
+      "mask_equal_to_before": true,
+      "camera_equal_to_before": true,
+      "visual_verdict": "PASS",
+      "visual_evidence": "Coffee table, TV cabinet and bin no longer saturated red; stone/wood/neutral surfaces visible."
+    },
+    {
+      "pair_id": "MV7J6NIKTKJZ2AABAAAAADQ8_usd:d0c74457eac0f473:v0",
+      "image": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_mdl_repair_probe_v1/002/rgb.png",
+      "image_sha256": "a25b1eff98c4afcff15273ec62ae14fa98024c10a8d87c4b9216a5cfcd585a73",
+      "mask_sha256": "815ed9307910e55a60c83d496503b746a66ca3d51a71b5c14969a5513bddf988",
+      "mask_equal_to_before": true,
+      "camera_equal_to_before": true,
+      "visual_verdict": "PASS",
+      "visual_evidence": "Cooktop and pan show black/metal surfaces rather than saturated red fallback."
+    }
+  ]
+}

@@ -1,6 +1,27 @@
 schema_version: 1
 results:
   raw:
+    - id: iclr_navigation_transitions_csv
+      path: paper/shared/evidence/raw/internnav_vln_downstream/official_val_unseen_99/paired_episode_transitions.csv
+      description: "Episode-level CSV for the ICLR navigation outcome matrix."
+    - id: iclr_gemma4_target_window
+      path: paper/shared/evidence/raw/iclr_model_behavior/runs_clean_v2/gemma4/gemma4_target_window_predictions.jsonl
+      description: "Raw Gemma4 outputs for the clean target-window crossover."
+    - id: iclr_gemma4_context_window
+      path: paper/shared/evidence/raw/iclr_model_behavior/runs_clean_v2/gemma4/gemma4_context_window_predictions.jsonl
+      description: "Raw Gemma4 outputs for the clean context-window crossover."
+    - id: iclr_model_behavior_analysis_v1
+      path: paper/shared/evidence/raw/iclr_model_behavior/analysis_v1/results.json
+      description: "ICLR authoritative reanalysis: all-query denominators, explicit coordinate frames, target-cluster intervals, image-digest inventory, navigation transitions."
+    - id: iclr_clean_interventions_v2
+      path: paper/shared/evidence/raw/iclr_model_behavior/interventions_clean_v2/manifest.json
+      description: "Four repaired source pairs; four two-view boards; query and position swaps; rectangular target/context crossovers."
+    - id: iclr_clean_inference_v2
+      path: paper/shared/evidence/raw/iclr_model_behavior/runs_clean_v2/campaign.json
+      description: "Three completed model runs over 128 image queries each, with raw responses, frozen runner and model-specific runtime metadata."
+    - id: iclr_navigation_followup
+      path: paper/shared/evidence/raw/iclr_model_behavior/navigation_followup.json
+      description: "Prepared, not executed: ID-hashed selection of twelve paired episodes for same-condition repeats and matched-state observation probes."
     - id: image_quality
       path: paper/shared/evidence/raw/image_quality.csv
       description: "Paired PSNR, SSIM, and LPIPS measurements."
@@ -380,6 +401,11 @@ results:
       path: paper/shared/evidence/raw/grscene_vlm_grounding/probes/qwen25_pass_only_structured_score_summary.json
       description: "Score summary for the Qwen2.5-VL structured-text PASS-only probe; second-backend protocol-sensitivity pilot evidence."
   figures:
+    - paper/venues/iclr27/figures/overview.pdf
+    - paper/venues/iclr27/figures/interventions.pdf
+    - paper/venues/iclr27/figures/protocol.pdf
+    - paper/venues/iclr27/figures/navigation.pdf
+    - paper/venues/iclr27/figures/trajectories.pdf
     - paper/shared/figures/fig_render_pairs.pdf
     - paper/shared/figures/fig_image_quality.pdf
     - paper/shared/figures/fig_feature_similarity.pdf
@@ -389,6 +415,22 @@ results:
     - paper/shared/figures/fig_vlm_grounding_cases.pdf
     - paper/shared/figures/fig_material_effect_baseline_qualitative.png
     - paper/shared/figures/fig_material_effect_supplemental_qualitative.png
+    - paper/shared/figures/fig_acl_method_chain_v2.pdf
+    - paper/shared/figures/fig_acl_evidence_registry_strip_v1.pdf
+    - paper/shared/figures/fig_render_scene_evidence_wide_v2.pdf
+    - paper/shared/figures/fig_material_effect_baseline_qualitative_v2.pdf
+    - paper/shared/figures/fig_internnav_rollout_main_v2.pdf
+    - paper/shared/figures/fig_acl_method_chain_v3.pdf
+    - paper/shared/figures/fig_acl_method_chain_v4.pdf
+    - paper/shared/figures/fig_acl_evidence_registry_strip_v2.pdf
+    - paper/shared/figures/fig_render_scene_evidence_wide_v3.pdf
+    - paper/shared/figures/fig_material_effect_baseline_qualitative_v3.pdf
+    - paper/shared/figures/fig_internnav_rollout_main_v3.pdf
+    - paper/shared/figures/fig_internnav_rollout_main_v4.pdf
+    - paper/shared/figures/fig_supplement_first_page_evidence_quickstart_v2.pdf
+    - paper/shared/figures/fig_supplement_vlm_coordinate_protocol_atlas_v2.pdf
+    - paper/shared/figures/fig_supplement_material_diagnostic_atlas_v2.pdf
+    - paper/shared/figures/fig_supplement_navigation_media_atlas_v2.pdf
   tables:
     - id: grscenes_vlm_pass_only_pilot
       outputs:

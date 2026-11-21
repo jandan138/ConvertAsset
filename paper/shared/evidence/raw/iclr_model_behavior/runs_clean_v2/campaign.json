@@ -1,0 +1,53 @@
+[
+  {
+    "model": "qwen3vl2b",
+    "command": [
+      "/cpfs/shared/simulation/zhuzihou/dev/Auto-Asset-Annotator/.venv_dlc/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/11_iclr_model_behavior/run_interventions.py",
+      "--models",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/11_iclr_model_behavior/models.json",
+      "--model",
+      "qwen3vl2b",
+      "--manifest",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/interventions_clean_v2/manifest.json",
+      "--out",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/runs_clean_v2/qwen3vl2b"
+    ],
+    "return_code": 0,
+    "log": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/runs_clean_v2/qwen3vl2b.log"
+  },
+  {
+    "model": "qwen3vl8b",
+    "command": [
+      "/cpfs/shared/simulation/zhuzihou/dev/Auto-Asset-Annotator/.venv_dlc/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/11_iclr_model_behavior/run_interventions.py",
+      "--models",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/11_iclr_model_behavior/models.json",
+      "--model",
+      "qwen3vl8b",
+      "--manifest",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/interventions_clean_v2/manifest.json",
+      "--out",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/runs_clean_v2/qwen3vl8b"
+    ],
+    "return_code": 0,
+    "log": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/runs_clean_v2/qwen3vl8b.log"
+  },
+  {
+    "model": "gemma4",
+    "command": [
+      "/cpfs/user/zhuzihou/conda-managed/envs/genesis-llm-qlora-py310/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/11_iclr_model_behavior/run_interventions.py",
+      "--models",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/11_iclr_model_behavior/models.json",
+      "--model",
+      "gemma4",
+      "--manifest",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/interventions_clean_v2/manifest.json",
+      "--out",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/runs_clean_v2/gemma4"
+    ],
+    "return_code": 0,
+    "log": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/runs_clean_v2/gemma4.log"
+  }
+]

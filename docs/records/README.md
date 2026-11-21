@@ -1,10 +1,55 @@
 # Records
 
+- [CVIU 正式候选采集](2026-11-14-cviu-formal-candidate-capture.md) — 同序batch资格通过，30场景原始预览采集中。
+
+- [CVIU 正式30场景资源闭包](2026-11-14-cviu-formal-resource-closure.md) — 30场景已审计，批量渲染资格待完成。
+
+- [CVIU 正式跨场景与容量对照启动](2026-11-14-cviu-formal-capacity-start.md) — 30场景、480对、8B/32B、5760预测目标，资源准备中。
+
+- [CVIU 三场景试验结果：12 对输入与 72 条预测完成](2026-11-14-cviu-three-scene-pilot-results.md) — 两条件均11/12、零成功状态翻转；含案例与审计。
+
+- [2026-11-14 ICLR 评审全文与 CVIU 逐条修改跟踪](2026-11-14-iclr-reviews-archive-and-tracker.md)
+
 - [2026-10-14 Task12 抓取接触回归对比](2026-10-14-task12-grasp-contact-comparison.md)
 - [2026-10-13 Task12 标准SDF与粗粒浴液诊断](2026-10-13-task12-runtime-stability-diagnostic.md)
 
+- [2026-09-22 ICLR27 附录异常红色渲染修复](2026-09-22-iclr27-appendix-render-repair.md)
+- [2026-09-22 ICLR27 Figure 1 swap: three-panel real-evidence hero](2026-09-22-iclr27-fig1-swap.md)
+- [2026-09-22 fig1-0922 real-asset replacement (mock crops → library evidence)](2026-09-22-fig1-0922-real-assets.md)
+- [2026-09-22 fig1-0922 exact reconstruction: PNG/SVG/PPTX](2026-09-22-fig1-0922-exact-rebuild.md)
+- [2026-09-19 Reagent-bottle 45/40 plug original-SimReady admission](2026-09-19-reagent-bottle-plug-45-40-admission.md)
+- [2026-09-16 ICLR citation skill 复检](2026-09-16-iclr-citation-skill-audit.md)
+- [2026-09-16 ICLR 投稿前检查](2026-09-16-iclr-presubmission-check.md)
+- [2026-09-16 ICLR 标题、系统总览与扩展附录集成](2026-09-16-iclr-title-hero-supplement-integration.md)
+
+- [2026-09-15 Hero A 结构化复刻](2026-09-15-hero-a-structured-reconstruction.md)
+
+- [2026-09-15 ICLR 顶会参考驱动的多轮图表精修](2026-09-15-iclr-reference-led-figure-polish.md)
+
+- [2026-09-15 ICLR 论文图表、叙事与引用提质](2026-09-15-iclr-paper-quality-refresh.md)
+
+- [2026-09-15 ICLR 模型行为主线迁移、评分修复与新推理](2026-09-15-iclr-model-behavior-migration.md)
+
 - [2026-09-12 Blender 18×150 mm 玻璃试管及 r7 限定资格](2026-09-12-chemistry-test-tube-18x150.md)
 
+- [2026-09-12 EBench 齿轮内侧支撑诊断](2026-09-12-ebench-gear-support-probe.md)
+
+- [2026-09-12 EBench 齿轮下缘入齿几何](2026-09-12-ebench-gear-leadin.md)
+
+- [2026-09-12 EBench 惯性属性单项匹配](2026-09-12-ebench-inertia-components.md)
+
+- [2026-09-12 EBench 原几何／加宽惯性互补变体](2026-09-12-ebench-reverse-inertia.md)
+
+- [2026-09-11 EBench 勺子惯性匹配诊断变体](2026-09-11-ebench-spoon-inertia-match.md)
+
+- [2026-09-11 EBench 勺柄几何干预资产](2026-09-11-ebench-spoon-handle-interventions.md)
+- [2026-09-04 ACL Figure 1 material-sphere crop repair](2026-09-04-acl-fig1-sphere-crop-repair.md)
+- [2026-09-04 ACL/ARR Figure 4 counted-content compliance](2026-09-04-acl-arr-figure4-counted-content.md)
+- [2026-09-03 ACL Fig.3 float balance and nine-page layout](2026-09-03-acl-fig3-float-balance.md)
+- [2026-09-03 ACL Figure 4 left-label overlap repair v4](2026-09-03-acl-fig4-label-overlap-v4.md)
+- [2026-09-03 ACL Figure 1 PPTX-native v4](2026-09-03-acl-fig1-pptx-v4.md)
+- [2026-09-03 ACL story-first Figure v3 and supplement atlas refresh](2026-09-03-acl-story-first-figure-v3.md)
+- [2026-08-30 ACL main-figure visual-system redesign](2026-08-30-acl-main-figure-redesign.md)
 - [2026-08-26 Wangshuai funnel/tube exact-source asset set](2026-08-26-wangshuai-funnel-tube15-exact-asset-set.md)
 - [Threaded tube/funnel exact-source PBD card](../operations/wangshuai-threaded-tube-funnel-pbd.md)
 - [2026-08-26 LABSPIN X8 r6 visual-fitted lid collision](2026-08-26-labspin-x8-r6-visual-fitted-lid-collision.md)
@@ -24,6 +69,7 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 
 ## Engineering Records
 
+- [2026-09-11 Task09 近满瓶粉末场景 producer r4](2026-09-11-full-powder-scene-r4.md)
 - [2026-09-11 Task09 紧凑粉末瓶场景 producer r3](2026-09-11-compact-powder-scene-r3.md)
 - [2026-09-10 Task09 浅粉瓶与重建称量舟 producer r2](2026-09-10-task09-powder-bottle-r2.md)
 - [2026-09-09 刚体粉末 producer fixture 与天平联合夹具](2026-09-09-rigid-powder-fixture.md)
@@ -493,3 +539,11 @@ Dated change logs, implementation records, audits, and route decisions for Conve
 - [2026-05-14 workshop review ingestion for AAAI 2027](2026-05-14-workshop-review-aaai27-roadmap.md)
 
 Paper/submission process records were retained under [archive/docs/paper](../../archive/docs/paper/).
+
+- [CVIU 转投初始化](2026-11-09-cviu-revision-bootstrap.md)：独立稿件与重复运行协议，新增实验待执行。
+
+- [CVIU 自然场景实验基础](2026-11-09-cviu-experiment-foundation.md)：划分、测试与依赖检查。
+
+- [CVIU MDL 纹理路径修复](2026-11-14-cviu-mdl-texture-anchor-fix.md)：真实 USD 回归与柜子资产重转验证。
+
+- [CVIU 三场景恢复运行记录](2026-11-14-cviu-pilot-restoration-running.md)：独立层闭包与渲染启动定位。

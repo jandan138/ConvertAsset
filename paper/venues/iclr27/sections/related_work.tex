@@ -1,0 +1,31 @@
+\section{Related Work}
+
+\paragraph{Appearance and learned visual cues.}
+Domain randomization varies simulated appearance to improve transfer
+\citep{Tobin2017Domain,Tremblay2018Training}. Texture--shape cue conflicts reveal
+that models can rely on visual evidence different from that used by humans
+\citep{Geirhos2019Texture}. Our intervention targets an operational source of
+appearance variation: changing a scene's material representation while retaining
+its geometry. This lets us examine localization and navigation decisions under
+a concrete transformation encountered when simulation assets are reused.
+
+\paragraph{Grounding and model readout.}
+Shikra and Ferret integrate referring and grounding with language generation
+\citep{Chen2023Shikra,You2024Ferret}. Molmo explicitly develops pointing data,
+Qwen2.5-VL supports object localization and dynamic image resolution, and
+InternVL3 explores multimodal training and inference recipes
+\citep{Deitke2024Molmo,Bai2025Qwen,Zhu2025InternVL}. These capabilities make
+spatial outputs useful, but the interface through which a point is emitted
+also becomes part of the experiment. Prompt dependence is well established for
+language models \citep{Zhao2021Calibrate}; we examine its interaction with a
+paired visual intervention and separate executable output from conditional
+localization accuracy.
+
+\paragraph{Embodied evaluation.}
+Vision-and-language navigation couples language understanding to sequential
+perception and action \citep{Anderson2018Vision}. GRUtopia provides interactive
+scenes and tasks for embodied research \citep{Wang2024GRUtopia}; DualVLN combines
+grounding and control in a navigation system \citep{Wei2026Ground}. We use
+GRScenes for point-level experiments and KuJiaLe scenes for paired navigation.
+The common experimental question is how a change to rendered appearance alters
+decisions, from one image to an entire episode.

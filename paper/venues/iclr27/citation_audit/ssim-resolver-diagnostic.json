@@ -1,0 +1,100 @@
+{
+  "issue": "Crossref stores complete first-author name in family field, with no given field. Official auditor mistakes this for surname disagreement.",
+  "citation_key": "Wang2004Image",
+  "doi": "10.1109/TIP.2003.819861",
+  "source_record": "sources/Wang2004Image-doi.json",
+  "source_pdf": "sources/Wang2004Image.pdf",
+  "source_locator": "Journal PDF p.1 (printed p.600), author line and DOI",
+  "bibtex_author": "Zhou Wang",
+  "crossref_author": {
+    "family": "Zhou Wang",
+    "sequence": "first",
+    "affiliation": [
+      {
+        "name": "Center for Neural Sci., New York Univ., NY, USA"
+      }
+    ],
+    "role": [
+      {
+        "vocabulary": "crossref",
+        "role": "author"
+      }
+    ]
+  },
+  "original_official_identity": {
+    "attempts": [
+      {
+        "backend": "crossref-doi",
+        "is_retracted": false,
+        "match": {
+          "authors": [
+            "Zhou Wang",
+            "Bovik",
+            "Sheikh",
+            "Simoncelli"
+          ],
+          "first_author_ok": false,
+          "pass": false,
+          "review": false,
+          "title": "Image quality assessment: from error visibility to structural similarity",
+          "title_similarity": 1.0,
+          "year": 2004,
+          "year_ok": true
+        },
+        "url": "https://api.crossref.org/works/10.1109%2FTIP.2003.819861"
+      },
+      {
+        "backend": "crossref-search",
+        "is_retracted": false,
+        "match": {
+          "authors": [
+            "Zhou Wang",
+            "Bovik",
+            "Sheikh",
+            "Simoncelli"
+          ],
+          "first_author_ok": false,
+          "pass": false,
+          "review": false,
+          "title": "Image quality assessment: from error visibility to structural similarity",
+          "title_similarity": 1.0,
+          "year": 2004,
+          "year_ok": true
+        },
+        "url": "https://api.crossref.org/works?query.title=%7BImage+Quality+Assessment%3A+From+Error+Visibility+to+Structural+Similarity%7D&rows=3"
+      },
+      {
+        "backend": "openalex",
+        "is_retracted": false,
+        "match": {
+          "authors": [
+            "Wang",
+            "Bovik",
+            "Sheikh",
+            "Simoncelli"
+          ],
+          "first_author_ok": true,
+          "pass": true,
+          "review": false,
+          "title": "Image quality assessment: from error visibility to structural similarity",
+          "title_similarity": 1.0,
+          "year": 2004,
+          "year_ok": true
+        },
+        "url": "https://api.openalex.org/works?search=%7BImage+Quality+Assessment%3A+From+Error+Visibility+to+Structural+Similarity%7D&per-page=3"
+      }
+    ],
+    "checked_at": "2026-09-15T20:16:47+00:00",
+    "effective_status": "METADATA_MISMATCH",
+    "errors": [
+      "RemoteDisconnected: Remote end closed connection without response"
+    ],
+    "human_identity_status": "NOT_CHECKED",
+    "machine_status": "METADATA_MISMATCH"
+  },
+  "recommended_metadata_normalization": {
+    "given": "Zhou",
+    "family": "Wang"
+  },
+  "human_attestation": false
+}

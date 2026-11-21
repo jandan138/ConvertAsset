@@ -1,0 +1,16 @@
+% Prior robustness/bias benchmarks compared with ConvertAsset
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}p{3.1cm}p{3.0cm}p{3.2cm}p{2.9cm}p{3.7cm}@{}}
+\toprule
+Work & Stimulus / Domain & Perturbation Mechanism & Primary Metrics & Key Distinction vs.\ Ours \\
+\midrule
+\citet{Geirhos2019Texture}; \citet{Burgert2025NotTexture} & 2D ImageNet categories & Neural style transfer or post-hoc cue suppression & Top-1 acc., shape vs.\ texture ratio & We keep geometry fixed via 3D shader conversion on indoor scenes. \\
+\citet{Hendrycks2019Benchmarking} & ImageNet-C / -P corruptions & Additive 2D pixel noise, blur, weather, digital & mCE, flip prob.\ on frame sequences & Our converted renders stay clean (1024$\times$768) with zero sensor corruption. \\
+\citet{Zhang2024ImageNetD} & Diffusion synthetic objects & Unconstrained generative backgrounds/textures & Classification accuracy drop & Deterministic USD shader mapping avoids generative shape drift. \\
+\citet{Gavrikov2025Talk}; \citet{Eppel2025Shape} & 2D/3D cue-conflict \& LAS\&T & Prompt steering; multi-factor crop variation & Category / material accuracy & Fixed pointing prompt measuring pixel-exact localization turnover. \\
+\citet{Tong2024EyesWideShut}; \citet{Sar2026RealityCheck} & MMVP; Reality Check VQA & CLIP-blind pairs; 2D edit / swap counterfactuals & VQA accuracy across bias axes & Native 3D BSDF swaps paired with $\mathrm{CIE}~L^*a^*b^*$ salience matching. \\
+\citet{Wang2026ConstantEye} & \emph{navdream} driving & Generative pixel-aligned style transfer & Driving trajectories \& adapter stability & Indoor SimReady MDL$\to$Preview conversion across 4 VLM families + risk gating. \\
+\citet{Chaubey2020UAP} & Adversarial robustness survey & Gradient-optimized universal pixel noise & Attack success / fooling rate & Unoptimized engineering export induces bidirectional gains and losses. \\
+\midrule
+\textbf{Ours (\textsc{ConvertAsset})} & \textbf{30 USD scenes + KuJiaLe} & \textbf{3D MDL $\to$ Preview + 1,440 mask CFs} & \textbf{Paired turnover, L1--L4 floor, AUROC} & \textbf{4 VLM families (6 ckpts), 2-family CF (+3.54\%), zero-VLM risk gate.} \\
+\bottomrule
+\end{tabular*}

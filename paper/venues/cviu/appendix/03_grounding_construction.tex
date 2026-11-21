@@ -1,0 +1,24 @@
+\section{Scene Catalog and Controlled Two-View Ablation}
+\label{app:construction}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.94\textwidth]{app_fig2_scene30_atlas.pdf}
+\caption{\textbf{Stratified catalog of the 30-scene \textsc{SimReady GRScenes} grounding benchmark.}
+Twelve representative scenes spanning \texttt{Train} (15 scenes total), \texttt{Val} (5 scenes), and \texttt{Test} (10 scenes) across residential (\texttt{home\_scenes}, \texttt{H01--H20}) and commercial (\texttt{commercial\_scenes}, \texttt{C01--C10}) environments. Each card pairs canonical \original{} (\textsc{MDL}) and \converted{} (\usdps{}) captures, optical-regime composition (\texttt{RM/TG/MD/ES}), and four-family mean accuracy shift and decision flip rate; the full 30-scene breakdown appears in Table~\ref{tab:app-scenes30}.}
+\label{fig:app-scene30}
+\end{figure*}
+
+\begin{table*}[!t]
+\centering
+\caption{Complete per-scene breakdown across all 30 independent \textsc{GRScenes} assets ($16$ camera pairs per scene; $480$ total pairs). Entries under each model report $H_O/H_C~(\mathrm{Flip\%})$ under deterministic greedy ($T{=}0$) evaluation; $\mathrm{SSIM}$ and $\Delta L^*$ report mean target-mask structural similarity and lightness shift.}
+\label{tab:app-scenes30}
+\resizebox{\textwidth}{!}{\input{tables/app_scenes30}}
+\end{table*}
+
+\subsection{30-scene SimReady composition and mask integrity}
+The 30-scene benchmark consists of \textbf{30 independent SimReady scenes} from \textsc{GRScenes} ($20$ residential \texttt{H01--H20} and $10$ commercial \texttt{C01--C10}), split at the scene level prior to feature fitting into \textbf{15 training (240 pairs), 5 validation (80 pairs), and 10 held-out test scenes (160 pairs)}. Within each scene, eight visible object instances are captured from two natural viewpoints at $1024{\times}768$, giving $240$ targets and $480$ paired captures ($960$ images), alongside three stratified control scenes ($48$ pairs) rendered across three independent path-tracing repeats under locked geometry and \textsc{MDL} materials. Figure~\ref{fig:app-scene30} depicts twelve representative scene cards, and Table~\ref{tab:app-scenes30} summarizes optical regimes and per-model turnover across all 30 scenes. Commercial scenes frequently match or exceed residential turnover across specialist and general models alike (e.g., \texttt{C10} flips $12.5\%$ even on \textsc{Molmo2-8B} and $18.8\%$ on \textsc{Qwen3-VL-32B}), indicating that shader-induced sensitivity extends well beyond domestic interiors.
+
+\subsection{Controlled two-view gutter ablation}
+\label{app:early_canvas}
+In a supplementary controlled two-view ablation isolating four individual objects (bottle, clock, cup, and backpack), paired object captures were arranged cyclically across a 16-pixel neutral gray gutter on $(2W{+}16)\times H$ canvases in both left/right placements ($4{\times}2{\times}2 = 16$ queries per condition). Placing the frame midpoint inside the empty gutter rules out center-bias guessing, while target-window, context-window, and full-canvas crossovers built from integer bounding boxes motivate both the pixel-exact simulator masks $M_i^v$ and natural camera framing used in the main 30-scene benchmark.

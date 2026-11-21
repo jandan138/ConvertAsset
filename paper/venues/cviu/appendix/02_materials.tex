@@ -1,0 +1,18 @@
+\section{Material-Effect Survival Under Conversion}
+\label{app:materials}
+
+Table~\ref{tab:app-materials} and Figure~\ref{fig:app-appearance-materials}(b) compare native \textsc{NVIDIA MDL}, \textsc{ConvertAsset}, and the \textsc{NVIDIA} \usdps{} conversion baseline across four \textsc{GRScenes} effect groups (opacity/transparency, emission, normal/bump mapping, and displacement/height) plus two synthetic stress fixtures (clearcoat and procedural checker textures). Because natural scenes exhibit overlapping shader effects, static effect counts overlap across groups.
+
+\begin{table}[!htbp]
+\centering\small
+\resizebox{\linewidth}{!}{\input{appendix/material_table}}
+\caption{Static material-effect survival inventory across native \textsc{MDL}, \textsc{ConvertAsset}, and the \textsc{NVIDIA} baseline (checks verify target prim presence and zero remaining active \textsc{MDL}).}
+\label{tab:app-materials}
+\end{table}
+
+All four \textsc{GRScenes} effect groups produce statically valid USD outputs under both conversion routes, yet paired renders in Figure~\ref{fig:app-appearance-materials}(b) reveal distinct visual failure modes masked by static structural checks:
+\begin{itemize}
+    \item \textbf{Clearcoat structural drop vs.\ approximation.} On the controlled clearcoat fixture, the \textsc{NVIDIA} converter fails to preserve the target prim ($0/1$ static check), whereas \textsc{ConvertAsset} preserves target geometry ($1/1$) while flattening the secondary coat lobe into a higher-albedo surface response.
+    \item \textbf{Procedural pattern loss under valid USD bindings.} On the procedural checker fixture, both converted outputs pass all static graph and binding checks ($1/1$), yet the fine high-frequency checkerboard disappears completely into a uniform base surface.
+    \item \textbf{Scene-embedded glass and metallic fixtures.} Across the natural bottle and arched clock captures, \textsc{ConvertAsset} preserves global silhouette and room illumination more faithfully than the washed \textsc{NVIDIA} route, while still stripping secondary specular highlights and Fresnel contrast that alter \textsc{VLM} localization.
+\end{itemize}

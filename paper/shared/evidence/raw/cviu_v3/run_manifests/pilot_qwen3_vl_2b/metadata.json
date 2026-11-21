@@ -1,0 +1,29 @@
+{
+  "task": "pilot-qualify",
+  "model_key": "qwen3_vl_2b",
+  "hf_repo": "Qwen/Qwen3-VL-2B-Instruct",
+  "family": "Qwen3-VL",
+  "parser_mode": "strict",
+  "manifest_path": "/content/dev/ConvertAsset/paper/shared/evidence/raw/cviu_diagnostics/pilot_20261114_v1/manifest.json",
+  "manifest_sha256": "66c348e071251d61d724af9a772978646203338520c13958a73e4eaf54bec9e3",
+  "repeat": 0,
+  "num_draws": 1,
+  "temperature": 0.0,
+  "top_p": 0.95,
+  "max_new_tokens": 128,
+  "dtype": "bfloat16",
+  "placement": {
+    "gpu_count": 1,
+    "total_vram_gb": 22.03,
+    "device_map": {},
+    "parameter_devices": [
+      "cuda:0"
+    ],
+    "parameter_dtypes": [
+      "torch.bfloat16"
+    ],
+    "attn_implementation": "sdpa",
+    "torch": "2.14.1+cu130",
+    "transformers": "5.22.1"
+  }
+}

@@ -1,0 +1,61 @@
+% Numeric source: paper/shared/evidence/raw/iclr_model_behavior/analysis_v1/results.json
+\section{Grounding: Following the Object Across Appearance Changes}
+\label{sec:grounding}
+
+Grounding tests should require the model to use both the image and the query.
+Our initial target-centered views reveal why this matters: a fixed image-center
+point hits every target box in the 30-pair close-view pool. We therefore change the task structure. We place two different
+rendered views on one canvas, ask about either category, and swap their positions.
+The center is now a neutral gutter between the views. The target location is
+determined jointly by the query and the panel arrangement.
+
+\paragraph{Query and position swaps.}
+Each board contains two different target categories. Both targets are queried,
+and both left/right arrangements are evaluated in each material condition.
+Annotations are translated with the corresponding view; boxes are never shown
+to the model. Four repaired source pairs form four boards, yielding 16 paired queries per
+intervention across two targets and two position permutations. Category queries
+ask for the named object. Action queries describe an interaction such as grasping
+a cup or turning on a faucet and ask for the corresponding object's location.
+The output is a single point on the complete canvas.
+Appendix~\ref{app:construction} gives the source pairs and composition details.
+
+\begin{table}[t]
+\centering\small
+\setlength{\tabcolsep}{3pt}
+\input{tables/interventions}
+\caption{Paired two-view interventions. Success rates are percentages over all
+queries; invalid outputs count as failures. Original and Changed refer to the
+image conditions for the listed intervention. Category and action queries use
+full converted views; window interventions exchange only the specified region.
+Flips count changes in hit status.}
+\label{tab:interventions}
+\end{table}
+
+Table~\ref{tab:interventions} treats language dependence and appearance dependence
+as separate experimental axes. Swapping the query on an otherwise identical
+board asks whether the point follows the requested object. Swapping view positions
+asks whether the model can preserve that binding away from a preferred location.
+The paired material comparison then asks whether a different appearance changes
+the same binding. This structure makes a successful point more informative than
+success on a single large, centered target.
+
+Material conversion changes which queries succeed. Qwen3-VL-8B
+solves \LargeFullOrig\ original category queries and \LargeFullConv\ converted queries; the image-center
+baseline solves none. Qwen3-VL-2B has \SmallFullOrig\ and \SmallFullConv\ hits in the two conditions but changes hit
+status on \SmallFullFlips\ paired queries. Gemma4 moves from \GemmaFullOrig\ to \GemmaFullConv\ hits with \GemmaFullFlips\
+transitions. As in navigation, equal or nearly equal totals need not identify
+the same successful decisions. The action-framed query changes this pattern:
+Qwen3-VL-2B moves from \SmallActionOrig\ to \SmallActionConv\ hits, whereas Qwen3-VL-8B retains \LargeActionOrig\
+in both conditions. The gain for the smaller model is concentrated in action-framed queries,
+showing that the response to appearance depends on how the object is requested.
+
+\paragraph{Scale and model behavior.}
+The broader paired archive supplies a complementary readout experiment over six
+model configurations, including close and wider views. Its corrected tables
+report end-to-end outcomes and output coverage together
+(Appendix~\ref{app:archive}). These data expose large differences between a
+generated number and a usable spatial prediction. For example, a low hit rate
+under one requested frame can coexist with much better spatial alignment under
+another interpretation of the same response. The two-view task tests the visual
+and language binding that remains after a frame and parser have been fixed.

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "backend": "local_gemma4_multimodal",
+  "model_checkpoint": "/cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8",
+  "coordinate_frame": "normalized_1000",
+  "response_format": "structured_text",
+  "prompt_type": "two_view_category",
+  "prediction_count": 32,
+  "elapsed_s": 48.157724142074585,
+  "decoding": {
+    "temperature": 0.0,
+    "seed": 20260915,
+    "max_new_tokens": 128
+  },
+  "manifest_sha256": "5c29725912fc69f370e63f0eca3e94456129a2ce440aa4edb9f7c4bc17d45bf8",
+  "prediction_sha256": "fbf60b90aedc54f553627e88f263cc57bc9740f2a1f3d7d4fdbef030b8cbc620",
+  "runner_sha256": "0ab60ffcdc7fcfdae57713e5389a47bac521dd0c65abfde2e89f6bed4a0d9acb",
+  "orchestrator_sha256": "0eb9ee7a4393dc5293a5cd1083812ff80efb3854fcf492af58e7e3cfb8e3d941",
+  "python": "/cpfs/user/zhuzihou/conda-managed/envs/genesis-llm-qlora-py310/bin/python",
+  "torch": "2.10.0+cu128",
+  "transformers": "5.8.0.dev0",
+  "model_config": {
+    "backend": "local_gemma4_multimodal",
+    "path": "/cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8",
+    "python": "/cpfs/user/zhuzihou/conda-managed/envs/genesis-llm-qlora-py310/bin/python"
+  }
+}

@@ -1,0 +1,1269 @@
+{
+  "active_tex_files": [
+    "paper/shared/math_commands.tex",
+    "paper/shared/tables/tab_acl_evidence_gate_registry.tex",
+    "paper/shared/tables/tab_grscenes_vlm_clean_pool_pass15.tex",
+    "paper/shared/tables/tab_grscenes_vlm_coordinate_ablation.tex",
+    "paper/shared/tables/tab_grscenes_vlm_failure_taxonomy.tex",
+    "paper/shared/tables/tab_grscenes_vlm_pass_only_pilot.tex",
+    "paper/shared/tables/tab_grscenes_vlm_stress_expanded30.tex",
+    "paper/shared/tables/tab_grscenes_vlm_zoom_stress.tex",
+    "paper/shared/tables/tab_material_effect_risk_matrix.tex",
+    "paper/shared/tables/tab_official_scene_performance_summary.tex",
+    "paper/shared/tables/tab_reviewer_closure_paired_ci.tex",
+    "paper/shared/tables/tab_vlm_coordinate_baselines.tex",
+    "paper/shared/venue_macros.tex",
+    "paper/venues/acl27/main.tex",
+    "paper/venues/acl27/preamble.tex",
+    "paper/venues/acl27/sections/abstract.tex",
+    "paper/venues/acl27/sections/conclusion.tex",
+    "paper/venues/acl27/sections/discussion.tex",
+    "paper/venues/acl27/sections/ethical-considerations.tex",
+    "paper/venues/acl27/sections/intro.tex",
+    "paper/venues/acl27/sections/limitations.tex",
+    "paper/venues/acl27/sections/method.tex",
+    "paper/venues/acl27/sections/related.tex",
+    "paper/venues/acl27/sections/results.tex",
+    "paper/venues/acl27/sections/supplement/00_overview.tex",
+    "paper/venues/acl27/sections/supplement/01_derivations.tex",
+    "paper/venues/acl27/sections/supplement/01a_render_atlas.tex",
+    "paper/venues/acl27/sections/supplement/02_vlm_protocol.tex",
+    "paper/venues/acl27/sections/supplement/03_grscenes_visuals.tex",
+    "paper/venues/acl27/sections/supplement/04_material_effects.tex",
+    "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+    "paper/venues/acl27/sections/supplement/06_theory.tex",
+    "paper/venues/acl27/sections/supplement/07_reproducibility.tex",
+    "paper/venues/acl27/supplement.tex"
+  ],
+  "active_figure_occurrences": 49,
+  "unique_old_figures": 49,
+  "inventory": [
+    {
+      "source_tex": "paper/venues/acl27/sections/intro.tex",
+      "old_figure": "figures/fig_acl_method_chain_v4.pdf",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "main overview"
+      ],
+      "distinct_cases": []
+    },
+    {
+      "source_tex": "paper/shared/tables/tab_acl_evidence_gate_registry.tex",
+      "old_figure": "\\aclEvidenceGateCompanion",
+      "disposition": "merge recurring teaching schematic and its repeated evidence into definitions and canonical plates",
+      "replacement": [
+        "appendix metric definitions",
+        "appendix_render_pairs_01",
+        "appendix_material_comparison",
+        "appendix_clean_grounding"
+      ],
+      "distinct_cases": [
+        "0004/front",
+        "0004/top_front_left",
+        "0004/top_front_right",
+        "0011/front",
+        "0011/top_front_left",
+        "47aa36277a54f6ca90cc.zoom_018",
+        "c27086f557d316584264.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020",
+        "f35ef3d86c42446b7ddf.zoom_018"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/results.tex",
+      "old_figure": "figures/fig_render_scene_evidence_wide_v3.pdf",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_render_pairs_01",
+        "appendix_render_pairs_02",
+        "appendix_scene_pairs"
+      ],
+      "distinct_cases": [
+        "0004/front",
+        "0004/top_front_left",
+        "0004/top_front_right",
+        "0011/front",
+        "0011/top_front_left",
+        "0011/top_front_right",
+        "0023/front",
+        "0023/top_front_right",
+        "0029/front",
+        "0029/top_front_right",
+        "orbit_01",
+        "orbit_03",
+        "orbit_05",
+        "orbit_07"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/results.tex",
+      "old_figure": "figures/fig_material_effect_baseline_qualitative_v3.pdf",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_material_comparison",
+        "appendix_material_failures",
+        "appendix material inventory"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "c27086f557d316584264.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "supplemental_clearcoat_omnipbr",
+        "supplemental_procedural_checker"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/results.tex",
+      "old_figure": "figures/fig_internnav_rollout_main_v4.pdf",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_navigation_cases_01",
+        "appendix_navigation_cases_02",
+        "appendix_navigation_cases_03",
+        "appendix_navigation_cases_04",
+        "appendix_navigation_cases_05",
+        "appendix_navigation_cases_06",
+        "appendix full paired navigation metrics"
+      ],
+      "distinct_cases": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473",
+        "kujiale0031/479_479",
+        "kujiale0031/484_484",
+        "kujiale0031/493_493",
+        "kujiale0031/494_494",
+        "kujiale0036_0066/597_597",
+        "kujiale0036_0066/598_598",
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/00_overview.tex",
+      "old_figure": "figures/fig_supplement_first_page_evidence_quickstart_v2.pdf",
+      "disposition": "merge recurring teaching schematic and its repeated evidence into definitions and canonical plates",
+      "replacement": [
+        "appendix metric definitions",
+        "appendix_render_pairs_01",
+        "appendix_material_comparison",
+        "appendix_clean_grounding"
+      ],
+      "distinct_cases": [
+        "0004/front",
+        "0004/top_front_left",
+        "0004/top_front_right",
+        "0011/front",
+        "0011/top_front_left",
+        "47aa36277a54f6ca90cc.zoom_018",
+        "c27086f557d316584264.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020",
+        "f35ef3d86c42446b7ddf.zoom_018"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/00_overview.tex",
+      "old_figure": "figures/fig_supplement_visual_evidence_roadmap.png",
+      "disposition": "merge recurring teaching schematic and its repeated evidence into definitions and canonical plates",
+      "replacement": [
+        "appendix metric definitions",
+        "appendix_render_pairs_01",
+        "appendix_material_comparison",
+        "appendix_clean_grounding"
+      ],
+      "distinct_cases": [
+        "0004/front",
+        "0004/top_front_left",
+        "0004/top_front_right",
+        "0011/front",
+        "0011/top_front_left",
+        "47aa36277a54f6ca90cc.zoom_018",
+        "c27086f557d316584264.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020",
+        "f35ef3d86c42446b7ddf.zoom_018"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/01a_render_atlas.tex",
+      "old_figure": "figures/fig_supplement_render_atlas_opener.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_render_pairs_01",
+        "appendix_render_pairs_02",
+        "appendix_scene_pairs"
+      ],
+      "distinct_cases": [
+        "0004/front",
+        "0004/top_front_left",
+        "0004/top_front_right",
+        "0011/front",
+        "0011/top_front_left",
+        "0011/top_front_right",
+        "0023/front",
+        "0023/top_front_right",
+        "0029/front",
+        "0029/top_front_right",
+        "orbit_01",
+        "orbit_03",
+        "orbit_05",
+        "orbit_07"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/01a_render_atlas.tex",
+      "old_figure": "figures/fig_supplement_render_atlas.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_render_pairs_01",
+        "appendix_render_pairs_02",
+        "appendix_scene_pairs"
+      ],
+      "distinct_cases": [
+        "0004/front",
+        "0004/top_front_left",
+        "0004/top_front_right",
+        "0011/front",
+        "0011/top_front_left",
+        "0011/top_front_right",
+        "0023/front",
+        "0023/top_front_right",
+        "0029/front",
+        "0029/top_front_right",
+        "orbit_01",
+        "orbit_03",
+        "orbit_05",
+        "orbit_07"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/01a_render_atlas.tex",
+      "old_figure": "figures/fig_supplement_render_scene_evidence_extended.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_render_pairs_01",
+        "appendix_render_pairs_02",
+        "appendix_scene_pairs"
+      ],
+      "distinct_cases": [
+        "0004/front",
+        "0004/top_front_left",
+        "0004/top_front_right",
+        "0011/front",
+        "0011/top_front_left",
+        "0011/top_front_right",
+        "0023/front",
+        "0023/top_front_right",
+        "0029/front",
+        "0029/top_front_right",
+        "orbit_01",
+        "orbit_03",
+        "orbit_05",
+        "orbit_07"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/01a_render_atlas.tex",
+      "old_figure": "figures/fig_grscene_qualitative.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_render_pairs_01",
+        "appendix_render_pairs_02",
+        "appendix_scene_pairs"
+      ],
+      "distinct_cases": [
+        "0004/front",
+        "0004/top_front_left",
+        "0004/top_front_right",
+        "0011/front",
+        "0011/top_front_left",
+        "0011/top_front_right",
+        "0023/front",
+        "0023/top_front_right",
+        "0029/front",
+        "0029/top_front_right",
+        "orbit_01",
+        "orbit_03",
+        "orbit_05",
+        "orbit_07"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/01a_render_atlas.tex",
+      "old_figure": "figures/fig_supplement_vlm_clean_rerender_panel.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_clean_grounding"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "c27086f557d316584264.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020",
+        "f35ef3d86c42446b7ddf.zoom_018"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/01a_render_atlas.tex",
+      "old_figure": "figures/fig_material_effect_baseline_qualitative.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_material_comparison",
+        "appendix_material_failures",
+        "appendix material inventory"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "c27086f557d316584264.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "supplemental_clearcoat_omnipbr",
+        "supplemental_procedural_checker"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/01_derivations.tex",
+      "old_figure": "figures/fig_supplement_proxy_metric_derivation_companion.png",
+      "disposition": "merge recurring teaching schematic and its repeated evidence into definitions and canonical plates",
+      "replacement": [
+        "appendix metric definitions",
+        "appendix_render_pairs_01",
+        "appendix_material_comparison",
+        "appendix_clean_grounding"
+      ],
+      "distinct_cases": [
+        "0004/front",
+        "0004/top_front_left",
+        "0004/top_front_right",
+        "0011/front",
+        "0011/top_front_left",
+        "47aa36277a54f6ca90cc.zoom_018",
+        "c27086f557d316584264.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020",
+        "f35ef3d86c42446b7ddf.zoom_018"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/01_derivations.tex",
+      "old_figure": "figures/fig_supplement_grounding_derivation_companion.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_clean_grounding",
+        "appendix_grounding_diagnostics_01",
+        "appendix_grounding_diagnostics_02",
+        "appendix corrected protocol/tables"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "47aa36277a54f6ca90cc.zoom_019",
+        "bb985fd4504a1afe8516.zoom_017",
+        "c27086f557d316584264.zoom_018",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "e2ec085d524d5df4455d.zoom_020",
+        "ef6a4fe9448f672c2ecc.zoom_017",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_019"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/01_derivations.tex",
+      "old_figure": "figures/fig_supplement_navigation_derivation_companion.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_navigation_cases_01",
+        "appendix_navigation_cases_02",
+        "appendix_navigation_cases_03",
+        "appendix_navigation_cases_04",
+        "appendix_navigation_cases_05",
+        "appendix_navigation_cases_06",
+        "appendix full paired navigation metrics"
+      ],
+      "distinct_cases": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473",
+        "kujiale0031/479_479",
+        "kujiale0031/484_484",
+        "kujiale0031/493_493",
+        "kujiale0031/494_494",
+        "kujiale0036_0066/597_597",
+        "kujiale0036_0066/598_598",
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/01_derivations.tex",
+      "old_figure": "figures/fig_supplement_metric_boundary_bridge.png",
+      "disposition": "merge recurring teaching schematic and its repeated evidence into definitions and canonical plates",
+      "replacement": [
+        "appendix metric definitions",
+        "appendix_render_pairs_01",
+        "appendix_material_comparison",
+        "appendix_clean_grounding"
+      ],
+      "distinct_cases": [
+        "0004/front",
+        "0004/top_front_left",
+        "0004/top_front_right",
+        "0011/front",
+        "0011/top_front_left",
+        "47aa36277a54f6ca90cc.zoom_018",
+        "c27086f557d316584264.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020",
+        "f35ef3d86c42446b7ddf.zoom_018"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/02_vlm_protocol.tex",
+      "old_figure": "figures/fig_supplement_vlm_coordinate_protocol_atlas_v2.pdf",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_clean_grounding",
+        "appendix_grounding_diagnostics_01",
+        "appendix_grounding_diagnostics_02",
+        "appendix corrected protocol/tables"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "47aa36277a54f6ca90cc.zoom_019",
+        "bb985fd4504a1afe8516.zoom_017",
+        "c27086f557d316584264.zoom_018",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "e2ec085d524d5df4455d.zoom_020",
+        "ef6a4fe9448f672c2ecc.zoom_017",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_019"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/02_vlm_protocol.tex",
+      "old_figure": "figures/fig_supplement_vlm_coordinate_table_companion.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_clean_grounding",
+        "appendix_grounding_diagnostics_01",
+        "appendix_grounding_diagnostics_02",
+        "appendix corrected protocol/tables"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "47aa36277a54f6ca90cc.zoom_019",
+        "bb985fd4504a1afe8516.zoom_017",
+        "c27086f557d316584264.zoom_018",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "e2ec085d524d5df4455d.zoom_020",
+        "ef6a4fe9448f672c2ecc.zoom_017",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_019"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/02_vlm_protocol.tex",
+      "old_figure": "figures/fig_supplement_vlm_coordinate_baseline_sanity_companion.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_clean_grounding",
+        "appendix_grounding_diagnostics_01",
+        "appendix_grounding_diagnostics_02",
+        "appendix corrected protocol/tables"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "47aa36277a54f6ca90cc.zoom_019",
+        "bb985fd4504a1afe8516.zoom_017",
+        "c27086f557d316584264.zoom_018",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "e2ec085d524d5df4455d.zoom_020",
+        "ef6a4fe9448f672c2ecc.zoom_017",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_019"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/03_grscenes_visuals.tex",
+      "old_figure": "figures/fig_supplement_grscenes_vlm_visual_guide.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_clean_grounding",
+        "appendix_grounding_diagnostics_01",
+        "appendix_grounding_diagnostics_02",
+        "appendix corrected protocol/tables"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "47aa36277a54f6ca90cc.zoom_019",
+        "bb985fd4504a1afe8516.zoom_017",
+        "c27086f557d316584264.zoom_018",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "e2ec085d524d5df4455d.zoom_020",
+        "ef6a4fe9448f672c2ecc.zoom_017",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_019"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/03_grscenes_visuals.tex",
+      "old_figure": "figures/fig_supplement_grscenes_diagnostic_case_atlas.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_clean_grounding",
+        "appendix_grounding_diagnostics_01",
+        "appendix_grounding_diagnostics_02",
+        "appendix corrected protocol/tables"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "47aa36277a54f6ca90cc.zoom_019",
+        "bb985fd4504a1afe8516.zoom_017",
+        "c27086f557d316584264.zoom_018",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "e2ec085d524d5df4455d.zoom_020",
+        "ef6a4fe9448f672c2ecc.zoom_017",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_019"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/03_grscenes_visuals.tex",
+      "old_figure": "figures/fig_supplement_grscenes_vlm_stress_render_strip.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_clean_grounding",
+        "appendix_grounding_diagnostics_01",
+        "appendix_grounding_diagnostics_02",
+        "appendix corrected protocol/tables"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "47aa36277a54f6ca90cc.zoom_019",
+        "bb985fd4504a1afe8516.zoom_017",
+        "c27086f557d316584264.zoom_018",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "e2ec085d524d5df4455d.zoom_020",
+        "ef6a4fe9448f672c2ecc.zoom_017",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_019"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/03_grscenes_visuals.tex",
+      "old_figure": "figures/fig_supplement_grscenes_failure_taxonomy_table_companion.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_clean_grounding",
+        "appendix_grounding_diagnostics_01",
+        "appendix_grounding_diagnostics_02",
+        "appendix corrected protocol/tables"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "47aa36277a54f6ca90cc.zoom_019",
+        "bb985fd4504a1afe8516.zoom_017",
+        "c27086f557d316584264.zoom_018",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "e2ec085d524d5df4455d.zoom_020",
+        "ef6a4fe9448f672c2ecc.zoom_017",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_019"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/03_grscenes_visuals.tex",
+      "old_figure": "figures/fig_supplement_grscenes_pass_only_table_companion.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_clean_grounding",
+        "appendix_grounding_diagnostics_01",
+        "appendix_grounding_diagnostics_02",
+        "appendix corrected protocol/tables"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "47aa36277a54f6ca90cc.zoom_019",
+        "bb985fd4504a1afe8516.zoom_017",
+        "c27086f557d316584264.zoom_018",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "e2ec085d524d5df4455d.zoom_020",
+        "ef6a4fe9448f672c2ecc.zoom_017",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_019"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/03_grscenes_visuals.tex",
+      "old_figure": "figures/fig_supplement_grscenes_zoom_stress_table_companion.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_clean_grounding",
+        "appendix_grounding_diagnostics_01",
+        "appendix_grounding_diagnostics_02",
+        "appendix corrected protocol/tables"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "47aa36277a54f6ca90cc.zoom_019",
+        "bb985fd4504a1afe8516.zoom_017",
+        "c27086f557d316584264.zoom_018",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "e2ec085d524d5df4455d.zoom_020",
+        "ef6a4fe9448f672c2ecc.zoom_017",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_019"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/04_material_effects.tex",
+      "old_figure": "figures/fig_supplement_material_intro_column.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_material_comparison",
+        "appendix_material_failures",
+        "appendix material inventory"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "c27086f557d316584264.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "supplemental_clearcoat_omnipbr",
+        "supplemental_procedural_checker"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/04_material_effects.tex",
+      "old_figure": "figures/fig_supplement_material_diagnostic_atlas_v2.pdf",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_material_comparison",
+        "appendix_material_failures",
+        "appendix material inventory"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "c27086f557d316584264.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "supplemental_clearcoat_omnipbr",
+        "supplemental_procedural_checker"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/04_material_effects.tex",
+      "old_figure": "figures/fig_supplement_material_claim_boundary_atlas.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_material_comparison",
+        "appendix_material_failures",
+        "appendix material inventory"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "c27086f557d316584264.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "supplemental_clearcoat_omnipbr",
+        "supplemental_procedural_checker"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/04_material_effects.tex",
+      "old_figure": "figures/fig_supplement_material_decision_map.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_material_comparison",
+        "appendix_material_failures",
+        "appendix material inventory"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "c27086f557d316584264.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "supplemental_clearcoat_omnipbr",
+        "supplemental_procedural_checker"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+      "old_figure": "figures/fig_supplement_navigation_intro_column.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_navigation_cases_01",
+        "appendix_navigation_cases_02",
+        "appendix_navigation_cases_03",
+        "appendix_navigation_cases_04",
+        "appendix_navigation_cases_05",
+        "appendix_navigation_cases_06",
+        "appendix full paired navigation metrics"
+      ],
+      "distinct_cases": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473",
+        "kujiale0031/479_479",
+        "kujiale0031/484_484",
+        "kujiale0031/493_493",
+        "kujiale0031/494_494",
+        "kujiale0036_0066/597_597",
+        "kujiale0036_0066/598_598",
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+      "old_figure": "figures/fig_supplement_navigation_media_atlas_v2.pdf",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_navigation_cases_01",
+        "appendix_navigation_cases_02",
+        "appendix_navigation_cases_03",
+        "appendix_navigation_cases_04",
+        "appendix_navigation_cases_05",
+        "appendix_navigation_cases_06",
+        "appendix full paired navigation metrics"
+      ],
+      "distinct_cases": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473",
+        "kujiale0031/479_479",
+        "kujiale0031/484_484",
+        "kujiale0031/493_493",
+        "kujiale0031/494_494",
+        "kujiale0036_0066/597_597",
+        "kujiale0036_0066/598_598",
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+      "old_figure": "figures/supplement/internnav_selected6_case01.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_navigation_cases_01",
+        "appendix_navigation_cases_02",
+        "appendix_navigation_cases_03",
+        "appendix_navigation_cases_04",
+        "appendix_navigation_cases_05",
+        "appendix_navigation_cases_06",
+        "appendix full paired navigation metrics"
+      ],
+      "distinct_cases": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473",
+        "kujiale0031/479_479",
+        "kujiale0031/484_484",
+        "kujiale0031/493_493",
+        "kujiale0031/494_494",
+        "kujiale0036_0066/597_597",
+        "kujiale0036_0066/598_598",
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+      "old_figure": "figures/supplement/internnav_selected6_case02.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_navigation_cases_01",
+        "appendix_navigation_cases_02",
+        "appendix_navigation_cases_03",
+        "appendix_navigation_cases_04",
+        "appendix_navigation_cases_05",
+        "appendix_navigation_cases_06",
+        "appendix full paired navigation metrics"
+      ],
+      "distinct_cases": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473",
+        "kujiale0031/479_479",
+        "kujiale0031/484_484",
+        "kujiale0031/493_493",
+        "kujiale0031/494_494",
+        "kujiale0036_0066/597_597",
+        "kujiale0036_0066/598_598",
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+      "old_figure": "figures/supplement/internnav_selected6_case03.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_navigation_cases_01",
+        "appendix_navigation_cases_02",
+        "appendix_navigation_cases_03",
+        "appendix_navigation_cases_04",
+        "appendix_navigation_cases_05",
+        "appendix_navigation_cases_06",
+        "appendix full paired navigation metrics"
+      ],
+      "distinct_cases": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473",
+        "kujiale0031/479_479",
+        "kujiale0031/484_484",
+        "kujiale0031/493_493",
+        "kujiale0031/494_494",
+        "kujiale0036_0066/597_597",
+        "kujiale0036_0066/598_598",
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+      "old_figure": "figures/supplement/internnav_selected6_case04.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_navigation_cases_01",
+        "appendix_navigation_cases_02",
+        "appendix_navigation_cases_03",
+        "appendix_navigation_cases_04",
+        "appendix_navigation_cases_05",
+        "appendix_navigation_cases_06",
+        "appendix full paired navigation metrics"
+      ],
+      "distinct_cases": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473",
+        "kujiale0031/479_479",
+        "kujiale0031/484_484",
+        "kujiale0031/493_493",
+        "kujiale0031/494_494",
+        "kujiale0036_0066/597_597",
+        "kujiale0036_0066/598_598",
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+      "old_figure": "figures/fig_supplement_internnav_selected6_neutral_companion.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_navigation_cases_01",
+        "appendix_navigation_cases_02",
+        "appendix_navigation_cases_03",
+        "appendix_navigation_cases_04",
+        "appendix_navigation_cases_05",
+        "appendix_navigation_cases_06",
+        "appendix full paired navigation metrics"
+      ],
+      "distinct_cases": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473",
+        "kujiale0031/479_479",
+        "kujiale0031/484_484",
+        "kujiale0031/493_493",
+        "kujiale0031/494_494",
+        "kujiale0036_0066/597_597",
+        "kujiale0036_0066/598_598",
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+      "old_figure": "figures/supplement/internnav_0036_0066_case01.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_navigation_cases_01",
+        "appendix_navigation_cases_02",
+        "appendix_navigation_cases_03",
+        "appendix_navigation_cases_04",
+        "appendix_navigation_cases_05",
+        "appendix_navigation_cases_06",
+        "appendix full paired navigation metrics"
+      ],
+      "distinct_cases": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473",
+        "kujiale0031/479_479",
+        "kujiale0031/484_484",
+        "kujiale0031/493_493",
+        "kujiale0031/494_494",
+        "kujiale0036_0066/597_597",
+        "kujiale0036_0066/598_598",
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+      "old_figure": "figures/supplement/internnav_0036_0066_case02.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_navigation_cases_01",
+        "appendix_navigation_cases_02",
+        "appendix_navigation_cases_03",
+        "appendix_navigation_cases_04",
+        "appendix_navigation_cases_05",
+        "appendix_navigation_cases_06",
+        "appendix full paired navigation metrics"
+      ],
+      "distinct_cases": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473",
+        "kujiale0031/479_479",
+        "kujiale0031/484_484",
+        "kujiale0031/493_493",
+        "kujiale0031/494_494",
+        "kujiale0036_0066/597_597",
+        "kujiale0036_0066/598_598",
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+      "old_figure": "figures/supplement/internnav_0036_0066_case03.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_navigation_cases_01",
+        "appendix_navigation_cases_02",
+        "appendix_navigation_cases_03",
+        "appendix_navigation_cases_04",
+        "appendix_navigation_cases_05",
+        "appendix_navigation_cases_06",
+        "appendix full paired navigation metrics"
+      ],
+      "distinct_cases": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473",
+        "kujiale0031/479_479",
+        "kujiale0031/484_484",
+        "kujiale0031/493_493",
+        "kujiale0031/494_494",
+        "kujiale0036_0066/597_597",
+        "kujiale0036_0066/598_598",
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+      "old_figure": "figures/supplement/internnav_0036_0066_case04.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_navigation_cases_01",
+        "appendix_navigation_cases_02",
+        "appendix_navigation_cases_03",
+        "appendix_navigation_cases_04",
+        "appendix_navigation_cases_05",
+        "appendix_navigation_cases_06",
+        "appendix full paired navigation metrics"
+      ],
+      "distinct_cases": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473",
+        "kujiale0031/479_479",
+        "kujiale0031/484_484",
+        "kujiale0031/493_493",
+        "kujiale0031/494_494",
+        "kujiale0036_0066/597_597",
+        "kujiale0036_0066/598_598",
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+      "old_figure": "figures/fig_supplement_internnav_0036_neutral_companion.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_navigation_cases_01",
+        "appendix_navigation_cases_02",
+        "appendix_navigation_cases_03",
+        "appendix_navigation_cases_04",
+        "appendix_navigation_cases_05",
+        "appendix_navigation_cases_06",
+        "appendix full paired navigation metrics"
+      ],
+      "distinct_cases": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473",
+        "kujiale0031/479_479",
+        "kujiale0031/484_484",
+        "kujiale0031/493_493",
+        "kujiale0031/494_494",
+        "kujiale0036_0066/597_597",
+        "kujiale0036_0066/598_598",
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+      "old_figure": "figures/fig_supplement_navigation_media_boundary_strip.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_navigation_cases_01",
+        "appendix_navigation_cases_02",
+        "appendix_navigation_cases_03",
+        "appendix_navigation_cases_04",
+        "appendix_navigation_cases_05",
+        "appendix_navigation_cases_06",
+        "appendix full paired navigation metrics"
+      ],
+      "distinct_cases": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473",
+        "kujiale0031/479_479",
+        "kujiale0031/484_484",
+        "kujiale0031/493_493",
+        "kujiale0031/494_494",
+        "kujiale0036_0066/597_597",
+        "kujiale0036_0066/598_598",
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/05_internnav_visuals.tex",
+      "old_figure": "figures/fig_supplement_internnav_upload_gate_closure_card.png",
+      "disposition": "internal reproducibility/submission display retired; metadata retained in migration record",
+      "replacement": [
+        "appendix reproducibility text"
+      ],
+      "distinct_cases": []
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/06_theory.tex",
+      "old_figure": "figures/fig_supplement_theory_evidence_bridge.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_clean_grounding",
+        "appendix_grounding_diagnostics_01",
+        "appendix_grounding_diagnostics_02",
+        "appendix corrected protocol/tables"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "47aa36277a54f6ca90cc.zoom_019",
+        "bb985fd4504a1afe8516.zoom_017",
+        "c27086f557d316584264.zoom_018",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "e2ec085d524d5df4455d.zoom_020",
+        "ef6a4fe9448f672c2ecc.zoom_017",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_019"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/06_theory.tex",
+      "old_figure": "figures/fig_supplement_theory_failure_mode_map.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_clean_grounding",
+        "appendix_grounding_diagnostics_01",
+        "appendix_grounding_diagnostics_02",
+        "appendix corrected protocol/tables"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "47aa36277a54f6ca90cc.zoom_019",
+        "bb985fd4504a1afe8516.zoom_017",
+        "c27086f557d316584264.zoom_018",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "e2ec085d524d5df4455d.zoom_020",
+        "ef6a4fe9448f672c2ecc.zoom_017",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_019"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/06_theory.tex",
+      "old_figure": "figures/fig_supplement_theory_hypothesis_boundary_companion.png",
+      "disposition": "rebuild empirical content; merge repeated explanation",
+      "replacement": [
+        "appendix_clean_grounding",
+        "appendix_grounding_diagnostics_01",
+        "appendix_grounding_diagnostics_02",
+        "appendix corrected protocol/tables"
+      ],
+      "distinct_cases": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "47aa36277a54f6ca90cc.zoom_019",
+        "bb985fd4504a1afe8516.zoom_017",
+        "c27086f557d316584264.zoom_018",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "e2ec085d524d5df4455d.zoom_020",
+        "ef6a4fe9448f672c2ecc.zoom_017",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_019"
+      ]
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/07_reproducibility.tex",
+      "old_figure": "figures/fig_supplement_review_packet_contact_sheet.png",
+      "disposition": "internal reproducibility/submission display retired; metadata retained in migration record",
+      "replacement": [
+        "appendix reproducibility text"
+      ],
+      "distinct_cases": []
+    },
+    {
+      "source_tex": "paper/venues/acl27/sections/supplement/07_reproducibility.tex",
+      "old_figure": "figures/fig_supplement_source_boundary_companion.png",
+      "disposition": "internal reproducibility/submission display retired; metadata retained in migration record",
+      "replacement": [
+        "appendix reproducibility text"
+      ],
+      "distinct_cases": []
+    }
+  ],
+  "new_figures": {
+    "appendix_render_pairs_01": {
+      "case_ids": [
+        "0004/front",
+        "0004/top_front_left",
+        "0004/top_front_right",
+        "0011/front",
+        "0011/top_front_left"
+      ],
+      "asset_count": 10
+    },
+    "appendix_render_pairs_02": {
+      "case_ids": [
+        "0011/top_front_right",
+        "0023/front",
+        "0023/top_front_right",
+        "0029/front",
+        "0029/top_front_right"
+      ],
+      "asset_count": 10
+    },
+    "appendix_scene_pairs": {
+      "case_ids": [
+        "orbit_01",
+        "orbit_03",
+        "orbit_05",
+        "orbit_07"
+      ],
+      "asset_count": 8
+    },
+    "appendix_clean_grounding": {
+      "case_ids": [
+        "47aa36277a54f6ca90cc.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "c27086f557d316584264.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020"
+      ],
+      "asset_count": 8
+    },
+    "appendix_grounding_diagnostics_01": {
+      "case_ids": [
+        "bb985fd4504a1afe8516.zoom_017",
+        "c8ee4b66274b05d242c2.zoom_017",
+        "ef6a4fe9448f672c2ecc.zoom_017"
+      ],
+      "asset_count": 6
+    },
+    "appendix_grounding_diagnostics_02": {
+      "case_ids": [
+        "47aa36277a54f6ca90cc.zoom_019",
+        "f35ef3d86c42446b7ddf.zoom_019"
+      ],
+      "asset_count": 4
+    },
+    "appendix_material_comparison": {
+      "case_ids": [
+        "c27086f557d316584264.zoom_018",
+        "f35ef3d86c42446b7ddf.zoom_018",
+        "e2ec085d524d5df4455d.zoom_020",
+        "47aa36277a54f6ca90cc.zoom_018"
+      ],
+      "asset_count": 12
+    },
+    "appendix_material_failures": {
+      "case_ids": [
+        "supplemental_clearcoat_omnipbr",
+        "supplemental_procedural_checker"
+      ],
+      "asset_count": 6
+    },
+    "appendix_navigation_cases_01": {
+      "case_ids": [
+        "kujiale0031/494_494",
+        "kujiale0031/479_479"
+      ],
+      "asset_count": 12
+    },
+    "appendix_navigation_cases_02": {
+      "case_ids": [
+        "kujiale0031/464_464",
+        "kujiale0031/473_473"
+      ],
+      "asset_count": 12
+    },
+    "appendix_navigation_cases_03": {
+      "case_ids": [
+        "kujiale0031/493_493",
+        "kujiale0031/484_484"
+      ],
+      "asset_count": 12
+    },
+    "appendix_navigation_cases_04": {
+      "case_ids": [
+        "kujiale0036_0066/898_898",
+        "kujiale0036_0066/919_919"
+      ],
+      "asset_count": 12
+    },
+    "appendix_navigation_cases_05": {
+      "case_ids": [
+        "kujiale0036_0066/895_895",
+        "kujiale0036_0066/597_597"
+      ],
+      "asset_count": 12
+    },
+    "appendix_navigation_cases_06": {
+      "case_ids": [
+        "kujiale0036_0066/891_891",
+        "kujiale0036_0066/598_598"
+      ],
+      "asset_count": 12
+    },
+    "appendix_readout": {
+      "case_ids": [
+        "board02.q0.side0.two_view_category"
+      ],
+      "asset_count": 1
+    }
+  },
+  "case_inventory_verification": "Independent prose-author source audit additionally found and restored proxy0004/top_front_right; remaining distinct active empirical cases checked against source generators and records. Broad schematic replacements list canonical evidence families rather than implying every case appears in every original schematic.",
+  "statistics_policy": "No old parser-conditional or raw-pixel scores copied. Corrected fixed-denominator analysis_v1 and numeric tables are integrated by prose author.",
+  "source_policy": "Direct raw/component image reads; original images immutable. No new experiments. No old-page wrapper reuse.",
+  "validation": "All exports geometry-checked; render review recorded separately."
+}

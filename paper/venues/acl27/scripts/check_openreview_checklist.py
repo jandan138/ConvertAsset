@@ -40,11 +40,11 @@ REQUIRED_POLICY_URLS = (
 REQUIRED_ANCHOR_MARKERS = (
     "| Abstract | page 1;",
     "| Introduction / main results | pages 1-3;",
-    "| Limitations | page 9;",
-    "| Ethical Considerations | page 9;",
-    "| Selected material-effect Figure 3 | page 8;",
-    "| Selected InternNav Figure 4 | page 9;",
-    "| References | starts on page 9 |",
+    "| Limitations | page 8;",
+    "| Ethical Considerations | page 8;",
+    "| Selected material-effect Figure 3 | page 6;",
+    "| Selected InternNav Figure 4 | page 7;",
+    "| References | starts on page 8 |",
 )
 
 PLACEHOLDER_RE = re.compile(

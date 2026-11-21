@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "status": "sampling_variance",
+  "claim_boundary": "diagnostic_sampling_variance_over_frozen_stress_set",
+  "generated_at_utc": "2026-09-13T10:34:38.377135Z",
+  "backends": [
+    {
+      "backend": "qwen3vl-8b",
+      "n_seeds": 3,
+      "samples_scored": 60,
+      "mean_seed_spread_px": 7.66,
+      "seed_hit_instability_rate": 0.0,
+      "mean_conversion_displacement_under_sampling_px": 14.564,
+      "conversion_displacement_pairs": 30
+    },
+    {
+      "backend": "qwen3vl-2b",
+      "n_seeds": 3,
+      "samples_scored": 60,
+      "mean_seed_spread_px": 24.338,
+      "seed_hit_instability_rate": 0.1667,
+      "mean_conversion_displacement_under_sampling_px": 25.117,
+      "conversion_displacement_pairs": 30
+    },
+    {
+      "backend": "gemma4",
+      "n_seeds": 3,
+      "samples_scored": 60,
+      "mean_seed_spread_px": 27.068,
+      "seed_hit_instability_rate": 0.1,
+      "mean_conversion_displacement_under_sampling_px": 29.238,
+      "conversion_displacement_pairs": 30
+    }
+  ]
+}

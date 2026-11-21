@@ -1,0 +1,82 @@
+{
+  "records": [
+    {
+      "pair": "1e397951c1926c7f0a0b.zoom_016",
+      "version": "original",
+      "command": [
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/scripts/isaac_python.sh",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/rtx_smoke_v1/1e397951c1926c7f0a0b.zoom_016/original/camera.usda",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/rtx_smoke_v1/1e397951c1926c7f0a0b.zoom_016/original",
+        "--prefix",
+        "frame",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--wait-frames",
+        "16",
+        "--headless"
+      ],
+      "return_code": "timeout",
+      "log": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/rtx_smoke_v1/1e397951c1926c7f0a0b.zoom_016/original/render.log",
+      "material_error_terms": {
+        "Failed to create MDL": 0,
+        "Failed to resolve": 1,
+        "MDL compiler error": 0
+      },
+      "capture_ready": false
+    },
+    {
+      "pair": "1e397951c1926c7f0a0b.zoom_016",
+      "version": "converted",
+      "command": [
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/scripts/isaac_python.sh",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/rtx_smoke_v1/1e397951c1926c7f0a0b.zoom_016/converted/camera.usda",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/rtx_smoke_v1/1e397951c1926c7f0a0b.zoom_016/converted",
+        "--prefix",
+        "frame",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--wait-frames",
+        "16",
+        "--headless"
+      ],
+      "return_code": 0,
+      "log": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/rtx_smoke_v1/1e397951c1926c7f0a0b.zoom_016/converted/render.log",
+      "material_error_terms": {
+        "Failed to create MDL": 0,
+        "Failed to resolve": 1,
+        "MDL compiler error": 0
+      },
+      "capture_ready": false
+    }
+  ],
+  "selected_pairs": [
+    "1e397951c1926c7f0a0b.zoom_016"
+  ],
+  "horizontal_shift_fraction": 0.18
+}

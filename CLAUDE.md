@@ -102,6 +102,15 @@ After building, use `--backend cpp-uv` to invoke the C++ path.
 
 ## Docs
 
+### Active paper route
+
+- The active research/submission-preparation target is **ICLR 2027** under `paper/venues/iclr27/`.
+- Story: material intervention → visual grounding/model behavior → episode-level navigation. Navigation remains a main-text experiment.
+- Build/check/stage: `make -C paper iclr27`, `make -C paper iclr27-check`, `make -C paper iclr27-stage`.
+- Current experiment/analysis entry: `paper/shared/evidence/experiments/11_iclr_model_behavior/`.
+- Use the corrected fixed-denominator outputs under `raw/iclr_model_behavior/analysis_v1/` for the ICLR paper. Historical pooled/parser-conditional summaries are not interchangeable with these estimands.
+- Main prose leads with findings and mechanisms; implementation inventories and detailed scope discussions belong in the appendix. Do not copy the legacy ACL wording-based claim gate into the ICLR pipeline.
+
 `docs/` uses a Genesis-LLM-style purpose-based structure:
 
 | Path | Purpose |

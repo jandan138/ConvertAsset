@@ -1,0 +1,42 @@
+{
+  "status": "IMAGE_COMPARISONS_COMPLETE_MODEL_READOUT_PENDING",
+  "scene_count": 3,
+  "image_count": 96,
+  "all_masks_identical": true,
+  "mean_mae": 0.4319053490956624,
+  "max_mae": 1.5967157151963975,
+  "above_threshold_images": [
+    {
+      "pair_id": "MVSGSAIKTKJ66AABAAAAAEA8_usd:d6c0c0353e569b9a:v0",
+      "condition": "original",
+      "primary_image": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MVSGSAIKTKJ66AABAAAAAEA8_usd/original/000/rgb.png",
+      "repeat_image": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_render_controls_v1/MVSGSAIKTKJ66AABAAAAAEA8_usd/original/000/rgb.png",
+      "primary_sha256": "4509ce056ac07a6b9981ef004488a5b4e0392899812c19a059c79c76d591feda",
+      "repeat_sha256": "a8a77adad64b467d00aaad1a5a85e334598b856bbbd90613278ead36f8f336c1",
+      "mask_equal": true,
+      "mask_changed_pixels": 0,
+      "mae": 1.0256470574273004,
+      "max_absolute_difference": 66
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:55350c88611d28d4:v1",
+      "condition": "original",
+      "primary_image": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/002/rgb.png",
+      "repeat_image": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_render_controls_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/002/rgb.png",
+      "primary_sha256": "805c5123fc5740e713f33740f0e93f446082114d124009573b2e56113092e8e9",
+      "repeat_sha256": "4f01468812361e00e8d34d9f2ac735a0c3331350d2be0ec7295a60a5fcd3db47",
+      "mask_equal": true,
+      "mask_changed_pixels": 0,
+      "mae": 1.5967157151963975,
+      "max_absolute_difference": 100
+    }
+  ],
+  "threshold_unchanged": 1,
+  "source_reports": {
+    "render_control_office_image_comparison_v2.json": "a0201e147fc891da1d63d83ee9ba9651245a815f585c67b9e76596b971481f65",
+    "render_control_home_image_comparison.json": "620e311d7529ecb5a1f02dc3a4efcb2b69c930394fee2fe6d6ead984bff75a16",
+    "render_control_home2_image_comparison.json": "b1a0bfa20610f9f5ccd3fb7f3b45430ad06fcbcf9cd1b0597223fb10f8b88a02"
+  },
+  "recipe_hash_checks": "all matched",
+  "interpretation": "Two image-level threshold exceedances retained. This does not quantify model instability; infer on all repeated inputs and compare with primary repeat0 after global cohort freeze."
+}

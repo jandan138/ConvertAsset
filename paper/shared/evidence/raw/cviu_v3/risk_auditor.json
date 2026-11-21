@@ -1,0 +1,4037 @@
+{
+  "split_sizes": {
+    "train": 240,
+    "validation": 80,
+    "test": 160
+  },
+  "models_included_in_any_family": [
+    "internvl3_5_8b",
+    "llava_next_mistral_7b",
+    "molmo2_8b",
+    "qwen3_vl_2b",
+    "qwen3_vl_32b",
+    "qwen3_vl_8b"
+  ],
+  "targets": {
+    "any_8b_32b_loss": {
+      "deploy_auto": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.8914473684210527,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 12,
+          "prevalence": 0.075,
+          "auroc": 0.7432432432432432,
+          "auprc": 0.19472727517719027,
+          "auroc_ci95": [
+            0.5968566536203522,
+            0.8833499999999999
+          ],
+          "auprc_ci95": [
+            0.11422395338851668,
+            0.46106277128208584
+          ],
+          "recall_at_20pct_ci95": [
+            0.13333333333333333,
+            0.7777777777777778
+          ],
+          "top_10pct_recall": 0.3333333333333333,
+          "top_20pct_recall": 0.4166666666666667,
+          "top_30pct_recall": 0.5833333333333334,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.3333333333333333
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 5.0,
+              "loss_recall": 0.4166666666666667
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 7.0,
+              "loss_recall": 0.5833333333333334
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 25,
+          "prevalence": 0.052083333333333336,
+          "auroc": 0.6534505494505495,
+          "auprc": 0.13701198764005765,
+          "auroc_ci95": [
+            0.5451515315191092,
+            0.7614160791757049
+          ],
+          "auprc_ci95": [
+            0.06679986129075961,
+            0.31791863928407194
+          ],
+          "recall_at_20pct_ci95": [
+            0.20833333333333334,
+            0.5500431034482757
+          ],
+          "top_10pct_recall": 0.32,
+          "top_20pct_recall": 0.36,
+          "top_30pct_recall": 0.56,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 8.0,
+              "loss_recall": 0.32
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 9.0,
+              "loss_recall": 0.36
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 14.0,
+              "loss_recall": 0.56
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "log_area_frac",
+            "coef": -0.05851634196228352
+          },
+          {
+            "feature": "center_dist_norm",
+            "coef": 0.0584240185259397
+          },
+          {
+            "feature": "target_ssim",
+            "coef": -0.035261371122939526
+          },
+          {
+            "feature": "cat_is_reflective_appliance_or_metal",
+            "coef": -0.03480560783319569
+          },
+          {
+            "feature": "target_specular_delta",
+            "coef": -0.0332998537252029
+          },
+          {
+            "feature": "aspect_ratio",
+            "coef": 0.03033157346047946
+          },
+          {
+            "feature": "target_delta_ab",
+            "coef": -0.024848258762596775
+          },
+          {
+            "feature": "target_delta_L",
+            "coef": 0.022903346754870088
+          },
+          {
+            "feature": "cat_is_transparent_or_glass",
+            "coef": -0.02198285920770157
+          },
+          {
+            "feature": "target_rgb_mae",
+            "coef": 0.021608985751702874
+          },
+          {
+            "feature": "boundary_contrast_delta",
+            "coef": -0.017643725958198818
+          },
+          {
+            "feature": "boundary_contrast_delta_lab",
+            "coef": -0.01692582131894189
+          },
+          {
+            "feature": "target_sobel_edge_ratio",
+            "coef": 0.0163668153807967
+          },
+          {
+            "feature": "target_std_L_ratio",
+            "coef": -0.01416800436577992
+          },
+          {
+            "feature": "cat_is_emissive_or_screen",
+            "coef": 0.010886142795526793
+          },
+          {
+            "feature": "bg_ssim",
+            "coef": -0.010353249938957032
+          },
+          {
+            "feature": "border_touch",
+            "coef": -0.009713798460189861
+          },
+          {
+            "feature": "ring_specular_delta",
+            "coef": -0.006346747669256445
+          },
+          {
+            "feature": "global_rgb_mae",
+            "coef": 0.005266594737743656
+          },
+          {
+            "feature": "bg_rgb_mae",
+            "coef": 0.0016815637530712708
+          },
+          {
+            "feature": "mask_iou",
+            "coef": 0.0
+          }
+        ]
+      },
+      "pixel_only": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.7927631578947368,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 12,
+          "prevalence": 0.075,
+          "auroc": 0.606418918918919,
+          "auprc": 0.1301490656697142,
+          "auroc_ci95": [
+            0.4746651239460444,
+            0.7532905701754385
+          ],
+          "auprc_ci95": [
+            0.07903803947319117,
+            0.3687233620490372
+          ],
+          "recall_at_20pct_ci95": [
+            0.09090909090909091,
+            0.6666666666666666
+          ],
+          "top_10pct_recall": 0.16666666666666666,
+          "top_20pct_recall": 0.3333333333333333,
+          "top_30pct_recall": 0.5,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.16666666666666666
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.3333333333333333
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 6.0,
+              "loss_recall": 0.5
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 25,
+          "prevalence": 0.052083333333333336,
+          "auroc": 0.5022417582417582,
+          "auprc": 0.10218829919093253,
+          "auroc_ci95": [
+            0.3823932234432234,
+            0.6400392108980343
+          ],
+          "auprc_ci95": [
+            0.04483365638467327,
+            0.2643263633855582
+          ],
+          "recall_at_20pct_ci95": [
+            0.1332608695652174,
+            0.4782608695652174
+          ],
+          "top_10pct_recall": 0.28,
+          "top_20pct_recall": 0.32,
+          "top_30pct_recall": 0.4,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 7.0,
+              "loss_recall": 0.28
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 8.0,
+              "loss_recall": 0.32
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 10.0,
+              "loss_recall": 0.4
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "target_ssim",
+            "coef": -0.03487830180945192
+          },
+          {
+            "feature": "target_specular_delta",
+            "coef": -0.03359627880561233
+          },
+          {
+            "feature": "target_delta_ab",
+            "coef": -0.022644794241537224
+          },
+          {
+            "feature": "target_delta_L",
+            "coef": 0.021266684226276814
+          },
+          {
+            "feature": "target_rgb_mae",
+            "coef": 0.020207231653916195
+          },
+          {
+            "feature": "boundary_contrast_delta",
+            "coef": -0.018815422392796457
+          },
+          {
+            "feature": "boundary_contrast_delta_lab",
+            "coef": -0.01808371759921005
+          },
+          {
+            "feature": "target_std_L_ratio",
+            "coef": -0.015443152692136246
+          },
+          {
+            "feature": "target_sobel_edge_ratio",
+            "coef": 0.014572218361077811
+          },
+          {
+            "feature": "bg_ssim",
+            "coef": -0.009928128579290053
+          },
+          {
+            "feature": "ring_specular_delta",
+            "coef": -0.0069897008055379226
+          },
+          {
+            "feature": "global_rgb_mae",
+            "coef": 0.00348354848033609
+          },
+          {
+            "feature": "bg_rgb_mae",
+            "coef": 0.000523212219880489
+          }
+        ]
+      },
+      "geometry_only": {
+        "selected_c": 5.0,
+        "val_auroc_at_c": 0.8092105263157895,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 12,
+          "prevalence": 0.075,
+          "auroc": 0.7421171171171171,
+          "auprc": 0.21565343041532897,
+          "auroc_ci95": [
+            0.623280192095733,
+            0.882675055187638
+          ],
+          "auprc_ci95": [
+            0.12069626340109994,
+            0.585090485202464
+          ],
+          "recall_at_20pct_ci95": [
+            0.14285714285714285,
+            0.75
+          ],
+          "top_10pct_recall": 0.3333333333333333,
+          "top_20pct_recall": 0.4166666666666667,
+          "top_30pct_recall": 0.4166666666666667,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.3333333333333333
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 5.0,
+              "loss_recall": 0.4166666666666667
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 5.0,
+              "loss_recall": 0.4166666666666667
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 25,
+          "prevalence": 0.052083333333333336,
+          "auroc": 0.7322197802197802,
+          "auprc": 0.18413856692210853,
+          "auroc_ci95": [
+            0.6280558690463112,
+            0.8367502334959585
+          ],
+          "auprc_ci95": [
+            0.1059024538223226,
+            0.32479426556435637
+          ],
+          "recall_at_20pct_ci95": [
+            0.31995454545454544,
+            0.7308333333333329
+          ],
+          "top_10pct_recall": 0.32,
+          "top_20pct_recall": 0.52,
+          "top_30pct_recall": 0.6,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 8.0,
+              "loss_recall": 0.32
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 13.0,
+              "loss_recall": 0.52
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 15.0,
+              "loss_recall": 0.6
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "center_dist_norm",
+            "coef": 0.8248748180448063
+          },
+          {
+            "feature": "log_area_frac",
+            "coef": -0.4655512548045641
+          },
+          {
+            "feature": "border_touch",
+            "coef": -0.3700257909982153
+          },
+          {
+            "feature": "aspect_ratio",
+            "coef": 0.029903728438375687
+          },
+          {
+            "feature": "mask_iou",
+            "coef": 0.0
+          }
+        ]
+      },
+      "all_with_review_priors": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.8717105263157895,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 12,
+          "prevalence": 0.075,
+          "auroc": 0.7128378378378378,
+          "auprc": 0.17060552344758106,
+          "auroc_ci95": [
+            0.5677553366174055,
+            0.8675662352670219
+          ],
+          "auprc_ci95": [
+            0.10374891698141696,
+            0.4074319825576343
+          ],
+          "recall_at_20pct_ci95": [
+            0.13333333333333333,
+            0.8
+          ],
+          "top_10pct_recall": 0.16666666666666666,
+          "top_20pct_recall": 0.4166666666666667,
+          "top_30pct_recall": 0.5,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.16666666666666666
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 5.0,
+              "loss_recall": 0.4166666666666667
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 6.0,
+              "loss_recall": 0.5
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 25,
+          "prevalence": 0.052083333333333336,
+          "auroc": 0.6436923076923077,
+          "auprc": 0.1266498727568381,
+          "auroc_ci95": [
+            0.5330343170041316,
+            0.7524276623617171
+          ],
+          "auprc_ci95": [
+            0.06268642660426896,
+            0.3000069467395276
+          ],
+          "recall_at_20pct_ci95": [
+            0.17391304347826086,
+            0.5416666666666666
+          ],
+          "top_10pct_recall": 0.28,
+          "top_20pct_recall": 0.32,
+          "top_30pct_recall": 0.56,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 7.0,
+              "loss_recall": 0.28
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 8.0,
+              "loss_recall": 0.32
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 14.0,
+              "loss_recall": 0.56
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "center_dist_norm",
+            "coef": 0.058394582898409084
+          },
+          {
+            "feature": "log_area_frac",
+            "coef": -0.05824664828367442
+          },
+          {
+            "feature": "target_ssim",
+            "coef": -0.03575226615619288
+          },
+          {
+            "feature": "cat_is_reflective_appliance_or_metal",
+            "coef": -0.03378313243491572
+          },
+          {
+            "feature": "target_specular_delta",
+            "coef": -0.0329781076771953
+          },
+          {
+            "feature": "aspect_ratio",
+            "coef": 0.02988075437508837
+          },
+          {
+            "feature": "target_delta_ab",
+            "coef": -0.02503635472614494
+          },
+          {
+            "feature": "target_delta_L",
+            "coef": 0.02305702739051961
+          },
+          {
+            "feature": "cat_is_transparent_or_glass",
+            "coef": -0.02199664447592831
+          },
+          {
+            "feature": "target_rgb_mae",
+            "coef": 0.021710750441406308
+          },
+          {
+            "feature": "is_emissive_or_screen",
+            "coef": 0.018885347666634737
+          },
+          {
+            "feature": "boundary_contrast_delta",
+            "coef": -0.017653794189385286
+          },
+          {
+            "feature": "boundary_contrast_delta_lab",
+            "coef": -0.016914641339586204
+          },
+          {
+            "feature": "target_sobel_edge_ratio",
+            "coef": 0.016467371603470962
+          },
+          {
+            "feature": "is_reflective_appliance_or_metal",
+            "coef": -0.015865158122377227
+          },
+          {
+            "feature": "target_std_L_ratio",
+            "coef": -0.01376717843516726
+          },
+          {
+            "feature": "bg_ssim",
+            "coef": -0.01080636741868195
+          },
+          {
+            "feature": "border_touch",
+            "coef": -0.009536165501170578
+          },
+          {
+            "feature": "cat_is_emissive_or_screen",
+            "coef": 0.009439670515267715
+          },
+          {
+            "feature": "ring_specular_delta",
+            "coef": -0.006513073485737314
+          },
+          {
+            "feature": "global_rgb_mae",
+            "coef": 0.005614519460086493
+          },
+          {
+            "feature": "bg_rgb_mae",
+            "coef": 0.0019884558785813657
+          },
+          {
+            "feature": "is_transparent_or_glass",
+            "coef": 0.0006355009605380111
+          },
+          {
+            "feature": "mask_iou",
+            "coef": 0.0
+          }
+        ]
+      },
+      "baseline_global_rgb_mae": {
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 12,
+          "prevalence": 0.075,
+          "auroc": 0.43186936936936937,
+          "auprc": 0.15038567357303875,
+          "auroc_ci95": [
+            0.30732173423423426,
+            0.5570277197505075
+          ],
+          "auprc_ci95": [
+            0.05014362967908196,
+            0.3160810851712988
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.4
+          ],
+          "top_10pct_recall": 0.08333333333333333,
+          "top_20pct_recall": 0.16666666666666666,
+          "top_30pct_recall": 0.16666666666666666,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.08333333333333333
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.16666666666666666
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.16666666666666666
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 25,
+          "prevalence": 0.052083333333333336,
+          "auroc": 0.4899340659340659,
+          "auprc": 0.09027796889258169,
+          "auroc_ci95": [
+            0.3811101469564682,
+            0.6072347151375816
+          ],
+          "auprc_ci95": [
+            0.04501427732019135,
+            0.2159060263103151
+          ],
+          "recall_at_20pct_ci95": [
+            0.1,
+            0.391304347826087
+          ],
+          "top_10pct_recall": 0.2,
+          "top_20pct_recall": 0.24,
+          "top_30pct_recall": 0.36,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 5.0,
+              "loss_recall": 0.2
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 6.0,
+              "loss_recall": 0.24
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 9.0,
+              "loss_recall": 0.36
+            }
+          ]
+        }
+      },
+      "baseline_target_rgb_mae": {
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 12,
+          "prevalence": 0.075,
+          "auroc": 0.5568693693693694,
+          "auprc": 0.17213022224450325,
+          "auroc_ci95": [
+            0.35921889561975767,
+            0.7535620898756085
+          ],
+          "auprc_ci95": [
+            0.07952379101551639,
+            0.3849930204802991
+          ],
+          "recall_at_20pct_ci95": [
+            0.08317307692307693,
+            0.6666666666666666
+          ],
+          "top_10pct_recall": 0.16666666666666666,
+          "top_20pct_recall": 0.4166666666666667,
+          "top_30pct_recall": 0.4166666666666667,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.16666666666666666
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 5.0,
+              "loss_recall": 0.4166666666666667
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 5.0,
+              "loss_recall": 0.4166666666666667
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 25,
+          "prevalence": 0.052083333333333336,
+          "auroc": 0.5772307692307692,
+          "auprc": 0.1396298309944809,
+          "auroc_ci95": [
+            0.45209327491680434,
+            0.6987413194444444
+          ],
+          "auprc_ci95": [
+            0.054347526577266186,
+            0.3458761336579181
+          ],
+          "recall_at_20pct_ci95": [
+            0.13043478260869565,
+            0.5
+          ],
+          "top_10pct_recall": 0.24,
+          "top_20pct_recall": 0.28,
+          "top_30pct_recall": 0.4,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 6.0,
+              "loss_recall": 0.24
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 7.0,
+              "loss_recall": 0.28
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 10.0,
+              "loss_recall": 0.4
+            }
+          ]
+        }
+      },
+      "baseline_random": {
+        "test_10_scenes": {
+          "prevalence": 0.075,
+          "auroc": 0.5,
+          "auprc": 0.075,
+          "top_10pct_recall": 0.1,
+          "top_20pct_recall": 0.2,
+          "top_30pct_recall": 0.3
+        },
+        "loso_30_scenes": {
+          "prevalence": 0.052083333333333336,
+          "auroc": 0.5,
+          "auprc": 0.052083333333333336,
+          "top_10pct_recall": 0.1,
+          "top_20pct_recall": 0.2,
+          "top_30pct_recall": 0.3
+        }
+      }
+    },
+    "any_family_loss": {
+      "deploy_auto": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.6781083142639207,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 48,
+          "prevalence": 0.3,
+          "auroc": 0.49851190476190477,
+          "auprc": 0.3251448026526259,
+          "auroc_ci95": [
+            0.3957517367548067,
+            0.5983678054394109
+          ],
+          "auprc_ci95": [
+            0.22800896720122074,
+            0.46147562490748356
+          ],
+          "recall_at_20pct_ci95": [
+            0.09803921568627451,
+            0.3590277777777775
+          ],
+          "top_10pct_recall": 0.10416666666666667,
+          "top_20pct_recall": 0.20833333333333334,
+          "top_30pct_recall": 0.2916666666666667,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 5.0,
+              "loss_recall": 0.10416666666666667
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 10.0,
+              "loss_recall": 0.20833333333333334
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 14.0,
+              "loss_recall": 0.2916666666666667
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 140,
+          "prevalence": 0.2916666666666667,
+          "auroc": 0.5252731092436975,
+          "auprc": 0.325120223123768,
+          "auroc_ci95": [
+            0.4649804839797932,
+            0.5875046139737473
+          ],
+          "auprc_ci95": [
+            0.2646963740718896,
+            0.41051433487623173
+          ],
+          "recall_at_20pct_ci95": [
+            0.14999149659863945,
+            0.2809981921487603
+          ],
+          "top_10pct_recall": 0.12142857142857143,
+          "top_20pct_recall": 0.20714285714285716,
+          "top_30pct_recall": 0.35,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 17.0,
+              "loss_recall": 0.12142857142857143
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 29.0,
+              "loss_recall": 0.20714285714285716
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 49.0,
+              "loss_recall": 0.35
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "log_area_frac",
+            "coef": -0.09838277411124782
+          },
+          {
+            "feature": "target_specular_delta",
+            "coef": -0.08822241064481516
+          },
+          {
+            "feature": "target_ssim",
+            "coef": -0.0731872955634767
+          },
+          {
+            "feature": "target_rgb_mae",
+            "coef": 0.0719832258058526
+          },
+          {
+            "feature": "border_touch",
+            "coef": 0.061318907268227085
+          },
+          {
+            "feature": "boundary_contrast_delta_lab",
+            "coef": -0.05601387421062135
+          },
+          {
+            "feature": "boundary_contrast_delta",
+            "coef": -0.05185684086619261
+          },
+          {
+            "feature": "global_rgb_mae",
+            "coef": 0.04533342006082432
+          },
+          {
+            "feature": "center_dist_norm",
+            "coef": 0.04467300945209377
+          },
+          {
+            "feature": "aspect_ratio",
+            "coef": -0.042515125529957044
+          },
+          {
+            "feature": "cat_is_transparent_or_glass",
+            "coef": -0.039674897410514595
+          },
+          {
+            "feature": "bg_rgb_mae",
+            "coef": 0.0281287806888203
+          },
+          {
+            "feature": "target_delta_ab",
+            "coef": 0.015794781325964152
+          },
+          {
+            "feature": "target_std_L_ratio",
+            "coef": -0.015277435681041437
+          },
+          {
+            "feature": "cat_is_emissive_or_screen",
+            "coef": 0.011637706765107425
+          },
+          {
+            "feature": "bg_ssim",
+            "coef": -0.01075434767571196
+          },
+          {
+            "feature": "cat_is_reflective_appliance_or_metal",
+            "coef": 0.008695653609958748
+          },
+          {
+            "feature": "ring_specular_delta",
+            "coef": 0.007553191341244957
+          },
+          {
+            "feature": "target_sobel_edge_ratio",
+            "coef": 0.006802651215945754
+          },
+          {
+            "feature": "target_delta_L",
+            "coef": 0.005141228770115568
+          },
+          {
+            "feature": "mask_iou",
+            "coef": 0.0
+          }
+        ]
+      },
+      "pixel_only": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.6842105263157895,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 48,
+          "prevalence": 0.3,
+          "auroc": 0.48400297619047616,
+          "auprc": 0.3610875674327024,
+          "auroc_ci95": [
+            0.383269875812733,
+            0.5784362643569949
+          ],
+          "auprc_ci95": [
+            0.2524170907935637,
+            0.4812550817679283
+          ],
+          "recall_at_20pct_ci95": [
+            0.1315681622088007,
+            0.3333333333333333
+          ],
+          "top_10pct_recall": 0.14583333333333334,
+          "top_20pct_recall": 0.22916666666666666,
+          "top_30pct_recall": 0.3125,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 7.0,
+              "loss_recall": 0.14583333333333334
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 11.0,
+              "loss_recall": 0.22916666666666666
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 15.0,
+              "loss_recall": 0.3125
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 140,
+          "prevalence": 0.2916666666666667,
+          "auroc": 0.5067857142857143,
+          "auprc": 0.34322090979170516,
+          "auroc_ci95": [
+            0.4437652319931403,
+            0.5746604766745199
+          ],
+          "auprc_ci95": [
+            0.2761374900154754,
+            0.4260954506918367
+          ],
+          "recall_at_20pct_ci95": [
+            0.17092592592592593,
+            0.29546254801536487
+          ],
+          "top_10pct_recall": 0.12142857142857143,
+          "top_20pct_recall": 0.22857142857142856,
+          "top_30pct_recall": 0.3357142857142857,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 17.0,
+              "loss_recall": 0.12142857142857143
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 32.0,
+              "loss_recall": 0.22857142857142856
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 47.0,
+              "loss_recall": 0.3357142857142857
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "target_specular_delta",
+            "coef": -0.08381854080358347
+          },
+          {
+            "feature": "target_ssim",
+            "coef": -0.07795708579099545
+          },
+          {
+            "feature": "target_rgb_mae",
+            "coef": 0.07441228302772696
+          },
+          {
+            "feature": "boundary_contrast_delta_lab",
+            "coef": -0.05627193927265582
+          },
+          {
+            "feature": "boundary_contrast_delta",
+            "coef": -0.05248631038444425
+          },
+          {
+            "feature": "global_rgb_mae",
+            "coef": 0.04278356619167266
+          },
+          {
+            "feature": "bg_rgb_mae",
+            "coef": 0.02366699009860243
+          },
+          {
+            "feature": "target_delta_ab",
+            "coef": 0.02273010811655599
+          },
+          {
+            "feature": "target_std_L_ratio",
+            "coef": -0.015696923715073145
+          },
+          {
+            "feature": "bg_ssim",
+            "coef": -0.010387602421613639
+          },
+          {
+            "feature": "target_delta_L",
+            "coef": 0.006646838543371236
+          },
+          {
+            "feature": "ring_specular_delta",
+            "coef": 0.00374059450657197
+          },
+          {
+            "feature": "target_sobel_edge_ratio",
+            "coef": -0.0018147785661336842
+          }
+        ]
+      },
+      "geometry_only": {
+        "selected_c": 0.5,
+        "val_auroc_at_c": 0.5957284515636918,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 48,
+          "prevalence": 0.3,
+          "auroc": 0.5208333333333334,
+          "auprc": 0.30911206293954635,
+          "auroc_ci95": [
+            0.4278531612406441,
+            0.6069339449683342
+          ],
+          "auprc_ci95": [
+            0.21662293070411395,
+            0.4559268232251744
+          ],
+          "recall_at_20pct_ci95": [
+            0.09802725968436155,
+            0.3220475669764898
+          ],
+          "top_10pct_recall": 0.0625,
+          "top_20pct_recall": 0.1875,
+          "top_30pct_recall": 0.3333333333333333,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 3.0,
+              "loss_recall": 0.0625
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 9.0,
+              "loss_recall": 0.1875
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 16.0,
+              "loss_recall": 0.3333333333333333
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 140,
+          "prevalence": 0.2916666666666667,
+          "auroc": 0.5196638655462185,
+          "auprc": 0.2932255976485425,
+          "auroc_ci95": [
+            0.4688837204969224,
+            0.5731118435475878
+          ],
+          "auprc_ci95": [
+            0.24451110334835746,
+            0.35855126177840824
+          ],
+          "recall_at_20pct_ci95": [
+            0.13193530701754386,
+            0.23529411764705882
+          ],
+          "top_10pct_recall": 0.07857142857142857,
+          "top_20pct_recall": 0.17142857142857143,
+          "top_30pct_recall": 0.29285714285714287,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 11.0,
+              "loss_recall": 0.07857142857142857
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 24.0,
+              "loss_recall": 0.17142857142857143
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 41.0,
+              "loss_recall": 0.29285714285714287
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "log_area_frac",
+            "coef": -0.32200852941778596
+          },
+          {
+            "feature": "border_touch",
+            "coef": 0.19065443331734183
+          },
+          {
+            "feature": "aspect_ratio",
+            "coef": -0.16886731950719683
+          },
+          {
+            "feature": "center_dist_norm",
+            "coef": 0.08794065569276335
+          },
+          {
+            "feature": "mask_iou",
+            "coef": 0.0
+          }
+        ]
+      },
+      "all_with_review_priors": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.6864988558352403,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 48,
+          "prevalence": 0.3,
+          "auroc": 0.5018601190476191,
+          "auprc": 0.3255589863875323,
+          "auroc_ci95": [
+            0.4025382435464227,
+            0.5988578476774009
+          ],
+          "auprc_ci95": [
+            0.22887104467189764,
+            0.46457149959956157
+          ],
+          "recall_at_20pct_ci95": [
+            0.09615384615384616,
+            0.3590277777777775
+          ],
+          "top_10pct_recall": 0.10416666666666667,
+          "top_20pct_recall": 0.20833333333333334,
+          "top_30pct_recall": 0.3333333333333333,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 5.0,
+              "loss_recall": 0.10416666666666667
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 10.0,
+              "loss_recall": 0.20833333333333334
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 16.0,
+              "loss_recall": 0.3333333333333333
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 140,
+          "prevalence": 0.2916666666666667,
+          "auroc": 0.533172268907563,
+          "auprc": 0.32399357865195977,
+          "auroc_ci95": [
+            0.47788655781329176,
+            0.5894070242902318
+          ],
+          "auprc_ci95": [
+            0.2696401646037469,
+            0.39731602369892377
+          ],
+          "recall_at_20pct_ci95": [
+            0.16083916083916083,
+            0.2720014705882353
+          ],
+          "top_10pct_recall": 0.1,
+          "top_20pct_recall": 0.21428571428571427,
+          "top_30pct_recall": 0.32857142857142857,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 14.0,
+              "loss_recall": 0.1
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 30.0,
+              "loss_recall": 0.21428571428571427
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 46.0,
+              "loss_recall": 0.32857142857142857
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "log_area_frac",
+            "coef": -0.09845796652905962
+          },
+          {
+            "feature": "target_specular_delta",
+            "coef": -0.08903055302471606
+          },
+          {
+            "feature": "target_rgb_mae",
+            "coef": 0.07237266913588401
+          },
+          {
+            "feature": "target_ssim",
+            "coef": -0.07226888612137093
+          },
+          {
+            "feature": "border_touch",
+            "coef": 0.06059057710629596
+          },
+          {
+            "feature": "boundary_contrast_delta_lab",
+            "coef": -0.05563010518266697
+          },
+          {
+            "feature": "boundary_contrast_delta",
+            "coef": -0.05143153374942336
+          },
+          {
+            "feature": "global_rgb_mae",
+            "coef": 0.04493090305559203
+          },
+          {
+            "feature": "center_dist_norm",
+            "coef": 0.044891005877821744
+          },
+          {
+            "feature": "aspect_ratio",
+            "coef": -0.04212238617371909
+          },
+          {
+            "feature": "cat_is_transparent_or_glass",
+            "coef": -0.038789886133308075
+          },
+          {
+            "feature": "bg_rgb_mae",
+            "coef": 0.02781342032851157
+          },
+          {
+            "feature": "target_delta_ab",
+            "coef": 0.015989513785550854
+          },
+          {
+            "feature": "target_std_L_ratio",
+            "coef": -0.015873574467176445
+          },
+          {
+            "feature": "cat_is_emissive_or_screen",
+            "coef": 0.015493227701469124
+          },
+          {
+            "feature": "is_emissive_or_screen",
+            "coef": -0.012302347581361553
+          },
+          {
+            "feature": "is_reflective_appliance_or_metal",
+            "coef": 0.011811023105620762
+          },
+          {
+            "feature": "bg_ssim",
+            "coef": -0.009937025594503537
+          },
+          {
+            "feature": "is_transparent_or_glass",
+            "coef": -0.007686794365356538
+          },
+          {
+            "feature": "ring_specular_delta",
+            "coef": 0.007664081670544935
+          },
+          {
+            "feature": "target_sobel_edge_ratio",
+            "coef": 0.006779902999526581
+          },
+          {
+            "feature": "cat_is_reflective_appliance_or_metal",
+            "coef": 0.0060494938814378745
+          },
+          {
+            "feature": "target_delta_L",
+            "coef": 0.0051711772400821815
+          },
+          {
+            "feature": "mask_iou",
+            "coef": 0.0
+          }
+        ]
+      },
+      "baseline_global_rgb_mae": {
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 48,
+          "prevalence": 0.3,
+          "auroc": 0.47805059523809523,
+          "auprc": 0.3176773687287032,
+          "auroc_ci95": [
+            0.39624888392857144,
+            0.5616671033278176
+          ],
+          "auprc_ci95": [
+            0.23469816668575755,
+            0.43372043301096336
+          ],
+          "recall_at_20pct_ci95": [
+            0.05879524886877828,
+            0.3
+          ],
+          "top_10pct_recall": 0.0625,
+          "top_20pct_recall": 0.1875,
+          "top_30pct_recall": 0.22916666666666666,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 3.0,
+              "loss_recall": 0.0625
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 9.0,
+              "loss_recall": 0.1875
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 11.0,
+              "loss_recall": 0.22916666666666666
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 140,
+          "prevalence": 0.2916666666666667,
+          "auroc": 0.5216176470588235,
+          "auprc": 0.33244366877136566,
+          "auroc_ci95": [
+            0.47751176031868103,
+            0.5693310922687309
+          ],
+          "auprc_ci95": [
+            0.2759223511000094,
+            0.39641128283959487
+          ],
+          "recall_at_20pct_ci95": [
+            0.12664814814814815,
+            0.26717557251908397
+          ],
+          "top_10pct_recall": 0.12142857142857143,
+          "top_20pct_recall": 0.19285714285714287,
+          "top_30pct_recall": 0.32857142857142857,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 17.0,
+              "loss_recall": 0.12142857142857143
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 27.0,
+              "loss_recall": 0.19285714285714287
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 46.0,
+              "loss_recall": 0.32857142857142857
+            }
+          ]
+        }
+      },
+      "baseline_target_rgb_mae": {
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 48,
+          "prevalence": 0.3,
+          "auroc": 0.49720982142857145,
+          "auprc": 0.31436275728922053,
+          "auroc_ci95": [
+            0.4243520061141678,
+            0.573644018371364
+          ],
+          "auprc_ci95": [
+            0.23168119603759663,
+            0.44173471851173524
+          ],
+          "recall_at_20pct_ci95": [
+            0.1276595744680851,
+            0.3488662790697673
+          ],
+          "top_10pct_recall": 0.08333333333333333,
+          "top_20pct_recall": 0.25,
+          "top_30pct_recall": 0.2916666666666667,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.08333333333333333
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 12.0,
+              "loss_recall": 0.25
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 14.0,
+              "loss_recall": 0.2916666666666667
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 140,
+          "prevalence": 0.2916666666666667,
+          "auroc": 0.5355252100840336,
+          "auprc": 0.36816355245855414,
+          "auroc_ci95": [
+            0.47555006734733374,
+            0.5962026817089507
+          ],
+          "auprc_ci95": [
+            0.293033145554955,
+            0.45407812403123393
+          ],
+          "recall_at_20pct_ci95": [
+            0.17930519814719506,
+            0.2991469816272966
+          ],
+          "top_10pct_recall": 0.12857142857142856,
+          "top_20pct_recall": 0.22142857142857142,
+          "top_30pct_recall": 0.32142857142857145,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 18.0,
+              "loss_recall": 0.12857142857142856
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 31.0,
+              "loss_recall": 0.22142857142857142
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 45.0,
+              "loss_recall": 0.32142857142857145
+            }
+          ]
+        }
+      },
+      "baseline_random": {
+        "test_10_scenes": {
+          "prevalence": 0.3,
+          "auroc": 0.5,
+          "auprc": 0.3,
+          "top_10pct_recall": 0.1,
+          "top_20pct_recall": 0.2,
+          "top_30pct_recall": 0.3
+        },
+        "loso_30_scenes": {
+          "prevalence": 0.2916666666666667,
+          "auroc": 0.5,
+          "auprc": 0.2916666666666667,
+          "top_10pct_recall": 0.1,
+          "top_20pct_recall": 0.2,
+          "top_30pct_recall": 0.3
+        }
+      }
+    },
+    "8b_loss": {
+      "deploy_auto": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.7730263157894737,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 7,
+          "prevalence": 0.04375,
+          "auroc": 0.6321195144724556,
+          "auprc": 0.08015068521507526,
+          "auroc_ci95": [
+            0.32790297937356766,
+            0.8772046625101649
+          ],
+          "auprc_ci95": [
+            0.028672660672660673,
+            0.3300908676283646
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.7142857142857143
+          ],
+          "top_10pct_recall": 0.14285714285714285,
+          "top_20pct_recall": 0.2857142857142857,
+          "top_30pct_recall": 0.5714285714285714,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.14285714285714285
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.2857142857142857
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.5714285714285714
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 18,
+          "prevalence": 0.0375,
+          "auroc": 0.5941558441558441,
+          "auprc": 0.07712023849599556,
+          "auroc_ci95": [
+            0.4235395191672204,
+            0.7640496054146774
+          ],
+          "auprc_ci95": [
+            0.033480634529579896,
+            0.20373177147025034
+          ],
+          "recall_at_20pct_ci95": [
+            0.16666666666666666,
+            0.6111111111111112
+          ],
+          "top_10pct_recall": 0.2222222222222222,
+          "top_20pct_recall": 0.3888888888888889,
+          "top_30pct_recall": 0.5,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.2222222222222222
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 7.0,
+              "loss_recall": 0.3888888888888889
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 9.0,
+              "loss_recall": 0.5
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "target_specular_delta",
+            "coef": -0.0772125963378889
+          },
+          {
+            "feature": "log_area_frac",
+            "coef": -0.048915909842909014
+          },
+          {
+            "feature": "target_delta_L",
+            "coef": 0.03307238128615833
+          },
+          {
+            "feature": "aspect_ratio",
+            "coef": 0.03235134008081338
+          },
+          {
+            "feature": "target_rgb_mae",
+            "coef": 0.028493777838332755
+          },
+          {
+            "feature": "target_sobel_edge_ratio",
+            "coef": 0.028075438014700808
+          },
+          {
+            "feature": "center_dist_norm",
+            "coef": 0.02466576873273113
+          },
+          {
+            "feature": "boundary_contrast_delta",
+            "coef": -0.022802275862920746
+          },
+          {
+            "feature": "bg_rgb_mae",
+            "coef": -0.022199540224940712
+          },
+          {
+            "feature": "boundary_contrast_delta_lab",
+            "coef": -0.02168756984072936
+          },
+          {
+            "feature": "target_std_L_ratio",
+            "coef": -0.019917447228688444
+          },
+          {
+            "feature": "target_ssim",
+            "coef": -0.01887543606022306
+          },
+          {
+            "feature": "cat_is_reflective_appliance_or_metal",
+            "coef": -0.018858136890643695
+          },
+          {
+            "feature": "cat_is_emissive_or_screen",
+            "coef": 0.01815050894204566
+          },
+          {
+            "feature": "cat_is_transparent_or_glass",
+            "coef": -0.016651883328855192
+          },
+          {
+            "feature": "global_rgb_mae",
+            "coef": -0.014763197980835037
+          },
+          {
+            "feature": "target_delta_ab",
+            "coef": -0.013763034192588466
+          },
+          {
+            "feature": "border_touch",
+            "coef": -0.007216206904130715
+          },
+          {
+            "feature": "bg_ssim",
+            "coef": -0.002900394655562213
+          },
+          {
+            "feature": "ring_specular_delta",
+            "coef": 0.0004715262776054163
+          },
+          {
+            "feature": "mask_iou",
+            "coef": 0.0
+          }
+        ]
+      },
+      "pixel_only": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.7401315789473685,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 7,
+          "prevalence": 0.04375,
+          "auroc": 0.5957049486461251,
+          "auprc": 0.08042527959501786,
+          "auroc_ci95": [
+            0.285930735930736,
+            0.8168377508389836
+          ],
+          "auprc_ci95": [
+            0.02532324181900852,
+            0.23372637579693406
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.6666666666666666
+          ],
+          "top_10pct_recall": 0.2857142857142857,
+          "top_20pct_recall": 0.42857142857142855,
+          "top_30pct_recall": 0.42857142857142855,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.2857142857142857
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 3.0,
+              "loss_recall": 0.42857142857142855
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 3.0,
+              "loss_recall": 0.42857142857142855
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 18,
+          "prevalence": 0.0375,
+          "auroc": 0.5264550264550265,
+          "auprc": 0.06400035026363302,
+          "auroc_ci95": [
+            0.35495176976006587,
+            0.7021820952799214
+          ],
+          "auprc_ci95": [
+            0.027302416130009725,
+            0.17668766567112626
+          ],
+          "recall_at_20pct_ci95": [
+            0.07692307692307693,
+            0.5295098039215681
+          ],
+          "top_10pct_recall": 0.2222222222222222,
+          "top_20pct_recall": 0.3333333333333333,
+          "top_30pct_recall": 0.4444444444444444,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.2222222222222222
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 6.0,
+              "loss_recall": 0.3333333333333333
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 8.0,
+              "loss_recall": 0.4444444444444444
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "target_specular_delta",
+            "coef": -0.07823583297958414
+          },
+          {
+            "feature": "target_delta_L",
+            "coef": 0.03225056780499625
+          },
+          {
+            "feature": "target_rgb_mae",
+            "coef": 0.02782226308753317
+          },
+          {
+            "feature": "target_sobel_edge_ratio",
+            "coef": 0.026848871353837546
+          },
+          {
+            "feature": "boundary_contrast_delta",
+            "coef": -0.023913615249530697
+          },
+          {
+            "feature": "bg_rgb_mae",
+            "coef": -0.023130153167356768
+          },
+          {
+            "feature": "boundary_contrast_delta_lab",
+            "coef": -0.022803528890033363
+          },
+          {
+            "feature": "target_std_L_ratio",
+            "coef": -0.020991394967664393
+          },
+          {
+            "feature": "target_ssim",
+            "coef": -0.018584297949993042
+          },
+          {
+            "feature": "global_rgb_mae",
+            "coef": -0.016025449363685575
+          },
+          {
+            "feature": "target_delta_ab",
+            "coef": -0.012328502715222872
+          },
+          {
+            "feature": "bg_ssim",
+            "coef": -0.0021501955584955768
+          },
+          {
+            "feature": "ring_specular_delta",
+            "coef": 4.8501882734240185e-05
+          }
+        ]
+      },
+      "geometry_only": {
+        "selected_c": 0.05,
+        "val_auroc_at_c": 0.7598684210526315,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 7,
+          "prevalence": 0.04375,
+          "auroc": 0.6498599439775911,
+          "auprc": 0.09240534784521698,
+          "auroc_ci95": [
+            0.514423236399823,
+            0.8387096774193549
+          ],
+          "auprc_ci95": [
+            0.03127151166404955,
+            0.4505326225015618
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.6
+          ],
+          "top_10pct_recall": 0.14285714285714285,
+          "top_20pct_recall": 0.14285714285714285,
+          "top_30pct_recall": 0.2857142857142857,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.14285714285714285
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.14285714285714285
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.2857142857142857
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 18,
+          "prevalence": 0.0375,
+          "auroc": 0.6663059163059163,
+          "auprc": 0.0958492941367019,
+          "auroc_ci95": [
+            0.5246724617134187,
+            0.807944270806904
+          ],
+          "auprc_ci95": [
+            0.04547745285149854,
+            0.24758959552270948
+          ],
+          "recall_at_20pct_ci95": [
+            0.17391304347826086,
+            0.6875
+          ],
+          "top_10pct_recall": 0.2222222222222222,
+          "top_20pct_recall": 0.3888888888888889,
+          "top_30pct_recall": 0.5555555555555556,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.2222222222222222
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 7.0,
+              "loss_recall": 0.3888888888888889
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 10.0,
+              "loss_recall": 0.5555555555555556
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "log_area_frac",
+            "coef": -0.1666806949931712
+          },
+          {
+            "feature": "aspect_ratio",
+            "coef": 0.09913953622822241
+          },
+          {
+            "feature": "center_dist_norm",
+            "coef": 0.09415586299109607
+          },
+          {
+            "feature": "border_touch",
+            "coef": -0.028240752747639656
+          },
+          {
+            "feature": "mask_iou",
+            "coef": 0.0
+          }
+        ]
+      },
+      "all_with_review_priors": {
+        "selected_c": 0.05,
+        "val_auroc_at_c": 0.7039473684210527,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 7,
+          "prevalence": 0.04375,
+          "auroc": 0.6274509803921569,
+          "auprc": 0.07130987961096691,
+          "auroc_ci95": [
+            0.33678069937652483,
+            0.8723023095729783
+          ],
+          "auprc_ci95": [
+            0.029165166477499484,
+            0.22077997190779144
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.8
+          ],
+          "top_10pct_recall": 0.14285714285714285,
+          "top_20pct_recall": 0.2857142857142857,
+          "top_30pct_recall": 0.42857142857142855,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.14285714285714285
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.2857142857142857
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 3.0,
+              "loss_recall": 0.42857142857142855
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 18,
+          "prevalence": 0.0375,
+          "auroc": 0.6174843674843675,
+          "auprc": 0.09344249910799157,
+          "auroc_ci95": [
+            0.4514987786224688,
+            0.7857626688355381
+          ],
+          "auprc_ci95": [
+            0.03751096089309297,
+            0.24774101901916218
+          ],
+          "recall_at_20pct_ci95": [
+            0.14982142857142858,
+            0.625
+          ],
+          "top_10pct_recall": 0.2222222222222222,
+          "top_20pct_recall": 0.3888888888888889,
+          "top_30pct_recall": 0.5555555555555556,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.2222222222222222
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 7.0,
+              "loss_recall": 0.3888888888888889
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 10.0,
+              "loss_recall": 0.5555555555555556
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "target_specular_delta",
+            "coef": -0.20249005263704234
+          },
+          {
+            "feature": "log_area_frac",
+            "coef": -0.1746975908830038
+          },
+          {
+            "feature": "target_sobel_edge_ratio",
+            "coef": 0.1303689688361894
+          },
+          {
+            "feature": "is_reflective_appliance_or_metal",
+            "coef": -0.12196018744445614
+          },
+          {
+            "feature": "target_delta_L",
+            "coef": 0.09768841073365507
+          },
+          {
+            "feature": "center_dist_norm",
+            "coef": 0.09568408269961562
+          },
+          {
+            "feature": "target_ssim",
+            "coef": -0.08714841160709402
+          },
+          {
+            "feature": "target_std_L_ratio",
+            "coef": -0.08191443986452618
+          },
+          {
+            "feature": "cat_is_reflective_appliance_or_metal",
+            "coef": -0.0789404008384522
+          },
+          {
+            "feature": "target_rgb_mae",
+            "coef": 0.07860388487754694
+          },
+          {
+            "feature": "is_emissive_or_screen",
+            "coef": 0.07157111448089558
+          },
+          {
+            "feature": "bg_rgb_mae",
+            "coef": -0.07105258285886529
+          },
+          {
+            "feature": "cat_is_transparent_or_glass",
+            "coef": -0.06819384921744338
+          },
+          {
+            "feature": "target_delta_ab",
+            "coef": -0.06788587766659339
+          },
+          {
+            "feature": "aspect_ratio",
+            "coef": 0.05860094036352747
+          },
+          {
+            "feature": "global_rgb_mae",
+            "coef": -0.04958322843825518
+          },
+          {
+            "feature": "boundary_contrast_delta",
+            "coef": -0.04931546666351865
+          },
+          {
+            "feature": "is_transparent_or_glass",
+            "coef": 0.044484645820524395
+          },
+          {
+            "feature": "boundary_contrast_delta_lab",
+            "coef": -0.04358369276448921
+          },
+          {
+            "feature": "bg_ssim",
+            "coef": -0.031787840930988374
+          },
+          {
+            "feature": "border_touch",
+            "coef": -0.02376057373586314
+          },
+          {
+            "feature": "cat_is_emissive_or_screen",
+            "coef": 0.009865859092797578
+          },
+          {
+            "feature": "ring_specular_delta",
+            "coef": -0.0011303060216345116
+          },
+          {
+            "feature": "mask_iou",
+            "coef": 0.0
+          }
+        ]
+      },
+      "baseline_global_rgb_mae": {
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 7,
+          "prevalence": 0.04375,
+          "auroc": 0.4126984126984127,
+          "auprc": 0.17719659885610045,
+          "auroc_ci95": [
+            0.20984711491040606,
+            0.7305687982903173
+          ],
+          "auprc_ci95": [
+            0.018276374305729932,
+            0.613426796498991
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.6
+          ],
+          "top_10pct_recall": 0.14285714285714285,
+          "top_20pct_recall": 0.14285714285714285,
+          "top_30pct_recall": 0.14285714285714285,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.14285714285714285
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.14285714285714285
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.14285714285714285
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 18,
+          "prevalence": 0.0375,
+          "auroc": 0.49627224627224625,
+          "auprc": 0.06952056562390937,
+          "auroc_ci95": [
+            0.3529041461615857,
+            0.6568282495389597
+          ],
+          "auprc_ci95": [
+            0.026788431686369175,
+            0.21542807737710207
+          ],
+          "recall_at_20pct_ci95": [
+            0.058823529411764705,
+            0.4167763157894731
+          ],
+          "top_10pct_recall": 0.16666666666666666,
+          "top_20pct_recall": 0.2222222222222222,
+          "top_30pct_recall": 0.3888888888888889,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 3.0,
+              "loss_recall": 0.16666666666666666
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.2222222222222222
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 7.0,
+              "loss_recall": 0.3888888888888889
+            }
+          ]
+        }
+      },
+      "baseline_target_rgb_mae": {
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 7,
+          "prevalence": 0.04375,
+          "auroc": 0.4677871148459384,
+          "auprc": 0.051145708326285996,
+          "auroc_ci95": [
+            0.24231408807615917,
+            0.7955716497125165
+          ],
+          "auprc_ci95": [
+            0.021228302285199414,
+            0.14885536222708062
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.75
+          ],
+          "top_10pct_recall": 0.0,
+          "top_20pct_recall": 0.2857142857142857,
+          "top_30pct_recall": 0.2857142857142857,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 0.0,
+              "loss_recall": 0.0
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.2857142857142857
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.2857142857142857
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 18,
+          "prevalence": 0.0375,
+          "auroc": 0.5636123136123136,
+          "auprc": 0.11803897504713834,
+          "auroc_ci95": [
+            0.4099979795258621,
+            0.7191873250370505
+          ],
+          "auprc_ci95": [
+            0.030877002579660896,
+            0.36499371709544665
+          ],
+          "recall_at_20pct_ci95": [
+            0.07142857142857142,
+            0.5238095238095238
+          ],
+          "top_10pct_recall": 0.2222222222222222,
+          "top_20pct_recall": 0.2777777777777778,
+          "top_30pct_recall": 0.3888888888888889,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.2222222222222222
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 5.0,
+              "loss_recall": 0.2777777777777778
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 7.0,
+              "loss_recall": 0.3888888888888889
+            }
+          ]
+        }
+      },
+      "baseline_random": {
+        "test_10_scenes": {
+          "prevalence": 0.04375,
+          "auroc": 0.5,
+          "auprc": 0.04375,
+          "top_10pct_recall": 0.1,
+          "top_20pct_recall": 0.2,
+          "top_30pct_recall": 0.3
+        },
+        "loso_30_scenes": {
+          "prevalence": 0.0375,
+          "auroc": 0.5,
+          "auprc": 0.0375,
+          "top_10pct_recall": 0.1,
+          "top_20pct_recall": 0.2,
+          "top_30pct_recall": 0.3
+        }
+      }
+    },
+    "32b_loss": {
+      "deploy_auto": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.0,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 6,
+          "prevalence": 0.0375,
+          "auroc": 0.40584415584415584,
+          "auprc": 0.07248898973370142,
+          "auroc_ci95": [
+            0.15258891914537076,
+            0.6981060606060603
+          ],
+          "auprc_ci95": [
+            0.019326102578097894,
+            0.41201995300293887
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.5714285714285714
+          ],
+          "top_10pct_recall": 0.16666666666666666,
+          "top_20pct_recall": 0.16666666666666666,
+          "top_30pct_recall": 0.3333333333333333,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.16666666666666666
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.16666666666666666
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.3333333333333333
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 9,
+          "prevalence": 0.01875,
+          "auroc": 0.502476999292286,
+          "auprc": 0.0202642739353959,
+          "auroc_ci95": [
+            0.32809851694915254,
+            0.6545673076923076
+          ],
+          "auprc_ci95": [
+            0.009758869960060559,
+            0.04415700609628215
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.3333333333333333
+          ],
+          "top_10pct_recall": 0.0,
+          "top_20pct_recall": 0.1111111111111111,
+          "top_30pct_recall": 0.2222222222222222,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 0.0,
+              "loss_recall": 0.0
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.1111111111111111
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.2222222222222222
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "center_dist_norm",
+            "coef": 0.05313876484845554
+          },
+          {
+            "feature": "target_specular_delta",
+            "coef": 0.04737330624921541
+          },
+          {
+            "feature": "bg_rgb_mae",
+            "coef": 0.02899625853281708
+          },
+          {
+            "feature": "bg_ssim",
+            "coef": -0.027792086071668772
+          },
+          {
+            "feature": "cat_is_reflective_appliance_or_metal",
+            "coef": -0.025153243194077704
+          },
+          {
+            "feature": "global_rgb_mae",
+            "coef": 0.024480701629835837
+          },
+          {
+            "feature": "target_ssim",
+            "coef": -0.021001488652268054
+          },
+          {
+            "feature": "target_delta_ab",
+            "coef": -0.018515807003806978
+          },
+          {
+            "feature": "log_area_frac",
+            "coef": -0.015727656572495148
+          },
+          {
+            "feature": "cat_is_emissive_or_screen",
+            "coef": -0.012394865750857886
+          },
+          {
+            "feature": "boundary_contrast_delta",
+            "coef": 0.012067335831635108
+          },
+          {
+            "feature": "boundary_contrast_delta_lab",
+            "coef": 0.012019119674937963
+          },
+          {
+            "feature": "cat_is_transparent_or_glass",
+            "coef": -0.008261513634915013
+          },
+          {
+            "feature": "ring_specular_delta",
+            "coef": -0.007553402641288043
+          },
+          {
+            "feature": "aspect_ratio",
+            "coef": -0.006890115236332095
+          },
+          {
+            "feature": "target_delta_L",
+            "coef": -0.005733582249405752
+          },
+          {
+            "feature": "target_rgb_mae",
+            "coef": -0.004266801892649576
+          },
+          {
+            "feature": "border_touch",
+            "coef": -0.003527505691412674
+          },
+          {
+            "feature": "target_sobel_edge_ratio",
+            "coef": -0.003323064709044513
+          },
+          {
+            "feature": "target_std_L_ratio",
+            "coef": 0.00321281478777107
+          },
+          {
+            "feature": "mask_iou",
+            "coef": 0.0
+          }
+        ]
+      },
+      "pixel_only": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.0,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 6,
+          "prevalence": 0.0375,
+          "auroc": 0.27813852813852813,
+          "auprc": 0.05146896393175458,
+          "auroc_ci95": [
+            0.07276986078636889,
+            0.5822517672201216
+          ],
+          "auprc_ci95": [
+            0.0156238690012273,
+            0.3485217525423535
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.5
+          ],
+          "top_10pct_recall": 0.16666666666666666,
+          "top_20pct_recall": 0.16666666666666666,
+          "top_30pct_recall": 0.16666666666666666,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.16666666666666666
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.16666666666666666
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.16666666666666666
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 9,
+          "prevalence": 0.01875,
+          "auroc": 0.31163010143901865,
+          "auprc": 0.014303191579367287,
+          "auroc_ci95": [
+            0.1274451138806474,
+            0.4850797402388457
+          ],
+          "auprc_ci95": [
+            0.007091738475094934,
+            0.031139433525208614
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.16666666666666666
+          ],
+          "top_10pct_recall": 0.0,
+          "top_20pct_recall": 0.0,
+          "top_30pct_recall": 0.2222222222222222,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 0.0,
+              "loss_recall": 0.0
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 0.0,
+              "loss_recall": 0.0
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.2222222222222222
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "target_specular_delta",
+            "coef": 0.04764135045712842
+          },
+          {
+            "feature": "bg_rgb_mae",
+            "coef": 0.029003585743879914
+          },
+          {
+            "feature": "bg_ssim",
+            "coef": -0.02808725095962216
+          },
+          {
+            "feature": "global_rgb_mae",
+            "coef": 0.024382804401088663
+          },
+          {
+            "feature": "target_ssim",
+            "coef": -0.02095366773410184
+          },
+          {
+            "feature": "target_delta_ab",
+            "coef": -0.01832120602352664
+          },
+          {
+            "feature": "boundary_contrast_delta",
+            "coef": 0.012162201052798095
+          },
+          {
+            "feature": "boundary_contrast_delta_lab",
+            "coef": 0.012124299250584383
+          },
+          {
+            "feature": "ring_specular_delta",
+            "coef": -0.007628570594700084
+          },
+          {
+            "feature": "target_delta_L",
+            "coef": -0.005990352410869085
+          },
+          {
+            "feature": "target_rgb_mae",
+            "coef": -0.0045019180617930496
+          },
+          {
+            "feature": "target_sobel_edge_ratio",
+            "coef": -0.0035093195707238795
+          },
+          {
+            "feature": "target_std_L_ratio",
+            "coef": 0.003222635439962846
+          }
+        ]
+      },
+      "geometry_only": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.0,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 6,
+          "prevalence": 0.0375,
+          "auroc": 0.7326839826839827,
+          "auprc": 0.09207010309951487,
+          "auroc_ci95": [
+            0.5901981017432115,
+            0.8945043926661573
+          ],
+          "auprc_ci95": [
+            0.045964518394845034,
+            0.31164772727272716
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.8333333333333334
+          ],
+          "top_10pct_recall": 0.16666666666666666,
+          "top_20pct_recall": 0.3333333333333333,
+          "top_30pct_recall": 0.6666666666666666,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.16666666666666666
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.3333333333333333
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.6666666666666666
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 9,
+          "prevalence": 0.01875,
+          "auroc": 0.4984666194857278,
+          "auprc": 0.01992997007548025,
+          "auroc_ci95": [
+            0.34183793445878846,
+            0.6568145799236225
+          ],
+          "auprc_ci95": [
+            0.009876287242399702,
+            0.04818820084190054
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.36363636363636365
+          ],
+          "top_10pct_recall": 0.0,
+          "top_20pct_recall": 0.1111111111111111,
+          "top_30pct_recall": 0.1111111111111111,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 0.0,
+              "loss_recall": 0.0
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.1111111111111111
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.1111111111111111
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "center_dist_norm",
+            "coef": 0.05359755360071888
+          },
+          {
+            "feature": "log_area_frac",
+            "coef": -0.015543144660411774
+          },
+          {
+            "feature": "aspect_ratio",
+            "coef": -0.007491950979216441
+          },
+          {
+            "feature": "border_touch",
+            "coef": -0.0033814476354901554
+          },
+          {
+            "feature": "mask_iou",
+            "coef": 0.0
+          }
+        ]
+      },
+      "all_with_review_priors": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.0,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 6,
+          "prevalence": 0.0375,
+          "auroc": 0.42857142857142855,
+          "auprc": 0.0904102018085831,
+          "auroc_ci95": [
+            0.17617134723026442,
+            0.7342560766241978
+          ],
+          "auprc_ci95": [
+            0.02067929472242994,
+            0.5186056299920736
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.75
+          ],
+          "top_10pct_recall": 0.16666666666666666,
+          "top_20pct_recall": 0.3333333333333333,
+          "top_30pct_recall": 0.3333333333333333,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.16666666666666666
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.3333333333333333
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.3333333333333333
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 9,
+          "prevalence": 0.01875,
+          "auroc": 0.5263033734371314,
+          "auprc": 0.021362660117104318,
+          "auroc_ci95": [
+            0.350105348064382,
+            0.6727086556816914
+          ],
+          "auprc_ci95": [
+            0.010189202498715263,
+            0.04532330784831234
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.22243589743589626
+          ],
+          "top_10pct_recall": 0.0,
+          "top_20pct_recall": 0.0,
+          "top_30pct_recall": 0.4444444444444444,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 0.0,
+              "loss_recall": 0.0
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 0.0,
+              "loss_recall": 0.0
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.4444444444444444
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "center_dist_norm",
+            "coef": 0.05315375795692122
+          },
+          {
+            "feature": "target_specular_delta",
+            "coef": 0.04726441034020379
+          },
+          {
+            "feature": "bg_rgb_mae",
+            "coef": 0.028980994766517137
+          },
+          {
+            "feature": "bg_ssim",
+            "coef": -0.027666046767525054
+          },
+          {
+            "feature": "cat_is_reflective_appliance_or_metal",
+            "coef": -0.025224329750202255
+          },
+          {
+            "feature": "global_rgb_mae",
+            "coef": 0.024458832633742177
+          },
+          {
+            "feature": "target_ssim",
+            "coef": -0.020970498361914214
+          },
+          {
+            "feature": "is_transparent_or_glass",
+            "coef": -0.02059054590858856
+          },
+          {
+            "feature": "target_delta_ab",
+            "coef": -0.018550285277647655
+          },
+          {
+            "feature": "log_area_frac",
+            "coef": -0.015675570712536654
+          },
+          {
+            "feature": "is_emissive_or_screen",
+            "coef": -0.014725839872655098
+          },
+          {
+            "feature": "boundary_contrast_delta",
+            "coef": 0.012173004623488639
+          },
+          {
+            "feature": "boundary_contrast_delta_lab",
+            "coef": 0.012120095211267761
+          },
+          {
+            "feature": "cat_is_emissive_or_screen",
+            "coef": -0.011977874047383423
+          },
+          {
+            "feature": "cat_is_transparent_or_glass",
+            "coef": -0.008054888757061247
+          },
+          {
+            "feature": "ring_specular_delta",
+            "coef": -0.007593347351010647
+          },
+          {
+            "feature": "aspect_ratio",
+            "coef": -0.006886524167553469
+          },
+          {
+            "feature": "target_delta_L",
+            "coef": -0.00571369515009947
+          },
+          {
+            "feature": "target_rgb_mae",
+            "coef": -0.004196800510484411
+          },
+          {
+            "feature": "border_touch",
+            "coef": -0.0036032444214847688
+          },
+          {
+            "feature": "target_sobel_edge_ratio",
+            "coef": -0.0033811568643739506
+          },
+          {
+            "feature": "target_std_L_ratio",
+            "coef": 0.003140172047347308
+          },
+          {
+            "feature": "is_reflective_appliance_or_metal",
+            "coef": 0.0008661586437534327
+          },
+          {
+            "feature": "mask_iou",
+            "coef": 0.0
+          }
+        ]
+      },
+      "baseline_global_rgb_mae": {
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 6,
+          "prevalence": 0.0375,
+          "auroc": 0.4274891774891775,
+          "auprc": 0.04104170562590846,
+          "auroc_ci95": [
+            0.21677033824282402,
+            0.6309944141879624
+          ],
+          "auprc_ci95": [
+            0.02018900526408385,
+            0.10906937119441283
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.5
+          ],
+          "top_10pct_recall": 0.0,
+          "top_20pct_recall": 0.16666666666666666,
+          "top_30pct_recall": 0.16666666666666666,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 0.0,
+              "loss_recall": 0.0
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.16666666666666666
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.16666666666666666
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 9,
+          "prevalence": 0.01875,
+          "auroc": 0.4713375796178344,
+          "auprc": 0.03993718707656453,
+          "auroc_ci95": [
+            0.2579089860134178,
+            0.6812634938409854
+          ],
+          "auprc_ci95": [
+            0.010156851229749072,
+            0.19605898228846175
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.5
+          ],
+          "top_10pct_recall": 0.2222222222222222,
+          "top_20pct_recall": 0.2222222222222222,
+          "top_30pct_recall": 0.3333333333333333,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.2222222222222222
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.2222222222222222
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 3.0,
+              "loss_recall": 0.3333333333333333
+            }
+          ]
+        }
+      },
+      "baseline_target_rgb_mae": {
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 6,
+          "prevalence": 0.0375,
+          "auroc": 0.672077922077922,
+          "auprc": 0.2133087857000159,
+          "auroc_ci95": [
+            0.38706451612903225,
+            0.8894230769230769
+          ],
+          "auprc_ci95": [
+            0.03815205327413984,
+            0.5461629452418926
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.8
+          ],
+          "top_10pct_recall": 0.3333333333333333,
+          "top_20pct_recall": 0.5,
+          "top_30pct_recall": 0.5,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.3333333333333333
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 3.0,
+              "loss_recall": 0.5
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 3.0,
+              "loss_recall": 0.5
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 9,
+          "prevalence": 0.01875,
+          "auroc": 0.6286860108516159,
+          "auprc": 0.04667627460264251,
+          "auroc_ci95": [
+            0.4293107869824072,
+            0.8004314069456365
+          ],
+          "auprc_ci95": [
+            0.015491284813306227,
+            0.14905491390976597
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.5714285714285714
+          ],
+          "top_10pct_recall": 0.2222222222222222,
+          "top_20pct_recall": 0.2222222222222222,
+          "top_30pct_recall": 0.4444444444444444,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.2222222222222222
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.2222222222222222
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.4444444444444444
+            }
+          ]
+        }
+      },
+      "baseline_random": {
+        "test_10_scenes": {
+          "prevalence": 0.0375,
+          "auroc": 0.5,
+          "auprc": 0.0375,
+          "top_10pct_recall": 0.1,
+          "top_20pct_recall": 0.2,
+          "top_30pct_recall": 0.3
+        },
+        "loso_30_scenes": {
+          "prevalence": 0.01875,
+          "auroc": 0.5,
+          "auprc": 0.01875,
+          "top_10pct_recall": 0.1,
+          "top_20pct_recall": 0.2,
+          "top_30pct_recall": 0.3
+        }
+      }
+    },
+    "8b_flip": {
+      "deploy_auto": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.7120500782472613,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 16,
+          "prevalence": 0.1,
+          "auroc": 0.5008680555555556,
+          "auprc": 0.10336342724953665,
+          "auroc_ci95": [
+            0.3916234622599467,
+            0.6057016428841974
+          ],
+          "auprc_ci95": [
+            0.06009368405438238,
+            0.19786583403380947
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.30434782608695654
+          ],
+          "top_10pct_recall": 0.0625,
+          "top_20pct_recall": 0.0625,
+          "top_30pct_recall": 0.25,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.0625
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.0625
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.25
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 45,
+          "prevalence": 0.09375,
+          "auroc": 0.5454406130268199,
+          "auprc": 0.11664470919430626,
+          "auroc_ci95": [
+            0.4427596707988878,
+            0.6299576953884882
+          ],
+          "auprc_ci95": [
+            0.07788413867334247,
+            0.1766094281376383
+          ],
+          "recall_at_20pct_ci95": [
+            0.1111111111111111,
+            0.34210526315789475
+          ],
+          "top_10pct_recall": 0.08888888888888889,
+          "top_20pct_recall": 0.24444444444444444,
+          "top_30pct_recall": 0.4222222222222222,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.08888888888888889
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 11.0,
+              "loss_recall": 0.24444444444444444
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 19.0,
+              "loss_recall": 0.4222222222222222
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "log_area_frac",
+            "coef": -0.06762833967672158
+          },
+          {
+            "feature": "bg_ssim",
+            "coef": -0.06455784854046022
+          },
+          {
+            "feature": "target_ssim",
+            "coef": -0.0625938717678234
+          },
+          {
+            "feature": "cat_is_transparent_or_glass",
+            "coef": -0.04776947326011957
+          },
+          {
+            "feature": "cat_is_reflective_appliance_or_metal",
+            "coef": -0.045699603824074876
+          },
+          {
+            "feature": "target_specular_delta",
+            "coef": -0.03495092096405239
+          },
+          {
+            "feature": "bg_rgb_mae",
+            "coef": 0.024167419499907934
+          },
+          {
+            "feature": "global_rgb_mae",
+            "coef": 0.01903867057757662
+          },
+          {
+            "feature": "border_touch",
+            "coef": -0.01870095915648918
+          },
+          {
+            "feature": "target_std_L_ratio",
+            "coef": -0.017375573457742523
+          },
+          {
+            "feature": "target_sobel_edge_ratio",
+            "coef": 0.01617198594956554
+          },
+          {
+            "feature": "target_delta_L",
+            "coef": 0.01082818712677308
+          },
+          {
+            "feature": "center_dist_norm",
+            "coef": 0.01055681311012561
+          },
+          {
+            "feature": "target_delta_ab",
+            "coef": -0.009704548414464005
+          },
+          {
+            "feature": "cat_is_emissive_or_screen",
+            "coef": -0.00647444986131273
+          },
+          {
+            "feature": "boundary_contrast_delta",
+            "coef": 0.005481830020617999
+          },
+          {
+            "feature": "boundary_contrast_delta_lab",
+            "coef": -0.0030080322989394564
+          },
+          {
+            "feature": "ring_specular_delta",
+            "coef": -0.002249105843672338
+          },
+          {
+            "feature": "aspect_ratio",
+            "coef": 0.0006634523194316344
+          },
+          {
+            "feature": "target_rgb_mae",
+            "coef": 0.0005764589702198938
+          },
+          {
+            "feature": "mask_iou",
+            "coef": 0.0
+          }
+        ]
+      },
+      "pixel_only": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.7621283255086072,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 16,
+          "prevalence": 0.1,
+          "auroc": 0.4565972222222222,
+          "auprc": 0.12693509273481388,
+          "auroc_ci95": [
+            0.3111971023680598,
+            0.6170410596840616
+          ],
+          "auprc_ci95": [
+            0.05152378959166917,
+            0.25890247791925475
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.36858552631578856
+          ],
+          "top_10pct_recall": 0.125,
+          "top_20pct_recall": 0.125,
+          "top_30pct_recall": 0.1875,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.125
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.125
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 3.0,
+              "loss_recall": 0.1875
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 45,
+          "prevalence": 0.09375,
+          "auroc": 0.5170370370370371,
+          "auprc": 0.09925530568715839,
+          "auroc_ci95": [
+            0.4283745012423377,
+            0.5981762339639052
+          ],
+          "auprc_ci95": [
+            0.06917895138707063,
+            0.1530255984553016
+          ],
+          "recall_at_20pct_ci95": [
+            0.07317073170731707,
+            0.3333333333333333
+          ],
+          "top_10pct_recall": 0.06666666666666667,
+          "top_20pct_recall": 0.2,
+          "top_30pct_recall": 0.28888888888888886,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 3.0,
+              "loss_recall": 0.06666666666666667
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 9.0,
+              "loss_recall": 0.2
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 13.0,
+              "loss_recall": 0.28888888888888886
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "bg_ssim",
+            "coef": -0.06457400580358956
+          },
+          {
+            "feature": "target_ssim",
+            "coef": -0.06219810427437438
+          },
+          {
+            "feature": "target_specular_delta",
+            "coef": -0.03393146473159399
+          },
+          {
+            "feature": "bg_rgb_mae",
+            "coef": 0.021409181470936567
+          },
+          {
+            "feature": "target_std_L_ratio",
+            "coef": -0.018922759268178015
+          },
+          {
+            "feature": "global_rgb_mae",
+            "coef": 0.015161433768953096
+          },
+          {
+            "feature": "target_sobel_edge_ratio",
+            "coef": 0.014074316620124575
+          },
+          {
+            "feature": "target_delta_L",
+            "coef": 0.007157596983992707
+          },
+          {
+            "feature": "target_delta_ab",
+            "coef": -0.006160599125558545
+          },
+          {
+            "feature": "boundary_contrast_delta_lab",
+            "coef": -0.0049631164175037434
+          },
+          {
+            "feature": "boundary_contrast_delta",
+            "coef": 0.003513709417602117
+          },
+          {
+            "feature": "ring_specular_delta",
+            "coef": -0.003312291481585619
+          },
+          {
+            "feature": "target_rgb_mae",
+            "coef": -0.002862533173102916
+          }
+        ]
+      },
+      "geometry_only": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.6400625978090767,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 16,
+          "prevalence": 0.1,
+          "auroc": 0.6006944444444444,
+          "auprc": 0.13035059794210768,
+          "auroc_ci95": [
+            0.4408801276853175,
+            0.7733754857661883
+          ],
+          "auprc_ci95": [
+            0.08409632474131927,
+            0.3060709443586264
+          ],
+          "recall_at_20pct_ci95": [
+            0.05555555555555555,
+            0.5833333333333334
+          ],
+          "top_10pct_recall": 0.125,
+          "top_20pct_recall": 0.25,
+          "top_30pct_recall": 0.375,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.125
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.25
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 6.0,
+              "loss_recall": 0.375
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 45,
+          "prevalence": 0.09375,
+          "auroc": 0.5374201787994891,
+          "auprc": 0.12527743524054824,
+          "auroc_ci95": [
+            0.4350320993295954,
+            0.6372427811701789
+          ],
+          "auprc_ci95": [
+            0.08597756251596594,
+            0.17951766084186496
+          ],
+          "recall_at_20pct_ci95": [
+            0.1111111111111111,
+            0.32434121621621614
+          ],
+          "top_10pct_recall": 0.15555555555555556,
+          "top_20pct_recall": 0.2,
+          "top_30pct_recall": 0.3333333333333333,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 7.0,
+              "loss_recall": 0.15555555555555556
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 9.0,
+              "loss_recall": 0.2
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 15.0,
+              "loss_recall": 0.3333333333333333
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "log_area_frac",
+            "coef": -0.06540034632206
+          },
+          {
+            "feature": "border_touch",
+            "coef": -0.018622341526038033
+          },
+          {
+            "feature": "center_dist_norm",
+            "coef": 0.012543023382078487
+          },
+          {
+            "feature": "aspect_ratio",
+            "coef": 0.0003940260288844682
+          },
+          {
+            "feature": "mask_iou",
+            "coef": 0.0
+          }
+        ]
+      },
+      "all_with_review_priors": {
+        "selected_c": 0.01,
+        "val_auroc_at_c": 0.647887323943662,
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 16,
+          "prevalence": 0.1,
+          "auroc": 0.4791666666666667,
+          "auprc": 0.09726358065287613,
+          "auroc_ci95": [
+            0.3236206073749714,
+            0.573165866231356
+          ],
+          "auprc_ci95": [
+            0.05826930584818907,
+            0.171533365857386
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.25
+          ],
+          "top_10pct_recall": 0.0625,
+          "top_20pct_recall": 0.125,
+          "top_30pct_recall": 0.25,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.0625
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.125
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.25
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 45,
+          "prevalence": 0.09375,
+          "auroc": 0.5373180076628352,
+          "auprc": 0.11474020889703886,
+          "auroc_ci95": [
+            0.43766691813811326,
+            0.6179321709845438
+          ],
+          "auprc_ci95": [
+            0.07591013064183012,
+            0.17673694252293598
+          ],
+          "recall_at_20pct_ci95": [
+            0.10638297872340426,
+            0.32558139534883723
+          ],
+          "top_10pct_recall": 0.1111111111111111,
+          "top_20pct_recall": 0.2222222222222222,
+          "top_30pct_recall": 0.35555555555555557,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 5.0,
+              "loss_recall": 0.1111111111111111
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 10.0,
+              "loss_recall": 0.2222222222222222
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 16.0,
+              "loss_recall": 0.35555555555555557
+            }
+          ]
+        },
+        "standardized_coefficients_train_fit": [
+          {
+            "feature": "log_area_frac",
+            "coef": -0.06628981783526305
+          },
+          {
+            "feature": "target_ssim",
+            "coef": -0.0640830459620597
+          },
+          {
+            "feature": "bg_ssim",
+            "coef": -0.06404954716564316
+          },
+          {
+            "feature": "cat_is_transparent_or_glass",
+            "coef": -0.04570773501674613
+          },
+          {
+            "feature": "is_transparent_or_glass",
+            "coef": -0.04551160387487263
+          },
+          {
+            "feature": "cat_is_reflective_appliance_or_metal",
+            "coef": -0.04248427903867031
+          },
+          {
+            "feature": "target_specular_delta",
+            "coef": -0.036160118276699675
+          },
+          {
+            "feature": "is_reflective_appliance_or_metal",
+            "coef": -0.035631424907308355
+          },
+          {
+            "feature": "bg_rgb_mae",
+            "coef": 0.024977696099638985
+          },
+          {
+            "feature": "global_rgb_mae",
+            "coef": 0.01988402850299512
+          },
+          {
+            "feature": "border_touch",
+            "coef": -0.01893452448719544
+          },
+          {
+            "feature": "target_std_L_ratio",
+            "coef": -0.017141030440189373
+          },
+          {
+            "feature": "target_sobel_edge_ratio",
+            "coef": 0.015406525592613721
+          },
+          {
+            "feature": "target_delta_L",
+            "coef": 0.011760690014336555
+          },
+          {
+            "feature": "center_dist_norm",
+            "coef": 0.01071959789084967
+          },
+          {
+            "feature": "target_delta_ab",
+            "coef": -0.010693173510929967
+          },
+          {
+            "feature": "is_emissive_or_screen",
+            "coef": -0.007931140578817964
+          },
+          {
+            "feature": "boundary_contrast_delta",
+            "coef": 0.006413629190635334
+          },
+          {
+            "feature": "cat_is_emissive_or_screen",
+            "coef": -0.004919878011861318
+          },
+          {
+            "feature": "ring_specular_delta",
+            "coef": -0.003508630898959368
+          },
+          {
+            "feature": "boundary_contrast_delta_lab",
+            "coef": -0.002075715749353689
+          },
+          {
+            "feature": "target_rgb_mae",
+            "coef": 0.0020692201475654352
+          },
+          {
+            "feature": "aspect_ratio",
+            "coef": 0.00013877556755002098
+          },
+          {
+            "feature": "mask_iou",
+            "coef": 0.0
+          }
+        ]
+      },
+      "baseline_global_rgb_mae": {
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 16,
+          "prevalence": 0.1,
+          "auroc": 0.390625,
+          "auprc": 0.16796569026485225,
+          "auroc_ci95": [
+            0.19935897435897437,
+            0.6014785788923716
+          ],
+          "auprc_ci95": [
+            0.045488816155194726,
+            0.42027176723658966
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.36363636363636365
+          ],
+          "top_10pct_recall": 0.125,
+          "top_20pct_recall": 0.125,
+          "top_30pct_recall": 0.125,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.125
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.125
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 2.0,
+              "loss_recall": 0.125
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 45,
+          "prevalence": 0.09375,
+          "auroc": 0.5187739463601533,
+          "auprc": 0.12596570934861306,
+          "auroc_ci95": [
+            0.41968824613483996,
+            0.6193585799669258
+          ],
+          "auprc_ci95": [
+            0.0781894010945662,
+            0.24522493379982538
+          ],
+          "recall_at_20pct_ci95": [
+            0.1,
+            0.30434782608695654
+          ],
+          "top_10pct_recall": 0.13333333333333333,
+          "top_20pct_recall": 0.2,
+          "top_30pct_recall": 0.3333333333333333,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 6.0,
+              "loss_recall": 0.13333333333333333
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 9.0,
+              "loss_recall": 0.2
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 15.0,
+              "loss_recall": 0.3333333333333333
+            }
+          ]
+        }
+      },
+      "baseline_target_rgb_mae": {
+        "test_10_scenes": {
+          "n": 160,
+          "positives": 16,
+          "prevalence": 0.1,
+          "auroc": 0.4157986111111111,
+          "auprc": 0.11868932046005677,
+          "auroc_ci95": [
+            0.23923441610574683,
+            0.5711003539433689
+          ],
+          "auprc_ci95": [
+            0.057903697294543345,
+            0.29742685765076665
+          ],
+          "recall_at_20pct_ci95": [
+            0.0,
+            0.3333333333333333
+          ],
+          "top_10pct_recall": 0.0625,
+          "top_20pct_recall": 0.1875,
+          "top_30pct_recall": 0.25,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 16.0,
+              "losses_caught": 1.0,
+              "loss_recall": 0.0625
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 32.0,
+              "losses_caught": 3.0,
+              "loss_recall": 0.1875
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 48.0,
+              "losses_caught": 4.0,
+              "loss_recall": 0.25
+            }
+          ]
+        },
+        "loso_30_scenes": {
+          "n": 480,
+          "positives": 45,
+          "prevalence": 0.09375,
+          "auroc": 0.5089144316730524,
+          "auprc": 0.1269020053636761,
+          "auroc_ci95": [
+            0.4194101238377459,
+            0.5939367471371167
+          ],
+          "auprc_ci95": [
+            0.07395379375305398,
+            0.2555140269765388
+          ],
+          "recall_at_20pct_ci95": [
+            0.07138704318936877,
+            0.2979255319148933
+          ],
+          "top_10pct_recall": 0.1111111111111111,
+          "top_20pct_recall": 0.17777777777777778,
+          "top_30pct_recall": 0.24444444444444444,
+          "selective_hybrid_curve": [
+            {
+              "review_fraction": 0.1,
+              "flagged_pairs": 48.0,
+              "losses_caught": 5.0,
+              "loss_recall": 0.1111111111111111
+            },
+            {
+              "review_fraction": 0.2,
+              "flagged_pairs": 96.0,
+              "losses_caught": 8.0,
+              "loss_recall": 0.17777777777777778
+            },
+            {
+              "review_fraction": 0.3,
+              "flagged_pairs": 144.0,
+              "losses_caught": 11.0,
+              "loss_recall": 0.24444444444444444
+            }
+          ]
+        }
+      },
+      "baseline_random": {
+        "test_10_scenes": {
+          "prevalence": 0.1,
+          "auroc": 0.5,
+          "auprc": 0.1,
+          "top_10pct_recall": 0.1,
+          "top_20pct_recall": 0.2,
+          "top_30pct_recall": 0.3
+        },
+        "loso_30_scenes": {
+          "prevalence": 0.09375,
+          "auroc": 0.5,
+          "auprc": 0.09375,
+          "top_10pct_recall": 0.1,
+          "top_20pct_recall": 0.2,
+          "top_30pct_recall": 0.3
+        }
+      }
+    }
+  }
+}

@@ -24,13 +24,13 @@ VLM prompts, and VLN routes such as \mbox{InternNav} and
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{figures/fig_acl_method_chain_imagegen_v18.png}
-\caption{Evidence-chain overview. We start from
-USD scenes with MDL materials, convert them to composition-preserving noMDL
-counterparts, compare matched renders for VLM grounding, then check selected
-official InternNav rollouts and paired metrics. This
-panel is a schematic roadmap; later render, material-effect, and navigation
-figures carry the reported measurements.}
+\includegraphics[width=\textwidth]{figures/fig_acl_method_chain_v4.pdf}
+\caption{Evidence-chain overview. Four illustrative material pairs summarize
+the MDL-to-noMDL rewrite. The recorded render pair holds scene and camera fixed,
+then fans out to four separate checks: proxy similarity, VLM grounding, a
+selected material audit, and official-stack entry. The spheres explain the
+intervention; recorded thumbnails and later figures and tables carry the
+evidence and reported measurements.}
 \label{fig:acl_method_chain}
 \end{figure*}
 

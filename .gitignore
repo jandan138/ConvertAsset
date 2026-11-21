@@ -55,6 +55,14 @@ build/
 # Output files
 *.glb
 /outputs/
+/external_artifacts/
+/reports/
+MUJOCO_LOG.TXT
+
+# Compiled paper build artifacts and external reference PDFs (>25 MB)
+paper/**/build/
+paper/submissions/
+paper/**/citation_audit/sources/*.pdf
 
 # Paper LaTeX build artifacts
 paper/writing/*.aux

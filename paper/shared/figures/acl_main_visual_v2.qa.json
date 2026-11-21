@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "reviewed_at": "2026-08-30",
+  "scope": "ACL main-paper Figure 1, Table 1 visual strip, and Figures 2-4",
+  "backend": "Python 3.10 / Matplotlib 3.10 / Pillow 11.2",
+  "semantic_graph": {
+    "spec": "paper/shared/figures/specs/fig_acl_method_chain_v2.spec.json",
+    "strict_validation": "pass",
+    "approved_topology": "source -> conversion -> matched evidence -> four parallel evidence gates"
+  },
+  "rendering": {
+    "formats": ["svg", "pdf", "png"],
+    "svg_editable_text": true,
+    "png_dpi": 300,
+    "embedded_pdf_raster_ppi_range": [343, 365],
+    "acl_pdf_pages": 10,
+    "page_size": "A4",
+    "pdf_version": "1.5",
+    "preupload_gate": "pass"
+  },
+  "scores": {
+    "semantics": 5.0,
+    "topology": 5.0,
+    "geometry": 4.8,
+    "style": 4.8,
+    "rendering": 5.0,
+    "sources_and_provenance": 4.8,
+    "weighted_total": 97.6
+  },
+  "findings": {
+    "critical": [],
+    "major": [],
+    "minor": [
+      "Figure 3 effect tags are intentionally compact because the governing scope details remain in Table 5."
+    ]
+  },
+  "page_review": {
+    "figure_1_page": 2,
+    "table_1_page": 4,
+    "figure_2_page": 5,
+    "figure_3_page": 6,
+    "figure_4_page": 8,
+    "verdict": "No clipping, overlap, detached captions, missing glyphs, or broken image assets."
+  },
+  "claim_boundary": "The redesigned figures reorganize recorded evidence and do not add experiments, metrics, or broader benchmark claims."
+}

@@ -1,0 +1,59 @@
+{
+  "status": "PROTOCOL_COMPARISON_PREPARED_FORMAL_RESULTS_PENDING",
+  "sources": {
+    "paper/shared/evidence/raw/iclr_model_behavior/analysis_v1/results.json": "dea5ca75206bdaed906db00876357db0ff8c82558c1818f3e3977d7766e0babc",
+    "paper/venues/iclr27/sections/grounding.tex": "107eb358cbd254162b214686e41f5f0ff32fcc4da705b97ab2ae1c4905ee485e",
+    "paper/venues/iclr27/sections/method.tex": "cac21fc19cc7e2e920034cd314eb4045e8b041f6829e8c3ea6c733fcb873b9eb",
+    "paper/venues/iclr27/sections/mechanisms.tex": "ba2aa3a815337b8cdc6792eb337886d49d3186c6bf97db84e7e16ebb1f694338",
+    "paper/venues/iclr27/sections/navigation.tex": "d8c8eb8f7bb4d610edb7fc053b348aab7cf25dfadcd94711ccd9434c2daee57f",
+    "paper/shared/evidence/raw/cviu_formal/v1/protocol.json": "2f94ca7e326bb364545c27ea29983f2c22bfc92c545a0d2f56746d35df5960de",
+    "paper/shared/evidence/raw/cviu_formal/v1/manifest.json": "1efcbeb7cc37f1d29ccb38eae7ff5607d222d23cd051f878e0c91a1231dc8854"
+  },
+  "formal_input_baselines": {
+    "original": {
+      "n": 480,
+      "mask_center_hits": 131,
+      "bbox_center_hits": 213,
+      "empty_masks": 0,
+      "mean_uniform_pixel_hit_probability": 0.1151269223954943
+    },
+    "converted": {
+      "n": 480,
+      "mask_center_hits": 132,
+      "bbox_center_hits": 213,
+      "empty_masks": 0,
+      "mean_uniform_pixel_hit_probability": 0.11530278788672561
+    }
+  },
+  "legacy_inventory_caveats": [
+    {
+      "id": "stress_predictions",
+      "changed_images": [
+        "47aa36277a54f6ca90cc.zoom_018.original",
+        "47aa36277a54f6ca90cc.zoom_018.converted",
+        "f35ef3d86c42446b7ddf.zoom_018.original",
+        "f35ef3d86c42446b7ddf.zoom_018.converted",
+        "c27086f557d316584264.zoom_018.original",
+        "c27086f557d316584264.zoom_018.converted",
+        "e2ec085d524d5df4455d.zoom_020.original",
+        "e2ec085d524d5df4455d.zoom_020.converted"
+      ],
+      "missing_images": []
+    },
+    {
+      "id": "qwen25_stress_expanded30_structured_predictions",
+      "changed_images": [
+        "47aa36277a54f6ca90cc.zoom_018.original",
+        "47aa36277a54f6ca90cc.zoom_018.converted",
+        "f35ef3d86c42446b7ddf.zoom_018.original",
+        "f35ef3d86c42446b7ddf.zoom_018.converted",
+        "c27086f557d316584264.zoom_018.original",
+        "c27086f557d316584264.zoom_018.converted",
+        "e2ec085d524d5df4455d.zoom_020.original",
+        "e2ec085d524d5df4455d.zoom_020.converted"
+      ],
+      "missing_images": []
+    }
+  ],
+  "scope": "Protocol and frozen-input comparison only; no current model performance reported."
+}

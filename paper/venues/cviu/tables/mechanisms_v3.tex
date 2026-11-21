@@ -1,0 +1,24 @@
+% Verified from paper/shared/evidence/raw/cviu_v3/optical_mechanisms.json (2,880 counterfactual evaluations)
+\begin{tabular}{@{}lrrrrrrrrrrr@{}}
+\toprule
+Condition / Optical Stratum & $N$ & \multicolumn{5}{c}{Qwen3-VL-8B (1,440 CF evals)} & \multicolumn{5}{c}{InternVL3.5-8B-HF (1,440 CF evals)} \\
+\cmidrule(lr){3-7} \cmidrule(lr){8-12}
+ & & $H$ (\%) & Flip [95\% CI] & L / G (\%) & Shift & Net $\Delta$ & $H$ (\%) & Flip [95\% CI] & L / G (\%) & Shift & Net $\Delta$ \\
+\midrule
+\multicolumn{12}{@{}l}{\emph{Panel A: 480-pair natural counterfactual decomposition (2,880 synthesized CF evaluations across 2 independent 8B families)}} \\
+Original (\textsc{MDL}) $I^O$ & 480 & 81.25 & --- & --- & --- & --- & 78.54 & --- & --- & --- & --- \\
+Photometric ($\mathrm{CIE}~L^*a^*b^*$) $I^{\text{photo}}$ & 480 & 80.83 & 5.83 [3.75, 8.13] & 3.13 / 2.71 & 20.27 & -0.42 & 79.38 & 7.08 [5.00, 9.38] & 3.13 / 3.96 & 32.26 & +0.83 \\
+Background-converted only $I^B$ & 480 & 80.63 & 6.46 [4.58, 8.54] & 3.54 / 2.92 & 23.37 & -0.63 & 80.21 & 9.17 [6.67, 11.88] & 3.75 / 5.42 & 38.97 & +1.67 \\
+Target-converted only $I^T$ & 480 & 80.63 & 8.13 [5.63, 10.83] & 4.38 / 3.75 & 24.16 & -0.63 & 81.25 & 9.79 [7.29, 12.50] & 3.54 / 6.25 & 37.47 & +2.71 \\
+Full converted (\texttt{Preview}) $I^F$ & 480 & 83.13 & \textbf{9.38} [7.08, 11.67] & 3.75 / 5.63 & 27.23 & +1.88 & 80.00 & \textbf{10.63} [7.92, 13.54] & 4.58 / 6.04 & 47.11 & +1.46 \\
+\midrule
+Non-photometric residual ($I^F - I^{\text{photo}}$, 480) & 480 & +2.29 & \textbf{+3.54} [+1.25, +5.83] & +0.63 / +2.92 & +6.96 & --- & +0.63 & \textbf{+3.54} [+1.04, +6.04] & +1.46 / +2.08 & +14.85 & --- \\
+Non-photometric residual (473 id.-mask) & 473 & +2.11 & \textbf{+3.38} [+1.26, +5.70] & +0.63 / +2.75 & +6.98 & --- & +0.42 & \textbf{+3.38} [+0.84, +5.97] & +1.48 / +1.90 & +14.79 & --- \\
+\midrule
+\multicolumn{12}{@{}l}{\emph{Panel B: Paired stratification of Full ($I^F$) vs.\ Original ($I^O$) by prior surface optical regime}} \\
+Reflective / Metallic & 158 & 79.75 & 10.76 & 3.16 / 7.59 & --- & \textbf{+4.43} & 77.85 & 10.76 & 5.06 / 5.70 & --- & +0.63 \\
+Transparent / Glass & 176 & 84.66 & 9.66 & 4.55 / 5.11 & --- & +0.57 & 85.80 & 9.66 & 3.98 / 5.68 & --- & +1.70 \\
+Matte / Diffuse & 88 & 86.36 & 10.23 & 4.55 / 5.68 & --- & +1.14 & 75.00 & 10.23 & 5.68 / 4.55 & --- & \textbf{-1.14} \\
+Emissive / Screen & 58 & 82.76 & 3.45 & 1.72 / 1.72 & --- & +0.00 & 75.86 & 13.79 & 3.45 / 10.34 & --- & \textbf{+6.90} \\
+\bottomrule
+\end{tabular}

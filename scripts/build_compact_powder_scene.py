@@ -62,12 +62,14 @@ def fill_positions(profile, floor, count, radius, seed):
     return [tuple(v+rng.uniform(-1e-5,1e-5) for v in point) for point in points[:count]]
 
 
-def build(base, model, out, count=16384, radius=.0007, seed=42, hz=240):
+def build(base, model, out, count=16384, radius=.0007, seed=42, hz=240, *, positions=None):
     import numpy as np
     from pxr import Usd,UsdGeom,UsdPhysics,UsdShade,Sdf,Gf,Vt
     data = json.loads(model.read_text())
     floor = data['metadata']['insert_top_m']
-    points = fill_positions(data['inner_profile'],floor,count,radius,seed)
+    points = fill_positions(data['inner_profile'],floor,count,radius,seed) if positions is None else positions
+    if len(points)!=count or not np.isfinite(points).all():
+        raise ValueError('Initial positions must be finite and match the grain count')
     out.mkdir(parents=True,exist_ok=False)
     for folder in ('SubUSDs','source_boat'):
         shutil.copytree(base/folder,out/folder)

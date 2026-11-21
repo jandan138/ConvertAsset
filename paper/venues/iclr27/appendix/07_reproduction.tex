@@ -1,0 +1,42 @@
+\section{Reproducing the Comparisons}
+\label{app:reproduction}
+
+The analysis starts from saved predictions and paired measurements. Each
+prediction retains the raw response, input digest, prompt, model configuration,
+and target box. Image-composition manifests retain source identities and pixel
+operations. Navigation records preserve episode IDs separately from the
+selected recorded examples. The appendix tables are regenerated from these
+records, including fixed-denominator rescoring of the earlier pilot and zoom
+runs.
+
+\subsection{Model environments}
+Qwen and InternVL archive runs use Transformers 5.2 and PyTorch 2.10. The
+Gemma4 four-bit checkpoint uses its Unsloth-compatible environment. Molmo uses
+Transformers 4.46.3 and PyTorch 2.5.1 for its remote generation code. InternVL
+uses the remote chat model with one 448-pixel square image tile. Image
+preprocessors are retained with the model configurations. Greedy decoding uses
+a 64-token output budget in the historical grid and 128 tokens in the two-view
+probes. The stochastic study instead uses temperature 0.7 and three recorded
+seeds. Checkpoint revisions, prompts, and runtime patches accompany each run.
+
+\subsection{Rebuilding tables and figures}
+The ICLR build consumes corrected analysis results and figure specifications.
+The appendix table builder independently reads the saved proxy, grounding,
+material, and navigation records and writes a source-hash manifest. Rebuilding
+requires no new model inference or simulator execution:
+\begin{verbatim}
+python paper/venues/iclr27/appendix/build_tables.py
+make -C paper iclr27-check
+\end{verbatim}
+The source package separates raw measurements from generated figures and tables.
+Source manifests make it possible to verify input correspondence before
+recomputing paired metrics; figure manifests identify the render or video frame
+used in each panel.
+
+\subsection{Assets and access}
+The experiments use third-party scenes and model checkpoints, whose source
+terms govern redistribution. The manuscript package includes analysis code,
+tables, and reproduction instructions. Private machine paths and
+author-identifying metadata are excluded from the anonymous PDF. Raw scene
+trees, model checkpoints, and videos remain separate from the manuscript
+artifacts.

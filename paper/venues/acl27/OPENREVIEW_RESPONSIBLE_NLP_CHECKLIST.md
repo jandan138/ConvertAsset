@@ -1,6 +1,6 @@
 # OpenReview Responsible NLP Checklist Packet
 
-Checked: 2026-05-28.
+Checked: 2026-09-03.
 
 This packet turns `RESPONSIBLE_NLP_CHECKLIST_DRAFT.md` into copy-ready ARR /
 OpenReview form material for the current anonymous review PDF. It is still a
@@ -24,8 +24,8 @@ answers, provide the reason.
 
 ## Current PDF Anchors
 
-These anchors are from `paper/venues/acl27/build/main.pdf` built on
-2026-05-28.
+These anchors are from the current `paper/venues/acl27/build/main.pdf` built on
+2026-09-03.
 
 | Paper element | Current anchor |
 | --- | --- |
@@ -34,14 +34,14 @@ These anchors are from `paper/venues/acl27/build/main.pdf` built on
 | Introduction / main results | pages 1-3; `sections/intro.tex` lines 1-85 |
 | Related Work / artifact citations | page 3; `sections/related.tex` lines 1-61 |
 | Method / evaluation checks | pages 3-5; `sections/method.tex` lines 1-68 |
-| Results / reported statistics | pages 4-8 including floats; `sections/results.tex` lines 1-137 |
-| Discussion / evaluation scope | page 8; `sections/discussion.tex` lines 1-28 |
-| Conclusion / scoped result | page 8; `sections/conclusion.tex` lines 1-14 |
-| Limitations | page 9; `sections/limitations.tex` lines 1-36 |
-| Ethical Considerations | page 9; `sections/ethical-considerations.tex` lines 1-19 |
-| Selected material-effect Figure 3 | page 8; `sections/results.tex` lines 103-115 |
-| Selected InternNav Figure 4 | page 9; `sections/limitations.tex` lines 28-36 |
-| References | starts on page 9 |
+| Results / reported statistics | pages 4-7 including floats; `sections/results.tex` lines 1-133 |
+| Discussion / evaluation scope | page 7; `sections/discussion.tex` lines 1-28 |
+| Conclusion / scoped result | pages 7-8; `sections/conclusion.tex` lines 1-14 |
+| Limitations | page 8; `sections/limitations.tex` lines 1-18 |
+| Ethical Considerations | page 8; `sections/ethical-considerations.tex` lines 1-27 |
+| Selected material-effect Figure 3 | page 6; `sections/results.tex` lines 77-86 |
+| Selected InternNav Figure 4 | page 7; `sections/results.tex` lines 122-133 |
+| References | starts on page 8 |
 
 ## Copy-Ready Checklist Answers
 
@@ -49,7 +49,7 @@ These anchors are from `paper/venues/acl27/build/main.pdf` built on
 
 **A1. Did you discuss the limitations of your work?**
 
-Yes. See `Limitations`, page 9. The section states that the evidence is
+Yes. See `Limitations`, page 8. The section states that the evidence is
 narrow, separates the 15-pair clean pilot from the frozen 30-pair stress set,
 marks selected rollout panels as qualitative only, limits the 99-episode
 InternNav evidence to three official KuJiaLe scenes, and avoids extending it to
@@ -58,14 +58,14 @@ GRScenes robustness.
 
 **A2. Did you discuss potential risks of your work?**
 
-Yes. See `Ethical Considerations`, page 9. The paper frames the work as
+Yes. See `Ethical Considerations`, page 8. The paper frames the work as
 synthetic-asset and computational-evaluation research, then identifies indirect
 risks: dataset bias, license constraints, unsafe deployment assumptions,
 overstated downstream robustness, and material simplification changing
 object-affordance, safety, texture, or grounding cues. The same section now
-also discloses AI coding, writing, and image-generation assistant use and
-states that the Figure 1 method-chain roadmap is schematic, not experimental
-evidence.
+also discloses AI coding, writing, and image-generation assistant use. It
+states that Figure 1's material spheres are explanatory components rather than
+experimental evidence.
 
 **A3. Do the abstract and introduction summarize the paper's main claims?**
 
@@ -88,7 +88,7 @@ and dataset identifiers.
 **B2. Did you discuss license or terms for use/distribution?**
 
 Mostly yes; final author/legal review remains required before upload. `Ethical
-Considerations`, page 9, requires asset provenance and license compatibility.
+Considerations`, page 8, requires asset provenance and license compatibility.
 `ARTIFACT_PROVENANCE_DRAFT.md` and `MODEL_AND_ASSET_LICENSE_AUDIT.md` record the
 checked terms: GRScenes metadata is CC BY-NC-SA 4.0; InternNav code is MIT;
 InteriorAgent uses custom terms that prohibit redistributing data or modified
@@ -112,7 +112,7 @@ and protect/anonymize it?**
 N/A with justification. The current evidence uses synthetic 3D scenes, VLM
 model outputs, and InternNav trajectory metrics, not human-subject text or
 crowdworker annotations. The paper still flags synthetic-scene bias, license
-risks, and misleading robustness statements in `Ethical Considerations`, page 9.
+risks, and misleading robustness statements in `Ethical Considerations`, page 8.
 The staging packet is scanned to avoid local paths, usernames, private
 repository URLs, and acknowledgments.
 
@@ -189,17 +189,17 @@ characterized.
 
 Yes. AI coding, writing, and image-generation assistants were used for
 implementation support, documentation organization, manuscript editing, audit
-drafting, and a schematic method-chain figure. The schematic is labeled as a
-roadmap and is not used as experimental evidence; the same scope is now
-stated in the manuscript's `Ethical Considerations` section.
+drafting, and the explanatory material-sphere components in Figure 1. The
+recorded render pair and later evidence figures remain separate from those
+components; the same scope is stated in `Ethical Considerations`.
 
 **E1. Did you include information about AI assistant use?**
 
 Use this OpenReview/checklist wording for anonymous review:
 
 > We used AI coding and writing assistants for implementation support,
-> documentation organization, manuscript editing, audit drafting, and a
-> schematic method-chain figure. All reported results, citations, experiments, generated
+> documentation organization, manuscript editing, audit drafting, and the
+> explanatory material-sphere components in Figure 1. All reported results, citations, experiments, generated
 > text, and generated visual material were checked by the authors against
 > repository evidence and cited sources; the assistants were not credited as
 > authors.

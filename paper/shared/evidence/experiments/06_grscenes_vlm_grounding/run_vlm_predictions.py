@@ -99,11 +99,25 @@ def _finite_point(values: Any) -> list[float] | None:
     return point
 
 
+S2_INTERACTION_ACTIONS = {
+    "backpack": "open the backpack to fetch an item",
+    "bottle": "pick up the bottle",
+    "clock": "read the time from the clock",
+    "cup": "grasp the cup",
+    "faucet": "turn on the faucet",
+    "picture": "straighten the picture frame",
+    "pillow": "move the pillow",
+    "plate": "clear the plate",
+}
+DEFAULT_S2_ACTION = "interact with the {category}"
+
+
 def build_prompt(
     record: dict[str, Any],
     *,
     coordinate_frame: str = "normalized_1000",
     response_format: str = "json",
+    prompt_type: str = "s1_point",
 ) -> str:
     image = record.get("image") or {}
     target = record.get("target") or {}
@@ -136,9 +150,22 @@ def build_prompt(
         )
     else:
         raise ValueError(f"Unsupported response_format: {response_format}")
+    if prompt_type == "s1_point":
+        task_instruction = (
+            "You are evaluating a rendered indoor scene. Locate the target object.\n"
+            f"Target category: {category}\n"
+        )
+    elif prompt_type == "s2_interaction":
+        action = S2_INTERACTION_ACTIONS.get(category.lower(), DEFAULT_S2_ACTION.format(category=category))
+        task_instruction = (
+            "You are evaluating a rendered indoor scene for a household robot.\n"
+            f"The robot must {action}. Point to the object it should interact with.\n"
+            f"Target category: {category}\n"
+        )
+    else:
+        raise ValueError(f"Unsupported prompt_type: {prompt_type}")
     return (
-        "You are evaluating a rendered indoor scene. Locate the target object.\n"
-        f"Target category: {category}\n"
+        f"{task_instruction}"
         f"Image size: {width} x {height} pixels.\n"
         f"{response_instruction}"
         f"{coordinate_instruction} "
@@ -197,12 +224,29 @@ def _structured_answer_candidate(line: str) -> str | None:
     return cleaned
 
 
+_MOLMO_POINT_TAG = re.compile(
+    r'<points?\s+[^>]*?x\s*=\s*"?(-?\d+(?:\.\d+)?)"?\s+y\s*=\s*"?(-?\d+(?:\.\d+)?)"?[^>]*?/?>',
+    re.IGNORECASE,
+)
+
+
+def _molmo_point_fallback(text: str) -> list[float] | None:
+    """Extract Molmo-style <point x y> tags (0-100 frame) into 0-1000 floats."""
+    match = _MOLMO_POINT_TAG.search(text)
+    if not match:
+        return None
+    point = _finite_point([float(match.group(1)) * 10.0, float(match.group(2)) * 10.0])
+    return point
+
+
 def _parse_structured_prediction_text(text: str) -> dict[str, Any]:
     point = None
     answer = None
     point_match = _STRUCTURED_NUMBER_LINE.search(text)
     if point_match:
         point = _point_from_structured_number_match(point_match)
+    if point is None:
+        point = _molmo_point_fallback(text)
     answer_match = re.search(r"(?im)^\s*Answer\s*:\s*(.+?)\s*$", text)
     if answer_match:
         answer = _structured_answer_candidate(answer_match.group(1))
@@ -268,10 +312,16 @@ def run_predictions(
     max_new_tokens: int,
     coordinate_frame: str = "normalized_1000",
     response_format: str = "json",
+    prompt_type: str = "s1_point",
 ) -> list[dict[str, Any]]:
     rows = []
     for record in records:
-        prompt = build_prompt(record, coordinate_frame=coordinate_frame, response_format=response_format)
+        prompt = build_prompt(
+            record,
+            coordinate_frame=coordinate_frame,
+            response_format=response_format,
+            prompt_type=prompt_type,
+        )
         messages = build_messages(record, prompt)
         raw_text = engine.generate(messages)
         parsed = parse_prediction_text(raw_text, response_format=response_format)
@@ -279,7 +329,7 @@ def run_predictions(
         row["claim_boundary"] = MODEL_CLAIM_BOUNDARY
         row["image"] = _image_with_hash(record)
         row["prompt"] = {
-            "type": "s1_point",
+            "type": prompt_type,
             "coordinate_frame": coordinate_frame,
             "response_format": response_format,
             "text": prompt,
@@ -308,6 +358,7 @@ def write_predictions(
     model_checkpoint: str,
     coordinate_frame: str = "normalized_1000",
     response_format: str = "json",
+    prompt_type: str = "s1_point",
     argv: list[str] | None = None,
 ) -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -323,6 +374,7 @@ def write_predictions(
         "model_checkpoint": model_checkpoint,
         "coordinate_frame": coordinate_frame,
         "response_format": response_format,
+        "prompt_type": prompt_type,
         "claim_boundary": MODEL_CLAIM_BOUNDARY,
         "generated_at_utc": _utc_now(),
         "input_projection_report": {
@@ -501,6 +553,276 @@ class LocalHFQwenEngine:
         )[0]
 
 
+class LocalHFGenericEngine:
+    """Generic local HF multimodal backend (Qwen3-VL, InternVL, etc.).
+
+    Uses AutoProcessor + AutoModelForImageTextToText so newer VLM families work
+    without a dedicated engine class. Images are passed as file paths through
+    the chat template and loaded with PIL before the processor call.
+    """
+
+    def __init__(
+        self,
+        *,
+        model_path: str,
+        temperature: float,
+        max_new_tokens: int,
+        dtype: str = "bfloat16",
+        attn_implementation: str = "eager",
+        device_map: str = "auto",
+        model_class: str | None = None,
+    ):
+        import torch
+        import transformers
+
+        if model_class:
+            cls = getattr(transformers, model_class, None)
+            if cls is None:
+                raise ValueError(f"transformers has no class {model_class}; installed={transformers.__version__}")
+        else:
+            cls = getattr(transformers, "AutoModelForImageTextToText", None)
+        if cls is None:
+            raise ValueError("No multimodal auto model class available")
+        self.temperature = temperature
+        self.max_new_tokens = max_new_tokens
+        self.model = cls.from_pretrained(
+            model_path,
+            torch_dtype=getattr(torch, dtype),
+            attn_implementation=attn_implementation,
+            device_map=device_map,
+            trust_remote_code=True,
+        )
+        self.processor = transformers.AutoProcessor.from_pretrained(model_path, trust_remote_code=True)
+
+    def generate(self, messages: list[dict[str, Any]]) -> str:
+        from PIL import Image
+
+        converted = []
+        image_paths: list[str] = []
+        for message in messages:
+            content = []
+            for item in message.get("content", []):
+                if item.get("type") == "text":
+                    content.append({"type": "text", "text": item["text"]})
+                elif item.get("type") == "image_url":
+                    source = item.get("image") or (item.get("image_url") or {}).get("url")
+                    if not source:
+                        raise ValueError("image_url item missing image source")
+                    content.append({"type": "image", "image": source})
+                    image_paths.append(str(source))
+            converted.append({"role": message["role"], "content": content})
+        text = self.processor.apply_chat_template(converted, tokenize=False, add_generation_prompt=True)
+        images = [Image.open(path).convert("RGB") for path in image_paths]
+        inputs = self.processor(
+            text=[text],
+            images=images or None,
+            padding=True,
+            return_tensors="pt",
+        )
+        target_device = getattr(self.model, "device", None)
+        if target_device is not None and hasattr(inputs, "to"):
+            inputs = inputs.to(target_device)
+        generated_ids = self.model.generate(
+            **inputs,
+            max_new_tokens=self.max_new_tokens,
+            temperature=self.temperature,
+            do_sample=self.temperature != 0.0,
+        )
+        input_ids = inputs["input_ids"]
+        generated_ids_trimmed = [
+            out_ids[len(in_ids):]
+            for in_ids, out_ids in zip(input_ids, generated_ids)
+        ]
+        return self.processor.batch_decode(
+            generated_ids_trimmed,
+            skip_special_tokens=True,
+            clean_up_tokenization_spaces=False,
+        )[0]
+
+
+class LocalInternVLChatEngine:
+    """InternVLChatModel (trust_remote_code) backend.
+
+    transformers 5.x compat shims required for the InternVL3 remote code:
+    1. The vendored `modeling_intern_vit.py` computes drop-path rates with
+       `torch.linspace(...).item()` which breaks under meta-tensor init; the
+       local HF-cache blob must be patched to numpy once (see experiment
+       records 2026-09-13).
+    2. The remote class does not initialize the `all_tied_weights_keys`
+       attribute that transformers 5.x touches after loading; patched here via
+       an __init__ wrapper.
+    Images are resized to a single 448x448 tile (no dynamic tiling) with
+    ImageNet normalization, matching the InternVL default chat path.
+    """
+
+    IMAGENET_MEAN = (0.485, 0.456, 0.406)
+    IMAGENET_STD = (0.229, 0.224, 0.225)
+
+    def __init__(
+        self,
+        *,
+        model_path: str,
+        temperature: float,
+        max_new_tokens: int,
+        dtype: str = "bfloat16",
+        device: str = "cuda",
+        input_size: int = 448,
+    ):
+        import torch
+        from transformers import AutoModel, AutoTokenizer
+        from transformers.dynamic_module_utils import get_class_from_dynamic_module
+
+        cls = get_class_from_dynamic_module("modeling_internvl_chat.InternVLChatModel", model_path)
+        orig_init = cls.__init__
+
+        def _init_compat(instance, config, *a, **k):
+            orig_init(instance, config, *a, **k)
+            if not hasattr(instance, "all_tied_weights_keys"):
+                instance.all_tied_weights_keys = {}
+
+        cls.__init__ = _init_compat
+        self.model = AutoModel.from_pretrained(
+            model_path,
+            torch_dtype=getattr(torch, dtype),
+            trust_remote_code=True,
+            low_cpu_mem_usage=False,
+        ).to(device)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
+        self.temperature = temperature
+        self.max_new_tokens = max_new_tokens
+        self.input_size = input_size
+
+    def _load_pixel_values(self, image_path: str):
+        import torch
+        import torchvision.transforms as T
+        from PIL import Image
+
+        img = Image.open(image_path).convert("RGB").resize((self.input_size, self.input_size))
+        transform = T.Compose(
+            [T.ToTensor(), T.Normalize(mean=self.IMAGENET_MEAN, std=self.IMAGENET_STD)]
+        )
+        return transform(img).unsqueeze(0).to(torch.bfloat16).cuda()
+
+    def generate(self, messages: list[dict[str, Any]]) -> str:
+        text_parts: list[str] = []
+        image_paths: list[str] = []
+        for message in messages:
+            for item in message.get("content", []):
+                if item.get("type") == "text":
+                    text_parts.append(item["text"])
+                elif item.get("type") == "image_url":
+                    source = item.get("image") or (item.get("image_url") or {}).get("url")
+                    if not source:
+                        raise ValueError("image_url item missing image source")
+                    image_paths.append(str(source))
+        if len(image_paths) != 1:
+            raise ValueError(f"LocalInternVLChatEngine expects exactly one image, got {len(image_paths)}")
+        pixel_values = self._load_pixel_values(image_paths[0])
+        generation_config = {
+            "max_new_tokens": self.max_new_tokens,
+            "do_sample": self.temperature != 0.0,
+        }
+        if self.temperature != 0.0:
+            generation_config["temperature"] = self.temperature
+        return self.model.chat(
+            self.tokenizer,
+            pixel_values,
+            "\n".join(text_parts),
+            generation_config,
+        )
+
+
+class LocalMolmoEngine:
+    """Molmo-7B (Ai2) backend via trust_remote_code generate_from_batch.
+
+    Molmo natively emits <point x=".." y=".."/> tags on a 0-100 normalized
+    frame; `_molmo_point_fallback` in the parser rescales them to 0-1000.
+    """
+
+    def __init__(
+        self,
+        *,
+        model_path: str,
+        temperature: float,
+        max_new_tokens: int,
+        dtype: str = "bfloat16",
+        device_map: str = "auto",
+    ):
+        import torch
+        from transformers import AutoModelForCausalLM, AutoProcessor
+        from transformers.dynamic_module_utils import get_class_from_dynamic_module
+
+        cls = get_class_from_dynamic_module("modeling_molmo.MolmoForCausalLM", model_path)
+        orig_init = cls.__init__
+
+        def _init_compat(instance, config, *a, **k):
+            orig_init(instance, config, *a, **k)
+            if not hasattr(instance, "all_tied_weights_keys"):
+                instance.all_tied_weights_keys = {}
+
+        cls.__init__ = _init_compat
+        orig_tie = cls.tie_weights
+
+        def _tie_compat(instance, *a, **k):
+            k.pop("missing_keys", None)
+            k.pop("recompute_mapping", None)
+            return orig_tie(instance, *a, **k)
+
+        cls.tie_weights = _tie_compat
+        self.temperature = temperature
+        self.max_new_tokens = max_new_tokens
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_path,
+            torch_dtype=getattr(torch, dtype),
+            device_map=device_map,
+            trust_remote_code=True,
+        )
+        self.processor = AutoProcessor.from_pretrained(model_path, trust_remote_code=True)
+
+    def generate(self, messages: list[dict[str, Any]]) -> str:
+        from PIL import Image
+        from transformers import GenerationConfig
+
+        text_parts: list[str] = []
+        image_paths: list[str] = []
+        for message in messages:
+            for item in message.get("content", []):
+                if item.get("type") == "text":
+                    text_parts.append(item["text"])
+                elif item.get("type") == "image_url":
+                    source = item.get("image") or (item.get("image_url") or {}).get("url")
+                    if not source:
+                        raise ValueError("image_url item missing image source")
+                    image_paths.append(str(source))
+        images = [Image.open(path).convert("RGB") for path in image_paths]
+        inputs = self.processor.process(images=images, text="\n".join(text_parts))
+        model_dtype = getattr(self.model, "dtype", None)
+        converted_inputs = {}
+        for key, value in inputs.items():
+            tensor = value
+            if hasattr(tensor, "to"):
+                if model_dtype is not None and getattr(tensor, "is_floating_point", lambda: False)():
+                    tensor = tensor.to(self.model.device, model_dtype)
+                else:
+                    tensor = tensor.to(self.model.device)
+            converted_inputs[key] = tensor.unsqueeze(0) if hasattr(tensor, "unsqueeze") else tensor
+        inputs = converted_inputs
+        generation_config = GenerationConfig(
+            max_new_tokens=self.max_new_tokens,
+            stop_strings="<|endoftext|>",
+            do_sample=self.temperature != 0.0,
+            temperature=self.temperature if self.temperature != 0.0 else None,
+            use_cache=True,
+        )
+        output = self.model.generate_from_batch(
+            inputs,
+            generation_config,
+            tokenizer=self.processor.tokenizer,
+        )
+        generated = output[0, inputs["input_ids"].size(1):]
+        return self.processor.tokenizer.decode(generated, skip_special_tokens=True)
+
+
 class LocalGemma4Engine:
     def __init__(
         self,
@@ -626,6 +948,31 @@ def build_engine(args: argparse.Namespace) -> VLMEngine:
             attn_implementation=args.attn_implementation,
             device_map=args.device_map,
         )
+    if args.model_backend == "local_hf_generic":
+        return LocalHFGenericEngine(
+            model_path=args.model_path,
+            temperature=args.temperature,
+            max_new_tokens=args.max_new_tokens,
+            dtype=args.dtype,
+            attn_implementation=args.attn_implementation,
+            device_map=args.device_map,
+            model_class=args.model_class,
+        )
+    if args.model_backend == "local_internvl_chat":
+        return LocalInternVLChatEngine(
+            model_path=args.model_path,
+            temperature=args.temperature,
+            max_new_tokens=args.max_new_tokens,
+            dtype=args.dtype,
+        )
+    if args.model_backend == "local_molmo":
+        return LocalMolmoEngine(
+            model_path=args.model_path,
+            temperature=args.temperature,
+            max_new_tokens=args.max_new_tokens,
+            dtype=args.dtype,
+            device_map=args.device_map,
+        )
     if args.model_backend == "local_gemma4_multimodal":
         return LocalGemma4Engine(
             model_path=args.model_path,
@@ -711,16 +1058,19 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--projection-report", type=Path, default=DEFAULT_PROJECTION_REPORT)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUTPUT)
-    parser.add_argument("--model-backend", choices=["openai_compatible", "local_hf_qwen", "local_gemma4_multimodal"])
+    parser.add_argument("--model-backend", choices=["openai_compatible", "local_hf_qwen", "local_gemma4_multimodal", "local_hf_generic", "local_internvl_chat", "local_molmo"])
+    parser.add_argument("--model-class", help="Optional transformers class name for local_hf_generic (e.g. Qwen3VLForConditionalGeneration).")
     parser.add_argument("--model-path", help="Local model path or API model name.")
     parser.add_argument("--api-base-url")
     parser.add_argument("--api-key-env")
     parser.add_argument("--api-timeout-seconds", type=int, default=120)
     parser.add_argument("--api-max-retries", type=int, default=2)
     parser.add_argument("--temperature", type=float, default=0.0)
+    parser.add_argument("--seed", type=int, help="Optional RNG seed for sampling runs (torch/random).")
     parser.add_argument("--max-new-tokens", type=int, default=128)
     parser.add_argument("--coordinate-frame", choices=["normalized_1000", "pixel"], default="normalized_1000")
     parser.add_argument("--response-format", choices=["json", "structured_text"], default="json")
+    parser.add_argument("--prompt-type", choices=["s1_point", "s2_interaction"], default="s1_point")
     parser.add_argument("--dtype", default="bfloat16")
     parser.add_argument("--attn-implementation", default="eager")
     parser.add_argument("--device-map", default="auto")
@@ -753,6 +1103,15 @@ def main(argv: list[str] | None = None) -> int:
     if args.validate_only:
         print(f"Validated VLM prediction run: {json.dumps(validation, sort_keys=True)}")
         return 0
+    if args.seed is not None:
+        import random
+
+        import torch
+
+        random.seed(args.seed)
+        torch.manual_seed(args.seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(args.seed)
     engine = build_engine(args)
     rows = run_predictions(
         records,
@@ -763,6 +1122,7 @@ def main(argv: list[str] | None = None) -> int:
         max_new_tokens=args.max_new_tokens,
         coordinate_frame=args.coordinate_frame,
         response_format=args.response_format,
+        prompt_type=args.prompt_type,
     )
     write_predictions(
         rows,
@@ -772,6 +1132,7 @@ def main(argv: list[str] | None = None) -> int:
         model_checkpoint=args.model_path,
         coordinate_frame=args.coordinate_frame,
         response_format=args.response_format,
+        prompt_type=args.prompt_type,
         argv=argv,
     )
     print(f"Wrote {args.out} predictions={len(rows)} backend={args.model_backend}")

@@ -1,5 +1,19 @@
 # 论文实验工作清单
 
+## 当前执行入口：ICLR 2027（2026-09-15）
+
+主故事已切换为 **材质干预 → 模型视觉定位 → 下游导航行为**。当前清单见
+[`11_iclr_model_behavior/README.md`](shared/evidence/experiments/11_iclr_model_behavior/README.md)，
+主稿见 [`venues/iclr27/`](venues/iclr27/STATUS.md)。下文保留此前路线的任务记录。
+
+本轮已完成固定分母重算、坐标单位修复、干净来源的三模型双视图/窗口干预推理，并将
+99 对导航的 episode-level transitions 接入正文。旧“−0.28~+0.28”的跨子集摘要不再作为
+ICLR 定量依据；使用 `shared/evidence/raw/iclr_model_behavior/analysis_v1/results.json`。
+
+新增场景 RTX 渲染与导航重复运行仍需按当前 runbook 执行，不能由准备状态推断完成。
+
+---
+
 > **论文主题**：Isaac Sim 中 MDL 材质简化（→ UsdPreviewSurface）对视觉质量与 AI 任务性能的影响分析
 >
 > **核心问题**：材质从高保真 MDL 简化为 UsdPreviewSurface 后，在图像质量、视觉特征、下游 AI 任务三个层面的影响分别有多大？值不值得简化？

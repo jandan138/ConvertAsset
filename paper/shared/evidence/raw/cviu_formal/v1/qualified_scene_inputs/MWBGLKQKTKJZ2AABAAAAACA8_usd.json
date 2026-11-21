@@ -1,0 +1,1163 @@
+{
+  "schema_version": 1,
+  "status": "qualified_scene_inputs",
+  "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+  "review": "paper/shared/evidence/raw/cviu_formal/v1/final_visual_reviews/MWBGLKQKTKJZ2AABAAAAACA8_usd.json",
+  "review_sha256": "cb0f71a3e97f59eac8b07a8b2bd09f58a1516343734ba198d4e7967220d2fb05",
+  "audit_sha256": "63c3f8856f816ad046a2f4d854eff405c19b5eb9f052c821116dff7997a67127",
+  "scope": "One scene only; global 30-scene freeze required before formal inference.",
+  "records": [
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:dfa373273abd3d59:v1",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/oven/model_a6bd1f04a24fd158fa8e3f2a54eb706f_0",
+      "view_id": "v1",
+      "query": "Point to the upper oven in the stacked pair in the image.",
+      "source_category": "oven",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/000/rgb.png",
+        "sha256": "48968dbf247b38aba3913ad398a190388dce3c359ae183286290d5e3b45d459d",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/000/target_mask.npy",
+        "sha256": "b93ed0fb0e1f12f5785398bb62eb066b78158e18094b711af5bd3f56f31ab1cc",
+        "pixels": 137382
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.17469024658203125,
+      "visible_bbox": [
+        471,
+        308,
+        963,
+        620
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/000/receipt.json",
+      "capture_receipt_sha256": "19f3ab4fc84fdd53a727adcd3d527b7b5d6bfc8f6b31aa7e98b8c144ce6d16b4",
+      "camera_stage_sha256": "3f1069e53e50f1039a228cf3a44a23488e404be26eef215ff96142e78839fa71"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:dfa373273abd3d59:v1",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/oven/model_a6bd1f04a24fd158fa8e3f2a54eb706f_0",
+      "view_id": "v1",
+      "query": "Point to the upper oven in the stacked pair in the image.",
+      "source_category": "oven",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/000/rgb.png",
+        "sha256": "7ee73c4359cb1453e7f881c78ca4f22ed84dd097eed758b4ef69ec5a2c4193e2",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/000/target_mask.npy",
+        "sha256": "b93ed0fb0e1f12f5785398bb62eb066b78158e18094b711af5bd3f56f31ab1cc",
+        "pixels": 137382
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.17469024658203125,
+      "visible_bbox": [
+        471,
+        308,
+        963,
+        620
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/000/receipt.json",
+      "capture_receipt_sha256": "22ab9b86fe54fe3c6b139cef9123e963b704f6ff42288dd1850f8162e01c58d4",
+      "camera_stage_sha256": "6029577432f3f6d3df28dde059ee196abfea8e6e48a57e9fb6322b40fa05a9e3"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:dfa373273abd3d59:v2",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/oven/model_a6bd1f04a24fd158fa8e3f2a54eb706f_0",
+      "view_id": "v2",
+      "query": "Point to the upper oven in the stacked pair in the image.",
+      "source_category": "oven",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/001/rgb.png",
+        "sha256": "dbb1edbdfa94778705f37282e9108127abe92fd3c20ff2f42b82f5039e5d1873",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/001/target_mask.npy",
+        "sha256": "f09b8c2471a7af351359a8583f0a863822dd807cb098948b5e983f905019acea",
+        "pixels": 198166
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.25198109944661456,
+      "visible_bbox": [
+        39,
+        90,
+        637,
+        505
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/001/receipt.json",
+      "capture_receipt_sha256": "621603e5947d101aac7a3db6efedc090ebac961a3c26a938e44bc07234d538d8",
+      "camera_stage_sha256": "f66e3367fdbf364888ee9609e2bc4c5c1d897c686f46195bb4485c9ca9f6d153"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:dfa373273abd3d59:v2",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/oven/model_a6bd1f04a24fd158fa8e3f2a54eb706f_0",
+      "view_id": "v2",
+      "query": "Point to the upper oven in the stacked pair in the image.",
+      "source_category": "oven",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/001/rgb.png",
+        "sha256": "94092e999a62fdc01de00c675d0902564a88cdc715d4612f9c89887f3877534f",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/001/target_mask.npy",
+        "sha256": "16978a021fcbce3eabfd496ea3722b248cf4c352059ba483c0b10c18978f7659",
+        "pixels": 198318
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.25217437744140625,
+      "visible_bbox": [
+        39,
+        90,
+        638,
+        505
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/001/receipt.json",
+      "capture_receipt_sha256": "516f7a7c9f5222a26a34e6c0def456399c00a52c3548a43d157684ef3475e56c",
+      "camera_stage_sha256": "39294fbe7acaf9767b9094db45f7a69a8236183e93984e08b4e8121869d81656"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:55350c88611d28d4:v1",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/shelf/model_f77fd766ccc897b26b487f679f215d2f_0",
+      "view_id": "v1",
+      "query": "Point to the small stand holding keys and jewelry in the image.",
+      "source_category": "shelf",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/002/rgb.png",
+        "sha256": "805c5123fc5740e713f33740f0e93f446082114d124009573b2e56113092e8e9",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/002/target_mask.npy",
+        "sha256": "629ff02b21446ad9957b77a407077c7d2f74ee3227619e581790ae1c03163ecb",
+        "pixels": 22185
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.028209686279296875,
+      "visible_bbox": [
+        578,
+        307,
+        812,
+        668
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/002/receipt.json",
+      "capture_receipt_sha256": "6f6551f44c34698cdeee381594d8a57ee0919b9c2e707850c9e2c7731676800e",
+      "camera_stage_sha256": "c7b5936a63f6c57a37f4123a0b186fbb87a51579c9bf4039b15208d751f88b38"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:55350c88611d28d4:v1",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/shelf/model_f77fd766ccc897b26b487f679f215d2f_0",
+      "view_id": "v1",
+      "query": "Point to the small stand holding keys and jewelry in the image.",
+      "source_category": "shelf",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/002/rgb.png",
+        "sha256": "1c7982ef59afa83e9c02fec111dae532ac959f89467a5fde3f9cc3a83f95edbb",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/002/target_mask.npy",
+        "sha256": "629ff02b21446ad9957b77a407077c7d2f74ee3227619e581790ae1c03163ecb",
+        "pixels": 22185
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.028209686279296875,
+      "visible_bbox": [
+        578,
+        307,
+        812,
+        668
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/002/receipt.json",
+      "capture_receipt_sha256": "7cbc2390a83f407bbafa1ac0699a82a73a6282720e45ac87c67542ca562242c3",
+      "camera_stage_sha256": "a05f688935bfcc9425073af9688ec4323a2330fa11776be3a8421ca93045efe7"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:55350c88611d28d4:v2",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/shelf/model_f77fd766ccc897b26b487f679f215d2f_0",
+      "view_id": "v2",
+      "query": "Point to the small stand holding keys and jewelry in the image.",
+      "source_category": "shelf",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/003/rgb.png",
+        "sha256": "55312f00c907dfef61e6eae3b9cbdbdecd73d51b077bdb7471ce37e04d01aeab",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/003/target_mask.npy",
+        "sha256": "44718c7cabe1df0c09aec9062b8d273b5c94515d2813bb90d9e0ac8f057c9503",
+        "pixels": 21822
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.02774810791015625,
+      "visible_bbox": [
+        145,
+        154,
+        440,
+        496
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/003/receipt.json",
+      "capture_receipt_sha256": "1f877b3af00c67548efad3a6decd8c850e9186c70dd90240eb830e52b68ee603",
+      "camera_stage_sha256": "594b8636098de0e71ca8fc0ce29c5dde0a7f7f3c7fedb764c67905b043918151"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:55350c88611d28d4:v2",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/shelf/model_f77fd766ccc897b26b487f679f215d2f_0",
+      "view_id": "v2",
+      "query": "Point to the small stand holding keys and jewelry in the image.",
+      "source_category": "shelf",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/003/rgb.png",
+        "sha256": "96febfa342601be114fbbbafaf2267e9801a242d4888d55cba1e6c908ebbafee",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/003/target_mask.npy",
+        "sha256": "44718c7cabe1df0c09aec9062b8d273b5c94515d2813bb90d9e0ac8f057c9503",
+        "pixels": 21822
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.02774810791015625,
+      "visible_bbox": [
+        145,
+        154,
+        440,
+        496
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/003/receipt.json",
+      "capture_receipt_sha256": "fa10b3fb6b7e32987d2edbf4cf6f980a483456697ae91e946f5df261d2c72757",
+      "camera_stage_sha256": "c117029eb623346a11b83cd263400c6d8caf57fe013dc85aa8c2ca1840e2f2ae"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2d0e5d4b5dc671a1:v0",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/tray/model_7b28e356bf88a9d7528655c0c0b62883_0",
+      "view_id": "v0",
+      "query": "Point to the round tray on the side table in the image.",
+      "source_category": "tray",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/004/rgb.png",
+        "sha256": "34ba2505b853b4f3f3d9bdb3988c8e17edfdd9664914c3507af3ecdf359f4b3d",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/004/target_mask.npy",
+        "sha256": "5a62efb93952a62bc2ee009f5c978cbdd3eff43f91504afb19cf2144e6843a85",
+        "pixels": 27859
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.03542455037434896,
+      "visible_bbox": [
+        111,
+        260,
+        504,
+        393
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/004/receipt.json",
+      "capture_receipt_sha256": "d9cbae16a62f619ae25ffb96d49b84bfb3b71d15e77f8d7ff68154f0945f1b50",
+      "camera_stage_sha256": "2652ee83091dd853b1687dee5065478898304561e45cd03c3823b34543a765f7"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2d0e5d4b5dc671a1:v0",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/tray/model_7b28e356bf88a9d7528655c0c0b62883_0",
+      "view_id": "v0",
+      "query": "Point to the round tray on the side table in the image.",
+      "source_category": "tray",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/004/rgb.png",
+        "sha256": "c63025ee9c7b451e1ed985ee5a3f11c774a234ad28cf11c78c17776549eb9d46",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/004/target_mask.npy",
+        "sha256": "5a62efb93952a62bc2ee009f5c978cbdd3eff43f91504afb19cf2144e6843a85",
+        "pixels": 27859
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.03542455037434896,
+      "visible_bbox": [
+        111,
+        260,
+        504,
+        393
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/004/receipt.json",
+      "capture_receipt_sha256": "b22b2e66a0a4104ad7e2e9c2e83841e806714aed8b6adf57b48e2306022cae16",
+      "camera_stage_sha256": "fbae45ecb3f8a94562076b25c9ec699281ad66e56b3c1b2d91495f652868f388"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2d0e5d4b5dc671a1:v1",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/tray/model_7b28e356bf88a9d7528655c0c0b62883_0",
+      "view_id": "v1",
+      "query": "Point to the round tray on the side table in the image.",
+      "source_category": "tray",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/005/rgb.png",
+        "sha256": "e2960c3fa2595cb0b96031a33ffc42718a5212d2efd1270200664b110884bbd7",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/005/target_mask.npy",
+        "sha256": "7c7adc9f150112b94290f55c5e3ce392140e07852923e9acaac10a7c1cbf094e",
+        "pixels": 25318
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.032193501790364586,
+      "visible_bbox": [
+        520,
+        419,
+        913,
+        547
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/005/receipt.json",
+      "capture_receipt_sha256": "af075de6ca0369a440fe042177d96691878e5452b94acd3c851ca878459fc34b",
+      "camera_stage_sha256": "34e9d23edfa19b3c4352ae20ef4598aa48e9e55cf3cc31a62fb3ad8c38d0f166"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2d0e5d4b5dc671a1:v1",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/tray/model_7b28e356bf88a9d7528655c0c0b62883_0",
+      "view_id": "v1",
+      "query": "Point to the round tray on the side table in the image.",
+      "source_category": "tray",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/005/rgb.png",
+        "sha256": "b84ffeef2972f26bec51663fdfb3358b4e67e46f5ee7c2359a69a2debfa32fa7",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/005/target_mask.npy",
+        "sha256": "7c7adc9f150112b94290f55c5e3ce392140e07852923e9acaac10a7c1cbf094e",
+        "pixels": 25318
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.032193501790364586,
+      "visible_bbox": [
+        520,
+        419,
+        913,
+        547
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/005/receipt.json",
+      "capture_receipt_sha256": "ce0d6e10b65bf194068e97e3a62d6d4086c2649515e99911ea667fb9cad1e6eb",
+      "camera_stage_sha256": "a93d2a3d162509627bd5318161aef0bf5d89d906600a1876d4a60e394eccfb14"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:98abe07efb6eb5c7:v0",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/teatable/model_388442417fc310a54a7f23cbf51c32ef_0",
+      "view_id": "v0",
+      "query": "Point to the coffee table in the image.",
+      "source_category": "teatable",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/006/rgb.png",
+        "sha256": "79210df92fd79315bfc00312bf054b4d7289586dba0644fbbf3fbba8ee0f2ea3",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/006/target_mask.npy",
+        "sha256": "5c5f41e5d9117fdc35cc2c3469cb2742e48e0b6097bb49ecee19b71362336cf4",
+        "pixels": 209126
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.26591746012369794,
+      "visible_bbox": [
+        92,
+        181,
+        875,
+        568
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/006/receipt.json",
+      "capture_receipt_sha256": "9a25ee4c049d18f62e70f7f5f17ea434414ff0625fc094f25674f46a2fc209d1",
+      "camera_stage_sha256": "e3b44817d17568fc82860c0f4c07b20c650753b6159173a336a53d959063ec4b"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:98abe07efb6eb5c7:v0",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/teatable/model_388442417fc310a54a7f23cbf51c32ef_0",
+      "view_id": "v0",
+      "query": "Point to the coffee table in the image.",
+      "source_category": "teatable",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/006/rgb.png",
+        "sha256": "fd5f45747df7ee6528a4566e4a49de99ed2855fb59a40fae086b535045198af2",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/006/target_mask.npy",
+        "sha256": "5c5f41e5d9117fdc35cc2c3469cb2742e48e0b6097bb49ecee19b71362336cf4",
+        "pixels": 209126
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.26591746012369794,
+      "visible_bbox": [
+        92,
+        181,
+        875,
+        568
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/006/receipt.json",
+      "capture_receipt_sha256": "e3db05d7345590cbc318c7bd0cf6f29c7505ba021589ce47ace5fc9e48e897e6",
+      "camera_stage_sha256": "a6cd1533b3f9f8262e791ef4be2fa17daad0e0064829984555be385d1a96d8ce"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:98abe07efb6eb5c7:v1",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/teatable/model_388442417fc310a54a7f23cbf51c32ef_0",
+      "view_id": "v1",
+      "query": "Point to the coffee table in the image.",
+      "source_category": "teatable",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/007/rgb.png",
+        "sha256": "342c08ce43f4ec9087fe9bed921667d90177f9274dc1cadb229605b233f6887f",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/007/target_mask.npy",
+        "sha256": "756550a7015d9cd57a0711b0d0e9dfaabc0d42ff57e53850e3dcfd36ecca55de",
+        "pixels": 230761
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.2934277852376302,
+      "visible_bbox": [
+        324,
+        337,
+        1024,
+        698
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/007/receipt.json",
+      "capture_receipt_sha256": "59c3450b56662785759bed5eb6e8bbaa1ef1d1391a68ae4162f4d2bf2705005e",
+      "camera_stage_sha256": "2421b9bacbc70c4c8a388731b858fb8a91eef27a2a36740771e7dadd9dd7bc18"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:98abe07efb6eb5c7:v1",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/teatable/model_388442417fc310a54a7f23cbf51c32ef_0",
+      "view_id": "v1",
+      "query": "Point to the coffee table in the image.",
+      "source_category": "teatable",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/007/rgb.png",
+        "sha256": "58be75d8cfe433b793f8d79e98b616f889f37247710d2e3f11a7a2d5a92b9dbb",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/007/target_mask.npy",
+        "sha256": "756550a7015d9cd57a0711b0d0e9dfaabc0d42ff57e53850e3dcfd36ecca55de",
+        "pixels": 230761
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.2934277852376302,
+      "visible_bbox": [
+        324,
+        337,
+        1024,
+        698
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/007/receipt.json",
+      "capture_receipt_sha256": "18c492343141f39d1ba592ae596d64dcca2cd84d19b1669777db32983ecee3c8",
+      "camera_stage_sha256": "2bd0a530cf67804ecf741f64e49335e95fc3d05f7113fd7dea0c10e795158585"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2ebe444648c68965:v1",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/mirror/model_668d10b44e1db5e55b0c31528582ce03_0",
+      "view_id": "v1",
+      "query": "Point to the round bathroom mirror in the image.",
+      "source_category": "mirror",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/008/rgb.png",
+        "sha256": "3598e6fa3c2cbe6ac6b869e034b4a1c0d061e59044bfaa2aec2fc0ed5172282f",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/008/target_mask.npy",
+        "sha256": "2d801f22616370e6dcb8925197262f332b5ef8d3c57f81b516c247f88829f647",
+        "pixels": 173758
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.2209447224934896,
+      "visible_bbox": [
+        478,
+        212,
+        955,
+        676
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/008/receipt.json",
+      "capture_receipt_sha256": "8c9a0072a6073bfe42e32b525a1f861360dd3c02f4be2738547e5968912fb0d9",
+      "camera_stage_sha256": "abaf0a4a44385954248ed218da9aa48817933573fab2ddb05b5e252d052f421e"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2ebe444648c68965:v1",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/mirror/model_668d10b44e1db5e55b0c31528582ce03_0",
+      "view_id": "v1",
+      "query": "Point to the round bathroom mirror in the image.",
+      "source_category": "mirror",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/008/rgb.png",
+        "sha256": "a733152668387c11706db433e4402a147ba800a9b331cae31224127d95a0601f",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/008/target_mask.npy",
+        "sha256": "2d801f22616370e6dcb8925197262f332b5ef8d3c57f81b516c247f88829f647",
+        "pixels": 173758
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.2209447224934896,
+      "visible_bbox": [
+        478,
+        212,
+        955,
+        676
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/008/receipt.json",
+      "capture_receipt_sha256": "5d87b20bfb53579f456f9c522169e0f182c2749163070bac3abea5d3e4e160c9",
+      "camera_stage_sha256": "7626300c2f5f5969595f8f32ba354ab5d1ad716c9a1b49394b9cbc5d71d25f7b"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2ebe444648c68965:v2",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/mirror/model_668d10b44e1db5e55b0c31528582ce03_0",
+      "view_id": "v2",
+      "query": "Point to the round bathroom mirror in the image.",
+      "source_category": "mirror",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/009/rgb.png",
+        "sha256": "1cdb4a1d3de451c4f4c4495fc5e03558fc6e96da16dbd23e29023a74606409ce",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/009/target_mask.npy",
+        "sha256": "5511c5e73cee6a827284a609271e4049bb59824d9a58635307eafddbe49726fb",
+        "pixels": 156253
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.19868596394856772,
+      "visible_bbox": [
+        126,
+        58,
+        549,
+        531
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/009/receipt.json",
+      "capture_receipt_sha256": "1a34d95a35b4f6698c46603a5611a65711c241692fcfdc960a51d37401ebf640",
+      "camera_stage_sha256": "e53649fba6861f9347fc891c208e88aea724dc89487401db22d8fefb737b0ae9"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:2ebe444648c68965:v2",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/mirror/model_668d10b44e1db5e55b0c31528582ce03_0",
+      "view_id": "v2",
+      "query": "Point to the round bathroom mirror in the image.",
+      "source_category": "mirror",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/009/rgb.png",
+        "sha256": "b2174265483a975c16f0c2860a0ab1ca747023fef9c8edaa6e17f71177f63a45",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/009/target_mask.npy",
+        "sha256": "5511c5e73cee6a827284a609271e4049bb59824d9a58635307eafddbe49726fb",
+        "pixels": 156253
+      },
+      "center_baseline_hit": true,
+      "uniform_pixel_baseline_probability": 0.19868596394856772,
+      "visible_bbox": [
+        126,
+        58,
+        549,
+        531
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/009/receipt.json",
+      "capture_receipt_sha256": "265ffdc95bf2cd05af73e538bb2927357b4f8e18d1d34937077b48216fa1fd96",
+      "camera_stage_sha256": "8a874ab0817a3cba007f10f6de435f9be873f97cfa819d7615c30afec3dd7c30"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:1e2d460ebb6ba611:v0",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/sofachair/model_2693953b9397456c49376b75629a59ab_0",
+      "view_id": "v0",
+      "query": "Point to the chair beside the desk in the image.",
+      "source_category": "sofachair",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/010/rgb.png",
+        "sha256": "ae9119f71d9a23d0776b8529fc47580058556531a94c12b84465acaed4d2e661",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/010/target_mask.npy",
+        "sha256": "c018cfc2ae3bb5c957229160217ea1c24360874b53f6a672e3e36e9d4fa0e712",
+        "pixels": 73181
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.09305445353190105,
+      "visible_bbox": [
+        99,
+        72,
+        471,
+        613
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/010/receipt.json",
+      "capture_receipt_sha256": "3acd49f23cb89f455a44a1b9a83889ba8efdc5cf10dd3dc5b00ef348fff83fc4",
+      "camera_stage_sha256": "70257f711038c1d526d8fc402ee3f9677b4a6417171444fc95b63e34cc7e2b84"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:1e2d460ebb6ba611:v0",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/sofachair/model_2693953b9397456c49376b75629a59ab_0",
+      "view_id": "v0",
+      "query": "Point to the chair beside the desk in the image.",
+      "source_category": "sofachair",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/010/rgb.png",
+        "sha256": "2f77fc59fd8908c70ad89adb6b3d638a3fa9c92552b47daf6d0358810e37a425",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/010/target_mask.npy",
+        "sha256": "c018cfc2ae3bb5c957229160217ea1c24360874b53f6a672e3e36e9d4fa0e712",
+        "pixels": 73181
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.09305445353190105,
+      "visible_bbox": [
+        99,
+        72,
+        471,
+        613
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/010/receipt.json",
+      "capture_receipt_sha256": "51bc0870ede824cb6b0d618e0d300f7e9b5f5457e85f1e5dec43f779d1a44c7c",
+      "camera_stage_sha256": "680ec7149649eb5bd9fb4428baf5f24189a5833356ff4f9131152e326caf5a61"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:1e2d460ebb6ba611:v3",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/sofachair/model_2693953b9397456c49376b75629a59ab_0",
+      "view_id": "v3",
+      "query": "Point to the chair beside the desk in the image.",
+      "source_category": "sofachair",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/011/rgb.png",
+        "sha256": "7f8d803d7429f3b96915b0960efefe61f6cb304ba7258b431f4087594f690883",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/011/target_mask.npy",
+        "sha256": "9bb18c9524b58a495fcbfd5286328163e650f28e0a96ea9c0a9abd6c2b472065",
+        "pixels": 65000
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.08265177408854167,
+      "visible_bbox": [
+        573,
+        243,
+        918,
+        734
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/011/receipt.json",
+      "capture_receipt_sha256": "99a7415bda2203169398cce6f68f99247e44b24822b4f6baf963234784a08119",
+      "camera_stage_sha256": "496e41fc9d0b07b7960fa8b1ffcd800b37cd9d489b254d86becfd4b6f3e1adab"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:1e2d460ebb6ba611:v3",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/sofachair/model_2693953b9397456c49376b75629a59ab_0",
+      "view_id": "v3",
+      "query": "Point to the chair beside the desk in the image.",
+      "source_category": "sofachair",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/011/rgb.png",
+        "sha256": "a15e12fbec2c6f41debecee84111ce8139bce514c1e9399daaa64f29e9af62e6",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/011/target_mask.npy",
+        "sha256": "9bb18c9524b58a495fcbfd5286328163e650f28e0a96ea9c0a9abd6c2b472065",
+        "pixels": 65000
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.08265177408854167,
+      "visible_bbox": [
+        573,
+        243,
+        918,
+        734
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/011/receipt.json",
+      "capture_receipt_sha256": "20f78fd8e2b6c70a4c42adf3b358621b6ae3c5af20533b6e274d6120824dc75b",
+      "camera_stage_sha256": "975ae5072506941123eb65e71ce8f82921deda0617aacba9871cccde569ede32"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:9d7597974bf214a6:v0",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/faucet/model_863538db1fb21a54dbc28796d5f17a51_0",
+      "view_id": "v0",
+      "query": "Point to the bathroom faucet in the image.",
+      "source_category": "faucet",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/012/rgb.png",
+        "sha256": "45e6a39594d945daf2ca21158695524a055d31948cc76ced00fb7b2f4b9eac96",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/012/target_mask.npy",
+        "sha256": "b01fe31408845df878946e213a507d2b0f04987b1c3874e157356942e90c0ac6",
+        "pixels": 15699
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.019962310791015625,
+      "visible_bbox": [
+        193,
+        330,
+        418,
+        551
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/012/receipt.json",
+      "capture_receipt_sha256": "7e21da3433930a203b2bbd3a55254054d6a68756c07998d34db57aab2a8f6620",
+      "camera_stage_sha256": "433f40147407b466fb682a1c4088e19ca67f0bc96d7815745934c73aac321988"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:9d7597974bf214a6:v0",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/faucet/model_863538db1fb21a54dbc28796d5f17a51_0",
+      "view_id": "v0",
+      "query": "Point to the bathroom faucet in the image.",
+      "source_category": "faucet",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/012/rgb.png",
+        "sha256": "41a693d69810d3aacf9beaf8d06eaa333f4f56566dac2f35336c8633a78f9955",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/012/target_mask.npy",
+        "sha256": "b01fe31408845df878946e213a507d2b0f04987b1c3874e157356942e90c0ac6",
+        "pixels": 15699
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.019962310791015625,
+      "visible_bbox": [
+        193,
+        330,
+        418,
+        551
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/012/receipt.json",
+      "capture_receipt_sha256": "5464ce73a6e68e246ea64f15dde04414b53de5b54a455884c2e9745c6adc6ddb",
+      "camera_stage_sha256": "b416a9803f6100a1864cc3272fb5ae959868eeb6ea90fad5018324ea3cd9b7c1"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:9d7597974bf214a6:v1",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/faucet/model_863538db1fb21a54dbc28796d5f17a51_0",
+      "view_id": "v1",
+      "query": "Point to the bathroom faucet in the image.",
+      "source_category": "faucet",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/013/rgb.png",
+        "sha256": "f1c8f78758a028f7926982a0b70eab42b07fdd7a684c554396af560f6010e2f4",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/013/target_mask.npy",
+        "sha256": "ac27ed257830ae7f5e3bd6ecf0045e588ea5c1cf1c6dd73c1acef8000fcc9cdb",
+        "pixels": 13384
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.017018636067708332,
+      "visible_bbox": [
+        580,
+        477,
+        774,
+        674
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/013/receipt.json",
+      "capture_receipt_sha256": "37b355a294bb93a46836a7f01b1145001f9c5873d1ec9e0814166adc894beffd",
+      "camera_stage_sha256": "a1d8491b3235a4e1692e0b6c2ad1897e296f5da2ad82ca1334fccf8624879e9f"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:9d7597974bf214a6:v1",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/faucet/model_863538db1fb21a54dbc28796d5f17a51_0",
+      "view_id": "v1",
+      "query": "Point to the bathroom faucet in the image.",
+      "source_category": "faucet",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/013/rgb.png",
+        "sha256": "1dacdd7c48fc167a4f7c7db3a7fd9b878b0fa60ce3c4a1d953575c3f339a476b",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/013/target_mask.npy",
+        "sha256": "ac27ed257830ae7f5e3bd6ecf0045e588ea5c1cf1c6dd73c1acef8000fcc9cdb",
+        "pixels": 13384
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.017018636067708332,
+      "visible_bbox": [
+        580,
+        477,
+        774,
+        674
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/013/receipt.json",
+      "capture_receipt_sha256": "af53888aa3f9311aac1e806492b59f1071a04502d9fbc4edcddae4d3b4dd7da5",
+      "camera_stage_sha256": "ff58916db96f58a5218e807272d4165ac4c195a8ace0345a946838bc1f5c05c3"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:5d5137605e556401:v0",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/electriccooker/model_5b54c4ec723ff61c82b0c108f4d93c66_0",
+      "view_id": "v0",
+      "query": "Point to the electric cooker beside the cooktop in the image.",
+      "source_category": "electriccooker",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/014/rgb.png",
+        "sha256": "7b360add6203a71dec93886f4e832870346e4be5e96b19b5fd093582f1c7bb97",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/014/target_mask.npy",
+        "sha256": "a8a6794d9232daf7801b3b3f6207c8893dbfde493b48d1e912f3ece0ed3351a6",
+        "pixels": 151201
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.19226201375325522,
+      "visible_bbox": [
+        121,
+        254,
+        494,
+        706
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/014/receipt.json",
+      "capture_receipt_sha256": "5eb8d6b410d827ae2bb57570c84379e7913d2232aaee7c3e7f2206736909a095",
+      "camera_stage_sha256": "49a89dd03fd63a733e763e35195fdeda4ea99b09cc339210282b1c697d032240"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:5d5137605e556401:v0",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/electriccooker/model_5b54c4ec723ff61c82b0c108f4d93c66_0",
+      "view_id": "v0",
+      "query": "Point to the electric cooker beside the cooktop in the image.",
+      "source_category": "electriccooker",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/014/rgb.png",
+        "sha256": "531077e803664f3b929b6cf41fcf679eff689e7cafb90c86ba4b49c34e623d90",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/014/target_mask.npy",
+        "sha256": "a8a6794d9232daf7801b3b3f6207c8893dbfde493b48d1e912f3ece0ed3351a6",
+        "pixels": 151201
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.19226201375325522,
+      "visible_bbox": [
+        121,
+        254,
+        494,
+        706
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/014/receipt.json",
+      "capture_receipt_sha256": "afe1d917d58c3c3a494050d18842d70a58848a57774fa50a52ba7c85cba12683",
+      "camera_stage_sha256": "c25eff21620ba3e12ec05146431d43056a56666489a3782f9f87a08ccbf3d9f8"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:5d5137605e556401:v1",
+      "condition": "original",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/electriccooker/model_5b54c4ec723ff61c82b0c108f4d93c66_0",
+      "view_id": "v1",
+      "query": "Point to the electric cooker beside the cooktop in the image.",
+      "source_category": "electriccooker",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/015/rgb.png",
+        "sha256": "9d023ef70e228f5fb8119050407ee155674f9fea9db30659179780f2eeb73bd5",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/015/target_mask.npy",
+        "sha256": "34f8f693c2d73d777411740585c09eb64fce829ca3a1630faa120114e11702df",
+        "pixels": 123948
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.1576080322265625,
+      "visible_bbox": [
+        518,
+        387,
+        899,
+        768
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/original/015/receipt.json",
+      "capture_receipt_sha256": "234e77f01e0a74ead31ac1e14944c69cfe8a4f3ba12961bee382fcddafe5ba86",
+      "camera_stage_sha256": "67a4e3f434254284515b49674766df924a9558d83a829fa499b16cbc9335d034"
+    },
+    {
+      "pair_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd:5d5137605e556401:v1",
+      "condition": "converted",
+      "scene_id": "MWBGLKQKTKJZ2AABAAAAACA8_usd",
+      "target_prim": "/Root/Meshes/Animation/electriccooker/model_5b54c4ec723ff61c82b0c108f4d93c66_0",
+      "view_id": "v1",
+      "query": "Point to the electric cooker beside the cooktop in the image.",
+      "source_category": "electriccooker",
+      "technical_qa": "PASS",
+      "original_qualification": "PASS",
+      "visual_qa": "PASS",
+      "visual_target_assessment": "visible",
+      "converted_visibility_loss": false,
+      "image": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/015/rgb.png",
+        "sha256": "2a2ae4324c4397593c37babf1617424a73aa2255387440f0940285acfa5389de",
+        "width": 1024,
+        "height": 768
+      },
+      "mask": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/015/target_mask.npy",
+        "sha256": "34f8f693c2d73d777411740585c09eb64fce829ca3a1630faa120114e11702df",
+        "pixels": 123948
+      },
+      "center_baseline_hit": false,
+      "uniform_pixel_baseline_probability": 0.1576080322265625,
+      "visible_bbox": [
+        518,
+        387,
+        899,
+        768
+      ],
+      "capture_receipt": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MWBGLKQKTKJZ2AABAAAAACA8_usd/converted/015/receipt.json",
+      "capture_receipt_sha256": "91925ba2e301a0f04e747dd2befa5a090009d1202cc8bc04344dc2207e548663",
+      "camera_stage_sha256": "6b6a138aabf95721dceca2bf1bc21493a54dacf58057a66d4615e333c669eb9a"
+    }
+  ]
+}

@@ -14,6 +14,9 @@ ConvertAsset 面向 Isaac Sim / USD 资产处理，提供一组轻量、可组�
 
 ## 目录结构
 
+论文与实验当前以 **ICLR 2027 投稿准备**为主线：材质变化对视觉 grounding 与具身导航的影响。
+入口见 [paper/README.md](paper/README.md)；构建：`make -C paper iclr27`。
+
 | 目录 | 用途 |
 |---|---|
 | `convert_asset/` | Python 源码 |
@@ -21,6 +24,7 @@ ConvertAsset 面向 Isaac Sim / USD 资产处理，提供一组轻量、可组�
 | `scripts/` | Isaac Sim Python wrapper 和辅助脚本 |
 | `examples/` | 小型示例资产 |
 | `docs/` | 设计、运维、记录和参考文档 |
+| `paper/` | ICLR 主稿、共享实验数据与历史 venue 版本 |
 | `archive/` | 旧索引、legacy 文档和非当前工程主线历史材料 |
 
 ## 快速开始

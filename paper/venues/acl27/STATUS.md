@@ -6,6 +6,77 @@ Readiness: ACL/ARR candidate packet. It is route-ready for final human route
 and OpenReview-form decisions, but not final-upload complete until the authors
 lock EACL 2027 via ARR or wait for the official Annual ACL 2027 call.
 
+Figure 1 material-sphere crop repair on 2026-09-04: the source atlas contains
+eight complete alpha components, but the prior fixed four-row slicing started
+the metal cells 23 pixels below their true top and visibly flattened both metal
+spheres. Component preparation now labels the complete atlas, retains exactly
+eight significant connected components, and maps them by centroid order. Both
+metal spheres and the slight ceramic boundary loss are repaired without new
+image generation or changes to material texture, figure layout, wording, or
+topology. Runtime silhouette checks reject broad first/last active rows, and
+the PPTX/SVG/PDF/PNG round trip retains eight complete spheres.
+
+ARR counted-content compliance repair on 2026-09-04: Figure 4 is now declared
+at the end of Results, after the official-scene evidence, and is flushed before
+Discussion. It no longer occupies the non-counted post-Conclusion region.
+Limitations and Ethical Considerations contain no figure or table source, and
+the pre-upload gate rejects any future reintroduction. The paper remains nine
+A4 pages: page 5 contains Figure 2 and Tables 2--3; page 6 contains Tables 4--5
+and Figure 3; page 7 contains Table 6, Figure 4, Discussion, and most of
+Conclusion; page 8 begins with the Conclusion tail and then contains
+Limitations, Ethical Considerations, and the start of References. Thus counted
+content ends within page 8. Figures 3 and 4 were not redrawn or resized, and
+rendered pages 5--9 show no clipping, overlap, detached caption, or incomplete
+panel.
+
+Figure 4 label-overlap repair on 2026-09-03: the ACL wrapper now uses
+`fig_internnav_rollout_main_v4.pdf`. The prior left outcome labels were
+unbounded and extended into the first image column. V4 moves the outcome and
+SR fields onto separate right-aligned lines, reserves a fixed gutter before the
+image grid, and adds renderer-based label/image boundary checks. All twelve
+registered rollout images and their trajectory overlays are unchanged. The
+standalone figure and integrated page 8 have no remaining label overlap; the
+main paper stays at 10 A4 pages and the embedded images resolve at 343 ppi.
+Figure 1, the Table 1 companion, Figure 2, and Figure 3 need no redraw from this
+audit. Figure 3 page whitespace is a float-placement issue, not figure loss.
+
+Figure 1 PPTX-native refresh on 2026-09-03: the ACL Introduction now uses the
+image-led v4 method overview. It removes the v3 dashboard-like headers, rounded
+cards, badges, and vertical bus while retaining the approved material-rewrite,
+matched-pair, and four-parallel-check semantics. The editable one-slide PPTX
+contains 19 pictures and 20 text shapes with four font sizes; its flat-layout
+audit reports no overflow, external relationship, machine path, shadow, theme
+effect, or rounded card. LibreOffice exports the paper PDF, whose ACL page-2
+render has no clipped title, incomplete thumbnail, detached arrow, missing
+glyph, or unintended overlap. The main paper remains 10 A4 pages, and embedded
+Figure 1 rasters resolve at 340--346 ppi. The v3 figure remains as history.
+
+Story-first figure refresh on 2026-09-03: the ACL main paper now uses the v3
+method figure, refreshed Table 1 strip, and v3 render/material/navigation
+figures. Figure 1 restores four paired material-sphere examples (wood, stone,
+ceramic, and metal) around the real matched-evidence pair. These generated,
+replaceable spheres are explanatory cues only; they are not experimental
+renders or measured evidence. Four high-priority supplement figures were also
+redrawn: the evidence quickstart, VLM coordinate protocol, material diagnostic,
+and navigation media atlases. Three visual-QA rounds removed detached generated
+shadows and label collisions. The integrated outputs remain 10 main-paper pages
+and 45 supplement pages, with no major or critical page-scale visual findings.
+
+ACL main-figure visual-system refresh on 2026-08-30: the active ACL wrapper now
+uses a Python/Matplotlib, EBench-inspired visual system for all five main-paper
+visual assets. Figure 1 preserves the prior source/conversion/grounding/stack
+information while correcting the topology: source, conversion, and matched
+evidence are sequential, whereas proxy, VLM, material, and stack checks are
+parallel evidence gates. Table 1 keeps searchable LaTeX rows and uses a compact
+four-card evidence strip only in the ACL main paper; the supplement retains its
+larger historical companion. Figures 2--4 retain the registered render,
+material, and InternNav evidence but share condition colors, typography,
+headers, and spacing. SVG text remains editable, PDF raster evidence is embedded
+at approximately 343--365 ppi, and the first clean integrated build is a
+10-page A4 PDF. The old v18 method-chain bitmap and prior main-paper figure
+assets remain available for AAAI, supplement, and historical use but are no
+longer active in the ACL main wrapper.
+
 Target-policy refresh on 2026-05-30: official ARR Dates still lists EACL 2027
 with final ARR submission date August 3, 2026 and commitment date October 11,
 2026. The EACL 2027 home and main-paper pages still list the August 3, 2026

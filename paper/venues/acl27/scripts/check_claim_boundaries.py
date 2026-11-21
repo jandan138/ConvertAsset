@@ -107,7 +107,10 @@ UNSAFE_FIGURES = (
         "rule_id": "unsafe_material_effect_qualitative_panel",
         "description": "The material-effect qualitative panel requires clean original-MDL provenance.",
         "figure": "fig_material_effect_baseline_qualitative",
-        "pattern": re.compile(r"figures/fig_material_effect_baseline_qualitative\.png", re.IGNORECASE),
+        "pattern": re.compile(
+            r"figures/fig_material_effect_baseline_qualitative(?:_v[23])?\.(?:pdf|png)",
+            re.IGNORECASE,
+        ),
         "allow_when_material_effect_clean_provenance_ready": True,
     },
 )

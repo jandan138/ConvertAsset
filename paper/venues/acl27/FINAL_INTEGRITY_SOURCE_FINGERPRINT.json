@@ -1,7 +1,7 @@
 {
   "purpose": "Guards the ACL final-integrity delta audit against stale manuscript, bibliography, policy, and evidence sources.",
   "schema_version": 1,
-  "source_count": 57,
+  "source_count": 85,
   "source_root": "paper",
   "sources": [
     {
@@ -35,9 +35,44 @@
       "size_bytes": 12947
     },
     {
-      "path": "shared/figures/fig_acl_method_chain_imagegen_v18.png",
-      "sha256": "04bd5413fd5cbd32c3e9b4f958efeea55c4d449a8c6017068fe258df61c6f6ef",
-      "size_bytes": 1211264
+      "path": "shared/figures/acl_paper_visual_v3.qa.json",
+      "sha256": "9e71669a56be6b71d65e563308b52934bd56144890e5c6fe009fa2c883f60950",
+      "size_bytes": 3291
+    },
+    {
+      "path": "shared/figures/fig_acl_evidence_registry_strip_v2.pdf",
+      "sha256": "9b8e2faa1b7a5463ae080c7f7a8897941d468af83b9291678343ed302815e07a",
+      "size_bytes": 429418
+    },
+    {
+      "path": "shared/figures/fig_acl_method_chain_v3.pdf",
+      "sha256": "902f0428c84008b1cb089a785faeba061ec816fcebaf7cdc5609ae9fbb3fcb9c",
+      "size_bytes": 1013118
+    },
+    {
+      "path": "shared/figures/fig_acl_method_chain_v4.pdf",
+      "sha256": "2ef8a9a82760b796251749d5cdba0ae9eac69bfa41c903f259d29d0ffc144cec",
+      "size_bytes": 206773
+    },
+    {
+      "path": "shared/figures/fig_acl_method_chain_v4.pptx",
+      "sha256": "3aa0233b648c9fc7ff15b78a621d24c67faa3c7828f840f6d27db8950316b56b",
+      "size_bytes": 5192964
+    },
+    {
+      "path": "shared/figures/fig_acl_method_chain_v4.pptx.audit.json",
+      "sha256": "d7e1fe33b80d460386c1111b51698fac740a30d42b2dbd926ab9729a7d1cc278",
+      "size_bytes": 580
+    },
+    {
+      "path": "shared/figures/fig_acl_method_chain_v4.qa.json",
+      "sha256": "ab0c35dffe497cfdd255596476395c3a493d760da67d66a080098d00f2e9171e",
+      "size_bytes": 2599
+    },
+    {
+      "path": "shared/figures/fig_acl_method_chain_v4.svg",
+      "sha256": "8955b873da4f280f65dc9e94716d5413c56af3111a1483054f18a20163f943c8",
+      "size_bytes": 6910864
     },
     {
       "path": "shared/figures/fig_grscene_qualitative.pdf",
@@ -45,24 +80,24 @@
       "size_bytes": 59536
     },
     {
-      "path": "shared/figures/fig_internnav_rollout_0036_0066_column.png",
-      "sha256": "7ca4fdf99c648d740d64ad27e69fb44e4b6da20a98e58e51996163a65243dfe5",
-      "size_bytes": 427932
+      "path": "shared/figures/fig_internnav_rollout_main_v3.pdf",
+      "sha256": "856b426985ab131c591f1cf253f3bfeedf253d29b37e4579552305781613bb77",
+      "size_bytes": 1021021
     },
     {
-      "path": "shared/figures/fig_internnav_rollout_0036_0066_main3_readable.png",
-      "sha256": "818525fcc0a5fd0b4e692ddd9d2738e673eb3b70a2b2dd90895cab7dd0d51a6e",
-      "size_bytes": 781424
+      "path": "shared/figures/fig_internnav_rollout_main_v4.pdf",
+      "sha256": "cd2a881e96d35f0037c62ad6332cb0e7fcdaacc0727c2efa8adcf9f3bb39e167",
+      "size_bytes": 1011242
     },
     {
-      "path": "shared/figures/fig_material_effect_baseline_qualitative.png",
-      "sha256": "e0cea32c186661ce2efcf736fd7fb0f714f7d78b411364b029374e0e473e187a",
-      "size_bytes": 491950
+      "path": "shared/figures/fig_internnav_rollout_main_v4.qa.json",
+      "sha256": "9de16c163ae917d3831bc3755f583860261cbc3623957ee50d28e6a29bb8d1da",
+      "size_bytes": 1770
     },
     {
-      "path": "shared/figures/fig_material_effect_baseline_qualitative.report.json",
-      "sha256": "1f1c254c90c562921173bba60f5e2132064cedb2b572a834dc12401bda3284df",
-      "size_bytes": 1643
+      "path": "shared/figures/fig_material_effect_baseline_qualitative_v3.pdf",
+      "sha256": "6b02237ae9def0a7acbee180ecced43db11691f8cdcc07bc0574adf5aa677e31",
+      "size_bytes": 1021599
     },
     {
       "path": "shared/figures/fig_render_pairs.pdf",
@@ -70,9 +105,44 @@
       "size_bytes": 159811
     },
     {
-      "path": "shared/figures/fig_render_scene_evidence_wide.png",
-      "sha256": "c3916d57c87efd00edda9052f8a643881cd0e400959de7af669d4f45e6db5758",
-      "size_bytes": 1162714
+      "path": "shared/figures/fig_render_scene_evidence_wide_v3.pdf",
+      "sha256": "0a9d52326857001ddf6bdd64cf2854b21b9263da22d099949cdd358a452af291",
+      "size_bytes": 1178273
+    },
+    {
+      "path": "shared/figures/fig_supplement_first_page_evidence_quickstart_v2.pdf",
+      "sha256": "9c7dd9022f9900c3ef6f32a3aaf698b243bd13cdef4a9b8b6f47c0ea18256a2a",
+      "size_bytes": 321601
+    },
+    {
+      "path": "shared/figures/fig_supplement_material_diagnostic_atlas_v2.pdf",
+      "sha256": "4a3ff6bd7ac9ea0c8968363f1b368cd4a8a9ba9e9400315bcc9244a727dd740e",
+      "size_bytes": 1604185
+    },
+    {
+      "path": "shared/figures/fig_supplement_navigation_media_atlas_v2.pdf",
+      "sha256": "b0b1bf82ad4f773e1e8d59f84d63474491ad1c22ba39746b4a9aab70ad6f0d61",
+      "size_bytes": 1388899
+    },
+    {
+      "path": "shared/figures/fig_supplement_vlm_coordinate_protocol_atlas_v2.pdf",
+      "sha256": "f039522aca5775302da06bb1b6986fa9bd1dd98d5b0637b646f6cdeb4eac7e08",
+      "size_bytes": 1014674
+    },
+    {
+      "path": "shared/figures/gen_acl_internnav_rollout_v4.py",
+      "sha256": "d2cbc97b3b14675e00c925f59e28443b6b15c66d293aa3102f142fd1b4b0f745",
+      "size_bytes": 5601
+    },
+    {
+      "path": "shared/figures/gen_acl_method_chain_v4_pptx.py",
+      "sha256": "09d53f7ddcd2722f0d96ef84fd9525fe449197ec84cc824ea763cb212b32296a",
+      "size_bytes": 27780
+    },
+    {
+      "path": "shared/figures/gen_acl_paper_figures_v3.py",
+      "sha256": "86e97fb58c2efaf72f4aff5ef7d12326c3c88ac9aa4b82fae137c58037d401aa",
+      "size_bytes": 43198
     },
     {
       "path": "shared/figures/gen_figures.py",
@@ -80,24 +150,74 @@
       "size_bytes": 8444
     },
     {
-      "path": "shared/figures/gen_internnav_main_readable.py",
-      "sha256": "309376193899a5c48a19117bbbf77774794453241f8ce8f80c1b5314f9f31393",
-      "size_bytes": 12108
+      "path": "shared/figures/generated_components/fig1_material_pairs_v1/atlas_selected.png",
+      "sha256": "57f6e9833db664162b9c631705d8dddcb7b8c9b9f13f6e87932df7abae75736e",
+      "size_bytes": 2005593
     },
     {
-      "path": "shared/figures/gen_material_effect_qualitative.py",
-      "sha256": "a42e7a61bb0f7dc3eb046af09e21718b643eb29fa37ef03e64fca107d524fa78",
-      "size_bytes": 9772
+      "path": "shared/figures/generated_components/fig1_material_pairs_v1/ceramic_simplified.png",
+      "sha256": "206e49f1a60265a4a967f294292c62f76558ec6e0a220b830afe2557a3227e4c",
+      "size_bytes": 167666
     },
     {
-      "path": "shared/figures/gen_render_scene_evidence_wide.py",
-      "sha256": "982101790fbb7a7a3f1ef88209a12fbb8809453197662e1fc84498835c79c5ff",
-      "size_bytes": 5924
+      "path": "shared/figures/generated_components/fig1_material_pairs_v1/ceramic_source.png",
+      "sha256": "a760cf2ce0f390cc70b0735090db71757585dea6e0bc53f373ff06d2a42b16e1",
+      "size_bytes": 197799
     },
     {
-      "path": "shared/figures/prompts/fig_acl_method_chain_gpt_image2_v18.prompt.txt",
-      "sha256": "465ea8d40d6fa8c7c5f8bab341dff0196e263c0e76a205afd3aa7f636f0fc94b",
-      "size_bytes": 2094
+      "path": "shared/figures/generated_components/fig1_material_pairs_v1/manifest.yaml",
+      "sha256": "3fe1ebfe1e48cd4a811d59a89a41540ab8e773a35ba174852a6c26a842147f45",
+      "size_bytes": 2134
+    },
+    {
+      "path": "shared/figures/generated_components/fig1_material_pairs_v1/metal_simplified.png",
+      "sha256": "272b5b98aa9012e80012c028540703a2a24f3747d65f41dae86daf9a89a73926",
+      "size_bytes": 184620
+    },
+    {
+      "path": "shared/figures/generated_components/fig1_material_pairs_v1/metal_source.png",
+      "sha256": "fd11c94efeb3aacdaa0aec56e031460ea61a92d5facf3e661f57e90795b14f2d",
+      "size_bytes": 204189
+    },
+    {
+      "path": "shared/figures/generated_components/fig1_material_pairs_v1/optics.json",
+      "sha256": "e4c3f31114859aa0661a05514c47c5ba8a41598872c39df9c3ee0ba08daba90d",
+      "size_bytes": 6862
+    },
+    {
+      "path": "shared/figures/generated_components/fig1_material_pairs_v1/prompt.txt",
+      "sha256": "b5990379c55459c3df5911f1c5b3df9e114ca4070ee3ff7d48cdd94028b25b43",
+      "size_bytes": 1690
+    },
+    {
+      "path": "shared/figures/generated_components/fig1_material_pairs_v1/stone_simplified.png",
+      "sha256": "45aa8075626d80b7c4bb125ed7bcaf6fd0543768e17c5a11d094d217fb564d41",
+      "size_bytes": 234607
+    },
+    {
+      "path": "shared/figures/generated_components/fig1_material_pairs_v1/stone_source.png",
+      "sha256": "e550688f25d743a6d06195111ba4d012425f6ca29fa471a7d5b0e72d987a2bc5",
+      "size_bytes": 290224
+    },
+    {
+      "path": "shared/figures/generated_components/fig1_material_pairs_v1/wood_simplified.png",
+      "sha256": "1300bb124c0e78a3578a03acb107238e298e7f7043be6db07a17d59e7cba468a",
+      "size_bytes": 220848
+    },
+    {
+      "path": "shared/figures/generated_components/fig1_material_pairs_v1/wood_source.png",
+      "sha256": "89c88c22824c43384235270aa5c819addad3baac45e4d851c1ed759856e24ac8",
+      "size_bytes": 247291
+    },
+    {
+      "path": "shared/figures/specs/fig_acl_method_chain_v3.spec.json",
+      "sha256": "5d7beaf1f41b353b700f7bdebbb00608affef4222b5939099609f01ca00c9efa",
+      "size_bytes": 9751
+    },
+    {
+      "path": "shared/figures/specs/fig_acl_method_chain_v4.spec.json",
+      "sha256": "a0ba50a5351297d23267e7fc05720c408f8ab33de610912506d4a0b5ec895d91",
+      "size_bytes": 12221
     },
     {
       "path": "shared/references.bib",
@@ -136,8 +256,8 @@
     },
     {
       "path": "shared/tables/tab_acl_evidence_gate_registry.tex",
-      "sha256": "4123f37ed2b9a63c0100411fac9e807c81e242d517540cb5b9916250a9ff20db",
-      "size_bytes": 2085
+      "sha256": "b9d5071a248d93e669111b43155c2cebabfb2dcaa1e7b1b6e0c2c84a6095c5df",
+      "size_bytes": 2155
     },
     {
       "path": "shared/tables/tab_grscenes_vlm_clean_pool_pass15.tex",
@@ -211,8 +331,8 @@
     },
     {
       "path": "venues/acl27/ARTIFACT_PROVENANCE_DRAFT.md",
-      "sha256": "0b085c1ab6de4a7c4f428e13293e83a327a874ccb2b9dfcd9c0abb54c89dc90b",
-      "size_bytes": 9285
+      "sha256": "15a4cc17bcc3136cdb9031be1b9e2faca877df2fafec48033f21d39d06e61010",
+      "size_bytes": 9235
     },
     {
       "path": "venues/acl27/OPENREVIEW_METADATA_PACKET.md",
@@ -221,8 +341,8 @@
     },
     {
       "path": "venues/acl27/OPENREVIEW_RESPONSIBLE_NLP_CHECKLIST.md",
-      "sha256": "63214af75066906e8ac1a9b34776f7b711472aaad3da8035ab09f48f4350f61a",
-      "size_bytes": 10799
+      "sha256": "0f0132bc7bd4824c789f63935705447d500e2086903ffe1360a485ccb601b1bd",
+      "size_bytes": 10853
     },
     {
       "path": "venues/acl27/TARGET_CALL_POLICY_AUDIT.md",
@@ -236,13 +356,13 @@
     },
     {
       "path": "venues/acl27/main.tex",
-      "sha256": "70a88072f192257d11909e455bb4a314643c3a3b7448498b9ed8c7f43b279e3f",
-      "size_bytes": 1051
+      "sha256": "3c74aacedb9bf2fba143008e42870cd0b62f7724bb05f1f67bb2a18dc17d1a61",
+      "size_bytes": 1260
     },
     {
       "path": "venues/acl27/preamble.tex",
-      "sha256": "463633780fe4eb853be7de9b0250545032b5073c3bbd05e60d4ea21fe79ea943",
-      "size_bytes": 476
+      "sha256": "b2bbb6cc77e30c81faedefe2b672a450234d87ebe28ee823945ba9b0f5722f2d",
+      "size_bytes": 542
     },
     {
       "path": "venues/acl27/sections/abstract.tex",
@@ -261,18 +381,18 @@
     },
     {
       "path": "venues/acl27/sections/ethical-considerations.tex",
-      "sha256": "2e61303681318404d58ed1c28c159aa8ba771c290d61ad6a06e9df1056377222",
-      "size_bytes": 1235
+      "sha256": "91656736afabe4812a237b0a1fe7333fbd04957dbb8b12bffdc74de38c0bbaff",
+      "size_bytes": 1222
     },
     {
       "path": "venues/acl27/sections/intro.tex",
-      "sha256": "4b25a6e01c576212166d206865829b2a01905c3ef5636d83fed54343428587fb",
-      "size_bytes": 3411
+      "sha256": "1be95ebb8802f169b684348894ae657fa3eca511310dc187227316af9378a8c2",
+      "size_bytes": 3446
     },
     {
       "path": "venues/acl27/sections/limitations.tex",
-      "sha256": "918f1962425b6e0c3783387bca04dbd7a12ec93a32028a70a1501a00240bffb2",
-      "size_bytes": 1732
+      "sha256": "141d434af4b0ec0089ae69b0e5cf6987e4684bb0004fdceff7e3dabcc26b7fbb",
+      "size_bytes": 1142
     },
     {
       "path": "venues/acl27/sections/method.tex",
@@ -286,8 +406,28 @@
     },
     {
       "path": "venues/acl27/sections/results.tex",
-      "sha256": "751994a0553512efc146326db037901d020aba8db7ea977a5d6d93272dea9d02",
-      "size_bytes": 5934
+      "sha256": "f8ec77a2698a379ee740f809b695de99ab7f5ca6b986112747c85ca2abde51a2",
+      "size_bytes": 6569
+    },
+    {
+      "path": "venues/acl27/sections/supplement/00_overview.tex",
+      "sha256": "1abc6e67432f8acbf531777f00568c98402537743648d77d18c5bdc8b3637d8f",
+      "size_bytes": 3044
+    },
+    {
+      "path": "venues/acl27/sections/supplement/02_vlm_protocol.tex",
+      "sha256": "e471f6e8bf0511a5f0d13f74ac0a910d67c20b3c4a9ffd0598df2a591b9bbb29",
+      "size_bytes": 4107
+    },
+    {
+      "path": "venues/acl27/sections/supplement/04_material_effects.tex",
+      "sha256": "d0f8b7f220374bda7409ba0498bd42af2b2c293e2a6222446695517167267ca0",
+      "size_bytes": 2429
+    },
+    {
+      "path": "venues/acl27/sections/supplement/05_internnav_visuals.tex",
+      "sha256": "caf02e952c9a4b2665210e6a4f17bef05d1333cd6180c887386adaeab9c66082",
+      "size_bytes": 6291
     }
   ]
 }

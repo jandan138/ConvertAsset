@@ -1,0 +1,57 @@
+{
+  "mode": "inspired",
+  "backend": "Python matplotlib",
+  "semantic_approval": "User-approved plan, no new experimental observations or causal edges.",
+  "contracts": {
+    "interventions": "Image plate plus quantitative grid: matched input interventions expose target/context changes; paired hit counts unchanged.",
+    "protocol": "Quantitative grid: readout-dependent converted-minus-original point-hit effects and numeric output coverage.",
+    "navigation": "Asymmetric quantitative comparison: opposing paired transitions yield a small net success-rate change.",
+    "trajectories": "Image plate: compare three existing recorded end views and corresponding map excerpts."
+  },
+  "references": [
+    {
+      "paper": "VIMA",
+      "figure": "4",
+      "pdf_page": 5,
+      "adopt": "Small-multiple alignment and restrained grid/legend.",
+      "reject": "Different tasks/model colors and source-specific subplot design.",
+      "url": "https://proceedings.mlr.press/v202/jiang23b/jiang23b.pdf"
+    },
+    {
+      "paper": "RoboPoint",
+      "figure": "3",
+      "pdf_page": 6,
+      "adopt": "Give real visual evidence substantial space; put target outline directly on scene.",
+      "reject": "Dense multilabel point-color legend unrelated to our records.",
+      "url": "https://proceedings.mlr.press/v270/yuan25c.html"
+    }
+  ],
+  "investigation": [
+    "Read project/role ownership and memory instructions, build-scientific-figures and nature-figure core/Python fragments.",
+    "Inspected VIMA Fig4 and RoboPoint Fig3 native-page render references.",
+    "Inspected existing figure_style source, existing trajectory plate, scoring manifest and raw still dimensions."
+  ],
+  "changes": [
+    "New figure_panels.py only; exports render_panels(data,mf,ctx).",
+    "Fig2 full-canvas strip plus explicit matched (120,25,480,415) crop in all four conditions, green source target bbox.",
+    "Fig3 full Normalized/Pixels group headers for both matrices; same-row baseline and numeric labels >=7.2pt, symmetric full-range color scale.",
+    "Fig4 opposing loss/gain bars, prominent signed net percentage-point result, paired scene comparison.",
+    "Fig5 1024x512 source stills split at x=512 into original source view/map squares, no new pixels or rerendering."
+  ],
+  "validation": {
+    "command": "Import figure_style; set OUTPUT_DIR to visual_iterations/panel_work/round2; invoke render_panels with analysis_v1/results.json and interventions_clean_v2/manifest.json.",
+    "result": "PASS: SVG/PDF/360dpi PNG four panels; no canvas text or data overflow. Minimum rendered font 7.0, 7.0, 7.5, 7.0 pt.",
+    "visual": "Inspected exact four scratch PNGs after export: matched crop reveals target/background appearance; same-size map/view grid improves cross-condition comparison; no overlaps observed."
+  },
+  "caption_handoff": [
+    "Fig2: Upper strip is full registered canvas; rectangles identify matched enlarged detail immediately below, green box is target bbox. Enlarged panels show same observations, not added samples.",
+    "Fig3: Column group labels spelled out; both matrices use Text/JSON under Normalized/Pixels; color encodes converted-minus-original hit rate (pp), counts original\u2192converted /30.",
+    "Fig4: 17 lost and13 gained are task-pair transitions, -4.0pp is aggregate success-rate change.",
+    "Fig5: observation left half and map excerpt right half are separately laid out from the same recorded end frame, split at integer x512. Maintain independent qualitative-rerun provenance in caption."
+  ],
+  "open_issues": [
+    "Lead must inspect final actual-size PDF and verify <=9 pages after slight height growth.",
+    "Independent reviewer pass remains with lead."
+  ],
+  "recommended_documentation": "docs/records/2026-09-15-iclr-reference-led-figure-polish.md"
+}

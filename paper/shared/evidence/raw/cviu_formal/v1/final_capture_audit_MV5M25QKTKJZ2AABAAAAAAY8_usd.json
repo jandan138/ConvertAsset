@@ -1,0 +1,1430 @@
+{
+  "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+  "status": "TECHNICALLY_CHECKED_VISUAL_QA_PENDING",
+  "errors": [],
+  "log_audits": {
+    "original": {
+      "log": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original.log",
+      "log_sha256": "f362bff3af171df11bf1809ad3cd57bbaa4b903d47567baec551bba546169247",
+      "material_error_count": 0,
+      "material_errors": [],
+      "status": "NO_MATCHED_MATERIAL_ERRORS"
+    },
+    "converted": {
+      "log": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted.log",
+      "log_sha256": "31f1b857e271fd40b9c92ecfbb3b8790ed518a523ccdfa4798765701db3ee988",
+      "material_error_count": 0,
+      "material_errors": [],
+      "status": "NO_MATCHED_MATERIAL_ERRORS"
+    }
+  },
+  "capture_metadata": {
+    "original": {
+      "script_sha256": "edbe0bc7cb0194858c4aae06cd013999f94c8230074f7645e9515a09c8f89012",
+      "jobs_sha256": "5162cd41287f54e576ee3b79f6004535144199a44e213911d649a16e8602d469",
+      "stage_open_count": 1,
+      "process_start_count": 1
+    },
+    "converted": {
+      "script_sha256": "edbe0bc7cb0194858c4aae06cd013999f94c8230074f7645e9515a09c8f89012",
+      "jobs_sha256": "cc017952a3c011982027c9c0233c235f4ec1545dc8079ad1d36a6174157379e6",
+      "stage_open_count": 1,
+      "process_start_count": 1
+    }
+  },
+  "pairs": [
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:edcfddd0ff996058:v0",
+      "target_prim": "/Root/Meshes/Animation/basket/model_1252df4ea4698fd58f551d6195e1f49a_0",
+      "query": "Point to the purple shopping basket in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:edcfddd0ff996058:v0",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Animation/basket/model_1252df4ea4698fd58f551d6195e1f49a_0",
+        "category": "basket",
+        "condition": "original",
+        "query": "Point to the purple shopping basket in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/edcfddd0ff996058/v0_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.13568930530372242,
+          0.17423715882209334,
+          0.46431069469627756,
+          0.7411174122656738
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "fa29d14f850a67babcdd76eb84238c48675f11ca0939f1d89cb922130b3e984c",
+        "original_selection_image_sha256": "a107403c40911d57b489ad596b756c340bde3478d28b1f01bdb4c6c68d4127dd",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/000",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0, 1, -0, 0), (-0.242535625036333, 0, 0.970142500145332, -0), (0.970142500145332, 0, 0.242535625036333, 0), (8.180193999999931, -339.99595000000085, 110.23088531601637, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_0",
+        "mask_pixels": 68139,
+        "elapsed_s": 304.43454422801733,
+        "rgb_blank": false,
+        "image_sha256": "35b1e224a6f4de0a1155af5630d08f77ee715a1ad79b7891f1fcd65ddcff8a6b",
+        "mask_sha256": "459f574e278673c543d5eadf61f9b6d125cdc40793d61bc9d32bd3357c604bfe"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:edcfddd0ff996058:v0",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Animation/basket/model_1252df4ea4698fd58f551d6195e1f49a_0",
+        "category": "basket",
+        "condition": "converted",
+        "query": "Point to the purple shopping basket in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/edcfddd0ff996058/v0_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.13568930530372242,
+          0.17423715882209334,
+          0.46431069469627756,
+          0.7411174122656738
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "e80bca515da3b8bc157db46eb215a3356e14553bb2c72384a0f1941158a2f5fc",
+        "original_selection_image_sha256": "a107403c40911d57b489ad596b756c340bde3478d28b1f01bdb4c6c68d4127dd",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/000",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0, 1, -0, 0), (-0.242535625036333, 0, 0.970142500145332, -0), (0.970142500145332, 0, 0.242535625036333, 0), (8.180193999999931, -339.99595000000085, 110.23088531601637, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_0",
+        "mask_pixels": 68139,
+        "elapsed_s": 35.46870893239975,
+        "rgb_blank": false,
+        "image_sha256": "4be95872cf6a5caeb14b06223468f4e0f9e9073f10769a832abe98eba9d778c1",
+        "mask_sha256": "459f574e278673c543d5eadf61f9b6d125cdc40793d61bc9d32bd3357c604bfe"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:edcfddd0ff996058:v1",
+      "target_prim": "/Root/Meshes/Animation/basket/model_1252df4ea4698fd58f551d6195e1f49a_0",
+      "query": "Point to the purple shopping basket in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:edcfddd0ff996058:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Animation/basket/model_1252df4ea4698fd58f551d6195e1f49a_0",
+        "category": "basket",
+        "condition": "original",
+        "query": "Point to the purple shopping basket in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/edcfddd0ff996058/v1_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4629066737593635,
+          0.37398433854562607,
+          0.8718759502429753,
+          0.974950411020767
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "b97a6f0baf65c79db0dcf62272a197e95f0c22036002d5b9429928b1e44c1df4",
+        "original_selection_image_sha256": "df90e8339a66699adaa013a2e473f6722464d30f06fefeee8bf55f4f25e18ab8",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/001",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.5, 0.8660254037844388, 0, 0), (-0.2100420126042015, -0.12126781251816648, 0.9701425001453321, 0), (0.8401680504168061, 0.485071250072666, 0.24253562503633297, -0), (1.4814641892218676, -314.9959500000009, 110.23088531601638, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_0",
+        "mask_pixels": 76975,
+        "elapsed_s": 2.9693994633853436,
+        "rgb_blank": false,
+        "image_sha256": "db8c408a9d4c5c8774cd43ded0eb454a2129cdbe3fe44c00ebb5c8f00764aeb9",
+        "mask_sha256": "9ea2559aa23d029a7f8e689d11a3b1802fb7ebda26bc9e11647624da846bf2b9"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:edcfddd0ff996058:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Animation/basket/model_1252df4ea4698fd58f551d6195e1f49a_0",
+        "category": "basket",
+        "condition": "converted",
+        "query": "Point to the purple shopping basket in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/edcfddd0ff996058/v1_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4629066737593635,
+          0.37398433854562607,
+          0.8718759502429753,
+          0.974950411020767
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "b013dea47b77b41e9286b598dac4a320fcfcefe04cd493d6e6eed85f542e1cb6",
+        "original_selection_image_sha256": "df90e8339a66699adaa013a2e473f6722464d30f06fefeee8bf55f4f25e18ab8",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/001",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.5, 0.8660254037844388, 0, 0), (-0.2100420126042015, -0.12126781251816648, 0.9701425001453321, 0), (0.8401680504168061, 0.485071250072666, 0.24253562503633297, -0), (1.4814641892218676, -314.9959500000009, 110.23088531601638, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_0",
+        "mask_pixels": 76975,
+        "elapsed_s": 3.094312608242035,
+        "rgb_blank": false,
+        "image_sha256": "bc7af45bdc75d630d3197951ceccf4eb797858c81d4e3119cb0f9fbf85372756",
+        "mask_sha256": "9ea2559aa23d029a7f8e689d11a3b1802fb7ebda26bc9e11647624da846bf2b9"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:e772dea37d15f14f:v0",
+      "target_prim": "/Root/Meshes/Furnitures/lamp/model_767fd81d4ea363d527f3b4d54188c21e_0",
+      "query": "Point to the dome-shaped desk lamp in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:e772dea37d15f14f:v0",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/lamp/model_767fd81d4ea363d527f3b4d54188c21e_0",
+        "category": "lamp",
+        "condition": "original",
+        "query": "Point to the dome-shaped desk lamp in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/e772dea37d15f14f/v0_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.1214737734873089,
+          0.03535245830479261,
+          0.47852622651269106,
+          0.762698584882396
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "7f28bb934c482ebb20ba2ed8f8467d81e481db3125bb4423b0ce1e5db159c840",
+        "original_selection_image_sha256": "d4a3190a54175c13df7e9b81c883baf69af60242da5b5d333f9100f35d793a8e",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/002",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0, 1, -0, 0), (-0.4472135954999578, 0, 0.894427190999916, -0), (0.894427190999916, 0, 0.4472135954999578, 0), (264.87491787831436, -643.7888000000005, 144.94601393915715, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_5",
+        "mask_pixels": 49951,
+        "elapsed_s": 2.4275450967252254,
+        "rgb_blank": false,
+        "image_sha256": "612ac845cb10ad419bc00a8b079824d07302e802ae147ff8fafbc09ca55dafcf",
+        "mask_sha256": "3900757a3e27d22ec78bb851430236d0ad2bab682086b5643cb4d4db33732d4d"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:e772dea37d15f14f:v0",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/lamp/model_767fd81d4ea363d527f3b4d54188c21e_0",
+        "category": "lamp",
+        "condition": "converted",
+        "query": "Point to the dome-shaped desk lamp in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/e772dea37d15f14f/v0_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.1214737734873089,
+          0.03535245830479261,
+          0.47852622651269106,
+          0.762698584882396
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "3b4a577cecfac600e628b9c78674daf609f12b6fb55a3187a82194cfab19ce46",
+        "original_selection_image_sha256": "d4a3190a54175c13df7e9b81c883baf69af60242da5b5d333f9100f35d793a8e",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/002",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0, 1, -0, 0), (-0.4472135954999578, 0, 0.894427190999916, -0), (0.894427190999916, 0, 0.4472135954999578, 0), (264.87491787831436, -643.7888000000005, 144.94601393915715, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_5",
+        "mask_pixels": 49951,
+        "elapsed_s": 2.3333341889083385,
+        "rgb_blank": false,
+        "image_sha256": "95c58015af0686e40128e650f8706814234e04313ac6004a5e249f6e9c20558a",
+        "mask_sha256": "3900757a3e27d22ec78bb851430236d0ad2bab682086b5643cb4d4db33732d4d"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:e772dea37d15f14f:v1",
+      "target_prim": "/Root/Meshes/Furnitures/lamp/model_767fd81d4ea363d527f3b4d54188c21e_0",
+      "query": "Point to the dome-shaped desk lamp in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:e772dea37d15f14f:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/lamp/model_767fd81d4ea363d527f3b4d54188c21e_0",
+        "category": "lamp",
+        "condition": "original",
+        "query": "Point to the dome-shaped desk lamp in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/e772dea37d15f14f/v1_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.5214737734873092,
+          0.23535245830479168,
+          0.8785262265126907,
+          0.9626985848823963
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "4fc7c4534a285fd009988337823bce7ad2939499698eca785ac9c17dfcf84283",
+        "original_selection_image_sha256": "07dcc14df092021a4423dc4c8319b4442420972937c79a9b2eea83660aeb0c9a",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/003",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-1, -0, 0, 0), (0, -0.44721359549995765, 0.8944271909999164, -0), (0, 0.8944271909999164, 0.44721359549995765, -0), (195.23629000000005, -574.1501721216863, 144.94601393915713, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_5",
+        "mask_pixels": 51504,
+        "elapsed_s": 3.083587661385536,
+        "rgb_blank": false,
+        "image_sha256": "083c239ff8d07e3eae1069576b7b1f5299779339a56b68c5903c75f9ccd1fbcb",
+        "mask_sha256": "d6cde0b05246d90f1738c3e1575b28c31f675b4b2b01a4922ca696dba130d41c"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:e772dea37d15f14f:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/lamp/model_767fd81d4ea363d527f3b4d54188c21e_0",
+        "category": "lamp",
+        "condition": "converted",
+        "query": "Point to the dome-shaped desk lamp in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/e772dea37d15f14f/v1_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.5214737734873092,
+          0.23535245830479168,
+          0.8785262265126907,
+          0.9626985848823963
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "e5686b2e678947e8ee8362c4cd273b47ef96c3ce38e9257c14d128d7f4c8596b",
+        "original_selection_image_sha256": "07dcc14df092021a4423dc4c8319b4442420972937c79a9b2eea83660aeb0c9a",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/003",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-1, -0, 0, 0), (0, -0.44721359549995765, 0.8944271909999164, -0), (0, 0.8944271909999164, 0.44721359549995765, -0), (195.23629000000005, -574.1501721216863, 144.94601393915713, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_5",
+        "mask_pixels": 51504,
+        "elapsed_s": 2.4010343439877033,
+        "rgb_blank": false,
+        "image_sha256": "45006d3bc19ba7b460d525cfdb87c3bcea8115660185f6e465119f9afd4e067c",
+        "mask_sha256": "d6cde0b05246d90f1738c3e1575b28c31f675b4b2b01a4922ca696dba130d41c"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:6f66232475de6d5a:v0",
+      "target_prim": "/Root/Meshes/Animation/pot/model_63c702bbf256fee37be6db6696636868_0",
+      "query": "Point to the speckled white pitcher on the reception counter in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:6f66232475de6d5a:v0",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Animation/pot/model_63c702bbf256fee37be6db6696636868_0",
+        "category": "pot",
+        "condition": "original",
+        "query": "Point to the speckled white pitcher on the reception counter in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/6f66232475de6d5a/v0_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.16055883110071217,
+          0.21844420366571782,
+          0.4394411688992878,
+          0.6074349342319765
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "e8cb3a4ca45c1c9b06039eeabf73b9dfd6c6cac34d5f26ff912dda3031348105",
+        "original_selection_image_sha256": "b0d4627ee0c714ccc5fafed2c8c46b2ebbe606f62f245a4257e5893dc2375d99",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/004",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0, 1, -0, 0), (-0.242535625036333, 0, 0.970142500145332, -0), (0.970142500145332, 0, 0.242535625036333, 0), (336.41348, -328.36758000000003, 98.55560000000003, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_1",
+        "mask_pixels": 50364,
+        "elapsed_s": 2.6726811230182648,
+        "rgb_blank": false,
+        "image_sha256": "dd6da1082194522a74c080158acf8369e3ae04bc705017add7e69ae907ff71d3",
+        "mask_sha256": "aaeea265952d7058633ddf45f50b6e2b804331ea8597a19c1f78e53c19fbeb90"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:6f66232475de6d5a:v0",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Animation/pot/model_63c702bbf256fee37be6db6696636868_0",
+        "category": "pot",
+        "condition": "converted",
+        "query": "Point to the speckled white pitcher on the reception counter in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/6f66232475de6d5a/v0_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.16055883110071217,
+          0.21844420366571782,
+          0.4394411688992878,
+          0.6074349342319765
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "ad40d416451519759ede09cfb1c20062f2408483e157019357184e5c31c5d8bd",
+        "original_selection_image_sha256": "b0d4627ee0c714ccc5fafed2c8c46b2ebbe606f62f245a4257e5893dc2375d99",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/004",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0, 1, -0, 0), (-0.242535625036333, 0, 0.970142500145332, -0), (0.970142500145332, 0, 0.242535625036333, 0), (336.41348, -328.36758000000003, 98.55560000000003, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_1",
+        "mask_pixels": 50364,
+        "elapsed_s": 2.3804581351578236,
+        "rgb_blank": false,
+        "image_sha256": "850db6312927218baaf4f9143bb741932fbf3384b306167136ab10bfc030dfd1",
+        "mask_sha256": "aaeea265952d7058633ddf45f50b6e2b804331ea8597a19c1f78e53c19fbeb90"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:6f66232475de6d5a:v1",
+      "target_prim": "/Root/Meshes/Animation/pot/model_63c702bbf256fee37be6db6696636868_0",
+      "query": "Point to the speckled white pitcher on the reception counter in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:6f66232475de6d5a:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Animation/pot/model_63c702bbf256fee37be6db6696636868_0",
+        "category": "pot",
+        "condition": "original",
+        "query": "Point to the speckled white pitcher on the reception counter in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/6f66232475de6d5a/v1_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.5504841458202495,
+          0.4159446912348692,
+          0.8453332649191874,
+          0.8421835621305847
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "8d6d181aad8db9b26e48c440e2ff6909ee432de6674bf715483f24c7eb8c8edd",
+        "original_selection_image_sha256": "05f827717731f197f220ab05d883abe4110996d6c90a261649b6dddf4818af60",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/005",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.4999999999999998, 0.8660254037844387, 0, 0), (-0.21004201260420138, -0.12126781251816637, 0.9701425001453317, 0), (0.8401680504168059, 0.4850712500726657, 0.24253562503633286, -0), (329.714750189222, -303.3675800000001, 98.55560000000004, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_1",
+        "mask_pixels": 49402,
+        "elapsed_s": 2.470534849911928,
+        "rgb_blank": false,
+        "image_sha256": "ca9dc03ab733ac9aa5b0471bbb0ce2dae9dce8a756875eadca0982455bcd485e",
+        "mask_sha256": "b13886ed0cbe92cf9b7982cdf06cddb8cba30a0d3f4ea210983fafa2cb459d57"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:6f66232475de6d5a:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Animation/pot/model_63c702bbf256fee37be6db6696636868_0",
+        "category": "pot",
+        "condition": "converted",
+        "query": "Point to the speckled white pitcher on the reception counter in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/6f66232475de6d5a/v1_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.5504841458202495,
+          0.4159446912348692,
+          0.8453332649191874,
+          0.8421835621305847
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "49b3a5c179f081db106d85891b0aa563cc38ee6f6b45ca7d107679f0bf3094d4",
+        "original_selection_image_sha256": "05f827717731f197f220ab05d883abe4110996d6c90a261649b6dddf4818af60",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/005",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.4999999999999998, 0.8660254037844387, 0, 0), (-0.21004201260420138, -0.12126781251816637, 0.9701425001453317, 0), (0.8401680504168059, 0.4850712500726657, 0.24253562503633286, -0), (329.714750189222, -303.3675800000001, 98.55560000000004, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_1",
+        "mask_pixels": 49402,
+        "elapsed_s": 2.746115066111088,
+        "rgb_blank": false,
+        "image_sha256": "c4de8e875dc74ff8764903e59decd4607d2c0828c448b77289534c0aad75230d",
+        "mask_sha256": "b13886ed0cbe92cf9b7982cdf06cddb8cba30a0d3f4ea210983fafa2cb459d57"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:db0e4e0ce5a8d24b:v1",
+      "target_prim": "/Root/Meshes/Furnitures/couch/model_3e7596ae2d42be8aafc2f0eef85a4c71_0",
+      "query": "Point to the white sofa in the waiting area in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:db0e4e0ce5a8d24b:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/couch/model_3e7596ae2d42be8aafc2f0eef85a4c71_0",
+        "category": "couch",
+        "condition": "original",
+        "query": "Point to the white sofa in the waiting area in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/db0e4e0ce5a8d24b/v1_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.44602601036627193,
+          0.48257392018515294,
+          0.9355758928284149,
+          0.7992652861157012
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "9dbae350f19643bc1e0e96cd4e0b32e238359d122ec1d3f27aaaa837407d9345",
+        "original_selection_image_sha256": "b02d8fa3b60e50cb0823efc0fcfd74aa194f8935d921e7e2913617ab05eb5738",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/006",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.49999999999999994, -0.8660254037844387, 0, 0), (0.2100420126042015, -0.12126781251816648, 0.9701425001453319, -0), (-0.840168050416806, 0.4850712500726659, 0.242535625036333, 0), (322.07989790018746, -53.26888774266871, 131.47712575290845, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_3",
+        "mask_pixels": 44459,
+        "elapsed_s": 2.8417525701224804,
+        "rgb_blank": false,
+        "image_sha256": "8390ce56a1e5a96eb14d40c7c121b1dd095bc7fd1dd1ca9d30cbbc2feae482aa",
+        "mask_sha256": "cce135323ab0d3efc4921f8d32213aa7bcc58ffd79451e5a778bd3c466425194"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:db0e4e0ce5a8d24b:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/couch/model_3e7596ae2d42be8aafc2f0eef85a4c71_0",
+        "category": "couch",
+        "condition": "converted",
+        "query": "Point to the white sofa in the waiting area in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/db0e4e0ce5a8d24b/v1_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.44602601036627193,
+          0.48257392018515294,
+          0.9355758928284149,
+          0.7992652861157012
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "9e8f956ee165e12ef0ce7ae3e9d98030cbbbb4501d6d915581dd0a7824c5d8ec",
+        "original_selection_image_sha256": "b02d8fa3b60e50cb0823efc0fcfd74aa194f8935d921e7e2913617ab05eb5738",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/006",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.49999999999999994, -0.8660254037844387, 0, 0), (0.2100420126042015, -0.12126781251816648, 0.9701425001453319, -0), (-0.840168050416806, 0.4850712500726659, 0.242535625036333, 0), (322.07989790018746, -53.26888774266871, 131.47712575290845, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_3",
+        "mask_pixels": 44459,
+        "elapsed_s": 2.7731482833623886,
+        "rgb_blank": false,
+        "image_sha256": "c24980008b4ddc05702d885eaf7be7d142156477be5f33b87d86d2f26fbf0415",
+        "mask_sha256": "cce135323ab0d3efc4921f8d32213aa7bcc58ffd79451e5a778bd3c466425194"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:db0e4e0ce5a8d24b:v2",
+      "target_prim": "/Root/Meshes/Furnitures/couch/model_3e7596ae2d42be8aafc2f0eef85a4c71_0",
+      "query": "Point to the white sofa in the waiting area in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:db0e4e0ce5a8d24b:v2",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/couch/model_3e7596ae2d42be8aafc2f0eef85a4c71_0",
+        "category": "couch",
+        "condition": "original",
+        "query": "Point to the white sofa in the waiting area in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/db0e4e0ce5a8d24b/v2_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.10194140144958025,
+          0.2012708099827179,
+          0.6228667820919496,
+          0.7951958415798739
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "2e0e25f41f67390196fc93045a2db0d1e453f0492461f04e755fd49c21ee786f",
+        "original_selection_image_sha256": "388aa0309a34233663020f85e7428c058229d27f92fd9156540aa12fc52842b6",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/007",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0.8660254037844384, -0.5000000000000003, 2.7755575615628907e-17, 0), (0.22360679774997913, 0.38729833462074154, 0.8944271909999157, 0), (-0.44721359549995826, -0.7745966692414831, 0.4472135954999579, 0), (502.0787608277536, -489.30028587076526, 181.80972208139758, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_3",
+        "mask_pixels": 75042,
+        "elapsed_s": 2.8046285398304462,
+        "rgb_blank": false,
+        "image_sha256": "0b3b8f6b011c8f9998ecb59be161c756fb1f4ceafeb32a785497636ec390d5bb",
+        "mask_sha256": "c867d665ee02e6a95ce1791a462dd6cd50b6a7878f988605322a5a9e4ea94493"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:db0e4e0ce5a8d24b:v2",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/couch/model_3e7596ae2d42be8aafc2f0eef85a4c71_0",
+        "category": "couch",
+        "condition": "converted",
+        "query": "Point to the white sofa in the waiting area in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/db0e4e0ce5a8d24b/v2_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.10194140144958025,
+          0.2012708099827179,
+          0.6228667820919496,
+          0.7951958415798739
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "d7f913b9753102a5728c2937db0d52cdba810e690275a25790dc82a1e534e7ff",
+        "original_selection_image_sha256": "388aa0309a34233663020f85e7428c058229d27f92fd9156540aa12fc52842b6",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/007",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0.8660254037844384, -0.5000000000000003, 2.7755575615628907e-17, 0), (0.22360679774997913, 0.38729833462074154, 0.8944271909999157, 0), (-0.44721359549995826, -0.7745966692414831, 0.4472135954999579, 0), (502.0787608277536, -489.30028587076526, 181.80972208139758, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_3",
+        "mask_pixels": 75042,
+        "elapsed_s": 3.7751985900104046,
+        "rgb_blank": false,
+        "image_sha256": "0a46eee579533def7ba6205479fefe087cf6c47f83f0382fec9b0546d2b3aa13",
+        "mask_sha256": "c867d665ee02e6a95ce1791a462dd6cd50b6a7878f988605322a5a9e4ea94493"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:2811da39a8d6280c:v0",
+      "target_prim": "/Root/Meshes/Animation/toilet/model_a1888f911571f907cd4efcfb62177cf2_0",
+      "query": "Point to the toilet in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:2811da39a8d6280c:v0",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Animation/toilet/model_a1888f911571f907cd4efcfb62177cf2_0",
+        "category": "toilet",
+        "condition": "original",
+        "query": "Point to the toilet in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/2811da39a8d6280c/v0_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.052217995159278746,
+          0.035707671139359576,
+          0.5477820048407215,
+          0.780117081797183
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "3bafd41f6fa58ede1efa113c59340b4bc1421d38e56a510fa467e78bc2cef191",
+        "original_selection_image_sha256": "99af4398b905c9b39e0d5663d855e91494bfd759011d75eaf1e1b7c9ea4f8dba",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/008",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (-1, -0, 0, 0), (0, -0.2425356250363331, 0.9701425001453319, -0), (0, 0.9701425001453319, 0.2425356250363331, -0), (-196.59099999999995, -764.5740157719387, 62.72637105701543, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_2",
+        "mask_pixels": 115884,
+        "elapsed_s": 2.455040767788887,
+        "rgb_blank": false,
+        "image_sha256": "9af0bcdf0a5dc90c541be6c0e3418a340c78723d561ea87e0784143b8f74f437",
+        "mask_sha256": "983366805c36b7684671ea9bd6890cba6de2a289c305eb5d0fd31aa99d8e2cce"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:2811da39a8d6280c:v0",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Animation/toilet/model_a1888f911571f907cd4efcfb62177cf2_0",
+        "category": "toilet",
+        "condition": "converted",
+        "query": "Point to the toilet in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/2811da39a8d6280c/v0_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.052217995159278746,
+          0.035707671139359576,
+          0.5477820048407215,
+          0.780117081797183
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "a21eda064ee77b841119274d5cfa21fabf5a30fdecdb36b8ce80812f5cc74943",
+        "original_selection_image_sha256": "99af4398b905c9b39e0d5663d855e91494bfd759011d75eaf1e1b7c9ea4f8dba",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/008",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (-1, -0, 0, 0), (0, -0.2425356250363331, 0.9701425001453319, -0), (0, 0.9701425001453319, 0.2425356250363331, -0), (-196.59099999999995, -764.5740157719387, 62.72637105701543, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_2",
+        "mask_pixels": 115884,
+        "elapsed_s": 3.719975136220455,
+        "rgb_blank": false,
+        "image_sha256": "8eac7c88d818af7b5238ba6105614d15a8009d6f17d1cc7480337c28df5a8532",
+        "mask_sha256": "983366805c36b7684671ea9bd6890cba6de2a289c305eb5d0fd31aa99d8e2cce"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:2811da39a8d6280c:v1",
+      "target_prim": "/Root/Meshes/Animation/toilet/model_a1888f911571f907cd4efcfb62177cf2_0",
+      "query": "Point to the toilet in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:2811da39a8d6280c:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Animation/toilet/model_a1888f911571f907cd4efcfb62177cf2_0",
+        "category": "toilet",
+        "condition": "original",
+        "query": "Point to the toilet in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/2811da39a8d6280c/v1_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4825631688991474,
+          0.2710285689068549,
+          0.9113857951929735,
+          0.9320330557743595
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "5cc897ec7162e91187f7fca38fd577631931bdc68b6505ebe382cab311829807",
+        "original_selection_image_sha256": "b60cdb270418d9a364a01f40544c4bd69f44d7fc71a72f410ffabfe1c18d9d67",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/009",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.8660254037844386, -0.4999999999999999, 0, 0), (0.31234752377721214, -0.5410017808004595, 0.78086880944303, -0), (-0.39043440472151497, 0.6762522260005741, 0.6246950475544244, 0), (-247.33214211403075, -778.1700638244262, 118.54162738244946, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_2",
+        "mask_pixels": 80950,
+        "elapsed_s": 2.508010860532522,
+        "rgb_blank": false,
+        "image_sha256": "2fd7089bc8bfc0e583a1a985b85dd62df07507636ae9666cf52b84beafcd0413",
+        "mask_sha256": "f17361671e377391fa66bfaa7a38355b284f83084402d80a82fc81433d0236b0"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:2811da39a8d6280c:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Animation/toilet/model_a1888f911571f907cd4efcfb62177cf2_0",
+        "category": "toilet",
+        "condition": "converted",
+        "query": "Point to the toilet in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/2811da39a8d6280c/v1_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4825631688991474,
+          0.2710285689068549,
+          0.9113857951929735,
+          0.9320330557743595
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "98925fa6f560fecc31ba2eddbe1d1cdd055ccefbb32d19d6dc81b1f1b824a0c2",
+        "original_selection_image_sha256": "b60cdb270418d9a364a01f40544c4bd69f44d7fc71a72f410ffabfe1c18d9d67",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/009",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.8660254037844386, -0.4999999999999999, 0, 0), (0.31234752377721214, -0.5410017808004595, 0.78086880944303, -0), (-0.39043440472151497, 0.6762522260005741, 0.6246950475544244, 0), (-247.33214211403075, -778.1700638244262, 118.54162738244946, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_2",
+        "mask_pixels": 80950,
+        "elapsed_s": 3.3346521854400635,
+        "rgb_blank": false,
+        "image_sha256": "7adb61ab7e736bfa0e656b9a33255781c9f98e8967985053bef7c7ec6df5bde3",
+        "mask_sha256": "f17361671e377391fa66bfaa7a38355b284f83084402d80a82fc81433d0236b0"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:40a9eecb1a4ee76c:v0",
+      "target_prim": "/Root/Meshes/Furnitures/counter/model_81ac5aa5b96c8ba1403bf4afd8957d20_0",
+      "query": "Point to the curved reception counter in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:40a9eecb1a4ee76c:v0",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/counter/model_81ac5aa5b96c8ba1403bf4afd8957d20_0",
+        "category": "counter",
+        "condition": "original",
+        "query": "Point to the curved reception counter in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/40a9eecb1a4ee76c/v0_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.021183730172816717,
+          0.2657467113788719,
+          0.656284656797729,
+          0.7268336945146876
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "62eb9c44fefb972f24f814a40feaf1a6173e815f9b6705a010db310d50d2a7d3",
+        "original_selection_image_sha256": "94214227a78de20ec011c9401515b47f3ef90cda1041cf6f1884e355a2a8ea0f",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/010",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0.5000000000000004, 0.8660254037844383, -1.3877787807814454e-17, 0), (-0.21004201260420136, 0.12126781251816661, 0.9701425001453318, -0), (0.8401680504168054, -0.48507125007266644, 0.24253562503633294, 0), (686.3212600542388, -455.8394596336773, 171.3145345993317, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_4",
+        "mask_pixels": 53489,
+        "elapsed_s": 3.1265088208019733,
+        "rgb_blank": false,
+        "image_sha256": "e74f1062ded4882496ed3777a0eacce187400933055e4bbec790e9c7aa5b7a44",
+        "mask_sha256": "bddbd735a04434b193b6859b43ad3767866bf0a9c861d0484ffdd04600dbcc20"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:40a9eecb1a4ee76c:v0",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/counter/model_81ac5aa5b96c8ba1403bf4afd8957d20_0",
+        "category": "counter",
+        "condition": "converted",
+        "query": "Point to the curved reception counter in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/40a9eecb1a4ee76c/v0_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.021183730172816717,
+          0.2657467113788719,
+          0.656284656797729,
+          0.7268336945146876
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "012e6a87b81769c6404450cc368926898527780a6bda2e115d98b309dfe0dbeb",
+        "original_selection_image_sha256": "94214227a78de20ec011c9401515b47f3ef90cda1041cf6f1884e355a2a8ea0f",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/010",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0.5000000000000004, 0.8660254037844383, -1.3877787807814454e-17, 0), (-0.21004201260420136, 0.12126781251816661, 0.9701425001453318, -0), (0.8401680504168054, -0.48507125007266644, 0.24253562503633294, 0), (686.3212600542388, -455.8394596336773, 171.3145345993317, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_4",
+        "mask_pixels": 53489,
+        "elapsed_s": 3.228587828576565,
+        "rgb_blank": false,
+        "image_sha256": "488b82d7b47386739ef58fa3e5ea04d31d92f23496b973d876e4efb69497a964",
+        "mask_sha256": "bddbd735a04434b193b6859b43ad3767866bf0a9c861d0484ffdd04600dbcc20"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:40a9eecb1a4ee76c:v1",
+      "target_prim": "/Root/Meshes/Furnitures/counter/model_81ac5aa5b96c8ba1403bf4afd8957d20_0",
+      "query": "Point to the curved reception counter in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:40a9eecb1a4ee76c:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/counter/model_81ac5aa5b96c8ba1403bf4afd8957d20_0",
+        "category": "counter",
+        "condition": "original",
+        "query": "Point to the curved reception counter in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/40a9eecb1a4ee76c/v1_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.3437153432022711,
+          0.46574671137887186,
+          0.9788162698271832,
+          0.9268336945146873
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "889f5811228f2c11947b9e0291632ee47816ea33ea32fe9ec2bcebafbdb04475",
+        "original_selection_image_sha256": "2bb6b61f3625301f5fe679bb01e305ea056a612c979af6889941092df0b05011",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/011",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.5, 0.8660254037844388, 0, 0), (-0.2100420126042015, -0.12126781251816648, 0.9701425001453321, 0), (0.8401680504168061, 0.485071250072666, 0.24253562503633297, -0), (686.3212600542391, 20.430079633677057, 171.31453459933172, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_4",
+        "mask_pixels": 88538,
+        "elapsed_s": 2.9280669018626213,
+        "rgb_blank": false,
+        "image_sha256": "66619f21593295f88dc4c4a9e68ff107c523f2095dda805f01d078fab2fb9cd2",
+        "mask_sha256": "189daa69c65e7787f754f6e440538cd8b680d3bb003e7aa5863ebdcfe706bb55"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:40a9eecb1a4ee76c:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/counter/model_81ac5aa5b96c8ba1403bf4afd8957d20_0",
+        "category": "counter",
+        "condition": "converted",
+        "query": "Point to the curved reception counter in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/40a9eecb1a4ee76c/v1_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.3437153432022711,
+          0.46574671137887186,
+          0.9788162698271832,
+          0.9268336945146873
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "2d0369eb142f31b325810cbd82b5b8ced98699d0154a9d4211a7dec40cbc1e24",
+        "original_selection_image_sha256": "2bb6b61f3625301f5fe679bb01e305ea056a612c979af6889941092df0b05011",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/011",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.5, 0.8660254037844388, 0, 0), (-0.2100420126042015, -0.12126781251816648, 0.9701425001453321, 0), (0.8401680504168061, 0.485071250072666, 0.24253562503633297, -0), (686.3212600542391, 20.430079633677057, 171.31453459933172, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_4",
+        "mask_pixels": 88538,
+        "elapsed_s": 2.8191319070756435,
+        "rgb_blank": false,
+        "image_sha256": "3da64789990e22de7f5c81f7e19f1f97b7494e816fb8770fcadcc7bb24071f86",
+        "mask_sha256": "189daa69c65e7787f754f6e440538cd8b680d3bb003e7aa5863ebdcfe706bb55"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:a0f83163d389c724:v0",
+      "target_prim": "/Root/Meshes/Furnitures/tv/model_32d5cb092d83207850981a3003cba4a9_0",
+      "query": "Point to the wall-mounted information screen in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:a0f83163d389c724:v0",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/tv/model_32d5cb092d83207850981a3003cba4a9_0",
+        "category": "tv",
+        "condition": "original",
+        "query": "Point to the wall-mounted information screen in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/a0f83163d389c724/v0_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.08418071690688986,
+          0.15287769379842742,
+          0.6202560620777742,
+          0.7215249555211227
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "a3578a9a86e4eebe9930457fffe05e40c9bce8e698ad9040c745dadbbd328d93",
+        "original_selection_image_sha256": "a87a78f0e75944c7233440157e8b23b54fd24a9b93409cbea5820d7f64e03ca8",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/012",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0.5000000000000002, -0.8660254037844386, 1.387778780781446e-17, 0), (0.2100420126042014, 0.12126781251816653, 0.9701425001453321, 0), (-0.840168050416806, -0.48507125007266627, 0.2425356250363329, 0), (567.4156000863487, -96.09235141298126, 236.1782615243616, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_7",
+        "mask_pixels": 189102,
+        "elapsed_s": 2.5094033516943455,
+        "rgb_blank": false,
+        "image_sha256": "421d20655e1222b7b8c14e2d69e0c0891e77e7d5aa1b1d78ec38e658bc55a0ea",
+        "mask_sha256": "ae746748ac5f9f8edb0bc73ad407d1781347e5cd04f616ff5081f8cd72af1ba9"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:a0f83163d389c724:v0",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/tv/model_32d5cb092d83207850981a3003cba4a9_0",
+        "category": "tv",
+        "condition": "converted",
+        "query": "Point to the wall-mounted information screen in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/a0f83163d389c724/v0_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.08418071690688986,
+          0.15287769379842742,
+          0.6202560620777742,
+          0.7215249555211227
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "04ff3aa9e1476038be3f996b855a3cee0708f67f822ef1dc169592e39582a9cd",
+        "original_selection_image_sha256": "a87a78f0e75944c7233440157e8b23b54fd24a9b93409cbea5820d7f64e03ca8",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/012",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "-2.700000047683716",
+          "xformOp:transform": "( (0.5000000000000002, -0.8660254037844386, 1.387778780781446e-17, 0), (0.2100420126042014, 0.12126781251816653, 0.9701425001453321, 0), (-0.840168050416806, -0.48507125007266627, 0.2425356250363329, 0), (567.4156000863487, -96.09235141298126, 236.1782615243616, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_7",
+        "mask_pixels": 189102,
+        "elapsed_s": 2.8244015388190746,
+        "rgb_blank": false,
+        "image_sha256": "223a0ce8bb973287013920dc3c3de698a46202a2f34b2a1ab2ed7484ae3b989e",
+        "mask_sha256": "ae746748ac5f9f8edb0bc73ad407d1781347e5cd04f616ff5081f8cd72af1ba9"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:a0f83163d389c724:v1",
+      "target_prim": "/Root/Meshes/Furnitures/tv/model_32d5cb092d83207850981a3003cba4a9_0",
+      "query": "Point to the wall-mounted information screen in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:a0f83163d389c724:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/tv/model_32d5cb092d83207850981a3003cba4a9_0",
+        "category": "tv",
+        "condition": "original",
+        "query": "Point to the wall-mounted information screen in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/a0f83163d389c724/v1_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.379743937922226,
+          0.35287769379842754,
+          0.9158192830931103,
+          0.9215249555211227
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "c2836003084f6299f247af511ff9d98f21b5af56893e4cf4495d6dd9e2f5c57a",
+        "original_selection_image_sha256": "41bf454a9761c452c2b37afe321ae6c8e8ef8345f36bccda72e4b6eca1f31435",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/013",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.5, -0.8660254037844388, 0, 0), (0.21004201260420147, -0.12126781251816647, 0.9701425001453321, -0), (-0.8401680504168061, 0.485071250072666, 0.24253562503633294, 0), (567.4156000863487, 56.722374684465095, 236.17826152436163, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_7",
+        "mask_pixels": 189187,
+        "elapsed_s": 2.49765545129776,
+        "rgb_blank": false,
+        "image_sha256": "b209ecf249165b079dc79c6f63673a657abe432c37b5e48631f897cf16cc67fa",
+        "mask_sha256": "27b9c2d412bc85024d4091e9d8c387c914720670d9aab1dd6a65e277158110a5"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:a0f83163d389c724:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/tv/model_32d5cb092d83207850981a3003cba4a9_0",
+        "category": "tv",
+        "condition": "converted",
+        "query": "Point to the wall-mounted information screen in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/a0f83163d389c724/v1_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.379743937922226,
+          0.35287769379842754,
+          0.9158192830931103,
+          0.9215249555211227
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "bca25d1c1f9eb86f865a4448c30baad426f54297e656696599d805091d85fa03",
+        "original_selection_image_sha256": "41bf454a9761c452c2b37afe321ae6c8e8ef8345f36bccda72e4b6eca1f31435",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/013",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.5, -0.8660254037844388, 0, 0), (0.21004201260420147, -0.12126781251816647, 0.9701425001453321, -0), (-0.8401680504168061, 0.485071250072666, 0.24253562503633294, 0), (567.4156000863487, 56.722374684465095, 236.17826152436163, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_7",
+        "mask_pixels": 189187,
+        "elapsed_s": 2.574681628495455,
+        "rgb_blank": false,
+        "image_sha256": "4cfb23ca340a3d30bdf12d74a6456417129f375858cb9be4a4bea1368490ac9a",
+        "mask_sha256": "27b9c2d412bc85024d4091e9d8c387c914720670d9aab1dd6a65e277158110a5"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:3a4637321480714c:v1",
+      "target_prim": "/Root/Meshes/Furnitures/monitor/model_cb6971805729d2b67a576217db203baf_0",
+      "query": "Point to the computer monitor on the consultation desk in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:3a4637321480714c:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/monitor/model_cb6971805729d2b67a576217db203baf_0",
+        "category": "monitor",
+        "condition": "original",
+        "query": "Point to the computer monitor on the consultation desk in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/3a4637321480714c/v1_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.41461318632944666,
+          0.3168067971107661,
+          0.9575069842238411,
+          0.9734802017379551
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "4ecba7a6048709679bdae8308a7ac545a8f25bb9822ba482c1962ea5d6b6fe3e",
+        "original_selection_image_sha256": "7326bb9a62d60c8579327a743e214a392428f44aed86d3835ba6b781732081fe",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/014",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.8660254037844388, 0.4999999999999999, 0, 0), (-0.2236067977499789, -0.3872983346207417, 0.8944271909999161, 0), (0.4472135954999579, 0.7745966692414836, 0.4472135954999579, -0), (101.19480511367843, -586.9875011498301, 133.9803390483266, 1.0000000000000002) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_6",
+        "mask_pixels": 124004,
+        "elapsed_s": 3.1364705115556717,
+        "rgb_blank": false,
+        "image_sha256": "b9fe8d8d4ae3d4b6883af79f34a745d8c19e16c7c614ebcdceb1778a88442588",
+        "mask_sha256": "0d2ed186f83e4ecbf6fea070834d96b07d0cdedcfbaa93ce02c06d0aa434e5db"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:3a4637321480714c:v1",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/monitor/model_cb6971805729d2b67a576217db203baf_0",
+        "category": "monitor",
+        "condition": "converted",
+        "query": "Point to the computer monitor on the consultation desk in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/3a4637321480714c/v1_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.41461318632944666,
+          0.3168067971107661,
+          0.9575069842238411,
+          0.9734802017379551
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "8f5b3c46369f916b4ae8039ef774b647c8347fafb117e346fba7f669bf3c9128",
+        "original_selection_image_sha256": "7326bb9a62d60c8579327a743e214a392428f44aed86d3835ba6b781732081fe",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/014",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (-0.8660254037844388, 0.4999999999999999, 0, 0), (-0.2236067977499789, -0.3872983346207417, 0.8944271909999161, 0), (0.4472135954999579, 0.7745966692414836, 0.4472135954999579, -0), (101.19480511367843, -586.9875011498301, 133.9803390483266, 1.0000000000000002) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_6",
+        "mask_pixels": 124004,
+        "elapsed_s": 3.0463790856301785,
+        "rgb_blank": false,
+        "image_sha256": "a4d5f29d5935b78cb92877daf9fa182378e0becb68735eedf68f928bb75fb76b",
+        "mask_sha256": "0d2ed186f83e4ecbf6fea070834d96b07d0cdedcfbaa93ce02c06d0aa434e5db"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    },
+    {
+      "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:3a4637321480714c:v3",
+      "target_prim": "/Root/Meshes/Furnitures/monitor/model_cb6971805729d2b67a576217db203baf_0",
+      "query": "Point to the computer monitor on the consultation desk in the image.",
+      "original": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:3a4637321480714c:v3",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/monitor/model_cb6971805729d2b67a576217db203baf_0",
+        "category": "monitor",
+        "condition": "original",
+        "query": "Point to the computer monitor on the consultation desk in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/3a4637321480714c/v3_original.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4146131863294461,
+          0.316806797110766,
+          0.9575069842238428,
+          0.9734802017379572
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "6bc87ef597d511b6f65f3a3320634c2318e004e0f05752c9c94671e5733f8519",
+        "original_selection_image_sha256": "f6b7af7b4b9e1198c243fe2a6b0f190cc3fab090ae011ec68071884ac6405137",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/original/015",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (0.8660254037844385, -0.5000000000000001, -2.77555756156289e-17, 0), (0.2236067977499789, 0.38729833462074137, 0.8944271909999157, 0), (-0.4472135954999581, -0.7745966692414833, 0.44721359549995765, 0), (35.32156564157047, -701.0832987746725, 133.98033904832653, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_6",
+        "mask_pixels": 123552,
+        "elapsed_s": 2.5243030600249767,
+        "rgb_blank": false,
+        "image_sha256": "449629b6fea81dcb9c9f103431949215d8e422433a8c0ca1d35bf71d7a271095",
+        "mask_sha256": "a36d53cd74fe62f399d86bd19194fde78483cac7aaec5eba03dd95ea2995b715"
+      },
+      "converted": {
+        "pair_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd:3a4637321480714c:v3",
+        "scene_id": "MV5M25QKTKJZ2AABAAAAAAY8_usd",
+        "target_prim": "/Root/Meshes/Furnitures/monitor/model_cb6971805729d2b67a576217db203baf_0",
+        "category": "monitor",
+        "condition": "converted",
+        "query": "Point to the computer monitor on the consultation desk in the image.",
+        "stage": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_views_20261114_v3/MV5M25QKTKJZ2AABAAAAAAY8_usd/3a4637321480714c/v3_converted.usda",
+        "resolution": [
+          1024,
+          768
+        ],
+        "projected_bbox_normalized": [
+          0.4146131863294461,
+          0.316806797110766,
+          0.9575069842238428,
+          0.9734802017379572
+        ],
+        "status": "captured_unreviewed",
+        "requires_label_review": false,
+        "stage_sha256": "98c499026aa22df9a730a67802c7b8cd6fac3ab1d52d719ee4452343ce1f5b65",
+        "original_selection_image_sha256": "f6b7af7b4b9e1198c243fe2a6b0f190cc3fab090ae011ec68071884ac6405137",
+        "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_selected_captures_v1/MV5M25QKTKJZ2AABAAAAAAY8_usd/converted/015",
+        "camera_parameters": {
+          "clippingRange": "(0.1, 100000)",
+          "focalLength": "24.0",
+          "horizontalAperture": "36.0",
+          "horizontalApertureOffset": "-7.199999809265137",
+          "verticalAperture": "27.0",
+          "verticalApertureOffset": "2.700000047683716",
+          "xformOp:transform": "( (0.8660254037844385, -0.5000000000000001, -2.77555756156289e-17, 0), (0.2236067977499789, 0.38729833462074137, 0.8944271909999157, 0), (-0.4472135954999581, -0.7745966692414833, 0.44721359549995765, 0), (35.32156564157047, -701.0832987746725, 133.98033904832653, 1) )",
+          "xformOpOrder": "[xformOp:transform]"
+        },
+        "target_label": "cviu_target_6",
+        "mask_pixels": 123552,
+        "elapsed_s": 2.3227701745927334,
+        "rgb_blank": false,
+        "image_sha256": "56b599cb977146f3455aad2694a6403b634cfdfdce9a33eb9868246867662d22",
+        "mask_sha256": "a36d53cd74fe62f399d86bd19194fde78483cac7aaec5eba03dd95ea2995b715"
+      },
+      "converted_visibility_loss": false,
+      "converted_blank_requires_review": false
+    }
+  ],
+  "scope": "Technical checks only; final RGB/mask visual qualification and global cohort freezing still required."
+}

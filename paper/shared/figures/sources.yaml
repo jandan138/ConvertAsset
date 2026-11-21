@@ -1,5 +1,21 @@
 schema_version: 1
 figures:
+  - id: iclr_model_behavior_figures
+    outputs:
+      - paper/venues/iclr27/figures/system_hero.pdf
+      - paper/venues/iclr27/figures/overview.pdf
+      - paper/venues/iclr27/figures/grounding.pdf
+      - paper/venues/iclr27/figures/protocol.pdf
+      - paper/venues/iclr27/figures/interventions.pdf
+      - paper/venues/iclr27/figures/navigation.pdf
+      - paper/venues/iclr27/figures/trajectories.pdf
+    generated_by: paper/venues/iclr27/scripts/build_assets.py
+    sources:
+      - paper/shared/evidence/raw/iclr_model_behavior/analysis_v1/results.json
+      - paper/shared/evidence/raw/iclr_model_behavior/interventions_clean_v2/manifest.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_val_unseen_99/paired_episode_transitions.csv
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/
+    provenance: paper/venues/iclr27/ASSET_PROVENANCE.json
   - id: fig_render_pairs
     outputs:
       - paper/shared/figures/fig_render_pairs.pdf
@@ -42,6 +58,180 @@ figures:
     generated_by: paper/shared/figures/prompts/fig_acl_method_chain_gpt_image2_v18.prompt.txt
     sources:
       - paper/shared/figures/prompts/fig_acl_method_chain_gpt_image2_v18.prompt.txt
+  - id: fig_acl_method_chain_v2
+    outputs:
+      - paper/shared/figures/fig_acl_method_chain_v2.svg
+      - paper/shared/figures/fig_acl_method_chain_v2.pdf
+      - paper/shared/figures/fig_acl_method_chain_v2.png
+    generated_by: paper/shared/figures/gen_acl_main_figures_v2.py
+    sources:
+      - paper/shared/figures/specs/fig_acl_method_chain_v2.spec.json
+      - paper/shared/figures/out_tmp/mdl_images/orbit_mdl_01.png
+      - paper/shared/figures/out_tmp/nomdl_images/orbit_01.png
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/A_top_front_right.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_case_manifest.json
+  - id: fig_acl_evidence_registry_strip_v1
+    outputs:
+      - paper/shared/figures/fig_acl_evidence_registry_strip_v1.svg
+      - paper/shared/figures/fig_acl_evidence_registry_strip_v1.pdf
+      - paper/shared/figures/fig_acl_evidence_registry_strip_v1.png
+    generated_by: paper/shared/figures/gen_acl_main_figures_v2.py
+    sources:
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/A_top_front_right.png
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/B_top_front_right.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/original/original_0000.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_018/converted/converted_0000.png
+      - paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_case_manifest.json
+  - id: fig_render_scene_evidence_wide_v2
+    outputs:
+      - paper/shared/figures/fig_render_scene_evidence_wide_v2.svg
+      - paper/shared/figures/fig_render_scene_evidence_wide_v2.pdf
+      - paper/shared/figures/fig_render_scene_evidence_wide_v2.png
+    generated_by: paper/shared/figures/gen_acl_main_figures_v2.py
+    sources:
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/A_top_front_right.png
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/B_top_front_right.png
+      - paper/shared/figures/out_tmp/mdl_images/orbit_mdl_01.png
+      - paper/shared/figures/out_tmp/nomdl_images/orbit_01.png
+  - id: fig_material_effect_baseline_qualitative_v2
+    outputs:
+      - paper/shared/figures/fig_material_effect_baseline_qualitative_v2.svg
+      - paper/shared/figures/fig_material_effect_baseline_qualitative_v2.pdf
+      - paper/shared/figures/fig_material_effect_baseline_qualitative_v2.png
+    generated_by: paper/shared/figures/gen_acl_main_figures_v2.py
+    sources:
+      - paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
+  - id: fig_internnav_rollout_main_v2
+    outputs:
+      - paper/shared/figures/fig_internnav_rollout_main_v2.svg
+      - paper/shared/figures/fig_internnav_rollout_main_v2.pdf
+      - paper/shared/figures/fig_internnav_rollout_main_v2.png
+    generated_by: paper/shared/figures/gen_acl_main_figures_v2.py
+    sources:
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_case_manifest.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0036_0066/
+  - id: fig_acl_method_chain_v3
+    outputs:
+      - paper/shared/figures/fig_acl_method_chain_v3.svg
+      - paper/shared/figures/fig_acl_method_chain_v3.pdf
+      - paper/shared/figures/fig_acl_method_chain_v3.png
+    generated_by: paper/shared/figures/gen_acl_paper_figures_v3.py
+    sources:
+      - paper/shared/figures/specs/fig_acl_method_chain_v3.spec.json
+      - paper/shared/figures/generated_components/fig1_material_pairs_v1/manifest.yaml
+      - paper/shared/figures/generated_components/fig1_material_pairs_v1/atlas_selected.png
+      - paper/shared/figures/generated_components/fig1_material_pairs_v1/optics.json
+      - paper/shared/figures/out_tmp/mdl_images/orbit_mdl_01.png
+      - paper/shared/figures/out_tmp/nomdl_images/orbit_01.png
+  - id: fig_acl_method_chain_v4
+    outputs:
+      - paper/shared/figures/fig_acl_method_chain_v4.pptx
+      - paper/shared/figures/fig_acl_method_chain_v4.svg
+      - paper/shared/figures/fig_acl_method_chain_v4.pdf
+      - paper/shared/figures/fig_acl_method_chain_v4.png
+    generated_by: paper/shared/figures/gen_acl_method_chain_v4_pptx.py
+    sources:
+      - paper/shared/figures/specs/fig_acl_method_chain_v4.spec.json
+      - paper/shared/figures/generated_components/fig1_material_pairs_v1/manifest.yaml
+      - paper/shared/figures/generated_components/fig1_material_pairs_v1/atlas_selected.png
+      - paper/shared/figures/generated_components/fig1_material_pairs_v1/optics.json
+      - paper/shared/figures/out_tmp/mdl_images/orbit_mdl_01.png
+      - paper/shared/figures/out_tmp/nomdl_images/orbit_01.png
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/A_top_front_right.png
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/B_top_front_right.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/
+      - paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/
+  - id: fig_acl_evidence_registry_strip_v2
+    outputs:
+      - paper/shared/figures/fig_acl_evidence_registry_strip_v2.svg
+      - paper/shared/figures/fig_acl_evidence_registry_strip_v2.pdf
+      - paper/shared/figures/fig_acl_evidence_registry_strip_v2.png
+    generated_by: paper/shared/figures/gen_acl_paper_figures_v3.py
+    sources:
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/A_top_front_right.png
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/B_top_front_right.png
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/
+      - paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_case_manifest.json
+  - id: fig_render_scene_evidence_wide_v3
+    outputs:
+      - paper/shared/figures/fig_render_scene_evidence_wide_v3.svg
+      - paper/shared/figures/fig_render_scene_evidence_wide_v3.pdf
+      - paper/shared/figures/fig_render_scene_evidence_wide_v3.png
+    generated_by: paper/shared/figures/gen_acl_paper_figures_v3.py
+    sources:
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/A_top_front_right.png
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/B_top_front_right.png
+      - paper/shared/figures/out_tmp/mdl_images/orbit_mdl_01.png
+      - paper/shared/figures/out_tmp/nomdl_images/orbit_01.png
+  - id: fig_material_effect_baseline_qualitative_v3
+    outputs:
+      - paper/shared/figures/fig_material_effect_baseline_qualitative_v3.svg
+      - paper/shared/figures/fig_material_effect_baseline_qualitative_v3.pdf
+      - paper/shared/figures/fig_material_effect_baseline_qualitative_v3.png
+    generated_by: paper/shared/figures/gen_acl_paper_figures_v3.py
+    sources:
+      - paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
+  - id: fig_internnav_rollout_main_v3
+    outputs:
+      - paper/shared/figures/fig_internnav_rollout_main_v3.svg
+      - paper/shared/figures/fig_internnav_rollout_main_v3.pdf
+      - paper/shared/figures/fig_internnav_rollout_main_v3.png
+    generated_by: paper/shared/figures/gen_acl_paper_figures_v3.py
+    sources:
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_case_manifest.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0036_0066/
+  - id: fig_internnav_rollout_main_v4
+    outputs:
+      - paper/shared/figures/fig_internnav_rollout_main_v4.svg
+      - paper/shared/figures/fig_internnav_rollout_main_v4.pdf
+      - paper/shared/figures/fig_internnav_rollout_main_v4.png
+    generated_by: paper/shared/figures/gen_acl_internnav_rollout_v4.py
+    sources:
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_case_manifest.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0036_0066/
+  - id: fig_supplement_first_page_evidence_quickstart_v2
+    outputs:
+      - paper/shared/figures/fig_supplement_first_page_evidence_quickstart_v2.svg
+      - paper/shared/figures/fig_supplement_first_page_evidence_quickstart_v2.pdf
+      - paper/shared/figures/fig_supplement_first_page_evidence_quickstart_v2.png
+    generated_by: paper/shared/figures/gen_acl_paper_figures_v3.py
+    sources:
+      - paper/shared/evidence/raw/renders/chestofdrawers_0011/
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/
+      - paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/
+  - id: fig_supplement_vlm_coordinate_protocol_atlas_v2
+    outputs:
+      - paper/shared/figures/fig_supplement_vlm_coordinate_protocol_atlas_v2.svg
+      - paper/shared/figures/fig_supplement_vlm_coordinate_protocol_atlas_v2.pdf
+      - paper/shared/figures/fig_supplement_vlm_coordinate_protocol_atlas_v2.png
+    generated_by: paper/shared/figures/gen_acl_paper_figures_v3.py
+    sources:
+      - paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/
+  - id: fig_supplement_material_diagnostic_atlas_v2
+    outputs:
+      - paper/shared/figures/fig_supplement_material_diagnostic_atlas_v2.svg
+      - paper/shared/figures/fig_supplement_material_diagnostic_atlas_v2.pdf
+      - paper/shared/figures/fig_supplement_material_diagnostic_atlas_v2.png
+    generated_by: paper/shared/figures/gen_acl_paper_figures_v3.py
+    sources:
+      - paper/shared/evidence/raw/material_effect_baseline/qualitative_render_manifest.json
+      - paper/shared/evidence/raw/material_effect_baseline/supplemental_qualitative_render_manifest.json
+  - id: fig_supplement_navigation_media_atlas_v2
+    outputs:
+      - paper/shared/figures/fig_supplement_navigation_media_atlas_v2.svg
+      - paper/shared/figures/fig_supplement_navigation_media_atlas_v2.pdf
+      - paper/shared/figures/fig_supplement_navigation_media_atlas_v2.png
+    generated_by: paper/shared/figures/gen_acl_paper_figures_v3.py
+    sources:
+      - paper/shared/figures/fig_internnav_downstream_panel.png
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/manifests/kujiale0036_0066_video_case_manifest.json
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_selected_qualitative_videos/stills/kujiale0036_0066/
   - id: fig_grscene_qualitative
     outputs:
       - paper/shared/figures/fig_grscene_qualitative.pdf

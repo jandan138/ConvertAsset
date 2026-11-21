@@ -1,0 +1,18 @@
+% Verified from paper/shared/evidence/raw/cviu_v3/variance_decomposition.json
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrrrrr@{}}
+\toprule
+Model (Strict \texttt{bfloat16}) & Family & L1 Greedy & \multicolumn{2}{c}{L3: Re-Render Floor (96)} & \multicolumn{2}{c}{L4: Conversion (48 pairs)} & L4 / L3 \\
+\cmidrule(lr){4-5} \cmidrule(lr){6-7}
+ & & Disagr.\ (pairs) & Flip Rate & Shift (px) & Flip Rate & Shift (px) & Ratio \\
+\midrule
+Qwen3-VL-2B & Qwen3-VL & 0.00\% (96) & 7.29\% (7/96) & 30.96 & \textbf{20.83\%} (10/48) & \textbf{65.64} & 2.86$\times$ \\
+LLaVA-NeXT-Mistral-7B & Mistral + CLIP & 0.00\% (96) & 5.21\% (5/96) & 24.38 & \textbf{10.42\%} (5/48) & \textbf{59.90} & 2.00$\times$ \\
+InternVL3.5-8B-HF & InternVL3.5 & 0.00\% (96) & 1.04\% (1/96) & 10.38 & \textbf{6.25\%} (3/48) & \textbf{39.23} & 6.00$\times$ \\
+Qwen3-VL-8B & Qwen3-VL & 0.00\% (288) & 3.13\% (3/96) & 9.52 & \textbf{8.33\%} (4/48) & \textbf{23.83} & 2.67$\times$ \\
+Molmo2-8B & Molmo2 (SigLIP-2) & 0.00\% (96) & 0.00\% (0/96) & 5.98 & \textbf{4.17\%} (2/48) & \textbf{41.64} & $>4\times$ \\
+Qwen3-VL-32B & Qwen3-VL & 0.00\% (288) & 1.04\% (1/96) & 6.39 & \textbf{4.17\%} (2/48) & \textbf{23.26} & 4.00$\times$ \\
+\midrule
+\multicolumn{8}{@{}l}{\emph{Level 2 stochastic decoding baseline (Qwen3-VL-8B, $T{=}0.2$, $\text{top-}p{=}0.95$, 5 draws on same 96 frozen images, 960 pairs):}} \\
+\multicolumn{2}{@{}l}{Pairwise hit disagreement / any-flip across 5 draws} & \multicolumn{6}{r@{}}{8.96\% pairwise disagreement (16.67\% inputs with $\ge 1$ flip; 94.38\% text change; 16.37\,px shift)} \\
+\bottomrule
+\end{tabular*}

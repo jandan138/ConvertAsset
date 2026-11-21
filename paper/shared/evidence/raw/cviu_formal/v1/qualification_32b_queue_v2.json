@@ -1,0 +1,25 @@
+{
+  "superseded_waiting_model_pid": 3262134,
+  "ceiling_capture_pid": 3328532,
+  "model_qualification_pid": 3328533,
+  "model_command": [
+    "python",
+    "-u",
+    "paper/shared/evidence/experiments/13_cviu_formal/queue_model_qualification.py",
+    "--wait-pid",
+    "3328532",
+    "--gpu",
+    "0",
+    "1",
+    "--model",
+    "32b",
+    "--checkpoint",
+    "/cpfs/user/zhuzihou/models/hf_cache/models--Qwen--Qwen3-VL-32B-Instruct/snapshots/0cfaf48183f594c314753d30a4c4974bc75f3ccb",
+    "--download-receipt",
+    "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/cviu_formal/v1/model_32b_parallel_download.json",
+    "--out",
+    "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/cviu_formal/v1/qualification_32b_v1"
+  ],
+  "reason": "Repair campaign finished and GPU0 is free while checkpoint download remains incomplete; run four below-ceiling qualification views first. No running model or render was interrupted.",
+  "status": "queued_not_qualified"
+}

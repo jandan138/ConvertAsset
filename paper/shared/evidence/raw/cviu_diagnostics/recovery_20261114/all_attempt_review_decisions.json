@@ -1,0 +1,163 @@
+{
+  "reviews": [
+    {
+      "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:couch:v0",
+      "condition": "converted",
+      "verdict": "PASS",
+      "image_sha256": "3bf217e51169bdbd4428ee43068ae833ee9e62bce7b26f98f812f565103ceb37",
+      "mask_sha256": "bedeec10c428f29f767b3fb5faed156f3dda1199bf9d41229af71482a12814f1",
+      "review_type": "local_visual_inspection",
+      "evidence": "Orange sectional couch identifiable in coherent living room; mask follows visible couch excluding cushions and foreground.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/01"
+    },
+    {
+      "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:couch:v1",
+      "condition": "converted",
+      "verdict": "FAIL",
+      "image_sha256": "a278e4d4adf1a9c4390c637b4863161972f098ea61315e7faae1044c5d513873",
+      "mask_sha256": null,
+      "review_type": "local_visual_inspection",
+      "evidence": "Dark near surface blocks scene; couch not visible and target mask absent.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/03"
+    },
+    {
+      "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:laptop:v0",
+      "condition": "converted",
+      "verdict": "PASS",
+      "image_sha256": "6c38712ca7c97b13c822e8edf95d35b9519f07d8507de54149d9429723b9eaaf",
+      "mask_sha256": "07ca2c7e7b6737f9f1dfec4556bf4615ea8ea2a75c5e948dca4642055757e35c",
+      "review_type": "local_visual_inspection",
+      "evidence": "Laptop back, hinge and keyboard visible on desk; mask follows visible laptop.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/05"
+    },
+    {
+      "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:laptop:v1",
+      "condition": "converted",
+      "verdict": "PASS",
+      "image_sha256": "2dea2b113c7288a0633d8850468f590f7a49fd66285700b49aa881c85d7cc66b",
+      "mask_sha256": "128ea94bc5db231557a258345a956ede4b1ffee7ebd57463c0954870ced7464f",
+      "review_type": "local_visual_inspection",
+      "evidence": "Laptop lid identifiable despite foreground books; mask excludes occluding books. Partial occlusion retained.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/07"
+    },
+    {
+      "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:couch:v0",
+      "condition": "converted",
+      "verdict": "PASS",
+      "image_sha256": "f7b911ffddc9e877330b310988b2129bc26a4399452947ad11e612e71e19751a",
+      "mask_sha256": "0288eac7bcc3b3798c6a06f417bd16f7226ab0f7f8597e1e6b25be7b1f89ec1e",
+      "review_type": "local_visual_inspection",
+      "evidence": "Couch side and back visible past foreground panel; partial occlusion, target recognizable; mask excludes panel and pillow.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/09"
+    },
+    {
+      "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:couch:v1",
+      "condition": "converted",
+      "verdict": "PASS",
+      "image_sha256": "fddb367c5ff6b3aed9c24af654a70cbe0b05c807cbb9d14da81809c40d6778c7",
+      "mask_sha256": "c364a1d91e8449a03bc303d4f5d7e32d0578b140386d7b649ebfdc90cd6fd94d",
+      "review_type": "local_visual_inspection",
+      "evidence": "Whole couch clearly identifiable in living room; visible mask matches couch excluding pillows.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/11"
+    },
+    {
+      "pair_id": "MVSYCXYKTKJ66AABAAAAADA8_usd:stool:v0",
+      "condition": "converted",
+      "verdict": "PASS",
+      "image_sha256": "768fa7eda75e86f57b37cc3dd026380a7ef3fad2e112c1508224b6b4c1343418",
+      "mask_sha256": "e50b4a0d91f8f119f377dadda343d0daa146c52d736d692a9e3161cba86059f7",
+      "review_type": "local_visual_inspection",
+      "evidence": "Central backless wooden stool identifiable despite dim indoor lighting; mask follows stool legs/seat and excludes gaps and neighboring chairs.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/17"
+    },
+    {
+      "pair_id": "MVSYCXYKTKJ66AABAAAAADA8_usd:stool:v1",
+      "condition": "converted",
+      "verdict": "PASS",
+      "image_sha256": "b1905483229203d573040e41788e5a8ce311dcfef76eb74df1b16f6e99c8f4a1",
+      "mask_sha256": "00b0d1834a409b7632776f6acf60f6e80fbca474e8c40c7d4cd8927dc33401d8",
+      "review_type": "local_visual_inspection",
+      "evidence": "Central backless wooden stool identifiable despite dim indoor lighting; mask follows stool legs/seat and excludes gaps and neighboring chairs.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/19"
+    },
+    {
+      "pair_id": "MVSYCXYKTKJ66AABAAAAADA8_usd:toy:v0",
+      "condition": "converted",
+      "verdict": "PASS",
+      "query_override": "Point to the cat in the image.",
+      "image_sha256": "ca0bf68aac503ced8ccd62c4144ff3a784bde4e7ccf1229461d230164b4e4134",
+      "mask_sha256": "6ac44b0a202bf2bdc47cc5f3086748169c306a8e30ed1a5bc7eb52071ea5df62",
+      "review_type": "local_visual_inspection",
+      "evidence": "Sleeping cat identifiable in pet bed; target mask isolates cat, not bed. Source category toy is corrected to visible cat in query before inference.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/21"
+    },
+    {
+      "pair_id": "MVSYCXYKTKJ66AABAAAAADA8_usd:toy:v1",
+      "condition": "converted",
+      "verdict": "FAIL",
+      "query_override": "Point to the cat in the image.",
+      "image_sha256": "32835b2a2354d2fd793d45b62172f8eaff752c40d984efda2b5ceda932f6b309",
+      "mask_sha256": null,
+      "review_type": "local_visual_inspection",
+      "evidence": "Nearby wall fully obstructs target; no target mask.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/23"
+    },
+    {
+      "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:laptop:v0",
+      "condition": "original",
+      "verdict": "PASS",
+      "image_sha256": "efbf65d09690e4d232d7b5774a1ae06272e5030ee7a113a04d32ec03acebbc0a",
+      "mask_sha256": "07ca2c7e7b6737f9f1dfec4556bf4615ea8ea2a75c5e948dca4642055757e35c",
+      "review_type": "local_visual_inspection",
+      "evidence": "Laptop identifiable; view matches converted condition; visible target mask is pixel-identical to the visually checked converted mask.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/04"
+    },
+    {
+      "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:laptop:v1",
+      "condition": "original",
+      "verdict": "PASS",
+      "image_sha256": "ba56145ac7d3aea703862285dee866b671d2074ed6c570e4eca2b9325b538fb6",
+      "mask_sha256": "128ea94bc5db231557a258345a956ede4b1ffee7ebd57463c0954870ced7464f",
+      "review_type": "local_visual_inspection",
+      "evidence": "Laptop identifiable; view matches converted condition; visible target mask is pixel-identical to the visually checked converted mask.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/06"
+    },
+    {
+      "pair_id": "MVUCSQAKTKJ5EAABAAAAAAA8_usd:couch:v1",
+      "condition": "converted",
+      "verdict": "PASS",
+      "image_sha256": "2b32e665480cfff2425099a5dd3ea006cd7617254c0587aad736be518c1e2f71",
+      "mask_sha256": "cce8a278dc5b77e2113cce626f36e96d2b1b5ab582f9e224aafc8dc2c23c7495",
+      "review_type": "local_visual_inspection",
+      "evidence": "Couch clearly identifiable in unobstructed living-room view; visible mask excludes pillows and coffee table.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/00"
+    },
+    {
+      "pair_id": "MVSYCXYKTKJ66AABAAAAADA8_usd:toy:v1",
+      "condition": "converted",
+      "verdict": "PASS",
+      "image_sha256": "aaf1c3729067fa3a6cbd3fa6641ea74af6f3cbb949889ed14ecb1b25f5f308ee",
+      "mask_sha256": "8944d230d4294e8c772651243742e23042671bb5f46525ee266d4a9f119a58aa",
+      "review_type": "local_visual_inspection",
+      "evidence": "Cat body and ears identifiable in dim side/back view, partially occluded by chair leg; mask excludes bed and foreground leg. Natural low light retained.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/01",
+      "query_override": "Point to the cat in the image."
+    },
+    {
+      "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:microwave:v0",
+      "condition": "converted",
+      "verdict": "FAIL",
+      "image_sha256": null,
+      "evidence": "Blank RGB rejected by capture; no accepted image.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/02"
+    },
+    {
+      "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:microwave:v1",
+      "condition": "converted",
+      "verdict": "FAIL",
+      "image_sha256": "41eb37e31ef9b7f5c943a88f2e5072a765e4b2b25fb2b71a287b91ebad6315a0",
+      "evidence": "Cabinet rear surface dominates image; microwave not identifiable.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_early_repairs_v1/03"
+    }
+  ]
+}

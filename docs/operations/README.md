@@ -4,6 +4,8 @@ Runbooks, CLI usage, build instructions, troubleshooting, and agent collaboratio
 
 ## Setup And CLI
 
+- [ICLR 2027 submission preparation](iclr27-submission-preparation.md)
+
 - [Project setup](../setup.md)
 - [Isaac Python wrapper](isaac-python-wrapper.md)
 - [Tools overview](tools.md)

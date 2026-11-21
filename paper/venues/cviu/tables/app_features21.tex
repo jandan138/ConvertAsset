@@ -1,0 +1,33 @@
+% Generated automatically by build_cviu_appendix_assets.py from pair_optical_features.json & risk_auditor.json
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+Feature Name & Definition & No-Loss ($n{=}455$) & Loss ($n{=}25$) & Univar.\ AUROC & $\ell_2$ Weight $w_j$ \\
+\midrule
+\multicolumn{6}{@{}l}{\textit{Simulator Mask Geometry (5)}} \\
+\texttt{log\_area\_frac} & Logarithm of target pixel area fraction & -2.432 $\pm$ 0.921 & -2.888 $\pm$ 0.890 & 0.665 & -0.0585 \\
+\texttt{aspect\_ratio} & Target bounding-box width-to-height ratio & 1.270 $\pm$ 1.122 & 1.561 $\pm$ 1.194 & 0.560 & +0.0303 \\
+\texttt{center\_dist\_norm} & Euclidean distance from frame center (normalized) & 0.331 $\pm$ 0.058 & 0.378 $\pm$ 0.063 & 0.703 & +0.0584 \\
+\texttt{border\_touch} & Indicator whether target bbox touches image border & 0.020 $\pm$ 0.139 & 0.000 $\pm$ 0.000 & 0.510 & -0.0097 \\
+\texttt{mask\_iou} & Mask overlap IoU between original and converted captures & 0.998 $\pm$ 0.026 & 1.000 $\pm$ 0.000 & 0.508 & +0.0000 \\
+\midrule
+\multicolumn{6}{@{}l}{\textit{Paired Optical, Chromatic \& Structural Deltas (13)}} \\
+\texttt{global\_rgb\_mae} & Full-frame mean absolute RGB difference & 0.110 $\pm$ 0.048 & 0.120 $\pm$ 0.072 & 0.510 & +0.0053 \\
+\texttt{target\_rgb\_mae} & Target-mask mean absolute RGB difference & 0.126 $\pm$ 0.094 & 0.193 $\pm$ 0.180 & 0.577 & +0.0216 \\
+\texttt{bg\_rgb\_mae} & Background mean absolute RGB difference & 0.108 $\pm$ 0.047 & 0.114 $\pm$ 0.076 & 0.549 & +0.0017 \\
+\texttt{target\_delta\_L} & Mean target lightness shift $|\Delta L^*|$ & 8.866 $\pm$ 9.387 & 16.134 $\pm$ 19.356 & 0.566 & +0.0229 \\
+\texttt{target\_delta\_ab} & Mean target chromatic shift $\|\Delta(a^*, b^*)\|_2$ & 1.122 $\pm$ 1.742 & 0.801 $\pm$ 1.142 & 0.568 & -0.0248 \\
+\texttt{target\_std\_L\_ratio} & Converted-to-original lightness std ratio on target & 1.048 $\pm$ 0.573 & 1.055 $\pm$ 0.428 & 0.515 & -0.0142 \\
+\texttt{target\_ssim} & Local $8{\times}8$ structural similarity inside target & 0.652 $\pm$ 0.207 & 0.560 $\pm$ 0.221 & 0.618 & -0.0353 \\
+\texttt{bg\_ssim} & Local $8{\times}8$ structural similarity on background & 0.762 $\pm$ 0.120 & 0.763 $\pm$ 0.122 & 0.506 & -0.0104 \\
+\texttt{target\_sobel\_edge\_ratio} & Converted-to-original Sobel $|\nabla L^*|$ ratio on target & 0.957 $\pm$ 0.775 & 0.941 $\pm$ 0.430 & 0.505 & +0.0164 \\
+\texttt{target\_specular\_delta} & Highlight pixel ($Y>0.88$) fraction shift on target & 0.008 $\pm$ 0.086 & -0.013 $\pm$ 0.193 & 0.514 & -0.0333 \\
+\texttt{ring\_specular\_delta} & 12-px exterior ring specular fraction shift & 0.001 $\pm$ 0.034 & 0.014 $\pm$ 0.056 & 0.558 & -0.0063 \\
+\texttt{boundary\_contrast\_delta} & 8-px inner/outer contour lightness contrast shift & -0.445 $\pm$ 8.405 & -5.479 $\pm$ 13.232 & 0.623 & -0.0176 \\
+\texttt{boundary\_contrast\_delta\_lab} & 8-px inner/outer contour $\mathrm{CIE}~\Delta E_{ab}^*$ shift & -0.621 $\pm$ 8.225 & -5.452 $\pm$ 13.202 & 0.615 & -0.0169 \\
+\midrule
+\multicolumn{6}{@{}l}{\textit{Coarse Target Category Priors (3)}} \\
+\texttt{cat\_is\_transparent\_or\_glass} & Transparent/glass object category prior & 0.070 $\pm$ 0.256 & 0.000 $\pm$ 0.000 & 0.535 & -0.0220 \\
+\texttt{cat\_is\_reflective\_appliance\_or\_metal} & Reflective appliance/metal category prior & 0.402 $\pm$ 0.490 & 0.440 $\pm$ 0.496 & 0.519 & -0.0348 \\
+\texttt{cat\_is\_emissive\_or\_screen} & Emissive/screen category prior & 0.185 $\pm$ 0.388 & 0.160 $\pm$ 0.367 & 0.512 & +0.0109 \\
+\bottomrule
+\end{tabular}

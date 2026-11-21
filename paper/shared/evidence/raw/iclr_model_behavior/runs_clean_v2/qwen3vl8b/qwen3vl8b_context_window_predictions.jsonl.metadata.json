@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "backend": "local_hf_generic",
+  "model_checkpoint": "/cpfs/user/zhuzihou/models/hf_cache/models--Qwen--Qwen3-VL-8B-Instruct/snapshots/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+  "coordinate_frame": "normalized_1000",
+  "response_format": "structured_text",
+  "prompt_type": "context_window",
+  "prediction_count": 32,
+  "elapsed_s": 26.026915550231934,
+  "decoding": {
+    "temperature": 0.0,
+    "seed": 20260915,
+    "max_new_tokens": 128
+  },
+  "manifest_sha256": "5c29725912fc69f370e63f0eca3e94456129a2ce440aa4edb9f7c4bc17d45bf8",
+  "prediction_sha256": "9f8f0a9b413fa8110f4b497be35db322af36e9f0ac2ac4b96ad85b46b3d00eae",
+  "runner_sha256": "0ab60ffcdc7fcfdae57713e5389a47bac521dd0c65abfde2e89f6bed4a0d9acb",
+  "orchestrator_sha256": "0eb9ee7a4393dc5293a5cd1083812ff80efb3854fcf492af58e7e3cfb8e3d941",
+  "python": "/cpfs/shared/simulation/zhuzihou/dev/Auto-Asset-Annotator/.venv_dlc/bin/python",
+  "torch": "2.10.0+cu128",
+  "transformers": "5.2.0",
+  "model_config": {
+    "backend": "local_hf_generic",
+    "model_class": "Qwen3VLForConditionalGeneration",
+    "path": "/cpfs/user/zhuzihou/models/hf_cache/models--Qwen--Qwen3-VL-8B-Instruct/snapshots/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+    "python": "/cpfs/shared/simulation/zhuzihou/dev/Auto-Asset-Annotator/.venv_dlc/bin/python"
+  }
+}

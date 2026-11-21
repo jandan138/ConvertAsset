@@ -1,0 +1,758 @@
+{
+  "overview": {
+    "canvas_inches": [
+      5.5,
+      4.35
+    ],
+    "png_dpi": 360,
+    "text_outside_canvas": [],
+    "data_outside_axes": [],
+    "minimum_font_pt": 7.0,
+    "labels": [
+      {
+        "text": "a  Material intervention",
+        "font_pt": 9.3
+      },
+      {
+        "text": "Same geometry \u00b7 same camera",
+        "font_pt": 7.5
+      },
+      {
+        "text": "Original",
+        "font_pt": 8.3
+      },
+      {
+        "text": "Converted",
+        "font_pt": 8.3
+      },
+      {
+        "text": "b  Pointing decisions",
+        "font_pt": 9.3
+      },
+      {
+        "text": "c  Navigation outcomes",
+        "font_pt": 9.3
+      },
+      {
+        "text": "\u201cLocate the bottle\u201d",
+        "font_pt": 8.0
+      },
+      {
+        "text": "Qwen3-VL-2B",
+        "font_pt": 7.3
+      },
+      {
+        "text": "Shared original-image reference",
+        "font_pt": 7.0
+      },
+      {
+        "text": "14/16 \u2192 14/16 hits",
+        "font_pt": 8.7
+      },
+      {
+        "text": "2 decisions flip",
+        "font_pt": 8.0
+      },
+      {
+        "text": "\u25cf Original",
+        "font_pt": 7.3
+      },
+      {
+        "text": "\u25c6 Converted",
+        "font_pt": 7.3
+      },
+      {
+        "text": "\u25a1 Target",
+        "font_pt": 7.3
+      },
+      {
+        "text": "30/99",
+        "font_pt": 22.0
+      },
+      {
+        "text": "episodes change\nsuccess status",
+        "font_pt": 7.8
+      },
+      {
+        "text": "17 lost",
+        "font_pt": 7.4
+      },
+      {
+        "text": "13 gained",
+        "font_pt": 7.4
+      },
+      {
+        "text": "69 same",
+        "font_pt": 7.4
+      },
+      {
+        "text": "-4.0 pp net success-rate change",
+        "font_pt": 7.5
+      }
+    ],
+    "renderer": "Matplotlib Agg / SVG / PDF",
+    "visual_review": "see ../VISUAL_REVIEW.json for hash-bound visual inspection"
+  },
+  "interventions": {
+    "canvas_inches": [
+      5.5,
+      3.92
+    ],
+    "png_dpi": 360,
+    "text_outside_canvas": [],
+    "data_outside_axes": [],
+    "minimum_font_pt": 7.0,
+    "labels": [
+      {
+        "text": "12\u219213",
+        "font_pt": 7.2
+      },
+      {
+        "text": "12\u219212",
+        "font_pt": 7.2
+      },
+      {
+        "text": "12\u219211",
+        "font_pt": 7.2
+      },
+      {
+        "text": "12\u219214",
+        "font_pt": 7.2
+      },
+      {
+        "text": "8",
+        "font_pt": 7.0
+      },
+      {
+        "text": "12",
+        "font_pt": 7.0
+      },
+      {
+        "text": "16",
+        "font_pt": 7.0
+      },
+      {
+        "text": "Full \u00b7 category",
+        "font_pt": 7.0
+      },
+      {
+        "text": "Full \u00b7 action",
+        "font_pt": 7.0
+      },
+      {
+        "text": "Target window",
+        "font_pt": 7.0
+      },
+      {
+        "text": "Context window",
+        "font_pt": 7.0
+      },
+      {
+        "text": "14\u219214",
+        "font_pt": 7.2
+      },
+      {
+        "text": "9\u219212",
+        "font_pt": 7.2
+      },
+      {
+        "text": "14\u219215",
+        "font_pt": 7.2
+      },
+      {
+        "text": "14\u219216",
+        "font_pt": 7.2
+      },
+      {
+        "text": "8",
+        "font_pt": 7.0
+      },
+      {
+        "text": "12",
+        "font_pt": 7.0
+      },
+      {
+        "text": "16",
+        "font_pt": 7.0
+      },
+      {
+        "text": "16\u219215",
+        "font_pt": 7.2
+      },
+      {
+        "text": "15\u219215",
+        "font_pt": 7.2
+      },
+      {
+        "text": "16\u219215",
+        "font_pt": 7.2
+      },
+      {
+        "text": "16\u219216",
+        "font_pt": 7.2
+      },
+      {
+        "text": "8",
+        "font_pt": 7.0
+      },
+      {
+        "text": "12",
+        "font_pt": 7.0
+      },
+      {
+        "text": "16",
+        "font_pt": 7.0
+      },
+      {
+        "text": "a  Local changes, different decisions",
+        "font_pt": 10.0
+      },
+      {
+        "text": "Query: \u201cLocate the bottle\u201d",
+        "font_pt": 7.5
+      },
+      {
+        "text": "Original",
+        "font_pt": 8.3
+      },
+      {
+        "text": "Target window",
+        "font_pt": 8.3
+      },
+      {
+        "text": "Context window",
+        "font_pt": 8.3
+      },
+      {
+        "text": "Full conversion",
+        "font_pt": 8.3
+      },
+      {
+        "text": "White outline: enlargement \u00b7 green outline: target window",
+        "font_pt": 7.3
+      },
+      {
+        "text": "b  Paired point hits",
+        "font_pt": 9.5
+      },
+      {
+        "text": "\u25cf Original",
+        "font_pt": 7.8
+      },
+      {
+        "text": "\u25c6 Changed",
+        "font_pt": 7.8
+      },
+      {
+        "text": "Gemma4",
+        "font_pt": 8.2
+      },
+      {
+        "text": "Qwen3-VL-2B",
+        "font_pt": 8.2
+      },
+      {
+        "text": "Qwen3-VL-8B",
+        "font_pt": 8.2
+      },
+      {
+        "text": "Successful queries / 16 paired queries per intervention",
+        "font_pt": 7.5
+      }
+    ],
+    "renderer": "Matplotlib Agg / SVG / PDF",
+    "visual_review": "see ../VISUAL_REVIEW.json for hash-bound visual inspection"
+  },
+  "protocol": {
+    "canvas_inches": [
+      5.5,
+      2.9
+    ],
+    "png_dpi": 360,
+    "text_outside_canvas": [],
+    "data_outside_axes": [],
+    "minimum_font_pt": 7.0,
+    "labels": [
+      {
+        "text": "+6.7",
+        "font_pt": 8.2
+      },
+      {
+        "text": "-3.3",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+0.0",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+0.0",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+3.3",
+        "font_pt": 8.2
+      },
+      {
+        "text": "-6.7",
+        "font_pt": 8.2
+      },
+      {
+        "text": "-13.3",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+13.3",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+0.0",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+3.3",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+0.0",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+0.0",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+3.3",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+3.3",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+3.3",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+0.0",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+6.7",
+        "font_pt": 8.2
+      },
+      {
+        "text": "-16.7",
+        "font_pt": 8.2
+      },
+      {
+        "text": "-6.7",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+10.0",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+6.7",
+        "font_pt": 8.2
+      },
+      {
+        "text": "-10.0",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+0.0",
+        "font_pt": 8.2
+      },
+      {
+        "text": "+0.0",
+        "font_pt": 8.2
+      },
+      {
+        "text": "Gemma4",
+        "font_pt": 7.6
+      },
+      {
+        "text": "Qwen2.5",
+        "font_pt": 7.6
+      },
+      {
+        "text": "Qwen3-2B",
+        "font_pt": 7.6
+      },
+      {
+        "text": "Qwen3-8B",
+        "font_pt": 7.6
+      },
+      {
+        "text": "InternVL3",
+        "font_pt": 7.6
+      },
+      {
+        "text": "Molmo",
+        "font_pt": 7.6
+      },
+      {
+        "text": "\u221220",
+        "font_pt": 7.0
+      },
+      {
+        "text": "0",
+        "font_pt": 7.0
+      },
+      {
+        "text": "20",
+        "font_pt": 7.0
+      },
+      {
+        "text": "a  Material effect by readout",
+        "font_pt": 9.5
+      },
+      {
+        "text": "b  Parsed points",
+        "font_pt": 9.5
+      },
+      {
+        "text": "Normalized",
+        "font_pt": 7.6
+      },
+      {
+        "text": "Pixels",
+        "font_pt": 7.6
+      },
+      {
+        "text": "Text",
+        "font_pt": 7.3
+      },
+      {
+        "text": "JSON",
+        "font_pt": 7.3
+      },
+      {
+        "text": "Text",
+        "font_pt": 7.3
+      },
+      {
+        "text": "JSON",
+        "font_pt": 7.3
+      },
+      {
+        "text": "Normalized",
+        "font_pt": 7.6
+      },
+      {
+        "text": "Pixels",
+        "font_pt": 7.6
+      },
+      {
+        "text": "Text",
+        "font_pt": 7.3
+      },
+      {
+        "text": "JSON",
+        "font_pt": 7.3
+      },
+      {
+        "text": "Text",
+        "font_pt": 7.3
+      },
+      {
+        "text": "JSON",
+        "font_pt": 7.3
+      },
+      {
+        "text": "\u0394 hit rate\n(pp)",
+        "font_pt": 7.2
+      },
+      {
+        "text": "Original \u2192 converted\nNumeric points / 30 queries",
+        "font_pt": 7.2
+      }
+    ],
+    "renderer": "Matplotlib Agg / SVG / PDF",
+    "visual_review": "see ../VISUAL_REVIEW.json for hash-bound visual inspection"
+  },
+  "navigation": {
+    "canvas_inches": [
+      5.5,
+      2.34
+    ],
+    "png_dpi": 360,
+    "text_outside_canvas": [],
+    "data_outside_axes": [],
+    "minimum_font_pt": 7.5,
+    "labels": [
+      {
+        "text": "51.5",
+        "font_pt": 7.5
+      },
+      {
+        "text": "57.6",
+        "font_pt": 7.5
+      },
+      {
+        "text": "81.8",
+        "font_pt": 7.5
+      },
+      {
+        "text": "60.6",
+        "font_pt": 7.5
+      },
+      {
+        "text": "24.2",
+        "font_pt": 7.5
+      },
+      {
+        "text": "27.3",
+        "font_pt": 7.5
+      },
+      {
+        "text": "20",
+        "font_pt": 7.5
+      },
+      {
+        "text": "40",
+        "font_pt": 7.5
+      },
+      {
+        "text": "60",
+        "font_pt": 7.5
+      },
+      {
+        "text": "80",
+        "font_pt": 7.5
+      },
+      {
+        "text": "0031",
+        "font_pt": 7.5
+      },
+      {
+        "text": "0036",
+        "font_pt": 7.5
+      },
+      {
+        "text": "0066",
+        "font_pt": 7.5
+      },
+      {
+        "text": "a  Success transitions",
+        "font_pt": 9.5
+      },
+      {
+        "text": "b  Outcomes by scene",
+        "font_pt": 9.5
+      },
+      {
+        "text": "-4.0",
+        "font_pt": 17.0
+      },
+      {
+        "text": "pp net change\nin success rate",
+        "font_pt": 8.0
+      },
+      {
+        "text": "30/99 changed",
+        "font_pt": 16.0
+      },
+      {
+        "text": "69 unchanged",
+        "font_pt": 7.8
+      },
+      {
+        "text": "Success rate (%)",
+        "font_pt": 7.5
+      },
+      {
+        "text": "\u25cf Original",
+        "font_pt": 7.5
+      },
+      {
+        "text": "\u25c6 Converted",
+        "font_pt": 7.5
+      }
+    ],
+    "renderer": "Matplotlib Agg / SVG / PDF",
+    "visual_review": "see ../VISUAL_REVIEW.json for hash-bound visual inspection"
+  },
+  "trajectories": {
+    "canvas_inches": [
+      5.5,
+      4.45
+    ],
+    "png_dpi": 360,
+    "text_outside_canvas": [],
+    "data_outside_axes": [],
+    "minimum_font_pt": 7.0,
+    "labels": [
+      {
+        "text": "Where the agent stops",
+        "font_pt": 10.0
+      },
+      {
+        "text": "Recorded endings",
+        "font_pt": 7.5
+      },
+      {
+        "text": "Original",
+        "font_pt": 9.0
+      },
+      {
+        "text": "End view",
+        "font_pt": 7.5
+      },
+      {
+        "text": "Map excerpt",
+        "font_pt": 7.5
+      },
+      {
+        "text": "Converted",
+        "font_pt": 9.0
+      },
+      {
+        "text": "End view",
+        "font_pt": 7.5
+      },
+      {
+        "text": "Map excerpt",
+        "font_pt": 7.5
+      },
+      {
+        "text": "Episode",
+        "font_pt": 7.0
+      },
+      {
+        "text": "597",
+        "font_pt": 9.0
+      },
+      {
+        "text": "Episode",
+        "font_pt": 7.0
+      },
+      {
+        "text": "898",
+        "font_pt": 9.0
+      },
+      {
+        "text": "Episode",
+        "font_pt": 7.0
+      },
+      {
+        "text": "919",
+        "font_pt": 9.0
+      },
+      {
+        "text": "\u2501 Executed trajectory",
+        "font_pt": 7.5
+      },
+      {
+        "text": "\u2501 Reference trajectory",
+        "font_pt": 7.5
+      }
+    ],
+    "renderer": "Matplotlib Agg / SVG / PDF",
+    "visual_review": "see ../VISUAL_REVIEW.json for hash-bound visual inspection"
+  },
+  "grounding": {
+    "canvas_inches": [
+      5.5,
+      2.6
+    ],
+    "png_dpi": 360,
+    "text_outside_canvas": [],
+    "data_outside_axes": [],
+    "minimum_font_pt": 8.0,
+    "labels": [
+      {
+        "text": "12/80",
+        "font_pt": 8.0
+      },
+      {
+        "text": "5/80",
+        "font_pt": 8.0
+      },
+      {
+        "text": "13/80",
+        "font_pt": 8.0
+      },
+      {
+        "text": "7/80",
+        "font_pt": 8.0
+      },
+      {
+        "text": "16/80",
+        "font_pt": 8.0
+      },
+      {
+        "text": "5/80",
+        "font_pt": 8.0
+      },
+      {
+        "text": "0",
+        "font_pt": 8.0
+      },
+      {
+        "text": "25",
+        "font_pt": 8.0
+      },
+      {
+        "text": "50",
+        "font_pt": 8.0
+      },
+      {
+        "text": "75",
+        "font_pt": 8.0
+      },
+      {
+        "text": "100",
+        "font_pt": 8.0
+      },
+      {
+        "text": "Gemma4",
+        "font_pt": 8.0
+      },
+      {
+        "text": "Qwen2.5",
+        "font_pt": 8.0
+      },
+      {
+        "text": "Qwen3-2B",
+        "font_pt": 8.0
+      },
+      {
+        "text": "Qwen3-8B",
+        "font_pt": 8.0
+      },
+      {
+        "text": "InternVL3",
+        "font_pt": 8.0
+      },
+      {
+        "text": "Molmo",
+        "font_pt": 8.0
+      },
+      {
+        "text": "Spatial readout across six model configurations",
+        "font_pt": 10.0
+      },
+      {
+        "text": "Flips",
+        "font_pt": 8.0
+      },
+      {
+        "text": "End-to-end point hits (%)",
+        "font_pt": 8.0
+      },
+      {
+        "text": "\u25cf Original",
+        "font_pt": 8.0
+      },
+      {
+        "text": "\u25c6 Converted",
+        "font_pt": 8.0
+      }
+    ],
+    "renderer": "Matplotlib Agg / SVG / PDF",
+    "visual_review": "see ../VISUAL_REVIEW.json for hash-bound visual inspection"
+  }
+}

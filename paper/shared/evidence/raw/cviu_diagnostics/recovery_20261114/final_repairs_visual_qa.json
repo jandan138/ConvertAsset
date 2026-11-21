@@ -1,0 +1,48 @@
+{
+  "reviews": [
+    {
+      "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:microwave:v0",
+      "condition": "converted",
+      "verdict": "PASS",
+      "query_override": "Point to the built-in oven in the image.",
+      "image_sha256": "c3df890277326a9c7a3f11914d4a03c4f5a91315e7da0a4d59a3afb349e7d980",
+      "mask_sha256": "2d08d323fb8a6c68f231f454943388f1996e395fc330885f778a63c9096de512",
+      "review_type": "local_visual_inspection",
+      "evidence": "Built-in oven front, control display and door identifiable; target mask matches appliance and excludes neighboring dishwasher/cabinets. Source microwave label corrected to visible oven before inference.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_repairs_v1/01"
+    },
+    {
+      "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:microwave:v1",
+      "condition": "original",
+      "verdict": "PASS",
+      "query_override": "Point to the built-in oven in the image.",
+      "image_sha256": "13ee320d6242e1804060bde9df938960d7b6e715d53b4e429f3bdb294e0da28e",
+      "mask_sha256": "d595face4bd1d091f333879ea9157d23a360e8461de9a8409ad74e561a168d1c",
+      "review_type": "local_visual_inspection",
+      "evidence": "Built-in oven front, control display and door identifiable; target mask matches appliance and excludes neighboring dishwasher/cabinets. Source microwave label corrected to visible oven before inference.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_repairs_v1/02"
+    },
+    {
+      "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:microwave:v1",
+      "condition": "converted",
+      "verdict": "PASS",
+      "query_override": "Point to the built-in oven in the image.",
+      "image_sha256": "f5474ac8f0e23573e79cc1b7659b416b8d7c22bb5aac25e5bc99ed01446576ba",
+      "mask_sha256": "d595face4bd1d091f333879ea9157d23a360e8461de9a8409ad74e561a168d1c",
+      "review_type": "local_visual_inspection",
+      "evidence": "Built-in oven front, control display and door identifiable; target mask matches appliance and excludes neighboring dishwasher/cabinets. Source microwave label corrected to visible oven before inference.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_repairs_v1/03"
+    },
+    {
+      "pair_id": "MVUHLWYKTKJ5EAABAAAAADI8_usd:microwave:v0",
+      "condition": "original",
+      "verdict": "PASS",
+      "query_override": "Point to the built-in oven in the image.",
+      "image_sha256": "5e58101dfd75c5b702ee625290a559f8a6ae15285d3c9132f7d0a2c8a09cca8f",
+      "mask_sha256": "2d08d323fb8a6c68f231f454943388f1996e395fc330885f778a63c9096de512",
+      "review_type": "local_visual_inspection",
+      "evidence": "Oven front clearly identifiable, paired camera matches converted; target mask pixel-identical to converted mask. Source microwave label corrected before inference.",
+      "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_repairs_v1/00"
+    }
+  ]
+}

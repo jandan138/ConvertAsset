@@ -1,0 +1,30 @@
+{
+  "crops": [
+    {
+      "source": "data/grounding/target_window_converted.png",
+      "source_sha256": "903a722392da6ef9bd463099da6fef127651e1c8699f983a1a7574ce677aa303",
+      "crop_xyxy": [
+        120,
+        25,
+        480,
+        415
+      ],
+      "output": "assets/target_window_converted_detail.png",
+      "output_sha256": "6c5d1830930222d4b90e1b50e7d7de895b4daece32f9c727719bd651af26222c",
+      "purpose": "Matching enlargement indicated by gray boxes in full observations"
+    },
+    {
+      "source": "data/grounding/context_window_converted.png",
+      "source_sha256": "0143dad909e39e6677145ca4e3677440f374ff2ba1f08f38f83a3ffac01089e4",
+      "crop_xyxy": [
+        120,
+        25,
+        480,
+        415
+      ],
+      "output": "assets/context_window_converted_detail.png",
+      "output_sha256": "571d403f72331969b237988713016359464c4896eb67bda89d12858adbe7f3f7",
+      "purpose": "Matching enlargement indicated by gray boxes in full observations"
+    }
+  ]
+}

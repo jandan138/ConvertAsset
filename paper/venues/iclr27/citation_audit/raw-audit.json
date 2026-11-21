@@ -1,0 +1,2307 @@
+{
+  "cited_keys": [
+    "Anderson2018Vision",
+    "Bai2025Qwen",
+    "Bai2025Qwen3",
+    "Chen2023Shikra",
+    "Deitke2024Molmo",
+    "Geirhos2019Texture",
+    "Google2026Gemma4",
+    "Oquab2023DINOv2",
+    "Radford2021Learning",
+    "Tobin2017Domain",
+    "Tremblay2018Training",
+    "Wang2004Image",
+    "Wang2024GRUtopia",
+    "Wei2026Ground",
+    "You2024Ferret",
+    "Zhang2018Unreasonable",
+    "Zhao2021Calibrate",
+    "Zhu2025InternVL"
+  ],
+  "findings": [
+    "REVIEW_REQUIRED `Anderson2018Vision`: identity=VERIFIED_PRIMARY; support=['NOT_CHECKED']",
+    "REVIEW_REQUIRED `Bai2025Qwen`: identity=NOT_CHECKED; support=['NOT_CHECKED', 'NOT_CHECKED']",
+    "REVIEW_REQUIRED `Bai2025Qwen3`: identity=NOT_CHECKED; support=['NOT_CHECKED']",
+    "REVIEW_REQUIRED `Chen2023Shikra`: identity=NOT_CHECKED; support=['NOT_CHECKED']",
+    "REVIEW_REQUIRED `Deitke2024Molmo`: identity=VERIFIED_CROSS_INDEX; support=['NOT_CHECKED', 'NOT_CHECKED']",
+    "REVIEW_REQUIRED `Geirhos2019Texture`: identity=VERIFIED_PRIMARY; support=['NOT_CHECKED']",
+    "REVIEW_REQUIRED `Google2026Gemma4`: identity=NOT_CHECKED; support=['NOT_CHECKED']",
+    "REVIEW_REQUIRED `Oquab2023DINOv2`: identity=NOT_CHECKED; support=['NOT_CHECKED']",
+    "REVIEW_REQUIRED `Radford2021Learning`: identity=VERIFIED_PRIMARY; support=['NOT_CHECKED']",
+    "REVIEW_REQUIRED `Tobin2017Domain`: identity=VERIFIED_PRIMARY; support=['NOT_CHECKED']",
+    "REVIEW_REQUIRED `Tremblay2018Training`: identity=VERIFIED_PRIMARY; support=['NOT_CHECKED']",
+    "FAIL `Wang2004Image`: identity=METADATA_MISMATCH; support=['NOT_CHECKED']",
+    "REVIEW_REQUIRED `Wang2024GRUtopia`: identity=NOT_CHECKED; support=['NOT_CHECKED']",
+    "REVIEW_REQUIRED `Wei2026Ground`: identity=NOT_CHECKED; support=['NOT_CHECKED']",
+    "REVIEW_REQUIRED `You2024Ferret`: identity=NOT_CHECKED; support=['NOT_CHECKED']",
+    "REVIEW_REQUIRED `Zhang2018Unreasonable`: identity=VERIFIED_PRIMARY; support=['NOT_CHECKED']",
+    "REVIEW_REQUIRED `Zhao2021Calibrate`: identity=VERIFIED_PRIMARY; support=['NOT_CHECKED']",
+    "REVIEW_REQUIRED `Zhu2025InternVL`: identity=VERIFIED_PRIMARY; support=['NOT_CHECKED', 'NOT_CHECKED']"
+  ],
+  "generated_at": "2026-09-15T20:17:16+00:00",
+  "inputs": {
+    "bib": {
+      "path": "paper/venues/iclr27/references.bib",
+      "sha256": "71ba2f03741254dea7f91f5c92086cf973629e67df4a02644f38920ab817e7fe"
+    },
+    "main_tex": "paper/venues/iclr27/main.tex",
+    "manuscript_source_set_sha256": "ec124c37aa2edf40588395eb2a8d63127f4f653660c1b8dd4283b669b3668811",
+    "script_sha256": "ddb0e75ae8d1bd519eb7126f83694bf26490907be7d6e7b98f81d93e5fa72a98",
+    "support_ledger": null,
+    "tex_sources": [
+      {
+        "bytes": 3706,
+        "path": "paper/venues/iclr27/appendix/01_appearance.tex",
+        "sha256": "8bba1784b5a0b145cc4cd5e03be0ff322bf6f01d97bf4c6a2f641cad93ee4547"
+      },
+      {
+        "bytes": 2997,
+        "path": "paper/venues/iclr27/appendix/02_materials.tex",
+        "sha256": "798b6edbb6b507f0b1a160b5e98266e46db456a058edd63a10ef771039cc839f"
+      },
+      {
+        "bytes": 3029,
+        "path": "paper/venues/iclr27/appendix/03_grounding_construction.tex",
+        "sha256": "6daceb9c989567938358e50cf85a3abd82cd4ae8b713067c20a4141e86083cd3"
+      },
+      {
+        "bytes": 2834,
+        "path": "paper/venues/iclr27/appendix/04_readout.tex",
+        "sha256": "6c476035934e792f1274758aa55078df9f24ce1fed9100893df21368798d4082"
+      },
+      {
+        "bytes": 6485,
+        "path": "paper/venues/iclr27/appendix/05_grounding_results.tex",
+        "sha256": "b0343c6303137f99afa1f5c489747203490324e2ba4d7d9c36e9998388a6d448"
+      },
+      {
+        "bytes": 5991,
+        "path": "paper/venues/iclr27/appendix/06_navigation.tex",
+        "sha256": "686e06cb879d9c1f1f151cb893c27b0d9b7c483861a922698b3edeecc483722d"
+      },
+      {
+        "bytes": 2278,
+        "path": "paper/venues/iclr27/appendix/07_reproduction.tex",
+        "sha256": "5e1eb955a2fbbeb7ea6a6bd984e22ef834cea042c2316deef8ddd093eab17053"
+      },
+      {
+        "bytes": 416,
+        "path": "paper/venues/iclr27/appendix/clean_table.tex",
+        "sha256": "17ca36a913414f1ad224bbafdc1cde2daa3e996850d6167d49c4e098dfc9d16a"
+      },
+      {
+        "bytes": 291,
+        "path": "paper/venues/iclr27/appendix/details.tex",
+        "sha256": "addaf2cb94ed86e975ca81e13080044b4dc51a05cc2b90e747dc5c3fc23a147f"
+      },
+      {
+        "bytes": 418,
+        "path": "paper/venues/iclr27/appendix/historical_table.tex",
+        "sha256": "0a05d527e5c87d883327124ac1f7a747f7d91111c852ca61e28c06a49ab64431"
+      },
+      {
+        "bytes": 472,
+        "path": "paper/venues/iclr27/appendix/material_table.tex",
+        "sha256": "4bfe366ad0698ea4713b973501cd9a06820f74d132e8e9bae26f12c50feb4aa2"
+      },
+      {
+        "bytes": 644,
+        "path": "paper/venues/iclr27/appendix/navigation_full_table.tex",
+        "sha256": "779137f4f0c171ad1e22b5420c8527cfe2140fc2a0ea6894bd29619c266ce88d"
+      },
+      {
+        "bytes": 378,
+        "path": "paper/venues/iclr27/appendix/navigation_load_table.tex",
+        "sha256": "b21d6bfb1f776a61467714d7c02b17dd392a4c0f36045623173ad99a0b31b90c"
+      },
+      {
+        "bytes": 486,
+        "path": "paper/venues/iclr27/appendix/proxy_table.tex",
+        "sha256": "7cf2093828230a75f05f083b5c8b6d8dee370fcabdffbcac817ddb50f1af8f98"
+      },
+      {
+        "bytes": 666,
+        "path": "paper/venues/iclr27/main.tex",
+        "sha256": "456b5c2061076793f64c9523a2cddc2567754f70fdd2e96b436ac53d0436504e"
+      },
+      {
+        "bytes": 400,
+        "path": "paper/venues/iclr27/preamble.tex",
+        "sha256": "2256f8d205183fa1453843932ad5a60074768bb457dd23b62672b2b51bfce7cf"
+      },
+      {
+        "bytes": 1398,
+        "path": "paper/venues/iclr27/sections/abstract.tex",
+        "sha256": "1700e373d393dc23d8d838935d5d9f7e4473384e7cb883ea29c5ee09ce69804a"
+      },
+      {
+        "bytes": 1211,
+        "path": "paper/venues/iclr27/sections/conclusion.tex",
+        "sha256": "3c4e7325a10de4166a942a6366e1970bb729b3f7fc0533eb5fe7ca51590be165"
+      },
+      {
+        "bytes": 3833,
+        "path": "paper/venues/iclr27/sections/grounding.tex",
+        "sha256": "5f144897108efc06078a1d97925fa86d4e4dbb4b1c114f97bb27f70cf709d7ca"
+      },
+      {
+        "bytes": 4149,
+        "path": "paper/venues/iclr27/sections/introduction.tex",
+        "sha256": "a9b9d554d07db6ad20283bf7ff7a259f2f3310ade1c4fc4d8f9173ac852e8a82"
+      },
+      {
+        "bytes": 4153,
+        "path": "paper/venues/iclr27/sections/mechanisms.tex",
+        "sha256": "ba2aa3a815337b8cdc6792eb337886d49d3186c6bf97db84e7e16ebb1f694338"
+      },
+      {
+        "bytes": 3326,
+        "path": "paper/venues/iclr27/sections/method.tex",
+        "sha256": "0dcbf3b6a6f9b0b6f521ed086ad1a1aaf53674db3f37aa034d411e8fe95b0c76"
+      },
+      {
+        "bytes": 3025,
+        "path": "paper/venues/iclr27/sections/navigation.tex",
+        "sha256": "9249ce4ffaa6dc7590ea35d9ea54b82fe448d73cd4886a34b51a721e7ac78f8e"
+      },
+      {
+        "bytes": 1901,
+        "path": "paper/venues/iclr27/sections/related_work.tex",
+        "sha256": "a53014f968020bacaeed9655e12f8f34dd18d3d66b8db9ce865de8818dcae939"
+      },
+      {
+        "bytes": 754,
+        "path": "paper/venues/iclr27/sections/statements.tex",
+        "sha256": "d2e97af71e0743be992941cc3720ae82e7af541e23ed44762e966e44c450073d"
+      },
+      {
+        "bytes": 591,
+        "path": "paper/venues/iclr27/tables/grounding.tex",
+        "sha256": "2a4ecce3bcd975ac11e4cc634dfcd11cd475d7e0914ab84bed8aff49bae596fd"
+      },
+      {
+        "bytes": 908,
+        "path": "paper/venues/iclr27/tables/interventions.tex",
+        "sha256": "8a43b8e4a41663fc408fe66ae8447880a42775d2284c9b2b0a529f0bd61a0ddc"
+      },
+      {
+        "bytes": 388,
+        "path": "paper/venues/iclr27/tables/navigation.tex",
+        "sha256": "d5dad3550753f488c750c2c13536662d7a98a141711b4897a05ec7d96e9eff9c"
+      },
+      {
+        "bytes": 2457,
+        "path": "paper/venues/iclr27/tables/numbers.tex",
+        "sha256": "08f99d563d285728b3c55fe10b449bdd77ca9ef8486c22075776331d43fabe38"
+      },
+      {
+        "bytes": 1656,
+        "path": "paper/venues/iclr27/tables/protocol_full.tex",
+        "sha256": "e6427c0a9cb33a0be0b0ccdb079de2731fe7ce5c66a694eec352551cf1fccc22"
+      },
+      {
+        "bytes": 316,
+        "path": "paper/venues/iclr27/tables/sampling.tex",
+        "sha256": "9ac172c0599da28b18140038daeec71f2122e0ba0d21bc6efb8df24da3275e3e"
+      }
+    ]
+  },
+  "mode": "refresh",
+  "occurrences": [
+    {
+      "citation_key": "Wang2004Image",
+      "context": "\\subsection{Matched object views} The object comparison contains four chest-of-drawers assets, each rendered from six directions: front, back, left, right, and two elevated front views. Table~\\ref{tab:app-proxy} reports all 24 pairs. PSNR measures pixel error; SSIM measures local luminance and contrast structure \\citep{Wang2004Image}; LPIPS uses learned perceptual features \\citep{Zhang2018Unreasonable}. CLIP and DINOv2 cosine similarities compare image embeddings \\citep{Radford2021Learning,Oquab2023DINOv2}.",
+      "context_sha256": "a52ce95a2f18997953b9ff84d07cc9fb195508ca453f498e84741a5e3edd68a7",
+      "occurrence_id": "Wang2004Image:a52ce95a2f189979",
+      "paragraph_index": 3,
+      "source_path": "paper/venues/iclr27/appendix/01_appearance.tex"
+    },
+    {
+      "citation_key": "Zhang2018Unreasonable",
+      "context": "\\subsection{Matched object views} The object comparison contains four chest-of-drawers assets, each rendered from six directions: front, back, left, right, and two elevated front views. Table~\\ref{tab:app-proxy} reports all 24 pairs. PSNR measures pixel error; SSIM measures local luminance and contrast structure \\citep{Wang2004Image}; LPIPS uses learned perceptual features \\citep{Zhang2018Unreasonable}. CLIP and DINOv2 cosine similarities compare image embeddings \\citep{Radford2021Learning,Oquab2023DINOv2}.",
+      "context_sha256": "a52ce95a2f18997953b9ff84d07cc9fb195508ca453f498e84741a5e3edd68a7",
+      "occurrence_id": "Zhang2018Unreasonable:a52ce95a2f189979",
+      "paragraph_index": 3,
+      "source_path": "paper/venues/iclr27/appendix/01_appearance.tex"
+    },
+    {
+      "citation_key": "Radford2021Learning",
+      "context": "\\subsection{Matched object views} The object comparison contains four chest-of-drawers assets, each rendered from six directions: front, back, left, right, and two elevated front views. Table~\\ref{tab:app-proxy} reports all 24 pairs. PSNR measures pixel error; SSIM measures local luminance and contrast structure \\citep{Wang2004Image}; LPIPS uses learned perceptual features \\citep{Zhang2018Unreasonable}. CLIP and DINOv2 cosine similarities compare image embeddings \\citep{Radford2021Learning,Oquab2023DINOv2}.",
+      "context_sha256": "a52ce95a2f18997953b9ff84d07cc9fb195508ca453f498e84741a5e3edd68a7",
+      "occurrence_id": "Radford2021Learning:a52ce95a2f189979",
+      "paragraph_index": 3,
+      "source_path": "paper/venues/iclr27/appendix/01_appearance.tex"
+    },
+    {
+      "citation_key": "Oquab2023DINOv2",
+      "context": "\\subsection{Matched object views} The object comparison contains four chest-of-drawers assets, each rendered from six directions: front, back, left, right, and two elevated front views. Table~\\ref{tab:app-proxy} reports all 24 pairs. PSNR measures pixel error; SSIM measures local luminance and contrast structure \\citep{Wang2004Image}; LPIPS uses learned perceptual features \\citep{Zhang2018Unreasonable}. CLIP and DINOv2 cosine similarities compare image embeddings \\citep{Radford2021Learning,Oquab2023DINOv2}.",
+      "context_sha256": "a52ce95a2f18997953b9ff84d07cc9fb195508ca453f498e84741a5e3edd68a7",
+      "occurrence_id": "Oquab2023DINOv2:a52ce95a2f189979",
+      "paragraph_index": 3,
+      "source_path": "paper/venues/iclr27/appendix/01_appearance.tex"
+    },
+    {
+      "citation_key": "Google2026Gemma4",
+      "context": "\\paragraph{Fixed-factor comparisons.} The readout experiment crosses two requested frames (pixels and normalized 0--1000) with two syntaxes (JSON and two-line text), using the same image queries. The six configurations are Gemma4-E4B in four-bit form \\citep{Google2026Gemma4}, Qwen2.5-VL-7B \\citep{Bai2025Qwen}, Qwen3-VL-2B and 8B \\citep{Bai2025Qwen3}, InternVL3-8B \\citep{Zhu2025InternVL}, and Molmo-7B-D \\citep{Deitke2024Molmo}. The analysis preserves the checkpoint, raw response, image digest, and prompt for every query. A common 0--1000 reinterpretation provides a second, uniformly applied diagnostic alongside scoring in the requested frame.",
+      "context_sha256": "507cecad6ba1d32ba435c18ac39170ec6dfd1e2cd9213df1b344bfae6ee839c5",
+      "occurrence_id": "Google2026Gemma4:507cecad6ba1d32b",
+      "paragraph_index": 4,
+      "source_path": "paper/venues/iclr27/sections/method.tex"
+    },
+    {
+      "citation_key": "Bai2025Qwen",
+      "context": "\\paragraph{Fixed-factor comparisons.} The readout experiment crosses two requested frames (pixels and normalized 0--1000) with two syntaxes (JSON and two-line text), using the same image queries. The six configurations are Gemma4-E4B in four-bit form \\citep{Google2026Gemma4}, Qwen2.5-VL-7B \\citep{Bai2025Qwen}, Qwen3-VL-2B and 8B \\citep{Bai2025Qwen3}, InternVL3-8B \\citep{Zhu2025InternVL}, and Molmo-7B-D \\citep{Deitke2024Molmo}. The analysis preserves the checkpoint, raw response, image digest, and prompt for every query. A common 0--1000 reinterpretation provides a second, uniformly applied diagnostic alongside scoring in the requested frame.",
+      "context_sha256": "507cecad6ba1d32ba435c18ac39170ec6dfd1e2cd9213df1b344bfae6ee839c5",
+      "occurrence_id": "Bai2025Qwen:507cecad6ba1d32b",
+      "paragraph_index": 4,
+      "source_path": "paper/venues/iclr27/sections/method.tex"
+    },
+    {
+      "citation_key": "Bai2025Qwen3",
+      "context": "\\paragraph{Fixed-factor comparisons.} The readout experiment crosses two requested frames (pixels and normalized 0--1000) with two syntaxes (JSON and two-line text), using the same image queries. The six configurations are Gemma4-E4B in four-bit form \\citep{Google2026Gemma4}, Qwen2.5-VL-7B \\citep{Bai2025Qwen}, Qwen3-VL-2B and 8B \\citep{Bai2025Qwen3}, InternVL3-8B \\citep{Zhu2025InternVL}, and Molmo-7B-D \\citep{Deitke2024Molmo}. The analysis preserves the checkpoint, raw response, image digest, and prompt for every query. A common 0--1000 reinterpretation provides a second, uniformly applied diagnostic alongside scoring in the requested frame.",
+      "context_sha256": "507cecad6ba1d32ba435c18ac39170ec6dfd1e2cd9213df1b344bfae6ee839c5",
+      "occurrence_id": "Bai2025Qwen3:507cecad6ba1d32b",
+      "paragraph_index": 4,
+      "source_path": "paper/venues/iclr27/sections/method.tex"
+    },
+    {
+      "citation_key": "Zhu2025InternVL",
+      "context": "\\paragraph{Fixed-factor comparisons.} The readout experiment crosses two requested frames (pixels and normalized 0--1000) with two syntaxes (JSON and two-line text), using the same image queries. The six configurations are Gemma4-E4B in four-bit form \\citep{Google2026Gemma4}, Qwen2.5-VL-7B \\citep{Bai2025Qwen}, Qwen3-VL-2B and 8B \\citep{Bai2025Qwen3}, InternVL3-8B \\citep{Zhu2025InternVL}, and Molmo-7B-D \\citep{Deitke2024Molmo}. The analysis preserves the checkpoint, raw response, image digest, and prompt for every query. A common 0--1000 reinterpretation provides a second, uniformly applied diagnostic alongside scoring in the requested frame.",
+      "context_sha256": "507cecad6ba1d32ba435c18ac39170ec6dfd1e2cd9213df1b344bfae6ee839c5",
+      "occurrence_id": "Zhu2025InternVL:507cecad6ba1d32b",
+      "paragraph_index": 4,
+      "source_path": "paper/venues/iclr27/sections/method.tex"
+    },
+    {
+      "citation_key": "Deitke2024Molmo",
+      "context": "\\paragraph{Fixed-factor comparisons.} The readout experiment crosses two requested frames (pixels and normalized 0--1000) with two syntaxes (JSON and two-line text), using the same image queries. The six configurations are Gemma4-E4B in four-bit form \\citep{Google2026Gemma4}, Qwen2.5-VL-7B \\citep{Bai2025Qwen}, Qwen3-VL-2B and 8B \\citep{Bai2025Qwen3}, InternVL3-8B \\citep{Zhu2025InternVL}, and Molmo-7B-D \\citep{Deitke2024Molmo}. The analysis preserves the checkpoint, raw response, image digest, and prompt for every query. A common 0--1000 reinterpretation provides a second, uniformly applied diagnostic alongside scoring in the requested frame.",
+      "context_sha256": "507cecad6ba1d32ba435c18ac39170ec6dfd1e2cd9213df1b344bfae6ee839c5",
+      "occurrence_id": "Deitke2024Molmo:507cecad6ba1d32b",
+      "paragraph_index": 4,
+      "source_path": "paper/venues/iclr27/sections/method.tex"
+    },
+    {
+      "citation_key": "Tobin2017Domain",
+      "context": "\\paragraph{Appearance and learned visual cues.} Domain randomization varies simulated appearance to improve transfer \\citep{Tobin2017Domain,Tremblay2018Training}. Texture--shape cue conflicts reveal that models can rely on visual evidence different from that used by humans \\citep{Geirhos2019Texture}. Our intervention targets an operational source of appearance variation: changing a scene's material representation while retaining its geometry. This lets us examine localization and navigation decisions under a concrete transformation encountered when simulation assets are reused.",
+      "context_sha256": "295a46cff759ab8627ddf50cf2da1db3f08bfa34209ff0e5034c2105ad5bd86e",
+      "occurrence_id": "Tobin2017Domain:295a46cff759ab86",
+      "paragraph_index": 2,
+      "source_path": "paper/venues/iclr27/sections/related_work.tex"
+    },
+    {
+      "citation_key": "Tremblay2018Training",
+      "context": "\\paragraph{Appearance and learned visual cues.} Domain randomization varies simulated appearance to improve transfer \\citep{Tobin2017Domain,Tremblay2018Training}. Texture--shape cue conflicts reveal that models can rely on visual evidence different from that used by humans \\citep{Geirhos2019Texture}. Our intervention targets an operational source of appearance variation: changing a scene's material representation while retaining its geometry. This lets us examine localization and navigation decisions under a concrete transformation encountered when simulation assets are reused.",
+      "context_sha256": "295a46cff759ab8627ddf50cf2da1db3f08bfa34209ff0e5034c2105ad5bd86e",
+      "occurrence_id": "Tremblay2018Training:295a46cff759ab86",
+      "paragraph_index": 2,
+      "source_path": "paper/venues/iclr27/sections/related_work.tex"
+    },
+    {
+      "citation_key": "Geirhos2019Texture",
+      "context": "\\paragraph{Appearance and learned visual cues.} Domain randomization varies simulated appearance to improve transfer \\citep{Tobin2017Domain,Tremblay2018Training}. Texture--shape cue conflicts reveal that models can rely on visual evidence different from that used by humans \\citep{Geirhos2019Texture}. Our intervention targets an operational source of appearance variation: changing a scene's material representation while retaining its geometry. This lets us examine localization and navigation decisions under a concrete transformation encountered when simulation assets are reused.",
+      "context_sha256": "295a46cff759ab8627ddf50cf2da1db3f08bfa34209ff0e5034c2105ad5bd86e",
+      "occurrence_id": "Geirhos2019Texture:295a46cff759ab86",
+      "paragraph_index": 2,
+      "source_path": "paper/venues/iclr27/sections/related_work.tex"
+    },
+    {
+      "citation_key": "Chen2023Shikra",
+      "context": "\\paragraph{Grounding and model readout.} Shikra and Ferret integrate referring and grounding with language generation \\citep{Chen2023Shikra,You2024Ferret}. Molmo explicitly develops pointing data, Qwen2.5-VL supports object localization and dynamic image resolution, and InternVL3 explores multimodal training and inference recipes \\citep{Deitke2024Molmo,Bai2025Qwen,Zhu2025InternVL}. These capabilities make spatial outputs useful, but the interface through which a point is emitted also becomes part of the experiment. Prompt dependence is well established for language models \\citep{Zhao2021Calibrate}; we examine its interaction with a paired visual intervention and separate executable output from conditional localization accuracy.",
+      "context_sha256": "4cab8995e66bd1d68a9c8c55fe1630017def99795150adb4178369c2bc6fe1ff",
+      "occurrence_id": "Chen2023Shikra:4cab8995e66bd1d6",
+      "paragraph_index": 3,
+      "source_path": "paper/venues/iclr27/sections/related_work.tex"
+    },
+    {
+      "citation_key": "You2024Ferret",
+      "context": "\\paragraph{Grounding and model readout.} Shikra and Ferret integrate referring and grounding with language generation \\citep{Chen2023Shikra,You2024Ferret}. Molmo explicitly develops pointing data, Qwen2.5-VL supports object localization and dynamic image resolution, and InternVL3 explores multimodal training and inference recipes \\citep{Deitke2024Molmo,Bai2025Qwen,Zhu2025InternVL}. These capabilities make spatial outputs useful, but the interface through which a point is emitted also becomes part of the experiment. Prompt dependence is well established for language models \\citep{Zhao2021Calibrate}; we examine its interaction with a paired visual intervention and separate executable output from conditional localization accuracy.",
+      "context_sha256": "4cab8995e66bd1d68a9c8c55fe1630017def99795150adb4178369c2bc6fe1ff",
+      "occurrence_id": "You2024Ferret:4cab8995e66bd1d6",
+      "paragraph_index": 3,
+      "source_path": "paper/venues/iclr27/sections/related_work.tex"
+    },
+    {
+      "citation_key": "Deitke2024Molmo",
+      "context": "\\paragraph{Grounding and model readout.} Shikra and Ferret integrate referring and grounding with language generation \\citep{Chen2023Shikra,You2024Ferret}. Molmo explicitly develops pointing data, Qwen2.5-VL supports object localization and dynamic image resolution, and InternVL3 explores multimodal training and inference recipes \\citep{Deitke2024Molmo,Bai2025Qwen,Zhu2025InternVL}. These capabilities make spatial outputs useful, but the interface through which a point is emitted also becomes part of the experiment. Prompt dependence is well established for language models \\citep{Zhao2021Calibrate}; we examine its interaction with a paired visual intervention and separate executable output from conditional localization accuracy.",
+      "context_sha256": "4cab8995e66bd1d68a9c8c55fe1630017def99795150adb4178369c2bc6fe1ff",
+      "occurrence_id": "Deitke2024Molmo:4cab8995e66bd1d6",
+      "paragraph_index": 3,
+      "source_path": "paper/venues/iclr27/sections/related_work.tex"
+    },
+    {
+      "citation_key": "Bai2025Qwen",
+      "context": "\\paragraph{Grounding and model readout.} Shikra and Ferret integrate referring and grounding with language generation \\citep{Chen2023Shikra,You2024Ferret}. Molmo explicitly develops pointing data, Qwen2.5-VL supports object localization and dynamic image resolution, and InternVL3 explores multimodal training and inference recipes \\citep{Deitke2024Molmo,Bai2025Qwen,Zhu2025InternVL}. These capabilities make spatial outputs useful, but the interface through which a point is emitted also becomes part of the experiment. Prompt dependence is well established for language models \\citep{Zhao2021Calibrate}; we examine its interaction with a paired visual intervention and separate executable output from conditional localization accuracy.",
+      "context_sha256": "4cab8995e66bd1d68a9c8c55fe1630017def99795150adb4178369c2bc6fe1ff",
+      "occurrence_id": "Bai2025Qwen:4cab8995e66bd1d6",
+      "paragraph_index": 3,
+      "source_path": "paper/venues/iclr27/sections/related_work.tex"
+    },
+    {
+      "citation_key": "Zhu2025InternVL",
+      "context": "\\paragraph{Grounding and model readout.} Shikra and Ferret integrate referring and grounding with language generation \\citep{Chen2023Shikra,You2024Ferret}. Molmo explicitly develops pointing data, Qwen2.5-VL supports object localization and dynamic image resolution, and InternVL3 explores multimodal training and inference recipes \\citep{Deitke2024Molmo,Bai2025Qwen,Zhu2025InternVL}. These capabilities make spatial outputs useful, but the interface through which a point is emitted also becomes part of the experiment. Prompt dependence is well established for language models \\citep{Zhao2021Calibrate}; we examine its interaction with a paired visual intervention and separate executable output from conditional localization accuracy.",
+      "context_sha256": "4cab8995e66bd1d68a9c8c55fe1630017def99795150adb4178369c2bc6fe1ff",
+      "occurrence_id": "Zhu2025InternVL:4cab8995e66bd1d6",
+      "paragraph_index": 3,
+      "source_path": "paper/venues/iclr27/sections/related_work.tex"
+    },
+    {
+      "citation_key": "Zhao2021Calibrate",
+      "context": "\\paragraph{Grounding and model readout.} Shikra and Ferret integrate referring and grounding with language generation \\citep{Chen2023Shikra,You2024Ferret}. Molmo explicitly develops pointing data, Qwen2.5-VL supports object localization and dynamic image resolution, and InternVL3 explores multimodal training and inference recipes \\citep{Deitke2024Molmo,Bai2025Qwen,Zhu2025InternVL}. These capabilities make spatial outputs useful, but the interface through which a point is emitted also becomes part of the experiment. Prompt dependence is well established for language models \\citep{Zhao2021Calibrate}; we examine its interaction with a paired visual intervention and separate executable output from conditional localization accuracy.",
+      "context_sha256": "4cab8995e66bd1d68a9c8c55fe1630017def99795150adb4178369c2bc6fe1ff",
+      "occurrence_id": "Zhao2021Calibrate:4cab8995e66bd1d6",
+      "paragraph_index": 3,
+      "source_path": "paper/venues/iclr27/sections/related_work.tex"
+    },
+    {
+      "citation_key": "Anderson2018Vision",
+      "context": "\\paragraph{Embodied evaluation.} Vision-and-language navigation couples language understanding to sequential perception and action \\citep{Anderson2018Vision}. GRUtopia provides interactive scenes and tasks for embodied research \\citep{Wang2024GRUtopia}; DualVLN combines grounding and control in a navigation system \\citep{Wei2026Ground}. We use GRScenes for point-level experiments and KuJiaLe scenes for paired navigation. The common experimental question is how a change to rendered appearance alters decisions, from one image to an entire episode.",
+      "context_sha256": "3e39538737761fd8bd8e18f5e20f26e0cd6769615db37af6623e1dd283c8b66d",
+      "occurrence_id": "Anderson2018Vision:3e39538737761fd8",
+      "paragraph_index": 4,
+      "source_path": "paper/venues/iclr27/sections/related_work.tex"
+    },
+    {
+      "citation_key": "Wang2024GRUtopia",
+      "context": "\\paragraph{Embodied evaluation.} Vision-and-language navigation couples language understanding to sequential perception and action \\citep{Anderson2018Vision}. GRUtopia provides interactive scenes and tasks for embodied research \\citep{Wang2024GRUtopia}; DualVLN combines grounding and control in a navigation system \\citep{Wei2026Ground}. We use GRScenes for point-level experiments and KuJiaLe scenes for paired navigation. The common experimental question is how a change to rendered appearance alters decisions, from one image to an entire episode.",
+      "context_sha256": "3e39538737761fd8bd8e18f5e20f26e0cd6769615db37af6623e1dd283c8b66d",
+      "occurrence_id": "Wang2024GRUtopia:3e39538737761fd8",
+      "paragraph_index": 4,
+      "source_path": "paper/venues/iclr27/sections/related_work.tex"
+    },
+    {
+      "citation_key": "Wei2026Ground",
+      "context": "\\paragraph{Embodied evaluation.} Vision-and-language navigation couples language understanding to sequential perception and action \\citep{Anderson2018Vision}. GRUtopia provides interactive scenes and tasks for embodied research \\citep{Wang2024GRUtopia}; DualVLN combines grounding and control in a navigation system \\citep{Wei2026Ground}. We use GRScenes for point-level experiments and KuJiaLe scenes for paired navigation. The common experimental question is how a change to rendered appearance alters decisions, from one image to an entire episode.",
+      "context_sha256": "3e39538737761fd8bd8e18f5e20f26e0cd6769615db37af6623e1dd283c8b66d",
+      "occurrence_id": "Wei2026Ground:3e39538737761fd8",
+      "paragraph_index": 4,
+      "source_path": "paper/venues/iclr27/sections/related_work.tex"
+    }
+  ],
+  "refchecker_report": null,
+  "references": [
+    {
+      "bib_entry_type": "inproceedings",
+      "bib_metadata": {
+        "author": "Peter Anderson and Qi Wu and Damien Teney and Jake Bruce\n               and Mark Johnson and Niko S{\\\"u}nderhauf and Ian Reid\n               and Stephen Gould and Anton van den Hengel",
+        "booktitle": "Proceedings of the IEEE/CVF Conference on Computer Vision and\n               Pattern Recognition (CVPR)",
+        "doi": "10.1109/CVPR.2018.00387",
+        "pages": "3674--3683",
+        "title": "{Vision-and-Language Navigation: Interpreting Visually-Grounded\n               Navigation Instructions in Real Environments}",
+        "url": "https://openaccess.thecvf.com/content_cvpr_2018/papers/Anderson_Vision-and-Language_Navigation_Interpreting_CVPR_2018_paper.pdf",
+        "year": "2018"
+      },
+      "citation_key": "Anderson2018Vision",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "crossref-doi",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Anderson",
+                "Wu",
+                "Teney",
+                "Bruce",
+                "Johnson",
+                "Sunderhauf",
+                "Reid",
+                "Gould",
+                "van den Hengel"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "Vision-and-Language Navigation: Interpreting Visually-Grounded Navigation Instructions in Real Environments",
+              "title_similarity": 1.0,
+              "year": 2018,
+              "year_ok": true
+            },
+            "url": "https://api.crossref.org/works/10.1109%2FCVPR.2018.00387"
+          },
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": false,
+              "review": false,
+              "title": "",
+              "title_similarity": 0.0
+            },
+            "official_domain": false,
+            "url": "https://openaccess.thecvf.com/content_cvpr_2018/papers/Anderson_Vision-and-Language_Navigation_Interpreting_CVPR_2018_paper.pdf"
+          },
+          {
+            "backend": "crossref-search",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Anderson",
+                "Wu",
+                "Teney",
+                "Bruce",
+                "Johnson",
+                "Sunderhauf",
+                "Reid",
+                "Gould",
+                "van den Hengel"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "Vision-and-Language Navigation: Interpreting Visually-Grounded Navigation Instructions in Real Environments",
+              "title_similarity": 1.0,
+              "year": 2018,
+              "year_ok": true
+            },
+            "url": "https://api.crossref.org/works?query.title=%7BVision-and-Language+Navigation%3A+Interpreting+Visually-Grounded%0A+++++++++++++++Navigation+Instructions+in+Real+Environments%7D&rows=3"
+          },
+          {
+            "backend": "openalex",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Anderson",
+                "Wu",
+                "Teney",
+                "Bruce",
+                "Johnson",
+                "S\u00fcnderhauf",
+                "Reid",
+                "Gould",
+                "Hengel"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "Vision-and-Language Navigation: Interpreting Visually-Grounded Navigation Instructions in Real Environments",
+              "title_similarity": 1.0,
+              "year": 2018,
+              "year_ok": true
+            },
+            "url": "https://api.openalex.org/works?search=%7BVision-and-Language+Navigation%3A+Interpreting+Visually-Grounded%0A+++++++++++++++Navigation+Instructions+in+Real+Environments%7D&per-page=3"
+          }
+        ],
+        "checked_at": "2026-09-15T20:17:05+00:00",
+        "effective_status": "VERIFIED_PRIMARY",
+        "errors": [
+          "RemoteDisconnected: Remote end closed connection without response"
+        ],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "VERIFIED_PRIMARY"
+      },
+      "occurrence_count": 1,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Anderson2018Vision",
+            "context": "\\paragraph{Embodied evaluation.} Vision-and-language navigation couples language understanding to sequential perception and action \\citep{Anderson2018Vision}. GRUtopia provides interactive scenes and tasks for embodied research \\citep{Wang2024GRUtopia}; DualVLN combines grounding and control in a navigation system \\citep{Wei2026Ground}. We use GRScenes for point-level experiments and KuJiaLe scenes for paired navigation. The common experimental question is how a change to rendered appearance alters decisions, from one image to an entire episode.",
+            "context_sha256": "3e39538737761fd8bd8e18f5e20f26e0cd6769615db37af6623e1dd283c8b66d",
+            "occurrence_id": "Anderson2018Vision:3e39538737761fd8",
+            "paragraph_index": 4,
+            "source_path": "paper/venues/iclr27/sections/related_work.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "article",
+      "bib_metadata": {
+        "author": "Bai, Shuai and Chen, Keqin and Liu, Xuejing and Wang, Jialin and Ge, Wenbin and Song, Sibo and Dang, Kai and Wang, Peng and Wang, Shijie and Tang, Jun and Zhong, Humen and Zhu, Yuanzhi and Yang, Mingkun and Li, Zhaohai and Wan, Jianqiang and Wang, Pengfei and Ding, Wei and Fu, Zheren and Xu, Yiheng and Ye, Jiabo and Zhang, Xi and Xie, Tianbao and Cheng, Zesen and Zhang, Hang and Yang, Zhibo and Xu, Haiyang and Lin, Junyang",
+        "journal": "arXiv preprint arXiv:2502.13923",
+        "title": "{Qwen2.5-VL Technical Report}",
+        "url": "https://arxiv.org/abs/2502.13923",
+        "year": "2025"
+      },
+      "citation_key": "Bai2025Qwen",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": false,
+              "review": true,
+              "title": "[2502.13923] Qwen2.5-VL Technical Report",
+              "title_similarity": 0.830769
+            },
+            "official_domain": true,
+            "url": "https://arxiv.org/abs/2502.13923"
+          },
+          {
+            "backend": "openalex",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Bai",
+                "Chen",
+                "Liu",
+                "Wang",
+                "Ge",
+                "Song",
+                "Dang",
+                "Wang",
+                "Wang",
+                "Tang",
+                "Humen",
+                "Zhu",
+                "Yang",
+                "Li",
+                "Wan",
+                "Wang",
+                "Ding",
+                "Fu",
+                "Xu",
+                "Ye",
+                "Zhang",
+                "Xie",
+                "Zesen",
+                "Hang",
+                "Yang",
+                "Xu",
+                "Junyang"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "Qwen2.5-VL Technical Report",
+              "title_similarity": 1.0,
+              "year": 2025,
+              "year_ok": true
+            },
+            "url": "https://api.openalex.org/works?search=%7BQwen2.5-VL+Technical+Report%7D&per-page=3"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:38+00:00",
+        "effective_status": "NOT_CHECKED",
+        "errors": [
+          "HTTPError: HTTP Error 429: Too Many Requests",
+          "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        ],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "UNRESOLVED"
+      },
+      "occurrence_count": 2,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Bai2025Qwen",
+            "context": "\\paragraph{Fixed-factor comparisons.} The readout experiment crosses two requested frames (pixels and normalized 0--1000) with two syntaxes (JSON and two-line text), using the same image queries. The six configurations are Gemma4-E4B in four-bit form \\citep{Google2026Gemma4}, Qwen2.5-VL-7B \\citep{Bai2025Qwen}, Qwen3-VL-2B and 8B \\citep{Bai2025Qwen3}, InternVL3-8B \\citep{Zhu2025InternVL}, and Molmo-7B-D \\citep{Deitke2024Molmo}. The analysis preserves the checkpoint, raw response, image digest, and prompt for every query. A common 0--1000 reinterpretation provides a second, uniformly applied diagnostic alongside scoring in the requested frame.",
+            "context_sha256": "507cecad6ba1d32ba435c18ac39170ec6dfd1e2cd9213df1b344bfae6ee839c5",
+            "occurrence_id": "Bai2025Qwen:507cecad6ba1d32b",
+            "paragraph_index": 4,
+            "source_path": "paper/venues/iclr27/sections/method.tex"
+          },
+          "status": "NOT_CHECKED"
+        },
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Bai2025Qwen",
+            "context": "\\paragraph{Grounding and model readout.} Shikra and Ferret integrate referring and grounding with language generation \\citep{Chen2023Shikra,You2024Ferret}. Molmo explicitly develops pointing data, Qwen2.5-VL supports object localization and dynamic image resolution, and InternVL3 explores multimodal training and inference recipes \\citep{Deitke2024Molmo,Bai2025Qwen,Zhu2025InternVL}. These capabilities make spatial outputs useful, but the interface through which a point is emitted also becomes part of the experiment. Prompt dependence is well established for language models \\citep{Zhao2021Calibrate}; we examine its interaction with a paired visual intervention and separate executable output from conditional localization accuracy.",
+            "context_sha256": "4cab8995e66bd1d68a9c8c55fe1630017def99795150adb4178369c2bc6fe1ff",
+            "occurrence_id": "Bai2025Qwen:4cab8995e66bd1d6",
+            "paragraph_index": 3,
+            "source_path": "paper/venues/iclr27/sections/related_work.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "article",
+      "bib_metadata": {
+        "author": "Bai, Shuai and Cai, Yuxuan and Chen, Ruizhe and Chen, Keqin and Chen, Xionghui and Cheng, Zesen and Deng, Lianghao and Ding, Wei and Gao, Chang and Ge, Chunjiang and Ge, Wenbin and Guo, Zhifang and Huang, Qidong and Huang, Jie and Huang, Fei and Hui, Binyuan and Jiang, Shutong and Li, Zhaohai and Li, Mingsheng and Li, Mei and Li, Kaixin and Lin, Zicheng and Lin, Junyang and Liu, Xuejing and Liu, Jiawei and Liu, Chenglong and Liu, Yang and Liu, Dayiheng and Liu, Shixuan and Lu, Dunjie and Luo, Ruilin and Lv, Chenxu and Men, Rui and Meng, Lingchen and Ren, Xuancheng and Ren, Xingzhang and Song, Sibo and Sun, Yuchong and Tang, Jun and Tu, Jianhong and Wan, Jianqiang and Wang, Peng and Wang, Pengfei and Wang, Qiuyue and Wang, Yuxuan and Xie, Tianbao and Xu, Yiheng and Xu, Haiyang and Xu, Jin and Yang, Zhibo and Yang, Mingkun and Yang, Jianxin and Yang, An and Yu, Bowen and Zhang, Fei and Zhang, Hang and Zhang, Xi and Zheng, Bo and Zhong, Humen and Zhou, Jingren and Zhou, Fan and Zhou, Jing and Zhu, Yuanzhi and Zhu, Ke",
+        "journal": "arXiv preprint arXiv:2511.21631",
+        "title": "{Qwen3-VL Technical Report}",
+        "url": "https://arxiv.org/abs/2511.21631",
+        "year": "2025"
+      },
+      "citation_key": "Bai2025Qwen3",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": false,
+              "review": true,
+              "title": "[2511.21631] Qwen3-VL Technical Report",
+              "title_similarity": 0.819672
+            },
+            "official_domain": true,
+            "url": "https://arxiv.org/abs/2511.21631"
+          },
+          {
+            "backend": "crossref-search",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Noorcholish",
+                "Imaduddin"
+              ],
+              "first_author_ok": false,
+              "pass": false,
+              "review": false,
+              "title": "LoRA-Based Adaptation of Qwen3-VL for Respiratory Disease Classification Through VQA Framework",
+              "title_similarity": 0.336134,
+              "year": 2026,
+              "year_ok": true
+            },
+            "url": "https://api.crossref.org/works?query.title=%7BQwen3-VL+Technical+Report%7D&rows=3"
+          },
+          {
+            "backend": "openalex",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Bai",
+                "Cai",
+                "Chen",
+                "Chen",
+                "Chen",
+                "Cheng",
+                "Lianghao",
+                "Ding",
+                "Gao",
+                "Ge",
+                "Ge",
+                "Guo",
+                "Huang",
+                "Huang",
+                "Huang",
+                "Hui",
+                "Shutong",
+                "Li",
+                "Li",
+                "Li",
+                "Li",
+                "Lin",
+                "Junyang",
+                "Liu",
+                "Liu",
+                "Liu",
+                "Liu",
+                "Liu",
+                "Liu",
+                "L\u00fc",
+                "Luo",
+                "Lv",
+                "Men",
+                "Meng",
+                "Ren",
+                "Ren",
+                "Song",
+                "Sun",
+                "Tang",
+                "Tu",
+                "Wan",
+                "Wang",
+                "Wang",
+                "Wang",
+                "Wang",
+                "Xie",
+                "Xu",
+                "Xu",
+                "Xu",
+                "Yang",
+                "Yang",
+                "Yang",
+                "An",
+                "Yu",
+                "Fei",
+                "Hang",
+                "Zhang",
+                "Zheng",
+                "Humen",
+                "Zhou",
+                "Zhou",
+                "Zhou",
+                "Zhu",
+                "Zhu"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "Qwen3-VL Technical Report",
+              "title_similarity": 1.0,
+              "year": 2025,
+              "year_ok": true
+            },
+            "url": "https://api.openalex.org/works?search=%7BQwen3-VL+Technical+Report%7D&per-page=3"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:39+00:00",
+        "effective_status": "NOT_CHECKED",
+        "errors": [
+          "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        ],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "UNRESOLVED"
+      },
+      "occurrence_count": 1,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Bai2025Qwen3",
+            "context": "\\paragraph{Fixed-factor comparisons.} The readout experiment crosses two requested frames (pixels and normalized 0--1000) with two syntaxes (JSON and two-line text), using the same image queries. The six configurations are Gemma4-E4B in four-bit form \\citep{Google2026Gemma4}, Qwen2.5-VL-7B \\citep{Bai2025Qwen}, Qwen3-VL-2B and 8B \\citep{Bai2025Qwen3}, InternVL3-8B \\citep{Zhu2025InternVL}, and Molmo-7B-D \\citep{Deitke2024Molmo}. The analysis preserves the checkpoint, raw response, image digest, and prompt for every query. A common 0--1000 reinterpretation provides a second, uniformly applied diagnostic alongside scoring in the requested frame.",
+            "context_sha256": "507cecad6ba1d32ba435c18ac39170ec6dfd1e2cd9213df1b344bfae6ee839c5",
+            "occurrence_id": "Bai2025Qwen3:507cecad6ba1d32b",
+            "paragraph_index": 4,
+            "source_path": "paper/venues/iclr27/sections/method.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "article",
+      "bib_metadata": {
+        "author": "Keqin Chen and Zhao Zhang and Weili Zeng and Richong Zhang\n               and Feng Zhu and Rui Zhao",
+        "doi": "10.48550/arXiv.2306.15195",
+        "journal": "arXiv preprint arXiv:2306.15195",
+        "title": "{Shikra: Unleashing Multimodal LLM's Referential Dialogue Magic}",
+        "url": "https://arxiv.org/abs/2306.15195",
+        "year": "2023"
+      },
+      "citation_key": "Chen2023Shikra",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": false,
+              "review": true,
+              "title": "[2306.15195] Shikra: Unleashing Multimodal LLM's Referential Dialogue Magic",
+              "title_similarity": 0.917293
+            },
+            "official_domain": true,
+            "url": "https://arxiv.org/abs/2306.15195"
+          },
+          {
+            "backend": "crossref-search",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Parker"
+              ],
+              "first_author_ok": false,
+              "pass": false,
+              "review": false,
+              "title": "Unleashing Magic",
+              "title_similarity": 0.415584,
+              "year": 2025,
+              "year_ok": false
+            },
+            "url": "https://api.crossref.org/works?query.title=%7BShikra%3A+Unleashing+Multimodal+LLM%27s+Referential+Dialogue+Magic%7D&rows=3"
+          },
+          {
+            "backend": "openalex",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Chen",
+                "Zhang",
+                "Zeng",
+                "Zhang",
+                "Zhu",
+                "Zhao"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "Shikra: Unleashing Multimodal LLM's Referential Dialogue Magic",
+              "title_similarity": 1.0,
+              "year": 2023,
+              "year_ok": true
+            },
+            "url": "https://api.openalex.org/works?search=%7BShikra%3A+Unleashing+Multimodal+LLM%27s+Referential+Dialogue+Magic%7D&per-page=3"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:39+00:00",
+        "effective_status": "NOT_CHECKED",
+        "errors": [
+          "HTTPError: HTTP Error 404: Not Found",
+          "HTTPError: HTTP Error 429: Too Many Requests"
+        ],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "DOI_UNVERIFIED"
+      },
+      "occurrence_count": 1,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Chen2023Shikra",
+            "context": "\\paragraph{Grounding and model readout.} Shikra and Ferret integrate referring and grounding with language generation \\citep{Chen2023Shikra,You2024Ferret}. Molmo explicitly develops pointing data, Qwen2.5-VL supports object localization and dynamic image resolution, and InternVL3 explores multimodal training and inference recipes \\citep{Deitke2024Molmo,Bai2025Qwen,Zhu2025InternVL}. These capabilities make spatial outputs useful, but the interface through which a point is emitted also becomes part of the experiment. Prompt dependence is well established for language models \\citep{Zhao2021Calibrate}; we examine its interaction with a paired visual intervention and separate executable output from conditional localization accuracy.",
+            "context_sha256": "4cab8995e66bd1d68a9c8c55fe1630017def99795150adb4178369c2bc6fe1ff",
+            "occurrence_id": "Chen2023Shikra:4cab8995e66bd1d6",
+            "paragraph_index": 3,
+            "source_path": "paper/venues/iclr27/sections/related_work.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "inproceedings",
+      "bib_metadata": {
+        "author": "Deitke, Matt and Clark, Christopher and Lee, Sangho and Tripathi, Rohun and Yang, Yue and Park, Jae Sung and Salehi, Mohammadreza and Muennighoff, Niklas and Lo, Kyle and Soldaini, Luca and Lu, Jiasen and Anderson, Taira and Bransom, Erin and Ehsani, Kiana and Ngo, Huong and Chen, YenSung and Patel, Ajay and Yatskar, Mark and Callison-Burch, Chris and Head, Andrew and Hendrix, Rose and Bastani, Favyen and VanderBilt, Eli and Lambert, Nathan and Chou, Yvonne and Chheda, Arnavi and Sparks, Jenna and Skjonsberg, Sam and Schmitz, Michael and Sarnat, Aaron and Bischoff, Byron and Walsh, Pete and Newell, Chris and Wolters, Piper and Gupta, Tanmay and Zeng, Kuo-Hao and Borchardt, Jon and Groeneveld, Dirk and Nam, Crystal and Lebrecht, Sophie and Wittlif, Caitlin and Schoenick, Carissa and Michel, Oscar and Krishna, Ranjay and Weihs, Luca and Smith, Noah A. and Hajishirzi, Hannaneh and Girshick, Ross and Farhadi, Ali and Kembhavi, Aniruddha",
+        "booktitle": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+        "pages": "91--104",
+        "title": "{Molmo and PixMo: Open Weights and Open Data for State-of-the-Art Vision-Language Models}",
+        "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Deitke_Molmo_and_PixMo_Open_Weights_and_Open_Data_for_State-of-the-Art_CVPR_2025_paper.html",
+        "year": "2025"
+      },
+      "citation_key": "Deitke2024Molmo",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": false,
+              "review": false,
+              "title": "CVPR 2025 Open Access Repository",
+              "title_similarity": 0.237288
+            },
+            "official_domain": false,
+            "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Deitke_Molmo_and_PixMo_Open_Weights_and_Open_Data_for_State-of-the-Art_CVPR_2025_paper.html"
+          },
+          {
+            "backend": "crossref-search",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Deitke",
+                "Clark",
+                "Lee",
+                "Tripathi",
+                "Yang",
+                "Park",
+                "Salehi",
+                "Muennighoff",
+                "Lo",
+                "Soldaini",
+                "Lu",
+                "Anderson",
+                "Bransom",
+                "Ehsani",
+                "Ngo",
+                "Chen",
+                "Patel",
+                "Yatskar",
+                "Callison-Burch",
+                "Head",
+                "Hendrix",
+                "Bastani",
+                "VanderBilt",
+                "Lambert",
+                "Chou",
+                "Chheda",
+                "Sparks",
+                "Skjonsberg",
+                "Schmitz",
+                "Sarnat",
+                "Bischoff",
+                "Walsh",
+                "Newell",
+                "Wolters",
+                "Gupta",
+                "Zeng",
+                "Borchardt",
+                "Groeneveld",
+                "Nam",
+                "Lebrecht",
+                "Wittlif",
+                "Schoenick",
+                "Michel",
+                "Krishna",
+                "Weihs",
+                "Smith",
+                "Hajishirzi",
+                "Girshick",
+                "Farhadi",
+                "Kembhavi"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "Molmo and PixMo: Open Weights and Open Data for State-of-the-Art Vision-Language Models",
+              "title_similarity": 1.0,
+              "year": 2025,
+              "year_ok": true
+            },
+            "url": "https://api.crossref.org/works?query.title=%7BMolmo+and+PixMo%3A+Open+Weights+and+Open+Data+for+State-of-the-Art+Vision-Language+Models%7D&rows=3"
+          },
+          {
+            "backend": "openalex",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Deitke",
+                "Clark",
+                "Lee",
+                "Tripathi",
+                "Yang",
+                "Park",
+                "Salehi",
+                "Muennighoff",
+                "Lo",
+                "Soldaini",
+                "Lu",
+                "Anderson",
+                "Bransom",
+                "Ehsani",
+                "Ngo",
+                "Chen",
+                "Patel",
+                "Yatskar",
+                "Callison-Burch",
+                "Head",
+                "Hendrix",
+                "Bastani",
+                "VanderBilt",
+                "Lambert",
+                "Chou",
+                "Chheda",
+                "Sparks",
+                "Skjonsberg",
+                "Schmitz",
+                "Sarnat",
+                "Bischoff",
+                "Walsh",
+                "Newell",
+                "Wolters",
+                "Gupta",
+                "Zeng",
+                "Borchardt",
+                "Groeneveld",
+                "Nam",
+                "Lebrecht",
+                "Wittlif",
+                "Schoenick",
+                "Michel",
+                "Krishna",
+                "Weihs",
+                "Smith",
+                "Hajishirzi",
+                "Girshick",
+                "Farhadi",
+                "Kembhavi"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "Molmo and PixMo: Open Weights and Open Data for State-of-the-Art Vision-Language Models",
+              "title_similarity": 1.0,
+              "year": 2025,
+              "year_ok": true
+            },
+            "url": "https://api.openalex.org/works?search=%7BMolmo+and+PixMo%3A+Open+Weights+and+Open+Data+for+State-of-the-Art+Vision-Language+Models%7D&per-page=3"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:39+00:00",
+        "effective_status": "VERIFIED_CROSS_INDEX",
+        "errors": [
+          "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        ],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "VERIFIED_CROSS_INDEX"
+      },
+      "occurrence_count": 2,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Deitke2024Molmo",
+            "context": "\\paragraph{Fixed-factor comparisons.} The readout experiment crosses two requested frames (pixels and normalized 0--1000) with two syntaxes (JSON and two-line text), using the same image queries. The six configurations are Gemma4-E4B in four-bit form \\citep{Google2026Gemma4}, Qwen2.5-VL-7B \\citep{Bai2025Qwen}, Qwen3-VL-2B and 8B \\citep{Bai2025Qwen3}, InternVL3-8B \\citep{Zhu2025InternVL}, and Molmo-7B-D \\citep{Deitke2024Molmo}. The analysis preserves the checkpoint, raw response, image digest, and prompt for every query. A common 0--1000 reinterpretation provides a second, uniformly applied diagnostic alongside scoring in the requested frame.",
+            "context_sha256": "507cecad6ba1d32ba435c18ac39170ec6dfd1e2cd9213df1b344bfae6ee839c5",
+            "occurrence_id": "Deitke2024Molmo:507cecad6ba1d32b",
+            "paragraph_index": 4,
+            "source_path": "paper/venues/iclr27/sections/method.tex"
+          },
+          "status": "NOT_CHECKED"
+        },
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Deitke2024Molmo",
+            "context": "\\paragraph{Grounding and model readout.} Shikra and Ferret integrate referring and grounding with language generation \\citep{Chen2023Shikra,You2024Ferret}. Molmo explicitly develops pointing data, Qwen2.5-VL supports object localization and dynamic image resolution, and InternVL3 explores multimodal training and inference recipes \\citep{Deitke2024Molmo,Bai2025Qwen,Zhu2025InternVL}. These capabilities make spatial outputs useful, but the interface through which a point is emitted also becomes part of the experiment. Prompt dependence is well established for language models \\citep{Zhao2021Calibrate}; we examine its interaction with a paired visual intervention and separate executable output from conditional localization accuracy.",
+            "context_sha256": "4cab8995e66bd1d68a9c8c55fe1630017def99795150adb4178369c2bc6fe1ff",
+            "occurrence_id": "Deitke2024Molmo:4cab8995e66bd1d6",
+            "paragraph_index": 3,
+            "source_path": "paper/venues/iclr27/sections/related_work.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "inproceedings",
+      "bib_metadata": {
+        "author": "Robert Geirhos and Patricia Rubisch and Claudio Michaelis and Matthias Bethge and Felix A. Wichmann and Wieland Brendel",
+        "booktitle": "International Conference on Learning Representations",
+        "title": "{ImageNet-trained CNNs are biased towards texture; increasing shape bias improves accuracy and robustness}",
+        "url": "https://arxiv.org/abs/1811.12231",
+        "year": "2019"
+      },
+      "citation_key": "Geirhos2019Texture",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": true,
+              "review": false,
+              "title": "[1811.12231] ImageNet-trained CNNs are biased towards texture; increasing shape bias improves accuracy and robustness",
+              "title_similarity": 0.949309
+            },
+            "official_domain": true,
+            "url": "https://arxiv.org/abs/1811.12231"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:31+00:00",
+        "effective_status": "VERIFIED_PRIMARY",
+        "errors": [],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "VERIFIED_PRIMARY"
+      },
+      "occurrence_count": 1,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Geirhos2019Texture",
+            "context": "\\paragraph{Appearance and learned visual cues.} Domain randomization varies simulated appearance to improve transfer \\citep{Tobin2017Domain,Tremblay2018Training}. Texture--shape cue conflicts reveal that models can rely on visual evidence different from that used by humans \\citep{Geirhos2019Texture}. Our intervention targets an operational source of appearance variation: changing a scene's material representation while retaining its geometry. This lets us examine localization and navigation decisions under a concrete transformation encountered when simulation assets are reused.",
+            "context_sha256": "295a46cff759ab8627ddf50cf2da1db3f08bfa34209ff0e5034c2105ad5bd86e",
+            "occurrence_id": "Geirhos2019Texture:295a46cff759ab86",
+            "paragraph_index": 2,
+            "source_path": "paper/venues/iclr27/sections/related_work.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "misc",
+      "bib_metadata": {
+        "author": "{Google DeepMind}",
+        "howpublished": "Google AI for Developers",
+        "note": "Accessed September 15, 2026",
+        "title": "{Gemma 4 model card}",
+        "url": "https://ai.google.dev/gemma/docs/core/model_card_4",
+        "year": "2026"
+      },
+      "citation_key": "Google2026Gemma4",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": false,
+              "review": false,
+              "title": "Gemma 4 model card \u00a0|\u00a0 Google AI for Developers",
+              "title_similarity": 0.590164
+            },
+            "official_domain": false,
+            "url": "https://ai.google.dev/gemma/docs/core/model_card_4"
+          },
+          {
+            "backend": "crossref-search",
+            "is_retracted": false,
+            "match": {
+              "authors": [],
+              "first_author_ok": true,
+              "pass": false,
+              "review": false,
+              "title": "Gemma",
+              "title_similarity": 0.434783,
+              "year": 2024,
+              "year_ok": false
+            },
+            "url": "https://api.crossref.org/works?query.title=%7BGemma+4+model+card%7D&rows=3"
+          },
+          {
+            "backend": "openalex",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Team",
+                "M\u00e9snard",
+                "Hardin",
+                "Dadashi",
+                "Bhupatiraju",
+                "Pathak",
+                "Sifre",
+                "Rivi\u00e8re",
+                "Kale",
+                "Love",
+                "Tafti",
+                "Hussenot",
+                "Sessa",
+                "Chowdhery",
+                "Roberts",
+                "Barua",
+                "Botev",
+                "Castro-Ros",
+                "Slone",
+                "H\u00e9liou",
+                "Tacchetti",
+                "Bulanova",
+                "Paterson",
+                "Tsai",
+                "Shahriari",
+                "Lan",
+                "Choquette-Choo",
+                "Crepy",
+                "Cer",
+                "Ippolito",
+                "Reid",
+                "Buchatskaya",
+                "Ni",
+                "Noland",
+                "Geng",
+                "Tucker",
+                "Muraru",
+                "Rozhdestvenskiy",
+                "Michalewski",
+                "Tenney",
+                "Grishchenko",
+                "Austin",
+                "Keeling",
+                "Labanowski",
+                "Lespiau",
+                "Stanway",
+                "Brennan",
+                "Chen",
+                "Ferret",
+                "Chiu",
+                "Mao-Jones",
+                "Lee",
+                "Yu",
+                "Millican",
+                "Sjoesund",
+                "Lee",
+                "Dixon",
+                "Reid",
+                "Miku\u0142a",
+                "Wirth",
+                "Sharman",
+                "Chinaev",
+                "Thain",
+                "Bachem",
+                "Chang",
+                "Wahltinez",
+                "Bailey",
+                "Michel",
+                "Yotov",
+                "Chaabouni",
+                "Comanescu",
+                "Jana",
+                "Anil",
+                "McIlroy",
+                "Liu",
+                "Mullins",
+                "Smith",
+                "Borgeaud",
+                "Girgin",
+                "Douglas",
+                "Pandya",
+                "Shakeri",
+                "De",
+                "Klimenko",
+                "Hennigan",
+                "Feinberg",
+                "Stokowiec",
+                "Yu-hui",
+                "Ahmed",
+                "Gong",
+                "Warkentin",
+                "Peran",
+                "Giang",
+                "Farabet",
+                "Vinyals",
+                "Dean",
+                "Kavukcuoglu",
+                "Hassabis",
+                "Ghahramani",
+                "Eck"
+              ],
+              "first_author_ok": false,
+              "pass": false,
+              "review": false,
+              "title": "Gemma: Open Models Based on Gemini Research and Technology",
+              "title_similarity": 0.426667,
+              "year": 2024,
+              "year_ok": false
+            },
+            "url": "https://api.openalex.org/works?search=%7BGemma+4+model+card%7D&per-page=3"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:42+00:00",
+        "effective_status": "NOT_CHECKED",
+        "errors": [
+          "RemoteDisconnected: Remote end closed connection without response"
+        ],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "UNRESOLVED"
+      },
+      "occurrence_count": 1,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Google2026Gemma4",
+            "context": "\\paragraph{Fixed-factor comparisons.} The readout experiment crosses two requested frames (pixels and normalized 0--1000) with two syntaxes (JSON and two-line text), using the same image queries. The six configurations are Gemma4-E4B in four-bit form \\citep{Google2026Gemma4}, Qwen2.5-VL-7B \\citep{Bai2025Qwen}, Qwen3-VL-2B and 8B \\citep{Bai2025Qwen3}, InternVL3-8B \\citep{Zhu2025InternVL}, and Molmo-7B-D \\citep{Deitke2024Molmo}. The analysis preserves the checkpoint, raw response, image digest, and prompt for every query. A common 0--1000 reinterpretation provides a second, uniformly applied diagnostic alongside scoring in the requested frame.",
+            "context_sha256": "507cecad6ba1d32ba435c18ac39170ec6dfd1e2cd9213df1b344bfae6ee839c5",
+            "occurrence_id": "Google2026Gemma4:507cecad6ba1d32b",
+            "paragraph_index": 4,
+            "source_path": "paper/venues/iclr27/sections/method.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "article",
+      "bib_metadata": {
+        "author": "Maxime Oquab and Timoth{\\'e}e Darcet and Th{\\'e}o Moutakanni and Huy Vo\n               and Marc Szafraniec and Vasil Khalidov and Pierre Fernandez\n               and Daniel Haziza and Francisco Massa and Alaaeldin El-Nouby\n               and Mahmoud Assran and Nicolas Ballas and Wojciech Galuba\n               and Russell Howes and Po-Yao Huang and Shang-Wen Li and Ishan Misra\n               and Michael Rabbat and Vasu Sharma and Gabriel Synnaeve and Hu Xu\n               and Herv{\\'e} Jegou and Julien Mairal and Patrick Labatut\n               and Armand Joulin and Piotr Bojanowski",
+        "journal": "Transactions on Machine Learning Research (TMLR)",
+        "title": "{DINOv2: Learning Robust Visual Features without Supervision}",
+        "url": "https://openreview.net/forum?id=a68SUt6zFt",
+        "year": "2024"
+      },
+      "citation_key": "Oquab2023DINOv2",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": false,
+              "review": false,
+              "title": "Verifying your browser | OpenReview",
+              "title_similarity": 0.285714
+            },
+            "official_domain": true,
+            "url": "https://openreview.net/challenge?redirect=%2Fforum%3Fid%3Da68SUt6zFt"
+          },
+          {
+            "backend": "crossref-search",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Yadav",
+                "Zeghidour"
+              ],
+              "first_author_ok": false,
+              "pass": false,
+              "review": false,
+              "title": "Learning neural audio features without supervision",
+              "title_similarity": 0.759259,
+              "year": 2022,
+              "year_ok": false
+            },
+            "url": "https://api.crossref.org/works?query.title=%7BDINOv2%3A+Learning+Robust+Visual+Features+without+Supervision%7D&rows=3"
+          },
+          {
+            "backend": "openalex",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Oquab",
+                "Darcet",
+                "Moutakanni",
+                "Vo",
+                "Szafraniec",
+                "Khalidov",
+                "Fernandez",
+                "Haziza",
+                "Massa",
+                "El-Nouby",
+                "Assran",
+                "Ballas",
+                "Galuba",
+                "Howes",
+                "Huang",
+                "Li",
+                "Misra",
+                "Rabbat",
+                "Sharma",
+                "Synnaeve",
+                "Xu",
+                "Je\u01f5ou",
+                "Mairal",
+                "Labatut",
+                "Joulin",
+                "Bojanowski"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "DINOv2: Learning Robust Visual Features without Supervision",
+              "title_similarity": 1.0,
+              "year": 2023,
+              "year_ok": true
+            },
+            "url": "https://api.openalex.org/works?search=%7BDINOv2%3A+Learning+Robust+Visual+Features+without+Supervision%7D&per-page=3"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:42+00:00",
+        "effective_status": "NOT_CHECKED",
+        "errors": [
+          "RemoteDisconnected: Remote end closed connection without response"
+        ],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "UNRESOLVED"
+      },
+      "occurrence_count": 1,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Oquab2023DINOv2",
+            "context": "\\subsection{Matched object views} The object comparison contains four chest-of-drawers assets, each rendered from six directions: front, back, left, right, and two elevated front views. Table~\\ref{tab:app-proxy} reports all 24 pairs. PSNR measures pixel error; SSIM measures local luminance and contrast structure \\citep{Wang2004Image}; LPIPS uses learned perceptual features \\citep{Zhang2018Unreasonable}. CLIP and DINOv2 cosine similarities compare image embeddings \\citep{Radford2021Learning,Oquab2023DINOv2}.",
+            "context_sha256": "a52ce95a2f18997953b9ff84d07cc9fb195508ca453f498e84741a5e3edd68a7",
+            "occurrence_id": "Oquab2023DINOv2:a52ce95a2f189979",
+            "paragraph_index": 3,
+            "source_path": "paper/venues/iclr27/appendix/01_appearance.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "inproceedings",
+      "bib_metadata": {
+        "author": "Alec Radford and Jong Wook Kim and Chris Hallacy and Aditya Ramesh\n               and Gabriel Goh and Sandhini Agarwal and Girish Sastry and Amanda Askell\n               and Pamela Mishkin and Jack Clark and Gretchen Krueger and Ilya Sutskever",
+        "booktitle": "Proceedings of the 38th International Conference on Machine Learning (ICML)",
+        "pages": "8748--8763",
+        "series": "PMLR",
+        "title": "{Learning Transferable Visual Models From Natural Language Supervision}",
+        "url": "https://proceedings.mlr.press/v139/radford21a.html",
+        "volume": "139",
+        "year": "2021"
+      },
+      "citation_key": "Radford2021Learning",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": true,
+              "review": false,
+              "title": "Learning Transferable Visual Models From Natural Language Supervision",
+              "title_similarity": 1.0
+            },
+            "official_domain": true,
+            "url": "https://proceedings.mlr.press/v139/radford21a.html"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:33+00:00",
+        "effective_status": "VERIFIED_PRIMARY",
+        "errors": [],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "VERIFIED_PRIMARY"
+      },
+      "occurrence_count": 1,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Radford2021Learning",
+            "context": "\\subsection{Matched object views} The object comparison contains four chest-of-drawers assets, each rendered from six directions: front, back, left, right, and two elevated front views. Table~\\ref{tab:app-proxy} reports all 24 pairs. PSNR measures pixel error; SSIM measures local luminance and contrast structure \\citep{Wang2004Image}; LPIPS uses learned perceptual features \\citep{Zhang2018Unreasonable}. CLIP and DINOv2 cosine similarities compare image embeddings \\citep{Radford2021Learning,Oquab2023DINOv2}.",
+            "context_sha256": "a52ce95a2f18997953b9ff84d07cc9fb195508ca453f498e84741a5e3edd68a7",
+            "occurrence_id": "Radford2021Learning:a52ce95a2f189979",
+            "paragraph_index": 3,
+            "source_path": "paper/venues/iclr27/appendix/01_appearance.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "inproceedings",
+      "bib_metadata": {
+        "author": "Josh Tobin and Rachel Fong and Alex Ray and Jonas Schneider\n               and Wojciech Zaremba and Pieter Abbeel",
+        "booktitle": "2017 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
+        "doi": "10.1109/IROS.2017.8202133",
+        "pages": "23--30",
+        "title": "{Domain Randomization for Transferring Deep Neural Networks from\n               Simulation to the Real World}",
+        "url": "https://arxiv.org/abs/1703.06907",
+        "year": "2017"
+      },
+      "citation_key": "Tobin2017Domain",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "crossref-doi",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Tobin",
+                "Fong",
+                "Ray",
+                "Schneider",
+                "Zaremba",
+                "Abbeel"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "Domain randomization for transferring deep neural networks from simulation to the real world",
+              "title_similarity": 1.0,
+              "year": 2017,
+              "year_ok": true
+            },
+            "url": "https://api.crossref.org/works/10.1109%2FIROS.2017.8202133"
+          },
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": true,
+              "review": false,
+              "title": "[1703.06907] Domain Randomization for Transferring Deep Neural Networks from Simulation to the Real World",
+              "title_similarity": 0.94359
+            },
+            "official_domain": true,
+            "url": "https://arxiv.org/abs/1703.06907"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:36+00:00",
+        "effective_status": "VERIFIED_PRIMARY",
+        "errors": [],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "VERIFIED_PRIMARY"
+      },
+      "occurrence_count": 1,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Tobin2017Domain",
+            "context": "\\paragraph{Appearance and learned visual cues.} Domain randomization varies simulated appearance to improve transfer \\citep{Tobin2017Domain,Tremblay2018Training}. Texture--shape cue conflicts reveal that models can rely on visual evidence different from that used by humans \\citep{Geirhos2019Texture}. Our intervention targets an operational source of appearance variation: changing a scene's material representation while retaining its geometry. This lets us examine localization and navigation decisions under a concrete transformation encountered when simulation assets are reused.",
+            "context_sha256": "295a46cff759ab8627ddf50cf2da1db3f08bfa34209ff0e5034c2105ad5bd86e",
+            "occurrence_id": "Tobin2017Domain:295a46cff759ab86",
+            "paragraph_index": 2,
+            "source_path": "paper/venues/iclr27/sections/related_work.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "inproceedings",
+      "bib_metadata": {
+        "author": "Jonathan Tremblay and Aayush Prakash and David Acuna and Mark Brophy\n               and Varun Jampani and Cem Anil and Thang To and Eric Cameracci\n               and Shaad Boochoon and Stan Birchfield",
+        "booktitle": "IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+        "doi": "10.1109/CVPRW.2018.00143",
+        "pages": "969--977",
+        "title": "{Training Deep Networks with Synthetic Data: Bridging the Reality Gap\n               by Domain Randomization}",
+        "url": "https://openaccess.thecvf.com/content_cvpr_2018_workshops/papers/w14/Tremblay_Training_Deep_Networks_CVPR_2018_paper.pdf",
+        "year": "2018"
+      },
+      "citation_key": "Tremblay2018Training",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "crossref-doi",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Tremblay",
+                "Prakash",
+                "Acuna",
+                "Brophy",
+                "Jampani",
+                "Anil",
+                "To",
+                "Cameracci",
+                "Boochoon",
+                "Birchfield"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "Training Deep Networks with Synthetic Data: Bridging the Reality Gap by Domain Randomization",
+              "title_similarity": 1.0,
+              "year": 2018,
+              "year_ok": true
+            },
+            "url": "https://api.crossref.org/works/10.1109%2FCVPRW.2018.00143"
+          },
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": false,
+              "review": false,
+              "title": "",
+              "title_similarity": 0.001499
+            },
+            "official_domain": false,
+            "url": "https://openaccess.thecvf.com/content_cvpr_2018_workshops/papers/w14/Tremblay_Training_Deep_Networks_CVPR_2018_paper.pdf"
+          },
+          {
+            "backend": "crossref-search",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Tremblay",
+                "Prakash",
+                "Acuna",
+                "Brophy",
+                "Jampani",
+                "Anil",
+                "To",
+                "Cameracci",
+                "Boochoon",
+                "Birchfield"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "Training Deep Networks with Synthetic Data: Bridging the Reality Gap by Domain Randomization",
+              "title_similarity": 1.0,
+              "year": 2018,
+              "year_ok": true
+            },
+            "url": "https://api.crossref.org/works?query.title=%7BTraining+Deep+Networks+with+Synthetic+Data%3A+Bridging+the+Reality+Gap%0A+++++++++++++++by+Domain+Randomization%7D&rows=3"
+          },
+          {
+            "backend": "openalex",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Tremblay",
+                "Prakash",
+                "Acuna",
+                "Brophy",
+                "Jampani",
+                "Anil",
+                "To",
+                "Cameracci",
+                "Boochoon",
+                "Birchfield"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "Training Deep Networks with Synthetic Data: Bridging the Reality Gap by Domain Randomization",
+              "title_similarity": 1.0,
+              "year": 2018,
+              "year_ok": true
+            },
+            "url": "https://api.openalex.org/works?search=%7BTraining+Deep+Networks+with+Synthetic+Data%3A+Bridging+the+Reality+Gap%0A+++++++++++++++by+Domain+Randomization%7D&per-page=3"
+          }
+        ],
+        "checked_at": "2026-09-15T20:17:16+00:00",
+        "effective_status": "VERIFIED_PRIMARY",
+        "errors": [
+          "RemoteDisconnected: Remote end closed connection without response"
+        ],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "VERIFIED_PRIMARY"
+      },
+      "occurrence_count": 1,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Tremblay2018Training",
+            "context": "\\paragraph{Appearance and learned visual cues.} Domain randomization varies simulated appearance to improve transfer \\citep{Tobin2017Domain,Tremblay2018Training}. Texture--shape cue conflicts reveal that models can rely on visual evidence different from that used by humans \\citep{Geirhos2019Texture}. Our intervention targets an operational source of appearance variation: changing a scene's material representation while retaining its geometry. This lets us examine localization and navigation decisions under a concrete transformation encountered when simulation assets are reused.",
+            "context_sha256": "295a46cff759ab8627ddf50cf2da1db3f08bfa34209ff0e5034c2105ad5bd86e",
+            "occurrence_id": "Tremblay2018Training:295a46cff759ab86",
+            "paragraph_index": 2,
+            "source_path": "paper/venues/iclr27/sections/related_work.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "article",
+      "bib_metadata": {
+        "author": "Zhou Wang and Alan C. Bovik and Hamid R. Sheikh and Eero P. Simoncelli",
+        "doi": "10.1109/TIP.2003.819861",
+        "journal": "{IEEE Transactions on Image Processing}",
+        "number": "4",
+        "pages": "600--612",
+        "title": "{Image Quality Assessment: From Error Visibility to Structural Similarity}",
+        "volume": "13",
+        "year": "2004"
+      },
+      "citation_key": "Wang2004Image",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "crossref-doi",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Zhou Wang",
+                "Bovik",
+                "Sheikh",
+                "Simoncelli"
+              ],
+              "first_author_ok": false,
+              "pass": false,
+              "review": false,
+              "title": "Image quality assessment: from error visibility to structural similarity",
+              "title_similarity": 1.0,
+              "year": 2004,
+              "year_ok": true
+            },
+            "url": "https://api.crossref.org/works/10.1109%2FTIP.2003.819861"
+          },
+          {
+            "backend": "crossref-search",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Zhou Wang",
+                "Bovik",
+                "Sheikh",
+                "Simoncelli"
+              ],
+              "first_author_ok": false,
+              "pass": false,
+              "review": false,
+              "title": "Image quality assessment: from error visibility to structural similarity",
+              "title_similarity": 1.0,
+              "year": 2004,
+              "year_ok": true
+            },
+            "url": "https://api.crossref.org/works?query.title=%7BImage+Quality+Assessment%3A+From+Error+Visibility+to+Structural+Similarity%7D&rows=3"
+          },
+          {
+            "backend": "openalex",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Wang",
+                "Bovik",
+                "Sheikh",
+                "Simoncelli"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "Image quality assessment: from error visibility to structural similarity",
+              "title_similarity": 1.0,
+              "year": 2004,
+              "year_ok": true
+            },
+            "url": "https://api.openalex.org/works?search=%7BImage+Quality+Assessment%3A+From+Error+Visibility+to+Structural+Similarity%7D&per-page=3"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:47+00:00",
+        "effective_status": "METADATA_MISMATCH",
+        "errors": [
+          "RemoteDisconnected: Remote end closed connection without response"
+        ],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "METADATA_MISMATCH"
+      },
+      "occurrence_count": 1,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Wang2004Image",
+            "context": "\\subsection{Matched object views} The object comparison contains four chest-of-drawers assets, each rendered from six directions: front, back, left, right, and two elevated front views. Table~\\ref{tab:app-proxy} reports all 24 pairs. PSNR measures pixel error; SSIM measures local luminance and contrast structure \\citep{Wang2004Image}; LPIPS uses learned perceptual features \\citep{Zhang2018Unreasonable}. CLIP and DINOv2 cosine similarities compare image embeddings \\citep{Radford2021Learning,Oquab2023DINOv2}.",
+            "context_sha256": "a52ce95a2f18997953b9ff84d07cc9fb195508ca453f498e84741a5e3edd68a7",
+            "occurrence_id": "Wang2004Image:a52ce95a2f189979",
+            "paragraph_index": 3,
+            "source_path": "paper/venues/iclr27/appendix/01_appearance.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "article",
+      "bib_metadata": {
+        "author": "Hanqing Wang and Jiahe Chen and Wensi Huang and Qingwei Ben\n               and Tai Wang and Boyu Mi and Tao Huang and Siheng Zhao\n               and Yilun Chen and Sizhe Yang and Peizhou Cao and Wenye Yu\n               and Zichao Ye and Jialun Li and Junfeng Long and Zirui Wang\n               and Huiling Wang and Ying Zhao and Zhongying Tu and Yu Qiao\n               and Dahua Lin and Jiangmiao Pang",
+        "doi": "10.48550/arXiv.2407.10943",
+        "journal": "arXiv preprint arXiv:2407.10943",
+        "title": "{GRUtopia: Dream General Robots in a City at Scale}",
+        "url": "https://arxiv.org/abs/2407.10943",
+        "year": "2024"
+      },
+      "citation_key": "Wang2024GRUtopia",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": false,
+              "review": true,
+              "title": "[2407.10943] GRUtopia: Dream General Robots in a City at Scale",
+              "title_similarity": 0.897196
+            },
+            "official_domain": true,
+            "url": "https://arxiv.org/abs/2407.10943"
+          },
+          {
+            "backend": "crossref-search",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Koverola",
+                "Kunnari",
+                "Sundvall",
+                "Laakasuo"
+              ],
+              "first_author_ok": false,
+              "pass": false,
+              "review": false,
+              "title": "General Attitudes Towards Robots Scale",
+              "title_similarity": 0.465116,
+              "year": 2023,
+              "year_ok": true
+            },
+            "url": "https://api.crossref.org/works?query.title=%7BGRUtopia%3A+Dream+General+Robots+in+a+City+at+Scale%7D&rows=3"
+          },
+          {
+            "backend": "openalex",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Wang",
+                "Chen",
+                "Huang",
+                "Ben",
+                "Wang",
+                "Mi",
+                "Huang",
+                "Zhao",
+                "Chen",
+                "Yang",
+                "Cao",
+                "Yu",
+                "Ye",
+                "Li",
+                "Long",
+                "Wang",
+                "Wang",
+                "Zhao",
+                "Tu",
+                "Qiao",
+                "Lin",
+                "Pang"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "GRUtopia: Dream General Robots in a City at Scale",
+              "title_similarity": 1.0,
+              "year": 2024,
+              "year_ok": true
+            },
+            "url": "https://api.openalex.org/works?search=%7BGRUtopia%3A+Dream+General+Robots+in+a+City+at+Scale%7D&per-page=3"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:49+00:00",
+        "effective_status": "NOT_CHECKED",
+        "errors": [
+          "HTTPError: HTTP Error 404: Not Found",
+          "RemoteDisconnected: Remote end closed connection without response"
+        ],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "DOI_UNVERIFIED"
+      },
+      "occurrence_count": 1,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Wang2024GRUtopia",
+            "context": "\\paragraph{Embodied evaluation.} Vision-and-language navigation couples language understanding to sequential perception and action \\citep{Anderson2018Vision}. GRUtopia provides interactive scenes and tasks for embodied research \\citep{Wang2024GRUtopia}; DualVLN combines grounding and control in a navigation system \\citep{Wei2026Ground}. We use GRScenes for point-level experiments and KuJiaLe scenes for paired navigation. The common experimental question is how a change to rendered appearance alters decisions, from one image to an entire episode.",
+            "context_sha256": "3e39538737761fd8bd8e18f5e20f26e0cd6769615db37af6623e1dd283c8b66d",
+            "occurrence_id": "Wang2024GRUtopia:3e39538737761fd8",
+            "paragraph_index": 4,
+            "source_path": "paper/venues/iclr27/sections/related_work.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "inproceedings",
+      "bib_metadata": {
+        "author": "Meng Wei and Chenyang Wan and Jiaqi Peng and Xiqian Yu\n               and Yuqiang Yang and Delin Feng and Wenzhe Cai and Chenming Zhu\n               and Tai Wang and Jiangmiao Pang and Xihui Liu",
+        "booktitle": "International Conference on Learning Representations (ICLR)",
+        "title": "{Ground Slow, Move Fast: A Dual-System Foundation Model for\n               Generalizable Vision-and-Language Navigation}",
+        "url": "https://openreview.net/forum?id=GK4rznYwhn",
+        "year": "2026"
+      },
+      "citation_key": "Wei2026Ground",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": false,
+              "review": false,
+              "title": "Verifying your browser | OpenReview",
+              "title_similarity": 0.19403
+            },
+            "official_domain": true,
+            "url": "https://openreview.net/challenge?redirect=%2Fforum%3Fid%3DGK4rznYwhn"
+          },
+          {
+            "backend": "crossref-search",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Chalotra",
+                "Jiang",
+                "Wang"
+              ],
+              "first_author_ok": false,
+              "pass": false,
+              "review": false,
+              "title": "Cognitive Foundation Agents for Generalizable Vision-and-Language Navigation",
+              "title_similarity": 0.745763,
+              "year": 2025,
+              "year_ok": true
+            },
+            "url": "https://api.crossref.org/works?query.title=%7BGround+Slow%2C+Move+Fast%3A+A+Dual-System+Foundation+Model+for%0A+++++++++++++++Generalizable+Vision-and-Language+Navigation%7D&rows=3"
+          },
+          {
+            "backend": "openalex",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Meng",
+                "Chenyang",
+                "Jiaqi",
+                "Xiqian",
+                "Yuqiang",
+                "Delin",
+                "Wenzhe",
+                "Chenming",
+                "Tai",
+                "Jiangmiao",
+                "Xihui"
+              ],
+              "first_author_ok": false,
+              "pass": false,
+              "review": false,
+              "title": "Ground Slow, Move Fast: A Dual-System Foundation Model for Generalizable Vision-and-Language Navigation",
+              "title_similarity": 1.0,
+              "year": 2025,
+              "year_ok": true
+            },
+            "url": "https://api.openalex.org/works?search=%7BGround+Slow%2C+Move+Fast%3A+A+Dual-System+Foundation+Model+for%0A+++++++++++++++Generalizable+Vision-and-Language+Navigation%7D&per-page=3"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:51+00:00",
+        "effective_status": "NOT_CHECKED",
+        "errors": [
+          "RemoteDisconnected: Remote end closed connection without response"
+        ],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "UNRESOLVED"
+      },
+      "occurrence_count": 1,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Wei2026Ground",
+            "context": "\\paragraph{Embodied evaluation.} Vision-and-language navigation couples language understanding to sequential perception and action \\citep{Anderson2018Vision}. GRUtopia provides interactive scenes and tasks for embodied research \\citep{Wang2024GRUtopia}; DualVLN combines grounding and control in a navigation system \\citep{Wei2026Ground}. We use GRScenes for point-level experiments and KuJiaLe scenes for paired navigation. The common experimental question is how a change to rendered appearance alters decisions, from one image to an entire episode.",
+            "context_sha256": "3e39538737761fd8bd8e18f5e20f26e0cd6769615db37af6623e1dd283c8b66d",
+            "occurrence_id": "Wei2026Ground:3e39538737761fd8",
+            "paragraph_index": 4,
+            "source_path": "paper/venues/iclr27/sections/related_work.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "inproceedings",
+      "bib_metadata": {
+        "author": "Haoxuan You and Haotian Zhang and Zhe Gan and Xianzhi Du\n               and Bowen Zhang and Zirui Wang and Liangliang Cao\n               and Shih-Fu Chang and Yinfei Yang",
+        "booktitle": "International Conference on Learning Representations (ICLR)",
+        "title": "{Ferret: Refer and Ground Anything Anywhere at Any Granularity}",
+        "url": "https://openreview.net/forum?id=2msbbX3ydD",
+        "year": "2024"
+      },
+      "citation_key": "You2024Ferret",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": false,
+              "review": false,
+              "title": "Verifying your browser | OpenReview",
+              "title_similarity": 0.344086
+            },
+            "official_domain": true,
+            "url": "https://openreview.net/challenge?redirect=%2Fforum%3Fid%3D2msbbX3ydD"
+          },
+          {
+            "backend": "crossref-search",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Li",
+                "Zhang",
+                "Sun",
+                "Zou",
+                "Liu",
+                "Li",
+                "Yang",
+                "Zhang",
+                "Gao"
+              ],
+              "first_author_ok": false,
+              "pass": false,
+              "review": false,
+              "title": "Segment and\u00a0Recognize Anything at\u00a0Any Granularity",
+              "title_similarity": 0.697248,
+              "year": 2025,
+              "year_ok": true
+            },
+            "url": "https://api.crossref.org/works?query.title=%7BFerret%3A+Refer+and+Ground+Anything+Anywhere+at+Any+Granularity%7D&rows=3"
+          },
+          {
+            "backend": "openalex",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "You",
+                "Zhang",
+                "Gan",
+                "Du",
+                "Zhang",
+                "Wang",
+                "Cao",
+                "Chang",
+                "Yang"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "Ferret: Refer and Ground Anything Anywhere at Any Granularity",
+              "title_similarity": 1.0,
+              "year": 2023,
+              "year_ok": true
+            },
+            "url": "https://api.openalex.org/works?search=%7BFerret%3A+Refer+and+Ground+Anything+Anywhere+at+Any+Granularity%7D&per-page=3"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:51+00:00",
+        "effective_status": "NOT_CHECKED",
+        "errors": [
+          "RemoteDisconnected: Remote end closed connection without response"
+        ],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "UNRESOLVED"
+      },
+      "occurrence_count": 1,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "You2024Ferret",
+            "context": "\\paragraph{Grounding and model readout.} Shikra and Ferret integrate referring and grounding with language generation \\citep{Chen2023Shikra,You2024Ferret}. Molmo explicitly develops pointing data, Qwen2.5-VL supports object localization and dynamic image resolution, and InternVL3 explores multimodal training and inference recipes \\citep{Deitke2024Molmo,Bai2025Qwen,Zhu2025InternVL}. These capabilities make spatial outputs useful, but the interface through which a point is emitted also becomes part of the experiment. Prompt dependence is well established for language models \\citep{Zhao2021Calibrate}; we examine its interaction with a paired visual intervention and separate executable output from conditional localization accuracy.",
+            "context_sha256": "4cab8995e66bd1d68a9c8c55fe1630017def99795150adb4178369c2bc6fe1ff",
+            "occurrence_id": "You2024Ferret:4cab8995e66bd1d6",
+            "paragraph_index": 3,
+            "source_path": "paper/venues/iclr27/sections/related_work.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "inproceedings",
+      "bib_metadata": {
+        "author": "Richard Zhang and Phillip Isola and Alexei A. Efros\n               and Eli Shechtman and Oliver Wang",
+        "booktitle": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+        "doi": "10.1109/CVPR.2018.00068",
+        "pages": "586--595",
+        "title": "{The Unreasonable Effectiveness of Deep Features as a Perceptual Metric}",
+        "url": "https://openaccess.thecvf.com/content_cvpr_2018/html/Zhang_The_Unreasonable_Effectiveness_CVPR_2018_paper.html",
+        "year": "2018"
+      },
+      "citation_key": "Zhang2018Unreasonable",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "crossref-doi",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Zhang",
+                "Isola",
+                "Efros",
+                "Shechtman",
+                "Wang"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "The Unreasonable Effectiveness of Deep Features as a Perceptual Metric",
+              "title_similarity": 1.0,
+              "year": 2018,
+              "year_ok": true
+            },
+            "url": "https://api.crossref.org/works/10.1109%2FCVPR.2018.00068"
+          },
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": false,
+              "review": false,
+              "title": "CVPR 2018 Open Access Repository",
+              "title_similarity": 0.235294
+            },
+            "official_domain": false,
+            "url": "https://openaccess.thecvf.com/content_cvpr_2018/html/Zhang_The_Unreasonable_Effectiveness_CVPR_2018_paper.html"
+          },
+          {
+            "backend": "crossref-search",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Zhang",
+                "Isola",
+                "Efros",
+                "Shechtman",
+                "Wang"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "The Unreasonable Effectiveness of Deep Features as a Perceptual Metric",
+              "title_similarity": 1.0,
+              "year": 2018,
+              "year_ok": true
+            },
+            "url": "https://api.crossref.org/works?query.title=%7BThe+Unreasonable+Effectiveness+of+Deep+Features+as+a+Perceptual+Metric%7D&rows=3"
+          },
+          {
+            "backend": "openalex",
+            "is_retracted": false,
+            "match": {
+              "authors": [
+                "Zhang",
+                "Isola",
+                "Efros",
+                "Shechtman",
+                "Wang"
+              ],
+              "first_author_ok": true,
+              "pass": true,
+              "review": false,
+              "title": "The Unreasonable Effectiveness of Deep Features as a Perceptual Metric",
+              "title_similarity": 1.0,
+              "year": 2018,
+              "year_ok": true
+            },
+            "url": "https://api.openalex.org/works?search=%7BThe+Unreasonable+Effectiveness+of+Deep+Features+as+a+Perceptual+Metric%7D&per-page=3"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:52+00:00",
+        "effective_status": "VERIFIED_PRIMARY",
+        "errors": [
+          "RemoteDisconnected: Remote end closed connection without response"
+        ],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "VERIFIED_PRIMARY"
+      },
+      "occurrence_count": 1,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Zhang2018Unreasonable",
+            "context": "\\subsection{Matched object views} The object comparison contains four chest-of-drawers assets, each rendered from six directions: front, back, left, right, and two elevated front views. Table~\\ref{tab:app-proxy} reports all 24 pairs. PSNR measures pixel error; SSIM measures local luminance and contrast structure \\citep{Wang2004Image}; LPIPS uses learned perceptual features \\citep{Zhang2018Unreasonable}. CLIP and DINOv2 cosine similarities compare image embeddings \\citep{Radford2021Learning,Oquab2023DINOv2}.",
+            "context_sha256": "a52ce95a2f18997953b9ff84d07cc9fb195508ca453f498e84741a5e3edd68a7",
+            "occurrence_id": "Zhang2018Unreasonable:a52ce95a2f189979",
+            "paragraph_index": 3,
+            "source_path": "paper/venues/iclr27/appendix/01_appearance.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "inproceedings",
+      "bib_metadata": {
+        "author": "Zihao Zhao and Eric Wallace and Shi Feng and Dan Klein and Sameer Singh",
+        "booktitle": "Proceedings of the 38th International Conference on Machine Learning",
+        "pages": "12697--12706",
+        "series": "Proceedings of Machine Learning Research",
+        "title": "{Calibrate Before Use: Improving Few-shot Performance of Language Models}",
+        "url": "https://proceedings.mlr.press/v139/zhao21c.html",
+        "volume": "139",
+        "year": "2021"
+      },
+      "citation_key": "Zhao2021Calibrate",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": true,
+              "review": false,
+              "title": "Calibrate Before Use: Improving Few-shot Performance of Language Models",
+              "title_similarity": 1.0
+            },
+            "official_domain": true,
+            "url": "https://proceedings.mlr.press/v139/zhao21c.html"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:44+00:00",
+        "effective_status": "VERIFIED_PRIMARY",
+        "errors": [],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "VERIFIED_PRIMARY"
+      },
+      "occurrence_count": 1,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Zhao2021Calibrate",
+            "context": "\\paragraph{Grounding and model readout.} Shikra and Ferret integrate referring and grounding with language generation \\citep{Chen2023Shikra,You2024Ferret}. Molmo explicitly develops pointing data, Qwen2.5-VL supports object localization and dynamic image resolution, and InternVL3 explores multimodal training and inference recipes \\citep{Deitke2024Molmo,Bai2025Qwen,Zhu2025InternVL}. These capabilities make spatial outputs useful, but the interface through which a point is emitted also becomes part of the experiment. Prompt dependence is well established for language models \\citep{Zhao2021Calibrate}; we examine its interaction with a paired visual intervention and separate executable output from conditional localization accuracy.",
+            "context_sha256": "4cab8995e66bd1d68a9c8c55fe1630017def99795150adb4178369c2bc6fe1ff",
+            "occurrence_id": "Zhao2021Calibrate:4cab8995e66bd1d6",
+            "paragraph_index": 3,
+            "source_path": "paper/venues/iclr27/sections/related_work.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    },
+    {
+      "bib_entry_type": "article",
+      "bib_metadata": {
+        "author": "Zhu, Jinguo and Wang, Weiyun and Chen, Zhe and Liu, Zhaoyang and Ye, Shenglong and Gu, Lixin and Tian, Hao and Duan, Yuchen and Su, Weijie and Shao, Jie and Gao, Zhangwei and Cui, Erfei and Wang, Xuehui and Cao, Yue and Liu, Yangzhou and Wei, Xingguang and Zhang, Hongjie and Wang, Haomin and Xu, Weiye and Li, Hao and Wang, Jiahao and Deng, Nianchen and Li, Songze and He, Yinan and Jiang, Tan and Luo, Jiapeng and Wang, Yi and He, Conghui and Shi, Botian and Zhang, Xingcheng and Shao, Wenqi and He, Junjun and Xiong, Yingtong and Qu, Wenwen and Sun, Peng and Jiao, Penglong and Lv, Han and Wu, Lijun and Zhang, Kaipeng and Deng, Huipeng and Ge, Jiaye and Chen, Kai and Wang, Limin and Dou, Min and Lu, Lewei and Zhu, Xizhou and Lu, Tong and Lin, Dahua and Qiao, Yu and Dai, Jifeng and Wang, Wenhai",
+        "journal": "arXiv preprint arXiv:2504.10479",
+        "title": "{InternVL3: Exploring Advanced Training and Test-Time Recipes for Open-Source Multimodal Models}",
+        "url": "https://arxiv.org/abs/2504.10479",
+        "year": "2025"
+      },
+      "citation_key": "Zhu2025InternVL",
+      "identity": {
+        "attempts": [
+          {
+            "backend": "primary-url",
+            "http_status": 200,
+            "is_retracted": false,
+            "match": {
+              "pass": true,
+              "review": false,
+              "title": "[2504.10479] InternVL3: Exploring Advanced Training and Test-Time Recipes for Open-Source Multimodal Models",
+              "title_similarity": 0.944162
+            },
+            "official_domain": true,
+            "url": "https://arxiv.org/abs/2504.10479"
+          }
+        ],
+        "checked_at": "2026-09-15T20:16:46+00:00",
+        "effective_status": "VERIFIED_PRIMARY",
+        "errors": [],
+        "human_identity_status": "NOT_CHECKED",
+        "machine_status": "VERIFIED_PRIMARY"
+      },
+      "occurrence_count": 2,
+      "support": [
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Zhu2025InternVL",
+            "context": "\\paragraph{Fixed-factor comparisons.} The readout experiment crosses two requested frames (pixels and normalized 0--1000) with two syntaxes (JSON and two-line text), using the same image queries. The six configurations are Gemma4-E4B in four-bit form \\citep{Google2026Gemma4}, Qwen2.5-VL-7B \\citep{Bai2025Qwen}, Qwen3-VL-2B and 8B \\citep{Bai2025Qwen3}, InternVL3-8B \\citep{Zhu2025InternVL}, and Molmo-7B-D \\citep{Deitke2024Molmo}. The analysis preserves the checkpoint, raw response, image digest, and prompt for every query. A common 0--1000 reinterpretation provides a second, uniformly applied diagnostic alongside scoring in the requested frame.",
+            "context_sha256": "507cecad6ba1d32ba435c18ac39170ec6dfd1e2cd9213df1b344bfae6ee839c5",
+            "occurrence_id": "Zhu2025InternVL:507cecad6ba1d32b",
+            "paragraph_index": 4,
+            "source_path": "paper/venues/iclr27/sections/method.tex"
+          },
+          "status": "NOT_CHECKED"
+        },
+        {
+          "ledger": null,
+          "occurrence": {
+            "citation_key": "Zhu2025InternVL",
+            "context": "\\paragraph{Grounding and model readout.} Shikra and Ferret integrate referring and grounding with language generation \\citep{Chen2023Shikra,You2024Ferret}. Molmo explicitly develops pointing data, Qwen2.5-VL supports object localization and dynamic image resolution, and InternVL3 explores multimodal training and inference recipes \\citep{Deitke2024Molmo,Bai2025Qwen,Zhu2025InternVL}. These capabilities make spatial outputs useful, but the interface through which a point is emitted also becomes part of the experiment. Prompt dependence is well established for language models \\citep{Zhao2021Calibrate}; we examine its interaction with a paired visual intervention and separate executable output from conditional localization accuracy.",
+            "context_sha256": "4cab8995e66bd1d68a9c8c55fe1630017def99795150adb4178369c2bc6fe1ff",
+            "occurrence_id": "Zhu2025InternVL:4cab8995e66bd1d6",
+            "paragraph_index": 3,
+            "source_path": "paper/venues/iclr27/sections/related_work.tex"
+          },
+          "status": "NOT_CHECKED"
+        }
+      ],
+      "support_pass_count": 0
+    }
+  ],
+  "schema_version": "citation-integrity-audit-v1",
+  "script_version": "1.0.1",
+  "summary": {
+    "citation_occurrences": 21,
+    "cite_commands": 16,
+    "failures": 1,
+    "identity_pass": 9,
+    "review_required": 17,
+    "support_pass": 0,
+    "unique_cited_keys": 18,
+    "unused_bib_entries": 0
+  },
+  "verdict": "FAIL"
+}

@@ -1,9 +1,11 @@
 # Multi-venue LaTeX paper build system.
-# Usage: make list | make aaai27 | make acl27 | make cvpr26 | make all | make clean | make template-check | make check
+# Usage: make iclr27 | make iclr27-check | make iclr27-stage | make list
 
 .RECIPEPREFIX := >
 
-VENUES := aaai27 acl27 cvpr26
+.DEFAULT_GOAL := iclr27
+VENUES := iclr27 aaai27 acl27 cvpr26
+ANALYSIS_PYTHON ?= python
 SHARED_DIR := shared
 SHARED_SRCS := $(shell find $(SHARED_DIR) -type f \( -name '*.tex' -o -name '*.bib' -o -name '*.cls' -o -name '*.sty' -o -name '*.pdf' -o -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.yaml' -o -name '*.yml' \) -print 2>/dev/null)
 
@@ -13,8 +15,8 @@ all: $(VENUES)
 
 list:
 > @printf 'Available venues: %s\n' '$(VENUES)'
-> @printf 'Primary: aaai27\n'
-> @printf 'ACL-family candidate: acl27\n'
+> @printf 'Primary: iclr27 (model behavior, visual grounding, navigation)\n'
+> @printf 'Earlier venue wrappers: aaai27, acl27\n'
 > @printf 'Historical baseline: cvpr26\n'
 
 template-check: check-latex-tools $(addprefix check-template-,$(VENUES))
@@ -53,10 +55,14 @@ check-template-cvpr26:
 >   echo 'Missing CVPR style: expected venues/cvpr26/cvpr.sty'; \
 >   exit 1; \
 > fi
+
 > @if [ ! -f venues/cvpr26/ieeenat_fullname.bst ]; then \
 >   echo 'Missing CVPR bibliography style: expected venues/cvpr26/ieeenat_fullname.bst'; \
 >   exit 1; \
 > fi
+
+check-template-iclr27:
+> @test -f venues/iclr27/iclr2027_conference.sty -a -f venues/iclr27/iclr2027_conference.bst || { echo 'Run python venues/iclr27/scripts/fetch_template.py'; exit 1; }
 
 define VENUE_RULE
 $(1)_MAIN := venues/$(1)/main.tex
@@ -81,6 +87,19 @@ clean-$(1):
 endef
 
 $(foreach v,$(VENUES),$(eval $(call VENUE_RULE,$(v))))
+
+.PHONY: iclr27-assets iclr27-check iclr27-stage
+iclr27-assets:
+> $(ANALYSIS_PYTHON) shared/evidence/experiments/11_iclr_model_behavior/analyze.py --new-runs shared/evidence/raw/iclr_model_behavior/runs_clean_v2
+> $(ANALYSIS_PYTHON) venues/iclr27/scripts/build_assets.py
+
+venues/iclr27/build/main.pdf: iclr27-assets
+
+iclr27-check: iclr27
+> $(ANALYSIS_PYTHON) venues/iclr27/scripts/check_submission.py
+
+iclr27-stage: iclr27-check
+> $(ANALYSIS_PYTHON) venues/iclr27/scripts/stage_submission.py
 
 ACL27_SUPPLEMENT := venues/acl27/supplement.tex
 ACL27_SUPPLEMENT_PDF := venues/acl27/build/supplement.pdf

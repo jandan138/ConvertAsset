@@ -1,0 +1,36 @@
+\documentclass[5p,times,authoryear]{elsarticle}
+\input{preamble}
+\input{tables/numbers}
+\journal{Computer Vision and Image Understanding}
+\begin{document}
+\begin{frontmatter}
+\title{Geometric Fidelity Is Not Decision Fidelity: Bidirectional Optical Turnover and Pre-Deployment Risk Gating Under 3D Material Conversion}
+\author[shlab]{Zihou Zhu\corref{cor1}}
+\ead{zhuzihou@pjlab.org.cn}
+\cortext[cor1]{Corresponding author.}
+\address[shlab]{Shanghai Artificial Intelligence Laboratory, Shanghai, China}
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+\begin{keyword}visual grounding \sep 3D material conversion \sep vision-language models \sep counterfactual diagnosis \sep embodied simulation\end{keyword}
+\begin{highlights}
+\item 3D shader lowering flips 4.2--23.1\% of VLM decisions despite small net shifts.
+\item Turnover exceeds 0.0\% greedy and ray noise across 4 VLM families.
+\item 2,880 counterfactuals reveal a +3.54\% non-photometric BSDF residual.
+\item Glare removal aids metallic targets (+4.4\%) while glass and texture cues regress.
+\item A zero-VLM geometry gate reaches 0.743 AUROC where global RGB MAE fails (0.432).
+\end{highlights}
+\end{frontmatter}
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/method}
+\input{sections/grounding}
+\input{sections/mechanisms}
+\input{sections/navigation}
+\input{sections/conclusion}
+\input{sections/statements}
+\bibliographystyle{elsarticle-harv}
+\bibliography{references}
+\clearpage\appendix
+\input{appendix/details}
+\end{document}

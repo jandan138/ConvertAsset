@@ -1,0 +1,93 @@
+{
+  "verdict": "PASS",
+  "checks": {
+    "preserved_inputs.json": {
+      "checked_files": 354,
+      "changed": []
+    },
+    "unchanged_manuscript_inputs.json": {
+      "checked_files": 15,
+      "changed": []
+    },
+    "runtime_sources": {
+      "checked_files": 1694,
+      "changed": []
+    }
+  },
+  "paired_camera_authoring_identical": true,
+  "color_diagnostic_definition": "R>150, G<105, B<105, R>1.7G, R>1.7B; screening only, not automatic material classification.",
+  "color_diagnostics": [
+    {
+      "pair_id": "47aa36277a54f6ca90cc.zoom_019",
+      "condition": "original",
+      "old_image_strong_red_percent": 57.3607,
+      "image_strong_red_percent": 0.0
+    },
+    {
+      "pair_id": "47aa36277a54f6ca90cc.zoom_019",
+      "condition": "converted",
+      "old_image_strong_red_percent": 0.0,
+      "image_strong_red_percent": 0.0
+    },
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_019",
+      "condition": "original",
+      "old_image_strong_red_percent": 11.3904,
+      "image_strong_red_percent": 0.0
+    },
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_019",
+      "condition": "converted",
+      "old_image_strong_red_percent": 0.0,
+      "image_strong_red_percent": 0.0
+    },
+    {
+      "pair_id": "bb985fd4504a1afe8516.zoom_017",
+      "condition": "original",
+      "old_image_strong_red_percent": 24.1393,
+      "image_strong_red_percent": 0.2456
+    },
+    {
+      "pair_id": "bb985fd4504a1afe8516.zoom_017",
+      "condition": "converted",
+      "old_image_strong_red_percent": 0.0048,
+      "image_strong_red_percent": 0.2011
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.zoom_017",
+      "condition": "original",
+      "old_image_strong_red_percent": 35.6789,
+      "image_strong_red_percent": 0.0
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.zoom_017",
+      "condition": "converted",
+      "old_image_strong_red_percent": 0.0,
+      "image_strong_red_percent": 0.0
+    },
+    {
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_017",
+      "condition": "original",
+      "old_image_strong_red_percent": 1.0563,
+      "image_strong_red_percent": 0.3189
+    },
+    {
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_017",
+      "condition": "converted",
+      "old_image_strong_red_percent": 0.0,
+      "image_strong_red_percent": 0.0
+    }
+  ],
+  "tests": "101 passed: tests/test_iclr_appendix_rerender.py tests/test_paper_layout.py",
+  "pdf_review": {
+    "verdict": "PASS",
+    "report": "paper/venues/iclr27/visual_iterations/appendix_repair_20260922/pdf_review.json",
+    "pdf_sha256": "9442d2265f561f442e09ce626f3004cf49dbc84899493b3d59216400b821fbb1",
+    "pages": 33,
+    "main_text_end_page": 9,
+    "repaired_figure_pages": [
+      24,
+      25
+    ]
+  }
+}

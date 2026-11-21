@@ -1,0 +1,28 @@
+{
+  "stage_open_count": 1,
+  "checks": [
+    {
+      "frame": 0,
+      "reference": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/01",
+      "rgb_mae": 0.43549855550130206,
+      "mask_equal": true,
+      "seconds": 26.652571607381105
+    },
+    {
+      "frame": 1,
+      "reference": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/07",
+      "rgb_mae": 2.4549022250705295,
+      "mask_equal": true,
+      "seconds": 2.467866789549589
+    },
+    {
+      "frame": 2,
+      "reference": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/pilot_renders_20261114_v3/01",
+      "rgb_mae": 2.3024173312717013,
+      "mask_equal": true,
+      "seconds": 1.7955132015049458
+    }
+  ],
+  "status": "REVIEW_REQUIRED",
+  "criterion": "Masks exactly match and RGB MAE <= 1/255-scale integer level on held-out pilot A/B/A qualification"
+}

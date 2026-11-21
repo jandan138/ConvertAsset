@@ -41,7 +41,7 @@ LATEX_UNRESOLVED_PATTERNS = (
     "Reference `",
     "No file main.bbl",
 )
-PDF_MAX_TOTAL_PAGES = 12
+PDF_EXPECTED_TOTAL_PAGES = 9
 PDF_MAX_MAIN_CONTENT_PAGES = 8
 PDF_REQUIRED_PAGE_SIZE_LABEL = "A4"
 PDF_REQUIRED_VERSION = "1.5"
@@ -55,12 +55,19 @@ PDF_REQUIRED_TEXT = (
     "References",
 )
 PDF_ORDERED_SECTION_TEXT = (
-    "Limitations",
     "Figure 4:",
-    "Ethical Considerations",
-    "References",
+    "Discussion",
+    "Conclusion",
+    "Limitations",
 )
 PDF_NONCOUNTED_FIRST_SECTION = "Limitations"
+NONCOUNTED_SECTION_FILES = (
+    "sections/limitations.tex",
+    "sections/ethical-considerations.tex",
+)
+NONCOUNTED_FORBIDDEN_SOURCE_RE = re.compile(
+    r"\\begin\{(?:figure|table)\*?\}|\\includegraphics|\\input\{tables/"
+)
 PDF_PRE_LIMITATION_FLOAT_ONLY_MARKER_SETS = (
     (
         "Table 5: Material-effect scope matrix",
@@ -73,6 +80,12 @@ PDF_PRE_LIMITATION_BODY_MARKERS = (
     "Conclusion",
     "This paper treats synthetic-scene material conversion",
 )
+PDF_EXPECTED_LAYOUT_MARKERS = {
+    5: ("Figure 2:", "Table 2:", "Table 3:"),
+    6: ("Table 4:", "Table 5:", "Figure 3:"),
+    7: ("Table 6:", "Figure 4:", "Discussion", "Conclusion"),
+    8: ("Limitations", "Ethical Considerations", "References"),
+}
 
 
 def default_repo_root() -> Path:
@@ -110,6 +123,11 @@ def build_preupload_plan(repo_root: Path) -> list[dict[str, object]]:
                 sys.executable,
                 "paper/venues/acl27/scripts/check_openreview_checklist.py",
             ],
+        },
+        {
+            "id": "noncounted_source_scan",
+            "function": "check_noncounted_section_sources",
+            "path": paper_root / "venues" / "acl27",
         },
         {
             "id": "citation_inventory",
@@ -154,6 +172,9 @@ def build_preupload_plan(repo_root: Path) -> list[dict[str, object]]:
                 "pytest",
                 "-q",
                 "tests/test_acl_submission_staging.py",
+                "tests/test_acl_paper_figures_v3.py",
+                "tests/test_acl_method_chain_v4_pptx.py",
+                "tests/test_acl_internnav_rollout_v4.py",
                 "tests/test_paper_layout.py",
                 "tests/test_acl_target_policy.py",
                 "tests/test_acl_metadata_consistency.py",
@@ -241,6 +262,20 @@ def check_latex_log(log_path: Path) -> None:
     matches = [pattern for pattern in LATEX_UNRESOLVED_PATTERNS if pattern in text]
     if matches:
         raise ValueError(f"{log_path} contains unresolved LaTeX marker(s): {matches}")
+
+
+def check_noncounted_section_sources(venue_root: Path) -> None:
+    violations: list[str] = []
+    for relative in NONCOUNTED_SECTION_FILES:
+        path = venue_root / relative
+        text = path.read_text(encoding="utf-8")
+        if NONCOUNTED_FORBIDDEN_SOURCE_RE.search(text):
+            violations.append(relative)
+    if violations:
+        raise ValueError(
+            "non-counted Limitations/Ethical Considerations sections contain "
+            f"figure or table source: {violations}"
+        )
 
 
 def check_packet_inventory(packet_root: Path) -> None:
@@ -360,10 +395,10 @@ def validate_pdf_profile(profile: dict[str, object]) -> None:
     page_size_label = str(profile["page_size_label"])
     pdf_version = str(profile["pdf_version"])
 
-    if pages > PDF_MAX_TOTAL_PAGES:
+    if pages != PDF_EXPECTED_TOTAL_PAGES:
         raise ValueError(
-            f"PDF page count {pages} exceeds current candidate cap "
-            f"{PDF_MAX_TOTAL_PAGES}"
+            f"PDF page count {pages} does not match the reviewed layout "
+            f"({PDF_EXPECTED_TOTAL_PAGES})"
         )
     if page_size_label != PDF_REQUIRED_PAGE_SIZE_LABEL:
         raise ValueError(
@@ -392,11 +427,7 @@ def validate_pdf_text_markers(text: str) -> None:
         raise ValueError(f"PDF text is missing required marker(s): {missing}")
 
     positions = [text.index(token) for token in PDF_ORDERED_SECTION_TEXT]
-    if (
-        positions != sorted(positions)
-        and not allows_top_internnav_figure_before_limitations(text)
-        and not allows_two_column_reference_extraction(text)
-    ):
+    if positions != sorted(positions):
         raise ValueError(
             "PDF section markers are out of order: "
             + " -> ".join(PDF_ORDERED_SECTION_TEXT)
@@ -406,110 +437,23 @@ def validate_pdf_text_markers(text: str) -> None:
     validate_no_float_only_prelimitations_page(text)
 
 
-def is_internnav_figure_prefix(prefix: str) -> bool:
-    if "Figure 4:" not in prefix:
-        return False
-    if any(marker in prefix for marker in PDF_PRE_LIMITATION_BODY_MARKERS):
-        return False
-    compact = re.sub(r"[^A-Za-z0-9]+", "", prefix)
-    return "Figure4SelectedInternNavpathpanels" in compact
-
-
-def allows_top_internnav_figure_before_limitations(text: str) -> bool:
-    """Allow a top-of-page Figure 4 float before the Limitations heading."""
-
+def validate_reviewed_layout_pages(text: str) -> None:
     pages = text.split("\f")
+    while pages and not pages[-1].strip():
+        pages.pop()
+    if len(pages) != PDF_EXPECTED_TOTAL_PAGES:
+        raise ValueError(
+            f"PDF text has {len(pages)} pages; expected "
+            f"{PDF_EXPECTED_TOTAL_PAGES} reviewed pages"
+        )
 
-    def first_page_with(token: str) -> tuple[int, str] | None:
-        for page_index, page in enumerate(pages, start=1):
-            if token in page:
-                return page_index, page
-        return None
-
-    limitations = first_page_with("Limitations")
-    figure = first_page_with("Figure 4:")
-    ethics = first_page_with("Ethical Considerations")
-    references = first_page_with("References")
-    if not all((limitations, figure, ethics, references)):
-        return False
-
-    limitations_page, shared_page = limitations
-    figure_page, _ = figure
-    if figure_page != limitations_page:
-        return False
-
-    prefix = shared_page.split("Limitations", 1)[0]
-    if not is_internnav_figure_prefix(prefix):
-        return False
-
-    if (
-        text.index("Figure 4:")
-        < text.index("Limitations")
-        < text.index("Ethical Considerations")
-        < text.index("References")
-    ):
-        return True
-
-    ethics = first_page_with("Ethical Considerations")
-    references = first_page_with("References")
-    if not all((ethics, references)):
-        return False
-    ethics_page, _ = ethics
-    references_page, _ = references
-    if not (ethics_page == references_page == limitations_page):
-        return False
-
-    return (
-        shared_page.index("Figure 4:")
-        < shared_page.index("Limitations")
-        and shared_page.index("References")
-        < shared_page.index("Ethical Considerations")
-    )
-
-
-def allows_two_column_reference_extraction(text: str) -> bool:
-    """Allow pdftotext's top-right References before left-column rollout text.
-
-    In the current two-column ACL layout, the source order is Limitations,
-    Figure 4, Ethical Considerations, then References.  `pdftotext -layout`
-    can nevertheless emit the right-column References heading before the
-    left-column rollout caption when both share the same PDF page.  This guard
-    accepts only that geometry artifact: the rollout figure and Ethics must
-    still share the References page, and the rollout figure must precede Ethics
-    within that page.
-    """
-
-    pages = text.split("\f")
-    rollout_marker = "Figure 4:"
-
-    def first_page_with(token: str) -> tuple[int, str] | None:
-        for page_index, page in enumerate(pages, start=1):
-            if token in page:
-                return page_index, page
-        return None
-
-    limitations = first_page_with("Limitations")
-    figure = first_page_with(rollout_marker)
-    ethics = first_page_with("Ethical Considerations")
-    references = first_page_with("References")
-    if not all((limitations, figure, ethics, references)):
-        return False
-    if not (
-        text.index("Limitations")
-        < text.index(rollout_marker)
-        < text.index("Ethical Considerations")
-    ):
-        return False
-
-    limitations_page, _ = limitations
-    figure_page, shared_page = figure
-    ethics_page, _ = ethics
-    references_page, _ = references
-    if not (figure_page == ethics_page == references_page):
-        return False
-    if limitations_page > figure_page:
-        return False
-    return shared_page.index(rollout_marker) < shared_page.index("Ethical Considerations")
+    for page_number, markers in PDF_EXPECTED_LAYOUT_MARKERS.items():
+        page = pages[page_number - 1]
+        missing = [marker for marker in markers if marker not in page]
+        if missing:
+            raise ValueError(
+                f"reviewed page {page_number} is missing marker(s): {missing}"
+            )
 
 
 def validate_main_content_boundary(text: str) -> None:
@@ -543,11 +487,7 @@ def validate_main_content_boundary(text: str) -> None:
         PDF_NONCOUNTED_FIRST_SECTION, 1
     )[0]
     if re.sub(r"[\s\d]+", "", prefix):
-        if is_internnav_figure_prefix(prefix):
-            return
-        if first_noncounted_page <= PDF_MAX_MAIN_CONTENT_PAGES and any(
-            marker in prefix for marker in PDF_PRE_LIMITATION_BODY_MARKERS
-        ):
+        if first_noncounted_page <= PDF_MAX_MAIN_CONTENT_PAGES:
             return
         raise ValueError(
             f"main content appears before {PDF_NONCOUNTED_FIRST_SECTION} "
@@ -588,6 +528,7 @@ def check_pdf_text(pdf_path: Path) -> None:
     )
     try:
         validate_pdf_text_markers(result.stdout)
+        validate_reviewed_layout_pages(result.stdout)
     except ValueError as exc:
         raise ValueError(f"{pdf_path}: {exc}") from exc
 
@@ -609,6 +550,8 @@ def run_function_step(step: dict[str, object]) -> None:
         check_pdf_profile(path)
     elif function == "check_pdf_text":
         check_pdf_text(path)
+    elif function == "check_noncounted_section_sources":
+        check_noncounted_section_sources(path)
     else:
         raise ValueError(f"unknown function step: {function}")
 

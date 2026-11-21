@@ -1,0 +1,240 @@
+{
+  "version": "1.0",
+  "mode": "inspired",
+  "title": "Material intervention and paired decisions",
+  "canvas": {
+    "width": 550,
+    "height": 434.99999999999994,
+    "background": "#FFFFFF"
+  },
+  "theme": {
+    "font_family": "Liberation Sans",
+    "palette": {
+      "original": "#0F4D92",
+      "converted": "#E67E22",
+      "ink": "#202A38"
+    }
+  },
+  "panels": [
+    {
+      "id": "material",
+      "x": 5,
+      "y": 0,
+      "width": 540,
+      "height": 237.00000000000003,
+      "title": "Material intervention"
+    },
+    {
+      "id": "grounding",
+      "x": 5,
+      "y": 249.00000000000003,
+      "width": 287.0,
+      "height": 185.99999999999991,
+      "title": "Pointing decisions"
+    },
+    {
+      "id": "navigation",
+      "x": 304.0,
+      "y": 249.00000000000003,
+      "width": 234.0,
+      "height": 185.99999999999991,
+      "title": "Navigation outcomes"
+    }
+  ],
+  "ports": [
+    {
+      "id": "protocol.out",
+      "owner": "material",
+      "x": 275,
+      "y": 226.5,
+      "scope": "external"
+    },
+    {
+      "id": "protocol.split",
+      "x": 275,
+      "y": 239.00000000000003,
+      "scope": "junction"
+    },
+    {
+      "id": "grounding.in",
+      "owner": "grounding",
+      "x": 15,
+      "y": 247.50000000000003,
+      "scope": "external"
+    },
+    {
+      "id": "navigation.in",
+      "owner": "navigation",
+      "x": 312.0,
+      "y": 247.50000000000003,
+      "scope": "external"
+    },
+    {
+      "id": "original.out",
+      "owner": "material",
+      "x": 256.1333333333334,
+      "y": 128.66,
+      "scope": "external"
+    },
+    {
+      "id": "converted.in",
+      "owner": "material",
+      "x": 293.8666666666667,
+      "y": 128.66,
+      "scope": "external"
+    }
+  ],
+  "edges": [
+    {
+      "id": "protocol-branch",
+      "from": "protocol.out",
+      "to": "protocol.split",
+      "scope": "external",
+      "meaning": "Common material intervention protocol",
+      "arrowhead": "none",
+      "route": "explicit",
+      "points": [
+        {
+          "x": 275,
+          "y": 226.5
+        },
+        {
+          "x": 275,
+          "y": 239.00000000000003
+        }
+      ],
+      "color": "#ACB8C5",
+      "width": 0.65,
+      "dash": "solid"
+    },
+    {
+      "id": "grounding-branch",
+      "from": "protocol.split",
+      "to": "grounding.in",
+      "scope": "external",
+      "meaning": "Separate GRScenes pointing evaluation",
+      "arrowhead": "none",
+      "route": "explicit",
+      "points": [
+        {
+          "x": 275,
+          "y": 239.00000000000003
+        },
+        {
+          "x": 15,
+          "y": 239.00000000000003
+        },
+        {
+          "x": 15,
+          "y": 247.50000000000003
+        }
+      ],
+      "color": "#ACB8C5",
+      "width": 0.65,
+      "dash": "solid"
+    },
+    {
+      "id": "navigation-branch",
+      "from": "protocol.split",
+      "to": "navigation.in",
+      "scope": "external",
+      "meaning": "Separate KuJiaLe navigation evaluation",
+      "arrowhead": "none",
+      "route": "explicit",
+      "points": [
+        {
+          "x": 275,
+          "y": 239.00000000000003
+        },
+        {
+          "x": 312.0,
+          "y": 239.00000000000003
+        },
+        {
+          "x": 312.0,
+          "y": 247.50000000000003
+        }
+      ],
+      "color": "#ACB8C5",
+      "width": 0.65,
+      "dash": "solid"
+    },
+    {
+      "id": "material-rewrite",
+      "from": "original.out",
+      "to": "converted.in",
+      "scope": "external",
+      "meaning": "MDL is converted to UsdPreviewSurface while geometry is retained.",
+      "arrowhead": "end",
+      "route": "explicit",
+      "points": [
+        {
+          "x": 256.1333333333334,
+          "y": 128.66
+        },
+        {
+          "x": 293.8666666666667,
+          "y": 128.66
+        }
+      ],
+      "color": "#647184",
+      "width": 0.85,
+      "dash": "solid"
+    }
+  ],
+  "assets": [
+    {
+      "id": "original",
+      "path": "../../../../shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/original/original_0000.png",
+      "x": 10.0,
+      "y": 45.0,
+      "width": 237.33333333333334,
+      "height": 178.0,
+      "fit": "contain",
+      "alt": "Full original material view",
+      "owner": "material"
+    },
+    {
+      "id": "converted",
+      "path": "../../../../shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADA8_usd/c27086f557d316584264/zoom_018/converted/converted_0000.png",
+      "x": 302.6666666666667,
+      "y": 45.0,
+      "width": 237.33333333333334,
+      "height": 178.0,
+      "fit": "contain",
+      "alt": "Full converted material view",
+      "owner": "material"
+    }
+  ],
+  "outputs": {
+    "formats": [
+      "svg",
+      "pdf",
+      "png"
+    ],
+    "basename": "overview"
+  },
+  "review": {
+    "semantic_graph_approved": true,
+    "approved_by": "user-approved reference-led plan; lead source validation",
+    "approved_at": "2026-09-15",
+    "notes": "Branches denote common intervention protocol, not shared raster inputs or causal mediation. Detail crop is explicitly linked to full original image; both conditions predictions are projected into that reference."
+  },
+  "provenance": [
+    {
+      "id": "measured",
+      "source": "paper/shared/evidence/raw/iclr_model_behavior/analysis_v1/results.json",
+      "status": "verified"
+    },
+    {
+      "id": "scene",
+      "source": "paper/shared/evidence/raw/iclr_model_behavior/interventions_clean_v2/manifest.json",
+      "status": "verified"
+    },
+    {
+      "id": "prediction",
+      "source": "paper/shared/evidence/raw/iclr_model_behavior/runs_clean_v2/qwen3vl2b/qwen3vl2b_two_view_category_predictions.jsonl",
+      "status": "verified"
+    }
+  ]
+}

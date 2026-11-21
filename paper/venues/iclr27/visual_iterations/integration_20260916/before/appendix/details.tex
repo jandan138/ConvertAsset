@@ -1,0 +1,131 @@
+\section{Experimental Details and Additional Results}
+\label{app:details}
+
+\subsection{Source images and paired queries}
+The retained GRScenes raster archive contains 80 paired views of 16 targets;
+30 close-view pairs cover 12 of those targets. The 80 views include repeated observations of the same targets. The clean-control archive contains 15 pairs of nine
+targets. Some early original-MDL captures contain material-resolution errors.
+The later four-case material panel has repaired original captures and logged
+provenance. We therefore distinguish archived raster readout experiments from
+the clean-image window experiments used to probe material dependence. The archived readout analysis uses the saved raster inputs.
+
+The two-view clean-image experiment uses the four repaired source pairs. It
+forms four boards with distinct categories, two query targets per board and two
+position permutations, yielding 16 paired queries per intervention. Source
+IDs, image digests, boxes, and the exact composition recipe are recorded in
+the manifest. The larger development composition uses 12 targets from the
+archive and is recorded separately. All clean-image query and position variants reuse these four source pairs.
+
+\subsection{Output interpretation}
+In the text condition, the historical prompt requests \texttt{Point: x, y} and
+\texttt{Answer: target category}. In the JSON condition it requests
+\texttt{point\_xy} and \texttt{answer}. The target category is supplied in both
+prompts, so answer-string agreement measures response adherence, not independent
+object recognition. The new two-view task requests only a point. The action
+variant names the target in an action description and tests action-framed object
+localization, not fine-grained contact-point prediction.
+
+For normalized frame size $K$, a generated point $(u,v)$ is mapped to image
+pixels $(uW/K,vH/K)$ using the actual image dimensions. Pixel requests use the
+point directly. Out-of-image coordinates and missing or unparsed points fail
+the end-to-end metric. We preserve the raw response so that semantic errors,
+format failures, and coordinate-scale mismatches can be examined separately.
+The historical parser also handles four-number text lines by taking the box
+center; this behavior is included in the parser tests and raw-output records.
+
+\subsection{Archived readout experiment}
+\label{app:archive}
+Table~\ref{tab:archive} summarizes the common normalized-text readout. The
+30-pair columns are exact-ID slices of the 80-pair inference runs, using the
+same saved responses and current image digests. This avoids combining older
+predictions with subsequently replaced images. The archive is an
+appearance-stress input set for studying the readout interface; its render
+issues are documented above.
+
+\begin{table}[h]
+\centering\small
+\setlength{\tabcolsep}{3pt}
+\input{tables/grounding}
+\caption{Archived raster readout: end-to-end point hits (\%), Original then
+Converted within each pair of columns. $\Delta$ and flips refer to the 80-pair
+pool. All queries remain in the denominator.}
+\label{tab:archive}
+\end{table}
+
+\begin{table}[htbp]
+\centering\small
+\setlength{\tabcolsep}{3pt}
+\input{tables/protocol_full}
+\caption{Full readout matrix. $V$ is the number of valid numeric points over all
+30 queries; $H$ is end-to-end point-hit rate. A valid numeric point can still be
+out of frame or outside the target. The two-line normalized-text rows are
+exact-ID subsets of current 80-pair runs; other rows use their recorded 30-pair
+inference runs.}
+\label{tab:protocol-full}
+\end{table}
+
+\subsection{Window interventions and uncertainty}
+The target-window crossover uses the floor/ceiling integer bounds of the
+projected target box. Pixels inside that rectangle are taken from one material
+condition and pixels outside from the other. The rectangle includes background
+and is not an instance segmentation mask. The mechanism experiment identifies
+image-region dependence; it does not individually isolate shader parameters
+such as roughness or opacity. The clean source set contains bottle, clock,
+cup, and a bag annotated as backpack. The annotation names are retained in the
+queries. 
+
+We report fixed-denominator paired differences. Target-cluster bootstrap
+resamples all views of an object together; the two-view analysis groups the
+query and position permutations by board. Boards share source targets, so this
+bootstrap describes board variability rather than a new-object population.
+Repeated trials are never counted as additional independent targets. Medians
+of even-sized samples average the two middle observations. Pixel displacements
+are computed only for pairs with two numeric points, with that count retained
+separately from the success-rate denominator.
+
+\subsection{Model environments and decoding}
+Historical Qwen/InternVL runs use Transformers 5.2 and PyTorch 2.10. The
+Gemma4 four-bit checkpoint uses its Unsloth-compatible environment. Molmo uses
+a dedicated Transformers 4.46.3/PyTorch 2.5.1 environment because its remote
+generation code expects a legacy cache. InternVL uses the remote chat model
+with a single 448-pixel square image tile. These are model-plus-preprocessor
+configurations; their differing image pipelines are recorded in the artifact.
+The primary runs use greedy decoding. The historical grid uses a 64-token
+output budget; the new two-view probes use 128 tokens. Checkpoint revisions,
+runtime patches, prompts and settings are retained with each run.
+
+\subsection{Stochastic spatial readout}
+The recorded 30-pair raster inputs are evaluated at temperature 0.7 with three
+seeds per model. For each image, seed distance is the mean of the three
+pairwise pixel distances. A query has variable hit status if its three
+end-to-end outcomes are not identical. Missing points are failures in this
+last metric. All 60 queries in each of the three model groups have three
+numeric points. These runs measure decoding variability on the archived
+inputs, separately from the clean-image material-region experiment.
+
+\begin{table}[htbp]
+\centering\small
+\input{tables/sampling}
+\caption{Stochastic readout on identical images, recomputed from the saved
+three-seed predictions. Complete triples count queries with three numeric points.}
+\label{tab:sampling}
+\end{table}
+
+\subsection{Navigation pairing and recorded examples}
+The retained KuJiaLe package contains scenes 0031, 0036 and 0066, each with
+33 episodes. The analysis retains the full set of 99 paired IDs. Each episode has one metric rollout per material condition, so the observed
+turnover includes any runtime variability; there is no same-condition repeat
+estimate to subtract. GRScenes grounding and KuJiaLe navigation use different
+scenes and models and provide complementary levels of observation, without
+establishing a causal chain between a grounding error and a navigation outcome.
+
+Full navigation metric runs are video-free. Selected visual examples come from
+separate recorded reruns with corresponding episode IDs. Their media illustrate
+trajectory behavior; their scores do not replace the full-run results.
+
+\subsection{Assets and release}
+The experimental sources include third-party scenes and model checkpoints.
+The local submission-preparation package contains the manuscript, analysis
+tables, and reproduction instructions. Scene redistribution follows the
+respective source terms. Private machine paths and author-identifying metadata
+are excluded from the anonymous PDF and its copy-ready submission text.

@@ -1,0 +1,752 @@
+{
+  "schema_version": 1,
+  "purpose": "qualitative_only_no_inference",
+  "created_at_utc": "2026-09-22T15:32:49.924674+00:00",
+  "generator": "paper/shared/evidence/experiments/11_iclr_model_behavior/rerender_appendix.py",
+  "generator_sha256": "714b2e9e6a370d91c69bd200b7601dcb5e690ce411f47c7c672a64c84a824ed5",
+  "historical_inputs": "paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/preserved_inputs.json",
+  "runtime_sources": "paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/runtime_sources.json",
+  "records": [
+    {
+      "pair_id": "47aa36277a54f6ca90cc.zoom_019",
+      "condition": "original",
+      "command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/original/original_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/grscenes/appendix_rerender_20260922/smoke",
+        "--prefix",
+        "original",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "32",
+        "--headless"
+      ],
+      "return_code": 0,
+      "elapsed_seconds": 359.34,
+      "capture_origin": "Initial single-case validation, copied byte-identically to the versioned evidence directory.",
+      "capture_output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/grscenes/appendix_rerender_20260922/smoke/original_0000.png",
+      "camera_stage": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/original/original_camera.usd",
+        "sha256": "72200600f0cf41e9886470836ee00cf40f48f6fbf18435dfff5dc7cac168e25b"
+      },
+      "old_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/47aa36277a54f6ca90cc.zoom_019.json",
+        "sha256": "0378b4f9d2d9e36de237cb28aaa6283b26c65a23ef6c44d657ec9a0a608d16d7"
+      },
+      "old_image": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/original/original_0000.png",
+        "sha256": "67003646a979b41eeb1b97a53d192bb3bcfd244a283b0c7b8c4c53a2f58d17cd"
+      },
+      "image": {
+        "path": "paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/47aa36277a54f6ca90cc.zoom_019/original/original_0000.png",
+        "sha256": "555728c638f0a2cf48ac4a76370883d8fa81ae9e958ae9c0fc80c24afbb28ab3",
+        "size": [
+          600,
+          450
+        ]
+      },
+      "log": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/grscenes/appendix_rerender_20260922/smoke/render.log",
+        "sha256": "7b14eac00fdfaa70322107475db64042b123d8ffc91b3eedafe2bb8a1205f4a8"
+      },
+      "material_errors": {
+        "mdl_compiler": 0,
+        "mdl_shader": 0,
+        "missing_module": 0,
+        "missing_texture": 0,
+        "unresolved_asset": 0
+      },
+      "capture_ready": true,
+      "visual_review": {
+        "verdict": "PASS",
+        "reviewer": "main-session visual inspection",
+        "scope": "Red material failure removal, visible target and matched framing; not a model evaluation.",
+        "notes": "Bag, hat, doors and shelf retain the saved framing. Red fallback is gone from walls, doors and shelf; material detail and reflections remain visible."
+      }
+    },
+    {
+      "pair_id": "47aa36277a54f6ca90cc.zoom_019",
+      "condition": "converted",
+      "command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/converted/converted_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/47aa36277a54f6ca90cc.zoom_019/converted",
+        "--prefix",
+        "converted",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "32",
+        "--headless"
+      ],
+      "return_code": 0,
+      "elapsed_seconds": 57.7,
+      "camera_stage": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/converted/converted_camera.usd",
+        "sha256": "f5a460ba15097da89cf3c5c32197437e3f23e20a426a18650970b50995b5d740"
+      },
+      "old_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/47aa36277a54f6ca90cc.zoom_019.json",
+        "sha256": "0378b4f9d2d9e36de237cb28aaa6283b26c65a23ef6c44d657ec9a0a608d16d7"
+      },
+      "old_image": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/47aa36277a54f6ca90cc/zoom_019/converted/converted_0000.png",
+        "sha256": "53611d186dc095671f157a4219d568308ecb2ad0dbeae0cef20c65fc62b92211"
+      },
+      "image": {
+        "path": "paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/47aa36277a54f6ca90cc.zoom_019/converted/converted_0000.png",
+        "sha256": "2223e39c7b59c9554a2e4eb0467f467a96f0200c8cd4c981fd832920adeacd31",
+        "size": [
+          600,
+          450
+        ]
+      },
+      "log": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/grscenes/appendix_rerender_20260922/47aa36277a54f6ca90cc.zoom_019/converted/render.log",
+        "sha256": "eb0dbba31b7f5a9a774f14d1b5fd86b78924006e14254b729a5cb4db23262c98"
+      },
+      "material_errors": {
+        "mdl_compiler": 0,
+        "mdl_shader": 0,
+        "missing_module": 0,
+        "missing_texture": 0,
+        "unresolved_asset": 0
+      },
+      "capture_ready": true,
+      "visual_review": {
+        "verdict": "PASS",
+        "reviewer": "main-session visual inspection",
+        "scope": "Red material failure removal, visible target and matched framing; not a model evaluation.",
+        "notes": "Bag, hat, doors and shelf retain the saved framing. Red fallback is gone from walls, doors and shelf; material detail and reflections remain visible."
+      }
+    },
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_019",
+      "condition": "original",
+      "command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/original/original_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/f35ef3d86c42446b7ddf.zoom_019/original",
+        "--prefix",
+        "original",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "32",
+        "--headless"
+      ],
+      "return_code": 0,
+      "elapsed_seconds": 330.91,
+      "camera_stage": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/original/original_camera.usd",
+        "sha256": "da03655a34d4176581ea06043b8afae35265593bf3ebef25c43e597223e9dafb"
+      },
+      "old_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/f35ef3d86c42446b7ddf.zoom_019.json",
+        "sha256": "df24ab0a125095c02ae78c39a17a37d3ca984d12fe3f4fd867793b3d54a8f37d"
+      },
+      "old_image": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/original/original_0000.png",
+        "sha256": "0b541ce01f1a5cd925f0e456abe4304a2c0266a226f03fcb163a0ff39537bceb"
+      },
+      "image": {
+        "path": "paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/f35ef3d86c42446b7ddf.zoom_019/original/original_0000.png",
+        "sha256": "f9d7bb9e6d74e03428f3f508e4b1fe3b621b61b7e27312876e55d62149003c57",
+        "size": [
+          600,
+          450
+        ]
+      },
+      "log": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/grscenes/appendix_rerender_20260922/f35ef3d86c42446b7ddf.zoom_019/original/render.log",
+        "sha256": "cdfed4f1f0b557498d257d9eb220278c48222158ceaa1c935fea47255b6a7e16"
+      },
+      "material_errors": {
+        "mdl_compiler": 0,
+        "mdl_shader": 0,
+        "missing_module": 0,
+        "missing_texture": 0,
+        "unresolved_asset": 0
+      },
+      "capture_ready": true,
+      "visual_review": {
+        "verdict": "PASS",
+        "reviewer": "main-session visual inspection",
+        "scope": "Red material failure removal, visible target and matched framing; not a model evaluation.",
+        "notes": "Clock and background remain in place. Red clock rim and background surfaces are repaired. Original reflections and flatter converted surfaces remain distinct."
+      }
+    },
+    {
+      "pair_id": "f35ef3d86c42446b7ddf.zoom_019",
+      "condition": "converted",
+      "command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/converted/converted_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/f35ef3d86c42446b7ddf.zoom_019/converted",
+        "--prefix",
+        "converted",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "32",
+        "--headless"
+      ],
+      "return_code": 0,
+      "elapsed_seconds": 68.27,
+      "camera_stage": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/converted/converted_camera.usd",
+        "sha256": "940e9825873dc44ee887cdc5f280cd3584a4a0615a3e777db20421b5e712d01d"
+      },
+      "old_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/f35ef3d86c42446b7ddf.zoom_019.json",
+        "sha256": "df24ab0a125095c02ae78c39a17a37d3ca984d12fe3f4fd867793b3d54a8f37d"
+      },
+      "old_image": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/f35ef3d86c42446b7ddf/zoom_019/converted/converted_0000.png",
+        "sha256": "115bcdd6650870cdfb36dae8f8e5c66fe9135ccd9f3d9ffc7d8ed97af16fd3b6"
+      },
+      "image": {
+        "path": "paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/f35ef3d86c42446b7ddf.zoom_019/converted/converted_0000.png",
+        "sha256": "e63a368cdae8418494bfbc1c18ff742983d06765d8f47375aa2d6d66115de239",
+        "size": [
+          600,
+          450
+        ]
+      },
+      "log": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/grscenes/appendix_rerender_20260922/f35ef3d86c42446b7ddf.zoom_019/converted/render.log",
+        "sha256": "2c83024f452bfca3c423dd667252443edc52c0f4eb4eecfd0c8fae26e44af7fb"
+      },
+      "material_errors": {
+        "mdl_compiler": 0,
+        "mdl_shader": 0,
+        "missing_module": 0,
+        "missing_texture": 0,
+        "unresolved_asset": 0
+      },
+      "capture_ready": true,
+      "visual_review": {
+        "verdict": "PASS",
+        "reviewer": "main-session visual inspection",
+        "scope": "Red material failure removal, visible target and matched framing; not a model evaluation.",
+        "notes": "Clock and background remain in place. Red clock rim and background surfaces are repaired. Original reflections and flatter converted surfaces remain distinct."
+      }
+    },
+    {
+      "pair_id": "bb985fd4504a1afe8516.zoom_017",
+      "condition": "original",
+      "command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/bb985fd4504a1afe8516.zoom_017/original",
+        "--prefix",
+        "original",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "32",
+        "--headless"
+      ],
+      "return_code": 0,
+      "elapsed_seconds": 368.94,
+      "camera_stage": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_camera.usd",
+        "sha256": "39f8a6000302655609d224ae318cc41c655115f906d699bce59e016b2e622d16"
+      },
+      "old_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/bb985fd4504a1afe8516.zoom_017.json",
+        "sha256": "fe9065770487457e5d8424a6f361885386c2464fec6ec0a0be563adef90bd0a7"
+      },
+      "old_image": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/original/original_0000.png",
+        "sha256": "1b32c8ff6664b517d444be6d26b91303d532af68ed3a910f202951642b74ab6e"
+      },
+      "image": {
+        "path": "paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/bb985fd4504a1afe8516.zoom_017/original/original_0000.png",
+        "sha256": "8bb214d78c621232fb213223dd796daa74d64208b9eea8e24d0a5465640fcae3",
+        "size": [
+          600,
+          450
+        ]
+      },
+      "log": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/grscenes/appendix_rerender_20260922/bb985fd4504a1afe8516.zoom_017/original/render.log",
+        "sha256": "63875b77c3bdaf6b1ca730b3b607da09f8bc24790a93534d745932eea90bb490"
+      },
+      "material_errors": {
+        "mdl_compiler": 0,
+        "mdl_shader": 0,
+        "missing_module": 0,
+        "missing_texture": 0,
+        "unresolved_asset": 0
+      },
+      "capture_ready": true,
+      "visual_review": {
+        "verdict": "PASS",
+        "reviewer": "main-session visual inspection",
+        "scope": "Red material failure removal, visible target and matched framing; not a model evaluation.",
+        "notes": "Tabletop is light stone in both views; no widespread red fallback. Fruit retains natural red color. Original transparent stem/base is faint; Converted stem is opaque. This is recorded material appearance, without geometry edits."
+      }
+    },
+    {
+      "pair_id": "bb985fd4504a1afe8516.zoom_017",
+      "condition": "converted",
+      "command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/bb985fd4504a1afe8516.zoom_017/converted",
+        "--prefix",
+        "converted",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "32",
+        "--headless"
+      ],
+      "return_code": 0,
+      "elapsed_seconds": 48.78,
+      "camera_stage": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_camera.usd",
+        "sha256": "9b8f84af50ac89df5eb1d5af6c3e6ef4320be3c1c5f8627d87d1305a1b3e1e04"
+      },
+      "old_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/bb985fd4504a1afe8516.zoom_017.json",
+        "sha256": "fe9065770487457e5d8424a6f361885386c2464fec6ec0a0be563adef90bd0a7"
+      },
+      "old_image": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADQ8_usd/bb985fd4504a1afe8516/zoom_017/converted/converted_0000.png",
+        "sha256": "e3c27eba3004965b87a39c18bd15f3786b9c9d37e86987d3e3d348a5dcadac40"
+      },
+      "image": {
+        "path": "paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/bb985fd4504a1afe8516.zoom_017/converted/converted_0000.png",
+        "sha256": "4d799967ce28d6eead710ad88681add15ab778ae6b40c123a96a629e2214a7f6",
+        "size": [
+          600,
+          450
+        ]
+      },
+      "log": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/grscenes/appendix_rerender_20260922/bb985fd4504a1afe8516.zoom_017/converted/render.log",
+        "sha256": "d520dcd533faa08fed81de2cc558d6c5add2f7182eda7e9f45999dc31bc6f53b"
+      },
+      "material_errors": {
+        "mdl_compiler": 0,
+        "mdl_shader": 0,
+        "missing_module": 0,
+        "missing_texture": 0,
+        "unresolved_asset": 0
+      },
+      "capture_ready": true,
+      "visual_review": {
+        "verdict": "PASS",
+        "reviewer": "main-session visual inspection",
+        "scope": "Red material failure removal, visible target and matched framing; not a model evaluation.",
+        "notes": "Tabletop is light stone in both views; no widespread red fallback. Fruit retains natural red color. Original transparent stem/base is faint; Converted stem is opaque. This is recorded material appearance, without geometry edits."
+      }
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.zoom_017",
+      "condition": "original",
+      "command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/c8ee4b66274b05d242c2.zoom_017/original",
+        "--prefix",
+        "original",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "32",
+        "--headless"
+      ],
+      "return_code": 0,
+      "elapsed_seconds": 390.13,
+      "camera_stage": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_camera.usd",
+        "sha256": "a32aaf2bae768297f64b71687faa095d757437272c7f276a6116bd4b427620d2"
+      },
+      "old_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/c8ee4b66274b05d242c2.zoom_017.json",
+        "sha256": "a4e177788123a872b3e54ffda65ab2bebc8d73e17d5049c9cc8f7ee4363fc746"
+      },
+      "old_image": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/original/original_0000.png",
+        "sha256": "d53223351c14c9201ee4503718faa1f52d3b1bd14e551216440249ca1c0f8c6a"
+      },
+      "image": {
+        "path": "paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/c8ee4b66274b05d242c2.zoom_017/original/original_0000.png",
+        "sha256": "35a39616ff6e078f51f1efc7040c286b9d5ed1e9a9cdb0465f89dde174ed94a0",
+        "size": [
+          600,
+          450
+        ]
+      },
+      "log": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/grscenes/appendix_rerender_20260922/c8ee4b66274b05d242c2.zoom_017/original/render.log",
+        "sha256": "4b828a7926f625ca7d423bdbb55f1fcf45e675d1c80cec6145a3cfabf7a6faaa"
+      },
+      "material_errors": {
+        "mdl_compiler": 0,
+        "mdl_shader": 0,
+        "missing_module": 0,
+        "missing_texture": 0,
+        "unresolved_asset": 0
+      },
+      "capture_ready": true,
+      "visual_review": {
+        "verdict": "PASS",
+        "reviewer": "main-session visual inspection",
+        "scope": "Red material failure removal, visible target and matched framing; not a model evaluation.",
+        "notes": "Original shows a reflective chrome tap; Converted shows a dark tap. Tap, basin, tiles and mirror are framed identically. Red fallback on tap, counter and mirror reflection is gone."
+      }
+    },
+    {
+      "pair_id": "c8ee4b66274b05d242c2.zoom_017",
+      "condition": "converted",
+      "command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/c8ee4b66274b05d242c2.zoom_017/converted",
+        "--prefix",
+        "converted",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "32",
+        "--headless"
+      ],
+      "return_code": 0,
+      "elapsed_seconds": 45.11,
+      "camera_stage": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_camera.usd",
+        "sha256": "4e2e7ffdb87200eb6637a8e46400f793ebcd16bd1e63ca9fb59ad5d420479b3b"
+      },
+      "old_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/c8ee4b66274b05d242c2.zoom_017.json",
+        "sha256": "a4e177788123a872b3e54ffda65ab2bebc8d73e17d5049c9cc8f7ee4363fc746"
+      },
+      "old_image": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADY8_usd/c8ee4b66274b05d242c2/zoom_017/converted/converted_0000.png",
+        "sha256": "d5d38ecc7b9c1a85fb1133150c63d23bc85546065bb60cc09f68eae973dac776"
+      },
+      "image": {
+        "path": "paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/c8ee4b66274b05d242c2.zoom_017/converted/converted_0000.png",
+        "sha256": "3fca38922a2bdb75139cf380fee74f523abb096b8cf70e93032d01b46053b4d3",
+        "size": [
+          600,
+          450
+        ]
+      },
+      "log": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/grscenes/appendix_rerender_20260922/c8ee4b66274b05d242c2.zoom_017/converted/render.log",
+        "sha256": "41208a79e5c3290f252526b29c751282ba134d8c9299047305294863d3cd82f7"
+      },
+      "material_errors": {
+        "mdl_compiler": 0,
+        "mdl_shader": 0,
+        "missing_module": 0,
+        "missing_texture": 0,
+        "unresolved_asset": 0
+      },
+      "capture_ready": true,
+      "visual_review": {
+        "verdict": "PASS",
+        "reviewer": "main-session visual inspection",
+        "scope": "Red material failure removal, visible target and matched framing; not a model evaluation.",
+        "notes": "Original shows a reflective chrome tap; Converted shows a dark tap. Tap, basin, tiles and mirror are framed identically. Red fallback on tap, counter and mirror reflection is gone."
+      }
+    },
+    {
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_017",
+      "condition": "original",
+      "command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/ef6a4fe9448f672c2ecc.zoom_017/original",
+        "--prefix",
+        "original",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "32",
+        "--headless"
+      ],
+      "return_code": 0,
+      "elapsed_seconds": 449.26,
+      "camera_stage": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_camera.usd",
+        "sha256": "888800ffaff931260cc2f081e2613645db3238c894e724293aaca5daf195037d"
+      },
+      "old_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/ef6a4fe9448f672c2ecc.zoom_017.json",
+        "sha256": "c6d5ff5f6503591271526ce18ebe7e810ea9697b0c5798926522c1ab876615f6"
+      },
+      "old_image": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/original/original_0000.png",
+        "sha256": "cb1d0588b37355d1e126ddab9fc4459a879c9bbac0d4f47be6e5d32b365bcd98"
+      },
+      "image": {
+        "path": "paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/ef6a4fe9448f672c2ecc.zoom_017/original/original_0000.png",
+        "sha256": "bcc82bc9299b82579da8e4dfb08f4a72056e464fc9f2ff7547adc4e926a059fc",
+        "size": [
+          600,
+          450
+        ]
+      },
+      "log": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/grscenes/appendix_rerender_20260922/ef6a4fe9448f672c2ecc.zoom_017/original/render.log",
+        "sha256": "99196199c4ca46e8e289d2dbb7d2447873a5a9160a7b1e50a7f32295ce8aafd3"
+      },
+      "material_errors": {
+        "mdl_compiler": 0,
+        "mdl_shader": 0,
+        "missing_module": 0,
+        "missing_texture": 0,
+        "unresolved_asset": 0
+      },
+      "capture_ready": true,
+      "visual_review": {
+        "verdict": "PASS",
+        "reviewer": "main-session visual inspection",
+        "scope": "Red material failure removal, visible target and matched framing; not a model evaluation.",
+        "notes": "Horse pictures and gridded partition retain the same framing. Red fallback on left partition and lower background is gone. A localized warm floor detail remains in Original."
+      }
+    },
+    {
+      "pair_id": "ef6a4fe9448f672c2ecc.zoom_017",
+      "condition": "converted",
+      "command": [
+        "./scripts/isaac_python.sh",
+        "scripts/render_with_viewport_capture.py",
+        "--usd-path",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_camera.usd",
+        "--camera",
+        "/World/GRScenesVLMTargetCamera",
+        "--output-dir",
+        "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/ef6a4fe9448f672c2ecc.zoom_017/converted",
+        "--prefix",
+        "converted",
+        "--ext",
+        "png",
+        "--width",
+        "600",
+        "--height",
+        "450",
+        "--start-frame",
+        "0",
+        "--end-frame",
+        "0",
+        "--frame-step",
+        "1",
+        "--renderer",
+        "RayTracedLighting",
+        "--wait-frames",
+        "32",
+        "--headless"
+      ],
+      "return_code": 0,
+      "elapsed_seconds": 46.59,
+      "camera_stage": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_camera.usd",
+        "sha256": "0e648c6def100e7abb2775693fa88c15fbbffc7c5e9a08c4911d02b4de723a7c"
+      },
+      "old_report": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_paired_render_reports/ef6a4fe9448f672c2ecc.zoom_017.json",
+        "sha256": "c6d5ff5f6503591271526ce18ebe7e810ea9697b0c5798926522c1ab876615f6"
+      },
+      "old_image": {
+        "path": "paper/shared/evidence/raw/grscene_vlm_grounding/retake_zoom_renders/MV7J6NIKTKJZ2AABAAAAADI8_usd/ef6a4fe9448f672c2ecc/zoom_017/converted/converted_0000.png",
+        "sha256": "c5a595e3a061b169ebb4454c5a1da206b73d3dd7beb86dc9e1bc2579b52d98ae"
+      },
+      "image": {
+        "path": "paper/shared/evidence/raw/iclr_model_behavior/appendix_rerender_v1/ef6a4fe9448f672c2ecc.zoom_017/converted/converted_0000.png",
+        "sha256": "7ba8e5fdbbd12dcfbdd5d804808e3837d9ca02ee2ce4577581d6f6332207a628",
+        "size": [
+          600,
+          450
+        ]
+      },
+      "log": {
+        "path": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/grscenes/appendix_rerender_20260922/ef6a4fe9448f672c2ecc.zoom_017/converted/render.log",
+        "sha256": "fd2b2cb8119c86ed25320b0f2d474ff98c16fbc418818ef4a9e5e294db0b1d0f"
+      },
+      "material_errors": {
+        "mdl_compiler": 0,
+        "mdl_shader": 0,
+        "missing_module": 0,
+        "missing_texture": 0,
+        "unresolved_asset": 0
+      },
+      "capture_ready": true,
+      "visual_review": {
+        "verdict": "PASS",
+        "reviewer": "main-session visual inspection",
+        "scope": "Red material failure removal, visible target and matched framing; not a model evaluation.",
+        "notes": "Horse pictures and gridded partition retain the same framing. Red fallback on left partition and lower background is gone. A localized warm floor detail remains in Original."
+      }
+    }
+  ],
+  "visual_review": {
+    "verdict": "PASS",
+    "reviewer": "main-session visual inspection (not an independent reviewer)",
+    "reviewed_at_utc": "2026-09-22T16:04:26.006039+00:00",
+    "image_count": 10,
+    "color_adjustment": "none",
+    "crop": "none",
+    "notes": "All ten captured frames inspected individually. Compiler/loading diagnostics and image evidence agree; images remain qualitative-only."
+  }
+}

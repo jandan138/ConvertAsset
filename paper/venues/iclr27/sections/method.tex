@@ -1,0 +1,59 @@
+\section{Material Intervention and Model Readout}
+\label{sec:method}
+
+\paragraph{Changing the material representation.}
+We construct two versions of each source scene. The original version retains
+its MDL shader networks; the converted version uses UsdPreviewSurface networks.
+The conversion traverses USD references, payloads, sublayers, variants, and
+texture dependencies, preserving composition rather than flattening the scene.
+Meshes and object transforms are retained. Matched camera settings expose the
+resulting appearance difference, including changes in color, contrast, and
+reflected light, to the model. Thus a material change can alter visual evidence
+even when the spatial answer remains the same.
+
+\paragraph{A spatial output has two components.}
+A model first generates a response to an image and a query. A readout rule then
+maps that response to a location. Let $I_i^O$ and $I_i^C$ denote paired images,
+$q_i$ a query, and $B_i$ the target region. For a model $f$ and a prespecified
+readout $r$, the decoded point is $p_i=r(f(I_i,q_i))$. A readout includes both
+the response syntax and the coordinate frame. We measure the complete pipeline:
+\begin{equation}
+ H_i^v = \mathbf{1}\{p_i^v\text{ is a valid in-image point in } B_i\},
+ \qquad
+ \Delta_H = \frac{1}{N}\sum_{i=1}^{N}(H_i^C-H_i^O).
+ \label{eq:hit}
+\end{equation}
+A missing or malformed point has $H_i^v=0$. Alongside $H$, we report
+numeric-output coverage and the hit rate among
+parsed numeric outputs. Coverage records whether a point can be decoded; the
+end-to-end hit rate additionally requires it to lie inside the image and target.
+All point displacements are
+converted to image pixels before distances are computed.
+
+\paragraph{Fixed-factor comparisons.}
+The readout experiment crosses two requested frames (pixels and normalized
+0--1000) with two syntaxes (JSON and two-line text), using the same image queries.
+The six configurations are Gemma4-E4B in four-bit form
+\citep{Google2026Gemma4}, Qwen2.5-VL-7B \citep{Bai2025Qwen},
+Qwen3-VL-2B and 8B \citep{Bai2025Qwen3}, InternVL3-8B
+\citep{Zhu2025InternVL}, and Molmo-7B-D \citep{Deitke2024Molmo}. The analysis preserves the
+checkpoint, raw response, image digest, and prompt for every query. A common
+0--1000 reinterpretation provides a second, uniformly applied diagnostic
+alongside scoring in the requested frame.
+
+\paragraph{Decision turnover.}
+Mean differences can cancel. We therefore also count $O$-success/$C$-failure and
+$O$-failure/$C$-success pairs, for both pointing and navigation. For multiple
+views of one object, we compare the actual sets of successful views rather than
+just their cardinalities. Uncertainty for point-hit differences is estimated by
+resampling target clusters, keeping repeated views together. Experimental
+details and paired render examples appear in Appendix~\ref{app:details};
+Appendix~\ref{app:materials} compares the retained material cues.
+
+\paragraph{From a point to a trajectory.}
+For navigation, the material intervention is applied to the KuJiaLe scenes used
+by the InternNav/DualVLN evaluation route. The language instruction, start state,
+episode definition, and agent configuration are matched across conditions. We
+record success rate (SR), success weighted by path length (SPL), navigation error
+(NE), and trajectory length (TL), retaining episode IDs to connect aggregate
+changes to individual outcomes.

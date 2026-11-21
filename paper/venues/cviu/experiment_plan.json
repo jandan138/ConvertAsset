@@ -1,0 +1,84 @@
+{
+  "schema_version": 3,
+  "protocol_name": "CVIU_v3_Bidirectional_Optical_Tradeoff",
+  "status": "v3_completed_4models_2families_9936_preds_2026-11-17",
+  "story": "Geometry preservation does not imply decision preservation: material simplification induces a deterministic bidirectional optical trade-off (glare-removal gains vs. optical-cue losses), reduced by capacity scaling and mitigated by a zero-VLM pre-deployment risk gate.",
+  "scene_manifest": "paper/shared/evidence/raw/cviu_formal/v1/scenes.json",
+  "primary_manifest": "paper/shared/evidence/raw/cviu_formal/v1/manifest.json",
+  "render_control_manifest": "paper/shared/evidence/raw/cviu_formal/v1/render_control_manifest.json",
+  "pilot_manifest": "paper/shared/evidence/raw/cviu_diagnostics/pilot_20261114_v1/manifest.json",
+  "resolution": [1024, 768],
+  "splits": {
+    "train_scenes": 15,
+    "validation_scenes": 5,
+    "test_scenes": 10
+  },
+  "completed_v1_anchors": {
+    "formal_primary": {
+      "models": [
+        "Qwen/Qwen3-VL-8B-Instruct",
+        "Qwen/Qwen3-VL-32B-Instruct"
+      ],
+      "pairs": 480,
+      "repeats": 3,
+      "predictions": 5760,
+      "results": "paper/shared/evidence/raw/cviu_formal/v1/analysis_v1/primary/results.json"
+    },
+    "render_controls": {
+      "control_scenes": 3,
+      "pairs": 48,
+      "predictions": 192,
+      "results": "paper/shared/evidence/raw/cviu_formal/v1/analysis_v1/render_controls.json"
+    }
+  },
+  "v3_experiments": {
+    "precision": "bfloat16",
+    "bootstrap_unit": "scene",
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 20261114,
+    "scaling_and_families": {
+      "intra_family_addition": ["Qwen/Qwen3-VL-2B-Instruct"],
+      "cross_family_lineage2": {
+        "preferred_80gb": "OpenGVLab/InternVL3_5-38B-HF",
+        "standard": "OpenGVLab/InternVL3_5-14B-HF"
+      },
+      "cross_family_lineage3_pilot_gated": {
+        "candidates": [
+          "mistral-community/pixtral-12b",
+          "allenai/Molmo-7B-O-0924"
+        ],
+        "pilot_valid_point_threshold": 0.90
+      },
+      "inputs_per_model": 960
+    },
+    "variance_hierarchy_controls": {
+      "control_scenes": 3,
+      "inputs": 96,
+      "stochastic_model": "Qwen/Qwen3-VL-8B-Instruct",
+      "temperature": 0.2,
+      "top_p": 0.95,
+      "draws": 5,
+      "stochastic_predictions": 480
+    },
+    "counterfactuals_480_pairs": {
+      "conditions": ["target_only", "background_only", "photometric_matched"],
+      "photometric_method": "per_region_cie_lab_mean_std_affine",
+      "evaluator_model": "Qwen/Qwen3-VL-8B-Instruct",
+      "total_predictions": 1440
+    },
+    "conversion_risk_gate": {
+      "classifier": "standardized_l2_logistic_regression",
+      "tune_metric": "roc_auc",
+      "c_grid": [0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0],
+      "tune_on": "validation",
+      "evaluate_on": "test",
+      "selective_review_fractions": [0.1, 0.2, 0.3],
+      "baselines": ["random", "geometry_only", "global_rgb_mae", "target_rgb_mae"]
+    },
+    "downstream_case_study": {
+      "navigation_manifest": "paper/venues/cviu/navigation_followup.json",
+      "historical_pairs": 99,
+      "planned_repeat_rollouts": 990
+    }
+  }
+}

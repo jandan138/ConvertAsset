@@ -30,6 +30,7 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
         "target_policy",
         "metadata_consistency",
         "openreview_checklist",
+        "noncounted_source_scan",
         "citation_inventory",
         "evidence_numbers",
         "integrity_fingerprint",
@@ -51,6 +52,7 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
     assert step_ids.index("target_policy") < step_ids.index("stage_packet")
     assert step_ids.index("metadata_consistency") < step_ids.index("stage_packet")
     assert step_ids.index("openreview_checklist") < step_ids.index("stage_packet")
+    assert step_ids.index("noncounted_source_scan") < step_ids.index("stage_packet")
     assert step_ids.index("citation_inventory") < step_ids.index("stage_packet")
     assert step_ids.index("evidence_numbers") < step_ids.index("stage_packet")
     assert step_ids.index("integrity_fingerprint") < step_ids.index("stage_packet")
@@ -58,6 +60,9 @@ def test_preupload_plan_orders_checks_before_staging() -> None:
     assert "tests/test_acl_citation_inventory.py" in focused_pytest_step["command"]
     assert "tests/test_acl_target_policy.py" in focused_pytest_step["command"]
     assert "tests/test_acl_integrity_fingerprint.py" in focused_pytest_step["command"]
+    assert "tests/test_acl_paper_figures_v3.py" in focused_pytest_step["command"]
+    assert "tests/test_acl_method_chain_v4_pptx.py" in focused_pytest_step["command"]
+    assert "tests/test_acl_internnav_rollout_v4.py" in focused_pytest_step["command"]
     assert "tests/test_acl_final_blockers.py" in focused_pytest_step["command"]
     assert "tests/test_acl_openreview_checklist.py" in focused_pytest_step["command"]
     assert "tests/test_acl_author_gate.py" in focused_pytest_step["command"]
@@ -137,41 +142,56 @@ def test_text_scan_detects_private_tokens(tmp_path: Path) -> None:
 def test_pdf_profile_accepts_current_acl_candidate_shape() -> None:
     module = load_module()
     pdfinfo_output = """
-Pages:           12
+Pages:           9
 Page size:       595.276 x 841.89 pts (A4)
 PDF version:     1.5
 """
 
     profile = module.parse_pdfinfo_output(pdfinfo_output)
 
-    assert profile["pages"] == 12
+    assert profile["pages"] == module.PDF_EXPECTED_TOTAL_PAGES
     assert profile["page_size_label"] == "A4"
     module.validate_pdf_profile(profile)
 
 
-def test_pdf_profile_rejects_unreviewed_page_growth() -> None:
+def test_pdf_profile_rejects_unreviewed_page_count() -> None:
     module = load_module()
 
     with pytest.raises(ValueError, match="page count"):
         module.validate_pdf_profile(
             {
-                "pages": module.PDF_MAX_TOTAL_PAGES + 1,
+                "pages": module.PDF_EXPECTED_TOTAL_PAGES + 1,
                 "page_size_label": "A4",
                 "pdf_version": "1.5",
             }
         )
 
 
-def test_pdf_text_markers_must_preserve_section_order() -> None:
+def test_reviewed_layout_pages_lock_late_float_distribution() -> None:
+    module = load_module()
+    pages = ["anonymous paper page"] * module.PDF_EXPECTED_TOTAL_PAGES
+    for page_number, markers in module.PDF_EXPECTED_LAYOUT_MARKERS.items():
+        pages[page_number - 1] = "\n".join(markers)
+
+    module.validate_reviewed_layout_pages("\f".join(pages) + "\f")
+
+    pages[5] = pages[5].replace("Figure 3:", "")
+    with pytest.raises(ValueError, match="reviewed page 6"):
+        module.validate_reviewed_layout_pages("\f".join(pages) + "\f")
+
+
+def test_pdf_text_markers_must_keep_figure4_before_noncounted_sections() -> None:
     module = load_module()
     out_of_order_text = "\n".join(
         [
             "Material Conversion as a Controlled Perturbation",
             "Anonymous ACL submission",
             "Figure 3:",
+            "Discussion",
+            "Conclusion",
             "Limitations",
-            "Ethical Considerations",
             "Figure 4:",
+            "Ethical Considerations",
             "References",
         ]
     )
@@ -180,131 +200,61 @@ def test_pdf_text_markers_must_preserve_section_order() -> None:
         module.validate_pdf_text_markers(out_of_order_text)
 
 
-def test_pdf_text_markers_reject_main_content_spill_before_limitations() -> None:
+def test_pdf_text_markers_allow_reviewed_page8_conclusion_tail() -> None:
     module = load_module()
     text = "\f".join(
         [
             "Material Conversion as a Controlled Perturbation\n"
-            "Anonymous ACL submission\n"
-            "Figure 3:"
+            "Anonymous ACL submission\nFigure 3:"
         ]
-        * 8
+        + ["main paper body"] * 5
+        + ["Figure 4:\nDiscussion\nConclusion"]
         + [
-            "Conclusion text still running before Limitations\n"
-            "Limitations\nFigure 4:\nEthical Considerations\nReferences"
+            "conclusion tail\nLimitations\nEthical Considerations\nReferences"
         ]
+    )
+
+    module.validate_pdf_text_markers(text)
+
+
+def test_pdf_text_markers_reject_main_content_spill_on_page9() -> None:
+    module = load_module()
+    text = "\f".join(
+        [
+            "Material Conversion as a Controlled Perturbation\n"
+            "Anonymous ACL submission\nFigure 3:"
+        ]
+        + ["main paper body"] * 5
+        + ["Figure 4:\nDiscussion\nConclusion"]
+        + ["more main paper body"]
+        + ["conclusion tail\nLimitations\nEthical Considerations\nReferences"]
     )
 
     with pytest.raises(ValueError, match="main content appears before Limitations"):
         module.validate_pdf_text_markers(text)
 
 
-def test_pdf_text_markers_allow_conclusion_before_limitations_on_page_8() -> None:
+def test_noncounted_source_scan_rejects_figures_and_tables(tmp_path: Path) -> None:
     module = load_module()
-    text = "\f".join(
-        ["Material Conversion as a Controlled Perturbation\nFigure 3:"] * 7
-        + [
-            "Conclusion\n"
-            "This paper treats synthetic-scene material conversion as a controlled perturbation.\n"
-            "Limitations\n"
-            "Figure 4: Selected qualitative InternNav rollout panel\n"
-            "Ethical Considerations\n"
-            "References\n"
-            "Anonymous ACL submission"
-        ]
+    venue_root = tmp_path / "acl27"
+    sections = venue_root / "sections"
+    sections.mkdir(parents=True)
+    (sections / "limitations.tex").write_text(
+        "\\section*{Limitations}\nNo new evidence.\n",
+        encoding="utf-8",
     )
-
-    module.validate_pdf_text_markers(text)
-
-
-def test_pdf_text_markers_reject_internnav_figure_after_references() -> None:
-    module = load_module()
-    text = "\f".join(
-        ["Material Conversion as a Controlled Perturbation\nFigure 3:"] * 8
-        + [
-            "595\n\nLimitations\nEthical Considerations\nReferences\n"
-            "Figure 4:\n"
-            "Anonymous ACL submission"
-        ]
+    (sections / "ethical-considerations.tex").write_text(
+        "\\section*{Ethical Considerations}\nNo new evidence.\n",
+        encoding="utf-8",
     )
+    module.check_noncounted_section_sources(venue_root)
 
-    with pytest.raises(ValueError, match="out of order"):
-        module.validate_pdf_text_markers(text)
-
-
-def test_pdf_text_markers_require_internnav_figure_before_ethics_and_refs() -> None:
-    module = load_module()
-    text = "\f".join(
-        ["Material Conversion as a Controlled Perturbation\nFigure 3:"] * 8
-        + [
-            "595\n\nLimitations\n"
-            "Figure 4: Supplemental qualitative InternNav rollout panel\n"
-            "Ethical Considerations\nReferences\n"
-            "Anonymous ACL submission"
-        ]
+    (sections / "limitations.tex").write_text(
+        "\\section*{Limitations}\n\\begin{figure*}[t]x\\end{figure*}\n",
+        encoding="utf-8",
     )
-
-    module.validate_pdf_text_markers(text)
-
-
-def test_pdf_text_markers_allow_wide_internnav_figure_before_limitations() -> None:
-    module = load_module()
-    text = "\f".join(
-        ["Material Conversion as a Controlled Perturbation\nFigure 3:"] * 8
-        + [
-            "Figure 4: Selected InternNav path panels. These selected official KuJiaLe examples\n"
-            "show original/noMDL start and end frames with trajectory overlays.\n"
-            "Limitations\n"
-            "The evidence base is intentionally narrow.\n"
-            "Ethical Considerations\n"
-            "The work studies conversion of synthetic 3D assets.\n"
-            "References\n"
-            "Anonymous ACL submission"
-        ]
-    )
-
-    module.validate_pdf_text_markers(text)
-
-
-def test_pdf_text_markers_allow_wide_figure_and_two_column_refs_on_limitations_page() -> None:
-    module = load_module()
-    text = "\f".join(
-        ["Material Conversion as a Controlled Perturbation\nFigure 3:"] * 8
-        + [
-            "Figure 4: Selected InternNav path panels. These selected official KuJiaLe examples\n"
-            "show original/noMDL start and end frames with trajectory overlays.\n"
-            "Limitations\n"
-            "The evidence base is intentionally narrow.\n"
-            "References\n"
-            "Peter Anderson et al.\n"
-            "Ethical Considerations\n"
-            "The work studies conversion of synthetic 3D assets.\n"
-            "Anonymous ACL submission"
-        ]
-    )
-
-    module.validate_pdf_text_markers(text)
-
-
-def test_pdf_text_markers_allow_two_column_references_extraction_before_figure() -> None:
-    module = load_module()
-    text = "\f".join(
-        ["Material Conversion as a Controlled Perturbation\nFigure 3:"] * 7
-        + [
-            "Limitations\n"
-            "The evidence base is intentionally narrow.\n"
-        ]
-        + [
-            "References\n"
-            "Peter Anderson et al.\n"
-            "Figure 4: Selected qualitative InternNav rollout panel.\n"
-            "Ethical Considerations\n"
-            "The work studies conversion of synthetic 3D assets.\n"
-            "Anonymous ACL submission"
-        ]
-    )
-
-    module.validate_pdf_text_markers(text)
+    with pytest.raises(ValueError, match="figure or table source"):
+        module.check_noncounted_section_sources(venue_root)
 
 
 def test_pdf_text_markers_reject_float_only_material_page_before_limitations() -> None:
@@ -312,57 +262,35 @@ def test_pdf_text_markers_reject_float_only_material_page_before_limitations() -
     text = "\f".join(
         [
             "Material Conversion as a Controlled Perturbation\n"
-            "Anonymous ACL submission\n"
-            "Figure 3:"
+            "Anonymous ACL submission\nFigure 3:"
         ]
-        * 7
+        + ["main paper body"] * 5
         + [
             "Table 5: Material-effect scope matrix\n"
             "Table 6: Official KuJiaLe / InteriorAgent scene\n"
+            "Figure 4:\n"
         ]
-        + ["Limitations\nFigure 4:\nEthical Considerations\nReferences"]
+        + ["Discussion\nConclusion\nLimitations\nEthical Considerations\nReferences"]
     )
 
     with pytest.raises(ValueError, match="float-only material table page"):
         module.validate_pdf_text_markers(text)
 
 
-def test_pdf_text_markers_reject_material_tables_before_early_limitations() -> None:
+def test_pdf_text_markers_allow_material_floats_with_discussion() -> None:
     module = load_module()
     text = "\f".join(
         [
             "Material Conversion as a Controlled Perturbation\n"
-            "Anonymous ACL submission\n"
-            "Figure 3:"
+            "Anonymous ACL submission\nFigure 3:"
         ]
-        * 7
+        + ["main paper body"] * 5
         + [
             "Table 5: Material-effect scope matrix\n"
             "Table 6: Official KuJiaLe / InteriorAgent scene\n"
-            "Limitations\nFigure 4:\nEthical Considerations\nReferences"
+            "Figure 4:\nDiscussion\nConclusion\n"
         ]
-    )
-
-    with pytest.raises(ValueError, match="main content appears before Limitations"):
-        module.validate_pdf_text_markers(text)
-
-
-def test_pdf_text_markers_allow_material_tables_when_discussion_shares_page() -> None:
-    module = load_module()
-    text = "\f".join(
-        [
-            "Material Conversion as a Controlled Perturbation\n"
-            "Anonymous ACL submission\n"
-            "Figure 3:"
-        ]
-        * 7
-        + [
-            "Table 5: Material-effect scope matrix\n"
-            "Table 6: Official KuJiaLe / InteriorAgent scene\n"
-            "Discussion\n"
-            "The contribution is a measurement protocol, not a converter leaderboard.\n"
-        ]
-        + ["Limitations\nFigure 4:\nEthical Considerations\nReferences"]
+        + ["Limitations\nEthical Considerations\nReferences"]
     )
 
     module.validate_pdf_text_markers(text)

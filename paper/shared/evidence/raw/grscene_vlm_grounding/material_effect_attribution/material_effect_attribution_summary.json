@@ -1,0 +1,704 @@
+{
+  "schema_version": 1,
+  "status": "material_effect_attribution",
+  "claim_boundary": "diagnostic_attribution_over_frozen_stress_set",
+  "generated_at_utc": "2026-09-13T14:18:14.670741Z",
+  "effect_manifest": {
+    "path": "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/raw/material_effect_baseline/effect_sample_manifest.json",
+    "hash_sha256": "d2d1dfcd046b4972dc5a43ab6b8adec24241be74ac644df95d2cf50f4345d5c2"
+  },
+  "inputs": [
+    {
+      "path": "paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl",
+      "hash_sha256": "aef9a041e621c4ae15156a9d6e4bae9bcd86d15524c38c4a44c13626f1eed8a2",
+      "backend": "/cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8",
+      "rows": 60
+    },
+    {
+      "path": "paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen25_stress_expanded30_structured_predictions.jsonl",
+      "hash_sha256": "c8be5952f9e5d7a2814c7428f41462bd3553d4be22c8925f822b02bc9496142d",
+      "backend": "/cpfs/shared/simulation/zhuzihou/models/Qwen2.5-VL-7B-Instruct",
+      "rows": 60
+    },
+    {
+      "path": "paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen3vl2b_stress_expanded30_structured_predictions.jsonl",
+      "hash_sha256": "79dfb953419e601eac3a57cc04cf291d7815f33306b5686ef13dac6aebda1a0f",
+      "backend": "/cpfs/user/zhuzihou/models/hf_cache/models--Qwen--Qwen3-VL-2B-Instruct/snapshots/89644892e4d85e24eaac8bacfd4f463576704203",
+      "rows": 60
+    },
+    {
+      "path": "paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen3vl8b_stress_expanded30_structured_predictions.jsonl",
+      "hash_sha256": "3218c43dcae4dd4399993d583f69970fcccf94b634edcf1a7edc1970dfbe2a10",
+      "backend": "/cpfs/user/zhuzihou/models/hf_cache/models--Qwen--Qwen3-VL-8B-Instruct/snapshots/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+      "rows": 60
+    },
+    {
+      "path": "paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/internvl3_8b_stress_expanded30_structured_predictions.jsonl",
+      "hash_sha256": "f5d1866a81ee2728dd37700475adde60fc20fe20aaa5484f7efeedfc6dc543ef",
+      "backend": "/cpfs/user/zhuzihou/models/hf_cache/models--OpenGVLab--InternVL3-8B/snapshots/853e3a797a661694b1b8ece0cb72dc2b23e3dac9",
+      "rows": 60
+    },
+    {
+      "path": "paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/molmo7b_stress_expanded30_structured_predictions.jsonl",
+      "hash_sha256": "da46fe5fbd0b70a1ca87de1a1bd4cad53868ca97b15d9adfc8baada7fd16fa49",
+      "backend": "/cpfs/user/zhuzihou/models/hf_cache/models--allenai--Molmo-7B-D-0924/snapshots/cab33fb7f1a40091911f81165f8481920621948f",
+      "rows": 60
+    }
+  ],
+  "backends": [
+    {
+      "backend": "/cpfs/user/zhuzihou/models/gemma4/releases/unsloth-gemma-4-E4B-it-unsloth-bnb-4bit/9746c23553347b443ebdc1caba1d41b52223d0c8",
+      "pairs_scored": 30,
+      "overall": {
+        "hit_flips_norm1000": 2,
+        "mean_displacement_px": 23.541
+      },
+      "per_effect": {
+        "clearcoat": {
+          "present": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          },
+          "absent": {
+            "pairs": 30,
+            "mean_displacement_px": 23.541,
+            "median_displacement_px": 18.0,
+            "hit_flip_rate_norm1000": 0.0667,
+            "answer_change_rate": 0.0
+          }
+        },
+        "opacity_transparency": {
+          "present": {
+            "pairs": 7,
+            "mean_displacement_px": 16.128,
+            "median_displacement_px": 18.062,
+            "hit_flip_rate_norm1000": 0.0,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 23,
+            "mean_displacement_px": 25.798,
+            "median_displacement_px": 13.5,
+            "hit_flip_rate_norm1000": 0.087,
+            "answer_change_rate": 0.0
+          }
+        },
+        "emission": {
+          "present": {
+            "pairs": 26,
+            "mean_displacement_px": 22.572,
+            "median_displacement_px": 18.0,
+            "hit_flip_rate_norm1000": 0.0385,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 4,
+            "mean_displacement_px": 29.844,
+            "median_displacement_px": 33.708,
+            "hit_flip_rate_norm1000": 0.25,
+            "answer_change_rate": 0.0
+          }
+        },
+        "procedural_texture": {
+          "present": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          },
+          "absent": {
+            "pairs": 30,
+            "mean_displacement_px": 23.541,
+            "median_displacement_px": 18.0,
+            "hit_flip_rate_norm1000": 0.0667,
+            "answer_change_rate": 0.0
+          }
+        },
+        "normal_bump": {
+          "present": {
+            "pairs": 30,
+            "mean_displacement_px": 23.541,
+            "median_displacement_px": 18.0,
+            "hit_flip_rate_norm1000": 0.0667,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          }
+        },
+        "displacement_height": {
+          "present": {
+            "pairs": 26,
+            "mean_displacement_px": 22.572,
+            "median_displacement_px": 18.0,
+            "hit_flip_rate_norm1000": 0.0385,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 4,
+            "mean_displacement_px": 29.844,
+            "median_displacement_px": 33.708,
+            "hit_flip_rate_norm1000": 0.25,
+            "answer_change_rate": 0.0
+          }
+        }
+      }
+    },
+    {
+      "backend": "/cpfs/shared/simulation/zhuzihou/models/Qwen2.5-VL-7B-Instruct",
+      "pairs_scored": 30,
+      "overall": {
+        "hit_flips_norm1000": 4,
+        "mean_displacement_px": 51.643
+      },
+      "per_effect": {
+        "clearcoat": {
+          "present": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          },
+          "absent": {
+            "pairs": 30,
+            "mean_displacement_px": 51.643,
+            "median_displacement_px": 30.0,
+            "hit_flip_rate_norm1000": 0.1429,
+            "answer_change_rate": 0.0667
+          }
+        },
+        "opacity_transparency": {
+          "present": {
+            "pairs": 7,
+            "mean_displacement_px": 13.75,
+            "median_displacement_px": 22.5,
+            "hit_flip_rate_norm1000": 0.0,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 23,
+            "mean_displacement_px": 61.977,
+            "median_displacement_px": 31.845,
+            "hit_flip_rate_norm1000": 0.1818,
+            "answer_change_rate": 0.087
+          }
+        },
+        "emission": {
+          "present": {
+            "pairs": 26,
+            "mean_displacement_px": 51.036,
+            "median_displacement_px": 22.5,
+            "hit_flip_rate_norm1000": 0.0833,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 4,
+            "mean_displacement_px": 55.285,
+            "median_displacement_px": 52.382,
+            "hit_flip_rate_norm1000": 0.5,
+            "answer_change_rate": 0.5
+          }
+        },
+        "procedural_texture": {
+          "present": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          },
+          "absent": {
+            "pairs": 30,
+            "mean_displacement_px": 51.643,
+            "median_displacement_px": 30.0,
+            "hit_flip_rate_norm1000": 0.1429,
+            "answer_change_rate": 0.0667
+          }
+        },
+        "normal_bump": {
+          "present": {
+            "pairs": 30,
+            "mean_displacement_px": 51.643,
+            "median_displacement_px": 30.0,
+            "hit_flip_rate_norm1000": 0.1429,
+            "answer_change_rate": 0.0667
+          },
+          "absent": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          }
+        },
+        "displacement_height": {
+          "present": {
+            "pairs": 26,
+            "mean_displacement_px": 51.036,
+            "median_displacement_px": 22.5,
+            "hit_flip_rate_norm1000": 0.0833,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 4,
+            "mean_displacement_px": 55.285,
+            "median_displacement_px": 52.382,
+            "hit_flip_rate_norm1000": 0.5,
+            "answer_change_rate": 0.5
+          }
+        }
+      }
+    },
+    {
+      "backend": "/cpfs/user/zhuzihou/models/hf_cache/models--Qwen--Qwen3-VL-2B-Instruct/snapshots/89644892e4d85e24eaac8bacfd4f463576704203",
+      "pairs_scored": 30,
+      "overall": {
+        "hit_flips_norm1000": 2,
+        "mean_displacement_px": 24.687
+      },
+      "per_effect": {
+        "clearcoat": {
+          "present": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          },
+          "absent": {
+            "pairs": 30,
+            "mean_displacement_px": 24.687,
+            "median_displacement_px": 22.5,
+            "hit_flip_rate_norm1000": 0.0667,
+            "answer_change_rate": 0.0
+          }
+        },
+        "opacity_transparency": {
+          "present": {
+            "pairs": 7,
+            "mean_displacement_px": 36.924,
+            "median_displacement_px": 22.5,
+            "hit_flip_rate_norm1000": 0.0,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 23,
+            "mean_displacement_px": 20.963,
+            "median_displacement_px": 18.0,
+            "hit_flip_rate_norm1000": 0.087,
+            "answer_change_rate": 0.0
+          }
+        },
+        "emission": {
+          "present": {
+            "pairs": 26,
+            "mean_displacement_px": 22.07,
+            "median_displacement_px": 18.0,
+            "hit_flip_rate_norm1000": 0.0769,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 4,
+            "mean_displacement_px": 41.698,
+            "median_displacement_px": 45.0,
+            "hit_flip_rate_norm1000": 0.0,
+            "answer_change_rate": 0.0
+          }
+        },
+        "procedural_texture": {
+          "present": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          },
+          "absent": {
+            "pairs": 30,
+            "mean_displacement_px": 24.687,
+            "median_displacement_px": 22.5,
+            "hit_flip_rate_norm1000": 0.0667,
+            "answer_change_rate": 0.0
+          }
+        },
+        "normal_bump": {
+          "present": {
+            "pairs": 30,
+            "mean_displacement_px": 24.687,
+            "median_displacement_px": 22.5,
+            "hit_flip_rate_norm1000": 0.0667,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          }
+        },
+        "displacement_height": {
+          "present": {
+            "pairs": 26,
+            "mean_displacement_px": 22.07,
+            "median_displacement_px": 18.0,
+            "hit_flip_rate_norm1000": 0.0769,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 4,
+            "mean_displacement_px": 41.698,
+            "median_displacement_px": 45.0,
+            "hit_flip_rate_norm1000": 0.0,
+            "answer_change_rate": 0.0
+          }
+        }
+      }
+    },
+    {
+      "backend": "/cpfs/user/zhuzihou/models/hf_cache/models--Qwen--Qwen3-VL-8B-Instruct/snapshots/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+      "pairs_scored": 30,
+      "overall": {
+        "hit_flips_norm1000": 1,
+        "mean_displacement_px": 14.753
+      },
+      "per_effect": {
+        "clearcoat": {
+          "present": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          },
+          "absent": {
+            "pairs": 30,
+            "mean_displacement_px": 14.753,
+            "median_displacement_px": 13.5,
+            "hit_flip_rate_norm1000": 0.0333,
+            "answer_change_rate": 0.0
+          }
+        },
+        "opacity_transparency": {
+          "present": {
+            "pairs": 7,
+            "mean_displacement_px": 14.52,
+            "median_displacement_px": 13.5,
+            "hit_flip_rate_norm1000": 0.0,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 23,
+            "mean_displacement_px": 14.824,
+            "median_displacement_px": 13.5,
+            "hit_flip_rate_norm1000": 0.0435,
+            "answer_change_rate": 0.0
+          }
+        },
+        "emission": {
+          "present": {
+            "pairs": 26,
+            "mean_displacement_px": 15.724,
+            "median_displacement_px": 13.5,
+            "hit_flip_rate_norm1000": 0.0,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 4,
+            "mean_displacement_px": 8.444,
+            "median_displacement_px": 11.576,
+            "hit_flip_rate_norm1000": 0.25,
+            "answer_change_rate": 0.0
+          }
+        },
+        "procedural_texture": {
+          "present": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          },
+          "absent": {
+            "pairs": 30,
+            "mean_displacement_px": 14.753,
+            "median_displacement_px": 13.5,
+            "hit_flip_rate_norm1000": 0.0333,
+            "answer_change_rate": 0.0
+          }
+        },
+        "normal_bump": {
+          "present": {
+            "pairs": 30,
+            "mean_displacement_px": 14.753,
+            "median_displacement_px": 13.5,
+            "hit_flip_rate_norm1000": 0.0333,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          }
+        },
+        "displacement_height": {
+          "present": {
+            "pairs": 26,
+            "mean_displacement_px": 15.724,
+            "median_displacement_px": 13.5,
+            "hit_flip_rate_norm1000": 0.0,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 4,
+            "mean_displacement_px": 8.444,
+            "median_displacement_px": 11.576,
+            "hit_flip_rate_norm1000": 0.25,
+            "answer_change_rate": 0.0
+          }
+        }
+      }
+    },
+    {
+      "backend": "/cpfs/user/zhuzihou/models/hf_cache/models--OpenGVLab--InternVL3-8B/snapshots/853e3a797a661694b1b8ece0cb72dc2b23e3dac9",
+      "pairs_scored": 30,
+      "overall": {
+        "hit_flips_norm1000": 8,
+        "mean_displacement_px": 309.593
+      },
+      "per_effect": {
+        "clearcoat": {
+          "present": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          },
+          "absent": {
+            "pairs": 30,
+            "mean_displacement_px": 309.593,
+            "median_displacement_px": 64.08,
+            "hit_flip_rate_norm1000": 0.3333,
+            "answer_change_rate": 0.0
+          }
+        },
+        "opacity_transparency": {
+          "present": {
+            "pairs": 7,
+            "mean_displacement_px": 406.661,
+            "median_displacement_px": 94.868,
+            "hit_flip_rate_norm1000": 0.4286,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 23,
+            "mean_displacement_px": 269.624,
+            "median_displacement_px": 37.5,
+            "hit_flip_rate_norm1000": 0.2941,
+            "answer_change_rate": 0.0
+          }
+        },
+        "emission": {
+          "present": {
+            "pairs": 26,
+            "mean_displacement_px": 309.593,
+            "median_displacement_px": 64.08,
+            "hit_flip_rate_norm1000": 0.3333,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 4,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": 0.0
+          }
+        },
+        "procedural_texture": {
+          "present": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          },
+          "absent": {
+            "pairs": 30,
+            "mean_displacement_px": 309.593,
+            "median_displacement_px": 64.08,
+            "hit_flip_rate_norm1000": 0.3333,
+            "answer_change_rate": 0.0
+          }
+        },
+        "normal_bump": {
+          "present": {
+            "pairs": 30,
+            "mean_displacement_px": 309.593,
+            "median_displacement_px": 64.08,
+            "hit_flip_rate_norm1000": 0.3333,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          }
+        },
+        "displacement_height": {
+          "present": {
+            "pairs": 26,
+            "mean_displacement_px": 309.593,
+            "median_displacement_px": 64.08,
+            "hit_flip_rate_norm1000": 0.3333,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 4,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": 0.0
+          }
+        }
+      }
+    },
+    {
+      "backend": "/cpfs/user/zhuzihou/models/hf_cache/models--allenai--Molmo-7B-D-0924/snapshots/cab33fb7f1a40091911f81165f8481920621948f",
+      "pairs_scored": 30,
+      "overall": {
+        "hit_flips_norm1000": 2,
+        "mean_displacement_px": 25.315
+      },
+      "per_effect": {
+        "clearcoat": {
+          "present": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          },
+          "absent": {
+            "pairs": 30,
+            "mean_displacement_px": 25.315,
+            "median_displacement_px": 0.0,
+            "hit_flip_rate_norm1000": 0.0667,
+            "answer_change_rate": 0.0333
+          }
+        },
+        "opacity_transparency": {
+          "present": {
+            "pairs": 7,
+            "mean_displacement_px": 0.0,
+            "median_displacement_px": 0.0,
+            "hit_flip_rate_norm1000": 0.0,
+            "answer_change_rate": 0.0
+          },
+          "absent": {
+            "pairs": 23,
+            "mean_displacement_px": 33.019,
+            "median_displacement_px": 0.0,
+            "hit_flip_rate_norm1000": 0.087,
+            "answer_change_rate": 0.0435
+          }
+        },
+        "emission": {
+          "present": {
+            "pairs": 26,
+            "mean_displacement_px": 13.188,
+            "median_displacement_px": 0.0,
+            "hit_flip_rate_norm1000": 0.0385,
+            "answer_change_rate": 0.0385
+          },
+          "absent": {
+            "pairs": 4,
+            "mean_displacement_px": 104.141,
+            "median_displacement_px": 73.212,
+            "hit_flip_rate_norm1000": 0.25,
+            "answer_change_rate": 0.0
+          }
+        },
+        "procedural_texture": {
+          "present": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          },
+          "absent": {
+            "pairs": 30,
+            "mean_displacement_px": 25.315,
+            "median_displacement_px": 0.0,
+            "hit_flip_rate_norm1000": 0.0667,
+            "answer_change_rate": 0.0333
+          }
+        },
+        "normal_bump": {
+          "present": {
+            "pairs": 30,
+            "mean_displacement_px": 25.315,
+            "median_displacement_px": 0.0,
+            "hit_flip_rate_norm1000": 0.0667,
+            "answer_change_rate": 0.0333
+          },
+          "absent": {
+            "pairs": 0,
+            "mean_displacement_px": null,
+            "median_displacement_px": null,
+            "hit_flip_rate_norm1000": null,
+            "answer_change_rate": null
+          }
+        },
+        "displacement_height": {
+          "present": {
+            "pairs": 26,
+            "mean_displacement_px": 13.188,
+            "median_displacement_px": 0.0,
+            "hit_flip_rate_norm1000": 0.0385,
+            "answer_change_rate": 0.0385
+          },
+          "absent": {
+            "pairs": 4,
+            "mean_displacement_px": 104.141,
+            "median_displacement_px": 73.212,
+            "hit_flip_rate_norm1000": 0.25,
+            "answer_change_rate": 0.0
+          }
+        }
+      }
+    }
+  ],
+  "generator_provenance": {
+    "command": [
+      "/cpfs/shared/simulation/zhuzihou/dev/Auto-Asset-Annotator/.venv_dlc/bin/python",
+      "/cpfs/user/zhuzihou/dev/ConvertAsset/paper/shared/evidence/experiments/06_grscenes_vlm_grounding/analyze_material_effect_attribution.py",
+      "--predictions",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/stress_predictions.jsonl",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen25_stress_expanded30_structured_predictions.jsonl",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen3vl2b_stress_expanded30_structured_predictions.jsonl",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/qwen3vl8b_stress_expanded30_structured_predictions.jsonl",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/internvl3_8b_stress_expanded30_structured_predictions.jsonl",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/stress_expanded30_probes/molmo7b_stress_expanded30_structured_predictions.jsonl",
+      "--out-csv",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/material_effect_attribution/material_effect_attribution.csv",
+      "--out-summary",
+      "paper/shared/evidence/raw/grscene_vlm_grounding/material_effect_attribution/material_effect_attribution_summary.json"
+    ],
+    "git_commit": "994dd6c4b70a31914ad03d70380513ce85a13e2a"
+  }
+}

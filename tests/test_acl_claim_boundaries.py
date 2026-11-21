@@ -143,6 +143,22 @@ def test_clean_material_effect_figure_is_allowed_after_provenance_gate() -> None
     assert violations == []
 
 
+def test_clean_v2_material_effect_figure_is_allowed_after_provenance_gate() -> None:
+    module = load_module()
+
+    violations = module.find_unsafe_figure_violations(
+        {
+            "sections/results.tex": (
+                r"\includegraphics[width=\textwidth]"
+                r"{figures/fig_material_effect_baseline_qualitative_v2.pdf}"
+            )
+        },
+        material_effect_clean_provenance_ready=True,
+    )
+
+    assert violations == []
+
+
 def test_current_acl_manuscript_excludes_unsafe_qualitative_figure() -> None:
     module = load_module()
 

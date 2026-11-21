@@ -1,0 +1,17 @@
+% Verified from paper/shared/evidence/raw/cviu_v3/scaling_and_families.json (30 scenes, 480 pairs)
+\begin{tabular}{@{}lllrrrrrr@{}}
+\toprule
+Model & Family (Backbone) & Parser (Val.\ \%) & $H_O$ (\%) & $H_C$ (\%) & $\Delta H$ [95\% CI] & Flip (\%) [95\% CI] & Loss / Gain & Shift (px) \\
+\midrule
+Qwen3-VL-2B & Qwen3-VL (2B) & \texttt{flex\_1000} (96.5) & 66.67 & 63.13 & -3.54 [-8.33, +1.25] & 23.13 [19.79, 26.67] & 13.33 / 9.79 & 69.70 \\
+LLaVA-NeXT-Mistral-7B & Mistral-7B + CLIP & \texttt{unit\_float\_xy} (99.2) & 67.50 & 67.92 & +0.42 [-3.33, +3.96] & 16.67 [12.50, 21.25] & 8.13 / 8.54 & 65.08 \\
+InternVL3.5-8B-HF & InternVL3.5 (8B) & \texttt{strict} (100.0) & 78.54 & 80.00 & +1.46 [-0.42, +3.33] & 10.63 [7.92, 13.54] & 4.58 / 6.04 & 47.11 \\
+Qwen3-VL-8B & Qwen3-VL (8B) & \texttt{strict} (99.5) & 81.25 & 83.13 & +1.88 [-0.42, +4.17] & 9.38 [7.08, 11.67] & 3.75 / 5.63 & 27.23 \\
+Molmo2-8B & SigLIP-2 + Qwen3-8B & \texttt{molmo2\_1000} (99.1) & 93.96 & 94.38 & +0.42 [-1.67, +2.50] & 4.58 [2.50, 7.08] & 2.08 / 2.50 & 33.80 \\
+Qwen3-VL-32B & Qwen3-VL (32B) & \texttt{strict} (99.8) & 91.67 & 92.08 & +0.42 [-1.25, +2.29] & 4.17 [2.50, 6.04] & 1.88 / 2.29 & 20.78 \\
+\midrule
+\multicolumn{5}{@{}l}{Paired scaling contrast: Qwen3-VL-32B minus 2B / 8B (Flip diff.)} & & \textbf{-18.96} / \textbf{-5.21} & \multicolumn{2}{r@{}}{[-22.92, -15.00] / [-7.71, -2.71]} \\
+\multicolumn{5}{@{}l}{Cross-family vs.\ Qwen3-VL-8B: InternVL3.5 / Molmo2 / LLaVA-Mistral} & & +1.25 / -4.79 / +7.29 & \multicolumn{2}{r@{}}{[-2.29,+4.79] / [-7.08,-2.50] / [+3.33,+11.67]} \\
+\multicolumn{9}{@{}l}{\emph{Architecture overlap across 4 $\ge$7B families:} 77/480 pairs lose on $\ge 1$ family, with \textbf{66/77 (85.7\%)} unique to a single architecture (10 in 2, 1 in 3, 0 in 4).} \\
+\bottomrule
+\end{tabular}

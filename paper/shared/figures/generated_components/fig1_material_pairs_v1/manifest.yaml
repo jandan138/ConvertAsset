@@ -1,0 +1,44 @@
+schema_version: 1
+component_family: fig1_material_pairs_v1
+mode: figure_composition
+renderer: built_in_image_generation
+generated_at: 2026-09-02
+components_derived_at: 2026-09-04
+component_extraction: whole_atlas_alpha_connected_components
+selected_atlas: paper/shared/figures/generated_components/fig1_material_pairs_v1/atlas_selected.png
+selected_atlas_sha256: 57f6e9833db664162b9c631705d8dddcb7b8c9b9f13f6e87932df7abae75736e
+prompt: paper/shared/figures/generated_components/fig1_material_pairs_v1/prompt.txt
+layout:
+  rows: 4
+  columns: 2
+  row_semantics:
+    - walnut_wood
+    - charcoal_stone
+    - ivory_ceramic
+    - brushed_metal
+  column_semantics:
+    - source_cue
+    - simplified_cue
+slots:
+  wood_source: paper/shared/figures/generated_components/fig1_material_pairs_v1/wood_source.png
+  wood_simplified: paper/shared/figures/generated_components/fig1_material_pairs_v1/wood_simplified.png
+  stone_source: paper/shared/figures/generated_components/fig1_material_pairs_v1/stone_source.png
+  stone_simplified: paper/shared/figures/generated_components/fig1_material_pairs_v1/stone_simplified.png
+  ceramic_source: paper/shared/figures/generated_components/fig1_material_pairs_v1/ceramic_source.png
+  ceramic_simplified: paper/shared/figures/generated_components/fig1_material_pairs_v1/ceramic_simplified.png
+  metal_source: paper/shared/figures/generated_components/fig1_material_pairs_v1/metal_source.png
+  metal_simplified: paper/shared/figures/generated_components/fig1_material_pairs_v1/metal_simplified.png
+replaceable_by_real_render:
+  - wood_source
+  - wood_simplified
+  - stone_source
+  - stone_simplified
+  - ceramic_source
+  - ceramic_simplified
+  - metal_source
+  - metal_simplified
+claim_boundary: The material spheres explain source-to-simplified material cues. They are not experimental renders or evidence of preservation.
+notes:
+  - Components are extracted from whole-atlas alpha connected components and mapped by centroid order; fixed row slicing is not used.
+  - Critical text and arrows are added by the Python figure composer.
+  - The unselected first atlas candidate remains outside the repository.

@@ -1,0 +1,20 @@
+% Numeric source: paper/shared/evidence/raw/iclr_model_behavior/analysis_v1/results.json
+\section{Discussion and Conclusion}
+
+Material conversion exposes a gap between stable aggregate performance and
+stable decisions. In navigation, a net loss of four successful episodes hides
+30 changes in success status. In grounding, equal hit totals can likewise
+conceal different successful queries. Paired outcomes reveal this redistribution
+directly.
+
+The grounding experiments also show why interpreting that redistribution
+requires care with the measurement itself. Coordinate conventions determine how
+a response becomes a location; query-position swaps test whether that location
+follows the requested object; region crossovers distinguish dependence on the
+target window from dependence on its surroundings. These comparisons turn a
+before/after score into a more informative account of model behavior.
+
+As simulated scenes move between rendering systems, their geometry alone does
+not specify the evidence an embodied model will receive. Tracking which
+decisions change, alongside how much the mean changes, makes material
+representation an explicit and testable part of embodied evaluation.

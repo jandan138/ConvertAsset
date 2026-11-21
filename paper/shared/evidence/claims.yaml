@@ -1,5 +1,17 @@
 schema_version: 1
 claims:
+  - id: iclr_navigation_turnover
+    statement: "The paired KuJiaLe run has 17 success-to-failure and 13 failure-to-success transitions: 30/99 episodes change success status, with a net SR change of -4.04 percentage points."
+    sources:
+      - paper/shared/evidence/raw/internnav_vln_downstream/official_val_unseen_99/paired_episode_transitions.csv
+      - paper/shared/evidence/raw/iclr_model_behavior/analysis_v1/results.json
+    scope: "Observed paired outcomes under the recorded agent configuration; repeated same-condition navigation is a follow-up."
+  - id: iclr_clean_window_dependence
+    statement: "In the clean two-view experiment, Gemma4's target-window and context-window replacements change point-hit success from 12/16 to 11/16 and 14/16, respectively."
+    sources:
+      - paper/shared/evidence/raw/iclr_model_behavior/runs_clean_v2/gemma4/gemma4_target_window_predictions.jsonl
+      - paper/shared/evidence/raw/iclr_model_behavior/runs_clean_v2/gemma4/gemma4_context_window_predictions.jsonl
+    scope: "Four boards derived from four repaired source targets; rectangular image-window intervention with fixed queries and translated boxes."
   - id: visual_quality_mean
     statement: "The converted assets preserve high visual fidelity with mean PSNR 35.52 dB, SSIM 0.990, and LPIPS 0.020."
     sources:

@@ -1,0 +1,67 @@
+{
+  "citation_key": "Wang2004Image",
+  "raw_state": "METADATA_MISMATCH",
+  "normalized_state": "VERIFIED_PRIMARY",
+  "raw_author": {
+    "family": "Zhou Wang",
+    "sequence": "first",
+    "affiliation": [
+      {
+        "name": "Center for Neural Sci., New York Univ., NY, USA"
+      }
+    ],
+    "role": [
+      {
+        "vocabulary": "crossref",
+        "role": "author"
+      }
+    ]
+  },
+  "normalized_name_fields": {
+    "given": "Zhou",
+    "family": "Wang"
+  },
+  "rule": "Only the independently verified complete name Zhou Wang incorrectly stored in Crossref family, with absent given and exact DOI; original title/year/author checks rerun.",
+  "source_locator": "Original journal PDF p.1 (printed p.600): author line and DOI",
+  "pdf_sha256": "d643c9f72b90627ed206df46be1e91827e1423281903bf4dc1378e27bc303e2d",
+  "source_url": "https://www.cns.nyu.edu/pub/lcv/wang03-reprint.pdf",
+  "raw_cache_sha256": "1ed50ac85fd0b58f25ae35ec54f44e2507394e519c7cf5feccf43878a569ae3c",
+  "script_sha256": "3a532f36543f197617146694c4a05367fe0fb700c7797443db717d4f7365bca9",
+  "raw_match": {
+    "authors": [
+      "Zhou Wang",
+      "Bovik",
+      "Sheikh",
+      "Simoncelli"
+    ],
+    "first_author_ok": false,
+    "pass": false,
+    "review": false,
+    "title": "Image quality assessment: from error visibility to structural similarity",
+    "title_similarity": 1.0,
+    "year": 2004,
+    "year_ok": true
+  },
+  "normalized_match": {
+    "title": "Image quality assessment: from error visibility to structural similarity",
+    "title_similarity": 1.0,
+    "year": 2004,
+    "year_ok": true,
+    "authors": [
+      "Wang",
+      "Bovik",
+      "Sheikh",
+      "Simoncelli"
+    ],
+    "first_author_ok": true,
+    "pass": true,
+    "review": false
+  },
+  "regression_checks": {
+    "wrong_author": "PASS_REJECTED",
+    "wrong_doi": "PASS_REJECTED",
+    "wrong_title": "PASS_REJECTED",
+    "wrong_year": "PASS_REJECTED"
+  },
+  "human_attestation": false
+}

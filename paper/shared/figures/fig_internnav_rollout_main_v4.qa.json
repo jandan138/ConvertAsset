@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "reviewed_at": "2026-09-03",
+  "scope": "ACL main-paper Figure 4 v4",
+  "backend": "Python 3.10.15 / Matplotlib 3.10.3 / Pillow 11.2.1",
+  "communication_job": "Show three selected original/noMDL InternNav rollout comparisons without treating the examples as quantitative rate evidence.",
+  "archetype": "qualitative image grid",
+  "change": {
+    "original_finding": "The unbounded left outcome labels extended into the first image column.",
+    "resolution": "Each outcome is split into three right-aligned lines with a fixed right boundary before the image grid.",
+    "label_right_x": 0.138,
+    "first_image_x": 0.15,
+    "gap_pixels_at_300_dpi": 25.92,
+    "evidence_images_changed": false
+  },
+  "rendering": {
+    "formats": ["svg", "pdf", "png"],
+    "canvas_inches": [7.2, 2.75],
+    "png_pixels": [2160, 825],
+    "svg_editable_text": true,
+    "integrated_main_page": 8,
+    "integrated_main_pdf_pages": 10,
+    "embedded_raster_ppi": 343
+  },
+  "page_review": {
+    "standalone": "pass",
+    "integrated_page": "pass",
+    "verdict": "No row label overlaps an image. Column titles, legend, images, caption, Limitations, Ethical Considerations, and References remain complete and readable."
+  },
+  "other_main_visuals": {
+    "figure_1": "pass; no redraw required",
+    "table_1_companion": "pass; no redraw required",
+    "figure_2": "pass; no redraw required",
+    "figure_3": "pass; no redraw required; page whitespace is float placement rather than a figure defect"
+  },
+  "findings": {
+    "critical": [],
+    "major": [],
+    "minor": []
+  },
+  "claim_boundary": "The selected rollout images provide orientation only; the 99-episode paired run and official-scene checks govern quantitative statements."
+}

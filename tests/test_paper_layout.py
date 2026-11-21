@@ -145,7 +145,9 @@ def test_aaai27_uses_official_2027_style_and_local_acl_story_sections() -> None:
 def test_build_files_and_evidence_registries() -> None:
     makefile = read_text(PAPER / "Makefile")
     for snippet in (
-        "VENUES := aaai27 acl27 cvpr26",
+        "VENUES := iclr27 aaai27 acl27 cvpr26",
+        ".DEFAULT_GOAL := iclr27",
+        "check-template-iclr27:",
         "template-check:",
         "check-template-aaai27:",
         "check-template-acl27:",
@@ -267,14 +269,35 @@ def test_acl_method_avoids_narrow_column_monospace_evidence_path() -> None:
     assert r"\texttt{paper/shared/evidence}" not in method
 
 
-def test_acl_intro_uses_latest_low_text_method_chain_schematic() -> None:
+def test_acl_intro_uses_current_semantic_method_chain_schematic() -> None:
     intro = read_text(PAPER / "venues/acl27/sections/intro.tex")
-    assert "fig_acl_method_chain_imagegen_v18.png" in intro
+    assert "fig_acl_method_chain_v4.pdf" in intro
+    assert "fig_acl_method_chain_v3.pdf" not in intro
+    assert "fig_acl_method_chain_v2.pdf" not in intro
+    assert "fig_acl_method_chain_imagegen_v18.png" not in intro
     assert "fig_acl_method_chain_imagegen_v17.png" not in intro
     assert "fig_acl_method_chain_imagegen_v16.png" not in intro
     assert "fig_acl_method_chain_imagegen_v15.png" not in intro
     assert "fig_acl_method_chain_imagegen_v14.png" not in intro
     assert "fig_acl_method_chain_imagegen_v9.png" not in intro
+
+
+def test_acl_results_uses_nonoverlapping_internnav_v4() -> None:
+    results = read_text(PAPER / "venues/acl27/sections/results.tex")
+    limitations = read_text(PAPER / "venues/acl27/sections/limitations.tex")
+    assert "fig_internnav_rollout_main_v4.pdf" in results
+    assert "fig_internnav_rollout_main_v3.pdf" not in results
+    assert "O/N in the row labels denotes" in results
+    assert "fig_internnav_rollout_main_v4.pdf" not in limitations
+
+
+def test_acl_main_uses_compact_registry_strip_without_changing_supplement_default() -> None:
+    main = read_text(PAPER / "venues/acl27/main.tex")
+    table = read_text(PAPER / "shared/tables/tab_acl_evidence_gate_registry.tex")
+
+    assert r"\newcommand{\aclEvidenceGateCompanion}{figures/fig_acl_evidence_registry_strip_v2.pdf}" in main
+    assert r"\providecommand{\aclEvidenceGateCompanion}{figures/fig_supplement_evidence_gate_registry_companion.png}" in table
+    assert r"{\aclEvidenceGateCompanion}" in table
 
 
 def test_acl_main_forces_results_floats_before_discussion() -> None:
@@ -291,6 +314,27 @@ def test_acl_main_forces_results_floats_before_discussion() -> None:
         "\\input{./sections/ethical-considerations}"
     ) in main
     assert "\\input{./sections/limitations}\n\\clearpage\n" not in main
+
+
+def test_acl_late_double_column_floats_keep_the_nine_page_balance() -> None:
+    preamble = read_text(PAPER / "venues/acl27/preamble.tex")
+    main = read_text(PAPER / "venues/acl27/main.tex")
+    results = read_text(PAPER / "venues/acl27/sections/results.tex")
+    limitations = read_text(PAPER / "venues/acl27/sections/limitations.tex")
+
+    assert r"\setcounter{dbltopnumber}{3}" in preamble
+    assert r"\renewcommand{\dbltopfraction}{0.78}" in preamble
+    assert (
+        "\\input{./sections/conclusion}\n"
+        "\\input{./sections/limitations}"
+    ) in main
+    assert "\\input{./sections/conclusion}\n\\clearpage" not in main
+    assert "fig_internnav_rollout_main_v4.pdf" in results
+    assert results.index("fig_internnav_rollout_main_v4.pdf") > results.index(
+        r"\input{tables/tab_official_scene_performance_summary}"
+    )
+    assert r"\begin{figure" not in limitations
+    assert r"\begin{table" not in limitations
 
 
 def test_acl_uses_raggedbottom_to_avoid_stretched_discussion_page() -> None:
@@ -483,14 +527,14 @@ def test_shared_experiments_excludes_unsafe_vlm_red_material_panel() -> None:
 def test_acl_supplement_vlm_protocol_has_coordinate_visual_atlas() -> None:
     section = read_text(PAPER / "venues/acl27/sections/supplement/02_vlm_protocol.tex")
 
-    assert "fig_supplement_vlm_coordinate_protocol_atlas.png" in section
+    assert "fig_supplement_vlm_coordinate_protocol_atlas_v2.pdf" in section
     assert "VLM coordinate protocol" in section
     assert "The panels use real" in section
-    assert "route diagram summarizes the path" in section
+    assert "shared scoring column" in section
     assert r"\captionof{figure}" in section
     assert r"\onecolumn" in section
     assert (
-        r"\includegraphics[width=\textwidth,height=0.76\textheight,keepaspectratio]{figures/fig_supplement_vlm_coordinate_protocol_atlas.png}"
+        r"\includegraphics[width=\textwidth,height=0.76\textheight,keepaspectratio]{figures/fig_supplement_vlm_coordinate_protocol_atlas_v2.pdf}"
         in section
     )
 
@@ -1291,17 +1335,17 @@ def test_acl_supplement_overview_has_first_page_evidence_quickstart() -> None:
     overview = read_text(PAPER / "venues/acl27/sections/supplement/00_overview.tex")
     compact_overview = " ".join(overview.split())
 
-    assert "fig_supplement_first_page_evidence_quickstart.png" in overview
-    quickstart_pos = overview.index("fig_supplement_first_page_evidence_quickstart.png")
+    assert "fig_supplement_first_page_evidence_quickstart_v2.pdf" in overview
+    quickstart_pos = overview.index("fig_supplement_first_page_evidence_quickstart_v2.pdf")
     roadmap_pos = overview.index("fig_supplement_visual_evidence_roadmap.png")
     assert quickstart_pos < roadmap_pos
     assert "First-page evidence quickstart" in overview
-    assert "compass panel summarizes the reading order" in compact_overview
-    assert "opening-render examples" in compact_overview
+    assert "Four cards map proxy" in compact_overview
+    assert "navigation pages that follow" in compact_overview
     assert "adds no new metric, VLM run, or navigation run" not in overview
     assert r"\begin{figure}[t]" in overview
     assert (
-        r"\includegraphics[width=\columnwidth,height=0.60\textheight,keepaspectratio]{figures/fig_supplement_first_page_evidence_quickstart.png}"
+        r"\includegraphics[width=\columnwidth,height=0.60\textheight,keepaspectratio]{figures/fig_supplement_first_page_evidence_quickstart_v2.pdf}"
         in overview
     )
 
@@ -1605,7 +1649,7 @@ def test_acl_supplement_has_task_media_atlases() -> None:
     material = read_text(PAPER / "venues/acl27/sections/supplement/04_material_effects.tex")
     internnav = read_text(PAPER / "venues/acl27/sections/supplement/05_internnav_visuals.tex")
 
-    assert "fig_supplement_material_diagnostic_atlas.png" in material
+    assert "fig_supplement_material_diagnostic_atlas_v2.pdf" in material
     assert "fig_supplement_material_claim_boundary_atlas.png" in material
     assert "fig_supplement_material_decision_map.png" in material
     assert "Material-risk atlas" in material
@@ -1619,7 +1663,7 @@ def test_acl_supplement_has_task_media_atlases() -> None:
     ) not in material
     assert r"\includegraphics[width=0.95\textwidth]{figures/fig_material_effect_supplemental_qualitative.png}" not in material
 
-    assert "fig_supplement_navigation_media_atlas.png" in internnav
+    assert "fig_supplement_navigation_media_atlas_v2.pdf" in internnav
     assert "fig_supplement_navigation_media_boundary_strip.png" in internnav
     assert "fig_supplement_internnav_selected6_neutral_companion.png" in internnav
     assert "fig_supplement_internnav_0036_neutral_companion.png" in internnav
@@ -1994,19 +2038,17 @@ def test_supplement_task_media_atlases_are_registered_and_dense() -> None:
         assert active.mean() >= 0.30
 
 
-def test_supplement_navigation_media_atlas_uses_non_cover_index_row_summaries() -> None:
-    script = read_text(PAPER / "shared/figures/gen_supplement_task_media_atlases.py")
-    build_block = script.split("def build_navigation_atlas() -> None:", 1)[1].split("\ndef _case_frame_tile", 1)[0]
+def test_supplement_navigation_media_atlas_v2_uses_story_first_endpoint_rows() -> None:
+    script = read_text(PAPER / "shared/figures/gen_acl_paper_figures_v3.py")
+    build_block = script.split("def build_navigation_atlas(output_dir: Path)", 1)[1].split("\n\nBUILDERS", 1)[0]
     internnav = read_text(PAPER / "venues/acl27/sections/supplement/05_internnav_visuals.tex")
 
-    assert "Selected6 index rows 05-06" in build_block
-    assert "0036/0066 official still rows" in build_block
-    assert "_navigation_pair_row_cards(" in build_block
-    assert "_navigation_0036_row_detail_cards(" in build_block
-    assert "crop=(0, 420, 1706" not in build_block
-    assert "cover=True" not in build_block
-    assert "compact index-row context" in internnav
-    assert "compact index-sheet context" not in internnav
+    assert "Route witness" in build_block
+    assert "Selected asymmetric endpoints" in build_block
+    assert "Selected6 index rows" not in build_block
+    assert "0036/0066 official still rows" not in build_block
+    assert "fig_supplement_navigation_media_atlas_v2.pdf" in internnav
+    assert "two asymmetric endpoint comparisons" in internnav
 
 
 def test_acl_supplement_intro_pages_have_real_visual_strips() -> None:

@@ -1,0 +1,469 @@
+{
+  "version": "1.0",
+  "mode": "inspired",
+  "title": "Material conversion as a controlled perturbation",
+  "canvas": {
+    "width": 2160,
+    "height": 990,
+    "background": "#FFFFFF"
+  },
+  "theme": {
+    "font_family": "Liberation Sans",
+    "font_fallbacks": [
+      "DejaVu Sans",
+      "Arial",
+      "sans-serif"
+    ],
+    "palette": {
+      "structure": "#0F4D92",
+      "converted": "#E67E22",
+      "pass": "#168A45",
+      "trajectory": "#7A40C8",
+      "neutral": "#6B7280",
+      "soft": "#F5F7FA"
+    },
+    "panel_radius": 0,
+    "panel_stroke_width": 0,
+    "connector_width": 2
+  },
+  "panels": [
+    {
+      "id": "material-rewrite",
+      "x": 42,
+      "y": 102,
+      "width": 645,
+      "height": 525,
+      "title": "Material rewrite",
+      "semantic_role": "input-and-transformation",
+      "fill": "#FFFFFF",
+      "stroke": "#FFFFFF"
+    },
+    {
+      "id": "matched-pair",
+      "x": 786,
+      "y": 102,
+      "width": 1302,
+      "height": 525,
+      "title": "Matched render pair",
+      "semantic_role": "hero-evidence",
+      "fill": "#FFFFFF",
+      "stroke": "#FFFFFF"
+    },
+    {
+      "id": "bounded-checks",
+      "x": 42,
+      "y": 648,
+      "width": 2022,
+      "height": 315,
+      "title": "Four bounded checks",
+      "semantic_role": "parallel-evidence-endpoints",
+      "fill": "#FFFFFF",
+      "stroke": "#FFFFFF"
+    }
+  ],
+  "ports": [
+    {
+      "id": "materials.out",
+      "owner": "material-rewrite",
+      "x": 705,
+      "y": 387,
+      "scope": "external"
+    },
+    {
+      "id": "matched.in",
+      "owner": "matched-pair",
+      "x": 768,
+      "y": 387,
+      "scope": "external"
+    },
+    {
+      "id": "matched.out",
+      "owner": "matched-pair",
+      "x": 1437,
+      "y": 624,
+      "scope": "external"
+    },
+    {
+      "id": "checks.distribution",
+      "owner": "bounded-checks",
+      "x": 1437,
+      "y": 720,
+      "scope": "external"
+    },
+    {
+      "id": "checks.proxy",
+      "owner": "bounded-checks",
+      "x": 279,
+      "y": 756,
+      "scope": "external"
+    },
+    {
+      "id": "checks.vlm",
+      "owner": "bounded-checks",
+      "x": 795,
+      "y": 756,
+      "scope": "external"
+    },
+    {
+      "id": "checks.material",
+      "owner": "bounded-checks",
+      "x": 1311,
+      "y": 756,
+      "scope": "external"
+    },
+    {
+      "id": "checks.stack",
+      "owner": "bounded-checks",
+      "x": 1827,
+      "y": 756,
+      "scope": "external"
+    },
+    {
+      "id": "wood.source",
+      "owner": "material-rewrite",
+      "x": 99,
+      "y": 285,
+      "scope": "internal"
+    },
+    {
+      "id": "wood.simplified",
+      "owner": "material-rewrite",
+      "x": 261,
+      "y": 285,
+      "scope": "internal"
+    },
+    {
+      "id": "stone.source",
+      "owner": "material-rewrite",
+      "x": 417,
+      "y": 285,
+      "scope": "internal"
+    },
+    {
+      "id": "stone.simplified",
+      "owner": "material-rewrite",
+      "x": 579,
+      "y": 285,
+      "scope": "internal"
+    },
+    {
+      "id": "ceramic.source",
+      "owner": "material-rewrite",
+      "x": 99,
+      "y": 465,
+      "scope": "internal"
+    },
+    {
+      "id": "ceramic.simplified",
+      "owner": "material-rewrite",
+      "x": 261,
+      "y": 465,
+      "scope": "internal"
+    },
+    {
+      "id": "metal.source",
+      "owner": "material-rewrite",
+      "x": 417,
+      "y": 465,
+      "scope": "internal"
+    },
+    {
+      "id": "metal.simplified",
+      "owner": "material-rewrite",
+      "x": 579,
+      "y": 465,
+      "scope": "internal"
+    }
+  ],
+  "edges": [
+    {
+      "id": "intervention-to-matched",
+      "from": "materials.out",
+      "to": "matched.in",
+      "scope": "external",
+      "meaning": "The material rewrite produces the matched noMDL counterpart while scene composition is retained.",
+      "arrowhead": "end",
+      "route": "straight",
+      "color": "@structure",
+      "width": 2,
+      "dash": "solid"
+    },
+    {
+      "id": "matched-to-distribution",
+      "from": "matched.out",
+      "to": "checks.distribution",
+      "scope": "external",
+      "meaning": "The matched pair is distributed to four separate evidence checks.",
+      "arrowhead": "none",
+      "route": "orthogonal",
+      "color": "@structure",
+      "width": 2,
+      "dash": "solid"
+    },
+    {
+      "id": "distribution-to-proxy",
+      "from": "checks.distribution",
+      "to": "checks.proxy",
+      "scope": "external",
+      "meaning": "Matched evidence feeds the proxy similarity check independently.",
+      "arrowhead": "end",
+      "route": "orthogonal",
+      "color": "@structure",
+      "width": 2,
+      "dash": "solid"
+    },
+    {
+      "id": "distribution-to-vlm",
+      "from": "checks.distribution",
+      "to": "checks.vlm",
+      "scope": "external",
+      "meaning": "Matched evidence feeds the VLM grounding check independently.",
+      "arrowhead": "end",
+      "route": "orthogonal",
+      "color": "@structure",
+      "width": 2,
+      "dash": "solid"
+    },
+    {
+      "id": "distribution-to-material",
+      "from": "checks.distribution",
+      "to": "checks.material",
+      "scope": "external",
+      "meaning": "Matched evidence feeds the selected material audit independently.",
+      "arrowhead": "end",
+      "route": "orthogonal",
+      "color": "@structure",
+      "width": 2,
+      "dash": "solid"
+    },
+    {
+      "id": "distribution-to-stack",
+      "from": "checks.distribution",
+      "to": "checks.stack",
+      "scope": "external",
+      "meaning": "Matched evidence feeds the official stack-entry check independently.",
+      "arrowhead": "end",
+      "route": "orthogonal",
+      "color": "@structure",
+      "width": 2,
+      "dash": "solid"
+    },
+    {
+      "id": "wood-cue-simplification",
+      "from": "wood.source",
+      "to": "wood.simplified",
+      "scope": "internal",
+      "meaning": "Illustrative wood material cue simplification; not measured evidence.",
+      "arrowhead": "end",
+      "route": "straight",
+      "color": "@structure",
+      "width": 2,
+      "dash": "solid"
+    },
+    {
+      "id": "stone-cue-simplification",
+      "from": "stone.source",
+      "to": "stone.simplified",
+      "scope": "internal",
+      "meaning": "Illustrative stone material cue simplification; not measured evidence.",
+      "arrowhead": "end",
+      "route": "straight",
+      "color": "@structure",
+      "width": 2,
+      "dash": "solid"
+    },
+    {
+      "id": "ceramic-cue-simplification",
+      "from": "ceramic.source",
+      "to": "ceramic.simplified",
+      "scope": "internal",
+      "meaning": "Illustrative ceramic material cue simplification; not measured evidence.",
+      "arrowhead": "end",
+      "route": "straight",
+      "color": "@structure",
+      "width": 2,
+      "dash": "solid"
+    },
+    {
+      "id": "metal-cue-simplification",
+      "from": "metal.source",
+      "to": "metal.simplified",
+      "scope": "internal",
+      "meaning": "Illustrative metal material cue simplification; not measured evidence.",
+      "arrowhead": "end",
+      "route": "straight",
+      "color": "@structure",
+      "width": 2,
+      "dash": "solid"
+    }
+  ],
+  "assets": [
+    {
+      "id": "wood-source-sphere",
+      "path": "../generated_components/fig1_material_pairs_v1/wood_source.png",
+      "x": 48,
+      "y": 234,
+      "width": 102,
+      "height": 102,
+      "fit": "contain",
+      "alt": "Generated explanatory walnut source material sphere",
+      "owner": "material-rewrite"
+    },
+    {
+      "id": "wood-simplified-sphere",
+      "path": "../generated_components/fig1_material_pairs_v1/wood_simplified.png",
+      "x": 210,
+      "y": 234,
+      "width": 102,
+      "height": 102,
+      "fit": "contain",
+      "alt": "Generated explanatory simplified wood material sphere",
+      "owner": "material-rewrite"
+    },
+    {
+      "id": "stone-source-sphere",
+      "path": "../generated_components/fig1_material_pairs_v1/stone_source.png",
+      "x": 366,
+      "y": 234,
+      "width": 102,
+      "height": 102,
+      "fit": "contain",
+      "alt": "Generated explanatory rough stone source sphere",
+      "owner": "material-rewrite"
+    },
+    {
+      "id": "stone-simplified-sphere",
+      "path": "../generated_components/fig1_material_pairs_v1/stone_simplified.png",
+      "x": 528,
+      "y": 234,
+      "width": 102,
+      "height": 102,
+      "fit": "contain",
+      "alt": "Generated explanatory simplified charcoal sphere",
+      "owner": "material-rewrite"
+    },
+    {
+      "id": "ceramic-source-sphere",
+      "path": "../generated_components/fig1_material_pairs_v1/ceramic_source.png",
+      "x": 48,
+      "y": 414,
+      "width": 102,
+      "height": 102,
+      "fit": "contain",
+      "alt": "Generated explanatory ivory ceramic source sphere",
+      "owner": "material-rewrite"
+    },
+    {
+      "id": "ceramic-simplified-sphere",
+      "path": "../generated_components/fig1_material_pairs_v1/ceramic_simplified.png",
+      "x": 210,
+      "y": 414,
+      "width": 102,
+      "height": 102,
+      "fit": "contain",
+      "alt": "Generated explanatory simplified ivory sphere",
+      "owner": "material-rewrite"
+    },
+    {
+      "id": "metal-source-sphere",
+      "path": "../generated_components/fig1_material_pairs_v1/metal_source.png",
+      "x": 366,
+      "y": 414,
+      "width": 102,
+      "height": 102,
+      "fit": "contain",
+      "alt": "Generated explanatory brushed metal source sphere",
+      "owner": "material-rewrite"
+    },
+    {
+      "id": "metal-simplified-sphere",
+      "path": "../generated_components/fig1_material_pairs_v1/metal_simplified.png",
+      "x": 528,
+      "y": 414,
+      "width": 102,
+      "height": 102,
+      "fit": "contain",
+      "alt": "Generated explanatory satin metal sphere",
+      "owner": "material-rewrite"
+    },
+    {
+      "id": "hero-original-render",
+      "path": "../out_tmp/mdl_images/orbit_mdl_01.png",
+      "x": 786,
+      "y": 186,
+      "width": 630,
+      "height": 378,
+      "fit": "contain",
+      "alt": "Original MDL scene view in the matched evidence pair",
+      "owner": "matched-pair"
+    },
+    {
+      "id": "hero-nomdl-render",
+      "path": "../out_tmp/nomdl_images/orbit_01.png",
+      "x": 1458,
+      "y": 186,
+      "width": 630,
+      "height": 378,
+      "fit": "contain",
+      "alt": "Converted noMDL scene view in the matched evidence pair",
+      "owner": "matched-pair"
+    }
+  ],
+  "outputs": {
+    "formats": [
+      "pptx",
+      "svg",
+      "pdf",
+      "png"
+    ]
+  },
+  "review": {
+    "semantic_graph_approved": true,
+    "semantic_graph_approved_by": "author",
+    "semantic_graph_approved_at": "2026-09-03",
+    "semantic_graph_notes": "The author approved an image-led rewrite that preserves four explanatory material pairs, one matched real-render hero, and four parallel evidence checks."
+  },
+  "provenance": [
+    {
+      "id": "manuscript-figure-story",
+      "source": "../../venues/acl27/sections/intro.tex",
+      "section": "Figure 1 discussion",
+      "claim": "Material conversion is treated as a controlled intervention followed by four separate checks.",
+      "applies_to": [
+        "material-rewrite",
+        "matched-pair",
+        "bounded-checks"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "generated-material-components",
+      "source": "../generated_components/fig1_material_pairs_v1/manifest.yaml",
+      "section": "claim_boundary and slots",
+      "claim": "The material spheres are replaceable explanatory cues, not experimental evidence.",
+      "applies_to": [
+        "wood-source-sphere",
+        "wood-simplified-sphere",
+        "stone-source-sphere",
+        "stone-simplified-sphere",
+        "ceramic-source-sphere",
+        "ceramic-simplified-sphere",
+        "metal-source-sphere",
+        "metal-simplified-sphere"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "registered-experiment-renders",
+      "source": "../out_tmp",
+      "section": "matched original/noMDL scene renders",
+      "claim": "The hero pair and lower evidence thumbnails use registered real experiment artifacts.",
+      "applies_to": [
+        "hero-original-render",
+        "hero-nomdl-render",
+        "bounded-checks"
+      ],
+      "status": "verified"
+    }
+  ]
+}

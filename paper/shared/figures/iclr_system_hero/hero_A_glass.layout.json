@@ -1,0 +1,1535 @@
+{
+  "canvas_inches": [
+    12.0,
+    6.0
+  ],
+  "items": [
+    {
+      "kind": "text",
+      "id": "headline",
+      "text": "Same Scene, Different Decisions",
+      "box": [
+        0.15,
+        0.08,
+        11.7,
+        0.44
+      ],
+      "size": 28,
+      "color": "0F4D92",
+      "bold": true,
+      "align": "center",
+      "font": "serif"
+    },
+    {
+      "kind": "text",
+      "id": "materials-title",
+      "text": "Material rewrites",
+      "box": [
+        0.12,
+        0.62,
+        2.35,
+        0.31
+      ],
+      "size": 18,
+      "color": "243247",
+      "bold": true,
+      "align": "left",
+      "font": "sans"
+    },
+    {
+      "kind": "text",
+      "id": "original-label",
+      "text": "Original",
+      "box": [
+        0.12,
+        0.99,
+        1.1,
+        0.28
+      ],
+      "size": 15.5,
+      "color": "0F4D92",
+      "bold": true,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "text",
+      "id": "converted-label",
+      "text": "Converted",
+      "box": [
+        1.36,
+        0.99,
+        1.1,
+        0.28
+      ],
+      "size": 15.5,
+      "color": "E67E22",
+      "bold": true,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "image",
+      "id": "wood.original",
+      "path": "data/materials/wood_source.png",
+      "box": [
+        0.265,
+        1.32,
+        0.67,
+        0.67
+      ],
+      "stroke": null,
+      "lw": 0.8
+    },
+    {
+      "kind": "image",
+      "id": "wood.converted",
+      "path": "data/materials/wood_simplified.png",
+      "box": [
+        1.525,
+        1.32,
+        0.67,
+        0.67
+      ],
+      "stroke": null,
+      "lw": 0.8
+    },
+    {
+      "kind": "line",
+      "id": "wood.rewrite",
+      "points": [
+        [
+          1.07,
+          1.6400000000000001
+        ],
+        [
+          1.37,
+          1.6400000000000001
+        ]
+      ],
+      "color": "0F4D92",
+      "lw": 0.8,
+      "head": true,
+      "dash": false
+    },
+    {
+      "kind": "text",
+      "id": "wood.label",
+      "text": "Wood",
+      "box": [
+        0.24,
+        1.9900000000000002,
+        2.02,
+        0.24
+      ],
+      "size": 15.5,
+      "color": "63738A",
+      "bold": false,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "line",
+      "id": "wood.association",
+      "points": [
+        [
+          2.32,
+          1.6400000000000001
+        ],
+        [
+          2.58,
+          1.6400000000000001
+        ]
+      ],
+      "color": "8B9EB5",
+      "lw": 1.0,
+      "head": false,
+      "dash": false
+    },
+    {
+      "kind": "image",
+      "id": "stone.original",
+      "path": "data/materials/stone_source.png",
+      "box": [
+        0.265,
+        2.26,
+        0.67,
+        0.67
+      ],
+      "stroke": null,
+      "lw": 0.8
+    },
+    {
+      "kind": "image",
+      "id": "stone.converted",
+      "path": "data/materials/stone_simplified.png",
+      "box": [
+        1.525,
+        2.26,
+        0.67,
+        0.67
+      ],
+      "stroke": null,
+      "lw": 0.8
+    },
+    {
+      "kind": "line",
+      "id": "stone.rewrite",
+      "points": [
+        [
+          1.07,
+          2.5799999999999996
+        ],
+        [
+          1.37,
+          2.5799999999999996
+        ]
+      ],
+      "color": "0F4D92",
+      "lw": 0.8,
+      "head": true,
+      "dash": false
+    },
+    {
+      "kind": "text",
+      "id": "stone.label",
+      "text": "Stone",
+      "box": [
+        0.24,
+        2.9299999999999997,
+        2.02,
+        0.24
+      ],
+      "size": 15.5,
+      "color": "63738A",
+      "bold": false,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "line",
+      "id": "stone.association",
+      "points": [
+        [
+          2.32,
+          2.5799999999999996
+        ],
+        [
+          2.58,
+          2.5799999999999996
+        ]
+      ],
+      "color": "8B9EB5",
+      "lw": 1.0,
+      "head": false,
+      "dash": false
+    },
+    {
+      "kind": "image",
+      "id": "ceramic.original",
+      "path": "data/materials/ceramic_source.png",
+      "box": [
+        0.265,
+        3.2,
+        0.67,
+        0.67
+      ],
+      "stroke": null,
+      "lw": 0.8
+    },
+    {
+      "kind": "image",
+      "id": "ceramic.converted",
+      "path": "data/materials/ceramic_simplified.png",
+      "box": [
+        1.525,
+        3.2,
+        0.67,
+        0.67
+      ],
+      "stroke": null,
+      "lw": 0.8
+    },
+    {
+      "kind": "line",
+      "id": "ceramic.rewrite",
+      "points": [
+        [
+          1.07,
+          3.52
+        ],
+        [
+          1.37,
+          3.52
+        ]
+      ],
+      "color": "0F4D92",
+      "lw": 0.8,
+      "head": true,
+      "dash": false
+    },
+    {
+      "kind": "text",
+      "id": "ceramic.label",
+      "text": "Ceramic",
+      "box": [
+        0.24,
+        3.87,
+        2.02,
+        0.24
+      ],
+      "size": 15.5,
+      "color": "63738A",
+      "bold": false,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "line",
+      "id": "ceramic.association",
+      "points": [
+        [
+          2.32,
+          3.52
+        ],
+        [
+          2.58,
+          3.52
+        ]
+      ],
+      "color": "8B9EB5",
+      "lw": 1.0,
+      "head": false,
+      "dash": false
+    },
+    {
+      "kind": "image",
+      "id": "metal.original",
+      "path": "data/materials/metal_source.png",
+      "box": [
+        0.265,
+        4.14,
+        0.67,
+        0.67
+      ],
+      "stroke": null,
+      "lw": 0.8
+    },
+    {
+      "kind": "image",
+      "id": "metal.converted",
+      "path": "data/materials/metal_simplified.png",
+      "box": [
+        1.525,
+        4.14,
+        0.67,
+        0.67
+      ],
+      "stroke": null,
+      "lw": 0.8
+    },
+    {
+      "kind": "line",
+      "id": "metal.rewrite",
+      "points": [
+        [
+          1.07,
+          4.46
+        ],
+        [
+          1.37,
+          4.46
+        ]
+      ],
+      "color": "0F4D92",
+      "lw": 0.8,
+      "head": true,
+      "dash": false
+    },
+    {
+      "kind": "text",
+      "id": "metal.label",
+      "text": "Metal",
+      "box": [
+        0.24,
+        4.81,
+        2.02,
+        0.24
+      ],
+      "size": 15.5,
+      "color": "63738A",
+      "bold": false,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "line",
+      "id": "metal.association",
+      "points": [
+        [
+          2.32,
+          4.46
+        ],
+        [
+          2.58,
+          4.46
+        ]
+      ],
+      "color": "8B9EB5",
+      "lw": 1.0,
+      "head": false,
+      "dash": false
+    },
+    {
+      "kind": "line",
+      "id": "examples-bracket",
+      "points": [
+        [
+          2.58,
+          1.64
+        ],
+        [
+          2.58,
+          4.46
+        ]
+      ],
+      "color": "8B9EB5",
+      "lw": 1.0,
+      "head": false,
+      "dash": false
+    },
+    {
+      "kind": "line",
+      "id": "examples-to-hub",
+      "points": [
+        [
+          2.58,
+          2.96
+        ],
+        [
+          2.88,
+          2.96
+        ]
+      ],
+      "color": "8B9EB5",
+      "lw": 1.0,
+      "head": false,
+      "dash": false
+    },
+    {
+      "kind": "rect",
+      "id": "shader-bg0",
+      "box": [
+        0.19,
+        5.19,
+        0.89,
+        0.41
+      ],
+      "fill": "F4F7FA",
+      "stroke": "BDCAD9",
+      "lw": 0.6,
+      "radius": 0.06
+    },
+    {
+      "kind": "rect",
+      "id": "shader-0-0",
+      "box": [
+        0.255,
+        5.255,
+        0.11,
+        0.07
+      ],
+      "fill": "0F4D92",
+      "stroke": null,
+      "lw": 0.7,
+      "radius": 0
+    },
+    {
+      "kind": "rect",
+      "id": "shader-0-1",
+      "box": [
+        0.255,
+        5.445,
+        0.11,
+        0.07
+      ],
+      "fill": "0F4D92",
+      "stroke": null,
+      "lw": 0.7,
+      "radius": 0
+    },
+    {
+      "kind": "rect",
+      "id": "shader-0-2",
+      "box": [
+        0.8150000000000001,
+        5.355,
+        0.11,
+        0.07
+      ],
+      "fill": "0F4D92",
+      "stroke": null,
+      "lw": 0.7,
+      "radius": 0
+    },
+    {
+      "kind": "line",
+      "id": "shader-edge-0-0",
+      "points": [
+        [
+          0.31,
+          5.29
+        ],
+        [
+          0.8700000000000001,
+          5.390000000000001
+        ]
+      ],
+      "color": "0F4D92",
+      "lw": 0.7,
+      "head": false,
+      "dash": false,
+      "foreground": true
+    },
+    {
+      "kind": "line",
+      "id": "shader-edge-0-1",
+      "points": [
+        [
+          0.31,
+          5.48
+        ],
+        [
+          0.8700000000000001,
+          5.390000000000001
+        ]
+      ],
+      "color": "0F4D92",
+      "lw": 0.7,
+      "head": false,
+      "dash": false,
+      "foreground": true
+    },
+    {
+      "kind": "rect",
+      "id": "shader-bg1",
+      "box": [
+        1.45,
+        5.19,
+        0.89,
+        0.41
+      ],
+      "fill": "F4F7FA",
+      "stroke": "BDCAD9",
+      "lw": 0.6,
+      "radius": 0.06
+    },
+    {
+      "kind": "rect",
+      "id": "shader-1-0",
+      "box": [
+        1.515,
+        5.255,
+        0.11,
+        0.07
+      ],
+      "fill": "E67E22",
+      "stroke": null,
+      "lw": 0.7,
+      "radius": 0
+    },
+    {
+      "kind": "rect",
+      "id": "shader-1-1",
+      "box": [
+        1.515,
+        5.445,
+        0.11,
+        0.07
+      ],
+      "fill": "E67E22",
+      "stroke": null,
+      "lw": 0.7,
+      "radius": 0
+    },
+    {
+      "kind": "rect",
+      "id": "shader-1-2",
+      "box": [
+        2.0749999999999997,
+        5.355,
+        0.11,
+        0.07
+      ],
+      "fill": "E67E22",
+      "stroke": null,
+      "lw": 0.7,
+      "radius": 0
+    },
+    {
+      "kind": "line",
+      "id": "shader-edge-1-0",
+      "points": [
+        [
+          1.5699999999999998,
+          5.29
+        ],
+        [
+          2.13,
+          5.390000000000001
+        ]
+      ],
+      "color": "E67E22",
+      "lw": 0.7,
+      "head": false,
+      "dash": false,
+      "foreground": true
+    },
+    {
+      "kind": "line",
+      "id": "shader-edge-1-1",
+      "points": [
+        [
+          1.5699999999999998,
+          5.48
+        ],
+        [
+          2.13,
+          5.390000000000001
+        ]
+      ],
+      "color": "E67E22",
+      "lw": 0.7,
+      "head": false,
+      "dash": false,
+      "foreground": true
+    },
+    {
+      "kind": "line",
+      "id": "shader-rewrite",
+      "points": [
+        [
+          1.14,
+          5.4
+        ],
+        [
+          1.39,
+          5.4
+        ]
+      ],
+      "color": "63738A",
+      "lw": 0.8,
+      "head": true,
+      "dash": false
+    },
+    {
+      "kind": "text",
+      "id": "mdl",
+      "text": "USD / MDL",
+      "box": [
+        0.11,
+        5.67,
+        1.16,
+        0.25
+      ],
+      "size": 15.5,
+      "color": "0F4D92",
+      "bold": false,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "text",
+      "id": "preview",
+      "text": "Preview",
+      "box": [
+        1.4,
+        5.67,
+        1.08,
+        0.25
+      ],
+      "size": 15.5,
+      "color": "E67E22",
+      "bold": false,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "image",
+      "id": "hub-art",
+      "path": "assets/hub_glass_contained.png",
+      "box": [
+        2.832366634335596,
+        1.78,
+        2.435266731328807,
+        2.94
+      ],
+      "stroke": null,
+      "lw": 0.8
+    },
+    {
+      "kind": "text",
+      "id": "hub-label",
+      "text": "ConvertAsset",
+      "box": [
+        2.87,
+        2.82,
+        2.35,
+        0.39
+      ],
+      "size": 21,
+      "color": "0F4D92",
+      "bold": true,
+      "align": "center",
+      "font": "serif"
+    },
+    {
+      "kind": "text",
+      "id": "hub-function",
+      "text": "Material\nconversion",
+      "box": [
+        3.17,
+        3.22,
+        1.72,
+        0.55
+      ],
+      "size": 15.5,
+      "color": "243247",
+      "bold": false,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "text",
+      "id": "hub-operation",
+      "text": "MDL \u2192\nUsdPreviewSurface",
+      "box": [
+        2.74,
+        4.83,
+        2.6,
+        0.55
+      ],
+      "size": 15.5,
+      "color": "243247",
+      "bold": false,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "text",
+      "id": "geometry",
+      "text": "Geometry retained",
+      "box": [
+        2.82,
+        5.51,
+        2.43,
+        0.28
+      ],
+      "size": 15.5,
+      "color": "63738A",
+      "bold": false,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "line",
+      "id": "hub-grounding",
+      "points": [
+        [
+          5.18,
+          2.91
+        ],
+        [
+          5.37,
+          2.91
+        ],
+        [
+          5.37,
+          0.77
+        ],
+        [
+          5.61,
+          0.77
+        ]
+      ],
+      "color": "E67E22",
+      "lw": 1.1,
+      "head": true,
+      "dash": false
+    },
+    {
+      "kind": "line",
+      "id": "hub-navigation",
+      "points": [
+        [
+          5.18,
+          3.18
+        ],
+        [
+          5.37,
+          3.18
+        ],
+        [
+          5.37,
+          3.74
+        ],
+        [
+          5.61,
+          3.74
+        ]
+      ],
+      "color": "E67E22",
+      "lw": 1.1,
+      "head": true,
+      "dash": false
+    },
+    {
+      "kind": "text",
+      "id": "grounding-title",
+      "text": "Visual Grounding",
+      "box": [
+        5.66,
+        0.61,
+        3.32,
+        0.31
+      ],
+      "size": 18,
+      "color": "0F4D92",
+      "bold": true,
+      "align": "left",
+      "font": "sans"
+    },
+    {
+      "kind": "text",
+      "id": "query",
+      "text": "\u201cLocate the bottle\u201d",
+      "box": [
+        9.03,
+        0.63,
+        2.74,
+        0.29
+      ],
+      "size": 15.5,
+      "color": "243247",
+      "bold": false,
+      "align": "right",
+      "font": "sans"
+    },
+    {
+      "kind": "text",
+      "id": "two_view_category_original.label",
+      "text": "Original",
+      "box": [
+        5.66,
+        0.9299999999999999,
+        2.36,
+        0.25
+      ],
+      "size": 15.5,
+      "color": "0F4D92",
+      "bold": true,
+      "align": "left",
+      "font": "sans"
+    },
+    {
+      "kind": "image",
+      "id": "two_view_category_original",
+      "path": "data/grounding/two_view_category_original.png",
+      "box": [
+        5.66,
+        1.1800223684210525,
+        2.36,
+        0.8733552631578947
+      ],
+      "stroke": "0F4D92",
+      "lw": 0.8
+    },
+    {
+      "kind": "rect",
+      "id": "two_view_category_original.crop-back",
+      "box": [
+        5.892894736842106,
+        1.2285421052631578,
+        0.6986842105263157,
+        0.7569078947368421
+      ],
+      "fill": null,
+      "stroke": "FFFFFF",
+      "lw": 1.5,
+      "radius": 0
+    },
+    {
+      "kind": "rect",
+      "id": "two_view_category_original.crop",
+      "box": [
+        5.892894736842106,
+        1.2285421052631578,
+        0.6986842105263157,
+        0.7569078947368421
+      ],
+      "fill": null,
+      "stroke": "63738A",
+      "lw": 0.6,
+      "radius": 0
+    },
+    {
+      "kind": "text",
+      "id": "two_view_category_converted.label",
+      "text": "Converted",
+      "box": [
+        5.66,
+        2.16,
+        2.36,
+        0.25
+      ],
+      "size": 15.5,
+      "color": "E67E22",
+      "bold": true,
+      "align": "left",
+      "font": "sans"
+    },
+    {
+      "kind": "image",
+      "id": "two_view_category_converted",
+      "path": "data/grounding/two_view_category_converted.png",
+      "box": [
+        5.66,
+        2.410022368421053,
+        2.36,
+        0.8733552631578947
+      ],
+      "stroke": "E67E22",
+      "lw": 0.8
+    },
+    {
+      "kind": "rect",
+      "id": "two_view_category_converted.crop-back",
+      "box": [
+        5.892894736842106,
+        2.458542105263158,
+        0.6986842105263157,
+        0.7569078947368421
+      ],
+      "fill": null,
+      "stroke": "FFFFFF",
+      "lw": 1.5,
+      "radius": 0
+    },
+    {
+      "kind": "rect",
+      "id": "two_view_category_converted.crop",
+      "box": [
+        5.892894736842106,
+        2.458542105263158,
+        0.6986842105263157,
+        0.7569078947368421
+      ],
+      "fill": null,
+      "stroke": "63738A",
+      "lw": 0.6,
+      "radius": 0
+    },
+    {
+      "kind": "text",
+      "id": "readout-title",
+      "text": "2D readout",
+      "box": [
+        8.93,
+        0.97,
+        1.3,
+        0.29
+      ],
+      "size": 15.5,
+      "color": "243247",
+      "bold": true,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "rect",
+      "id": "vlm-0",
+      "box": [
+        8.28,
+        1.3917,
+        0.48,
+        0.45
+      ],
+      "fill": "EEF3F9",
+      "stroke": "BDCAD9",
+      "lw": 0.7,
+      "radius": 0.06
+    },
+    {
+      "kind": "text",
+      "id": "vlm-label-0",
+      "text": "VLM",
+      "box": [
+        8.28,
+        1.4867,
+        0.48,
+        0.26
+      ],
+      "size": 15.5,
+      "color": "0F4D92",
+      "bold": true,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "rect",
+      "id": "readout-0",
+      "box": [
+        8.98,
+        1.4017,
+        1.16,
+        0.43
+      ],
+      "fill": "F9FBFD",
+      "stroke": "BDCAD9",
+      "lw": 0.7,
+      "radius": 0
+    },
+    {
+      "kind": "rect",
+      "id": "readout-0.target",
+      "box": [
+        9.199775164473685,
+        1.4868600666666667,
+        0.13259200657894735,
+        0.2709716666666667
+      ],
+      "fill": null,
+      "stroke": "168A75",
+      "lw": 1,
+      "radius": 0
+    },
+    {
+      "kind": "dot",
+      "id": "readout-0.prediction",
+      "box": [
+        9.225,
+        1.5287,
+        0.09,
+        0.09
+      ],
+      "color": "0F4D92",
+      "shape": "circle"
+    },
+    {
+      "kind": "line",
+      "id": "full-input-0",
+      "points": [
+        [
+          8.02,
+          1.6167
+        ],
+        [
+          8.28,
+          1.6167
+        ]
+      ],
+      "color": "0F4D92",
+      "lw": 0.9,
+      "head": true,
+      "dash": false
+    },
+    {
+      "kind": "line",
+      "id": "full-readout-0",
+      "points": [
+        [
+          8.76,
+          1.6167
+        ],
+        [
+          8.98,
+          1.6167
+        ]
+      ],
+      "color": "0F4D92",
+      "lw": 0.9,
+      "head": true,
+      "dash": false
+    },
+    {
+      "kind": "rect",
+      "id": "vlm-1",
+      "box": [
+        8.28,
+        2.6217,
+        0.48,
+        0.45
+      ],
+      "fill": "EEF3F9",
+      "stroke": "BDCAD9",
+      "lw": 0.7,
+      "radius": 0.06
+    },
+    {
+      "kind": "text",
+      "id": "vlm-label-1",
+      "text": "VLM",
+      "box": [
+        8.28,
+        2.7167000000000003,
+        0.48,
+        0.26
+      ],
+      "size": 15.5,
+      "color": "E67E22",
+      "bold": true,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "rect",
+      "id": "readout-1",
+      "box": [
+        8.98,
+        2.6317000000000004,
+        1.16,
+        0.43
+      ],
+      "fill": "F9FBFD",
+      "stroke": "BDCAD9",
+      "lw": 0.7,
+      "radius": 0
+    },
+    {
+      "kind": "rect",
+      "id": "readout-1.target",
+      "box": [
+        9.199775164473685,
+        2.716860066666667,
+        0.13259200657894735,
+        0.2709716666666667
+      ],
+      "fill": null,
+      "stroke": "168A75",
+      "lw": 1,
+      "radius": 0
+    },
+    {
+      "kind": "dot",
+      "id": "readout-1.prediction",
+      "box": [
+        9.32128,
+        2.7802000000000007,
+        0.09,
+        0.09
+      ],
+      "color": "E67E22",
+      "shape": "diamond"
+    },
+    {
+      "kind": "line",
+      "id": "full-input-1",
+      "points": [
+        [
+          8.02,
+          2.8467000000000002
+        ],
+        [
+          8.28,
+          2.8467000000000002
+        ]
+      ],
+      "color": "E67E22",
+      "lw": 0.9,
+      "head": true,
+      "dash": false
+    },
+    {
+      "kind": "line",
+      "id": "full-readout-1",
+      "points": [
+        [
+          8.76,
+          2.8467000000000002
+        ],
+        [
+          8.98,
+          2.8467000000000002
+        ]
+      ],
+      "color": "E67E22",
+      "lw": 0.9,
+      "head": true,
+      "dash": false
+    },
+    {
+      "kind": "rect",
+      "id": "target-key-box",
+      "box": [
+        9.03,
+        2.23,
+        0.12,
+        0.1
+      ],
+      "fill": null,
+      "stroke": "168A75",
+      "lw": 0.9,
+      "radius": 0
+    },
+    {
+      "kind": "text",
+      "id": "target-key",
+      "text": "Target",
+      "box": [
+        9.25,
+        2.17,
+        0.9,
+        0.26
+      ],
+      "size": 15.5,
+      "color": "168A75",
+      "bold": false,
+      "align": "left",
+      "font": "sans"
+    },
+    {
+      "kind": "text",
+      "id": "probes-title",
+      "text": "Region probes",
+      "box": [
+        10.32,
+        0.97,
+        1.55,
+        0.29
+      ],
+      "size": 15.5,
+      "color": "243247",
+      "bold": true,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "text",
+      "id": "target_window_converted.label",
+      "text": "Target swap",
+      "box": [
+        10.38,
+        1.34,
+        1.47,
+        0.26
+      ],
+      "size": 15.5,
+      "color": "63738A",
+      "bold": false,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "image",
+      "id": "target_window_converted",
+      "path": "assets/target_window_converted_detail.png",
+      "box": [
+        10.778461538461539,
+        1.62,
+        0.683076923076923,
+        0.74
+      ],
+      "stroke": "BDCAD9",
+      "lw": 0.8
+    },
+    {
+      "kind": "rect",
+      "id": "target_window_converted.target",
+      "box": [
+        10.98791,
+        1.7416654871794872,
+        0.26373030769230765,
+        0.5380653846153847
+      ],
+      "fill": null,
+      "stroke": "168A75",
+      "lw": 0.9,
+      "radius": 0
+    },
+    {
+      "kind": "text",
+      "id": "context_window_converted.label",
+      "text": "Context swap",
+      "box": [
+        10.38,
+        2.45,
+        1.47,
+        0.26
+      ],
+      "size": 15.5,
+      "color": "63738A",
+      "bold": false,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "image",
+      "id": "context_window_converted",
+      "path": "assets/context_window_converted_detail.png",
+      "box": [
+        10.778461538461539,
+        2.7300000000000004,
+        0.683076923076923,
+        0.74
+      ],
+      "stroke": "BDCAD9",
+      "lw": 0.8
+    },
+    {
+      "kind": "rect",
+      "id": "context_window_converted.target",
+      "box": [
+        10.98791,
+        2.8516654871794875,
+        0.26373030769230765,
+        0.5380653846153847
+      ],
+      "fill": null,
+      "stroke": "168A75",
+      "lw": 0.9,
+      "radius": 0
+    },
+    {
+      "kind": "text",
+      "id": "crop-key",
+      "text": "Gray box: probe detail",
+      "box": [
+        5.66,
+        3.3,
+        2.36,
+        0.26
+      ],
+      "size": 15.5,
+      "color": "63738A",
+      "bold": false,
+      "align": "left",
+      "font": "sans"
+    },
+    {
+      "kind": "dot",
+      "id": "prediction-key-dot",
+      "box": [
+        8.955,
+        3.275,
+        0.07,
+        0.07
+      ],
+      "color": "0F4D92",
+      "shape": "circle"
+    },
+    {
+      "kind": "dot",
+      "id": "prediction-key-diamond",
+      "box": [
+        9.105,
+        3.275,
+        0.07,
+        0.07
+      ],
+      "color": "E67E22",
+      "shape": "diamond"
+    },
+    {
+      "kind": "text",
+      "id": "prediction-key",
+      "text": "Prediction",
+      "box": [
+        9.26,
+        3.18,
+        0.97,
+        0.26
+      ],
+      "size": 15.5,
+      "color": "63738A",
+      "bold": false,
+      "align": "left",
+      "font": "sans"
+    },
+    {
+      "kind": "line",
+      "id": "probe-separator",
+      "points": [
+        [
+          10.28,
+          1.46
+        ],
+        [
+          10.28,
+          3.43
+        ]
+      ],
+      "color": "BDCAD9",
+      "lw": 0.65,
+      "head": false,
+      "dash": false
+    },
+    {
+      "kind": "text",
+      "id": "nav-title",
+      "text": "Navigation",
+      "box": [
+        5.66,
+        3.57,
+        2.52,
+        0.31
+      ],
+      "size": 18,
+      "color": "E67E22",
+      "bold": true,
+      "align": "left",
+      "font": "sans"
+    },
+    {
+      "kind": "text",
+      "id": "map-type",
+      "text": "Recorded map excerpts",
+      "box": [
+        8.31,
+        3.61,
+        3.43,
+        0.27
+      ],
+      "size": 15.5,
+      "color": "63738A",
+      "bold": false,
+      "align": "right",
+      "font": "sans"
+    },
+    {
+      "kind": "text",
+      "id": "nav-original.label",
+      "text": "Original",
+      "box": [
+        5.91,
+        3.97,
+        1.75,
+        0.27
+      ],
+      "size": 15.5,
+      "color": "0F4D92",
+      "bold": true,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "image",
+      "id": "nav-original",
+      "path": "data/navigation/original_map.png",
+      "box": [
+        5.91,
+        4.27,
+        1.59,
+        1.59
+      ],
+      "stroke": "0F4D92",
+      "lw": 0.8
+    },
+    {
+      "kind": "text",
+      "id": "nav-nomdl.label",
+      "text": "Converted",
+      "box": [
+        8.19,
+        3.97,
+        1.75,
+        0.27
+      ],
+      "size": 15.5,
+      "color": "E67E22",
+      "bold": true,
+      "align": "center",
+      "font": "sans"
+    },
+    {
+      "kind": "image",
+      "id": "nav-nomdl",
+      "path": "data/navigation/nomdl_map.png",
+      "box": [
+        8.19,
+        4.27,
+        1.59,
+        1.59
+      ],
+      "stroke": "E67E22",
+      "lw": 0.8
+    },
+    {
+      "kind": "line",
+      "id": "legend-Executed",
+      "points": [
+        [
+          10.18,
+          4.68
+        ],
+        [
+          10.43,
+          4.68
+        ]
+      ],
+      "color": "CC2525",
+      "lw": 2,
+      "head": false,
+      "dash": false
+    },
+    {
+      "kind": "text",
+      "id": "legend-Executed.text",
+      "text": "Executed",
+      "box": [
+        10.52,
+        4.56,
+        1.21,
+        0.26
+      ],
+      "size": 15.5,
+      "color": "63738A",
+      "bold": false,
+      "align": "left",
+      "font": "sans"
+    },
+    {
+      "kind": "line",
+      "id": "legend-Reference",
+      "points": [
+        [
+          10.18,
+          5.16
+        ],
+        [
+          10.43,
+          5.16
+        ]
+      ],
+      "color": "168A45",
+      "lw": 2,
+      "head": false,
+      "dash": false
+    },
+    {
+      "kind": "text",
+      "id": "legend-Reference.text",
+      "text": "Reference",
+      "box": [
+        10.52,
+        5.04,
+        1.21,
+        0.26
+      ],
+      "size": 15.5,
+      "color": "63738A",
+      "bold": false,
+      "align": "left",
+      "font": "sans"
+    }
+  ],
+  "allowed_text_image_overlays": [
+    [
+      "hub-label",
+      "hub-art"
+    ],
+    [
+      "hub-function",
+      "hub-art"
+    ]
+  ]
+}

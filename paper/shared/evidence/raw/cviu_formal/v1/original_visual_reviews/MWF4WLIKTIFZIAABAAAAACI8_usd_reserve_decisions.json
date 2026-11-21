@@ -1,0 +1,67 @@
+{
+  "scene_id": "MWF4WLIKTIFZIAABAAAAACI8_usd",
+  "targets": [
+    {
+      "scene_id": "MWF4WLIKTIFZIAABAAAAACI8_usd",
+      "target_prim": "/Root/Meshes/Furnitures/chair/model_ad0f4dc89b0306929bf7bdb259db7358_0",
+      "source_category": "chair",
+      "packet": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_f4aci_reserve_review_packets_v1/MWF4WLIKTIFZIAABAAAAACI8_usd/458c79fc007b532a.png",
+      "frames": [
+        {
+          "pair_id": "MWF4WLIKTIFZIAABAAAAACI8_usd:458c79fc007b532a:v0",
+          "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_remaining_reserves_f4aci_capture_v1/000",
+          "image_sha256": "af140dab72e8b9e6f55a8fe92bb560927309ae7cbb33969322d806eb35bfab75",
+          "mask_sha256": "f4d7d9bf27c3743853aa5a411ebe221f7658d64ddbf4a7ee2bf4c0416519db6f",
+          "status": "captured_unreviewed",
+          "mask_pixels": 69246,
+          "proposed_selected": true,
+          "visual_verdict": "PASS: near-end swivel chair back, arms and wheel base identifiable"
+        },
+        {
+          "pair_id": "MWF4WLIKTIFZIAABAAAAACI8_usd:458c79fc007b532a:v1",
+          "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_remaining_reserves_f4aci_capture_v1/001",
+          "image_sha256": "5d1ee460974b99fe718f933be499093f14b0217143e26181d7ff773a43198e33",
+          "mask_sha256": "23083bb7a096a982c1690048a2af955604ff953c11a4f09317ac3542679baa20",
+          "status": "captured_unreviewed",
+          "mask_pixels": 49390,
+          "proposed_selected": true,
+          "visual_verdict": "PASS: near-end swivel chair back, arms and wheel base identifiable"
+        },
+        {
+          "pair_id": "MWF4WLIKTIFZIAABAAAAACI8_usd:458c79fc007b532a:v2",
+          "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_remaining_reserves_f4aci_capture_v1/002",
+          "image_sha256": "d620c4be55751e729b807b5f08625842e51024c94f098abafbdb0330b070c272",
+          "mask_sha256": "9edcc51146506157d828ed968cf82910364fde53ba52436d074abaa77a8a0c21",
+          "status": "captured_unreviewed",
+          "mask_pixels": 51147,
+          "proposed_selected": false,
+          "visual_verdict": "WARN: neighboring chair foreground overlap, unselected"
+        },
+        {
+          "pair_id": "MWF4WLIKTIFZIAABAAAAACI8_usd:458c79fc007b532a:v3",
+          "output": "/cpfs/user/zhuzihou/assets/convertasset_research/experiments/cviu/formal_remaining_reserves_f4aci_capture_v1/003",
+          "image_sha256": "445f3d89d380299b90672eee229d894553b47e3b2d00b1a78c2f3f6fceb13a23",
+          "mask_sha256": "2f13b76b57077f8b7352e71fb07ebd9b49e36bab2157d8dd3a62e658806506f2",
+          "status": "captured_unreviewed",
+          "mask_pixels": 47224,
+          "proposed_selected": false,
+          "visual_verdict": "WARN: neighboring chair foreground overlap, unselected"
+        }
+      ],
+      "review_status": "reviewed_original_candidates",
+      "query_object": "swivel chair at the near end of the meeting table",
+      "packet_sha256": "8c952c73ee1235e5d3ee86e25094d5f688560bac6f0e015165e5351e05c24f33",
+      "selection_status": "proposed_pending_camera_separation_and_final_recapture"
+    }
+  ],
+  "unused_targets": [
+    "/Root/Meshes/Furnitures/cup/model_d9974ad567189225e8187a3e8cb8f5b2_0",
+    "/Root/Meshes/Furnitures/pen/model_f183111a6ed20847baaf4d64883ac852_0",
+    "/Root/Meshes/Furnitures/plant/model_213eb541231877733813e52a364c4936_0",
+    "/Root/Meshes/Animation/trashcan/model_e834809aadc2737f3e9c5bd4ed7a3fd6_0",
+    "/Root/Meshes/Furnitures/pen/model_2ff5a9d3b59bb2ce7160e4bf39a08ac6_0",
+    "/Root/Meshes/Furnitures/chair/model_66ecca9f21e786052e3233d33109860f_0",
+    "/Root/Meshes/Furnitures/curtain/model_f8ac980f52bc78980694d164872e9d41_0"
+  ],
+  "policy": "First reserve chair qualifies; remaining seven candidates unused under predeclared first-qualified policy."
+}

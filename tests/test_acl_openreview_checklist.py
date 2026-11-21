@@ -40,7 +40,7 @@ def test_bare_yes_no_answer_is_rejected(tmp_path: Path) -> None:
     text = source.read_text(encoding="utf-8")
     original = text
     text = text.replace(
-        "Yes. See `Limitations`, page 9. The section states that the evidence is\n"
+        "Yes. See `Limitations`, page 8. The section states that the evidence is\n"
         "narrow, separates the 15-pair clean pilot from the frozen 30-pair stress set,\n"
         "marks selected rollout panels as qualitative only, limits the 99-episode\n"
         "InternNav evidence to three official KuJiaLe scenes, and avoids extending it to\n"
