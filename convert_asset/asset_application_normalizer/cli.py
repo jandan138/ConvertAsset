@@ -9,6 +9,22 @@ from .model import NormalizeAssetRequest
 from .pipeline import normalize_asset, parse_gates
 
 
+def add_normalize_articulated_parser(
+    subparsers: argparse._SubParsersAction,
+) -> None:
+    parser = subparsers.add_parser(
+        "normalize-articulated",
+        help="Build an identity-root articulated appliance candidate from a pinned profile",
+    )
+    parser.add_argument("source_usd", help="Path to the pinned source USD")
+    parser.add_argument("--out", required=True, help="Candidate output directory")
+    parser.add_argument(
+        "--profile",
+        required=True,
+        help="aan.articulated_relocation_profile.v1 JSON path",
+    )
+
+
 def add_normalize_asset_parser(subparsers: argparse._SubParsersAction) -> None:
     parser = subparsers.add_parser(
         "normalize-asset",
@@ -210,3 +226,13 @@ def _runtime_scope_bindings(raw_bindings: list[str]) -> list[dict[str, str]]:
 def run_from_args(args: argparse.Namespace) -> int:
     result = normalize_asset(request_from_args(args))
     return int(result.return_code)
+
+
+def run_articulated_from_args(args: argparse.Namespace) -> int:
+    from .articulated_relocation import normalize_articulated
+
+    result = normalize_articulated(
+        Path(args.source_usd), Path(args.out), Path(args.profile)
+    )
+    print(result.manifest_path)
+    return 0

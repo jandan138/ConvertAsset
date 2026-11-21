@@ -34,6 +34,11 @@
 - [Task09 近满瓶粉末场景 producer r4](records/2026-09-11-full-powder-scene-r4.md) - 高位薄内托、预沉降初态与 Isaac 4.5 规定轨迹证据
 - [Task09 紧凑粉末瓶场景 producer r3](records/2026-09-11-compact-powder-scene-r3.md) - Blender model_r2 集成、深粉床与 Isaac 4.5 规定轨迹证据
 - [Task 09 天平受力 producer r1](records/2026-09-09-balance-force-r1.md)
+- **[Task 09 r14 双旋钮与60°门限位](records/2026-09-01-task09-r14-dual-knob-and-door-limit.md)** - 两套独立物理旋钮共享控制状态、缩放按压阈值与门阻尼/限位证据
+- **[Task 09 r13 烘箱架与 materialized 烘箱](records/2026-08-31-task09-r13-oven-cart-and-materialized-oven.md)** - 紧凑承重架、100 kg 仿真载荷、直接 authored OmniGraph 与烧杯闭包修复
+- **[复杂铰接家电 identity-root 迁移](design/articulated-appliance-relocation.md)** - 世界锚关节局部化、fixed-base v2 最终结构、hash-bound ScriptNode hook 与晋级边界
+- **[IKA OVEN 125 identity-root 交付](records/2026-08-31-articulated-relocation-and-ika-oven.md)** - 三命名空间 Isaac 4.1 证据与 relocatable_task_scoped 结论
+- **[IKA OVEN 125 Task 09/12 Fixed-Benchtop Admission](records/2026-08-31-ika-oven-125-task0912-fixed-benchtop.md)** - direct-stage、0.755 m baked mount、OmniGraph 与 Isaac 4.1 完整功能证据
 - **[设计文档](design/README.md)** - 架构、模块职责、算法与实现深挖
 - **[运维文档](operations/README.md)** - 运行环境、CLI、构建、排障与 agent 协作
 - **[Setup](setup.md)** - Isaac Sim Python 与可选 native backend 环境说明
@@ -61,6 +66,9 @@
 - **[Wangshuai Funnel/Tube Dynamic v2](records/2026-08-27-wangshuai-funnel-tube15-dynamic-v2.md)** - exact-source v1 保留，默认 dynamic v2 的 provisional 质量、三轮刚体/静止导流证据与装液搬运边界
 - **[Threaded 15 mL Red Closed Single-Rigid Assembly](records/2026-08-27-threaded-tube15-red-closed-single-rigid-assembly.md)** - 新封顶螺纹盖与管体合为单一动态刚体，红盖材质、provisional 合并质量及三轮 Isaac 4.1 证据
 - **[Non-threaded 15 mL Neck/Cap-fit Geometry Master](records/2026-08-28-nonthreaded-tube15-neck-cap-fit-master.md)** - 旧非螺纹管颈/帽套筒轴向失配诊断、17.24 mm 分段 mesh warp、闭合母版与三轮 Isaac 4.1 证据
+- **[Long-neck Threaded 15 mL Geometry Admission](records/2026-09-01-long-neck-threaded-tube15-geometry-admission.md)** - 新长粗段管体与封顶螺纹管帽拆分为 identity-root 动态包；几何/SDF 晋级，旋合与 Task 08 明确 blocked
+- **[Task 08 r12 Rack and Threaded-tube Visual Assets](records/2026-09-01-task08-r12-rack-and-threaded-tube-visual-assets.md)** - 18+4 架烘焙 1.1/1.1/1.3 与 SDF/18孔底托，长粗段管体统一玻璃材质和红色封顶管帽视觉变体
+- **[Articulated Instance Scope and IKA OVEN r15](records/2026-09-01-articulated-instance-scope-and-ika-oven-r15.md)** - placement root 不变，完整铰接子树进入非 Xform 的 Instance Scope；三命名空间下复验双旋钮、按钮和门
 - **[LICHEN Analytical-Balance r1 Sliding Doors](records/2026-08-18-analytical-balance-lichen-r1-doors.md)** - 程序化天平四扇滑动防风罩的 source-bound articulated 准入、Isaac 4.1 开关门资格与 Playable 时间轴
 - **[LICHEN Front-Door Block Contact Opening](records/2026-08-18-analytical-balance-lichen-r1-front-door-contact.md)** - release5 前门把手凸包碰撞与 Isaac 4.1 挡块接触开关门资格
 - **[Articulated Device Admission And Requalification](operations/articulated-device-admission-requalification.md)** - producer-owned articulated USD/proxy/profile/physics admission, promotion, and Scenario Forge loader handoff

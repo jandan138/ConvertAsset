@@ -1,5 +1,9 @@
 # Records
 
+- [2026-11-20 Distillation Apparatus v0.4 Deformable & Borosilicate Glassware Assets](2026-11-20-distillation-v04-assets.md)
+- [2026-11-20 Deformable v0.3 Sculpted PBR & Barycentric Skinning](2026-11-20-deformable-v03-m1-sculpted-pbr-skinning.md)
+- [2026-11-19 Four-Engine Deformable Parity Pilot](2026-11-19-m1-four-engine-deformable-parity-pilot.md)
+
 - [CVIU 正式候选采集](2026-11-14-cviu-formal-candidate-capture.md) — 同序batch资格通过，30场景原始预览采集中。
 
 - [CVIU 正式30场景资源闭包](2026-11-14-cviu-formal-resource-closure.md) — 30场景已审计，批量渲染资格待完成。
@@ -50,6 +54,17 @@
 - [2026-09-03 ACL Figure 1 PPTX-native v4](2026-09-03-acl-fig1-pptx-v4.md)
 - [2026-09-03 ACL story-first Figure v3 and supplement atlas refresh](2026-09-03-acl-story-first-figure-v3.md)
 - [2026-08-30 ACL main-figure visual-system redesign](2026-08-30-acl-main-figure-redesign.md)
+- [2026-09-04 OVEN 125 r17 teleoperation knob hardening](2026-09-04-ika-oven-r17-teleop-knob-hardening.md)
+- [2026-09-04 articulated v2 durable producer policy](2026-09-04-articulated-v2-durable-policy.md)
+- [2026-09-04 OVEN 125 r16 fixed-base articulation](2026-09-04-ika-oven-r16-fixed-base-articulation.md)
+
+- [2026-09-01 Articulated Instance Scope and IKA OVEN r15](2026-09-01-articulated-instance-scope-and-ika-oven-r15.md)
+- [2026-09-01 Task 08 r12 rack and threaded-tube visual assets](2026-09-01-task08-r12-rack-and-threaded-tube-visual-assets.md)
+- [2026-09-01 Long-neck threaded 15 mL tube geometry admission](2026-09-01-long-neck-threaded-tube15-geometry-admission.md)
+- [2026-09-01 Task 09 r14 dual knob and 60-degree door](2026-09-01-task09-r14-dual-knob-and-door-limit.md)
+- [2026-08-31 Task 09 r13 oven cart and materialized oven](2026-08-31-task09-r13-oven-cart-and-materialized-oven.md)
+- [2026-08-31 Articulated relocation and IKA OVEN 125](2026-08-31-articulated-relocation-and-ika-oven.md)
+- [2026-08-31 IKA OVEN 125 Task 09/12 fixed-benchtop admission](2026-08-31-ika-oven-125-task0912-fixed-benchtop.md)
 - [2026-08-26 Wangshuai funnel/tube exact-source asset set](2026-08-26-wangshuai-funnel-tube15-exact-asset-set.md)
 - [Threaded tube/funnel exact-source PBD card](../operations/wangshuai-threaded-tube-funnel-pbd.md)
 - [2026-08-26 LABSPIN X8 r6 visual-fitted lid collision](2026-08-26-labspin-x8-r6-visual-fitted-lid-collision.md)
