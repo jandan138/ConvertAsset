@@ -13,7 +13,18 @@ import numpy as np
 from convert_asset.distillation_v06.apparatus_specs_v06 import V06_COMPONENTS, build_v06_cad_specs
 
 
-ISAAC_MDL_DIR = Path(r"I:\isaacsim\6.0.1\kit\mdl\core\Base")
+import os as _os
+def _resolve_isaac_mdl_dir() -> Path:
+    for cand in (
+        _os.environ.get("ISAAC_MDL_DIR", ""),
+        "/mnt/data/ganwanshui/isaacsim60/kit/mdl/core/Base",
+        "/root/miniconda3/envs/isaac62-hose/lib/python3.12/site-packages/isaacsim/kit/mdl/core/Base",
+        r"I:\isaacsim\6.0.1\kit\mdl\core\Base",
+    ):
+        if cand and Path(cand).is_dir():
+            return Path(cand)
+    return Path(r"I:\isaacsim\6.0.1\kit\mdl\core\Base")
+ISAAC_MDL_DIR = _resolve_isaac_mdl_dir()
 
 PBR_PRESETS: dict[str, tuple[tuple[float, float, float], float, float]] = {
     "stainless_steel": ((0.80, 0.82, 0.85), 0.18, 0.92),
