@@ -48,9 +48,25 @@ from .shell_kl_warp import (
     WarpKirchhoffLoveShellSolver,
     build_hermite_shell_mesh,
 )
+from .ipctk_c1_contact import (
+    IPCTKC1ContactSystem,
+    RigidProxySpec,
+    RodProxySpec,
+    ShellProxySpec,
+    build_rod_proxy_topology,
+    build_shell_proxy_topology,
+    eval_rod_proxy_vertices_and_jacobian,
+)
+from .sparse_solver_v2 import (
+    SparseSceneStepResult,
+    SparseUnifiedSceneSolver,
+    solve_sparse_linear_warp_gpu,
+    solve_sparse_spd_with_shift,
+)
 from .state_and_basis import (
     HermiteRodMesh,
     HermiteRodSpec,
+    build_curved_rod_mesh_and_q0,
     build_straight_rod_mesh,
     evaluate_brazier_tube_surface,
     hermite_1d_basis,

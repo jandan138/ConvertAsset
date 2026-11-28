@@ -14,6 +14,7 @@ import time
 from typing import Any, Sequence
 
 import numpy as np
+from scipy import sparse
 from scipy.linalg import cho_factor, cho_solve
 
 from convert_asset.deformable_v08_hermite.bicubic_hermite_shell import (
@@ -240,6 +241,112 @@ if _HAS_WARP:
                 if i != j:
                     wp.atomic_add(K_flat, col * n_sdof + r, val)
 
+    @wp.kernel
+    def _eval_shell_gn_stiffness_sparse_kernel(
+        q: wp.array(dtype=wp.vec3d),
+        elem_dofs: wp.array(dtype=wp.int32),
+        pair_i: wp.array(dtype=wp.int32),
+        pair_j: wp.array(dtype=wp.int32),
+        elem_pair_slot: wp.array(dtype=wp.int32),  # (n_elems * 136,) -> unique upper-tri 3x3 block slot
+        elem_pair_swap: wp.array(dtype=wp.int32),  # 1 if di > dj so transpose 3x3 into upper slot
+        Nu: wp.array(dtype=wp.float64),
+        Nv: wp.array(dtype=wp.float64),
+        Nuu: wp.array(dtype=wp.float64),
+        Nuv: wp.array(dtype=wp.float64),
+        Nvv: wp.array(dtype=wp.float64),
+        quad_w: wp.array(dtype=wp.float64),
+        n_elems: int,
+        n_quad: int,
+        cm: wp.float64,
+        cb: wp.float64,
+        nu: wp.float64,
+        block_vals: wp.array(dtype=wp.float64),  # (n_unique_blocks * 9,) O(n_elems) sparse GPU buffer!
+    ):
+        """O(n_elems) memory parallel Warp CUDA sparse block assembly for 2D C1 Kirchhoff-Love GN stiffness."""
+        tid = wp.tid()
+        p_idx = tid % 136
+        eq = tid // 136
+        e = eq // n_quad
+        qi = eq % n_quad
+        if e >= n_elems:
+            return
+
+        one = wp.float64(1.0)
+        half = wp.float64(0.5)
+        zero = wp.float64(0.0)
+
+        e_off = e * 16
+        q_off = qi * 16
+        w = quad_w[qi]
+
+        a1 = wp.vec3d(zero, zero, zero)
+        a2 = wp.vec3d(zero, zero, zero)
+        for k in range(16):
+            qv = q[elem_dofs[e_off + k]]
+            a1 = a1 + qv * Nu[q_off + k]
+            a2 = a2 + qv * Nv[q_off + k]
+
+        n_tilde = wp.cross(a1, a2)
+        J_len = wp.sqrt(wp.dot(n_tilde, n_tilde) + wp.float64(1.0e-20))
+        n_hat = n_tilde / J_len
+
+        E11 = half * (wp.dot(a1, a1) - one)
+        E22 = half * (wp.dot(a2, a2) - one)
+        S11 = cm * (E11 + nu * E22)
+        S22 = cm * (E22 + nu * E11)
+        s11_pos = wp.max(S11, zero) * w
+        s22_pos = wp.max(S22, zero) * w
+
+        cm_w = cm * w
+        cb_w = cb * w
+        c_sh_m = wp.float64(2.0) * (one - nu) * cm_w
+        c_sh_b = wp.float64(2.0) * (one - nu) * cb_w
+
+        i = pair_i[p_idx]
+        j = pair_j[p_idx]
+
+        nui = Nu[q_off + i]
+        nvi = Nv[q_off + i]
+        nuui = Nuu[q_off + i]
+        nuvi = Nuv[q_off + i]
+        nvvi = Nvv[q_off + i]
+
+        nuj = Nu[q_off + j]
+        nvj = Nv[q_off + j]
+        nuuj = Nuu[q_off + j]
+        nuvj = Nuv[q_off + j]
+        nvvj = Nvv[q_off + j]
+
+        je11_i = a1 * nui
+        je22_i = a2 * nvi
+        je12_i = (a2 * nui + a1 * nvi) * half
+
+        je11_j = a1 * nuj
+        je22_j = a2 * nvj
+        je12_j = (a2 * nuj + a1 * nvj) * half
+
+        b_coef = cb_w * (nuui * nuuj + nvvi * nvvj + nu * (nuui * nvvj + nvvi * nuuj)) + c_sh_b * (nuvi * nuvj)
+        g_diag = s11_pos * (nui * nuj) + s22_pos * (nvi * nvj)
+
+        ep_idx = e * 136 + p_idx
+        slot = elem_pair_slot[ep_idx] * 9
+        swap = elem_pair_swap[ep_idx]
+        for c1 in range(3):
+            for c2 in range(3):
+                val_m = (
+                    cm_w * (
+                        je11_i[c1] * je11_j[c2]
+                        + je22_i[c1] * je22_j[c2]
+                        + nu * (je11_i[c1] * je22_j[c2] + je22_i[c1] * je11_j[c2])
+                    )
+                    + c_sh_m * je12_i[c1] * je12_j[c2]
+                )
+                val_b = b_coef * n_hat[c1] * n_hat[c2]
+                val_g = g_diag if c1 == c2 else zero
+                val = val_m + val_b + val_g
+                off = (c2 * 3 + c1) if swap != 0 else (c1 * 3 + c2)
+                wp.atomic_add(block_vals, slot + off, val)
+
 
 @dataclass
 class ShellStepResult:
@@ -300,20 +407,67 @@ class WarpKirchhoffLoveShellSolver:
         self._wp_emem = wp.zeros(1, dtype=wp.float64, device=self.device)
         self._wp_ebend = wp.zeros(1, dtype=wp.float64, device=self.device)
         self._wp_grad = wp.zeros(self.n_sdof, dtype=wp.float64, device=self.device)
-        self._wp_K = wp.zeros(self.n_sdof * self.n_sdof, dtype=wp.float64, device=self.device)
+        # Precompute O(n_elems) sparse 3x3 block table (scales cleanly to 20x20 C1 shells without N^2 dense alloc!)
+        block_map: dict[tuple[int, int], int] = {}
+        ep_slots = np.empty(self.n_elems * 136, dtype=np.int32)
+        ep_swaps = np.empty(self.n_elems * 136, dtype=np.int32)
+        block_pairs: list[tuple[int, int]] = []
+        for e in range(self.n_elems):
+            edofs = mesh.elem_dof_indices[e]
+            for p_idx in range(136):
+                di = int(edofs[pi_list[p_idx]])
+                dj = int(edofs[pj_list[p_idx]])
+                if di <= dj:
+                    key = (di, dj)
+                    sw = 0
+                else:
+                    key = (dj, di)
+                    sw = 1
+                slot = block_map.get(key)
+                if slot is None:
+                    slot = len(block_pairs)
+                    block_map[key] = slot
+                    block_pairs.append(key)
+                ep_slots[e * 136 + p_idx] = slot
+                ep_swaps[e * 136 + p_idx] = sw
 
-        # Full 3D block mass matrix M_3d = kron(M_scalar, I_3)
-        self.mass_3d = np.kron(mesh.mass_matrix, np.eye(3, dtype=np.float64))
+        self._n_unique_blocks = len(block_pairs)
+        self._wp_ep_slot = wp.array(ep_slots, dtype=wp.int32, device=self.device)
+        self._wp_ep_swap = wp.array(ep_swaps, dtype=wp.int32, device=self.device)
+        self._wp_block_vals = wp.zeros(self._n_unique_blocks * 9, dtype=wp.float64, device=self.device)
 
-    def eval_energy_grad_stiffness(
+        # Static COO index arrays to build full symmetric scipy.sparse.csc_matrix in O(nnz)
+        coo_r: list[int] = []
+        coo_c: list[int] = []
+        coo_src: list[int] = []
+        for slot, (di, dj) in enumerate(block_pairs):
+            base = slot * 9
+            for c1 in range(3):
+                for c2 in range(3):
+                    coo_r.append(di * 3 + c1)
+                    coo_c.append(dj * 3 + c2)
+                    coo_src.append(base + c1 * 3 + c2)
+                    if di != dj:
+                        coo_r.append(dj * 3 + c2)
+                        coo_c.append(di * 3 + c1)
+                        coo_src.append(base + c1 * 3 + c2)
+        self._coo_rows = np.asarray(coo_r, dtype=np.int32)
+        self._coo_cols = np.asarray(coo_c, dtype=np.int32)
+        self._coo_src = np.asarray(coo_src, dtype=np.int32)
+
+        # Sparse consistent 3D mass matrix M_3d = kron(M_scalar, I_3)
+        self.mass_3d_sparse = sparse.kron(sparse.csc_matrix(mesh.mass_matrix), sparse.eye(3, format="csc"), format="csc")
+        self.mass_3d = self.mass_3d_sparse.toarray() if self.n_sdof <= 1500 else None
+
+    def eval_energy_grad_stiffness_sparse(
         self,
         q: np.ndarray,
         *,
         membrane_scale: float = 1.0,
         bending_scale: float = 1.0,
         compute_stiffness: bool = True,
-    ) -> tuple[float, float, np.ndarray, np.ndarray | None]:
-        """Evaluate (energy_mem, energy_bend, grad_flat, K_gn) on RTX 4090 GPU via Warp."""
+    ) -> tuple[float, float, np.ndarray, sparse.csc_matrix | None]:
+        """Evaluate (energy_mem, energy_bend, grad_flat, K_gn_csc) on RTX 4090 GPU with O(n_elems) sparse memory."""
         q_v = np.asarray(q, dtype=np.float64).reshape(self.n_vec_dofs, 3)
         self._wp_q = wp.array(q_v, dtype=wp.vec3d, device=self.device)
         self._wp_emem.zero_()
@@ -349,15 +503,17 @@ class WarpKirchhoffLoveShellSolver:
         )
         K_out = None
         if compute_stiffness:
-            self._wp_K.zero_()
+            self._wp_block_vals.zero_()
             wp.launch(
-                _eval_shell_gn_stiffness_kernel,
+                _eval_shell_gn_stiffness_sparse_kernel,
                 dim=self._n_total_q * 136,
                 inputs=[
                     self._wp_q,
                     self._wp_elem_dofs,
                     self._wp_pair_i,
                     self._wp_pair_j,
+                    self._wp_ep_slot,
+                    self._wp_ep_swap,
                     self._wp_Nu,
                     self._wp_Nv,
                     self._wp_Nuu,
@@ -366,16 +522,20 @@ class WarpKirchhoffLoveShellSolver:
                     self._wp_quad_w,
                     self.n_elems,
                     self.n_quad,
-                    self.n_sdof,
                     cm,
                     cb,
                     nu,
-                    self._wp_K,
+                    self._wp_block_vals,
                 ],
                 device=self.device,
             )
             wp.synchronize_device(self.device)
-            K_out = self._wp_K.numpy().reshape(self.n_sdof, self.n_sdof).copy()
+            bvals = self._wp_block_vals.numpy()
+            K_out = sparse.coo_matrix(
+                (bvals[self._coo_src], (self._coo_rows, self._coo_cols)),
+                shape=(self.n_sdof, self.n_sdof),
+                dtype=np.float64,
+            ).tocsc()
         else:
             wp.synchronize_device(self.device)
 
@@ -383,6 +543,20 @@ class WarpKirchhoffLoveShellSolver:
         ebend = float(self._wp_ebend.numpy()[0])
         grad = self._wp_grad.numpy().copy()
         return emem, ebend, grad, K_out
+
+    def eval_energy_grad_stiffness(
+        self,
+        q: np.ndarray,
+        *,
+        membrane_scale: float = 1.0,
+        bending_scale: float = 1.0,
+        compute_stiffness: bool = True,
+    ) -> tuple[float, float, np.ndarray, np.ndarray | None]:
+        """Dense convenience wrapper over eval_energy_grad_stiffness_sparse (exact parity with Phase 1B)."""
+        em, eb, g, K_sp = self.eval_energy_grad_stiffness_sparse(
+            q, membrane_scale=membrane_scale, bending_scale=bending_scale, compute_stiffness=compute_stiffness
+        )
+        return em, eb, g, (None if K_sp is None else K_sp.toarray())
 
     def step_dynamic(
         self,

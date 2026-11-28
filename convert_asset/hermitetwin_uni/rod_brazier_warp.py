@@ -19,7 +19,9 @@ import time
 from typing import Any, Callable, Sequence
 
 import numpy as np
+from scipy import sparse
 from scipy.linalg import cho_factor, cho_solve
+from scipy.sparse.linalg import splu
 
 from .state_and_basis import DOFS_PER_ROD_NODE, HermiteRodMesh, HermiteRodSpec, _parallel_transport
 
@@ -63,7 +65,10 @@ if _HAS_WARP:
         gj0: wp.float64,
         k_hoop: wp.float64,
         k_oval: wp.float64,
-        enable_brazier: int,
+        k_grad_hoop: wp.float64,
+        k_grad_oval: wp.float64,
+        r_in_m: wp.float64,
+        brazier_mode: int,  # 0=rigid, 1=spd_exact, 2=kink_exact (+Calladine grad + bore IPC barrier)
         energy_out: wp.array(dtype=wp.float64),
         grad_out: wp.array(dtype=wp.float64),
     ):
@@ -115,12 +120,26 @@ if _HAS_WARP:
         tau = (th1 - th0) * inv_ds
         u_twist = half * gj0 * tau * tau
 
-        # Cross-section modes
-        a0 = (one - xi) * q[b0 + 7] + xi * q[b1 + 7]
-        a2 = (one - xi) * q[b0 + 8] + xi * q[b1 + 8]
-        b2 = (one - xi) * q[b0 + 9] + xi * q[b1 + 9]
+        # Cross-section modes & longitudinal derivatives
+        a0_0 = q[b0 + 7]
+        a0_1 = q[b1 + 7]
+        a2_0 = q[b0 + 8]
+        a2_1 = q[b1 + 8]
+        b2_0 = q[b0 + 9]
+        b2_1 = q[b1 + 9]
+        a0 = (one - xi) * a0_0 + xi * a0_1
+        a2 = (one - xi) * a2_0 + xi * a2_1
+        b2 = (one - xi) * b2_0 + xi * b2_1
+        da0_ds = (a0_1 - a0_0) * inv_ds
+        da2_ds = (a2_1 - a2_0) * inv_ds
+        db2_ds = (b2_1 - b2_0) * inv_ds
 
         u_sec = half * k_hoop * a0 * a0 + half * k_oval * (a2 * a2 + b2 * b2)
+        u_grad = wp.float64(0.0)
+        u_bore = wp.float64(0.0)
+        g_da0_ds = wp.float64(0.0)
+        g_da2_ds = wp.float64(0.0)
+        g_db2_ds = wp.float64(0.0)
 
         # Exact curvature vector kappa = (dx x d2x) / |dx|^3
         cross_v = wp.cross(dx, d2x)
@@ -139,9 +158,9 @@ if _HAS_WARP:
         k2 = wp.dot(kappa_vec, d2_m)
         k_sq = k1 * k1 + k2 * k2
 
-        # Manifestly-SPD exact Brazier (1927) bending inertia tensor:
-        #   S = exp(1.5*a0)*I2 + 0.75*[[-a2, b2],[b2, a2]] -> I_eff = I0 * (S^T S + (1/16)*(a2^2+b2^2)*I2)
-        if enable_brazier != 0:
+        if brazier_mode == 1:
+            # Manifestly-SPD exact Brazier (1927) bending inertia tensor (Phase 0-4):
+            #   S = exp(1.5*a0)*I2 + 0.75*[[-a2, b2],[b2, a2]] -> I_eff = I0 * (S^T S + (1/16)*(a2^2+b2^2)*I2)
             c15 = wp.float64(1.5)
             c075 = wp.float64(0.75)
             c00625 = wp.float64(0.0625)
@@ -159,6 +178,73 @@ if _HAS_WARP:
             dU_da0 = ei0 * (c15 * e15) * (v1 * k1 + v2 * k2) + k_hoop * a0
             dU_da2 = ei0 * (c075 * (-v1 * k1 + v2 * k2) + c00625 * a2 * k_sq) + k_oval * a2
             dU_db2 = ei0 * (c075 * (v1 * k2 + v2 * k1) + c00625 * b2 * k_sq) + k_oval * b2
+        elif brazier_mode == 2:
+            # V2 Unbiased Exact Brazier (1927) + Calladine longitudinal gradient + inner-bore C-IPC barrier!
+            # Exact I_eff = I0 * exp(3*a0) * [c_plus * I2 - r(zeta) * Q(a2, b2)]
+            # For zeta <= 0.50: c_plus = 1, r = 1.5 IDENTICALLY (0.00% bias at Brazier limit point zeta=2/9!).
+            # For zeta > 0.50: smooth C1 exponential floor lambda_par -> 0.08 guarantees SPD at full kink collapse.
+            c15 = wp.float64(1.5)
+            c30 = wp.float64(3.0)
+            e30 = wp.exp(c30 * a0)
+            p_al = a2 * (k1 * k1 - k2 * k2) - wp.float64(2.0) * b2 * k1 * k2
+            zeta = wp.sqrt(a2 * a2 + b2 * b2 + wp.float64(1.0e-18))
+            u_lam = one - c15 * zeta
+            u_hi = wp.float64(0.25)
+            lam_f = wp.float64(0.08)
+            s_span = u_hi - lam_f  # 0.17
+
+            if u_lam >= u_hi:
+                c_plus = one
+                r_fac = c15
+                dc_plus_dz = wp.float64(0.0)
+                dr_dz = wp.float64(0.0)
+            else:
+                w_ex = u_hi - u_lam
+                ex_v = wp.exp(-w_ex / s_span)
+                lam_par = lam_f + s_span * ex_v
+                dlam_par_dz = -c15 * ex_v
+                lam_perp = one + c15 * zeta
+                c_plus = half * (lam_perp + lam_par)
+                c_minus = half * (lam_perp - lam_par)
+                r_fac = c_minus / zeta
+                dc_plus_dz = half * (c15 + dlam_par_dz)
+                dc_minus_dz = half * (c15 - dlam_par_dz)
+                dr_dz = (dc_minus_dz * zeta - c_minus) / (zeta * zeta)
+
+            q_form = c_plus * k_sq - r_fac * p_al
+            u_bend = half * ei0 * e30 * q_form
+
+            dU_dk1 = ei0 * e30 * (c_plus * k1 - r_fac * (a2 * k1 - b2 * k2))
+            dU_dk2 = ei0 * e30 * (c_plus * k2 - r_fac * (-a2 * k2 - b2 * k1))
+            dU_da0 = half * ei0 * (c30 * e30) * q_form + k_hoop * a0
+
+            dq_dz = dc_plus_dz * k_sq - dr_dz * p_al
+            dU_da2 = half * ei0 * e30 * (dq_dz * (a2 / zeta) - r_fac * (k1 * k1 - k2 * k2)) + k_oval * a2
+            dU_db2 = half * ei0 * e30 * (dq_dz * (b2 / zeta) + r_fac * wp.float64(2.0) * k1 * k2) + k_oval * b2
+
+            # Calladine longitudinal ovalization & hoop gradient energy (physical kink length scale!)
+            u_grad = half * k_grad_hoop * da0_ds * da0_ds + half * k_grad_oval * (da2_ds * da2_ds + db2_ds * db2_ds)
+            g_da0_ds = k_grad_hoop * da0_ds
+            g_da2_ds = k_grad_oval * da2_ds
+            g_db2_ds = k_grad_oval * db2_ds
+
+            # Inner-bore C-IPC self-contact barrier preventing top/bottom inner walls from penetrating at kink!
+            # Clear bore height d_bore = 2*r_in*(1 + a0 - zeta_s) - d_min, stopping cleanly at zeta ~ 0.65-0.72.
+            zeta_s = wp.sqrt(a2 * a2 + b2 * b2 + wp.float64(1.0e-10))
+            diam_in = wp.float64(2.0) * r_in_m
+            d_min_b = wp.float64(0.24) * diam_in
+            d_hat_b = wp.float64(0.18) * diam_in
+            d_bore = diam_in * (one + a0 - zeta_s) - d_min_b
+            if d_bore < d_hat_b:
+                d_safe = wp.max(d_bore, wp.float64(1.0e-9))
+                diff_b = d_safe - d_hat_b
+                ln_b = wp.log(d_safe / d_hat_b)
+                kap_b = wp.float64(8.0) * k_oval / (d_hat_b * d_hat_b + wp.float64(1.0e-12))
+                u_bore = -kap_b * diff_b * diff_b * ln_b
+                db_dd = -kap_b * (wp.float64(2.0) * diff_b * ln_b + (diff_b * diff_b) / d_safe)
+                dU_da0 = dU_da0 + db_dd * diam_in
+                dU_da2 = dU_da2 - db_dd * diam_in * (a2 / zeta_s)
+                dU_db2 = dU_db2 - db_dd * diam_in * (b2 / zeta_s)
         else:
             u_bend = half * ei0 * k_sq
             dU_dk1 = ei0 * k1
@@ -176,7 +262,7 @@ if _HAS_WARP:
         dU_ddx = dU_ddx + wp.cross(d2x, g_kap) * inv_n3 - dx * (wp.float64(3.0) * wp.dot(g_kap, kappa_vec) / (norm_dx * norm_dx))
 
         # Accumulate quadrature-weighted energy & nodal gradients
-        wp.atomic_add(energy_out, 0, w_ds * (u_stretch + u_twist + u_sec + u_bend))
+        wp.atomic_add(energy_out, 0, w_ds * (u_stretch + u_twist + u_sec + u_bend + u_grad + u_bore))
 
         gx0 = (dU_ddx * c1_0 + dU_dd2x * c2_0) * w_ds
         gt0 = (dU_ddx * c1_1 + dU_dd2x * c2_1) * w_ds
@@ -202,12 +288,12 @@ if _HAS_WARP:
         wp.atomic_add(grad_out, b0 + 6, g_th0)
         wp.atomic_add(grad_out, b1 + 6, g_th1)
 
-        wp.atomic_add(grad_out, b0 + 7, (one - xi) * dU_da0 * w_ds)
-        wp.atomic_add(grad_out, b1 + 7, xi * dU_da0 * w_ds)
-        wp.atomic_add(grad_out, b0 + 8, (one - xi) * dU_da2 * w_ds)
-        wp.atomic_add(grad_out, b1 + 8, xi * dU_da2 * w_ds)
-        wp.atomic_add(grad_out, b0 + 9, (one - xi) * dU_db2 * w_ds)
-        wp.atomic_add(grad_out, b1 + 9, xi * dU_db2 * w_ds)
+        wp.atomic_add(grad_out, b0 + 7, ((one - xi) * dU_da0 - inv_ds * g_da0_ds) * w_ds)
+        wp.atomic_add(grad_out, b1 + 7, (xi * dU_da0 + inv_ds * g_da0_ds) * w_ds)
+        wp.atomic_add(grad_out, b0 + 8, ((one - xi) * dU_da2 - inv_ds * g_da2_ds) * w_ds)
+        wp.atomic_add(grad_out, b1 + 8, (xi * dU_da2 + inv_ds * g_da2_ds) * w_ds)
+        wp.atomic_add(grad_out, b0 + 9, ((one - xi) * dU_db2 - inv_ds * g_db2_ds) * w_ds)
+        wp.atomic_add(grad_out, b1 + 9, (xi * dU_db2 + inv_ds * g_db2_ds) * w_ds)
 
 
 @dataclass
@@ -257,11 +343,17 @@ class WarpBrazierRodSolver:
         self._wp_d2 = wp.zeros(self._n_total_q, dtype=wp.vec3d, device=self.device)
         self._wp_energy = wp.zeros(1, dtype=wp.float64, device=self.device)
         self._wp_grad = wp.zeros(mesh.n_dofs, dtype=wp.float64, device=self.device)
+        self.mass_matrix_sparse = sparse.csc_matrix(mesh.mass_matrix)
 
         # Cached Bishop frames (updated per outer Newton step for exact frozen-frame Hessian parity)
         self._cached_d1 = np.zeros((self._n_total_q, 3), dtype=np.float64)
         self._cached_d2 = np.zeros((self._n_total_q, 3), dtype=np.float64)
         self.update_bishop_frames(mesh.rest_q)
+
+    def _brazier_mode_id(self) -> int:
+        if not self.mesh.spec.enable_brazier:
+            return 0
+        return 2 if str(self.mesh.spec.brazier_model) == "kink_exact" else 1
 
     def update_bishop_frames(self, q: np.ndarray) -> None:
         """Compute minimal-twist Bishop reference frames (d1, d2) at all element Gauss points."""
@@ -326,6 +418,9 @@ class WarpBrazierRodSolver:
         if refresh_frames:
             self.update_bishop_frames(q_f64)
         ea, ei0, gj0, k_hoop, k_oval = self._effective_stiffnesses(param_overrides)
+        e_scale = float((param_overrides or {}).get("E_scale", 1.0))
+        k_gh = self.mesh.spec.k_grad_hoop_nm2 * e_scale
+        k_go = self.mesh.spec.k_grad_oval_nm2 * e_scale
 
         self._wp_q = wp.array(q_f64, dtype=wp.float64, device=self.device)
         self._wp_energy.zero_()
@@ -350,7 +445,10 @@ class WarpBrazierRodSolver:
                 float(gj0),
                 float(k_hoop),
                 float(k_oval),
-                1 if self.mesh.spec.enable_brazier else 0,
+                float(k_gh),
+                float(k_go),
+                float(self.mesh.spec.r_in_m),
+                self._brazier_mode_id(),
                 self._wp_energy,
                 self._wp_grad,
             ],
@@ -361,26 +459,24 @@ class WarpBrazierRodSolver:
         grad = self._wp_grad.numpy().copy()
         return energy, grad
 
-    def eval_hessian_fd_banded(
+    def eval_hessian_sparse(
         self,
         q: np.ndarray,
         *,
         param_overrides: dict[str, float] | None = None,
         eps: float = 1e-6,
-    ) -> np.ndarray:
-        """Assemble exact tangent stiffness Hessian K = d^2 W / dq^2 using 20-color element coloring.
-
-        Because each element couples only nodes (e, e+1) (20 DOFs), nodes of stride 2 (even vs odd)
-        are completely independent -> exact full Hessian requires only 20 GPU kernel launches regardless
-        of rod length N!
-        """
+    ) -> sparse.csc_matrix:
+        """Assemble exact banded sparse tangent Hessian K (O(N) memory, 30 GPU color sweeps regardless of rod length N)."""
         n_dofs = self.mesh.n_dofs
-        K = np.zeros((n_dofs, n_dofs), dtype=np.float64)
         q_base = np.asarray(q, dtype=np.float64)
+        rows_list: list[np.ndarray] = []
+        cols_list: list[np.ndarray] = []
+        vals_list: list[np.ndarray] = []
 
-        # 30 independent colors (stride 3): node i couples to {i-1, i, i+1}, so stride 3 guarantees zero overlap!
         for color in (0, 1, 2):
             node_ids = list(range(color, self.mesh.n_nodes, 3))
+            if not node_ids:
+                continue
             for local_d in range(DOFS_PER_ROD_NODE):
                 q_p = q_base.copy()
                 q_m = q_base.copy()
@@ -393,9 +489,27 @@ class WarpBrazierRodSolver:
                 for nid, col in zip(node_ids, cols):
                     r0 = max(0, nid - 1) * DOFS_PER_ROD_NODE
                     r1 = min(self.mesh.n_nodes, nid + 2) * DOFS_PER_ROD_NODE
-                    K[r0:r1, col] = dg[r0:r1]
+                    r_arr = np.arange(r0, r1, dtype=np.int32)
+                    rows_list.append(r_arr)
+                    cols_list.append(np.full(len(r_arr), col, dtype=np.int32))
+                    vals_list.append(dg[r0:r1])
 
-        return 0.5 * (K + K.T)
+        K = sparse.coo_matrix(
+            (np.concatenate(vals_list), (np.concatenate(rows_list), np.concatenate(cols_list))),
+            shape=(n_dofs, n_dofs),
+            dtype=np.float64,
+        ).tocsc()
+        return (0.5 * (K + K.T)).tocsc()
+
+    def eval_hessian_fd_banded(
+        self,
+        q: np.ndarray,
+        *,
+        param_overrides: dict[str, float] | None = None,
+        eps: float = 1e-6,
+    ) -> np.ndarray:
+        """Dense convenience wrapper over eval_hessian_sparse for small-N legacy callers."""
+        return self.eval_hessian_sparse(q, param_overrides=param_overrides, eps=eps).toarray()
 
     def solve_equilibrium(
         self,

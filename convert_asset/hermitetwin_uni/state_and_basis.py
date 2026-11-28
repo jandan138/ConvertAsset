@@ -65,6 +65,7 @@ class HermiteRodSpec:
     density_kg_m3: float = 1150.0
     rayleigh_damping: float = 0.008
     enable_brazier: bool = True
+    brazier_model: str = "spd_exact"  # "spd_exact" (Phase 0-4) or "kink_exact" (exact Brazier + Calladine grad + bore barrier)
     n_quad: int = 4
 
     @property
@@ -128,6 +129,17 @@ class HermiteRodSpec:
         """Classical Brazier (1927) peak bending moment M_crit = (2*sqrt(2)/9) * E*pi*R0*h_w^2 / sqrt(1 - nu^2)."""
         nu = float(self.poissons_ratio)
         return (2.0 * math.sqrt(2.0) / 9.0) * float(self.youngs_modulus_pa) * math.pi * self.mean_radius_m * (self.wall_thickness_m**2) / math.sqrt(1.0 - nu * nu)
+
+    @property
+    def k_grad_oval_nm2(self) -> float:
+        """Calladine longitudinal shell-bending gradient coupling K_g2 = E*pi*R0*h_w^3 / (12*(1-nu^2)) [N*m^2]."""
+        nu = float(self.poissons_ratio)
+        return (float(self.youngs_modulus_pa) * math.pi * self.mean_radius_m * (self.wall_thickness_m**3)) / (12.0 * (1.0 - nu * nu))
+
+    @property
+    def k_grad_hoop_nm2(self) -> float:
+        """Longitudinal hoop-gradient stiffness K_g0 = 2 * K_g2 [N*m^2]."""
+        return 2.0 * self.k_grad_oval_nm2
 
 
 @dataclass
@@ -233,6 +245,55 @@ def build_straight_rod_mesh(
     )
 
 
+def build_curved_rod_mesh_and_q0(
+    spec: HermiteRodSpec,
+    centerline_pts: np.ndarray,
+    *,
+    ref_normal_xyz: Sequence[float] = (0.0, 0.0, 1.0),
+) -> tuple[HermiteRodMesh, np.ndarray]:
+    """Build a stress-free straight-rest HermiteRodMesh plus an arc-length-resampled curved C1 initial state q0."""
+    pts = np.asarray(centerline_pts, dtype=np.float64)
+    seg = np.linalg.norm(np.diff(pts, axis=0), axis=1)
+    arc = np.concatenate([[0.0], np.cumsum(seg)])
+    total_len = float(arc[-1])
+    if total_len < 1e-9:
+        raise ValueError("centerline_pts must have positive arc length")
+    spec_len = HermiteRodSpec(
+        length_m=total_len,
+        n_elems=spec.n_elems,
+        r_in_m=spec.r_in_m,
+        r_out_m=spec.r_out_m,
+        youngs_modulus_pa=spec.youngs_modulus_pa,
+        poissons_ratio=spec.poissons_ratio,
+        density_kg_m3=spec.density_kg_m3,
+        rayleigh_damping=spec.rayleigh_damping,
+        enable_brazier=spec.enable_brazier,
+        brazier_model=spec.brazier_model,
+        n_quad=spec.n_quad,
+    )
+    n_nodes = spec_len.n_elems + 1
+    s_nodes = np.linspace(0.0, total_len, n_nodes)
+    x_nodes = np.column_stack([np.interp(s_nodes, arc, pts[:, c]) for c in range(3)])
+    # Smooth C1 tangents via central finite differences in arc length
+    t_nodes = np.zeros_like(x_nodes)
+    for i in range(n_nodes):
+        if i == 0:
+            v = x_nodes[1] - x_nodes[0]
+        elif i == n_nodes - 1:
+            v = x_nodes[-1] - x_nodes[-2]
+        else:
+            v = x_nodes[i + 1] - x_nodes[i - 1]
+        t_nodes[i] = v / max(float(np.linalg.norm(v)), 1e-12)
+
+    mesh = build_straight_rod_mesh(spec_len, origin_xyz=x_nodes[0], axis_xyz=t_nodes[0], ref_normal_xyz=ref_normal_xyz)
+    q0 = np.zeros(mesh.n_dofs, dtype=np.float64)
+    for i in range(n_nodes):
+        b = i * DOFS_PER_ROD_NODE
+        q0[b : b + 3] = x_nodes[i]
+        q0[b + 3 : b + 6] = t_nodes[i]
+    return mesh, q0
+
+
 def _parallel_transport(d1_prev: np.ndarray, t_prev: np.ndarray, t_curr: np.ndarray) -> np.ndarray:
     """Minimal-twist parallel transport of unit normal d1_prev from unit tangent t_prev to t_curr."""
     v = np.cross(t_prev, t_curr)
@@ -279,10 +340,15 @@ def evaluate_brazier_tube_surface(
     r_out = float(mesh.spec.r_out_m)
     ds = mesh.ds
 
-    # Precompute initial tangent at s=0
+    # Precompute initial tangent at s=0 (with automatic gimbal-lock safeguard for vertical rods)
     t0 = q_arr[0, 3:6]
     t_prev = t0 / max(float(np.linalg.norm(t0)), 1e-12)
-    d1_prev = mesh.ref_d1_0 - np.dot(mesh.ref_d1_0, t_prev) * t_prev
+    ref = mesh.ref_d1_0
+    if abs(float(np.dot(ref, t_prev))) > 0.90:
+        ref = np.array([0.0, 1.0, 0.0], dtype=np.float64)
+        if abs(float(np.dot(ref, t_prev))) > 0.90:
+            ref = np.array([1.0, 0.0, 0.0], dtype=np.float64)
+    d1_prev = ref - np.dot(ref, t_prev) * t_prev
     d1_prev = d1_prev / max(float(np.linalg.norm(d1_prev)), 1e-12)
 
     idx_out = 0

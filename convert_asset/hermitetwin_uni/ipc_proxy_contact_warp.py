@@ -176,7 +176,7 @@ def evaluate_rod_on_3olive_barb_contact(
         "total_radial_clamping_n": float(total_radial_n),
         "axial_pull_off_capacity_n": float(mu_friction * total_radial_n),
         "cuff_hoop_expansion_pct": float(100.0 * max_a0),
-        "min_bore_clearance_mm": float(1000.0 * (min_d if min_d < 1e8 else 0.0)),
+        "min_bore_clearance_mm": float(1000.0 * min_d if min_d < 1e8 else 999.0),
     }
     return e_tot, g_tot, H_tot, diag
 
