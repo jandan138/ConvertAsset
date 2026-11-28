@@ -272,7 +272,12 @@ class WarpBrazierRodSolver:
 
         t0 = q_arr[0, 3:6]
         t_prev = t0 / max(float(np.linalg.norm(t0)), 1e-12)
-        d1_prev = self.mesh.ref_d1_0 - np.dot(self.mesh.ref_d1_0, t_prev) * t_prev
+        ref = self.mesh.ref_d1_0
+        if abs(float(np.dot(ref, t_prev))) > 0.90:
+            ref = np.array([0.0, 1.0, 0.0], dtype=np.float64)
+            if abs(float(np.dot(ref, t_prev))) > 0.90:
+                ref = np.array([1.0, 0.0, 0.0], dtype=np.float64)
+        d1_prev = ref - np.dot(ref, t_prev) * t_prev
         d1_prev = d1_prev / max(float(np.linalg.norm(d1_prev)), 1e-12)
 
         idx = 0

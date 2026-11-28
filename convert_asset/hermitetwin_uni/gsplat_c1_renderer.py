@@ -13,7 +13,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import math
-from typing import Sequence
+from typing import Any, Sequence
 
 import numpy as np
 import torch
@@ -221,7 +221,12 @@ class HermiteRodGaussianRenderer:
 
         t0 = qa[0, 3:6]
         t_prev = t0 / torch.clamp(torch.linalg.norm(t0), min=1e-12)
-        d1_prev = self._ref_d1_0 - torch.dot(self._ref_d1_0, t_prev) * t_prev
+        ref = self._ref_d1_0
+        if abs(float(torch.dot(ref, t_prev).item())) > 0.90:
+            ref = torch.tensor([0.0, 1.0, 0.0], device=self.device, dtype=self.dtype)
+            if abs(float(torch.dot(ref, t_prev).item())) > 0.90:
+                ref = torch.tensor([1.0, 0.0, 0.0], device=self.device, dtype=self.dtype)
+        d1_prev = ref - torch.dot(ref, t_prev) * t_prev
         d1_prev = d1_prev / torch.clamp(torch.linalg.norm(d1_prev), min=1e-12)
 
         means_list = []
@@ -294,9 +299,94 @@ class HermiteRodGaussianRenderer:
         colors = torch.clamp(self._base_colors * shade, 0.0, 1.0)
         return means_3d, cov_3d, colors, self._opacities
 
+    def build_gaussians_colored_by_strain(
+        self,
+        q_rod: torch.Tensor,
+        *,
+        mode: str = "ovalization",
+        scale_max: float = 0.25,
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+        """Build 3DGS with a smooth heatmap visualizing Brazier ovalization |zeta| or hoop expansion alpha0."""
+        means_3d, cov_3d, _, opacities = self.build_gaussians(q_rod)
+        qa = q_rod.view(self.mesh.n_nodes, DOFS_PER_ROD_NODE)
+        vals = []
+        for e in range(self.mesh.n_elems):
+            q0, q1 = qa[e], qa[e + 1]
+            for k in range(self.samples_per_elem):
+                xi = self._xis[k]
+                if mode == "hoop":
+                    v = torch.clamp((1.0 - xi) * q0[7] + xi * q1[7], min=0.0)
+                else:
+                    a2 = (1.0 - xi) * q0[8] + xi * q1[8]
+                    b2 = (1.0 - xi) * q0[9] + xi * q1[9]
+                    v = torch.sqrt(a2 * a2 + b2 * b2 + 1e-12)
+                vals.append(v.expand(self.n_phi))
+        s = torch.clamp(torch.cat(vals, dim=0) / max(scale_max, 1e-6), 0.0, 1.0)
+        # Turbo-inspired cool-amber-crimson palette: amber/teal -> gold -> bright coral-red
+        r = torch.clamp(0.18 + 1.45 * s, 0.0, 1.0)
+        g = torch.clamp(0.68 + 0.35 * torch.sin(math.pi * s) - 0.58 * (s ** 2), 0.05, 1.0)
+        b = torch.clamp(0.88 * (1.0 - s) ** 1.4, 0.05, 1.0)
+        colors = torch.stack([r, g, b], dim=-1)
+        return means_3d, cov_3d, colors, opacities
+
     def render(self, q_rod: torch.Tensor, cam: CameraSpec) -> dict[str, torch.Tensor]:
         means_3d, cov_3d, colors, opacities = self.build_gaussians(q_rod)
         return render_anisotropic_3dgs_torch(means_3d, cov_3d, colors, opacities, cam)
+
+
+def build_3olive_barb_gaussians(
+    barb_geom: Any,
+    *,
+    n_s: int = 28,
+    n_phi: int = 16,
+    device: str = "cuda:0",
+    dtype: torch.dtype = torch.float64,
+    glass_rgb: tuple[float, float, float] = (0.72, 0.88, 0.98),
+    opacity: float = 0.65,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+    """Generate anisotropic 3D Gaussians for the translucent borosilicate 3-olive glass barb."""
+    dev = torch.device(device if torch.cuda.is_available() else "cpu")
+    s_vals = np.linspace(-0.008, float(barb_geom.seat_end_s_m) + 0.005, n_s)
+    phis = np.linspace(0.0, 2.0 * math.pi, n_phi, endpoint=False)
+    ds = float(s_vals[1] - s_vals[0])
+    means, covs, cols = [], [], []
+    light = np.array([0.25, -0.60, 0.76], dtype=np.float64)
+    light /= np.linalg.norm(light)
+    for s in s_vals:
+        r = float(barb_geom.radius_at_s(float(s))) if s >= 0.0 else float(barb_geom.radius_at_s(0.0)) * 1.15
+        dphi = 2.0 * math.pi * r / n_phi
+        for phi in phis:
+            cp, sp = math.cos(phi), math.sin(phi)
+            p = np.array([s, r * cp, r * sp], dtype=np.float64)
+            a_s = np.array([1.0, 0.0, 0.0], dtype=np.float64)
+            a_phi = np.array([0.0, -sp, cp], dtype=np.float64)
+            nrm = np.array([0.0, cp, sp], dtype=np.float64)
+            cov = (0.65 * ds) ** 2 * np.outer(a_s, a_s) + (0.65 * dphi) ** 2 * np.outer(a_phi, a_phi) + 0.0004 ** 2 * np.outer(nrm, nrm)
+            ndotl = max(0.0, float(np.dot(nrm, light)))
+            spec = 0.35 * (ndotl ** 4)
+            col = np.clip(np.array(glass_rgb) * (0.48 + 0.55 * ndotl) + spec, 0.0, 1.0)
+            means.append(p)
+            covs.append(cov)
+            cols.append(col)
+    m_t = torch.tensor(np.asarray(means), device=dev, dtype=dtype)
+    c_t = torch.tensor(np.asarray(covs), device=dev, dtype=dtype)
+    col_t = torch.tensor(np.asarray(cols), device=dev, dtype=dtype)
+    op_t = torch.full((len(means),), float(opacity), device=dev, dtype=dtype)
+    return m_t, c_t, col_t, op_t
+
+
+def render_composite_3dgs_torch(
+    gaussian_groups: Sequence[tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]],
+    cam: CameraSpec,
+    *,
+    chunk_size: int = 128,
+) -> dict[str, torch.Tensor]:
+    """Composite multiple C1-3DGS objects (1D rods + 2D shells + rigid barbs) in one depth-sorted EWA pass."""
+    means = torch.cat([g[0] for g in gaussian_groups], dim=0)
+    covs = torch.cat([g[1] for g in gaussian_groups], dim=0)
+    cols = torch.cat([g[2] for g in gaussian_groups], dim=0)
+    opas = torch.cat([g[3] for g in gaussian_groups], dim=0)
+    return render_anisotropic_3dgs_torch(means, covs, cols, opas, cam, chunk_size=chunk_size)
 
 
 class HermiteShellGaussianRenderer:
@@ -353,7 +443,7 @@ class HermiteShellGaussianRenderer:
         self._base_colors = torch.tensor(cols, device=self.device, dtype=dtype)
         self._opacities = torch.full((M,), 0.92, device=self.device, dtype=dtype)
 
-    def render(self, q_shell: torch.Tensor, cam: CameraSpec) -> dict[str, torch.Tensor]:
+    def build_gaussians(self, q_shell: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         qv = q_shell.view(self.mesh.n_vec_dofs, 3)
         means = self._W_pos @ qv  # (M, 3)
         a1 = self._W_u @ qv
@@ -371,5 +461,9 @@ class HermiteShellGaussianRenderer:
         light_dir = light_dir / torch.linalg.norm(light_dir)
         ndotl = torch.clamp(torch.abs(torch.sum(n_hat * light_dir[None, :], dim=-1)), min=0.0)
         colors = torch.clamp(self._base_colors * (0.40 + 0.65 * ndotl).unsqueeze(-1), 0.0, 1.0)
-        return render_anisotropic_3dgs_torch(means, cov_3d, colors, self._opacities, cam)
+        return means, cov_3d, colors, self._opacities
+
+    def render(self, q_shell: torch.Tensor, cam: CameraSpec) -> dict[str, torch.Tensor]:
+        means, cov_3d, colors, opacities = self.build_gaussians(q_shell)
+        return render_anisotropic_3dgs_torch(means, cov_3d, colors, opacities, cam)
 

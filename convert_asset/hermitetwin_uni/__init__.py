@@ -11,13 +11,16 @@ from .gsplat_c1_renderer import (
     CameraSpec,
     HermiteRodGaussianRenderer,
     HermiteShellGaussianRenderer,
+    build_3olive_barb_gaussians,
     render_anisotropic_3dgs_torch,
+    render_composite_3dgs_torch,
 )
 from .ipc_proxy_contact_warp import (
     BarbInterferenceResult,
     conservative_ccd_max_step_1d_barb,
     evaluate_rod_on_3olive_barb_contact,
     evaluate_rod_to_shell_ipc_contact,
+    evaluate_two_rod_ipc_contact,
     ipc_barrier_val_grad_hess,
     mollified_coulomb_friction,
 )
@@ -26,6 +29,12 @@ from .real_to_sim_sysid import (
     PixelSysIDResult,
     evaluate_multiview_pixel_loss_and_grad_q,
     run_two_stage_3dgs_adjoint_sysid,
+)
+from .real_video_bv_sysid import (
+    RealHoseObservation,
+    RealVideoSysIDReport,
+    extract_bv17_real_hoses,
+    run_bv17_real_video_sysid_and_zeroshot,
 )
 from .rod_brazier_warp import (
     BrazierRodSimulationResult,
@@ -47,9 +56,11 @@ from .state_and_basis import (
     hermite_1d_basis,
 )
 from .unified_solver import (
+    TwoRodCrossingResult,
     UnifiedRodShellSolver,
     UnifiedStepResult,
     solve_3olive_barb_interference_fit,
+    solve_two_rod_crossing_pinch,
 )
 
 __all__ = [

@@ -326,3 +326,117 @@ def conservative_ccd_max_step_1d_barb(
         eta *= 0.5
     return 0.0
 
+
+def evaluate_two_rod_ipc_contact(
+    mesh_a: HermiteRodMesh,
+    q_a: np.ndarray,
+    mesh_b: HermiteRodMesh,
+    q_b: np.ndarray,
+    *,
+    d_hat_m: float = 0.0030,
+    kappa_b: float = 8.0e3,
+    n_samples_per_elem: int = 3,
+    brazier_pinch_coupling: bool = True,
+) -> tuple[float, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, float]:
+    """Unified 1D-1D C1-Hermite Brazier-Rod IPC-Barrier contact with exact J_W^T H_IPC J_W pullback.
+
+    Couples centerline clearance, hoop expansion (alpha0), and Brazier flattening (alpha2) along the
+    contact normal so two crossing/tightening hollow tubes physically flatten at their pinch contact
+    while maintaining strictly positive clearance (d > 0, zero interpenetration).
+    """
+    qa = np.asarray(q_a, dtype=np.float64).reshape(mesh_a.n_nodes, DOFS_PER_ROD_NODE)
+    qb = np.asarray(q_b, dtype=np.float64).reshape(mesh_b.n_nodes, DOFS_PER_ROD_NODE)
+    na, nb = mesh_a.n_dofs, mesh_b.n_dofs
+    dsa, dsb = mesh_a.ds, mesh_b.ds
+    ra0, rb0 = float(mesh_a.spec.r_out_m), float(mesh_b.spec.r_out_m)
+
+    xis = np.linspace(0.20, 0.80, n_samples_per_elem)
+    hv_all, _, _ = hermite_1d_basis(xis)
+
+    def _sample_rod(mesh: HermiteRodMesh, q_arr: np.ndarray, r0: float):
+        pts, rads, meta = [], [], []
+        ds = mesh.ds
+        for e in range(mesh.n_elems):
+            b0, b1 = e * DOFS_PER_ROD_NODE, (e + 1) * DOFS_PER_ROD_NODE
+            x0, t0 = q_arr[e, 0:3], q_arr[e, 3:6]
+            x1, t1 = q_arr[e + 1, 0:3], q_arr[e + 1, 3:6]
+            a0_0, a0_1 = q_arr[e, 7], q_arr[e + 1, 7]
+            a2_0, a2_1 = q_arr[e, 8], q_arr[e + 1, 8]
+            for k in range(len(xis)):
+                xi = float(xis[k])
+                hv = hv_all[k]
+                x_s = hv[0] * x0 + ds * hv[1] * t0 + hv[2] * x1 + ds * hv[3] * t1
+                a0 = (1.0 - xi) * a0_0 + xi * a0_1
+                a2 = (1.0 - xi) * a2_0 + xi * a2_1
+                # Contact along the vertical/pinch normal compresses radius by (1 + a0 + a2)
+                r_eff = r0 * (1.0 + a0 + (a2 if brazier_pinch_coupling else 0.0))
+                idx = [
+                    b0 + 0, b0 + 1, b0 + 2,
+                    b0 + 3, b0 + 4, b0 + 5,
+                    b1 + 0, b1 + 1, b1 + 2,
+                    b1 + 3, b1 + 4, b1 + 5,
+                    b0 + 7, b1 + 7,
+                    b0 + 8, b1 + 8,
+                ]
+                pts.append(x_s)
+                rads.append(r_eff)
+                meta.append((idx, hv, ds, xi, r0))
+        return np.asarray(pts, dtype=np.float64), np.asarray(rads, dtype=np.float64), meta
+
+    pa, rada, meta_a = _sample_rod(mesh_a, qa, ra0)
+    pb, radb, meta_b = _sample_rod(mesh_b, qb, rb0)
+
+    e_tot = 0.0
+    ga = np.zeros(na, dtype=np.float64)
+    gb = np.zeros(nb, dtype=np.float64)
+    Haa = np.zeros((na, na), dtype=np.float64)
+    Hbb = np.zeros((nb, nb), dtype=np.float64)
+    Hab = np.zeros((na, nb), dtype=np.float64)
+    min_clear = 1e9
+
+    diff_mat = pa[:, None, :] - pb[None, :, :]  # (Ma, Mb, 3)
+    dist_mat = np.linalg.norm(diff_mat, axis=-1)
+    gap_mat = dist_mat - (rada[:, None] + radb[None, :])
+    min_clear = float(gap_mat.min()) if gap_mat.size > 0 else 1e9
+
+    ia_list, ib_list = np.nonzero(gap_mat < d_hat_m)
+    c_ov = 1.0 if brazier_pinch_coupling else 0.0
+    for ia, ib in zip(ia_list, ib_list):
+        d = float(gap_mat[ia, ib])
+        dist = float(dist_mat[ia, ib])
+        vb, g_bar, h_bar = ipc_barrier_val_grad_hess(d, d_hat_m, kappa_b)
+        e_tot += vb
+
+        n_dir = diff_mat[ia, ib] / max(dist, 1e-12)  # points B -> A
+        idx_a, hva, _, xia, _ = meta_a[ia]
+        idx_b, hvb, _, xib, _ = meta_b[ib]
+
+        ja = np.zeros(16, dtype=np.float64)
+        ja[0:3] = hva[0] * n_dir
+        ja[3:6] = (dsa * hva[1]) * n_dir
+        ja[6:9] = hva[2] * n_dir
+        ja[9:12] = (dsa * hva[3]) * n_dir
+        ja[12] = -(1.0 - xia) * ra0
+        ja[13] = -xia * ra0
+        ja[14] = -c_ov * (1.0 - xia) * ra0
+        ja[15] = -c_ov * xia * ra0
+
+        jb = np.zeros(16, dtype=np.float64)
+        jb[0:3] = -hvb[0] * n_dir
+        jb[3:6] = -(dsb * hvb[1]) * n_dir
+        jb[6:9] = -hvb[2] * n_dir
+        jb[9:12] = -(dsb * hvb[3]) * n_dir
+        jb[12] = -(1.0 - xib) * rb0
+        jb[13] = -xib * rb0
+        jb[14] = -c_ov * (1.0 - xib) * rb0
+        jb[15] = -c_ov * xib * rb0
+
+        ga[idx_a] += g_bar * ja
+        gb[idx_b] += g_bar * jb
+        Haa[np.ix_(idx_a, idx_a)] += h_bar * np.outer(ja, ja)
+        Hbb[np.ix_(idx_b, idx_b)] += h_bar * np.outer(jb, jb)
+        Hab[np.ix_(idx_a, idx_b)] += h_bar * np.outer(ja, jb)
+
+    return e_tot, ga, gb, Haa, Hbb, Hab, min_clear
+
+

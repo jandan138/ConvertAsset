@@ -16,6 +16,7 @@ from .ipc_proxy_contact_warp import (
     conservative_ccd_max_step_1d_barb,
     evaluate_rod_on_3olive_barb_contact,
     evaluate_rod_to_shell_ipc_contact,
+    evaluate_two_rod_ipc_contact,
 )
 from .rod_brazier_warp import WarpBrazierRodSolver
 from .shell_kl_warp import WarpKirchhoffLoveShellSolver
@@ -297,4 +298,128 @@ class UnifiedRodShellSolver:
             n_iters=it,
             wall_time_ms=round((time.perf_counter() - t0) * 1000.0, 3),
         )
+
+
+@dataclass
+class TwoRodCrossingResult:
+    """Quantitative result of 1D-1D hollow Brazier tubes crossing & cinching under C-IPC barrier."""
+
+    q_a: np.ndarray
+    q_b: np.ndarray
+    min_clearance_mm: float
+    max_ovalization_a_pct: float
+    max_ovalization_b_pct: float
+    contact_energy_j: float
+    residual_norm: float
+    wall_time_ms: float
+
+
+def solve_two_rod_crossing_pinch(
+    solver_a: WarpBrazierRodSolver,
+    solver_b: WarpBrazierRodSolver,
+    q_a_init: np.ndarray,
+    q_b_init: np.ndarray,
+    *,
+    dirichlet_a: Sequence[int],
+    dirichlet_a_vals: Sequence[float],
+    dirichlet_b: Sequence[int],
+    dirichlet_b_vals: Sequence[float],
+    d_hat_m: float = 0.0032,
+    kappa_b: float = 8.0e3,
+    max_iters: int = 28,
+    tol: float = 1e-6,
+) -> TwoRodCrossingResult:
+    """Monolithic Projected-Newton equilibrium for two crossing hollow Brazier tubes under C-IPC barrier."""
+    t0 = time.perf_counter()
+    na, nb = solver_a.mesh.n_dofs, solver_b.mesh.n_dofs
+    ntot = na + nb
+    q_all = np.concatenate([np.asarray(q_a_init, dtype=np.float64).ravel(), np.asarray(q_b_init, dtype=np.float64).ravel()])
+
+    d_idx = np.asarray([int(i) for i in dirichlet_a] + [na + int(i) for i in dirichlet_b], dtype=np.int64)
+    d_val = np.asarray([float(v) for v in dirichlet_a_vals] + [float(v) for v in dirichlet_b_vals], dtype=np.float64)
+    free_mask = np.ones(ntot, dtype=bool)
+    free_mask[d_idx] = False
+    free_idx = np.nonzero(free_mask)[0]
+    q_all[d_idx] = d_val
+
+    def _eval(q_vec: np.ndarray, need_H: bool):
+        qa, qb = q_vec[:na], q_vec[na:]
+        solver_a.update_bishop_frames(qa)
+        solver_b.update_bishop_frames(qb)
+        ea, ga = solver_a.eval_energy_and_grad(qa, refresh_frames=False)
+        eb, gb = solver_b.eval_energy_and_grad(qb, refresh_frames=False)
+        ec, gca, gcb, Haa, Hbb, Hab, min_cl = evaluate_two_rod_ipc_contact(
+            solver_a.mesh, qa, solver_b.mesh, qb, d_hat_m=d_hat_m, kappa_b=kappa_b, brazier_pinch_coupling=True
+        )
+        obj = ea + eb + ec
+        res = np.concatenate([ga + gca, gb + gcb])
+        H = None
+        if need_H:
+            Ka = solver_a.eval_hessian_fd_banded(qa)
+            Kb = solver_b.eval_hessian_fd_banded(qb)
+            H = np.zeros((ntot, ntot), dtype=np.float64)
+            H[:na, :na] = Ka + Haa
+            H[na:, na:] = Kb + Hbb
+            H[:na, na:] = Hab
+            H[na:, :na] = Hab.T
+        return obj, res, H, ec, min_cl
+
+    obj, res, H, ec, min_cl = _eval(q_all, need_H=True)
+    res_norm = float(np.linalg.norm(res[free_idx]))
+
+    for _ in range(max_iters):
+        if res_norm < tol:
+            break
+        assert H is not None
+        H_ff = H[np.ix_(free_idx, free_idx)]
+        rhs = -res[free_idx]
+        reg = 1e-7
+        dq_f = None
+        for _ in range(12):
+            try:
+                cf = cho_factor(H_ff + reg * np.eye(len(free_idx)), lower=True)
+                dq_f = cho_solve(cf, rhs)
+                if float(np.dot(rhs, dq_f)) > 0.0:
+                    break
+            except Exception:
+                pass
+            reg *= 10.0
+        if dq_f is None:
+            break
+        dq_full = np.zeros(ntot, dtype=np.float64)
+        dq_full[free_idx] = dq_f
+        slope = float(np.dot(res[free_idx], dq_f))
+        eta = 1.0
+        accepted = False
+        for _ in range(18):
+            q_try = q_all + eta * dq_full
+            q_try[d_idx] = d_val
+            obj_t, _, _, _, min_cl_t = _eval(q_try, need_H=False)
+            if min_cl_t > 2e-6 and (obj_t <= obj + 1e-4 * eta * slope or abs(obj_t - obj) < 1e-14):
+                q_all = q_try
+                accepted = True
+                break
+            eta *= 0.5
+        if not accepted:
+            break
+        obj, res, H, ec, min_cl = _eval(q_all, need_H=True)
+        res_norm = float(np.linalg.norm(res[free_idx]))
+
+    qa_fin = q_all[:na].copy()
+    qb_fin = q_all[na:].copy()
+    qa_mat = qa_fin.reshape(solver_a.mesh.n_nodes, DOFS_PER_ROD_NODE)
+    qb_mat = qb_fin.reshape(solver_b.mesh.n_nodes, DOFS_PER_ROD_NODE)
+    ov_a = float(np.max(np.hypot(qa_mat[:, 8], qa_mat[:, 9])) * 100.0)
+    ov_b = float(np.max(np.hypot(qb_mat[:, 8], qb_mat[:, 9])) * 100.0)
+    return TwoRodCrossingResult(
+        q_a=qa_fin,
+        q_b=qb_fin,
+        min_clearance_mm=round(1000.0 * min_cl, 4),
+        max_ovalization_a_pct=round(ov_a, 3),
+        max_ovalization_b_pct=round(ov_b, 3),
+        contact_energy_j=float(ec),
+        residual_norm=res_norm,
+        wall_time_ms=round((time.perf_counter() - t0) * 1000.0, 3),
+    )
+
 
